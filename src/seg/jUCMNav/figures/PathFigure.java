@@ -45,7 +45,7 @@ public class PathFigure extends FreeformLayer {
 	 */
 	public void paintFigure(Graphics g) {
 		Rectangle r = getBounds().getCopy();
-		g.setLineWidth(3);
+		g.setLineWidth(2);
 		g.setBackgroundColor(new Color(null, 0, 0, 0));
 		
 		Node start = path.getStartpoint();
@@ -55,10 +55,10 @@ public class PathFigure extends FreeformLayer {
 		Node last = start;
 		for (Iterator i = nodes.iterator(); i.hasNext();) {
 			node = (Node) i.next();
-			g.drawLine(last.getX()-r.x, last.getY()-r.y+10, node.getX()-r.x, node.getY()-r.y+10);
+			g.drawLine(last.getX()+r.x, last.getY()+10+r.y, node.getX()+r.x, node.getY()+10+r.y);
 			last = node;
 		}
 		Node end = path.getEndpoint();
-		g.drawLine(last.getX()-r.x, last.getY()-r.y+10, end.getX()-r.x, end.getY()-r.y+10);
+		g.drawLine(last.getX()+r.x, last.getY()+10+r.y, end.getX()+r.x, end.getY()+10+r.y);
 	}
 }
