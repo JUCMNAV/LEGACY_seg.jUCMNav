@@ -21,6 +21,7 @@ import seg.jUCMNav.editpolicies.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
 import ucm.map.Map;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 
 /**
  * @author Etienne Tremblay
@@ -84,8 +85,13 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         for (int i=0;i<getMap().getCompRefs().size();i++)
             list.add(getMap().getCompRefs().get(i));
 
-        for (int i=0;i<getPathGraph().getPathNodes().size();i++)
-                list.add(getPathGraph().getPathNodes().get(i));
+        for (int i=0;i<getPathGraph().getPathNodes().size();i++) {
+            PathNode node = (PathNode) getPathGraph().getPathNodes().get(i);
+            list.add(node);
+            if(!(node.getLabel() == null))
+                list.add(node.getLabel());
+        }
+                
         return list;
     }
 
@@ -107,6 +113,8 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
             refreshVisuals();
             break;
         }
+        
+        refreshChildren();
     }
 
     /*

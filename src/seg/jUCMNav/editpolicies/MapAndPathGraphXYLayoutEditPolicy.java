@@ -16,11 +16,13 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.ComponentSetConstraintCommand;
 import seg.jUCMNav.model.commands.CreateComponentRefCommand;
 import seg.jUCMNav.model.commands.CreatePathCommand;
 import seg.jUCMNav.model.commands.ExtendPathCommand;
+import seg.jUCMNav.model.commands.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.SetConstraintCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
@@ -28,6 +30,7 @@ import ucm.map.Map;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urncore.NodeLabel;
 
 public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -170,6 +173,24 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             cmd.setNewPosition(location);
             return cmd;
             
+        } else if (child.getModel() instanceof NodeLabel) {
+            LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
+            locationCommand.setNode((NodeLabel) child.getModel());
+            //		Rectangle constraint = (Rectangle)getConstraintFor(request);
+            //		this.getConstraintFor((Rectangle)constraint);
+            //		Rectangle rect = (Rectangle)constraint;
+            //		((GraphicalEditPart)(child)).getFigure().translateToRelative((Rectangle)constraint);
+            //		rect.translate(getLayoutOrigin().getNegated());
+
+            // Adjust the coordinates with the coordinates of the figure too
+            // since
+            // the x,y coordinates is
+            // the center of the figure.
+            Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
+
+            Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
+            locationCommand.setNewPosition(location);
+            return locationCommand;
         } else {
             System.out
                     .println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");

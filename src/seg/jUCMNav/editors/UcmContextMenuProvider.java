@@ -14,6 +14,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
+import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.CutPathAction;
 
 /**
@@ -44,6 +45,10 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 			manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 		
 		action = getActionRegistry().getAction(CutPathAction.CUTPATH);
+		if (action.isEnabled())
+			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+		
+		action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
 		if (action.isEnabled())
 			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 	}

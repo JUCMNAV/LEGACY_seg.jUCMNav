@@ -57,6 +57,7 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.emf.UcmModelManager;
@@ -151,6 +152,11 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
         action = new CutPathAction(this);
         action.setText("Cut path");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        
+        action = new AddLabelAction(this);
+        action.setText("Add label");
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
     }

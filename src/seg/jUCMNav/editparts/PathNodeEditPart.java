@@ -91,10 +91,15 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		case MapPackage.PATH_NODE__SUCC:
 			refreshSourceConnections();
 		break;
+		case MapPackage.PATH_NODE__LABEL:
+			((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);
+		break;
 		default:
 			refreshVisuals();
 		break;
 		}
+		
+		
 	}
 	
 	/* (non-Javadoc)
