@@ -23,9 +23,9 @@
 		<condition property="build.result.folder" value="${pluginTemp}/seg.jUCMNav">
 			<isset property="buildTempFolder"/>
 		</condition>
-		<property name="build.result.folder" value="${basedir}"/>
+		<property name="build.result.folder" value="${basedir}/build/"/>
 		<property name="temp.folder" value="${basedir}/temp.folder"/>
-		<property name="plugin.destination" value="${basedir}"/>
+		<property name="plugin.destination" value="${basedir}/build/"/>
 	</target>
 
 	<target name="clean.buildjar" depends="init, clean">
@@ -51,7 +51,6 @@
 		<delete dir="${temp.folder}/jUCMNav.jar.bin"/>
 		<mkdir dir="${temp.folder}/jUCMNav.jar.bin"/>
 		<!-- compile the source code -->
-		<echo message="xxx ${eclipsehome}/plugins/org.eclipse.swt_3.0.1/ws/${basews}/swt.jar" />
 		<javac destdir="${temp.folder}/jUCMNav.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
 			<compilerarg line="${compilerArg}"/>
 			<classpath>
