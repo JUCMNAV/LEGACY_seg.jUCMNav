@@ -172,6 +172,13 @@ public class BSpline {
         }
         init(points);
     }
+    
+    /**
+     * @return The a path node point list contained in an ArrayList.
+     */
+    public ArrayList getPoints(){
+        return nodes;
+    }
 
     /**
      * Return the index of the nearest point on the curve from this x,y.
