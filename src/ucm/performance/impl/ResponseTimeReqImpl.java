@@ -1,0 +1,421 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+package ucm.performance.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import ucm.performance.PerformancePackage;
+import ucm.performance.ResponseTimeReq;
+import ucm.performance.Timestamp;
+
+import urncore.impl.UCMmodelElementImpl;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Response Time Req</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link ucm.performance.impl.ResponseTimeReqImpl#getResponseTime <em>Response Time</em>}</li>
+ *   <li>{@link ucm.performance.impl.ResponseTimeReqImpl#getPercentage <em>Percentage</em>}</li>
+ *   <li>{@link ucm.performance.impl.ResponseTimeReqImpl#getTs1 <em>Ts1</em>}</li>
+ *   <li>{@link ucm.performance.impl.ResponseTimeReqImpl#getTs2 <em>Ts2</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class ResponseTimeReqImpl extends UCMmodelElementImpl implements ResponseTimeReq {
+	/**
+	 * The default value of the '{@link #getResponseTime() <em>Response Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResponseTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String RESPONSE_TIME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getResponseTime() <em>Response Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResponseTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected String responseTime = RESPONSE_TIME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPercentage() <em>Percentage</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPercentage()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PERCENTAGE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPercentage() <em>Percentage</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPercentage()
+	 * @generated
+	 * @ordered
+	 */
+	protected String percentage = PERCENTAGE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTs1() <em>Ts1</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTs1()
+	 * @generated
+	 * @ordered
+	 */
+	protected Timestamp ts1 = null;
+
+	/**
+	 * The cached value of the '{@link #getTs2() <em>Ts2</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTs2()
+	 * @generated
+	 * @ordered
+	 */
+	protected Timestamp ts2 = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ResponseTimeReqImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EClass eStaticClass() {
+		return PerformancePackage.eINSTANCE.getResponseTimeReq();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getResponseTime() {
+		return responseTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResponseTime(String newResponseTime) {
+		String oldResponseTime = responseTime;
+		responseTime = newResponseTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME, oldResponseTime, responseTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPercentage() {
+		return percentage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPercentage(String newPercentage) {
+		String oldPercentage = percentage;
+		percentage = newPercentage;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE, oldPercentage, percentage));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Timestamp getTs1() {
+		if (ts1 != null && ts1.eIsProxy()) {
+			Timestamp oldTs1 = ts1;
+			ts1 = (Timestamp)eResolveProxy((InternalEObject)ts1);
+			if (ts1 != oldTs1) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.RESPONSE_TIME_REQ__TS1, oldTs1, ts1));
+			}
+		}
+		return ts1;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Timestamp basicGetTs1() {
+		return ts1;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTs1(Timestamp newTs1) {
+		Timestamp oldTs1 = ts1;
+		ts1 = newTs1;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS1, oldTs1, ts1));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Timestamp getTs2() {
+		if (ts2 != null && ts2.eIsProxy()) {
+			Timestamp oldTs2 = ts2;
+			ts2 = (Timestamp)eResolveProxy((InternalEObject)ts2);
+			if (ts2 != oldTs2) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.RESPONSE_TIME_REQ__TS2, oldTs2, ts2));
+			}
+		}
+		return ts2;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Timestamp basicGetTs2() {
+		return ts2;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTs2(Timestamp newTs2) {
+		Timestamp oldTs2 = ts2;
+		ts2 = newTs2;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS2, oldTs2, ts2));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+					return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
+				default:
+					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		if (eContainer != null)
+			msgs = eBasicRemoveFromContainer(msgs);
+		return eBasicSetContainer(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+		if (featureID >= 0) {
+			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+				case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
+				default:
+					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+			}
+		}
+		return eBasicSetContainer(null, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+				return getUrnLinks();
+			case PerformancePackage.RESPONSE_TIME_REQ__ID:
+				return getId();
+			case PerformancePackage.RESPONSE_TIME_REQ__NAME:
+				return getName();
+			case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
+				return getDescription();
+			case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
+				return getResponseTime();
+			case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:
+				return getPercentage();
+			case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+				if (resolve) return getTs1();
+				return basicGetTs1();
+			case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+				if (resolve) return getTs2();
+				return basicGetTs2();
+		}
+		return eDynamicGet(eFeature, resolve);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(EStructuralFeature eFeature, Object newValue) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+				getUrnLinks().clear();
+				getUrnLinks().addAll((Collection)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__ID:
+				setId((String)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__NAME:
+				setName((String)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
+				setDescription((String)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
+				setResponseTime((String)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:
+				setPercentage((String)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+				setTs1((Timestamp)newValue);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+				setTs2((Timestamp)newValue);
+				return;
+		}
+		eDynamicSet(eFeature, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(EStructuralFeature eFeature) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+				getUrnLinks().clear();
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__ID:
+				setId(ID_EDEFAULT);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
+				setResponseTime(RESPONSE_TIME_EDEFAULT);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:
+				setPercentage(PERCENTAGE_EDEFAULT);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+				setTs1((Timestamp)null);
+				return;
+			case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+				setTs2((Timestamp)null);
+				return;
+		}
+		eDynamicUnset(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(EStructuralFeature eFeature) {
+		switch (eDerivedStructuralFeatureID(eFeature)) {
+			case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
+				return urnLinks != null && !urnLinks.isEmpty();
+			case PerformancePackage.RESPONSE_TIME_REQ__ID:
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case PerformancePackage.RESPONSE_TIME_REQ__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
+				return RESPONSE_TIME_EDEFAULT == null ? responseTime != null : !RESPONSE_TIME_EDEFAULT.equals(responseTime);
+			case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:
+				return PERCENTAGE_EDEFAULT == null ? percentage != null : !PERCENTAGE_EDEFAULT.equals(percentage);
+			case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+				return ts1 != null;
+			case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+				return ts2 != null;
+		}
+		return eDynamicIsSet(eFeature);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (responseTime: ");
+		result.append(responseTime);
+		result.append(", percentage: ");
+		result.append(percentage);
+		result.append(')');
+		return result.toString();
+	}
+
+} //ResponseTimeReqImpl

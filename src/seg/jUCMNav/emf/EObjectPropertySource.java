@@ -21,7 +21,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import seg.jUCMNav.model.ucm.UcmPackage;
+import ucm.map.MapPackage;
 
 /**
  * This class is intended to be a generic property source for all the objects in
@@ -34,14 +34,14 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  */
 public class EObjectPropertySource implements IPropertySource {
 	private EObject object;
-	private UcmPackage ucmPackage;
+	private MapPackage ucmPackage;
 	
 	public EObjectPropertySource( EObject obj ) {
 		this.object = obj;
 
 		Map registry = EPackage.Registry.INSTANCE;
-		String networkURI = UcmPackage.eNS_URI;
-		ucmPackage = (UcmPackage) registry.get(networkURI);
+		String networkURI = MapPackage.eNS_URI;
+		ucmPackage = (MapPackage) registry.get(networkURI);
 	}
 
 	/* (non-Javadoc)

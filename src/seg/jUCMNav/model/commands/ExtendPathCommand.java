@@ -4,15 +4,16 @@
  */
 package seg.jUCMNav.model.commands;
 
+import java.util.Iterator;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.EndPoint;
-import seg.jUCMNav.model.ucm.Link;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
-import seg.jUCMNav.model.ucm.UcmDiagram;
-import seg.jUCMNav.model.ucm.UcmFactory;
+import ucm.map.EndPoint;
+import ucm.map.MapFactory;
+import ucm.map.NodeConnection;
+import ucm.map.PathGraph;
+import ucm.map.PathNode;
 
 /**
  * Created 2005-02-25
@@ -21,20 +22,19 @@ import seg.jUCMNav.model.ucm.UcmFactory;
  */
 public class ExtendPathCommand extends Command {
 	
-	private UcmDiagram diagram; // The UCM diagram
-	private Path path; // The path to extend
+	private PathGraph diagram; // The UCM diagram
 	
-	private Node lastNode; // The last node before the end node
+	private PathNode lastNode; // The last node before the end node
 	
 	private EndPoint newEnd; // The new end node
 	private EndPoint lastEnd; // The last end node before the extension
 	
-	private Node newNode; // The new node required to replace the last end node
+	private PathNode newNode; // The new node required to replace the last end node
 	
-	private Link lastLink; // The last link connection lastNode and lastEnd
+	private NodeConnection lastLink; // The last link connection lastNode and lastEnd
 	
-	private Link newLink1; // The new link connecting the lastNode and the newNode
-	private Link newLink2; // The new link connecting the newNode and the newEnd
+	private NodeConnection newLink1; // The new link connecting the lastNode and the newNode
+	private NodeConnection newLink2; // The new link connecting the newNode and the newEnd
 	
 	private Point location; // Location of the new end.
 
@@ -49,19 +49,27 @@ public class ExtendPathCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		UcmFactory factory = UcmFactory.eINSTANCE;
+		MapFactory factory = MapFactory.eINSTANCE;
 		
-		lastEnd = path.getEndpoint();
-		lastLink = lastEnd.getUpLink();
+		NodeConnection link = (NodeConnection)(diagram.getNodeConnections().get(0));
 		
-		lastNode = lastLink.getSource();
+		for (Iterator i = diagram.getPathNodes().iterator(); i.hasNext();) {
+			PathNode node = (PathNode) i.next();
+			if(node instanceof EndPoint)
+				lastEnd = (EndPoint)node;
+			else
+				;// TODO Error if we don`t find an and point.
+		}
 		
-		diagram = lastEnd.getDiagram();
+//		lastEnd = ((OutBinding)link.getOutBindings().get(0)).getEndPoint();
+		lastLink = (NodeConnection)lastEnd.getPred().get(0);
 		
-		newLink1 = factory.createLink();
-		newLink2 = factory.createLink();
+		lastNode = (PathNode)lastLink.getSource();
 		
-		newNode = factory.createNode();
+		newLink1 = factory.createNodeConnection();
+		newLink2 = factory.createNodeConnection();
+		
+		newNode = factory.createEmptyPoint();
 		newNode.setX(lastEnd.getX());
 		newNode.setY(lastEnd.getY());
 		
@@ -78,25 +86,21 @@ public class ExtendPathCommand extends Command {
 		//Remove last link
 		lastLink.setSource(null);
 		lastLink.setTarget(null);
-		diagram.getLinks().remove(lastLink);
+		diagram.getNodeConnections().remove(lastLink);
 		
 		// Remove the unused end and add the new node + new end
-		diagram.getNodes().remove(lastEnd);
-		diagram.getNodes().add(newNode);
-		diagram.getNodes().add(newEnd);
-		
-		// Update the path
-		path.setEndpoint(newEnd);
-		path.getNodes().add(newNode);
+		diagram.getPathNodes().remove(lastEnd);
+		diagram.getPathNodes().add(newNode);
+		diagram.getPathNodes().add(newEnd);
 
 		// Setup the new two links connecting the new node + new end
 		newLink1.setSource(lastNode);
 		newLink1.setTarget(newNode);
-		diagram.getLinks().add(newLink1);
+		diagram.getNodeConnections().add(newLink1);
 		
 		newLink2.setSource(newNode);
 		newLink2.setTarget(newEnd);
-		diagram.getLinks().add(newLink2);
+		diagram.getNodeConnections().add(newLink2);
 	}
 	
 	/* (non-Javadoc)
@@ -106,69 +110,58 @@ public class ExtendPathCommand extends Command {
 		// Delete the new two links
 		newLink2.setSource(null);
 		newLink2.setTarget(null);
-		diagram.getLinks().remove(newLink2);
+		diagram.getNodeConnections().remove(newLink2);
 		
 		newLink1.setSource(null);
 		newLink1.setTarget(null);
-		diagram.getLinks().remove(newLink1);
-		
-		// Update the path
-		path.getNodes().remove(newNode);
-		path.setEndpoint(lastEnd);
+		diagram.getNodeConnections().remove(newLink1);
 		
 		// Remove the added nodes and recover the lastEnd
-		diagram.getNodes().remove(newEnd);
-		diagram.getNodes().remove(newNode);
-		diagram.getNodes().add(lastEnd);
+		diagram.getPathNodes().remove(newEnd);
+		diagram.getPathNodes().remove(newNode);
+		diagram.getPathNodes().add(lastEnd);
 		
 		// Recover last link
 		lastLink.setSource(lastNode);
 		lastLink.setTarget(lastEnd);
-		diagram.getLinks().add(lastLink);
+		diagram.getNodeConnections().add(lastLink);
 	}
 	
 	/**
 	 * @return Returns the diagram.
 	 */
-	public UcmDiagram getDiagram() {
+	public PathGraph getDiagram() {
 		return diagram;
 	}
+	
 	/**
 	 * @param diagram The diagram to set.
 	 */
-	public void setDiagram(UcmDiagram diagram) {
+	public void setDiagram(PathGraph diagram) {
 		this.diagram = diagram;
 	}
-	/**
-	 * @return Returns the path.
-	 */
-	public Path getPath() {
-		return path;
-	}
-	/**
-	 * @param path The path to set.
-	 */
-	public void setPath(Path path) {
-		this.path = path;
-	}
+	
 	/**
 	 * @return Returns the location.
 	 */
 	public Point getLocation() {
 		return location;
 	}
+	
 	/**
 	 * @param location The location to set.
 	 */
 	public void setLocation(Point location) {
 		this.location = location;
 	}
+	
 	/**
 	 * @return Returns the newEnd.
 	 */
 	public EndPoint getNewEnd() {
 		return newEnd;
 	}
+	
 	/**
 	 * @param newEnd The newEnd to set.
 	 */

@@ -7,7 +7,7 @@ package seg.jUCMNav.model.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.Node;
+import ucm.map.PathNode;
 
 /**
  * @author Etienne Tremblay
@@ -21,7 +21,7 @@ public class SetConstraintCommand extends Command {
 	
 	private Point oldPosition;
 	
-	private Node node;
+	private PathNode node;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
@@ -57,7 +57,7 @@ public class SetConstraintCommand extends Command {
 	/**
 	 * @param node The node to set.
 	 */
-	public void setNode(Node node) {
+	public void setNode(PathNode node) {
 		this.node = node;
 	}
 	/**

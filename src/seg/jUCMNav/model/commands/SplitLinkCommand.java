@@ -7,10 +7,10 @@ package seg.jUCMNav.model.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.Link;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.UcmDiagram;
-import seg.jUCMNav.model.ucm.UcmFactory;
+import ucm.map.MapFactory;
+import ucm.map.NodeConnection;
+import ucm.map.PathGraph;
+import ucm.map.PathNode;
 
 /**
  * Created 2005-02-25
@@ -19,15 +19,15 @@ import seg.jUCMNav.model.ucm.UcmFactory;
  */
 public class SplitLinkCommand extends Command {
 	
-	private UcmDiagram diagram; // The UCM diagram
+	private PathGraph diagram; // The UCM diagram
 	
-	private Link oldLink; // The old link where we are inserting
+	private NodeConnection oldLink; // The old link where we are inserting
 	
-	private Node node; // The new node we are inserting
-	private Node previousNode; // The node before the new node
-	private Node nextNode; // The node following the new node
-	private Link newLink1; // The two new links for the new node
-	private Link newLink2;
+	private PathNode node; // The new node we are inserting
+	private PathNode previousNode; // The node before the new node
+	private PathNode nextNode; // The node following the new node
+	private NodeConnection newLink1; // The two new links for the new node
+	private NodeConnection newLink2;
 	
 	private Point location;
 
@@ -49,15 +49,13 @@ public class SplitLinkCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		UcmFactory factory = UcmFactory.eINSTANCE;
+		MapFactory factory = MapFactory.eINSTANCE;
 		
 		previousNode = oldLink.getSource();
 		nextNode = oldLink.getTarget();
 		
-		diagram = previousNode.getDiagram();
-		
-		newLink1 = factory.createLink();
-		newLink2 = factory.createLink();
+		newLink1 = factory.createNodeConnection();
+		newLink2 = factory.createNodeConnection();
 		
 		node.setX(location.x);
 		node.setY(location.y);
@@ -70,41 +68,41 @@ public class SplitLinkCommand extends Command {
 	public void redo() {
 		oldLink.setSource(null);
 		oldLink.setTarget(null);
-		diagram.getLinks().remove(oldLink);
+		diagram.getNodeConnections().remove(oldLink);
 		
-		previousNode.setDownLink(newLink1);
-		node.setUpLink(newLink1);
-		node.setDownLink(newLink2);
-		nextNode.setUpLink(newLink2);
+		previousNode.getSucc().add(newLink1);
+		node.getPred().add(newLink1);
+		node.getSucc().add(newLink2);
+		nextNode.getPred().add(newLink2);
 		
-		diagram.getNodes().add(node);
-		diagram.getLinks().add(newLink1);
-		diagram.getLinks().add(newLink2);
+		diagram.getPathNodes().add(node);
+		diagram.getNodeConnections().add(newLink1);
+		diagram.getNodeConnections().add(newLink2);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		diagram.getLinks().remove(newLink1);
-		diagram.getLinks().remove(newLink2);
-		diagram.getNodes().remove(node);
+		diagram.getNodeConnections().remove(newLink1);
+		diagram.getNodeConnections().remove(newLink2);
+		diagram.getPathNodes().remove(node);
 		
-		nextNode.setUpLink(oldLink);
-		previousNode.setDownLink(oldLink);
+		nextNode.getPred().add(oldLink);
+		previousNode.getSucc().add(oldLink);
 		
-		diagram.getLinks().add(oldLink);
+		diagram.getNodeConnections().add(oldLink);
 	}
 	/**
 	 * @return Returns the oldLink.
 	 */
-	public Link getOldLink() {
+	public NodeConnection getOldLink() {
 		return oldLink;
 	}
 	/**
 	 * @param oldLink The oldLink to set.
 	 */
-	public void setOldLink(Link oldLink) {
+	public void setOldLink(NodeConnection oldLink) {
 		this.oldLink = oldLink;
 	}
 	/**
@@ -122,25 +120,25 @@ public class SplitLinkCommand extends Command {
 	/**
 	 * @return Returns the diagram.
 	 */
-	public UcmDiagram getDiagram() {
+	public PathGraph getDiagram() {
 		return diagram;
 	}
 	/**
 	 * @param diagram The diagram to set.
 	 */
-	public void setDiagram(UcmDiagram diagram) {
+	public void setDiagram(PathGraph diagram) {
 		this.diagram = diagram;
 	}
 	/**
 	 * @return Returns the node.
 	 */
-	public Node getNode() {
+	public PathNode getNode() {
 		return node;
 	}
 	/**
 	 * @param node The node to set.
 	 */
-	public void setNode(Node node) {
+	public void setNode(PathNode node) {
 		this.node = node;
 	}
 }

@@ -6,7 +6,7 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.PolylineConnection;
 
-import seg.jUCMNav.model.ucm.Link;
+import ucm.map.NodeConnection;
 
 /**
  * Created 2005-03-02
@@ -14,18 +14,18 @@ import seg.jUCMNav.model.ucm.Link;
  * @author Etienne Tremblay
  */
 public class SplineConnection extends PolylineConnection {
-	private Link link;
+	private NodeConnection link;
 
 	/**
 	 * @return Returns the link.
 	 */
-	public Link getLink() {
+	public NodeConnection getLink() {
 		return link;
 	}
 	/**
 	 * @param link The link to set.
 	 */
-	public void setLink(Link link) {
+	public void setLink(NodeConnection link) {
 		this.link = link;
 	}
 }

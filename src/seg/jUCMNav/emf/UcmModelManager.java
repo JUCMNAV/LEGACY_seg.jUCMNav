@@ -19,10 +19,11 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import seg.jUCMNav.model.ucm.UcmDiagram;
-import seg.jUCMNav.model.ucm.UcmFactory;
-import seg.jUCMNav.model.ucm.UcmPackage;
-import seg.jUCMNav.model.ucm.impl.UcmPackageImpl;
+import ucm.UcmPackage;
+import ucm.map.MapFactory;
+import ucm.map.MapPackage;
+import ucm.map.PathGraph;
+import ucm.map.impl.MapPackageImpl;
 
 /**
  * Created 2005-02-11
@@ -39,12 +40,12 @@ public class UcmModelManager {
 	/**
 	 * Contains the factory associated with the model.
 	 */
-	private static UcmFactory networkFactory = null;
+	private static MapFactory networkFactory = null;
 
 	/**
 	 * Gives access to the top level network contained in the resource.
 	 */
-	private UcmDiagram ucm = null;
+	private PathGraph ucm = null;
 
 	/**
 	 * Returns the resource containing the network. Uses lazy initialization.
@@ -84,11 +85,11 @@ public class UcmModelManager {
 	 */
 	private ResourceSet getResourceSet() {
 		// Initialize the network package
-		UcmPackageImpl.init();
+		MapPackageImpl.init();
 		// Register the XMI resource factory for the .network extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map m = reg.getExtensionToFactoryMap();
-		m.put("net", new XMIResourceFactoryImpl());
+		m.put("ucm", new XMIResourceFactoryImpl());
 		// Obtain a new resource set
 		return new ResourceSetImpl();
 	}
@@ -98,14 +99,14 @@ public class UcmModelManager {
 	 * Object creation are made through that factory.
 	 * @return
 	 */
-	static public UcmFactory getFactory() {
+	static public MapFactory getFactory() {
 		if (networkFactory == null) {
 			// Access the factory (needed to create instances)
 			Map registry = EPackage.Registry.INSTANCE;
 			String networkURI = UcmPackage.eNS_URI;
-			UcmPackage ucmPackage =
-				(UcmPackage) registry.get(networkURI);
-			networkFactory = ucmPackage.getUcmFactory();
+			MapPackage ucmPackage =
+				(MapPackage) registry.get(networkURI);
+			networkFactory = ucmPackage.getMapFactory();
 		}
 		return networkFactory;
 	}
@@ -115,14 +116,14 @@ public class UcmModelManager {
 	 * @param 
 	 * @return
 	 */
-	public UcmDiagram createDiagram(IPath path) {
+	public PathGraph createDiagram(IPath path) {
 		createResource(path);
 		// Create a new network model
 		Map registry = EPackage.Registry.INSTANCE;
-		String UcmURI = UcmPackage.eNS_URI;
-		UcmPackage nPackage = (UcmPackage) registry.get(UcmURI);
-		UcmFactory nFactory = nPackage.getUcmFactory();
-		ucm = nFactory.createUcmDiagram();
+		String UcmURI = MapPackage.eNS_URI;
+		MapPackage nPackage = (MapPackage) registry.get(UcmURI);
+		MapFactory nFactory = nPackage.getMapFactory();
+		ucm = nFactory.createPathGraph();
 		resource.getContents().add(ucm);
 		return ucm;
 	}
@@ -162,14 +163,14 @@ public class UcmModelManager {
 	 * Gets the top level network model.
 	 * @return
 	 */
-	public UcmDiagram getModel() {
+	public PathGraph getModel() {
 		if (null == ucm) {
 			EList l = resource.getContents();
 			Iterator i = l.iterator();
 			while (i.hasNext()) {
 				Object o = i.next();
-				if (o instanceof UcmDiagram)
-					ucm = (UcmDiagram) o;
+				if (o instanceof PathGraph)
+					ucm = (PathGraph) o;
 			}
 		}
 		return ucm;

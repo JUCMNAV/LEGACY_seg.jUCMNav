@@ -18,10 +18,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.emf.ModelCreationFactory;
-import seg.jUCMNav.model.ucm.EndPoint;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Responsibility;
-import seg.jUCMNav.model.ucm.StartPoint;
+import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
+import ucm.map.StartPoint;
+import urncore.Responsibility;
 
 
 public class UcmPaletteRoot extends PaletteRoot
@@ -110,11 +110,11 @@ public class UcmPaletteRoot extends PaletteRoot
             new CombinedTemplateCreationEntry(
                 "Node",
                 "Creates a node",
-                Node.class,
-                new ModelCreationFactory(Node.class),
+                EmptyPoint.class,
+                new ModelCreationFactory(EmptyPoint.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
-		entry.setId("EmptyNode");
+		entry.setId("EmptyPoint");
         componentsDrawer.add(entry);
         
         endPointTool =

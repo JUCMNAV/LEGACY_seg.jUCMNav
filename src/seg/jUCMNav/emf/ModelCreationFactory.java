@@ -9,15 +9,13 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.gef.requests.CreationFactory;
 
-import seg.jUCMNav.model.ucm.Component;
-import seg.jUCMNav.model.ucm.EndPoint;
-import seg.jUCMNav.model.ucm.Link;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
-import seg.jUCMNav.model.ucm.Responsibility;
-import seg.jUCMNav.model.ucm.StartPoint;
-import seg.jUCMNav.model.ucm.UcmFactory;
-import seg.jUCMNav.model.ucm.UcmPackage;
+import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
+import ucm.map.MapFactory;
+import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
+import ucm.map.RespRef;
+import ucm.map.StartPoint;
 
 
 /**
@@ -38,37 +36,28 @@ public class ModelCreationFactory implements CreationFactory {
 	 */
 	public Object getNewObject() {
 		Map registry = EPackage.Registry.INSTANCE;
-		String workflowURI = UcmPackage.eNS_URI;
-		UcmPackage workflowPackage =
-		(UcmPackage) registry.get(workflowURI);
-		UcmFactory factory = workflowPackage.getUcmFactory();
+		String workflowURI = MapPackage.eNS_URI;
+		MapPackage workflowPackage =
+		(MapPackage) registry.get(workflowURI);
+		MapFactory factory = workflowPackage.getMapFactory();
 			
 		Object		result = null;
 		
 		if(targetClass != null){
-			if( targetClass.equals( Node.class ) ) {
-				result = factory.createNode();
+			if( targetClass.equals( EmptyPoint.class ) ) {
+				result = factory.createEmptyPoint();
 			}
-			else if(targetClass.equals(Link.class)){
-				result = factory.createLink();
+			else if(targetClass.equals(NodeConnection.class)){
+				result = factory.createNodeConnection();
 			}
-			else if(targetClass.equals(Path.class)){
-				result = factory.createPath();
-			}
-			else if(targetClass.equals(Responsibility.class)){
-				result = factory.createResponsibility();
+			else if(targetClass.equals(RespRef.class)){
+				result = factory.createRespRef();
 			}
 			else if(targetClass.equals(StartPoint.class)){
 				result = factory.createStartPoint();
 			}
 			else if(targetClass.equals(EndPoint.class)){
 				result = factory.createEndPoint();
-			}
-			else if(targetClass.equals(Component.class)){
-				result = factory.createComponent();
-			}
-			else{
-				result = factory.createXYElement();
 			}
 		}
 		return result;

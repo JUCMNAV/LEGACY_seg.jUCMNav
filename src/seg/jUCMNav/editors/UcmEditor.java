@@ -59,8 +59,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.emf.UcmModelManager;
-import seg.jUCMNav.model.ucm.UcmDiagram;
-import seg.jUCMNav.model.ucm.UcmFactory;
+import ucm.map.MapFactory;
+import ucm.map.PathGraph;
 
 /**
  * 
@@ -79,16 +79,16 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	 * This is the root of the editor's model.
 	 * 
 	 */
-	private UcmDiagram ucm;
+	private PathGraph ucm;
 	
 	/** the model manager */
     private UcmModelManager modelManager;
 
 	/** Create a new ShapesEditor instance. This is called by the Workspace. */
 	public UcmEditor() {
-		UcmFactory factory = UcmFactory.eINSTANCE;
+		MapFactory factory = MapFactory.eINSTANCE;
 
-		ucm = factory.createUcmDiagram();
+		ucm = factory.createPathGraph();
 		setEditDomain(new DefaultEditDomain(this));
 	}
 
@@ -310,7 +310,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 		return sharedKeyHandler;
 	}
 
-	private UcmDiagram getModel() {
+	private PathGraph getModel() {
 		return ucm;
 	}
 
@@ -433,9 +433,9 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @param file
      * @return the network object from the specified file
      */
-    private UcmDiagram create(IFile file) throws CoreException
+    private PathGraph create(IFile file) throws CoreException
     {
-        UcmDiagram ucm = null;
+        PathGraph ucm = null;
         modelManager = new UcmModelManager();
 
         if (file.exists())

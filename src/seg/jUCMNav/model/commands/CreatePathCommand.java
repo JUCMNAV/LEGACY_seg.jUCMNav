@@ -7,13 +7,14 @@ package seg.jUCMNav.model.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.EndPoint;
-import seg.jUCMNav.model.ucm.Link;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
-import seg.jUCMNav.model.ucm.StartPoint;
-import seg.jUCMNav.model.ucm.UcmDiagram;
-import seg.jUCMNav.model.ucm.UcmFactory;
+import ucm.map.EndPoint;
+import ucm.map.InBinding;
+import ucm.map.MapFactory;
+import ucm.map.NodeConnection;
+import ucm.map.OutBinding;
+import ucm.map.PathGraph;
+import ucm.map.PathNode;
+import ucm.map.StartPoint;
 
 /**
  * Created 2005-02-21
@@ -22,14 +23,16 @@ import seg.jUCMNav.model.ucm.UcmFactory;
  */
 public class CreatePathCommand extends Command {
 	
-	private UcmDiagram diagram;
+	private PathGraph diagram;
 	private Point position;
-	private Path path;
 	private StartPoint start;
-	private Node node;
+	private PathNode node;
 	private EndPoint end;
-	private Link link1;
-	private Link link2;
+	private NodeConnection link1;
+	private NodeConnection link2;
+	
+	private InBinding inBinds;
+	private OutBinding outBinds;
 
 	/**
 	 * 
@@ -40,16 +43,16 @@ public class CreatePathCommand extends Command {
 
 	
 	public void execute() {
-		UcmFactory factory = UcmFactory.eINSTANCE;
+		MapFactory factory = MapFactory.eINSTANCE;
 		// start-----node-----end
 		start.setX(position.x);
 		start.setY(position.y);
 		
-		node = factory.createNode();
+		node = factory.createEmptyPoint();
 		node.setX(position.x+100);
 		node.setY(position.y);
 		
-		link1 = factory.createLink();
+		link1 = factory.createNodeConnection();
 		link1.setSource(start);
 		link1.setTarget(node);
 		
@@ -57,45 +60,36 @@ public class CreatePathCommand extends Command {
 		end.setX(position.x+200);
 		end.setY(position.y);
 		
-		link2 = factory.createLink();
+		link2 = factory.createNodeConnection();
 		link2.setSource(node);
 		link2.setTarget(end);
-		
-		path = factory.createPath();
-		path.setStartpoint(start);
-		path.setEndpoint(end);
-		path.getNodes().add(node);
 		
 		redo();
 	}
 	
 	public void redo() {
-		diagram.getPaths().add(path);
+		diagram.getPathNodes().add(start);
+		diagram.getPathNodes().add(node);
+		diagram.getPathNodes().add(end);
 		
-		diagram.getNodes().add(start);
-		diagram.getNodes().add(node);
-		diagram.getNodes().add(end);
-		
-		diagram.getLinks().add(link1);
-		diagram.getLinks().add(link2);
+		diagram.getNodeConnections().add(link1);
+		diagram.getNodeConnections().add(link2);
 	}
 	
-	public void undo() {
-		diagram.getPaths().remove(path);
+	public void undo() {		
+		diagram.getPathNodes().remove(start);
+		diagram.getPathNodes().remove(node);
+		diagram.getPathNodes().remove(end);
 		
-		diagram.getNodes().remove(start);
-		diagram.getNodes().remove(node);
-		diagram.getNodes().remove(end);
-		
-		diagram.getLinks().remove(link2);
-		diagram.getLinks().remove(link1);
+		diagram.getNodeConnections().remove(link2);
+		diagram.getNodeConnections().remove(link1);
 	}
 	
-	public UcmDiagram getDiagram() {
+	public PathGraph getDiagram() {
 		return diagram;
 	}
 	
-	public void setDiagram(UcmDiagram diagram) {
+	public void setDiagram(PathGraph diagram) {
 		this.diagram = diagram;
 	}
 	

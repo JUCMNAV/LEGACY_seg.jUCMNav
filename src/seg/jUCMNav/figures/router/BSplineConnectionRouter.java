@@ -15,10 +15,10 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
 import seg.jUCMNav.figures.SplineConnection;
-import seg.jUCMNav.model.ucm.EndPoint;
-import seg.jUCMNav.model.ucm.Link;
-import seg.jUCMNav.model.ucm.StartPoint;
-import seg.jUCMNav.model.ucm.UcmDiagram;
+import ucm.map.EndPoint;
+import ucm.map.NodeConnection;
+import ucm.map.PathGraph;
+import ucm.map.StartPoint;
 
 /**
  * Created 2005-03-02
@@ -30,17 +30,18 @@ public class BSplineConnectionRouter extends AbstractRouter {
 
 	private ArrayList conns = new ArrayList(); // The connections
 
-	private HashMap links = new HashMap();
+	private HashMap NodeConnections = new HashMap();
 	private boolean initializing = true;
 	private boolean generateSpline;
 	
-	private UcmDiagram diagram;
+	private PathGraph diagram;
 
 	/**
 	 *  
 	 */
-	public BSplineConnectionRouter() {
+	public BSplineConnectionRouter(PathGraph diagram) {
 		super();
+		this.diagram = diagram;
 	}
 
 	/**
@@ -56,13 +57,9 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		int j=0;
 		for (Iterator i = conns.iterator(); i.hasNext();) {
 			SplineConnection con = (SplineConnection) i.next();
-			Link link = con.getLink();
-			start = new Point(link.getSource().getX(), link.getSource().getY());
-			end = new Point(link.getTarget().getX(), link.getTarget().getY());
-//			start = getStartPoint(con);
-//			end = getEndPoint(con);
-//			con.translateToRelative(start);
-//			con.translateToRelative(end);
+			NodeConnection node = con.getLink();
+			start = new Point(node.getSource().getX(), node.getSource().getY());
+			end = new Point(node.getTarget().getX(), node.getTarget().getY());
 			con.translateToParent(start);
 			con.translateToParent(end);
 			if(j == 0)
@@ -81,21 +78,21 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 * @return The new ordered connection array.
 	 */
 	protected ArrayList updateOrder() {
-		//Try to find the first link in this path.
+		//Try to find the first NodeConnection in this path.
 		Stack stack = new Stack();
 		// Most of the time when the conns array is sorted, the first one will
-		// be the first link. Sometimes not...
-		Link link = ((SplineConnection) conns.get(0)).getLink(); // The first we
+		// be the first NodeConnection. Sometimes not...
+		NodeConnection link = ((SplineConnection) conns.get(0)).getLink(); // The first we
 																 // look at.
-		// Loop trough the links until we find the start point
+		// Loop trough the NodeConnections until we find the start point
 		while (!(link.getSource() instanceof StartPoint)) {
-			stack.push(links.get(link)); // Push the connection corresponding to
-										 // this link.
-			link = link.getSource().getUpLink(); // Get the previous connection
+			stack.push(NodeConnections.get(link)); // Push the connection corresponding to
+										 // this NodeConnection.
+			link = (NodeConnection)link.getSource().getPred().get(0); // Get the previous connection
 		}
 
-		// Push the first link (the last we looked at)
-		stack.push(links.get(link));
+		// Push the first NodeConnection (the last we looked at)
+		stack.push(NodeConnections.get(link));
 
 		ArrayList finalList = new ArrayList();
 
@@ -107,15 +104,15 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		}
 
 		if (!(link.getTarget() instanceof EndPoint))
-			link = link.getTarget().getDownLink(); // Get the next connection
+			link = (NodeConnection)link.getTarget().getSucc().get(0); // Get the next connection
 		
-		// Add each links until the endpoint to the list.
+		// Add each NodeConnections until the endpoint to the list.
 		while (!(link.getTarget() instanceof EndPoint)) {
-			finalList.add(links.get(link));
-			link = link.getTarget().getDownLink(); // Get the next connection
+			finalList.add(NodeConnections.get(link));
+			link = (NodeConnection)link.getTarget().getSucc().get(0); // Get the next connection
 		}
 		// Add the last connection too.
-		finalList.add(links.get(link));
+		finalList.add(NodeConnections.get(link));
 //		conns.clear();
 
 		return finalList;
@@ -136,9 +133,9 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 */
 	protected PointList getPointsFor(Connection conn) {
 		SplineConnection con = (SplineConnection)conn;
-		Link link = con.getLink();
-		Point start = new Point(link.getSource().getX(), link.getSource().getY());
-		Point end = new Point(link.getTarget().getX(), link.getTarget().getY());
+		NodeConnection NodeConnection = con.getLink();
+		Point start = new Point(NodeConnection.getSource().getX(), NodeConnection.getSource().getY());
+		Point end = new Point(NodeConnection.getTarget().getX(), NodeConnection.getTarget().getY());
 		con.translateToParent(start);
 		con.translateToParent(end);
 		
@@ -155,16 +152,14 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		if(conn != null)
 			conns.add(conn);
 		
-		// The first time we insert a connection, initialize the UcmDiagram.
+		// The first time we insert a connection, initialize the PathGraph.
 		SplineConnection c = (SplineConnection)conn;
-		if(diagram == null)
-			diagram = c.getLink().getSource().getDiagram();
 		
-		// Update the links hashmap with the new connection
+		// Update the NodeConnections hashmap with the new connection
 		for (Iterator i = conns.iterator(); i.hasNext();) {
 			SplineConnection con = (SplineConnection) i.next();
-			// The link is the key, the connection the value
-			links.put(con.getLink(), con);
+			// The NodeConnection is the key, the connection the value
+			NodeConnections.put(con.getLink(), con);
 		}
 		
 		// If we're not in the initializing phase
@@ -227,7 +222,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 * @return true if all the connections of the diagram are in our connection list, false otherwise.
 	 */
 	protected boolean allLoaded(){
-		if(conns.size() == diagram.getLinks().size())
+		if(conns.size() == diagram.getNodeConnections().size())
 			return true;
 		else
 			return false;
@@ -242,7 +237,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		SplineConnection con = (SplineConnection) connection;
 		// Remove from the connection list and the hashmap
 		conns.remove(connection);
-		links.remove(con.getLink());
+		NodeConnections.remove(con.getLink());
 		// Now we'll have to wait to receive route() calls from all the connections that changed
 		initializing = true;
 
