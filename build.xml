@@ -14,7 +14,6 @@
 	<property name="javacTarget" value="1.2"/>
 	<property name="compilerArg" value=""/>
 	<property name="eclipsehome" value="c:/eclipse"/> <!-- JP: system-specific -->
-
 	
 	<target name="init" depends="properties">
 		<condition property="pluginTemp" value="${buildTempFolder}/eclipse/plugins">
@@ -35,7 +34,6 @@
 
 	<target name="build.fullzip" depends="init, clean">
 		<antcall target="clean"/>
-		<antcall target="build.jars"/>
 		<antcall target="zip.plugin"/>
 	</target>
 	
@@ -131,6 +129,29 @@
 		<antcall target="jUCMNavsrc.zip"/>
 	</target>
 
+	<target name="build.docs" depends="init">
+		<javadoc packagenames="seg.jUCMNav.*"
+		           sourcepath="src"
+		           excludepackagenames="seg.jUCMNav.Tests.*"
+		           defaultexcludes="yes"
+		           destdir="docs/api"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="jUCMNav">
+		    <tag name="todo" scope="all" description="To do:" />
+	  </javadoc>
+		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
+		<antcall target="jUCMNavdocs.zip"/>
+	</target>
+
+	<target name="jUCMNavdocs.zip" depends="init">
+		<mkdir dir="${build.result.folder}"/>
+		<zip zipfile="${build.result.folder}/jUCMNavdocs.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="" includes="docs/**"/>
+		</zip>
+	</target>
+	
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
 		<copy todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="true">
@@ -149,6 +170,11 @@
 		<copy file="${build.result.folder}/jUCMNavsrc.zip" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
 	</target>
 
+	<target name="gather.docs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
+		<copy file="${build.result.folder}/jUCMNavdocs.zip" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
+	</target>
+	
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
 		<copy file="${temp.folder}/jUCMNav.jar.bin.log" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
@@ -157,9 +183,11 @@
 	<target name="clean" depends="init" description="Clean the plug-in: seg.jUCMNav of all the zips, jars and logs created.">
 		<delete file="${build.result.folder}/jUCMNav.jar"/>
 		<delete file="${build.result.folder}/jUCMNavsrc.zip"/>
+		<delete file="${build.result.folder}/jUCMNavdocs.zip"/>
 		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.jar"/>
 		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.zip"/>
 		<delete dir="${temp.folder}"/>
+		<delete dir="docs/api"/>
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
@@ -172,10 +200,14 @@
 		<mkdir dir="${temp.folder}/eclipse/plugins"/>
 		<antcall target="build.jars"/>
 		<antcall target="build.sources"/>
+		<antcall target="build.docs"/>
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
 		</antcall>
 		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
+		</antcall>
+		<antcall target="gather.docs">
 			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
 		</antcall>
 		<delete>
@@ -184,5 +216,5 @@
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
-
+	
 </project>
