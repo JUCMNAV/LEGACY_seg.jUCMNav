@@ -105,4 +105,12 @@ public class ComponentSetConstraintCommand extends Command {
     public void setNewDimension(Dimension newDimension) {
         this.newDimension = newDimension;
     }
+    
+    /**
+     * We can't resize or move fixed components.
+     * @return if the command can execute
+     */
+    public boolean canExecute() {
+        return comp!=null && !comp.isFixed();
+    }
 }

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
@@ -79,7 +80,10 @@ public class EObjectPropertySource implements IPropertySource {
             } else if (type.getInstanceClass() == String.class) {
                 descriptors.add(new TextPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
             } else if (type.getInstanceClass() == boolean.class) {
-                descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
+                // this class doesn't exist.
+                //descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
+                String[] values = { "false", "true" };
+                descriptors.add(new ComboBoxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName(), values));
             } else if (type.getInstanceClass() == int.class) {
                 TextPropertyDescriptor desc = new TextPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName());
 
@@ -112,6 +116,8 @@ public class EObjectPropertySource implements IPropertySource {
         Object result = object.eGet(feature);
         if (result instanceof Integer) {
             result = ((Integer) result).toString();
+        } else if (result instanceof Boolean) {
+            result = ((Boolean)result).booleanValue()?new Integer(1):new Integer(0);
         }
         return result != null ? result : "";
     }
@@ -147,7 +153,11 @@ public class EObjectPropertySource implements IPropertySource {
         if (result instanceof Integer) {
             result = new Integer(Integer.parseInt((String) value));
             object.eSet(feature, result);
+        } else if (result instanceof Boolean) {
+            result = new Boolean(((Integer)value).intValue()==1);
+            object.eSet(feature, result);
         } else
+
             object.eSet(feature, value);
     }
 
