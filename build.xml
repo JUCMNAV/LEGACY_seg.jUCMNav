@@ -95,6 +95,7 @@
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.draw2d_3.0.1/draw2d.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.gef_3.0.1/gef.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.ecore.xmi_2.0.1/runtime/ecore.xmi.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.junit_3.8.1/junit.jar"/>
 			</classpath>
 			<src path="src/"			/>
 			</javac>
