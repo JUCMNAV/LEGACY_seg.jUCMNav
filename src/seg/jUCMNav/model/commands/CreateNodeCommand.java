@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.model.commands;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -11,7 +7,13 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * @author Etienne Tremblay
+ *  This command creates a PathNode at a certain point in a PathGraph.
+ *  Can be used to create multiple types of path node, as the PathNode itself is passed
+ *  in as an argument.
+ * 
+ *  Created on 2005-01-30
+ *
+ *  * @author Etienne Tremblay
  *
  */
 public class CreateNodeCommand extends Command {
@@ -21,10 +23,12 @@ public class CreateNodeCommand extends Command {
 	private Point location;
 	private PathGraph diagram;
 	
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
+	    
 		if(location != null){
 			node.setX(location.x);
 			node.setY(location.y);

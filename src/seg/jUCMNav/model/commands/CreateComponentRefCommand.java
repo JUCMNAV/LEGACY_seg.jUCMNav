@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.model.commands;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -12,22 +8,21 @@ import ucm.map.Map;
 import ucm.map.MapFactory;
 
 /**
- * @author Etienne Tremblay
+ * This Command creates a new instance of a ComponentRef
+ * 
+ * @author jkealey
  *  
  */
 public class CreateComponentRefCommand extends Command {
 
     private static final String CreateCommand_Label = "CreateComponentRefCommand";
-
     private ComponentRef comp;
-
     private Point location;
-
     private int width;
-
     private int height;
-
     private Map map;
+    public static final int DEFAULT_WIDTH = 100;
+    public static final int DEFAULT_HEIGHT = 100;
 
     /*
      * (non-Javadoc)
@@ -37,7 +32,7 @@ public class CreateComponentRefCommand extends Command {
     public void execute() {
         MapFactory factory = MapFactory.eINSTANCE;
         comp = factory.createComponentRef();
-        
+
         if (location != null) {
             comp.setX(location.x);
             comp.setY(location.y);
@@ -46,14 +41,12 @@ public class CreateComponentRefCommand extends Command {
         if (width > 0)
             comp.setWidth(width);
         else
-            comp.setWidth(100);
+            comp.setWidth(DEFAULT_WIDTH);
 
         if (height > 0)
             comp.setHeight(height);
         else
-            comp.setHeight(100);
-
-
+            comp.setHeight(DEFAULT_HEIGHT);
 
         redo();
     }

@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.model.commands;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -10,6 +6,7 @@ import org.eclipse.gef.commands.Command;
 import ucm.map.PathNode;
 
 /**
+ * This command is used to resize/move PathNodes.
  * @author Etienne Tremblay
  *
  */

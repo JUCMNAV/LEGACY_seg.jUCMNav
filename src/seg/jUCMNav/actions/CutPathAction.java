@@ -15,7 +15,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import ucm.map.EmptyPoint;
+import seg.jUCMNav.model.commands.CutPathCommand;
 
 /**
  * Created 2005-03-21
@@ -56,8 +56,10 @@ public class CutPathAction extends SelectionAction {
 			if (!(o instanceof EditPart))
 				return false;
 			EditPart part = (EditPart)o;
-			if (!(part.getModel() instanceof EmptyPoint))
-				return false;
+			
+			return CutPathCommand.canExecute(part.getModel());
+
+			
 		}
 		return true;
 	}
