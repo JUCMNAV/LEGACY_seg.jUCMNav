@@ -137,10 +137,54 @@
 		           destdir="docs/api"
 		           author="true"
 		           version="true"
-		           use="true"
+			   use="true"
+			   additionalparam="-quiet"
 		           windowtitle="jUCMNav">
-		    <tag name="todo" scope="all" description="To do:" />
-	  </javadoc>
+			   <tag name="todo" scope="all" description="To do:" />
+			<classpath>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui_3.0.1/ui.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.runtime_3.0.1/runtime.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/core.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/console.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/osgi.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/resolver.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/defaultAdaptor.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/eclipseAdaptor.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.help_3.0.0/help.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.swt_3.0.1/ws/${basews}/swt.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.swt.win32_3.0.1/ws/${basews}/swt.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.swt.win32_3.0.1"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.jface_3.0.0/jface.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.workbench_3.0.1/compatibility.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.workbench_3.0.1/workbench.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.workbench.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.workbench.compatibility_3.0.0/workbench.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.expressions_3.0.0/expressions.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.resources_3.0.1/resources.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.resources.win32_3.0.0/resources.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.resources.win32_3.0.0/resources-win32.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.runtime.compatibility_3.0.0/compatibility.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.update.configurator_3.0.0/configurator.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.ide_3.0.1/ide.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.win32_3.0.1/ide.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.win32_3.0.1/workbenchwin32.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.views_3.0.0/views.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.update.core_3.0.1/updatecore.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.update.core.win32_3.0.0/updatecore.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.update.ui_3.0.1/updateui.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.help.base_3.0.1/helpbase.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.apache.lucene_1.3.1/parser.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.apache.lucene_1.3.1/lucene-1.3-final.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.help.appserver_3.0.0/appserver.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui.forms_3.0.0/forms.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.ecore_2.0.1/runtime/ecore.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.common_2.0.1/runtime/common.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.draw2d_3.0.1/draw2d.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.gef_3.0.1/gef.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.ecore.xmi_2.0.1/runtime/ecore.xmi.jar"/>
+				<pathelement path="${eclipsehome}/plugins/org.junit_3.8.1/junit.jar"/>
+		</classpath>
+	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
 		<antcall target="jUCMNavdocs.zip"/>
 	</target>
