@@ -17,7 +17,7 @@
 
 	
 	<target name="init" depends="properties">
-		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+		<condition property="pluginTemp" value="${buildTempFolder}/eclipse/plugins">
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
@@ -168,15 +168,15 @@
 	</target>
 
 	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: seg.jUCMNav.">
-		<delete dir="${temp.folder}/plugins"/>
-		<mkdir dir="${temp.folder}/plugins"/>
+		<delete dir="${temp.folder}/eclipse/plugins"/>
+		<mkdir dir="${temp.folder}/eclipse/plugins"/>
 		<antcall target="build.jars"/>
 		<antcall target="build.sources"/>
 		<antcall target="gather.bin.parts">
-			<param name="destination.temp.folder" value="${temp.folder}/plugins/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
 		</antcall>
 		<antcall target="gather.sources">
-			<param name="destination.temp.folder" value="${temp.folder}/plugins/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
 		</antcall>
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
