@@ -26,12 +26,26 @@ import ucm.map.MapPackage;
 
 import ucm.map.impl.MapPackageImpl;
 
-import ucm.performance.Device;
+import ucm.performance.ActiveResource;
+import ucm.performance.ArrivalProcess;
+import ucm.performance.ClosedWorkload;
+import ucm.performance.Demand;
 import ucm.performance.DeviceKind;
+import ucm.performance.ExternalOperation;
+import ucm.performance.GeneralResource;
+import ucm.performance.OpenWorkload;
+import ucm.performance.PassiveResource;
+import ucm.performance.PerfAttribute;
+import ucm.performance.PerfMeasure;
+import ucm.performance.PerfValue;
+import ucm.performance.PerfValueKind;
+import ucm.performance.PerfValueSource;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.PerformancePackage;
+import ucm.performance.ProcessingResource;
 import ucm.performance.ResponseTimeReq;
 import ucm.performance.Timestamp;
+import ucm.performance.Workload;
 
 import ucm.scenario.ScenarioPackage;
 
@@ -57,13 +71,6 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass deviceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass timestampEClass = null;
 
 	/**
@@ -78,7 +85,112 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass workloadEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass openWorkloadEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass closedWorkloadEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass generalResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass perfMeasureEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass perfValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass activeResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass passiveResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass externalOperationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass processingResourceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass demandEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum deviceKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum perfValueKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum perfValueSourceEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum arrivalProcessEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum perfAttributeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -137,62 +249,35 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
+		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
 
 		// Create package meta-data objects
 		thePerformancePackage.createPackageContents();
-		theUrnPackage.createPackageContents();
+		theGrlPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
-		theGrlPackage.createPackageContents();
+		theUrnPackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePerformancePackage.initializePackageContents();
-		theUrnPackage.initializePackageContents();
+		theGrlPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
-		theGrlPackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePerformancePackage.freeze();
 
 		return thePerformancePackage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getDevice() {
-		return deviceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getDevice_DeviceKind() {
-		return (EAttribute)deviceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getDevice_Optime() {
-		return (EAttribute)deviceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -211,6 +296,24 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 	 */
 	public EAttribute getTimestamp_Orientation() {
 		return (EAttribute)timestampEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTimestamp_Targets() {
+		return (EReference)timestampEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTimestamp_Sources() {
+		return (EReference)timestampEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -263,8 +366,359 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getWorkload() {
+		return workloadEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_ArrivalPattern() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_ArrivalParam1() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_ArrivalParam2() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_ExternalDelay() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_Value() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWorkload_CoeffVarSeq() {
+		return (EAttribute)workloadEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getWorkload_RespTime() {
+		return (EReference)workloadEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOpenWorkload() {
+		return openWorkloadEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getClosedWorkload() {
+		return closedWorkloadEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClosedWorkload_Population() {
+		return (EAttribute)closedWorkloadEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGeneralResource() {
+		return generalResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGeneralResource_Demands() {
+		return (EReference)generalResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPerfMeasure() {
+		return perfMeasureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfMeasure_Measure() {
+		return (EAttribute)perfMeasureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPerfMeasure_PerfValues() {
+		return (EReference)perfMeasureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPerfMeasure_Duration() {
+		return (EReference)perfMeasureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPerfValue() {
+		return perfValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfValue_Value() {
+		return (EAttribute)perfValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfValue_Kind() {
+		return (EAttribute)perfValueEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfValue_Source() {
+		return (EAttribute)perfValueEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfValue_Percentile() {
+		return (EAttribute)perfValueEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPerfValue_KthMoment() {
+		return (EAttribute)perfValueEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getActiveResource() {
+		return activeResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActiveResource_OpTime() {
+		return (EAttribute)activeResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPassiveResource() {
+		return passiveResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPassiveResource_Component() {
+		return (EReference)passiveResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExternalOperation() {
+		return externalOperationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getExternalOperation_Description() {
+		return (EAttribute)externalOperationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProcessingResource() {
+		return processingResourceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProcessingResource_Kind() {
+		return (EAttribute)processingResourceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcessingResource_Components() {
+		return (EReference)processingResourceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDemand() {
+		return demandEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDemand_Quantity() {
+		return (EAttribute)demandEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDemand_Resource() {
+		return (EReference)demandEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDeviceKind() {
 		return deviceKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getPerfValueKind() {
+		return perfValueKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getPerfValueSource() {
+		return perfValueSourceEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getArrivalProcess() {
+		return arrivalProcessEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getPerfAttribute() {
+		return perfAttributeEEnum;
 	}
 
 	/**
@@ -295,12 +749,10 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 		isCreated = true;
 
 		// Create classes and their features
-		deviceEClass = createEClass(DEVICE);
-		createEAttribute(deviceEClass, DEVICE__DEVICE_KIND);
-		createEAttribute(deviceEClass, DEVICE__OPTIME);
-
 		timestampEClass = createEClass(TIMESTAMP);
 		createEAttribute(timestampEClass, TIMESTAMP__ORIENTATION);
+		createEReference(timestampEClass, TIMESTAMP__TARGETS);
+		createEReference(timestampEClass, TIMESTAMP__SOURCES);
 
 		responseTimeReqEClass = createEClass(RESPONSE_TIME_REQ);
 		createEAttribute(responseTimeReqEClass, RESPONSE_TIME_REQ__RESPONSE_TIME);
@@ -308,8 +760,58 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 		createEReference(responseTimeReqEClass, RESPONSE_TIME_REQ__TS1);
 		createEReference(responseTimeReqEClass, RESPONSE_TIME_REQ__TS2);
 
+		workloadEClass = createEClass(WORKLOAD);
+		createEAttribute(workloadEClass, WORKLOAD__ARRIVAL_PATTERN);
+		createEAttribute(workloadEClass, WORKLOAD__ARRIVAL_PARAM1);
+		createEAttribute(workloadEClass, WORKLOAD__ARRIVAL_PARAM2);
+		createEAttribute(workloadEClass, WORKLOAD__EXTERNAL_DELAY);
+		createEAttribute(workloadEClass, WORKLOAD__VALUE);
+		createEAttribute(workloadEClass, WORKLOAD__COEFF_VAR_SEQ);
+		createEReference(workloadEClass, WORKLOAD__RESP_TIME);
+
+		openWorkloadEClass = createEClass(OPEN_WORKLOAD);
+
+		closedWorkloadEClass = createEClass(CLOSED_WORKLOAD);
+		createEAttribute(closedWorkloadEClass, CLOSED_WORKLOAD__POPULATION);
+
+		generalResourceEClass = createEClass(GENERAL_RESOURCE);
+		createEReference(generalResourceEClass, GENERAL_RESOURCE__DEMANDS);
+
+		perfMeasureEClass = createEClass(PERF_MEASURE);
+		createEAttribute(perfMeasureEClass, PERF_MEASURE__MEASURE);
+		createEReference(perfMeasureEClass, PERF_MEASURE__PERF_VALUES);
+		createEReference(perfMeasureEClass, PERF_MEASURE__DURATION);
+
+		perfValueEClass = createEClass(PERF_VALUE);
+		createEAttribute(perfValueEClass, PERF_VALUE__VALUE);
+		createEAttribute(perfValueEClass, PERF_VALUE__KIND);
+		createEAttribute(perfValueEClass, PERF_VALUE__SOURCE);
+		createEAttribute(perfValueEClass, PERF_VALUE__PERCENTILE);
+		createEAttribute(perfValueEClass, PERF_VALUE__KTH_MOMENT);
+
+		activeResourceEClass = createEClass(ACTIVE_RESOURCE);
+		createEAttribute(activeResourceEClass, ACTIVE_RESOURCE__OP_TIME);
+
+		passiveResourceEClass = createEClass(PASSIVE_RESOURCE);
+		createEReference(passiveResourceEClass, PASSIVE_RESOURCE__COMPONENT);
+
+		externalOperationEClass = createEClass(EXTERNAL_OPERATION);
+		createEAttribute(externalOperationEClass, EXTERNAL_OPERATION__DESCRIPTION);
+
+		processingResourceEClass = createEClass(PROCESSING_RESOURCE);
+		createEAttribute(processingResourceEClass, PROCESSING_RESOURCE__KIND);
+		createEReference(processingResourceEClass, PROCESSING_RESOURCE__COMPONENTS);
+
+		demandEClass = createEClass(DEMAND);
+		createEAttribute(demandEClass, DEMAND__QUANTITY);
+		createEReference(demandEClass, DEMAND__RESOURCE);
+
 		// Create enums
 		deviceKindEEnum = createEEnum(DEVICE_KIND);
+		perfValueKindEEnum = createEEnum(PERF_VALUE_KIND);
+		perfValueSourceEEnum = createEEnum(PERF_VALUE_SOURCE);
+		arrivalProcessEEnum = createEEnum(ARRIVAL_PROCESS);
+		perfAttributeEEnum = createEEnum(PERF_ATTRIBUTE);
 	}
 
 	/**
@@ -336,27 +838,78 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 		MapPackageImpl theMapPackage = (MapPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
+		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 
 		// Add supertypes to classes
-		deviceEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
 		timestampEClass.getESuperTypes().add(theMapPackage.getPathNode());
 		responseTimeReqEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		workloadEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		openWorkloadEClass.getESuperTypes().add(this.getWorkload());
+		closedWorkloadEClass.getESuperTypes().add(this.getWorkload());
+		perfMeasureEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+		activeResourceEClass.getESuperTypes().add(this.getGeneralResource());
+		passiveResourceEClass.getESuperTypes().add(this.getGeneralResource());
+		externalOperationEClass.getESuperTypes().add(this.getActiveResource());
+		processingResourceEClass.getESuperTypes().add(this.getActiveResource());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(deviceEClass, Device.class, "Device", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDevice_DeviceKind(), this.getDeviceKind(), "deviceKind", null, 0, 1, Device.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDevice_Optime(), ecorePackage.getEString(), "optime", null, 0, 1, Device.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(timestampEClass, Timestamp.class, "Timestamp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTimestamp_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, Timestamp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTimestamp_Targets(), this.getResponseTimeReq(), this.getResponseTimeReq_Ts1(), "targets", null, 0, -1, Timestamp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTimestamp_Sources(), this.getResponseTimeReq(), this.getResponseTimeReq_Ts2(), "sources", null, 0, -1, Timestamp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(responseTimeReqEClass, ResponseTimeReq.class, "ResponseTimeReq", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResponseTimeReq_ResponseTime(), ecorePackage.getEString(), "responseTime", null, 0, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getResponseTimeReq_Percentage(), ecorePackage.getEString(), "percentage", null, 0, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getResponseTimeReq_Ts1(), this.getTimestamp(), null, "ts1", null, 1, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getResponseTimeReq_Ts2(), this.getTimestamp(), null, "ts2", null, 1, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponseTimeReq_Ts1(), this.getTimestamp(), this.getTimestamp_Targets(), "ts1", null, 1, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponseTimeReq_Ts2(), this.getTimestamp(), this.getTimestamp_Sources(), "ts2", null, 1, 1, ResponseTimeReq.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(workloadEClass, Workload.class, "Workload", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWorkload_ArrivalPattern(), this.getArrivalProcess(), "arrivalPattern", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkload_ArrivalParam1(), ecorePackage.getEDouble(), "arrivalParam1", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkload_ArrivalParam2(), ecorePackage.getEDouble(), "arrivalParam2", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkload_ExternalDelay(), ecorePackage.getEDouble(), "externalDelay", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkload_Value(), ecorePackage.getEDouble(), "value", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWorkload_CoeffVarSeq(), ecorePackage.getEDouble(), "coeffVarSeq", null, 0, 1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getWorkload_RespTime(), this.getPerfMeasure(), this.getPerfMeasure_Duration(), "respTime", null, 0, -1, Workload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(openWorkloadEClass, OpenWorkload.class, "OpenWorkload", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(closedWorkloadEClass, ClosedWorkload.class, "ClosedWorkload", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getClosedWorkload_Population(), ecorePackage.getEInt(), "population", null, 0, 1, ClosedWorkload.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(generalResourceEClass, GeneralResource.class, "GeneralResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getGeneralResource_Demands(), this.getDemand(), this.getDemand_Resource(), "demands", null, 0, -1, GeneralResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(perfMeasureEClass, PerfMeasure.class, "PerfMeasure", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPerfMeasure_Measure(), this.getPerfAttribute(), "measure", "Delay", 0, 1, PerfMeasure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerfMeasure_PerfValues(), this.getPerfValue(), null, "perfValues", null, 0, -1, PerfMeasure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerfMeasure_Duration(), this.getWorkload(), this.getWorkload_RespTime(), "duration", null, 0, 1, PerfMeasure.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(perfValueEClass, PerfValue.class, "PerfValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPerfValue_Value(), ecorePackage.getEString(), "value", null, 0, 1, PerfValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerfValue_Kind(), this.getPerfValueKind(), "kind", "Unknown", 0, 1, PerfValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerfValue_Source(), this.getPerfValueSource(), "source", "Unknown", 0, 1, PerfValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerfValue_Percentile(), ecorePackage.getEString(), "percentile", null, 0, 1, PerfValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerfValue_KthMoment(), ecorePackage.getEString(), "kthMoment", null, 0, 1, PerfValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(activeResourceEClass, ActiveResource.class, "ActiveResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getActiveResource_OpTime(), ecorePackage.getEDouble(), "opTime", "0.0", 0, 1, ActiveResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(passiveResourceEClass, PassiveResource.class, "PassiveResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPassiveResource_Component(), theUrncorePackage.getComponentElement(), theUrncorePackage.getComponentElement_Resource(), "component", null, 0, 1, PassiveResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(externalOperationEClass, ExternalOperation.class, "ExternalOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getExternalOperation_Description(), ecorePackage.getEString(), "description", null, 0, 1, ExternalOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(processingResourceEClass, ProcessingResource.class, "ProcessingResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProcessingResource_Kind(), this.getDeviceKind(), "kind", null, 0, 1, ProcessingResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessingResource_Components(), theUrncorePackage.getComponentRegular(), theUrncorePackage.getComponentRegular_Host(), "components", null, 0, -1, ProcessingResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(demandEClass, Demand.class, "Demand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDemand_Quantity(), ecorePackage.getEDouble(), "quantity", null, 0, 1, Demand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDemand_Resource(), this.getGeneralResource(), this.getGeneralResource_Demands(), "resource", null, 1, 1, Demand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(deviceKindEEnum, DeviceKind.class, "DeviceKind");
@@ -364,6 +917,36 @@ public class PerformancePackageImpl extends EPackageImpl implements PerformanceP
 		addEEnumLiteral(deviceKindEEnum, DeviceKind.DISK_LITERAL);
 		addEEnumLiteral(deviceKindEEnum, DeviceKind.DSP_LITERAL);
 		addEEnumLiteral(deviceKindEEnum, DeviceKind.OTHER_LITERAL);
+
+		initEEnum(perfValueKindEEnum, PerfValueKind.class, "PerfValueKind");
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.MEAN_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.VARIANCE_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.PERCENTILE_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.MOMENT_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.MIN_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.MAX_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.DISTRIBUTION_LITERAL);
+		addEEnumLiteral(perfValueKindEEnum, PerfValueKind.UNKNOWN_LITERAL);
+
+		initEEnum(perfValueSourceEEnum, PerfValueSource.class, "PerfValueSource");
+		addEEnumLiteral(perfValueSourceEEnum, PerfValueSource.REQUIRED_LITERAL);
+		addEEnumLiteral(perfValueSourceEEnum, PerfValueSource.ASSUMED_LITERAL);
+		addEEnumLiteral(perfValueSourceEEnum, PerfValueSource.PREDICTED_LITERAL);
+		addEEnumLiteral(perfValueSourceEEnum, PerfValueSource.MEASURED_LITERAL);
+		addEEnumLiteral(perfValueSourceEEnum, PerfValueSource.UNKNOWN_LITERAL);
+
+		initEEnum(arrivalProcessEEnum, ArrivalProcess.class, "ArrivalProcess");
+		addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.POISSON_PDF_LITERAL);
+		addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.PERIODIC_LITERAL);
+		addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.UNIFORM_LITERAL);
+		addEEnumLiteral(arrivalProcessEEnum, ArrivalProcess.PHASE_TYPE_LITERAL);
+
+		initEEnum(perfAttributeEEnum, PerfAttribute.class, "PerfAttribute");
+		addEEnumLiteral(perfAttributeEEnum, PerfAttribute.DELAY_LITERAL);
+		addEEnumLiteral(perfAttributeEEnum, PerfAttribute.THROUGHPUT_LITERAL);
+		addEEnumLiteral(perfAttributeEEnum, PerfAttribute.UTILIZATION_LITERAL);
+		addEEnumLiteral(perfAttributeEEnum, PerfAttribute.INTERVAL_LITERAL);
+		addEEnumLiteral(perfAttributeEEnum, PerfAttribute.WAIT_LITERAL);
 	}
 
 } //PerformancePackageImpl

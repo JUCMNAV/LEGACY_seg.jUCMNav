@@ -21,17 +21,18 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -57,6 +58,7 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.emf.UcmModelManager;
 import ucm.map.MapFactory;
@@ -104,7 +106,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 		super.configureGraphicalViewer();
 		
 		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer)getGraphicalViewer();
-		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart();
+		ConnectionOnBottomRootEditPart root = new ConnectionOnBottomRootEditPart();
 		
 		List zoomLevels = new ArrayList(3);
 		zoomLevels.add(ZoomManager.FIT_ALL);
@@ -121,11 +123,30 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 		
 		viewer.setRootEditPart(root);
 		
+		ContextMenuProvider provider = new UcmContextMenuProvider(viewer, getActionRegistry());
+		viewer.setContextMenu(provider);
+		getSite().registerContextMenu("org.eclipse.gef.examples.logic.editor.contextmenu", //$NON-NLS-1$
+				provider, viewer);
+		
 		viewer.setEditPartFactory(new GraphicalEditPartFactory(ucm));
 		viewer.setKeyHandler(
 				new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
+	 */
+	protected void createActions() {
+		super.createActions();
+		
+		ActionRegistry registry = getActionRegistry();
+		IAction action;
+		
+		action = new CutPathAction(this);
+		action.setText("Cut path");
+		registry.registerAction(action);
+		getSelectionActions().add(action.getId());
+	}
 	/**
      * This class listens to changes to the file system in the workspace, and
      * makes changes accordingly.

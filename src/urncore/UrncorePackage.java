@@ -198,22 +198,13 @@ public interface UrncorePackage extends EPackage {
 	int RESPONSIBILITY__DESCRIPTION = UC_MMODEL_ELEMENT__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Exec Sequence</b></em>' attribute.
+	 * The feature id for the '<em><b>Demands</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY__EXEC_SEQUENCE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Devices</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESPONSIBILITY__DEVICES = UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+	int RESPONSIBILITY__DEMANDS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Resp Refs</b></em>' reference list.
@@ -222,7 +213,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY__RESP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+	int RESPONSIBILITY__RESP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the the '<em>Responsibility</em>' class.
@@ -231,7 +222,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESPONSIBILITY_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int RESPONSIBILITY_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link urncore.impl.ComponentElementImpl <em>Component Element</em>}' class.
@@ -307,13 +298,22 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_ELEMENT__INCLUDING_COMPONENT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_ELEMENT__RESOURCE = UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_ELEMENT__COMP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int COMPONENT_ELEMENT__COMP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the the '<em>Component Element</em>' class.
@@ -322,7 +322,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_ELEMENT_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int COMPONENT_ELEMENT_FEATURE_COUNT = UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link urncore.impl.ComponentRegularImpl <em>Component Regular</em>}' class.
@@ -398,6 +398,15 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_REGULAR__INCLUDING_COMPONENT = COMPONENT_ELEMENT__INCLUDING_COMPONENT;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_REGULAR__RESOURCE = COMPONENT_ELEMENT__RESOURCE;
+
+	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -443,13 +452,13 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_REGULAR__INCLUDED_COMPONENT = COMPONENT_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Device</b></em>' reference.
+	 * The feature id for the '<em><b>Host</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_REGULAR__DEVICE = COMPONENT_ELEMENT_FEATURE_COUNT + 4;
+	int COMPONENT_REGULAR__HOST = COMPONENT_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the the '<em>Component Regular</em>' class.
@@ -532,6 +541,15 @@ public interface UrncorePackage extends EPackage {
 	 * @ordered
 	 */
 	int POOL__INCLUDING_COMPONENT = COMPONENT_ELEMENT__INCLUDING_COMPONENT;
+
+	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int POOL__RESOURCE = COMPONENT_ELEMENT__RESOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
@@ -661,6 +679,15 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT__INCLUDING_COMPONENT = COMPONENT_REGULAR__INCLUDING_COMPONENT;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__RESOURCE = COMPONENT_REGULAR__RESOURCE;
+
+	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -706,13 +733,13 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT__INCLUDED_COMPONENT = COMPONENT_REGULAR__INCLUDED_COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Device</b></em>' reference.
+	 * The feature id for the '<em><b>Host</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT__DEVICE = COMPONENT_REGULAR__DEVICE;
+	int COMPONENT__HOST = COMPONENT_REGULAR__HOST;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -806,6 +833,15 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_TYPE__INCLUDING_COMPONENT = COMPONENT_REGULAR__INCLUDING_COMPONENT;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_TYPE__RESOURCE = COMPONENT_REGULAR__RESOURCE;
+
+	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -851,13 +887,13 @@ public interface UrncorePackage extends EPackage {
 	int COMPONENT_TYPE__INCLUDED_COMPONENT = COMPONENT_REGULAR__INCLUDED_COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Device</b></em>' reference.
+	 * The feature id for the '<em><b>Host</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_TYPE__DEVICE = COMPONENT_REGULAR__DEVICE;
+	int COMPONENT_TYPE__HOST = COMPONENT_REGULAR__HOST;
 
 	/**
 	 * The feature id for the '<em><b>Sub Type</b></em>' reference list.
@@ -951,22 +987,13 @@ public interface UrncorePackage extends EPackage {
 	int DYNAMIC_RESPONSIBILITY__DESCRIPTION = RESPONSIBILITY__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Exec Sequence</b></em>' attribute.
+	 * The feature id for the '<em><b>Demands</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DYNAMIC_RESPONSIBILITY__EXEC_SEQUENCE = RESPONSIBILITY__EXEC_SEQUENCE;
-
-	/**
-	 * The feature id for the '<em><b>Devices</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DYNAMIC_RESPONSIBILITY__DEVICES = RESPONSIBILITY__DEVICES;
+	int DYNAMIC_RESPONSIBILITY__DEMANDS = RESPONSIBILITY__DEMANDS;
 
 	/**
 	 * The feature id for the '<em><b>Resp Refs</b></em>' reference list.
@@ -1141,26 +1168,15 @@ public interface UrncorePackage extends EPackage {
 	EClass getResponsibility();
 
 	/**
-	 * Returns the meta object for the attribute '{@link urncore.Responsibility#getExecSequence <em>Exec Sequence</em>}'.
+	 * Returns the meta object for the containment reference list '{@link urncore.Responsibility#getDemands <em>Demands</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Exec Sequence</em>'.
-	 * @see urncore.Responsibility#getExecSequence()
+	 * @return the meta object for the containment reference list '<em>Demands</em>'.
+	 * @see urncore.Responsibility#getDemands()
 	 * @see #getResponsibility()
 	 * @generated
 	 */
-	EAttribute getResponsibility_ExecSequence();
-
-	/**
-	 * Returns the meta object for the reference list '{@link urncore.Responsibility#getDevices <em>Devices</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Devices</em>'.
-	 * @see urncore.Responsibility#getDevices()
-	 * @see #getResponsibility()
-	 * @generated
-	 */
-	EReference getResponsibility_Devices();
+	EReference getResponsibility_Demands();
 
 	/**
 	 * Returns the meta object for the reference list '{@link urncore.Responsibility#getRespRefs <em>Resp Refs</em>}'.
@@ -1228,15 +1244,15 @@ public interface UrncorePackage extends EPackage {
 	EReference getComponentRegular_IncludedComponent();
 
 	/**
-	 * Returns the meta object for the reference '{@link urncore.ComponentRegular#getDevice <em>Device</em>}'.
+	 * Returns the meta object for the reference '{@link urncore.ComponentRegular#getHost <em>Host</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Device</em>'.
-	 * @see urncore.ComponentRegular#getDevice()
+	 * @return the meta object for the reference '<em>Host</em>'.
+	 * @see urncore.ComponentRegular#getHost()
 	 * @see #getComponentRegular()
 	 * @generated
 	 */
-	EReference getComponentRegular_Device();
+	EReference getComponentRegular_Host();
 
 	/**
 	 * Returns the meta object for class '{@link urncore.ComponentElement <em>Component Element</em>}'.
@@ -1280,6 +1296,17 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getComponentElement_IncludingComponent();
+
+	/**
+	 * Returns the meta object for the reference '{@link urncore.ComponentElement#getResource <em>Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resource</em>'.
+	 * @see urncore.ComponentElement#getResource()
+	 * @see #getComponentElement()
+	 * @generated
+	 */
+	EReference getComponentElement_Resource();
 
 	/**
 	 * Returns the meta object for the reference list '{@link urncore.ComponentElement#getCompRefs <em>Comp Refs</em>}'.

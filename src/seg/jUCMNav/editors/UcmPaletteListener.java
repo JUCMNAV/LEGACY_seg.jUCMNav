@@ -27,7 +27,9 @@ public class UcmPaletteListener implements PaletteListener {
 		UcmPaletteRoot root = (UcmPaletteRoot)palette.getPaletteRoot();
 		
 		ToolEntry active = palette.getActiveTool();
-		if(active.getId() == "StartPoint" || active.getId() == "EndPoint")
+		if(active.getId() == "EmptyPoint" || active.getId() == "Responsibility")
+			root.setDefaultEntry(active);
+		else if(active.getId() == "StartPoint" || active.getId() == "EndPoint")
 		{
 			ToolEntry end = root.getEndPointTool();
 			root.setDefaultEntry(end);

@@ -201,30 +201,30 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
+		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
 
 		// Create package meta-data objects
 		theUrncorePackage.createPackageContents();
-		theUrnPackage.createPackageContents();
+		theGrlPackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
-		theGrlPackage.createPackageContents();
+		theUrnPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUrncorePackage.initializePackageContents();
-		theUrnPackage.initializePackageContents();
+		theGrlPackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
-		theGrlPackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUrncorePackage.freeze();
@@ -273,17 +273,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getResponsibility_ExecSequence() {
-		return (EAttribute)responsibilityEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getResponsibility_Devices() {
-		return (EReference)responsibilityEClass.getEStructuralFeatures().get(1);
+	public EReference getResponsibility_Demands() {
+		return (EReference)responsibilityEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -292,7 +283,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * @generated
 	 */
 	public EReference getResponsibility_RespRefs() {
-		return (EReference)responsibilityEClass.getEStructuralFeatures().get(2);
+		return (EReference)responsibilityEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -345,7 +336,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentRegular_Device() {
+	public EReference getComponentRegular_Host() {
 		return (EReference)componentRegularEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -390,8 +381,17 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentElement_CompRefs() {
+	public EReference getComponentElement_Resource() {
 		return (EReference)componentElementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentElement_CompRefs() {
+		return (EReference)componentElementEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -688,8 +688,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		createEReference(urNdefinitionEClass, UR_NDEFINITION__COMPONENTS);
 
 		responsibilityEClass = createEClass(RESPONSIBILITY);
-		createEAttribute(responsibilityEClass, RESPONSIBILITY__EXEC_SEQUENCE);
-		createEReference(responsibilityEClass, RESPONSIBILITY__DEVICES);
+		createEReference(responsibilityEClass, RESPONSIBILITY__DEMANDS);
 		createEReference(responsibilityEClass, RESPONSIBILITY__RESP_REFS);
 
 		componentRegularEClass = createEClass(COMPONENT_REGULAR);
@@ -697,12 +696,13 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		createEAttribute(componentRegularEClass, COMPONENT_REGULAR__PROTECTED);
 		createEAttribute(componentRegularEClass, COMPONENT_REGULAR__SLOT);
 		createEReference(componentRegularEClass, COMPONENT_REGULAR__INCLUDED_COMPONENT);
-		createEReference(componentRegularEClass, COMPONENT_REGULAR__DEVICE);
+		createEReference(componentRegularEClass, COMPONENT_REGULAR__HOST);
 
 		componentElementEClass = createEClass(COMPONENT_ELEMENT);
 		createEAttribute(componentElementEClass, COMPONENT_ELEMENT__LINE_COLOR);
 		createEAttribute(componentElementEClass, COMPONENT_ELEMENT__FILL_COLOR);
 		createEReference(componentElementEClass, COMPONENT_ELEMENT__INCLUDING_COMPONENT);
+		createEReference(componentElementEClass, COMPONENT_ELEMENT__RESOURCE);
 		createEReference(componentElementEClass, COMPONENT_ELEMENT__COMP_REFS);
 
 		poolEClass = createEClass(POOL);
@@ -786,8 +786,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		initEReference(getURNdefinition_Components(), this.getComponentElement(), null, "components", null, 0, -1, URNdefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(responsibilityEClass, Responsibility.class, "Responsibility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getResponsibility_ExecSequence(), ecorePackage.getEString(), "execSequence", null, 0, 1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getResponsibility_Devices(), thePerformancePackage.getDevice(), null, "devices", null, 0, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponsibility_Demands(), thePerformancePackage.getDemand(), null, "demands", null, 0, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResponsibility_RespRefs(), theMapPackage.getRespRef(), theMapPackage.getRespRef_RespDef(), "respRefs", null, 1, -1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentRegularEClass, ComponentRegular.class, "ComponentRegular", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -795,12 +794,13 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		initEAttribute(getComponentRegular_Protected(), ecorePackage.getEBoolean(), "protected", "false", 0, 1, ComponentRegular.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentRegular_Slot(), ecorePackage.getEBoolean(), "slot", "false", 0, 1, ComponentRegular.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentRegular_IncludedComponent(), this.getComponentElement(), this.getComponentElement_IncludingComponent(), "includedComponent", null, 0, -1, ComponentRegular.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getComponentRegular_Device(), thePerformancePackage.getDevice(), null, "device", null, 0, 1, ComponentRegular.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentRegular_Host(), thePerformancePackage.getProcessingResource(), thePerformancePackage.getProcessingResource_Components(), "host", null, 0, 1, ComponentRegular.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentElementEClass, ComponentElement.class, "ComponentElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getComponentElement_LineColor(), ecorePackage.getEString(), "lineColor", null, 0, 1, ComponentElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getComponentElement_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, ComponentElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentElement_IncludingComponent(), this.getComponentRegular(), this.getComponentRegular_IncludedComponent(), "includingComponent", null, 0, 1, ComponentElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getComponentElement_Resource(), thePerformancePackage.getPassiveResource(), thePerformancePackage.getPassiveResource_Component(), "resource", null, 0, 1, ComponentElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getComponentElement_CompRefs(), theMapPackage.getComponentRef(), theMapPackage.getComponentRef_CompDef(), "compRefs", null, 1, -1, ComponentElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(poolEClass, Pool.class, "Pool", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -22,6 +22,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import ucm.performance.PassiveResource;
+import ucm.performance.PerformancePackage;
+
 import urncore.ComponentRegular;
 import urncore.ComponentType;
 import urncore.DynamicResponsibility;
@@ -251,6 +254,10 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 					if (includingComponent != null)
 						msgs = ((InternalEObject)includingComponent).eInverseRemove(this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, ComponentRegular.class, msgs);
 					return basicSetIncludingComponent((ComponentRegular)otherEnd, msgs);
+				case UrncorePackage.POOL__RESOURCE:
+					if (resource != null)
+						msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+					return basicSetResource((PassiveResource)otherEnd, msgs);
 				case UrncorePackage.POOL__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
 				case UrncorePackage.POOL__COMPONENT_TYPE:
@@ -280,6 +287,8 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.POOL__INCLUDING_COMPONENT:
 					return basicSetIncludingComponent(null, msgs);
+				case UrncorePackage.POOL__RESOURCE:
+					return basicSetResource(null, msgs);
 				case UrncorePackage.POOL__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.POOL__COMPONENT_TYPE:
@@ -315,6 +324,9 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 			case UrncorePackage.POOL__INCLUDING_COMPONENT:
 				if (resolve) return getIncludingComponent();
 				return basicGetIncludingComponent();
+			case UrncorePackage.POOL__RESOURCE:
+				if (resolve) return getResource();
+				return basicGetResource();
 			case UrncorePackage.POOL__COMP_REFS:
 				return getCompRefs();
 			case UrncorePackage.POOL__OF_COMPONENTS:
@@ -358,6 +370,9 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 				return;
 			case UrncorePackage.POOL__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)newValue);
+				return;
+			case UrncorePackage.POOL__RESOURCE:
+				setResource((PassiveResource)newValue);
 				return;
 			case UrncorePackage.POOL__COMP_REFS:
 				getCompRefs().clear();
@@ -408,6 +423,9 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 			case UrncorePackage.POOL__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)null);
 				return;
+			case UrncorePackage.POOL__RESOURCE:
+				setResource((PassiveResource)null);
+				return;
 			case UrncorePackage.POOL__COMP_REFS:
 				getCompRefs().clear();
 				return;
@@ -448,6 +466,8 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
 				return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
 			case UrncorePackage.POOL__INCLUDING_COMPONENT:
 				return includingComponent != null;
+			case UrncorePackage.POOL__RESOURCE:
+				return resource != null;
 			case UrncorePackage.POOL__COMP_REFS:
 				return compRefs != null && !compRefs.isEmpty();
 			case UrncorePackage.POOL__OF_COMPONENTS:

@@ -8,7 +8,6 @@ package urncore.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,16 +16,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
 
-import ucm.performance.Device;
+import ucm.performance.Demand;
 
 import urncore.Responsibility;
 import urncore.UrncorePackage;
@@ -38,8 +35,7 @@ import urncore.UrncorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link urncore.impl.ResponsibilityImpl#getExecSequence <em>Exec Sequence</em>}</li>
- *   <li>{@link urncore.impl.ResponsibilityImpl#getDevices <em>Devices</em>}</li>
+ *   <li>{@link urncore.impl.ResponsibilityImpl#getDemands <em>Demands</em>}</li>
  *   <li>{@link urncore.impl.ResponsibilityImpl#getRespRefs <em>Resp Refs</em>}</li>
  * </ul>
  * </p>
@@ -48,34 +44,14 @@ import urncore.UrncorePackage;
  */
 public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsibility {
 	/**
-	 * The default value of the '{@link #getExecSequence() <em>Exec Sequence</em>}' attribute.
+	 * The cached value of the '{@link #getDemands() <em>Demands</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getExecSequence()
+	 * @see #getDemands()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String EXEC_SEQUENCE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExecSequence() <em>Exec Sequence</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExecSequence()
-	 * @generated
-	 * @ordered
-	 */
-	protected String execSequence = EXEC_SEQUENCE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getDevices() <em>Devices</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDevices()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList devices = null;
+	protected EList demands = null;
 
 	/**
 	 * The cached value of the '{@link #getRespRefs() <em>Resp Refs</em>}' reference list.
@@ -110,32 +86,11 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getExecSequence() {
-		return execSequence;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExecSequence(String newExecSequence) {
-		String oldExecSequence = execSequence;
-		execSequence = newExecSequence;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.RESPONSIBILITY__EXEC_SEQUENCE, oldExecSequence, execSequence));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getDevices() {
-		if (devices == null) {
-			devices = new EObjectResolvingEList(Device.class, this, UrncorePackage.RESPONSIBILITY__DEVICES);
+	public EList getDemands() {
+		if (demands == null) {
+			demands = new EObjectContainmentEList(Demand.class, this, UrncorePackage.RESPONSIBILITY__DEMANDS);
 		}
-		return devices;
+		return demands;
 	}
 
 	/**
@@ -181,6 +136,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case UrncorePackage.RESPONSIBILITY__URN_LINKS:
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
+				case UrncorePackage.RESPONSIBILITY__DEMANDS:
+					return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.RESPONSIBILITY__RESP_REFS:
 					return ((InternalEList)getRespRefs()).basicRemove(otherEnd, msgs);
 				default:
@@ -205,10 +162,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 				return getName();
 			case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
 				return getDescription();
-			case UrncorePackage.RESPONSIBILITY__EXEC_SEQUENCE:
-				return getExecSequence();
-			case UrncorePackage.RESPONSIBILITY__DEVICES:
-				return getDevices();
+			case UrncorePackage.RESPONSIBILITY__DEMANDS:
+				return getDemands();
 			case UrncorePackage.RESPONSIBILITY__RESP_REFS:
 				return getRespRefs();
 		}
@@ -235,12 +190,9 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 			case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case UrncorePackage.RESPONSIBILITY__EXEC_SEQUENCE:
-				setExecSequence((String)newValue);
-				return;
-			case UrncorePackage.RESPONSIBILITY__DEVICES:
-				getDevices().clear();
-				getDevices().addAll((Collection)newValue);
+			case UrncorePackage.RESPONSIBILITY__DEMANDS:
+				getDemands().clear();
+				getDemands().addAll((Collection)newValue);
 				return;
 			case UrncorePackage.RESPONSIBILITY__RESP_REFS:
 				getRespRefs().clear();
@@ -269,11 +221,8 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 			case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case UrncorePackage.RESPONSIBILITY__EXEC_SEQUENCE:
-				setExecSequence(EXEC_SEQUENCE_EDEFAULT);
-				return;
-			case UrncorePackage.RESPONSIBILITY__DEVICES:
-				getDevices().clear();
+			case UrncorePackage.RESPONSIBILITY__DEMANDS:
+				getDemands().clear();
 				return;
 			case UrncorePackage.RESPONSIBILITY__RESP_REFS:
 				getRespRefs().clear();
@@ -297,29 +246,12 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case UrncorePackage.RESPONSIBILITY__EXEC_SEQUENCE:
-				return EXEC_SEQUENCE_EDEFAULT == null ? execSequence != null : !EXEC_SEQUENCE_EDEFAULT.equals(execSequence);
-			case UrncorePackage.RESPONSIBILITY__DEVICES:
-				return devices != null && !devices.isEmpty();
+			case UrncorePackage.RESPONSIBILITY__DEMANDS:
+				return demands != null && !demands.isEmpty();
 			case UrncorePackage.RESPONSIBILITY__RESP_REFS:
 				return respRefs != null && !respRefs.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (execSequence: ");
-		result.append(execSequence);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ResponsibilityImpl

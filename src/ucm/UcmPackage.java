@@ -68,22 +68,31 @@ public interface UcmPackage extends EPackage {
 	int UC_MSPEC = 0;
 
 	/**
-	 * The feature id for the '<em><b>Devices</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UC_MSPEC__DEVICES = 0;
-
-	/**
 	 * The feature id for the '<em><b>Resptimereq</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__RESPTIMEREQ = 1;
+	int UC_MSPEC__RESPTIMEREQ = 0;
+
+	/**
+	 * The feature id for the '<em><b>Perf Measures</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UC_MSPEC__PERF_MEASURES = 1;
+
+	/**
+	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UC_MSPEC__RESOURCES = 2;
 
 	/**
 	 * The feature id for the '<em><b>Maps</b></em>' containment reference list.
@@ -92,7 +101,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__MAPS = 2;
+	int UC_MSPEC__MAPS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Root</b></em>' reference list.
@@ -101,7 +110,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__ROOT = 3;
+	int UC_MSPEC__ROOT = 4;
 
 	/**
 	 * The feature id for the '<em><b>Scenario Groups</b></em>' containment reference list.
@@ -110,7 +119,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__SCENARIO_GROUPS = 4;
+	int UC_MSPEC__SCENARIO_GROUPS = 5;
 
 	/**
 	 * The feature id for the '<em><b>Variables</b></em>' containment reference list.
@@ -119,7 +128,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__VARIABLES = 5;
+	int UC_MSPEC__VARIABLES = 6;
 
 	/**
 	 * The feature id for the '<em><b>Scenario Defs</b></em>' containment reference list.
@@ -128,7 +137,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__SCENARIO_DEFS = 6;
+	int UC_MSPEC__SCENARIO_DEFS = 7;
 
 	/**
 	 * The number of structural features of the the '<em>UC Mspec</em>' class.
@@ -137,7 +146,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC_FEATURE_COUNT = 7;
+	int UC_MSPEC_FEATURE_COUNT = 8;
 
 
 	/**
@@ -151,17 +160,6 @@ public interface UcmPackage extends EPackage {
 	EClass getUCMspec();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getDevices <em>Devices</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Devices</em>'.
-	 * @see ucm.UCMspec#getDevices()
-	 * @see #getUCMspec()
-	 * @generated
-	 */
-	EReference getUCMspec_Devices();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getResptimereq <em>Resptimereq</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -171,6 +169,28 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUCMspec_Resptimereq();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getPerfMeasures <em>Perf Measures</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Perf Measures</em>'.
+	 * @see ucm.UCMspec#getPerfMeasures()
+	 * @see #getUCMspec()
+	 * @generated
+	 */
+	EReference getUCMspec_PerfMeasures();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getResources <em>Resources</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Resources</em>'.
+	 * @see ucm.UCMspec#getResources()
+	 * @see #getUCMspec()
+	 * @generated
+	 */
+	EReference getUCMspec_Resources();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getMaps <em>Maps</em>}'.

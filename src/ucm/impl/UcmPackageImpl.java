@@ -111,30 +111,30 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
+		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
 		MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
 
 		// Create package meta-data objects
 		theUcmPackage.createPackageContents();
-		theUrnPackage.createPackageContents();
+		theGrlPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theMapPackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
-		theGrlPackage.createPackageContents();
+		theUrnPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUcmPackage.initializePackageContents();
-		theUrnPackage.initializePackageContents();
+		theGrlPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theMapPackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
-		theGrlPackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUcmPackage.freeze();
@@ -156,7 +156,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_Devices() {
+	public EReference getUCMspec_Resptimereq() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -165,7 +165,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_Resptimereq() {
+	public EReference getUCMspec_PerfMeasures() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -174,7 +174,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_Maps() {
+	public EReference getUCMspec_Resources() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -183,7 +183,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_Root() {
+	public EReference getUCMspec_Maps() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -192,7 +192,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_ScenarioGroups() {
+	public EReference getUCMspec_Root() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -201,7 +201,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_Variables() {
+	public EReference getUCMspec_ScenarioGroups() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -210,8 +210,17 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUCMspec_ScenarioDefs() {
+	public EReference getUCMspec_Variables() {
 		return (EReference)ucMspecEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUCMspec_ScenarioDefs() {
+		return (EReference)ucMspecEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -243,8 +252,9 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 
 		// Create classes and their features
 		ucMspecEClass = createEClass(UC_MSPEC);
-		createEReference(ucMspecEClass, UC_MSPEC__DEVICES);
 		createEReference(ucMspecEClass, UC_MSPEC__RESPTIMEREQ);
+		createEReference(ucMspecEClass, UC_MSPEC__PERF_MEASURES);
+		createEReference(ucMspecEClass, UC_MSPEC__RESOURCES);
 		createEReference(ucMspecEClass, UC_MSPEC__MAPS);
 		createEReference(ucMspecEClass, UC_MSPEC__ROOT);
 		createEReference(ucMspecEClass, UC_MSPEC__SCENARIO_GROUPS);
@@ -289,8 +299,9 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ucMspecEClass, UCMspec.class, "UCMspec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUCMspec_Devices(), thePerformancePackage.getDevice(), null, "devices", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_Resptimereq(), thePerformancePackage.getResponseTimeReq(), null, "resptimereq", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUCMspec_PerfMeasures(), thePerformancePackage.getPerfMeasure(), null, "perfMeasures", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUCMspec_Resources(), thePerformancePackage.getGeneralResource(), null, "resources", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_Maps(), theMapPackage.getMap(), null, "maps", null, 1, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_Root(), theMapPackage.getMap(), null, "root", null, 1, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_ScenarioGroups(), theScenarioPackage.getScenarioGroup(), null, "scenarioGroups", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -27,7 +27,8 @@ import ucm.UcmPackage;
 
 import ucm.map.Map;
 
-import ucm.performance.Device;
+import ucm.performance.GeneralResource;
+import ucm.performance.PerfMeasure;
 import ucm.performance.ResponseTimeReq;
 
 import ucm.scenario.ScenarioDef;
@@ -41,8 +42,9 @@ import ucm.scenario.Variable;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ucm.impl.UCMspecImpl#getDevices <em>Devices</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getResptimereq <em>Resptimereq</em>}</li>
+ *   <li>{@link ucm.impl.UCMspecImpl#getPerfMeasures <em>Perf Measures</em>}</li>
+ *   <li>{@link ucm.impl.UCMspecImpl#getResources <em>Resources</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getMaps <em>Maps</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getRoot <em>Root</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getScenarioGroups <em>Scenario Groups</em>}</li>
@@ -55,16 +57,6 @@ import ucm.scenario.Variable;
  */
 public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	/**
-	 * The cached value of the '{@link #getDevices() <em>Devices</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDevices()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList devices = null;
-
-	/**
 	 * The cached value of the '{@link #getResptimereq() <em>Resptimereq</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -73,6 +65,26 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 * @ordered
 	 */
 	protected EList resptimereq = null;
+
+	/**
+	 * The cached value of the '{@link #getPerfMeasures() <em>Perf Measures</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPerfMeasures()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList perfMeasures = null;
+
+	/**
+	 * The cached value of the '{@link #getResources() <em>Resources</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResources()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList resources = null;
 
 	/**
 	 * The cached value of the '{@link #getMaps() <em>Maps</em>}' containment reference list.
@@ -147,11 +159,11 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getDevices() {
-		if (devices == null) {
-			devices = new EObjectContainmentEList(Device.class, this, UcmPackage.UC_MSPEC__DEVICES);
+	public EList getResptimereq() {
+		if (resptimereq == null) {
+			resptimereq = new EObjectContainmentEList(ResponseTimeReq.class, this, UcmPackage.UC_MSPEC__RESPTIMEREQ);
 		}
-		return devices;
+		return resptimereq;
 	}
 
 	/**
@@ -159,11 +171,23 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getResptimereq() {
-		if (resptimereq == null) {
-			resptimereq = new EObjectContainmentEList(ResponseTimeReq.class, this, UcmPackage.UC_MSPEC__RESPTIMEREQ);
+	public EList getPerfMeasures() {
+		if (perfMeasures == null) {
+			perfMeasures = new EObjectContainmentEList(PerfMeasure.class, this, UcmPackage.UC_MSPEC__PERF_MEASURES);
 		}
-		return resptimereq;
+		return perfMeasures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getResources() {
+		if (resources == null) {
+			resources = new EObjectContainmentEList(GeneralResource.class, this, UcmPackage.UC_MSPEC__RESOURCES);
+		}
+		return resources;
 	}
 
 	/**
@@ -234,10 +258,12 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case UcmPackage.UC_MSPEC__DEVICES:
-					return ((InternalEList)getDevices()).basicRemove(otherEnd, msgs);
 				case UcmPackage.UC_MSPEC__RESPTIMEREQ:
 					return ((InternalEList)getResptimereq()).basicRemove(otherEnd, msgs);
+				case UcmPackage.UC_MSPEC__PERF_MEASURES:
+					return ((InternalEList)getPerfMeasures()).basicRemove(otherEnd, msgs);
+				case UcmPackage.UC_MSPEC__RESOURCES:
+					return ((InternalEList)getResources()).basicRemove(otherEnd, msgs);
 				case UcmPackage.UC_MSPEC__MAPS:
 					return ((InternalEList)getMaps()).basicRemove(otherEnd, msgs);
 				case UcmPackage.UC_MSPEC__SCENARIO_GROUPS:
@@ -260,10 +286,12 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UC_MSPEC__DEVICES:
-				return getDevices();
 			case UcmPackage.UC_MSPEC__RESPTIMEREQ:
 				return getResptimereq();
+			case UcmPackage.UC_MSPEC__PERF_MEASURES:
+				return getPerfMeasures();
+			case UcmPackage.UC_MSPEC__RESOURCES:
+				return getResources();
 			case UcmPackage.UC_MSPEC__MAPS:
 				return getMaps();
 			case UcmPackage.UC_MSPEC__ROOT:
@@ -285,13 +313,17 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UC_MSPEC__DEVICES:
-				getDevices().clear();
-				getDevices().addAll((Collection)newValue);
-				return;
 			case UcmPackage.UC_MSPEC__RESPTIMEREQ:
 				getResptimereq().clear();
 				getResptimereq().addAll((Collection)newValue);
+				return;
+			case UcmPackage.UC_MSPEC__PERF_MEASURES:
+				getPerfMeasures().clear();
+				getPerfMeasures().addAll((Collection)newValue);
+				return;
+			case UcmPackage.UC_MSPEC__RESOURCES:
+				getResources().clear();
+				getResources().addAll((Collection)newValue);
 				return;
 			case UcmPackage.UC_MSPEC__MAPS:
 				getMaps().clear();
@@ -324,11 +356,14 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UC_MSPEC__DEVICES:
-				getDevices().clear();
-				return;
 			case UcmPackage.UC_MSPEC__RESPTIMEREQ:
 				getResptimereq().clear();
+				return;
+			case UcmPackage.UC_MSPEC__PERF_MEASURES:
+				getPerfMeasures().clear();
+				return;
+			case UcmPackage.UC_MSPEC__RESOURCES:
+				getResources().clear();
 				return;
 			case UcmPackage.UC_MSPEC__MAPS:
 				getMaps().clear();
@@ -356,10 +391,12 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UC_MSPEC__DEVICES:
-				return devices != null && !devices.isEmpty();
 			case UcmPackage.UC_MSPEC__RESPTIMEREQ:
 				return resptimereq != null && !resptimereq.isEmpty();
+			case UcmPackage.UC_MSPEC__PERF_MEASURES:
+				return perfMeasures != null && !perfMeasures.isEmpty();
+			case UcmPackage.UC_MSPEC__RESOURCES:
+				return resources != null && !resources.isEmpty();
 			case UcmPackage.UC_MSPEC__MAPS:
 				return maps != null && !maps.isEmpty();
 			case UcmPackage.UC_MSPEC__ROOT:

@@ -4,7 +4,9 @@
  */
 package seg.jUCMNav.editpolicies;
 
-import org.eclipse.gef.editpolicies.SelectionEditPolicy;
+import java.util.List;
+
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
@@ -15,7 +17,7 @@ import seg.jUCMNav.figures.PathNodeFigure;
  * 
  * @author Etienne Tremblay
  */
-public class PathNodeNonRezizableEditPolicy extends SelectionEditPolicy {
+public class PathNodeNonRezizableEditPolicy extends NonResizableEditPolicy {
 
 	/**
 	 * 
@@ -24,6 +26,7 @@ public class PathNodeNonRezizableEditPolicy extends SelectionEditPolicy {
 		super();
 	}
 	
+
 	private PathNodeFigure getFigure(){
 		return (PathNodeFigure)((PathNodeEditPart)this.getHost()).getFigure();
 	}
@@ -42,5 +45,19 @@ public class PathNodeNonRezizableEditPolicy extends SelectionEditPolicy {
 	protected void showSelection() {
 		getFigure().setBackgroundColor(new Color(null, 0, 102, 204));
 		getFigure().setSelected(true);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editpolicies.SelectionHandlesEditPolicy#createSelectionHandles()
+	 */
+	protected List createSelectionHandles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	protected void addSelectionHandles() {
+		
 	}
 }

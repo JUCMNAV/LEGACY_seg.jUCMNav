@@ -25,6 +25,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
 
+import ucm.performance.PassiveResource;
+import ucm.performance.PerformancePackage;
+
 import urncore.ComponentElement;
 import urncore.ComponentRegular;
 import urncore.UrncorePackage;
@@ -39,6 +42,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ComponentElementImpl#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link urncore.impl.ComponentElementImpl#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link urncore.impl.ComponentElementImpl#getIncludingComponent <em>Including Component</em>}</li>
+ *   <li>{@link urncore.impl.ComponentElementImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link urncore.impl.ComponentElementImpl#getCompRefs <em>Comp Refs</em>}</li>
  * </ul>
  * </p>
@@ -95,6 +99,16 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 	 * @ordered
 	 */
 	protected ComponentRegular includingComponent = null;
+
+	/**
+	 * The cached value of the '{@link #getResource() <em>Resource</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected PassiveResource resource = null;
 
 	/**
 	 * The cached value of the '{@link #getCompRefs() <em>Comp Refs</em>}' reference list.
@@ -231,6 +245,66 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public PassiveResource getResource() {
+		if (resource != null && resource.eIsProxy()) {
+			PassiveResource oldResource = resource;
+			resource = (PassiveResource)eResolveProxy((InternalEObject)resource);
+			if (resource != oldResource) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, oldResource, resource));
+			}
+		}
+		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PassiveResource basicGetResource() {
+		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetResource(PassiveResource newResource, NotificationChain msgs) {
+		PassiveResource oldResource = resource;
+		resource = newResource;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, oldResource, newResource);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResource(PassiveResource newResource) {
+		if (newResource != resource) {
+			NotificationChain msgs = null;
+			if (resource != null)
+				msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+			if (newResource != null)
+				msgs = ((InternalEObject)newResource).eInverseAdd(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+			msgs = basicSetResource(newResource, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_ELEMENT__RESOURCE, newResource, newResource));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList getCompRefs() {
 		if (compRefs == null) {
 			compRefs = new EObjectWithInverseResolvingEList(ComponentRef.class, this, UrncorePackage.COMPONENT_ELEMENT__COMP_REFS, MapPackage.COMPONENT_REF__COMP_DEF);
@@ -252,6 +326,10 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 					if (includingComponent != null)
 						msgs = ((InternalEObject)includingComponent).eInverseRemove(this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, ComponentRegular.class, msgs);
 					return basicSetIncludingComponent((ComponentRegular)otherEnd, msgs);
+				case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+					if (resource != null)
+						msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+					return basicSetResource((PassiveResource)otherEnd, msgs);
 				case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
 				default:
@@ -275,6 +353,8 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT:
 					return basicSetIncludingComponent(null, msgs);
+				case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+					return basicSetResource(null, msgs);
 				case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
 				default:
@@ -306,6 +386,9 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 			case UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT:
 				if (resolve) return getIncludingComponent();
 				return basicGetIncludingComponent();
+			case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+				if (resolve) return getResource();
+				return basicGetResource();
 			case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 				return getCompRefs();
 		}
@@ -340,6 +423,9 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 				return;
 			case UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)newValue);
+				return;
+			case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+				setResource((PassiveResource)newValue);
 				return;
 			case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 				getCompRefs().clear();
@@ -377,6 +463,9 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 			case UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)null);
 				return;
+			case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+				setResource((PassiveResource)null);
+				return;
 			case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 				getCompRefs().clear();
 				return;
@@ -405,6 +494,8 @@ public abstract class ComponentElementImpl extends UCMmodelElementImpl implement
 				return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
 			case UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT:
 				return includingComponent != null;
+			case UrncorePackage.COMPONENT_ELEMENT__RESOURCE:
+				return resource != null;
 			case UrncorePackage.COMPONENT_ELEMENT__COMP_REFS:
 				return compRefs != null && !compRefs.isEmpty();
 		}

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.ComponentRef;
@@ -37,7 +38,6 @@ import urncore.impl.UCMmodelElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ucm.map.impl.MapImpl#getTitle <em>Title</em>}</li>
  *   <li>{@link ucm.map.impl.MapImpl#getPathGraph <em>Path Graph</em>}</li>
  *   <li>{@link ucm.map.impl.MapImpl#getCompRefs <em>Comp Refs</em>}</li>
  *   <li>{@link ucm.map.impl.MapImpl#getParentStub <em>Parent Stub</em>}</li>
@@ -47,26 +47,6 @@ import urncore.impl.UCMmodelElementImpl;
  * @generated
  */
 public class MapImpl extends UCMmodelElementImpl implements Map {
-	/**
-	 * The default value of the '{@link #getTitle() <em>Title</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTitle()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TITLE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTitle()
-	 * @generated
-	 * @ordered
-	 */
-	protected String title = TITLE_EDEFAULT;
-
 	/**
 	 * The cached value of the '{@link #getPathGraph() <em>Path Graph</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -88,14 +68,14 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 	protected EList compRefs = null;
 
 	/**
-	 * The cached value of the '{@link #getParentStub() <em>Parent Stub</em>}' reference.
+	 * The cached value of the '{@link #getParentStub() <em>Parent Stub</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getParentStub()
 	 * @generated
 	 * @ordered
 	 */
-	protected PluginBinding parentStub = null;
+	protected EList parentStub = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,27 +93,6 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 	 */
 	protected EClass eStaticClass() {
 		return MapPackage.eINSTANCE.getMap();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTitle(String newTitle) {
-		String oldTitle = title;
-		title = newTitle;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.MAP__TITLE, oldTitle, title));
 	}
 
 	/**
@@ -196,59 +155,11 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public PluginBinding getParentStub() {
-		if (parentStub != null && parentStub.eIsProxy()) {
-			PluginBinding oldParentStub = parentStub;
-			parentStub = (PluginBinding)eResolveProxy((InternalEObject)parentStub);
-			if (parentStub != oldParentStub) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.MAP__PARENT_STUB, oldParentStub, parentStub));
-			}
+	public EList getParentStub() {
+		if (parentStub == null) {
+			parentStub = new EObjectWithInverseResolvingEList(PluginBinding.class, this, MapPackage.MAP__PARENT_STUB, MapPackage.PLUGIN_BINDING__PLUGIN);
 		}
 		return parentStub;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public PluginBinding basicGetParentStub() {
-		return parentStub;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetParentStub(PluginBinding newParentStub, NotificationChain msgs) {
-		PluginBinding oldParentStub = parentStub;
-		parentStub = newParentStub;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.MAP__PARENT_STUB, oldParentStub, newParentStub);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParentStub(PluginBinding newParentStub) {
-		if (newParentStub != parentStub) {
-			NotificationChain msgs = null;
-			if (parentStub != null)
-				msgs = ((InternalEObject)parentStub).eInverseRemove(this, MapPackage.PLUGIN_BINDING__PLUGIN, PluginBinding.class, msgs);
-			if (newParentStub != null)
-				msgs = ((InternalEObject)newParentStub).eInverseAdd(this, MapPackage.PLUGIN_BINDING__PLUGIN, PluginBinding.class, msgs);
-			msgs = basicSetParentStub(newParentStub, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.MAP__PARENT_STUB, newParentStub, newParentStub));
 	}
 
 	/**
@@ -262,9 +173,7 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				case MapPackage.MAP__URN_LINKS:
 					return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
 				case MapPackage.MAP__PARENT_STUB:
-					if (parentStub != null)
-						msgs = ((InternalEObject)parentStub).eInverseRemove(this, MapPackage.PLUGIN_BINDING__PLUGIN, PluginBinding.class, msgs);
-					return basicSetParentStub((PluginBinding)otherEnd, msgs);
+					return ((InternalEList)getParentStub()).basicAdd(otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -289,7 +198,7 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				case MapPackage.MAP__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
 				case MapPackage.MAP__PARENT_STUB:
-					return basicSetParentStub(null, msgs);
+					return ((InternalEList)getParentStub()).basicRemove(otherEnd, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -312,15 +221,12 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				return getName();
 			case MapPackage.MAP__DESCRIPTION:
 				return getDescription();
-			case MapPackage.MAP__TITLE:
-				return getTitle();
 			case MapPackage.MAP__PATH_GRAPH:
 				return getPathGraph();
 			case MapPackage.MAP__COMP_REFS:
 				return getCompRefs();
 			case MapPackage.MAP__PARENT_STUB:
-				if (resolve) return getParentStub();
-				return basicGetParentStub();
+				return getParentStub();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -345,9 +251,6 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 			case MapPackage.MAP__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case MapPackage.MAP__TITLE:
-				setTitle((String)newValue);
-				return;
 			case MapPackage.MAP__PATH_GRAPH:
 				setPathGraph((PathGraph)newValue);
 				return;
@@ -356,7 +259,8 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				getCompRefs().addAll((Collection)newValue);
 				return;
 			case MapPackage.MAP__PARENT_STUB:
-				setParentStub((PluginBinding)newValue);
+				getParentStub().clear();
+				getParentStub().addAll((Collection)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -381,9 +285,6 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 			case MapPackage.MAP__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case MapPackage.MAP__TITLE:
-				setTitle(TITLE_EDEFAULT);
-				return;
 			case MapPackage.MAP__PATH_GRAPH:
 				setPathGraph((PathGraph)null);
 				return;
@@ -391,7 +292,7 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				getCompRefs().clear();
 				return;
 			case MapPackage.MAP__PARENT_STUB:
-				setParentStub((PluginBinding)null);
+				getParentStub().clear();
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -412,31 +313,14 @@ public class MapImpl extends UCMmodelElementImpl implements Map {
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case MapPackage.MAP__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case MapPackage.MAP__TITLE:
-				return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
 			case MapPackage.MAP__PATH_GRAPH:
 				return pathGraph != null;
 			case MapPackage.MAP__COMP_REFS:
 				return compRefs != null && !compRefs.isEmpty();
 			case MapPackage.MAP__PARENT_STUB:
-				return parentStub != null;
+				return parentStub != null && !parentStub.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (title: ");
-		result.append(title);
-		result.append(')');
-		return result.toString();
 	}
 
 } //MapImpl

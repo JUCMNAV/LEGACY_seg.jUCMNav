@@ -1614,13 +1614,22 @@ public interface MapPackage extends EPackage {
 	int START_POINT__COMP_REF = PATH_NODE__COMP_REF;
 
 	/**
+	 * The feature id for the '<em><b>Workload</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__WORKLOAD = PATH_NODE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>In Bindings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 0;
+	int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Precondition</b></em>' containment reference.
@@ -1629,7 +1638,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 1;
+	int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the the '<em>Start Point</em>' class.
@@ -1638,7 +1647,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int START_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 2;
+	int START_POINT_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.MapImpl <em>Map</em>}' class.
@@ -1687,22 +1696,13 @@ public interface MapPackage extends EPackage {
 	int MAP__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
 
 	/**
-	 * The feature id for the '<em><b>Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MAP__TITLE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Path Graph</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAP__PATH_GRAPH = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+	int MAP__PATH_GRAPH = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Comp Refs</b></em>' containment reference list.
@@ -1711,16 +1711,16 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAP__COMP_REFS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+	int MAP__COMP_REFS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Parent Stub</b></em>' reference.
+	 * The feature id for the '<em><b>Parent Stub</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int MAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the the '<em>Map</em>' class.
@@ -1729,7 +1729,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int MAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.PathGraphImpl <em>Path Graph</em>}' class.
@@ -2286,13 +2286,22 @@ public interface MapPackage extends EPackage {
 	int TIMER__TIMEOUT_CONDITION = WAITING_PLACE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Timeout Path</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TIMER__TIMEOUT_PATH = WAITING_PLACE_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Timer Var</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TIMER__TIMER_VAR = WAITING_PLACE_FEATURE_COUNT + 1;
+	int TIMER__TIMER_VAR = WAITING_PLACE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the the '<em>Timer</em>' class.
@@ -2301,7 +2310,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TIMER_FEATURE_COUNT = WAITING_PLACE_FEATURE_COUNT + 2;
+	int TIMER_FEATURE_COUNT = WAITING_PLACE_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.AndForkImpl <em>And Fork</em>}' class.
@@ -3329,6 +3338,17 @@ public interface MapPackage extends EPackage {
 	EClass getStartPoint();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Workload</em>'.
+	 * @see ucm.map.StartPoint#getWorkload()
+	 * @see #getStartPoint()
+	 * @generated
+	 */
+	EReference getStartPoint_Workload();
+
+	/**
 	 * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3361,17 +3381,6 @@ public interface MapPackage extends EPackage {
 	EClass getMap();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ucm.map.Map#getTitle <em>Title</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Title</em>'.
-	 * @see ucm.map.Map#getTitle()
-	 * @see #getMap()
-	 * @generated
-	 */
-	EAttribute getMap_Title();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link ucm.map.Map#getPathGraph <em>Path Graph</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3394,10 +3403,10 @@ public interface MapPackage extends EPackage {
 	EReference getMap_CompRefs();
 
 	/**
-	 * Returns the meta object for the reference '{@link ucm.map.Map#getParentStub <em>Parent Stub</em>}'.
+	 * Returns the meta object for the reference list '{@link ucm.map.Map#getParentStub <em>Parent Stub</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Parent Stub</em>'.
+	 * @return the meta object for the reference list '<em>Parent Stub</em>'.
 	 * @see ucm.map.Map#getParentStub()
 	 * @see #getMap()
 	 * @generated
@@ -3728,6 +3737,17 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTimer_TimeoutCondition();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.map.Timer#getTimeoutPath <em>Timeout Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Timeout Path</em>'.
+	 * @see ucm.map.Timer#getTimeoutPath()
+	 * @see #getTimer()
+	 * @generated
+	 */
+	EReference getTimer_TimeoutPath();
 
 	/**
 	 * Returns the meta object for the reference '{@link ucm.map.Timer#getTimerVar <em>Timer Var</em>}'.

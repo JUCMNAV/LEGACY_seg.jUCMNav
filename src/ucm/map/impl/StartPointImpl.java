@@ -28,6 +28,8 @@ import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.StartPoint;
 
+import ucm.performance.Workload;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Start Point</b></em>'.
@@ -35,6 +37,7 @@ import ucm.map.StartPoint;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link ucm.map.impl.StartPointImpl#getWorkload <em>Workload</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getPrecondition <em>Precondition</em>}</li>
  * </ul>
@@ -43,6 +46,16 @@ import ucm.map.StartPoint;
  * @generated
  */
 public class StartPointImpl extends PathNodeImpl implements StartPoint {
+	/**
+	 * The cached value of the '{@link #getWorkload() <em>Workload</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWorkload()
+	 * @generated
+	 * @ordered
+	 */
+	protected Workload workload = null;
+
 	/**
 	 * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -79,6 +92,49 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 	 */
 	protected EClass eStaticClass() {
 		return MapPackage.eINSTANCE.getStartPoint();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Workload getWorkload() {
+		return workload;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetWorkload(Workload newWorkload, NotificationChain msgs) {
+		Workload oldWorkload = workload;
+		workload = newWorkload;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, oldWorkload, newWorkload);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWorkload(Workload newWorkload) {
+		if (newWorkload != workload) {
+			NotificationChain msgs = null;
+			if (workload != null)
+				msgs = ((InternalEObject)workload).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__WORKLOAD, null, msgs);
+			if (newWorkload != null)
+				msgs = ((InternalEObject)newWorkload).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__WORKLOAD, null, msgs);
+			msgs = basicSetWorkload(newWorkload, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.START_POINT__WORKLOAD, newWorkload, newWorkload));
 	}
 
 	/**
@@ -181,6 +237,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 					return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
 				case MapPackage.START_POINT__COMP_REF:
 					return basicSetCompRef(null, msgs);
+				case MapPackage.START_POINT__WORKLOAD:
+					return basicSetWorkload(null, msgs);
 				case MapPackage.START_POINT__IN_BINDINGS:
 					return ((InternalEList)getInBindings()).basicRemove(otherEnd, msgs);
 				case MapPackage.START_POINT__PRECONDITION:
@@ -222,6 +280,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 			case MapPackage.START_POINT__COMP_REF:
 				if (resolve) return getCompRef();
 				return basicGetCompRef();
+			case MapPackage.START_POINT__WORKLOAD:
+				return getWorkload();
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return getInBindings();
 			case MapPackage.START_POINT__PRECONDITION:
@@ -272,6 +332,9 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 				return;
 			case MapPackage.START_POINT__COMP_REF:
 				setCompRef((ComponentRef)newValue);
+				return;
+			case MapPackage.START_POINT__WORKLOAD:
+				setWorkload((Workload)newValue);
 				return;
 			case MapPackage.START_POINT__IN_BINDINGS:
 				getInBindings().clear();
@@ -324,6 +387,9 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 			case MapPackage.START_POINT__COMP_REF:
 				setCompRef((ComponentRef)null);
 				return;
+			case MapPackage.START_POINT__WORKLOAD:
+				setWorkload((Workload)null);
+				return;
 			case MapPackage.START_POINT__IN_BINDINGS:
 				getInBindings().clear();
 				return;
@@ -363,6 +429,8 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 				return pred != null && !pred.isEmpty();
 			case MapPackage.START_POINT__COMP_REF:
 				return compRef != null;
+			case MapPackage.START_POINT__WORKLOAD:
+				return workload != null;
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return inBindings != null && !inBindings.isEmpty();
 			case MapPackage.START_POINT__PRECONDITION:

@@ -304,30 +304,30 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
+		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
 		UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
 		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-		GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+		UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
 
 		// Create package meta-data objects
 		theMapPackage.createPackageContents();
-		theUrnPackage.createPackageContents();
+		theGrlPackage.createPackageContents();
 		theUrncorePackage.createPackageContents();
 		theUcmPackage.createPackageContents();
 		thePerformancePackage.createPackageContents();
 		theScenarioPackage.createPackageContents();
-		theGrlPackage.createPackageContents();
+		theUrnPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMapPackage.initializePackageContents();
-		theUrnPackage.initializePackageContents();
+		theGrlPackage.initializePackageContents();
 		theUrncorePackage.initializePackageContents();
 		theUcmPackage.initializePackageContents();
 		thePerformancePackage.initializePackageContents();
 		theScenarioPackage.initializePackageContents();
-		theGrlPackage.initializePackageContents();
+		theUrnPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMapPackage.freeze();
@@ -736,7 +736,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStartPoint_InBindings() {
+	public EReference getStartPoint_Workload() {
 		return (EReference)startPointEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -745,8 +745,17 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStartPoint_Precondition() {
+	public EReference getStartPoint_InBindings() {
 		return (EReference)startPointEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStartPoint_Precondition() {
+		return (EReference)startPointEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -763,17 +772,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getMap_Title() {
-		return (EAttribute)mapEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getMap_PathGraph() {
-		return (EReference)mapEClass.getEStructuralFeatures().get(1);
+		return (EReference)mapEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -782,7 +782,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * @generated
 	 */
 	public EReference getMap_CompRefs() {
-		return (EReference)mapEClass.getEStructuralFeatures().get(2);
+		return (EReference)mapEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -791,7 +791,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * @generated
 	 */
 	public EReference getMap_ParentStub() {
-		return (EReference)mapEClass.getEStructuralFeatures().get(3);
+		return (EReference)mapEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1069,8 +1069,17 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTimer_TimerVar() {
+	public EReference getTimer_TimeoutPath() {
 		return (EReference)timerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTimer_TimerVar() {
+		return (EReference)timerEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1266,11 +1275,11 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		createEReference(endPointEClass, END_POINT__POSTCONDITION);
 
 		startPointEClass = createEClass(START_POINT);
+		createEReference(startPointEClass, START_POINT__WORKLOAD);
 		createEReference(startPointEClass, START_POINT__IN_BINDINGS);
 		createEReference(startPointEClass, START_POINT__PRECONDITION);
 
 		mapEClass = createEClass(MAP);
-		createEAttribute(mapEClass, MAP__TITLE);
 		createEReference(mapEClass, MAP__PATH_GRAPH);
 		createEReference(mapEClass, MAP__COMP_REFS);
 		createEReference(mapEClass, MAP__PARENT_STUB);
@@ -1309,6 +1318,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		timerEClass = createEClass(TIMER);
 		createEReference(timerEClass, TIMER__TIMEOUT_CONDITION);
+		createEReference(timerEClass, TIMER__TIMEOUT_PATH);
 		createEReference(timerEClass, TIMER__TIMER_VAR);
 
 		andForkEClass = createEClass(AND_FORK);
@@ -1354,6 +1364,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		// Obtain other dependent packages
 		UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
+		PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
 		ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 
 		// Add supertypes to classes
@@ -1435,14 +1446,14 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEReference(getEndPoint_Postcondition(), this.getCondition(), null, "postcondition", null, 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStartPoint_Workload(), thePerformancePackage.getWorkload(), null, "workload", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStartPoint_InBindings(), this.getInBinding(), this.getInBinding_StartPoint(), "inBindings", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStartPoint_Precondition(), this.getCondition(), null, "precondition", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mapEClass, Map.class, "Map", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getMap_Title(), ecorePackage.getEString(), "title", null, 0, 1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMap_PathGraph(), this.getPathGraph(), null, "pathGraph", null, 0, 1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getMap_CompRefs(), this.getComponentRef(), null, "compRefs", null, 0, -1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getMap_ParentStub(), this.getPluginBinding(), this.getPluginBinding_Plugin(), "parentStub", null, 0, 1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMap_ParentStub(), this.getPluginBinding(), this.getPluginBinding_Plugin(), "parentStub", null, 0, -1, Map.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pathGraphEClass, PathGraph.class, "PathGraph", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPathGraph_PathNodes(), this.getPathNode(), null, "pathNodes", null, 0, -1, PathGraph.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1478,6 +1489,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		initEClass(timerEClass, Timer.class, "Timer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTimer_TimeoutCondition(), this.getCondition(), null, "timeoutCondition", null, 1, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTimer_TimeoutPath(), this.getNodeConnection(), null, "timeoutPath", null, 0, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTimer_TimerVar(), theScenarioPackage.getVariable(), null, "timerVar", null, 1, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(andForkEClass, AndFork.class, "AndFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

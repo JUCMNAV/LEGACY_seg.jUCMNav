@@ -16,8 +16,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link urncore.Responsibility#getExecSequence <em>Exec Sequence</em>}</li>
- *   <li>{@link urncore.Responsibility#getDevices <em>Devices</em>}</li>
+ *   <li>{@link urncore.Responsibility#getDemands <em>Demands</em>}</li>
  *   <li>{@link urncore.Responsibility#getRespRefs <em>Resp Refs</em>}</li>
  * </ul>
  * </p>
@@ -28,46 +27,20 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Responsibility extends UCMmodelElement {
 	/**
-	 * Returns the value of the '<em><b>Exec Sequence</b></em>' attribute.
+	 * Returns the value of the '<em><b>Demands</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.performance.Demand}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Exec Sequence</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Demands</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Exec Sequence</em>' attribute.
-	 * @see #setExecSequence(String)
-	 * @see urncore.UrncorePackage#getResponsibility_ExecSequence()
-	 * @model 
+	 * @return the value of the '<em>Demands</em>' containment reference list.
+	 * @see urncore.UrncorePackage#getResponsibility_Demands()
+	 * @model type="ucm.performance.Demand" containment="true"
 	 * @generated
 	 */
-	String getExecSequence();
-
-	/**
-	 * Sets the value of the '{@link urncore.Responsibility#getExecSequence <em>Exec Sequence</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Exec Sequence</em>' attribute.
-	 * @see #getExecSequence()
-	 * @generated
-	 */
-	void setExecSequence(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Devices</b></em>' reference list.
-	 * The list contents are of type {@link ucm.performance.Device}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Devices</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Devices</em>' reference list.
-	 * @see urncore.UrncorePackage#getResponsibility_Devices()
-	 * @model type="ucm.performance.Device"
-	 * @generated
-	 */
-	EList getDevices();
+	EList getDemands();
 
 	/**
 	 * Returns the value of the '<em><b>Resp Refs</b></em>' reference list.

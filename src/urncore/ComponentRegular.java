@@ -8,7 +8,7 @@ package urncore;
 
 import org.eclipse.emf.common.util.EList;
 
-import ucm.performance.Device;
+import ucm.performance.ProcessingResource;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +26,7 @@ import ucm.performance.Device;
  *   <li>{@link urncore.ComponentRegular#isProtected <em>Protected</em>}</li>
  *   <li>{@link urncore.ComponentRegular#isSlot <em>Slot</em>}</li>
  *   <li>{@link urncore.ComponentRegular#getIncludedComponent <em>Included Component</em>}</li>
- *   <li>{@link urncore.ComponentRegular#getDevice <em>Device</em>}</li>
+ *   <li>{@link urncore.ComponentRegular#getHost <em>Host</em>}</li>
  * </ul>
  * </p>
  *
@@ -137,29 +137,31 @@ public interface ComponentRegular extends ComponentElement {
 	EList getIncludedComponent();
 
 	/**
-	 * Returns the value of the '<em><b>Device</b></em>' reference.
+	 * Returns the value of the '<em><b>Host</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.ProcessingResource#getComponents <em>Components</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Device</em>' reference isn't clear,
+	 * If the meaning of the '<em>Host</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Device</em>' reference.
-	 * @see #setDevice(Device)
-	 * @see urncore.UrncorePackage#getComponentRegular_Device()
-	 * @model 
+	 * @return the value of the '<em>Host</em>' reference.
+	 * @see #setHost(ProcessingResource)
+	 * @see urncore.UrncorePackage#getComponentRegular_Host()
+	 * @see ucm.performance.ProcessingResource#getComponents
+	 * @model opposite="components"
 	 * @generated
 	 */
-	Device getDevice();
+	ProcessingResource getHost();
 
 	/**
-	 * Sets the value of the '{@link urncore.ComponentRegular#getDevice <em>Device</em>}' reference.
+	 * Sets the value of the '{@link urncore.ComponentRegular#getHost <em>Host</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Device</em>' reference.
-	 * @see #getDevice()
+	 * @param value the new value of the '<em>Host</em>' reference.
+	 * @see #getHost()
 	 * @generated
 	 */
-	void setDevice(Device value);
+	void setHost(ProcessingResource value);
 
 } // ComponentRegular

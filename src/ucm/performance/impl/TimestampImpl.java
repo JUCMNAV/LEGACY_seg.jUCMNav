@@ -11,12 +11,15 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.ComponentRef;
@@ -25,6 +28,7 @@ import ucm.map.MapPackage;
 import ucm.map.impl.PathNodeImpl;
 
 import ucm.performance.PerformancePackage;
+import ucm.performance.ResponseTimeReq;
 import ucm.performance.Timestamp;
 
 /**
@@ -35,6 +39,8 @@ import ucm.performance.Timestamp;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.performance.impl.TimestampImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link ucm.performance.impl.TimestampImpl#getTargets <em>Targets</em>}</li>
+ *   <li>{@link ucm.performance.impl.TimestampImpl#getSources <em>Sources</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,6 +66,26 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 	 * @ordered
 	 */
 	protected String orientation = ORIENTATION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getTargets() <em>Targets</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTargets()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList targets = null;
+
+	/**
+	 * The cached value of the '{@link #getSources() <em>Sources</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSources()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList sources = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -105,6 +131,30 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getTargets() {
+		if (targets == null) {
+			targets = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__TARGETS, PerformancePackage.RESPONSE_TIME_REQ__TS1);
+		}
+		return targets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getSources() {
+		if (sources == null) {
+			sources = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__SOURCES, PerformancePackage.RESPONSE_TIME_REQ__TS2);
+		}
+		return sources;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -118,6 +168,10 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 					if (compRef != null)
 						msgs = ((InternalEObject)compRef).eInverseRemove(this, MapPackage.COMPONENT_REF__PATH_NODES, ComponentRef.class, msgs);
 					return basicSetCompRef((ComponentRef)otherEnd, msgs);
+				case PerformancePackage.TIMESTAMP__TARGETS:
+					return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
+				case PerformancePackage.TIMESTAMP__SOURCES:
+					return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -143,6 +197,10 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 					return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
 				case PerformancePackage.TIMESTAMP__COMP_REF:
 					return basicSetCompRef(null, msgs);
+				case PerformancePackage.TIMESTAMP__TARGETS:
+					return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
+				case PerformancePackage.TIMESTAMP__SOURCES:
+					return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -182,6 +240,10 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 				return basicGetCompRef();
 			case PerformancePackage.TIMESTAMP__ORIENTATION:
 				return getOrientation();
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return getTargets();
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return getSources();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -232,6 +294,14 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 			case PerformancePackage.TIMESTAMP__ORIENTATION:
 				setOrientation((String)newValue);
 				return;
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				getTargets().clear();
+				getTargets().addAll((Collection)newValue);
+				return;
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				getSources().clear();
+				getSources().addAll((Collection)newValue);
+				return;
 		}
 		eDynamicSet(eFeature, newValue);
 	}
@@ -279,6 +349,12 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 			case PerformancePackage.TIMESTAMP__ORIENTATION:
 				setOrientation(ORIENTATION_EDEFAULT);
 				return;
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				getTargets().clear();
+				return;
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				getSources().clear();
+				return;
 		}
 		eDynamicUnset(eFeature);
 	}
@@ -314,6 +390,10 @@ public class TimestampImpl extends PathNodeImpl implements Timestamp {
 				return compRef != null;
 			case PerformancePackage.TIMESTAMP__ORIENTATION:
 				return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return targets != null && !targets.isEmpty();
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return sources != null && !sources.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

@@ -18,7 +18,6 @@ import urncore.UCMmodelElement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link ucm.map.Map#getTitle <em>Title</em>}</li>
  *   <li>{@link ucm.map.Map#getPathGraph <em>Path Graph</em>}</li>
  *   <li>{@link ucm.map.Map#getCompRefs <em>Comp Refs</em>}</li>
  *   <li>{@link ucm.map.Map#getParentStub <em>Parent Stub</em>}</li>
@@ -30,32 +29,6 @@ import urncore.UCMmodelElement;
  * @generated
  */
 public interface Map extends UCMmodelElement {
-	/**
-	 * Returns the value of the '<em><b>Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Title</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Title</em>' attribute.
-	 * @see #setTitle(String)
-	 * @see ucm.map.MapPackage#getMap_Title()
-	 * @model 
-	 * @generated
-	 */
-	String getTitle();
-
-	/**
-	 * Sets the value of the '{@link ucm.map.Map#getTitle <em>Title</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Title</em>' attribute.
-	 * @see #getTitle()
-	 * @generated
-	 */
-	void setTitle(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Path Graph</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -99,31 +72,21 @@ public interface Map extends UCMmodelElement {
 	EList getCompRefs();
 
 	/**
-	 * Returns the value of the '<em><b>Parent Stub</b></em>' reference.
+	 * Returns the value of the '<em><b>Parent Stub</b></em>' reference list.
+	 * The list contents are of type {@link ucm.map.PluginBinding}.
 	 * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getPlugin <em>Plugin</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Parent Stub</em>' reference isn't clear,
+	 * If the meaning of the '<em>Parent Stub</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parent Stub</em>' reference.
-	 * @see #setParentStub(PluginBinding)
+	 * @return the value of the '<em>Parent Stub</em>' reference list.
 	 * @see ucm.map.MapPackage#getMap_ParentStub()
 	 * @see ucm.map.PluginBinding#getPlugin
-	 * @model opposite="plugin"
+	 * @model type="ucm.map.PluginBinding" opposite="plugin"
 	 * @generated
 	 */
-	PluginBinding getParentStub();
-
-	/**
-	 * Sets the value of the '{@link ucm.map.Map#getParentStub <em>Parent Stub</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Parent Stub</em>' reference.
-	 * @see #getParentStub()
-	 * @generated
-	 */
-	void setParentStub(PluginBinding value);
+	EList getParentStub();
 
 } // Map

@@ -6,6 +6,8 @@
  */
 package ucm.performance;
 
+import org.eclipse.emf.common.util.EList;
+
 import ucm.map.PathNode;
 
 /**
@@ -17,6 +19,8 @@ import ucm.map.PathNode;
  * The following features are supported:
  * <ul>
  *   <li>{@link ucm.performance.Timestamp#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link ucm.performance.Timestamp#getTargets <em>Targets</em>}</li>
+ *   <li>{@link ucm.performance.Timestamp#getSources <em>Sources</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,5 +54,41 @@ public interface Timestamp extends PathNode {
 	 * @generated
 	 */
 	void setOrientation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Targets</b></em>' reference list.
+	 * The list contents are of type {@link ucm.performance.ResponseTimeReq}.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.ResponseTimeReq#getTs1 <em>Ts1</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Targets</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Targets</em>' reference list.
+	 * @see ucm.performance.PerformancePackage#getTimestamp_Targets()
+	 * @see ucm.performance.ResponseTimeReq#getTs1
+	 * @model type="ucm.performance.ResponseTimeReq" opposite="ts1"
+	 * @generated
+	 */
+	EList getTargets();
+
+	/**
+	 * Returns the value of the '<em><b>Sources</b></em>' reference list.
+	 * The list contents are of type {@link ucm.performance.ResponseTimeReq}.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.ResponseTimeReq#getTs2 <em>Ts2</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sources</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sources</em>' reference list.
+	 * @see ucm.performance.PerformancePackage#getTimestamp_Sources()
+	 * @see ucm.performance.ResponseTimeReq#getTs2
+	 * @model type="ucm.performance.ResponseTimeReq" opposite="ts2"
+	 * @generated
+	 */
+	EList getSources();
 
 } // Timestamp

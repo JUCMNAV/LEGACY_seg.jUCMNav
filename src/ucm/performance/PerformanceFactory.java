@@ -26,15 +26,6 @@ public interface PerformanceFactory extends EFactory {
 	PerformanceFactory eINSTANCE = new ucm.performance.impl.PerformanceFactoryImpl();
 
 	/**
-	 * Returns a new object of class '<em>Device</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Device</em>'.
-	 * @generated
-	 */
-	Device createDevice();
-
-	/**
 	 * Returns a new object of class '<em>Timestamp</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -51,6 +42,96 @@ public interface PerformanceFactory extends EFactory {
 	 * @generated
 	 */
 	ResponseTimeReq createResponseTimeReq();
+
+	/**
+	 * Returns a new object of class '<em>Open Workload</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Open Workload</em>'.
+	 * @generated
+	 */
+	OpenWorkload createOpenWorkload();
+
+	/**
+	 * Returns a new object of class '<em>Closed Workload</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Closed Workload</em>'.
+	 * @generated
+	 */
+	ClosedWorkload createClosedWorkload();
+
+	/**
+	 * Returns a new object of class '<em>General Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>General Resource</em>'.
+	 * @generated
+	 */
+	GeneralResource createGeneralResource();
+
+	/**
+	 * Returns a new object of class '<em>Perf Measure</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Perf Measure</em>'.
+	 * @generated
+	 */
+	PerfMeasure createPerfMeasure();
+
+	/**
+	 * Returns a new object of class '<em>Perf Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Perf Value</em>'.
+	 * @generated
+	 */
+	PerfValue createPerfValue();
+
+	/**
+	 * Returns a new object of class '<em>Active Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Active Resource</em>'.
+	 * @generated
+	 */
+	ActiveResource createActiveResource();
+
+	/**
+	 * Returns a new object of class '<em>Passive Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Passive Resource</em>'.
+	 * @generated
+	 */
+	PassiveResource createPassiveResource();
+
+	/**
+	 * Returns a new object of class '<em>External Operation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>External Operation</em>'.
+	 * @generated
+	 */
+	ExternalOperation createExternalOperation();
+
+	/**
+	 * Returns a new object of class '<em>Processing Resource</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Processing Resource</em>'.
+	 * @generated
+	 */
+	ProcessingResource createProcessingResource();
+
+	/**
+	 * Returns a new object of class '<em>Demand</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Demand</em>'.
+	 * @generated
+	 */
+	Demand createDemand();
 
 	/**
 	 * Returns the package supported by this factory.

@@ -44,6 +44,10 @@ public class CreatePathCommand extends Command {
 	
 	public void execute() {
 		MapFactory factory = MapFactory.eINSTANCE;
+		
+		if(start == null)
+			start = factory.createStartPoint();
+		
 		// start-----node-----end
 		start.setX(position.x);
 		start.setY(position.y);
@@ -67,13 +71,13 @@ public class CreatePathCommand extends Command {
 		redo();
 	}
 	
-	public void redo() {
+	public void redo() {		
+		diagram.getNodeConnections().add(link1);
+		diagram.getNodeConnections().add(link2);
+
 		diagram.getPathNodes().add(start);
 		diagram.getPathNodes().add(node);
 		diagram.getPathNodes().add(end);
-		
-		diagram.getNodeConnections().add(link1);
-		diagram.getNodeConnections().add(link2);
 	}
 	
 	public void undo() {		

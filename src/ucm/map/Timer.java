@@ -17,6 +17,7 @@ import ucm.scenario.Variable;
  * The following features are supported:
  * <ul>
  *   <li>{@link ucm.map.Timer#getTimeoutCondition <em>Timeout Condition</em>}</li>
+ *   <li>{@link ucm.map.Timer#getTimeoutPath <em>Timeout Path</em>}</li>
  *   <li>{@link ucm.map.Timer#getTimerVar <em>Timer Var</em>}</li>
  * </ul>
  * </p>
@@ -51,6 +52,32 @@ public interface Timer extends WaitingPlace {
 	 * @generated
 	 */
 	void setTimeoutCondition(Condition value);
+
+	/**
+	 * Returns the value of the '<em><b>Timeout Path</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Timeout Path</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Timeout Path</em>' reference.
+	 * @see #setTimeoutPath(NodeConnection)
+	 * @see ucm.map.MapPackage#getTimer_TimeoutPath()
+	 * @model 
+	 * @generated
+	 */
+	NodeConnection getTimeoutPath();
+
+	/**
+	 * Sets the value of the '{@link ucm.map.Timer#getTimeoutPath <em>Timeout Path</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Timeout Path</em>' reference.
+	 * @see #getTimeoutPath()
+	 * @generated
+	 */
+	void setTimeoutPath(NodeConnection value);
 
 	/**
 	 * Returns the value of the '<em><b>Timer Var</b></em>' reference.

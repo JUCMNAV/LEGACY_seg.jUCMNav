@@ -8,6 +8,8 @@ package urncore;
 
 import org.eclipse.emf.common.util.EList;
 
+import ucm.performance.PassiveResource;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Component Element</b></em>'.
@@ -23,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link urncore.ComponentElement#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link urncore.ComponentElement#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link urncore.ComponentElement#getIncludingComponent <em>Including Component</em>}</li>
+ *   <li>{@link urncore.ComponentElement#getResource <em>Resource</em>}</li>
  *   <li>{@link urncore.ComponentElement#getCompRefs <em>Comp Refs</em>}</li>
  * </ul>
  * </p>
@@ -111,6 +114,34 @@ public interface ComponentElement extends UCMmodelElement {
 	 * @generated
 	 */
 	void setIncludingComponent(ComponentRegular value);
+
+	/**
+	 * Returns the value of the '<em><b>Resource</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.PassiveResource#getComponent <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Resource</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Resource</em>' reference.
+	 * @see #setResource(PassiveResource)
+	 * @see urncore.UrncorePackage#getComponentElement_Resource()
+	 * @see ucm.performance.PassiveResource#getComponent
+	 * @model opposite="component"
+	 * @generated
+	 */
+	PassiveResource getResource();
+
+	/**
+	 * Sets the value of the '{@link urncore.ComponentElement#getResource <em>Resource</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Resource</em>' reference.
+	 * @see #getResource()
+	 * @generated
+	 */
+	void setResource(PassiveResource value);
 
 	/**
 	 * Returns the value of the '<em><b>Comp Refs</b></em>' reference list.

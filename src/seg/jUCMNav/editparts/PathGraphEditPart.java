@@ -11,27 +11,19 @@ import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
-import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.PathGraphXYLayoutEditPolicy;
-import seg.jUCMNav.emf.EObjectPropertySource;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
 import ucm.map.PathGraph;
 
 /**
  * @author Etienne Tremblay
  */
-public class PathGraphEditPart extends AbstractGraphicalEditPart implements Adapter {
-	
-	private IPropertySource propertySource = null;
-	private Notifier target;
+public class PathGraphEditPart extends ModelElementlEditPart {
 	
 	public PathGraphEditPart(PathGraph diagram){
 		setModel(diagram);
@@ -64,37 +56,12 @@ public class PathGraphEditPart extends AbstractGraphicalEditPart implements Adap
 	private PathGraph getDiagram(){
 		return (PathGraph)getModel();
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPart#activate()
-	 */
-	public void activate() {
-		if(!isActive())
-			getDiagram().eAdapters().add(this);
-		super.activate();
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPart#deactivate()
-	 */
-	public void deactivate() {
-		if(isActive())
-			getDiagram().eAdapters().remove(this);
-		super.deactivate();
-	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	protected List getModelChildren() {
 		return getDiagram().getPathNodes();
-	}
-	
-	protected IPropertySource getPropertySource() {
-		if( propertySource == null ) {
-			propertySource = new EObjectPropertySource( getDiagram() );
-		}
-		return propertySource;
-		
 	}
 
 	/* (non-Javadoc)
@@ -120,44 +87,14 @@ public class PathGraphEditPart extends AbstractGraphicalEditPart implements Adap
 	 */
 	protected void registerVisuals() {
 		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		this.getLayer(LayerConstants.PRIMARY_LAYER);
 		cLayer.setConnectionRouter(new BSplineConnectionRouter(getDiagram()));
 		
 		super.registerVisuals();
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-	 */
-	public Notifier getTarget() {
-		return target;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-	 */
-	public void setTarget(Notifier newTarget) {
-		target = newTarget;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-	 */
-	public boolean isAdapterForType(Object type) {
-		return type.equals( getModel().getClass() );
-	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
 	 */
-	public Object getAdapter(Class key) {
-		/* override the default behavior defined in AbstractEditPart
-		*  which would expect the model to be a property sourced. 
-		*  instead the editpart can provide a property source
-		*/
-		if (IPropertySource.class == key) {
-			return getPropertySource();
-		}
-		return super.getAdapter( key );
+	protected void refreshVisuals() {
 	}
-	
 }

@@ -18,8 +18,9 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link ucm.UCMspec#getDevices <em>Devices</em>}</li>
  *   <li>{@link ucm.UCMspec#getResptimereq <em>Resptimereq</em>}</li>
+ *   <li>{@link ucm.UCMspec#getPerfMeasures <em>Perf Measures</em>}</li>
+ *   <li>{@link ucm.UCMspec#getResources <em>Resources</em>}</li>
  *   <li>{@link ucm.UCMspec#getMaps <em>Maps</em>}</li>
  *   <li>{@link ucm.UCMspec#getRoot <em>Root</em>}</li>
  *   <li>{@link ucm.UCMspec#getScenarioGroups <em>Scenario Groups</em>}</li>
@@ -33,22 +34,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface UCMspec extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Devices</b></em>' containment reference list.
-	 * The list contents are of type {@link ucm.performance.Device}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Devices</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Devices</em>' containment reference list.
-	 * @see ucm.UcmPackage#getUCMspec_Devices()
-	 * @model type="ucm.performance.Device" containment="true"
-	 * @generated
-	 */
-	EList getDevices();
-
 	/**
 	 * Returns the value of the '<em><b>Resptimereq</b></em>' containment reference list.
 	 * The list contents are of type {@link ucm.performance.ResponseTimeReq}.
@@ -64,6 +49,38 @@ public interface UCMspec extends EObject {
 	 * @generated
 	 */
 	EList getResptimereq();
+
+	/**
+	 * Returns the value of the '<em><b>Perf Measures</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.performance.PerfMeasure}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Perf Measures</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Perf Measures</em>' containment reference list.
+	 * @see ucm.UcmPackage#getUCMspec_PerfMeasures()
+	 * @model type="ucm.performance.PerfMeasure" containment="true"
+	 * @generated
+	 */
+	EList getPerfMeasures();
+
+	/**
+	 * Returns the value of the '<em><b>Resources</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.performance.GeneralResource}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Resources</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Resources</em>' containment reference list.
+	 * @see ucm.UcmPackage#getUCMspec_Resources()
+	 * @model type="ucm.performance.GeneralResource" containment="true"
+	 * @generated
+	 */
+	EList getResources();
 
 	/**
 	 * Returns the value of the '<em><b>Maps</b></em>' containment reference list.

@@ -74,14 +74,44 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected PerformanceSwitch modelSwitch =
 		new PerformanceSwitch() {
-			public Object caseDevice(Device object) {
-				return createDeviceAdapter();
-			}
 			public Object caseTimestamp(Timestamp object) {
 				return createTimestampAdapter();
 			}
 			public Object caseResponseTimeReq(ResponseTimeReq object) {
 				return createResponseTimeReqAdapter();
+			}
+			public Object caseWorkload(Workload object) {
+				return createWorkloadAdapter();
+			}
+			public Object caseOpenWorkload(OpenWorkload object) {
+				return createOpenWorkloadAdapter();
+			}
+			public Object caseClosedWorkload(ClosedWorkload object) {
+				return createClosedWorkloadAdapter();
+			}
+			public Object caseGeneralResource(GeneralResource object) {
+				return createGeneralResourceAdapter();
+			}
+			public Object casePerfMeasure(PerfMeasure object) {
+				return createPerfMeasureAdapter();
+			}
+			public Object casePerfValue(PerfValue object) {
+				return createPerfValueAdapter();
+			}
+			public Object caseActiveResource(ActiveResource object) {
+				return createActiveResourceAdapter();
+			}
+			public Object casePassiveResource(PassiveResource object) {
+				return createPassiveResourceAdapter();
+			}
+			public Object caseExternalOperation(ExternalOperation object) {
+				return createExternalOperationAdapter();
+			}
+			public Object caseProcessingResource(ProcessingResource object) {
+				return createProcessingResourceAdapter();
+			}
+			public Object caseDemand(Demand object) {
+				return createDemandAdapter();
 			}
 			public Object caseUCMmodelElement(UCMmodelElement object) {
 				return createUCMmodelElementAdapter();
@@ -108,20 +138,6 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.Device <em>Device</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.Device
-	 * @generated
-	 */
-	public Adapter createDeviceAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link ucm.performance.Timestamp <em>Timestamp</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -146,6 +162,160 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResponseTimeReqAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.Workload <em>Workload</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.Workload
+	 * @generated
+	 */
+	public Adapter createWorkloadAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.OpenWorkload <em>Open Workload</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.OpenWorkload
+	 * @generated
+	 */
+	public Adapter createOpenWorkloadAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.ClosedWorkload <em>Closed Workload</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.ClosedWorkload
+	 * @generated
+	 */
+	public Adapter createClosedWorkloadAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.GeneralResource <em>General Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.GeneralResource
+	 * @generated
+	 */
+	public Adapter createGeneralResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.PerfMeasure <em>Perf Measure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.PerfMeasure
+	 * @generated
+	 */
+	public Adapter createPerfMeasureAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.PerfValue <em>Perf Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.PerfValue
+	 * @generated
+	 */
+	public Adapter createPerfValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.ActiveResource <em>Active Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.ActiveResource
+	 * @generated
+	 */
+	public Adapter createActiveResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.PassiveResource <em>Passive Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.PassiveResource
+	 * @generated
+	 */
+	public Adapter createPassiveResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.ExternalOperation <em>External Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.ExternalOperation
+	 * @generated
+	 */
+	public Adapter createExternalOperationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.ProcessingResource <em>Processing Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.ProcessingResource
+	 * @generated
+	 */
+	public Adapter createProcessingResourceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.performance.Demand <em>Demand</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.performance.Demand
+	 * @generated
+	 */
+	public Adapter createDemandAdapter() {
 		return null;
 	}
 

@@ -4,8 +4,6 @@
  */
 package seg.jUCMNav.model.commands;
 
-import java.util.Iterator;
-
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
@@ -53,13 +51,13 @@ public class ExtendPathCommand extends Command {
 		
 		NodeConnection link = (NodeConnection)(diagram.getNodeConnections().get(0));
 		
-		for (Iterator i = diagram.getPathNodes().iterator(); i.hasNext();) {
-			PathNode node = (PathNode) i.next();
-			if(node instanceof EndPoint)
-				lastEnd = (EndPoint)node;
-			else
-				;// TODO Error if we don`t find an and point.
-		}
+//		for (Iterator i = diagram.getPathNodes().iterator(); i.hasNext();) {
+//			PathNode node = (PathNode) i.next();
+//			if(node instanceof EndPoint)
+//				lastEnd = (EndPoint)node;
+//			else
+//				;// TODO Error if we don`t find an and point.
+//		}
 		
 //		lastEnd = ((OutBinding)link.getOutBindings().get(0)).getEndPoint();
 		lastLink = (NodeConnection)lastEnd.getPred().get(0);
@@ -167,5 +165,8 @@ public class ExtendPathCommand extends Command {
 	 */
 	public void setNewEnd(EndPoint newEnd) {
 		this.newEnd = newEnd;
+	}
+	public void setLastEnd(EndPoint lastEnd) {
+		this.lastEnd = lastEnd;
 	}
 }

@@ -193,11 +193,33 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTs1(Timestamp newTs1) {
+	public NotificationChain basicSetTs1(Timestamp newTs1, NotificationChain msgs) {
 		Timestamp oldTs1 = ts1;
 		ts1 = newTs1;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS1, oldTs1, ts1));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS1, oldTs1, newTs1);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTs1(Timestamp newTs1) {
+		if (newTs1 != ts1) {
+			NotificationChain msgs = null;
+			if (ts1 != null)
+				msgs = ((InternalEObject)ts1).eInverseRemove(this, PerformancePackage.TIMESTAMP__TARGETS, Timestamp.class, msgs);
+			if (newTs1 != null)
+				msgs = ((InternalEObject)newTs1).eInverseAdd(this, PerformancePackage.TIMESTAMP__TARGETS, Timestamp.class, msgs);
+			msgs = basicSetTs1(newTs1, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS1, newTs1, newTs1));
 	}
 
 	/**
@@ -231,11 +253,33 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTs2(Timestamp newTs2) {
+	public NotificationChain basicSetTs2(Timestamp newTs2, NotificationChain msgs) {
 		Timestamp oldTs2 = ts2;
 		ts2 = newTs2;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS2, oldTs2, ts2));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS2, oldTs2, newTs2);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTs2(Timestamp newTs2) {
+		if (newTs2 != ts2) {
+			NotificationChain msgs = null;
+			if (ts2 != null)
+				msgs = ((InternalEObject)ts2).eInverseRemove(this, PerformancePackage.TIMESTAMP__SOURCES, Timestamp.class, msgs);
+			if (newTs2 != null)
+				msgs = ((InternalEObject)newTs2).eInverseAdd(this, PerformancePackage.TIMESTAMP__SOURCES, Timestamp.class, msgs);
+			msgs = basicSetTs2(newTs2, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.RESPONSE_TIME_REQ__TS2, newTs2, newTs2));
 	}
 
 	/**
@@ -248,6 +292,14 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
 					return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
+				case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+					if (ts1 != null)
+						msgs = ((InternalEObject)ts1).eInverseRemove(this, PerformancePackage.TIMESTAMP__TARGETS, Timestamp.class, msgs);
+					return basicSetTs1((Timestamp)otherEnd, msgs);
+				case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+					if (ts2 != null)
+						msgs = ((InternalEObject)ts2).eInverseRemove(this, PerformancePackage.TIMESTAMP__SOURCES, Timestamp.class, msgs);
+					return basicSetTs2((Timestamp)otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -267,6 +319,10 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case PerformancePackage.RESPONSE_TIME_REQ__URN_LINKS:
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
+				case PerformancePackage.RESPONSE_TIME_REQ__TS1:
+					return basicSetTs1(null, msgs);
+				case PerformancePackage.RESPONSE_TIME_REQ__TS2:
+					return basicSetTs2(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}

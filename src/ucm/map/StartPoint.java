@@ -8,6 +8,8 @@ package ucm.map;
 
 import org.eclipse.emf.common.util.EList;
 
+import ucm.performance.Workload;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Start Point</b></em>'.
@@ -21,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getPrecondition <em>Precondition</em>}</li>
  * </ul>
@@ -31,6 +34,32 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface StartPoint extends PathNode {
+	/**
+	 * Returns the value of the '<em><b>Workload</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Workload</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Workload</em>' containment reference.
+	 * @see #setWorkload(Workload)
+	 * @see ucm.map.MapPackage#getStartPoint_Workload()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Workload getWorkload();
+
+	/**
+	 * Sets the value of the '{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Workload</em>' containment reference.
+	 * @see #getWorkload()
+	 * @generated
+	 */
+	void setWorkload(Workload value);
+
 	/**
 	 * Returns the value of the '<em><b>In Bindings</b></em>' reference list.
 	 * The list contents are of type {@link ucm.map.InBinding}.

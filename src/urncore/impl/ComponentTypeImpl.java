@@ -22,7 +22,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import ucm.performance.Device;
+import ucm.performance.PassiveResource;
+import ucm.performance.PerformancePackage;
+import ucm.performance.ProcessingResource;
 
 import urncore.Component;
 import urncore.ComponentKind;
@@ -216,10 +218,18 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 					if (includingComponent != null)
 						msgs = ((InternalEObject)includingComponent).eInverseRemove(this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, ComponentRegular.class, msgs);
 					return basicSetIncludingComponent((ComponentRegular)otherEnd, msgs);
+				case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+					if (resource != null)
+						msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+					return basicSetResource((PassiveResource)otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__INCLUDED_COMPONENT:
 					return ((InternalEList)getIncludedComponent()).basicAdd(otherEnd, msgs);
+				case UrncorePackage.COMPONENT_TYPE__HOST:
+					if (host != null)
+						msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+					return basicSetHost((ProcessingResource)otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 					return ((InternalEList)getSubType()).basicAdd(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
@@ -251,10 +261,14 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__INCLUDING_COMPONENT:
 					return basicSetIncludingComponent(null, msgs);
+				case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+					return basicSetResource(null, msgs);
 				case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__INCLUDED_COMPONENT:
 					return ((InternalEList)getIncludedComponent()).basicRemove(otherEnd, msgs);
+				case UrncorePackage.COMPONENT_TYPE__HOST:
+					return basicSetHost(null, msgs);
 				case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 					return ((InternalEList)getSubType()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
@@ -292,6 +306,9 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 			case UrncorePackage.COMPONENT_TYPE__INCLUDING_COMPONENT:
 				if (resolve) return getIncludingComponent();
 				return basicGetIncludingComponent();
+			case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+				if (resolve) return getResource();
+				return basicGetResource();
 			case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 				return getCompRefs();
 			case UrncorePackage.COMPONENT_TYPE__KIND:
@@ -302,9 +319,9 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 				return isSlot() ? Boolean.TRUE : Boolean.FALSE;
 			case UrncorePackage.COMPONENT_TYPE__INCLUDED_COMPONENT:
 				return getIncludedComponent();
-			case UrncorePackage.COMPONENT_TYPE__DEVICE:
-				if (resolve) return getDevice();
-				return basicGetDevice();
+			case UrncorePackage.COMPONENT_TYPE__HOST:
+				if (resolve) return getHost();
+				return basicGetHost();
 			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 				return getSubType();
 			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
@@ -347,6 +364,9 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 			case UrncorePackage.COMPONENT_TYPE__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)newValue);
 				return;
+			case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+				setResource((PassiveResource)newValue);
+				return;
 			case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 				getCompRefs().clear();
 				getCompRefs().addAll((Collection)newValue);
@@ -364,8 +384,8 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 				getIncludedComponent().clear();
 				getIncludedComponent().addAll((Collection)newValue);
 				return;
-			case UrncorePackage.COMPONENT_TYPE__DEVICE:
-				setDevice((Device)newValue);
+			case UrncorePackage.COMPONENT_TYPE__HOST:
+				setHost((ProcessingResource)newValue);
 				return;
 			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 				getSubType().clear();
@@ -414,6 +434,9 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 			case UrncorePackage.COMPONENT_TYPE__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)null);
 				return;
+			case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+				setResource((PassiveResource)null);
+				return;
 			case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 				getCompRefs().clear();
 				return;
@@ -429,8 +452,8 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 			case UrncorePackage.COMPONENT_TYPE__INCLUDED_COMPONENT:
 				getIncludedComponent().clear();
 				return;
-			case UrncorePackage.COMPONENT_TYPE__DEVICE:
-				setDevice((Device)null);
+			case UrncorePackage.COMPONENT_TYPE__HOST:
+				setHost((ProcessingResource)null);
 				return;
 			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 				getSubType().clear();
@@ -469,6 +492,8 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 				return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
 			case UrncorePackage.COMPONENT_TYPE__INCLUDING_COMPONENT:
 				return includingComponent != null;
+			case UrncorePackage.COMPONENT_TYPE__RESOURCE:
+				return resource != null;
 			case UrncorePackage.COMPONENT_TYPE__COMP_REFS:
 				return compRefs != null && !compRefs.isEmpty();
 			case UrncorePackage.COMPONENT_TYPE__KIND:
@@ -479,8 +504,8 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
 				return slot != SLOT_EDEFAULT;
 			case UrncorePackage.COMPONENT_TYPE__INCLUDED_COMPONENT:
 				return includedComponent != null && !includedComponent.isEmpty();
-			case UrncorePackage.COMPONENT_TYPE__DEVICE:
-				return device != null;
+			case UrncorePackage.COMPONENT_TYPE__HOST:
+				return host != null;
 			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
 				return subType != null && !subType.isEmpty();
 			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:

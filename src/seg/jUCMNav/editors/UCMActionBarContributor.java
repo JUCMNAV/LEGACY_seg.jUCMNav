@@ -31,8 +31,9 @@ public class UCMActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 		
-//		addRetargetAction(new MatchWidthRetargetAction());
-//		addRetargetAction(new MatchHeightRetargetAction());
+//		RetargetAction action = new RetargetAction(CutPathAction.CUTPATH, "Cut path");
+//		action.setDescription("Cut Path");
+//		addRetargetAction(action);
 	}
 
 	/**
@@ -61,8 +62,6 @@ public class UCMActionBarContributor extends ActionBarContributor {
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
 	 */
 	public void contributeToMenu(IMenuManager menuManager) {
-//		menuManager.add(getAction(GEFActionConstants.ZOOM_IN));
-//		menuManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		super.contributeToMenu(menuManager);
 	}
 }

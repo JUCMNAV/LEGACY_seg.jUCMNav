@@ -4,8 +4,13 @@
  */
 package seg.jUCMNav.figures.router;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+
+import ucm.map.PathNode;
 
 /**
  * Created 2005-03-02
@@ -19,6 +24,8 @@ import org.eclipse.draw2d.geometry.PointList;
 public class BSpline {
 
 	private int n, n1;
+	
+	private ArrayList nodes = new ArrayList();  // An array of pathnodes composing the spline.
 
 	private double[] Px, Py, // The points (x,y) of the spline
 			dx, dy, // The direction for the spline at each point
@@ -30,57 +37,19 @@ public class BSpline {
 	/**
 	 * We want the user to use the constructor giving a PointList
 	 */
-	private BSpline() {
+	public BSpline() {
 
 	}
-
-	/**
-	 * The main constructor to construct a spline with a point list.
-	 * 
-	 * @param points
-	 *            The points on the curve
-	 */
-	public BSpline(PointList points) {
-		n = points.size();
-		if (n <= 1)
-			return; // We have to have two points or more to make a spline
-		init();
-
-		int i;
-		Point point;
-		// Initialize the points array.
-		for (i = 0; i < n; i++) {
-			point = points.getPoint(i);
-			Px[i] = point.x;
-			Py[i] = point.y;
-		}
-
-		// dx, dy will determine the direction of the first and last connection
-		// of the spline
-		// If the nodes are in a straight line, we want the spline to be
-		// straight too...
-		double x, y;
-		x = Px[1] - Px[0];
-		y = Py[1] - Py[0];
-
-		// Setting it between the first and second point seems to work.
-		dx[0] = x / 2;
-		dy[0] = y / 2;
-
-		x = Px[n - 1] - Px[n - 2];
-		y = Py[n - 1] - Py[n - 2];
-
-		// Same thing for the last point.
-		dx[n - 1] = x / 2;
-		dy[n - 1] = y / 2;
-
+	
+	public BSpline(ArrayList nodes){
+		setPoints(nodes);
 	}
 
 	/**
 	 * Initialize all the arrays and the necessary data for the spline.
 	 *  
 	 */
-	private void init() {
+	private void init(PointList points) {
 		n1 = n + 1;
 		Px = new double[n1];
 		Py = new double[n1];
@@ -109,6 +78,35 @@ public class BSpline {
 			B3[i] = t * t2;
 			t += .04;
 		}
+		
+		int i;
+		Point point;
+		// Initialize the points array.
+		for (i = 0; i < n; i++) {
+			point = points.getPoint(i);
+			Px[i] = point.x;
+			Py[i] = point.y;
+		}
+
+		// dx, dy will determine the direction of the first and last connection
+		// of the spline
+		// If the nodes are in a straight line, we want the spline to be
+		// straight too...
+		double x, y;
+		x = Px[1] - Px[0];
+		y = Py[1] - Py[0];
+
+		// Setting it between the first and second point seems to work.
+		dx[0] = x / 2;
+		dy[0] = y / 2;
+
+		x = Px[n - 1] - Px[n - 2];
+		y = Py[n - 1] - Py[n - 2];
+
+		// Same thing for the last point.
+		dx[n - 1] = x / 2;
+		dy[n - 1] = y / 2;
+
 	}
 
 	/**
@@ -158,6 +156,20 @@ public class BSpline {
 	public void addPointLast(Point p) {
 		addPoint(p, n1);
 	}
+	
+	public void setPoints(ArrayList nodes){
+		n = nodes.size();
+		if (n <= 1)
+			return; // We have to have two points or more to make a spline
+		
+		this.nodes = nodes;
+		PointList points = new PointList();
+		for (Iterator i = nodes.iterator(); i.hasNext();) {
+			PathNode node = (PathNode) i.next();
+			points.addPoint(node.getX(), node.getY());
+		}
+		init(points);
+	}
 
 	/**
 	 * Return the index of the nearest point on the curve from this x,y.
@@ -166,7 +178,7 @@ public class BSpline {
 	 * @param y
 	 * @return The index of the nearest point on the curve for this x,y.
 	 */
-	public int getPoint(int x, int y) {
+	private int getPoint(int x, int y) {
 		int iMin = 0;
 		double Rmin, r2, xi, yi;
 		
@@ -190,9 +202,26 @@ public class BSpline {
 		return iMin;
 	}
 	
-	public Point getPoint(Point point){
+	/**
+	 * @see getPoint(x,y)
+	 * @param point Return the index of the nearest point on the curve for this point.
+	 * @return The index of the nearest point on the curve for this point.
+	 */
+	private Point getPoint(Point point){
 		int index = getPoint(point.x, point.y);
 		return new Point(Px[index], Py[index]);
+	}
+	
+	public int getPoint(PathNode node){
+		return nodes.indexOf(node);
+	}
+	
+	public PathNode getStartPoint(){
+		return (PathNode)nodes.get(0);
+	}
+	
+	public PathNode getEndPoint(){
+		return (PathNode)nodes.get(nodes.size()-1);
 	}
 
 	/**
@@ -214,6 +243,40 @@ public class BSpline {
 		int start = getPoint(p1.x, p1.y);
 		int end = getPoint(p2.x, p2.y);
 
+		PointList points = getPointBetween(start, end);
+
+		return points;
+	}
+	
+	public PointList getPointsBetween(PathNode p1, PathNode p2){
+		findCPoints(); // Find curve points
+		int start = getPoint(p1);
+		int end = getPoint(p2);
+
+		PointList points = getPointBetween(start, end);
+
+		return points;
+	}
+	
+	/**
+	 * Return all the points for drawing the spline.
+	 * 
+	 * @return The point list for the spline.
+	 */
+	public PointList drawSpline() {
+		findCPoints();
+
+		PointList points = getPointBetween(0, n-1);
+		
+		return points;
+	}
+
+	/**
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	private PointList getPointBetween(int start, int end) {
 		int X, Y;
 		int Xo = (int) Px[0];
 		int Yo = (int) Py[0];
@@ -235,7 +298,6 @@ public class BSpline {
 				Yold = Y;
 			}
 		}
-
 		return points;
 	}
 
@@ -257,38 +319,5 @@ public class BSpline {
 			dx[i] = Ax[i] + dx[i + 1] * Bi[i];
 			dy[i] = Ay[i] + dy[i + 1] * Bi[i];
 		}
-	}
-
-	/**
-	 * Return all the points for drawing the spline.
-	 * 
-	 * @return The point list for the spline.
-	 */
-	public PointList drawSpline() {
-		findCPoints();
-
-		int X, Y;
-		int Xo = (int) Px[0];
-		int Yo = (int) Py[0];
-		int Xold = Xo;
-		int Yold = Yo;
-
-		PointList points = new PointList();
-		// For all the points
-		for (int i = 0; i < n - 1; i++) {
-			// Draw 26 points between each nodes.
-			for (int k = 0; k < precision; k++) {
-				X = (int) (Px[i] * B0[k] + (Px[i] + dx[i]) * B1[k]
-						+ (Px[i + 1] - dx[i + 1]) * B2[k] + Px[i + 1] * B3[k]);
-				Y = (int) (Py[i] * B0[k] + (Py[i] + dy[i]) * B1[k]
-						+ (Py[i + 1] - dy[i + 1]) * B2[k] + Py[i + 1] * B3[k]);
-
-				points.addPoint(X, Y);
-
-				Xold = X;
-				Yold = Y;
-			}
-		}
-		return points;
 	}
 }

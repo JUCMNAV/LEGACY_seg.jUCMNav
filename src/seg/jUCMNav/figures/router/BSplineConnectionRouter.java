@@ -7,17 +7,16 @@ package seg.jUCMNav.figures.router;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Stack;
 
 import org.eclipse.draw2d.AbstractRouter;
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
@@ -27,12 +26,19 @@ import ucm.map.StartPoint;
  */
 public class BSplineConnectionRouter extends AbstractRouter {
 	private BSpline spline; // The spline used to return points.
+	
+	private HashMap splines = new HashMap(); // The start point of the spline is the key and the BSpline is the value
+	private HashMap conSplines = new HashMap(); // The connection is the key and the spline is the value.  This hashmap will allow us to know to wich spline a connection bellong to.
 
+	ArrayList starts = new ArrayList();
+	ArrayList ends = new ArrayList();
+	ArrayList forks = new ArrayList();
+	
 	private ArrayList conns = new ArrayList(); // The connections
 
-	private HashMap NodeConnections = new HashMap();
+	private HashMap connections = new HashMap(); // NodeConnection is the key and SplineConnection the value
 	private boolean initializing = true;
-	private boolean generateSpline;
+	private boolean generateSplines = false;
 	
 	private PathGraph diagram;
 
@@ -42,88 +48,104 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	public BSplineConnectionRouter(PathGraph diagram) {
 		super();
 		this.diagram = diagram;
+		findSplines();
 	}
-
+	
 	/**
-	 * This function will return a list of points passing on each nodes of the path.
-	 * This algorithm consider that the connection array is sorted.
-	 * 
-	 * @return
+	 * This function will find all the patterns in our diagram that should be represented by splines.
+	 *
 	 */
-	protected PointList getAllPoints() {
-		PointList list = new PointList();
-		Point start, end;
-
-		int j=0;
-		for (Iterator i = conns.iterator(); i.hasNext();) {
-			SplineConnection con = (SplineConnection) i.next();
-			NodeConnection node = con.getLink();
-			start = new Point(node.getSource().getX(), node.getSource().getY());
-			end = new Point(node.getTarget().getX(), node.getTarget().getY());
-			con.translateToParent(start);
-			con.translateToParent(end);
-			if(j == 0)
-				list.addPoint(start);
-			list.addPoint(end);
-			j++;
-		}
-
-		return list;
-	}
-
-	/**
-	 * This function sort all the connections in comparison to the model.
-	 * The first connection will be the connection going from the start point to the first node, etc.
-	 * 
-	 * @return The new ordered connection array.
-	 */
-	protected ArrayList updateOrder() {
-		//Try to find the first NodeConnection in this path.
-		Stack stack = new Stack();
-		// Most of the time when the conns array is sorted, the first one will
-		// be the first NodeConnection. Sometimes not...
-		NodeConnection link = ((SplineConnection) conns.get(0)).getLink(); // The first we
-																 // look at.
-		// Loop trough the NodeConnections until we find the start point
-		while (!(link.getSource() instanceof StartPoint)) {
-			stack.push(NodeConnections.get(link)); // Push the connection corresponding to
-										 // this NodeConnection.
-			link = (NodeConnection)link.getSource().getPred().get(0); // Get the previous connection
-		}
-
-		// Push the first NodeConnection (the last we looked at)
-		stack.push(NodeConnections.get(link));
-
-		ArrayList finalList = new ArrayList();
-
-		// Transform the stacked connections to an sorted array
-		while (!stack.isEmpty()){
-			SplineConnection popped = (SplineConnection)stack.pop();
-			link = popped.getLink();
-			finalList.add(popped);
-		}
-
-		if (!(link.getTarget() instanceof EndPoint))
-			link = (NodeConnection)link.getTarget().getSucc().get(0); // Get the next connection
+	protected void findSplines(){
+		System.out.println("findSplines called...");
+		starts = new ArrayList();
+		forks = new ArrayList();
+		ends = new ArrayList();
 		
-		// Add each NodeConnections until the endpoint to the list.
-		while (!(link.getTarget() instanceof EndPoint)) {
-			finalList.add(NodeConnections.get(link));
-			link = (NodeConnection)link.getTarget().getSucc().get(0); // Get the next connection
+		// Find all the start point, end points and forks in our graph.
+		for (Iterator i = diagram.getPathNodes().iterator(); i.hasNext();) {
+			PathNode node = (PathNode) i.next();
+			if(node instanceof StartPoint)
+				starts.add(node);
+			else if(node.getPred().size() > 1 || node.getSucc().size() > 1)
+				forks.add(node);
 		}
-		// Add the last connection too.
-		finalList.add(NodeConnections.get(link));
-//		conns.clear();
-
-		return finalList;
+		
+		if(starts.size() > 0){
+			for (Iterator i = starts.iterator(); i.hasNext();) {
+				PathNode node = (PathNode) i.next();
+				findSpline(node);
+			}
+		}
+		
+		if(forks.size() > 0){
+			for (Iterator i = forks.iterator(); i.hasNext();) {
+				PathNode node = (PathNode) i.next();
+				findSpline(node);
+			}
+		}
+		
+		// TODO Don't forget to clean the splines hashmaps with the useless values.
 	}
 
 	/**
-	 * This function generate the BSpline with the location of each nodes.
-	 * @return The BSpline representing the path.
+	 * This Function update the spline hashmap with the new splines.
+	 * @param startNode
 	 */
-	protected BSpline generateSpline() {
-		return new BSpline(getAllPoints());
+	private void findSpline(PathNode startNode) {
+		PathNode start = startNode;
+		ArrayList nodes = new ArrayList();
+		
+		if(!forks.contains(start)){
+			NodeConnection link = (NodeConnection)startNode.getSucc().get(0);
+			nodes.add(start);
+			BSpline newSpline = new BSpline();
+			// While we don't encounter an EndPoint or a fork, continue to add to the node list for this spline.
+			while(!(link.getTarget() instanceof EndPoint || forks.contains(link.getTarget()))){
+				// This connection belong to this spline.
+				conSplines.put(link, newSpline);
+				
+				startNode = link.getTarget();
+				link = (NodeConnection)startNode.getSucc().get(0);
+				
+				nodes.add(startNode);
+			}
+			nodes.add(link.getTarget()); // Add the last node
+			conSplines.put(link, newSpline);
+			newSpline.setPoints(nodes);
+			splines.put(start, newSpline);
+		}
+		else {
+			BSpline newSpline = new BSpline(nodes);
+			// For each path going out of the fork, create a spline too.
+			for (Iterator i = startNode.getSucc().iterator(); i.hasNext();) {
+				// Always add the start of the fork to the point list
+				nodes.add(start);
+				// Set this to the first point in the list of next path nodes
+				startNode = ((NodeConnection) i.next()).getTarget();
+				NodeConnection link = (NodeConnection)startNode.getSucc().get(0);
+				
+				// While we don't encounter an EndPoint or a fork, continue to add to the node list for this spline.
+				while(!(startNode instanceof EndPoint || forks.contains(startNode))){
+					nodes.add(startNode);
+					
+					// This connection belong to this spline.
+					conSplines.put(link, newSpline);
+					
+					startNode = link.getTarget();
+					link = (NodeConnection)startNode.getSucc().get(0);
+				}
+				
+				// Add this spline to the hashmap
+				newSpline.setPoints(nodes);
+				splines.put(start, newSpline);
+			}
+		}
+	}
+	
+	public void refreshSpline(NodeConnection con){
+		BSpline spline = (BSpline)conSplines.get(con);
+		PathNode start = spline.getStartPoint();
+		findSpline(start);
 	}
 
 	/**
@@ -133,13 +155,11 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 */
 	protected PointList getPointsFor(Connection conn) {
 		SplineConnection con = (SplineConnection)conn;
-		NodeConnection NodeConnection = con.getLink();
-		Point start = new Point(NodeConnection.getSource().getX(), NodeConnection.getSource().getY());
-		Point end = new Point(NodeConnection.getTarget().getX(), NodeConnection.getTarget().getY());
-		con.translateToParent(start);
-		con.translateToParent(end);
+		NodeConnection link = con.getLink();
 		
-		PointList points = spline.getPointsBetween(start, end);
+		BSpline bSpline = (BSpline)conSplines.get(link);
+		
+		PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
 		return points;
 	}
 
@@ -152,20 +172,16 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		if(conn != null)
 			conns.add(conn);
 		
-		// The first time we insert a connection, initialize the PathGraph.
-		SplineConnection c = (SplineConnection)conn;
-		
 		// Update the NodeConnections hashmap with the new connection
 		for (Iterator i = conns.iterator(); i.hasNext();) {
 			SplineConnection con = (SplineConnection) i.next();
 			// The NodeConnection is the key, the connection the value
-			NodeConnections.put(con.getLink(), con);
+			connections.put(con.getLink(), con);
 		}
 		
 		// If we're not in the initializing phase
 		if(!initializing){
-			conns = updateOrder();
-			spline = generateSpline();
+//			findSplines();
 		}
 	}
 
@@ -180,21 +196,18 @@ public class BSplineConnectionRouter extends AbstractRouter {
 			// We add it to the list and invalidate all the connections
 			insertConnection(conn);
 			// If all the connections are now updated in the connection array, initialization is finished
-			if(allLoaded() && initializing){
-				initializing = false;
-				conns = updateOrder();
+			if(allLoaded()){
+//				initializing = false;
 				// So we can really route all the connections
-				generateSpline = true;
-				for (Iterator i = conns.iterator(); i.hasNext();)
-					drawSpline((SplineConnection) i.next());
+				generateSplines = true;
+				drawSplines();
 			}
 		}
 		else
 		{
 			// Redraw all the splines.
-			generateSpline = true;
-			for (Iterator i = conns.iterator(); i.hasNext();)
-				drawSpline((SplineConnection) i.next());
+			generateSplines = true;
+			drawSplines();
 		}
 	}
 	
@@ -203,11 +216,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 * @param conn
 	 */
 	public void drawSpline(Connection conn){
-		// Update the spline to draw
-		if(generateSpline){
-			spline = generateSpline();
-			generateSpline = false;
-		}
+		SplineConnection link = (SplineConnection)conn;
 		
 		PointList points = getPointsFor(conn);
 		
@@ -215,6 +224,17 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		// Set the points for the given connection
 		conn.setPoints(points);
 		// The connection now follow the spline.
+	}
+	
+	public void drawSplines(){
+//		 Update the spline to draw
+		if(generateSplines){
+//			refreshSpline(link.getLink());
+			findSplines();
+			generateSplines = false;
+		}
+		for (Iterator i = conns.iterator(); i.hasNext();)
+			drawSpline((SplineConnection) i.next());
 	}
 	
 	/**
@@ -237,80 +257,9 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		SplineConnection con = (SplineConnection) connection;
 		// Remove from the connection list and the hashmap
 		conns.remove(connection);
-		NodeConnections.remove(con.getLink());
-		// Now we'll have to wait to receive route() calls from all the connections that changed
-		initializing = true;
+		connections.remove(con.getLink());
+		conSplines.remove(con.getLink());
 
 		super.remove(connection);
-	}
-	
-	/**
-	 * Clip a point list so that no point of the connection is IN a node...
-	 * 
-	 * @param start The start point of the connection/
-	 * @param end The end point of the connection
-	 * @param points The points describing the connection
-	 * @return A pointlist not going past the start and end point.
-	 */
-	public PointList clipPointList(Point start, Point end, PointList points) {
-		// We have to have a point list of at least two.
-		if(points.size() >= 2){
-			PointList clipped = new PointList();
-			double xi, yi, r2Start, r2StartOld, r2End, r2EndOld;
-			Point finalStart, finalEnd;
-			boolean foundStart = false, foundEnd = false;
-			
-			// Calculate the first distance between the start and end points.
-			xi = points.getPoint(0).x - start.x;
-			yi = points.getPoint(0).y - start.y;
-			r2StartOld = xi * xi + yi * yi;
-			
-			xi = points.getPoint(0).x - end.x;
-			yi = points.getPoint(0).y - end.y;
-			r2EndOld = xi * xi + yi * yi;
-			
-//			clipped.addPoint(start);
-	
-			Point point;
-			// Loop trough all the points
-			for (int i = 1; i < points.size(); i++) {
-				point = points.getPoint(i);
-				// Do that until we find the nearest point to the start point in the point list
-				if(!foundStart){
-					xi = point.x - start.x;
-					yi = point.y - start.y;
-					r2Start = (xi * xi) + (yi * yi); // Calculate the distance to the real start point
-					if ((r2Start - r2StartOld) > 0) { // Once the new distance become bigger than the distance before, we know that we found the nearest point to the start.
-						finalStart = point;
-						foundStart = true;
-					}
-					r2StartOld = r2Start;
-				}
-				
-				// Do the same thing with the end.
-				if(!foundEnd){
-					xi = point.x - end.x;
-					yi = point.y - end.y;
-					r2End = (xi*xi) + (yi*yi);
-					if ((r2End - r2EndOld) > 0) {
-						finalEnd = point;
-						foundEnd = true;
-					}
-					r2EndOld = r2End;
-				}
-				
-				// If we found both start and end, then finish the loop.  If we found at least the start, then add the points.
-				if(foundStart && foundEnd)
-					i = points.size();
-				else
-					clipped.addPoint(point);
-			}
-			
-//			clipped.addPoint(end);
-	
-			return clipped;
-		}
-		else
-			return points;
 	}
 }

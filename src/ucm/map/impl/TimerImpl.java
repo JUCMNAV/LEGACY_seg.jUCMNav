@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import ucm.map.ComponentRef;
 import ucm.map.Condition;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
 import ucm.map.Timer;
 
 import ucm.scenario.Variable;
@@ -34,6 +35,7 @@ import ucm.scenario.Variable;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.map.impl.TimerImpl#getTimeoutCondition <em>Timeout Condition</em>}</li>
+ *   <li>{@link ucm.map.impl.TimerImpl#getTimeoutPath <em>Timeout Path</em>}</li>
  *   <li>{@link ucm.map.impl.TimerImpl#getTimerVar <em>Timer Var</em>}</li>
  * </ul>
  * </p>
@@ -50,6 +52,16 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 	 * @ordered
 	 */
 	protected Condition timeoutCondition = null;
+
+	/**
+	 * The cached value of the '{@link #getTimeoutPath() <em>Timeout Path</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimeoutPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected NodeConnection timeoutPath = null;
 
 	/**
 	 * The cached value of the '{@link #getTimerVar() <em>Timer Var</em>}' reference.
@@ -120,6 +132,44 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMEOUT_CONDITION, newTimeoutCondition, newTimeoutCondition));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeConnection getTimeoutPath() {
+		if (timeoutPath != null && timeoutPath.eIsProxy()) {
+			NodeConnection oldTimeoutPath = timeoutPath;
+			timeoutPath = (NodeConnection)eResolveProxy((InternalEObject)timeoutPath);
+			if (timeoutPath != oldTimeoutPath) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
+			}
+		}
+		return timeoutPath;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NodeConnection basicGetTimeoutPath() {
+		return timeoutPath;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTimeoutPath(NodeConnection newTimeoutPath) {
+		NodeConnection oldTimeoutPath = timeoutPath;
+		timeoutPath = newTimeoutPath;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
 	}
 
 	/**
@@ -246,6 +296,9 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 				return getWaitType();
 			case MapPackage.TIMER__TIMEOUT_CONDITION:
 				return getTimeoutCondition();
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				if (resolve) return getTimeoutPath();
+				return basicGetTimeoutPath();
 			case MapPackage.TIMER__TIMER_VAR:
 				if (resolve) return getTimerVar();
 				return basicGetTimerVar();
@@ -302,6 +355,9 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 			case MapPackage.TIMER__TIMEOUT_CONDITION:
 				setTimeoutCondition((Condition)newValue);
 				return;
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				setTimeoutPath((NodeConnection)newValue);
+				return;
 			case MapPackage.TIMER__TIMER_VAR:
 				setTimerVar((Variable)newValue);
 				return;
@@ -355,6 +411,9 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 			case MapPackage.TIMER__TIMEOUT_CONDITION:
 				setTimeoutCondition((Condition)null);
 				return;
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				setTimeoutPath((NodeConnection)null);
+				return;
 			case MapPackage.TIMER__TIMER_VAR:
 				setTimerVar((Variable)null);
 				return;
@@ -395,6 +454,8 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 				return WAIT_TYPE_EDEFAULT == null ? waitType != null : !WAIT_TYPE_EDEFAULT.equals(waitType);
 			case MapPackage.TIMER__TIMEOUT_CONDITION:
 				return timeoutCondition != null;
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				return timeoutPath != null;
 			case MapPackage.TIMER__TIMER_VAR:
 				return timerVar != null;
 		}

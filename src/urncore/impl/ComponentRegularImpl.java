@@ -22,7 +22,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import ucm.performance.Device;
+import ucm.performance.PassiveResource;
+import ucm.performance.PerformancePackage;
+import ucm.performance.ProcessingResource;
 
 import urncore.ComponentElement;
 import urncore.ComponentKind;
@@ -40,7 +42,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ComponentRegularImpl#isProtected <em>Protected</em>}</li>
  *   <li>{@link urncore.impl.ComponentRegularImpl#isSlot <em>Slot</em>}</li>
  *   <li>{@link urncore.impl.ComponentRegularImpl#getIncludedComponent <em>Included Component</em>}</li>
- *   <li>{@link urncore.impl.ComponentRegularImpl#getDevice <em>Device</em>}</li>
+ *   <li>{@link urncore.impl.ComponentRegularImpl#getHost <em>Host</em>}</li>
  * </ul>
  * </p>
  *
@@ -118,14 +120,14 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 	protected EList includedComponent = null;
 
 	/**
-	 * The cached value of the '{@link #getDevice() <em>Device</em>}' reference.
+	 * The cached value of the '{@link #getHost() <em>Host</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDevice()
+	 * @see #getHost()
 	 * @generated
 	 * @ordered
 	 */
-	protected Device device = null;
+	protected ProcessingResource host = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,16 +227,16 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Device getDevice() {
-		if (device != null && device.eIsProxy()) {
-			Device oldDevice = device;
-			device = (Device)eResolveProxy((InternalEObject)device);
-			if (device != oldDevice) {
+	public ProcessingResource getHost() {
+		if (host != null && host.eIsProxy()) {
+			ProcessingResource oldHost = host;
+			host = (ProcessingResource)eResolveProxy((InternalEObject)host);
+			if (host != oldHost) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_REGULAR__DEVICE, oldDevice, device));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, host));
 			}
 		}
-		return device;
+		return host;
 	}
 
 	/**
@@ -242,8 +244,8 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Device basicGetDevice() {
-		return device;
+	public ProcessingResource basicGetHost() {
+		return host;
 	}
 
 	/**
@@ -251,11 +253,33 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDevice(Device newDevice) {
-		Device oldDevice = device;
-		device = newDevice;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__DEVICE, oldDevice, device));
+	public NotificationChain basicSetHost(ProcessingResource newHost, NotificationChain msgs) {
+		ProcessingResource oldHost = host;
+		host = newHost;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, newHost);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHost(ProcessingResource newHost) {
+		if (newHost != host) {
+			NotificationChain msgs = null;
+			if (host != null)
+				msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+			if (newHost != null)
+				msgs = ((InternalEObject)newHost).eInverseAdd(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+			msgs = basicSetHost(newHost, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, newHost, newHost));
 	}
 
 	/**
@@ -272,10 +296,18 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 					if (includingComponent != null)
 						msgs = ((InternalEObject)includingComponent).eInverseRemove(this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, ComponentRegular.class, msgs);
 					return basicSetIncludingComponent((ComponentRegular)otherEnd, msgs);
+				case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+					if (resource != null)
+						msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.PASSIVE_RESOURCE__COMPONENT, PassiveResource.class, msgs);
+					return basicSetResource((PassiveResource)otherEnd, msgs);
 				case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
 					return ((InternalEList)getIncludedComponent()).basicAdd(otherEnd, msgs);
+				case UrncorePackage.COMPONENT_REGULAR__HOST:
+					if (host != null)
+						msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+					return basicSetHost((ProcessingResource)otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -297,10 +329,14 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_REGULAR__INCLUDING_COMPONENT:
 					return basicSetIncludingComponent(null, msgs);
+				case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+					return basicSetResource(null, msgs);
 				case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 					return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
 					return ((InternalEList)getIncludedComponent()).basicRemove(otherEnd, msgs);
+				case UrncorePackage.COMPONENT_REGULAR__HOST:
+					return basicSetHost(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -330,6 +366,9 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDING_COMPONENT:
 				if (resolve) return getIncludingComponent();
 				return basicGetIncludingComponent();
+			case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+				if (resolve) return getResource();
+				return basicGetResource();
 			case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 				return getCompRefs();
 			case UrncorePackage.COMPONENT_REGULAR__KIND:
@@ -340,9 +379,9 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 				return isSlot() ? Boolean.TRUE : Boolean.FALSE;
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
 				return getIncludedComponent();
-			case UrncorePackage.COMPONENT_REGULAR__DEVICE:
-				if (resolve) return getDevice();
-				return basicGetDevice();
+			case UrncorePackage.COMPONENT_REGULAR__HOST:
+				if (resolve) return getHost();
+				return basicGetHost();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -376,6 +415,9 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)newValue);
 				return;
+			case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+				setResource((PassiveResource)newValue);
+				return;
 			case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 				getCompRefs().clear();
 				getCompRefs().addAll((Collection)newValue);
@@ -393,8 +435,8 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 				getIncludedComponent().clear();
 				getIncludedComponent().addAll((Collection)newValue);
 				return;
-			case UrncorePackage.COMPONENT_REGULAR__DEVICE:
-				setDevice((Device)newValue);
+			case UrncorePackage.COMPONENT_REGULAR__HOST:
+				setHost((ProcessingResource)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -428,6 +470,9 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDING_COMPONENT:
 				setIncludingComponent((ComponentRegular)null);
 				return;
+			case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+				setResource((PassiveResource)null);
+				return;
 			case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 				getCompRefs().clear();
 				return;
@@ -443,8 +488,8 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
 				getIncludedComponent().clear();
 				return;
-			case UrncorePackage.COMPONENT_REGULAR__DEVICE:
-				setDevice((Device)null);
+			case UrncorePackage.COMPONENT_REGULAR__HOST:
+				setHost((ProcessingResource)null);
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -471,6 +516,8 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 				return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDING_COMPONENT:
 				return includingComponent != null;
+			case UrncorePackage.COMPONENT_REGULAR__RESOURCE:
+				return resource != null;
 			case UrncorePackage.COMPONENT_REGULAR__COMP_REFS:
 				return compRefs != null && !compRefs.isEmpty();
 			case UrncorePackage.COMPONENT_REGULAR__KIND:
@@ -481,8 +528,8 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
 				return slot != SLOT_EDEFAULT;
 			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
 				return includedComponent != null && !includedComponent.isEmpty();
-			case UrncorePackage.COMPONENT_REGULAR__DEVICE:
-				return device != null;
+			case UrncorePackage.COMPONENT_REGULAR__HOST:
+				return host != null;
 		}
 		return eDynamicIsSet(eFeature);
 	}

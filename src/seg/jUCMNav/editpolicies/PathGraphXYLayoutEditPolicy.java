@@ -4,6 +4,8 @@
  */
 package seg.jUCMNav.editpolicies;
 
+import java.util.List;
+
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -12,6 +14,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.viewers.IStructuredSelection;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.CreatePathCommand;
@@ -43,9 +46,8 @@ public class PathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		if(request.getNewObject() != null)
 			newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
-		int childCount = getModel().getPathNodes().size();
 		
-		if(newObjectType == StartPoint.class && childCount == 0){
+		if(newObjectType == StartPoint.class){
 			CreatePathCommand create = new CreatePathCommand();
 			create.setDiagram((PathGraph)getHost().getModel());
 			create.setStart((StartPoint)request.getNewObject());
@@ -57,16 +59,31 @@ public class PathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		{
 			ExtendPathCommand create = new ExtendPathCommand();
 			create.setDiagram((PathGraph)getHost().getModel());
-			// This will only work when there's one path...
-//			if(getModel().getPaths().size() > 0){
-				Rectangle constraint = (Rectangle)getConstraintFor(request);
-				create.setLocation(constraint.getLocation());
-				create.setNewEnd( (EndPoint)request.getNewObject() );
-				create.setLabel("Create a node");
-				createCommand = create;
-//			}
-//			else
-//				return null;
+			
+			// Get the list of selected items
+			List selecteds =((IStructuredSelection)getHost().getViewer().getSelection()).toList();
+			if(selecteds.size() == 0){
+				
+			}
+			// If there's only one item selected
+			else if(selecteds.size() == 1){
+				EditPart selected = (EditPart)(selecteds.get(0));
+				if(selected.getModel() instanceof EndPoint){
+					Rectangle constraint = (Rectangle)getConstraintFor(request);
+					create.setLocation(constraint.getLocation());
+					create.setLastEnd((EndPoint)selected.getModel());
+					create.setNewEnd( (EndPoint)request.getNewObject() );
+					create.setLabel("Create a node");
+					createCommand = create;
+				}
+				else if(selected.getModel() instanceof PathGraph) {
+					CreatePathCommand c = new CreatePathCommand();
+					c.setDiagram((PathGraph)getHost().getModel());
+					Rectangle constraint = (Rectangle)getConstraintFor(request);
+					c.setPosition(constraint.getLocation());
+					createCommand = c;
+				}
+			}
 		}
 
 		return createCommand;

@@ -11,21 +11,16 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.editpolicies.ComponentRefEditPolicy;
+import seg.jUCMNav.editpolicies.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.PathNodeEditPolicy;
 import seg.jUCMNav.editpolicies.PathNodeNonRezizableEditPolicy;
-import seg.jUCMNav.emf.EObjectPropertySource;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
@@ -43,14 +38,13 @@ import ucm.map.StartPoint;
  * @author Etienne Tremblay
  *
  */
-public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapter, NodeEditPart {
-	private IPropertySource propertySource = null;
-	private Notifier target;
+public class PathNodeEditPart extends ModelElementlEditPart implements NodeEditPart {
 	
 	private PathGraph diagram;
 	
 	
 	public PathNodeEditPart(PathNode model, PathGraph diagram){
+		super();
 		setModel(model);
 		this.diagram = diagram;
 	}
@@ -75,37 +69,16 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 	protected void createEditPolicies() {
 		// install the edit policy to handle connection creation
 		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE, new PathNodeEditPolicy() );
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonRezizableEditPolicy());
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPart#activate()
-	 */
-	public void activate() {
-		if(!isActive())
-			getNode().eAdapters().add(this);
-		super.activate();
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPart#deactivate()
-	 */
-	public void deactivate() {
-		if(isActive())
-			getNode().eAdapters().remove(this);
-		super.deactivate();
 	}
 	
 	private PathNode getNode(){
 		return (PathNode)getModel();
 	}
 	
-	protected IPropertySource getPropertySource() {
-		if( propertySource == null ) {
-			propertySource = new EObjectPropertySource( getNode() );
-		}
-		return propertySource;
-		
+	public PathNodeFigure getNodeFigure(){
+		return (PathNodeFigure)getFigure();
 	}
 
 	/* (non-Javadoc)
@@ -126,10 +99,6 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 		}
 	}
 	
-	public PathNodeFigure getNodeFigure(){
-		return (PathNodeFigure)getFigure();
-	}
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
@@ -144,42 +113,23 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 		// and will not draw it correctly.
 		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
 	 */
-	public Notifier getTarget() {
-		return target;
+	protected List getModelSourceConnections() {
+		return getNode().getSucc();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
 	 */
-	public void setTarget(Notifier newTarget) {
-		target = newTarget;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-	 */
-	public boolean isAdapterForType(Object type) {
-		return type.equals( getModel().getClass() );
+	protected List getModelTargetConnections() {
+		return getNode().getPred();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-	 */
-	public Object getAdapter(Class key) {
-		/* override the default behavior defined in AbstractEditPart
-		*  which would expect the model to be a property sourced. 
-		*  instead the editpart can provide a property source
-		*/
-		if (IPropertySource.class == key) {
-			return getPropertySource();
-		}
-		return super.getAdapter( key );
-	}	
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
@@ -207,20 +157,16 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getNodeFigure().getTargetConnectionAnchor();
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	/**
+	 * @return Returns the diagram.
 	 */
-	protected List getModelSourceConnections() {
-		return getNode().getSucc();
+	public PathGraph getDiagram() {
+		return diagram;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	/**
+	 * @param diagram The diagram to set.
 	 */
-	protected List getModelTargetConnections() {
-		return getNode().getPred();
+	public void setDiagram(PathGraph diagram) {
+		this.diagram = diagram;
 	}
 }

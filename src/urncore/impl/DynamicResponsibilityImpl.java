@@ -287,6 +287,8 @@ public class DynamicResponsibilityImpl extends ResponsibilityImpl implements Dyn
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case UrncorePackage.DYNAMIC_RESPONSIBILITY__URN_LINKS:
 					return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
+				case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEMANDS:
+					return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.DYNAMIC_RESPONSIBILITY__RESP_REFS:
 					return ((InternalEList)getRespRefs()).basicRemove(otherEnd, msgs);
 				case UrncorePackage.DYNAMIC_RESPONSIBILITY__POOL:
@@ -313,10 +315,8 @@ public class DynamicResponsibilityImpl extends ResponsibilityImpl implements Dyn
 				return getName();
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DESCRIPTION:
 				return getDescription();
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__EXEC_SEQUENCE:
-				return getExecSequence();
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEVICES:
-				return getDevices();
+			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEMANDS:
+				return getDemands();
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__RESP_REFS:
 				return getRespRefs();
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__KIND:
@@ -352,12 +352,9 @@ public class DynamicResponsibilityImpl extends ResponsibilityImpl implements Dyn
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DESCRIPTION:
 				setDescription((String)newValue);
 				return;
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__EXEC_SEQUENCE:
-				setExecSequence((String)newValue);
-				return;
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEVICES:
-				getDevices().clear();
-				getDevices().addAll((Collection)newValue);
+			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEMANDS:
+				getDemands().clear();
+				getDemands().addAll((Collection)newValue);
 				return;
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__RESP_REFS:
 				getRespRefs().clear();
@@ -398,11 +395,8 @@ public class DynamicResponsibilityImpl extends ResponsibilityImpl implements Dyn
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DESCRIPTION:
 				setDescription(DESCRIPTION_EDEFAULT);
 				return;
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__EXEC_SEQUENCE:
-				setExecSequence(EXEC_SEQUENCE_EDEFAULT);
-				return;
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEVICES:
-				getDevices().clear();
+			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEMANDS:
+				getDemands().clear();
 				return;
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__RESP_REFS:
 				getRespRefs().clear();
@@ -438,10 +432,8 @@ public class DynamicResponsibilityImpl extends ResponsibilityImpl implements Dyn
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DESCRIPTION:
 				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__EXEC_SEQUENCE:
-				return EXEC_SEQUENCE_EDEFAULT == null ? execSequence != null : !EXEC_SEQUENCE_EDEFAULT.equals(execSequence);
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEVICES:
-				return devices != null && !devices.isEmpty();
+			case UrncorePackage.DYNAMIC_RESPONSIBILITY__DEMANDS:
+				return demands != null && !demands.isEmpty();
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__RESP_REFS:
 				return respRefs != null && !respRefs.isEmpty();
 			case UrncorePackage.DYNAMIC_RESPONSIBILITY__KIND:

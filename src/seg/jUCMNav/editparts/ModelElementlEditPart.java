@@ -19,22 +19,16 @@ import seg.jUCMNav.emf.EObjectPropertySource;
  * 
  * @author Etienne Tremblay
  */
-public abstract class ModelEditPart extends AbstractGraphicalEditPart implements Adapter {
+public abstract class ModelElementlEditPart extends AbstractGraphicalEditPart implements Adapter {
 	private IPropertySource propertySource = null;
 	private Notifier target;
 
 	/**
 	 * 
 	 */
-	public ModelEditPart() {
+	public ModelElementlEditPart() {
 		super();
 	}
-	
-	/**
-	 * This method is used to return the model object of this editpart
-	 * @return The model object this edit part represent.
-	 */
-	public abstract EObject getModelObj();
 	
 	/**
 	 * Each editparts has to provide a way to create their figures.
@@ -47,24 +41,38 @@ public abstract class ModelEditPart extends AbstractGraphicalEditPart implements
 	 */
 	protected abstract void createEditPolicies();
 	
-	public abstract void activate();
-
-	public abstract void deactivate();
-	
 	protected abstract void refreshVisuals();
+
+	/**
+	 * This method is called when the model element is changed.  The edit part has to update the visuals of the change.
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public abstract void notifyChanged(Notification notification);
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.EditPart#activate()
+	 */
+	public void activate() {
+		if(!isActive())
+			((EObject)getModel()).eAdapters().add(this);
+		super.activate();
+	}
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.EditPart#deactivate()
+	 */
+	public void deactivate() {
+		if(isActive())
+			((EObject)getModel()).eAdapters().remove(this);
+		super.deactivate();
+	}
+		
 	protected IPropertySource getPropertySource() {
 		if( propertySource == null ) {
-			propertySource = new EObjectPropertySource( getModelObj() );
+			propertySource = new EObjectPropertySource( (EObject)getModel() );
 		}
 		return propertySource;
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-	 */
-	public abstract void notifyChanged(Notification notification);
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()

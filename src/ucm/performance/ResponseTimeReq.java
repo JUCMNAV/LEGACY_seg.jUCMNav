@@ -82,6 +82,7 @@ public interface ResponseTimeReq extends UCMmodelElement {
 
 	/**
 	 * Returns the value of the '<em><b>Ts1</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.Timestamp#getTargets <em>Targets</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ts1</em>' reference isn't clear,
@@ -91,7 +92,8 @@ public interface ResponseTimeReq extends UCMmodelElement {
 	 * @return the value of the '<em>Ts1</em>' reference.
 	 * @see #setTs1(Timestamp)
 	 * @see ucm.performance.PerformancePackage#getResponseTimeReq_Ts1()
-	 * @model required="true"
+	 * @see ucm.performance.Timestamp#getTargets
+	 * @model opposite="targets" required="true"
 	 * @generated
 	 */
 	Timestamp getTs1();
@@ -108,6 +110,7 @@ public interface ResponseTimeReq extends UCMmodelElement {
 
 	/**
 	 * Returns the value of the '<em><b>Ts2</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.Timestamp#getSources <em>Sources</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ts2</em>' reference isn't clear,
@@ -117,7 +120,8 @@ public interface ResponseTimeReq extends UCMmodelElement {
 	 * @return the value of the '<em>Ts2</em>' reference.
 	 * @see #setTs2(Timestamp)
 	 * @see ucm.performance.PerformancePackage#getResponseTimeReq_Ts2()
-	 * @model required="true"
+	 * @see ucm.performance.Timestamp#getSources
+	 * @model opposite="sources" required="true"
 	 * @generated
 	 */
 	Timestamp getTs2();
