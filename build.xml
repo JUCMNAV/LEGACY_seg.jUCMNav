@@ -32,6 +32,12 @@
 	<target name="clean.buildjar" depends="init, clean">
 		<antcall target="build.jars"/>
 	</target>
+
+	<target name="build.fullzip" depends="init, clean">
+		<antcall target="clean"/>
+		<antcall target="build.jars"/>
+		<antcall target="zip.plugin"/>
+	</target>
 	
 	<target name="properties" if="eclipse.running">
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
@@ -162,15 +168,15 @@
 	</target>
 
 	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: seg.jUCMNav.">
-		<delete dir="${temp.folder}"/>
-		<mkdir dir="${temp.folder}"/>
+		<delete dir="${temp.folder}/plugins"/>
+		<mkdir dir="${temp.folder}/plugins"/>
 		<antcall target="build.jars"/>
 		<antcall target="build.sources"/>
 		<antcall target="gather.bin.parts">
-			<param name="destination.temp.folder" value="${temp.folder}/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/plugins/"/>
 		</antcall>
 		<antcall target="gather.sources">
-			<param name="destination.temp.folder" value="${temp.folder}/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/plugins/"/>
 		</antcall>
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
