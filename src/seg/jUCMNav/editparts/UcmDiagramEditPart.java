@@ -116,6 +116,16 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 	}
 
 	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
+	 */
+	protected void registerVisuals() {
+//		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+//		cLayer.setConnectionRouter(new ManhattanConnectionRouter());
+		
+		super.registerVisuals();
+	}
+	
+	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
 	 */
 	public Notifier getTarget() {

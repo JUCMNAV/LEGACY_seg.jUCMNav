@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -131,11 +132,13 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
 	protected void refreshVisuals() {
-		Point location = new Point(getNode().getX(), getNode().getY());  // The position of the current figure
+		Figure fig = getNodeFigure();
+		Dimension dim = fig.getPreferredSize().getCopy();
+		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
 		Dimension size = new Dimension(-1, -1);
 		Rectangle bounds = new Rectangle(location, size);
 		figure.setBounds(bounds);
-		figure.validate(); // Make the label recenter itself.
+//		figure.validate(); // Make the label recenter itself.
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent container 
 		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure

@@ -23,25 +23,22 @@ import seg.jUCMNav.model.ucm.UcmFactory;
  */
 public class ExtendPathCommand extends Command {
 	
-	private UcmDiagram diagram;
-	private Path path;
+	private UcmDiagram diagram; // The UCM diagram
+	private Path path; // The path to extend
 	
-	private Node lastLastNode;
-	private Node lastNode;
+	private Node lastNode; // The last node before the end node
 	
-	private EndPoint newEnd;
-	private EndPoint lastEnd;
+	private EndPoint newEnd; // The new end node
+	private EndPoint lastEnd; // The last end node before the extension
 	
-	private Node newNode;
+	private Node newNode; // The new node required to replace the last end node
 	
-	private Link lastLastLink;
-	private Link lastLink;
+	private Link lastLink; // The last link connection lastNode and lastEnd
 	
-	private Link newLink1;
-	private Link newLink2;
-	private Link newLink3;
+	private Link newLink1; // The new link connecting the lastNode and the newNode
+	private Link newLink2; // The new link connecting the newNode and the newEnd
 	
-	private Point location;
+	private Point location; // Location of the new end.
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#canExecute()
@@ -85,12 +82,16 @@ public class ExtendPathCommand extends Command {
 		lastLink.setTarget(null);
 		diagram.getLinks().remove(lastLink);
 		
+		// Remove the unused end and add the new node + new end
 		diagram.getNodes().remove(lastEnd);
 		diagram.getNodes().add(newNode);
 		diagram.getNodes().add(newEnd);
 		
+		// Update the path
 		path.setEndpoint(newEnd);
+		path.getNodes().add(newNode);
 
+		// Setup the new two links connecting the new node + new end
 		newLink1.setSource(lastNode);
 		newLink1.setTarget(newNode);
 		diagram.getLinks().add(newLink1);
@@ -104,7 +105,28 @@ public class ExtendPathCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
+		// Delete the new two links
+		newLink2.setSource(null);
+		newLink2.setTarget(null);
+		diagram.getLinks().remove(newLink2);
 		
+		newLink1.setSource(null);
+		newLink1.setTarget(null);
+		diagram.getLinks().remove(newLink1);
+		
+		// Update the path
+		path.getNodes().remove(newNode);
+		path.setEndpoint(lastEnd);
+		
+		// Remove the added nodes and recover the lastEnd
+		diagram.getNodes().remove(newEnd);
+		diagram.getNodes().remove(newNode);
+		diagram.getNodes().add(lastEnd);
+		
+		// Recover last link
+		lastLink.setSource(lastNode);
+		lastLink.setTarget(lastEnd);
+		diagram.getLinks().add(lastLink);
 	}
 	
 	/**

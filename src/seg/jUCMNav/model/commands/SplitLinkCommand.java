@@ -21,12 +21,14 @@ import seg.jUCMNav.model.ucm.UcmFactory;
  */
 public class SplitLinkCommand extends Command {
 	
-	private UcmDiagram diagram;
-	private Link oldLink;
-	private Node node;
-	private Node previousNode;
-	private Node nextNode;
-	private Link newLink1;
+	private UcmDiagram diagram; // The UCM diagram
+	
+	private Link oldLink; // The old link where we are inserting
+	
+	private Node node; // The new node we are inserting
+	private Node previousNode; // The node before the new node
+	private Node nextNode; // The node following the new node
+	private Link newLink1; // The two new links for the new node
 	private Link newLink2;
 	
 	private Point location;
@@ -87,8 +89,14 @@ public class SplitLinkCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		// TODO Auto-generated method stub
-		super.undo();
+		diagram.getLinks().remove(newLink1);
+		diagram.getLinks().remove(newLink2);
+		diagram.getNodes().remove(node);
+		
+		nextNode.setUpLink(oldLink);
+		previousNode.setDownLink(oldLink);
+		
+		diagram.getLinks().add(oldLink);
 	}
 	/**
 	 * @return Returns the oldLink.
