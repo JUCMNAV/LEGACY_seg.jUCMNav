@@ -168,9 +168,14 @@ public class BSpline {
 	 */
 	public int getPoint(int x, int y) {
 		int iMin = 0;
-		double Rmin = 1e10, r2, xi, yi;
+		double Rmin, r2, xi, yi;
+		
+		xi = (x - Px[0]);
+		yi = (y - Py[0]);
+		Rmin = xi * xi + yi * yi;
+		
 		// Loop trough all the points
-		for (int i = 0; i < n; i++) {
+		for (int i = 1; i < n; i++) {
 			// Calculate the distance with this point
 			xi = (x - Px[i]);
 			yi = (y - Py[i]);

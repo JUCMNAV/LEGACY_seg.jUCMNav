@@ -26,14 +26,15 @@ import seg.jUCMNav.model.ucm.UcmDiagram;
  * @author Etienne Tremblay
  */
 public class BSplineConnectionRouter extends AbstractRouter {
-	BSpline spline; // The spline used to return points.
+	private BSpline spline; // The spline used to return points.
 
-	ArrayList conns = new ArrayList(); // The connections
+	private ArrayList conns = new ArrayList(); // The connections
 
-	HashMap links = new HashMap();
-	boolean initializing = true;
+	private HashMap links = new HashMap();
+	private boolean initializing = true;
+	private boolean generateSpline;
 	
-	UcmDiagram diagram;
+	private UcmDiagram diagram;
 
 	/**
 	 *  
@@ -133,8 +134,15 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	 * @param connection The connection you need the point list.
 	 * @return The point list following the spline for this connection.
 	 */
-	protected PointList getPointsFor(Connection connection) {
-		PointList points = spline.getPointsBetween(this.getStartPoint(connection), this.getEndPoint(connection));
+	protected PointList getPointsFor(Connection conn) {
+		SplineConnection con = (SplineConnection)conn;
+		Link link = con.getLink();
+		Point start = new Point(link.getSource().getX(), link.getSource().getY());
+		Point end = new Point(link.getTarget().getX(), link.getTarget().getY());
+		con.translateToParent(start);
+		con.translateToParent(end);
+		
+		PointList points = spline.getPointsBetween(start, end);
 		return points;
 	}
 
@@ -181,24 +189,30 @@ public class BSplineConnectionRouter extends AbstractRouter {
 				initializing = false;
 				conns = updateOrder();
 				// So we can really route all the connections
-				for (Iterator i = conns.iterator(); i.hasNext();) {
+				generateSpline = true;
+				for (Iterator i = conns.iterator(); i.hasNext();)
 					drawSpline((SplineConnection) i.next());
-				}
 			}
 		}
 		else
 		{
 			// Redraw all the splines.
-			for (Iterator i = conns.iterator(); i.hasNext();) {
-				SplineConnection con = (SplineConnection) i.next();
-				drawSpline(con);
-			}
+			generateSpline = true;
+			for (Iterator i = conns.iterator(); i.hasNext();)
+				drawSpline((SplineConnection) i.next());
 		}
 	}
 	
+	/**
+	 * Generage the spline if necessary and set the point list of the connection.
+	 * @param conn
+	 */
 	public void drawSpline(Connection conn){
 		// Update the spline to draw
-		spline = generateSpline();
+		if(generateSpline){
+			spline = generateSpline();
+			generateSpline = false;
+		}
 		
 		PointList points = getPointsFor(conn);
 		
@@ -208,6 +222,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		// The connection now follow the spline.
 	}
 	
+	/**
+	 * This function is used to know if all the connections are in our connection list.
+	 * @return true if all the connections of the diagram are in our connection list, false otherwise.
+	 */
 	protected boolean allLoaded(){
 		if(conns.size() == diagram.getLinks().size())
 			return true;
@@ -215,15 +233,17 @@ public class BSplineConnectionRouter extends AbstractRouter {
 			return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Remove a connection from this connection router.
 	 * 
 	 * @see org.eclipse.draw2d.ConnectionRouter#remove(org.eclipse.draw2d.Connection)
 	 */
 	public void remove(Connection connection) {
 		SplineConnection con = (SplineConnection) connection;
+		// Remove from the connection list and the hashmap
 		conns.remove(connection);
 		links.remove(con.getLink());
+		// Now we'll have to wait to receive route() calls from all the connections that changed
 		initializing = true;
 
 		super.remove(connection);
@@ -231,6 +251,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	
 	/**
 	 * Clip a point list so that no point of the connection is IN a node...
+	 * 
 	 * @param start The start point of the connection/
 	 * @param end The end point of the connection
 	 * @param points The points describing the connection
