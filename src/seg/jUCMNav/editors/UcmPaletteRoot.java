@@ -26,7 +26,7 @@ import seg.jUCMNav.model.ucm.Responsibility;
 import seg.jUCMNav.model.ucm.StartPoint;
 
 
-public class NetworkPaletteRoot extends PaletteRoot
+public class UcmPaletteRoot extends PaletteRoot
 {
 	
 	/** Default palette size. */
@@ -43,7 +43,7 @@ public class NetworkPaletteRoot extends PaletteRoot
      * Creates a new NetworkPaletteRoot instance.
      * 
      */
-    public NetworkPaletteRoot()
+    public UcmPaletteRoot()
     {
         // create root
         super();

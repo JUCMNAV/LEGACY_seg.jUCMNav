@@ -26,7 +26,7 @@ public class LinkEndpointEditPolicy extends ConnectionEndpointEditPolicy {
 	}
 
 	protected void addSelectionHandles(){
-		super.addSelectionHandles();
+//		super.addSelectionHandles();
 	}
 
 	protected PolylineConnection getConnectionFigure(){
@@ -34,7 +34,7 @@ public class LinkEndpointEditPolicy extends ConnectionEndpointEditPolicy {
 	}
 
 	protected void removeSelectionHandles(){
-		super.removeSelectionHandles();
+//		super.removeSelectionHandles();
 	}
 	
 }

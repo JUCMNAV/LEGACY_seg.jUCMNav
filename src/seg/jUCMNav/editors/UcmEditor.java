@@ -324,7 +324,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         if (null == paletteRoot)
         {
             // create root
-            paletteRoot = new NetworkPaletteRoot();
+            paletteRoot = new UcmPaletteRoot();
         }
         return paletteRoot;
     }
@@ -342,6 +342,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     			// from the palette into the editor
     			// @see ShapesEditor#createTransferDropTargetListener()
     			viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
+    			viewer.addPaletteListener(new UcmPaletteListener());
     		}
     	};
     }
@@ -398,7 +399,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
 	 */
 	protected FlyoutPreferences getPalettePreferences() {
-		return NetworkPaletteRoot.createPalettePreferences();
+		return UcmPaletteRoot.createPalettePreferences();
 	}
 
     /**
