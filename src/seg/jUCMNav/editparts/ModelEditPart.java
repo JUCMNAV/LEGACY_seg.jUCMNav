@@ -1,8 +1,6 @@
 /*
  * Created on 2005-02-23
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editparts;
 
@@ -22,14 +20,13 @@ public abstract class ModelEditPart extends AbstractGraphicalEditPart implements
 	 */
 	public ModelEditPart() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
 	 */
 	public Notifier getTarget() {
-		// TODO Auto-generated method stub
+		// TODO Implement Method
 		return null;
 	}
 
@@ -37,7 +34,7 @@ public abstract class ModelEditPart extends AbstractGraphicalEditPart implements
 	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	public void setTarget(Notifier newTarget) {
-		// TODO Auto-generated method stub
+		// TODO Implement Method
 
 	}
 
@@ -45,7 +42,7 @@ public abstract class ModelEditPart extends AbstractGraphicalEditPart implements
 	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
 	 */
 	public boolean isAdapterForType(Object type) {
-		// TODO Auto-generated method stub
+		// TODO Implement method
 		return false;
 	}
 

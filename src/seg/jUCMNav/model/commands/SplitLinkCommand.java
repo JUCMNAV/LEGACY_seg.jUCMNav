@@ -1,8 +1,6 @@
 /*
  * Created on 2005-02-25
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.model.commands;
 
@@ -38,7 +36,6 @@ public class SplitLinkCommand extends Command {
 	 */
 	public SplitLinkCommand() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)

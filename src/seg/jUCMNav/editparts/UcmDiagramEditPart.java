@@ -1,8 +1,6 @@
 /*
  * Created on 2005-01-30
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editparts;
 
@@ -22,7 +20,6 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.editpolicies.UcmEditPolicy;
 import seg.jUCMNav.editpolicies.UcmXYLayoutEditPolicy;
 import seg.jUCMNav.emf.EObjectPropertySource;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
@@ -55,7 +52,7 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 	 */
 	protected void createEditPolicies() {
 		// This install a container policy
-		installEditPolicy(EditPolicy.CONTAINER_ROLE, new UcmEditPolicy());
+//		installEditPolicy(EditPolicy.CONTAINER_ROLE, new UcmEditPolicy());
 		// This install the layout edit policy.  Wich commands are used for create/move/resize etc...
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new UcmXYLayoutEditPolicy());
 //		installEditPolicy(EditPolicy.NODE_ROLE, null);

@@ -1,8 +1,6 @@
 /*
  * Created on 2005-03-04
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editpolicies;
 
@@ -24,7 +22,6 @@ public class UcmNodeNonRezizableEditPolicy extends SelectionEditPolicy {
 	 */
 	public UcmNodeNonRezizableEditPolicy() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	private NodeFigure getFigure(){

@@ -1,8 +1,6 @@
 /*
  * Created on 2005-01-30
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editpolicies;
 
@@ -20,8 +18,6 @@ import org.eclipse.gef.handles.BendpointHandle;
 /**
  * @author Etienne Tremblay
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class LinkSelectionHandlesEditPolicy extends SelectionHandlesEditPolicy {
 
@@ -31,7 +27,6 @@ public class LinkSelectionHandlesEditPolicy extends SelectionHandlesEditPolicy {
 	 */
 	public LinkSelectionHandlesEditPolicy() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)

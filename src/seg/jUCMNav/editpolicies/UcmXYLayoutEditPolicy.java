@@ -1,8 +1,6 @@
 /*
  * Created on 2005-01-30
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editpolicies;
 
@@ -31,7 +29,6 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
 	protected Command createAddCommand(EditPart child, Object constraint) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

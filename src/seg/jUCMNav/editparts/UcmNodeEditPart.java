@@ -27,6 +27,7 @@ import seg.jUCMNav.editpolicies.UcmComponentEditPolicy;
 import seg.jUCMNav.editpolicies.UcmNodeEditPolicy;
 import seg.jUCMNav.editpolicies.UcmNodeNonRezizableEditPolicy;
 import seg.jUCMNav.emf.EObjectPropertySource;
+import seg.jUCMNav.figures.EmptyNodeFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.NodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
@@ -40,8 +41,6 @@ import seg.jUCMNav.model.ucm.UcmPackage;
 /**
  * @author Etienne Tremblay
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapter, NodeEditPart {
 	private IPropertySource propertySource = null;
@@ -56,7 +55,7 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure() {
-		NodeFigure figure = new NodeFigure();
+		NodeFigure figure = new EmptyNodeFigure();
 		if(getModel() instanceof Responsibility)
 			figure = new ResponsibilityFigure();
 		else if(getModel() instanceof EndPoint)

@@ -1,8 +1,6 @@
 /*
  * Created on 2005-01-30
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.emf;
 
@@ -118,7 +116,7 @@ public class EObjectPropertySource implements IPropertySource {
 	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
 	 */
 	public boolean isPropertySet(Object id) {
-		// TODO Auto-generated method stub
+		// TODO Implement method
 		return false;
 	}
 
@@ -126,8 +124,7 @@ public class EObjectPropertySource implements IPropertySource {
 	 * @see org.eclipse.ui.views.properties.IPropertySouce#resetPropertyValue(java.lang.Object)
 	 */
 	public void resetPropertyValue(Object id) {
-		// TODO Auto-generated method stub
-
+		// TODO Implement Method
 	}
 
 	/* (non-Javadoc)

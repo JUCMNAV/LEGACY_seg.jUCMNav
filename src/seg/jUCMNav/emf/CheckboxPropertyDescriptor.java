@@ -1,8 +1,6 @@
 /*
  * Created on 2005-01-30
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.emf;
 
@@ -23,7 +21,6 @@ public class CheckboxPropertyDescriptor extends PropertyDescriptor {
 	 */
 	public CheckboxPropertyDescriptor(Object id, String displayName) {
 		super(id, displayName);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)

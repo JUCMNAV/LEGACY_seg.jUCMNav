@@ -1,8 +1,6 @@
 /*
  * Created on 2005-02-25
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editpolicies;
 
@@ -31,14 +29,12 @@ public class LinkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	public LinkXYLayoutEditPolicy() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
 	protected Command createAddCommand(EditPart child, Object constraint) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -47,7 +43,6 @@ public class LinkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	protected Command createChangeConstraintCommand(EditPart child,
 			Object constraint) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -81,7 +76,6 @@ public class LinkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
 	 */
 	protected Command getDeleteDependantCommand(Request request) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
