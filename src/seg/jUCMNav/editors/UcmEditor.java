@@ -3,7 +3,9 @@ package seg.jUCMNav.editors;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -25,15 +27,20 @@ import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
-import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -96,8 +103,24 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void configureGraphicalViewer() {
 		super.configureGraphicalViewer();
 		
-		GraphicalViewer viewer = getGraphicalViewer();
-		viewer.setRootEditPart(new ScalableRootEditPart());
+		ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer)getGraphicalViewer();
+		ScalableFreeformRootEditPart root = new ScalableFreeformRootEditPart();
+		
+		List zoomLevels = new ArrayList(3);
+		zoomLevels.add(ZoomManager.FIT_ALL);
+		zoomLevels.add(ZoomManager.FIT_WIDTH);
+		zoomLevels.add(ZoomManager.FIT_HEIGHT);
+		root.getZoomManager().setZoomLevelContributions(zoomLevels);
+
+		IAction zoomIn = new ZoomInAction(root.getZoomManager());
+		IAction zoomOut = new ZoomOutAction(root.getZoomManager());
+		getActionRegistry().registerAction(zoomIn);
+		getActionRegistry().registerAction(zoomOut);
+		getSite().getKeyBindingService().registerAction(zoomIn);
+		getSite().getKeyBindingService().registerAction(zoomOut);
+		
+		viewer.setRootEditPart(root);
+		
 		viewer.setEditPartFactory(new GraphicalEditPartFactory());
 		viewer.setKeyHandler(
 				new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
@@ -266,6 +289,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter(Class type) {
+		if (type == ZoomManager.class)
+			return getGraphicalViewer().getProperty(ZoomManager.class.toString());
 		return super.getAdapter(type);
 	}
 	

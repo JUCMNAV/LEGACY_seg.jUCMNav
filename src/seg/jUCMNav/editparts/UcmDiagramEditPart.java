@@ -124,7 +124,6 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 		
 		super.registerVisuals();
 	}
-	
 	/* (non-Javadoc)
 	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
 	 */

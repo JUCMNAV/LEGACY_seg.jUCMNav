@@ -51,7 +51,8 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 			CreatePathCommand create = new CreatePathCommand();
 			create.setDiagram((UcmDiagram)getHost().getModel());
 			create.setStart((StartPoint)request.getNewObject());
-			create.setPosition(request.getLocation());
+			Rectangle constraint = (Rectangle)getConstraintFor(request);
+			create.setPosition(constraint.getLocation());
 			createCommand = create;
 		}		
 		else if (newObjectType == EndPoint.class)
@@ -61,7 +62,8 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 			// This will only work when there's one path...
 			if(getModel().getPaths().size() > 0){
 				create.setPath((Path)(getModel()).getPaths().get(0));
-				create.setLocation(request.getLocation());
+				Rectangle constraint = (Rectangle)getConstraintFor(request);
+				create.setLocation(constraint.getLocation());
 				create.setNewEnd( (EndPoint)request.getNewObject() );
 				create.setLabel("Create a node");
 				createCommand = create;
