@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src"
+    editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
+    modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="Ucm" editPluginClass="seg.jUCMNav.model.ucm.provider.UcmEditPlugin"
+    editorPluginClass="seg.jUCMNav.model.ucm.presentation.UcmEditorPlugin" runtimeCompatibility="false">
+  <foreignModel>file:/D:/My%20Documents/download/seg.jUcmnav.model.ecore</foreignModel>
+  <genPackages prefix="Ucm" basePackage="seg.jUCMNav.model" ecorePackage="seg.jUcmnav.model.ecore#/">
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//Path">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/diagram"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/inFork"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/outFork"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/endpoint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Path/startpoint"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//Node">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Node/path"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Node/next"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Node/previous"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//XYElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute seg.jUcmnav.model.ecore#//XYElement/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute seg.jUcmnav.model.ecore#//XYElement/y"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//XYElement/component"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//Component">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Component/elements"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Component/diagram"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//SizedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute seg.jUcmnav.model.ecore#//SizedElement/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute seg.jUcmnav.model.ecore#//SizedElement/height"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//UcmDiagram">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//UcmDiagram/path"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//UcmDiagram/forks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//UcmDiagram/components"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//Fork">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Fork/inPaths"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference seg.jUcmnav.model.ecore#//Fork/outPath"/>
+    </genClasses>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//EndPoint"/>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//StartPoint"/>
+    <genClasses ecoreClass="seg.jUcmnav.model.ecore#//Responsibility"/>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="seg.jUCMNav"
+   name="JUCMNav Plug-in"
+   version="1.0.0"
+   provider-name=""
+   class="seg.jUCMNav.JUCMNavPlugin">
+
+   <runtime>
+      <library name="jUCMNav.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+   </requires>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            icon="src/seg/jUCMNav/icons/AndFork16.gif"
+            class="seg.jUCMNav.editors.UcmEditor"
+            default="false"
+            name="seg.jUCMNav.MainEditor"
+            contributorClass="seg.jUCMNav.editors.UCMActionBarContributor"
+            id="seg.jUCMNav.MainEditor"
+            extensions="ucm"/>
+   </extension>
+
+</plugin>
