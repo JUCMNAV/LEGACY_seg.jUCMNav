@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Color;
  * 
  * @author Etienne Tremblay
  */
-public class StartPointFigure extends NodeFigure {
+public class StartPointFigure extends PathNodeFigure {
 	
 	private Ellipse ellipse;
 

@@ -8,7 +8,7 @@ import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
-import seg.jUCMNav.figures.NodeFigure;
+import seg.jUCMNav.figures.PathNodeFigure;
 
 /**
  * Created 2005-03-04
@@ -24,8 +24,8 @@ public class PathNodeNonRezizableEditPolicy extends SelectionEditPolicy {
 		super();
 	}
 	
-	private NodeFigure getFigure(){
-		return (NodeFigure)((PathNodeEditPart)this.getHost()).getFigure();
+	private PathNodeFigure getFigure(){
+		return (PathNodeFigure)((PathNodeEditPart)this.getHost()).getFigure();
 	}
 
 	/* (non-Javadoc)

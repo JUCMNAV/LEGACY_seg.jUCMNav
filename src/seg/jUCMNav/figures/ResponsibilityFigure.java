@@ -16,7 +16,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  * @author Etienne Tremblay
  */
-public class ResponsibilityFigure extends NodeFigure {
+public class ResponsibilityFigure extends PathNodeFigure {
 	
 	RectangleFigure anchor;
 

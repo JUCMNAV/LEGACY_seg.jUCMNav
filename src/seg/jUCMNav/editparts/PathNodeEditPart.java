@@ -26,17 +26,18 @@ import seg.jUCMNav.editpolicies.ComponentRefEditPolicy;
 import seg.jUCMNav.editpolicies.PathNodeEditPolicy;
 import seg.jUCMNav.editpolicies.PathNodeNonRezizableEditPolicy;
 import seg.jUCMNav.emf.EObjectPropertySource;
-import seg.jUCMNav.figures.EmptyNodeFigure;
+import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
-import seg.jUCMNav.figures.NodeFigure;
+import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
+import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import urncore.Responsibility;
 
 /**
  * @author Etienne Tremblay
@@ -46,17 +47,20 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 	private IPropertySource propertySource = null;
 	private Notifier target;
 	
+	private PathGraph diagram;
 	
-	public PathNodeEditPart(PathNode model){
+	
+	public PathNodeEditPart(PathNode model, PathGraph diagram){
 		setModel(model);
+		this.diagram = diagram;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure() {
-		NodeFigure figure = new EmptyNodeFigure();
-		if(getModel() instanceof Responsibility)
+		PathNodeFigure figure = new EmptyPointFigure();
+		if(getModel() instanceof RespRef)
 			figure = new ResponsibilityFigure();
 		else if(getModel() instanceof EndPoint)
 			figure = new EndPointFigure();
@@ -122,8 +126,8 @@ public class PathNodeEditPart extends AbstractGraphicalEditPart implements Adapt
 		}
 	}
 	
-	public NodeFigure getNodeFigure(){
-		return (NodeFigure)getFigure();
+	public PathNodeFigure getNodeFigure(){
+		return (PathNodeFigure)getFigure();
 	}
 	
 	/* (non-Javadoc)

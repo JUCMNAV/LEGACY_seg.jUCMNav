@@ -13,14 +13,14 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  * @author Etienne Tremblay
  */
-public class EmptyNodeFigure extends NodeFigure {
+public class EmptyPointFigure extends PathNodeFigure {
 	
 	private Ellipse ellipse;
 
 	/**
 	 * 
 	 */
-	public EmptyNodeFigure() {
+	public EmptyPointFigure() {
 		super();
 	}
 	

@@ -11,6 +11,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
 
 /**
@@ -18,6 +19,16 @@ import ucm.map.StartPoint;
  *
  */
 public class GraphicalEditPartFactory implements EditPartFactory {
+	
+	PathGraph root;
+	
+	public GraphicalEditPartFactory(){
+		super();
+	}
+	
+	public GraphicalEditPartFactory(PathGraph root){
+		this.root = root;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
@@ -26,15 +37,15 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		if(model instanceof PathGraph)
 			return new PathGraphEditPart((PathGraph)model);
 		else if(model instanceof NodeConnection)
-			return new NodeConnectionEditPart((NodeConnection)model);
-//		else if(model instanceof Component)
-//			return new ComponentEditPart((Component)model);
+			return new NodeConnectionEditPart((NodeConnection)model, root);
 		else if(model instanceof EmptyPoint)
-			return new PathNodeEditPart((EmptyPoint)model);
+			return new PathNodeEditPart((EmptyPoint)model, root);
 		else if(model instanceof StartPoint)
-			return new PathNodeEditPart((StartPoint)model);
+			return new PathNodeEditPart((StartPoint)model, root);
 		else if(model instanceof EndPoint)
-			return new PathNodeEditPart((EndPoint)model);
+			return new PathNodeEditPart((EndPoint)model, root);
+		else if(model instanceof RespRef)
+			return new PathNodeEditPart((RespRef)model, root);
 		else
 			return null;
 	}

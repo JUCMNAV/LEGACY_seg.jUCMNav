@@ -10,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.model.commands.SplitLinkCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
@@ -73,9 +74,12 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		return createCommand;
 	}
 	
+	/**
+	 * The NodeConnectionEditPart contain a reference to the diagram too.  This function query the editpart and return the PathGraph.
+	 * @return The PathGraph this NodeConnection is associated with.
+	 */
 	private PathGraph getPathGraph(){
-		// TODO This function is NOT working.  We want it to return the root PathGraph.
-		return (PathGraph)getHost().getRoot().getModel();
+		return ((NodeConnectionEditPart)getHost()).getPathGraph();
 	}
 
 	/* (non-Javadoc)

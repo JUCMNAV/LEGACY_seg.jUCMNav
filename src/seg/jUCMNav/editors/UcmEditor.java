@@ -121,7 +121,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 		
 		viewer.setRootEditPart(root);
 		
-		viewer.setEditPartFactory(new GraphicalEditPartFactory());
+		viewer.setEditPartFactory(new GraphicalEditPartFactory(ucm));
 		viewer.setKeyHandler(
 				new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
 	}

@@ -20,8 +20,8 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.emf.ModelCreationFactory;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import urncore.Responsibility;
 
 
 public class UcmPaletteRoot extends PaletteRoot
@@ -132,8 +132,8 @@ public class UcmPaletteRoot extends PaletteRoot
             new CombinedTemplateCreationEntry(
                 "Responsibility",
                 "Creates a Responsibility",
-                Responsibility.class,
-                new ModelCreationFactory(Responsibility.class),
+                RespRef.class,
+                new ModelCreationFactory(RespRef.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
         entry.setId("Responsibility");

@@ -13,6 +13,7 @@ import seg.jUCMNav.editpolicies.NodeConnectionEndpointEditPolicy;
 import seg.jUCMNav.editpolicies.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.NodeConnection;
+import ucm.map.PathGraph;
 
 /**
  * @author Etienne Tremblay
@@ -20,9 +21,16 @@ import ucm.map.NodeConnection;
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 	
-	public NodeConnectionEditPart(NodeConnection link) {
+	private PathGraph diagram;
+	
+	public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
 		super();
 		setModel(link);
+		this.diagram = diagram;
+	}
+	
+	public PathGraph getPathGraph(){
+		return diagram;
 	}
 
 	/* (non-Javadoc)

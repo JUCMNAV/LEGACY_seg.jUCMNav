@@ -211,7 +211,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		
 		PointList points = getPointsFor(conn);
 		
-		PointList clipped = clipPointList(getStartPoint(conn), getEndPoint(conn), points);
+//		PointList clipped = clipPointList(getStartPoint(conn), getEndPoint(conn), points);
 		// Set the points for the given connection
 		conn.setPoints(points);
 		// The connection now follow the spline.

@@ -12,7 +12,7 @@ import org.eclipse.draw2d.geometry.Dimension;
  * @author Etienne Tremblay
  *
  */
-public abstract class NodeFigure extends Figure {
+public abstract class PathNodeFigure extends Figure {
 	
 	protected ConnectionAnchor incomingAnchor;
 	protected ConnectionAnchor outgoingAnchor;
@@ -20,7 +20,7 @@ public abstract class NodeFigure extends Figure {
 	protected XYLayout layout;
 	protected Dimension preferedSize = new Dimension(24, 24);
 
-	public NodeFigure(){
+	public PathNodeFigure(){
 		super();
 		layout = new XYLayout();
 		this.setLayoutManager(layout);
