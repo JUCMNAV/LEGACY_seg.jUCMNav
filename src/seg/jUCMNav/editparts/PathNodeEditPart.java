@@ -19,7 +19,6 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 
 import seg.jUCMNav.editpolicies.PathNodeComponentEditPolicy;
-import seg.jUCMNav.editpolicies.PathNodeEditPolicy;
 import seg.jUCMNav.editpolicies.PathNodeNonRezizableEditPolicy;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
@@ -68,7 +67,6 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	 */
 	protected void createEditPolicies() {
 		// install the edit policy to handle connection creation
-		installEditPolicy( EditPolicy.GRAPHICAL_NODE_ROLE, new PathNodeEditPolicy() );
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonRezizableEditPolicy());
 	}

@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-14
- *
- */
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.EllipseAnchor;
@@ -13,6 +9,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * Created 2005-02-14
+ * 
+ * This figure represent a responsibility
  * 
  * @author Etienne Tremblay
  */
@@ -56,7 +54,9 @@ public class ResponsibilityFigure extends PathNodeFigure {
 		outgoingAnchor = new EllipseAnchor(anchor);
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * We have to paint this figure manualy because it seems that Polyline doesn't draw. 
+	 * (non-Javadoc)
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
 	public void paintFigure(Graphics g) {

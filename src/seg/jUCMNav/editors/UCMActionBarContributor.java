@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-02
- *
- */
 package seg.jUCMNav.editors;
 
 import org.eclipse.gef.editparts.ZoomManager;
@@ -17,6 +13,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
+ * This class define all the modification we should make to the workbench when we are editing an UCM.
+ * 
  * @author Etienne Tremblay
  *
  */

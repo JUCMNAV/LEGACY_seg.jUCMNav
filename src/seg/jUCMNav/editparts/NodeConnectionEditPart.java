@@ -51,8 +51,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure() {
-		SplineConnection connection = new SplineConnection();
-		connection.setLink(getLink());
+		SplineConnection connection = new SplineConnection(getLink());
 		connection.setLineWidth(3);
 //		PolygonDecoration p = new PolygonDecoration();
 //		connection.setTargetDecoration(p); // arrow at target endpoint

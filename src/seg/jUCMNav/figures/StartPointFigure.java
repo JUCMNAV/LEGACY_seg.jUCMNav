@@ -1,6 +1,3 @@
-/*
- * Created on 2005-02-15
- */
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
@@ -10,6 +7,8 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Created 2005-02-15
+ * 
+ * This figure represent a StartPoint
  * 
  * @author Etienne Tremblay
  */

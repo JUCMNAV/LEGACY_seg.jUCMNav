@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.editors;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
@@ -25,6 +21,13 @@ import ucm.map.RespRef;
 import ucm.map.StartPoint;
 
 
+/**
+ * Created on 2005-01-30
+ * 
+ * This is the main palette of UCMEditor.
+ * 
+ * @author Etienne Tremblay
+ */
 public class UcmPaletteRoot extends PaletteRoot
 {
 	
@@ -41,7 +44,7 @@ public class UcmPaletteRoot extends PaletteRoot
 	private ToolEntry endPointTool;
 
     /**
-     * Creates a new NetworkPaletteRoot instance.
+     * Creates a new UcmPaletteRoot instance.
      * 
      */
     public UcmPaletteRoot()
@@ -271,6 +274,8 @@ public class UcmPaletteRoot extends PaletteRoot
     
     /**
      * Return a FlyoutPreferences instance used to save/load the preferences of a flyout palette.
+     * 
+     * @return The flyout palette preferences.
      */
     public static FlyoutPreferences createPalettePreferences() {
     	// set default flyout palette preference values, in case the preference store

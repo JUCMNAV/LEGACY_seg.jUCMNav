@@ -72,8 +72,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             create.setDiagram(getPathGraph());
 
             // Get the list of selected items
-            List selecteds = ((IStructuredSelection) getHost().getViewer()
-                    .getSelection()).toList();
+            List selecteds = ((IStructuredSelection) getHost().getViewer().getSelection()).toList();
             if (selecteds.size() == 0) {
 
             }

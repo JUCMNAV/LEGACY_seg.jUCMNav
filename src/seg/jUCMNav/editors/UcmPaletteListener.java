@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-25
- *
- */
 package seg.jUCMNav.editors;
 
 import org.eclipse.gef.palette.PaletteListener;
@@ -17,7 +13,7 @@ import org.eclipse.gef.ui.palette.PaletteViewer;
  */
 public class UcmPaletteListener implements PaletteListener {
 
-	/*
+	/**
 	 * This code will change the default tool to the active tool.  So we can continue to use our tool without
 	 * having to select it again.
 	 *  (non-Javadoc)

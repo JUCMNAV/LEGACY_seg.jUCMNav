@@ -1,6 +1,3 @@
-/*
- * Created on 2005-01-30
- */
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -9,8 +6,11 @@ import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
+ * Created on 2005-01-30
+ * 
+ * This is the figure representing a PathNode.  Extend this class for the figures representing the subclass of PathNode.
+ * 
  * @author Etienne Tremblay
- *
  */
 public abstract class PathNodeFigure extends Figure {
 	
@@ -30,13 +30,29 @@ public abstract class PathNodeFigure extends Figure {
 		initAnchor();
 	}
 	
+	/**
+	 * Initialize all the figures composing this figure.
+	 */
 	protected abstract void createFigure();
-	
+
+	/**
+	 * Initialize the anchors to this figure.
+	 */
 	protected abstract void initAnchor();
 	
+	
+	/**
+	 * This return the connection anchor for an incoming connection.
+	 * @return The connecction anchor
+	 */
 	public ConnectionAnchor getSourceConnectionAnchor(){
 		return outgoingAnchor;
 	}
+	
+	/**
+	 * This return the connection anchor for an outgoing connection.
+	 * @return The connecction anchor
+	 */
 	public ConnectionAnchor getTargetConnectionAnchor(){
 		return incomingAnchor;
 	}
