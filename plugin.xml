@@ -27,7 +27,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            icon="src/seg/jUCMNav/icons/AndFork16.gif"
+            icon="icons/AndFork16.gif"
             class="seg.jUCMNav.editors.UcmEditor"
             default="false"
             name="seg.jUCMNav.MainEditor"

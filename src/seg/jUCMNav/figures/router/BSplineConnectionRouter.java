@@ -43,7 +43,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	}
 
 	/**
-	 * Return all the points of the spline defined by the connections.
+	 * This function will return a list of points passing on each nodes of the path.
+	 * This algorithm consider that the connection array is sorted.
 	 * 
 	 * @return
 	 */
@@ -73,7 +74,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	}
 
 	/**
-	 * This function sort all the connections in comparison to the model
+	 * This function sort all the connections in comparison to the model.
+	 * The first connection will be the connection going from the start point to the first node, etc.
 	 * 
 	 * @return The new ordered connection array.
 	 */
@@ -118,24 +120,39 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		return finalList;
 	}
 
+	/**
+	 * This function generate the BSpline with the location of each nodes.
+	 * @return The BSpline representing the path.
+	 */
 	protected BSpline generateSpline() {
 		return new BSpline(getAllPoints());
 	}
 
+	/**
+	 * This function return a point list for a given connection.
+	 * @param connection The connection you need the point list.
+	 * @return The point list following the spline for this connection.
+	 */
 	protected PointList getPointsFor(Connection connection) {
 		PointList points = spline.getPointsBetween(this.getStartPoint(connection), this.getEndPoint(connection));
 		return points;
 	}
 
+	/**
+	 * This methode is called when a new connection is inserted in the path.
+	 * @param conn
+	 */
 	protected void insertConnection(Connection conn) {
+		// We have to add it to the connection list
 		if(conn != null)
 			conns.add(conn);
 		
+		// The first time we insert a connection, initialize the UcmDiagram.
 		SplineConnection c = (SplineConnection)conn;
 		if(diagram == null)
 			diagram = c.getLink().getSource().getDiagram();
 		
-		// Update the links hashmap with
+		// Update the links hashmap with the new connection
 		for (Iterator i = conns.iterator(); i.hasNext();) {
 			SplineConnection con = (SplineConnection) i.next();
 			// The link is the key, the connection the value

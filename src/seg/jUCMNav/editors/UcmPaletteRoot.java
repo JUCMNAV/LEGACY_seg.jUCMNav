@@ -103,6 +103,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, null));
         componentsDrawer.add(entry);
+        entry.setId("StartPoint");
         setDefaultEntry(entry);
 		
 		entry =
@@ -113,6 +114,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 new ModelCreationFactory(Node.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
+		entry.setId("EmptyNode");
         componentsDrawer.add(entry);
         
         endPointTool =
@@ -123,6 +125,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 new ModelCreationFactory(EndPoint.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
+        endPointTool.setId("EndPoint");
         componentsDrawer.add(endPointTool);
         
         entry =
@@ -133,6 +136,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 new ModelCreationFactory(Responsibility.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
+        entry.setId("Responsibility");
         componentsDrawer.add(entry);
         
 //        entry =

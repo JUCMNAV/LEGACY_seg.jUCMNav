@@ -4,7 +4,6 @@
  */
 package seg.jUCMNav.editors;
 
-import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.palette.PaletteListener;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
@@ -25,11 +24,16 @@ public class UcmPaletteListener implements PaletteListener {
 	 * @see org.eclipse.gef.palette.PaletteListener#activeToolChanged(org.eclipse.gef.ui.palette.PaletteViewer, org.eclipse.gef.palette.ToolEntry)
 	 */
 	public void activeToolChanged(PaletteViewer palette, ToolEntry tool) {
-		EditDomain domain = palette.getEditDomain();
 		UcmPaletteRoot root = (UcmPaletteRoot)palette.getPaletteRoot();
-		ToolEntry end = root.getEndPointTool();
-//		AbstractTool active = (AbstractTool)domain.getActiveTool();
-		palette.getPaletteRoot().setDefaultEntry(end);		
+		
+		ToolEntry active = palette.getActiveTool();
+		if(active.getId() == "EmptyNode" || active.getId() == "Responsibility")
+			root.setDefaultEntry(active);
+		else
+		{
+			ToolEntry end = root.getEndPointTool();
+			root.setDefaultEntry(end);
+		}
 	}
 
 }
