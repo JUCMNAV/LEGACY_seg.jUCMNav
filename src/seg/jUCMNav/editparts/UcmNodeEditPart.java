@@ -59,6 +59,7 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 			figure = new StartPointFigure();
 		else if(getModel() instanceof EndPoint)
 			figure = new EndPointFigure();
+//		((PathEditPart)getParent()).getFigure().add(figure);
 		return figure;
 	}
 

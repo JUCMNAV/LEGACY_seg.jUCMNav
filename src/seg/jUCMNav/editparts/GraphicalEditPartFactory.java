@@ -28,16 +28,12 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof UcmDiagram)
 			return new UcmDiagramEditPart((UcmDiagram)model);
-		else if(model instanceof Path){
+		else if(model instanceof Path)
 			return new PathEditPart((Path)model);
-		}
-		else if(model instanceof Component){
+		else if(model instanceof Component)
 			return new ComponentEditPart((Component)model);
-		}
-		else if(model instanceof Node) {
-			UcmNodeEditPart tmp = new UcmNodeEditPart((Node)model);
-			return tmp;
-		}
+		else if(model instanceof Node)
+			return new UcmNodeEditPart((Node)model);
 		else
 			return null;
 	}

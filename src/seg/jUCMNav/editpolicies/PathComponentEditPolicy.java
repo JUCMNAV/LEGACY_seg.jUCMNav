@@ -1,5 +1,5 @@
 /*
- * Created on 2005-02-07
+ * Created on 2005-02-22
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -10,25 +10,26 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import seg.jUCMNav.model.commands.DeleteNodeCommand;
-import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.UcmDiagram;
-
 /**
+ * Created 2005-02-22
+ * 
  * @author Etienne Tremblay
  */
-public class UcmComponentEditPolicy extends ComponentEditPolicy {
+public class PathComponentEditPolicy extends ComponentEditPolicy {
+
+	/**
+	 * 
+	 */
+	public PathComponentEditPolicy() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
 	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-		Object parent = getHost().getParent().getModel();
-		Object node = getHost().getModel();
-		if(parent instanceof UcmDiagram && node instanceof Node){
-			DeleteNodeCommand command = new DeleteNodeCommand();
-			return command;
-		}
+		// TODO Auto-generated method stub
 		return super.createDeleteCommand(deleteRequest);
 	}
 }

@@ -12,6 +12,14 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+import seg.jUCMNav.model.commands.CreateNodeCommand;
+import seg.jUCMNav.model.ucm.EndPoint;
+import seg.jUCMNav.model.ucm.Node;
+import seg.jUCMNav.model.ucm.Path;
+import seg.jUCMNav.model.ucm.Responsibility;
+import seg.jUCMNav.model.ucm.SizedElement;
+import seg.jUCMNav.model.ucm.StartPoint;
+
 /**
  * Created 2005-02-22
  * 
@@ -48,8 +56,25 @@ public class PathXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
 	 */
 	protected Command getCreateCommand(CreateRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		Object	newObjectType = null;
+		if(request.getNewObject() != null)
+			newObjectType = request.getNewObjectType();
+		Command	createCommand = null;
+		
+		if( newObjectType == Node.class 
+			|| newObjectType == Responsibility.class 
+			|| newObjectType == StartPoint.class
+			|| newObjectType == EndPoint.class)
+		{
+			CreateNodeCommand create = new CreateNodeCommand();
+			create.setPath((Path)getHost().getModel());
+			create.setLocation(request.getLocation());
+			create.setNode( (SizedElement)request.getNewObject() );
+			create.setLabel("Create a node");
+			createCommand = create;
+		}
+		
+		return createCommand;
 	}
 
 	/* (non-Javadoc)

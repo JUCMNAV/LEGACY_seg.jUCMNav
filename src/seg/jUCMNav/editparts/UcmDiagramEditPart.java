@@ -81,6 +81,7 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 			getDiagram().eAdapters().remove(this);
 		super.deactivate();
 	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
