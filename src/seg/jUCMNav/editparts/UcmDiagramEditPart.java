@@ -8,6 +8,7 @@ package seg.jUCMNav.editparts;
 
 import java.util.List;
 
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
@@ -16,6 +17,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -23,6 +25,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.editpolicies.UcmEditPolicy;
 import seg.jUCMNav.editpolicies.UcmXYLayoutEditPolicy;
 import seg.jUCMNav.emf.EObjectPropertySource;
+import seg.jUCMNav.figures.BSplineConnectionRouter;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 
 /**
@@ -119,8 +122,8 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
 	 */
 	protected void registerVisuals() {
-//		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-//		cLayer.setConnectionRouter(new ManhattanConnectionRouter());
+		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		cLayer.setConnectionRouter(new BSplineConnectionRouter());
 		
 		super.registerVisuals();
 	}

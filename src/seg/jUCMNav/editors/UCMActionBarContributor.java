@@ -8,9 +8,6 @@ package seg.jUCMNav.editors;
 
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
-import org.eclipse.gef.ui.actions.MatchHeightRetargetAction;
-import org.eclipse.gef.ui.actions.MatchWidthRetargetAction;
 import org.eclipse.gef.ui.actions.RedoRetargetAction;
 import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
@@ -38,8 +35,8 @@ public class UCMActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new ZoomInRetargetAction());
 		addRetargetAction(new ZoomOutRetargetAction());
 		
-		addRetargetAction(new MatchWidthRetargetAction());
-		addRetargetAction(new MatchHeightRetargetAction());
+//		addRetargetAction(new MatchWidthRetargetAction());
+//		addRetargetAction(new MatchHeightRetargetAction());
 	}
 
 	/**
@@ -68,8 +65,8 @@ public class UCMActionBarContributor extends ActionBarContributor {
 	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
 	 */
 	public void contributeToMenu(IMenuManager menuManager) {
-		menuManager.add(getAction(GEFActionConstants.ZOOM_IN));
-		menuManager.add(getAction(GEFActionConstants.ZOOM_OUT));
+//		menuManager.add(getAction(GEFActionConstants.ZOOM_IN));
+//		menuManager.add(getAction(GEFActionConstants.ZOOM_OUT));
 		super.contributeToMenu(menuManager);
 	}
 }

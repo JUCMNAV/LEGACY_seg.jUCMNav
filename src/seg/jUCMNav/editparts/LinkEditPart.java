@@ -7,14 +7,13 @@
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
 import seg.jUCMNav.editpolicies.LinkEditPolicy;
 import seg.jUCMNav.editpolicies.LinkEndpointEditPolicy;
-import seg.jUCMNav.editpolicies.LinkSelectionHandlesEditPolicy;
 import seg.jUCMNav.editpolicies.LinkXYLayoutEditPolicy;
+import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.ucm.Link;
 
 /**
@@ -35,7 +34,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	 */
 	protected void createEditPolicies() {
 		installEditPolicy( EditPolicy.CONNECTION_ENDPOINTS_ROLE, new LinkEndpointEditPolicy());
-		installEditPolicy( EditPolicy.CONNECTION_BENDPOINTS_ROLE, new LinkSelectionHandlesEditPolicy() );
+//		installEditPolicy( EditPolicy.CONNECTION_BENDPOINTS_ROLE, new LinkSelectionHandlesEditPolicy() );
 		installEditPolicy( EditPolicy.CONNECTION_ROLE, new LinkEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new LinkXYLayoutEditPolicy());
 	}
@@ -48,7 +47,8 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
 	protected IFigure createFigure() {
-		PolylineConnection connection = (PolylineConnection)super.createFigure();
+		SplineConnection connection = new SplineConnection();
+		connection.setLink(getLink());
 		connection.setLineWidth(3);
 //		PolygonDecoration p = new PolygonDecoration();
 //		connection.setTargetDecoration(p); // arrow at target endpoint
