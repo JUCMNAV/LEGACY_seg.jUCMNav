@@ -5,7 +5,6 @@
 package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;

@@ -116,4 +116,7 @@ public class CreatePathCommand extends Command {
 	public void setStart(StartPoint start) {
 		this.start = start;
 	}
+	public EndPoint getEnd() {
+		return end;
+	}
 }

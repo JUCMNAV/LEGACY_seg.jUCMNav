@@ -63,7 +63,6 @@ import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.emf.UcmModelManager;
 import ucm.map.Map;
 import ucm.map.MapFactory;
-import ucm.map.PathGraph;
 
 /**
  * 

@@ -9,7 +9,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
 import ucm.map.ComponentRef;
-import ucm.map.PathNode;
 
 /**
  * @author Etienne Tremblay

@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import ucm.UcmPackage;
 import ucm.map.MapFactory;
 import ucm.map.MapPackage;
-import ucm.map.PathGraph;
 import ucm.map.impl.MapPackageImpl;
 
 /**

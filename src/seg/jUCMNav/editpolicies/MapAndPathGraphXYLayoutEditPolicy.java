@@ -16,7 +16,6 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.ComponentSetConstraintCommand;
 import seg.jUCMNav.model.commands.CreateComponentRefCommand;
@@ -142,8 +141,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
      *      java.lang.Object)
      */
-    protected Command createChangeConstraintCommand(EditPart child,
-            Object constraint) {
+    protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 
         if (child.getModel() instanceof PathNode) {
             SetConstraintCommand locationCommand = new SetConstraintCommand();
@@ -158,12 +156,9 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // since
             // the x,y coordinates is
             // the center of the figure.
-            Dimension dim = ((PathNodeEditPart) child).getNodeFigure()
-                    .getPreferredSize().getCopy();
+            Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
-            Point location = new Point(((Rectangle) constraint).x
-                    + (dim.width / 2), ((Rectangle) constraint).y
-                    + (dim.height / 2));
+            Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
             locationCommand.setNewPosition(location);
             return locationCommand;
         } else if (child.getModel() instanceof ComponentRef) {
