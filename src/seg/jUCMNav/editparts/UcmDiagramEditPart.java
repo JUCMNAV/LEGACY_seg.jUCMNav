@@ -86,7 +86,7 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
 	protected List getModelChildren() {
-		return getDiagram().getPaths();
+		return getDiagram().getNodes();
 	}
 	
 	protected IPropertySource getPropertySource() {

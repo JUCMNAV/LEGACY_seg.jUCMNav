@@ -133,6 +133,12 @@ public class UcmSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UcmPackage.LINK: {
+				Link link = (Link)theEObject;
+				Object result = caseLink(link);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case UcmPackage.END_POINT: {
 				EndPoint endPoint = (EndPoint)theEObject;
 				Object result = caseEndPoint(endPoint);
@@ -263,6 +269,21 @@ public class UcmSwitch {
 	 * @generated
 	 */
 	public Object caseFork(Fork object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Link</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseLink(Link object) {
 		return null;
 	}
 

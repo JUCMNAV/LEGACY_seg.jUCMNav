@@ -6,10 +6,10 @@
  */
 package seg.jUCMNav.model.commands;
 
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.SizedElement;
+import seg.jUCMNav.model.ucm.Node;
 
 /**
  * @author Etienne Tremblay
@@ -21,17 +21,17 @@ public class SetConstraintCommand extends Command {
 	
 	private static final String Command_Label_Location = "change location command";
 	private static final String Command_Label_Resize = "resize command";
-	private Rectangle newBounds;
+	private Point newPosition;
 	
-	private Rectangle oldBounds;
+	private Point oldPosition;
 	
-	private SizedElement node;
+	private Node node;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		oldBounds = new Rectangle(node.getX(), node.getY(), node.getWidth(), node.getHeight());
+		oldPosition = new Point(node.getX(), node.getY());
 		redo();
 	}
 	
@@ -39,20 +39,16 @@ public class SetConstraintCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		node.setX(newBounds.x);
-		node.setY(newBounds.y);
-		node.setHeight(newBounds.height);
-		node.setWidth(newBounds.width);
+		node.setX(newPosition.x);
+		node.setY(newPosition.y);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		node.setX(oldBounds.x);
-		node.setY(oldBounds.y);
-		node.setHeight(oldBounds.height);
-		node.setWidth(oldBounds.width);
+		node.setX(oldPosition.x);
+		node.setY(oldPosition.y);
 	}
 	
 	/* (non-Javadoc)
@@ -65,19 +61,19 @@ public class SetConstraintCommand extends Command {
 	/**
 	 * @param node The node to set.
 	 */
-	public void setNode(SizedElement node) {
+	public void setNode(Node node) {
 		this.node = node;
 	}
 	/**
-	 * @return Returns the newBounds.
+	 * @return Returns the newPosition.
 	 */
-	public Rectangle getNewBounds() {
-		return newBounds;
+	public Point getNewPosition() {
+		return newPosition;
 	}
 	/**
-	 * @param newBounds The newBounds to set.
+	 * @param newPosition The newPosition to set.
 	 */
-	public void setNewBounds(Rectangle newBounds) {
-		this.newBounds = newBounds;
+	public void setNewPosition(Point newPosition) {
+		this.newPosition = newPosition;
 	}
 }

@@ -91,6 +91,9 @@ public class UcmAdapterFactory extends AdapterFactoryImpl {
 			public Object caseFork(Fork object) {
 				return createForkAdapter();
 			}
+			public Object caseLink(Link object) {
+				return createLinkAdapter();
+			}
 			public Object caseEndPoint(EndPoint object) {
 				return createEndPointAdapter();
 			}
@@ -213,6 +216,20 @@ public class UcmAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createForkAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link seg.jUCMNav.model.ucm.Link <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see seg.jUCMNav.model.ucm.Link
+	 * @generated
+	 */
+	public Adapter createLinkAdapter() {
 		return null;
 	}
 

@@ -22,7 +22,6 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.emf.ModelCreationFactory;
 import seg.jUCMNav.model.ucm.EndPoint;
 import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.Responsibility;
 import seg.jUCMNav.model.ucm.StartPoint;
 
@@ -97,10 +96,10 @@ public class NetworkPaletteRoot extends PaletteRoot
 		
 		entry =
             new CombinedTemplateCreationEntry(
-                "Path",
+                "StartPoint",
                 "Creates a Path",
-                Path.class,
-                new ModelCreationFactory(Path.class),
+                StartPoint.class,
+                new ModelCreationFactory(StartPoint.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/connection_s16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, null));
         componentsDrawer.add(entry);

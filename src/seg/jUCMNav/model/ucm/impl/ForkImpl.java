@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import seg.jUCMNav.model.ucm.Fork;
@@ -41,7 +41,7 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  */
 public class ForkImpl extends EObjectImpl implements Fork {
 	/**
-	 * The cached value of the '{@link #getInPaths() <em>In Paths</em>}' containment reference list.
+	 * The cached value of the '{@link #getInPaths() <em>In Paths</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getInPaths()
@@ -51,7 +51,7 @@ public class ForkImpl extends EObjectImpl implements Fork {
 	protected EList inPaths = null;
 
 	/**
-	 * The cached value of the '{@link #getOutPath() <em>Out Path</em>}' containment reference list.
+	 * The cached value of the '{@link #getOutPath() <em>Out Path</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOutPath()
@@ -85,7 +85,7 @@ public class ForkImpl extends EObjectImpl implements Fork {
 	 */
 	public EList getInPaths() {
 		if (inPaths == null) {
-			inPaths = new EObjectContainmentWithInverseEList(Path.class, this, UcmPackage.FORK__IN_PATHS, UcmPackage.PATH__IN_FORK);
+			inPaths = new EObjectWithInverseResolvingEList(Path.class, this, UcmPackage.FORK__IN_PATHS, UcmPackage.PATH__IN_FORK);
 		}
 		return inPaths;
 	}
@@ -97,7 +97,7 @@ public class ForkImpl extends EObjectImpl implements Fork {
 	 */
 	public EList getOutPath() {
 		if (outPath == null) {
-			outPath = new EObjectContainmentWithInverseEList(Path.class, this, UcmPackage.FORK__OUT_PATH, UcmPackage.PATH__OUT_FORK);
+			outPath = new EObjectWithInverseResolvingEList(Path.class, this, UcmPackage.FORK__OUT_PATH, UcmPackage.PATH__OUT_FORK);
 		}
 		return outPath;
 	}

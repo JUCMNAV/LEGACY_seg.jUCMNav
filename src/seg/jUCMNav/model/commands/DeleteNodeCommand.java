@@ -8,6 +8,11 @@ package seg.jUCMNav.model.commands;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ucm.EndPoint;
+import seg.jUCMNav.model.ucm.Link;
+import seg.jUCMNav.model.ucm.Node;
+import seg.jUCMNav.model.ucm.StartPoint;
+
 /**
  * @author Etienne Tremblay
  *
@@ -16,21 +21,29 @@ public class DeleteNodeCommand extends Command {
 	
 	private static final String	DeleteCommand_Label = "DeleteNodeCommand";
 	
+	private Node node;
+	private Link source;
+	private Link target;
+	
 	public DeleteNodeCommand(){
-
+		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return true;
+		if( node instanceof StartPoint ||
+			node instanceof EndPoint)
+			return false;
+		else
+			return true;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-
+		
 	}
 	
 	/* (non-Javadoc)
@@ -52,5 +65,17 @@ public class DeleteNodeCommand extends Command {
 	 */
 	public String getLabel() {
 		return DeleteCommand_Label;
+	}
+	/**
+	 * @return Returns the node.
+	 */
+	public Node getNode() {
+		return node;
+	}
+	/**
+	 * @param node The node to set.
+	 */
+	public void setNode(Node node) {
+		this.node = node;
 	}
 }

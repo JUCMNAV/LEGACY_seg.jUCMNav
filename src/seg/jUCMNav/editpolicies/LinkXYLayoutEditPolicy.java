@@ -1,5 +1,5 @@
 /*
- * Created on 2005-02-22
+ * Created on 2005-02-25
  *
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
@@ -12,25 +12,24 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
-import seg.jUCMNav.model.commands.CreateNodeCommand;
+import seg.jUCMNav.model.commands.SplitLinkCommand;
 import seg.jUCMNav.model.ucm.EndPoint;
+import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.Responsibility;
-import seg.jUCMNav.model.ucm.SizedElement;
 import seg.jUCMNav.model.ucm.StartPoint;
 
 /**
- * Created 2005-02-22
+ * Created 2005-02-25
  * 
  * @author Etienne Tremblay
  */
-public class PathXYLayoutEditPolicy extends XYLayoutEditPolicy {
+public class LinkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	/**
 	 * 
 	 */
-	public PathXYLayoutEditPolicy() {
+	public LinkXYLayoutEditPolicy() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -61,19 +60,18 @@ public class PathXYLayoutEditPolicy extends XYLayoutEditPolicy {
 			newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
 		
-		if( newObjectType == Node.class 
+		if ( newObjectType == Node.class 
 			|| newObjectType == Responsibility.class 
 			|| newObjectType == StartPoint.class
 			|| newObjectType == EndPoint.class)
 		{
-			CreateNodeCommand create = new CreateNodeCommand();
-			create.setPath((Path)getHost().getModel());
+			SplitLinkCommand create = new SplitLinkCommand();
 			create.setLocation(request.getLocation());
-			create.setNode( (SizedElement)request.getNewObject() );
+			create.setNode((Node)request.getNewObject());
+			create.setOldLink((Link)this.getHost().getModel());
 			create.setLabel("Create a node");
 			createCommand = create;
 		}
-		
 		return createCommand;
 	}
 

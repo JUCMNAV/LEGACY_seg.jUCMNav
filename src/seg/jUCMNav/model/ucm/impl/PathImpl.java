@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -40,9 +40,9 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getNodes <em>Nodes</em>}</li>
- *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getInFork <em>In Fork</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getOutFork <em>Out Fork</em>}</li>
+ *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getEndpoint <em>Endpoint</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.PathImpl#getStartpoint <em>Startpoint</em>}</li>
  * </ul>
@@ -52,7 +52,7 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  */
 public class PathImpl extends EObjectImpl implements Path {
 	/**
-	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
+	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getNodes()
@@ -62,7 +62,27 @@ public class PathImpl extends EObjectImpl implements Path {
 	protected EList nodes = null;
 
 	/**
-	 * The cached value of the '{@link #getEndpoint() <em>Endpoint</em>}' containment reference.
+	 * The cached value of the '{@link #getInFork() <em>In Fork</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInFork()
+	 * @generated
+	 * @ordered
+	 */
+	protected Fork inFork = null;
+
+	/**
+	 * The cached value of the '{@link #getOutFork() <em>Out Fork</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutFork()
+	 * @generated
+	 * @ordered
+	 */
+	protected Fork outFork = null;
+
+	/**
+	 * The cached value of the '{@link #getEndpoint() <em>Endpoint</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getEndpoint()
@@ -72,7 +92,7 @@ public class PathImpl extends EObjectImpl implements Path {
 	protected EndPoint endpoint = null;
 
 	/**
-	 * The cached value of the '{@link #getStartpoint() <em>Startpoint</em>}' containment reference.
+	 * The cached value of the '{@link #getStartpoint() <em>Startpoint</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getStartpoint()
@@ -106,9 +126,129 @@ public class PathImpl extends EObjectImpl implements Path {
 	 */
 	public EList getNodes() {
 		if (nodes == null) {
-			nodes = new EObjectContainmentWithInverseEList(Node.class, this, UcmPackage.PATH__NODES, UcmPackage.NODE__PATH);
+			nodes = new EObjectWithInverseResolvingEList(Node.class, this, UcmPackage.PATH__NODES, UcmPackage.NODE__PATH);
 		}
 		return nodes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Fork getInFork() {
+		if (inFork != null && inFork.eIsProxy()) {
+			Fork oldInFork = inFork;
+			inFork = (Fork)eResolveProxy((InternalEObject)inFork);
+			if (inFork != oldInFork) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UcmPackage.PATH__IN_FORK, oldInFork, inFork));
+			}
+		}
+		return inFork;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Fork basicGetInFork() {
+		return inFork;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetInFork(Fork newInFork, NotificationChain msgs) {
+		Fork oldInFork = inFork;
+		inFork = newInFork;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__IN_FORK, oldInFork, newInFork);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInFork(Fork newInFork) {
+		if (newInFork != inFork) {
+			NotificationChain msgs = null;
+			if (inFork != null)
+				msgs = ((InternalEObject)inFork).eInverseRemove(this, UcmPackage.FORK__IN_PATHS, Fork.class, msgs);
+			if (newInFork != null)
+				msgs = ((InternalEObject)newInFork).eInverseAdd(this, UcmPackage.FORK__IN_PATHS, Fork.class, msgs);
+			msgs = basicSetInFork(newInFork, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__IN_FORK, newInFork, newInFork));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Fork getOutFork() {
+		if (outFork != null && outFork.eIsProxy()) {
+			Fork oldOutFork = outFork;
+			outFork = (Fork)eResolveProxy((InternalEObject)outFork);
+			if (outFork != oldOutFork) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UcmPackage.PATH__OUT_FORK, oldOutFork, outFork));
+			}
+		}
+		return outFork;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Fork basicGetOutFork() {
+		return outFork;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOutFork(Fork newOutFork, NotificationChain msgs) {
+		Fork oldOutFork = outFork;
+		outFork = newOutFork;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__OUT_FORK, oldOutFork, newOutFork);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOutFork(Fork newOutFork) {
+		if (newOutFork != outFork) {
+			NotificationChain msgs = null;
+			if (outFork != null)
+				msgs = ((InternalEObject)outFork).eInverseRemove(this, UcmPackage.FORK__OUT_PATH, Fork.class, msgs);
+			if (newOutFork != null)
+				msgs = ((InternalEObject)newOutFork).eInverseAdd(this, UcmPackage.FORK__OUT_PATH, Fork.class, msgs);
+			msgs = basicSetOutFork(newOutFork, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__OUT_FORK, newOutFork, newOutFork));
 	}
 
 	/**
@@ -147,69 +287,15 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Fork getInFork() {
-		if (eContainerFeatureID != UcmPackage.PATH__IN_FORK) return null;
-		return (Fork)eContainer;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setInFork(Fork newInFork) {
-		if (newInFork != eContainer || (eContainerFeatureID != UcmPackage.PATH__IN_FORK && newInFork != null)) {
-			if (EcoreUtil.isAncestor(this, newInFork))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eContainer != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newInFork != null)
-				msgs = ((InternalEObject)newInFork).eInverseAdd(this, UcmPackage.FORK__IN_PATHS, Fork.class, msgs);
-			msgs = eBasicSetContainer((InternalEObject)newInFork, UcmPackage.PATH__IN_FORK, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__IN_FORK, newInFork, newInFork));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Fork getOutFork() {
-		if (eContainerFeatureID != UcmPackage.PATH__OUT_FORK) return null;
-		return (Fork)eContainer;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOutFork(Fork newOutFork) {
-		if (newOutFork != eContainer || (eContainerFeatureID != UcmPackage.PATH__OUT_FORK && newOutFork != null)) {
-			if (EcoreUtil.isAncestor(this, newOutFork))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eContainer != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newOutFork != null)
-				msgs = ((InternalEObject)newOutFork).eInverseAdd(this, UcmPackage.FORK__OUT_PATH, Fork.class, msgs);
-			msgs = eBasicSetContainer((InternalEObject)newOutFork, UcmPackage.PATH__OUT_FORK, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__OUT_FORK, newOutFork, newOutFork));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EndPoint getEndpoint() {
+		if (endpoint != null && endpoint.eIsProxy()) {
+			EndPoint oldEndpoint = endpoint;
+			endpoint = (EndPoint)eResolveProxy((InternalEObject)endpoint);
+			if (endpoint != oldEndpoint) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UcmPackage.PATH__ENDPOINT, oldEndpoint, endpoint));
+			}
+		}
 		return endpoint;
 	}
 
@@ -218,14 +304,8 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEndpoint(EndPoint newEndpoint, NotificationChain msgs) {
-		EndPoint oldEndpoint = endpoint;
-		endpoint = newEndpoint;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__ENDPOINT, oldEndpoint, newEndpoint);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public EndPoint basicGetEndpoint() {
+		return endpoint;
 	}
 
 	/**
@@ -234,17 +314,10 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * @generated
 	 */
 	public void setEndpoint(EndPoint newEndpoint) {
-		if (newEndpoint != endpoint) {
-			NotificationChain msgs = null;
-			if (endpoint != null)
-				msgs = ((InternalEObject)endpoint).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UcmPackage.PATH__ENDPOINT, null, msgs);
-			if (newEndpoint != null)
-				msgs = ((InternalEObject)newEndpoint).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UcmPackage.PATH__ENDPOINT, null, msgs);
-			msgs = basicSetEndpoint(newEndpoint, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__ENDPOINT, newEndpoint, newEndpoint));
+		EndPoint oldEndpoint = endpoint;
+		endpoint = newEndpoint;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__ENDPOINT, oldEndpoint, endpoint));
 	}
 
 	/**
@@ -253,6 +326,14 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * @generated
 	 */
 	public StartPoint getStartpoint() {
+		if (startpoint != null && startpoint.eIsProxy()) {
+			StartPoint oldStartpoint = startpoint;
+			startpoint = (StartPoint)eResolveProxy((InternalEObject)startpoint);
+			if (startpoint != oldStartpoint) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UcmPackage.PATH__STARTPOINT, oldStartpoint, startpoint));
+			}
+		}
 		return startpoint;
 	}
 
@@ -261,14 +342,8 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetStartpoint(StartPoint newStartpoint, NotificationChain msgs) {
-		StartPoint oldStartpoint = startpoint;
-		startpoint = newStartpoint;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__STARTPOINT, oldStartpoint, newStartpoint);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public StartPoint basicGetStartpoint() {
+		return startpoint;
 	}
 
 	/**
@@ -277,17 +352,10 @@ public class PathImpl extends EObjectImpl implements Path {
 	 * @generated
 	 */
 	public void setStartpoint(StartPoint newStartpoint) {
-		if (newStartpoint != startpoint) {
-			NotificationChain msgs = null;
-			if (startpoint != null)
-				msgs = ((InternalEObject)startpoint).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UcmPackage.PATH__STARTPOINT, null, msgs);
-			if (newStartpoint != null)
-				msgs = ((InternalEObject)newStartpoint).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UcmPackage.PATH__STARTPOINT, null, msgs);
-			msgs = basicSetStartpoint(newStartpoint, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__STARTPOINT, newStartpoint, newStartpoint));
+		StartPoint oldStartpoint = startpoint;
+		startpoint = newStartpoint;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UcmPackage.PATH__STARTPOINT, oldStartpoint, startpoint));
 	}
 
 	/**
@@ -300,18 +368,18 @@ public class PathImpl extends EObjectImpl implements Path {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case UcmPackage.PATH__NODES:
 					return ((InternalEList)getNodes()).basicAdd(otherEnd, msgs);
+				case UcmPackage.PATH__IN_FORK:
+					if (inFork != null)
+						msgs = ((InternalEObject)inFork).eInverseRemove(this, UcmPackage.FORK__IN_PATHS, Fork.class, msgs);
+					return basicSetInFork((Fork)otherEnd, msgs);
+				case UcmPackage.PATH__OUT_FORK:
+					if (outFork != null)
+						msgs = ((InternalEObject)outFork).eInverseRemove(this, UcmPackage.FORK__OUT_PATH, Fork.class, msgs);
+					return basicSetOutFork((Fork)otherEnd, msgs);
 				case UcmPackage.PATH__DIAGRAM:
 					if (eContainer != null)
 						msgs = eBasicRemoveFromContainer(msgs);
 					return eBasicSetContainer(otherEnd, UcmPackage.PATH__DIAGRAM, msgs);
-				case UcmPackage.PATH__IN_FORK:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, UcmPackage.PATH__IN_FORK, msgs);
-				case UcmPackage.PATH__OUT_FORK:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, UcmPackage.PATH__OUT_FORK, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -331,16 +399,12 @@ public class PathImpl extends EObjectImpl implements Path {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case UcmPackage.PATH__NODES:
 					return ((InternalEList)getNodes()).basicRemove(otherEnd, msgs);
+				case UcmPackage.PATH__IN_FORK:
+					return basicSetInFork(null, msgs);
+				case UcmPackage.PATH__OUT_FORK:
+					return basicSetOutFork(null, msgs);
 				case UcmPackage.PATH__DIAGRAM:
 					return eBasicSetContainer(null, UcmPackage.PATH__DIAGRAM, msgs);
-				case UcmPackage.PATH__IN_FORK:
-					return eBasicSetContainer(null, UcmPackage.PATH__IN_FORK, msgs);
-				case UcmPackage.PATH__OUT_FORK:
-					return eBasicSetContainer(null, UcmPackage.PATH__OUT_FORK, msgs);
-				case UcmPackage.PATH__ENDPOINT:
-					return basicSetEndpoint(null, msgs);
-				case UcmPackage.PATH__STARTPOINT:
-					return basicSetStartpoint(null, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -358,10 +422,6 @@ public class PathImpl extends EObjectImpl implements Path {
 			switch (eContainerFeatureID) {
 				case UcmPackage.PATH__DIAGRAM:
 					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UCM_DIAGRAM__PATHS, UcmDiagram.class, msgs);
-				case UcmPackage.PATH__IN_FORK:
-					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.FORK__IN_PATHS, Fork.class, msgs);
-				case UcmPackage.PATH__OUT_FORK:
-					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.FORK__OUT_PATH, Fork.class, msgs);
 				default:
 					return eDynamicBasicRemoveFromContainer(msgs);
 			}
@@ -378,16 +438,20 @@ public class PathImpl extends EObjectImpl implements Path {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case UcmPackage.PATH__NODES:
 				return getNodes();
+			case UcmPackage.PATH__IN_FORK:
+				if (resolve) return getInFork();
+				return basicGetInFork();
+			case UcmPackage.PATH__OUT_FORK:
+				if (resolve) return getOutFork();
+				return basicGetOutFork();
 			case UcmPackage.PATH__DIAGRAM:
 				return getDiagram();
-			case UcmPackage.PATH__IN_FORK:
-				return getInFork();
-			case UcmPackage.PATH__OUT_FORK:
-				return getOutFork();
 			case UcmPackage.PATH__ENDPOINT:
-				return getEndpoint();
+				if (resolve) return getEndpoint();
+				return basicGetEndpoint();
 			case UcmPackage.PATH__STARTPOINT:
-				return getStartpoint();
+				if (resolve) return getStartpoint();
+				return basicGetStartpoint();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -403,14 +467,14 @@ public class PathImpl extends EObjectImpl implements Path {
 				getNodes().clear();
 				getNodes().addAll((Collection)newValue);
 				return;
-			case UcmPackage.PATH__DIAGRAM:
-				setDiagram((UcmDiagram)newValue);
-				return;
 			case UcmPackage.PATH__IN_FORK:
 				setInFork((Fork)newValue);
 				return;
 			case UcmPackage.PATH__OUT_FORK:
 				setOutFork((Fork)newValue);
+				return;
+			case UcmPackage.PATH__DIAGRAM:
+				setDiagram((UcmDiagram)newValue);
 				return;
 			case UcmPackage.PATH__ENDPOINT:
 				setEndpoint((EndPoint)newValue);
@@ -432,14 +496,14 @@ public class PathImpl extends EObjectImpl implements Path {
 			case UcmPackage.PATH__NODES:
 				getNodes().clear();
 				return;
-			case UcmPackage.PATH__DIAGRAM:
-				setDiagram((UcmDiagram)null);
-				return;
 			case UcmPackage.PATH__IN_FORK:
 				setInFork((Fork)null);
 				return;
 			case UcmPackage.PATH__OUT_FORK:
 				setOutFork((Fork)null);
+				return;
+			case UcmPackage.PATH__DIAGRAM:
+				setDiagram((UcmDiagram)null);
 				return;
 			case UcmPackage.PATH__ENDPOINT:
 				setEndpoint((EndPoint)null);
@@ -460,12 +524,12 @@ public class PathImpl extends EObjectImpl implements Path {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
 			case UcmPackage.PATH__NODES:
 				return nodes != null && !nodes.isEmpty();
+			case UcmPackage.PATH__IN_FORK:
+				return inFork != null;
+			case UcmPackage.PATH__OUT_FORK:
+				return outFork != null;
 			case UcmPackage.PATH__DIAGRAM:
 				return getDiagram() != null;
-			case UcmPackage.PATH__IN_FORK:
-				return getInFork() != null;
-			case UcmPackage.PATH__OUT_FORK:
-				return getOutFork() != null;
 			case UcmPackage.PATH__ENDPOINT:
 				return endpoint != null;
 			case UcmPackage.PATH__STARTPOINT:

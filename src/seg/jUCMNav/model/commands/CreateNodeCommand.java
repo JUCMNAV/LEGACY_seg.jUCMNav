@@ -9,7 +9,7 @@ package seg.jUCMNav.model.commands;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ucm.Path;
+import seg.jUCMNav.model.ucm.UcmDiagram;
 import seg.jUCMNav.model.ucm.XYElement;
 
 /**
@@ -21,13 +21,12 @@ public class CreateNodeCommand extends Command {
 	private static final String	CreateCommand_Label = "CreateNodeCommand";
 	private XYElement node;
 	private Point location;
-	private Path path;
+	private UcmDiagram diagram;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		path.getNodes().add(node);
 		if(location != null){
 			node.setX(location.x);
 			node.setY(location.y);
@@ -37,13 +36,11 @@ public class CreateNodeCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		path.getNodes().add(node);
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-		path.getNodes().remove(node);
 	}
 	
 	/**
@@ -71,15 +68,15 @@ public class CreateNodeCommand extends Command {
 		this.node = node;
 	}
 	/**
-	 * @return Returns the path.
+	 * @return Returns the diagram.
 	 */
-	public Path getPath() {
-		return path;
+	public UcmDiagram getDiagram() {
+		return diagram;
 	}
 	/**
-	 * @param path The path to set.
+	 * @param diagram The diagram to set.
 	 */
-	public void setPath(Path path) {
-		this.path = path;
+	public void setDiagram(UcmDiagram diagram) {
+		this.diagram = diagram;
 	}
 }

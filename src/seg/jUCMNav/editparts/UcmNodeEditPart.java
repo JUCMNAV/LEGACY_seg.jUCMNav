@@ -6,6 +6,10 @@
  */
 package seg.jUCMNav.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -13,8 +17,11 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.NodeEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -37,7 +44,7 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapter {
+public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapter, NodeEditPart {
 	private IPropertySource propertySource = null;
 	private Notifier target;
 	
@@ -57,9 +64,6 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 			figure = new EndPointFigure();
 		else if(getModel() instanceof StartPoint)
 			figure = new StartPointFigure();
-		else if(getModel() instanceof EndPoint)
-			figure = new EndPointFigure();
-//		((PathEditPart)getParent()).getFigure().add(figure);
 		return figure;
 	}
 
@@ -107,10 +111,36 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 	public void notifyChanged(Notification notification) {
 		int featureId = notification.getFeatureID( UcmPackage.class );
 		switch( featureId ) {
+		case UcmPackage.NODE__UP_LINK:
+			refreshTargetConnections();
+		break;		
+		case UcmPackage.NODE__DOWN_LINK:
+			refreshSourceConnections();
+		break;
 		default:
 			refreshVisuals();
 		break;
 		}
+	}
+	
+	private NodeFigure getNodeFigure(){
+		return (NodeFigure)getFigure();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 */
+	protected void refreshVisuals() {
+		Point location = new Point(getNode().getX(), getNode().getY());  // The position of the current figure
+		Dimension size = new Dimension(-1, -1);
+		Rectangle bounds = new Rectangle(location, size);
+		figure.setBounds(bounds);
+		figure.validate(); // Make the label recenter itself.
+		// notify parent container of changed position & location
+		// if this line is removed, the XYLayoutManager used by the parent container 
+		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
+		// and will not draw it correctly.
+		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 	}
 
 	/* (non-Javadoc)
@@ -146,25 +176,55 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 			return getPropertySource();
 		}
 		return super.getAdapter( key );
-	}
-	
-	private NodeFigure getNodeFigure(){
-		return (NodeFigure)getFigure();
+	}	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 */
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+		return getNodeFigure().getSourceConnectionAnchor();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
 	 */
-	protected void refreshVisuals() {
-		Point location = new Point(getNode().getX(), getNode().getY());  // The position of the current figure
-		Dimension size = new Dimension(-1, -1);
-		Rectangle bounds = new Rectangle(location, size);
-		figure.setBounds(bounds);
-		figure.validate(); // Make the label recenter itself.
-		// notify parent container of changed position & location
-		// if this line is removed, the XYLayoutManager used by the parent container 
-		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
-		// and will not draw it correctly.
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+		return getNodeFigure().getTargetConnectionAnchor();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return getNodeFigure().getSourceConnectionAnchor();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 */
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return getNodeFigure().getTargetConnectionAnchor();
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	 */
+	protected List getModelSourceConnections() {
+		ArrayList list = new ArrayList();
+		if(getNode().getDownLink() != null)
+			list.add(getNode().getDownLink());
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	 */
+	protected List getModelTargetConnections() {
+		ArrayList list = new ArrayList();
+		if(getNode().getUpLink() != null)
+			list.add(getNode().getUpLink());
+		return list;
 	}
 }

@@ -13,6 +13,7 @@ import org.eclipse.gef.requests.CreationFactory;
 
 import seg.jUCMNav.model.ucm.Component;
 import seg.jUCMNav.model.ucm.EndPoint;
+import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
 import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.Responsibility;
@@ -49,6 +50,9 @@ public class ModelCreationFactory implements CreationFactory {
 		if(targetClass != null){
 			if( targetClass.equals( Node.class ) ) {
 				result = factory.createNode();
+			}
+			else if(targetClass.equals(Link.class)){
+				result = factory.createLink();
 			}
 			else if(targetClass.equals(Path.class)){
 				result = factory.createPath();

@@ -6,6 +6,7 @@
  */
 package seg.jUCMNav.editpolicies;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
@@ -13,10 +14,13 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+import seg.jUCMNav.model.commands.CreateNodeCommand;
 import seg.jUCMNav.model.commands.CreatePathCommand;
 import seg.jUCMNav.model.commands.SetConstraintCommand;
-import seg.jUCMNav.model.ucm.Path;
-import seg.jUCMNav.model.ucm.SizedElement;
+import seg.jUCMNav.model.ucm.EndPoint;
+import seg.jUCMNav.model.ucm.Node;
+import seg.jUCMNav.model.ucm.Responsibility;
+import seg.jUCMNav.model.ucm.StartPoint;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 
 public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
@@ -39,14 +43,27 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		if(request.getNewObject() != null)
 			newObjectType = request.getNewObjectType();
 		Command	createCommand = null;
+		int childCount = ((UcmDiagram)this.getHost().getModel()).getNodes().size();
 		
-		if(newObjectType == Path.class){
+		if(newObjectType == StartPoint.class && childCount == 0){
 			CreatePathCommand create = new CreatePathCommand();
 			create.setDiagram((UcmDiagram)getHost().getModel());
-			create.setPath((Path)request.getNewObject());
+			create.setStart((StartPoint)request.getNewObject());
 			create.setPosition(request.getLocation());
 			createCommand = create;
-		}
+		}		
+//		else if ( newObjectType == Node.class 
+//			|| newObjectType == Responsibility.class 
+//			|| newObjectType == StartPoint.class
+//			|| newObjectType == EndPoint.class)
+//		{
+//			CreateNodeCommand create = new CreateNodeCommand();
+//			create.setDiagram((UcmDiagram)getHost().getModel());
+//			create.setLocation(request.getLocation());
+//			create.setNode( (Node)request.getNewObject() );
+//			create.setLabel("Create a node");
+//			createCommand = create;
+//		}
 
 		return createCommand;
 	}
@@ -77,8 +94,9 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	 */
 	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		SetConstraintCommand locationCommand = new SetConstraintCommand();
-		locationCommand.setNode((SizedElement)child.getModel());
-		locationCommand.setNewBounds((Rectangle)constraint);
+		locationCommand.setNode((Node)child.getModel());
+		Point location = new Point(((Rectangle)constraint).x, ((Rectangle)constraint).y);
+		locationCommand.setNewPosition(new Point(location.x, location.y));
 		return locationCommand;
 	}
 

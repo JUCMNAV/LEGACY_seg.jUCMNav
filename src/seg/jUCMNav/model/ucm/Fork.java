@@ -29,37 +29,37 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Fork extends EObject {
 	/**
-	 * Returns the value of the '<em><b>In Paths</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>In Paths</b></em>' reference list.
 	 * The list contents are of type {@link seg.jUCMNav.model.ucm.Path}.
 	 * It is bidirectional and its opposite is '{@link seg.jUCMNav.model.ucm.Path#getInFork <em>In Fork</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>In Paths</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>In Paths</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>In Paths</em>' containment reference list.
+	 * @return the value of the '<em>In Paths</em>' reference list.
 	 * @see seg.jUCMNav.model.ucm.UcmPackage#getFork_InPaths()
 	 * @see seg.jUCMNav.model.ucm.Path#getInFork
-	 * @model type="seg.jUCMNav.model.ucm.Path" opposite="inFork" containment="true" required="true"
+	 * @model type="seg.jUCMNav.model.ucm.Path" opposite="inFork" required="true"
 	 * @generated
 	 */
 	EList getInPaths();
 
 	/**
-	 * Returns the value of the '<em><b>Out Path</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Out Path</b></em>' reference list.
 	 * The list contents are of type {@link seg.jUCMNav.model.ucm.Path}.
 	 * It is bidirectional and its opposite is '{@link seg.jUCMNav.model.ucm.Path#getOutFork <em>Out Fork</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Out Path</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Out Path</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Out Path</em>' containment reference list.
+	 * @return the value of the '<em>Out Path</em>' reference list.
 	 * @see seg.jUCMNav.model.ucm.UcmPackage#getFork_OutPath()
 	 * @see seg.jUCMNav.model.ucm.Path#getOutFork
-	 * @model type="seg.jUCMNav.model.ucm.Path" opposite="outFork" containment="true"
+	 * @model type="seg.jUCMNav.model.ucm.Path" opposite="outFork"
 	 * @generated
 	 */
 	EList getOutPath();

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 import seg.jUCMNav.model.ucm.Component;
 import seg.jUCMNav.model.ucm.EndPoint;
 import seg.jUCMNav.model.ucm.Fork;
+import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
 import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.Responsibility;
@@ -81,6 +82,13 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * @generated
 	 */
 	private EClass forkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass linkEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,7 +202,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPath_Diagram() {
+	public EReference getPath_InFork() {
 		return (EReference)pathEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -203,7 +211,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPath_InFork() {
+	public EReference getPath_OutFork() {
 		return (EReference)pathEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -212,7 +220,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPath_OutFork() {
+	public EReference getPath_Diagram() {
 		return (EReference)pathEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -248,7 +256,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Path() {
+	public EReference getNode_Diagram() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -257,7 +265,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Next() {
+	public EReference getNode_UpLink() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -266,8 +274,35 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Previous() {
+	public EReference getNode_DownLink() {
 		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_Path() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_Next() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNode_Previous() {
+		return (EReference)nodeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -374,7 +409,7 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUcmDiagram_Paths() {
+	public EReference getUcmDiagram_Nodes() {
 		return (EReference)ucmDiagramEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -394,6 +429,24 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 */
 	public EReference getUcmDiagram_Components() {
 		return (EReference)ucmDiagramEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUcmDiagram_Paths() {
+		return (EReference)ucmDiagramEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUcmDiagram_Links() {
+		return (EReference)ucmDiagramEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -421,6 +474,33 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 	 */
 	public EReference getFork_OutPath() {
 		return (EReference)forkEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLink() {
+		return linkEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Target() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLink_Source() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -480,13 +560,16 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		// Create classes and their features
 		pathEClass = createEClass(PATH);
 		createEReference(pathEClass, PATH__NODES);
-		createEReference(pathEClass, PATH__DIAGRAM);
 		createEReference(pathEClass, PATH__IN_FORK);
 		createEReference(pathEClass, PATH__OUT_FORK);
+		createEReference(pathEClass, PATH__DIAGRAM);
 		createEReference(pathEClass, PATH__ENDPOINT);
 		createEReference(pathEClass, PATH__STARTPOINT);
 
 		nodeEClass = createEClass(NODE);
+		createEReference(nodeEClass, NODE__DIAGRAM);
+		createEReference(nodeEClass, NODE__UP_LINK);
+		createEReference(nodeEClass, NODE__DOWN_LINK);
 		createEReference(nodeEClass, NODE__PATH);
 		createEReference(nodeEClass, NODE__NEXT);
 		createEReference(nodeEClass, NODE__PREVIOUS);
@@ -505,13 +588,19 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		createEAttribute(sizedElementEClass, SIZED_ELEMENT__HEIGHT);
 
 		ucmDiagramEClass = createEClass(UCM_DIAGRAM);
-		createEReference(ucmDiagramEClass, UCM_DIAGRAM__PATHS);
+		createEReference(ucmDiagramEClass, UCM_DIAGRAM__NODES);
 		createEReference(ucmDiagramEClass, UCM_DIAGRAM__FORKS);
 		createEReference(ucmDiagramEClass, UCM_DIAGRAM__COMPONENTS);
+		createEReference(ucmDiagramEClass, UCM_DIAGRAM__PATHS);
+		createEReference(ucmDiagramEClass, UCM_DIAGRAM__LINKS);
 
 		forkEClass = createEClass(FORK);
 		createEReference(forkEClass, FORK__IN_PATHS);
 		createEReference(forkEClass, FORK__OUT_PATH);
+
+		linkEClass = createEClass(LINK);
+		createEReference(linkEClass, LINK__TARGET);
+		createEReference(linkEClass, LINK__SOURCE);
 
 		endPointEClass = createEClass(END_POINT);
 
@@ -553,15 +642,18 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(pathEClass, Path.class, "Path", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPath_Nodes(), this.getNode(), this.getNode_Path(), "nodes", null, 1, -1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPath_Nodes(), this.getNode(), this.getNode_Path(), "nodes", null, 1, -1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPath_InFork(), this.getFork(), this.getFork_InPaths(), "inFork", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPath_OutFork(), this.getFork(), this.getFork_OutPath(), "outFork", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPath_Diagram(), this.getUcmDiagram(), this.getUcmDiagram_Paths(), "diagram", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPath_InFork(), this.getFork(), this.getFork_InPaths(), "inFork", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPath_OutFork(), this.getFork(), this.getFork_OutPath(), "outFork", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPath_Endpoint(), this.getEndPoint(), null, "endpoint", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPath_Startpoint(), this.getStartPoint(), null, "startpoint", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPath_Endpoint(), this.getEndPoint(), null, "endpoint", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPath_Startpoint(), this.getStartPoint(), null, "startpoint", null, 1, 1, Path.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNode_Path(), this.getPath(), this.getPath_Nodes(), "path", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_Diagram(), this.getUcmDiagram(), this.getUcmDiagram_Nodes(), "diagram", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_UpLink(), this.getLink(), this.getLink_Target(), "upLink", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_DownLink(), this.getLink(), this.getLink_Source(), "downLink", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNode_Path(), this.getPath(), this.getPath_Nodes(), "path", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Next(), this.getNode(), this.getNode_Previous(), "next", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getNode_Previous(), this.getNode(), this.getNode_Next(), "previous", null, 1, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -579,13 +671,19 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		initEAttribute(getSizedElement_Height(), ecorePackage.getEInt(), "height", null, 1, 1, SizedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ucmDiagramEClass, UcmDiagram.class, "UcmDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUcmDiagram_Paths(), this.getPath(), this.getPath_Diagram(), "paths", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUcmDiagram_Forks(), this.getFork(), null, "forks", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUcmDiagram_Nodes(), this.getNode(), this.getNode_Diagram(), "nodes", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUcmDiagram_Forks(), this.getFork(), null, "forks", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUcmDiagram_Components(), this.getComponent(), this.getComponent_Diagram(), "components", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUcmDiagram_Paths(), this.getPath(), this.getPath_Diagram(), "paths", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUcmDiagram_Links(), this.getLink(), null, "links", null, 0, -1, UcmDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(forkEClass, Fork.class, "Fork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getFork_InPaths(), this.getPath(), this.getPath_InFork(), "inPaths", null, 1, -1, Fork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFork_OutPath(), this.getPath(), this.getPath_OutFork(), "outPath", null, 0, -1, Fork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFork_InPaths(), this.getPath(), this.getPath_InFork(), "inPaths", null, 1, -1, Fork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFork_OutPath(), this.getPath(), this.getPath_OutFork(), "outPath", null, 0, -1, Fork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLink_Target(), this.getNode(), this.getNode_UpLink(), "target", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_Source(), this.getNode(), this.getNode_DownLink(), "source", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

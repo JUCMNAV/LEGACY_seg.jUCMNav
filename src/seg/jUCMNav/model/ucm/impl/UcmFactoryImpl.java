@@ -44,6 +44,7 @@ public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
 			case UcmPackage.SIZED_ELEMENT: return createSizedElement();
 			case UcmPackage.UCM_DIAGRAM: return createUcmDiagram();
 			case UcmPackage.FORK: return createFork();
+			case UcmPackage.LINK: return createLink();
 			case UcmPackage.END_POINT: return createEndPoint();
 			case UcmPackage.START_POINT: return createStartPoint();
 			case UcmPackage.RESPONSIBILITY: return createResponsibility();
@@ -120,6 +121,16 @@ public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
 	public Fork createFork() {
 		ForkImpl fork = new ForkImpl();
 		return fork;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Link createLink() {
+		LinkImpl link = new LinkImpl();
+		return link;
 	}
 
 	/**

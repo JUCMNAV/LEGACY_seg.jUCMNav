@@ -13,9 +13,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import seg.jUCMNav.model.ucm.Component;
+import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
 import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.StartPoint;
+import seg.jUCMNav.model.ucm.UcmDiagram;
 import seg.jUCMNav.model.ucm.UcmPackage;
 
 /**
@@ -58,10 +60,22 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 					if (component != null)
 						msgs = ((InternalEObject)component).eInverseRemove(this, UcmPackage.COMPONENT__ELEMENTS, Component.class, msgs);
 					return basicSetComponent((Component)otherEnd, msgs);
-				case UcmPackage.START_POINT__PATH:
+				case UcmPackage.START_POINT__DIAGRAM:
 					if (eContainer != null)
 						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, UcmPackage.START_POINT__PATH, msgs);
+					return eBasicSetContainer(otherEnd, UcmPackage.START_POINT__DIAGRAM, msgs);
+				case UcmPackage.START_POINT__UP_LINK:
+					if (upLink != null)
+						msgs = ((InternalEObject)upLink).eInverseRemove(this, UcmPackage.LINK__TARGET, Link.class, msgs);
+					return basicSetUpLink((Link)otherEnd, msgs);
+				case UcmPackage.START_POINT__DOWN_LINK:
+					if (downLink != null)
+						msgs = ((InternalEObject)downLink).eInverseRemove(this, UcmPackage.LINK__SOURCE, Link.class, msgs);
+					return basicSetDownLink((Link)otherEnd, msgs);
+				case UcmPackage.START_POINT__PATH:
+					if (path != null)
+						msgs = ((InternalEObject)path).eInverseRemove(this, UcmPackage.PATH__NODES, Path.class, msgs);
+					return basicSetPath((Path)otherEnd, msgs);
 				case UcmPackage.START_POINT__NEXT:
 					if (next != null)
 						msgs = ((InternalEObject)next).eInverseRemove(this, UcmPackage.NODE__PREVIOUS, Node.class, msgs);
@@ -89,8 +103,14 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
 				case UcmPackage.START_POINT__COMPONENT:
 					return basicSetComponent(null, msgs);
+				case UcmPackage.START_POINT__DIAGRAM:
+					return eBasicSetContainer(null, UcmPackage.START_POINT__DIAGRAM, msgs);
+				case UcmPackage.START_POINT__UP_LINK:
+					return basicSetUpLink(null, msgs);
+				case UcmPackage.START_POINT__DOWN_LINK:
+					return basicSetDownLink(null, msgs);
 				case UcmPackage.START_POINT__PATH:
-					return eBasicSetContainer(null, UcmPackage.START_POINT__PATH, msgs);
+					return basicSetPath(null, msgs);
 				case UcmPackage.START_POINT__NEXT:
 					return basicSetNext(null, msgs);
 				case UcmPackage.START_POINT__PREVIOUS:
@@ -110,8 +130,8 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 	public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
 		if (eContainerFeatureID >= 0) {
 			switch (eContainerFeatureID) {
-				case UcmPackage.START_POINT__PATH:
-					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.PATH__NODES, Path.class, msgs);
+				case UcmPackage.START_POINT__DIAGRAM:
+					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UCM_DIAGRAM__NODES, UcmDiagram.class, msgs);
 				default:
 					return eDynamicBasicRemoveFromContainer(msgs);
 			}
@@ -133,8 +153,17 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 			case UcmPackage.START_POINT__COMPONENT:
 				if (resolve) return getComponent();
 				return basicGetComponent();
+			case UcmPackage.START_POINT__DIAGRAM:
+				return getDiagram();
+			case UcmPackage.START_POINT__UP_LINK:
+				if (resolve) return getUpLink();
+				return basicGetUpLink();
+			case UcmPackage.START_POINT__DOWN_LINK:
+				if (resolve) return getDownLink();
+				return basicGetDownLink();
 			case UcmPackage.START_POINT__PATH:
-				return getPath();
+				if (resolve) return getPath();
+				return basicGetPath();
 			case UcmPackage.START_POINT__NEXT:
 				if (resolve) return getNext();
 				return basicGetNext();
@@ -160,6 +189,15 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 				return;
 			case UcmPackage.START_POINT__COMPONENT:
 				setComponent((Component)newValue);
+				return;
+			case UcmPackage.START_POINT__DIAGRAM:
+				setDiagram((UcmDiagram)newValue);
+				return;
+			case UcmPackage.START_POINT__UP_LINK:
+				setUpLink((Link)newValue);
+				return;
+			case UcmPackage.START_POINT__DOWN_LINK:
+				setDownLink((Link)newValue);
 				return;
 			case UcmPackage.START_POINT__PATH:
 				setPath((Path)newValue);
@@ -190,6 +228,15 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 			case UcmPackage.START_POINT__COMPONENT:
 				setComponent((Component)null);
 				return;
+			case UcmPackage.START_POINT__DIAGRAM:
+				setDiagram((UcmDiagram)null);
+				return;
+			case UcmPackage.START_POINT__UP_LINK:
+				setUpLink((Link)null);
+				return;
+			case UcmPackage.START_POINT__DOWN_LINK:
+				setDownLink((Link)null);
+				return;
 			case UcmPackage.START_POINT__PATH:
 				setPath((Path)null);
 				return;
@@ -216,8 +263,14 @@ public class StartPointImpl extends NodeImpl implements StartPoint {
 				return y != Y_EDEFAULT;
 			case UcmPackage.START_POINT__COMPONENT:
 				return component != null;
+			case UcmPackage.START_POINT__DIAGRAM:
+				return getDiagram() != null;
+			case UcmPackage.START_POINT__UP_LINK:
+				return upLink != null;
+			case UcmPackage.START_POINT__DOWN_LINK:
+				return downLink != null;
 			case UcmPackage.START_POINT__PATH:
-				return getPath() != null;
+				return path != null;
 			case UcmPackage.START_POINT__NEXT:
 				return next != null;
 			case UcmPackage.START_POINT__PREVIOUS:

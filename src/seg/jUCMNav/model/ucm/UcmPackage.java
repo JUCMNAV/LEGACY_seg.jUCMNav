@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EReference;
  * @see seg.jUCMNav.model.ucm.UcmFactory
  * @generated
  */
-public interface UcmPackage extends EPackage{
+public interface UcmPackage extends EPackage {
 	/**
 	 * The package name.
 	 * <!-- begin-user-doc -->
@@ -69,7 +69,7 @@ public interface UcmPackage extends EPackage{
 	int PATH = 0;
 
 	/**
-	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Nodes</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -78,34 +78,34 @@ public interface UcmPackage extends EPackage{
 	int PATH__NODES = 0;
 
 	/**
+	 * The feature id for the '<em><b>In Fork</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATH__IN_FORK = 1;
+
+	/**
+	 * The feature id for the '<em><b>Out Fork</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATH__OUT_FORK = 2;
+
+	/**
 	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PATH__DIAGRAM = 1;
+	int PATH__DIAGRAM = 3;
 
 	/**
-	 * The feature id for the '<em><b>In Fork</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATH__IN_FORK = 2;
-
-	/**
-	 * The feature id for the '<em><b>Out Fork</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PATH__OUT_FORK = 3;
-
-	/**
-	 * The feature id for the '<em><b>Endpoint</b></em>' containment reference.
+	 * The feature id for the '<em><b>Endpoint</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -114,7 +114,7 @@ public interface UcmPackage extends EPackage{
 	int PATH__ENDPOINT = 4;
 
 	/**
-	 * The feature id for the '<em><b>Startpoint</b></em>' containment reference.
+	 * The feature id for the '<em><b>Startpoint</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -215,13 +215,40 @@ public interface UcmPackage extends EPackage{
 	int NODE__COMPONENT = XY_ELEMENT__COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Path</b></em>' container reference.
+	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__PATH = XY_ELEMENT_FEATURE_COUNT + 0;
+	int NODE__DIAGRAM = XY_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Up Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__UP_LINK = XY_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Down Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__DOWN_LINK = XY_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__PATH = XY_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Next</b></em>' reference.
@@ -230,7 +257,7 @@ public interface UcmPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__NEXT = XY_ELEMENT_FEATURE_COUNT + 1;
+	int NODE__NEXT = XY_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Previous</b></em>' reference.
@@ -239,7 +266,7 @@ public interface UcmPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int NODE__PREVIOUS = XY_ELEMENT_FEATURE_COUNT + 2;
+	int NODE__PREVIOUS = XY_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the the '<em>Node</em>' class.
@@ -248,7 +275,7 @@ public interface UcmPackage extends EPackage{
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = XY_ELEMENT_FEATURE_COUNT + 3;
+	int NODE_FEATURE_COUNT = XY_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link seg.jUCMNav.model.ucm.impl.SizedElementImpl <em>Sized Element</em>}' class.
@@ -407,16 +434,16 @@ public interface UcmPackage extends EPackage{
 	int UCM_DIAGRAM = 5;
 
 	/**
-	 * The feature id for the '<em><b>Paths</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UCM_DIAGRAM__PATHS = 0;
+	int UCM_DIAGRAM__NODES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Forks</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Forks</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -434,13 +461,31 @@ public interface UcmPackage extends EPackage{
 	int UCM_DIAGRAM__COMPONENTS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Paths</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UCM_DIAGRAM__PATHS = 3;
+
+	/**
+	 * The feature id for the '<em><b>Links</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UCM_DIAGRAM__LINKS = 4;
+
+	/**
 	 * The number of structural features of the the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UCM_DIAGRAM_FEATURE_COUNT = 3;
+	int UCM_DIAGRAM_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link seg.jUCMNav.model.ucm.impl.ForkImpl <em>Fork</em>}' class.
@@ -453,7 +498,7 @@ public interface UcmPackage extends EPackage{
 	int FORK = 6;
 
 	/**
-	 * The feature id for the '<em><b>In Paths</b></em>' containment reference list.
+	 * The feature id for the '<em><b>In Paths</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -462,7 +507,7 @@ public interface UcmPackage extends EPackage{
 	int FORK__IN_PATHS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Out Path</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Out Path</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -480,6 +525,43 @@ public interface UcmPackage extends EPackage{
 	int FORK_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link seg.jUCMNav.model.ucm.impl.LinkImpl <em>Link</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see seg.jUCMNav.model.ucm.impl.LinkImpl
+	 * @see seg.jUCMNav.model.ucm.impl.UcmPackageImpl#getLink()
+	 * @generated
+	 */
+	int LINK = 7;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__TARGET = 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__SOURCE = 1;
+
+	/**
+	 * The number of structural features of the the '<em>Link</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link seg.jUCMNav.model.ucm.impl.EndPointImpl <em>End Point</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -487,7 +569,7 @@ public interface UcmPackage extends EPackage{
 	 * @see seg.jUCMNav.model.ucm.impl.UcmPackageImpl#getEndPoint()
 	 * @generated
 	 */
-	int END_POINT = 7;
+	int END_POINT = 8;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -517,7 +599,34 @@ public interface UcmPackage extends EPackage{
 	int END_POINT__COMPONENT = NODE__COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Path</b></em>' container reference.
+	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__DIAGRAM = NODE__DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Up Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__UP_LINK = NODE__UP_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Down Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__DOWN_LINK = NODE__DOWN_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -560,7 +669,7 @@ public interface UcmPackage extends EPackage{
 	 * @see seg.jUCMNav.model.ucm.impl.UcmPackageImpl#getStartPoint()
 	 * @generated
 	 */
-	int START_POINT = 8;
+	int START_POINT = 9;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -590,7 +699,34 @@ public interface UcmPackage extends EPackage{
 	int START_POINT__COMPONENT = NODE__COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Path</b></em>' container reference.
+	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__DIAGRAM = NODE__DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Up Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__UP_LINK = NODE__UP_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Down Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__DOWN_LINK = NODE__DOWN_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -633,7 +769,7 @@ public interface UcmPackage extends EPackage{
 	 * @see seg.jUCMNav.model.ucm.impl.UcmPackageImpl#getResponsibility()
 	 * @generated
 	 */
-	int RESPONSIBILITY = 9;
+	int RESPONSIBILITY = 10;
 
 	/**
 	 * The feature id for the '<em><b>X</b></em>' attribute.
@@ -663,7 +799,34 @@ public interface UcmPackage extends EPackage{
 	int RESPONSIBILITY__COMPONENT = NODE__COMPONENT;
 
 	/**
-	 * The feature id for the '<em><b>Path</b></em>' container reference.
+	 * The feature id for the '<em><b>Diagram</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY__DIAGRAM = NODE__DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Up Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY__UP_LINK = NODE__UP_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Down Link</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY__DOWN_LINK = NODE__DOWN_LINK;
+
+	/**
+	 * The feature id for the '<em><b>Path</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -710,15 +873,37 @@ public interface UcmPackage extends EPackage{
 	EClass getPath();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.Path#getNodes <em>Nodes</em>}'.
+	 * Returns the meta object for the reference list '{@link seg.jUCMNav.model.ucm.Path#getNodes <em>Nodes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Nodes</em>'.
+	 * @return the meta object for the reference list '<em>Nodes</em>'.
 	 * @see seg.jUCMNav.model.ucm.Path#getNodes()
 	 * @see #getPath()
 	 * @generated
 	 */
 	EReference getPath_Nodes();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Path#getInFork <em>In Fork</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>In Fork</em>'.
+	 * @see seg.jUCMNav.model.ucm.Path#getInFork()
+	 * @see #getPath()
+	 * @generated
+	 */
+	EReference getPath_InFork();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Path#getOutFork <em>Out Fork</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Out Fork</em>'.
+	 * @see seg.jUCMNav.model.ucm.Path#getOutFork()
+	 * @see #getPath()
+	 * @generated
+	 */
+	EReference getPath_OutFork();
 
 	/**
 	 * Returns the meta object for the container reference '{@link seg.jUCMNav.model.ucm.Path#getDiagram <em>Diagram</em>}'.
@@ -732,32 +917,10 @@ public interface UcmPackage extends EPackage{
 	EReference getPath_Diagram();
 
 	/**
-	 * Returns the meta object for the container reference '{@link seg.jUCMNav.model.ucm.Path#getInFork <em>In Fork</em>}'.
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Path#getEndpoint <em>Endpoint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>In Fork</em>'.
-	 * @see seg.jUCMNav.model.ucm.Path#getInFork()
-	 * @see #getPath()
-	 * @generated
-	 */
-	EReference getPath_InFork();
-
-	/**
-	 * Returns the meta object for the container reference '{@link seg.jUCMNav.model.ucm.Path#getOutFork <em>Out Fork</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Out Fork</em>'.
-	 * @see seg.jUCMNav.model.ucm.Path#getOutFork()
-	 * @see #getPath()
-	 * @generated
-	 */
-	EReference getPath_OutFork();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link seg.jUCMNav.model.ucm.Path#getEndpoint <em>Endpoint</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Endpoint</em>'.
+	 * @return the meta object for the reference '<em>Endpoint</em>'.
 	 * @see seg.jUCMNav.model.ucm.Path#getEndpoint()
 	 * @see #getPath()
 	 * @generated
@@ -765,10 +928,10 @@ public interface UcmPackage extends EPackage{
 	EReference getPath_Endpoint();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link seg.jUCMNav.model.ucm.Path#getStartpoint <em>Startpoint</em>}'.
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Path#getStartpoint <em>Startpoint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Startpoint</em>'.
+	 * @return the meta object for the reference '<em>Startpoint</em>'.
 	 * @see seg.jUCMNav.model.ucm.Path#getStartpoint()
 	 * @see #getPath()
 	 * @generated
@@ -786,10 +949,43 @@ public interface UcmPackage extends EPackage{
 	EClass getNode();
 
 	/**
-	 * Returns the meta object for the container reference '{@link seg.jUCMNav.model.ucm.Node#getPath <em>Path</em>}'.
+	 * Returns the meta object for the container reference '{@link seg.jUCMNav.model.ucm.Node#getDiagram <em>Diagram</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Path</em>'.
+	 * @return the meta object for the container reference '<em>Diagram</em>'.
+	 * @see seg.jUCMNav.model.ucm.Node#getDiagram()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_Diagram();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Node#getUpLink <em>Up Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Up Link</em>'.
+	 * @see seg.jUCMNav.model.ucm.Node#getUpLink()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_UpLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Node#getDownLink <em>Down Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Down Link</em>'.
+	 * @see seg.jUCMNav.model.ucm.Node#getDownLink()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EReference getNode_DownLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Node#getPath <em>Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Path</em>'.
 	 * @see seg.jUCMNav.model.ucm.Node#getPath()
 	 * @see #getNode()
 	 * @generated
@@ -936,21 +1132,21 @@ public interface UcmPackage extends EPackage{
 	EClass getUcmDiagram();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getPaths <em>Paths</em>}'.
+	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getNodes <em>Nodes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Paths</em>'.
-	 * @see seg.jUCMNav.model.ucm.UcmDiagram#getPaths()
+	 * @return the meta object for the containment reference list '<em>Nodes</em>'.
+	 * @see seg.jUCMNav.model.ucm.UcmDiagram#getNodes()
 	 * @see #getUcmDiagram()
 	 * @generated
 	 */
-	EReference getUcmDiagram_Paths();
+	EReference getUcmDiagram_Nodes();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getForks <em>Forks</em>}'.
+	 * Returns the meta object for the reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getForks <em>Forks</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Forks</em>'.
+	 * @return the meta object for the reference list '<em>Forks</em>'.
 	 * @see seg.jUCMNav.model.ucm.UcmDiagram#getForks()
 	 * @see #getUcmDiagram()
 	 * @generated
@@ -969,6 +1165,28 @@ public interface UcmPackage extends EPackage{
 	EReference getUcmDiagram_Components();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getPaths <em>Paths</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Paths</em>'.
+	 * @see seg.jUCMNav.model.ucm.UcmDiagram#getPaths()
+	 * @see #getUcmDiagram()
+	 * @generated
+	 */
+	EReference getUcmDiagram_Paths();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.UcmDiagram#getLinks <em>Links</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Links</em>'.
+	 * @see seg.jUCMNav.model.ucm.UcmDiagram#getLinks()
+	 * @see #getUcmDiagram()
+	 * @generated
+	 */
+	EReference getUcmDiagram_Links();
+
+	/**
 	 * Returns the meta object for class '{@link seg.jUCMNav.model.ucm.Fork <em>Fork</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -979,10 +1197,10 @@ public interface UcmPackage extends EPackage{
 	EClass getFork();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.Fork#getInPaths <em>In Paths</em>}'.
+	 * Returns the meta object for the reference list '{@link seg.jUCMNav.model.ucm.Fork#getInPaths <em>In Paths</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>In Paths</em>'.
+	 * @return the meta object for the reference list '<em>In Paths</em>'.
 	 * @see seg.jUCMNav.model.ucm.Fork#getInPaths()
 	 * @see #getFork()
 	 * @generated
@@ -990,15 +1208,47 @@ public interface UcmPackage extends EPackage{
 	EReference getFork_InPaths();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link seg.jUCMNav.model.ucm.Fork#getOutPath <em>Out Path</em>}'.
+	 * Returns the meta object for the reference list '{@link seg.jUCMNav.model.ucm.Fork#getOutPath <em>Out Path</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Out Path</em>'.
+	 * @return the meta object for the reference list '<em>Out Path</em>'.
 	 * @see seg.jUCMNav.model.ucm.Fork#getOutPath()
 	 * @see #getFork()
 	 * @generated
 	 */
 	EReference getFork_OutPath();
+
+	/**
+	 * Returns the meta object for class '{@link seg.jUCMNav.model.ucm.Link <em>Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Link</em>'.
+	 * @see seg.jUCMNav.model.ucm.Link
+	 * @generated
+	 */
+	EClass getLink();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Link#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see seg.jUCMNav.model.ucm.Link#getTarget()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Target();
+
+	/**
+	 * Returns the meta object for the reference '{@link seg.jUCMNav.model.ucm.Link#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see seg.jUCMNav.model.ucm.Link#getSource()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Source();
 
 	/**
 	 * Returns the meta object for class '{@link seg.jUCMNav.model.ucm.EndPoint <em>End Point</em>}'.

@@ -20,10 +20,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import seg.jUCMNav.model.ucm.Component;
 import seg.jUCMNav.model.ucm.Fork;
+import seg.jUCMNav.model.ucm.Link;
+import seg.jUCMNav.model.ucm.Node;
 import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 import seg.jUCMNav.model.ucm.UcmPackage;
@@ -35,9 +38,11 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getPaths <em>Paths</em>}</li>
+ *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getForks <em>Forks</em>}</li>
  *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getComponents <em>Components</em>}</li>
+ *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getPaths <em>Paths</em>}</li>
+ *   <li>{@link seg.jUCMNav.model.ucm.impl.UcmDiagramImpl#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,17 +50,17 @@ import seg.jUCMNav.model.ucm.UcmPackage;
  */
 public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	/**
-	 * The cached value of the '{@link #getPaths() <em>Paths</em>}' containment reference list.
+	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPaths()
+	 * @see #getNodes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList paths = null;
+	protected EList nodes = null;
 
 	/**
-	 * The cached value of the '{@link #getForks() <em>Forks</em>}' containment reference list.
+	 * The cached value of the '{@link #getForks() <em>Forks</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getForks()
@@ -73,6 +78,26 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 * @ordered
 	 */
 	protected EList components = null;
+
+	/**
+	 * The cached value of the '{@link #getPaths() <em>Paths</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPaths()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList paths = null;
+
+	/**
+	 * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLinks()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList links = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -97,11 +122,11 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getPaths() {
-		if (paths == null) {
-			paths = new EObjectContainmentWithInverseEList(Path.class, this, UcmPackage.UCM_DIAGRAM__PATHS, UcmPackage.PATH__DIAGRAM);
+	public EList getNodes() {
+		if (nodes == null) {
+			nodes = new EObjectContainmentWithInverseEList(Node.class, this, UcmPackage.UCM_DIAGRAM__NODES, UcmPackage.NODE__DIAGRAM);
 		}
-		return paths;
+		return nodes;
 	}
 
 	/**
@@ -111,7 +136,7 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 */
 	public EList getForks() {
 		if (forks == null) {
-			forks = new EObjectContainmentEList(Fork.class, this, UcmPackage.UCM_DIAGRAM__FORKS);
+			forks = new EObjectResolvingEList(Fork.class, this, UcmPackage.UCM_DIAGRAM__FORKS);
 		}
 		return forks;
 	}
@@ -133,13 +158,39 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getPaths() {
+		if (paths == null) {
+			paths = new EObjectContainmentWithInverseEList(Path.class, this, UcmPackage.UCM_DIAGRAM__PATHS, UcmPackage.PATH__DIAGRAM);
+		}
+		return paths;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getLinks() {
+		if (links == null) {
+			links = new EObjectContainmentEList(Link.class, this, UcmPackage.UCM_DIAGRAM__LINKS);
+		}
+		return links;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case UcmPackage.UCM_DIAGRAM__PATHS:
-					return ((InternalEList)getPaths()).basicAdd(otherEnd, msgs);
+				case UcmPackage.UCM_DIAGRAM__NODES:
+					return ((InternalEList)getNodes()).basicAdd(otherEnd, msgs);
 				case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 					return ((InternalEList)getComponents()).basicAdd(otherEnd, msgs);
+				case UcmPackage.UCM_DIAGRAM__PATHS:
+					return ((InternalEList)getPaths()).basicAdd(otherEnd, msgs);
 				default:
 					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
 			}
@@ -157,12 +208,14 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
 		if (featureID >= 0) {
 			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case UcmPackage.UCM_DIAGRAM__PATHS:
-					return ((InternalEList)getPaths()).basicRemove(otherEnd, msgs);
-				case UcmPackage.UCM_DIAGRAM__FORKS:
-					return ((InternalEList)getForks()).basicRemove(otherEnd, msgs);
+				case UcmPackage.UCM_DIAGRAM__NODES:
+					return ((InternalEList)getNodes()).basicRemove(otherEnd, msgs);
 				case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 					return ((InternalEList)getComponents()).basicRemove(otherEnd, msgs);
+				case UcmPackage.UCM_DIAGRAM__PATHS:
+					return ((InternalEList)getPaths()).basicRemove(otherEnd, msgs);
+				case UcmPackage.UCM_DIAGRAM__LINKS:
+					return ((InternalEList)getLinks()).basicRemove(otherEnd, msgs);
 				default:
 					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
 			}
@@ -177,12 +230,16 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UCM_DIAGRAM__PATHS:
-				return getPaths();
+			case UcmPackage.UCM_DIAGRAM__NODES:
+				return getNodes();
 			case UcmPackage.UCM_DIAGRAM__FORKS:
 				return getForks();
 			case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 				return getComponents();
+			case UcmPackage.UCM_DIAGRAM__PATHS:
+				return getPaths();
+			case UcmPackage.UCM_DIAGRAM__LINKS:
+				return getLinks();
 		}
 		return eDynamicGet(eFeature, resolve);
 	}
@@ -194,9 +251,9 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UCM_DIAGRAM__PATHS:
-				getPaths().clear();
-				getPaths().addAll((Collection)newValue);
+			case UcmPackage.UCM_DIAGRAM__NODES:
+				getNodes().clear();
+				getNodes().addAll((Collection)newValue);
 				return;
 			case UcmPackage.UCM_DIAGRAM__FORKS:
 				getForks().clear();
@@ -205,6 +262,14 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 			case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 				getComponents().clear();
 				getComponents().addAll((Collection)newValue);
+				return;
+			case UcmPackage.UCM_DIAGRAM__PATHS:
+				getPaths().clear();
+				getPaths().addAll((Collection)newValue);
+				return;
+			case UcmPackage.UCM_DIAGRAM__LINKS:
+				getLinks().clear();
+				getLinks().addAll((Collection)newValue);
 				return;
 		}
 		eDynamicSet(eFeature, newValue);
@@ -217,14 +282,20 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 */
 	public void eUnset(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UCM_DIAGRAM__PATHS:
-				getPaths().clear();
+			case UcmPackage.UCM_DIAGRAM__NODES:
+				getNodes().clear();
 				return;
 			case UcmPackage.UCM_DIAGRAM__FORKS:
 				getForks().clear();
 				return;
 			case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 				getComponents().clear();
+				return;
+			case UcmPackage.UCM_DIAGRAM__PATHS:
+				getPaths().clear();
+				return;
+			case UcmPackage.UCM_DIAGRAM__LINKS:
+				getLinks().clear();
 				return;
 		}
 		eDynamicUnset(eFeature);
@@ -237,12 +308,16 @@ public class UcmDiagramImpl extends EObjectImpl implements UcmDiagram {
 	 */
 	public boolean eIsSet(EStructuralFeature eFeature) {
 		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case UcmPackage.UCM_DIAGRAM__PATHS:
-				return paths != null && !paths.isEmpty();
+			case UcmPackage.UCM_DIAGRAM__NODES:
+				return nodes != null && !nodes.isEmpty();
 			case UcmPackage.UCM_DIAGRAM__FORKS:
 				return forks != null && !forks.isEmpty();
 			case UcmPackage.UCM_DIAGRAM__COMPONENTS:
 				return components != null && !components.isEmpty();
+			case UcmPackage.UCM_DIAGRAM__PATHS:
+				return paths != null && !paths.isEmpty();
+			case UcmPackage.UCM_DIAGRAM__LINKS:
+				return links != null && !links.isEmpty();
 		}
 		return eDynamicIsSet(eFeature);
 	}

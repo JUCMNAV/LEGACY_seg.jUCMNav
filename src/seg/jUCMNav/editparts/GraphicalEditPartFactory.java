@@ -10,8 +10,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.model.ucm.Component;
+import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 
 /**
@@ -28,8 +28,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof UcmDiagram)
 			return new UcmDiagramEditPart((UcmDiagram)model);
-		else if(model instanceof Path)
-			return new PathEditPart((Path)model);
+		else if(model instanceof Link)
+			return new LinkEditPart((Link)model);
 		else if(model instanceof Component)
 			return new ComponentEditPart((Component)model);
 		else if(model instanceof Node)
