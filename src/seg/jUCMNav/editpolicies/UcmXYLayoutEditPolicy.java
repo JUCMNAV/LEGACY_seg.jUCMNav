@@ -14,12 +14,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
-import seg.jUCMNav.model.commands.CreateNodeCommand;
 import seg.jUCMNav.model.commands.CreatePathCommand;
+import seg.jUCMNav.model.commands.ExtendPathCommand;
 import seg.jUCMNav.model.commands.SetConstraintCommand;
 import seg.jUCMNav.model.ucm.EndPoint;
 import seg.jUCMNav.model.ucm.Node;
-import seg.jUCMNav.model.ucm.Responsibility;
+import seg.jUCMNav.model.ucm.Path;
 import seg.jUCMNav.model.ucm.StartPoint;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 
@@ -52,18 +52,17 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 			create.setPosition(request.getLocation());
 			createCommand = create;
 		}		
-//		else if ( newObjectType == Node.class 
-//			|| newObjectType == Responsibility.class 
-//			|| newObjectType == StartPoint.class
-//			|| newObjectType == EndPoint.class)
-//		{
-//			CreateNodeCommand create = new CreateNodeCommand();
-//			create.setDiagram((UcmDiagram)getHost().getModel());
-//			create.setLocation(request.getLocation());
-//			create.setNode( (Node)request.getNewObject() );
-//			create.setLabel("Create a node");
-//			createCommand = create;
-//		}
+		else if (newObjectType == EndPoint.class)
+		{
+			ExtendPathCommand create = new ExtendPathCommand();
+			create.setDiagram((UcmDiagram)getHost().getModel());
+			// This will only work when there's one path...
+			create.setPath((Path)((UcmDiagram)getHost().getModel()).getPaths().get(0));
+			create.setLocation(request.getLocation());
+			create.setNewEnd( (EndPoint)request.getNewObject() );
+			create.setLabel("Create a node");
+			createCommand = create;
+		}
 
 		return createCommand;
 	}

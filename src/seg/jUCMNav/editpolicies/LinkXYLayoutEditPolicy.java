@@ -13,11 +13,9 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.model.commands.SplitLinkCommand;
-import seg.jUCMNav.model.ucm.EndPoint;
 import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.Node;
 import seg.jUCMNav.model.ucm.Responsibility;
-import seg.jUCMNav.model.ucm.StartPoint;
 
 /**
  * Created 2005-02-25
@@ -61,9 +59,7 @@ public class LinkXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		Command	createCommand = null;
 		
 		if ( newObjectType == Node.class 
-			|| newObjectType == Responsibility.class 
-			|| newObjectType == StartPoint.class
-			|| newObjectType == EndPoint.class)
+			|| newObjectType == Responsibility.class)
 		{
 			SplitLinkCommand create = new SplitLinkCommand();
 			create.setLocation(request.getLocation());
