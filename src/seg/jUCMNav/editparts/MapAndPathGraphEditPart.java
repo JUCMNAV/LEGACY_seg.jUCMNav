@@ -1,10 +1,7 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
@@ -18,13 +15,17 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 import seg.jUCMNav.editpolicies.MapAndPathGraphXYLayoutEditPolicy;
+import seg.jUCMNav.emf.ComponentRefAreaComparator;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
+import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * @author Etienne Tremblay
+ * Top level edit part. Contains the drawing board where everything is inserted.
+ * 
+ * @author Etienne Tremblay, jkealey
  */
 public class MapAndPathGraphEditPart extends ModelElementEditPart {
 
@@ -33,8 +34,8 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         map.getPathGraph().eAdapters().add(this);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * ( Creates the freeform layout
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
@@ -45,8 +46,8 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         return layer;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates our top level edit policities.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -56,25 +57,32 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         // This install the layout edit policy. Wich commands are used for
         // create/move/resize etc...
 
-        installEditPolicy(EditPolicy.LAYOUT_ROLE,
-                new MapAndPathGraphXYLayoutEditPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapAndPathGraphXYLayoutEditPolicy());
         //		installEditPolicy(EditPolicy.NODE_ROLE, null);
         //		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
         //		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-        installEditPolicy(EditPolicy.COMPONENT_ROLE,
-                new RootComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
     }
 
+    /**
+     * 
+     * @return the top level ucm.map.Map used to store all information. Contains ComponentRefs and a PathGraph.
+     */
     private Map getMap() {
         return (Map) getModel();
     }
 
+    /**
+     * 
+     * @return The Map's path graph, used to insert nodes and connections.
+     */
     private PathGraph getPathGraph() {
         return ((Map) getModel()).getPathGraph();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns the map&pathgraph's children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
+     * the board.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
      */
@@ -82,21 +90,29 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         List list = new ArrayList();
         Object o = new Object();
 
-        for (int i=0;i<getMap().getCompRefs().size();i++)
+        // get all component references
+        for (int i = 0; i < getMap().getCompRefs().size(); i++)
             list.add(getMap().getCompRefs().get(i));
 
-        for (int i=0;i<getPathGraph().getPathNodes().size();i++) {
+        // sort them by ascending area
+        Collections.sort(list, new ComponentRefAreaComparator());
+        // reverse the list so that our largest components are in the back.
+        Collections.reverse(list);
+
+        // put the nodes on top because they are always over components.
+        for (int i = 0; i < getPathGraph().getPathNodes().size(); i++) {
             PathNode node = (PathNode) getPathGraph().getPathNodes().get(i);
             list.add(node);
-            if(!(node.getLabel() == null))
+            // if we have a label on a path node, we also want to add it.
+            if (!(node.getLabel() == null))
                 list.add(node.getLabel());
         }
-                
+
         return list;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Change listener. Has to handle when its children are changed and when we might have to reorder them.
      * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -110,14 +126,18 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
             refreshChildren();
             break;
         case Notification.SET:
+            if (notification.getNotifier() instanceof ComponentRef) {
+                // we might have to reorder the children so as to put the largest components in the back.
+                refreshChildren();
+            }
             refreshVisuals();
             break;
         }
-        
+
         refreshChildren();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
@@ -129,7 +149,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         super.registerVisuals();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
@@ -137,7 +157,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
     protected void refreshVisuals() {
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.EditPart#activate()
@@ -148,7 +168,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         super.activate();
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.EditPart#deactivate()

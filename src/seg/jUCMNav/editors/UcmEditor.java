@@ -67,12 +67,12 @@ import ucm.map.MapFactory;
 /**
  * This is the main class for editing a Map in our model.
  * 
- *  @author Etienne Tremblay
+ * @author Etienne Tremblay
  */
 public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /**
-     *  The palette root used to display the palette.
+     * The palette root used to display the palette.
      */
     private PaletteRoot paletteRoot;
 
@@ -82,12 +82,12 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /** Cache save-request status. */
     private boolean saveAlreadyRequested;
 
-    /** This is the root of the editor's model.*/
+    /** This is the root of the editor's model. */
     private Map ucm;
 
     /** the model manager */
     private UcmModelManager modelManager;
-    
+
     /** the resource tracker instance */
     private ResourceTracker resourceTracker;
 
@@ -142,6 +142,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * Create all the actions in the action registry.
      * 
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
      */
     protected void createActions() {
@@ -154,7 +155,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         action.setText("Cut path");
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        
+
         action = new AddLabelAction(this);
         action.setText("Add label");
         registry.registerAction(action);
@@ -216,7 +217,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Handle events to know when a command was executed.  So we can know when we can or cannot save the file.
+     * Handle events to know when a command was executed. So we can know when we can or cannot save the file.
      */
     public void commandStackChanged(EventObject event) {
         super.commandStackChanged(event);
@@ -246,6 +247,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * Perform a save on the file we are editing.
      * 
      * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.ISaveablePart#doSave(org.eclipse.core.runtime.IProgressMonitor)
      */
     public void doSave(IProgressMonitor monitor) {
@@ -266,6 +268,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * Perform a save as action on the file we are editing.
      * 
      * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.ISaveablePart#doSaveAs()
      */
     public void doSaveAs() {
@@ -289,9 +292,10 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Returns the adapter for the specified key.  Such as the property sheet, the outline view etc.
+     * Returns the adapter for the specified key. Such as the property sheet, the outline view etc.
      * 
      * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class type) {
@@ -315,6 +319,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /**
      * Return the root model of this editor.
+     * 
      * @return The map we are editing.
      */
     private Map getModel() {
@@ -337,6 +342,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * Return true if the editor contains any changes.
      * 
      * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.ISaveablePart#isDirty()
      */
     public boolean isDirty() {
@@ -401,6 +407,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /**
      * Return the ressource tracker of this editor.
+     * 
      * @return The ressource tracker of this editor.
      */
     private ResourceTracker getResourceTracker() {
@@ -412,6 +419,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
      */
     protected void setInput(IEditorInput input) {
@@ -462,12 +470,14 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         }
         return ucm;
     }
-    
+
     /**
      * Saves the ucm under the specified file.
      * 
-     * @param file is the file where we want to save this UCM.
-     * @param progressMonitor is the object used to show the progress of the save.
+     * @param file
+     *            is the file where we want to save this UCM.
+     * @param progressMonitor
+     *            is the object used to show the progress of the save.
      * @throws CoreException
      */
     private void save(IFile file, IProgressMonitor progressMonitor) throws CoreException {

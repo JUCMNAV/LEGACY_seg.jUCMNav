@@ -82,7 +82,7 @@ public class UcmModelManager {
     private ResourceSet getResourceSet() {
         // Initialize the ucm package
         MapPackageImpl.init();
-        // Register the XMI resource factory for the .network extension
+        // Register the XMI resource factory for the .ucm extension
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map m = reg.getExtensionToFactoryMap();
         m.put("ucm", new XMIResourceFactoryImpl());

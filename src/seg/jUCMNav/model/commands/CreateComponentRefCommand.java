@@ -6,6 +6,7 @@ import org.eclipse.gef.commands.Command;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.MapFactory;
+import urncore.UrncoreFactory;
 
 /**
  * This Command creates a new instance of a ComponentRef
@@ -32,7 +33,11 @@ public class CreateComponentRefCommand extends Command {
     public void execute() {
         MapFactory factory = MapFactory.eINSTANCE;
         comp = factory.createComponentRef();
-
+        // associate to a component
+        comp.setCompDef(UrncoreFactory.eINSTANCE.createComponent());
+        if (!map.eResource().getContents().contains(comp.getCompDef()))
+            map.eResource().getContents().add(comp.getCompDef());
+        
         if (location != null) {
             comp.setX(location.x);
             comp.setY(location.y);
