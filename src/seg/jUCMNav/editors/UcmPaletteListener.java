@@ -1,8 +1,6 @@
 /*
  * Created on 2005-02-25
  *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package seg.jUCMNav.editors;
 
@@ -30,8 +28,10 @@ public class UcmPaletteListener implements PaletteListener {
 	public void activeToolChanged(PaletteViewer palette, ToolEntry tool) {
 		EditDomain domain = palette.getEditDomain();
 		domain.getDefaultTool();
+		UcmPaletteRoot root = (UcmPaletteRoot)palette.getPaletteRoot();
+		ToolEntry end = root.getEndPointTool();
 		AbstractTool active = (AbstractTool)domain.getActiveTool();
-		palette.getPaletteRoot().setDefaultEntry(tool);		
+		palette.getPaletteRoot().setDefaultEntry(end);		
 	}
 
 }

@@ -3,8 +3,8 @@
  */
 package seg.jUCMNav.figures;
 
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.EllipseAnchor;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
@@ -14,41 +14,32 @@ import org.eclipse.swt.graphics.Color;
  * @author Etienne Tremblay
  */
 public class StartPointFigure extends NodeFigure {
+	
+	private Ellipse ellipse;
 
 	/**
 	 * 
 	 */
 	public StartPointFigure() {
 		super();
-		this.setBackgroundColor(new Color(null, 0, 0, 0));
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
+	 * @see seg.jUCMNav.figures.NodeFigure#createFigure()
 	 */
-	public Dimension getMinimumSize(int wHint, int hHint) {
-		return getPreferredSize();
+	protected void createFigure() {
+		ellipse = new Ellipse();
+		ellipse.setBounds(new Rectangle(2, 2, 20, 20));
+		ellipse.setBackgroundColor(new Color(null, 0, 0,0));
+		add(ellipse);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
+	 * @see seg.jUCMNav.figures.NodeFigure#initAnchor()
 	 */
-	public Dimension getPreferredSize(int wHint, int hHint) {
-		return new Dimension(24, 24);
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
-	 */
-	public void paintFigure(Graphics g) {
-		Rectangle rec = this.getBounds();
-//		if(selected)
-//			g.setBackgroundColor(this.getBackgroundColor());
-//		else
-		g.setBackgroundColor(new Color(null, 0, 0, 0));
-		g.fillOval(rec.x, rec.y, 20, 20);
-		g.setLineWidth(2);
-		g.setBackgroundColor(new Color(null, 0, 0, 0));
-		g.drawOval(rec.x, rec.y, 20, 20);
+	protected void initAnchor() {
+		incomingAnchor = new EllipseAnchor(ellipse);
+		outgoingAnchor = new EllipseAnchor(ellipse);
 	}
 
 }

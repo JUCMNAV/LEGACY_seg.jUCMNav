@@ -38,6 +38,8 @@ public class UcmPaletteRoot extends PaletteRoot
 	private static final String PALETTE_SIZE = "ShapesEditorPaletteFactory.Size";
 	/** Preference ID used to persist the flyout palette's state. */
 	private static final String PALETTE_STATE = "ShapesEditorPaletteFactory.State";
+	
+	private ToolEntry endPointTool;
 
     /**
      * Creates a new NetworkPaletteRoot instance.
@@ -57,7 +59,7 @@ public class UcmPaletteRoot extends PaletteRoot
         controls.add(tool);
 
         // use selection tool as default entry
-        setDefaultEntry(tool);
+//        setDefaultEntry(tool);
 
         // the marquee selection tool
         controls.add(new MarqueeToolEntry());
@@ -103,6 +105,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, null));
         componentsDrawer.add(entry);
+        setDefaultEntry(entry);
 		
 		entry =
             new CombinedTemplateCreationEntry(
@@ -114,7 +117,7 @@ public class UcmPaletteRoot extends PaletteRoot
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
-        entry =
+        endPointTool =
             new CombinedTemplateCreationEntry(
                 "End Point",
                 "Creates a End Point",
@@ -122,7 +125,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 new ModelCreationFactory(EndPoint.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
-        componentsDrawer.add(entry);
+        componentsDrawer.add(endPointTool);
         
         entry =
             new CombinedTemplateCreationEntry(
@@ -294,4 +297,22 @@ public class UcmPaletteRoot extends PaletteRoot
     		}
     	};
     }
+	/**
+	 * @return Returns the pALETTE_DOCK_LOCATION.
+	 */
+	public static String getPALETTE_DOCK_LOCATION() {
+		return PALETTE_DOCK_LOCATION;
+	}
+	/**
+	 * @return Returns the endPointTool.
+	 */
+	public ToolEntry getEndPointTool() {
+		return endPointTool;
+	}
+	/**
+	 * @param endPointTool The endPointTool to set.
+	 */
+	public void setEndPointTool(ToolEntry endPointTool) {
+		this.endPointTool = endPointTool;
+	}
 }

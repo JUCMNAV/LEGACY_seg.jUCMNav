@@ -6,6 +6,7 @@
  */
 package seg.jUCMNav.editpolicies;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
@@ -14,6 +15,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
+import seg.jUCMNav.editparts.UcmNodeEditPart;
 import seg.jUCMNav.model.commands.CreatePathCommand;
 import seg.jUCMNav.model.commands.ExtendPathCommand;
 import seg.jUCMNav.model.commands.SetConstraintCommand;
@@ -102,8 +104,18 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 		SetConstraintCommand locationCommand = new SetConstraintCommand();
 		locationCommand.setNode((Node)child.getModel());
-		Point location = new Point(((Rectangle)constraint).x, ((Rectangle)constraint).y);
-		locationCommand.setNewPosition(new Point(location.x, location.y));
+//		Rectangle constraint = (Rectangle)getConstraintFor(request);
+//		this.getConstraintFor((Rectangle)constraint);
+//		Rectangle rect = (Rectangle)constraint;
+//		((GraphicalEditPart)(child)).getFigure().translateToRelative((Rectangle)constraint);
+//		rect.translate(getLayoutOrigin().getNegated());
+		
+		// Adjust the coordinates with the coordinates of the figure too since the x,y coordinates is
+		// the center of the figure.
+		Dimension dim = ((UcmNodeEditPart)child).getNodeFigure().getPreferredSize().getCopy();
+		
+		Point location = new Point(((Rectangle)constraint).x+(dim.width/2), ((Rectangle)constraint).y+(dim.height/2));
+		locationCommand.setNewPosition(location);
 		return locationCommand;
 	}
 

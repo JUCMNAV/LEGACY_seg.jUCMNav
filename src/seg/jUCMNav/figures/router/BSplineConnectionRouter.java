@@ -161,7 +161,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		if (!conns.contains(conn)) {
 			// We add it to the list and invalidate all the connections
 			insertConnection(conn);
-			// If all the connections are now updated in how array, initialization is finished
+			// If all the connections are now updated in the connection array, initialization is finished
 			if(allLoaded() && initializing){
 				initializing = false;
 				conns = updateOrder();
@@ -173,11 +173,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		}
 		else
 		{
-			drawSpline(conn);
+			// Redraw all the splines.
 			for (Iterator i = conns.iterator(); i.hasNext();) {
 				SplineConnection con = (SplineConnection) i.next();
-				if(con != conn)
-					drawSpline(con);
+				drawSpline(con);
 			}
 		}
 	}
@@ -185,8 +184,12 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	public void drawSpline(Connection conn){
 		// Update the spline to draw
 		spline = generateSpline();
+		
+		PointList points = getPointsFor(conn);
+		
+		PointList clipped = clipPointList(getStartPoint(conn), getEndPoint(conn), points);
 		// Set the points for the given connection
-		conn.setPoints(getPointsFor(conn));
+		conn.setPoints(points);
 		// The connection now follow the spline.
 	}
 	
@@ -209,5 +212,74 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		initializing = true;
 
 		super.remove(connection);
+	}
+	
+	/**
+	 * Clip a point list so that no point of the connection is IN a node...
+	 * @param start The start point of the connection/
+	 * @param end The end point of the connection
+	 * @param points The points describing the connection
+	 * @return A pointlist not going past the start and end point.
+	 */
+	public PointList clipPointList(Point start, Point end, PointList points) {
+		// We have to have a point list of at least two.
+		if(points.size() >= 2){
+			PointList clipped = new PointList();
+			double xi, yi, r2Start, r2StartOld, r2End, r2EndOld;
+			Point finalStart, finalEnd;
+			boolean foundStart = false, foundEnd = false;
+			
+			// Calculate the first distance between the start and end points.
+			xi = points.getPoint(0).x - start.x;
+			yi = points.getPoint(0).y - start.y;
+			r2StartOld = xi * xi + yi * yi;
+			
+			xi = points.getPoint(0).x - end.x;
+			yi = points.getPoint(0).y - end.y;
+			r2EndOld = xi * xi + yi * yi;
+			
+//			clipped.addPoint(start);
+	
+			Point point;
+			// Loop trough all the points
+			for (int i = 1; i < points.size(); i++) {
+				point = points.getPoint(i);
+				// Do that until we find the nearest point to the start point in the point list
+				if(!foundStart){
+					xi = point.x - start.x;
+					yi = point.y - start.y;
+					r2Start = (xi * xi) + (yi * yi); // Calculate the distance to the real start point
+					if ((r2Start - r2StartOld) > 0) { // Once the new distance become bigger than the distance before, we know that we found the nearest point to the start.
+						finalStart = point;
+						foundStart = true;
+					}
+					r2StartOld = r2Start;
+				}
+				
+				// Do the same thing with the end.
+				if(!foundEnd){
+					xi = point.x - end.x;
+					yi = point.y - end.y;
+					r2End = (xi*xi) + (yi*yi);
+					if ((r2End - r2EndOld) > 0) {
+						finalEnd = point;
+						foundEnd = true;
+					}
+					r2EndOld = r2End;
+				}
+				
+				// If we found both start and end, then finish the loop.  If we found at least the start, then add the points.
+				if(foundStart && foundEnd)
+					i = points.size();
+				else
+					clipped.addPoint(point);
+			}
+			
+//			clipped.addPoint(end);
+	
+			return clipped;
+		}
+		else
+			return points;
 	}
 }

@@ -48,7 +48,7 @@ public class CreatePathCommand extends Command {
 		start.setY(position.y);
 		
 		node = factory.createNode();
-		node.setX(position.x+50);
+		node.setX(position.x+100);
 		node.setY(position.y);
 		
 		link1 = factory.createLink();
@@ -56,7 +56,7 @@ public class CreatePathCommand extends Command {
 		link1.setTarget(node);
 		
 		end = factory.createEndPoint();
-		end.setX(position.x+100);
+		end.setX(position.x+200);
 		end.setY(position.y);
 		
 		link2 = factory.createLink();

@@ -3,33 +3,53 @@
  */
 package seg.jUCMNav.figures;
 
+import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * @author Etienne Tremblay
  *
  */
-public class NodeFigure extends Ellipse {
+public class NodeFigure extends Figure {
 	
-	protected EllipseAnchor incomingAnchor;
-	protected EllipseAnchor outgoingAnchor;
+	protected ConnectionAnchor incomingAnchor;
+	protected ConnectionAnchor outgoingAnchor;
 	protected boolean selected;
+	protected XYLayout layout;
+	private Ellipse ellipse;
+	protected Dimension preferedSize = new Dimension(24, 24);
 
 	public NodeFigure(){
 		super();
-		incomingAnchor = new EllipseAnchor(this);
-		outgoingAnchor = new EllipseAnchor(this);
+		layout = new XYLayout();
+		this.setLayoutManager(layout);
+		
+		createFigure();
+		
+		initAnchor();
 	}
 	
-	public EllipseAnchor getSourceConnectionAnchor(){
+	protected void createFigure(){
+		ellipse = new Ellipse();
+		ellipse.setBounds(new Rectangle(preferedSize.width/4,preferedSize.height/4, 12,12));
+		add(ellipse);
+	}
+	
+	protected void initAnchor(){
+		incomingAnchor = new EllipseAnchor(ellipse);
+		outgoingAnchor = new EllipseAnchor(ellipse);
+	}
+	
+	public ConnectionAnchor getSourceConnectionAnchor(){
 		return outgoingAnchor;
 	}
-	public EllipseAnchor getTargetConnectionAnchor(){
+	public ConnectionAnchor getTargetConnectionAnchor(){
 		return incomingAnchor;
 	}
 	
@@ -44,22 +64,22 @@ public class NodeFigure extends Ellipse {
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		return new Dimension(24, 24);
+		return preferedSize;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
 	public void paintFigure(Graphics graphics) {
-//		super.paintFigure(graphics);
-		Rectangle rec = this.getBounds();
-		if(selected)
-			graphics.setBackgroundColor(this.getBackgroundColor());
-		else
-			graphics.setBackgroundColor(new Color(null, 255, 255, 255));
-		graphics.fillOval(6+rec.x, 6+rec.y, 12, 12);
-		graphics.setLineWidth(2);
-		graphics.setBackgroundColor(new Color(null, 0, 0, 0));
-		graphics.drawOval(6+rec.x, 6+rec.y, 12, 12);
+		super.paintFigure(graphics);
+//		Rectangle rec = this.getBounds();
+//		if(selected)
+//			graphics.setBackgroundColor(this.getBackgroundColor());
+//		else
+//			graphics.setBackgroundColor(new Color(null, 255, 255, 255));
+//		graphics.fillOval(6+rec.x, 6+rec.y, 12, 12);
+//		graphics.setLineWidth(2);
+//		graphics.setBackgroundColor(new Color(null, 0, 0, 0));
+//		graphics.drawOval(6+rec.x, 6+rec.y, 12, 12);
 	}
 	/**
 	 * @return Returns the selected.

@@ -123,7 +123,7 @@ public class UcmNodeEditPart extends AbstractGraphicalEditPart implements Adapte
 		}
 	}
 	
-	private NodeFigure getNodeFigure(){
+	public NodeFigure getNodeFigure(){
 		return (NodeFigure)getFigure();
 	}
 	
