@@ -29,78 +29,78 @@ import urncore.UCMmodelElement;
  * @generated
  */
 public interface PerfMeasure extends UCMmodelElement {
-	/**
-	 * Returns the value of the '<em><b>Measure</b></em>' attribute.
-	 * The default value is <code>"Delay"</code>.
-	 * The literals are from the enumeration {@link ucm.performance.PerfAttribute}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Measure</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Measure</em>' attribute.
-	 * @see ucm.performance.PerfAttribute
-	 * @see #setMeasure(PerfAttribute)
-	 * @see ucm.performance.PerformancePackage#getPerfMeasure_Measure()
-	 * @model default="Delay"
-	 * @generated
-	 */
-	PerfAttribute getMeasure();
+    /**
+     * Returns the value of the '<em><b>Measure</b></em>' attribute.
+     * The default value is <code>"Delay"</code>.
+     * The literals are from the enumeration {@link ucm.performance.PerfAttribute}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Measure</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Measure</em>' attribute.
+     * @see ucm.performance.PerfAttribute
+     * @see #setMeasure(PerfAttribute)
+     * @see ucm.performance.PerformancePackage#getPerfMeasure_Measure()
+     * @model default="Delay"
+     * @generated
+     */
+    PerfAttribute getMeasure();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.PerfMeasure#getMeasure <em>Measure</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Measure</em>' attribute.
-	 * @see ucm.performance.PerfAttribute
-	 * @see #getMeasure()
-	 * @generated
-	 */
-	void setMeasure(PerfAttribute value);
+    /**
+     * Sets the value of the '{@link ucm.performance.PerfMeasure#getMeasure <em>Measure</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Measure</em>' attribute.
+     * @see ucm.performance.PerfAttribute
+     * @see #getMeasure()
+     * @generated
+     */
+    void setMeasure(PerfAttribute value);
 
-	/**
-	 * Returns the value of the '<em><b>Perf Values</b></em>' containment reference list.
-	 * The list contents are of type {@link ucm.performance.PerfValue}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Perf Values</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Perf Values</em>' containment reference list.
-	 * @see ucm.performance.PerformancePackage#getPerfMeasure_PerfValues()
-	 * @model type="ucm.performance.PerfValue" containment="true"
-	 * @generated
-	 */
-	EList getPerfValues();
+    /**
+     * Returns the value of the '<em><b>Perf Values</b></em>' containment reference list.
+     * The list contents are of type {@link ucm.performance.PerfValue}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Perf Values</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Perf Values</em>' containment reference list.
+     * @see ucm.performance.PerformancePackage#getPerfMeasure_PerfValues()
+     * @model type="ucm.performance.PerfValue" containment="true"
+     * @generated
+     */
+    EList getPerfValues();
 
-	/**
-	 * Returns the value of the '<em><b>Duration</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.Workload#getRespTime <em>Resp Time</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Duration</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Duration</em>' reference.
-	 * @see #setDuration(Workload)
-	 * @see ucm.performance.PerformancePackage#getPerfMeasure_Duration()
-	 * @see ucm.performance.Workload#getRespTime
-	 * @model opposite="respTime"
-	 * @generated
-	 */
-	Workload getDuration();
+    /**
+     * Returns the value of the '<em><b>Duration</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link ucm.performance.Workload#getRespTime <em>Resp Time</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Duration</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Duration</em>' reference.
+     * @see #setDuration(Workload)
+     * @see ucm.performance.PerformancePackage#getPerfMeasure_Duration()
+     * @see ucm.performance.Workload#getRespTime
+     * @model opposite="respTime"
+     * @generated
+     */
+    Workload getDuration();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Duration</em>' reference.
-	 * @see #getDuration()
-	 * @generated
-	 */
-	void setDuration(Workload value);
+    /**
+     * Sets the value of the '{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Duration</em>' reference.
+     * @see #getDuration()
+     * @generated
+     */
+    void setDuration(Workload value);
 
 } // PerfMeasure

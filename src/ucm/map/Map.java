@@ -29,64 +29,64 @@ import urncore.UCMmodelElement;
  * @generated
  */
 public interface Map extends UCMmodelElement {
-	/**
-	 * Returns the value of the '<em><b>Path Graph</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Path Graph</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Path Graph</em>' containment reference.
-	 * @see #setPathGraph(PathGraph)
-	 * @see ucm.map.MapPackage#getMap_PathGraph()
-	 * @model containment="true"
-	 * @generated
-	 */
-	PathGraph getPathGraph();
+    /**
+     * Returns the value of the '<em><b>Path Graph</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Path Graph</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Path Graph</em>' containment reference.
+     * @see #setPathGraph(PathGraph)
+     * @see ucm.map.MapPackage#getMap_PathGraph()
+     * @model containment="true"
+     * @generated
+     */
+    PathGraph getPathGraph();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Map#getPathGraph <em>Path Graph</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Path Graph</em>' containment reference.
-	 * @see #getPathGraph()
-	 * @generated
-	 */
-	void setPathGraph(PathGraph value);
+    /**
+     * Sets the value of the '{@link ucm.map.Map#getPathGraph <em>Path Graph</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Path Graph</em>' containment reference.
+     * @see #getPathGraph()
+     * @generated
+     */
+    void setPathGraph(PathGraph value);
 
-	/**
-	 * Returns the value of the '<em><b>Comp Refs</b></em>' containment reference list.
-	 * The list contents are of type {@link ucm.map.ComponentRef}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Comp Refs</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Comp Refs</em>' containment reference list.
-	 * @see ucm.map.MapPackage#getMap_CompRefs()
-	 * @model type="ucm.map.ComponentRef" containment="true"
-	 * @generated
-	 */
-	EList getCompRefs();
+    /**
+     * Returns the value of the '<em><b>Comp Refs</b></em>' containment reference list.
+     * The list contents are of type {@link ucm.map.ComponentRef}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Comp Refs</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Comp Refs</em>' containment reference list.
+     * @see ucm.map.MapPackage#getMap_CompRefs()
+     * @model type="ucm.map.ComponentRef" containment="true"
+     * @generated
+     */
+    EList getCompRefs();
 
-	/**
-	 * Returns the value of the '<em><b>Parent Stub</b></em>' reference list.
-	 * The list contents are of type {@link ucm.map.PluginBinding}.
-	 * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getPlugin <em>Plugin</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parent Stub</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Parent Stub</em>' reference list.
-	 * @see ucm.map.MapPackage#getMap_ParentStub()
-	 * @see ucm.map.PluginBinding#getPlugin
-	 * @model type="ucm.map.PluginBinding" opposite="plugin"
-	 * @generated
-	 */
-	EList getParentStub();
+    /**
+     * Returns the value of the '<em><b>Parent Stub</b></em>' reference list.
+     * The list contents are of type {@link ucm.map.PluginBinding}.
+     * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getPlugin <em>Plugin</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Parent Stub</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Parent Stub</em>' reference list.
+     * @see ucm.map.MapPackage#getMap_ParentStub()
+     * @see ucm.map.PluginBinding#getPlugin
+     * @model type="ucm.map.PluginBinding" opposite="plugin"
+     * @generated
+     */
+    EList getParentStub();
 
 } // Map

@@ -36,179 +36,179 @@ import ucm.performance.PerformancePackage;
  * @generated
  */
 public class ActiveResourceImpl extends GeneralResourceImpl implements ActiveResource {
-	/**
-	 * The default value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double OP_TIME_EDEFAULT = 0.0;
+    /**
+     * The default value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getOpTime()
+     * @generated
+     * @ordered
+     */
+    protected static final double OP_TIME_EDEFAULT = 0.0;
 
-	/**
-	 * The cached value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOpTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected double opTime = OP_TIME_EDEFAULT;
+    /**
+     * The cached value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getOpTime()
+     * @generated
+     * @ordered
+     */
+    protected double opTime = OP_TIME_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ActiveResourceImpl() {
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ActiveResourceImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EClass eStaticClass() {
-		return PerformancePackage.eINSTANCE.getActiveResource();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EClass eStaticClass() {
+        return PerformancePackage.eINSTANCE.getActiveResource();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public double getOpTime() {
-		return opTime;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public double getOpTime() {
+        return opTime;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOpTime(double newOpTime) {
-		double oldOpTime = opTime;
-		opTime = newOpTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__OP_TIME, oldOpTime, opTime));
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setOpTime(double newOpTime) {
+        double oldOpTime = opTime;
+        opTime = newOpTime;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__OP_TIME, oldOpTime, opTime));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-					return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                    return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
+                default:
+                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-					return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                    return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-				return getDemands();
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return new Double(getOpTime());
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                return getDemands();
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                return new Double(getOpTime());
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-				getDemands().clear();
-				getDemands().addAll((Collection)newValue);
-				return;
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				setOpTime(((Double)newValue).doubleValue());
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(EStructuralFeature eFeature, Object newValue) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                getDemands().clear();
+                getDemands().addAll((Collection)newValue);
+                return;
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                setOpTime(((Double)newValue).doubleValue());
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-				getDemands().clear();
-				return;
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				setOpTime(OP_TIME_EDEFAULT);
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(EStructuralFeature eFeature) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                getDemands().clear();
+                return;
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                setOpTime(OP_TIME_EDEFAULT);
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
-				return demands != null && !demands.isEmpty();
-			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return opTime != OP_TIME_EDEFAULT;
-		}
-		return eDynamicIsSet(eFeature);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(EStructuralFeature eFeature) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.ACTIVE_RESOURCE__DEMANDS:
+                return demands != null && !demands.isEmpty();
+            case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
+                return opTime != OP_TIME_EDEFAULT;
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String toString() {
-		if (eIsProxy()) return super.toString();
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String toString() {
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (opTime: ");
-		result.append(opTime);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (opTime: ");
+        result.append(opTime);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ActiveResourceImpl

@@ -39,135 +39,135 @@ import ucm.performance.PerformancePackage;
  * @generated
  */
 public class GeneralResourceImpl extends EObjectImpl implements GeneralResource {
-	/**
-	 * The cached value of the '{@link #getDemands() <em>Demands</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDemands()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList demands = null;
+    /**
+     * The cached value of the '{@link #getDemands() <em>Demands</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getDemands()
+     * @generated
+     * @ordered
+     */
+    protected EList demands = null;
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected GeneralResourceImpl() {
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected GeneralResourceImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EClass eStaticClass() {
-		return PerformancePackage.eINSTANCE.getGeneralResource();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EClass eStaticClass() {
+        return PerformancePackage.eINSTANCE.getGeneralResource();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getDemands() {
-		if (demands == null) {
-			demands = new EObjectWithInverseResolvingEList(Demand.class, this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, PerformancePackage.DEMAND__RESOURCE);
-		}
-		return demands;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EList getDemands() {
+        if (demands == null) {
+            demands = new EObjectWithInverseResolvingEList(Demand.class, this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, PerformancePackage.DEMAND__RESOURCE);
+        }
+        return demands;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-					return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                    return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
+                default:
+                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-					return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                    return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return getDemands();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                return getDemands();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				getDemands().clear();
-				getDemands().addAll((Collection)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eSet(EStructuralFeature eFeature, Object newValue) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                getDemands().clear();
+                getDemands().addAll((Collection)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				getDemands().clear();
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void eUnset(EStructuralFeature eFeature) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                getDemands().clear();
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return demands != null && !demands.isEmpty();
-		}
-		return eDynamicIsSet(eFeature);
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean eIsSet(EStructuralFeature eFeature) {
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
+                return demands != null && !demands.isEmpty();
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
 } //GeneralResourceImpl

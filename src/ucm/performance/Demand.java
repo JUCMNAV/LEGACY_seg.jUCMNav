@@ -26,58 +26,58 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Demand extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Quantity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Quantity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Quantity</em>' attribute.
-	 * @see #setQuantity(double)
-	 * @see ucm.performance.PerformancePackage#getDemand_Quantity()
-	 * @model 
-	 * @generated
-	 */
-	double getQuantity();
+    /**
+     * Returns the value of the '<em><b>Quantity</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Quantity</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Quantity</em>' attribute.
+     * @see #setQuantity(double)
+     * @see ucm.performance.PerformancePackage#getDemand_Quantity()
+     * @model 
+     * @generated
+     */
+    double getQuantity();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.Demand#getQuantity <em>Quantity</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Quantity</em>' attribute.
-	 * @see #getQuantity()
-	 * @generated
-	 */
-	void setQuantity(double value);
+    /**
+     * Sets the value of the '{@link ucm.performance.Demand#getQuantity <em>Quantity</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Quantity</em>' attribute.
+     * @see #getQuantity()
+     * @generated
+     */
+    void setQuantity(double value);
 
-	/**
-	 * Returns the value of the '<em><b>Resource</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.GeneralResource#getDemands <em>Demands</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resource</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Resource</em>' reference.
-	 * @see #setResource(GeneralResource)
-	 * @see ucm.performance.PerformancePackage#getDemand_Resource()
-	 * @see ucm.performance.GeneralResource#getDemands
-	 * @model opposite="demands" required="true"
-	 * @generated
-	 */
-	GeneralResource getResource();
+    /**
+     * Returns the value of the '<em><b>Resource</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link ucm.performance.GeneralResource#getDemands <em>Demands</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Resource</em>' reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Resource</em>' reference.
+     * @see #setResource(GeneralResource)
+     * @see ucm.performance.PerformancePackage#getDemand_Resource()
+     * @see ucm.performance.GeneralResource#getDemands
+     * @model opposite="demands" required="true"
+     * @generated
+     */
+    GeneralResource getResource();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.Demand#getResource <em>Resource</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Resource</em>' reference.
-	 * @see #getResource()
-	 * @generated
-	 */
-	void setResource(GeneralResource value);
+    /**
+     * Sets the value of the '{@link ucm.performance.Demand#getResource <em>Resource</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Resource</em>' reference.
+     * @see #getResource()
+     * @generated
+     */
+    void setResource(GeneralResource value);
 
 } // Demand

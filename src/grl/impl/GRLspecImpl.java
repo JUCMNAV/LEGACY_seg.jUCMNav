@@ -23,22 +23,22 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * @generated
  */
 public class GRLspecImpl extends EObjectImpl implements GRLspec {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected GRLspecImpl() {
-		super();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected GRLspecImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EClass eStaticClass() {
-		return GrlPackage.eINSTANCE.getGRLspec();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EClass eStaticClass() {
+        return GrlPackage.eINSTANCE.getGRLspec();
+    }
 
 } //GRLspecImpl

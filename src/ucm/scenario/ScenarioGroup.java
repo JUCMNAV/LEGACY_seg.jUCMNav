@@ -31,20 +31,20 @@ import urncore.UCMmodelElement;
  * @generated
  */
 public interface ScenarioGroup extends UCMmodelElement {
-	/**
-	 * Returns the value of the '<em><b>Scenario Def</b></em>' containment reference list.
-	 * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Scenario Def</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Scenario Def</em>' containment reference list.
-	 * @see ucm.scenario.ScenarioPackage#getScenarioGroup_ScenarioDef()
-	 * @model type="ucm.scenario.ScenarioDef" containment="true"
-	 * @generated
-	 */
-	EList getScenarioDef();
+    /**
+     * Returns the value of the '<em><b>Scenario Def</b></em>' containment reference list.
+     * The list contents are of type {@link ucm.scenario.ScenarioDef}.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Scenario Def</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Scenario Def</em>' containment reference list.
+     * @see ucm.scenario.ScenarioPackage#getScenarioGroup_ScenarioDef()
+     * @model type="ucm.scenario.ScenarioDef" containment="true"
+     * @generated
+     */
+    EList getScenarioDef();
 
 } // ScenarioGroup

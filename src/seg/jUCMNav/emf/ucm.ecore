@@ -194,14 +194,14 @@
     <eClassifiers xsi:type="ecore:EClass" name="PathNode" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="succ" upperBound="-1"
           eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/source"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pred" upperBound="-1"
           eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/target"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="compRef" eType="#//map/ComponentRef"
           eOpposite="#//map/ComponentRef/pathNodes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1"
+          eType="ecore:EClass urncore.ecore#//NodeLabel" containment="true" eOpposite="urncore.ecore#//NodeLabel/pathNode"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="EndPoint" eSuperTypes="#//map/PathNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -276,8 +276,6 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="labely" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="compDef" lowerBound="1"
           eType="ecore:EClass urncore.ecore#//ComponentElement" eOpposite="urncore.ecore#//ComponentElement/compRefs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
@@ -286,6 +284,8 @@
           eOpposite="#//map/ComponentRef/children"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="pathNodes" upperBound="-1"
           eType="#//map/PathNode" eOpposite="#//map/PathNode/compRef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1"
+          eType="ecore:EClass urncore.ecore#//ComponentLabel" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Timer" eSuperTypes="#//map/WaitingPlace">
       <eStructuralFeatures xsi:type="ecore:EReference" name="timeoutCondition" lowerBound="1"

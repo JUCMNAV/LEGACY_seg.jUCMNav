@@ -25,56 +25,56 @@ package ucm.map;
  * @generated
  */
 public interface Loop extends PathNode {
-	/**
-	 * Returns the value of the '<em><b>Orientation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Orientation</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Orientation</em>' attribute.
-	 * @see #setOrientation(String)
-	 * @see ucm.map.MapPackage#getLoop_Orientation()
-	 * @model 
-	 * @generated
-	 */
-	String getOrientation();
+    /**
+     * Returns the value of the '<em><b>Orientation</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Orientation</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Orientation</em>' attribute.
+     * @see #setOrientation(String)
+     * @see ucm.map.MapPackage#getLoop_Orientation()
+     * @model 
+     * @generated
+     */
+    String getOrientation();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Loop#getOrientation <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Orientation</em>' attribute.
-	 * @see #getOrientation()
-	 * @generated
-	 */
-	void setOrientation(String value);
+    /**
+     * Sets the value of the '{@link ucm.map.Loop#getOrientation <em>Orientation</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Orientation</em>' attribute.
+     * @see #getOrientation()
+     * @generated
+     */
+    void setOrientation(String value);
 
-	/**
-	 * Returns the value of the '<em><b>Exit Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exit Condition</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Exit Condition</em>' containment reference.
-	 * @see #setExitCondition(Condition)
-	 * @see ucm.map.MapPackage#getLoop_ExitCondition()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	Condition getExitCondition();
+    /**
+     * Returns the value of the '<em><b>Exit Condition</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Exit Condition</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Exit Condition</em>' containment reference.
+     * @see #setExitCondition(Condition)
+     * @see ucm.map.MapPackage#getLoop_ExitCondition()
+     * @model containment="true" required="true"
+     * @generated
+     */
+    Condition getExitCondition();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Loop#getExitCondition <em>Exit Condition</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Exit Condition</em>' containment reference.
-	 * @see #getExitCondition()
-	 * @generated
-	 */
-	void setExitCondition(Condition value);
+    /**
+     * Sets the value of the '{@link ucm.map.Loop#getExitCondition <em>Exit Condition</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Exit Condition</em>' containment reference.
+     * @see #getExitCondition()
+     * @generated
+     */
+    void setExitCondition(Condition value);
 
 } // Loop

@@ -20,56 +20,56 @@ import ucm.*;
  * @generated
  */
 public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
-	/**
-	 * Creates and instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UcmFactoryImpl() {
-		super();
-	}
+    /**
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public UcmFactoryImpl() {
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case UcmPackage.UC_MSPEC: return createUCMspec();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EObject create(EClass eClass) {
+        switch (eClass.getClassifierID()) {
+            case UcmPackage.UC_MSPEC: return createUCMspec();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UCMspec createUCMspec() {
-		UCMspecImpl ucMspec = new UCMspecImpl();
-		return ucMspec;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public UCMspec createUCMspec() {
+        UCMspecImpl ucMspec = new UCMspecImpl();
+        return ucMspec;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UcmPackage getUcmPackage() {
-		return (UcmPackage)getEPackage();
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public UcmPackage getUcmPackage() {
+        return (UcmPackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
-	public static UcmPackage getPackage() {
-		return UcmPackage.eINSTANCE;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @deprecated
+     * @generated
+     */
+    public static UcmPackage getPackage() {
+        return UcmPackage.eINSTANCE;
+    }
 
 } //UcmFactoryImpl

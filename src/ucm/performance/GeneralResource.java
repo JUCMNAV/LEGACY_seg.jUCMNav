@@ -27,22 +27,22 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface GeneralResource extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Demands</b></em>' reference list.
-	 * The list contents are of type {@link ucm.performance.Demand}.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.Demand#getResource <em>Resource</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Demands</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Demands</em>' reference list.
-	 * @see ucm.performance.PerformancePackage#getGeneralResource_Demands()
-	 * @see ucm.performance.Demand#getResource
-	 * @model type="ucm.performance.Demand" opposite="resource"
-	 * @generated
-	 */
-	EList getDemands();
+    /**
+     * Returns the value of the '<em><b>Demands</b></em>' reference list.
+     * The list contents are of type {@link ucm.performance.Demand}.
+     * It is bidirectional and its opposite is '{@link ucm.performance.Demand#getResource <em>Resource</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Demands</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Demands</em>' reference list.
+     * @see ucm.performance.PerformancePackage#getGeneralResource_Demands()
+     * @see ucm.performance.Demand#getResource
+     * @model type="ucm.performance.Demand" opposite="resource"
+     * @generated
+     */
+    EList getDemands();
 
 } // GeneralResource
