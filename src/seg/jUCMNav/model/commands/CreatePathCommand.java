@@ -49,7 +49,7 @@ public class CreatePathCommand extends Command {
 		
 		node = factory.createNode();
 		node.setX(position.x+50);
-		node.setY(position.y+40);
+		node.setY(position.y);
 		
 		link1 = factory.createLink();
 		link1.setSource(start);

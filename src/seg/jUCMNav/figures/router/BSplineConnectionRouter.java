@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package seg.jUCMNav.figures;
+package seg.jUCMNav.figures.router;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,7 @@ import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
+import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.ucm.EndPoint;
 import seg.jUCMNav.model.ucm.Link;
 import seg.jUCMNav.model.ucm.StartPoint;
@@ -124,7 +125,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 	}
 
 	protected PointList getPointsFor(Connection connection) {
-		return spline.getPointsBetween(this.getStartPoint(connection), this.getEndPoint(connection));
+		PointList points = spline.getPointsBetween(this.getStartPoint(connection), this.getEndPoint(connection));
+		return points;
 	}
 
 	protected void insertConnection(Connection conn) {
@@ -162,6 +164,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 			// If all the connections are now updated in how array, initialization is finished
 			if(allLoaded() && initializing){
 				initializing = false;
+				conns = updateOrder();
 				// So we can really route all the connections
 				for (Iterator i = conns.iterator(); i.hasNext();) {
 					drawSpline((SplineConnection) i.next());

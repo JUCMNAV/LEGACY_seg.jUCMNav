@@ -54,4 +54,11 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 //		connection.setTargetDecoration(p); // arrow at target endpoint
 		return connection;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 */
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+	}
 }

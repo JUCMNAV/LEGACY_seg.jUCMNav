@@ -25,7 +25,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.editpolicies.UcmEditPolicy;
 import seg.jUCMNav.editpolicies.UcmXYLayoutEditPolicy;
 import seg.jUCMNav.emf.EObjectPropertySource;
-import seg.jUCMNav.figures.BSplineConnectionRouter;
+import seg.jUCMNav.figures.router.BSplineConnectionRouter;
 import seg.jUCMNav.model.ucm.UcmDiagram;
 
 /**
@@ -123,6 +123,7 @@ public class UcmDiagramEditPart extends AbstractGraphicalEditPart implements Ada
 	 */
 	protected void registerVisuals() {
 		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		this.getLayer(LayerConstants.PRIMARY_LAYER);
 		cLayer.setConnectionRouter(new BSplineConnectionRouter());
 		
 		super.registerVisuals();
