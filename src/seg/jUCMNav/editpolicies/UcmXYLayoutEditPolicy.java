@@ -33,7 +33,9 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 		return null;
 	}
 
-
+	protected UcmDiagram getModel(){
+		return (UcmDiagram)getHost().getModel();
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
@@ -57,11 +59,15 @@ public class UcmXYLayoutEditPolicy extends XYLayoutEditPolicy {
 			ExtendPathCommand create = new ExtendPathCommand();
 			create.setDiagram((UcmDiagram)getHost().getModel());
 			// This will only work when there's one path...
-			create.setPath((Path)((UcmDiagram)getHost().getModel()).getPaths().get(0));
-			create.setLocation(request.getLocation());
-			create.setNewEnd( (EndPoint)request.getNewObject() );
-			create.setLabel("Create a node");
-			createCommand = create;
+			if(getModel().getPaths().size() > 0){
+				create.setPath((Path)(getModel()).getPaths().get(0));
+				create.setLocation(request.getLocation());
+				create.setNewEnd( (EndPoint)request.getNewObject() );
+				create.setLabel("Create a node");
+				createCommand = create;
+			}
+			else
+				return null;
 		}
 
 		return createCommand;

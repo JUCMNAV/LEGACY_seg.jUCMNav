@@ -100,7 +100,7 @@ public class UcmPaletteRoot extends PaletteRoot
                 "Creates a Path",
                 StartPoint.class,
                 new ModelCreationFactory(StartPoint.class),
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/connection_s16.gif"), 
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, null));
         componentsDrawer.add(entry);
 		
@@ -111,16 +111,6 @@ public class UcmPaletteRoot extends PaletteRoot
                 Node.class,
                 new ModelCreationFactory(Node.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), 
-				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
-        componentsDrawer.add(entry);
-        
-        entry =
-            new CombinedTemplateCreationEntry(
-                "Start Point",
-                "Creates a Start Point",
-                StartPoint.class,
-                new ModelCreationFactory(StartPoint.class),
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), 
 				ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
         componentsDrawer.add(entry);
         
