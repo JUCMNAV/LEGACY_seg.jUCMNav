@@ -87,9 +87,12 @@ public class SplitLinkCommand extends Command {
 		diagram.getNodeConnections().remove(newLink1);
 		diagram.getNodeConnections().remove(newLink2);
 		diagram.getPathNodes().remove(node);
-		
+
+		nextNode.getPred().remove(newLink2);
+		previousNode.getSucc().remove(newLink1);
 		nextNode.getPred().add(oldLink);
 		previousNode.getSucc().add(oldLink);
+		
 		
 		diagram.getNodeConnections().add(oldLink);
 	}
