@@ -12,7 +12,6 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
-import ucm.map.PathNodeProxy;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 
@@ -50,8 +49,6 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new PathNodeEditPart((RespRef)model, root.getPathGraph());
 		else if(model instanceof ComponentRef) 
 		    return new ComponentRefEditPart((ComponentRef)model, root);
-		else if(model instanceof PathNodeProxy) 
-		    return new LabelEditPart((PathNodeProxy)model, root.getPathGraph());
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();");
 			return null;
