@@ -61,6 +61,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.emf.UcmModelManager;
+import ucm.map.Map;
 import ucm.map.MapFactory;
 import ucm.map.PathGraph;
 
@@ -81,7 +82,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	 * This is the root of the editor's model.
 	 * 
 	 */
-	private PathGraph ucm;
+	private Map ucm;
 	
 	/** the model manager */
     private UcmModelManager modelManager;
@@ -89,8 +90,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 	/** Create a new ShapesEditor instance. This is called by the Workspace. */
 	public UcmEditor() {
 		MapFactory factory = MapFactory.eINSTANCE;
-
-		ucm = factory.createPathGraph();
+		ucm = factory.createMap();
+		ucm.setPathGraph(factory.createPathGraph());
 		setEditDomain(new DefaultEditDomain(this));
 	}
 
@@ -331,7 +332,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 		return sharedKeyHandler;
 	}
 
-	private PathGraph getModel() {
+	private Map getModel() {
 		return ucm;
 	}
 
@@ -454,9 +455,9 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @param file
      * @return the network object from the specified file
      */
-    private PathGraph create(IFile file) throws CoreException
+    private ucm.map.Map create(IFile file) throws CoreException
     {
-        PathGraph ucm = null;
+        ucm.map.Map ucm = null;
         modelManager = new UcmModelManager();
 
         if (file.exists())

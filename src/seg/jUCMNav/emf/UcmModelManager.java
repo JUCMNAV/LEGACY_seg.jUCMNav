@@ -45,7 +45,7 @@ public class UcmModelManager {
 	/**
 	 * Gives access to the top level network contained in the resource.
 	 */
-	private PathGraph ucm = null;
+	private ucm.map.Map ucm = null;
 
 	/**
 	 * Returns the resource containing the network. Uses lazy initialization.
@@ -116,14 +116,15 @@ public class UcmModelManager {
 	 * @param 
 	 * @return
 	 */
-	public PathGraph createDiagram(IPath path) {
+	public ucm.map.Map createDiagram(IPath path) {
 		createResource(path);
 		// Create a new network model
 		Map registry = EPackage.Registry.INSTANCE;
 		String UcmURI = MapPackage.eNS_URI;
 		MapPackage nPackage = (MapPackage) registry.get(UcmURI);
 		MapFactory nFactory = nPackage.getMapFactory();
-		ucm = nFactory.createPathGraph();
+		ucm = nFactory.createMap();
+		ucm.setPathGraph(nFactory.createPathGraph());
 		resource.getContents().add(ucm);
 		return ucm;
 	}
@@ -163,14 +164,14 @@ public class UcmModelManager {
 	 * Gets the top level network model.
 	 * @return
 	 */
-	public PathGraph getModel() {
+	public ucm.map.Map getModel() {
 		if (null == ucm) {
 			EList l = resource.getContents();
 			Iterator i = l.iterator();
 			while (i.hasNext()) {
 				Object o = i.next();
-				if (o instanceof PathGraph)
-					ucm = (PathGraph) o;
+				if (o instanceof ucm.map.Map)
+					ucm = (ucm.map.Map) o;
 			}
 		}
 		return ucm;

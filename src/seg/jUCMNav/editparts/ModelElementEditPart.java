@@ -19,14 +19,14 @@ import seg.jUCMNav.emf.EObjectPropertySource;
  * 
  * @author Etienne Tremblay
  */
-public abstract class ModelElementlEditPart extends AbstractGraphicalEditPart implements Adapter {
+public abstract class ModelElementEditPart extends AbstractGraphicalEditPart implements Adapter {
 	private IPropertySource propertySource = null;
 	private Notifier target;
 
 	/**
 	 * 
 	 */
-	public ModelElementlEditPart() {
+	public ModelElementEditPart() {
 		super();
 	}
 	

@@ -18,6 +18,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.emf.ModelCreationFactory;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.RespRef;
@@ -65,10 +66,10 @@ public class UcmPaletteRoot extends PaletteRoot
 
         CreationToolEntry entry;
         
-        PaletteDrawer componentsDrawer; //= new PaletteDrawer("Components");
+        PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
         
-//        entry = new CombinedTemplateCreationEntry("Team", "Create a team", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), null);
-//		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Team", "Create a team", ComponentRef.class, new ModelCreationFactory(ComponentRef.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), null);
+		componentsDrawer.add(entry);
 //        entry = new CombinedTemplateCreationEntry("Object", "Create an object", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif"), null);
 //		componentsDrawer.add(entry);
 //        entry = new CombinedTemplateCreationEntry("Process", "Create a process", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif"), null);
@@ -79,10 +80,10 @@ public class UcmPaletteRoot extends PaletteRoot
 //		componentsDrawer.add(entry);
 //        entry = new CombinedTemplateCreationEntry("Agent", "Create an agent", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent16.gif"), null);
 //		componentsDrawer.add(entry);
-//        entry = new CombinedTemplateCreationEntry("Other", "Create an other component", Component.class, new ModelCreationFactory(Component.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), null);
-//		componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Other", "Create an other component", ComponentRef.class, new ModelCreationFactory(ComponentRef.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), null);
+		componentsDrawer.add(entry);
 //		
-//		add(componentsDrawer);
+		add(componentsDrawer);
 		
 		componentsDrawer = new PaletteDrawer("Path");
 //		entry =

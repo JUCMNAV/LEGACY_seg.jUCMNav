@@ -38,7 +38,7 @@ import ucm.map.StartPoint;
  * @author Etienne Tremblay
  *
  */
-public class PathNodeEditPart extends ModelElementlEditPart implements NodeEditPart {
+public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart {
 	
 	private PathGraph diagram;
 	

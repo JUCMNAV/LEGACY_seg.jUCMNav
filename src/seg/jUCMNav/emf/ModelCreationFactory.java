@@ -9,6 +9,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.gef.requests.CreationFactory;
 
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.MapFactory;
@@ -58,6 +59,9 @@ public class ModelCreationFactory implements CreationFactory {
 			}
 			else if(targetClass.equals(EndPoint.class)){
 				result = factory.createEndPoint();
+			}
+			else if(targetClass.equals(ComponentRef.class)) {
+			    result = factory.createComponentRef();
 			}
 		}
 		return result;
