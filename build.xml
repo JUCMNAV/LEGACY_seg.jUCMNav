@@ -15,6 +15,7 @@
 	<property name="compilerArg" value=""/>
 	<property name="eclipsehome" value="c:/eclipse"/> <!-- JP: system-specific -->
 
+	
 	<target name="init" depends="properties">
 		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
 			<isset property="buildTempFolder"/>
