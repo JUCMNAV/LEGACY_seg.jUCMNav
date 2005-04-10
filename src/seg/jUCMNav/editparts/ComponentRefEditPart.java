@@ -1,9 +1,3 @@
-/*
- * Created on 2005-02-15
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
@@ -13,70 +7,60 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.emf.EObjectPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;
 
 /**
  * Created 2005-02-15
+ * EditPart for all ComponentRefs. They listen to changes in both the reference and the definition.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
-public class ComponentRefEditPart extends AbstractGraphicalEditPart implements Adapter {
+public class ComponentRefEditPart extends ModelElementEditPart implements Adapter {
 
-    private IPropertySource propertySource = null;
-    private Notifier target;
-    private Map map;
 
-    /**
-     *  
-     */
     public ComponentRefEditPart(ComponentRef model, Map map) {
         super();
-        this.map = map;
         setModel(model);
-        if (model.getCompDef()!=null)
-            model.getCompDef().eAdapters().add(this);
     }
 
     private ComponentRef getComponentRef() {
         return (ComponentRef) getModel();
     }
 
-    /*
-     * (non-Javadoc)
+    /** 
+     * Overriding because we also have to listen to the Component definition
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {
-        if (!isActive())
-            getComponentRef().eAdapters().add(this);
+        if (getComponentRef().getCompDef()!=null)
+            getComponentRef().getCompDef().eAdapters().add(this);
+
         super.activate();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Overriding because we also have to listen to the Component definition
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive())
-            getComponentRef().eAdapters().remove(this);
+        if (getComponentRef().getCompDef()!=null)
+            getComponentRef().getCompDef().eAdapters().remove(this);
+
         super.deactivate();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Currently, all components are represented by Rectangles.
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
@@ -94,8 +78,8 @@ public class ComponentRefEditPart extends AbstractGraphicalEditPart implements A
     protected void createEditPolicies() {
     }
 
-    /*
-     * (non-Javadoc)
+    /** 
+     * When the model has changed, refresh this reference but also the container.
      * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -106,59 +90,12 @@ public class ComponentRefEditPart extends AbstractGraphicalEditPart implements A
         ((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);        
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-     */
-    public Notifier getTarget() {
-        return target;
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-     */
-    public void setTarget(Notifier newTarget) {
-        target = newTarget;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-     */
-    public boolean isAdapterForType(Object type) {
-        return type.equals(getModel().getClass());
-    }
-
-    protected IPropertySource getPropertySource() {
-        if (propertySource == null) {
-            propertySource = new EObjectPropertySource(getComponentRef());
-        }
-        return propertySource;
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class key) {
-        /*
-         * override the default behavior defined in AbstractEditPart which would expect the model to be a property sourced. instead the editpart can provide a
-         * property source
-         */
-        if (IPropertySource.class == key) {
-            return getPropertySource();
-        }
-        return super.getAdapter(key);
-    }
-
-    /*
-     * (non-Javadoc)
+    /**
+     * Draws the figure. Currently, all Components are represented by rectangles. 
+     * The Component Kind is not observed.
+     * If no fill color has been defined, leave transparent.
+     * If no line color has been defined, use black.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
@@ -169,6 +106,8 @@ public class ComponentRefEditPart extends AbstractGraphicalEditPart implements A
         figure.setBounds(bounds);
         figure.validate(); // Make the label recenter itself.
         RectangleFigure rect = (RectangleFigure) figure;
+        // we want the line to be thicker
+        rect.setLineWidth(3);
         // set the colors
         RGB color;
 
