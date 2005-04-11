@@ -100,12 +100,15 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         } else if (newObjectType == ComponentRef.class) {
             CreateComponentRefCommand create = new CreateComponentRefCommand();
             create.setMap(getMap());
-
+            
             Rectangle constraint = (Rectangle) getConstraintFor(request);
             create.setLocation(constraint.getLocation());
             create.setWidth(constraint.width);
             create.setHeight(constraint.height);
             create.setLabel("Create a component");
+            create.setComp((ComponentRef)request.getNewObject());
+            create.setCompdef(((ComponentRef)request.getNewObject()).getCompDef());
+            
             createCommand = create;
         }
 

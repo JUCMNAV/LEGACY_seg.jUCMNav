@@ -35,7 +35,7 @@ public class AddLabelAction extends SelectionAction {
     
     private boolean canPerformAction() {
 		List parts = getSelectedObjects();
-		if(parts.size() == 1){
+		if(parts.size() == 1 && parts.get(0) instanceof EditPart){
 			EditPart part = (EditPart) parts.get(0);
 			if ((part.getModel() instanceof PathNode))
 				return true;

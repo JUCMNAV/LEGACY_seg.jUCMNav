@@ -8,17 +8,19 @@ import java.util.Map;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import ucm.UcmPackage;
+import ucm.UcmFactory;
 import ucm.map.MapFactory;
-import ucm.map.MapPackage;
 import ucm.map.impl.MapPackageImpl;
+import urn.URNspec;
+import urn.UrnFactory;
+import urncore.URNdefinition;
+import urncore.UrncoreFactory;
 
 /**
  * Created 2005-02-11
@@ -29,7 +31,7 @@ import ucm.map.impl.MapPackageImpl;
  * 
  * @author Etienne Tremblay
  */
-public class UcmModelManager {
+public class UrnModelManager {
     /**
      * For the purpose of the simple editor, a file can only contain a UCM. In EMF, a resource provides the way to have access to the model content.
      */
@@ -43,7 +45,7 @@ public class UcmModelManager {
     /**
      * Gives access to the top level model element contained in the resource.
      */
-    private ucm.map.Map ucm = null;
+    private URNspec model = null;
 
     /**
      * Returns the resource containing the UCM. Uses lazy initialization.
@@ -90,30 +92,31 @@ public class UcmModelManager {
         return new ResourceSetImpl();
     }
 
-    /**
-     * Returns the factory associated with the model. Object creation are made through that factory.
-     * 
-     * @return
-     */
-    static public MapFactory getFactory() {
-        if (networkFactory == null) {
-            // Access the factory (needed to create instances)
-            Map registry = EPackage.Registry.INSTANCE;
-            String networkURI = UcmPackage.eNS_URI;
-            MapPackage ucmPackage = (MapPackage) registry.get(networkURI);
-            networkFactory = ucmPackage.getMapFactory();
-        }
-        return networkFactory;
-    }
 
     /**
-     * Creates a new UCM.
+     * Creates a new URNspec.
      * 
      * @param path
      * @return
      */
-    public ucm.map.Map createMap(IPath path) {
+    public URNspec createURNspec(IPath path) {
         createResource(path);
+        
+        URNspec urnspec=null;
+
+        MapFactory factory = MapFactory.eINSTANCE;
+        ucm.map.Map ucm = factory.createMap();
+        ucm.setPathGraph(factory.createPathGraph());
+        
+        UrncoreFactory factory2 = UrncoreFactory.eINSTANCE;
+        URNdefinition urn = factory2.createURNdefinition();
+        
+        urnspec = UrnFactory.eINSTANCE.createURNspec();
+        urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
+        urnspec.getUcmspec().getMaps().add(ucm);
+        urnspec.setUrndef(urn);
+        
+        /*
         // Create a new network model
         Map registry = EPackage.Registry.INSTANCE;
         String UcmURI = MapPackage.eNS_URI;
@@ -123,6 +126,10 @@ public class UcmModelManager {
         ucm.setPathGraph(nFactory.createPathGraph());
         resource.getContents().add(ucm);
         return ucm;
+        */
+        
+        resource.getContents().add(urnspec);
+        return urnspec;
     }
 
     /**
@@ -164,16 +171,16 @@ public class UcmModelManager {
      * 
      * @return
      */
-    public ucm.map.Map getModel() {
-        if (null == ucm) {
+    public URNspec getModel() {
+        if (null == model) {
             EList l = resource.getContents();
             Iterator i = l.iterator();
             while (i.hasNext()) {
                 Object o = i.next();
-                if (o instanceof ucm.map.Map)
-                    ucm = (ucm.map.Map) o;
+                if (o instanceof URNspec)
+                    model = (URNspec) o;
             }
         }
-        return ucm;
+        return model;
     }
 }

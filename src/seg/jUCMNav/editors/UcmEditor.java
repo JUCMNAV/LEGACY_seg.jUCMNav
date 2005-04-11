@@ -60,9 +60,14 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
-import seg.jUCMNav.emf.UcmModelManager;
+import seg.jUCMNav.emf.UrnModelManager;
+import ucm.UcmFactory;
 import ucm.map.Map;
 import ucm.map.MapFactory;
+import urn.URNspec;
+import urn.UrnFactory;
+import urncore.URNdefinition;
+import urncore.UrncoreFactory;
 
 /**
  * This is the main class for editing a Map in our model.
@@ -83,22 +88,38 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     private boolean saveAlreadyRequested;
 
     /** This is the root of the editor's model. */
-    private Map ucm;
+    //private Map ucm;
+    private URNspec model;
 
     /** the model manager */
-    private UcmModelManager modelManager;
+    private UrnModelManager modelManager;
 
     /** the resource tracker instance */
     private ResourceTracker resourceTracker;
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor() {
+        
         MapFactory factory = MapFactory.eINSTANCE;
-        ucm = factory.createMap();
+        Map ucm = factory.createMap();
         ucm.setPathGraph(factory.createPathGraph());
+
+        UrncoreFactory factory2 = UrncoreFactory.eINSTANCE;
+        URNdefinition urn = factory2.createURNdefinition();
+
+
+        model = UrnFactory.eINSTANCE.createURNspec();
+        model.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
+        model.getUcmspec().getMaps().add(ucm);
+        model.setUrndef(urn);
+        
         setEditDomain(new DefaultEditDomain(this));
     }
 
+    
+    private Map getMap(int index) {
+        return (Map) model.getUcmspec().getMaps().get(index);
+    }
     /**
      * Configure the graphical viewer before it receives contents.
      * <p>
@@ -134,7 +155,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         getSite().registerContextMenu("org.eclipse.gef.examples.logic.editor.contextmenu", //$NON-NLS-1$
                 provider, viewer);
 
-        viewer.setEditPartFactory(new GraphicalEditPartFactory(ucm));
+        viewer.setEditPartFactory(new GraphicalEditPartFactory(getMap(0)));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
     }
 
@@ -320,10 +341,10 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /**
      * Return the root model of this editor.
      * 
-     * @return The map we are editing.
+     * @return The model we are editing.
      */
-    private Map getModel() {
-        return ucm;
+    private URNspec getModel() {
+        return model;
     }
 
     /**
@@ -333,7 +354,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      */
     protected void initializeGraphicalViewer() {
         GraphicalViewer graphicalViewer = getGraphicalViewer();
-        graphicalViewer.setContents(getModel()); // set the contents of this editor
+        graphicalViewer.setContents(getMap(0)); // set the contents of this editor
         //		 listen for dropped parts
         graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
     }
@@ -447,28 +468,28 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Returns the network object from the specified file.
+     * Returns the URNspec object from the specified file.
      * 
      * @param file
      * @return the ucm object from the specified file
      */
-    private ucm.map.Map create(IFile file) throws CoreException {
-        ucm.map.Map ucm = null;
-        modelManager = new UcmModelManager();
+    private URNspec create(IFile file) throws CoreException {
+        URNspec urn = null;
+        modelManager = new UrnModelManager();
 
         if (file.exists()) {
             try {
                 modelManager.load(file.getFullPath());
             } catch (Exception e) {
-                modelManager.createMap(file.getFullPath());
+                modelManager.createURNspec(file.getFullPath());
             }
 
-            ucm = modelManager.getModel();
-            if (null == ucm) {
+            urn = modelManager.getModel();
+            if (null == urn) {
                 throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.", null));
             }
         }
-        return ucm;
+        return urn;
     }
 
     /**
@@ -492,7 +513,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             throw new CoreException(status);
         }
 
-        // save network to file
+        // save URNspec to file
         try {
             modelManager.save(file.getFullPath());
 
@@ -516,23 +537,23 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @see org.eclipse.ui.IEditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
      */
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-        //		 read network from input
+        //		 read URNspec from input
         try {
             // we expect IFileEditorInput here,
             // ClassCassException is catched to force PartInitException
             IFile file = ((IFileEditorInput) input).getFile();
-            ucm = create(file);
+            model = create(file);
 
-            // validate network
+            // validate URNspec
             if (null == getModel())
-                throw new PartInitException("The specified input is not a valid UCM.");
+                throw new PartInitException("The specified input is not a valid URN file.");
         } catch (CoreException e) {
             throw new PartInitException(e.getStatus());
         } catch (ClassCastException e) {
-            throw new PartInitException("The specified input is not a valid UCM.", e);
+            throw new PartInitException("The specified input is not a valid URN file.", e);
         }
 
-        // network is ok
+        // URNspec is ok
         super.init(site, input);
     }
 }

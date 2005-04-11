@@ -41,7 +41,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {
-        if (getComponentRef().getCompDef()!=null)
+        if (!isActive() && getComponentRef().getCompDef()!=null)
             getComponentRef().getCompDef().eAdapters().add(this);
 
         super.activate();
@@ -53,10 +53,10 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (getComponentRef().getCompDef()!=null)
+        if (isActive() && getComponentRef().getCompDef()!=null)
             getComponentRef().getCompDef().eAdapters().remove(this);
-
-        super.deactivate();
+        super.deactivate();        
+        
     }
 
     /**
@@ -87,6 +87,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         refreshVisuals();
         
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
+       if (notification.getEventType() == Notification.SET)
         ((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);        
     }
 

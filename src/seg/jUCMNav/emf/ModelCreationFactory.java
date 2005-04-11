@@ -17,6 +17,9 @@ import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import urncore.Component;
+import urncore.ComponentKind;
+import urncore.UrncoreFactory;
 
 /**
  * Created on 2005-01-30
@@ -28,13 +31,20 @@ import ucm.map.StartPoint;
  */
 public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
+    private int type;
 
-    
     /**
-     * @param targetClass The class we need to create from this factory.
+     * @param targetClass
+     *            The class we need to create from this factory.
      */
     public ModelCreationFactory(Class targetClass) {
         this.targetClass = targetClass;
+        this.type = 0;
+    }
+
+    public ModelCreationFactory(Class targetClass, int type) {
+        this.targetClass = targetClass;
+        this.type = type;
     }
 
     /*
@@ -62,7 +72,11 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(EndPoint.class)) {
                 result = factory.createEndPoint();
             } else if (targetClass.equals(ComponentRef.class)) {
+
                 result = factory.createComponentRef();
+                Component compdef = UrncoreFactory.eINSTANCE.createComponent();
+                ((ComponentRef) result).setCompDef(compdef);
+                compdef.setKind(ComponentKind.get(type));
             }
         }
         return result;
