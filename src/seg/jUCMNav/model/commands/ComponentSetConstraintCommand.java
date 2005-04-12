@@ -43,8 +43,10 @@ public class ComponentSetConstraintCommand extends Command {
     public void redo() {
         comp.setX(newPosition.x);
         comp.setY(newPosition.y);
-        comp.setWidth(newDimension.width);
-        comp.setHeight(newDimension.height);
+        if(oldDimension.height != newDimension.height || oldDimension.width != newDimension.width){
+	        comp.setWidth(newDimension.width);
+	        comp.setHeight(newDimension.height);
+        }
     }
 
     /*

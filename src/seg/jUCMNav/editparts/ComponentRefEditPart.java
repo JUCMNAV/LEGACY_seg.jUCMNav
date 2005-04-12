@@ -7,12 +7,12 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.editors.ConnectionOnBottomRootEditPart;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;
@@ -137,7 +137,17 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+//        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+        (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 
+	public void addNotify() {
+//		getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(getFigure());
+		super.addNotify();
+	}
+
+	public void removeNotify() {
+		getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).remove(getFigure());
+		super.removeNotify();
+	}
 }

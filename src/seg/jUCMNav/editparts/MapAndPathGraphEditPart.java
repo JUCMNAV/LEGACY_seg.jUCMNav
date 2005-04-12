@@ -2,23 +2,31 @@ package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
+import seg.jUCMNav.editors.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editpolicies.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.emf.ComponentRefAreaComparator;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
+import ucm.UcmPackage;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
+import ucm.map.MapPackage;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
@@ -29,154 +37,355 @@ import ucm.map.PathNode;
  */
 public class MapAndPathGraphEditPart extends ModelElementEditPart {
 
-    public MapAndPathGraphEditPart(Map map) {
-        setModel(map);
-        map.getPathGraph().eAdapters().add(this);
-    }
+	protected EditPart editPartInProcess = null;
 
-    /**
-     * ( Creates the freeform layout
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-     */
-    protected IFigure createFigure() {
-        FreeformLayer layer = new FreeformLayer();
-        layer.setLayoutManager(new FreeformLayout());
-        layer.setBorder(new LineBorder(1));
-        return layer;
-    }
+	public MapAndPathGraphEditPart(Map map) {
+		setModel(map);
+		//		map.getPathGraph().eAdapters().add(this);
+	}
 
-    /**
-     * Creates our top level edit policities.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-     */
-    protected void createEditPolicies() {
-        // This install a container policy
-        //		installEditPolicy(EditPolicy.CONTAINER_ROLE, new UcmEditPolicy());
-        // This install the layout edit policy. Wich commands are used for
-        // create/move/resize etc...
+	/**
+	 * ( Creates the freeform layout
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	protected IFigure createFigure() {
+		FreeformLayer layer = new FreeformLayer();
 
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapAndPathGraphXYLayoutEditPolicy());
-        //		installEditPolicy(EditPolicy.NODE_ROLE, null);
-        //		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
-        //		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
-    }
+		layer.setLayoutManager(new FreeformLayout());
+		layer.setBorder(new LineBorder(1));
+		return layer;
+	}
 
-    /**
-     * 
-     * @return the top level ucm.map.Map used to store all information. Contains ComponentRefs and a PathGraph.
-     */
-    private Map getMap() {
-        return (Map) getModel();
-    }
+	/**
+	 * Creates our top level edit policities.
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies() {
+		// This install a container policy
+		//		installEditPolicy(EditPolicy.CONTAINER_ROLE, new UcmEditPolicy());
+		// This install the layout edit policy. Wich commands are used for
+		// create/move/resize etc...
 
-    /**
-     * 
-     * @return The Map's path graph, used to insert nodes and connections.
-     */
-    private PathGraph getPathGraph() {
-        return ((Map) getModel()).getPathGraph();
-    }
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapAndPathGraphXYLayoutEditPolicy());
+		//		installEditPolicy(EditPolicy.NODE_ROLE, null);
+		//		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
+		//		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+	}
 
-    /**
-     * Returns the map&pathgraph's children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
-     * the board.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-     */
-    protected List getModelChildren() {
-        List list = new ArrayList();
-        Object o = new Object();
+	protected void refreshChildren() {
+		int i;
+		EditPart editPart;
+		Object model;
 
-        // get all component references
-        for (int i = 0; i < getMap().getCompRefs().size(); i++)
-            list.add(getMap().getCompRefs().get(i));
+		HashMap modelToEditPart = new HashMap();
+		List children = getChildren();
+		List comps = getComponentEditParts();
+		List pathNodes = getPathNodeEditParts();
 
-        // sort them by ascending area
-        Collections.sort(list, new ComponentRefAreaComparator());
-        // reverse the list so that our largest components are in the back.
-        Collections.reverse(list);
+		for (i = 0; i < children.size(); i++) {
+			editPart = (EditPart) children.get(i);
+			modelToEditPart.put(editPart.getModel(), editPart);
+		}
 
-        // put the nodes on top because they are always over components.
-        for (int i = 0; i < getPathGraph().getPathNodes().size(); i++) {
-            PathNode node = (PathNode) getPathGraph().getPathNodes().get(i);
-            list.add(node);
-            // if we have a label on a path node, we also want to add it.
-            if (!(node.getLabel() == null))
-                list.add(node.getLabel());
-        }
+		List modelObjects = getModelChildren();
 
-        return list;
-    }
+		int index = 0;
+		int comp = 0;
+		for (i = 0; i < modelObjects.size(); i++) {
+			model = modelObjects.get(i);
 
-    /**
-     * Change listener. Has to handle when its children are changed and when we might have to reorder them.
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-     */
-    public void notifyChanged(Notification notification) {
-        int type = notification.getEventType();
-        switch (type) {
-        case Notification.ADD:
-        case Notification.ADD_MANY:
-        case Notification.REMOVE:
-        case Notification.REMOVE_MANY:
-            refreshChildren();
-            break;
-        case Notification.SET:
-            if (notification.getNotifier() instanceof ComponentRef) {
-                // we might have to reorder the children so as to put the largest components in the back.
-                refreshChildren();
-            }
-            refreshVisuals();
-            break;
-        }
+			//Do a quick check to see if editPart[i] == model[i]
 
-        refreshChildren();
-    }
+			if (!(model instanceof ComponentRef)) {
+				if (index < pathNodes.size() && ((EditPart) pathNodes.get(index)).getModel() == model) {
+					index++;
+					continue;
+				}
+			} else {
+				if (comp < comps.size() && ((EditPart) comps.get(comp)).getModel() == model) {
+					comp++;
+					continue;
+				}
+			}
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
-     */
-    protected void registerVisuals() {
-        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        cLayer.setConnectionRouter(new BSplineConnectionRouter(getPathGraph()));
+			//Look to see if the EditPart is already around but in the wrong location
+			editPart = (EditPart) modelToEditPart.get(model);
 
-        super.registerVisuals();
-    }
+			if (editPart != null)
+			{
+				if(editPart.getModel() instanceof ComponentRef)
+					reorderChild(editPart, comp++);
+				else
+					reorderChild(editPart, index++);
+			}
+			else {
+				//An editpart for this model doesn't exist yet. Create and insert one.
+				editPart = createChild(model);
+				if (!(model instanceof ComponentRef)) {
+					addChild(editPart, index++);
+				} else {
+					addChild(editPart, comp++);
+				}
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
-     */
-    protected void refreshVisuals() {
-    }
+			}
+		}
+		List trash = new ArrayList();
+//		for (; i < children.size(); i++)
+//			trash.add(children.get(i));
+		for (; comp < comps.size(); comp++)
+			trash.add(comps.get(comp));
+		for (; index < pathNodes.size(); index++)
+			trash.add(pathNodes.get(index));
+		
+		for (i = 0; i < trash.size(); i++) {
+			EditPart ep = (EditPart) trash.get(i);
+			removeChild(ep);
+		}
+	}
+	
+	protected List getComponentEditParts(){
+		List children = getChildren();
+		List comps = new ArrayList();
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate() {
-        if (!isActive())
-            getPathGraph().eAdapters().add(this);
-        super.activate();
-    }
+		for (Iterator j = children.iterator(); j.hasNext();) {
+			EditPart edit = (EditPart) j.next();
+			if (edit.getModel() instanceof ComponentRef)
+				comps.add(edit);
+		}
+		
+		return comps;
+	}
+	
+	protected List getPathNodeEditParts(){
+		List children = getChildren();
+		List pathNodes = new ArrayList();
+		
+		for (Iterator j = children.iterator(); j.hasNext();) {
+			EditPart edit = (EditPart) j.next();
+			if(edit.getModel() instanceof PathNode)
+				pathNodes.add(edit);
+		}
+		
+		return pathNodes;
+	}
 
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive())
-            getPathGraph().eAdapters().remove(this);
-        super.deactivate();
-    }
+	protected void reorderChild(EditPart child, int index) {
+		editPartInProcess = child;
+		int i = index;
+		if(child.getModel() instanceof ComponentRef)
+			i += getPathNodeEditParts().size();
+
+//		 Save the constraint of the child so that it does not
+		// get lost during the remove and re-add.
+		IFigure childFigure = ((GraphicalEditPart) child).getFigure();
+		LayoutManager layout = getContentPane().getLayoutManager();
+		Object constraint = null;
+		if (layout != null)
+			constraint = layout.getConstraint(childFigure);
+
+		removeChildVisual(child);
+		List children = getChildren();
+		children.remove(child);
+		children.add(i, child);
+		addChildVisual(child, index);
+		
+		setLayoutConstraint(child, childFigure, constraint);
+		
+		editPartInProcess = null;
+	}
+
+	public IFigure getContentPane() {
+		if (editPartInProcess != null) {
+			if (editPartInProcess.getModel() instanceof ComponentRef)
+				return getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER);
+			else
+				return super.getContentPane();
+		} else
+			return super.getContentPane();
+	}
+
+	public void setLayoutConstraint(EditPart child, IFigure childFigure, Object constraint) {
+		if (child.getModel() instanceof ComponentRef)
+			getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).setConstraint(childFigure, constraint);
+		else
+			super.setLayoutConstraint(child, childFigure, constraint);
+	}
+
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (!(childEditPart.getModel() instanceof ComponentRef)) {
+			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+			getContentPane().remove(child);
+		} else {
+			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+			getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).remove(child);
+		}
+	}
+
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (!(childEditPart.getModel() instanceof ComponentRef)) {
+			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+			getContentPane().add(child, index);
+		} else {
+			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+			getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(child, index);
+		}
+	}
+
+	/**
+	 * 
+	 * @return the top level ucm.map.Map used to store all information. Contains ComponentRefs and a PathGraph.
+	 */
+	private Map getMap() {
+		return (Map) getModel();
+	}
+
+	/**
+	 * 
+	 * @return The Map's path graph, used to insert nodes and connections.
+	 */
+	private PathGraph getPathGraph() {
+		return ((Map) getModel()).getPathGraph();
+	}
+
+	/**
+	 * Returns the map&pathgraph's children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
+	 * the board.
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+	 */
+	protected List getModelChildren() {
+		List list = getComponents();
+		list.addAll(getPathNodes());
+		return list;
+	}
+
+	/**
+	 * @return
+	 */
+	private List getPathNodes() {
+		List list = new ArrayList();
+
+		// put the nodes on top because they are always over components.
+		for (int i = 0; i < getPathGraph().getPathNodes().size(); i++) {
+			PathNode node = (PathNode) getPathGraph().getPathNodes().get(i);
+			list.add(node);
+			// if we have a label on a path node, we also want to add it.
+			if (!(node.getLabel() == null))
+				list.add(node.getLabel());
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private List getComponents() {
+		List list = new ArrayList();
+		Object o = new Object();
+
+		// get all component references
+		for (int i = 0; i < getMap().getCompRefs().size(); i++)
+			list.add(getMap().getCompRefs().get(i));
+
+		// sort them by ascending area
+		Collections.sort(list, new ComponentRefAreaComparator());
+		// reverse the list so that our largest components are in the back.
+		Collections.reverse(list);
+		return list;
+	}
+
+	private int countChanged = 1;
+
+	/**
+	 * Change listener. Has to handle when its children are changed and when we might have to reorder them.
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged(Notification notification) {
+		int type = notification.getEventType();
+		int featureId = notification.getFeatureID(UcmPackage.class);
+		switch (type) {
+		case Notification.ADD:
+		case Notification.ADD_MANY:
+			if ((notification.getNewValue() instanceof PathNode) || (notification.getNewValue() instanceof ComponentRef))
+				refreshChildren();
+			break;
+		case Notification.REMOVE:
+		case Notification.REMOVE_MANY:
+			if ((notification.getOldValue() instanceof PathNode) || (notification.getOldValue() instanceof ComponentRef))
+				refreshChildren();
+			break;
+		case Notification.SET:
+			switch (featureId) {
+			case MapPackage.COMPONENT_REF__WIDTH:
+			case MapPackage.COMPONENT_REF__HEIGHT:
+				if (notification.getNotifier() instanceof ComponentRef) {
+					// Wait until we received a notification for both width and height
+					// This way we don't call refreshChildren two times.
+					if (countChanged == 2) {
+						// we might have to reorder the children so as to put the largest components in the back.
+						refreshChildren();
+						countChanged = 1;
+					} else
+						countChanged++;
+				}
+				break;
+			}
+			refreshVisuals();
+			break;
+		}
+
+		//		refreshChildren();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
+	 */
+	protected void registerVisuals() {
+		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+		cLayer.setConnectionRouter(new BSplineConnectionRouter(getPathGraph()));
+
+		super.registerVisuals();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
+	 */
+	protected void refreshVisuals() {
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPart#activate()
+	 */
+	public void activate() {
+		if (!isActive()) {
+			getPathGraph().eAdapters().add(this);
+			getMap().eAdapters().add(this);
+		}
+		super.activate();
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.EditPart#deactivate()
+	 */
+	public void deactivate() {
+		if (isActive()) {
+			getMap().eAdapters().remove(this);
+			getPathGraph().eAdapters().remove(this);
+		}
+		super.deactivate();
+	}
 
 }

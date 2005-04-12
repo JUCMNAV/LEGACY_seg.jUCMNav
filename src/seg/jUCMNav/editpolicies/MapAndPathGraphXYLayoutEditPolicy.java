@@ -114,6 +114,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
         return createCommand;
     }
+    
 
     /*
      * (non-Javadoc)

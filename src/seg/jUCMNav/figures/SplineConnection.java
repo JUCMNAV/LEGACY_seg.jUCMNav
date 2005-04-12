@@ -18,6 +18,7 @@ public class SplineConnection extends PolylineConnection {
     private final NodeConnection link;
     
     public SplineConnection(NodeConnection link){
+    	super();
         this.link = link;
     }
 
