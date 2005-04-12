@@ -18,6 +18,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
+import org.eclipse.jface.util.Assert;
 
 import seg.jUCMNav.editors.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editpolicies.MapAndPathGraphXYLayoutEditPolicy;
@@ -133,12 +134,17 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			}
 		}
 		List trash = new ArrayList();
-//		for (; i < children.size(); i++)
-//			trash.add(children.get(i));
-		for (; comp < comps.size(); comp++)
-			trash.add(comps.get(comp));
-		for (; index < pathNodes.size(); index++)
-			trash.add(pathNodes.get(index));
+		
+		for (Iterator iter = children.iterator(); iter.hasNext();) {
+			EditPart edit = (EditPart) iter.next();
+			if(!modelObjects.contains(edit.getModel()))
+				trash.add(edit);
+		}
+		
+//		for (; comp < comps.size(); comp++)
+//			trash.add(comps.get(comp));
+//		for (; index < pathNodes.size(); index++)
+//			trash.add(pathNodes.get(index));
 		
 		for (i = 0; i < trash.size(); i++) {
 			EditPart ep = (EditPart) trash.get(i);
@@ -146,30 +152,25 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		}
 	}
 	
-	protected List getComponentEditParts(){
-		List children = getChildren();
-		List comps = new ArrayList();
+	protected void addChild(EditPart child, int index) {
+		Assert.isNotNull(child);
+		if (index == -1)
+			index = getChildren().size();
+		if (children == null)
+			children = new ArrayList(2);
+		
+		int i = index;
+		if(child.getModel() instanceof ComponentRef)
+			i += getPathNodeEditParts().size();
 
-		for (Iterator j = children.iterator(); j.hasNext();) {
-			EditPart edit = (EditPart) j.next();
-			if (edit.getModel() instanceof ComponentRef)
-				comps.add(edit);
-		}
-		
-		return comps;
-	}
-	
-	protected List getPathNodeEditParts(){
-		List children = getChildren();
-		List pathNodes = new ArrayList();
-		
-		for (Iterator j = children.iterator(); j.hasNext();) {
-			EditPart edit = (EditPart) j.next();
-			if(edit.getModel() instanceof PathNode)
-				pathNodes.add(edit);
-		}
-		
-		return pathNodes;
+		children.add(i, child);
+		child.setParent(this);
+		addChildVisual(child, index);
+		child.addNotify();
+
+		if (isActive())
+			child.activate();
+		fireChildAdded(child, index);
 	}
 
 	protected void reorderChild(EditPart child, int index) {
@@ -232,6 +233,32 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
 			getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(child, index);
 		}
+	}
+	
+	protected List getComponentEditParts(){
+		List children = getChildren();
+		List comps = new ArrayList();
+
+		for (Iterator j = children.iterator(); j.hasNext();) {
+			EditPart edit = (EditPart) j.next();
+			if (edit.getModel() instanceof ComponentRef)
+				comps.add(edit);
+		}
+		
+		return comps;
+	}
+	
+	protected List getPathNodeEditParts(){
+		List children = getChildren();
+		List pathNodes = new ArrayList();
+		
+		for (Iterator j = children.iterator(); j.hasNext();) {
+			EditPart edit = (EditPart) j.next();
+			if(edit.getModel() instanceof PathNode)
+				pathNodes.add(edit);
+		}
+		
+		return pathNodes;
 	}
 
 	/**
