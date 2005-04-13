@@ -28,6 +28,7 @@ import ucm.UcmPackage;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
@@ -338,12 +339,12 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		switch (type) {
 		case Notification.ADD:
 		case Notification.ADD_MANY:
-			if ((notification.getNewValue() instanceof PathNode) || (notification.getNewValue() instanceof ComponentRef))
+			if (!(notification.getNewValue() instanceof NodeConnection))
 				refreshChildren();
 			break;
 		case Notification.REMOVE:
 		case Notification.REMOVE_MANY:
-			if ((notification.getOldValue() instanceof PathNode) || (notification.getOldValue() instanceof ComponentRef))
+			if (!(notification.getOldValue() instanceof NodeConnection))
 				refreshChildren();
 			break;
 		case Notification.SET:
@@ -361,6 +362,11 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 						countChanged++;
 				}
 				break;
+			default:
+				if(notification.getNotifier() instanceof PathNode) {
+					if(((PathNode)notification.getNotifier()).getLabel() != null)
+						refreshChildren();
+				}
 			}
 			refreshVisuals();
 			break;
