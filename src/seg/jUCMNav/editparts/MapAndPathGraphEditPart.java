@@ -77,6 +77,19 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 	}
 
+	
+	/**
+	 * This function was overwrited to make it possible to refresh both normal objects and components objects.
+	 * Both have to be considered differently because components are now in their own layer: COMPONENT_LAYER wich
+	 * is a top level layer at the bottom most level (under connections).
+	 * 
+	 * Components editparts are children of this editpart but the component figures are children of COMPONENT_LAYER.
+	 * This concept doesn't work well with the default behavior of refreshChildren because the default behavior is to
+	 * add or reorder children within the children figures of the figure of this edit part.
+	 * 
+	 *  (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
+	 */
 	protected void refreshChildren() {
 		int i;
 		EditPart editPart;
@@ -84,30 +97,37 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 
 		HashMap modelToEditPart = new HashMap();
 		List children = getChildren();
-		List comps = getComponentEditParts();
-		List pathNodes = getPathNodeEditParts();
+		List comps = getComponentEditParts(); // All the components of the model
+		List pathNodes = getPathNodeEditParts(); // All the path nodes.
 
+		// Udate the hashmap (model, editpart)
 		for (i = 0; i < children.size(); i++) {
 			editPart = (EditPart) children.get(i);
 			modelToEditPart.put(editPart.getModel(), editPart);
 		}
-
+		
+		// The list of all the model children
 		List modelObjects = getModelChildren();
 
+		// We need two index.  One for the normal elements and one for the comonents.
 		int index = 0;
 		int comp = 0;
+		
+		// For each elements of the model
 		for (i = 0; i < modelObjects.size(); i++) {
 			model = modelObjects.get(i);
 
-			//Do a quick check to see if editPart[i] == model[i]
-
 			if (!(model instanceof ComponentRef)) {
+				// Do a quick check to see if editPart[index] == model[index]
 				if (index < pathNodes.size() && ((EditPart) pathNodes.get(index)).getModel() == model) {
+					// This editpart is already updated, so just increase the counter and do nothing.
 					index++;
 					continue;
 				}
 			} else {
+				// Do a quick check to see if editPart[comp] == model[comp]
 				if (comp < comps.size() && ((EditPart) comps.get(comp)).getModel() == model) {
+					// This editpart is already updated, so just increase the counter and do nothing.
 					comp++;
 					continue;
 				}
@@ -116,8 +136,10 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			//Look to see if the EditPart is already around but in the wrong location
 			editPart = (EditPart) modelToEditPart.get(model);
 
+			// If we found the model in the editpart children list
 			if (editPart != null)
 			{
+				// We have to reorder it (with the good index for components or normal objects)
 				if(editPart.getModel() instanceof ComponentRef)
 					reorderChild(editPart, comp++);
 				else
@@ -136,24 +158,29 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		}
 		List trash = new ArrayList();
 		
+		// Pass through all the editpart children and trash the ones that are not in the model list anymore
 		for (Iterator iter = children.iterator(); iter.hasNext();) {
 			EditPart edit = (EditPart) iter.next();
 			if(!modelObjects.contains(edit.getModel()))
 				trash.add(edit);
 		}
 		
-//		for (; comp < comps.size(); comp++)
-//			trash.add(comps.get(comp));
-//		for (; index < pathNodes.size(); index++)
-//			trash.add(pathNodes.get(index));
-		
+		// Remove the trashed object from the editpart children
 		for (i = 0; i < trash.size(); i++) {
 			EditPart ep = (EditPart) trash.get(i);
 			removeChild(ep);
 		}
 	}
 	
+	/**
+	 * Had to be overwrited to take into account the fact that components are at the end of the children list of editpart
+	 * Since this function is called with a different index for normal child and components, we had to change this.
+	 *  
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#addChild(org.eclipse.gef.EditPart, int)
+	 */
 	protected void addChild(EditPart child, int index) {
+		editPartInProcess = child;
 		Assert.isNotNull(child);
 		if (index == -1)
 			index = getChildren().size();
@@ -172,8 +199,14 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		if (isActive())
 			child.activate();
 		fireChildAdded(child, index);
+		editPartInProcess = null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see addChild(EditPart child, int index)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#reorderChild(org.eclipse.gef.EditPart, int)
+	 */
 	protected void reorderChild(EditPart child, int index) {
 		editPartInProcess = child;
 		int i = index;
@@ -199,6 +232,12 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		editPartInProcess = null;
 	}
 
+	/**
+	 * Depending if the editPart currently in process is a component or not, return a different content pane.
+	 *  
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
+	 */
 	public IFigure getContentPane() {
 		if (editPartInProcess != null) {
 			if (editPartInProcess.getModel() instanceof ComponentRef)
@@ -209,6 +248,11 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			return super.getContentPane();
 	}
 
+	/** Overwrite the default behavior to setContraint on the component layer for components. 
+	 *  
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.GraphicalEditPart#setLayoutConstraint(org.eclipse.gef.EditPart, org.eclipse.draw2d.IFigure, java.lang.Object)
+	 */
 	public void setLayoutConstraint(EditPart child, IFigure childFigure, Object constraint) {
 		if (child.getModel() instanceof ComponentRef)
 			getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).setConstraint(childFigure, constraint);
@@ -216,6 +260,12 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			super.setLayoutConstraint(child, childFigure, constraint);
 	}
 
+	/** 
+	 * Remove the child from the parent figure.  Remove components from the COMPONENT_LAYER, do the normal behavior.
+	 * 
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChildVisual(org.eclipse.gef.EditPart)
+	 */
 	protected void removeChildVisual(EditPart childEditPart) {
 		if (!(childEditPart.getModel() instanceof ComponentRef)) {
 			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
@@ -226,6 +276,10 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see removeChildVisual(EditPart childEditPart)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+	 */
 	protected void addChildVisual(EditPart childEditPart, int index) {
 		if (!(childEditPart.getModel() instanceof ComponentRef)) {
 			IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
@@ -236,6 +290,11 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		}
 	}
 	
+	/**
+	 * Return all the components editparts from the children list.
+	 * @return
+	 * 			All the components editparts children of this editpart.
+	 */
 	protected List getComponentEditParts(){
 		List children = getChildren();
 		List comps = new ArrayList();
@@ -249,6 +308,9 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		return comps;
 	}
 	
+	/**
+	 * @return Return all the pathnode editparts children of this editpart.
+	 */
 	protected List getPathNodeEditParts(){
 		List children = getChildren();
 		List pathNodes = new ArrayList();
@@ -339,11 +401,13 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		switch (type) {
 		case Notification.ADD:
 		case Notification.ADD_MANY:
+			// Don't call refreshChildren if a NodeConnection is sending a notification.
 			if (!(notification.getNewValue() instanceof NodeConnection))
 				refreshChildren();
 			break;
 		case Notification.REMOVE:
 		case Notification.REMOVE_MANY:
+			// Don't call refreshChildren if a NodeConnection is sending a notification.
 			if (!(notification.getOldValue() instanceof NodeConnection))
 				refreshChildren();
 			break;
@@ -365,6 +429,8 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			default:
 				if(notification.getNotifier() instanceof PathNode) {
 					if(((PathNode)notification.getNotifier()).getLabel() != null)
+						refreshChildren();
+					else
 						refreshChildren();
 				}
 			}

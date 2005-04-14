@@ -140,14 +140,4 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 //        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
         (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
-
-	public void addNotify() {
-//		getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(getFigure());
-		super.addNotify();
-	}
-
-	public void removeNotify() {
-		getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).remove(getFigure());
-		super.removeNotify();
-	}
 }

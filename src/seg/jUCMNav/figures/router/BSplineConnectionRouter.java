@@ -21,8 +21,6 @@ import ucm.map.StartPoint;
  * @author Etienne Tremblay
  */
 public class BSplineConnectionRouter extends AbstractRouter {
-	/** The spline used to return points. */
-	private BSpline spline;
 
 	/** The connection is the key and the spline is the value. This hashmap will allow us to know to wich spline a connection bellong to. */
 	private HashMap conSplines = new HashMap();
@@ -42,8 +40,6 @@ public class BSplineConnectionRouter extends AbstractRouter {
 
 	/** The PathGraph of the model. */
 	private PathGraph pathGraph;
-
-	private NodeConnection lastRouted = null;
 
 	/**
 	 * Used to know when all the connection asked to be routed when the diagram is loaded. When all the connections are routed one time initialy, we set this to
@@ -234,8 +230,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
 			insertConnection(conn);
 			if (allLoaded())
 				initialized = true;
-		} else
+		} else {
 			simpleMove = true; // The user didn't add or remove anything, he just moved a node.
+			initialized = true;
+		}
 
 		// When the diagram is completly initialized and that we have to generate everything
 		if (initialized && generateAll) {
@@ -285,7 +283,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 			PathNode node = (PathNode) i.next();
 			if (node.getSucc().size() > 0) {
 				con = (SplineConnection) connections.get(node.getSucc().get(0));
-				drawConnection(con);
+				if(con != null)
+					drawConnection(con);
 			}
 		}
 	}
@@ -323,7 +322,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 		conSplines.remove(con.getLink());
 
 		generateAll = true;
-		initialized = false;
+//		initialized = false;
 
 		super.remove(connection);
 	}
