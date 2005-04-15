@@ -4,19 +4,18 @@
  */
 package seg.jUCMNav.emf;
 
-import java.util.Map;
-
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.gef.requests.CreationFactory;
 
+import ucm.UcmFactory;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.MapFactory;
-import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import urn.URNspec;
+import urn.UrnFactory;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.UrncoreFactory;
@@ -24,7 +23,8 @@ import urncore.UrncoreFactory;
 /**
  * Created on 2005-01-30
  * 
- * This class implements the CreationFactory used by the CreationTool. It in turn uses the EMF-generated factories to create the model instances
+ * This class implements the CreationFactory to be used as the central point to obtain new model elements. It sets up the default values for all new elements.
+ * It in turn uses the EMF-generated factories to create the model instances
  * 
  * @author ddean
  *  
@@ -42,26 +42,53 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = 0;
     }
 
+    /**
+     * 
+     * @param targetClass
+     *            The class we need to create from this factory.
+     * @param type
+     *            If this is a ComponentRef, we can pass the ComponentKind.
+     */
     public ModelCreationFactory(Class targetClass, int type) {
         this.targetClass = targetClass;
         this.type = type;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a new model element preset with its default values. Note that no exception will be thrown for unknown classes but there will be a message printed
+     * on the standard output to facilitate debugging for new developers.
      * 
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
      */
     public Object getNewObject() {
-        Map registry = EPackage.Registry.INSTANCE;
-        String workflowURI = MapPackage.eNS_URI;
-        MapPackage workflowPackage = (MapPackage) registry.get(workflowURI);
-        MapFactory factory = workflowPackage.getMapFactory();
+
+        MapFactory factory = MapFactory.eINSTANCE;
 
         Object result = null;
 
         if (targetClass != null) {
-            if (targetClass.equals(EmptyPoint.class)) {
+            if (targetClass.equals(URNspec.class)) {
+                // create the URN spec
+                URNspec urnspec = UrnFactory.eINSTANCE.createURNspec();
+
+                // add its URN definition
+                urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());
+
+                // add its UCMspec
+                urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
+
+                // create a map
+                ucm.map.Map ucm = factory.createMap();
+
+                // add an empty pathgraph to this map
+                ucm.setPathGraph(factory.createPathGraph());
+
+                // add the new mapp to the UCMspec
+                urnspec.getUcmspec().getMaps().add(ucm);
+
+                result = urnspec;
+
+            } else if (targetClass.equals(EmptyPoint.class)) {
                 result = factory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
                 result = factory.createNodeConnection();
@@ -73,10 +100,17 @@ public class ModelCreationFactory implements CreationFactory {
                 result = factory.createEndPoint();
             } else if (targetClass.equals(ComponentRef.class)) {
 
+                // create the component ref
                 result = factory.createComponentRef();
+
+                // new component refs must have a component definition
                 Component compdef = UrncoreFactory.eINSTANCE.createComponent();
                 ((ComponentRef) result).setCompDef(compdef);
+
+                // define the ComponentKind according to what was set in the construction
                 compdef.setKind(ComponentKind.get(type));
+            } else {
+                System.out.println("Unknown class passed to ModelCreationFactory");
             }
         }
         return result;

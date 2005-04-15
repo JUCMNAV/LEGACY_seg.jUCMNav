@@ -14,13 +14,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import ucm.UcmFactory;
-import ucm.map.MapFactory;
 import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
-import urn.UrnFactory;
-import urncore.URNdefinition;
-import urncore.UrncoreFactory;
 
 /**
  * Created 2005-02-11
@@ -40,7 +35,7 @@ public class UrnModelManager {
     /**
      * Contains the factory associated with the model.
      */
-    private static MapFactory networkFactory = null;
+    private static ModelCreationFactory mcFactory = null;
 
     /**
      * Gives access to the top level model element contained in the resource.
@@ -102,32 +97,8 @@ public class UrnModelManager {
     public URNspec createURNspec(IPath path) {
         createResource(path);
         
-        URNspec urnspec=null;
+        URNspec urnspec=(URNspec) new ModelCreationFactory(URNspec.class).getNewObject();
 
-        MapFactory factory = MapFactory.eINSTANCE;
-        ucm.map.Map ucm = factory.createMap();
-        ucm.setPathGraph(factory.createPathGraph());
-        
-        UrncoreFactory factory2 = UrncoreFactory.eINSTANCE;
-        URNdefinition urn = factory2.createURNdefinition();
-        
-        urnspec = UrnFactory.eINSTANCE.createURNspec();
-        urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
-        urnspec.getUcmspec().getMaps().add(ucm);
-        urnspec.setUrndef(urn);
-        
-        /*
-        // Create a new network model
-        Map registry = EPackage.Registry.INSTANCE;
-        String UcmURI = MapPackage.eNS_URI;
-        MapPackage nPackage = (MapPackage) registry.get(UcmURI);
-        MapFactory nFactory = nPackage.getMapFactory();
-        ucm = nFactory.createMap();
-        ucm.setPathGraph(nFactory.createPathGraph());
-        resource.getContents().add(ucm);
-        return ucm;
-        */
-        
         resource.getContents().add(urnspec);
         return urnspec;
     }

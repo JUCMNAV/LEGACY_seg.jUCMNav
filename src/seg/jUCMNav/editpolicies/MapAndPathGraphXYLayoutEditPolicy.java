@@ -18,8 +18,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
-import seg.jUCMNav.model.commands.ComponentSetConstraintCommand;
-import seg.jUCMNav.model.commands.CreateComponentRefCommand;
+import seg.jUCMNav.model.commands.SetConstraintComponentRefCommand;
+import seg.jUCMNav.model.commands.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.CreatePathCommand;
 import seg.jUCMNav.model.commands.ExtendPathCommand;
 import seg.jUCMNav.model.commands.LabelSetConstraintCommand;
@@ -37,8 +37,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-     *      java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createAddCommand(EditPart child, Object constraint) {
         return null;
@@ -98,23 +97,20 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 }
             }
         } else if (newObjectType == ComponentRef.class) {
-            CreateComponentRefCommand create = new CreateComponentRefCommand();
-            create.setMap(getMap());
-            
+
             Rectangle constraint = (Rectangle) getConstraintFor(request);
-            create.setLocation(constraint.getLocation());
-            create.setWidth(constraint.width);
-            create.setHeight(constraint.height);
-            create.setLabel("Create a component");
-            create.setComp((ComponentRef)request.getNewObject());
-            create.setCompdef(((ComponentRef)request.getNewObject()).getCompDef());
-            
-            createCommand = create;
+            ComponentRef compRef = (ComponentRef) request.getNewObject();
+
+            AddComponentRefCommand create = new AddComponentRefCommand(getMap(), compRef);
+            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.getLocation().x, constraint.getLocation().y,
+                    constraint.width, constraint.height);
+
+            // after creation, move and resize the component;
+            createCommand = create.chain(moveResize);
         }
 
         return createCommand;
     }
-    
 
     /*
      * (non-Javadoc)
@@ -144,8 +140,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
-     *      java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 
@@ -168,15 +163,14 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             locationCommand.setNewPosition(location);
             return locationCommand;
         } else if (child.getModel() instanceof ComponentRef) {
-            ComponentSetConstraintCommand cmd = new ComponentSetConstraintCommand();
-            cmd.setComponentRef((ComponentRef)child.getModel());
-            Dimension dim = new Dimension(((Rectangle)constraint).width,((Rectangle)constraint).height);
-            cmd.setNewDimension(dim);
+            Rectangle rect = (Rectangle) constraint;
+            ComponentRef compRef = (ComponentRef) child.getModel();
+
+            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y,
+                    rect.width, rect.height);
             
-            Point location = new Point(((Rectangle) constraint).x, ((Rectangle) constraint).y);
-            cmd.setNewPosition(location);
-            return cmd;
-            
+            return moveResize;
+
         } else if (child.getModel() instanceof NodeLabel) {
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
             locationCommand.setNode((NodeLabel) child.getModel());
@@ -196,8 +190,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             locationCommand.setNewPosition(location);
             return locationCommand;
         } else {
-            System.out
-                    .println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
+            System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
             return new SetConstraintCommand();
         }
 
