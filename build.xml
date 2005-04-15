@@ -10,7 +10,7 @@
 	<property name="javacFailOnError" value="true"/>
 	<property name="javacDebugInfo" value="on"/>
 	<property name="javacVerbose" value="false"/>
-	<property name="javacSource" value="1.3"/>
+	<property name="javacSource" value="1.4"/>
 	<property name="javacTarget" value="1.4"/>
 	<property name="compilerArg" value=""/>
 	<property name="eclipsehome" value="c:/eclipse"/> <!-- JP: system-specific -->
