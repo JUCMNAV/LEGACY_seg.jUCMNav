@@ -138,7 +138,7 @@
 		           author="true"
 		           version="true"
 			   use="true"
-			   additionalparam="-quiet"
+			   additionalparam="-quiet -source 1.4"
 		           windowtitle="jUCMNav">
 			   <tag name="todo" scope="all" description="To do:" />
 			<classpath>
