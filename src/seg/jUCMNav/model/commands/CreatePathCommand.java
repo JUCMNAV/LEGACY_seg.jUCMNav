@@ -1,10 +1,8 @@
 package seg.jUCMNav.model.commands;
 
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.commands.Command;
-
+import seg.jUCMNav.emf.ModelCreationFactory;
+import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -15,12 +13,17 @@ import ucm.map.StartPoint;
  * 
  * Created 2005-02-21
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
-public class CreatePathCommand extends Command {
+public class CreatePathCommand extends JUCMNavCommand {
 
+    // where to insert the new path
     private PathGraph diagram;
-    private Point position;
+
+    // the position of the start point
+    private int x, y;
+    
+    // new variables
     private StartPoint start;
     private PathNode node;
     private EndPoint end;
@@ -29,34 +32,48 @@ public class CreatePathCommand extends Command {
 
     public CreatePathCommand() {
         super();
+        setLabel("Create New Path");
+    }
+
+    public CreatePathCommand(PathGraph pg, StartPoint sp, int x, int y) {
+        this.diagram = pg;
+        this.start = sp;
+        this.x = x;
+        this.y = y;
+        setLabel("Create New Path");
+    }
+
+    public CreatePathCommand(PathGraph pg, int x, int y) {
+        this.diagram = pg;
+        this.x = x;
+        this.y = y;
+        setLabel("Create New Path");
     }
 
     /**
      * Creates all required elements and invokes redo()
      */
     public void execute() {
-        MapFactory factory = MapFactory.eINSTANCE;
-
         if (start == null)
-            start = factory.createStartPoint();
+            start = (StartPoint) ModelCreationFactory.getNewObject(StartPoint.class);
 
         // start-----node-----end
-        start.setX(position.x);
-        start.setY(position.y);
+        start.setX(x);
+        start.setY(y);
 
-        node = factory.createEmptyPoint();
-        node.setX(position.x + 100);
-        node.setY(position.y);
+        node = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+        node.setX(x + 100);
+        node.setY(y);
 
-        link1 = factory.createNodeConnection();
+        link1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
         link1.setSource(start);
         link1.setTarget(node);
 
-        end = factory.createEndPoint();
-        end.setX(position.x + 200);
-        end.setY(position.y);
+        end = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
+        end.setX(x + 200);
+        end.setY(y);
 
-        link2 = factory.createNodeConnection();
+        link2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
         link2.setSource(node);
         link2.setTarget(end);
 
@@ -67,24 +84,30 @@ public class CreatePathCommand extends Command {
      * Add new elements to model
      */
     public void redo() {
+        testPreConditions();
         diagram.getNodeConnections().add(link1);
         diagram.getNodeConnections().add(link2);
 
         diagram.getPathNodes().add(start);
         diagram.getPathNodes().add(node);
         diagram.getPathNodes().add(end);
+        testPostConditions();
     }
 
     /**
      * Remove the new elements from the model
      */
     public void undo() {
+        testPostConditions();
+
         diagram.getPathNodes().remove(start);
         diagram.getPathNodes().remove(node);
         diagram.getPathNodes().remove(end);
 
         diagram.getNodeConnections().remove(link2);
         diagram.getNodeConnections().remove(link1);
+
+        testPreConditions();
     }
 
     /**
@@ -101,22 +124,6 @@ public class CreatePathCommand extends Command {
      */
     public void setDiagram(PathGraph diagram) {
         this.diagram = diagram;
-    }
-
-    /**
-     * @return The Point position of where to insert the StartPoint
-     */
-    public Point getPosition() {
-        return position;
-    }
-
-    /**
-     * 
-     * @param position
-     *            The Point position of where to insert the StartPoint
-     */
-    public void setPosition(Point position) {
-        this.position = position;
     }
 
     /**
@@ -139,5 +146,94 @@ public class CreatePathCommand extends Command {
      */
     public EndPoint getEnd() {
         return end;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert diagram != null : "pre Diagram";
+        assert start != null: "pre Start";
+        assert node != null : "pre Node";
+        assert end != null : "pre End";
+        assert link1 != null : "pre Link1";
+        assert link2 != null : "pre Link1";
+
+        assert !diagram.getPathNodes().contains(start) : "pre pathgraph does not contain start";
+        assert !diagram.getPathNodes().contains(end): "pre pathgraph does not contain end";
+        assert !diagram.getPathNodes().contains(node): "pre pathgraph does not contain node";
+        assert !diagram.getNodeConnections().contains(link1):"pre pathgraph does not contain link1";
+        assert !diagram.getNodeConnections().contains(link2):"pre pathgraph does not contain link2";
+        
+        assert start.getSucc().contains(link1): "pre link1 not succ of start";
+        assert link1.getTarget() == node: "pre node not target of link1"; 
+        assert node.getSucc().contains(link2): "pre link2 not succ of node";
+        assert link2.getTarget() == end: "pre end not target of link2";
+        
+        assert start.getX() == x : "pre start point x";
+        assert start.getY() == y : "pre start point y";
+        
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
+    public void testPostConditions() {
+        assert diagram != null : "post Diagram";
+        assert start != null: "post Start";
+        assert node != null : "post Node";
+        assert end != null : "post End";
+        assert link1 != null : "post Link1";
+        assert link2 != null : "post Link1";
+
+        assert diagram.getPathNodes().contains(start) : "pre pathgraph contains start";
+        assert diagram.getPathNodes().contains(end): "pre pathgraph contains end";
+        assert diagram.getPathNodes().contains(node): "pre pathgraph contains node";
+        assert diagram.getNodeConnections().contains(link1):"pre pathgraph contains link1";
+        assert diagram.getNodeConnections().contains(link2):"pre pathgraph contains link2";
+
+        assert start.getSucc().contains(link1): "post link1 not succ of start";
+        assert link1.getTarget() == node: "post node not target of link1"; 
+        assert node.getSucc().contains(link2): "post link2 not succ of node";
+        assert link2.getTarget() == end: "post end not target of link2";
+        
+        assert start.getX() == x : "post start point x";
+        assert start.getY() == y : "post start point y";     
+
+    }
+
+    /**
+     * @return Returns the x.
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * @param x
+     *            The x to set.
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * @return Returns the y.
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * @param y
+     *            The y to set.
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 }

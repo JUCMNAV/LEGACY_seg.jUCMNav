@@ -6,10 +6,13 @@ import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.emf.ModelCreationFactory;
 import seg.jUCMNav.model.commands.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.CreatePathCommand;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.SetConstraintComponentRefCommand;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
+import ucm.map.PathGraph;
+import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
@@ -23,6 +26,9 @@ public class JUCMNavCommandTests extends TestCase {
     URNspec urnspec;
     CommandStack cs;
     ComponentRef compRef;
+    StartPoint start;
+    Map map;
+    PathGraph pathgraph; 
 
     public static void main(String[] args) {
         junit.textui.TestRunner.run(JUCMNavCommandTests.class);
@@ -34,8 +40,11 @@ public class JUCMNavCommandTests extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        urnspec = (URNspec) new ModelCreationFactory(URNspec.class).getNewObject();
-        compRef = (ComponentRef) new ModelCreationFactory(ComponentRef.class).getNewObject();
+        urnspec = (URNspec) ModelCreationFactory.getNewObject(URNspec.class);
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class);
+        start = (StartPoint) ModelCreationFactory.getNewObject(StartPoint.class);
+        map = (Map) urnspec.getUcmspec().getMaps().get(0);
+        pathgraph = map.getPathGraph();
         
         cs = new CommandStack();
     }
@@ -72,7 +81,7 @@ public class JUCMNavCommandTests extends TestCase {
 
     public void testAddComponentCommand() {
 
-        JUCMNavCommand cmd = new AddComponentRefCommand((Map) urnspec.getUcmspec().getMaps().get(0), compRef);
+        JUCMNavCommand cmd = new AddComponentRefCommand(map, compRef);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
         cs.execute(cmd);
     }
@@ -88,7 +97,12 @@ public class JUCMNavCommandTests extends TestCase {
         cs.execute(cmd);
     }
     
+    public void testCreatePathCommand() {
+        JUCMNavCommand cmd = new CreatePathCommand(pathgraph, start, 35, 67 );
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        cs.execute(cmd);
     
+    }
     
 
 }

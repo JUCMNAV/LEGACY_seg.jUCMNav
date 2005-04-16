@@ -60,15 +60,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Object newObjectType = null;
         if (request.getNewObject() != null)
             newObjectType = request.getNewObjectType();
+
+        // converts relative to absolute positions (so that zooms work properly)
+        Rectangle constraint = (Rectangle) getConstraintFor(request);
         Command createCommand = null;
 
         if (newObjectType == StartPoint.class) {
-            CreatePathCommand create = new CreatePathCommand();
-            create.setDiagram(getPathGraph());
-            create.setStart((StartPoint) request.getNewObject());
-            Rectangle constraint = (Rectangle) getConstraintFor(request);
-            create.setPosition(constraint.getLocation());
-            createCommand = create;
+            createCommand = new CreatePathCommand(getPathGraph(), (StartPoint) request.getNewObject(), constraint.x, constraint.y );
         } else if (newObjectType == EndPoint.class) {
             ExtendPathCommand create = new ExtendPathCommand();
             create.setDiagram(getPathGraph());
@@ -82,27 +80,24 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             else if (selecteds.size() == 1) {
                 EditPart selected = (EditPart) (selecteds.get(0));
                 if (selected.getModel() instanceof EndPoint) {
-                    Rectangle constraint = (Rectangle) getConstraintFor(request);
                     create.setLocation(constraint.getLocation());
                     create.setLastEnd((EndPoint) selected.getModel());
                     create.setNewEnd((EndPoint) request.getNewObject());
                     create.setLabel("Create a node");
                     createCommand = create;
                 } else if (selected.getModel() instanceof PathGraph) {
-                    CreatePathCommand c = new CreatePathCommand();
-                    c.setDiagram(getPathGraph());
-                    Rectangle constraint = (Rectangle) getConstraintFor(request);
-                    c.setPosition(constraint.getLocation());
-                    createCommand = c;
+                    // JK: I'm not sure when this code is invoked.
+                    // ET: executed when nothing other than the background is selected; used to work without this code when the top level element was the PathGraph
+
+                    createCommand = new CreatePathCommand(getPathGraph(), constraint.x, constraint.y);
                 }
             }
         } else if (newObjectType == ComponentRef.class) {
 
-            Rectangle constraint = (Rectangle) getConstraintFor(request);
             ComponentRef compRef = (ComponentRef) request.getNewObject();
 
             AddComponentRefCommand create = new AddComponentRefCommand(getMap(), compRef);
-            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.getLocation().x, constraint.getLocation().y,
+            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.x, constraint.y,
                     constraint.width, constraint.height);
 
             // after creation, move and resize the component;

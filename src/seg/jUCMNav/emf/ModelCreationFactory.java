@@ -26,6 +26,8 @@ import urncore.UrncoreFactory;
  * This class implements the CreationFactory to be used as the central point to obtain new model elements. It sets up the default values for all new elements.
  * It in turn uses the EMF-generated factories to create the model instances
  * 
+ * Our application will use the static getNewObject methods to access the factories. 
+ * The palette needs to be passed a CreationFactory; that is the reason of the non-static methods.   
  * @author ddean
  *  
  */
@@ -54,14 +56,36 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
+     */
+    public Object getObjectType() {
+        return targetClass;
+    }
+
+
+    public Object getNewObject() {
+        return getNewObject(targetClass, type);
+    }
+
+    /**
+     * Equivalent to getNewObject(targetClass, 0);
+     * @param targetClass the class to obtain a new instance of
+     * @return
+     */
+    public static Object getNewObject(Class targetClass) {
+        return getNewObject(targetClass, 0);
+    }
+
     /**
      * Returns a new model element preset with its default values. Note that no exception will be thrown for unknown classes but there will be a message printed
      * on the standard output to facilitate debugging for new developers.
      * 
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
-     */
-    public Object getNewObject() {
-
+     */    
+    public static Object getNewObject(Class targetClass, int type) {
         MapFactory factory = MapFactory.eINSTANCE;
 
         Object result = null;
@@ -114,14 +138,7 @@ public class ModelCreationFactory implements CreationFactory {
             }
         }
         return result;
+
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
-     */
-    public Object getObjectType() {
-        return targetClass;
-    }
 }
