@@ -153,8 +153,9 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             return moveResize;
 
         } else if (child.getModel() instanceof NodeLabel) {
+        	NodeLabel nodeLabel = (NodeLabel) child.getModel();
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
-            locationCommand.setNode((NodeLabel) child.getModel());
+            locationCommand.setNode(nodeLabel);
             //		Rectangle constraint = (Rectangle)getConstraintFor(request);
             //		this.getConstraintFor((Rectangle)constraint);
             //		Rectangle rect = (Rectangle)constraint;
@@ -166,8 +167,9 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // the x,y coordinates is
             // the center of the figure.
             Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
+            PathNode node = nodeLabel.getPathNode();
 
-            Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
+            Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
             locationCommand.setNewPosition(location);
             return locationCommand;
         } else {

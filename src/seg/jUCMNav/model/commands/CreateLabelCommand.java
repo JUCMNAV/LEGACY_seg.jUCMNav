@@ -21,8 +21,7 @@ public class CreateLabelCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-	    if(node != null){
-	        
+		if(node != null){
 	        String[] fullClassName = node.getClass().getName().split("\\.");
             String className = fullClassName[fullClassName.length-1];
             className = className.substring(0, className.length()-4);
@@ -30,13 +29,11 @@ public class CreateLabelCommand extends Command {
             
 	        UrncoreFactory factory = UrncoreFactory.eINSTANCE;
 		    label = factory.createNodeLabel();
-		    
-		    
 
 		    label.setPathNode(node);
 		    node.setLabel(label);
-		    label.setDeltaX(node.getX() - 50);
-		    label.setDeltaY(node.getY() - 50);
+		    label.setDeltaX(50);
+		    label.setDeltaY(50);
 		}
 	}
 	

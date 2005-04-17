@@ -16,6 +16,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.editpolicies.LabelComponentEditPolicy;
 import seg.jUCMNav.editpolicies.LabelDirectEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
+import seg.jUCMNav.figures.LabelFigure;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import ucm.map.PathGraph;
@@ -73,7 +74,7 @@ public class LabelEditPart extends ModelElementEditPart {
             label = new EditableLabel(className);
         }
         
-        return label;
+        return new LabelFigure(label);
     }
 
     /* (non-Javadoc)
@@ -84,21 +85,23 @@ public class LabelEditPart extends ModelElementEditPart {
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
     }
     
-    public EditableLabel getLabelFigure(){
-		return (EditableLabel) getFigure();
+    public LabelFigure getLabelFigure(){
+		return (LabelFigure) getFigure();
 	}
 
     /* (non-Javadoc)
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        NodeLabel nodeLabel = getModelObj();
-        EditableLabel label = getLabelFigure();
+    	NodeLabel nodeLabel = getModelObj();
+        PathNode node = nodeLabel.getPathNode();
+        LabelFigure labelFigure = getLabelFigure();
+        EditableLabel label = labelFigure.getLabel();
         
         label.setText(nodeLabel.getPathNode().getName());
         
-        Dimension dim = label.getPreferredSize().getCopy();
-        Point location = new Point(nodeLabel.getDeltaX()-(dim.width/2), nodeLabel.getDeltaY()-(dim.height/2));  // The position of the current figure
+        Dimension dim = labelFigure.getPreferredSize().getCopy();
+        Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dim.width/2), node.getY() - nodeLabel.getDeltaY()-(dim.height/2));  // The position of the current figure
         Rectangle bounds = new Rectangle(location, dim);
 		figure.setBounds(bounds);
 		// notify parent container of changed position & location
@@ -118,7 +121,7 @@ public class LabelEditPart extends ModelElementEditPart {
 			((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);
 		break;
 		default:
-			refreshVisuals();
+			//refreshVisuals();
 		break;
 		}
         refreshVisuals();

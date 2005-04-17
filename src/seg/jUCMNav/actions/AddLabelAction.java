@@ -34,12 +34,17 @@ public class AddLabelAction extends SelectionAction {
     }
     
     private boolean canPerformAction() {
-		List parts = getSelectedObjects();
+    	List parts = getSelectedObjects();
 		if(parts.size() == 1 && parts.get(0) instanceof EditPart){
 			EditPart part = (EditPart) parts.get(0);
-			if ((part.getModel() instanceof PathNode))
-				return true;
+			if ((part.getModel() instanceof PathNode)) {
+			    PathNode node = (PathNode) part.getModel();
+			    if(node.getLabel() == null) {
+			        return true;
+			    }
+			}
 		}
+		
 		return false;
 	}
     
