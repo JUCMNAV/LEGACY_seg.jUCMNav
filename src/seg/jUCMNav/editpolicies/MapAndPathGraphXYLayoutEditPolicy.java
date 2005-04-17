@@ -66,29 +66,21 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Command createCommand = null;
 
         if (newObjectType == StartPoint.class) {
-            createCommand = new CreatePathCommand(getPathGraph(), (StartPoint) request.getNewObject(), constraint.x, constraint.y );
+            createCommand = new CreatePathCommand(getPathGraph(), (StartPoint) request.getNewObject(), constraint.x, constraint.y);
         } else if (newObjectType == EndPoint.class) {
-            ExtendPathCommand create = new ExtendPathCommand();
-            create.setDiagram(getPathGraph());
 
             // Get the list of selected items
-            List selecteds = ((IStructuredSelection) getHost().getViewer().getSelection()).toList();
-            if (selecteds.size() == 0) {
+            List selectedParts = ((IStructuredSelection) getHost().getViewer().getSelection()).toList();
 
-            }
             // If there's only one item selected
-            else if (selecteds.size() == 1) {
-                EditPart selected = (EditPart) (selecteds.get(0));
+            if (selectedParts.size() == 1) {
+                EditPart selected = (EditPart) (selectedParts.get(0));
                 if (selected.getModel() instanceof EndPoint) {
-                    create.setLocation(constraint.getLocation());
-                    create.setLastEnd((EndPoint) selected.getModel());
-                    create.setNewEnd((EndPoint) request.getNewObject());
-                    create.setLabel("Create a node");
-                    createCommand = create;
+                    createCommand = new ExtendPathCommand(getPathGraph(), (EndPoint) selected.getModel(), constraint.x, constraint.y);
                 } else if (selected.getModel() instanceof PathGraph) {
                     // JK: I'm not sure when this code is invoked.
-                    // ET: executed when nothing other than the background is selected; used to work without this code when the top level element was the PathGraph
-
+                    // ET: executed when nothing other than the background is selected; used to work without this code when the top level element was the
+                    // PathGraph
                     createCommand = new CreatePathCommand(getPathGraph(), constraint.x, constraint.y);
                 }
             }
@@ -97,8 +89,8 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             ComponentRef compRef = (ComponentRef) request.getNewObject();
 
             AddComponentRefCommand create = new AddComponentRefCommand(getMap(), compRef);
-            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.x, constraint.y,
-                    constraint.width, constraint.height);
+            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.x, constraint.y, constraint.width,
+                    constraint.height);
 
             // after creation, move and resize the component;
             createCommand = create.chain(moveResize);
@@ -140,13 +132,6 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
 
         if (child.getModel() instanceof PathNode) {
-            SetConstraintCommand locationCommand = new SetConstraintCommand();
-            locationCommand.setNode((PathNode) child.getModel());
-            //		Rectangle constraint = (Rectangle)getConstraintFor(request);
-            //		this.getConstraintFor((Rectangle)constraint);
-            //		Rectangle rect = (Rectangle)constraint;
-            //		((GraphicalEditPart)(child)).getFigure().translateToRelative((Rectangle)constraint);
-            //		rect.translate(getLayoutOrigin().getNegated());
 
             // Adjust the coordinates with the coordinates of the figure too
             // since
@@ -155,15 +140,16 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
             Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
-            locationCommand.setNewPosition(location);
-            return locationCommand;
+            
+             
+            return new SetConstraintCommand((PathNode) child.getModel(), location.x, location.y );
         } else if (child.getModel() instanceof ComponentRef) {
             Rectangle rect = (Rectangle) constraint;
             ComponentRef compRef = (ComponentRef) child.getModel();
 
-            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y,
-                    rect.width, rect.height);
-            
+            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y, rect.width,
+                    rect.height);
+
             return moveResize;
 
         } else if (child.getModel() instanceof NodeLabel) {
@@ -186,7 +172,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             return locationCommand;
         } else {
             System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
-            return new SetConstraintCommand();
+            return null;
         }
 
     }

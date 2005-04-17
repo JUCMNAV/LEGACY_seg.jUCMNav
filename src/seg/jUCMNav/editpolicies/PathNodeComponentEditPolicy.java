@@ -49,9 +49,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 	 */
 	public Command getCommand(Request request) {
 		if(request.getType() == CutPathAction.CUTPATH_REQUEST) {
-			CutPathCommand cp = new CutPathCommand();
-			cp.setEmptyPoint((EmptyPoint)((EditPart)getHost()).getModel());
-			cp.setDiagram(getPathGraph());
+			CutPathCommand cp = new CutPathCommand(getPathGraph(), (EmptyPoint)((EditPart)getHost()).getModel());
 			return cp;
 		}
 		if(request.getType() == REQ_CREATE) {
