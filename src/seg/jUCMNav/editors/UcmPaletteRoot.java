@@ -56,7 +56,8 @@ public class UcmPaletteRoot extends PaletteRoot {
         // the selection tool
         ToolEntry tool = new SelectionToolEntry();
         controls.add(tool);
-
+        setDefaultEntry(tool);
+        
         // use selection tool as default entry
         //        setDefaultEntry(tool);
 
@@ -105,7 +106,7 @@ public class UcmPaletteRoot extends PaletteRoot {
                 .createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, null));
         componentsDrawer.add(entry);
         entry.setId("StartPoint");
-        setDefaultEntry(entry);
+
 
         entry = new CombinedTemplateCreationEntry("Node", "Creates a node", EmptyPoint.class, new ModelCreationFactory(EmptyPoint.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ellipse24.gif"));
