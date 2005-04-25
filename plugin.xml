@@ -31,7 +31,7 @@
             class="seg.jUCMNav.editors.UcmEditor"
             default="false"
             name="seg.jUCMNav.MainEditor"
-            contributorClass="seg.jUCMNav.editors.UCMActionBarContributor"
+            contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"
             id="seg.jUCMNav.MainEditor"
             extensions="ucm"/>
    </extension>

@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.emf.EObjectPropertySource;
+import seg.jUCMNav.views.EObjectPropertySource;
 
 /**
  * Created 2005-02-23

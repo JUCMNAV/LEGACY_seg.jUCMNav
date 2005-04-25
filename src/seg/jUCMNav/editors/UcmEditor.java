@@ -8,10 +8,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -46,7 +42,6 @@ import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -59,15 +54,16 @@ import org.eclipse.ui.part.FileEditorInput;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
+import seg.jUCMNav.editors.palette.UcmPaletteListener;
+import seg.jUCMNav.editors.palette.UcmPaletteRoot;
+import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
+import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
-import seg.jUCMNav.emf.UrnModelManager;
-import ucm.UcmFactory;
+import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.Map;
-import ucm.map.MapFactory;
 import urn.URNspec;
-import urn.UrnFactory;
-import urncore.URNdefinition;
-import urncore.UrncoreFactory;
 
 /**
  * This is the main class for editing a Map in our model.
@@ -98,20 +94,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     private ResourceTracker resourceTracker;
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
-    public UcmEditor() {
-        
-        MapFactory factory = MapFactory.eINSTANCE;
-        Map ucm = factory.createMap();
-        ucm.setPathGraph(factory.createPathGraph());
-
-        UrncoreFactory factory2 = UrncoreFactory.eINSTANCE;
-        URNdefinition urn = factory2.createURNdefinition();
-
-
-        model = UrnFactory.eINSTANCE.createURNspec();
-        model.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
-        model.getUcmspec().getMaps().add(ucm);
-        model.setUrndef(urn);
+    public UcmEditor() {        
+        model = (URNspec)ModelCreationFactory.getNewObject(URNspec.class);
         
         setEditDomain(new DefaultEditDomain(this));
     }
@@ -152,8 +136,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
         ContextMenuProvider provider = new UcmContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        getSite().registerContextMenu("org.eclipse.gef.examples.logic.editor.contextmenu", //$NON-NLS-1$
-                provider, viewer);
+        getSite().registerContextMenu("seg.jUCMNav.editors.UcmContextMenuProvider", provider, viewer);
 
         viewer.setEditPartFactory(new GraphicalEditPartFactory(getMap(0)));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
@@ -184,60 +167,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor
-     * 2) An open file gets renamed or moved -> change the editor's input accordingly
-     * 
-     * @author Gunnar Wagenknecht
-     */
-    private class ResourceTracker implements IResourceChangeListener, IResourceDeltaVisitor {
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
-         */
-        public void resourceChanged(IResourceChangeEvent event) {
-            IResourceDelta delta = event.getDelta();
-            try {
-                if (delta != null)
-                    delta.accept(this);
-            } catch (CoreException exception) {
-                JUCMNavPlugin.getDefault().getLog().log(exception.getStatus());
-                exception.printStackTrace();
-            }
-        }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
-         */
-        public boolean visit(IResourceDelta delta) {
-            if (delta == null || !delta.getResource().equals(((IFileEditorInput) getEditorInput()).getFile()))
-                return true;
-
-            if (delta.getKind() == IResourceDelta.REMOVED) {
-                if ((IResourceDelta.MOVED_TO & delta.getFlags()) == 0) {
-                    // if the file was deleted
-                    // NOTE: The case where an open, unsaved file is deleted is being handled by the
-                    // PartListener added to the Workbench in the initialize() method.
-                    if (!isDirty())
-                        closeEditor(false);
-                } else {
-                    // else if it was moved or renamed
-                    final IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(delta.getMovedToPath());
-                    Display display = getSite().getShell().getDisplay();
-                    display.asyncExec(new Runnable() {
-                        public void run() {
-                            setInput(new FileEditorInput(newFile));
-                        }
-                    });
-                }
-            }
-            return false;
-        }
-    }
-
-    /**
      * Handle events to know when a command was executed. So we can know when we can or cannot save the file.
      */
     public void commandStackChanged(EventObject event) {
@@ -256,7 +185,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * 
      * @param save
      */
-    void closeEditor(final boolean save) {
+    public void closeEditor(final boolean save) {
         getSite().getShell().getDisplay().syncExec(new Runnable() {
             public void run() {
                 getSite().getPage().closeEditor(UcmEditor.this, save);
@@ -433,7 +362,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      */
     private ResourceTracker getResourceTracker() {
         if (resourceTracker == null)
-            resourceTracker = new ResourceTracker();
+            resourceTracker = new ResourceTracker(this);
 
         return resourceTracker;
     }
@@ -443,7 +372,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * 
      * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
      */
-    protected void setInput(IEditorInput input) {
+    public void setInput(IEditorInput input) {
         if (getEditorInput() != null) {
             IFile file = ((FileEditorInput) getEditorInput()).getFile();
             file.getWorkspace().removeResourceChangeListener(getResourceTracker());

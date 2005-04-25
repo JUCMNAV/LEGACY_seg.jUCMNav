@@ -18,8 +18,8 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 
-import seg.jUCMNav.editpolicies.PathNodeComponentEditPolicy;
-import seg.jUCMNav.editpolicies.PathNodeNonRezizableEditPolicy;
+import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
+import seg.jUCMNav.editpolicies.feedback.PathNodeNonRezizableEditPolicy;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.PathNodeFigure;

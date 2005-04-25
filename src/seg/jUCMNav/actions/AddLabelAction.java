@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.model.commands.CreateLabelCommand;
+import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import ucm.map.PathNode;
 
 /**

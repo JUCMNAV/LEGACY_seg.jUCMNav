@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
-import seg.jUCMNav.editors.ConnectionOnBottomRootEditPart;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;

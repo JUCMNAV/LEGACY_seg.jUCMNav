@@ -20,10 +20,9 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.jface.util.Assert;
 
-import seg.jUCMNav.editors.ConnectionOnBottomRootEditPart;
-import seg.jUCMNav.editpolicies.MapAndPathGraphXYLayoutEditPolicy;
-import seg.jUCMNav.emf.ComponentRefAreaComparator;
+import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.figures.router.BSplineConnectionRouter;
+import seg.jUCMNav.model.util.ComponentRefAreaComparator;
 import ucm.UcmPackage;
 import ucm.map.ComponentRef;
 import ucm.map.Map;

@@ -15,7 +15,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.model.commands.CutPathCommand;
+import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 
 /**
  * Created 2005-03-21

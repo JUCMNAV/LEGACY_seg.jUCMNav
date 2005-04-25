@@ -8,13 +8,11 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.editpolicies.LabelComponentEditPolicy;
-import seg.jUCMNav.editpolicies.LabelDirectEditPolicy;
+import seg.jUCMNav.editpolicies.directEdit.LabelDirectEditPolicy;
+import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import ucm.UcmPackage;
@@ -29,8 +27,6 @@ import urncore.NodeLabel;
  * @author Jordan McManus
  */
 public class LabelEditPart extends ModelElementEditPart {
-    private IPropertySource propertySource = null;
-	private Notifier target;
 	
 	private PathGraph diagram;
 	
