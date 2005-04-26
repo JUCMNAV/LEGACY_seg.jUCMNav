@@ -263,7 +263,7 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 	
-	<target name="runtests" depends="build.jars" description="Run unit tests on jucmnav.jar">
+	<target name="runtests" depends="init, build.jars" description="Run unit tests on jUCMNav.jar">
 		<junit printsummary="yes">
 			<classpath>
 				<pathelement location="${build.result.folder}jUCMNav.jar" />
