@@ -35,6 +35,7 @@
 	<target name="build.fullzip" depends="init, clean">
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
+		<antcall target="runtests"/>
 	</target>
 	
 	<target name="properties" if="eclipse.running">
@@ -225,6 +226,7 @@
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: seg.jUCMNav of all the zips, jars and logs created.">
+		<delete file="testresults.xml"/>
 		<delete file="${build.result.folder}/jUCMNav.jar"/>
 		<delete file="${build.result.folder}/jUCMNavsrc.zip"/>
 		<delete file="${build.result.folder}/jUCMNavdocs.zip"/>
@@ -261,4 +263,16 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 	
+	<target name="runtests" depends="build.jars" description="Run unit tests on jucmnav.jar">
+		<junit printsummary="yes">
+			<classpath>
+				<pathelement location="${build.result.folder}jUCMNav.jar" />
+				<fileset dir="${eclipsehome}/plugins">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<test name="seg.jUCMNav.tests.TestAllTestSuite" outfile="testresults"/>
+			<formatter type="xml" />
+		</junit>
+	</target>
 </project>
