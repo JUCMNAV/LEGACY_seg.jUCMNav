@@ -89,7 +89,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 	 *  (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
 	 */
-	protected void refreshChildren() {
+	public void refreshChildren() {
 		int i;
 		EditPart editPart;
 		Object model;
