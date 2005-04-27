@@ -129,7 +129,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
-    protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
+    public Command createChangeConstraintCommand(EditPart child, Object constraint) {
 
         if (child.getModel() instanceof PathNode) {
 

@@ -1,12 +1,17 @@
 package seg.jUCMNav.tests.progress;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.Vector;
 
 import junit.framework.TestCase;
 
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
@@ -16,10 +21,15 @@ import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
+import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
+import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
+import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.views.EObjectPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urn.URNspec;
@@ -27,11 +37,11 @@ import urncore.ComponentKind;
 
 /**
  * Created 2005-04-25
- * 
+ *  
  */
 public class ProgressTests extends TestCase {
 
-    // internal elements shared by all tests. 
+    // internal elements shared by all tests.
     private UcmPaletteRoot paletteroot;
     private ConnectionOnBottomRootEditPart root;
     private URNspec urn;
@@ -154,6 +164,7 @@ public class ProgressTests extends TestCase {
 
     /**
      * Test #1 for requirement: ReqComp
+     * 
      * Author: jkealey
      */
     public void testReqComp1() {
@@ -194,11 +205,52 @@ public class ProgressTests extends TestCase {
 
     /**
      * Test #2 for requirement: ReqComp
-     * Author: 
+     * 
+     * Author: jkealey
      */
     public void testReqComp2() {
-        //	 TODO: implement
-        assertTrue(false);
-    }
 
+        // create the component ref that will be used for testing.
+        ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class, ComponentKind.TEAM);
+        // to be able to build the property source for the compDef, our component ref must be inside a map.
+        Command cmd = new AddComponentRefCommand(getMap(), cr);
+        viewer.getEditDomain().getCommandStack().execute(cmd);
+        // refresh the edit part tree because we aren't hooked up to the command stack
+        getMapEditPart().refreshChildren();
+
+        // create a property source on the component ref
+        EObjectPropertySource eops = new EObjectPropertySource(cr);
+        EStructuralFeature attr;
+        Vector v = new Vector();
+        Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
+
+        // for each attribute and reference
+        while (i.hasNext()) {
+            attr = (EStructuralFeature) i.next();
+            String n = attr.getName();
+
+            // make sure that the ones we have targetted do amount in adding a property to the property descriptor
+            if (n.equals("x") || n.equals("y") || n.equals("width") || n.equals("height") || n.equals("compDef")) {
+                int vectorSize = v.size();
+                eops.addPropertyToDescriptor(v, attr, cr.eClass());
+                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
+                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
+            }
+        }
+
+        // verify that we can move/resize components.
+        ComponentRefEditPart creditpart = (ComponentRefEditPart) getMapEditPart().getChildren().get(0);
+        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart().getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
+                new Rectangle(100, 200, 300, 400));
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintComponentRefCommand ",
+                cmd instanceof SetConstraintComponentRefCommand && ((SetConstraintComponentRefCommand) cmd).canExecute());
+
+        // verify that we can't move/resize fixed components.
+        cr.setFixed(true);
+        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart().getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
+                new Rectangle(100, 200, 300, 400));
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintComponentRefCommand ",
+                cmd instanceof SetConstraintComponentRefCommand && !((SetConstraintComponentRefCommand) cmd).canExecute());
+
+    }
 }

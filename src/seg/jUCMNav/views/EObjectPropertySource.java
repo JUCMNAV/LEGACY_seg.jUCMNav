@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.viewers.ICellEditorValidator;
@@ -23,6 +25,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
+import urn.URNspec;
 import urncore.ComponentElement;
 
 /**
@@ -87,9 +90,9 @@ public class EObjectPropertySource implements IPropertySource {
         EClass cls = object.eClass();
         Collection descriptors = new Vector();
 
-        it = cls.getEAllAttributes().iterator();
+        it = cls.getEAllStructuralFeatures().iterator();
         while (it.hasNext()) {
-            EAttribute attr = (EAttribute) it.next();
+            EStructuralFeature attr = (EStructuralFeature) it.next();
 
             if (comp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) {
                 // replace with that of ComponentRef with that of ComponentElement
@@ -119,8 +122,14 @@ public class EObjectPropertySource implements IPropertySource {
      * @param attr
      * @param type
      */
-    private void addPropertyToDescriptor(Collection descriptors, EAttribute attr, EClass c) {
-        EDataType type = attr.getEAttributeType();
+    public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
+
+        EClassifier type;
+        if (attr instanceof EAttribute)
+            type = ((EAttribute) attr).getEAttributeType();
+        else
+            // if (attr instanceof EReference)
+            type = ((EReference) attr).getEReferenceType(); // ok to crash if not EReference.
 
         String propertyname = attr.getName();
 
@@ -128,7 +137,7 @@ public class EObjectPropertySource implements IPropertySource {
         //String propertyid = Integer.toString(attr.getFeatureID());
         Object[] propertyid = { c, attr };
 
-        if (attr.isID()) {
+        if (attr instanceof EAttribute && ((EAttribute) attr).isID()) {
             // shouldn't be editable
             descriptors.add(new PropertyDescriptor(propertyid, propertyname));
         } else if (type.getInstanceClass() == String.class) {
@@ -156,6 +165,17 @@ public class EObjectPropertySource implements IPropertySource {
                 }
             });
             descriptors.add(desc);
+        } else if (type.getInstanceClass() == ComponentElement.class) {
+            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+            EList list = urn.getUrndef().getComponents();
+            String[] values = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                
+                values[i]=((ComponentElement)list.get(i)).getName();
+                if (values[i]==null) values[i]="[unnamed]";
+            }
+
+            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Component Definition", values));
         }
     }
 
@@ -186,7 +206,23 @@ public class EObjectPropertySource implements IPropertySource {
                 result = new RGB(0, 0, 0);
             else
                 result = StringConverter.asRGB((String) result);
+        } else if (result instanceof ComponentElement) {
+            /*
+            if (((ComponentElement) result).getId() != null)
+                result = new Integer(((ComponentElement) result).getId());
+            else
+                result = new Integer(0);
+            */
+            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+            EList list = urn.getUrndef().getComponents();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
+                        result = new Integer(i);
+            }
+            
+            
         }
+
         return result != null ? result : "";
     }
 
@@ -247,6 +283,10 @@ public class EObjectPropertySource implements IPropertySource {
             result = new Boolean(((Integer) value).intValue() == 1);
         } else if (result instanceof RGB) {
             result = StringConverter.asString((RGB) value);
+        } else if (feature.getEType().getInstanceClass() == ComponentElement.class) {
+            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+            EList list = urn.getUrndef().getComponents();
+            result = list.get(((Integer)value).intValue());
         } else
             result = value;
 
