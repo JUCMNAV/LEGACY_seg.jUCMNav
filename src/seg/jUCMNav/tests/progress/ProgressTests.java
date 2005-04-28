@@ -253,4 +253,696 @@ public class ProgressTests extends TestCase {
                 cmd instanceof SetConstraintComponentRefCommand && !((SetConstraintComponentRefCommand) cmd).canExecute());
 
     }
+
+//  /**
+//  * Test #1 for requirement ReqCompCompBind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompCompBind1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqCompCompBind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompCompBind2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqCompCompUnbind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompCompUnbind1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqCompCompUnbind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompCompUnbind2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqCompPathBind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompPathBind1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqCompPathBind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompPathBind2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqCompPathUnbind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompPathUnbind1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqCompPathUnbind
+//  * 
+//  * Author:
+//  */
+// public void testReqCompPathUnbind2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqConnections
+//  * 
+//  * Author:
+//  */
+// public void testReqConnections1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqConnections
+//  * 
+//  * Author:
+//  */
+// public void testReqConnections2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqConnections
+//  * 
+//  * Author:
+//  */
+// public void testReqConnections3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemAndFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndFork1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemAndFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndFork2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemAndFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndFork3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemAndJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndJoin1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemAndJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndJoin2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemAndJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemAndJoin3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemDelete
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDelete1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemDelete
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDelete2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemDelete
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDelete3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #4 for requirement ReqElemDelete
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDelete4() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #5 for requirement ReqElemDelete
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDelete5() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemDirectionArrow
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDirectionArrow1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemDirectionArrow
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDirectionArrow2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemDynamicStub
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDynamicStub1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemDynamicStub
+//  * 
+//  * Author:
+//  */
+// public void testReqElemDynamicStub2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemEmptyPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemEmptyPoint1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemEmptyPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemEmptyPoint2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemEndPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemEndPoint1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemEndPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemEndPoint2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemEndPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemEndPoint3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemOrFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrFork1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemOrFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrFork2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemOrFork
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrFork3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemOrJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrJoin1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemOrJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrJoin2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemOrJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrJoin3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #4 for requirement ReqElemOrJoin
+//  * 
+//  * Author:
+//  */
+// public void testReqElemOrJoin4() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemResponsibility
+//  * 
+//  * Author:
+//  */
+// public void testReqElemResponsibility1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemResponsibility
+//  * 
+//  * Author:
+//  */
+// public void testReqElemResponsibility2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemStartPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStartPoint1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemStartPoint
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStartPoint2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemStartPointAttributes
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStartPointAttributes1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemStaticStub
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStaticStub1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemStaticStub
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStaticStub2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #4 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions4() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #5 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions5() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #6 for requirement ReqElemStubActions
+//  * 
+//  * Author:
+//  */
+// public void testReqElemStubActions6() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemTimer
+//  * 
+//  * Author:
+//  */
+// public void testReqElemTimer1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemTimer
+//  * 
+//  * Author:
+//  */
+// public void testReqElemTimer2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqElemWait
+//  * 
+//  * Author:
+//  */
+// public void testReqElemWait1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqElemWait
+//  * 
+//  * Author:
+//  */
+// public void testReqElemWait2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqExportBitmap
+//  * 
+//  * Author:
+//  */
+// public void testReqExportBitmap1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqExportBitmap
+//  * 
+//  * Author:
+//  */
+// public void testReqExportBitmap2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqHelpAbout
+//  * 
+//  * Author:
+//  */
+// public void testReqHelpAbout1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqHelpOnLine
+//  * 
+//  * Author:
+//  */
+// public void testReqHelpOnLine1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqOpen 
+//  * 
+//  * Author:
+//  */
+// public void testReqOpen 1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqSave
+//  * 
+//  * Author:
+//  */
+// public void testReqSave1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqSaveBackup
+//  * 
+//  * Author:
+//  */
+// public void testReqSaveBackup1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqBrowseHistory
+//  * 
+//  * Author:
+//  */
+// public void testReqBrowseHistory1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqBrowseModel
+//  * 
+//  * Author:
+//  */
+// public void testReqBrowseModel1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqBrowseModel
+//  * 
+//  * Author:
+//  */
+// public void testReqBrowseModel2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #3 for requirement ReqBrowseModel
+//  * 
+//  * Author:
+//  */
+// public void testReqBrowseModel3() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #4 for requirement ReqBrowseModel
+//  * 
+//  * Author:
+//  */
+// public void testReqBrowseModel4() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #1 for requirement ReqLabels
+//  * 
+//  * Author:
+//  */
+// public void testReqLabels1() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+//  /**
+//  * Test #2 for requirement ReqLabels
+//  * 
+//  * Author:
+//  */
+// public void testReqLabels2() {
+//     //  TODO: implement
+//     assertTrue("Unimplemented", false);
+// }
+
+
 }
