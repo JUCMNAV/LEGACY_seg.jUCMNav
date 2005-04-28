@@ -13,8 +13,14 @@
 	<property name="javacSource" value="1.4"/>
 	<property name="javacTarget" value="1.4"/>
 	<property name="compilerArg" value=""/>
-	<property name="eclipsehome" value="c:/eclipse"/> <!-- JP: system-specific -->
-	
+	<property environment="env" />
+	<property name="env.ECLIPSE_HOME" value="c:/eclipse/" /> <!-- JP: supplies a default value but does not overwrite the real one. Set a value for ECLIPSE_HOME to override C:/eclipse -->
+	<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
+
+	<target name="testenv">
+		<echo>${eclipsehome}</echo>
+	</target>
+
 	<target name="init" depends="properties">
 		<condition property="pluginTemp" value="${buildTempFolder}/eclipse/plugins">
 			<isset property="buildTempFolder"/>
@@ -26,6 +32,7 @@
 		<property name="build.result.folder" value="${basedir}/build/"/>
 		<property name="temp.folder" value="${basedir}/temp.folder"/>
 		<property name="plugin.destination" value="${basedir}/build/"/>
+		<echo>Using ECLIPSE_HOME: ${eclipsehome}</echo>
 	</target>
 
 	<target name="clean.buildjar" depends="init, clean">
