@@ -96,9 +96,9 @@ public class LabelEditPart extends ModelElementEditPart {
         
         label.setText(nodeLabel.getPathNode().getName());
         
-        Dimension dim = labelFigure.getPreferredSize().getCopy();
-        Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dim.width/2), node.getY() - nodeLabel.getDeltaY()-(dim.height/2));  // The position of the current figure
-        Rectangle bounds = new Rectangle(location, dim);
+        Dimension dimLabelFigure = labelFigure.getPreferredSize().getCopy();
+        Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dimLabelFigure.width/2), node.getY() - nodeLabel.getDeltaY()-(dimLabelFigure.height/2));  // The position of the current figure
+        Rectangle bounds = new Rectangle(location, dimLabelFigure);
 		figure.setBounds(bounds);
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent container 

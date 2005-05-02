@@ -170,7 +170,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             PathNode node = nodeLabel.getPathNode();
 
             Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
-            locationCommand.setNewPosition(location);
+            locationCommand.setNewPosition(location.x, location.y);
             return locationCommand;
         } else {
             System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");

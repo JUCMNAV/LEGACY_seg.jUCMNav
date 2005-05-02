@@ -3,7 +3,6 @@
  */
 package seg.jUCMNav.model.commands.changeConstraints;
 
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
 import urncore.NodeLabel;
@@ -14,9 +13,11 @@ import urncore.NodeLabel;
 public class LabelSetConstraintCommand extends Command {
     private static final String Command_Label_Location = "change location command";
 	private static final String Command_Label_Resize = "resize command";
-	private Point newPosition;
+	private int newDeltaX;
+	private int newDeltaY;
 	
-	private Point oldPosition;
+	private int oldDeltaX;
+	private int oldDeltaY;
 	
 	private NodeLabel label;
 	
@@ -24,7 +25,8 @@ public class LabelSetConstraintCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		oldPosition = new Point(label.getDeltaX(), label.getDeltaY());
+		oldDeltaX = label.getDeltaX();
+		oldDeltaY = label.getDeltaY();
 		redo();
 	}
 	
@@ -32,16 +34,16 @@ public class LabelSetConstraintCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-	    label.setDeltaX(newPosition.x);
-	    label.setDeltaY(newPosition.y);
+	    label.setDeltaX(newDeltaX);
+	    label.setDeltaY(newDeltaY);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
-	    label.setDeltaX(oldPosition.x);
-	    label.setDeltaY(oldPosition.y);
+	    label.setDeltaX(oldDeltaX);
+	    label.setDeltaY(oldDeltaY);
 	}
 	
 	/* (non-Javadoc)
@@ -61,7 +63,8 @@ public class LabelSetConstraintCommand extends Command {
 	/**
 	 * @param newPosition The newPosition to set.
 	 */
-	public void setNewPosition(Point newPosition) {
-		this.newPosition = newPosition;
+	public void setNewPosition(int newDeltaX, int newDeltaY) {
+		this.newDeltaX = newDeltaX;
+		this.newDeltaY = newDeltaY;
 	}
 }
