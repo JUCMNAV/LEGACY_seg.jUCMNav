@@ -15,8 +15,6 @@ import seg.jUCMNav.editpolicies.directEdit.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
-import ucm.UcmPackage;
-import ucm.map.MapPackage;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import urncore.NodeLabel;
@@ -91,26 +89,38 @@ public class LabelEditPart extends ModelElementEditPart {
     protected void refreshVisuals() {
     	NodeLabel nodeLabel = getModelObj();
         PathNode node = nodeLabel.getPathNode();
-        LabelFigure labelFigure = getLabelFigure();
-        EditableLabel label = labelFigure.getLabel();
+        if(node != null) {
+        	LabelFigure labelFigure = getLabelFigure();
+            EditableLabel label = labelFigure.getLabel();
+            
+            label.setText(nodeLabel.getPathNode().getName());
+            
+            Dimension dim1 = labelFigure.getPreferredSize().getCopy();
+            Dimension dim2 = labelFigure.getLabel().getPreferredSize().getCopy();
+            Dimension dim = new Dimension(dim2.width + 10, dim2.height + 4); 
+            Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dim.width/2), node.getY() - nodeLabel.getDeltaY()-(dim.height/2));  // The position of the current figure
+            Rectangle bounds = new Rectangle(location, dim);
+    		figure.setBounds(bounds);
+    		label.setBounds(bounds);
+    		// notify parent container of changed position & location
+    		// if this line is removed, the XYLayoutManager used by the parent container 
+    		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
+    		// and will not draw it correctly.
+    		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+        }
         
-        label.setText(nodeLabel.getPathNode().getName());
-        
-        Dimension dimLabelFigure = labelFigure.getPreferredSize().getCopy();
-        Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dimLabelFigure.width/2), node.getY() - nodeLabel.getDeltaY()-(dimLabelFigure.height/2));  // The position of the current figure
-        Rectangle bounds = new Rectangle(location, dimLabelFigure);
-		figure.setBounds(bounds);
-		// notify parent container of changed position & location
-		// if this line is removed, the XYLayoutManager used by the parent container 
-		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
-		// and will not draw it correctly.
-		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
+    	if (getParent()!=null) {
+    		((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+    	}
+    	
+        refreshVisuals();
+        /*
         int featureId = notification.getFeatureID( UcmPackage.class );
 		switch( featureId ) {
 		case MapPackage.PATH_NODE__NAME:
@@ -121,5 +131,6 @@ public class LabelEditPart extends ModelElementEditPart {
 		break;
 		}
         refreshVisuals();
+        */
     }
 }

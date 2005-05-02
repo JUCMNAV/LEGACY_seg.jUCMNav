@@ -5,8 +5,10 @@ package seg.jUCMNav.actions;
 
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -50,10 +52,14 @@ public class AddLabelAction extends SelectionAction {
     
     private Command getCommand() {
         List parts = getSelectedObjects();
-        EditPart part = (EditPart) parts.get(0);
+        AbstractGraphicalEditPart part = (AbstractGraphicalEditPart) parts.get(0);
+        
+        Dimension dim = part.getFigure().getPreferredSize().getCopy();
+
         
         CreateLabelCommand create = new CreateLabelCommand();
 	    create.setNode((PathNode) part.getModel());
+	    create.setDeltaY(dim.height);
 		return create;
 	}
 
