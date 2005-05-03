@@ -175,9 +175,15 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // the center of the figure.
             Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
             PathNode node = nodeLabel.getPathNode();
+            
+            if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
+            	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
+                locationCommand.setNewPosition(location.x, location.y);
+            } else {
+            	locationCommand.setNewPosition(nodeLabel.getDeltaX(), nodeLabel.getDeltaY());
+            }
 
-            Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
-            locationCommand.setNewPosition(location.x, location.y);
+            
             
             return locationCommand;
         } else {

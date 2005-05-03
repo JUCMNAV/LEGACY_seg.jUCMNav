@@ -27,6 +27,7 @@ import urncore.NodeLabel;
 public class LabelEditPart extends ModelElementEditPart {
 	
 	private PathGraph diagram;
+	private Point nodePosition;
 	
 	public LabelEditPart(NodeLabel model, PathGraph diagram){
 		super();
@@ -68,7 +69,18 @@ public class LabelEditPart extends ModelElementEditPart {
             label = new EditableLabel(className);
         }
         
+        nodePosition = new Point(node.getX(), node.getY());
+        
         return new LabelFigure(label);
+    }
+    
+    public boolean nodeMoving() {
+    	PathNode node = getModelObj().getPathNode();
+    	if(nodePosition.x != node.getX() || nodePosition.y != node.getY()) {
+    		return true;
+    	}
+    	
+    	return false;
     }
 
     /* (non-Javadoc)
