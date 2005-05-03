@@ -6,6 +6,7 @@ package seg.jUCMNav.model;
 
 import org.eclipse.gef.requests.CreationFactory;
 
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import ucm.UcmFactory;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
@@ -133,6 +134,10 @@ public class ModelCreationFactory implements CreationFactory {
 
                 // define the ComponentKind according to what was set in the construction
                 compdef.setKind(ComponentKind.get(type));
+                
+                ((ComponentRef)result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
+                ((ComponentRef)result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
+                
             } else {
                 System.out.println("Unknown class passed to ModelCreationFactory");
             }

@@ -2,11 +2,11 @@ package seg.jUCMNav.tests.commands;
 
 import junit.framework.TestCase;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
@@ -92,7 +92,7 @@ public class JUCMNavCommandTests extends TestCase {
 
     public void testAddComponentCommand() {
 
-        JUCMNavCommand cmd = new AddComponentRefCommand(map, compRef);
+        Command cmd = new AddComponentRefCommand(map, compRef);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
         cs.execute(cmd);
     }
@@ -100,7 +100,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testSetConstraintComponentRefCommand() {
 
         testAddComponentCommand();
-        JUCMNavCommand cmd = new SetConstraintComponentRefCommand(compRef, 100, 200, 300, 400);
+        Command cmd = new SetConstraintComponentRefCommand(compRef, 100, 200, 300, 400);
         assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
         cs.execute(cmd);
         cmd = new SetConstraintComponentRefCommand(compRef, 69, 69, 69, 69);
@@ -109,7 +109,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testCreatePathCommand() {
-        JUCMNavCommand cmd = new CreatePathCommand(pathgraph, start, 35, 67);
+        Command cmd = new CreatePathCommand(pathgraph, start, 35, 67);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
         cs.execute(cmd);
 
@@ -120,14 +120,14 @@ public class JUCMNavCommandTests extends TestCase {
 
     public void testSetConstraintCommand() {
         testCreatePathCommand();
-        JUCMNavCommand cmd = new SetConstraintCommand(end, 96, 36);
+        Command cmd = new SetConstraintCommand(end, 96, 36);
         assertTrue("Can't execute SetConstraintCommand.", cmd.canExecute());
         cs.execute(cmd);
     }
 
     public void testExtendPathCommand() {
         testCreatePathCommand();
-        JUCMNavCommand cmd;
+        Command cmd;
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
             cmd = new ExtendPathCommand(pathgraph, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
@@ -141,7 +141,7 @@ public class JUCMNavCommandTests extends TestCase {
         testExtendPathCommand();
 
         EmptyPoint empty = (EmptyPoint) ((NodeConnection) ((NodeConnection) end.getPred().get(0)).getSource().getPred().get(0)).getSource();
-        JUCMNavCommand cmd = new CutPathCommand(pathgraph, empty);
+        Command cmd = new CutPathCommand(pathgraph, empty);
         assertTrue("Can't execute CutPathCommand.", cmd.canExecute());
         cs.execute(cmd);
 
@@ -151,10 +151,11 @@ public class JUCMNavCommandTests extends TestCase {
         testCutPathCommand();
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
         EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
-        JUCMNavCommand cmd = new SplitLinkCommand(pathgraph, empty, nc, 55, 86);
+        Command cmd = new SplitLinkCommand(pathgraph, empty, nc, 55, 86);
         assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute());
         cs.execute(cmd);
 
     }
+    
 
 }

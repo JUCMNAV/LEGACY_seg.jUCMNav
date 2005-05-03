@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
@@ -140,20 +141,25 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
             Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
-            
-             
-            return new SetConstraintCommand((PathNode) child.getModel(), location.x, location.y );
+
+            return new SetConstraintCommand((PathNode) child.getModel(), location.x, location.y);
         } else if (child.getModel() instanceof ComponentRef) {
             Rectangle rect = (Rectangle) constraint;
             ComponentRef compRef = (ComponentRef) child.getModel();
 
-            SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y, rect.width,
-                    rect.height);
+			// this would have moved the component only, changed 01-05-2005 to allow binding/unbinding using the compound command
+            //SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y,
+            // rect.width,
+            //       rect.height);
+
+			// compound command for binding.
+            SetConstraintBoundComponentRefCompoundCommand moveResize = new SetConstraintBoundComponentRefCompoundCommand(compRef, rect.getLocation().x, rect
+                    .getLocation().y, rect.width, rect.height);
 
             return moveResize;
 
         } else if (child.getModel() instanceof NodeLabel) {
-        	NodeLabel nodeLabel = (NodeLabel) child.getModel();
+            NodeLabel nodeLabel = (NodeLabel) child.getModel();
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
             locationCommand.setNode(nodeLabel);
             //		Rectangle constraint = (Rectangle)getConstraintFor(request);
@@ -162,6 +168,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             //		((GraphicalEditPart)(child)).getFigure().translateToRelative((Rectangle)constraint);
             //		rect.translate(getLayoutOrigin().getNegated());
 
+            
             // Adjust the coordinates with the coordinates of the figure too
             // since
             // the x,y coordinates is
@@ -171,6 +178,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
             Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
             locationCommand.setNewPosition(location.x, location.y);
+            
             return locationCommand;
         } else {
             System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");

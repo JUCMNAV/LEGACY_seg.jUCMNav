@@ -1,9 +1,13 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import org.eclipse.gef.commands.Command;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -13,7 +17,7 @@ import ucm.map.PathNode;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class ExtendPathCommand extends JUCMNavCommand {
+public class ExtendPathCommand extends Command implements  JUCMNavCommand {
 
     private PathGraph diagram; // The UCM diagram
 
@@ -112,7 +116,12 @@ public class ExtendPathCommand extends JUCMNavCommand {
         // add to model
         diagram.getPathNodes().add(newNode);
         diagram.getNodeConnections().add(newLink);
-
+        
+        // bind to parent
+        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), newX, newY));
+        newNode.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), oldX, oldY));
+        
+        
         testPostConditions();
     }
 
@@ -225,6 +234,11 @@ public class ExtendPathCommand extends JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
+        // bind to parent
+        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), oldX, oldY));
+        newNode.setCompRef(null);
+
+        
         // remove from model
         diagram.getPathNodes().remove(newNode);
         diagram.getNodeConnections().remove(newLink);
@@ -236,7 +250,7 @@ public class ExtendPathCommand extends JUCMNavCommand {
         // move end point back to starting place
         end.setX(newNode.getX());
         end.setY(newNode.getY());
-
+        
         testPreConditions();
     }
 }

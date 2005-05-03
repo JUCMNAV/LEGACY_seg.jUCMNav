@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import org.eclipse.gef.commands.Command;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EmptyPoint;
@@ -15,7 +17,7 @@ import ucm.map.StartPoint;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class CutPathCommand extends JUCMNavCommand {
+public class CutPathCommand extends Command implements JUCMNavCommand {
     /*
      * Before: ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
      * 

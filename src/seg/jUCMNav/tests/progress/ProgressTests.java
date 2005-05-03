@@ -27,7 +27,7 @@ import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.views.EObjectPropertySource;
 import ucm.map.ComponentRef;
@@ -242,15 +242,15 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getMapEditPart().getChildren().get(0);
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart().getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintComponentRefCommand ",
-                cmd instanceof SetConstraintComponentRefCommand && ((SetConstraintComponentRefCommand) cmd).canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
 
         // verify that we can't move/resize fixed components.
         cr.setFixed(true);
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart().getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintComponentRefCommand ",
-                cmd instanceof SetConstraintComponentRefCommand && !((SetConstraintComponentRefCommand) cmd).canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && !cmd.canExecute());
 
     }
 

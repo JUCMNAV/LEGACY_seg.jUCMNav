@@ -1,7 +1,11 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import org.eclipse.gef.commands.Command;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
+import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -13,7 +17,7 @@ import ucm.map.PathNode;
  * 
  * @author Etienne Tremblay
  */
-public class SplitLinkCommand extends JUCMNavCommand {
+public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
     //  The UCM diagram
     private PathGraph diagram;
@@ -85,6 +89,8 @@ public class SplitLinkCommand extends JUCMNavCommand {
         diagram.getPathNodes().add(node);
         diagram.getNodeConnections().add(newLink);
         
+        // bind to parent
+        node.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), x, y));
         
         testPostConditions();
     }
@@ -96,6 +102,9 @@ public class SplitLinkCommand extends JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
+
+        // unbind from parent
+        node.setCompRef(null);
         
         // remove from model
         diagram.getNodeConnections().remove(newLink);

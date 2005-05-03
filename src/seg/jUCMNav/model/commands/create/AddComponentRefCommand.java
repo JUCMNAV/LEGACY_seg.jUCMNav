@@ -1,5 +1,7 @@
 package seg.jUCMNav.model.commands.create;
 
+import org.eclipse.gef.commands.Command;
+
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
@@ -11,7 +13,7 @@ import urn.URNspec;
  * @author jkealey
  *  
  */
-public class AddComponentRefCommand extends JUCMNavCommand {
+public class AddComponentRefCommand extends Command implements JUCMNavCommand {
 
     // the component reference
     private ComponentRef compRef;

@@ -1,9 +1,13 @@
 package seg.jUCMNav.model.commands.create;
 
+import org.eclipse.gef.commands.Command;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -16,14 +20,14 @@ import ucm.map.StartPoint;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class CreatePathCommand extends JUCMNavCommand {
+public class CreatePathCommand extends Command implements JUCMNavCommand {
 
     // where to insert the new path
     private PathGraph diagram;
 
     // the position of the start point
     private int x, y;
-    
+
     // new variables
     private StartPoint start;
     private PathNode node;
@@ -65,7 +69,7 @@ public class CreatePathCommand extends JUCMNavCommand {
         node = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
         node.setX(x + 100);
         node.setY(y);
-
+        
         link1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
         link1.setSource(start);
         link1.setTarget(node);
@@ -92,6 +96,12 @@ public class CreatePathCommand extends JUCMNavCommand {
         diagram.getPathNodes().add(start);
         diagram.getPathNodes().add(node);
         diagram.getPathNodes().add(end);
+        
+        start.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x, y));        
+        node.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x + 100, y));
+        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x + 200, y));
+        
+        
         testPostConditions();
     }
 
@@ -100,6 +110,9 @@ public class CreatePathCommand extends JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
+        start.setCompRef(null);        
+        node.setCompRef(null);
+        end.setCompRef(null);
 
         diagram.getPathNodes().remove(start);
         diagram.getPathNodes().remove(node);
@@ -156,26 +169,25 @@ public class CreatePathCommand extends JUCMNavCommand {
      */
     public void testPreConditions() {
         assert diagram != null : "pre Diagram";
-        assert start != null: "pre Start";
+        assert start != null : "pre Start";
         assert node != null : "pre Node";
         assert end != null : "pre End";
         assert link1 != null : "pre Link1";
         assert link2 != null : "pre Link1";
 
         assert !diagram.getPathNodes().contains(start) : "pre pathgraph does not contain start";
-        assert !diagram.getPathNodes().contains(end): "pre pathgraph does not contain end";
-        assert !diagram.getPathNodes().contains(node): "pre pathgraph does not contain node";
-        assert !diagram.getNodeConnections().contains(link1):"pre pathgraph does not contain link1";
-        assert !diagram.getNodeConnections().contains(link2):"pre pathgraph does not contain link2";
-        
-        assert start.getSucc().contains(link1): "pre link1 not succ of start";
-        assert link1.getTarget() == node: "pre node not target of link1"; 
-        assert node.getSucc().contains(link2): "pre link2 not succ of node";
-        assert link2.getTarget() == end: "pre end not target of link2";
-        
+        assert !diagram.getPathNodes().contains(end) : "pre pathgraph does not contain end";
+        assert !diagram.getPathNodes().contains(node) : "pre pathgraph does not contain node";
+        assert !diagram.getNodeConnections().contains(link1) : "pre pathgraph does not contain link1";
+        assert !diagram.getNodeConnections().contains(link2) : "pre pathgraph does not contain link2";
+
+        assert start.getSucc().contains(link1) : "pre link1 not succ of start";
+        assert link1.getTarget() == node : "pre node not target of link1";
+        assert node.getSucc().contains(link2) : "pre link2 not succ of node";
+        assert link2.getTarget() == end : "pre end not target of link2";
+
         assert start.getX() == x : "pre start point x";
         assert start.getY() == y : "pre start point y";
-        
 
     }
 
@@ -186,25 +198,25 @@ public class CreatePathCommand extends JUCMNavCommand {
      */
     public void testPostConditions() {
         assert diagram != null : "post Diagram";
-        assert start != null: "post Start";
+        assert start != null : "post Start";
         assert node != null : "post Node";
         assert end != null : "post End";
         assert link1 != null : "post Link1";
         assert link2 != null : "post Link1";
 
         assert diagram.getPathNodes().contains(start) : "pre pathgraph contains start";
-        assert diagram.getPathNodes().contains(end): "pre pathgraph contains end";
-        assert diagram.getPathNodes().contains(node): "pre pathgraph contains node";
-        assert diagram.getNodeConnections().contains(link1):"pre pathgraph contains link1";
-        assert diagram.getNodeConnections().contains(link2):"pre pathgraph contains link2";
+        assert diagram.getPathNodes().contains(end) : "pre pathgraph contains end";
+        assert diagram.getPathNodes().contains(node) : "pre pathgraph contains node";
+        assert diagram.getNodeConnections().contains(link1) : "pre pathgraph contains link1";
+        assert diagram.getNodeConnections().contains(link2) : "pre pathgraph contains link2";
 
-        assert start.getSucc().contains(link1): "post link1 not succ of start";
-        assert link1.getTarget() == node: "post node not target of link1"; 
-        assert node.getSucc().contains(link2): "post link2 not succ of node";
-        assert link2.getTarget() == end: "post end not target of link2";
-        
+        assert start.getSucc().contains(link1) : "post link1 not succ of start";
+        assert link1.getTarget() == node : "post node not target of link1";
+        assert node.getSucc().contains(link2) : "post link2 not succ of node";
+        assert link2.getTarget() == end : "post end not target of link2";
+
         assert start.getX() == x : "post start point x";
-        assert start.getY() == y : "post start point y";     
+        assert start.getY() == y : "post start point y";
 
     }
 
