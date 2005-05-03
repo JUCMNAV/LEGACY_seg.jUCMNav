@@ -107,11 +107,14 @@ public class LabelEditPart extends ModelElementEditPart {
             
             label.setText(nodeLabel.getPathNode().getName());
             
-            Dimension dim1 = labelFigure.getPreferredSize().getCopy();
-            Dimension dim2 = labelFigure.getLabel().getPreferredSize().getCopy();
-            Dimension dim = new Dimension(dim2.width + 10, dim2.height + 4); 
-            Point location = new Point(node.getX() - nodeLabel.getDeltaX()-(dim.width/2), node.getY() - nodeLabel.getDeltaY()-(dim.height/2));  // The position of the current figure
-            Rectangle bounds = new Rectangle(location, dim);
+            Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
+            Dimension newLabelDimension = new Dimension(dimEditableLabel.width + 8, dimEditableLabel.height + 4);
+            
+            //The position of the new figure
+            Point location = new Point(	node.getX() - nodeLabel.getDeltaX()-(newLabelDimension.width/2),
+            							node.getY() - nodeLabel.getDeltaY()-(newLabelDimension.height/2));
+            
+            Rectangle bounds = new Rectangle(location, newLabelDimension);
     		figure.setBounds(bounds);
     		label.setBounds(bounds);
     		// notify parent container of changed position & location
@@ -120,7 +123,6 @@ public class LabelEditPart extends ModelElementEditPart {
     		// and will not draw it correctly.
     		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
         }
-        
     }
 
     /* (non-Javadoc)
@@ -129,9 +131,8 @@ public class LabelEditPart extends ModelElementEditPart {
     public void notifyChanged(Notification notification) {
     	if (getParent()!=null) {
     		((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+    		refreshVisuals();
     	}
-    	
-        refreshVisuals();
         /*
         int featureId = notification.getFeatureID( UcmPackage.class );
 		switch( featureId ) {

@@ -9,7 +9,9 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.model.commands.delete.DeleteLabelCommand;
 import ucm.map.PathGraph;
+import urncore.NodeLabel;
 
 /**
  * @author Jordan
@@ -27,7 +29,14 @@ public class LabelComponentEditPolicy extends ComponentEditPolicy {
 	 */
 	protected Command getDeleteCommand(GroupRequest request) {
 		//return new DeleteLabelCommand();
-	    return null;
+		Object label = getHost().getModel();
+		if(label instanceof NodeLabel) {
+			DeleteLabelCommand deleteCommand = new DeleteLabelCommand();
+			deleteCommand.setNodeLabel((NodeLabel) label);
+			return deleteCommand;
+		}
+
+		return null;
 	}
 	
 	/* (non-Javadoc)
