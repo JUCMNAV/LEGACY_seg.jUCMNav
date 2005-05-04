@@ -71,6 +71,8 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         compRef.getChildren().clear();
         compRef.getPathNodes().clear();
         compRef.setParent(null);
+        compRef.setCompDef(null);
+        
         testPostConditions();
     }
 
@@ -89,8 +91,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         
         pathNodeChildren = new Vector();
         pathNodeChildren.addAll(compRef.getPathNodes());
-        
-        compRef.setCompDef(null);
+       
     }
 
     /* (non-Javadoc)
