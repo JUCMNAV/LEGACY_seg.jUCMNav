@@ -7,10 +7,14 @@ import org.eclipse.gef.commands.CommandStack;
 
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
+import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -90,6 +94,10 @@ public class JUCMNavCommandTests extends TestCase {
         // serialize using UrnModelManager && getName();
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testAddComponentCommand() {
 
         Command cmd = new AddComponentRefCommand(map, compRef);
@@ -97,6 +105,10 @@ public class JUCMNavCommandTests extends TestCase {
         cs.execute(cmd);
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testSetConstraintComponentRefCommand() {
 
         testAddComponentCommand();
@@ -108,6 +120,10 @@ public class JUCMNavCommandTests extends TestCase {
         cs.execute(cmd);
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testCreatePathCommand() {
         Command cmd = new CreatePathCommand(pathgraph, start, 35, 67);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
@@ -118,6 +134,10 @@ public class JUCMNavCommandTests extends TestCase {
 
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testSetConstraintCommand() {
         testCreatePathCommand();
         Command cmd = new SetConstraintCommand(end, 96, 36);
@@ -125,6 +145,10 @@ public class JUCMNavCommandTests extends TestCase {
         cs.execute(cmd);
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testExtendPathCommand() {
         testCreatePathCommand();
         Command cmd;
@@ -134,9 +158,12 @@ public class JUCMNavCommandTests extends TestCase {
             assertTrue("Can't execute ExtendPathCommand.", cmd.canExecute());
             cs.execute(cmd);
         }
-
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testCutPathCommand() {
         testExtendPathCommand();
 
@@ -147,6 +174,10 @@ public class JUCMNavCommandTests extends TestCase {
 
     }
 
+    /**
+     * @author jkealey
+     *
+     */
     public void testSplitLinkCommand() {
         testCutPathCommand();
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
@@ -156,6 +187,90 @@ public class JUCMNavCommandTests extends TestCase {
         cs.execute(cmd);
 
     }
-    
+
+    /**
+     * @author jkealey
+     *
+     */
+    public void testComponentRefBindChildCommand() {
+
+        // add a compref and position it. 
+        testSetConstraintComponentRefCommand();
+        ComponentRef child = compRef;
+
+        // add another one
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class);
+        testAddComponentCommand();
+        
+        Command cmd  = new SetConstraintComponentRefCommand(compRef, 0,0,100,100);
+        assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute());
+        cs.execute(cmd);
+        // the current compRef is now behind the original one. 
+        
+        cmd = new ComponentRefBindChildCommand(compRef, child);
+        assertTrue("Can't execute ComponentRefBindChildCommand.", cmd.canExecute());
+        cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *
+     */
+    public void testComponentRefUnbindChildCommand() {
+        testComponentRefBindChildCommand();
+        ComponentRef parent = compRef;
+        ComponentRef child = (ComponentRef) compRef.getChildren().get(0);
+        
+        Command cmd = new ComponentRefUnbindChildCommand(parent, child);
+        assertTrue("Can't execute ComponentRefUnbindChildCommand.", cmd.canExecute());
+        cs.execute(cmd);        
+        
+    }
+
+    /**
+     * @author jkealey
+     *
+     */
+    public void testSetConstraintBoundComponentRefCompoundCommand() {
+        testComponentRefBindChildCommand();
+
+        ComponentRef parent = compRef;
+        Command cmd = new SetConstraintBoundComponentRefCompoundCommand(parent, 150, 300, 453, 148);
+        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute());
+        cs.execute(cmd);        
+    }
+
+    /**
+     * @author jkealey
+     *
+     */
+    public void testDeleteComponentRefCommand() {
+        testAddComponentCommand();
+        
+        Command cmd = new DeleteComponentRefCommand(compRef);
+        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute());
+        cs.execute(cmd);        
+    }
+
+    public void testLabelSetConstraintCommand() {
+        assert false : "not yet implemented";
+    }
+
+    public void testCreateLabelCommand() {
+        assert false : "not yet implemented";
+    }
+
+    public void testDeleteLabelCommand() {
+        assert false : "not yet implemented";
+    }
+
+    public void testChangeLabelNameCommand() {
+        assert false : "not yet implemented";
+    }
+
+    //    public void testDeleteNodeCommand()
+    //    {
+    //            assert false : "not yet implemented";
+    //    }
 
 }

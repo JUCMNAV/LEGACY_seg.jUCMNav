@@ -25,6 +25,13 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     // the parent and its children
     private ComponentRef compRef;
 
+    /**
+     * @param cr The ComponentRef to move and bind, allong with its children.
+     * @param x the target x
+     * @param y the target y
+     * @param width the target width
+     * @param height the target height
+     */
     public SetConstraintBoundComponentRefCompoundCommand(ComponentRef cr, int x, int y, int width, int height) {
         // must precede compRef because of factor calculation.
         setConstraints(x, y, width, height);
@@ -62,7 +69,9 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Set the component to be moved/resized with its children. This method is private because we ca only generate the children once because we can't clear the command list.
+     * Set the component to be moved/resized with its children. This method is private because we ca only generate the children once because we can't clear the
+     * command list.
+     * 
      * @param compRef
      *            The compRef to set.
      */
@@ -104,7 +113,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
         double factorW, factorH;
         factorW = ((double) newWidth) / oldWidth;
         factorH = ((double) newHeight) / oldHeight;
-        
+
         Vector v = new Vector();
         SetConstraintComponentRefCommand cmd = new SetConstraintComponentRefCommand(getCompRef(), newX, newY, newWidth, newHeight);
         v.addAll(cmd.getOriginalChildren());
