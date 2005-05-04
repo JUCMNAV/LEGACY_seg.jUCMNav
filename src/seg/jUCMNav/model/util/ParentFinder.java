@@ -27,20 +27,20 @@ public class ParentFinder {
      * @return
      */
     public static ComponentRef getPossibleParent(UCMmodelElement child) {
-         
+
         ComponentRef parent;
         if (child instanceof ComponentRef) {
             ComponentRef cr = (ComponentRef) child;
-            assert cr.eContainer() instanceof Map  : "getPossibleParent: should already be in model";
+            assert cr.eContainer() instanceof Map : "getPossibleParent: should already be in model";
             parent = ParentFinder.findParent((Map) cr.eContainer(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
         } else {
             PathNode p = (PathNode) child;
-            assert p.eContainer().eContainer() instanceof Map  : "getPossibleParent: should already be in model";
+            assert p.eContainer().eContainer() instanceof Map : "getPossibleParent: should already be in model";
             parent = ParentFinder.findParent((Map) p.eContainer().eContainer(), p.getX(), p.getY());
         }
         return parent;
     }
-    
+
     /**
      * We want to know who is the smallest ComponentRef at location newX, newY (our parent).
      * 
@@ -104,7 +104,19 @@ public class ParentFinder {
             // sort them by ascending order
             Collections.sort(v, new ComponentRefAreaComparator());
 
-            assert noCircularBindings((ComponentRef) v.get(0), compRef) : "ParentFinder: Circular Binding Found!";
+            // circular bindings are possible to happen in the UI if you have two components of exactly the same size, you shrink the parent so that it becomes
+            // the child of its current child.
+            //
+            // for this reason, this is not an assertion but rather we will not allow the new binding to happen
+            // 
+            // furthermore, we'll break our component out of the binding chain so that it is not in an illegal state
+            // 
+            //assert noCircularBindings((ComponentRef) v.get(0), compRef) : "ParentFinder: Circular Binding Found!";
+            if (!noCircularBindings((ComponentRef) v.get(0), compRef)) {
+                compRef.setParent(null);
+                compRef.getChildren().clear();
+                return null;
+            }
 
             // pick the smallest container
             return (ComponentRef) v.get(0);
@@ -113,7 +125,7 @@ public class ParentFinder {
     }
 
     /**
-     * We want to find the new children for a certain compRef. Obviously, will not return itself. We won't return existing children. 
+     * We want to find the new children for a certain compRef. Obviously, will not return itself. We won't return existing children.
      * 
      * @param map
      *            Map containing all the possible ComponentRefs to look at. May or may not contain compRef
@@ -128,16 +140,16 @@ public class ParentFinder {
         v.addAll(map.getCompRefs());
         v.addAll(map.getPathGraph().getPathNodes());
 
-        for (int i = v.size()-1; i >= 0; i--) {
+        for (int i = v.size() - 1; i >= 0; i--) {
 
             if (v.get(i) instanceof ComponentRef) {
                 ComponentRef cr = (ComponentRef) v.get(i);
-                if (compRef==cr.getParent() || compRef != findParent(map, cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight())) {
+                if (compRef == cr.getParent() || compRef != findParent(map, cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight())) {
                     v.remove(i);
                 }
             } else if (v.get(i) instanceof PathNode) {
                 PathNode pn = (PathNode) v.get(i);
-                if (compRef==pn.getCompRef() || compRef != findParent(map, pn.getX(), pn.getY())) {
+                if (compRef == pn.getCompRef() || compRef != findParent(map, pn.getX(), pn.getY())) {
                     v.remove(i);
                 }
             }
@@ -159,6 +171,7 @@ public class ParentFinder {
         while (parent.getParent() != null) {
             if (parent.getParent() == child) {
                 // circular binding found
+                System.out.println("ParentFinder: Circular Binding Found!");
                 return false;
             } else
                 parent = parent.getParent();
