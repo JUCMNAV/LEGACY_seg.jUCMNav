@@ -15,7 +15,11 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.AddLabelAction;
+import seg.jUCMNav.actions.BindChildren;
+import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.UnbindChildren;
+import seg.jUCMNav.actions.UnbindFromParent;
 
 /**
  * Created 2005-03-21
@@ -51,6 +55,23 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 		action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
 		if (action.isEnabled())
 			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+		action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
+		if (action.isEnabled())
+			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
+		
+		action = getActionRegistry().getAction(UnbindFromParent.UNBINDFROMPARENT);
+		if (action.isEnabled())
+			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
+
+		action = getActionRegistry().getAction(UnbindChildren.UNBINDCHILDREN);
+		if (action.isEnabled())
+			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
+	
+		action = getActionRegistry().getAction(BindChildren.BINDCHILDREN);
+		if (action.isEnabled())
+			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);	
+		
 	}
 	/**
 	 * @param viewer

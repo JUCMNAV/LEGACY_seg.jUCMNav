@@ -13,12 +13,12 @@ import urncore.UCMmodelElement;
 /**
  * Created on 28-Apr-2005
  * 
- * Binds a child/children (PathNode or ComponentRef) to a parent ComponentRef.
+ * Unbinds a child/children (PathNode or ComponentRef) from a parent ComponentRef.
  * 
  * @author jkealey
  *  
  */
-public class ComponentRefBindChildCommand extends Command implements JUCMNavCommand {
+public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCommand {
 
     private ComponentRef parent;
     private Vector children;
@@ -27,14 +27,13 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
      * 
      * @param parent
      *            The component to which the child is bound and will move with.
-     * @param children
-     *            A list of either PathNodes or ComponentRef.
+     * @param child
+     *            Either a PathNode or a ComponentRef.
      */
-    public ComponentRefBindChildCommand(ComponentRef parent, List children) {
+    public ComponentRefUnbindChildCommand(ComponentRef parent, UCMmodelElement child) {
         this.parent = parent;
         this.children = new Vector();
-        this.children.addAll(children);
-
+        this.children.add(child);
     }
 
     /**
@@ -42,25 +41,24 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
      * @param parent
      *            The component to which the child is bound and will move with.
      * @param child
-     *            Either a PathNode or a ComponentRef.
+     *            A list of either PathNodes or ComponentRefs.
      */
-    public ComponentRefBindChildCommand(ComponentRef parent, UCMmodelElement child) {
+    public ComponentRefUnbindChildCommand(ComponentRef parent, List children) {
         this.parent = parent;
         this.children = new Vector();
-        this.children.add(child);
-
+        this.children.addAll(children);
     }
 
     /**
-     * Children must be PathNodes or ComponentRefs
+     * Children must be a PathNode or ComponentRef
      */
     public boolean canExecute() {
+        boolean b = children.size() > 0;
         for (int i = 0; i < children.size(); i++) {
-            if (!(children.get(i) instanceof PathNode || children.get(i) instanceof ComponentRef))
-                return false;
+            b = b && (children.get(i) instanceof PathNode || children.get(i) instanceof ComponentRef);
         }
 
-        return true;
+        return b;
     }
 
     /*
@@ -81,13 +79,12 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         testPreConditions();
 
         for (int i = 0; i < children.size(); i++) {
-            UCMmodelElement child = (UCMmodelElement) children.get(i);
+            Object child = children.get(i);
             if (child instanceof PathNode)
-                parent.getPathNodes().add(child);
+                parent.getPathNodes().remove(child);
             else if (child instanceof ComponentRef)
-                parent.getChildren().add(child);
+                parent.getChildren().remove(child);
         }
-
         testPostConditions();
 
     }
@@ -101,12 +98,13 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         testPostConditions();
 
         for (int i = 0; i < children.size(); i++) {
-            UCMmodelElement child = (UCMmodelElement) children.get(i);
+            Object child = children.get(i);
             if (child instanceof PathNode)
-                parent.getPathNodes().remove(child);
+                parent.getPathNodes().add(child);
             else if (child instanceof ComponentRef)
-                parent.getChildren().remove(child);
+                parent.getChildren().add(child);
         }
+
         testPreConditions();
     }
 
@@ -121,9 +119,9 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         assert parent != null : "pre parent null";
         for (int i = 0; i < children.size(); i++) {
             UCMmodelElement child = (UCMmodelElement) children.get(i);
-            assert !parent.getChildren().contains(child) && !parent.getPathNodes().contains(child) : "pre is not bound: " + i;
+            assert (child instanceof ComponentRef && parent.getChildren().contains(child))
+                    || (child instanceof PathNode && parent.getPathNodes().contains(child)) : "pre is bound: " + i;
         }
-
     }
 
     /*
@@ -136,8 +134,7 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         assert parent != null : "post parent null";
         for (int i = 0; i < children.size(); i++) {
             UCMmodelElement child = (UCMmodelElement) children.get(i);
-            assert (child instanceof ComponentRef && parent.getChildren().contains(child))
-                    || (child instanceof PathNode && parent.getPathNodes().contains(child)) : "post is bound: " + i;
+            assert !parent.getChildren().contains(child) && !parent.getPathNodes().contains(child) : "post is not bound: " + i;
         }
     }
 

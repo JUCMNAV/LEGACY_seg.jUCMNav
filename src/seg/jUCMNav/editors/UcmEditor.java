@@ -53,7 +53,11 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddLabelAction;
+import seg.jUCMNav.actions.BindChildren;
+import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.UnbindChildren;
+import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteListener;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
@@ -164,6 +168,27 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         action.setText("Add label");
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
+        
+        action = new BindWithParent(this);
+        action.setText("Bind with parent component");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+        
+        action = new UnbindFromParent(this);
+        action.setText("Unbind from parent component");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());        
+    
+        action = new UnbindChildren(this);
+        action.setText("Unbind all enclosed elements");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());       
+        
+        action = new BindChildren(this);
+        action.setText("Bind all enclosed elements");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());          
+        
     }
 
     /**
