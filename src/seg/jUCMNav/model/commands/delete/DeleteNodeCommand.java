@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -31,6 +32,7 @@ public class DeleteNodeCommand extends Command {
     private Vector targets;
     private NodeConnection newConn;
     private Map map;
+    private ComponentRef compRef;
     
     public DeleteNodeCommand(PathNode node) {
     	this.node = node;
@@ -63,6 +65,7 @@ public class DeleteNodeCommand extends Command {
         map = (Map)node.eContainer().eContainer();
     	previous = ((NodeConnection)node.getPred().get(0)).getSource();
     	next = ((NodeConnection)node.getSucc().get(0)).getTarget();
+    	compRef = node.getCompRef();
     	sources = new Vector();
     	targets = new Vector();
     	sources.addAll(node.getPred());
@@ -92,6 +95,8 @@ public class DeleteNodeCommand extends Command {
         
         map.getPathGraph().getPathNodes().remove(node);
         
+        node.setCompRef(null);
+        
         newConn.setSource(previous);
         newConn.setTarget(next);
         
@@ -117,6 +122,7 @@ public class DeleteNodeCommand extends Command {
         
         map.getPathGraph().getPathNodes().add(node);
         
+        node.setCompRef(compRef);
         newConn.setSource(null);
         newConn.setTarget(null);
         
