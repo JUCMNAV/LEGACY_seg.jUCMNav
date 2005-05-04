@@ -1,19 +1,23 @@
 package seg.jUCMNav.model.commands.delete;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
  * Command to delete a node on a path.
- * Currently unimplemented.
- * @author Etienne Tremblay
+ * Currently unimplemented. 
+ * 
+ * jkealey: Just put some quick code here to show as example and stop it from crashing.
+ * @author Etienne Tremblay, jkealey
  *  
  */
 public class DeleteNodeCommand extends Command {
@@ -23,13 +27,14 @@ public class DeleteNodeCommand extends Command {
     private PathNode node;
     private PathNode previous;
     private PathNode next;
-    private ArrayList sources;
-    private ArrayList targets;
+    private Vector sources;
+    private Vector targets;
+    private NodeConnection newConn;
+    private Map map;
     
-    private NodeConnection con;
-
     public DeleteNodeCommand(PathNode node) {
     	this.node = node;
+    	setLabel(DeleteCommand_Label);
     }
 
     /*
@@ -38,10 +43,11 @@ public class DeleteNodeCommand extends Command {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
+
         if (node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
-        	if(node instanceof PathNode)
+        	if(node instanceof EmptyPoint)
         		return true;
         	else
         		return false;
@@ -54,17 +60,16 @@ public class DeleteNodeCommand extends Command {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        map = (Map)node.eContainer().eContainer();
     	previous = ((NodeConnection)node.getPred().get(0)).getSource();
     	next = ((NodeConnection)node.getSucc().get(0)).getTarget();
-    	for (Iterator i = node.getPred().iterator(); i.hasNext();) {
-			NodeConnection con = (NodeConnection) i.next();
-			sources.add(con.getSource());
-		}
+    	sources = new Vector();
+    	targets = new Vector();
+    	sources.addAll(node.getPred());
+    	targets.addAll(node.getSucc());
+    	newConn = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
     	
-    	for (Iterator i = node.getSucc().iterator(); i.hasNext();) {
-    		NodeConnection con = (NodeConnection) i.next();
-			targets.add(con.getTarget());
-		}
+    	redo();
     }
 
     /*
@@ -73,7 +78,24 @@ public class DeleteNodeCommand extends Command {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
-    	
+        // ASSUMING ONLY FOR EMPTYNODE - 1 IN, ONE OUT.
+        
+        node.getSucc().clear();
+        node.getPred().clear();
+        
+        ((NodeConnection)sources.get(0)).setSource(null);
+        ((NodeConnection)targets.get(0)).setTarget(null);
+        
+        map.getPathGraph().getNodeConnections().remove((NodeConnection)sources.get(0));
+        map.getPathGraph().getNodeConnections().remove((NodeConnection)targets.get(0));
+        map.getPathGraph().getNodeConnections().add(newConn);
+        
+        map.getPathGraph().getPathNodes().remove(node);
+        
+        newConn.setSource(previous);
+        newConn.setTarget(next);
+        
+
     }
 
     /*
@@ -83,16 +105,24 @@ public class DeleteNodeCommand extends Command {
      */
     public void undo() {
 
+        node.getSucc().addAll(targets);
+        node.getPred().addAll(sources);
+
+        ((NodeConnection)sources.get(0)).setSource(previous);
+        ((NodeConnection)targets.get(0)).setTarget(next);
+        
+        map.getPathGraph().getNodeConnections().add((NodeConnection)sources.get(0));
+        map.getPathGraph().getNodeConnections().add((NodeConnection)targets.get(0));
+        map.getPathGraph().getNodeConnections().remove(newConn);
+        
+        map.getPathGraph().getPathNodes().add(node);
+        
+        newConn.setSource(null);
+        newConn.setTarget(null);
+        
+        
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#getLabel()
-     */
-    public String getLabel() {
-        return DeleteCommand_Label;
-    }
 
     /**
      * @return Returns the PathPathNode.

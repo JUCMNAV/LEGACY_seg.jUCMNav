@@ -7,11 +7,13 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
+import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;
@@ -69,12 +71,11 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         return rect;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefEditPolicy());
     }
 
     /** 

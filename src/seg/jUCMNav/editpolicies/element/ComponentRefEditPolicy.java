@@ -8,21 +8,24 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
+import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
+import ucm.map.ComponentRef;
+
 /**
  * @author Etienne Tremblay
  */
 public class ComponentRefEditPolicy extends ComponentEditPolicy {
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#createDeleteCommand(org.eclipse.gef.requests.GroupRequest)
+	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
 	 */
-	protected Command createDeleteCommand(GroupRequest deleteRequest) {
-//		Object parent = getHost().getParent().getModel();
-//		Object node = getHost().getModel();
-//		if(parent instanceof PathGraph && node instanceof PathNode){
-//			DeleteNodeCommand command = new DeleteNodeCommand();
-//			return command;
-//		}
-		return super.createDeleteCommand(deleteRequest);
+	protected Command getDeleteCommand(GroupRequest request) {
+		Object comp = getHost().getModel();
+		if(comp instanceof ComponentRef) {
+			DeleteComponentRefCommand deleteCommand = new DeleteComponentRefCommand((ComponentRef)comp);
+			return deleteCommand;
+		}
+
+		return null;
 	}
 }
