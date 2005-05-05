@@ -42,6 +42,24 @@ public class ParentFinder {
     }
 
     /**
+     * Will invoke getPossibleParent recursively to build a list of alternative parents that contain the element.
+     * 
+     * @param child
+     * @return
+     */
+    public static Vector getPossibleParents(UCMmodelElement child) {
+
+        Vector parents = new Vector();
+        ComponentRef parent = getPossibleParent(child);
+        while (parent!=null)
+        {
+            parents.add(parent);
+            parent = getPossibleParent(parent);
+        }
+        return parents;
+        
+   }    
+    /**
      * We want to know who is the smallest ComponentRef at location newX, newY (our parent).
      * 
      * @param map

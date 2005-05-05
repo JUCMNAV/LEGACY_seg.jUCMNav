@@ -99,7 +99,7 @@ public class UnbindFromParent extends SelectionAction {
             cmd = new ComponentRefUnbindChildCommand(parent, child);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
-                child = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
+                child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
                 parent = ParentFinder.getPossibleParent(child);
                 cmd = cmd.chain(new ComponentRefUnbindChildCommand(parent, child));
             }

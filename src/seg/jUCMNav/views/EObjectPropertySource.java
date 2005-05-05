@@ -23,17 +23,20 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
+import ucm.map.PathNode;
 import urn.URNspec;
 import urncore.ComponentElement;
+import urncore.UCMmodelElement;
 
 /**
  * Created on 2005-01-30
  * 
  * This class is intended to be a generic property source for all the objects in the application's model.
  * 
- * It currently supports int, String, boolean and Colors.
+ * It currently supports int, String, boolean, Colors, ComponentElement and ComponentRef.
  * 
  * Colors are supported if the following conditions hold: a) The field is a string b) The field name contains the word "color"
  * 
@@ -44,6 +47,10 @@ import urncore.ComponentElement;
  * 
  * This class is special cased for ComponentRef's so that we can replace our id/name/description with that of the ComponentElement and add the
  * ComponentElement's properties to ours.
+ * 
+ * ComponentElements are listed as a dropdown of all ComponentElements in the model.
+ * 
+ * ComponentRefs are listed as a dropdown of all possible parents.
  * 
  * @author ddean, jkealey
  *  
@@ -170,12 +177,24 @@ public class EObjectPropertySource implements IPropertySource {
             EList list = urn.getUrndef().getComponents();
             String[] values = new String[list.size()];
             for (int i = 0; i < list.size(); i++) {
-                
-                values[i]=((ComponentElement)list.get(i)).getName();
-                if (values[i]==null) values[i]="[unnamed]";
+
+                values[i] = ((ComponentElement) list.get(i)).getName();
+                if (values[i] == null)
+                    values[i] = "[unnamed]";
             }
 
             descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Component Definition", values));
+        } else if (type.getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) && attr.getUpperBound()==1){
+            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+            String[] values = new String[list.size() + 1];
+            values[0] = "[unbound]";
+            for (int i = 1; i < list.size() + 1; i++) {
+                values[i] = ((ComponentRef) list.get(i - 1)).getCompDef().getName();
+                if (values[i] == null)
+                    values[i] = "[unnamed]";
+            }
+
+            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "parent", values));
         }
     }
 
@@ -208,19 +227,30 @@ public class EObjectPropertySource implements IPropertySource {
                 result = StringConverter.asRGB((String) result);
         } else if (result instanceof ComponentElement) {
             /*
-            if (((ComponentElement) result).getId() != null)
-                result = new Integer(((ComponentElement) result).getId());
-            else
-                result = new Integer(0);
-            */
+             * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
+             */
             URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
             EList list = urn.getUrndef().getComponents();
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
-                        result = new Integer(i);
+                    result = new Integer(i);
             }
-            
-            
+
+        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
+                //&& feature.getName().toLowerCase().indexOf("parent") >= 0) {
+            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+            for (int i = 0; i < list.size(); i++) {
+                ComponentRef parent;
+                if (getEditableValue() instanceof ComponentRef)
+                    parent = ((ComponentRef) getEditableValue()).getParent();
+                else
+                    parent = ((PathNode) getEditableValue()).getCompRef();
+                if (list.get(i).equals(parent))
+                    result = new Integer(i + 1);
+            }
+            if (result == null)
+                result = new Integer(0);
+
         }
 
         return result != null ? result : "";
@@ -230,6 +260,8 @@ public class EObjectPropertySource implements IPropertySource {
      * For colors, we want to be able to reset to the default value (null) so we have to implement this method, indicating when the property is not at its
      * default value.
      * 
+     * Same added for parent ComponentRef.
+     * 
      * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
      */
     public boolean isPropertySet(Object id) {
@@ -238,6 +270,8 @@ public class EObjectPropertySource implements IPropertySource {
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0) {
             return getPropertyValue(id) != null;
+        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
+            return ((Integer)getPropertyValue(id)).intValue()>0;
         }
 
         return false;
@@ -247,6 +281,8 @@ public class EObjectPropertySource implements IPropertySource {
     /**
      * Reset colors to their default value (null).
      * 
+     * Same added for parent ComponentRef.
+     * 
      * @see org.eclipse.ui.views.properties.IPropertySouce#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
@@ -254,7 +290,7 @@ public class EObjectPropertySource implements IPropertySource {
         Object[] o = (Object[]) id;
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
-        if (feature.getName().toLowerCase().indexOf("color") >= 0) {
+        if (feature.getName().toLowerCase().indexOf("color") >= 0 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) )) {
             if ((EClass) o[0] != object.eClass())
                 comp.eSet(feature, null);
             else
@@ -286,7 +322,13 @@ public class EObjectPropertySource implements IPropertySource {
         } else if (feature.getEType().getInstanceClass() == ComponentElement.class) {
             URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
             EList list = urn.getUrndef().getComponents();
-            result = list.get(((Integer)value).intValue());
+            result = list.get(((Integer) value).intValue());
+        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
+            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+            if (((Integer) value).equals(new Integer(0)))
+                result = null;
+            else
+                result = list.get(((Integer) value).intValue() - 1);
         } else
             result = value;
 
