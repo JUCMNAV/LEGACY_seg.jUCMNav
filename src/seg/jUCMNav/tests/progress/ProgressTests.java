@@ -21,6 +21,8 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
@@ -42,6 +44,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urn.URNspec;
 import urncore.ComponentKind;
+import urncore.UCMmodelElement;
 
 /**
  * Created 2005-04-25
@@ -333,12 +336,44 @@ public class ProgressTests extends TestCase {
     /**
      * Test #2 for requirement ReqCompCompBind
      * 
-     * Author:
+     * Author: jkealey
      */
     public void testReqCompCompBind2() {
+        testReqCompCompBind1();
+        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(0);
+        parent.getCompDef().setName("ParentTest");
+        
+        // create a property source on the small component ref
+        ComponentRef cr = (ComponentRef) getMap().getCompRefs().get(1);
 
-        //  TODO: implement
-        assertTrue("Unimplemented", false);
+        
+        Vector v=getAttributeDescriptor(cr, "parent");
+        String[]values = (String[]) ((ComboBoxLabelProvider)((ComboBoxPropertyDescriptor)v.get(0)).getLabelProvider()).getValues();
+        assertTrue("Parent not option in property values", "ParentTest".equals(values[1]));
+    }
+
+    private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
+        
+        EObjectPropertySource eops = new EObjectPropertySource(cr);
+        EStructuralFeature attr;
+        Vector v = new Vector();
+        Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
+
+        // for each attribute and reference
+        while (i.hasNext()) {
+            attr = (EStructuralFeature) i.next();
+            String n = attr.getName();
+
+            // make sure that the ones we have targetted do amount in adding a property to the property descriptor
+            if (n.equals(name)) {
+                int vectorSize = v.size();
+                eops.addPropertyToDescriptor(v, attr, cr.eClass());
+                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
+                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
+            }
+        }
+        
+        return v;
     }
 
     /**
@@ -374,9 +409,14 @@ public class ProgressTests extends TestCase {
      * Author:
      */
     public void testReqCompCompUnbind2() {
-        //  TODO: implement
-        assertTrue("Unimplemented", false);
-    }
+        testReqCompCompBind1();
+        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(0);
+        parent.getCompDef().setName("ParentTest");
+        
+        // create a property source on the large component ref
+        Vector v=getAttributeDescriptor(parent, "parent");
+        String[]values = (String[]) ((ComboBoxLabelProvider)((ComboBoxPropertyDescriptor)v.get(0)).getLabelProvider()).getValues();
+        assertTrue("No unbind option in list", "[unbound]".equals(values[0]));    }
 
     /**
      * Test #1 for requirement ReqCompPathBind
@@ -414,11 +454,17 @@ public class ProgressTests extends TestCase {
     /**
      * Test #2 for requirement ReqCompPathBind
      * 
-     * Author:
+     * Author: jkealey
      */
     public void testReqCompPathBind2() {
-        //  TODO: implement
-        assertTrue("Unimplemented", false);
+        testReqCompPathBind1();
+        PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
+        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(0);
+        parent.getCompDef().setName("ParentTest");
+        
+        Vector v=getAttributeDescriptor(node, "compRef");
+        String[]values = (String[]) ((ComboBoxLabelProvider)((ComboBoxPropertyDescriptor)v.get(0)).getLabelProvider()).getValues();
+        assertTrue("Parent not option in property values", "ParentTest".equals(values[1]));
     }
 
     /**
@@ -451,8 +497,14 @@ public class ProgressTests extends TestCase {
      * Author:
      */
     public void testReqCompPathUnbind2() {
-        //  TODO: implement
-        assertTrue("Unimplemented", false);
+        testReqCompPathUnbind1();
+        PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
+        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(0);
+        parent.getCompDef().setName("ParentTest");
+        
+        Vector v=getAttributeDescriptor(node, "compRef");
+        String[]values = (String[]) ((ComboBoxLabelProvider)((ComboBoxPropertyDescriptor)v.get(0)).getLabelProvider()).getValues();
+        assertTrue("No unbind option in list", "[unbound]".equals(values[0]));
     }
 
     //  /**
