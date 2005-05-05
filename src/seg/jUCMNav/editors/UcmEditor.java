@@ -105,7 +105,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     
-    private Map getMap(int index) {
+    public Map getMap(int index) {
         return (Map) model.getUcmspec().getMaps().get(index);
     }
     /**
@@ -297,7 +297,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * 
      * @return The model we are editing.
      */
-    private URNspec getModel() {
+    public URNspec getModel() {
         return model;
     }
 
