@@ -320,8 +320,8 @@ public class BSpline {
 
         for (int i = start; i < end; i++) {
             for (int k = 0; k < precision; k++) {
-                X = (int) (Px[i] * B0[k] + (Px[i] + dx[i]) * B1[k] + (Px[i + 1] - dx[i + 1]) * B2[k] + Px[i + 1] * B3[k]);
-                Y = (int) (Py[i] * B0[k] + (Py[i] + dy[i]) * B1[k] + (Py[i + 1] - dy[i + 1]) * B2[k] + Py[i + 1] * B3[k]);
+                X = (int)Math.round((Px[i] * B0[k] + (Px[i] + dx[i]) * B1[k] + (Px[i + 1] - dx[i + 1]) * B2[k] + Px[i + 1] * B3[k]));
+                Y = (int) Math.round((Py[i] * B0[k] + (Py[i] + dy[i]) * B1[k] + (Py[i + 1] - dy[i + 1]) * B2[k] + Py[i + 1] * B3[k]));
 
                 points.addPoint(X, Y);
 
