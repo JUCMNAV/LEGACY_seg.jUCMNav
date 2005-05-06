@@ -17,12 +17,12 @@ import seg.jUCMNav.figures.PathNodeFigure;
  * 
  * @author Etienne Tremblay
  */
-public class PathNodeNonRezizableEditPolicy extends NonResizableEditPolicy {
+public class PathNodeNonResizableEditPolicy extends NonResizableEditPolicy {
 
 	/**
 	 * 
 	 */
-	public PathNodeNonRezizableEditPolicy() {
+	public PathNodeNonResizableEditPolicy() {
 		super();
 	}
 	
