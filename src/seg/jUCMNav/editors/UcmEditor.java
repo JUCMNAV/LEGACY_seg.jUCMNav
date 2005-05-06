@@ -21,6 +21,7 @@ import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -521,5 +522,15 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
         // URNspec is ok
         super.init(site, input);
+    }
+
+    /**
+     * Execute a command in the appropriate command stack.
+     * 
+     * @param cmd
+     * @param map
+     */
+    public void execute(Command cmd, int map) {
+        getEditDomain().getCommandStack().execute(cmd);
     }
 }

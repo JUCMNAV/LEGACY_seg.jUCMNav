@@ -36,5 +36,24 @@
             id="seg.jUCMNav.MainEditor"
             extensions="ucm"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            targetID="seg.jUCMNav.MainEditor"
+            id="seg.jUCMNav.editorContribution1">
+         <action
+               class="seg.jUCMNav.actions.AutoLayoutAction"
+               tooltip="Auto Layout"
+               id="seg.jUCMNav.AutoLayout"
+               disabledIcon="src/seg/jUCMNav/icons/Node16.gif"
+               hoverIcon="src/seg/jUCMNav/icons/Node16.gif"
+               toolbarPath="jUCMNav"
+               label="Auto Layout"
+               icon="src/seg/jUCMNav/icons/Node16.gif"
+               style="push"
+               actionID="seg.jUCMNav.actions.AutoLayoutAction">
+         </action>
+      </editorContribution>
+   </extension>
 
 </plugin>
