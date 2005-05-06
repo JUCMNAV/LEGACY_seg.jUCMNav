@@ -74,7 +74,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
      */
     private String autoLayoutDotString(String initial) {
         String s = "";
-        StringBuilder builder = new StringBuilder();
+        StringBuffer builder = new StringBuffer();
         InputStream is = callDOT(initial.getBytes(), "dot");
         if (is != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -101,7 +101,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
         int i;
         id = 0;
 
-        StringBuilder dot = new StringBuilder();
+        StringBuffer dot = new StringBuffer();
 
         dot.append("digraph usecasemap {\n");
 
@@ -133,7 +133,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
         return dot.toString();
     }
 
-    private void buildCluster(ComponentRef compRef, StringBuilder dot) {
+    private void buildCluster(ComponentRef compRef, StringBuffer dot) {
 
         names.put("cluster_" + id, compRef);
         dot.append("subgraph cluster_" + id++ + "{\n");
