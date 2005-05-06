@@ -9,6 +9,7 @@ package seg.jUCMNav.editpolicies.element;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.GroupRequest;
@@ -67,6 +68,9 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 			if(newObjectType instanceof EndPoint)
 				getHost().getViewer().setSelection(new StructuredSelection(getHost()));
 		}
+		else if (request.getType() == REQ_RESIZE)
+		    return UnexecutableCommand.INSTANCE;
+
 		return super.getCommand(request);
 	}
 	
