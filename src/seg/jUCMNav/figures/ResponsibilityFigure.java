@@ -27,7 +27,7 @@ public class ResponsibilityFigure extends PathNodeFigure {
 	 */
 	protected void createFigure() {
 //		Polyline line = new Polyline();
-		Dimension center = new Dimension(preferedSize.width/2, preferedSize.height/2);
+		Dimension center = new Dimension(preferredSize.width/2, preferredSize.height/2);
 //		line.setStart(new Point(center.width-5, center.height-5));
 //		line.setEnd(new Point(center.width+5, center.height+5));
 //		line.setBackgroundColor(new Color(null, 0, 0, 0));

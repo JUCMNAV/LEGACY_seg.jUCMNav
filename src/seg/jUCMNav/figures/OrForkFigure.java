@@ -26,7 +26,7 @@ public class OrForkFigure extends PathNodeFigure {
 	 */
 	protected void createFigure() {
 		ellipse = new Ellipse();
-		ellipse.setBounds(new Rectangle(preferedSize.width/4,preferedSize.height/4, 0,0)); // Size: 0 (invisible)
+		ellipse.setBounds(new Rectangle(preferredSize.width/4,preferredSize.height/4, 0,0)); // Size: 0 (invisible)
 		add(ellipse);
 	}
 

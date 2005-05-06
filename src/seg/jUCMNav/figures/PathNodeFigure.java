@@ -18,7 +18,7 @@ public abstract class PathNodeFigure extends Figure {
 	protected ConnectionAnchor outgoingAnchor;
 	protected boolean selected;
 	protected XYLayout layout;
-	protected Dimension preferedSize = new Dimension(24, 24);
+	protected Dimension preferredSize = new Dimension(24, 24);
 
 	public PathNodeFigure(){
 		super();
@@ -68,7 +68,7 @@ public abstract class PathNodeFigure extends Figure {
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		return preferedSize;
+		return preferredSize;
 	}
 	/**
 	 * @return Returns the selected.

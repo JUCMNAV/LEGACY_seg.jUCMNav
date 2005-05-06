@@ -25,7 +25,7 @@ public class EmptyPointFigure extends PathNodeFigure {
 	 */
 	protected void createFigure(){
 		ellipse = new Ellipse();
-		ellipse.setBounds(new Rectangle(preferedSize.width/4,preferedSize.height/4, 12,12));
+		ellipse.setBounds(new Rectangle(preferredSize.width/4,preferredSize.height/4, 12,12));
 		add(ellipse);
 	}
 	

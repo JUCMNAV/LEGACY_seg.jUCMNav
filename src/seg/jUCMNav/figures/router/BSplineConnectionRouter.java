@@ -184,7 +184,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
     }
 
     /**
-     * This method return a point list for a given connection.
+     * This method returns a point list for a given connection.
      * 
      * @param connection
      *            The connection you need the point list.
