@@ -22,308 +22,323 @@ import ucm.map.StartPoint;
  */
 public class BSplineConnectionRouter extends AbstractRouter {
 
-	/** The connection is the key and the spline is the value. This hashmap will allow us to know to wich spline a connection bellong to. */
-	private HashMap conSplines = new HashMap();
+    /**
+     * The connection is the key and the spline is the value. This hashmap will allow us to know to wich spline a connection bellong to.
+     */
+    private HashMap conSplines = new HashMap();
 
-	/** The list of start points of the PathGraph. */
-	private ArrayList starts = new ArrayList();
-	/** The list of end points of the PathGraph. */
-	private ArrayList ends = new ArrayList();
-	/** The list of forks of the PathGraph. */
-	private ArrayList forks = new ArrayList();
+    /** The list of start points of the PathGraph. */
+    private ArrayList starts = new ArrayList();
+    /** The list of end points of the PathGraph. */
+    private ArrayList ends = new ArrayList();
+    /** The list of forks of the PathGraph. */
+    private ArrayList forks = new ArrayList();
 
-	/** The connections that called the route() function. */
-	private ArrayList conns = new ArrayList();
+    /** The connections that called the route() function. */
+    private ArrayList conns = new ArrayList();
 
-	/** NodeConnection is the key and SplineConnection the value. */
-	private HashMap connections = new HashMap();
+    /** NodeConnection is the key and SplineConnection the value. */
+    private HashMap connections = new HashMap();
 
-	/** The PathGraph of the model. */
-	private PathGraph pathGraph;
+    /** The PathGraph of the model. */
+    private PathGraph pathGraph;
 
-	/**
-	 * Used to know when all the connection asked to be routed when the diagram is loaded. When all the connections are routed one time initialy, we set this to
-	 * true.
-	 */
-	private boolean initialized = false;
+    /**
+     * Used to know when all the connection asked to be routed when the diagram is loaded. When all the connections are routed one time
+     * initialy, we set this to true.
+     */
+    private boolean initialized = false;
 
-	/**
-	 * Generate all is set to true when we add or remove a node. In this case, since we don't know what changed in the diagram, we have to generate everthing
-	 * again.
-	 */
-	private boolean generateAll = false;
+    /**
+     * Generate all is set to true when we add or remove a node. In this case, since we don't know what changed in the diagram, we have to
+     * generate everthing again.
+     */
+    private boolean generateAll = false;
 
-	private BSplineConnectionRouter() {
+    private BSplineConnectionRouter() {
 
-	}
+    }
 
-	/**
-	 * Build a connection router with a PathGraph.
-	 */
-	public BSplineConnectionRouter(PathGraph diagram) {
-		super();
-		this.pathGraph = diagram;
-	}
+    /**
+     * Build a connection router with a PathGraph.
+     */
+    public BSplineConnectionRouter(PathGraph diagram) {
+        super();
+        this.pathGraph = diagram;
+    }
 
-	/**
-	 * This function will find ALL the patterns in our diagram that should be represented by splines and update the splines.
-	 *  
-	 */
-	protected void generateSplines() {
-		
-		// Update the points
-		updatePoints();
+    /**
+     * This function will find ALL the patterns in our diagram that should be represented by splines and update the splines.
+     *  
+     */
+    protected void generateSplines() {
 
-		if (starts.size() > 0) {
-			for (Iterator i = starts.iterator(); i.hasNext();) {
-				PathNode node = (PathNode) i.next();
-				generateSpline(node);
-			}
-		}
+        // Update the points
+        updatePoints();
 
-		if (forks.size() > 0) {
-			for (Iterator i = forks.iterator(); i.hasNext();) {
-				PathNode node = (PathNode) i.next();
-				generateSpline(node);
-			}
-		}
+        if (starts.size() > 0) {
+            for (Iterator i = starts.iterator(); i.hasNext();) {
+                PathNode node = (PathNode) i.next();
+                generateSpline(node);
+            }
+        }
 
-		// TODO Don't forget to clean the splines hashmaps with the useless values.
-	}
+        if (forks.size() > 0) {
+            for (Iterator i = forks.iterator(); i.hasNext();) {
+                PathNode node = (PathNode) i.next();
+                generateSpline(node);
+            }
+        }
 
-	/**
-	 * Find the start, the end and the fork points of the graph.
-	 */
-	private void updatePoints() {
-		starts = new ArrayList();
-		forks = new ArrayList();
-		ends = new ArrayList();
+        // TODO Don't forget to clean the splines hashmaps with the useless
+        // values.
+    }
 
-		// Find all the start point, end points and forks in our graph.
-		for (Iterator i = pathGraph.getPathNodes().iterator(); i.hasNext();) {
-			PathNode node = (PathNode) i.next();
-			if (node instanceof StartPoint)
-				starts.add(node);
-			else if (node.getPred().size() > 1 || node.getSucc().size() > 1)
-				forks.add(node);
-			else if (node instanceof EndPoint)
-				ends.add(node);
-		}
-	}
+    /**
+     * Find the start, the end and the fork points of the graph.
+     */
+    private void updatePoints() {
+        starts = new ArrayList();
+        forks = new ArrayList();
+        ends = new ArrayList();
 
-	/**
-	 * This Function update the spline starting with this point.
-	 * 
-	 * @param startNode
-	 *            The node from wich you want to generate a spline. It has to be a start point or a fork.
-	 */
-	private void generateSpline(PathNode startNode) {
-		PathNode start = startNode;
-		ArrayList nodes = new ArrayList();
+        // Find all the start point, end points and forks in our graph.
+        for (Iterator i = pathGraph.getPathNodes().iterator(); i.hasNext();) {
+            PathNode node = (PathNode) i.next();
+            if (node instanceof StartPoint)
+                starts.add(node);
+            else if (node.getPred().size() > 1 || node.getSucc().size() > 1)
+                forks.add(node);
+            else if (node instanceof EndPoint)
+                ends.add(node);
+        }
+    }
 
-		// Checks if this is a fork
-		if (!forks.contains(start)) {
-			// If it's not a fork, then it's a StartPoint
-			NodeConnection link = (NodeConnection) startNode.getSucc().get(0);
-			nodes.add(start);
-			BSpline newSpline = new BSpline();
-			// While we don't encounter an EndPoint or a fork, continue to add to the node list for this spline.
-			while (!(link.getTarget() instanceof EndPoint || forks.contains(link.getTarget()))) {
-				// This connection belong to this spline.
-				conSplines.put(link, newSpline);
+    /**
+     * This Function updates the spline starting with this point.
+     * 
+     * @param startNode
+     *            The node from which you want to generate a spline. It has to be a start point or a fork.
+     */
+    private void generateSpline(PathNode startNode) {
+        PathNode start = startNode;
+        ArrayList nodes;
 
-				startNode = link.getTarget();
-				link = (NodeConnection) startNode.getSucc().get(0);
+        // Checks if this is a fork
+        if (!forks.contains(start)) {
+            // If it's not a fork, then it's a StartPoint
+            nodes = new ArrayList();
+            NodeConnection link = (NodeConnection) startNode.getSucc().get(0);
+            nodes.add(start);
+            BSpline newSpline = new BSpline();
+            // While we don't encounter an EndPoint or a fork, continue to add
+            // to the node list for this spline.
+            while (!(link.getTarget() instanceof EndPoint || forks.contains(link.getTarget()))) {
+                // This connection belongs to this spline.
+                conSplines.put(link, newSpline);
+                startNode = link.getTarget();
+                link = (NodeConnection) startNode.getSucc().get(0);
+                nodes.add(startNode);
+            }
+            nodes.add(link.getTarget()); // Add the last node
+            conSplines.put(link, newSpline);
+            newSpline.setPoints(nodes);
+        } else {
+            // TODO Make generation of spline in function of forks work.
+            // For each path going out of the fork, create a spline too.
+            for (Iterator i = startNode.getSucc().iterator(); i.hasNext();) {
+                nodes = new ArrayList();
+                BSpline newSpline = new BSpline();
+                nodes.add(start); // Always add the start of the fork to the
+                // point list
+                NodeConnection link = (NodeConnection) i.next();
 
-				nodes.add(startNode);
-			}
-			nodes.add(link.getTarget()); // Add the last node
-			conSplines.put(link, newSpline);
-			newSpline.setPoints(nodes);
-		} else {
-			// TODO Make generation of spline in function of forks work.
-			BSpline newSpline = new BSpline(nodes);
-			// For each path going out of the fork, create a spline too.
-			for (Iterator i = startNode.getSucc().iterator(); i.hasNext();) {
-				// Always add the start of the fork to the point list
-				nodes.add(start);
-				// Set this to the first point in the list of next path nodes
-				startNode = ((NodeConnection) i.next()).getTarget();
-				NodeConnection link = (NodeConnection) startNode.getSucc().get(0);
+                do {
+                    conSplines.put(link, newSpline); // This connection belongs
+                    // to this spline.
+                    startNode = link.getTarget();
+                    nodes.add(startNode);
+                    if (!(startNode instanceof EndPoint || forks.contains(startNode)))
+                        link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the
+                    // next link
+                    else
+                        link = null;
+                } while (link != null); // While we don't encounter an EndPoint
+                // or a fork, continue to add to the
+                // node list for this spline.
+                newSpline.setPoints(nodes);
+            }
+        }
+    }
 
-				// While we don't encounter an EndPoint or a fork, continue to add to the node list for this spline.
-				while (!(startNode instanceof EndPoint || forks.contains(startNode))) {
-					nodes.add(startNode);
+    /**
+     * Refresh the spline containing the following connection.
+     * 
+     * @param con
+     *            The connection contained in the spline to refresh.
+     */
+    public void refreshSpline(NodeConnection con) {
+        BSpline spline = (BSpline) conSplines.get(con);
+        PathNode start = spline.getStartPoint();
+        generateSpline(start);
+    }
 
-					// This connection belong to this spline.
-					conSplines.put(link, newSpline);
+    /**
+     * This method return a point list for a given connection.
+     * 
+     * @param connection
+     *            The connection you need the point list.
+     * @return The point list following the spline for this connection.
+     */
+    protected PointList getPointsFor(Connection conn) {
+        SplineConnection con = (SplineConnection) conn;
+        NodeConnection link = con.getLink();
 
-					startNode = link.getTarget();
-					link = (NodeConnection) startNode.getSucc().get(0);
-				}
+        BSpline bSpline = (BSpline) conSplines.get(link);
 
-				// Add this spline to the hashmap
-				newSpline.setPoints(nodes);
-			}
-		}
-	}
+        PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
+        return points;
+    }
 
-	/**
-	 * Refresh the spline containing the following connection.
-	 * 
-	 * @param con
-	 *            The connection contained in the spline to refresh.
-	 */
-	public void refreshSpline(NodeConnection con) {
-		BSpline spline = (BSpline) conSplines.get(con);
-		PathNode start = spline.getStartPoint();
-		generateSpline(start);
-	}
+    /**
+     * This method is called when a new connection is inserted in the path.
+     * 
+     * @param conn
+     */
+    protected void insertConnection(Connection conn) {
+        // We have to add it to the connection list
+        if (conn != null)
+            conns.add(conn);
 
-	/**
-	 * This method return a point list for a given connection.
-	 * 
-	 * @param connection
-	 *            The connection you need the point list.
-	 * @return The point list following the spline for this connection.
-	 */
-	protected PointList getPointsFor(Connection conn) {
-		SplineConnection con = (SplineConnection) conn;
-		NodeConnection link = con.getLink();
+        // Update the NodeConnections hashmap with the new connection
+        SplineConnection con = (SplineConnection) conn;
+        // The NodeConnection is the key, the SplineConnection the value
+        connections.put(con.getLink(), con);
 
-		BSpline bSpline = (BSpline) conSplines.get(link);
+        // We have to generate all the splines since we don't know what changed
+        // exactly.
+        generateAll = true;
+    }
 
-		PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
-		return points;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.draw2d.ConnectionRouter#route(org.eclipse.draw2d.Connection)
+     */
+    public void route(Connection conn) {
+        boolean simpleMove = false;
 
-	/**
-	 * This method is called when a new connection is inserted in the path.
-	 * 
-	 * @param conn
-	 */
-	protected void insertConnection(Connection conn) {
-		// We have to add it to the connection list
-		if (conn != null)
-			conns.add(conn);
+        // If the router doesn't contain the connection
+        if (!conns.contains(conn)) {
+            // We add it to the list and invalidate all the connections
+            insertConnection(conn);
+            if (allLoaded())
+                initialized = true;
+        } else {
+            simpleMove = true; // The user didn't add or remove anything, he
+            // just moved a node.
+            initialized = true;
+        }
 
-		// Update the NodeConnections hashmap with the new connection
-		SplineConnection con = (SplineConnection) conn;
-		// The NodeConnection is the key, the SplineConnection the value
-		connections.put(con.getLink(), con);
+        // When the diagram is completly initialized and that we have to
+        // generate everything
+        if (initialized && generateAll) {
+            // Then generate all the splines and draw them
+            generateAll = false;
+            generateSplines();
+            drawSplines();
+        } else if (initialized && !generateAll && simpleMove) {
+            // If the diagram is initialized, that the user is simply moving a
+            // node, then we have to refresh only the spline of this connection
+            // and draw it.
+            refreshSpline(((SplineConnection) conn).getLink());
+            simpleMove = false;
 
-		// We have to generate all the splines since we don't know what changed exactly.
-		generateAll = true;
-	}
+            NodeConnection routedCon = ((SplineConnection) conn).getLink();
+            BSpline spline = (BSpline) conSplines.get(routedCon);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.draw2d.ConnectionRouter#route(org.eclipse.draw2d.Connection)
-	 */
-	public void route(Connection conn) {
-		boolean simpleMove = false;
+            drawSpline(spline);
+        }
+    }
 
-		// If the router doesn't contain the connection
-		if (!conns.contains(conn)) {
-			// We add it to the list and invalidate all the connections
-			insertConnection(conn);
-			if (allLoaded())
-				initialized = true;
-		} else {
-			simpleMove = true; // The user didn't add or remove anything, he just moved a node.
-			initialized = true;
-		}
+    /**
+     * Change the points of a connection to follow the spline
+     * 
+     * @param conn
+     *            The connection to draw.
+     */
+    public void drawConnection(Connection conn) {
+        SplineConnection link = (SplineConnection) conn;
 
-		// When the diagram is completly initialized and that we have to generate everything
-		if (initialized && generateAll) {
-			// Then generate all the splines and draw them
-			generateAll = false;
-			generateSplines();
-			drawSplines();
-		} else if (initialized && !generateAll && simpleMove) {
-			// If the diagram is initialized, that the user is simply moving a node, then we have to refresh only the spline of this connection and draw it.
-			refreshSpline(((SplineConnection) conn).getLink());
-			simpleMove = false;
+        PointList points = getPointsFor(conn);
 
-			NodeConnection routedCon = ((SplineConnection) conn).getLink();
-			BSpline spline = (BSpline) conSplines.get(routedCon);
+        // Set the points for the given connection
+        conn.setPoints(points);
+        // The connection now follow the spline.
+    }
 
-			drawSpline(spline);
-		}
-	}
+    /**
+     * Draw the spline. Draw all the connections belonging to this spline.
+     * 
+     * @param spline
+     *            The spline to draw.
+     */
+    public void drawSpline(BSpline spline) {
+        ArrayList nodes = spline.getPoints();
+        SplineConnection con;
 
-	/**
-	 * Change the points of a connection to follow the spline
-	 * 
-	 * @param conn
-	 *            The connection to draw.
-	 */
-	public void drawConnection(Connection conn) {
-		SplineConnection link = (SplineConnection) conn;
+        for (int j = 0; j <= nodes.size() - 2; j++) {
+            // Find the link between nodeA and nodeB
+            PathNode nodeA = (PathNode) nodes.get(j);
+            PathNode nodeB = (PathNode) nodes.get(j + 1);
+            for (int k = 0; k < nodeA.getSucc().size(); k++) {
+                // Examine link k in outbound links from nodeA and draw it if it
+                // goes to nodeB
+                NodeConnection link = (NodeConnection) nodeA.getSucc().get(k);
+                if (link.getTarget().equals(nodeB)) {
+                    con = (SplineConnection) connections.get(link);
+                    if (con != null)
+                        drawConnection(con);
+                }
+            }
+        }
+    }
 
-		PointList points = getPointsFor(conn);
+    /**
+     * Draw all the splines (all the connections of the graph).
+     */
+    public void drawSplines() {
+        for (Iterator i = conns.iterator(); i.hasNext();)
+            drawConnection((SplineConnection) i.next());
+    }
 
-		// Set the points for the given connection
-		conn.setPoints(points);
-		// The connection now follow the spline.
-	}
+    /**
+     * This method is used to know if all the connections are in our connection list.
+     * 
+     * @return true if all the connections of the diagram are in our connection list, false otherwise.
+     */
+    protected boolean allLoaded() {
+        if (conns.size() == pathGraph.getNodeConnections().size())
+            return true;
+        else
+            return false;
+    }
 
-	/**
-	 * Draw the spline. Draw all the connections bellonging to this spline.
-	 * 
-	 * @param spline
-	 *            The spline to draw.
-	 */
-	public void drawSpline(BSpline spline) {
-		ArrayList nodes = spline.getPoints();
+    /**
+     * Remove a connection from this connection router.
+     * 
+     * @see org.eclipse.draw2d.ConnectionRouter#remove(org.eclipse.draw2d.Connection)
+     */
+    public void remove(Connection connection) {
+        SplineConnection con = (SplineConnection) connection;
+        // Remove from the connection list and the hashmap
+        conns.remove(connection);
+        connections.remove(con.getLink());
+        conSplines.remove(con.getLink());
 
-		SplineConnection con;
-		for (Iterator i = nodes.iterator(); i.hasNext();) {
-			PathNode node = (PathNode) i.next();
-			if (node.getSucc().size() > 0) {
-				con = (SplineConnection) connections.get(node.getSucc().get(0));
-				if(con != null)
-					drawConnection(con);
-			}
-		}
-	}
+        generateAll = true;
+        //		initialized = false;
 
-	/**
-	 * Draw all the splines (all the connections of the graph).
-	 */
-	public void drawSplines() {
-		for (Iterator i = conns.iterator(); i.hasNext();)
-			drawConnection((SplineConnection) i.next());
-	}
-
-	/**
-	 * This method is used to know if all the connections are in our connection list.
-	 * 
-	 * @return true if all the connections of the diagram are in our connection list, false otherwise.
-	 */
-	protected boolean allLoaded() {
-		if (conns.size() == pathGraph.getNodeConnections().size())
-			return true;
-		else
-			return false;
-	}
-
-	/**
-	 * Remove a connection from this connection router.
-	 * 
-	 * @see org.eclipse.draw2d.ConnectionRouter#remove(org.eclipse.draw2d.Connection)
-	 */
-	public void remove(Connection connection) {
-		SplineConnection con = (SplineConnection) connection;
-		// Remove from the connection list and the hashmap
-		conns.remove(connection);
-		connections.remove(con.getLink());
-		conSplines.remove(con.getLink());
-
-		generateAll = true;
-//		initialized = false;
-
-		super.remove(connection);
-	}
+        super.remove(connection);
+    }
 }

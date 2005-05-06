@@ -22,12 +22,14 @@ import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonRezizableEditPolicy;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
+import seg.jUCMNav.figures.OrForkFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
+import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -59,6 +61,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 			figure = new EndPointFigure();
 		else if(getModel() instanceof StartPoint)
 			figure = new StartPointFigure();
+		else if(getModel() instanceof OrFork)
+		    figure = new OrForkFigure();
 		return figure;
 	}
 

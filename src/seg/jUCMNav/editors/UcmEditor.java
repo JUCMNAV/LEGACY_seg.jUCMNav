@@ -53,6 +53,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddLabelAction;
+import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
@@ -98,21 +99,22 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     private ResourceTracker resourceTracker;
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
-    public UcmEditor() {        
-        model = (URNspec)ModelCreationFactory.getNewObject(URNspec.class);
-        
+    public UcmEditor() {
+        model = (URNspec) ModelCreationFactory.getNewObject(URNspec.class);
+
         setEditDomain(new DefaultEditDomain(this));
     }
 
-    
     public Map getMap(int index) {
         return (Map) model.getUcmspec().getMaps().get(index);
     }
+
     /**
      * Configure the graphical viewer before it receives contents.
      * <p>
-     * This is the place to choose an appropriate RootEditPart and EditPartFactory for your editor. The RootEditPart determines the behavior of the editor's
-     * "work-area". For example, GEF includes zoomable and scrollable root edit parts. The EditPartFactory maps model elements to edit parts (controllers).
+     * This is the place to choose an appropriate RootEditPart and EditPartFactory for your editor. The RootEditPart determines the behavior
+     * of the editor's "work-area". For example, GEF includes zoomable and scrollable root edit parts. The EditPartFactory maps model
+     * elements to edit parts (controllers).
      * </p>
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
@@ -168,27 +170,32 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         action.setText("Add label");
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        
+
+        action = new AddOrForkAction(this);
+        action.setText("Add OR-Fork");
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+
         action = new BindWithParent(this);
         action.setText("Bind with parent component");
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
-        
+
         action = new UnbindFromParent(this);
         action.setText("Unbind from parent component");
         registry.registerAction(action);
-        getSelectionActions().add(action.getId());        
-    
+        getSelectionActions().add(action.getId());
+
         action = new UnbindChildren(this);
         action.setText("Unbind all enclosed elements");
         registry.registerAction(action);
-        getSelectionActions().add(action.getId());       
-        
+        getSelectionActions().add(action.getId());
+
         action = new BindChildren(this);
         action.setText("Bind all enclosed elements");
         registry.registerAction(action);
-        getSelectionActions().add(action.getId());          
-        
+        getSelectionActions().add(action.getId());
+
     }
 
     /**
@@ -229,13 +236,14 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         try {
             IFile file = ((IFileEditorInput) getEditorInput()).getFile();
             if (file.exists()
-                    || MessageDialogWithToggle.openConfirm(getSite().getShell(), "Create File", "The file '" + file.getName()
-                            + "' doesn't exist. Click OK to create it.")) {
+                    || MessageDialogWithToggle.openConfirm(getSite().getShell(), "Create File", "The file '"
+                            + file.getName() + "' doesn't exist. Click OK to create it.")) {
                 save(file, monitor);
                 getCommandStack().markSaveLocation();
             }
         } catch (CoreException e) {
-            ErrorDialog.openError(getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", e.getStatus());
+            ErrorDialog.openError(getSite().getShell(), "Error During Save",
+                    "The current UCM model could not be saved.", e.getStatus());
         }
     }
 
@@ -262,7 +270,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             save(ResourcesPlugin.getWorkspace().getRoot().getFile(path), progressMonitor);
             getCommandStack().markSaveLocation();
         } catch (CoreException e) {
-            ErrorDialog.openError(getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", e.getStatus());
+            ErrorDialog.openError(getSite().getShell(), "Error During Save",
+                    "The current UCM model could not be saved.", e.getStatus());
         }
     }
 
@@ -287,7 +296,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             sharedKeyHandler = new KeyHandler();
 
             // Add key and action pairs to sharedKeyHandler
-            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
+            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(
+                    ActionFactory.DELETE.getId()));
         }
         return sharedKeyHandler;
     }
@@ -367,8 +377,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
-     * dragging from the palette.
+     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model
+     * element creation by dragging from the palette.
      * 
      * @see #createPaletteViewerProvider()
      */
@@ -440,7 +450,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
             urn = modelManager.getModel();
             if (null == urn) {
-                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.", null));
+                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.",
+                        null));
             }
         }
         return urn;
@@ -463,7 +474,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         progressMonitor.beginTask("Saving " + file, 2);
 
         if (null == modelManager) {
-            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "No model manager found for saving the file.", null);
+            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0,
+                    "No model manager found for saving the file.", null);
             throw new CoreException(status);
         }
 

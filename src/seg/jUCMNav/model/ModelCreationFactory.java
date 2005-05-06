@@ -13,6 +13,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import urn.URNspec;
@@ -134,10 +135,10 @@ public class ModelCreationFactory implements CreationFactory {
 
                 // define the ComponentKind according to what was set in the construction
                 compdef.setKind(ComponentKind.get(type));
-                
                 ((ComponentRef)result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
                 ((ComponentRef)result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
-                
+            } else if (targetClass.equals(OrFork.class)){
+                result = factory.createOrFork();
             } else {
                 System.out.println("Unknown class passed to ModelCreationFactory");
             }

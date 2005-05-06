@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.AddLabelAction;
+import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
@@ -27,65 +28,71 @@ import seg.jUCMNav.actions.UnbindFromParent;
  * @author Etienne Tremblay
  */
 public class UcmContextMenuProvider extends ContextMenuProvider {
-	
-	private ActionRegistry actionRegistry;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
-	 */
-	public void buildContextMenu(IMenuManager manager) {
-		GEFActionConstants.addStandardActionGroups(manager);
+    private ActionRegistry actionRegistry;
 
-		IAction action;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+     */
+    public void buildContextMenu(IMenuManager manager) {
+        GEFActionConstants.addStandardActionGroups(manager);
 
-		action = getActionRegistry().getAction(ActionFactory.UNDO.getId());
-		manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+        IAction action;
 
-		action = getActionRegistry().getAction(ActionFactory.REDO.getId());
-		manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
+        action = getActionRegistry().getAction(ActionFactory.UNDO.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-		
-		action = getActionRegistry().getAction(CutPathAction.CUTPATH);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-		
-		action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        action = getActionRegistry().getAction(ActionFactory.REDO.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
-		
-		action = getActionRegistry().getAction(UnbindFromParent.UNBINDFROMPARENT);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
+        action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
-		action = getActionRegistry().getAction(UnbindChildren.UNBINDCHILDREN);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);		
-	
-		action = getActionRegistry().getAction(BindChildren.BINDCHILDREN);
-		if (action.isEnabled())
-			manager.appendToGroup(GEFActionConstants.GROUP_REST, action);	
-		
-	}
-	/**
-	 * @param viewer
-	 */
-	public UcmContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
-		super(viewer);
-		setActionRegistry(registry);
-	}
-	
-	private ActionRegistry getActionRegistry() {
-		return actionRegistry;
-	}
+        action = getActionRegistry().getAction(CutPathAction.CUTPATH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-	private void setActionRegistry(ActionRegistry registry) {
-		actionRegistry = registry;
-	}
+        action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(UnbindFromParent.UNBINDFROMPARENT);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(UnbindChildren.UNBINDCHILDREN);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(BindChildren.BINDCHILDREN);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+    }
+
+    /**
+     * @param viewer
+     */
+    public UcmContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
+        super(viewer);
+        setActionRegistry(registry);
+    }
+
+    private ActionRegistry getActionRegistry() {
+        return actionRegistry;
+    }
+
+    private void setActionRegistry(ActionRegistry registry) {
+        actionRegistry = registry;
+    }
 }

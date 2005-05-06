@@ -12,6 +12,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import urncore.NodeLabel;
@@ -52,6 +53,9 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new LabelEditPart((NodeLabel)model, root.getPathGraph());
 		else if(model instanceof ComponentRef) 
 		    return new ComponentRefEditPart((ComponentRef)model, root);
+		else if(model instanceof OrFork){
+		    return new PathNodeEditPart((OrFork)model, root.getPathGraph());
+		}
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();");
 			return null;
