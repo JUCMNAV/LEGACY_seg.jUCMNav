@@ -5,39 +5,44 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import urncore.ComponentLabel;
+import urncore.Label;
 import urncore.NodeLabel;
-import urncore.UrncoreFactory;
+import urncore.UCMmodelElement;
 
 /**
  * @author Jordan
  */
 public class CreateLabelCommand extends Command {
     private static final String	CreateCommand_Label = "CreateLabelCommand";
-	private NodeLabel label;
-	private PathNode node;
+	private Label label;
+	private UCMmodelElement modelElement;
 	private int deltaX;
 	private int deltaY;
 	
 	public boolean canExecute() {
-		return node != null;
+		return modelElement != null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		if(node.getName() == null) {
-			String[] fullClassName = node.getClass().getName().split("\\.");
+		if(modelElement.getName() == null) {
+			String[] fullClassName = modelElement.getClass().getName().split("\\.");
             String className = fullClassName[fullClassName.length-1];
             className = className.substring(0, className.length()-4);
-            node.setName(className);
+            modelElement.setName(className);
 		}
-
-        UrncoreFactory factory = UrncoreFactory.eINSTANCE;
-	    label = factory.createNodeLabel();
-
-	    label.setPathNode(node);
+		
+        if(modelElement instanceof PathNode) {
+        	label = (NodeLabel) ModelCreationFactory.getNewObject(NodeLabel.class);
+        } else if(modelElement instanceof ComponentRef) {
+        	label = (ComponentLabel) ModelCreationFactory.getNewObject(ComponentLabel.class);
+        }
 	    
 	    label.setDeltaX(deltaX);
 	    label.setDeltaY(deltaY);
@@ -51,7 +56,11 @@ public class CreateLabelCommand extends Command {
 	public void redo() {
 		testPreConditions();
 		
-		node.setLabel(label);
+		if(modelElement instanceof PathNode) {
+			((PathNode) modelElement).setLabel((NodeLabel)label);
+		} else if(modelElement instanceof ComponentRef) {
+			((ComponentRef) modelElement).setLabel((ComponentLabel)label);
+        }
 		
         testPostConditions();
 	}
@@ -61,8 +70,12 @@ public class CreateLabelCommand extends Command {
 	 */
 	public void undo() {
 		testPostConditions();
-
-		node.setLabel(null);
+		
+		if(modelElement instanceof PathNode) {
+			((PathNode) modelElement).setLabel(null);
+		} else if(modelElement instanceof ComponentRef) {
+			((ComponentRef) modelElement).setLabel(null);
+        }
 
         testPreConditions();
 	}
@@ -73,13 +86,13 @@ public class CreateLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert label != null : "pre NodeLabel";
-        assert node != null : "pre PathNode";
+        assert label != null : "pre Label";
+        assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode() == null : "pre NodeLabel not connected to a PathNode";
         //assert node.getLabel() == null : "pre PathNode not connected to a NodeLabel";
         
-        assert label.getDeltaX() == deltaX : "pre NodeLabel deltaX";
-        assert label.getDeltaY() == deltaY : "pre NodeLabel deltaY";
+        assert label.getDeltaX() == deltaX : "pre Label deltaX";
+        assert label.getDeltaY() == deltaY : "pre Label deltaY";
     }
 
     /*
@@ -88,23 +101,22 @@ public class CreateLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert label != null : "pre NodeLabel";
-        assert node != null : "pre PathNode";
-        assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
-        assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
+    	assert label != null : "pre Label";
+    	assert modelElement != null : "pre UCMmodelElement";
+        //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
+        //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
         
-        assert label.getDeltaX() == deltaX : "pre NodeLabel deltaX";
-        assert label.getDeltaY() == deltaY : "pre NodeLabel deltaY";
-    }
-	
-	
-    /**
-     * @param node The node to set.
-     */
-    public void setNode(PathNode node) {
-        this.node = node;
+    	assert label.getDeltaX() == deltaX : "pre Label deltaX";
+        assert label.getDeltaY() == deltaY : "pre Label deltaY";
     }
 
+	/**
+	 * @param modelElement The modelElement to set.
+	 */
+	public void setModelElement(UCMmodelElement modelElement) {
+		this.modelElement = modelElement;
+	}
+	
 	/**
 	 * @param deltaX The deltaX to set.
 	 */

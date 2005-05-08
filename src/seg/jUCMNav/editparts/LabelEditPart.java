@@ -11,13 +11,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 
-import seg.jUCMNav.editpolicies.directEdit.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
-import ucm.map.PathGraph;
+import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import urncore.NodeLabel;
+import urncore.Label;
+import urncore.UCMmodelElement;
 
 
 /**
@@ -25,14 +25,22 @@ import urncore.NodeLabel;
  * @author Jordan McManus
  */
 public class LabelEditPart extends ModelElementEditPart {
-	
-	private PathGraph diagram;
-	private Point nodePosition;
-	
-	public LabelEditPart(NodeLabel model, PathGraph diagram){
+	private UCMmodelElement modelElement;
+
+	public LabelEditPart(Label model, UCMmodelElement modelElement){
 		super();
 		setModel(model);
-		this.diagram = diagram;
+		this.modelElement = modelElement;
+	}
+	
+	/*
+	 * This constructor is a temporary solution. The constructor above should be used to reduce coupling
+	 */
+	
+	public LabelEditPart(Label model){
+		super();
+		setModel(model);
+		this.modelElement = (UCMmodelElement) model.eContainer();
 	}
 	
 	/* (non-Javadoc)
@@ -40,47 +48,50 @@ public class LabelEditPart extends ModelElementEditPart {
 	 */
 	public void activate() {
 		if(!isActive())
-		    ((NodeLabel) getModel()).getPathNode().eAdapters().add(this);
+			modelElement.eAdapters().add(this);
 		super.activate();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.EditPart#deactivate()
+	 */
+	public void deactivate() {
+		if(isActive())
+			modelElement.eAdapters().remove(this);
+		super.deactivate();
 	}
 	
     /* (non-Javadoc)
      * @see seg.jUCMNav.editparts.ModelEditPart#getModelObj()
      */
-    public NodeLabel getModelObj() {
-        return (NodeLabel) getModel();
+    public Label getModelObj() {
+        return (Label) getModel();
+    }
+    
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.editparts.ModelEditPart#getModelObj()
+     */
+    public UCMmodelElement getUCMmodelElement() {
+        return modelElement;
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        NodeLabel nodeLabel = getModelObj();
-        PathNode node = nodeLabel.getPathNode();
-        String name = node.getName();
+        String name = modelElement.getName();
         
         EditableLabel label;
         if(name != null) {
-            label = new EditableLabel(node.getName());
+            label = new EditableLabel(name);
         } else {
-            String[] fullClassName = node.getClass().getName().split("\\.");
+            String[] fullClassName = modelElement.getClass().getName().split("\\.");
             String className = fullClassName[fullClassName.length-1];
             className = className.substring(0, className.length()-4);
             label = new EditableLabel(className);
         }
         
-        nodePosition = new Point(node.getX(), node.getY());
-        
         return new LabelFigure(label);
-    }
-    
-    public boolean nodeMoving() {
-    	PathNode node = getModelObj().getPathNode();
-    	if(nodePosition.x != node.getX() || nodePosition.y != node.getY()) {
-    		return true;
-    	}
-    	
-    	return false;
     }
 
     /* (non-Javadoc)
@@ -88,7 +99,6 @@ public class LabelEditPart extends ModelElementEditPart {
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
-        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
     }
     
     public LabelFigure getLabelFigure(){
@@ -99,20 +109,17 @@ public class LabelEditPart extends ModelElementEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-    	NodeLabel nodeLabel = getModelObj();
-        PathNode node = nodeLabel.getPathNode();
-        if(node != null) {
+        if(modelElement != null) {
         	LabelFigure labelFigure = getLabelFigure();
             EditableLabel label = labelFigure.getLabel();
             
-            label.setText(nodeLabel.getPathNode().getName());
+            label.setText(modelElement.getName());
             
             Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
             Dimension newLabelDimension = new Dimension(dimEditableLabel.width + 8, dimEditableLabel.height + 4);
             
             //The position of the new figure
-            Point location = new Point(	node.getX() - nodeLabel.getDeltaX()-(newLabelDimension.width/2),
-            							node.getY() - nodeLabel.getDeltaY()-(newLabelDimension.height/2));
+            Point location = calculateModelElementPosition(getModelObj(), newLabelDimension);
             
             Rectangle bounds = new Rectangle(location, newLabelDimension);
     		figure.setBounds(bounds);
@@ -121,29 +128,38 @@ public class LabelEditPart extends ModelElementEditPart {
     		// if this line is removed, the XYLayoutManager used by the parent container 
     		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
     		// and will not draw it correctly.
-    		((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+    		if(getParent() != null) {
+    			((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+    		}
+    		
         }
+    }
+    
+    private Point calculateModelElementPosition(Label label, Dimension labelDimension) {
+    	Point location;
+    	
+    	if(modelElement instanceof PathNode) {
+    		PathNode node = (PathNode) modelElement;
+    		location = new Point(	node.getX() - label.getDeltaX() - (labelDimension.width/2),
+									node.getY() - label.getDeltaY() - (labelDimension.height/2));
+    	} else if(modelElement instanceof ComponentRef) {
+    		ComponentRef component = (ComponentRef) modelElement;
+    		location = new Point(	component.getX() - label.getDeltaX(),
+    								component.getY() - label.getDeltaY());
+    	} else {
+    		location = new Point(0, 0);
+    	}
+    	
+    	return location;
     }
 
     /* (non-Javadoc)
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-    	if (getParent()!=null) {
+    	if (getParent() != null) {
     		((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
     		refreshVisuals();
     	}
-        /*
-        int featureId = notification.getFeatureID( UcmPackage.class );
-		switch( featureId ) {
-		case MapPackage.PATH_NODE__NAME:
-			((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);
-		break;
-		default:
-			//refreshVisuals();
-		break;
-		}
-        refreshVisuals();
-        */
     }
 }

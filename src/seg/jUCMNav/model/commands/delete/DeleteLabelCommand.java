@@ -5,27 +5,29 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.Command;
 
+import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import urncore.ComponentLabel;
+import urncore.Label;
 import urncore.NodeLabel;
+import urncore.UCMmodelElement;
 
 /**
  * @author Jordan
  */
 public class DeleteLabelCommand extends Command {
 	private static final String	CreateCommand_Label = "DeleteLabelCommand";
-	private NodeLabel label;
-	private PathNode node;
+	private Label label;
+	private UCMmodelElement modelElement;
 	
 	public boolean canExecute() {
-		return label != null;
+		return label != null && modelElement != null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		node = label.getPathNode();
-		
 		redo();
 	}
 	
@@ -35,13 +37,27 @@ public class DeleteLabelCommand extends Command {
 	public void redo() {
 		testPreConditions();
 		
-		node.setLabel(null);
-		
+		if(modelElement instanceof PathNode) {
+			PathNode node = (PathNode) modelElement;
+			node.setLabel(null);
+		} else if(modelElement instanceof ComponentRef) {
+			ComponentRef component = (ComponentRef) modelElement;
+			component.setLabel(null);
+		}
+
         testPostConditions();
 	}
 	
 	public boolean canUndo() {
-		return label != null && node.getLabel() == null;
+		if(modelElement instanceof PathNode) {
+			PathNode node = (PathNode) modelElement;
+			return label != null && node.getLabel() == null;
+		} else if(modelElement instanceof ComponentRef) {
+			ComponentRef component = (ComponentRef) modelElement;
+			return label != null && component.getLabel() == null;
+		}
+		
+		return false;
 	}
 	
 	/* (non-Javadoc)
@@ -50,7 +66,13 @@ public class DeleteLabelCommand extends Command {
 	public void undo() {
 		testPostConditions();
 
-		node.setLabel(label);
+		if(modelElement instanceof PathNode) {
+			PathNode node = (PathNode) modelElement;
+			node.setLabel((NodeLabel) label);
+		} else if(modelElement instanceof ComponentRef) {
+			ComponentRef component = (ComponentRef) modelElement;
+			component.setLabel((ComponentLabel) label);
+		}
 
         testPreConditions();
 	}
@@ -61,8 +83,8 @@ public class DeleteLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert label != null : "pre NodeLabel";
-        assert node != null : "pre PathNode";
+        assert label != null : "pre Label";
+        assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode() != null : "pre NodeLabel not connected to a PathNode";
         //assert node.getLabel() != null : "pre PathNode not connected to a NodeLabel";
     }
@@ -73,17 +95,23 @@ public class DeleteLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert label != null : "pre NodeLabel";
-        assert node != null : "pre PathNode";
+    	assert label != null : "pre Label";
+        assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
         //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }
-    
-    
+
+	/**
+	 * @param modelElement The modelElement to set.
+	 */
+	public void setModelElement(UCMmodelElement modelElement) {
+		this.modelElement = modelElement;
+	}
+	
 	/**
 	 * @param label The label to set.
 	 */
-	public void setNodeLabel(NodeLabel label) {
+	public void setLabel(Label label) {
 		this.label = label;
 	}
 }

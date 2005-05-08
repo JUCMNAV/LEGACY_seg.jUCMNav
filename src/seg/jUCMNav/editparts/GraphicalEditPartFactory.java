@@ -15,7 +15,7 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import urncore.NodeLabel;
+import urncore.Label;
 
 /**
  * @author Etienne Tremblay
@@ -49,8 +49,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new PathNodeEditPart((EndPoint)model, root.getPathGraph());
 		else if(model instanceof RespRef)
 			return new PathNodeEditPart((RespRef)model, root.getPathGraph());
-		else if(model instanceof NodeLabel)
-			return new LabelEditPart((NodeLabel)model, root.getPathGraph());
+		else if(model instanceof Label)
+			return new LabelEditPart((Label)model);
 		else if(model instanceof ComponentRef) 
 		    return new ComponentRefEditPart((ComponentRef)model, root);
 		else if(model instanceof OrFork){

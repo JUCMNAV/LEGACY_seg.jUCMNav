@@ -13,7 +13,9 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
+import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import urncore.UCMmodelElement;
 
 /**
  * @author Jordan
@@ -44,6 +46,11 @@ public class AddLabelAction extends SelectionAction {
 			    if(node.getLabel() == null) {
 			        return true;
 			    }
+			} else if((part.getModel() instanceof ComponentRef)) {
+				ComponentRef component = (ComponentRef) part.getModel();
+			    if(component.getLabel() == null) {
+			        return true;
+			    }
 			}
 		}
 		
@@ -56,10 +63,16 @@ public class AddLabelAction extends SelectionAction {
         
         Dimension dim = part.getFigure().getPreferredSize().getCopy();
 
-        
         CreateLabelCommand create = new CreateLabelCommand();
-	    create.setNode((PathNode) part.getModel());
-	    create.setDeltaY(dim.height);
+        UCMmodelElement modelElement = (UCMmodelElement) part.getModel();
+	    create.setModelElement(modelElement);
+	    if(modelElement instanceof PathNode) {
+	    	create.setDeltaY(dim.height);
+	    } else if(modelElement instanceof ComponentRef) {
+	    	create.setDeltaY(0);
+	    	create.setDeltaY(0);
+	    }
+	    
 		return create;
 	}
 

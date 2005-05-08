@@ -348,6 +348,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 	protected List getModelChildren() {
 		List list = getComponents();
 		list.addAll(getPathNodes());
+		list.addAll(getLabels());
 		return list;
 	}
 
@@ -358,13 +359,34 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		List list = new ArrayList();
 
 		// put the nodes on top because they are always over components.
-		for (int i = 0; i < getPathGraph().getPathNodes().size(); i++) {
-			PathNode node = (PathNode) getPathGraph().getPathNodes().get(i);
-			list.add(node);
-			// if we have a label on a path node, we also want to add it.
-			if (!(node.getLabel() == null))
-				list.add(node.getLabel());
+		for(Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext(); ) {
+			list.add(i.next());
 		}
+		
+		return list;
+	}
+	
+	/**
+	 * @return
+	 */
+	private List getLabels() {
+		List list = new ArrayList();
+
+		// put the labels on top because they are always over components.
+		for(Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext(); ) {
+			PathNode node = (PathNode) i.next();
+			if(node.getLabel() != null) {
+				list.add(node.getLabel());
+			}
+		}
+		
+		for(Iterator i = getMap().getCompRefs().iterator(); i.hasNext(); ) {
+			ComponentRef component = (ComponentRef) i.next();
+			if(component.getLabel() != null) {
+				list.add(component.getLabel());
+			}
+		}
+		
 		return list;
 	}
 
@@ -377,9 +399,10 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 		Object o = new Object();
 
 		// get all component references
-		for (int i = 0; i < getMap().getCompRefs().size(); i++)
-			list.add(getMap().getCompRefs().get(i));
-
+		for(Iterator i = getMap().getCompRefs().iterator(); i.hasNext(); ) {
+			list.add(i.next());
+		}
+			
 		// sort them by ascending area
 		Collections.sort(list, new ComponentRefAreaComparator());
 		// reverse the list so that our largest components are in the back.
@@ -412,6 +435,9 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 			break;
 		case Notification.SET:
 			switch (featureId) {
+			case MapPackage.COMPONENT_REF__LABEL:
+				refreshChildren();
+				break;
 			case MapPackage.COMPONENT_REF__WIDTH:
 			case MapPackage.COMPONENT_REF__HEIGHT:
 				if (notification.getNotifier() instanceof ComponentRef) {

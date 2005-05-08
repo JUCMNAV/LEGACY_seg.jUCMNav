@@ -5,7 +5,7 @@ package seg.jUCMNav.model.commands.changeConstraints;
 
 import org.eclipse.gef.commands.Command;
 
-import urncore.NodeLabel;
+import urncore.Label;
 
 /**
  * @author Jordan
@@ -19,7 +19,7 @@ public class LabelSetConstraintCommand extends Command {
 	private int oldDeltaX;
 	private int oldDeltaY;
 	
-	private NodeLabel label;
+	private Label label;
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#execute()
@@ -52,14 +52,14 @@ public class LabelSetConstraintCommand extends Command {
 	public String getLabel() {
 		return Command_Label_Resize;
 	}
-	
+
 	/**
-	 * @param node The node to set.
+	 * @param label The label to set.
 	 */
-	public void setNode(NodeLabel label) {
+	public void setLabel(Label label) {
 		this.label = label;
 	}
-
+	
 	/**
 	 * @param newPosition The newPosition to set.
 	 */

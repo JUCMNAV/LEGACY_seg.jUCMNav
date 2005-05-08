@@ -20,6 +20,8 @@ import urn.URNspec;
 import urn.UrnFactory;
 import urncore.Component;
 import urncore.ComponentKind;
+import urncore.ComponentLabel;
+import urncore.NodeLabel;
 import urncore.UrncoreFactory;
 
 /**
@@ -124,6 +126,12 @@ public class ModelCreationFactory implements CreationFactory {
                 result = factory.createStartPoint();
             } else if (targetClass.equals(EndPoint.class)) {
                 result = factory.createEndPoint();
+            } else if (targetClass.equals(NodeLabel.class)) {
+            	UrncoreFactory urncoreFactory = UrncoreFactory.eINSTANCE;
+            	result = urncoreFactory.createNodeLabel();
+            } else if (targetClass.equals(ComponentLabel.class)) {
+            	UrncoreFactory urncoreFactory = UrncoreFactory.eINSTANCE;
+            	result = urncoreFactory.createComponentLabel();
             } else if (targetClass.equals(ComponentRef.class)) {
 
                 // create the component ref

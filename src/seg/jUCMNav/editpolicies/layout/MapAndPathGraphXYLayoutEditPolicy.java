@@ -31,6 +31,8 @@ import ucm.map.Map;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urncore.ComponentLabel;
+import urncore.Label;
 import urncore.NodeLabel;
 
 public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
@@ -158,10 +160,10 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
             return moveResize;
 
-        } else if (child.getModel() instanceof NodeLabel) {
-            NodeLabel nodeLabel = (NodeLabel) child.getModel();
+        } else if (child.getModel() instanceof Label) {
+        	Label label = (Label) child.getModel();
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
-            locationCommand.setNode(nodeLabel);
+            locationCommand.setLabel(label);
             //		Rectangle constraint = (Rectangle)getConstraintFor(request);
             //		this.getConstraintFor((Rectangle)constraint);
             //		Rectangle rect = (Rectangle)constraint;
@@ -174,17 +176,29 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // the x,y coordinates is
             // the center of the figure.
             Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
-            PathNode node = nodeLabel.getPathNode();
-            
-            if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
-            	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
-                locationCommand.setNewPosition(location.x, location.y);
+            if(label instanceof NodeLabel) {
+            	PathNode node = (PathNode) (((LabelEditPart) child).getUCMmodelElement());
+
+            	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
+                	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
+                    locationCommand.setNewPosition(location.x, location.y);
+                } else {
+                	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
+                }
+            } else if(label instanceof ComponentLabel) {
+            	ComponentRef component = (ComponentRef) (((LabelEditPart) child).getUCMmodelElement());
+
+            	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
+                	Point location = new Point(component.getX(), component.getY());
+                    locationCommand.setNewPosition(location.x, location.y);
+                } else {
+                	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
+                }
             } else {
-            	locationCommand.setNewPosition(nodeLabel.getDeltaX(), nodeLabel.getDeltaY());
+            	System.out.println("unknown label upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
+                return null;
             }
 
-            
-            
             return locationCommand;
         } else {
             System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
