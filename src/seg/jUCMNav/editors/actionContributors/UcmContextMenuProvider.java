@@ -47,10 +47,19 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ActionFactory.REDO.getId());
         manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
+		action = getActionRegistry().getAction(GEFActionConstants.ZOOM_IN);
+		manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+
+		action = getActionRegistry().getAction(GEFActionConstants.ZOOM_OUT);
+		manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+		
+		action = getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId());
+		manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+		
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-
+        
         action = getActionRegistry().getAction(CutPathAction.CUTPATH);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

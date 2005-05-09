@@ -16,7 +16,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import ucm.map.ComponentRef;
@@ -32,7 +32,7 @@ import ucm.map.PathNode;
  */
 public class AutoLayoutAction implements IEditorActionDelegate {
 
-    private UcmEditor editor;
+    private UCMNavMultiPageEditor editor;
     private static int id;
     private int mapid = 0;
     HashMap names;
@@ -43,7 +43,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-        editor = (UcmEditor) targetEditor;
+        editor = (UCMNavMultiPageEditor) targetEditor;
     }
 
     /*
@@ -62,7 +62,8 @@ public class AutoLayoutAction implements IEditorActionDelegate {
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */
     public void run(IAction action) {
-        Map map = editor.getMap(mapid);
+        
+        Map map = editor.getCurrentPage().getModel();
         String initial = convertUCMToDot(map);
         String positioned = autoLayoutDotString(initial);
         repositionLayout(positioned);
@@ -212,7 +213,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
             e.printStackTrace();
         }
 
-        editor.execute(cmd, mapid);
+        editor.getCurrentPage().execute(cmd);
 
     }
 

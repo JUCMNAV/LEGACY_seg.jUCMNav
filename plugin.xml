@@ -29,7 +29,7 @@
          point="org.eclipse.ui.editors">
       <editor
             icon="icons/AndFork16.gif"
-            class="seg.jUCMNav.editors.UcmEditor"
+            class="seg.jUCMNav.editors.UCMNavMultiPageEditor"
             default="false"
             name="seg.jUCMNav.MainEditor"
             contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"

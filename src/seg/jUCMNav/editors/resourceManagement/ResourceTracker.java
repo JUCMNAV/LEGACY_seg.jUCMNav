@@ -12,7 +12,7 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
  * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor
@@ -22,9 +22,9 @@ import seg.jUCMNav.editors.UcmEditor;
  */
 public class ResourceTracker implements IResourceChangeListener, IResourceDeltaVisitor {
 	
-	UcmEditor editor;
+	UCMNavMultiPageEditor editor;
 	
-	public ResourceTracker(UcmEditor editor){
+	public ResourceTracker(UCMNavMultiPageEditor editor){
 		this.editor = editor;
 	}
 	
