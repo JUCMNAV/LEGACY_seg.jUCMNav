@@ -311,8 +311,8 @@ public class BSpline {
      */
     private PointList getPointBetween(int start, int end) {
         int X, Y;
-        int Xo = (int) Px[0];
-        int Yo = (int) Py[0];
+        int Xo = (int) Math.round(Px[0]);
+        int Yo = (int) Math.round(Py[0]);
         int Xold = Xo;
         int Yold = Yo;
 

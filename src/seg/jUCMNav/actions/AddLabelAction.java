@@ -69,8 +69,8 @@ public class AddLabelAction extends SelectionAction {
 	    if(modelElement instanceof PathNode) {
 	    	create.setDeltaY(dim.height);
 	    } else if(modelElement instanceof ComponentRef) {
-	    	create.setDeltaY(0);
-	    	create.setDeltaY(0);
+	    	create.setDeltaX(0);
+	    	create.setDeltaY(15);
 	    }
 	    
 		return create;
