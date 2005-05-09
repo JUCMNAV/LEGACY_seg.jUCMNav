@@ -16,6 +16,7 @@ import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import urncore.ComponentElement;
 import urncore.Label;
 import urncore.UCMmodelElement;
 
@@ -33,22 +34,22 @@ public class LabelEditPart extends ModelElementEditPart {
 		this.modelElement = modelElement;
 	}
 	
-	/*
-	 * This constructor is a temporary solution. The constructor above should be used to reduce coupling
-	 */
-	
 	public LabelEditPart(Label model){
 		super();
 		setModel(model);
-		this.modelElement = (UCMmodelElement) model.eContainer();
+		modelElement = (UCMmodelElement) model.eContainer();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPart#activate()
 	 */
 	public void activate() {
-		if(!isActive())
+		if(!isActive()) {
 			modelElement.eAdapters().add(this);
+			if(modelElement instanceof ComponentRef) {
+				((ComponentRef)modelElement).getCompDef().eAdapters().add(this);
+			}
+		}
 		super.activate();
 	}
 	
@@ -113,7 +114,12 @@ public class LabelEditPart extends ModelElementEditPart {
         	LabelFigure labelFigure = getLabelFigure();
             EditableLabel label = labelFigure.getLabel();
             
-            label.setText(modelElement.getName());
+            if(modelElement instanceof ComponentRef) {
+            	ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
+            	label.setText(componentElement.getName());
+            } else {
+            	label.setText(modelElement.getName());
+            }
             
             Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
             Dimension newLabelDimension = new Dimension(dimEditableLabel.width + 8, dimEditableLabel.height + 4);
