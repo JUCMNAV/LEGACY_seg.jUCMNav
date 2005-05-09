@@ -55,5 +55,13 @@
          </action>
       </editorContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            icon="icons/perspectiveIcon.gif"
+            class="seg.jUCMNav.views.UCMPerspectiveFactory"
+            name="JUCMNav Perspective"
+            id="seg.jUCMNav.UCMEditor"/>
+   </extension>
 
 </plugin>
