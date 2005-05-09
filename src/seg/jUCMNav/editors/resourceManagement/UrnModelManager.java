@@ -32,11 +32,7 @@ public class UrnModelManager {
      * For the purpose of the simple editor, a file can only contain a UCM. In EMF, a resource provides the way to have access to the model content.
      */
     private Resource resource = null;
-
-    /**
-     * Contains the factory associated with the model.
-     */
-    private static ModelCreationFactory mcFactory = null;
+    
 
     /**
      * Gives access to the top level model element contained in the resource.
@@ -51,6 +47,7 @@ public class UrnModelManager {
      */
     public Resource getResource(IPath path) {
         if (resource == null) {
+            
             ResourceSet resSet = getResourceSet();
             resource = resSet.getResource(URI.createPlatformResourceURI(path.toString()), true);
         }
@@ -64,10 +61,8 @@ public class UrnModelManager {
      * @return
      */
     private Resource createResource(IPath path) {
-        if (resource == null) {
-            ResourceSet resSet = getResourceSet();
-            resource = resSet.createResource(URI.createPlatformResourceURI(path.toString()));
-        }
+        ResourceSet resSet = getResourceSet();
+        resource = resSet.createResource(URI.createPlatformResourceURI(path.toString()));
         return resource;
     }
 
@@ -103,6 +98,20 @@ public class UrnModelManager {
         resource.getContents().add(urnspec);
         return urnspec;
     }
+    
+
+    /**
+     * Creates a new URNspec.
+     * 
+     * @param path
+     * @param urnspec
+     * @return
+     */
+    public URNspec createURNspec(IPath path, URNspec urnspec) {
+        createResource(path);
+        resource.getContents().add(urnspec);
+        return urnspec;
+    }    
 
     /**
      * Loads the content of the model from the file.
@@ -155,4 +164,5 @@ public class UrnModelManager {
         }
         return model;
     }
+
 }

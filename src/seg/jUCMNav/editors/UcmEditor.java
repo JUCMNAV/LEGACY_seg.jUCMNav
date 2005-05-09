@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -40,7 +41,6 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorInput;
@@ -113,9 +113,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /**
      * Configure the graphical viewer before it receives contents.
      * <p>
-     * This is the place to choose an appropriate RootEditPart and EditPartFactory for your editor. The RootEditPart determines the behavior
-     * of the editor's "work-area". For example, GEF includes zoomable and scrollable root edit parts. The EditPartFactory maps model
-     * elements to edit parts (controllers).
+     * This is the place to choose an appropriate RootEditPart and EditPartFactory for your editor. The RootEditPart determines the behavior of the editor's
+     * "work-area". For example, GEF includes zoomable and scrollable root edit parts. The EditPartFactory maps model elements to edit parts (controllers).
      * </p>
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#configureGraphicalViewer()
@@ -237,14 +236,13 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         try {
             IFile file = ((IFileEditorInput) getEditorInput()).getFile();
             if (file.exists()
-                    || MessageDialogWithToggle.openConfirm(getSite().getShell(), "Create File", "The file '"
-                            + file.getName() + "' doesn't exist. Click OK to create it.")) {
+                    || MessageDialogWithToggle.openConfirm(getSite().getShell(), "Create File", "The file '" + file.getName()
+                            + "' doesn't exist. Click OK to create it.")) {
                 save(file, monitor);
                 getCommandStack().markSaveLocation();
             }
         } catch (CoreException e) {
-            ErrorDialog.openError(getSite().getShell(), "Error During Save",
-                    "The current UCM model could not be saved.", e.getStatus());
+            ErrorDialog.openError(getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", e.getStatus());
         }
     }
 
@@ -256,24 +254,47 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @see org.eclipse.ui.ISaveablePart#doSaveAs()
      */
     public void doSaveAs() {
+        // get the new path
         SaveAsDialog dialog = new SaveAsDialog(getSite().getShell());
         dialog.setOriginalFile(((IFileEditorInput) getEditorInput()).getFile());
         dialog.open();
         IPath path = dialog.getResult();
 
+        // if the user presses cancel or refuses to overwrite an existing file, null will be returned.
         if (path == null)
             return;
-
-        ProgressMonitorDialog progressMonitorDialog = new ProgressMonitorDialog(getSite().getShell());
-        IProgressMonitor progressMonitor = progressMonitorDialog.getProgressMonitor();
-
         try {
-            save(ResourcesPlugin.getWorkspace().getRoot().getFile(path), progressMonitor);
+            // because our modelmanager is tightly coupled with the resource.
+            modelManager = new UrnModelManager();
+
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            IFile file = workspace.getRoot().getFile(path);
+
+            // we're overwriting the file so get rid of it
+            if (file.exists()) {
+                file.delete(true, false, new NullProgressMonitor());
+            }
+
+            // creates a non existing resource and assigns it our model
+            modelManager.createURNspec(path, model);
+
+            // save the new file
+            modelManager.save(path);
             getCommandStack().markSaveLocation();
-        } catch (CoreException e) {
-            ErrorDialog.openError(getSite().getShell(), "Error During Save",
-                    "The current UCM model could not be saved.", e.getStatus());
+
+            // reinit everything
+            init(getEditorSite(), new FileEditorInput(file));
+
+            // without this code, we can't edit the new file or we can edit the old URNspec.
+        	configureGraphicalViewer();
+        	hookGraphicalViewer();
+        	initializeGraphicalViewer();
+
+        } catch (Exception e) {
+            ErrorDialog.openError(getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", new Status(IStatus.ERROR,
+                    "seg.jUCMNav", IStatus.ERROR, "", e));
         }
+
     }
 
     /**
@@ -297,8 +318,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             sharedKeyHandler = new KeyHandler();
 
             // Add key and action pairs to sharedKeyHandler
-            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(
-                    ActionFactory.DELETE.getId()));
+            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
         }
         return sharedKeyHandler;
     }
@@ -378,8 +398,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model
-     * element creation by dragging from the palette.
+     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
+     * dragging from the palette.
      * 
      * @see #createPaletteViewerProvider()
      */
@@ -451,8 +471,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
             urn = modelManager.getModel();
             if (null == urn) {
-                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.",
-                        null));
+                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.", null));
             }
         }
         return urn;
@@ -475,8 +494,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         progressMonitor.beginTask("Saving " + file, 2);
 
         if (null == modelManager) {
-            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0,
-                    "No model manager found for saving the file.", null);
+            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "No model manager found for saving the file.", null);
             throw new CoreException(status);
         }
 
