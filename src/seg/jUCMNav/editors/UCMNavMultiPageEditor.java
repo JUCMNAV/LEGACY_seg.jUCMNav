@@ -61,6 +61,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.BindChildren;
@@ -68,8 +69,7 @@ import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
-import seg.jUCMNav.editors.resourceManagement.*;
-//
+import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UcmPackage;
 import ucm.map.Map;
@@ -392,6 +392,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         action.setText("Add OR-Fork");
         addEditPartAction((SelectionAction) action);
 
+    	action = new AddAndForkAction(this);
+    	action.setText("Add AND-Fork");
+    	addEditPartAction((SelectionAction) action);
+        
         action = new BindWithParent(this);
         action.setText("Bind with parent component");
         addEditPartAction((SelectionAction) action);

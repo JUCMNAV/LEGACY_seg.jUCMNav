@@ -20,6 +20,7 @@ import org.eclipse.gef.Request;
 
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
+import seg.jUCMNav.figures.AndForkFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
@@ -27,6 +28,7 @@ import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
 import ucm.UcmPackage;
+import ucm.map.AndFork;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OrFork;
@@ -63,6 +65,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 			figure = new StartPointFigure();
 		else if(getModel() instanceof OrFork)
 		    figure = new OrForkFigure();
+		else if (getModel() instanceof AndFork)
+			figure = new AndForkFigure();
 		return figure;
 	}
 

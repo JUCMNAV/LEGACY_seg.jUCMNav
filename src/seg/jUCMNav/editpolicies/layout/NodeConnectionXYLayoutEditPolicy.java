@@ -14,9 +14,11 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.model.commands.create.AddOrForkCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -73,6 +75,9 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
             //				return null;
 
             createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
+        } else if (newObjectType == OrFork.class) {
+        	NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
+        	createCommand = new AddOrForkCommand(getPathGraph(), oldLink, constraint.x, constraint.y);
         }
         return createCommand;
     }

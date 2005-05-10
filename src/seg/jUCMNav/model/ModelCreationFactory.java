@@ -8,6 +8,7 @@ import org.eclipse.gef.requests.CreationFactory;
 
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import ucm.UcmFactory;
+import ucm.map.AndFork;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -147,6 +148,8 @@ public class ModelCreationFactory implements CreationFactory {
                 ((ComponentRef)result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
             } else if (targetClass.equals(OrFork.class)){
                 result = factory.createOrFork();
+            } else if (targetClass.equals(AndFork.class)) {
+            	result = factory.createAndFork();
             } else {
                 System.out.println("Unknown class passed to ModelCreationFactory");
             }
