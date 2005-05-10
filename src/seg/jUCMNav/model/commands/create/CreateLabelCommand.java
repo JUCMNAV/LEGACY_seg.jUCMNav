@@ -31,16 +31,27 @@ public class CreateLabelCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		if(modelElement.getName() == null) {
-			String[] fullClassName = modelElement.getClass().getName().split("\\.");
-            String className = fullClassName[fullClassName.length-1];
-            className = className.substring(0, className.length()-4);
-            modelElement.setName(className);
-		}
+
 		
         if(modelElement instanceof PathNode) {
+    		if(modelElement.getName() == null ) {
+    		    
+    			String[] fullClassName = modelElement.getClass().getName().split("\\.");
+    			
+                String className = fullClassName[fullClassName.length-1];
+                className = className.substring(0, className.length()-4);
+                modelElement.setName(className);
+    		}            
         	label = (NodeLabel) ModelCreationFactory.getNewObject(NodeLabel.class);
         } else if(modelElement instanceof ComponentRef) {
+    		if(((ComponentRef)modelElement).getCompDef().getName() == null ) {
+    		    
+    			String[] fullClassName;
+    			    fullClassName = ComponentRef.class.toString().split("\\.");
+    			
+                String className = fullClassName[fullClassName.length-1];
+                ((ComponentRef)modelElement).getCompDef().setName(className);
+    		}            
         	label = (ComponentLabel) ModelCreationFactory.getNewObject(ComponentLabel.class);
         }
 	    
