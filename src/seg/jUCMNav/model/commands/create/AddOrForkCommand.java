@@ -83,32 +83,22 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
             assert (_originEp.getPred().size() > 0);
             assert (_originEp.getSucc().size() > 0);
 
-            //            _ncPred = (NodeConnection) _originEp.getPred().get(0);
-            //            _ncTarg = (NodeConnection) _originEp.getSucc().get(0);
-
             // OrFork -- EmptyPoint -- EndPoint
             _newOrFork = (OrFork) ModelCreationFactory.getNewObject(OrFork.class);
             _newOrFork.setX(x);
             _newOrFork.setY(y);
-
-            //            ncPred.setTarget(_newOrFork);
-            //            ncTarg.setSource(_newOrFork);
 
             _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
             _newEmptyPoint.setX(x + 25);
             _newEmptyPoint.setY(y - 20);
 
             _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-            //            _newLink1.setSource(_newOrFork);
-            //            _newLink1.setTarget(_newEmptyPoint);
 
             _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
             _newEndPoint.setX(x + 100);
             _newEndPoint.setY(y - 50);
 
             _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-            //            _newLink2.setSource(_newEmptyPoint);
-            //            _newLink2.setTarget(_newEndPoint);
 
             // TODO Add an empty point *ON* the connection going towards the
             // EndPoint
