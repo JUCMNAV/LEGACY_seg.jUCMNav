@@ -472,7 +472,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         getActionRegistry().dispose();
 
         for (int i = 0; i < model.getUcmspec().getMaps().size(); i++)
-            ((Map) model.getUcmspec().getMaps()).eAdapters().remove(this);
+            ((Map) model.getUcmspec().getMaps().get(i)).eAdapters().remove(this);
 
         // important: always call super implementation of dispose
         super.dispose();
