@@ -27,6 +27,7 @@ import seg.jUCMNav.figures.OrForkFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
+import seg.jUCMNav.figures.StubFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.EndPoint;
@@ -36,6 +37,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * @author Etienne Tremblay
@@ -67,6 +69,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		    figure = new OrForkFigure();
 		else if (getModel() instanceof AndFork)
 			figure = new AndForkFigure();
+		else if (getModel() instanceof Stub){
+			Stub stub = (Stub)getModel();
+			figure = new StubFigure(stub.isDynamic());
+		}
 		return figure;
 	}
 

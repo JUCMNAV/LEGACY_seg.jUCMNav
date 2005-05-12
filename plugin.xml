@@ -28,7 +28,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            icon="icons/AndFork16.gif"
+            icon="icons/icon16.gif"
             class="seg.jUCMNav.editors.UCMNavMultiPageEditor"
             default="false"
             name="seg.jUCMNav.MainEditor"
@@ -58,7 +58,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            icon="icons/perspectiveIcon.gif"
+            icon="icons/icon16.gif"
             class="seg.jUCMNav.views.UCMPerspectiveFactory"
             name="JUCMNav Perspective"
             id="seg.jUCMNav.UCMEditor"/>

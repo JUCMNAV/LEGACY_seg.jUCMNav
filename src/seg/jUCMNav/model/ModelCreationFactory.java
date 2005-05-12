@@ -17,6 +17,7 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import urn.URNspec;
 import urn.UrnFactory;
 import urncore.Component;
@@ -150,6 +151,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = factory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
             	result = factory.createAndFork();
+            } else if (targetClass.equals(Stub.class)) {
+            	result = factory.createStub();
             } else {
                 System.out.println("Unknown class passed to ModelCreationFactory");
             }

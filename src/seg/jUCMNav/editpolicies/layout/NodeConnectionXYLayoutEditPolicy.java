@@ -22,6 +22,7 @@ import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 
 /**
  * Created 2005-02-25
@@ -69,7 +70,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // converts relative to absolute positions (so that zooms work properly)
         Point constraint = getLocation(request);
 
-        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class) {
+        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == Stub.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             //			if(oldLink.getSource() instanceof StartPoint || oldLink.getTarget() instanceof EndPoint)
             //				return null;
