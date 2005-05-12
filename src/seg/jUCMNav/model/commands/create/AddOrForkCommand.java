@@ -17,8 +17,8 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * This command adds an OR-Fork to a path at a specified EmptyPoint. The EmptyPoint is replaced by an OrFork and a new
- * branch of the path with corresponding EndPoint is created.
+ * This command adds an OR-Fork to a path at a specified EmptyPoint. The EmptyPoint is replaced by an OrFork and a new branch of the path
+ * with corresponding EndPoint is created.
  * 
  * @author jpdaigle
  *  
@@ -40,6 +40,8 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
     NodeConnection _newLink1, _newLink2, _ncPred, _ncTarg;
 
     NodeConnection _originNc;
+    
+    PathNode _prevNode, _nextNode;
 
     int _posX, _posY;
 
@@ -90,13 +92,13 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
 
             _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
             _newEmptyPoint.setX(x + 25);
-            _newEmptyPoint.setY(y - 20);
+            _newEmptyPoint.setY(y - 25);
 
             _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
 
             _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
-            _newEndPoint.setX(x + 100);
-            _newEndPoint.setY(y - 50);
+            _newEndPoint.setX(x + 75);
+            _newEndPoint.setY(y - 30);
 
             _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
 
@@ -112,39 +114,29 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         // HACK HACK HACK HACK HACK HACK HACK HACK
 
         // TODO factor out model-impacting code to the redo method
-        
+
         // Split existing connection
-        NodeConnection ncPred;
-        PathNode previousNode, nextNode;
-        previousNode = _originNc.getSource();
-        nextNode = _originNc.getTarget();
+        _prevNode = _originNc.getSource();
+        _nextNode = _originNc.getTarget();
         _ncTarg = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-        ncPred = _originNc;
+        _ncPred = _originNc;
 
         // OrFork -- EmptyPoint -- EndPoint
         _newOrFork = (OrFork) ModelCreationFactory.getNewObject(OrFork.class);
         _newOrFork.setX(_posX);
         _newOrFork.setY(_posY);
 
-        ncPred.setTarget(_newOrFork);
-        _ncTarg.setSource(_newOrFork);
-        _ncTarg.setTarget(nextNode);
-
         _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
         _newEmptyPoint.setX(_posX + 25);
-        _newEmptyPoint.setY(_posY - 20);
+        _newEmptyPoint.setY(_posY - 25);
 
         _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-        _newLink1.setSource(_newOrFork);
-        _newLink1.setTarget(_newEmptyPoint);
 
         _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
-        _newEndPoint.setX(_posX + 100);
-        _newEndPoint.setY(_posY - 50);
+        _newEndPoint.setX(_posX + 75);
+        _newEndPoint.setY(_posY - 30);
 
         _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-        _newLink2.setSource(_newEmptyPoint);
-        _newLink2.setTarget(_newEndPoint);
 
         // TODO Add an empty point *ON* the connection going towards the
         // EndPoint
@@ -194,6 +186,18 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
     }
 
     protected void redo_fromNodeConnection() {
+
+        // _ncPred is now the connection the user clicked on
+        _ncTarg.setTarget(_nextNode);
+        _ncTarg.setSource(_newOrFork);
+        _ncPred.setTarget(_newOrFork);
+
+        _newLink1.setSource(_newOrFork);
+        _newLink1.setTarget(_newEmptyPoint);
+
+        _newLink2.setSource(_newEmptyPoint);
+        _newLink2.setTarget(_newEndPoint);
+
         _pg.getNodeConnections().add(_newLink1);
         _pg.getNodeConnections().add(_newLink2);
         _pg.getNodeConnections().add(_ncTarg);
@@ -213,6 +217,8 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         testPostConditions();
         if (_originEp != null)
             undo_fromEmptyPoint();
+        else if (_originNc != null)
+            undo_fromNodeConnection();        
         testPreConditions();
     }
 
@@ -244,7 +250,28 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
     }
 
     protected void undo_fromNodeConnection() {
+        _ncPred.setTarget(_nextNode);
 
+        _ncTarg.setTarget(null);
+        _ncTarg.setSource(null);
+
+        _newLink1.setSource(null);
+        _newLink1.setTarget(null);
+
+        _newLink2.setSource(null);
+        _newLink2.setTarget(null);
+
+        _pg.getNodeConnections().remove(_newLink1);
+        _pg.getNodeConnections().remove(_newLink2);
+        _pg.getNodeConnections().remove(_ncTarg);
+
+        _pg.getPathNodes().remove(_newOrFork);
+        _pg.getPathNodes().remove(_newEmptyPoint);
+        _pg.getPathNodes().remove(_newEndPoint);
+
+        _newOrFork.setCompRef(null);
+        _newEmptyPoint.setCompRef(null);
+        _newEndPoint.setCompRef(null);
     }
 
     /*
