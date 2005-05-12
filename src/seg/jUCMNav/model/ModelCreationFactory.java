@@ -1,10 +1,10 @@
 package seg.jUCMNav.model;
 
-import java.util.Hashtable;
-
 import org.eclipse.gef.requests.CreationFactory;
 
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
+import seg.jUCMNav.model.util.URNNamingHelper;
+import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.ComponentRef;
@@ -13,17 +13,21 @@ import ucm.map.EndPoint;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
+import urncore.GRLmodelElement;
 import urncore.NodeLabel;
 import urncore.UCMmodelElement;
+import urncore.URNdefinition;
 import urncore.UrncoreFactory;
 
 /**
@@ -44,15 +48,6 @@ public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
     private URNspec urn;
-    public static Hashtable htPrefixes;
-
-    static {
-        htPrefixes = new Hashtable();
-        // to be used for shorthands.
-        htPrefixes.put(StartPoint.class, "Start");
-        htPrefixes.put(EndPoint.class, "End");
-
-    }
 
     /**
      * @param urn
@@ -119,7 +114,12 @@ public class ModelCreationFactory implements CreationFactory {
         if (targetClass != null) {
             if (targetClass.equals(URNspec.class)) {
                 result = getNewURNspec();
-
+            } else if (targetClass.equals(UCMspec.class)) {
+                result = UcmFactory.eINSTANCE.createUCMspec();
+            } else if (targetClass.equals(URNdefinition.class)) {
+                result = UrncoreFactory.eINSTANCE.createURNdefinition();
+            } else if (targetClass.equals(PathGraph.class)) {
+                return factory.createPathGraph();
             } else if (targetClass.equals(EmptyPoint.class)) {
                 result = factory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
@@ -150,12 +150,12 @@ public class ModelCreationFactory implements CreationFactory {
 
                 // define the ComponentKind according to what was set in the construction
                 compdef.setKind(ComponentKind.get(type));
-                compdef.setId(getNewID(urn));
-                compdef.setName(getPrefix(compdef.getClass()) + compdef.getId());
+
+                URNNamingHelper.setElementNameAndID(urn, compdef);
 
                 ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
                 ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
-                
+
                 ((ComponentRef) result).setLabel(UrncoreFactory.eINSTANCE.createComponentLabel());
             } else if (targetClass.equals(OrFork.class)) {
                 result = factory.createOrFork();
@@ -169,12 +169,9 @@ public class ModelCreationFactory implements CreationFactory {
             }
         }
 
-        if (result instanceof UCMmodelElement) {
-            UCMmodelElement elem = (UCMmodelElement) result;
-            if (elem.getId() == null || elem.getId().length() == 0)
-                elem.setId(getNewID(urn));
-            if (elem.getName() == null || elem.getName().length() == 0)
-                elem.setName(getPrefix(targetClass));
+        // set the name and id of model elements
+        if (result instanceof UCMmodelElement || result instanceof GRLmodelElement || result instanceof URNlink) {
+            URNNamingHelper.setElementNameAndID(urn, result);
         }
 
         return result;
@@ -193,8 +190,9 @@ public class ModelCreationFactory implements CreationFactory {
 
         // create the URN spec
         URNspec urnspec = UrnFactory.eINSTANCE.createURNspec();
-        // name the component
-        urnspec.setName(getPrefix(URNspec.class));
+
+        // name the URNspec
+        urnspec.setName(URNNamingHelper.getPrefix(URNspec.class));
 
         // seed the global id
         urnspec.setModified("1");
@@ -207,8 +205,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // create a map
         ucm.map.Map ucm = factory.createMap();
-        ucm.setId(getNewID(urnspec));
-        ucm.setName(getPrefix(ucm.getClass()));
+        URNNamingHelper.setElementNameAndID(urnspec, ucm);
 
         // add an empty pathgraph to this map
         ucm.setPathGraph(factory.createPathGraph());
@@ -218,60 +215,6 @@ public class ModelCreationFactory implements CreationFactory {
 
         result = urnspec;
         return result;
-    }
-
-    /**
-     * Returns the next ID that can be used in this document. Assumes it will be used and increments the count in the URNspec.
-     * 
-     * @param urn
-     *            The URNspec containing the value.
-     * 
-     * @return
-     */
-    private static String getNewID(URNspec urn) {
-
-        if (urn == null) {
-            return "";
-        }
-
-        String id = urn.getModified();
-
-        // if we can't convert it, the model is in an invalid state.
-        // don't catch the exception
-        if (id != null && id.length() > 0)
-            id = Long.toString(Long.parseLong(id) + 1);
-        else {
-            id = "2"; // for backwards compatibility reasons with early jUCMNav files.
-            System.out.println("Old file; please discard.");
-        }
-
-        urn.setModified(id);
-
-        return id;
-    }
-
-    /**
-     * When creating names, we often need a generic name. Using this method, we can obtain a prefix using the appropriate naming convention.
-     * 
-     * @param targetClass
-     * @return
-     */
-    public static String getPrefix(Class targetClass) {
-        if (htPrefixes.get(targetClass) != null)
-            return (String) htPrefixes.get(targetClass);
-        else if (getSimpleName(targetClass).endsWith("Impl"))
-            return getSimpleName(targetClass).substring(0, getSimpleName(targetClass).length() - 4);
-        else
-            return getSimpleName(targetClass);
-
-    }
-
-    /*
-     * To avoid depending on Java 1.5
-     */
-    private static String getSimpleName(Class targetClass) {
-        String simpleName = targetClass.getName();
-        return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip the package name
     }
 
 }

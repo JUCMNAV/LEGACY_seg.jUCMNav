@@ -5,7 +5,6 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -41,29 +40,6 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
 	 */
 	public void execute() {
 
-		
-        if(modelElement instanceof PathNode) {
-    		if(modelElement.getName() == null ) {
-    		    
-    			String[] fullClassName = modelElement.getClass().getName().split("\\.");
-    			
-                String className = fullClassName[fullClassName.length-1];
-                className = className.substring(0, className.length()-4);
-                modelElement.setName(className);
-    		}            
-        	label = (NodeLabel) ModelCreationFactory.getNewObject(null, NodeLabel.class);
-        } else if(modelElement instanceof ComponentRef) {
-    		if(((ComponentRef)modelElement).getCompDef().getName() == null ) {
-    		    
-    			String[] fullClassName;
-    			    fullClassName = ComponentRef.class.toString().split("\\.");
-    			
-                String className = fullClassName[fullClassName.length-1];
-                ((ComponentRef)modelElement).getCompDef().setName(className);
-    		}            
-        	label = (ComponentLabel) ModelCreationFactory.getNewObject(null, ComponentLabel.class);
-        }
-	    
 	    label.setDeltaX(deltaX);
 	    label.setDeltaY(deltaY);
 		

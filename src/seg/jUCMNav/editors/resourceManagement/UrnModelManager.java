@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
 
@@ -161,6 +162,8 @@ public class UrnModelManager {
                 if (o instanceof URNspec)
                     model = (URNspec) o;
             }
+            
+            URNNamingHelper.sanitizeURNspec(model);
         }
         return model;
     }
