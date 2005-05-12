@@ -13,6 +13,7 @@ import ucm.map.EndPoint;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -126,10 +127,13 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(RespRef.class)) {
                 // should create responsibility definition
                 result = factory.createRespRef();
+                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
             } else if (targetClass.equals(StartPoint.class)) {
                 result = factory.createStartPoint();
+                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
             } else if (targetClass.equals(EndPoint.class)) {
                 result = factory.createEndPoint();
+                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
             } else if (targetClass.equals(NodeLabel.class)) {
                 UrncoreFactory urncoreFactory = UrncoreFactory.eINSTANCE;
                 result = urncoreFactory.createNodeLabel();
@@ -151,12 +155,15 @@ public class ModelCreationFactory implements CreationFactory {
 
                 ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
                 ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
+                
+                ((ComponentRef) result).setLabel(UrncoreFactory.eINSTANCE.createComponentLabel());
             } else if (targetClass.equals(OrFork.class)) {
                 result = factory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
                 result = factory.createAndFork();
             } else if (targetClass.equals(Stub.class)) {
                 result = factory.createStub();
+                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
             } else {
                 System.out.println("Unknown class passed to ModelCreationFactory");
             }
