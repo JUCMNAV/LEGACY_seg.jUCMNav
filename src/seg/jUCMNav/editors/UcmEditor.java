@@ -254,7 +254,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     protected PaletteRoot getPaletteRoot() {
         if (null == paletteRoot) {
             // create root
-            paletteRoot = new UcmPaletteRoot();
+            paletteRoot = new UcmPaletteRoot(parent);
         }
         return paletteRoot;
     }

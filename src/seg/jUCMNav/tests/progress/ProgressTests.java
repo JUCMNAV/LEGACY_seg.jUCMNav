@@ -151,12 +151,12 @@ public class ProgressTests extends TestCase {
         super.setUp();
 
         // generate a top level model element
-        urn = (URNspec) ModelCreationFactory.getNewObject(URNspec.class);
+        urn = (URNspec) ModelCreationFactory.getNewURNspec();
 
         // generate the necessary viewers, editparts and palette.
         viewer = (ScrollingGraphicalViewer) new ScrollingGraphicalViewer();
         root = new ConnectionOnBottomRootEditPart();
-        paletteroot = new UcmPaletteRoot();
+        paletteroot = new UcmPaletteRoot(urn);
 
         // link all of the above together
         viewer.setRootEditPart(root);
@@ -192,7 +192,7 @@ public class ProgressTests extends TestCase {
         assertEquals("MapAndPathGraphEditPart should not have any children", 0, getMapEditPart().getChildren().size());
 
         // simulate a CreateRequest that we would have liked to have obtained from the palette
-        CreateRequest cr = getCreateRequest(new ModelCreationFactory(ComponentRef.class, ComponentKind.TEAM), new Point(10, 100));
+        CreateRequest cr = getCreateRequest(new ModelCreationFactory(urn, ComponentRef.class, ComponentKind.TEAM), new Point(10, 100));
         assertNotNull("Unable to build create request", cr);
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.
@@ -222,7 +222,7 @@ public class ProgressTests extends TestCase {
     public void testReqComp2() {
 
         // create the component ref that will be used for testing.
-        ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class, ComponentKind.TEAM);
+        ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn,ComponentRef.class, ComponentKind.TEAM);
         // to be able to build the property source for the compDef, our component ref must be inside a map.
         Command cmd = new AddComponentRefCommand(getMap(), cr);
         viewer.getEditDomain().getCommandStack().execute(cmd);
@@ -276,9 +276,9 @@ public class ProgressTests extends TestCase {
                 * SetConstraintComponentRefCommand.DEFAULT_WIDTH < 300 * 400);
 
         // create the component ref that will be used for testing.
-        ComponentRef parent = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class, ComponentKind.TEAM);
+        ComponentRef parent = (ComponentRef) ModelCreationFactory.getNewObject(urn,ComponentRef.class, ComponentKind.TEAM);
         // create the component ref that will be used for testing.
-        ComponentRef child = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class, ComponentKind.TEAM);
+        ComponentRef child = (ComponentRef) ModelCreationFactory.getNewObject(urn,ComponentRef.class, ComponentKind.TEAM);
 
         // to be able to build the property source for the compDef, our component ref must be inside a map.
         Command cmd = new AddComponentRefCommand(getMap(), parent);
@@ -425,7 +425,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompPathBind1() {
         // create the component ref that will be used for testing.
-        ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class, ComponentKind.TEAM);
+        ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn,ComponentRef.class, ComponentKind.TEAM);
         // to be able to build the property source for the compDef, our component ref must be inside a map.
         Command cmd = new AddComponentRefCommand(getMap(), cr);
         viewer.getEditDomain().getCommandStack().execute(cmd);
@@ -856,7 +856,7 @@ public class ProgressTests extends TestCase {
         assertEquals("Should be no PathNodes in model", 0, getMap().getPathGraph().getPathNodes().size());
 
         // simulate a CreateRequest that we would have liked to have obtained from the palette
-        CreateRequest cr = getCreateRequest(new ModelCreationFactory(StartPoint.class), new Point(50, 70));
+        CreateRequest cr = getCreateRequest(new ModelCreationFactory(urn, StartPoint.class), new Point(50, 70));
         assertNotNull("Unable to build create request", cr);
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.

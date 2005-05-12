@@ -10,6 +10,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urn.URNspec;
 
 /**
  * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start point. delete the
@@ -90,8 +91,8 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        newStart = (StartPoint) ModelCreationFactory.getNewObject(StartPoint.class);
-        newEnd = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
+        newStart = (StartPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(), StartPoint.class);
+        newEnd = (EndPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),EndPoint.class);
 
         connToNext1 = (NodeConnection) emptyPoint.getSucc().get(0);
         nextPoint = connToNext1.getTarget();
@@ -263,5 +264,11 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         assert newStart.getX() == nextPoint.getX() && newStart.getY() == nextPoint.getY() : "post new start position";
         assert newEnd.getX() == previousPoint.getX() && newEnd.getY() == previousPoint.getY() : "post new end position";        
 
+    }
+    public EndPoint getNewEnd() {
+        return newEnd;
+    }
+    public StartPoint getNewStart() {
+        return newStart;
     }
 }

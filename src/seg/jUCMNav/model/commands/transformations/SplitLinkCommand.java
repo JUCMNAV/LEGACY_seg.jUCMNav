@@ -9,6 +9,7 @@ import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
  * This command splits a link and inserts a passed PathNode (EmptyPoint or Responsibility) on the target location.
@@ -57,7 +58,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         previousNode = oldLink.getSource();
         nextNode = oldLink.getTarget();
 
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
         
         node.getSucc().add(0,newLink);
 

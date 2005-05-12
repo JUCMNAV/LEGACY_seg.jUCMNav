@@ -93,7 +93,7 @@ public class UrnModelManager {
     public URNspec createURNspec(IPath path) {
         createResource(path);
         
-        URNspec urnspec=(URNspec) ModelCreationFactory.getNewObject(URNspec.class);
+        URNspec urnspec=(URNspec) ModelCreationFactory.getNewURNspec();
 
         resource.getContents().add(urnspec);
         return urnspec;

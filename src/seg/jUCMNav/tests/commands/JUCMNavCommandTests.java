@@ -56,9 +56,9 @@ public class JUCMNavCommandTests extends TestCase {
         super.setUp();
         umm = new UrnModelManager();
 
-        urnspec = (URNspec) ModelCreationFactory.getNewObject(URNspec.class);
-        compRef = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class);
-        start = (StartPoint) ModelCreationFactory.getNewObject(StartPoint.class);
+        urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec,ComponentRef.class);
+        start = (StartPoint) ModelCreationFactory.getNewObject(urnspec,StartPoint.class);
         map = (Map) urnspec.getUcmspec().getMaps().get(0);
         pathgraph = map.getPathGraph();
 
@@ -181,7 +181,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testSplitLinkCommand() {
         testCutPathCommand();
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
-        EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+        EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(urnspec,EmptyPoint.class);
         Command cmd = new SplitLinkCommand(pathgraph, empty, nc, 55, 86);
         assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute());
         cs.execute(cmd);
@@ -199,7 +199,7 @@ public class JUCMNavCommandTests extends TestCase {
         ComponentRef child = compRef;
 
         // add another one
-        compRef = (ComponentRef) ModelCreationFactory.getNewObject(ComponentRef.class);
+        compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec,ComponentRef.class);
         testAddComponentCommand();
         
         Command cmd  = new SetConstraintComponentRefCommand(compRef, 0,0,100,100);

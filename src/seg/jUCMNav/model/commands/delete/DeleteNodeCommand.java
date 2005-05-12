@@ -12,6 +12,7 @@ import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urn.URNspec;
 
 /**
  * Command to delete a node on a path.
@@ -70,7 +71,7 @@ public class DeleteNodeCommand extends Command {
     	targets = new Vector();
     	sources.addAll(node.getPred());
     	targets.addAll(node.getSucc());
-    	newConn = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+    	newConn = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)map.eContainer().eContainer(), NodeConnection.class);
     	
     	redo();
     }

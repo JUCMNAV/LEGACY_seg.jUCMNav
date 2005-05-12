@@ -63,10 +63,9 @@ public class AddLabelAction extends SelectionAction {
         
         Dimension dim = part.getFigure().getPreferredSize().getCopy();
 
-        CreateLabelCommand create = new CreateLabelCommand();
         UCMmodelElement modelElement = (UCMmodelElement) part.getModel();
-	    create.setModelElement(modelElement);
-	    if(modelElement instanceof PathNode) {
+        CreateLabelCommand create = new CreateLabelCommand(modelElement);
+        if(modelElement instanceof PathNode) {
 	    	create.setDeltaY(dim.height);
 	    } else if(modelElement instanceof ComponentRef) {
 	    	create.setDeltaX(0);

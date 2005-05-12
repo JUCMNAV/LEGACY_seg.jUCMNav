@@ -6,6 +6,7 @@ package seg.jUCMNav.model.commands.create;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import urncore.ComponentLabel;
@@ -16,12 +17,20 @@ import urncore.UCMmodelElement;
 /**
  * @author Jordan
  */
-public class CreateLabelCommand extends Command {
+public class CreateLabelCommand extends Command implements JUCMNavCommand{
     private static final String	CreateCommand_Label = "CreateLabelCommand";
+    public static final int DEFAULT_DELTAX_PATHNODE=0;
+    public static final int DEFAULT_DELTAY_PATHNODE=0;
+    
 	private Label label;
 	private UCMmodelElement modelElement;
 	private int deltaX;
 	private int deltaY;
+	
+	public CreateLabelCommand(UCMmodelElement elem)
+	{
+	    modelElement = elem; 
+	}
 	
 	public boolean canExecute() {
 		return modelElement != null;
@@ -42,7 +51,7 @@ public class CreateLabelCommand extends Command {
                 className = className.substring(0, className.length()-4);
                 modelElement.setName(className);
     		}            
-        	label = (NodeLabel) ModelCreationFactory.getNewObject(NodeLabel.class);
+        	label = (NodeLabel) ModelCreationFactory.getNewObject(null, NodeLabel.class);
         } else if(modelElement instanceof ComponentRef) {
     		if(((ComponentRef)modelElement).getCompDef().getName() == null ) {
     		    
@@ -52,7 +61,7 @@ public class CreateLabelCommand extends Command {
                 String className = fullClassName[fullClassName.length-1];
                 ((ComponentRef)modelElement).getCompDef().setName(className);
     		}            
-        	label = (ComponentLabel) ModelCreationFactory.getNewObject(ComponentLabel.class);
+        	label = (ComponentLabel) ModelCreationFactory.getNewObject(null, ComponentLabel.class);
         }
 	    
 	    label.setDeltaX(deltaX);

@@ -13,6 +13,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import urn.URNspec;
 
 /**
  * @author jpdaigle
@@ -71,7 +72,7 @@ public class AddAndForkCommand extends Command implements JUCMNavCommand {
 
 			// OrFork -- EmptyPoint -- EndPoint
 			_newFork = (AndFork) ModelCreationFactory
-					.getNewObject(AndFork.class);
+					.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), AndFork.class);
 			_newFork.setX(x);
 			_newFork.setY(y);
 
@@ -79,22 +80,22 @@ public class AddAndForkCommand extends Command implements JUCMNavCommand {
 			ncTarg.setSource(_newFork);
 
 			_newEmptyPoint = (EmptyPoint) ModelCreationFactory
-					.getNewObject(EmptyPoint.class);
+					.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), EmptyPoint.class);
 			_newEmptyPoint.setX(x + 25);
 			_newEmptyPoint.setY(y - 20);
 
 			_newLink1 = (NodeConnection) ModelCreationFactory
-					.getNewObject(NodeConnection.class);
+					.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),NodeConnection.class);
 			_newLink1.setSource(_newFork);
 			_newLink1.setTarget(_newEmptyPoint);
 
 			_newEndPoint = (EndPoint) ModelCreationFactory
-					.getNewObject(EndPoint.class);
+					.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),EndPoint.class);
 			_newEndPoint.setX(x + 100);
 			_newEndPoint.setY(y - 50);
 
 			_newLink2 = (NodeConnection) ModelCreationFactory
-					.getNewObject(NodeConnection.class);
+					.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),NodeConnection.class);
 			_newLink2.setSource(_newEmptyPoint);
 			_newLink2.setTarget(_newEndPoint);
 

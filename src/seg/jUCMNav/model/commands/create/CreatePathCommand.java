@@ -12,6 +12,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urn.URNspec;
 
 /**
  * This command creates a simple path. Given a StartPoint, link it to a empty node and an end point. If you don't give us a StartPoint, we'll create a new one.
@@ -60,25 +61,25 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (start == null)
-            start = (StartPoint) ModelCreationFactory.getNewObject(StartPoint.class);
+            start = (StartPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(), StartPoint.class);
 
         // start-----node-----end
         start.setX(x);
         start.setY(y);
 
-        node = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+        node = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),EmptyPoint.class);
         node.setX(x + 100);
         node.setY(y);
         
-        link1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        link1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),NodeConnection.class);
         link1.setSource(start);
         link1.setTarget(node);
 
-        end = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
+        end = (EndPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),EndPoint.class);
         end.setX(x + 200);
         end.setY(y);
 
-        link2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        link2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),NodeConnection.class);
         link2.setSource(node);
         link2.setTarget(end);
 

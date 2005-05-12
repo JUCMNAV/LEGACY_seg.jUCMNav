@@ -11,6 +11,7 @@ import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
  * This command extends a Path by moving the end point.
@@ -53,8 +54,8 @@ public class ExtendPathCommand extends Command implements  JUCMNavCommand {
         lastNode = (PathNode) lastLink.getSource();
 
         // create new elements
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
-        newNode = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
+        newNode = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), EmptyPoint.class);
 
         // link new elements
         newNode.getSucc().add(newLink);

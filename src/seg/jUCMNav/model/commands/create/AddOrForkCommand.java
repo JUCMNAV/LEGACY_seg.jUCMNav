@@ -15,10 +15,11 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
- * This command adds an OR-Fork to a path at a specified EmptyPoint. The EmptyPoint is replaced by an OrFork and a new branch of the path
- * with corresponding EndPoint is created.
+ * This command adds an OR-Fork to a path at a specified EmptyPoint. The EmptyPoint is replaced by an OrFork and a new branch of the path with corresponding
+ * EndPoint is created.
  * 
  * @author jpdaigle
  *  
@@ -40,7 +41,7 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
     NodeConnection _newLink1, _newLink2, _ncPred, _ncTarg;
 
     NodeConnection _originNc;
-    
+
     PathNode _prevNode, _nextNode;
 
     int _posX, _posY;
@@ -86,21 +87,21 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
             assert (_originEp.getSucc().size() > 0);
 
             // OrFork -- EmptyPoint -- EndPoint
-            _newOrFork = (OrFork) ModelCreationFactory.getNewObject(OrFork.class);
+            _newOrFork = (OrFork) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), OrFork.class);
             _newOrFork.setX(x);
             _newOrFork.setY(y);
 
-            _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+            _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), EmptyPoint.class);
             _newEmptyPoint.setX(x + 25);
             _newEmptyPoint.setY(y - 25);
 
-            _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+            _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), NodeConnection.class);
 
-            _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
+            _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), EndPoint.class);
             _newEndPoint.setX(x + 75);
             _newEndPoint.setY(y - 30);
 
-            _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+            _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(), NodeConnection.class);
 
             // TODO Add an empty point *ON* the connection going towards the
             // EndPoint
@@ -109,7 +110,7 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         }
     }
 
-    protected void executeFromNodeConnection() {
+protected void executeFromNodeConnection() {
         // Well, this isn't very clean :(
         // HACK HACK HACK HACK HACK HACK HACK HACK
 
@@ -118,33 +119,32 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         // Split existing connection
         _prevNode = _originNc.getSource();
         _nextNode = _originNc.getTarget();
-        _ncTarg = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        _ncTarg = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),NodeConnection.class);
         _ncPred = _originNc;
 
         // OrFork -- EmptyPoint -- EndPoint
-        _newOrFork = (OrFork) ModelCreationFactory.getNewObject(OrFork.class);
+        _newOrFork = (OrFork) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),OrFork.class);
         _newOrFork.setX(_posX);
         _newOrFork.setY(_posY);
 
-        _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(EmptyPoint.class);
+        _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),EmptyPoint.class);
         _newEmptyPoint.setX(_posX + 25);
         _newEmptyPoint.setY(_posY - 25);
 
-        _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),NodeConnection.class);
 
-        _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject(EndPoint.class);
+
+        _newEndPoint = (EndPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),EndPoint.class);
         _newEndPoint.setX(_posX + 75);
         _newEndPoint.setY(_posY - 30);
 
-        _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(NodeConnection.class);
+        _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),NodeConnection.class);
 
         // TODO Add an empty point *ON* the connection going towards the
         // EndPoint
 
         redo();
-    }
-
-    public void redo() {
+    }    public void redo() {
         // Add the new objects to the graph
         testPreConditions();
         if (_originEp != null)
@@ -179,10 +179,8 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
 
         // bind to parent
         _newOrFork.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newOrFork.getX(), _newOrFork.getY()));
-        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint
-                .getY()));
-        _newEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEndPoint.getX(), _newEndPoint
-                .getY()));
+        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
+        _newEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEndPoint.getX(), _newEndPoint.getY()));
     }
 
     protected void redo_fromNodeConnection() {
@@ -207,10 +205,8 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         _pg.getPathNodes().add(_newEndPoint);
 
         _newOrFork.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newOrFork.getX(), _newOrFork.getY()));
-        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint
-                .getY()));
-        _newEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEndPoint.getX(), _newEndPoint
-                .getY()));
+        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
+        _newEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEndPoint.getX(), _newEndPoint.getY()));
     }
 
     public void undo() {
@@ -218,7 +214,7 @@ public class AddOrForkCommand extends Command implements JUCMNavCommand {
         if (_originEp != null)
             undo_fromEmptyPoint();
         else if (_originNc != null)
-            undo_fromNodeConnection();        
+            undo_fromNodeConnection();
         testPreConditions();
     }
 

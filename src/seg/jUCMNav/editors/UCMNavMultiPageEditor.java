@@ -259,7 +259,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     private Notifier target;
 
     public UCMNavMultiPageEditor() {
-        setModel((URNspec) ModelCreationFactory.getNewObject(URNspec.class));
+        setModel((URNspec) ModelCreationFactory.getNewURNspec());
 
     }
 
