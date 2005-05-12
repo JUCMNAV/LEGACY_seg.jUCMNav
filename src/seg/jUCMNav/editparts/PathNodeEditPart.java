@@ -85,7 +85,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonResizableEditPolicy());
 	}
 	
-	private PathNode getNode(){
+	protected PathNode getNode(){
 		return (PathNode)getModel();
 	}
 	

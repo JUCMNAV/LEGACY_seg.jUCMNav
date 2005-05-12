@@ -60,7 +60,7 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		else if(model instanceof AndFork)
 		    return new PathNodeEditPart((AndFork)model, root.getPathGraph());
 		else if(model instanceof Stub)
-			return new PathNodeEditPart((Stub)model, root.getPathGraph());
+			return new StubEditPart((Stub)model, root.getPathGraph());
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();");
 			return null;
