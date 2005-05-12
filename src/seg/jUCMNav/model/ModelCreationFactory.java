@@ -252,11 +252,19 @@ public class ModelCreationFactory implements CreationFactory {
     public static String getPrefix(Class targetClass) {
         if (htPrefixes.get(targetClass) != null)
             return (String) htPrefixes.get(targetClass);
-        else if (targetClass.getSimpleName().endsWith("Impl"))
-            return targetClass.getSimpleName().substring(0, targetClass.getSimpleName().length() - 4);
+        else if (getSimpleName(targetClass).endsWith("Impl"))
+            return getSimpleName(targetClass).substring(0, getSimpleName(targetClass).length() - 4);
         else
-            return targetClass.getSimpleName();
+            return getSimpleName(targetClass);
 
+    }
+
+    /*
+     * To avoid depending on Java 1.5
+     */
+    private static String getSimpleName(Class targetClass) {
+        String simpleName = targetClass.getName();
+        return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip the package name
     }
 
 }
