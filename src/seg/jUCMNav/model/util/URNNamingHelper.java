@@ -1,6 +1,7 @@
 package seg.jUCMNav.model.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -347,11 +348,12 @@ public class URNNamingHelper {
             setElementNameAndID(urn, elem);
 
             // if that didn't work, try adding -1, -2, -3 ... until it works.
-            while (htNames.containsKey(elem.getName())) {
+            while (htNames.containsKey(elem.getName().toLowerCase())) {
+                elem.setName("");
                 setElementNameAndID(urn, elem);
                 elem.setName(elem.getName() + "-" + (i++));
             }
-            htNames.put(elem.getId(), null);
+            htNames.put(elem.getName().toLowerCase(), null);
 
             nameConflicts.remove(0);
         }
@@ -382,11 +384,11 @@ public class URNNamingHelper {
         if (htNames != null && nameConflicts != null) {
 
             // do we have a naming conflict?
-            if (htNames.containsKey(elem.getName())) {
+            if (htNames.containsKey(elem.getName().toLowerCase())) {
                 nameConflicts.add(elem);
             } else {
                 // remember the name
-                htNames.put(elem.getName(), null);
+                htNames.put(elem.getName().toLowerCase(), null);
             }
         }
     }
@@ -464,5 +466,72 @@ public class URNNamingHelper {
     private static String setTopID(URNspec urn, String id) {
         urn.setModified(id);
         return id;
+    }
+
+    /**
+     * Verifies in the urnspec to see if a component exists with the proposed name.If you plan on calling resolveNamingConflict after this call, call it
+     * directly; this method will only add overhead.
+     * 
+     * @param urn
+     * @param proposedName
+     * @return
+     */
+    public static boolean doesComponentNameExists(URNspec urn, String proposedName) {
+        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
+            UCMmodelElement element = (UCMmodelElement) iter.next();
+            if (element.getName().equalsIgnoreCase(proposedName))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Verifies in the urnspec to see if a responsibility exists with the proposed name. If you plan on calling resolveNamingConflict after this call, call it
+     * directly; this method will only add overhead.
+     * 
+     * @param urn
+     * @param proposedName
+     * @return
+     */
+    public static boolean doesResponsibilityNameExists(URNspec urn, String proposedName) {
+        for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+            UCMmodelElement element = (UCMmodelElement) iter.next();
+            if (element.getName().equalsIgnoreCase(proposedName))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Given a component or responsibility, decide if there is a naming conflict by looking in the appropriate collection. If there is one, rename the object.
+     * Should be used by automated background processes as will drop any custom name. If interacting with the user, use
+     * does(Component|Responsibility)NameExist().
+     * 
+     * @param urn
+     * @param elem
+     */
+    public static void resolveNamingConflict(URNspec urn, UCMmodelElement elem) {
+        Collection c;
+        if (elem instanceof Responsibility) {
+            c = urn.getUrndef().getResponsibilities();
+        } else if (elem instanceof ComponentElement) {
+            c = urn.getUrndef().getComponents();
+        } else {
+            System.out.println("Unable to resolveNamingConflict on an element of this class.");
+            return;
+        }
+
+        HashMap names = new HashMap();
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            UCMmodelElement element = (UCMmodelElement) iter.next();
+            names.put(element.getName().toLowerCase(), null);
+        }
+
+        if (names.containsKey(elem.getName().toLowerCase())) {
+            Vector v = new Vector();
+            v.add(elem);
+            resolveNamingConflicts(urn, names, v);
+        }
+
     }
 }

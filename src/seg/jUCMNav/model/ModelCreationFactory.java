@@ -26,6 +26,7 @@ import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.GRLmodelElement;
 import urncore.NodeLabel;
+import urncore.Responsibility;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 import urncore.UrncoreFactory;
@@ -127,6 +128,14 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(RespRef.class)) {
                 // should create responsibility definition
                 result = factory.createRespRef();
+                
+                // new component refs must have a component definition
+                Responsibility respdef = UrncoreFactory.eINSTANCE.createResponsibility();
+                ((RespRef) result).setRespDef(respdef);
+
+                URNNamingHelper.setElementNameAndID(urn, respdef);
+                URNNamingHelper.resolveNamingConflict(urn, respdef);
+                
                 ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
             } else if (targetClass.equals(StartPoint.class)) {
                 result = factory.createStartPoint();
@@ -152,7 +161,8 @@ public class ModelCreationFactory implements CreationFactory {
                 compdef.setKind(ComponentKind.get(type));
 
                 URNNamingHelper.setElementNameAndID(urn, compdef);
-
+                URNNamingHelper.resolveNamingConflict(urn, compdef);
+                
                 ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
                 ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
 
@@ -170,9 +180,12 @@ public class ModelCreationFactory implements CreationFactory {
         }
 
         // set the name and id of model elements
+        // doesn't verify unique names. 
         if (result instanceof UCMmodelElement || result instanceof GRLmodelElement || result instanceof URNlink) {
             URNNamingHelper.setElementNameAndID(urn, result);
         }
+
+
 
         return result;
 
