@@ -20,7 +20,7 @@ import seg.jUCMNav.views.EObjectPropertySource;
  * @author Etienne Tremblay
  */
 public abstract class ModelElementEditPart extends AbstractGraphicalEditPart implements Adapter {
-	private IPropertySource propertySource = null;
+	protected IPropertySource propertySource = null;
 	private Notifier target;
 
 	/**

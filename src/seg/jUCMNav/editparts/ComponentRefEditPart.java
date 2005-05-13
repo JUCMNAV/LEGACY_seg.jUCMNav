@@ -7,13 +7,16 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
+import seg.jUCMNav.views.ComponentPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;
@@ -140,4 +143,14 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 //        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
         (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
+    
+	/* (non-Javadoc)
+	 * @see seg.jUCMNav.editparts.ModelElementEditPart#getPropertySource()
+	 */
+	protected IPropertySource getPropertySource() {
+		if( propertySource == null ) {
+			propertySource = new ComponentPropertySource( (EObject)getModel() );
+		}
+		return propertySource;
+	}
 }

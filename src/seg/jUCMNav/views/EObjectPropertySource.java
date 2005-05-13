@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -17,19 +16,12 @@ import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
-import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
-import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
-import ucm.map.PathNode;
-import urn.URNspec;
-import urncore.ComponentElement;
-import urncore.UCMmodelElement;
 
 /**
  * Created on 2005-01-30
@@ -56,10 +48,9 @@ import urncore.UCMmodelElement;
  *  
  */
 public class EObjectPropertySource implements IPropertySource {
-    private EObject object;
-    // if this is a reference to a component, we want it.
-    private ComponentElement comp = null;
-    private MapPackage ucmPackage;
+    protected EObject object;
+    
+    protected MapPackage ucmPackage;
 
     /**
      * Contruct an EObjectPropertySource from an EObject.
@@ -68,10 +59,6 @@ public class EObjectPropertySource implements IPropertySource {
      */
     public EObjectPropertySource(EObject obj) {
         this.object = obj;
-
-        if ((object instanceof ComponentRef) && ((ComponentRef) object).getCompDef() != null) {
-            comp = ((ComponentRef) object).getCompDef();
-        }
 
         Map registry = EPackage.Registry.INSTANCE;
         String networkURI = MapPackage.eNS_URI;
@@ -100,29 +87,37 @@ public class EObjectPropertySource implements IPropertySource {
         it = cls.getEAllStructuralFeatures().iterator();
         while (it.hasNext()) {
             EStructuralFeature attr = (EStructuralFeature) it.next();
-
-            if (comp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) {
-                // replace with that of ComponentRef with that of ComponentElement
-                continue;
-            }
-
-            addPropertyToDescriptor(descriptors, attr, object.eClass());
+            
+            // Can we add this feature in our property descriptor
+            if(canAddFeature(attr))
+            	addPropertyToDescriptor(descriptors, attr, object.eClass());
         }
-
-        // we are referencing another object; show its properties here.
-        if (comp != null)
-            it = comp.eClass().getEAllAttributes().iterator();
-
-        // add the new properties
-        while (it.hasNext()) {
-            EAttribute attr = (EAttribute) it.next();
-            addPropertyToDescriptor(descriptors, attr, comp.eClass());
-        }
+        
+        // Add more property descriptor as needed by subclass.
+        descriptors.addAll(addSpecificProperties());
 
         return (IPropertyDescriptor[]) descriptors.toArray(new IPropertyDescriptor[] {});
     }
 
     /**
+	 * This method is called by getPropertyDescriptors() to get a list of additionnal properties to add to this descriptor.
+	 * Subclass can overwrite this method to add more properties to the property descritor.
+	 */
+	protected  Vector addSpecificProperties() {
+		return new Vector();
+	}
+
+	/**
+	 * This function is called whenever we want to know if we can or not add a feature to the descriptor.
+	 * Subclass can overwrite this to delete some unwanted features from the list
+	 * 
+	 * @param attr
+	 */
+	protected boolean canAddFeature(EStructuralFeature attr) {
+		return true;		
+	}
+
+	/**
      * This function will add an attribute to the current descriptor. Currently, it handles a limited number of types.
      * 
      * @param descriptors
@@ -130,13 +125,8 @@ public class EObjectPropertySource implements IPropertySource {
      * @param type
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
-
-        EClassifier type;
-        if (attr instanceof EAttribute)
-            type = ((EAttribute) attr).getEAttributeType();
-        else
-            // if (attr instanceof EReference)
-            type = ((EReference) attr).getEReferenceType(); // ok to crash if not EReference.
+    	// Get type for the structural feature
+        EClassifier type = getFeatureType(attr);
 
         String propertyname = attr.getName();
 
@@ -148,57 +138,89 @@ public class EObjectPropertySource implements IPropertySource {
             // shouldn't be editable
             descriptors.add(new PropertyDescriptor(propertyid, propertyname));
         } else if (type.getInstanceClass() == String.class) {
-            if (attr.getName().toLowerCase().indexOf("color") >= 0)
-                descriptors.add(new ColorPropertyDescriptor(propertyid, propertyname));
-            else
-                descriptors.add(new TextPropertyDescriptor(propertyid, propertyname));
+            stringDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == boolean.class) {
-            // this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
-            //descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
-            String[] values = { "false", "true" };
-            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, propertyname, values));
+            booleanDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == int.class) {
-            TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, propertyname);
-
-            ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
-                public String isValid(Object value) {
-                    int intValue = -1;
-                    try {
-                        intValue = Integer.parseInt((String) value);
-                    } catch (NumberFormatException exc) {
-                        return "Not a number";
-                    }
-                    return (intValue >= 0) ? null : "Value must be >=  0";
-                }
-            });
-            descriptors.add(desc);
-        } else if (type.getInstanceClass() == ComponentElement.class) {
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-            EList list = urn.getUrndef().getComponents();
-            String[] values = new String[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-
-                values[i] = ((ComponentElement) list.get(i)).getName();
-                if (values[i] == null)
-                    values[i] = "[unnamed]";
-            }
-
-            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Component Definition", values));
-        } else if (type.getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) && attr.getUpperBound()==1){
-            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
-            String[] values = new String[list.size() + 1];
-            values[0] = "[unbound]";
-            for (int i = 1; i < list.size() + 1; i++) {
-                values[i] = ((ComponentRef) list.get(i - 1)).getCompDef().getName();
-                if (values[i] == null)
-                    values[i] = "[unnamed]";
-            }
-
-            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "parent", values));
+            intDescriptor(descriptors, attr, propertyid);
         }
     }
 
     /**
+     * Return the type of the feature
+     * 
+	 * @param attr
+	 * @return
+	 */
+	protected EClassifier getFeatureType(EStructuralFeature attr) {
+		EClassifier type;
+        if (attr instanceof EAttribute)
+            type = ((EAttribute) attr).getEAttributeType();
+        else
+            // if (attr instanceof EReference)
+            type = ((EReference) attr).getEReferenceType(); // ok to crash if not EReference.
+		return type;
+	}
+
+	/**
+     * Build a boolean property descriptor
+     * 
+	 * @param descriptors
+	 * @param propertyname
+	 * @param propertyid
+	 */
+	private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+		// this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
+		//descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
+//		String[] values = { "false", "true" };
+		descriptors.add(new CheckboxPropertyDescriptor(propertyid, attr.getName()));
+	}
+
+	/**
+	 * Build a string property descriptor
+	 * 
+	 * @param descriptors
+	 * @param attr
+	 * @param propertyname
+	 * @param propertyid
+	 */
+	private void stringDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+		if (attr.getName().toLowerCase().indexOf("color") >= 0)
+		    descriptors.add(new ColorPropertyDescriptor(propertyid, attr.getName()));
+		else if (attr.getName().toLowerCase().equals("id")) {
+			CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
+			text.setReadOnly(true);
+			descriptors.add(text);
+		}
+		else
+		    descriptors.add(new TextPropertyDescriptor(propertyid, attr.getName()));
+	}
+	
+	/**
+	 * int property descriptor
+	 * 
+	 * @param descriptors
+	 * @param attr
+	 * @param propertyid
+	 */
+	private void intDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+		TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
+
+        ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
+            public String isValid(Object value) {
+                int intValue = -1;
+                try {
+                    intValue = Integer.parseInt((String) value);
+                } catch (NumberFormatException exc) {
+                    return "Not a number";
+                }
+                return (intValue >= 0) ? null : "Value must be >=  0";
+            }
+        });
+        descriptors.add(desc);
+	}
+
+	/**
      * Given the property id, return the contained value
      */
     public Object getPropertyValue(Object id) {
@@ -208,55 +230,44 @@ public class EObjectPropertySource implements IPropertySource {
         Object[] o = (Object[]) id;
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
-        Object result = null;
+        Object result = getFeature(o, feature);
 
-        // if this attribute comes from the referenced object
-        if ((EClass) o[0] != object.eClass())
-            result = comp.eGet(feature);
-        else
-            result = object.eGet(feature);
+        result = returnPropertyValue(feature, result);
 
-        if (result instanceof Integer) {
+        return result != null ? result : "";
+    }
+    
+	/**
+	 * 
+	 * @param o
+	 * @param feature
+	 * @return
+	 */
+	protected Object getFeature(Object[] o, EStructuralFeature feature) {
+		return object.eGet(feature);
+	}
+
+    /**
+	 * @param feature
+	 * @param result
+	 * @return
+	 */
+	protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
+		if (result instanceof Integer) {
             result = ((Integer) result).toString();
         } else if (result instanceof Boolean) {
-            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
+//            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
+        	result = (Boolean)result;
         } else if (feature.getName().toLowerCase().indexOf("color") >= 0) {
             if (result == null || ((String) result).length() == 0)
                 result = new RGB(0, 0, 0);
             else
                 result = StringConverter.asRGB((String) result);
-        } else if (result instanceof ComponentElement) {
-            /*
-             * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
-             */
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-            EList list = urn.getUrndef().getComponents();
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
-                    result = new Integer(i);
-            }
-
-        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
-                //&& feature.getName().toLowerCase().indexOf("parent") >= 0) {
-            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
-            for (int i = 0; i < list.size(); i++) {
-                ComponentRef parent;
-                if (getEditableValue() instanceof ComponentRef)
-                    parent = ((ComponentRef) getEditableValue()).getParent();
-                else
-                    parent = ((PathNode) getEditableValue()).getCompRef();
-                if (list.get(i).equals(parent))
-                    result = new Integer(i + 1);
-            }
-            if (result == null)
-                result = new Integer(0);
-
         }
+		return result;
+	}
 
-        return result != null ? result : "";
-    }
-
-    /**
+	/**
      * For colors, we want to be able to reset to the default value (null) so we have to implement this method, indicating when the property is not at its
      * default value.
      * 
@@ -270,12 +281,9 @@ public class EObjectPropertySource implements IPropertySource {
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0) {
             return getPropertyValue(id) != null;
-        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
-            return ((Integer)getPropertyValue(id)).intValue()>0;
         }
 
         return false;
-
     }
 
     /**
@@ -286,17 +294,11 @@ public class EObjectPropertySource implements IPropertySource {
      * @see org.eclipse.ui.views.properties.IPropertySouce#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
-
         Object[] o = (Object[]) id;
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
-        if (feature.getName().toLowerCase().indexOf("color") >= 0 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) )) {
-            if ((EClass) o[0] != object.eClass())
-                comp.eSet(feature, null);
-            else
-                object.eSet(feature, null);
-        }
-
+        if(feature instanceof EReference)
+        	object.eSet(feature, null);
     }
 
     /**
@@ -316,26 +318,23 @@ public class EObjectPropertySource implements IPropertySource {
         if (feature.getEType().getInstanceClass() == int.class) {
             result = new Integer(Integer.parseInt((String) value));
         } else if (feature.getEType().getInstanceClass() == boolean.class) {
-            result = new Boolean(((Integer) value).intValue() == 1);
+            result = value;
         } else if (result instanceof RGB) {
             result = StringConverter.asString((RGB) value);
-        } else if (feature.getEType().getInstanceClass() == ComponentElement.class) {
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-            EList list = urn.getUrndef().getComponents();
-            result = list.get(((Integer) value).intValue());
-        } else if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef) ) {
-            Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
-            if (((Integer) value).equals(new Integer(0)))
-                result = null;
-            else
-                result = list.get(((Integer) value).intValue() - 1);
         } else
             result = value;
 
-        // if this attribute concerns a referenced object.
-        if ((EClass) o[0] != object.eClass())
-            comp.eSet(feature, result);
-        else
-            object.eSet(feature, result);
+        setReferencedObject(o, feature, result);
     }
+
+	/**
+	 * @param o
+	 * @param feature
+	 * @param result
+	 */
+	protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
+		// if this attribute concerns a referenced object.
+        if ((EClass) o[0] == object.eClass())
+            object.eSet(feature, result);
+	}
 }
