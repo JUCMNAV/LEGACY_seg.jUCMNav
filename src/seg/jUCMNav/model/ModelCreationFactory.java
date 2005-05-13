@@ -18,10 +18,13 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
 import urncore.Component;
+import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.GRLmodelElement;
@@ -110,82 +113,102 @@ public class ModelCreationFactory implements CreationFactory {
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
      */
     public static Object getNewObject(URNspec urn, Class targetClass, int type) {
-        MapFactory factory = MapFactory.eINSTANCE;
+        MapFactory mapfactory = MapFactory.eINSTANCE;
+        UcmFactory ucmfactory = UcmFactory.eINSTANCE;
+        UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
+
         Object result = null;
+
         if (targetClass != null) {
+
+            // Simple creations
             if (targetClass.equals(URNspec.class)) {
                 result = getNewURNspec();
             } else if (targetClass.equals(UCMspec.class)) {
-                result = UcmFactory.eINSTANCE.createUCMspec();
+                result = ucmfactory.createUCMspec();
             } else if (targetClass.equals(URNdefinition.class)) {
-                result = UrncoreFactory.eINSTANCE.createURNdefinition();
+                result = urncorefactory.createURNdefinition();
             } else if (targetClass.equals(PathGraph.class)) {
-                return factory.createPathGraph();
+                return mapfactory.createPathGraph();
             } else if (targetClass.equals(EmptyPoint.class)) {
-                result = factory.createEmptyPoint();
+                result = mapfactory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
-                result = factory.createNodeConnection();
-            } else if (targetClass.equals(RespRef.class)) {
-                // should create responsibility definition
-                result = factory.createRespRef();
-                
-                // new component refs must have a component definition
-                Responsibility respdef = UrncoreFactory.eINSTANCE.createResponsibility();
-                ((RespRef) result).setRespDef(respdef);
-
-                URNNamingHelper.setElementNameAndID(urn, respdef);
-                URNNamingHelper.resolveNamingConflict(urn, respdef);
-                
-                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
+                result = mapfactory.createNodeConnection();
+            } else if (targetClass.equals(Responsibility.class)) {
+                result = urncorefactory.createResponsibility();
             } else if (targetClass.equals(StartPoint.class)) {
-                result = factory.createStartPoint();
-                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
+                result = mapfactory.createStartPoint();
             } else if (targetClass.equals(EndPoint.class)) {
-                result = factory.createEndPoint();
-                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
+                result = mapfactory.createEndPoint();
             } else if (targetClass.equals(NodeLabel.class)) {
-                UrncoreFactory urncoreFactory = UrncoreFactory.eINSTANCE;
-                result = urncoreFactory.createNodeLabel();
+                result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
-                UrncoreFactory urncoreFactory = UrncoreFactory.eINSTANCE;
-                result = urncoreFactory.createComponentLabel();
-            } else if (targetClass.equals(ComponentRef.class)) {
-                // create the component ref
-                result = factory.createComponentRef();
-
-                // new component refs must have a component definition
-                Component compdef = UrncoreFactory.eINSTANCE.createComponent();
-                ((ComponentRef) result).setCompDef(compdef);
-
-                // define the ComponentKind according to what was set in the construction
-                compdef.setKind(ComponentKind.get(type));
-
-                URNNamingHelper.setElementNameAndID(urn, compdef);
-                URNNamingHelper.resolveNamingConflict(urn, compdef);
-                
-                ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
-                ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
-
-                ((ComponentRef) result).setLabel(UrncoreFactory.eINSTANCE.createComponentLabel());
+                result = urncorefactory.createComponentLabel();
             } else if (targetClass.equals(OrFork.class)) {
-                result = factory.createOrFork();
+                result = mapfactory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
-                result = factory.createAndFork();
+                result = mapfactory.createAndFork();
             } else if (targetClass.equals(Stub.class)) {
-                result = factory.createStub();
-                ((PathNode) result).setLabel(UrncoreFactory.eINSTANCE.createNodeLabel());
+                result = mapfactory.createStub();
+            } else if (targetClass.equals(WaitingPlace.class)) {
+                result = mapfactory.createWaitingPlace();
+            } else if (targetClass.equals(Timer.class)) {
+                result = mapfactory.createTimer();
             } else {
-                System.out.println("Unknown class passed to ModelCreationFactory");
+                // complex creations
+                if (targetClass.equals(ComponentRef.class)) {
+                    // create the component ref
+                    result = mapfactory.createComponentRef();
+
+                    // new component refs must have a component definition
+                    Component compdef = urncorefactory.createComponent();
+                    ((ComponentRef) result).setCompDef(compdef);
+
+                    // define the ComponentKind according to what was set in the construction
+                    compdef.setKind(ComponentKind.get(type));
+
+                    URNNamingHelper.setElementNameAndID(urn, compdef);
+                    URNNamingHelper.resolveNamingConflict(urn, compdef);
+
+                    ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
+                    ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
+
+                    ((ComponentRef) result).setLabel(urncorefactory.createComponentLabel());
+                } else if (targetClass.equals(Component.class)) {
+                    result = urncorefactory.createComponent();
+                    ((Component) result).setKind(ComponentKind.get(type));
+                } else if (targetClass.equals(RespRef.class)) {
+                    // should create responsibility definition
+                    result = mapfactory.createRespRef();
+
+                    // new component refs must have a component definition
+                    Responsibility respdef = urncorefactory.createResponsibility();
+                    ((RespRef) result).setRespDef(respdef);
+
+                    URNNamingHelper.setElementNameAndID(urn, respdef);
+                    URNNamingHelper.resolveNamingConflict(urn, respdef);
+                } else {
+                    System.out.println("Unknown class passed to ModelCreationFactory");
+                }
             }
         }
 
+        // add labels automatically to the required pathnodes.
+        if (result instanceof StartPoint || result instanceof EndPoint || result instanceof Stub || result instanceof RespRef || result instanceof WaitingPlace
+                || result instanceof Timer) {
+            ((PathNode) result).setLabel(urncorefactory.createNodeLabel());
+        }
+
         // set the name and id of model elements
-        // doesn't verify unique names. 
+        // doesn't verify unique names.
         if (result instanceof UCMmodelElement || result instanceof GRLmodelElement || result instanceof URNlink) {
             URNNamingHelper.setElementNameAndID(urn, result);
         }
 
-
+        // verify unique names
+        if (result instanceof Responsibility || result instanceof ComponentElement) {
+            URNNamingHelper.resolveNamingConflict(urn, (UCMmodelElement) result);
+        }
 
         return result;
 

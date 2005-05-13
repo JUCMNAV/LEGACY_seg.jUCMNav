@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.model.util.URNReferencerChecker;
 import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
 
@@ -33,7 +34,6 @@ public class UrnModelManager {
      * For the purpose of the simple editor, a file can only contain a UCM. In EMF, a resource provides the way to have access to the model content.
      */
     private Resource resource = null;
-    
 
     /**
      * Gives access to the top level model element contained in the resource.
@@ -48,7 +48,7 @@ public class UrnModelManager {
      */
     public Resource getResource(IPath path) {
         if (resource == null) {
-            
+
             ResourceSet resSet = getResourceSet();
             resource = resSet.getResource(URI.createPlatformResourceURI(path.toString()), true);
         }
@@ -84,7 +84,6 @@ public class UrnModelManager {
         return new ResourceSetImpl();
     }
 
-
     /**
      * Creates a new URNspec.
      * 
@@ -93,13 +92,12 @@ public class UrnModelManager {
      */
     public URNspec createURNspec(IPath path) {
         createResource(path);
-        
-        URNspec urnspec=(URNspec) ModelCreationFactory.getNewURNspec();
+
+        URNspec urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
 
         resource.getContents().add(urnspec);
         return urnspec;
     }
-    
 
     /**
      * Creates a new URNspec.
@@ -112,7 +110,7 @@ public class UrnModelManager {
         createResource(path);
         resource.getContents().add(urnspec);
         return urnspec;
-    }    
+    }
 
     /**
      * Loads the content of the model from the file.
@@ -162,8 +160,9 @@ public class UrnModelManager {
                 if (o instanceof URNspec)
                     model = (URNspec) o;
             }
-            
+
             URNNamingHelper.sanitizeURNspec(model);
+            URNReferencerChecker.sanitizeReferences(model);
         }
         return model;
     }
