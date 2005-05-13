@@ -144,12 +144,13 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         testPostConditions();
 
         // put back element in model and setup the relations.
-        map.getCompRefs().add(compRef);
         compRef.getChildren().addAll(compRefChildren);
         compRef.getPathNodes().addAll(pathNodeChildren);
         compRef.setParent(parent);
         compRef.setCompDef(compDef);
-
+        // must be last so that the label has access to the component definition
+        map.getCompRefs().add(compRef);
+        
         testPreConditions();
     }
 }

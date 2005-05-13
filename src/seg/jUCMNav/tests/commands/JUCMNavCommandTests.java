@@ -1,11 +1,21 @@
 package seg.jUCMNav.tests.commands;
 
+import java.io.ByteArrayInputStream;
+
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 
-import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
@@ -41,16 +51,17 @@ import urncore.UCMmodelElement;
  */
 public class JUCMNavCommandTests extends TestCase {
 
-    URNspec urnspec;
-    CommandStack cs;
-    ComponentRef compRef;
-    StartPoint start;
-    EndPoint end;
-    Map map;
-    PathGraph pathgraph;
-    UrnModelManager umm;
-    UCMmodelElement componentRefWithLabel;
-    UCMmodelElement pathNodeWithLabel;
+    private URNspec urnspec;
+    private CommandStack cs;
+    private ComponentRef compRef;
+    private StartPoint start;
+    private EndPoint end;
+    private Map map;
+    private PathGraph pathgraph;
+    private UCMmodelElement componentRefWithLabel;
+    private UCMmodelElement pathNodeWithLabel;
+    private IFile testfile;
+    private UCMNavMultiPageEditor editor;
 
 
     public static void main(String[] args) {
@@ -63,9 +74,32 @@ public class JUCMNavCommandTests extends TestCase {
      */
     protected void setUp() throws Exception {
         super.setUp();
-        umm = new UrnModelManager();
 
-        urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests");
+        if (!testproject.exists())
+            testproject.create(null);
+
+        if (!testproject.isOpen())
+            testproject.open(null);
+
+        testfile = testproject.getFile("jUCMNav-test.ucm");
+
+        // start with clean file
+        if (testfile.exists())
+            testfile.delete(true,false,null);
+        
+        testfile.create(new ByteArrayInputStream("".getBytes()), false, null);
+
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(testfile.getName());
+        editor = (UCMNavMultiPageEditor) page.openEditor(new FileEditorInput(testfile), desc.getId());
+
+        // generate a top level model element
+        urnspec = editor.getModel();
+//        urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+        
+        
         compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec,ComponentRef.class);
         start = (StartPoint) ModelCreationFactory.getNewObject(urnspec,StartPoint.class);
         map = (Map) urnspec.getUcmspec().getMaps().get(0);
@@ -80,13 +114,17 @@ public class JUCMNavCommandTests extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
 
+        editor.doSave(null);
+        
         int i = cs.getCommands().length;
 
         if (cs.getCommands().length > 0) {
             assertTrue("Can't undo first command", cs.canUndo());
             cs.undo();
+            editor.doSave(null);
             assertTrue("Can't redo first command", cs.canRedo());
             cs.redo();
+            editor.doSave(null);
         }
 
         while (i-- > 0) {
@@ -94,13 +132,18 @@ public class JUCMNavCommandTests extends TestCase {
             cs.undo();
         }
 
+        editor.doSave(null);
+        
         i = cs.getCommands().length;
         while (i-- > 0) {
             assertTrue("Can't redo a certain command", cs.canRedo());
             cs.redo();
         }
 
+        editor.doSave(null);
         // serialize using UrnModelManager && getName();
+        
+        editor.closeEditor(false);
     }
 
     /**

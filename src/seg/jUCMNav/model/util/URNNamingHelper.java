@@ -316,13 +316,16 @@ public class URNNamingHelper {
 
         // because of our calls to isValidID, should be convertible to a Long
         // the proposedTopID is the minimal legal value.
-        proposedTopID = Long.toString(Long.parseLong((String) ids.get(ids.size() - 1)) + 1);
 
-        // update the ID if necessary
-        if (!urn.getModified().equals(proposedTopID)) {
-            // don't lower the top id; simply increment it if changes occured.
-            if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getModified()))
-                urn.setModified(proposedTopID);
+        if (ids.size() > 0) {
+            proposedTopID = Long.toString(Long.parseLong((String) ids.get(ids.size() - 1)) + 1);
+
+            // update the ID if necessary
+            if (!urn.getModified().equals(proposedTopID)) {
+                // don't lower the top id; simply increment it if changes occured.
+                if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getModified()))
+                    urn.setModified(proposedTopID);
+            }
         }
     }
 
