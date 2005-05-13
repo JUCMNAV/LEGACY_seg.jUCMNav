@@ -276,7 +276,7 @@ protected void executeFromNodeConnection() {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
+        // TODO Must implement (high-priority)
 
     }
 
@@ -286,7 +286,7 @@ protected void executeFromNodeConnection() {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        // TODO Must implement (high-priority)
 
     }
 

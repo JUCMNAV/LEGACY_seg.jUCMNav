@@ -23,7 +23,7 @@ import ucm.map.StartPoint;
 public class BSplineConnectionRouter extends AbstractRouter {
 
     /**
-     * The connection is the key and the spline is the value. This hashmap will allow us to know to wich spline a connection bellong to.
+     * The connection is the key and the spline is the value. This hashmap will allow us to know to which spline a connection bellong to.
      */
     private HashMap conSplines = new HashMap();
 
