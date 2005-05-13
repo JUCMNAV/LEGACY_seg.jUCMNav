@@ -9,12 +9,15 @@ import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
+import seg.jUCMNav.model.commands.delete.DeleteLabelCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -24,8 +27,11 @@ import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urn.URNspec;
+import urncore.Label;
+import urncore.UCMmodelElement;
 
 /**
  * Created on 15-Apr-2005
@@ -43,6 +49,9 @@ public class JUCMNavCommandTests extends TestCase {
     Map map;
     PathGraph pathgraph;
     UrnModelManager umm;
+    UCMmodelElement componentRefWithLabel;
+    UCMmodelElement pathNodeWithLabel;
+
 
     public static void main(String[] args) {
 
@@ -253,19 +262,64 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testLabelSetConstraintCommand() {
-        assert false : "not yet implemented";
+    	testCreateLabelCommand();
+    	
+    	LabelSetConstraintCommand cmd = new LabelSetConstraintCommand();
+    	cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
+    	cmd.setNewPosition(75, 75);
+    	
+    	assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute());
+    	cs.execute(cmd);
+    	
+    	cmd = new LabelSetConstraintCommand();
+    	cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
+    	cmd.setNewPosition(25, 25);
+    	
+    	assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute());
+    	cs.execute(cmd);
     }
 
     public void testCreateLabelCommand() {
-        assert false : "not yet implemented";
+    	testCreatePathCommand();
+    	testAddComponentCommand();
+    	
+    	pathNodeWithLabel = (UCMmodelElement) end;
+    	
+    	CreateLabelCommand cmd = new CreateLabelCommand(pathNodeWithLabel);
+    	cmd.setDeltaX(50);
+    	cmd.setDeltaX(50);
+    	
+    	assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute());
+    	cs.execute(cmd);
+    	
+    	componentRefWithLabel = (UCMmodelElement) compRef;
+    	
+    	cmd = new CreateLabelCommand(componentRefWithLabel);
+    	cmd.setDeltaX(0);
+    	cmd.setDeltaX(0);
+    	
+    	assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute());
+    	cs.execute(cmd);
+
     }
 
     public void testDeleteLabelCommand() {
-        assert false : "not yet implemented";
-    }
+    	testCreateLabelCommand();
+    	
+    	DeleteLabelCommand cmd = new DeleteLabelCommand();
+    	cmd.setModelElement(pathNodeWithLabel);
+    	cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
+    	
+    	assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute());
+    	cs.execute(cmd);
+    	
+    	cmd = new DeleteLabelCommand();
+    	cmd.setModelElement(componentRefWithLabel);
+    	cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
 
-    public void testChangeLabelNameCommand() {
-        assert false : "not yet implemented";
+    	assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute());
+    	cs.execute(cmd);
+
     }
 
     //    public void testDeleteNodeCommand()

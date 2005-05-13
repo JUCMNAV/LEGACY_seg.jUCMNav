@@ -27,6 +27,9 @@ import urncore.UCMmodelElement;
  */
 public class LabelEditPart extends ModelElementEditPart {
 	private UCMmodelElement modelElement;
+	
+	private static final int LABEL_PADDING_X = 6;
+	private static final int LABEL_PADDING_Y = 4;
 
 	public LabelEditPart(Label model, UCMmodelElement modelElement){
 		super();
@@ -80,18 +83,7 @@ public class LabelEditPart extends ModelElementEditPart {
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        String name = modelElement.getName();
-        
-        EditableLabel label;
-        if(name != null) {
-            label = new EditableLabel(name);
-        } else {
-            String[] fullClassName = modelElement.getClass().getName().split("\\.");
-            String className = fullClassName[fullClassName.length-1];
-            className = className.substring(0, className.length()-4);
-            label = new EditableLabel(className);
-        }
-        
+        EditableLabel label = new EditableLabel("");
         return new LabelFigure(label);
     }
 
@@ -122,7 +114,7 @@ public class LabelEditPart extends ModelElementEditPart {
             }
             
             Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
-            Dimension newLabelDimension = new Dimension(dimEditableLabel.width + 8, dimEditableLabel.height + 4);
+            Dimension newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
             
             //The position of the new figure
             Point location = calculateModelElementPosition(getModelObj(), newLabelDimension);
@@ -147,7 +139,7 @@ public class LabelEditPart extends ModelElementEditPart {
     	if(modelElement instanceof PathNode) {
     		PathNode node = (PathNode) modelElement;
     		location = new Point(	node.getX() - label.getDeltaX() - (labelDimension.width/2),
-									node.getY() - label.getDeltaY() - (labelDimension.height/2));
+    								node.getY() - label.getDeltaY() - (labelDimension.height/2));
     	} else if(modelElement instanceof ComponentRef) {
     		ComponentRef component = (ComponentRef) modelElement;
     		location = new Point(	component.getX() - label.getDeltaX(),

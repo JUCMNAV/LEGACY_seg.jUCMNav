@@ -5,9 +5,11 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import urn.URNspec;
 import urncore.ComponentLabel;
 import urncore.Label;
 import urncore.NodeLabel;
@@ -18,8 +20,6 @@ import urncore.UCMmodelElement;
  */
 public class CreateLabelCommand extends Command implements JUCMNavCommand{
     private static final String	CreateCommand_Label = "CreateLabelCommand";
-    public static final int DEFAULT_DELTAX_PATHNODE=0;
-    public static final int DEFAULT_DELTAY_PATHNODE=0;
     
 	private Label label;
 	private UCMmodelElement modelElement;
@@ -39,8 +39,15 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-
-	    label.setDeltaX(deltaX);
+		if(modelElement instanceof PathNode) {
+			label = (Label) ModelCreationFactory.getNewObject( 
+					(URNspec) (((PathNode) modelElement).eContainer().eContainer().eContainer().eContainer()) , NodeLabel.class);
+		} else if(modelElement instanceof ComponentRef) {
+			label = (Label) ModelCreationFactory.getNewObject( 
+					(URNspec) (((ComponentRef) modelElement).eContainer().eContainer().eContainer().eContainer()) , ComponentLabel.class);
+        }
+        
+        label.setDeltaX(deltaX);
 	    label.setDeltaY(deltaY);
 		
 		redo();
@@ -53,9 +60,9 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
 		testPreConditions();
 		
 		if(modelElement instanceof PathNode) {
-			((PathNode) modelElement).setLabel((NodeLabel)label);
+			((PathNode) modelElement).setLabel((NodeLabel) label);
 		} else if(modelElement instanceof ComponentRef) {
-			((ComponentRef) modelElement).setLabel((ComponentLabel)label);
+			((ComponentRef) modelElement).setLabel((ComponentLabel) label);
         }
 		
         testPostConditions();
@@ -86,9 +93,6 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
         assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode() == null : "pre NodeLabel not connected to a PathNode";
         //assert node.getLabel() == null : "pre PathNode not connected to a NodeLabel";
-        
-        assert label.getDeltaX() == deltaX : "pre Label deltaX";
-        assert label.getDeltaY() == deltaY : "pre Label deltaY";
     }
 
     /*
@@ -101,9 +105,6 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
     	assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
         //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
-        
-    	assert label.getDeltaX() == deltaX : "pre Label deltaX";
-        assert label.getDeltaY() == deltaY : "pre Label deltaY";
     }
 
 	/**

@@ -5,12 +5,13 @@ package seg.jUCMNav.model.commands.changeConstraints;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Label;
 
 /**
  * @author Jordan
  */
-public class LabelSetConstraintCommand extends Command {
+public class LabelSetConstraintCommand extends Command implements JUCMNavCommand {
     private static final String Command_Label_Location = "change location command";
 	private static final String Command_Label_Resize = "resize command";
 	private int newDeltaX;
@@ -34,16 +35,24 @@ public class LabelSetConstraintCommand extends Command {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
+		testPreConditions();
+		
 	    label.setDeltaX(newDeltaX);
 	    label.setDeltaY(newDeltaY);
+	    
+	    testPostConditions();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
+		testPostConditions();
+		
 	    label.setDeltaX(oldDeltaX);
 	    label.setDeltaY(oldDeltaY);
+	    
+	    testPreConditions();
 	}
 	
 	/* (non-Javadoc)
@@ -52,6 +61,26 @@ public class LabelSetConstraintCommand extends Command {
 	public String getLabel() {
 		return Command_Label_Resize;
 	}
+	
+	/*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
+    public void testPostConditions() {
+        assert label != null : "post Label";
+        assert label.getDeltaX() == newDeltaX && label.getDeltaY() == newDeltaY : "post Label position";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert label != null : "post Label";
+        assert label.getDeltaX() == oldDeltaX && label.getDeltaY() == oldDeltaY : "pre Label position";
+    }
 
 	/**
 	 * @param label The label to set.
