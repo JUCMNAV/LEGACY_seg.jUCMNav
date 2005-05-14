@@ -10,9 +10,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.model.commands.create.AddOrForkCommand;
+import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
 import ucm.map.EmptyPoint;
+import ucm.map.OrFork;
 import ucm.map.PathGraph;
+import urn.URNspec;
 
 /**
  * @author jpdaigle
@@ -38,8 +41,7 @@ public class AddOrForkAction extends SelectionAction {
 
     private boolean canPerformAction() {
         /*
-         * Conditions for enabling: selection contains exactly 1 item and it's a
-         * path node.
+         * Conditions for enabling: selection contains exactly 1 item and it's a path node.
          */
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
@@ -55,10 +57,11 @@ public class AddOrForkAction extends SelectionAction {
     private Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        
-        PathGraph pg = (PathGraph)((EmptyPoint)part.getModel()).eContainer();
-        AddOrForkCommand comm = new AddOrForkCommand(pg, (EmptyPoint)part.getModel());
-        System.out.println("Create AddOrForkCommand");
+
+        PathGraph pg = (PathGraph) ((EmptyPoint) part.getModel()).eContainer();
+        OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
+                .eContainer(), OrFork.class);
+        AddForkOnEmptyPointCommand comm = new AddForkOnEmptyPointCommand(newOrFork, pg, (EmptyPoint) part.getModel());
         return comm;
     }
 

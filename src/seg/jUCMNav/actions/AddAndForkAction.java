@@ -13,15 +13,18 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.model.commands.create.AddAndForkCommand;
+import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
 import ucm.map.PathGraph;
+import urn.URNspec;
 
 /**
  * @author jpdaigle
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
+ * Templates
  */
 public class AddAndForkAction extends SelectionAction {
 
@@ -45,8 +48,7 @@ public class AddAndForkAction extends SelectionAction {
 
     private boolean canPerformAction() {
         /*
-         * Conditions for enabling: selection contains exactly 1 item and it's a
-         * path node.
+         * Conditions for enabling: selection contains exactly 1 item and it's a path node.
          */
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
@@ -62,10 +64,11 @@ public class AddAndForkAction extends SelectionAction {
     private Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        
-        PathGraph pg = (PathGraph)((EmptyPoint)part.getModel()).eContainer();
-        AddAndForkCommand comm = new AddAndForkCommand(pg, (EmptyPoint)part.getModel());
-        System.out.println("Create AddAndForkCommand");
+
+        PathGraph pg = (PathGraph) ((EmptyPoint) part.getModel()).eContainer();
+        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
+                .eContainer(), AndFork.class);
+        AddForkOnEmptyPointCommand comm = new AddForkOnEmptyPointCommand(newAndFork, pg, (EmptyPoint) part.getModel());
         return comm;
     }
 

@@ -15,14 +15,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.map.AndFork;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import urn.URNspec;
 import ucm.map.Stub;
+import urn.URNspec;
 import urncore.ComponentKind;
 
 /**
@@ -187,11 +188,15 @@ public class UcmPaletteRoot extends PaletteRoot {
         entry.setId("Responsibility");
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry("Or Fork", "Creates an or fork", null, new ModelCreationFactory(getURNspec(), OrFork.class), ImageDescriptor
+        entry = new CombinedTemplateCreationEntry("Or Fork", "Creates an OR fork", null, new ModelCreationFactory(getURNspec(), OrFork.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
         componentsDrawer.add(entry);
 
-		entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor.createFromFile(
+        entry = new CombinedTemplateCreationEntry("And Fork", "Creates an AND fork", null, new ModelCreationFactory(getURNspec(), AndFork.class), ImageDescriptor
+                .createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor.createFromFile(
 				JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
 		componentsDrawer.add(entry);
 
