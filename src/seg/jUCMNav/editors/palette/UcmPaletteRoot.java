@@ -1,7 +1,6 @@
 package seg.jUCMNav.editors.palette;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.CreationToolEntry;
 import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
@@ -14,6 +13,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.AndFork;
 import ucm.map.ComponentRef;
@@ -103,7 +103,7 @@ public class UcmPaletteRoot extends PaletteRoot {
         // the marquee selection tool
         controls.add(new MarqueeToolEntry());
 
-        CreationToolEntry entry;
+        ToolEntry entry;
 
         PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
 
@@ -198,6 +198,10 @@ public class UcmPaletteRoot extends PaletteRoot {
 
         entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor.createFromFile(
 				JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
+		componentsDrawer.add(entry);
+		
+		entry = new PathToolEntry("PathTool", "PathTool", urn, ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor
+				.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
 		componentsDrawer.add(entry);
 
 		
