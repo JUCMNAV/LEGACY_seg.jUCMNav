@@ -108,26 +108,9 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
 		doSetValue(new Boolean(!check.getSelection()));
 		fireApplyEditorValue();
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
-	 */
-	public void widgetDefaultSelected(SelectionEvent e) {
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseDoubleClick(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseDown(MouseEvent e) {
-		
-	}
+	
+	// Unused implemented methods
+	public void widgetDefaultSelected(SelectionEvent e) {}
+	public void mouseDoubleClick(MouseEvent e) {}
+	public void mouseDown(MouseEvent e) {}
 }

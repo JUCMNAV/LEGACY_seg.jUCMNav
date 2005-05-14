@@ -58,10 +58,46 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            icon="icons/icon16.gif"
             class="seg.jUCMNav.views.UCMPerspectiveFactory"
-            name="JUCMNav Perspective"
+            icon="icons/icon16.gif"
+            name="JUCMNav"
             id="seg.jUCMNav.UCMEditor"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="JUCMNav"
+            id="seg.jUCMNav"/>
+      <wizard
+            finalPerspective="seg.jUCMNav.UCMEditor"
+            class="seg.jUCMNav.views.wizards.NewUcmFileWizard"
+            icon="icons/icon16.gif"
+            descriptionImage="icons/perspectiveIcon.gif"
+            category="seg.jUCMNav"
+            name="UCM file"
+            id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               ratio="0.5"
+               relationship="left"
+               relative="org.eclipse.ui.views.TaskList"
+               id="seg.jUCMNav.views.ResponsibilityView"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="JUCMNav"
+            id="seg.jUCMNav"/>
+      <view
+            class="seg.jUCMNav.views.ResponsibilityView"
+            icon="icons/Resp16.gif"
+            category="seg.jUCMNav"
+            name="Responsibilities"
+            id="seg.jUCMNav.views.ResponsibilityView"/>
    </extension>
 
 </plugin>
