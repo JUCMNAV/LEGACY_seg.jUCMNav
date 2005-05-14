@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package seg.jUCMNav.views;
+package seg.jUCMNav.views.property;
 
 import java.util.Collection;
 import java.util.Iterator;

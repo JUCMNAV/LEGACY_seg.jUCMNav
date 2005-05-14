@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
-import seg.jUCMNav.views.ComponentPropertySource;
+import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import urncore.ComponentElement;

@@ -44,7 +44,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
-import seg.jUCMNav.views.EObjectPropertySource;
+import seg.jUCMNav.views.property.EObjectPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;

@@ -1,4 +1,4 @@
-package seg.jUCMNav.views;
+package seg.jUCMNav.views.property;
 
 import java.util.Collection;
 import java.util.Iterator;
