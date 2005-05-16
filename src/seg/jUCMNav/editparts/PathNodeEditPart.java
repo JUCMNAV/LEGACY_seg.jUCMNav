@@ -186,4 +186,29 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	public void setDiagram(PathGraph diagram) {
 		this.diagram = diagram;
 	}
+	
+
+    /** 
+     * Overriding because we also have to listen to the responsibility definition
+     * 
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate() {
+        if (!isActive() && getNode() instanceof RespRef && ((RespRef)getNode()).getRespDef()!=null)
+            ((RespRef)getNode()).getRespDef().eAdapters().add(this);
+
+        super.activate();
+    }
+
+    /**
+     * Overriding because we also have to listen to the responsibility definition
+     * 
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate() {
+        if (isActive() && getNode() instanceof RespRef && ((RespRef)getNode()).getRespDef()!=null)
+            ((RespRef)getNode()).getRespDef().eAdapters().remove(this);
+        super.deactivate();        
+        
+    }
 }

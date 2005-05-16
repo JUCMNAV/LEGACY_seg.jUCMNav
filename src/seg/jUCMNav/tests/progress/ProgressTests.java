@@ -44,6 +44,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
+import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
@@ -255,7 +256,7 @@ public class ProgressTests extends TestCase {
         getMapEditPart(0).refreshChildren();
 
         // create a property source on the component ref
-        EObjectPropertySource eops = new EObjectPropertySource(cr);
+        ComponentPropertySource eops = new ComponentPropertySource(cr);
         EStructuralFeature attr;
         Vector v = new Vector();
         Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
@@ -380,7 +381,7 @@ public class ProgressTests extends TestCase {
 
     private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
 
-        EObjectPropertySource eops = new EObjectPropertySource(cr);
+        EObjectPropertySource eops = new ComponentPropertySource(cr);
         EStructuralFeature attr;
         Vector v = new Vector();
         Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();

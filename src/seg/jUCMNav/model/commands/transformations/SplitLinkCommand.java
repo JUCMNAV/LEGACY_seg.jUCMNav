@@ -9,6 +9,7 @@ import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import urn.URNspec;
 
 /**
@@ -35,17 +36,15 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     //  The two new links for the new node
     private NodeConnection newLink;
 
-
     private int x, y;
 
     public SplitLinkCommand(PathGraph pg, PathNode pn, NodeConnection link, int x, int y) {
         this.diagram = pg;
         this.node = pn;
-        this.oldLink=link;
+        this.oldLink = link;
         this.x = x;
         this.y = y;
 
-        
         setLabel("Insert a node on a path");
     }
 
@@ -58,9 +57,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         previousNode = oldLink.getSource();
         nextNode = oldLink.getTarget();
 
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
-        
-        node.getSucc().add(0,newLink);
+        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
+
+        node.getSucc().add(0, newLink);
 
         node.setX(x);
         node.setY(y);
@@ -75,24 +74,25 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
         /*
-         * Before
-         * ... (previousNode)---[oldLink]---(nextNode)---...
-         *   
-         * After
-         * ... (previousNode)---[oldLink]---(node)---[newLink]---(nextNode)---...
+         * Before ... (previousNode)---[oldLink]---(nextNode)---...
+         * 
+         * After ... (previousNode)---[oldLink]---(node)---[newLink]---(nextNode)---...
          */
 
         // relink
         oldLink.setTarget(node);
         newLink.setTarget(nextNode);
-        
+
         // add to model
         diagram.getPathNodes().add(node);
         diagram.getNodeConnections().add(newLink);
-        
+
+        if (node instanceof RespRef)
+            ((URNspec) diagram.eContainer().eContainer().eContainer()).getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+
         // bind to parent
-        node.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), x, y));
-        
+        node.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x, y));
+
         testPostConditions();
     }
 
@@ -106,7 +106,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
         // unbind from parent
         node.setCompRef(null);
-        
+
         // remove from model
         diagram.getNodeConnections().remove(newLink);
         diagram.getPathNodes().remove(node);
@@ -115,6 +115,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         oldLink.setTarget(nextNode);
         newLink.setTarget(null);
 
+        if (node instanceof RespRef)
+            ((URNspec) diagram.eContainer().eContainer().eContainer()).getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
+
+        
         testPreConditions();
     }
 
@@ -199,15 +203,15 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert diagram!=null : "pre diagram";
-        assert node!=null : "pre node";
-        assert previousNode!=null : "pre previous node";
-        assert nextNode!=null : "pre next node";
-        assert newLink!=null : "pre newLink1";
-        assert oldLink!=null : "pre oldLink";
-        
-        assert node.getX()==x && node.getY()==y : "pre node position";
-        
+        assert diagram != null : "pre diagram";
+        assert node != null : "pre node";
+        assert previousNode != null : "pre previous node";
+        assert nextNode != null : "pre next node";
+        assert newLink != null : "pre newLink1";
+        assert oldLink != null : "pre oldLink";
+
+        assert node.getX() == x && node.getY() == y : "pre node position";
+
         assert diagram.getPathNodes().contains(previousNode) : "pre graph contains previousNode";
         assert diagram.getPathNodes().contains(nextNode) : "pre graph contains nextNode";
         assert !diagram.getPathNodes().contains(node) : "pre graph doesn't contain node";
@@ -217,8 +221,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         assert previousNode.getSucc().contains(oldLink) : "pre link1";
         assert oldLink.getTarget() == nextNode : "pre link2";
 
-        assert node.getPred().size()==0 && node.getSucc().size()==1 : "post node 0 in 1 out";
-        
+        assert node.getPred().size() == 0 && node.getSucc().size() == 1 : "post node 0 in 1 out";
+
     }
 
     /*
@@ -227,15 +231,15 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert diagram!=null : "post diagram";
-        assert node!=null : "post node";
-        assert previousNode!=null : " postvious node";
-        assert nextNode!=null : "post next node";
-        assert newLink!=null : "post newLink1";
-        assert oldLink!=null : "post oldLink";
-        
-        assert node.getX()==x && node.getY()==y : "post node position";
-        
+        assert diagram != null : "post diagram";
+        assert node != null : "post node";
+        assert previousNode != null : " postvious node";
+        assert nextNode != null : "post next node";
+        assert newLink != null : "post newLink1";
+        assert oldLink != null : "post oldLink";
+
+        assert node.getX() == x && node.getY() == y : "post node position";
+
         assert diagram.getPathNodes().contains(previousNode) : "post graph contains previousNode";
         assert diagram.getPathNodes().contains(nextNode) : "post graph contains nextNode";
         assert diagram.getPathNodes().contains(node) : "post graph contains node";
@@ -246,10 +250,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         assert oldLink.getTarget() == node : "post link2";
         assert node.getSucc().get(0) == newLink : "post link3";
         assert newLink.getTarget() == nextNode : "post link4";
-        
-        assert node.getPred().size()==1 && node.getSucc().size()==1 : "post node 1 in 1 out";
-        
-        
+
+        assert node.getPred().size() == 1 && node.getSucc().size() == 1 : "post node 1 in 1 out";
 
     }
 }

@@ -28,7 +28,7 @@ import ucm.map.MapPackage;
  * 
  * This class is intended to be a generic property source for all the objects in the application's model.
  * 
- * It currently supports int, String, boolean, Colors, ComponentElement and ComponentRef.
+ * It currently supports int, String, boolean and Colors
  * 
  * Colors are supported if the following conditions hold: a) The field is a string b) The field name contains the word "color"
  * 
@@ -37,19 +37,14 @@ import ucm.map.MapPackage;
  * 
  * We currently do not support or nested properties.
  * 
- * This class is special cased for ComponentRef's so that we can replace our id/name/description with that of the ComponentElement and add the
- * ComponentElement's properties to ours.
- * 
- * ComponentElements are listed as a dropdown of all ComponentElements in the model.
- * 
  * ComponentRefs are listed as a dropdown of all possible parents.
  * 
- * @author ddean, jkealey
+ * @author ddean, etremblay, jkealey
  *  
  */
 public class EObjectPropertySource implements IPropertySource {
     protected EObject object;
-    
+
     protected MapPackage ucmPackage;
 
     /**
@@ -87,12 +82,12 @@ public class EObjectPropertySource implements IPropertySource {
         it = cls.getEAllStructuralFeatures().iterator();
         while (it.hasNext()) {
             EStructuralFeature attr = (EStructuralFeature) it.next();
-            
+
             // Can we add this feature in our property descriptor
-            if(canAddFeature(attr))
-            	addPropertyToDescriptor(descriptors, attr, object.eClass());
+            if (canAddFeature(attr))
+                addPropertyToDescriptor(descriptors, attr, object.eClass());
         }
-        
+
         // Add more property descriptor as needed by subclass.
         descriptors.addAll(addSpecificProperties());
 
@@ -100,24 +95,24 @@ public class EObjectPropertySource implements IPropertySource {
     }
 
     /**
-	 * This method is called by getPropertyDescriptors() to get a list of additionnal properties to add to this descriptor.
-	 * Subclass can overwrite this method to add more properties to the property descritor.
-	 */
-	protected  Vector addSpecificProperties() {
-		return new Vector();
-	}
+     * This method is called by getPropertyDescriptors() to get a list of additionnal properties to add to this descriptor. Subclass can overwrite this method
+     * to add more properties to the property descritor.
+     */
+    protected Vector addSpecificProperties() {
+        return new Vector();
+    }
 
-	/**
-	 * This function is called whenever we want to know if we can or not add a feature to the descriptor.
-	 * Subclass can overwrite this to delete some unwanted features from the list
-	 * 
-	 * @param attr
-	 */
-	protected boolean canAddFeature(EStructuralFeature attr) {
-		return true;		
-	}
+    /**
+     * This function is called whenever we want to know if we can or not add a feature to the descriptor. Subclass can overwrite this to delete some unwanted
+     * features from the list
+     * 
+     * @param attr
+     */
+    protected boolean canAddFeature(EStructuralFeature attr) {
+        return true;
+    }
 
-	/**
+    /**
      * This function will add an attribute to the current descriptor. Currently, it handles a limited number of types.
      * 
      * @param descriptors
@@ -125,7 +120,7 @@ public class EObjectPropertySource implements IPropertySource {
      * @param type
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
-    	// Get type for the structural feature
+        // Get type for the structural feature
         EClassifier type = getFeatureType(attr);
 
         String propertyname = attr.getName();
@@ -149,62 +144,61 @@ public class EObjectPropertySource implements IPropertySource {
     /**
      * Return the type of the feature
      * 
-	 * @param attr
-	 * @return
-	 */
-	protected EClassifier getFeatureType(EStructuralFeature attr) {
-		EClassifier type;
+     * @param attr
+     * @return
+     */
+    protected EClassifier getFeatureType(EStructuralFeature attr) {
+        EClassifier type;
         if (attr instanceof EAttribute)
             type = ((EAttribute) attr).getEAttributeType();
         else
             // if (attr instanceof EReference)
             type = ((EReference) attr).getEReferenceType(); // ok to crash if not EReference.
-		return type;
-	}
+        return type;
+    }
 
-	/**
+    /**
      * Build a boolean property descriptor
      * 
-	 * @param descriptors
-	 * @param propertyname
-	 * @param propertyid
-	 */
-	private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-		// this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
-		//descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
-//		String[] values = { "false", "true" };
-		descriptors.add(new CheckboxPropertyDescriptor(propertyid, attr.getName()));
-	}
+     * @param descriptors
+     * @param propertyname
+     * @param propertyid
+     */
+    private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+        // this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
+        //descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
+        //		String[] values = { "false", "true" };
+        descriptors.add(new CheckboxPropertyDescriptor(propertyid, attr.getName()));
+    }
 
-	/**
-	 * Build a string property descriptor
-	 * 
-	 * @param descriptors
-	 * @param attr
-	 * @param propertyname
-	 * @param propertyid
-	 */
-	private void stringDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-		if (attr.getName().toLowerCase().indexOf("color") >= 0)
-		    descriptors.add(new ColorPropertyDescriptor(propertyid, attr.getName()));
-		else if (attr.getName().toLowerCase().equals("id")) {
-			CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
-			text.setReadOnly(true);
-			descriptors.add(text);
-		}
-		else
-		    descriptors.add(new TextPropertyDescriptor(propertyid, attr.getName()));
-	}
-	
-	/**
-	 * int property descriptor
-	 * 
-	 * @param descriptors
-	 * @param attr
-	 * @param propertyid
-	 */
-	private void intDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-		TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
+    /**
+     * Build a string property descriptor
+     * 
+     * @param descriptors
+     * @param attr
+     * @param propertyname
+     * @param propertyid
+     */
+    private void stringDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+        if (attr.getName().toLowerCase().indexOf("color") >= 0)
+            descriptors.add(new ColorPropertyDescriptor(propertyid, attr.getName()));
+        else if (attr.getName().toLowerCase().equals("id")) {
+            CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
+            text.setReadOnly(true);
+            descriptors.add(text);
+        } else
+            descriptors.add(new TextPropertyDescriptor(propertyid, attr.getName()));
+    }
+
+    /**
+     * int property descriptor
+     * 
+     * @param descriptors
+     * @param attr
+     * @param propertyid
+     */
+    private void intDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+        TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
 
         ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
             public String isValid(Object value) {
@@ -218,9 +212,9 @@ public class EObjectPropertySource implements IPropertySource {
             }
         });
         descriptors.add(desc);
-	}
+    }
 
-	/**
+    /**
      * Given the property id, return the contained value
      */
     public Object getPropertyValue(Object id) {
@@ -236,38 +230,38 @@ public class EObjectPropertySource implements IPropertySource {
 
         return result != null ? result : "";
     }
-    
-	/**
-	 * 
-	 * @param o
-	 * @param feature
-	 * @return
-	 */
-	protected Object getFeature(Object[] o, EStructuralFeature feature) {
-		return object.eGet(feature);
-	}
 
     /**
-	 * @param feature
-	 * @param result
-	 * @return
-	 */
-	protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
-		if (result instanceof Integer) {
+     * 
+     * @param o
+     * @param feature
+     * @return
+     */
+    protected Object getFeature(Object[] o, EStructuralFeature feature) {
+        return object.eGet(feature);
+    }
+
+    /**
+     * @param feature
+     * @param result
+     * @return
+     */
+    protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
+        if (result instanceof Integer) {
             result = ((Integer) result).toString();
         } else if (result instanceof Boolean) {
-//            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
-        	result = (Boolean)result;
+            //            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
+            result = (Boolean) result;
         } else if (feature.getName().toLowerCase().indexOf("color") >= 0) {
             if (result == null || ((String) result).length() == 0)
                 result = new RGB(0, 0, 0);
             else
                 result = StringConverter.asRGB((String) result);
         }
-		return result;
-	}
+        return result;
+    }
 
-	/**
+    /**
      * For colors, we want to be able to reset to the default value (null) so we have to implement this method, indicating when the property is not at its
      * default value.
      * 
@@ -297,8 +291,8 @@ public class EObjectPropertySource implements IPropertySource {
         Object[] o = (Object[]) id;
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
-        if(feature instanceof EReference)
-        	object.eSet(feature, null);
+        if (feature instanceof EReference)
+            object.eSet(feature, null);
     }
 
     /**
@@ -327,14 +321,15 @@ public class EObjectPropertySource implements IPropertySource {
         setReferencedObject(o, feature, result);
     }
 
-	/**
-	 * @param o
-	 * @param feature
-	 * @param result
-	 */
-	protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
-		// if this attribute concerns a referenced object.
+    /**
+     * @param o
+     * @param feature
+     * @param result
+     */
+    protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
+        // if this attribute concerns a referenced object.
         if ((EClass) o[0] == object.eClass())
             object.eSet(feature, result);
-	}
+    }
+
 }

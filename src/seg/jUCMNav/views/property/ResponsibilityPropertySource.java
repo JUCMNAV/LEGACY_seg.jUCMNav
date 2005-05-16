@@ -9,18 +9,16 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
+import ucm.map.RespRef;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Responsibility;
 
 /**
- * This class is special cased for ComponentRef's so that we can replace our id/name/description with that of the ComponentElement and add the
- * ComponentElement's properties to ours.
+ * This class is special cased for RespRefs so that we can replace our id/name/description with that of the Responsibility and add the Responsibilities's
+ * properties to ours.
  * 
  * ComponentElements are listed as a dropdown of all ComponentElements in the model.
  * 
@@ -29,19 +27,19 @@ import urncore.ComponentElement;
  * @author jkealey, etremblay
  *  
  */
-public class ComponentPropertySource extends UCMElementPropertySource {
+public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
     //	 if this is a reference to a component, we want it.
-    private ComponentElement comp = null;
+    private Responsibility resp = null;
 
     /**
      * @param obj
      */
-    public ComponentPropertySource(EObject obj) {
+    public ResponsibilityPropertySource(EObject obj) {
         super(obj);
 
-        if ((object instanceof ComponentRef) && ((ComponentRef) object).getCompDef() != null) {
-            comp = ((ComponentRef) object).getCompDef();
+        if ((object instanceof RespRef) && ((RespRef) object).getRespDef() != null) {
+            resp = ((RespRef) object).getRespDef();
         }
     }
 
@@ -51,8 +49,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#isAddable(org.eclipse.emf.ecore.EStructuralFeature)
      */
     protected boolean canAddFeature(EStructuralFeature attr) {
-        if (comp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) {
-            // replace with that of ComponentRef with that of ComponentElement
+        if (resp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) {
+            // replace with that of RespRef with that of Responsibility
             return false;
         } else
             return true;
@@ -68,14 +66,14 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         EClass cls = object.eClass();
         Collection descriptors = new Vector();
 
-        if (comp != null) {
+        if (resp != null) {
             // we are referencing another object; show its properties here.
-            it = comp.eClass().getEAllAttributes().iterator();
+            it = resp.eClass().getEAllAttributes().iterator();
 
             // add the new properties
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
-                addPropertyToDescriptor(descriptors, attr, comp.eClass());
+                addPropertyToDescriptor(descriptors, attr, resp.eClass());
             }
         }
         return (Vector) descriptors;
@@ -92,8 +90,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
         Object[] propertyid = { c, attr };
 
-        if (type.getInstanceClass() == ComponentElement.class) {
-            componentElementDescriptor(descriptors, attr, propertyid);
+        if (type.getInstanceClass() == Responsibility.class) {
+            responsibilityDescriptor(descriptors, attr, propertyid);
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
     }
@@ -103,18 +101,18 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param propertyname
      * @param propertyid
      */
-    private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-        URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-        EList list = urn.getUrndef().getComponents();
+    private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+        URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+        EList list = urn.getUrndef().getResponsibilities();
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
 
-            values[i] = ((ComponentElement) list.get(i)).getName();
+            values[i] = ((Responsibility) list.get(i)).getName();
             if (values[i] == null)
                 values[i] = "[unnamed]";
         }
 
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Component Definition", values));
+        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Responsibility Definition", values));
     }
 
     /*
@@ -123,14 +121,11 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#returnPropertyValue(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
-        if (result instanceof ComponentElement) {
-            /*
-             * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
-             */
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-            EList list = urn.getUrndef().getComponents();
+        if (result instanceof Responsibility) {
+            URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+            EList list = urn.getUrndef().getResponsibilities();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
+                if (list.get(i).equals(((RespRef) getEditableValue()).getRespDef()))
                     result = new Integer(i);
             }
 
@@ -150,31 +145,13 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
         // if this attribute comes from the referenced object
         if ((EClass) o[0] != object.eClass())
-            result = comp.eGet(feature);
+            result = resp.eGet(feature);
         else
             result = object.eGet(feature);
         return result;
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
-     */
-    public void resetPropertyValue(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
-
-        if (feature.getName().toLowerCase().indexOf("color") >= 0
-                || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef))) {
-            if ((EClass) o[0] != object.eClass())
-                comp.eSet(feature, null);
-            else
-                object.eSet(feature, null);
-        } else
-            super.resetPropertyValue(id);
-    }
 
     /*
      * (non-Javadoc)
@@ -187,12 +164,12 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
         Object result = getPropertyValue(id);
 
-        if (feature.getEType().getInstanceClass() == ComponentElement.class) {
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
-            EList list = urn.getUrndef().getComponents();
+        if (feature.getEType().getInstanceClass() == Responsibility.class) {
+            URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+            EList list = urn.getUrndef().getResponsibilities();
             result = list.get(((Integer) value).intValue());
             setReferencedObject(o, feature, result);
-            comp = ((ComponentRef) object).getCompDef();
+            resp = ((RespRef) object).getRespDef();
         } else
             super.setPropertyValue(id, value);
 
@@ -205,7 +182,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      */
     protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
         if ((EClass) o[0] != object.eClass())
-            comp.eSet(feature, result);
+            resp.eSet(feature, result);
         else
             object.eSet(feature, result);
     }

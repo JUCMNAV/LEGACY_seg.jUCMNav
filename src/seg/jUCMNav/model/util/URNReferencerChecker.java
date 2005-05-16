@@ -33,6 +33,7 @@ public class URNReferencerChecker {
                 if (compRef.getCompDef() == null)
                     // not linked? create one.                    
                     compRef.setCompDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
+                	urn.getUrndef().getComponents().add(compRef.getCompDef());
             }
 
             // verify that all responsibility references have definitions
@@ -41,6 +42,7 @@ public class URNReferencerChecker {
                 if (node instanceof RespRef && ((RespRef) node).getRespDef() == null) {
                     // not linked? create one.
                     ((RespRef) node).setRespDef((Responsibility) ModelCreationFactory.getNewObject(urn, Responsibility.class));
+                    urn.getUrndef().getResponsibilities().add(((RespRef)node).getRespDef());
                 }
             }
 
