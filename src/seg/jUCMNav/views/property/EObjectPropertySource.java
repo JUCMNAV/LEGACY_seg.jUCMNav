@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.ColorPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
@@ -42,7 +42,7 @@ import ucm.map.MapPackage;
  * @author ddean, etremblay, jkealey
  *  
  */
-public class EObjectPropertySource implements IPropertySource {
+public class EObjectPropertySource implements IPropertySource2 {
     protected EObject object;
 
     protected MapPackage ucmPackage;
@@ -139,6 +139,7 @@ public class EObjectPropertySource implements IPropertySource {
         } else if (type.getInstanceClass() == int.class) {
             intDescriptor(descriptors, attr, propertyid);
         }
+
     }
 
     /**
@@ -168,7 +169,19 @@ public class EObjectPropertySource implements IPropertySource {
         // this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
         //descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
         //		String[] values = { "false", "true" };
-        descriptors.add(new CheckboxPropertyDescriptor(propertyid, attr.getName()));
+        CheckboxPropertyDescriptor pd = new CheckboxPropertyDescriptor(propertyid, attr.getName());
+
+        String name = attr.getName().toLowerCase();
+        if (name.equals("fixed")) {
+            pd.setCategory("Appearance");
+        } else if (object.eClass() != (EClass) propertyid[0]) {
+            pd.setCategory("Reference");
+        } else {
+            pd.setCategory("Misc");
+        }
+
+        descriptors.add(pd);
+
     }
 
     /**
@@ -180,14 +193,29 @@ public class EObjectPropertySource implements IPropertySource {
      * @param propertyid
      */
     private void stringDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-        if (attr.getName().toLowerCase().indexOf("color") >= 0)
-            descriptors.add(new ColorPropertyDescriptor(propertyid, attr.getName()));
-        else if (attr.getName().toLowerCase().equals("id")) {
+        PropertyDescriptor pd;
+        String name = attr.getName().toLowerCase();
+        if (name.indexOf("color") >= 0) {
+            pd = new ColorPropertyDescriptor(propertyid, attr.getName());
+            descriptors.add(pd);
+        } else if (name.equals("id")) {
             CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
             text.setReadOnly(true);
-            descriptors.add(text);
-        } else
-            descriptors.add(new TextPropertyDescriptor(propertyid, attr.getName()));
+            pd = text;
+        } else {
+            pd = new TextPropertyDescriptor(propertyid, attr.getName());
+        }
+
+        if (name.equals("id") || name.equals("name") || name.equals("description")) {
+            pd.setCategory("Info");
+        } else if (name.indexOf("color") >= 0) {
+            pd.setCategory("Appearance");
+        } else if (object.eClass() != (EClass) propertyid[0]) {
+            pd.setCategory("Reference");
+        } else {
+            pd.setCategory("Misc");
+        }
+        descriptors.add(pd);
     }
 
     /**
@@ -211,6 +239,15 @@ public class EObjectPropertySource implements IPropertySource {
                 return (intValue >= 0) ? null : "Value must be >=  0";
             }
         });
+        String name = attr.getName().toLowerCase();
+        if (name.equals("x") || name.equals("y") || name.equals("height") || name.equals("width")) {
+            desc.setCategory("Appearance");
+        } else if (object.eClass() != (EClass) propertyid[0]) {
+            desc.setCategory("Reference");
+        } else {
+            desc.setCategory("Misc");
+        }
+
         descriptors.add(desc);
     }
 
@@ -330,6 +367,19 @@ public class EObjectPropertySource implements IPropertySource {
         // if this attribute concerns a referenced object.
         if ((EClass) o[0] == object.eClass())
             object.eSet(feature, result);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.views.properties.IPropertySource2#isPropertyResettable(java.lang.Object)
+     */
+    public boolean isPropertyResettable(Object id) {
+        Object[] o = (Object[]) id;
+        EStructuralFeature feature = (EStructuralFeature) o[1];
+
+        return feature.getName().toLowerCase().indexOf("color") >= 0;
+
     }
 
 }

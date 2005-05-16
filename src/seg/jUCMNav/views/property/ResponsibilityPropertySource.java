@@ -10,8 +10,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.Responsibility;
@@ -31,6 +34,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
     //	 if this is a reference to a component, we want it.
     private Responsibility resp = null;
+    int i = 0;
 
     /**
      * @param obj
@@ -62,6 +66,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#addSpecificProperties()
      */
     protected Vector addSpecificProperties() {
+        i = 0;
         Iterator it;
         EClass cls = object.eClass();
         Collection descriptors = new Vector();
@@ -112,7 +117,10 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
                 values[i] = "[unnamed]";
         }
 
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Responsibility Definition", values));
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values);
+        pd.setCategory("Reference");
+        descriptors.add(pd);
+        
     }
 
     /*
@@ -151,8 +159,6 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
         return result;
     }
 
-
-
     /*
      * (non-Javadoc)
      * 
@@ -163,15 +169,27 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
         Object result = getPropertyValue(id);
+        URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
 
         if (feature.getEType().getInstanceClass() == Responsibility.class) {
-            URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+
             EList list = urn.getUrndef().getResponsibilities();
             result = list.get(((Integer) value).intValue());
             setReferencedObject(o, feature, result);
             resp = ((RespRef) object).getRespDef();
-        } else
+        } else if (feature.getName() == "name") {
+            if (!URNNamingHelper.doesResponsibilityNameExists(urn, (String) value)) {
+                super.setPropertyValue(id, value);
+
+            } else {
+                if (++i % 2 == 1) {
+                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Responsibility name already in use.");
+                }
+            }
+
+        } else {
             super.setPropertyValue(id, value);
+        }
 
     }
 

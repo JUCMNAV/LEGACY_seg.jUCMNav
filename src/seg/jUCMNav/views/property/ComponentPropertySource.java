@@ -11,8 +11,11 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import urn.URNspec;
@@ -33,13 +36,13 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
     //	 if this is a reference to a component, we want it.
     private ComponentElement comp = null;
+    int i;
 
     /**
      * @param obj
      */
     public ComponentPropertySource(EObject obj) {
         super(obj);
-
         if ((object instanceof ComponentRef) && ((ComponentRef) object).getCompDef() != null) {
             comp = ((ComponentRef) object).getCompDef();
         }
@@ -64,6 +67,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#addSpecificProperties()
      */
     protected Vector addSpecificProperties() {
+        i = 0;
         Iterator it;
         EClass cls = object.eClass();
         Collection descriptors = new Vector();
@@ -114,7 +118,10 @@ public class ComponentPropertySource extends UCMElementPropertySource {
                 values[i] = "[unnamed]";
         }
 
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Component Definition", values));
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values);
+        pd.setCategory("Reference");
+        descriptors.add(pd);
+
     }
 
     /*
@@ -156,7 +163,6 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         return result;
     }
 
-
     /*
      * (non-Javadoc)
      * 
@@ -186,13 +192,23 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
         Object result = getPropertyValue(id);
-
+        URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
         if (feature.getEType().getInstanceClass() == ComponentElement.class) {
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+
             EList list = urn.getUrndef().getComponents();
             result = list.get(((Integer) value).intValue());
             setReferencedObject(o, feature, result);
             comp = ((ComponentRef) object).getCompDef();
+        } else if (feature.getName() == "name") {
+            if (!URNNamingHelper.doesComponentNameExists(urn, (String) value)) {
+                super.setPropertyValue(id, value);
+
+            } else {
+                if (++i % 2 == 1)
+                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error",
+                            "Component name already in use.");
+            }
+
         } else
             super.setPropertyValue(id, value);
 
@@ -209,4 +225,5 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         else
             object.eSet(feature, result);
     }
+
 }

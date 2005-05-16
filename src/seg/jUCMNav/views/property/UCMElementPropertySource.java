@@ -113,6 +113,20 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             return super.isPropertySet(id);
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource2#isPropertyResettable(java.lang.Object)
+     */
+    public boolean isPropertyResettable(Object id) {
+        Object[] o = (Object[]) id;
+        EStructuralFeature feature = (EStructuralFeature) o[1];
+
+        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class
+                && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)) {
+            return true;
+        } else
+            return super.isPropertyResettable(id);
+    }
+    
     /*
      * (non-Javadoc)
      * 
