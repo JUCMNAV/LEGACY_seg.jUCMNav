@@ -16,9 +16,8 @@ import org.eclipse.swt.graphics.Color;
  * @author Etienne Tremblay
  */
 public class EndPointFigure extends PathNodeFigure {
-
-	private static final int DEFAULT_WIDTH = 4;
-	private static final int DEFAULT_HEIGHT = 24;
+	
+	protected static final int DEFAULT_WIDTH = 4;
 	
     private RectangleFigure rect;
     private Polyline line;

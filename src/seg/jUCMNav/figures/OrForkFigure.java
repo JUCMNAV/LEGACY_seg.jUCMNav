@@ -5,6 +5,7 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -12,7 +13,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author jpdaigle
  */
 public class OrForkFigure extends PathNodeFigure {
-
+	
 	private Ellipse ellipse;
 	/**
 	 * 
@@ -37,5 +38,11 @@ public class OrForkFigure extends PathNodeFigure {
 		incomingAnchor = new EllipseAnchor(ellipse);
 		outgoingAnchor = new EllipseAnchor(ellipse);
 	}
-
+	
+	/**
+	 * @return Returns the default dimension.
+	 */
+	public static Dimension getDefaultDimension() {
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	}
 }

@@ -71,6 +71,6 @@ public class ResponsibilityFigure extends PathNodeFigure {
 	 * @return Returns the default dimension.
 	 */
 	public static Dimension getDefaultDimension() {
-		return PathNodeFigure.getDefaultDimension();
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 }

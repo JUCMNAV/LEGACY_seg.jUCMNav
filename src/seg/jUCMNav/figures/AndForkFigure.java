@@ -61,4 +61,10 @@ public class AndForkFigure extends PathNodeFigure {
 		g.drawLine(c.x, c.y - 10, c.x, c.y + 10);
 	}
 
+	/**
+	 * @return Returns the default dimension.
+	 */
+	public static Dimension getDefaultDimension() {
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	}
 }
