@@ -15,7 +15,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author Etienne Tremblay
  */
 public class ResponsibilityFigure extends PathNodeFigure {
-	
 	RectangleFigure anchor;
 
 	public ResponsibilityFigure(){
@@ -66,5 +65,12 @@ public class ResponsibilityFigure extends PathNodeFigure {
 		// The lines for the X
 		g.drawLine(c.x - 5, c.y-5, c.x+5, c.y+5);
 		g.drawLine(c.x+5, c.y-5, c.x-5, c.y+5);
+	}
+	
+	/**
+	 * @return Returns the default dimension.
+	 */
+	public static Dimension getDefaultDimension() {
+		return PathNodeFigure.getDefaultDimension();
 	}
 }

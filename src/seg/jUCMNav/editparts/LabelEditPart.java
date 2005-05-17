@@ -14,6 +14,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
+import seg.jUCMNav.figures.util.JUCMNavFigure;
 import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
 import ucm.map.PathNode;
@@ -22,6 +23,7 @@ import urncore.ComponentElement;
 import urncore.Label;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
+
 
 /**
  * Based on Etienne's implementation of PathNodeEditPart
@@ -172,7 +174,8 @@ public class LabelEditPart extends ModelElementEditPart {
 
         if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
-            location = new Point(node.getX() - label.getDeltaX() - (labelDimension.width / 2), node.getY() - label.getDeltaY() - (labelDimension.height / 2));
+            location = new Point(	node.getX() - labelDimension.width/2 - label.getDeltaX(),
+            						node.getY() - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height/2) - label.getDeltaY());
         } else if (modelElement instanceof ComponentRef) {
             ComponentRef component = (ComponentRef) modelElement;
             location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY());

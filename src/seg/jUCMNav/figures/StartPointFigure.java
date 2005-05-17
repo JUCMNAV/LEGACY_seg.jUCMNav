@@ -2,6 +2,7 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
@@ -13,6 +14,8 @@ import org.eclipse.swt.graphics.Color;
  * @author Etienne Tremblay
  */
 public class StartPointFigure extends PathNodeFigure {
+	private static final int DEFAULT_WIDTH = 20;
+	private static final int DEFAULT_HEIGHT = 20;
 	
 	private Ellipse ellipse;
 
@@ -28,7 +31,7 @@ public class StartPointFigure extends PathNodeFigure {
 	 */
 	protected void createFigure() {
 		ellipse = new Ellipse();
-		ellipse.setBounds(new Rectangle(2, 2, 20, 20));
+		ellipse.setBounds(new Rectangle(2, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		ellipse.setBackgroundColor(new Color(null, 0, 0,0));
 		add(ellipse);
 	}
@@ -41,4 +44,10 @@ public class StartPointFigure extends PathNodeFigure {
 		outgoingAnchor = new EllipseAnchor(ellipse);
 	}
 
+	/**
+	 * @return Returns the default dimension.
+	 */
+	public static Dimension getDefaultDimension() {
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	}
 }

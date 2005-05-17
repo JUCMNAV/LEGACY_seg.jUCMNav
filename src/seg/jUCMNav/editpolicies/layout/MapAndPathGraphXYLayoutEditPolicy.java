@@ -180,7 +180,10 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             	PathNode node = (PathNode) (((LabelEditPart) child).getUCMmodelElement());
 
             	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
-                	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height / 2));
+            		PathNodeEditPart p = (PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node);
+            		
+            		int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
+                	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height + height/2));
                     locationCommand.setNewPosition(location.x, location.y);
                 } else {
                 	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());

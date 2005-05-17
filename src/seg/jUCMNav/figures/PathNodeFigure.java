@@ -14,11 +14,14 @@ import org.eclipse.draw2d.geometry.Dimension;
  */
 public abstract class PathNodeFigure extends Figure {
 	
+	private static final int DEFAULT_WIDTH = 24;
+	private static final int DEFAULT_HEIGHT = 24;
+	
 	protected ConnectionAnchor incomingAnchor;
 	protected ConnectionAnchor outgoingAnchor;
 	protected boolean selected;
 	protected XYLayout layout;
-	protected Dimension preferredSize = new Dimension(24, 24);
+	protected Dimension preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 	public PathNodeFigure(){
 		super();
@@ -81,5 +84,12 @@ public abstract class PathNodeFigure extends Figure {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	
+	/**
+	 * @return Returns the default dimension.
+	 */
+	public static Dimension getDefaultDimension() {
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 }

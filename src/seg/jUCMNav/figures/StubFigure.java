@@ -12,6 +12,10 @@ import org.eclipse.swt.graphics.Color;
  * @author Etienne Tremblay
  */
 public class StubFigure extends PathNodeFigure {
+	
+	private static final int DEFAULT_WIDTH = 34;
+	private static final int DEFAULT_HEIGHT = 34;
+	
 	private boolean dynamic = false;
 
 	private Polygon mainFigure;
@@ -33,7 +37,7 @@ public class StubFigure extends PathNodeFigure {
 	protected void createFigure() {
 		mainFigure = new Polygon();
 		edges = new PointList();
-		preferredSize = new Dimension(34, 34);
+		preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		edges.addPoint(3, preferredSize.height / 2);
 		edges.addPoint(preferredSize.width / 2, 3);
 		edges.addPoint(preferredSize.width-3, preferredSize.height / 2);
@@ -70,4 +74,8 @@ public class StubFigure extends PathNodeFigure {
 	protected boolean useLocalCoordinates() {
 		return true;
 	}
+	
+	public static Dimension getDefaultDimension() {
+    	return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
 }
