@@ -192,7 +192,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             	ComponentRef component = (ComponentRef) (((LabelEditPart) child).getUCMmodelElement());
 
             	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
-                	Point location = new Point(component.getX() - ((Rectangle) constraint).x, component.getY() - ((Rectangle) constraint).y);
+                	Point location = new Point(component.getX() - ((Rectangle) constraint).x, component.getY() - ((Rectangle) constraint).y - dim.height);
                     locationCommand.setNewPosition(location.x, location.y);
                 } else {
                 	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());

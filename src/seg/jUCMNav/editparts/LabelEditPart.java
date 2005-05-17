@@ -178,7 +178,7 @@ public class LabelEditPart extends ModelElementEditPart {
             						node.getY() - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height/2) - label.getDeltaY());
         } else if (modelElement instanceof ComponentRef) {
             ComponentRef component = (ComponentRef) modelElement;
-            location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY());
+            location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
         } else {
             location = new Point(0, 0);
         }
