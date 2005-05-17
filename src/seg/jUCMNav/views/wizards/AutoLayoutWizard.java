@@ -249,7 +249,7 @@ public class AutoLayoutWizard extends Wizard {
     }
 
     private static CompoundCommand repositionLayout(Map usecasemap, String positioned) throws Exception {
-        positioned = positioned.replace("\\\n", "");
+        positioned = positioned.replaceAll("\\\\n", "");
         BufferedReader reader = new BufferedReader(new StringReader(positioned));
         String line;
 
@@ -319,7 +319,7 @@ public class AutoLayoutWizard extends Wizard {
 
                 if (getPreferenceStore().getBoolean(PREF_EMPTYPOINTS)) {
                     line = line.trim();
-                    String sCoordsList = line.substring(line.indexOf(",") + 1, line.lastIndexOf("\"")).replace(" ", ",");
+                    String sCoordsList = line.substring(line.indexOf(",") + 1, line.lastIndexOf("\"")).replace(' ', ',');
                     String[] sCoords = sCoordsList.split(",");
 
                     // the dot file puts the last point at the start. move it.
