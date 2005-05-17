@@ -165,7 +165,12 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
+        assert (_newFork != null) : "pre newFork";
+        assert (_newEndPoint != null) : "pre newEndPoint";
+
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg
+                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 
@@ -175,7 +180,12 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
+        assert (_newFork != null) : "pre newFork";
+        assert (_newEndPoint != null) : "pre newEndPoint";
+
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg
+                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 

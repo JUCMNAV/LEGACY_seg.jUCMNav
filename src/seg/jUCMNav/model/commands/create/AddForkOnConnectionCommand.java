@@ -99,6 +99,8 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
     }
 
     public void redo() {
+        testPreConditions();
+        
         // _ncPred is now the connection the user clicked on
         _ncTarg.setTarget(_nextNode);
         _ncTarg.setSource(_newFork);
@@ -121,9 +123,13 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
         _newFork.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newFork.getX(), _newFork.getY()));
         _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
         _newEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEndPoint.getX(), _newEndPoint.getY()));
+
+        testPostConditions();
     }
     
     public void undo() {
+        testPostConditions();
+        
         _ncPred.setTarget(_nextNode);
 
         _ncTarg.setTarget(null);
@@ -146,6 +152,8 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
         _newFork.setCompRef(null);
         _newEmptyPoint.setCompRef(null);
         _newEndPoint.setCompRef(null);
+        
+        testPreConditions();
     }
     
     /**
@@ -162,7 +170,12 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
+        assert (_newFork != null) : "pre newFork";
+        assert (_newEndPoint != null) : "pre newEndPoint";
+
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg
+                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 
@@ -172,7 +185,12 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
+        assert (_newFork != null) : "pre newFork";
+        assert (_newEndPoint != null) : "pre newEndPoint";
+
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg
+                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph contains new nodes";
 
     }
 
