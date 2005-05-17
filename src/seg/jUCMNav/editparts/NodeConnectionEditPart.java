@@ -8,6 +8,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
+import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.NodeConnection;
@@ -36,6 +37,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 	 */
 	protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NodeConnectionFeedbackEditPolicy());
 	}
 	
 	private NodeConnection getLink() {
