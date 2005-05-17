@@ -120,7 +120,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values);
         pd.setCategory("Reference");
         descriptors.add(pd);
-        
+
     }
 
     /*
@@ -178,12 +178,17 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
             setReferencedObject(o, feature, result);
             resp = ((RespRef) object).getRespDef();
         } else if (feature.getName() == "name") {
-            if (!URNNamingHelper.doesResponsibilityNameExists(urn, (String) value)) {
+            if (value.toString().length() > 0 && !URNNamingHelper.doesResponsibilityNameExists(urn, (String) value)) {
                 super.setPropertyValue(id, value);
 
             } else {
                 if (++i % 2 == 1) {
-                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "Responsibility name already in use.");
+                    String message;
+                    if (value.toString().length() == 0)
+                        message = "Invalid responsibility name.";
+                    else
+                        message = "Responsibility name already in use.";
+                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message);
                 }
             }
 

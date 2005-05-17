@@ -482,7 +482,7 @@ public class URNNamingHelper {
             if (element.getName().equalsIgnoreCase(proposedName))
                 return true;
         }
-        return false;
+        return proposedName.length()==0;
     }
 
     /**
@@ -499,7 +499,7 @@ public class URNNamingHelper {
             if (element.getName().equalsIgnoreCase(proposedName))
                 return true;
         }
-        return false;
+        return proposedName.length()==0;
     }
 
     /**

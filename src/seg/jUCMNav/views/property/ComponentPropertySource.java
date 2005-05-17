@@ -200,13 +200,18 @@ public class ComponentPropertySource extends UCMElementPropertySource {
             setReferencedObject(o, feature, result);
             comp = ((ComponentRef) object).getCompDef();
         } else if (feature.getName() == "name") {
-            if (!URNNamingHelper.doesComponentNameExists(urn, (String) value)) {
+            if (value.toString().length() > 0 && !URNNamingHelper.doesComponentNameExists(urn, (String) value)) {
                 super.setPropertyValue(id, value);
 
             } else {
-                if (++i % 2 == 1)
-                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error",
-                            "Component name already in use.");
+                if (++i % 2 == 1) {
+                    String message;
+                    if (value.toString().length() == 0)
+                        message = "Invalid component name.";
+                    else
+                        message = "Component name already in use.";
+                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message);
+                }
             }
 
         } else
