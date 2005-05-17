@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -48,14 +47,16 @@ public class AutoLayoutAction implements IEditorActionDelegate {
     public void run(IAction action) {
         Map map = editor.getCurrentPage().getModel();
 
-        AutoLayoutWizard wizard = new AutoLayoutWizard(map);
+        AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
 
         WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
 
         if (WizardDialog.OK == dialog.open()) {
+            /*
             Command cmd = wizard.getCommand();
             if (cmd.canExecute())
                 editor.getCurrentPage().execute(cmd);
+                */
         }
 
     }

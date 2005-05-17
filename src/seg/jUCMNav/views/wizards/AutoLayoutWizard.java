@@ -12,16 +12,21 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.Wizard;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
+import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
+import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.URNElementFinder;
 import ucm.map.ComponentRef;
+import ucm.map.EmptyPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -38,10 +43,12 @@ public class AutoLayoutWizard extends Wizard {
     public final static double DEFAULTHEIGHT = 11;
     public final static int DEFAULTORIENTATION = 0;
     public final static double DEFAULTWIDTH = 8.5;
+    public final static boolean DEFAULTEMPTYPOINTS = true;
     public final static String PREF_DOTPATH = "seg.jUCMNav.AutoLayout.DotPath";
     public final static String PREF_HEIGHT = "seg.jUCMNav.AutoLayout.Height";
     public final static String PREF_ORIENTATION = "seg.jUCMNav.AutoLayout.Orientation";
     public final static String PREF_WIDTH = "seg.jUCMNav.AutoLayout.Width";
+    public final static String PREF_EMPTYPOINTS = "seg.jUCMNav.AutoLayout.EmptyPoints";
     private final static String PATHNODEPREFIX = "PathNode";
     private final static String MAPPREFIX = "Map";
     // must start with cluster if we want them rendered.
@@ -50,14 +57,17 @@ public class AutoLayoutWizard extends Wizard {
     public static IPreferenceStore getPreferenceStore() {
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
-    private CompoundCommand cmd;
+
     private int id;
 
     private Map map;
+    private UcmEditor editor;
 
-    public AutoLayoutWizard(Map map) {
+    public AutoLayoutWizard(UcmEditor editor, Map map) {
         this.map = map;
+        this.editor = editor;
         createPreferences();
+
     }
 
     /*
@@ -100,7 +110,7 @@ public class AutoLayoutWizard extends Wizard {
 
         //ensure visibility
         //dot.append("cheaptrick[shape=\"none\",label=\"\"];\n");
-        dot.append("CheapTrick" + id++ + ";");
+        dot.append("CheapTrick" + id++ + ";\n");
 
         ComponentRef child;
         for (int i = 0; i < compRef.getChildren().size(); i++) {
@@ -183,18 +193,7 @@ public class AutoLayoutWizard extends Wizard {
         getPreferenceStore().setDefault(AutoLayoutWizard.PREF_ORIENTATION, AutoLayoutWizard.DEFAULTORIENTATION);
         getPreferenceStore().setDefault(AutoLayoutWizard.PREF_WIDTH, AutoLayoutWizard.DEFAULTWIDTH);
         getPreferenceStore().setDefault(AutoLayoutWizard.PREF_HEIGHT, AutoLayoutWizard.DEFAULTHEIGHT);
-    }
-
-    /**
-     * Returns the command built by repositionLayout(). Returns an UnexecutableCommand.INSTANCE if anything failed.
-     * 
-     * @return
-     */
-    public Command getCommand() {
-        if (cmd == null)
-            return UnexecutableCommand.INSTANCE;
-        else
-            return cmd;
+        getPreferenceStore().setDefault(AutoLayoutWizard.PREF_EMPTYPOINTS, AutoLayoutWizard.DEFAULTEMPTYPOINTS);
     }
 
     /*
@@ -204,23 +203,53 @@ public class AutoLayoutWizard extends Wizard {
      */
     public boolean performFinish() {
 
-        //        AutoLayoutDotSettingsWizardPage page0 = ((AutoLayoutDotSettingsWizardPage)getPage("Dot Config"));
-        //page0.setDotPath(page0.getTextDotPath());
+        if (trimEmptyPoints() == false)
+            return false;
 
         String initial = convertUCMToDot(map);
         String positioned = autoLayoutDotString(initial);
+
         try {
-            cmd = repositionLayout(map, positioned);
+            CompoundCommand cmd2 = repositionLayout(map, positioned);
+
+            if (cmd2.canExecute()) {
+                editor.execute(cmd2);
+            }
+
         } catch (Exception e) {
             Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e);
             ErrorDialog.openError(getShell(), "Auto layout error", "An error occured while repositioning the map.", status, IStatus.ERROR | IStatus.WARNING);
             e.printStackTrace();
+            return false;
         }
+
+        /*
+         * if (trimEmptyPoints() == false) { return false; }
+         */
 
         return true;
     }
 
+    /**
+     * @return
+     */
+    private boolean trimEmptyPoints() {
+        CompoundCommand cmd;
+
+        if (getPreferenceStore().getBoolean(AutoLayoutWizard.PREF_EMPTYPOINTS)) {
+            cmd = new TrimEmptyNodeCommand(map);
+            if (cmd.canExecute()) {
+                editor.execute(cmd);
+            } else {
+                MessageDialog.openError(getShell(), "Error", "Error while manipulating empty nodes.");
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static CompoundCommand repositionLayout(Map usecasemap, String positioned) throws Exception {
+        positioned = positioned.replace("\\\n", "");
         BufferedReader reader = new BufferedReader(new StringReader(positioned));
         String line;
 
@@ -250,7 +279,6 @@ public class AutoLayoutWizard extends Wizard {
                             + line.substring(line.indexOf(COMPONENTPREFIX) + COMPONENTPREFIX.length(), line.lastIndexOf('{')).trim()
                             + " in the map. Please verify the dot input.");
 
-
                 line = reader.readLine();
 
                 // ex: graph [bb="0,0,192,212"];
@@ -272,10 +300,8 @@ public class AutoLayoutWizard extends Wizard {
                      * resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, compRef.getX(), height-compRef.getY()-36, 54, 36); cmd.add(resize); }
                      */
                 }
-            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) // PathNode5 [pos="76,122",
-            // width="1.22",
-            // height="0.50"];
-            {
+            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) {
+                // ex: PathNode5 [pos="76,122", width="1.22", height="0.50"];
                 line = line.trim();
                 PathNode pn = URNElementFinder.findPathNode(usecasemap, line.substring(PATHNODEPREFIX.length(), line.indexOf(" ")));
 
@@ -287,6 +313,57 @@ public class AutoLayoutWizard extends Wizard {
                 String[] coords = subline.split(",");
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
+
+            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+\\s*->\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) {
+                //ex: PathNode50 -> PathNode34 [pos="e,436,488 436,524 436,516 436,507 436,498"];
+
+                if (getPreferenceStore().getBoolean(PREF_EMPTYPOINTS)) {
+                    line = line.trim();
+                    String sCoordsList = line.substring(line.indexOf(",") + 1, line.lastIndexOf("\"")).replace(" ", ",");
+                    String[] sCoords = sCoordsList.split(",");
+
+                    // the dot file puts the last point at the start. move it.
+                    String firstX = sCoords[0], firstY = sCoords[1];
+
+                    for (int i = 2; i < sCoords.length - 2; i++) {
+                        sCoords[i - 2] = sCoords[i];
+                    }
+                    sCoords[sCoords.length - 2] = firstX;
+                    sCoords[sCoords.length - 1] = firstY;
+
+                    String sSource = line.substring(line.indexOf(PATHNODEPREFIX) + PATHNODEPREFIX.length(), line.indexOf("-")).trim();
+                    String sTarget = line.substring(line.indexOf(PATHNODEPREFIX, line.indexOf(">")) + PATHNODEPREFIX.length(),
+                            line.indexOf("[", line.indexOf(PATHNODEPREFIX, line.indexOf(">")))).trim();
+
+                    NodeConnection link = URNElementFinder.findNodeConnection(usecasemap, sSource, sTarget);
+
+                    double[] distances = new double[sCoords.length / 2 - 1];
+                    StatCalc sc = new StatCalc();
+                    for (int i = 2; i < sCoords.length; i += 2) {
+                        int curX = Integer.parseInt(sCoords[i]);
+                        int curY = Integer.parseInt(sCoords[i + 1]);
+                        int prevX = Integer.parseInt(sCoords[i - 2]);
+                        int prevY = Integer.parseInt(sCoords[i - 1]);
+                        distances[i / 2 - 1] = Math.sqrt(Math.pow(curX - prevX, 2) + Math.pow(curY - prevY, 2));
+                        sc.enter(distances[i / 2 - 1]);
+                    }
+
+                    double avg = sc.getMean();
+                    double stdDev = sc.getStandardDeviation();
+
+                    //for (int i = sCoords.length - 2; i >= 2; i -= 2) {
+                    for (int i = sCoords.length - 4; i >= 0; i -= 2) {
+                        //                        if (((i / 2) - 2) % 3 == 0) {
+
+                        if (i == sCoords.length - 2 || (Math.abs(avg - distances[i / 2]) > 0.97 * stdDev && distances[i / 2] >= 30)) {
+                            PathNode empty = (PathNode) ModelCreationFactory.getNewObject((URNspec) usecasemap.eContainer().eContainer(), EmptyPoint.class);
+                            Command addEmpty = new SplitLinkCommand(usecasemap.getPathGraph(), empty, link, Integer.parseInt(sCoords[i]), pageHeight
+                                    - Integer.parseInt(sCoords[i + 1]));
+                            cmd.add(addEmpty);
+                        }
+
+                    }
+                }
 
             }
         }

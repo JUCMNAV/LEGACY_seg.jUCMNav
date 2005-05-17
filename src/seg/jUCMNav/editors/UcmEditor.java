@@ -52,7 +52,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      */
     private PaletteRoot paletteRoot;
 
-    // the parent containing the action registry 
+    // the parent containing the action registry
     private UCMNavMultiPageEditor parent;
 
     /** Cache save-request status. */
@@ -80,7 +80,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             firePropertyChange(IEditorPart.PROP_DIRTY);
         }
     }
-
 
     /**
      * Configure the graphical viewer before it receives contents.
@@ -158,7 +157,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             }
         };
     }
-    
 
     public void doSave(IProgressMonitor monitor) {
         System.out.println("old save; no longer used; now done in MultiPage");
@@ -183,6 +181,24 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         getEditDomain().getCommandStack().execute(cmd);
     }
 
+    /**
+     * Undo's the command at the top of the undo stack.
+     *  
+     */
+    public void undo() {
+        if (getEditDomain().getCommandStack().canUndo())
+            getEditDomain().getCommandStack().undo();
+    }
+
+    /**
+     * Redo's the command at the top of the redo stack.
+     *  
+     */
+    public void redo() {
+        if (getEditDomain().getCommandStack().canRedo())
+            getEditDomain().getCommandStack().redo();
+
+    }
 
     protected ActionRegistry getActionRegistry() {
         // one action registry for all editors
@@ -298,7 +314,5 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     public void setModel(Map m) {
         mapModel = m;
     }
-    
-    
-    
+
 }

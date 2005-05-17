@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import ucm.map.ComponentRef;
 import ucm.map.Map;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import urn.URNspec;
 import urncore.ComponentElement;
@@ -119,6 +120,19 @@ public class URNElementFinder {
 
             if (element.getId().equals(id))
                 return element;
+        }
+        return null;
+    }
+    
+    public static NodeConnection findNodeConnection(Map map, String idSource, String idTarget)
+    {
+        for (Iterator iter = map.getPathGraph().getNodeConnections().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            
+            if (nc.getSource().getId().equals(idSource) && nc.getTarget().getId().equals(idTarget))
+            {
+                return nc;
+            }
         }
         return null;
     }

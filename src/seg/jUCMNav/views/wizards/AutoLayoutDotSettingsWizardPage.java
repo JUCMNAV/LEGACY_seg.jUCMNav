@@ -26,6 +26,8 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
     private Text txtDotPath, txtWidth, txtHeight;
 
+    private Button chkEmptyPoints;
+
     /**
      * @param pageName
      */
@@ -50,14 +52,13 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         composite.setLayout(gl);
         GridData data;
 
-        
         Label lblPath = new Label(composite, SWT.NONE);
         lblPath.setText("Path to dot : ");
         data = new GridData();
         data.horizontalSpan = 4;
         lblPath.setLayoutData(data);
 
-        txtDotPath = new Text(composite,  SWT.BORDER | SWT.SINGLE | SWT.LEFT);
+        txtDotPath = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
         setDotPath(getDotPath());
 
         data = new GridData();
@@ -75,8 +76,6 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
             }
         });
-        
-        
 
         Button b = new Button(getShell(), SWT.PUSH);
         b.setParent(composite);
@@ -94,7 +93,6 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             }
         });
 
-
         Label lblWidth = new Label(composite, SWT.NONE);
         lblWidth.setText("Width (inches) : ");
 
@@ -107,7 +105,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         data.horizontalSpan = 2;
         lblOrientation.setLayoutData(data);
 
-        txtWidth = new Text(composite,  SWT.BORDER | SWT.SINGLE | SWT.LEFT);
+        txtWidth = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
         txtWidth.setLayoutData(data);
@@ -123,12 +121,12 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             }
         });
 
-        txtHeight = new Text(composite,  SWT.BORDER | SWT.SINGLE | SWT.LEFT);
-        
+        txtHeight = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
+
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
-        txtHeight.setLayoutData(data);   
-        
+        txtHeight.setLayoutData(data);
+
         setHeight(getHeight());
         txtHeight.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -140,13 +138,12 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             }
         });
 
-        
-        cboOrientation = new Combo(composite,SWT.READ_ONLY);
+        cboOrientation = new Combo(composite, SWT.READ_ONLY);
         cboOrientation.setItems(new String[] { "Top down", "Left to right" });
         cboOrientation.select(getOrientation());
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
-        cboOrientation.setLayoutData(data);   
+        cboOrientation.setLayoutData(data);
 
         cboOrientation.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -157,7 +154,21 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             }
         });
 
-        
+        chkEmptyPoints = new Button(composite, SWT.CHECK);
+        chkEmptyPoints.setText("Manipulate empty points?");
+        chkEmptyPoints.setSelection(getEmptyPoints());
+        data = new GridData();
+        data.horizontalSpan = 3;
+        chkEmptyPoints.setLayoutData( data );
+        chkEmptyPoints.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+            }
+
+            public void focusLost(FocusEvent e) {
+                setEmptyPoints(chkEmptyPoints.getSelection());
+            }
+        });
+
         setControl(composite);
 
     }
@@ -178,6 +189,10 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         return AutoLayoutWizard.getPreferenceStore().getString(AutoLayoutWizard.PREF_WIDTH);
     }
 
+    public boolean getEmptyPoints() {
+        return AutoLayoutWizard.getPreferenceStore().getBoolean(AutoLayoutWizard.PREF_EMPTYPOINTS);
+    }
+
     public void setDotPath(String path) {
         txtDotPath.setText(path);
         AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_DOTPATH, path);
@@ -185,7 +200,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
     public void setHeight(String height) {
         String s;
-        // want to make sure it is convertible. 
+        // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(height);
             s = Double.toString(d);
@@ -204,7 +219,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
     public void setWidth(String width) {
         String s;
-        // want to make sure it is convertible. 
+        // want to make sure it is convertible.
         try {
             double d = Double.parseDouble(width);
             s = Double.toString(d);
@@ -215,5 +230,9 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
         AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_WIDTH, s);
     }
-    
+
+    public void setEmptyPoints(boolean b) {
+        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_EMPTYPOINTS, b);
+    }
+
 }
