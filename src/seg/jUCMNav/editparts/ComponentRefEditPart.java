@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
+import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
@@ -79,6 +80,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefEditPolicy());
+    	installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
     }
 
     /** 
