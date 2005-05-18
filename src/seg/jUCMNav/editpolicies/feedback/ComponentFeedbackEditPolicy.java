@@ -13,7 +13,7 @@ import seg.jUCMNav.editparts.ComponentRefEditPart;
 /**
  * Created 2005-03-04
  * 
- * On mouse hover of node connection, it becomes thicker so that we can click on it more easily.
+ * On mouse hover of components, it becomes thicker so that we can click on it more easily.
  * 
  * @author jkealey
  */
