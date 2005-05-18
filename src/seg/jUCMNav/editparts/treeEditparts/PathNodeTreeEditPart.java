@@ -19,6 +19,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * @author TremblaE
@@ -70,6 +71,8 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage();
 		else if(node instanceof RespRef)
 			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage();
+		else if(node instanceof Stub)
+			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage();
 		else
 			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage();
 	}
