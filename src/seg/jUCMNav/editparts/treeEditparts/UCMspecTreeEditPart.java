@@ -53,7 +53,9 @@ public class UCMspecTreeEditPart extends UcmModelElementTreeEditPart {
 	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getImage()
 	 */
 	protected Image getImage() {
-		return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage();
+		if(super.getImage() == null)
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+		return super.getImage();
 	}
 
 }

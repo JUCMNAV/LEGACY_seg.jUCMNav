@@ -63,17 +63,22 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 	 */
 	protected Image getImage() {
 		PathNode node = (PathNode)getModel();
-		if(node instanceof StartPoint)
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage();
-		else if(node instanceof EmptyPoint)
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage();
-		else if(node instanceof EndPoint)
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage();
-		else if(node instanceof RespRef)
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage();
-		else if(node instanceof Stub)
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage();
-		else
-			return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage();
+		
+		if(super.getImage() == null){		
+			if(node instanceof StartPoint)
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage());
+			else if(node instanceof EmptyPoint)
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage());
+			else if(node instanceof EndPoint)
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage());
+			else if(node instanceof RespRef)
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+			else if(node instanceof Stub)
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage());
+			else
+				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage());
+		}
+		
+		return super.getImage();
 	}
 }

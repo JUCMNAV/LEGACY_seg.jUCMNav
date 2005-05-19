@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.views.property.ResponsibilityPropertySource;
@@ -28,6 +29,8 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
 	
 	protected IPropertySource propertySource = null;
     private Notifier target;
+    
+    protected Image image;
 
 	/**
 	 * @param model
@@ -60,8 +63,11 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive())
+        if (isActive()){
             ((EObject) getModel()).eAdapters().remove(this);
+            if(image != null)
+            	image.dispose();
+        }
         super.deactivate();
     }
     
@@ -132,4 +138,12 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         }
         return super.getAdapter(key);
     }
+    
+	protected Image getImage() {
+		return image;
+	}
+	
+	public void setImage(Image image) {
+		this.image = image;
+	}
 }

@@ -29,6 +29,8 @@ public class ComponentTreeEditPart extends UcmModelElementTreeEditPart {
 	}
 	
 	protected Image getImage() {
-		return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage();
+		if(super.getImage() == null)
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+		return super.getImage();
 	}
 }

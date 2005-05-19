@@ -28,9 +28,9 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 	
 	public void deactivate() {
 		super.deactivate();
-		getCompRef().getCompDef().eAdapters().remove(this);
-		
+		getCompRef().getCompDef().eAdapters().remove(this);		
 	}
+	
 	protected String getText() {
 		ComponentElement comp = getCompRef().getCompDef();
 		return comp.getId() + ": " + comp.getName();
@@ -44,6 +44,8 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 	}
 
 	protected Image getImage() {
-		return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage();
+		if(super.getImage() == null)
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+		return super.getImage();
 	}
 }
