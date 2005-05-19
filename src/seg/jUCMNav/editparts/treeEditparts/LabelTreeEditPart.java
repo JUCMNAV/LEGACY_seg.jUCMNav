@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import urn.URNspec;
 
 /**
@@ -78,5 +81,14 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
 
     protected String getText() {
         return getLabel();
+    }
+
+    protected Image getImage() {
+        if (super.getImage() == null && getLabel().equals("Components"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+        else if (super.getImage() == null && getLabel().equals("Responsibilities"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+
+        return super.getImage();
     }
 }
