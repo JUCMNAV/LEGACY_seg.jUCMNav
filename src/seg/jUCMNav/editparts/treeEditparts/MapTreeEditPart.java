@@ -12,7 +12,10 @@ import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.map.Map;
@@ -70,4 +73,11 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
 	private Map getMap() {
 		return ((Map)getModel());
 	}
+
+    protected Image getImage() {
+        if (super.getImage() == null)
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage());
+        return super.getImage();
+    }
+
 }
