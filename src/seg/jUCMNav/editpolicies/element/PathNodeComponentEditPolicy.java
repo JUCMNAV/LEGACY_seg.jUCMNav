@@ -6,6 +6,7 @@
  */
 package seg.jUCMNav.editpolicies.element;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -16,7 +17,6 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import seg.jUCMNav.actions.CutPathAction;
-import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EmptyPoint;
@@ -57,7 +57,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 	 */
 	public Command getCommand(Request request) {
 		if(request.getType() == CutPathAction.CUTPATH_REQUEST) {
-			CutPathCommand cp = new CutPathCommand(getPathGraph(), (EmptyPoint)((EditPart)getHost()).getModel());
+			CutPathCommand cp = new CutPathCommand((PathGraph)((EObject)((EditPart)getHost()).getModel()).eContainer(), (EmptyPoint)((EditPart)getHost()).getModel());
 			return cp;
 		}
 		if(request.getType() == REQ_CREATE) {
@@ -74,7 +74,4 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 		return super.getCommand(request);
 	}
 	
-	private PathGraph getPathGraph(){
-		return ((PathNodeEditPart)getHost()).getDiagram();
-	}
 }
