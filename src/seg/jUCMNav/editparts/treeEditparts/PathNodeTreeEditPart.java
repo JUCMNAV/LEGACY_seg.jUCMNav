@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
-import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.PathGraph;
@@ -39,13 +38,12 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 		this.grah = graph;
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPart#installEditPolicy(java.lang.Object, org.eclipse.gef.EditPolicy)
-	 */
-	public void installEditPolicy(Object key, EditPolicy editPolicy) {
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
-		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonResizableEditPolicy());
-	}
+    }		
 	
 //	protected List getModelChildren() {
 //		ArrayList list = new ArrayList();
