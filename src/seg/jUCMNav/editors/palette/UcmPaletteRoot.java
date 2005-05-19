@@ -205,7 +205,7 @@ public class UcmPaletteRoot extends PaletteRoot {
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
         componentsDrawer.add(entry);
 
-        entry = new PathToolEntry("PathTool", "PathTool", urn, ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor
+        entry = new PathToolEntry("PathTool", "PathTool", getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/spacer24.gif"));
         componentsDrawer.add(entry);
 
