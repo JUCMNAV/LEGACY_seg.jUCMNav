@@ -35,8 +35,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -70,6 +72,21 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             super(viewer);
         }
 
+        /**
+    	 * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
+    	 */
+    	public void init(IPageSite pageSite) {
+    		super.init(pageSite);
+    		ActionRegistry registry = getActionRegistry();
+    		IActionBars bars = pageSite.getActionBars();
+    		String id = ActionFactory.UNDO.getId();
+    		bars.setGlobalActionHandler(id, registry.getAction(id));
+    		id = ActionFactory.REDO.getId();
+    		bars.setGlobalActionHandler(id, registry.getAction(id));
+    		id = ActionFactory.DELETE.getId();
+    		bars.setGlobalActionHandler(id, registry.getAction(id));
+    	}
+        
         /*
          * (non-Javadoc)
          * 
