@@ -128,6 +128,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
         if (!forks.contains(start)) {
             // If it's not a fork, then it's a StartPoint
             nodes = new ArrayList();
+            // bug 244
+            if (startNode.getSucc()==null || startNode.getSucc().size()==0) return;
             NodeConnection link = (NodeConnection) startNode.getSucc().get(0);
             nodes.add(start);
             BSpline newSpline = new BSpline();
