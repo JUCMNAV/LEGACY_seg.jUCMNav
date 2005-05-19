@@ -49,9 +49,9 @@ public class TreeEditPartFactory implements EditPartFactory {
 			return new UCMspecTreeEditPart(model);
 		else if(model instanceof Map)
 			return new MapTreeEditPart((Map)model);
-		else if(model instanceof PathNode)
-			return new PathNodeTreeEditPart(model, root.getPathGraph());
 		else if(model instanceof RespRef)
+			return new RespRefTreeEditPart(model, root.getPathGraph());
+		else if(model instanceof PathNode)
 			return new PathNodeTreeEditPart(model, root.getPathGraph());
 		else if(model instanceof ComponentRef)
 			return new ComponentRefTreeEditPart(model);
@@ -60,7 +60,7 @@ public class TreeEditPartFactory implements EditPartFactory {
 		else if(model instanceof ComponentElement)
 			return new ComponentTreeEditPart(model);
 		else if(model instanceof Responsibility)
-			return new UcmModelElementTreeEditPart(model);
+			return new ResponsibilityTreeEditPart(model);
 		else
 			return null;
 	}

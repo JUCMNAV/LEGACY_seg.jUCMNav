@@ -7,12 +7,14 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.map.Map;
 import ucm.map.PathGraph;
 
@@ -56,8 +58,9 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
 		ArrayList list = new ArrayList();
 		Map map = getMap();
 		PathGraph graph = map.getPathGraph();
-		list.addAll(graph.getPathNodes());
 		list.addAll(map.getCompRefs());
+		list.addAll(graph.getPathNodes());
+		Collections.sort(list, new EObjectClassNameComparator());
 		return list;
 	}
 
