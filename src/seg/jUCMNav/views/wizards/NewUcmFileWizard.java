@@ -36,7 +36,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	public NewUcmFileWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("New UCM file");
+		this.setWindowTitle("New jUCM file");
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 
 	private InputStream openContentStream() {
 		String contents =
-			"This is the initial file contents for *.ucm file that should be word-sorted in the Preview page of the multi-page editor";
+			"This is the initial file contents for *.jucm file that should be word-sorted in the Preview page of the multi-page editor";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

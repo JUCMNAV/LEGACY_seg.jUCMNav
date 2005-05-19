@@ -17,7 +17,7 @@ import seg.jUCMNav.JUCMNavPlugin;
  * The "New" wizard page allows setting the container for
  * the new file as well as the file name. The page
  * will only accept file name without the extension OR
- * with the extension that matches the expected one (ucm).
+ * with the extension that matches the expected one (jucm).
  */
 
 public class NewUcmFileWizardPage extends WizardPage {
@@ -32,7 +32,7 @@ public class NewUcmFileWizardPage extends WizardPage {
 	public NewUcmFileWizardPage(ISelection selection) {
 		super("wizardPage");
 		setTitle("UCM File");
-		setDescription("This wizard creates a new *.ucm file that can be opened with the JUCMNav editor.");
+		setDescription("This wizard creates a new *.jucm file that can be opened with the JUCMNav editor.");
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif"));
 		this.selection = selection;
 	}
@@ -100,7 +100,7 @@ public class NewUcmFileWizardPage extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_file.ucm");
+		fileText.setText("new_file.jucm");
 	}
 	
 	/**
@@ -142,8 +142,8 @@ public class NewUcmFileWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("ucm") == false) {
-				updateStatus("File extension must be \"ucm\"");
+			if (ext.equalsIgnoreCase("jucm") == false) {
+				updateStatus("File extension must be \"jucm\"");
 				return;
 			}
 		}

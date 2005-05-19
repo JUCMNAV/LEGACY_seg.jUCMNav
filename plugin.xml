@@ -34,7 +34,7 @@
             name="seg.jUCMNav.MainEditor"
             contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"
             id="seg.jUCMNav.MainEditor"
-            extensions="ucm"/>
+            extensions="ucm,jucm"/>
    </extension>
    <extension
          point="org.eclipse.ui.editorActions">
