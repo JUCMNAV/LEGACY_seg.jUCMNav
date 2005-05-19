@@ -48,6 +48,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -70,6 +71,7 @@ import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UcmPackage;
 import ucm.map.Map;
@@ -245,6 +247,21 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     private ISelectionListener selectionListener = new ISelectionListener() {
         public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 
+            if (selection instanceof StructuredSelection) {
+                if (((StructuredSelection) selection).getFirstElement() instanceof UcmModelElementTreeEditPart) {
+                    UcmModelElementTreeEditPart selectedPart = (UcmModelElementTreeEditPart) ((StructuredSelection) selection).getFirstElement();
+
+                    Map selectedMap = selectedPart.getContainingMap();
+                    for (int i = 0; i < getModel().getUcmspec().getMaps().size(); i++) {
+                        if (getMap(i).equals(selectedMap)) {
+                            if (getActivePage() != i) {
+                                setActivePage(i);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
             updateActions(editPartActionIDs);
         }
     };
@@ -350,7 +367,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             }
 
         }
-        
 
         return urn;
     }
@@ -394,10 +410,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         action.setText("Add OR-Fork");
         addEditPartAction((SelectionAction) action);
 
-    	action = new AddAndForkAction(this);
-    	action.setText("Add AND-Fork");
-    	addEditPartAction((SelectionAction) action);
-        
+        action = new AddAndForkAction(this);
+        action.setText("Add AND-Fork");
+        addEditPartAction((SelectionAction) action);
+
         action = new BindWithParent(this);
         action.setText("Bind with parent component");
         addEditPartAction((SelectionAction) action);
@@ -539,18 +555,17 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
             // reinit everything
             init(getEditorSite(), new FileEditorInput(file));
-            
-            
-            multiPageCommandStackListener=null;
-            while(getPageCount()>0)
+
+            multiPageCommandStackListener = null;
+            while (getPageCount() > 0)
                 removePage(0);
-            
-        	createPages();
-        	
-        	// set the active page (page 0 by default), unless it has already been done
-        	if (getActivePage() == -1)
-        		setActivePage(0);
-        	
+
+            createPages();
+
+            // set the active page (page 0 by default), unless it has already been done
+            if (getActivePage() == -1)
+                setActivePage(0);
+
         } catch (Exception e) {
             ErrorDialog.openError(getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", new Status(IStatus.ERROR,
                     "seg.jUCMNav", IStatus.ERROR, "", e));

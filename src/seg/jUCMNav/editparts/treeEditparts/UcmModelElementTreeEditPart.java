@@ -14,39 +14,42 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.ResponsibilityPropertySource;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
+import ucm.map.ComponentRef;
+import ucm.map.Map;
+import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.UCMmodelElement;
 
 /**
  * @author TremblaE
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
-	
-	protected IPropertySource propertySource = null;
+
+    protected IPropertySource propertySource = null;
     private Notifier target;
-    
+
     protected Image image;
 
-	/**
-	 * @param model
-	 */
-	public UcmModelElementTreeEditPart(Object model) {
-		super(model);
-	}
+    /**
+     * @param model
+     */
+    public UcmModelElementTreeEditPart(Object model) {
+        super(model);
+    }
 
-	/**
-	 * 
-	 */
-	private UcmModelElementTreeEditPart() {
-		super();
-	}
-	
-	/*
+    /**
+     *  
+     */
+    private UcmModelElementTreeEditPart() {
+        super();
+    }
+
+    /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.EditPart#activate()
@@ -63,32 +66,33 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive()){
+        if (isActive()) {
             ((EObject) getModel()).eAdapters().remove(this);
-            if(image != null)
-            	image.dispose();
+            if (image != null)
+                image.dispose();
         }
         super.deactivate();
     }
-    
-    public void notifyChanged(Notification notification){
-    	refreshChildren();
-    	refreshVisuals();
+
+    public void notifyChanged(Notification notification) {
+        refreshChildren();
+        refreshVisuals();
     }
 
-	protected String getText() {
-		if(getModel() instanceof UCMmodelElement){
-			UCMmodelElement elem = (UCMmodelElement)getModel();
-			return elem.getId() + ": " + elem.getName();
-		}
-		else
-			return super.getText();
-	}
-	
+    protected String getText() {
+        if (getModel() instanceof UCMmodelElement) {
+            UCMmodelElement elem = (UCMmodelElement) getModel();
+            return elem.getId() + ": " + elem.getName();
+        } else
+            return super.getText();
+    }
+
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
             if (getModel() instanceof RespRef)
                 propertySource = new ResponsibilityPropertySource((EObject) getModel());
+            else if (getModel() instanceof ComponentRef)
+                propertySource = new ComponentPropertySource((EObject) getModel());
             else
                 propertySource = new UCMElementPropertySource((EObject) getModel());
         }
@@ -138,12 +142,24 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         }
         return super.getAdapter(key);
     }
-    
-	protected Image getImage() {
-		return image;
-	}
-	
-	public void setImage(Image image) {
-		this.image = image;
-	}
+
+    public Map getContainingMap() {
+
+        if (getModel() instanceof PathNode) {
+            return (Map) (((PathNode) getModel()).eContainer().eContainer());
+        } else if (getModel() instanceof ComponentRef) {
+            return (Map) (((ComponentRef) getModel()).eContainer());
+        } else if (getModel() instanceof Map) {
+            return (Map) getModel();
+        } else
+            return null;
+    }
+
+    protected Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
 }

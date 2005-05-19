@@ -27,6 +27,7 @@ import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
@@ -52,6 +53,74 @@ import ucm.map.Map;
  * @author Etienne Tremblay, jkealey
  */
 public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
+
+    /**
+     * Creates an outline pagebook for this editor.
+     */
+    public class UcmOutlinePage extends ContentOutlinePage {
+        /**
+         * Create a new outline page for the shapes editor.
+         * 
+         * @param viewer
+         *            a viewer (TreeViewer instance) used for this outline page
+         * @throws IllegalArgumentException
+         *             if editor is null
+         */
+        public UcmOutlinePage(EditPartViewer viewer) {
+            super(viewer);
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
+         */
+        public void createControl(Composite parent) {
+            // create outline viewer page
+            getViewer().createControl(parent);
+            // configure outline viewer
+            getViewer().setEditDomain(getEditDomain());
+            getViewer().setEditPartFactory(new TreeEditPartFactory(getModel()));
+            // configure & add context menu to viewer
+            ContextMenuProvider cmProvider = new UcmContextMenuProvider(getViewer(), getActionRegistry());
+            getViewer().setContextMenu(cmProvider);
+            getSite().registerContextMenu("org.eclipse.gef.examples.shapes.outline.contextmenu", cmProvider, getSite().getSelectionProvider());
+            // hook outline viewer
+            getSelectionSynchronizer().addViewer(getViewer());
+
+            // initialize outline viewer with the URNspec
+            getViewer().setContents(getModel().eContainer().eContainer());
+            // show outline viewer
+
+            Tree tree = (Tree) getControl();
+            tree.getTopItem().setExpanded(true);
+            Object[] items = tree.getTopItem().getItems();
+            for (int i = 0; i < items.length; i++) {
+                ((TreeItem) items[i]).setExpanded(true);
+            }
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.ui.part.IPage#dispose()
+         */
+        public void dispose() {
+            // unhook outline viewer
+            getSelectionSynchronizer().removeViewer(getViewer());
+            // dispose
+            super.dispose();
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.ui.part.IPage#getControl()
+         */
+        public Control getControl() {
+            return getViewer().getControl();
+        }
+    }
 
     // one editor per map.
     private Map mapModel;
@@ -190,25 +259,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         getEditDomain().getCommandStack().execute(cmd);
     }
 
-    /**
-     * Undo's the command at the top of the undo stack.
-     *  
-     */
-    public void undo() {
-        if (getEditDomain().getCommandStack().canUndo())
-            getEditDomain().getCommandStack().undo();
-    }
-
-    /**
-     * Redo's the command at the top of the redo stack.
-     *  
-     */
-    public void redo() {
-        if (getEditDomain().getCommandStack().canRedo())
-            getEditDomain().getCommandStack().redo();
-
-    }
-
     protected ActionRegistry getActionRegistry() {
         // one action registry for all editors
         return parent.getParentActionRegistry();
@@ -228,12 +278,12 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         else if (type == ActionRegistry.class)
             return getActionRegistry();
         else if (type == IContentOutlinePage.class)
-    		return new UcmOutlinePage(new TreeViewer());
+            return new UcmOutlinePage(new TreeViewer());
 
         return super.getAdapter(type);
     }
 
-	public CommandStack getCommandStack() {
+    public CommandStack getCommandStack() {
         return getEditDomain().getCommandStack();
 
     }
@@ -287,6 +337,15 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
+     * Returns the selection syncronizer object. The synchronizer can be used to sync the selection of 2 or more EditPartViewers.
+     * 
+     * @return the syncrhonizer
+     */
+    protected SelectionSynchronizer getSelectionSynchronizer() {
+        return parent.getSelectionSynchronizer();
+    }
+
+    /**
      * Set up the editor's inital content (after creation).
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#initializeGraphicalViewer()
@@ -322,68 +381,26 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         getCommandStack().markSaveLocation();
     }
 
+    /**
+     * Redo's the command at the top of the redo stack.
+     *  
+     */
+    public void redo() {
+        if (getEditDomain().getCommandStack().canRedo())
+            getEditDomain().getCommandStack().redo();
+
+    }
+
     public void setModel(Map m) {
         mapModel = m;
     }
-    
+
     /**
-     * Creates an outline pagebook for this editor.
+     * Undo's the command at the top of the undo stack.
+     *  
      */
-    public class UcmOutlinePage extends ContentOutlinePage {	
-    	/**
-    	 * Create a new outline page for the shapes editor.
-    	 * @param viewer a viewer (TreeViewer instance) used for this outline page
-    	 * @throws IllegalArgumentException if editor is null
-    	 */
-    	public UcmOutlinePage(EditPartViewer viewer) {
-    		super(viewer);
-    	}
-
-    	/* (non-Javadoc)
-    	 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
-    	 */
-    	public void createControl(Composite parent) {
-    		// create outline viewer page
-    		getViewer().createControl(parent);
-    		// configure outline viewer
-    		getViewer().setEditDomain(getEditDomain());
-    		getViewer().setEditPartFactory(new TreeEditPartFactory(getModel()));
-    		// configure & add context menu to viewer
-    		ContextMenuProvider cmProvider = new UcmContextMenuProvider(
-    				getViewer(), getActionRegistry()); 
-    		getViewer().setContextMenu(cmProvider);
-    		getSite().registerContextMenu(
-    				"org.eclipse.gef.examples.shapes.outline.contextmenu",
-    				cmProvider, getSite().getSelectionProvider());		
-    		// hook outline viewer
-    		getSelectionSynchronizer().addViewer(getViewer());
-    		// initialize outline viewer with the URNspec
-    		getViewer().setContents(getModel().eContainer().eContainer());
-    		// show outline viewer
-    		
-    		Tree tree = (Tree)getControl();
-    		tree.getTopItem().setExpanded(true);
-    		Object[] items = tree.getTopItem().getItems();
-    		for (int i = 0; i < items.length; i++) {
-    			((TreeItem)items[i]).setExpanded(true);
-			}
-    	}
-    	
-    	/* (non-Javadoc)
-    	 * @see org.eclipse.ui.part.IPage#dispose()
-    	 */
-    	public void dispose() {
-    		// unhook outline viewer
-    		getSelectionSynchronizer().removeViewer(getViewer());
-    		// dispose
-    		super.dispose();
-    	}
-
-    	/* (non-Javadoc)
-    	 * @see org.eclipse.ui.part.IPage#getControl()
-    	 */
-    	public Control getControl() {
-    		return getViewer().getControl();
-    	}
-    }    
+    public void undo() {
+        if (getEditDomain().getCommandStack().canUndo())
+            getEditDomain().getCommandStack().undo();
+    }
 }
