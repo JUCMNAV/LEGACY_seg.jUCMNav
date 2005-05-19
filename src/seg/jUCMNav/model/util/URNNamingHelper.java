@@ -203,6 +203,7 @@ public class URNNamingHelper {
             if (!isNameAndIDSet(map)) {
                 setElementNameAndID(urn, map);
             }
+            findConflicts(htIDs, null, IDConflicts, null, map);
 
             // look at all componentrefs
             for (Iterator iterator = map.getCompRefs().iterator(); iterator.hasNext();) {
