@@ -5,7 +5,8 @@
 package seg.jUCMNav.editpolicies.feedback;
 
 import org.eclipse.gef.Request;
-import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
+import org.eclipse.gef.editpolicies.SelectionEditPolicy;
+import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.figures.SplineConnection;
@@ -17,7 +18,7 @@ import seg.jUCMNav.figures.SplineConnection;
  * 
  * @author jkealey
  */
-public class NodeConnectionFeedbackEditPolicy extends GraphicalEditPolicy {
+public class NodeConnectionFeedbackEditPolicy extends SelectionEditPolicy {
 
     /**
      *  
@@ -36,5 +37,14 @@ public class NodeConnectionFeedbackEditPolicy extends GraphicalEditPolicy {
 
     public void showTargetFeedback(Request request) {
         getFigure().setLineWidth(6);
+    }
+
+    protected void hideSelection() {
+        getFigure().setForegroundColor(new Color(null, 0, 0, 0));
+        
+    }
+
+    protected void showSelection() {
+        getFigure().setForegroundColor(new Color(null, 0, 102, 204));
     }
 }
