@@ -266,6 +266,8 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
 		</delete>
+		<!-- Include test.xml in the zip for unit testing purposes -->
+		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
