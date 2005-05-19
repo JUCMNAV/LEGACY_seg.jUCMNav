@@ -1,9 +1,11 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
 import ucm.map.ComponentRef;
 import urncore.ComponentElement;
 
@@ -36,6 +38,12 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 		return comp.getId() + ": " + comp.getName();
 	}
 	
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefEditPolicy());
+    }	
 	/**
 	 * @return
 	 */
