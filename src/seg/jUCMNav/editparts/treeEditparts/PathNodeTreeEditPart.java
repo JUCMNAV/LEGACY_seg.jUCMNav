@@ -14,8 +14,10 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
+import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -50,7 +52,7 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
         if (getWidget() instanceof TreeItem) {
             if (getModel() instanceof EmptyPoint)
                 ((TreeItem) getWidget()).setForeground(new Color(null, 200, 200, 200));
-        }        
+        }
     }
 
     //	protected List getModelChildren() {
@@ -72,7 +74,7 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
     protected Image getImage() {
 
         PathNode node = (PathNode) getModel();
-        
+
         if (super.getImage() == null) {
             if (node instanceof StartPoint)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage());
@@ -82,7 +84,11 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage());
             else if (node instanceof RespRef)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
-            else if (node instanceof Stub)
+            else if (node instanceof OrFork) {
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")).createImage());
+            } else if (node instanceof AndFork) {
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")).createImage());
+            } else if (node instanceof Stub)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage());
             else
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage());
