@@ -272,6 +272,7 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 	
+	<!-- not from here
 	<target name="runtests" depends="init, build.jars" description="Run unit tests on jUCMNav.jar">
 		<junit printsummary="yes">
 			<classpath>
@@ -284,4 +285,6 @@
 			<formatter type="xml" />
 		</junit>
 	</target>
+	-->
+	
 </project>
