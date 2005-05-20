@@ -9,7 +9,7 @@ package seg.jUCMNav.editparts.treeEditparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import ucm.UCMspec;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
@@ -43,10 +43,10 @@ public class TreeEditPartFactory implements EditPartFactory {
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
 	public EditPart createEditPart(EditPart context, Object model) {
-		if(model instanceof URNspec)
+		if (model instanceof UCMNavMultiPageEditor)
+		    return new OutlineRootEditPart((UCMNavMultiPageEditor)model);
+	    else if(model instanceof URNspec)
 			return new URNspecTreeEditPart(model);
-		else if(model instanceof UCMspec)
-			return new UCMspecTreeEditPart(model);
 		else if(model instanceof Map)
 			return new MapTreeEditPart((Map)model);
 		else if(model instanceof RespRef)

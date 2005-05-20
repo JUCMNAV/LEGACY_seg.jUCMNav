@@ -5,6 +5,7 @@ import java.util.Comparator;
 import org.eclipse.emf.ecore.EObject;
 
 import ucm.map.ComponentRef;
+import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
 import urncore.UCMmodelElement;
 
@@ -37,6 +38,14 @@ public class EObjectClassNameComparator implements Comparator {
                     // order by ucmmodelelement name
                     return ((UCMmodelElement) arg0).getName().compareTo(((UCMmodelElement) arg1).getName());
                 }
+            }
+
+            if (arg0 instanceof EmptyPoint && !(arg1 instanceof EmptyPoint)) {
+                // empty point is lower in the list.
+                return 1;
+            } else if (arg1 instanceof EmptyPoint && !(arg0 instanceof EmptyPoint)) {
+                // empty point is lower in the list.
+                return -1;
             }
 
             // order class names alphabetically

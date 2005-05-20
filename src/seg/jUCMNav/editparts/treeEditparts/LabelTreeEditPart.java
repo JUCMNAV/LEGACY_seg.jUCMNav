@@ -80,7 +80,13 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     protected String getText() {
-        return getLabel();
+        if (getLabel().equals("Components")) {
+            return "Component Definitions";
+        } else if (getLabel().equals("Responsibilities")) {
+            return "Responsibility Definitions";
+        } else
+            return null;
+
     }
 
     protected Image getImage() {

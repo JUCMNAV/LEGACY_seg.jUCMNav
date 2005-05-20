@@ -106,15 +106,16 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             getSelectionSynchronizer().addViewer(getViewer());
 
             // initialize outline viewer with the URNspec
-            getViewer().setContents(getModel().eContainer().eContainer());
+            //getViewer().setContents(getModel().eContainer().eContainer());
+            getViewer().setContents(UcmEditor.this.parent);
             // show outline viewer
 
             Tree tree = (Tree) getControl();
-            tree.getTopItem().setExpanded(true);
             Object[] items = tree.getTopItem().getItems();
             for (int i = 0; i < items.length; i++) {
                 ((TreeItem) items[i]).setExpanded(true);
             }
+            tree.getTopItem().setExpanded(true);
         }
 
         /*
