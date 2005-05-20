@@ -42,7 +42,7 @@
 	<target name="build.fullzip" depends="init, clean">
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
-		<antcall target="runtests"/>
+		<!-- <antcall target="runtests"/> -->
 	</target>
 	
 	<target name="properties" if="eclipse.running">
