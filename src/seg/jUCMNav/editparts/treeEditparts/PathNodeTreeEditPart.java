@@ -11,6 +11,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.Widget;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
@@ -49,10 +50,20 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
-        if (getWidget() instanceof TreeItem) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractTreeEditPart#setWidget(org.eclipse.swt.widgets.Widget)
+     */
+    public void setWidget(Widget widget) {
+        super.setWidget(widget);
+        if (widget instanceof TreeItem) {
             if (getModel() instanceof EmptyPoint)
-                ((TreeItem) getWidget()).setForeground(new Color(null, 200, 200, 200));
+                ((TreeItem) widget).setForeground(new Color(null, 200, 200, 200));
         }
+
     }
 
     //	protected List getModelChildren() {
