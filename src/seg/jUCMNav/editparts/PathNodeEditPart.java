@@ -10,6 +10,8 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Ray;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.ConnectionEditPart;
@@ -26,6 +28,7 @@ import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
+import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
 import ucm.UcmPackage;
@@ -109,21 +112,45 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 			((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);
 		break;
 		default:
-			refreshVisuals();
+			//refreshVisuals();
 		break;
 		}
 		
-		
+		refreshVisuals();
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
 	protected void refreshVisuals() {
-		Dimension dim = getNodeFigure().getPreferredSize().getCopy();
+		PathNodeFigure nodeFigure = getNodeFigure();
+		Dimension dim = nodeFigure.getPreferredSize().getCopy();
 		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
 		Rectangle bounds = new Rectangle(location, dim);
 		figure.setBounds(bounds);
+		if (getModel() instanceof EndPoint) {
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((EndPoint) getModel()).getPred().get(0));
+            if (nc!=null) {
+            	SplineConnection sp = (SplineConnection) nc.getFigure();
+            	if(sp != null) {
+            		PointList list = sp.getPoints();
+            		if(list != null) {
+            			System.out.println(list.size());
+            			
+            			Ray r;
+            			if(list.size() > 2) {
+            				r = new Ray(list.getPoint(list.size()-5), list.getLastPoint());
+            			} else {
+            				r = new Ray(list.getMidpoint(), list.getLastPoint());
+            			}
+            			
+            			System.out.println(r);
+
+            			((EndPointFigure) nodeFigure).setEntryRay(r);
+            		}
+            	}
+            }
+		}
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent container 
 		// (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
