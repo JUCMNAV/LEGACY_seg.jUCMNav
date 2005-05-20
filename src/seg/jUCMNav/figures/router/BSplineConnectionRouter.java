@@ -3,11 +3,13 @@ package seg.jUCMNav.figures.router;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.draw2d.AbstractRouter;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.geometry.PointList;
 
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -44,27 +46,29 @@ public class BSplineConnectionRouter extends AbstractRouter {
     private PathGraph pathGraph;
 
     /**
-     * Used to know when all the connection asked to be routed when the diagram is loaded. When all the connections are routed one time
-     * initialy, we set this to true.
+     * Used to know when all the connection asked to be routed when the diagram is loaded. When all the connections are routed one time initialy, we set this to
+     * true.
      */
     private boolean initialized = false;
 
     /**
-     * Generate all is set to true when we add or remove a node. In this case, since we don't know what changed in the diagram, we have to
-     * generate everthing again.
+     * Generate all is set to true when we add or remove a node. In this case, since we don't know what changed in the diagram, we have to generate everthing
+     * again.
      */
     private boolean generateAll = false;
+    private Map editpartregistry;
 
-    private BSplineConnectionRouter() {
-
+    private BSplineConnectionRouter(Map editpartregistry) {
+        this.editpartregistry = editpartregistry;
     }
 
     /**
      * Build a connection router with a PathGraph.
      */
-    public BSplineConnectionRouter(PathGraph diagram) {
+    public BSplineConnectionRouter(Map editpartregistry, PathGraph diagram) {
         super();
         this.pathGraph = diagram;
+        this.editpartregistry = editpartregistry;
     }
 
     /**
@@ -129,7 +133,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
             // If it's not a fork, then it's a StartPoint
             nodes = new ArrayList();
             // bug 244
-            if (startNode.getSucc()==null || startNode.getSucc().size()==0) return;
+            if (startNode.getSucc() == null || startNode.getSucc().size() == 0)
+                return;
             NodeConnection link = (NodeConnection) startNode.getSucc().get(0);
             nodes.add(start);
             BSpline newSpline = new BSpline();
@@ -183,6 +188,14 @@ public class BSplineConnectionRouter extends AbstractRouter {
         BSpline spline = (BSpline) conSplines.get(con);
         PathNode start = spline.getStartPoint();
         generateSpline(start);
+
+        if (con.getTarget() instanceof EndPoint) {
+            PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(con.getTarget());
+            if (edit != null) {
+                edit.refreshVisuals();
+            }
+        }
+
     }
 
     /**

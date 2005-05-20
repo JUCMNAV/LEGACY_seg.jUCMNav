@@ -23,7 +23,7 @@ public class StubEditPart extends PathNodeEditPart {
 		super(model, diagram);
 	}
 
-	protected void refreshVisuals() {
+	public void refreshVisuals() {
 		Stub stub = (Stub)getNode();
 		figure.setDynamic(stub.isDynamic());
 		

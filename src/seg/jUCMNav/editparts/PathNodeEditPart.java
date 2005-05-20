@@ -122,7 +122,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
 	 */
-	protected void refreshVisuals() {
+	public void refreshVisuals() {
 		PathNodeFigure nodeFigure = getNodeFigure();
 		Dimension dim = nodeFigure.getPreferredSize().getCopy();
 		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
@@ -131,20 +131,25 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		if (getModel() instanceof EndPoint) {
             NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((EndPoint) getModel()).getPred().get(0));
             if (nc!=null) {
+                                
             	SplineConnection sp = (SplineConnection) nc.getFigure();
+            	//sp.layout();
             	if(sp != null) {
             		PointList list = sp.getPoints();
             		if(list != null) {
-            			System.out.println(list.size());
+//            			System.out.println(list.size());
             			
             			Ray r;
+            			
+            			
             			if(list.size() > 2) {
             				r = new Ray(list.getPoint(list.size()-5), list.getLastPoint());
             			} else {
             				r = new Ray(list.getMidpoint(), list.getLastPoint());
             			}
+        //    			r = new Ray(sp.getPoints().getPoint(sp.getPoints().size()-2),list.getLastPoint());
             			
-            			System.out.println(r);
+            			//System.out.println(r);
 
             			((EndPointFigure) nodeFigure).setEntryRay(r);
             		}

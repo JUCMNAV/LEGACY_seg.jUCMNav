@@ -473,7 +473,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 	 */
 	protected void registerVisuals() {
 		ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		cLayer.setConnectionRouter(new BSplineConnectionRouter(getPathGraph()));
+		cLayer.setConnectionRouter(new BSplineConnectionRouter(getViewer().getEditPartRegistry(), getPathGraph()));
 
 		super.registerVisuals();
 	}

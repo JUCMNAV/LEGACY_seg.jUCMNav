@@ -39,10 +39,9 @@ public class EndPointFigure extends PathNodeFigure {
     public void paint(Graphics graphics) {
     	Rectangle rect = this.getBounds().getCopy();
     	Point center = rect.getCenter();
-    	
+
     	Ray half1 = new Ray(-entryVect.y, entryVect.x);
     	Ray half2 = new Ray(entryVect.y, -entryVect.x);
-    	
     	graphics.setLineWidth(3);
     	graphics.drawLine(center.x,center.y , center.x + half1.x, center.y + half1.y);
     	graphics.drawLine(center.x,center.y , center.x + half2.x, center.y + half2.y);
@@ -50,7 +49,7 @@ public class EndPointFigure extends PathNodeFigure {
     }
     
     public void setEntryRay(Ray r) {
-    	entryVect = r;
+    	entryVect = r.getScaled((int)(100/r.length()));
     }
 
     /*
