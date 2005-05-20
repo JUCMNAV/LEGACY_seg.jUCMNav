@@ -22,7 +22,7 @@ import ucm.map.PathNode;
 public class TrimEmptyNodeCommand extends CompoundCommand implements JUCMNavCommand {
 
     private Vector toRemove;
-    
+
     public TrimEmptyNodeCommand(Map map) {
         /*
          * Stack pathStack = new Stack();
@@ -37,7 +37,7 @@ public class TrimEmptyNodeCommand extends CompoundCommand implements JUCMNavComm
          */
 
         toRemove = new Vector();
-        
+
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
             ComponentRef compRef = (ComponentRef) iter.next();
             for (Iterator iter2 = compRef.getPathNodes().iterator(); iter2.hasNext();) {
@@ -57,6 +57,13 @@ public class TrimEmptyNodeCommand extends CompoundCommand implements JUCMNavComm
 
     }
 
+    public boolean canExecute() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canExecute();
+    }
+
     /**
      * @param pn
      */
@@ -64,19 +71,13 @@ public class TrimEmptyNodeCommand extends CompoundCommand implements JUCMNavComm
         if (!toRemove.contains(pn) && pn.getLabel() == null && pn.getName().equals(URNNamingHelper.getPrefix(EmptyPoint.class))) {
             add(new DeleteNodeCommand(pn));
             toRemove.add(pn);
-/*
-            if (pn.getCompRef() == null) {
-                add(new DeleteNodeCommand(pn));
-                toRemove.add(pn);
-            } else if (pn.getSucc().size() == 1 && pn.getPred().size() == 1) {
-                PathNode pred = ((NodeConnection) pn.getPred().get(0)).getSource();
-                PathNode succ = ((NodeConnection) pn.getSucc().get(0)).getTarget();
-                if ((!toRemove.contains(pred) && pred.getCompRef() == pn.getCompRef()) || (!toRemove.contains(succ) && succ.getCompRef() == pn.getCompRef())) {
-                    add(new DeleteNodeCommand(pn));
-                    toRemove.add(pn);
-                }
-
-            }*/
+            /*
+             * if (pn.getCompRef() == null) { add(new DeleteNodeCommand(pn)); toRemove.add(pn); } else if (pn.getSucc().size() == 1 && pn.getPred().size() == 1) {
+             * PathNode pred = ((NodeConnection) pn.getPred().get(0)).getSource(); PathNode succ = ((NodeConnection) pn.getSucc().get(0)).getTarget(); if
+             * ((!toRemove.contains(pred) && pred.getCompRef() == pn.getCompRef()) || (!toRemove.contains(succ) && succ.getCompRef() == pn.getCompRef())) {
+             * add(new DeleteNodeCommand(pn)); toRemove.add(pn); }
+             *  }
+             */
         }
     }
 
