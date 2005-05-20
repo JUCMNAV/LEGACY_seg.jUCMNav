@@ -268,6 +268,13 @@
 		</delete>
 		<!-- Include test.xml in the zip for unit testing purposes -->
 		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+
+		<!-- jkealey: create icons directory, bug 238 -->
+		<mkdir dir="${temp.folder}/seg.jUCMNav_1.0.0/icons"/>
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0/icons">
+		    <fileset dir="src/seg/jUCMNav/icons"/>
+		</copy>
+		
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
