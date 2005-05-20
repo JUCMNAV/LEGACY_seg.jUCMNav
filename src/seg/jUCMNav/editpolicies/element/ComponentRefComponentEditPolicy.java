@@ -12,9 +12,9 @@ import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import ucm.map.ComponentRef;
 
 /**
- * @author Etienne Tremblay
+ * @author jkealey
  */
-public class ComponentRefEditPolicy extends ComponentEditPolicy {
+public class ComponentRefComponentEditPolicy extends ComponentEditPolicy {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)

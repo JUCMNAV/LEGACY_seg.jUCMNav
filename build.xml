@@ -266,8 +266,12 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
 		</delete>
+
 		<!-- Include test.xml in the zip for unit testing purposes -->
 		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+
+		<!-- Include help in the zip for integration with eclipse help-->
+		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
 
 		<!-- jkealey: create icons directory, bug 238 -->
 		<mkdir dir="${temp.folder}/seg.jUCMNav_1.0.0/icons"/>

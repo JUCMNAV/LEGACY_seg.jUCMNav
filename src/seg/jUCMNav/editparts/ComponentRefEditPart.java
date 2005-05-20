@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.editpolicies.element.ComponentRefEditPolicy;
+import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
@@ -79,7 +79,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefComponentEditPolicy());
     	installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
     }
 

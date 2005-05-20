@@ -28,7 +28,7 @@ import ucm.map.PathNode;
 /**
  * Created 2005-03-21
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 
@@ -45,7 +45,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 	protected Command getDeleteCommand(GroupRequest request) {
 		Object parent = getHost().getParent().getModel();
 		Object node = getHost().getModel();
-		if(parent instanceof Map && node instanceof PathNode){
+		if(parent instanceof Map && ((PathNode)node).getPred().size()==1 && ((PathNode)node).getSucc().size()==1  ){
 			DeleteNodeCommand command = new DeleteNodeCommand((PathNode)node);
 			return command;
 		}

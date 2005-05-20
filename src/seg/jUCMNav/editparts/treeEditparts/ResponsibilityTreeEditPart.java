@@ -1,9 +1,11 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editpolicies.element.ResponsibilityComponentEditPolicy;
 import urncore.Responsibility;
 
 /**
@@ -33,4 +35,13 @@ public class ResponsibilityTreeEditPart extends UcmModelElementTreeEditPart {
 			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
 		return super.getImage();
 	}
+	
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResponsibilityComponentEditPolicy());
+    }		
 }

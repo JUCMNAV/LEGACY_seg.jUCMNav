@@ -6,19 +6,20 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.ComponentRef;
-import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import urn.URNspec;
+import urncore.Responsibility;
 
 /**
- * Command to delete a node on a path.
- * Currently unimplemented. 
+ * Command to delete a node on a path. Currently unimplemented.
  * 
  * jkealey: Just put some quick code here to show as example and stop it from crashing.
+ * 
  * @author Etienne Tremblay, jkealey
  *  
  */
@@ -34,10 +35,11 @@ public class DeleteNodeCommand extends Command {
     private NodeConnection newConn;
     private Map map;
     private ComponentRef compRef;
-    
+    private Responsibility respDef;
+
     public DeleteNodeCommand(PathNode node) {
-    	this.node = node;
-    	setLabel(DeleteCommand_Label);
+        this.node = node;
+        setLabel(DeleteCommand_Label);
     }
 
     /*
@@ -50,10 +52,10 @@ public class DeleteNodeCommand extends Command {
         if (node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
-        	if(node instanceof EmptyPoint)
-        		return true;
-        	else
-        		return false;
+            if (node.getPred().size() == 1 && node.getSucc().size() == 1)
+                return true;
+            else
+                return false;
         }
     }
 
@@ -63,17 +65,20 @@ public class DeleteNodeCommand extends Command {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        map = (Map)node.eContainer().eContainer();
-    	previous = ((NodeConnection)node.getPred().get(0)).getSource();
-    	next = ((NodeConnection)node.getSucc().get(0)).getTarget();
-    	compRef = node.getCompRef();
-    	sources = new Vector();
-    	targets = new Vector();
-    	sources.addAll(node.getPred());
-    	targets.addAll(node.getSucc());
-    	newConn = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)map.eContainer().eContainer(), NodeConnection.class);
-    	
-    	redo();
+        map = (Map) node.eContainer().eContainer();
+        previous = ((NodeConnection) node.getPred().get(0)).getSource();
+        next = ((NodeConnection) node.getSucc().get(0)).getTarget();
+        compRef = node.getCompRef();
+        sources = new Vector();
+        targets = new Vector();
+        sources.addAll(node.getPred());
+        targets.addAll(node.getSucc());
+        newConn = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) map.eContainer().eContainer(), NodeConnection.class);
+
+        if (node instanceof RespRef) {
+            respDef = ((RespRef) node).getRespDef();
+        }
+        redo();
     }
 
     /*
@@ -83,24 +88,26 @@ public class DeleteNodeCommand extends Command {
      */
     public void redo() {
         // ASSUMING ONLY FOR EMPTYNODE - 1 IN, ONE OUT.
-        
+
         node.getSucc().clear();
         node.getPred().clear();
-        
-        ((NodeConnection)sources.get(0)).setSource(null);
-        ((NodeConnection)targets.get(0)).setTarget(null);
-        
-        map.getPathGraph().getNodeConnections().remove((NodeConnection)sources.get(0));
-        map.getPathGraph().getNodeConnections().remove((NodeConnection)targets.get(0));
+
+        ((NodeConnection) sources.get(0)).setSource(null);
+        ((NodeConnection) targets.get(0)).setTarget(null);
+
+        map.getPathGraph().getNodeConnections().remove((NodeConnection) sources.get(0));
+        map.getPathGraph().getNodeConnections().remove((NodeConnection) targets.get(0));
         map.getPathGraph().getNodeConnections().add(newConn);
-        
+
         map.getPathGraph().getPathNodes().remove(node);
-        
+
         node.setCompRef(null);
-        
+        if (node instanceof RespRef) {
+            ((RespRef) node).setRespDef(null);
+        }
+
         newConn.setSource(previous);
         newConn.setTarget(next);
-        
 
     }
 
@@ -114,22 +121,23 @@ public class DeleteNodeCommand extends Command {
         node.getSucc().addAll(targets);
         node.getPred().addAll(sources);
 
-        ((NodeConnection)sources.get(0)).setSource(previous);
-        ((NodeConnection)targets.get(0)).setTarget(next);
-        
-        map.getPathGraph().getNodeConnections().add((NodeConnection)sources.get(0));
-        map.getPathGraph().getNodeConnections().add((NodeConnection)targets.get(0));
+        ((NodeConnection) sources.get(0)).setSource(previous);
+        ((NodeConnection) targets.get(0)).setTarget(next);
+
+        map.getPathGraph().getNodeConnections().add((NodeConnection) sources.get(0));
+        map.getPathGraph().getNodeConnections().add((NodeConnection) targets.get(0));
         map.getPathGraph().getNodeConnections().remove(newConn);
-        
+
         map.getPathGraph().getPathNodes().add(node);
-        
+
+        if (node instanceof RespRef) {
+            ((RespRef) node).setRespDef(respDef);
+        }        
         node.setCompRef(compRef);
         newConn.setSource(null);
         newConn.setTarget(null);
-        
-        
-    }
 
+    }
 
     /**
      * @return Returns the PathPathNode.
