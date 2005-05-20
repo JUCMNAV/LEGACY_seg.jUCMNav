@@ -99,5 +99,9 @@
             name="Responsibilities"
             id="seg.jUCMNav.views.ResponsibilityView"/>
    </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc file="help.xml" primary="true"/>
+   </extension>
 
 </plugin>
