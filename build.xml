@@ -272,7 +272,7 @@
 		<delete dir="${temp.folder}"/>
 	</target>
 	
-	<!-- not from here
+	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task.
 	<target name="runtests" depends="init, build.jars" description="Run unit tests on jUCMNav.jar">
 		<junit printsummary="yes">
 			<classpath>
