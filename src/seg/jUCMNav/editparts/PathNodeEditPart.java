@@ -128,7 +128,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
 		Rectangle bounds = new Rectangle(location, dim);
 		figure.setBounds(bounds);
-		if (getModel() instanceof EndPoint) {
+		if (getModel() instanceof EndPoint && ((EndPoint) getModel()).getPred().size()>0) {
             NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((EndPoint) getModel()).getPred().get(0));
             if (nc!=null) {
                                 
