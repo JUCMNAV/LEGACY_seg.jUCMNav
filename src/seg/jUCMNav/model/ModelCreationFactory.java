@@ -10,6 +10,7 @@ import ucm.map.AndFork;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.Map;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -156,7 +157,14 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createTimer();
             } else {
                 // complex creations
-                if (targetClass.equals(ComponentRef.class)) {
+                if (targetClass.equals(Map.class)) {
+                    // create a map
+                    result = mapfactory.createMap();
+                    URNNamingHelper.setElementNameAndID(urn, (Map) result);
+
+                    // add an empty pathgraph to this map
+                   ((Map) result).setPathGraph(mapfactory.createPathGraph());
+                } else if (targetClass.equals(ComponentRef.class)) {
                     // create the component ref
                     result = mapfactory.createComponentRef();
 
@@ -239,15 +247,8 @@ public class ModelCreationFactory implements CreationFactory {
         // add its UCMspec
         urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
 
-        // create a map
-        ucm.map.Map ucm = factory.createMap();
-        URNNamingHelper.setElementNameAndID(urnspec, ucm);
-
-        // add an empty pathgraph to this map
-        ucm.setPathGraph(factory.createPathGraph());
-
         // add the new mapp to the UCMspec
-        urnspec.getUcmspec().getMaps().add(ucm);
+        urnspec.getUcmspec().getMaps().add((Map) getNewObject(urnspec, Map.class));
 
         result = urnspec;
         return result;

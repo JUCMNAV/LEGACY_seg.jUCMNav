@@ -16,6 +16,7 @@ import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddLabelAction;
+import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
@@ -92,6 +93,11 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(BindChildren.BINDCHILDREN);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddMapAction.ADDMAP);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
     }
 
     /**

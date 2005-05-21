@@ -22,6 +22,40 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 	public URNspecTreeEditPart(Object model) {
 		super(model);
 	}
+	
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate() {
+        if (!isActive()){
+            getURNspec().eAdapters().add(this);
+            getURNspec().getUcmspec().eAdapters().add(this);
+        }
+        super.activate();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate() {
+        if (isActive()) {
+            getURNspec().eAdapters().remove(this);
+            getURNspec().getUcmspec().eAdapters().remove(this);
+            if (image != null)
+                image.dispose();
+        }
+        super.deactivate();
+    }	
+	
+	protected Image getImage() {
+		if(super.getImage() == null)
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage());
+		return super.getImage();
+	}	
 
 	protected List getModelChildren() {
 		ArrayList list = new ArrayList();
@@ -30,21 +64,15 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 		list.add("Responsibilities");
 		return list;	}
 
+	protected String getText() {
+		return getURNspec().getName();
+	}
+
 	/**
 	 * @return
 	 */
 	private URNspec getURNspec() {
 		return (URNspec)getModel();
 	}
-
-	protected String getText() {
-		return getURNspec().getName();
-	}
-	
-	protected Image getImage() {
-		if(super.getImage() == null)
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage());
-		return super.getImage();
-	}	
 	
 }
