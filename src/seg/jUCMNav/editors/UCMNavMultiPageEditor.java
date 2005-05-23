@@ -27,8 +27,10 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -75,6 +77,7 @@ import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -106,6 +109,16 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         public void addCommandStack(CommandStack commandStack) {
             commandStacks.add(commandStack);
             commandStack.addCommandStackListener(this);
+        }
+
+        /**
+         * Removes a <code>CommandStack</code> that was observed.
+         * 
+         * @param commandStack
+         */
+        public void removeCommandStack(CommandStack commandStack) {
+            commandStacks.remove(commandStack);
+            commandStack.removeCommandStackListener(this);
         }
 
         /*
@@ -219,10 +232,15 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     private CommandStackListener delegatingCommandStackListener = new CommandStackListener() {
         public void commandStackChanged(EventObject event) {
             updateActions(stackActionIDs);
-            if (((DelegatingCommandStack)event.getSource()).getUndoCommand() instanceof CreateMapCommand && getPageCount()!=getModel().getUcmspec().getMaps().size())
-            {
+            Command lastCommand;
+            if (event.getSource() != null)
+                lastCommand = ((DelegatingCommandStack) event.getSource()).getUndoCommand();
+            else
+                lastCommand = null;
+
+            if (lastCommand instanceof CreateMapCommand && getPageCount() != getModel().getUcmspec().getMaps().size()) {
                 UcmEditor u = new UcmEditor(UCMNavMultiPageEditor.this);
-                int i=getModel().getUcmspec().getMaps().size()-1;
+                int i = getModel().getUcmspec().getMaps().size() - 1;
                 u.setModel((Map) model.getUcmspec().getMaps().get(i));
 
                 try {
@@ -236,7 +254,27 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
                 refreshPageNames();
                 setActivePage(i);
+            } else if (lastCommand instanceof CompoundCommand && ((CompoundCommand) lastCommand).getCommands().size() == 1
+                    && ((CompoundCommand) lastCommand).getCommands().get(0) instanceof DeleteMapCommand
+                    && getPageCount() != getModel().getUcmspec().getMaps().size()) {
+
+                Map deletedMap = ((DeleteMapCommand) ((CompoundCommand) lastCommand).getCommands().get(0)).getMap();
+
+                int i;
+                for (i = 0; i < getPageCount(); i++) {
+                    if (((UcmEditor) getEditor(i)).getModel() == deletedMap) {
+                        // remove command stacks
+                        getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) getEditor(i)).getCommandStack());
+
+                        removePage(i);
+                        break;
+                    }
+                }
+
+                refreshPageNames();
+               
             }
+
         }
     };
 
@@ -449,10 +487,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         action = new BindChildren(this);
         action.setText("Bind all enclosed elements");
         addEditPartAction((SelectionAction) action);
-        
+
         action = new AddMapAction(this);
         action.setText("Add Use Case Map");
-        addEditPartAction((SelectionAction) action);        
+        addEditPartAction((SelectionAction) action);
 
     }
 
@@ -493,7 +531,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     protected void currentPageChanged() {
         // update delegating command stack
         getDelegatingCommandStack().setCurrentCommandStack(getCurrentPage().getCommandStack());
-        
+
         // update zoom actions
         getDelegatingZoomManager().setCurrentZoomManager(getZoomManager(getCurrentPage().getGraphicalViewer()));
 
