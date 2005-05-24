@@ -139,10 +139,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
                 }
                 setDirty(oneIsDirty);
             }
-            	if (!(event.getSource() instanceof DelegatingCommandStack) )
-            	{
-            	    getDelegatingCommandStack().flushURNspecStack();
-            	}
+            if (!(event.getSource() instanceof DelegatingCommandStack)) {
+                getDelegatingCommandStack().flushURNspecStack();
+            }
         }
 
         /**
@@ -449,7 +448,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         action = new AddMapAction(this);
         action.setText("Add Use Case Map");
         addEditPartAction((SelectionAction) action);
-        
+
     }
 
     /*
@@ -487,11 +486,13 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * We update the DelegatingCommandStack, OutlineViewer and other things here.
      */
     protected void currentPageChanged() {
-        // update delegating command stack
-        getDelegatingCommandStack().setCurrentCommandStack(getCurrentPage().getCommandStack());
+        if (getCurrentPage() != null) {
+            // update delegating command stack
+            getDelegatingCommandStack().setCurrentCommandStack(getCurrentPage().getCommandStack());
 
-        // update zoom actions
-        getDelegatingZoomManager().setCurrentZoomManager(getZoomManager(getCurrentPage().getGraphicalViewer()));
+            // update zoom actions
+            getDelegatingZoomManager().setCurrentZoomManager(getZoomManager(getCurrentPage().getGraphicalViewer()));
+        }
 
     }
 
@@ -906,10 +907,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @see org.eclipse.ui.part.MultiPageEditorPart#setActivePage(int)
      */
     protected void setActivePage(int pageIndex) {
-        super.setActivePage(pageIndex);
+        if (getPageCount() > 0) {
+            super.setActivePage(pageIndex);
 
-        // refresh content depending on current page
-        currentPageChanged();
+            // refresh content depending on current page
+            currentPageChanged();
+        }
     }
 
     /**
@@ -1026,7 +1029,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
                 getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) getEditor(i)).getCommandStack());
 
                 removePage(i);
-                
+
                 currentPageChanged();
             }
         } else {

@@ -45,20 +45,19 @@ public class AutoLayoutAction implements IEditorActionDelegate {
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */
     public void run(IAction action) {
-        Map map = editor.getCurrentPage().getModel();
+        if (editor.getCurrentPage() != null) {
+            Map map = editor.getCurrentPage().getModel();
 
-        AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
+            AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
 
-        WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
+            WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
 
-        if (WizardDialog.OK == dialog.open()) {
-            /*
-            Command cmd = wizard.getCommand();
-            if (cmd.canExecute())
-                editor.getCurrentPage().execute(cmd);
-                */
+            if (WizardDialog.OK == dialog.open()) {
+                /*
+                 * Command cmd = wizard.getCommand(); if (cmd.canExecute()) editor.getCurrentPage().execute(cmd);
+                 */
+            }
         }
-
     }
 
 }
