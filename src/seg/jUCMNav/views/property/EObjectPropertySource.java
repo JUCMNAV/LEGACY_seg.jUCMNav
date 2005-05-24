@@ -28,7 +28,7 @@ import ucm.map.MapPackage;
  * 
  * This class is intended to be a generic property source for all the objects in the application's model.
  * 
- * It currently supports int, String, boolean and Colors
+ * It currently supports int, double, String, boolean and Colors
  * 
  * Colors are supported if the following conditions hold: a) The field is a string b) The field name contains the word "color"
  * 
@@ -138,6 +138,8 @@ public class EObjectPropertySource implements IPropertySource2 {
             booleanDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == int.class) {
             intDescriptor(descriptors, attr, propertyid);
+        } else if ( type.getInstanceClass() == double.class) {
+            doubleDescriptor(descriptors, attr, propertyid);
         }
 
     }
@@ -233,10 +235,10 @@ public class EObjectPropertySource implements IPropertySource2 {
                 int intValue = -1;
                 try {
                     intValue = Integer.parseInt((String) value);
+                    return null;
                 } catch (NumberFormatException exc) {
                     return "Not a number";
                 }
-                return (intValue >= 0) ? null : "Value must be >=  0";
             }
         });
         String name = attr.getName().toLowerCase();
@@ -252,6 +254,33 @@ public class EObjectPropertySource implements IPropertySource2 {
     }
 
     /**
+     * int property descriptor
+     * 
+     * @param descriptors
+     * @param attr
+     * @param propertyid
+     */
+    private void doubleDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+        TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
+
+        ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
+            public String isValid(Object value) {
+                double doubleValue = -1;
+                try {
+                    doubleValue = Double.parseDouble(value.toString());
+                    return null;
+                } catch (NumberFormatException exc) {
+                    return "Not a valid number";
+                }
+            }
+        });
+
+        desc.setCategory("Misc");
+
+        descriptors.add(desc);
+    }
+    
+    /**
      * Given the property id, return the contained value
      */
     public Object getPropertyValue(Object id) {
@@ -265,7 +294,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         result = returnPropertyValue(feature, result);
 
-        return result != null ? result : "";
+        return result != null ? result.toString() : "";
     }
 
     /**
@@ -348,6 +377,8 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         if (feature.getEType().getInstanceClass() == int.class) {
             result = new Integer(Integer.parseInt((String) value));
+        } else if (feature.getEType().getInstanceClass() == double.class) {
+            result = new Double(Double.parseDouble(value.toString()));
         } else if (feature.getEType().getInstanceClass() == boolean.class) {
             result = value;
         } else if (result instanceof RGB) {
