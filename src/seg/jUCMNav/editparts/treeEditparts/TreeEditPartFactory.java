@@ -26,19 +26,15 @@ import urncore.Responsibility;
  */
 public class TreeEditPartFactory implements EditPartFactory {
 	
-	protected Map root;
+	protected URNspec urn;
 
 	/**
 	 * 
 	 */
-	private TreeEditPartFactory() {
-		super();
+	public TreeEditPartFactory(URNspec urn) {
+		this.urn=urn;
 	}
 	
-	public TreeEditPartFactory(Map root){
-		this.root = root;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
@@ -49,14 +45,14 @@ public class TreeEditPartFactory implements EditPartFactory {
 			return new URNspecTreeEditPart(model);
 		else if(model instanceof Map)
 			return new MapTreeEditPart((Map)model);
-		else if(model instanceof RespRef)
-			return new RespRefTreeEditPart(model, root.getPathGraph());
-		else if(model instanceof PathNode)
-			return new PathNodeTreeEditPart(model, root.getPathGraph());
 		else if(model instanceof ComponentRef)
 			return new ComponentRefTreeEditPart(model);
+		else if(model instanceof RespRef)
+			return new RespRefTreeEditPart(model);
+		else if(model instanceof PathNode)
+			return new PathNodeTreeEditPart(model);
 		else if(model instanceof String)
-			return new LabelTreeEditPart(model, (URNspec)root.eContainer().eContainer());
+			return new LabelTreeEditPart(model, urn);
 		else if(model instanceof ComponentElement)
 			return new ComponentTreeEditPart(model);
 		else if(model instanceof Responsibility)

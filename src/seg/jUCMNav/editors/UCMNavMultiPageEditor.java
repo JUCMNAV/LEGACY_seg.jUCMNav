@@ -44,6 +44,7 @@ import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
+import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
@@ -60,6 +61,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddAndForkAction;
@@ -616,6 +618,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             return getDelegatingZoomManager();
         else if (adapter == CommandStack.class)
             return getDelegatingCommandStack();
+        else if (getPageCount()==0 && adapter == IContentOutlinePage.class)
+            return new UcmOutlinePage(this, new TreeViewer());
+        
         if (getPageCount() > 0) {
             return getActiveEditor().getAdapter(adapter);
         } else

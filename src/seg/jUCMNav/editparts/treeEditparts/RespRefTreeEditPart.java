@@ -4,7 +4,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import ucm.map.PathGraph;
 import ucm.map.RespRef;
 import urncore.Responsibility;
 
@@ -18,8 +17,8 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
     /**
      * @param model
      */
-    public RespRefTreeEditPart(Object model, PathGraph graph) {
-        super(model, graph);
+    public RespRefTreeEditPart(Object model) {
+        super(model);
     }
 
     public void activate() {

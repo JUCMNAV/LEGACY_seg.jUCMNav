@@ -19,7 +19,6 @@ import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -32,15 +31,12 @@ import ucm.map.Stub;
  */
 public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 
-    private PathGraph grah;
 
     /**
      * @param model
      */
-    public PathNodeTreeEditPart(Object model, PathGraph graph) {
+    public PathNodeTreeEditPart(Object model) {
         super(model);
-        this.grah = graph;
-
     }
 
     /*
