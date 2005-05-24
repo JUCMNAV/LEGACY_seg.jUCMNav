@@ -14,8 +14,8 @@ import org.eclipse.swt.graphics.Color;
  * @author Etienne Tremblay
  */
 public class StartPointFigure extends PathNodeFigure {
-	private static final int DEFAULT_WIDTH = 20;
-	private static final int DEFAULT_HEIGHT = 20;
+	private static final int DEFAULT_WIDTH = 15;
+	private static final int DEFAULT_HEIGHT = 15;
 	
 	private Ellipse ellipse;
 
@@ -31,7 +31,7 @@ public class StartPointFigure extends PathNodeFigure {
 	 */
 	protected void createFigure() {
 		ellipse = new Ellipse();
-		ellipse.setBounds(new Rectangle(2, 2, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		ellipse.setBounds(new Rectangle(4, 4, DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		ellipse.setBackgroundColor(new Color(null, 0, 0,0));
 		add(ellipse);
 	}

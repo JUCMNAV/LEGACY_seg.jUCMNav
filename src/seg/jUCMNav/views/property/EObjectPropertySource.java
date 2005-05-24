@@ -138,7 +138,7 @@ public class EObjectPropertySource implements IPropertySource2 {
             booleanDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == int.class) {
             intDescriptor(descriptors, attr, propertyid);
-        } else if ( type.getInstanceClass() == double.class) {
+        } else if (type.getInstanceClass() == double.class) {
             doubleDescriptor(descriptors, attr, propertyid);
         }
 
@@ -279,7 +279,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         descriptors.add(desc);
     }
-    
+
     /**
      * Given the property id, return the contained value
      */
@@ -294,7 +294,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         result = returnPropertyValue(feature, result);
 
-        return result != null ? result.toString() : "";
+        return result != null ? result : "";
     }
 
     /**
@@ -315,6 +315,8 @@ public class EObjectPropertySource implements IPropertySource2 {
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Integer) {
             result = ((Integer) result).toString();
+        } else if (result instanceof Double) {
+            result = ((Double) result).toString();
         } else if (result instanceof Boolean) {
             //            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
             result = (Boolean) result;

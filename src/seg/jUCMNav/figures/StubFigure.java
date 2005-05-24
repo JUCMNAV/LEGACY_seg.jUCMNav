@@ -52,6 +52,9 @@ public class StubFigure extends PathNodeFigure {
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;
 		if (dynamic == true) {
+		    /* You won't be able to change the line width to 2 until the target platform is 3.0.2 or 3.1:
+		     * https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
+		     */
 			mainFigure.setLineWidth(1);
 			mainFigure.setLineStyle(SWT.LINE_DOT);
 		}
