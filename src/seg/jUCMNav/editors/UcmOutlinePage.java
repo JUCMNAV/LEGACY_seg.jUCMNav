@@ -17,10 +17,11 @@ import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
 
 /**
- * Creates an outline pagebook for this editor.
+ * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor.
+ *  
  */
 public class UcmOutlinePage extends ContentOutlinePage {
-    private final UcmEditor editor;
+    //    private final UcmEditor editor;
     private final UCMNavMultiPageEditor multieditor;
 
     /**
@@ -35,11 +36,12 @@ public class UcmOutlinePage extends ContentOutlinePage {
      */
     public UcmOutlinePage(UCMNavMultiPageEditor editor, EditPartViewer viewer) {
         super(viewer);
-        this.editor = null;
         this.multieditor = editor;
     }
 
     /**
+     * Initialize the action registry so that undo/redo keyboard shortcuts work here.
+     * 
      * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
      */
     public void init(IPageSite pageSite) {
@@ -54,8 +56,8 @@ public class UcmOutlinePage extends ContentOutlinePage {
         bars.setGlobalActionHandler(id, registry.getAction(id));
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates the tree view and performs appropriate connections.
      * 
      * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
      */
@@ -63,11 +65,11 @@ public class UcmOutlinePage extends ContentOutlinePage {
         // create outline viewer page
         getViewer().createControl(parent);
         // configure outline viewer
-        if (editor != null) {
-            getViewer().setEditDomain(editor.getEditDomain());
-        } else {
-            getViewer().setEditDomain(new DefaultEditDomain(multieditor));
-        }
+        //        if (editor != null) {
+        //            getViewer().setEditDomain(editor.getEditDomain());
+        //        } else {
+        getViewer().setEditDomain(new DefaultEditDomain(multieditor));
+        //}
         getViewer().setEditPartFactory(new TreeEditPartFactory(multieditor.getModel()));
 
         // configure & add context menu to viewer
@@ -90,8 +92,8 @@ public class UcmOutlinePage extends ContentOutlinePage {
         tree.getTopItem().setExpanded(true);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Removes listeners
      * 
      * @see org.eclipse.ui.part.IPage#dispose()
      */
@@ -102,8 +104,8 @@ public class UcmOutlinePage extends ContentOutlinePage {
         super.dispose();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns the control
      * 
      * @see org.eclipse.ui.part.IPage#getControl()
      */

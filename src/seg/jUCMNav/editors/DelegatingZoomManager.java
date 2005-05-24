@@ -52,7 +52,6 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
         zoomLevels.add(ZoomManager.FIT_WIDTH);
         zoomLevels.add(ZoomManager.FIT_HEIGHT);
         setZoomLevelContributions(zoomLevels);
-        
        
     }
 

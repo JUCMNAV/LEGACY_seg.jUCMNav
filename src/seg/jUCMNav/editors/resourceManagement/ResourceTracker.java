@@ -59,14 +59,14 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                 // NOTE: The case where an open, unsaved file is deleted is being handled by the
                 // PartListener added to the Workbench in the initialize() method.
                 if (!editor.isDirty())
-                	editor.closeEditor(false);
+                    editor.closeEditor(false);
             } else {
                 // else if it was moved or renamed
                 final IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(delta.getMovedToPath());
                 Display display = editor.getSite().getShell().getDisplay();
                 display.asyncExec(new Runnable() {
                     public void run() {
-                    	editor.setInput(new FileEditorInput(newFile));
+                        editor.setInput(new FileEditorInput(newFile));
                     }
                 });
             }

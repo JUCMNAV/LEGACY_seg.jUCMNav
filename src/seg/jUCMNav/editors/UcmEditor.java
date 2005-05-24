@@ -41,21 +41,19 @@ import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import ucm.map.Map;
 
 /**
- * This is the main class for editing a Map in our model.
+ * This is the main class for editing a single Map in our model.
  * 
  * @author Etienne Tremblay, jkealey
  */
 public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
-    // one editor per map.
+    /** one editor per map. */
     private Map mapModel;
 
-    /**
-     * The palette root used to display the palette.
-     */
+    /** The palette root used to display the palette. */
     private PaletteRoot paletteRoot;
 
-    // the parent containing the action registry
+    /** the parent containing the action registry */
     private UCMNavMultiPageEditor parent;
 
     /** Cache save-request status. */
@@ -74,6 +72,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * Handle events to know when a command was executed. So we can know when we can or cannot save the file.
      */
     public void commandStackChanged(EventObject event) {
+        // Note: some actions go directly to this command stack and others go to our parents.
+
         super.commandStackChanged(event);
         if (isDirty() && !saveAlreadyRequested) {
             saveAlreadyRequested = true;
@@ -99,6 +99,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
         ConnectionOnBottomRootEditPart root = new ConnectionOnBottomRootEditPart();
 
+        // zoom management is delegated to us from our parent.
         List zoomLevels = new ArrayList(3);
         zoomLevels.add(ZoomManager.FIT_ALL);
         zoomLevels.add(ZoomManager.FIT_WIDTH);
@@ -118,17 +119,16 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /**
      * Create all the actions in the action registry.
      * 
-     * (non-Javadoc)
+     * Now done in multipage.
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
      */
     protected void createActions() {
         // now done in MultiPage
-
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Allows dragging from the palette into the editor.
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
      */
@@ -161,43 +161,47 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         };
     }
 
+    /**
+     * Used when UcmEditor was the root model element.
+     * 
+     * @deprecated
+     */
     public void doSave(IProgressMonitor monitor) {
         System.out.println("old save; no longer used; now done in MultiPage");
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Used when UcmEditor was the root model element.
      * 
-     * @see org.eclipse.ui.part.EditorPart#doSaveAs()
+     * @deprecated
      */
     public void doSaveAs() {
         System.out.println("old save as; no longer used; now done in MultiPage");
     }
 
     /**
-     * Execute a command in the appropriate command stack.
+     * Execute a command in the parent's command stack.
      * 
      * @param cmd
-     * @param map
      */
     public void execute(Command cmd) {
         parent.getDelegatingCommandStack().execute(cmd);
     }
 
+    /**
+     * Returns a reference to the multi page action registry.
+     */
     protected ActionRegistry getActionRegistry() {
         // one action registry for all editors
-        return parent.getParentActionRegistry();
+        return parent.getActionRegistry();
     }
 
     /**
      * Returns the adapter for the specified key. Such as the property sheet, the outline view etc.
      * 
-     * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class type) {
-        //System.out.println("UcmEditor getAdapter: " + type);
         if (type == ZoomManager.class)
             return getGraphicalViewer().getProperty(ZoomManager.class.toString());
         else if (type == ActionRegistry.class)
@@ -208,6 +212,9 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         return super.getAdapter(type);
     }
 
+    /**
+     * Overridden to change to public visibility.
+     */
     public CommandStack getCommandStack() {
         return getEditDomain().getCommandStack();
 
@@ -225,13 +232,19 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         }
         return sharedKeyHandler;
     }
-    /* (non-Javadoc)
+
+    /**
+     * Overriden to allow external access.
+     * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#getEditDomain()
      */
     protected DefaultEditDomain getEditDomain() {
         return super.getEditDomain();
     }
 
+    /**
+     * Overriden to allow external access.
+     */
     public GraphicalViewer getGraphicalViewer() {
         return super.getGraphicalViewer();
     }
@@ -245,8 +258,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         return mapModel;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns the palette's preferences.
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
      */
@@ -266,6 +279,12 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         }
         return paletteRoot;
     }
+
+    /**
+     * Returns this editor's container.
+     * 
+     * @return
+     */
     public UCMNavMultiPageEditor getParent() {
         return parent;
     }
@@ -294,16 +313,14 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /**
      * Return true if the editor contains any changes.
      * 
-     * (non-Javadoc)
-     * 
      * @see org.eclipse.ui.ISaveablePart#isDirty()
      */
     public boolean isDirty() {
         return getCommandStack().isDirty();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Save is always allowed, even though it won't happen here.
      * 
      * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
      */
@@ -311,24 +328,25 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         return true;
     }
 
-    public void markSaveLocation() {
-        getCommandStack().markSaveLocation();
-    }
-
     /**
-     * Redo's the command at the top of the redo stack.
+     * Redo's the command at the top of the parent's redo stack.
      *  
      */
     public void redo() {
         parent.getDelegatingCommandStack().redo();
     }
 
+    /**
+     * Sets the map to be manipulated by this editor
+     * 
+     * @param m
+     */
     public void setModel(Map m) {
         mapModel = m;
     }
 
     /**
-     * Undo's the command at the top of the undo stack.
+     * Undo's the command at the top of the parent's undo stack.
      *  
      */
     public void undo() {

@@ -33,7 +33,9 @@ import ucm.map.Map;
  * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will
  * not be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
  * 
- * @author Gunnar Wagenknecht
+ * All ugly URNspecStack related code added by jkealey.
+ * 
+ * @author Gunnar Wagenknecht, jkealey
  */
 public class DelegatingCommandStack extends CommandStack implements CommandStackListener {
     private static final Object[] EMPTY_OBJECT_ARRAY = new Object[] {};
@@ -242,7 +244,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      */
     public void markSaveLocation() {
         URNspecStack.flush();
-        unsavedChanges=false;
+        unsavedChanges = false;
 
         if (null != currentCommandStack)
             currentCommandStack.markSaveLocation();
