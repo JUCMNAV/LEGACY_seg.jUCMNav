@@ -72,6 +72,7 @@ import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
 import seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UcmPackage;
@@ -492,6 +493,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
             // update zoom actions
             getDelegatingZoomManager().setCurrentZoomManager(getZoomManager(getCurrentPage().getGraphicalViewer()));
+            
         }
 
     }
@@ -853,6 +855,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
 
+        // we want the outline to know that we've selected another map.
+        MapAndPathGraphEditPart mappart = (MapAndPathGraphEditPart) getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(getCurrentPage().getModel());
+        getCurrentPage().getGraphicalViewer().flush();
+        getCurrentPage().getGraphicalViewer().select(mappart);
+        
         // refresh content depending on current page
         currentPageChanged();
     }
