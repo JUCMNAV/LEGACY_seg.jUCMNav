@@ -70,11 +70,15 @@ public class BindWithParent extends SelectionAction {
                 else {
                     if (p.getModel() instanceof ComponentRef) {
                         ComponentRef child = (ComponentRef) p.getModel();
-                        if (null == ParentFinder.findParent((Map) child.eContainer(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
+                        if (child.eContainer()==null)
+                            return false;
+                        else if (null == ParentFinder.findParent((Map) child.eContainer(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
                             return false; // #4 failed for ComponentRefs
                     } else if (p.getModel() instanceof PathNode) {
                         PathNode child = (PathNode) p.getModel();
-                        if (null == ParentFinder.findParent((Map) child.eContainer().eContainer(), child.getX(), child.getY()))
+                        if (child.eContainer()==null || child.eContainer().eContainer()==null)
+                            return false;
+                        else if (null == ParentFinder.findParent((Map) child.eContainer().eContainer(), child.getX(), child.getY()))
                             return false; // #4 failed for PathNodes
                     } 
                 }

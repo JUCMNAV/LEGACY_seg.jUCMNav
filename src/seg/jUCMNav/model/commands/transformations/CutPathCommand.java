@@ -68,14 +68,18 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      *            The EmptyPoint upon which we want to cut the path.
      * @return if you create a command using this object, you will be able to execute it.
      */
-    public static boolean canExecute(Object p) {
+public static boolean canExecute(Object p) {
         boolean b;
         b = p != null && p instanceof EmptyPoint;
         if (b) {
             EmptyPoint ep = (EmptyPoint) p;
-            b = ((NodeConnection) ep.getSucc().get(0)).getTarget() instanceof EmptyPoint;
+            if (ep.getSucc().size() > 0 && ep.getPred().size() > 0) {
+                b = ((NodeConnection) ep.getSucc().get(0)).getTarget() instanceof EmptyPoint;
 
-            b = b && ((NodeConnection) ep.getPred().get(0)).getSource() instanceof EmptyPoint;
+                b = b && ((NodeConnection) ep.getPred().get(0)).getSource() instanceof EmptyPoint;
+            }
+            else 
+                return false;
         }
         if (b == false && p instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) p;
@@ -86,7 +90,6 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         return b;
 
     }
-
     /**
      * We don't want to execute this command if the target is not between two empty nodes. We might want to generate these automatically later on.
      */

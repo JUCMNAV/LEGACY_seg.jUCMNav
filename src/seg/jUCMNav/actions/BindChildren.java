@@ -67,7 +67,9 @@ public class BindChildren extends SelectionAction {
                     } else {
                         // make sure they have children to add.
                         ComponentRef cr = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                        if (ParentFinder.findNewChildren((Map) cr.eContainer(), cr).size() == 0) {
+                        if (cr.eContainer() == null)
+                            return false;
+                        else if (ParentFinder.findNewChildren((Map) cr.eContainer(), cr).size() == 0) {
                             return false; // #4 failed
                         }
                     }
