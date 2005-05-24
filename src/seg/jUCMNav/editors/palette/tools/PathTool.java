@@ -20,37 +20,81 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Created 2005-03-28
+ * Created 2005-03-28<br><br>
+ * 
+ * This class represent the main tool used to edit paths in the UcmEditor.
+ * The tool has a very specific behavior depending on the selecting of the editpart viewer selection
+ * and the target editpart the tool is currently pointing at.<br><br>
+ * 
+ * This tool should:<br>
+ * - Extend the path when an EndPoint is selected.<br>
+ * - Extend the path backward when a StartPoint is selected.<br>
+ * - Create an OR-FORK when an EmptyPoint is selected.<br>
+ * - Join two paths when an EmptyPoint is selected and that the user click on an empty point of an other path.<br>
+ * - Create an EmptyPoint when the user click on a NodeConnection and select the EndPoint of the path.<br>
+ * - When a user clicks a PathNode, the tool should select it.<br><br>
  * 
  * @author Etienne Tremblay
  */
 public class PathTool extends CreationTool implements ISelectionChangedListener {
 
+	/**
+	 * <code>ENDPOINT</code>: State value when an EndPoint is selected.
+	 */
 	private final int ENDPOINT = 0;
+	/**
+	 * <code>STARTPOINT</code>: State value when a StartPoint is selected.
+	 */
 	private final int STARTPOINT = 1;
+	/**
+	 * <code>NOSELECT</code>: State value when the map is selected.
+	 */
 	private final int NOSELECT = 2;
+	/**
+	 * <code>EMPTYPOINT</code>: State value when an empty point is selected.
+	 */
 	private final int EMPTYPOINT = 3;
+	/**
+	 * <code>CONNECTION</code>: State value when the cursor is over a connection.
+	 */
 	private final int CONNECTION = 4;
 
+	/**
+	 * <code>state</code>: The state value for the tool.
+	 */
 	private int state = NOSELECT;
 
+	/**
+	 * <code>urn</code>: The tool needs to now the URNspec to provide a creation factory.
+	 */
 	private URNspec urn;
 
+	/**
+	 * <code>target</code>: The editpart the tool is currently targeting.
+	 */
 	private EditPart target;
 	
+	/**
+	 * <code>targetRequest</code>: The request the tool should return from its state.
+	 */
 	private Request targetRequest;
 	
+	/**
+	 * <code>selected</code>: The selected editpart in the editpart viewer.
+	 */
 	private EditPart selected;
 
 	/**
-	 *  
+	 *  We should not allow the use of the default constructor.  We need a URNspec.
 	 */
 	private PathTool() {
 		super();
 	}
 
 	/**
-	 * @param aFactory
+	 * The default constructor with the URNspec.
+	 * 
+	 * @param urn The required URNspec of the tool.
 	 */
 	public PathTool(URNspec urn) {
 		super();
@@ -66,6 +110,13 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		super.setTargetRequest(req);
 	}
 
+	/**
+	 * This method is called each time we need to change the target editpart of the tool.  This method updates
+	 * the state of the tool and recreate the target request if required.
+	 * 
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.tools.TargetingTool#setTargetEditPart(org.eclipse.gef.EditPart)
+	 */
 	protected void setTargetEditPart(EditPart editpart) {
 		if(target != editpart){
 			target = editpart;
@@ -76,6 +127,9 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		super.setTargetEditPart(editpart);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.tools.AbstractTool#handleMove()
+	 */
 	protected boolean handleMove() {
 		// Change the target under the mouse before updating the target request...
 		updateTargetUnderMouse();
@@ -85,6 +139,13 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		return true;
 	}
 
+	/**
+	 * This function is called when the editpart viewer the tool is pointing changes.
+	 * We need to add the tool as a listener to the selection changes of the viewer.
+	 *  
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.Tool#setViewer(org.eclipse.gef.EditPartViewer)
+	 */
 	public void setViewer(EditPartViewer viewer) {
 		super.setViewer(viewer);
 
@@ -97,6 +158,12 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		}
 	}
 
+	/**
+	 * This function is called to return a factory for our create request.  A factory is returned depending on the state of the tool.
+	 *  
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.tools.CreationTool#getFactory()
+	 */
 	protected CreationFactory getFactory() {
 		ModelCreationFactory factory;
 		switch (state) {
@@ -119,13 +186,17 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		return factory;
 	}
 
+	/**
+	 * @return The URNspec used by the tool.
+	 */
 	protected URNspec getURNspec() {
 		return urn;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * This method is called each time the selection changes in the EditPartViewer
 	 * 
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -134,7 +205,8 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 	}
 
 	/**
-	 * @param selected
+	 * From the given strutured selection, set the state of the tool.
+	 * @param selecteds The returned structured selection from the editpart viewer.
 	 */
 	private void setSelectionState(IStructuredSelection selecteds) {
 		List list = selecteds.toList();
@@ -149,6 +221,9 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		}
 	}
 	
+	/**
+	 * Set the state of the tool depending on the selected editpart and the targeted editpart.
+	 */
 	protected void setState(){
 		if(target != null) {
 			if(target.getModel() instanceof NodeConnection){
@@ -166,13 +241,18 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		}
 	}
 
+	/**
+	 * A vestige from CreationTool.  Needed to get copied so that we could call our own selectAddedObject function.
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.tools.CreationTool#performCreation(int)
+	 */
 	protected void performCreation(int button) {
 		executeCurrentCommand();
 		selectAddedObject();
 	}
 
-	/*
-	 * Add the newly created object to the viewer's selected objects.
+	/**
+	 * Add the newly created object to the viewer's selected objects.  Select the right object depending on the state.
 	 */
 	private void selectAddedObject() {
 		final Object model = getCreateRequest().getNewObject();
@@ -193,6 +273,11 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 			selectModelElement(model);
 	}
 	
+	/**
+	 * From a PathNode in a path, find the end point of the path.
+	 * @param start The path node in the path where you want to find the end point.
+	 * @return The endpoint of the path.
+	 */
 	private PathNode findEndPoint(PathNode start){
 		PathNode node = null;
 		PathNode end = null;
@@ -207,6 +292,10 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 		return end;
 	}
 
+	/**
+	 * Select the model element you provide.
+	 * @param model The model element you want to see selected in the viewer.
+	 */
 	protected void selectModelElement(Object model) {
 		EditPartViewer viewer = getCurrentViewer();
 		Object editpart = viewer.getEditPartRegistry().get(model);
