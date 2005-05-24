@@ -99,14 +99,18 @@ public class UcmPaletteRoot extends PaletteRoot {
         ToolEntry tool = new SelectionToolEntry();
         controls.add(tool);
         setDefaultEntry(tool);
+        
+        ToolEntry entry;
+        
+        entry = new PathToolEntry("PathTool", "PathTool", getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool.gif"), ImageDescriptor
+                .createFromFile(JUCMNavPlugin.class, "icons/AndJoin24.gif"));
+        controls.add(entry);
 
         // use selection tool as default entry
         //        setDefaultEntry(tool);
 
         // the marquee selection tool
         controls.add(new MarqueeToolEntry());
-
-        ToolEntry entry;
 
         PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
 
@@ -203,10 +207,6 @@ public class UcmPaletteRoot extends PaletteRoot {
 
         entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
-        componentsDrawer.add(entry);
-
-        entry = new PathToolEntry("PathTool", "PathTool", getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor
-                .createFromFile(JUCMNavPlugin.class, "icons/AndJoin24.gif"));
         componentsDrawer.add(entry);
 
         //        
