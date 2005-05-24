@@ -137,11 +137,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             	if(sp != null) {
             		PointList list = sp.getPoints();
             		if(list != null) {
-//            			System.out.println(list.size());
             			
             			Ray r;
-            			
-            			
+
             			if(list.size() > 2) {
             				r = new Ray(list.getPoint(list.size()-2), list.getLastPoint());
             			} else {

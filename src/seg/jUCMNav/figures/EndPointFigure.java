@@ -1,12 +1,10 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
-import org.eclipse.draw2d.Polyline;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Ray;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Transform;
 
 /**
  * Created 2005-02-15
@@ -17,10 +15,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
  */
 public class EndPointFigure extends PathNodeFigure {
 	
-	protected static final int DEFAULT_WIDTH = 4;
-	
-    private Ray entryVect = new Ray(10,10);
-    private Polyline line;
+	private Polygon mainFigure;
+	private PointList edges;
 
     /**
      *  
@@ -35,25 +31,44 @@ public class EndPointFigure extends PathNodeFigure {
      * @see seg.jUCMNav.figures.NodeFigure#createFigure()
      */
     protected void createFigure() {
-    	line = new Polyline();
-    	line.setLineWidth(3);
-    	add(line);
+    	mainFigure = new Polygon();
+    	edges = new PointList();
+    	
+    	edges.addPoint(DEFAULT_WIDTH / 2, 0);
+		edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
+		
+		mainFigure.setLineWidth(3);
+		mainFigure.setPoints(edges);
+		add(mainFigure);
+    }
+    
+    public void rotate(double angle) {
+    	Transform t = new Transform();
+    	t.setRotation(angle);
+    	
+    	PointList newEdges = new PointList();
+    	Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+
+    	for(int i = 0; i<edges.size(); i++) {
+    		Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y)); 
+    		newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+    	}
+    	
+    	mainFigure.setPoints(newEdges);
     }
     
     public void setEntryRay(Ray r) {
-    	entryVect = r.getScaled((int)(100/r.length()));
-    	
-    	Rectangle rect = this.getBounds().getCopy();
-    	Point center = rect.getCenter();
-
-    	Ray half1 = new Ray(-entryVect.y, entryVect.x);
-    	Ray half2 = new Ray(entryVect.y, -entryVect.x);
-    	
-    	PointList list = new PointList();
-    	list.addPoint(new Point(center.x + half1.x, center.y + half1.y));
-    	list.addPoint(new Point(center.x + half2.x, center.y + half2.y));
-    	line.setPoints(list);
+    	if(r.x == 0) {
+    		rotate(Math.toRadians(90));
+    	} else {
+    		double angle = Math.atan((double) r.y/ (double) r.x);
+        	rotate(angle);
+    	}
     }
+
+    protected boolean useLocalCoordinates() {
+		return true;
+	}
 
     /*
      * (non-Javadoc)
@@ -63,9 +78,5 @@ public class EndPointFigure extends PathNodeFigure {
     protected void initAnchor() {
         incomingAnchor = new ChopboxAnchor(this);
         outgoingAnchor = new ChopboxAnchor(this);
-    }
-    
-    public static Dimension getDefaultDimension() {
-    	return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 }
