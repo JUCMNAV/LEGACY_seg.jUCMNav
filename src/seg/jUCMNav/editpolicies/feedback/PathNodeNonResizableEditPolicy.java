@@ -10,7 +10,6 @@ import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.PathNodeFigure;
-import seg.jUCMNav.figures.Polygon;
 
 /**
  * Created 2005-03-04
@@ -53,21 +52,11 @@ public class PathNodeNonResizableEditPolicy extends SelectionEditPolicy {
     }
 
     public void eraseTargetFeedback(Request request) {
-        getFeedbackLayer().getChildren().clear();
-        getFeedbackLayer().erase();
+        // TODO: remove feedback 
     }
 
     public void showTargetFeedback(Request request) {
-        Polygon p = new Polygon();
-        p.addPoint(getFigure().getBounds().getTopLeft());
-        p.addPoint(getFigure().getBounds().getTopRight());
-        p.addPoint(getFigure().getBounds().getBottomRight());
-        p.addPoint(getFigure().getBounds().getBottomLeft());
-        p.setFillXOR(true);
-        
-        if (getFeedbackLayer().getChildren().size()==0)
-        getFeedbackLayer().add(p);
-        getFeedbackLayer().invalidate();
+        // TODO: insert feedback
     }
 
 }
