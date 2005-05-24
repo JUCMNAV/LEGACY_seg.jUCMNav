@@ -68,15 +68,19 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
     public void deactivate() {
         if (isActive()) {
             ((EObject) getModel()).eAdapters().remove(this);
-            if (image != null)
+            if (image != null) {
                 image.dispose();
+                image=null;
+            }
         }
         super.deactivate();
     }
 
     public void notifyChanged(Notification notification) {
-        refreshChildren();
-        refreshVisuals();
+        if (notification.getEventType() != Notification.REMOVING_ADAPTER) {
+            refreshChildren();
+            refreshVisuals();
+        }
     }
 
     protected String getText() {

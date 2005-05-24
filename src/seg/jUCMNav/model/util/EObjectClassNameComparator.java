@@ -28,10 +28,10 @@ public class EObjectClassNameComparator implements Comparator {
             // if same class
             if (((EObject) arg0).eClass().getInstanceClassName().equals(((EObject) arg1).eClass().getInstanceClassName())) {
 
-                if (arg0 instanceof ComponentRef && arg1 instanceof ComponentRef) {
+                if (arg0 instanceof ComponentRef && arg1 instanceof ComponentRef && ((ComponentRef) arg0).getCompDef()!=null && ((ComponentRef) arg1).getCompDef()!=null  ) {
                     // order by component definition names
                     return ((ComponentRef) arg0).getCompDef().getName().compareTo(((ComponentRef) arg1).getCompDef().getName());
-                } else if (arg0 instanceof RespRef && arg1 instanceof RespRef) {
+                } else if (arg0 instanceof RespRef && arg1 instanceof RespRef && ((RespRef) arg0).getRespDef()!=null && ((RespRef) arg1).getRespDef()!=null) {
                     // order by responsibility definition names
                     return ((RespRef) arg0).getRespDef().getName().compareTo(((RespRef) arg1).getRespDef().getName());
                 } else if (arg0 instanceof UCMmodelElement && arg1 instanceof UCMmodelElement) {

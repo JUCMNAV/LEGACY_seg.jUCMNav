@@ -27,10 +27,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -76,8 +74,6 @@ import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.CreateMapCommand;
-import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -143,6 +139,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
                 }
                 setDirty(oneIsDirty);
             }
+            	if (!(event.getSource() instanceof DelegatingCommandStack) )
+            	{
+            	    getDelegatingCommandStack().flushURNspecStack();
+            	}
         }
 
         /**
@@ -232,49 +232,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     private CommandStackListener delegatingCommandStackListener = new CommandStackListener() {
         public void commandStackChanged(EventObject event) {
             updateActions(stackActionIDs);
-            Command lastCommand;
-            if (event.getSource() != null)
-                lastCommand = ((DelegatingCommandStack) event.getSource()).getUndoCommand();
-            else
-                lastCommand = null;
-
-            if (lastCommand instanceof CreateMapCommand && getPageCount() != getModel().getUcmspec().getMaps().size()) {
-                UcmEditor u = new UcmEditor(UCMNavMultiPageEditor.this);
-                int i = getModel().getUcmspec().getMaps().size() - 1;
-                u.setModel((Map) model.getUcmspec().getMaps().get(i));
-
-                try {
-                    addPage(u, getEditorInput());
-                } catch (PartInitException e) {
-                    e.printStackTrace();
-                }
-
-                // add command stacks
-                getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
-
-                refreshPageNames();
-                setActivePage(i);
-            } else if (lastCommand instanceof CompoundCommand && ((CompoundCommand) lastCommand).getCommands().size() == 1
-                    && ((CompoundCommand) lastCommand).getCommands().get(0) instanceof DeleteMapCommand
-                    && getPageCount() != getModel().getUcmspec().getMaps().size()) {
-
-                Map deletedMap = ((DeleteMapCommand) ((CompoundCommand) lastCommand).getCommands().get(0)).getMap();
-
-                int i;
-                for (i = 0; i < getPageCount(); i++) {
-                    if (((UcmEditor) getEditor(i)).getModel() == deletedMap) {
-                        // remove command stacks
-                        getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) getEditor(i)).getCommandStack());
-
-                        removePage(i);
-                        break;
-                    }
-                }
-
-                refreshPageNames();
-               
-            }
-
+            commandStackVerifyPages(event);
         }
     };
 
@@ -491,7 +449,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         action = new AddMapAction(this);
         action.setText("Add Use Case Map");
         addEditPartAction((SelectionAction) action);
-
+        
     }
 
     /*
@@ -738,8 +696,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * @return the <code>CommandStackListener</code>
      */
     protected MultiPageCommandStackListener getMultiPageCommandStackListener() {
-        if (null == multiPageCommandStackListener)
+        if (null == multiPageCommandStackListener) {
             multiPageCommandStackListener = new MultiPageCommandStackListener();
+            multiPageCommandStackListener.addCommandStack(getDelegatingCommandStack());
+        }
         return multiPageCommandStackListener;
     }
 
@@ -855,6 +815,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     public boolean isAdapterForType(Object type) {
         return type.equals(getModel().getClass());
+    }
+
+    public boolean isDirty() {
+        return isDirty;
     }
 
     public boolean isSaveAsAllowed() {
@@ -1023,5 +987,52 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         }
 
         //  getCurrentPage().updateActions();
+    }
+
+    /**
+     * @param event
+     */
+    private void commandStackVerifyPages(EventObject event) {
+        if (getPageCount() != getModel().getUcmspec().getMaps().size() && event.getSource() instanceof DelegatingCommandStack) {
+            Map mapChanged = ((DelegatingCommandStack) event.getSource()).getLastAffectedMap();
+
+            // was added
+            if (getModel().getUcmspec().getMaps().contains(mapChanged)) {
+                UcmEditor u = new UcmEditor(UCMNavMultiPageEditor.this);
+                u.setModel(mapChanged);
+
+                try {
+                    addPage(u, getEditorInput());
+                } catch (PartInitException e) {
+                    e.printStackTrace();
+                }
+
+                // add command stacks
+                getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
+
+                refreshPageNames();
+                setActivePage(getModel().getUcmspec().getMaps().indexOf(mapChanged));
+
+            } else // was deleted
+            {
+                int i;
+                for (i = 0; i < getPageCount(); i++) {
+                    if (((UcmEditor) getEditor(i)).getModel().equals(mapChanged)) {
+                        break;
+                    }
+                }
+
+                // remove command stacks
+                getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) getEditor(i)).getCommandStack());
+
+                removePage(i);
+                
+                currentPageChanged();
+            }
+        } else {
+            if (!(event.getSource() instanceof DelegatingCommandStack))
+                getDelegatingCommandStack().flushURNspecStack();
+
+        }
     }
 }

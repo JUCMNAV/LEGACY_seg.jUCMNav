@@ -60,10 +60,10 @@ public class LabelEditPart extends ModelElementEditPart {
             modelElement.eAdapters().add(this);
             if (modelElement instanceof ComponentRef) {
                 comp = ((ComponentRef) modelElement).getCompDef();
-                comp.eAdapters().add(this);
+                if (comp!=null) comp.eAdapters().add(this);
             } else if (modelElement instanceof RespRef) {
                 resp = ((RespRef) modelElement).getRespDef();
-                resp.eAdapters().add(this);
+                if (resp!=null) resp.eAdapters().add(this);
             }
         }
         super.activate();
@@ -78,10 +78,10 @@ public class LabelEditPart extends ModelElementEditPart {
         if (isActive()) {
             modelElement.eAdapters().remove(this);
             if (modelElement instanceof ComponentRef) {
-                comp.eAdapters().remove(this);
+                if (comp!=null) comp.eAdapters().remove(this);
                 comp = null;
             } else if (modelElement instanceof RespRef) {
-                resp.eAdapters().remove(this);
+                if (resp!=null) resp.eAdapters().remove(this);
                 resp = null;
             }
         }
@@ -141,10 +141,12 @@ public class LabelEditPart extends ModelElementEditPart {
 
             if (modelElement instanceof ComponentRef) {
                 ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
-                label.setText(componentElement.getName());
+                if (componentElement!=null)
+                    label.setText(componentElement.getName());
             } else if (modelElement instanceof RespRef) {
                 Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-                label.setText(responsibility.getName());
+                if (responsibility!=null)
+                    label.setText(responsibility.getName());
             } else {
                 label.setText(modelElement.getName());
             }
@@ -198,15 +200,15 @@ public class LabelEditPart extends ModelElementEditPart {
         if (type == Notification.SET) {
             if (featureId == MapPackage.COMPONENT_REF__COMP_DEF) {
                 if (modelElement instanceof ComponentRef) {
-                    comp.eAdapters().remove(this);
+                    if (comp!=null) comp.eAdapters().remove(this);
                     comp = ((ComponentRef) modelElement).getCompDef();
-                    comp.eAdapters().add(this);
+                    if (comp!=null) comp.eAdapters().add(this);
                 }
             } else if (featureId == MapPackage.RESP_REF__RESP_DEF)
                 if (modelElement instanceof RespRef) {
-                    resp.eAdapters().remove(this);
+                    if (resp!=null) resp.eAdapters().remove(this);
                     resp = ((RespRef) modelElement).getRespDef();
-                    resp.eAdapters().add(this);
+                    if (resp!=null) resp.eAdapters().add(this);
                 }
         }
 

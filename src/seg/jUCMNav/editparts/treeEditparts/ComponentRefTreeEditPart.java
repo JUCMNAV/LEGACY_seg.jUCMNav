@@ -25,17 +25,22 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 
     public void activate() {
         super.activate();
-        getCompRef().getCompDef().eAdapters().add(this);
+        if (getCompRef().getCompDef() != null)
+            getCompRef().getCompDef().eAdapters().add(this);
     }
 
     public void deactivate() {
         super.deactivate();
-        getCompRef().getCompDef().eAdapters().remove(this);
+        if (getCompRef().getCompDef() != null)
+            getCompRef().getCompDef().eAdapters().remove(this);
     }
 
     protected String getText() {
         ComponentElement comp = getCompRef().getCompDef();
-        return "ref " + getCompRef().getId() + ": " + comp.getName();
+        if (comp != null)
+            return "ref " + getCompRef().getId() + ": " + comp.getName();
+        else
+            return "ref " + getCompRef().getId();
     }
 
     /*

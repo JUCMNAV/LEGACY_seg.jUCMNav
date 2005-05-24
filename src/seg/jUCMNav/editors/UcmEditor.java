@@ -73,20 +73,20 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         }
 
         /**
-    	 * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
-    	 */
-    	public void init(IPageSite pageSite) {
-    		super.init(pageSite);
-    		ActionRegistry registry = getActionRegistry();
-    		IActionBars bars = pageSite.getActionBars();
-    		String id = ActionFactory.UNDO.getId();
-    		bars.setGlobalActionHandler(id, registry.getAction(id));
-    		id = ActionFactory.REDO.getId();
-    		bars.setGlobalActionHandler(id, registry.getAction(id));
-    		id = ActionFactory.DELETE.getId();
-    		bars.setGlobalActionHandler(id, registry.getAction(id));
-    	}
-        
+         * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
+         */
+        public void init(IPageSite pageSite) {
+            super.init(pageSite);
+            ActionRegistry registry = getActionRegistry();
+            IActionBars bars = pageSite.getActionBars();
+            String id = ActionFactory.UNDO.getId();
+            bars.setGlobalActionHandler(id, registry.getAction(id));
+            id = ActionFactory.REDO.getId();
+            bars.setGlobalActionHandler(id, registry.getAction(id));
+            id = ActionFactory.DELETE.getId();
+            bars.setGlobalActionHandler(id, registry.getAction(id));
+        }
+
         /*
          * (non-Javadoc)
          * 
@@ -274,7 +274,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @param map
      */
     public void execute(Command cmd) {
-        getEditDomain().getCommandStack().execute(cmd);
+        parent.getDelegatingCommandStack().execute(cmd);
     }
 
     protected ActionRegistry getActionRegistry() {
@@ -404,9 +404,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      *  
      */
     public void redo() {
-        if (getEditDomain().getCommandStack().canRedo())
-            getEditDomain().getCommandStack().redo();
-
+        parent.getDelegatingCommandStack().redo();
     }
 
     public void setModel(Map m) {
@@ -418,7 +416,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      *  
      */
     public void undo() {
-        if (getEditDomain().getCommandStack().canUndo())
-            getEditDomain().getCommandStack().undo();
+        parent.getDelegatingCommandStack().undo();
     }
 }

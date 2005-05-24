@@ -24,17 +24,22 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
 
     public void activate() {
         super.activate();
-        getRespRef().getRespDef().eAdapters().add(this);
+        if (getRespRef().getRespDef() != null)
+            getRespRef().getRespDef().eAdapters().add(this);
     }
 
     public void deactivate() {
         super.deactivate();
-        getRespRef().getRespDef().eAdapters().remove(this);
+        if (getRespRef().getRespDef() != null)
+            getRespRef().getRespDef().eAdapters().remove(this);
     }
 
     protected String getText() {
         Responsibility resp = getRespRef().getRespDef();
-        return "ref " + getRespRef().getId() + ": " + resp.getName();
+        if (resp != null)
+            return "ref " + getRespRef().getId() + ": " + resp.getName();
+        else
+            return "ref " + getRespRef().getId();
     }
 
     private RespRef getRespRef() {

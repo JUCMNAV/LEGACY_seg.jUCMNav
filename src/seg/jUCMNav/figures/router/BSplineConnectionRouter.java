@@ -269,13 +269,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
 
             drawSpline(spline);
         }
-        
-        if (((SplineConnection) conn).getLink().getTarget() instanceof EndPoint) {
-            PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(((SplineConnection) conn).getLink().getTarget());
-            if (edit != null) {
-                edit.refreshVisuals();
-            }
-        }
+
     }
 
     /**
@@ -292,6 +286,14 @@ public class BSplineConnectionRouter extends AbstractRouter {
         // Set the points for the given connection
         conn.setPoints(points);
         // The connection now follow the spline.
+        
+        
+        if (link.getLink().getTarget() instanceof EndPoint) {
+            PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getTarget());
+            if (edit != null) {
+                edit.refreshVisuals();
+            }
+        }        
     }
 
     /**
