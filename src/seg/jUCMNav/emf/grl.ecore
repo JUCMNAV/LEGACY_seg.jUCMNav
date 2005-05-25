@@ -3,5 +3,8 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="grl"
     nsURI="http:///grl.ecore" nsPrefix="grl">
-  <eClassifiers xsi:type="ecore:EClass" name="GRLspec"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GRLspec">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
+        eType="ecore:EClass urn.ecore#//URNspec" transient="true" eOpposite="urn.ecore#//URNspec/grlspec"/>
+  </eClassifiers>
 </ecore:EPackage>

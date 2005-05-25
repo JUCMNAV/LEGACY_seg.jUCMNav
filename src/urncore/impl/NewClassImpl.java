@@ -23,22 +23,22 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class NewClassImpl extends EObjectImpl implements NewClass {
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected NewClassImpl() {
-        super();
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected NewClassImpl() {
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected EClass eStaticClass() {
-        return UrncorePackage.eINSTANCE.getNewClass();
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected EClass eStaticClass() {
+		return UrncorePackage.eINSTANCE.getNewClass();
+	}
 
 } //NewClassImpl

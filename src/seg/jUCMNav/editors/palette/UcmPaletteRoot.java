@@ -1,7 +1,6 @@
 package seg.jUCMNav.editors.palette;
 
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.MarqueeToolEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -17,11 +16,8 @@ import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.AndFork;
 import ucm.map.ComponentRef;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
 import ucm.map.OrFork;
 import ucm.map.RespRef;
-import ucm.map.StartPoint;
 import ucm.map.Stub;
 import urn.URNspec;
 import urncore.ComponentKind;
@@ -106,12 +102,6 @@ public class UcmPaletteRoot extends PaletteRoot {
                 .createFromFile(JUCMNavPlugin.class, "icons/AndJoin24.gif"));
         controls.add(entry);
 
-        // use selection tool as default entry
-        //        setDefaultEntry(tool);
-
-        // the marquee selection tool
-        controls.add(new MarqueeToolEntry());
-
         PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
 
         entry = new CombinedTemplateCreationEntry("Team", "Create a team", ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class,
@@ -157,38 +147,27 @@ public class UcmPaletteRoot extends PaletteRoot {
                 ComponentRef.class, ComponentKind.OTHER), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Component24.gif"));
         componentsDrawer.add(entry);
-        //		
         add(componentsDrawer);
 
         componentsDrawer = new PaletteDrawer("Path");
-        //		entry =
-        //			new ConnectionCreationToolEntry(
-        //				"Link",
-        //				"Creates a link",
-        //				new ModelCreationFactory(Link.class),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/connection_s16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/connection_s24.gif"));
-        //		componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry("StartPoint", "Creates a path", StartPoint.class, new ModelCreationFactory(getURNspec(), StartPoint.class),
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-                        "icons/Start24.gif"));
-        componentsDrawer.add(entry);
-        entry.setId("StartPoint");
-
-        entry = new CombinedTemplateCreationEntry("Node", "Creates an empty node", EmptyPoint.class, new ModelCreationFactory(getURNspec(), EmptyPoint.class),
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-                        "icons/Node24.gif"));
-        entry.setId("EmptyPoint");
-        componentsDrawer.add(entry);
-
-        endPointTool = new CombinedTemplateCreationEntry("End Point", "Creates an end point", EndPoint.class, new ModelCreationFactory(getURNspec(),
-                EndPoint.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-                "icons/End24.gif"));
-        endPointTool.setId("EndPoint");
-        componentsDrawer.add(endPointTool);
+//        entry = new CombinedTemplateCreationEntry("StartPoint", "Creates a path", StartPoint.class, new ModelCreationFactory(getURNspec(), StartPoint.class),
+//                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+//                        "icons/Start24.gif"));
+//        componentsDrawer.add(entry);
+//        entry.setId("StartPoint");
+//
+//        entry = new CombinedTemplateCreationEntry("Node", "Creates an empty node", EmptyPoint.class, new ModelCreationFactory(getURNspec(), EmptyPoint.class),
+//                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+//                        "icons/Node24.gif"));
+//        entry.setId("EmptyPoint");
+//        componentsDrawer.add(entry);
+//
+//        endPointTool = new CombinedTemplateCreationEntry("End Point", "Creates an end point", EndPoint.class, new ModelCreationFactory(getURNspec(),
+//                EndPoint.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+//                "icons/End24.gif"));
+//        endPointTool.setId("EndPoint");
+//        componentsDrawer.add(endPointTool);
 
         entry = new CombinedTemplateCreationEntry("Responsibility", "Creates a responsibility", RespRef.class, new ModelCreationFactory(getURNspec(),
                 RespRef.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,

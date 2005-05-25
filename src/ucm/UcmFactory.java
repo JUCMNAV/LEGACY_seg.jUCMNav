@@ -17,30 +17,30 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface UcmFactory extends EFactory {
-    /**
-     * The singleton instance of the factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    UcmFactory eINSTANCE = new ucm.impl.UcmFactoryImpl();
+	/**
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	UcmFactory eINSTANCE = new ucm.impl.UcmFactoryImpl();
 
-    /**
-     * Returns a new object of class '<em>UC Mspec</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>UC Mspec</em>'.
-     * @generated
-     */
-    UCMspec createUCMspec();
+	/**
+	 * Returns a new object of class '<em>UC Mspec</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>UC Mspec</em>'.
+	 * @generated
+	 */
+	UCMspec createUCMspec();
 
-    /**
-     * Returns the package supported by this factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the package supported by this factory.
-     * @generated
-     */
-    UcmPackage getUcmPackage();
+	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	UcmPackage getUcmPackage();
 
 } //UcmFactory

@@ -28,30 +28,30 @@ package ucm.map;
  * @generated
  */
 public interface WaitingPlace extends PathNode {
-    /**
-     * Returns the value of the '<em><b>Wait Type</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Wait Type</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Wait Type</em>' attribute.
-     * @see #setWaitType(String)
-     * @see ucm.map.MapPackage#getWaitingPlace_WaitType()
-     * @model 
-     * @generated
-     */
-    String getWaitType();
+	/**
+	 * Returns the value of the '<em><b>Wait Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Wait Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Wait Type</em>' attribute.
+	 * @see #setWaitType(String)
+	 * @see ucm.map.MapPackage#getWaitingPlace_WaitType()
+	 * @model 
+	 * @generated
+	 */
+	String getWaitType();
 
-    /**
-     * Sets the value of the '{@link ucm.map.WaitingPlace#getWaitType <em>Wait Type</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Wait Type</em>' attribute.
-     * @see #getWaitType()
-     * @generated
-     */
-    void setWaitType(String value);
+	/**
+	 * Sets the value of the '{@link ucm.map.WaitingPlace#getWaitType <em>Wait Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Wait Type</em>' attribute.
+	 * @see #getWaitType()
+	 * @generated
+	 */
+	void setWaitType(String value);
 
 } // WaitingPlace
