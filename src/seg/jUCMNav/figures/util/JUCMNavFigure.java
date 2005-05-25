@@ -12,6 +12,7 @@ import seg.jUCMNav.figures.AndForkFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
+import seg.jUCMNav.figures.OrJoinFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
@@ -19,6 +20,7 @@ import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -48,6 +50,8 @@ public class JUCMNavFigure {
 			return AndForkFigure.getDefaultDimension();
 		} else if(modelElement instanceof OrFork) {
 			return OrForkFigure.getDefaultDimension();
+		} else if(modelElement instanceof OrJoin) {
+		    return OrJoinFigure.getDefaultDimension();
 		}
 		
 		return new Dimension(0,0);

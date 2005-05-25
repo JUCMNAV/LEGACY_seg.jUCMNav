@@ -7,6 +7,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -14,6 +15,7 @@ import ucm.map.Map;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -149,6 +151,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createOrFork();
             } else if (targetClass.equals(AndFork.class)) {
                 result = mapfactory.createAndFork();
+            } else if (targetClass.equals(OrJoin.class)) {
+                result = mapfactory.createOrJoin();
+            } else if (targetClass.equals(AndJoin.class)) {
+                result = mapfactory.createAndJoin();
             } else if (targetClass.equals(Stub.class)) {
                 result = mapfactory.createStub();
             } else if (targetClass.equals(WaitingPlace.class)) {

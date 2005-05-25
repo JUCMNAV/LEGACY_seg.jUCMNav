@@ -14,6 +14,7 @@ import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -59,6 +60,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		    return new PathNodeEditPart((OrFork)model, root.getPathGraph());
 		else if(model instanceof AndFork)
 		    return new PathNodeEditPart((AndFork)model, root.getPathGraph());
+		else if (model instanceof OrJoin)
+		    return new PathNodeEditPart((OrJoin)model, root.getPathGraph());
 		else if(model instanceof Stub)
 			return new StubEditPart((Stub)model, root.getPathGraph());
 		else { 	

@@ -18,6 +18,7 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
+import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
@@ -75,6 +76,10 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddAndForkAction.ADDANDFORK);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
         

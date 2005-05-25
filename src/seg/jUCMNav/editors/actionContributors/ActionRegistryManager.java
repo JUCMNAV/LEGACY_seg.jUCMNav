@@ -25,6 +25,7 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
+import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
@@ -153,6 +154,10 @@ public class ActionRegistryManager {
         action.setText("Add AND-Fork");
         addEditPartAction((SelectionAction) action);
 
+        action = new AddOrJoinAction(editor);
+        action.setText("OR-Join selected");
+        addEditPartAction((SelectionAction) action);
+        
         action = new BindWithParent(editor);
         action.setText("Bind with parent component");
         addEditPartAction((SelectionAction) action);

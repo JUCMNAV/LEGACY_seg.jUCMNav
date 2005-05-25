@@ -26,6 +26,7 @@ import seg.jUCMNav.figures.AndForkFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
+import seg.jUCMNav.figures.OrJoinFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.SplineConnection;
@@ -36,6 +37,7 @@ import ucm.map.AndFork;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -72,6 +74,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		    figure = new OrForkFigure();
 		else if (getModel() instanceof AndFork)
 			figure = new AndForkFigure();
+		else if (getModel() instanceof OrJoin)
+		    figure = new OrJoinFigure();
 		else if (getModel() instanceof Stub){
 			Stub stub = (Stub)getModel();
 			figure = new StubFigure(stub.isDynamic());
