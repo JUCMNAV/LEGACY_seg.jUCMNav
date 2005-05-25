@@ -29,6 +29,7 @@ import seg.jUCMNav.figures.OrForkFigure;
 import seg.jUCMNav.figures.OrJoinFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
+import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
@@ -132,8 +133,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
 		Rectangle bounds = new Rectangle(location, dim);
 		figure.setBounds(bounds);
-		if (getModel() instanceof EndPoint && ((EndPoint) getModel()).getPred().size()>0) {
-            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((EndPoint) getModel()).getPred().get(0));
+		if (nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size()>0) {
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
             if (nc!=null) {
                                 
             	SplineConnection sp = (SplineConnection) nc.getFigure();
@@ -149,11 +150,13 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             			} else {
             				r = new Ray(list.getMidpoint(), list.getLastPoint());
             			}
-        //    			r = new Ray(sp.getPoints().getPoint(sp.getPoints().size()-2),list.getLastPoint());
             			
-            			//System.out.println(r);
-
-            			((EndPointFigure) nodeFigure).setEntryRay(r);
+            			if(r.x == 0) {
+            				((Rotateable) nodeFigure).rotate(Math.toRadians(90));
+            	    	} else {
+            	    		double angle = Math.atan((double) r.y/ (double) r.x);
+            	    		((Rotateable) nodeFigure).rotate(angle);
+            	    	}
             		}
             	}
             }

@@ -1,11 +1,10 @@
 package seg.jUCMNav.figures;
 
-import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Transform;
 
 /**
  * Created 2005-02-14
@@ -14,8 +13,12 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * 
  * @author Etienne Tremblay
  */
-public class ResponsibilityFigure extends PathNodeFigure {
-	RectangleFigure anchor;
+public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
+	
+	private Polygon edge1;
+	private Polygon edge2;
+	private PointList enpoints1;
+	private PointList enpoints2;
 
 	public ResponsibilityFigure(){
 		super();
@@ -25,47 +28,62 @@ public class ResponsibilityFigure extends PathNodeFigure {
 	 * @see seg.jUCMNav.figures.NodeFigure#createFigure()
 	 */
 	protected void createFigure() {
-//		Polyline line = new Polyline();
-		Dimension center = new Dimension(preferredSize.width/2, preferredSize.height/2);
-//		line.setStart(new Point(center.width-5, center.height-5));
-//		line.setEnd(new Point(center.width+5, center.height+5));
-//		line.setBackgroundColor(new Color(null, 0, 0, 0));
-//		line.setLineWidth(2);
-//		add(line);
-//		
-//		line = new Polyline();
-//		line.setStart(new Point(center.width+5, center.height-5));
-//		line.setEnd(new Point(center.width-5, center.height+5));
-//		line.setBackgroundColor(new Color(null, 0, 0, 0));
-//		line.setLineWidth(2);
-//		add(line);
+		edge1 = new Polygon();
+		enpoints1 = new PointList();
+
+		edge2 = new Polygon();
+		enpoints2 = new PointList();
+    	
+		enpoints1.addPoint(DEFAULT_WIDTH / 4 , DEFAULT_HEIGHT / 4);
+		enpoints1.addPoint(DEFAULT_WIDTH - DEFAULT_WIDTH / 4, DEFAULT_HEIGHT - DEFAULT_HEIGHT / 4);
 		
-		anchor = new RectangleFigure();
-		anchor.setLocation(new Point(center.width-1, center.height-1));
-		anchor.setSize(new Dimension(1, 1));
-		add(anchor);
+		enpoints2.addPoint(DEFAULT_WIDTH / 4, DEFAULT_HEIGHT - DEFAULT_HEIGHT / 4);
+		enpoints2.addPoint(DEFAULT_WIDTH - DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4);
+		
+		edge1.setLineWidth(3);
+		edge1.setPoints(enpoints1);
+		
+		edge2.setLineWidth(3);
+		edge2.setPoints(enpoints2);
+		
+		add(edge1);
+		add(edge2);
 	}
+	
+	public void rotate(double angle) {
+    	Transform t = new Transform();
+    	t.setRotation(angle);
+    	
+    	PointList newEdges1 = new PointList();
+    	PointList newEdges2 = new PointList();
+    	Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+
+    	for(int i = 0; i<enpoints1.size(); i++) {
+    		Point newPoint = t.getTransformed(new Point(enpoints1.getPoint(i).x - center.x, enpoints1.getPoint(i).y - center.y)); 
+    		newEdges1.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+    	}
+    	
+    	for(int i = 0; i<enpoints2.size(); i++) {
+    		Point newPoint = t.getTransformed(new Point(enpoints2.getPoint(i).x - center.x, enpoints2.getPoint(i).y - center.y)); 
+    		newEdges2.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+    	}
+    	
+    	edge1.setPoints(newEdges1);
+    	edge2.setPoints(newEdges2);
+    }
+	
+	protected boolean useLocalCoordinates() {
+		return true;
+	}
+	
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.figures.NodeFigure#initAnchor()
 	 */
 	protected void initAnchor() {
-		incomingAnchor = new EllipseAnchor(anchor);
-		outgoingAnchor = new EllipseAnchor(anchor);
+		incomingAnchor = new ChopboxAnchor(this);
+        outgoingAnchor = new ChopboxAnchor(this);
 	}
 	
-	/**
-	 * We have to paint this figure manualy because it seems that Polyline doesn't draw. 
-	 * (non-Javadoc)
-	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
-	 */
-	public void paintFigure(Graphics g) {
-		Rectangle r = getBounds().getCopy();
-		g.setLineWidth(3);
-		Point c = r.getCenter();
-		// The lines for the X
-		g.drawLine(c.x - 5, c.y-5, c.x+5, c.y+5);
-		g.drawLine(c.x+5, c.y-5, c.x-5, c.y+5);
-	}
 	
 	/**
 	 * @return Returns the default dimension.

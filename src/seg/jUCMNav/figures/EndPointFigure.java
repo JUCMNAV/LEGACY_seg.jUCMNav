@@ -3,7 +3,6 @@ package seg.jUCMNav.figures;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Ray;
 import org.eclipse.draw2d.geometry.Transform;
 
 /**
@@ -13,7 +12,7 @@ import org.eclipse.draw2d.geometry.Transform;
  * 
  * @author Etienne Tremblay
  */
-public class EndPointFigure extends PathNodeFigure {
+public class EndPointFigure extends PathNodeFigure implements Rotateable {
 	
 	private Polygon mainFigure;
 	private PointList edges;
@@ -55,15 +54,6 @@ public class EndPointFigure extends PathNodeFigure {
     	}
     	
     	mainFigure.setPoints(newEdges);
-    }
-    
-    public void setEntryRay(Ray r) {
-    	if(r.x == 0) {
-    		rotate(Math.toRadians(90));
-    	} else {
-    		double angle = Math.atan((double) r.y/ (double) r.x);
-        	rotate(angle);
-    	}
     }
 
     protected boolean useLocalCoordinates() {
