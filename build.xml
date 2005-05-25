@@ -72,10 +72,11 @@
 		<javac destdir="${temp.folder}/jUCMNav.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
 			<compilerarg line="${compilerArg}"/>
 			<classpath>
+				<!--
 				<fileset dir="${eclipsehome}/plugins">
 					<include name="**/*.jar" />
 				</fileset>
-				<!--				
+				-->
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui_3.0.1/ui.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.runtime_3.0.1/runtime.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/core.jar"/>
@@ -117,7 +118,6 @@
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.gef_3.0.1/gef.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.ecore.xmi_2.0.1/runtime/ecore.xmi.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.junit_3.8.1/junit.jar"/>
-				-->
 			</classpath>
 			<src path="src/"			/>
 			</javac>
@@ -160,10 +160,11 @@
 		           windowtitle="jUCMNav">
 			   <tag name="todo" scope="all" description="To do:" />
 			<classpath>
+				<!--
 				<fileset dir="${eclipsehome}/plugins">
 					<include name="**/*.jar" />
 				</fileset>
-				<!--
+				-->
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.ui_3.0.1/ui.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.core.runtime_3.0.1/runtime.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.osgi_3.0.1/core.jar"/>
@@ -205,7 +206,6 @@
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.gef_3.0.1/gef.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.eclipse.emf.ecore.xmi_2.0.1/runtime/ecore.xmi.jar"/>
 				<pathelement path="${eclipsehome}/plugins/org.junit_3.8.1/junit.jar"/>
-				-->
 		</classpath>
 	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
