@@ -41,7 +41,7 @@ public class MultiPageTabManager {
 
                     if (!(selectedPart instanceof URNspecTreeEditPart)) {
                         Map selectedMap = selectedPart.getContainingMap();
-                        if (getActivePage() != getMaps().indexOf(selectedMap)) {
+                        if (getActivePage() != getMaps().indexOf(selectedMap) && getMaps().indexOf(selectedMap) >= 0) {
                             setActivePage(getMaps().indexOf(selectedMap));
                         }
                     }
