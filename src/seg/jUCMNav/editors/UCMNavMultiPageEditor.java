@@ -341,7 +341,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * 
      * @see org.eclipse.ui.part.MultiPageEditorPart#getPageCount()
      */
-    protected int getPageCount() {
+    public int getPageCount() {
         return super.getPageCount();
     }
 

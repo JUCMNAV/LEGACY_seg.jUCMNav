@@ -185,12 +185,12 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
-        assert (_newFork != null) : "pre newFork";
-        assert (_newEndPoint != null) : "pre newEndPoint";
+        assert (_newEmptyPoint != null) : "post newEmptyPoint";
+        assert (_newFork != null) : "post newFork";
+        assert (_newEndPoint != null) : "post newEndPoint";
 
         assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg
-                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph contains new nodes";
+                .getPathNodes().contains(_newEndPoint)) : "post PathGraph contains new nodes";
 
     }
 

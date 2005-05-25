@@ -10,6 +10,8 @@ import urn.URNspec;
 /**
  * This command adds a ComponentRef and its corresponding definition to the model. Its definition must not be referenced by any other classes.
  * 
+ * Note: this command does not bind a component to its parent. use the SetConstraintComponentRef command instead. 
+ * 
  * @author jkealey
  *  
  */
