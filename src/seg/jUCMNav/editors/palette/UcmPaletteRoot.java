@@ -208,6 +208,10 @@ public class UcmPaletteRoot extends PaletteRoot {
         entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
         componentsDrawer.add(entry);
+        
+        entry = new CombinedTemplateCreationEntry("Dynamic Stub", "Creates a dynamic stub", null, new ModelCreationFactory(getURNspec(), Stub.class, 1), ImageDescriptor
+                .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
+        componentsDrawer.add(entry);
 
         //        
         //        entry =

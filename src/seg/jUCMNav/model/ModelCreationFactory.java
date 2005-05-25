@@ -156,7 +156,13 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(AndJoin.class)) {
                 result = mapfactory.createAndJoin();
             } else if (targetClass.equals(Stub.class)) {
-                result = mapfactory.createStub();
+            	if(type == 0)
+            		result = mapfactory.createStub();
+            	else{
+            		result = mapfactory.createStub();
+            		Stub dyn = (Stub)result;
+            		dyn.setDynamic(true);
+            	}            		
             } else if (targetClass.equals(WaitingPlace.class)) {
                 result = mapfactory.createWaitingPlace();
             } else if (targetClass.equals(Timer.class)) {
