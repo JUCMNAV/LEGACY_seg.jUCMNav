@@ -4,8 +4,10 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -159,6 +161,9 @@ public static boolean canExecute(Object p) {
         diagram.getPathNodes().add(newStart);
         diagram.getPathNodes().add(newEnd);
 
+        newStart.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), newStart.getX(), newStart.getY()));
+        newEnd.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), newEnd.getX(), newEnd.getY()));
+        
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);
         testPostConditions();
@@ -185,6 +190,9 @@ public static boolean canExecute(Object p) {
 
         diagram.getPathNodes().add(previousPoint);
         diagram.getPathNodes().add(nextPoint);
+
+        newStart.setCompRef(null);
+        newEnd.setCompRef(null);
 
         testPreConditions();
     }

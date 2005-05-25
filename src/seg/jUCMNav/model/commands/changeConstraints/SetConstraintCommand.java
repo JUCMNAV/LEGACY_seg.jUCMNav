@@ -102,7 +102,9 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
      */
     private void setParents() {
         oldParent = node.getCompRef();
-        newParent = ParentFinder.findParent((Map) node.eContainer().eContainer(), newX, newY);
+        if (node.eContainer() != null && node.eContainer().eContainer() != null) {
+            newParent = ParentFinder.findParent((Map) node.eContainer().eContainer(), newX, newY);
+        }
     }
 
     /*
