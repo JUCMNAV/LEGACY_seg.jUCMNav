@@ -254,7 +254,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setName(URNNamingHelper.getPrefix(URNspec.class));
 
         // seed the global id
-        urnspec.setModified("1");
+        urnspec.setNextGlobalID("1");
 
         // add its URN definition
         urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());

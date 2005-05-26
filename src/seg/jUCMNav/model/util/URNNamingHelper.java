@@ -58,7 +58,7 @@ public class URNNamingHelper {
             return "";
         }
 
-        String id = urn.getModified();
+        String id = urn.getNextGlobalID();
 
         // if we can't convert it, the model is in an invalid state.
         // don't catch the exception
@@ -69,7 +69,7 @@ public class URNNamingHelper {
             System.out.println("Old file; please discard.");
         }
 
-        urn.setModified(id);
+        urn.setNextGlobalID(id);
 
         return id;
     }
@@ -152,7 +152,7 @@ public class URNNamingHelper {
      * @param urn
      */
     public static void sanitizeURNspec(URNspec urn) {
-        String proposedTopID = urn.getModified();
+        String proposedTopID = urn.getNextGlobalID();
         HashMap htIDs = new HashMap();
         HashMap htComponentNames = new HashMap();
         HashMap htResponsibilityNames = new HashMap();
@@ -323,10 +323,10 @@ public class URNNamingHelper {
             proposedTopID = Long.toString(Long.parseLong((String) ids.get(ids.size() - 1)) + 1);
 
             // update the ID if necessary
-            if (!urn.getModified().equals(proposedTopID)) {
+            if (!urn.getNextGlobalID().equals(proposedTopID)) {
                 // don't lower the top id; simply increment it if changes occured.
-                if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getModified()))
-                    urn.setModified(proposedTopID);
+                if (Long.parseLong(proposedTopID) > Long.parseLong(urn.getNextGlobalID()))
+                    urn.setNextGlobalID(proposedTopID);
             }
         }
     }
@@ -465,7 +465,7 @@ public class URNNamingHelper {
      * @return
      */
     private static String setTopID(URNspec urn, String id) {
-        urn.setModified(id);
+        urn.setNextGlobalID(id);
         return id;
     }
 
