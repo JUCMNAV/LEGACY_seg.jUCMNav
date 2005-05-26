@@ -22,6 +22,7 @@ import org.eclipse.gef.Request;
 
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
+import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
 import seg.jUCMNav.figures.AndForkFigure;
 import seg.jUCMNav.figures.AndJoinFigure;
 import seg.jUCMNav.figures.DirectionArrowFigure;
@@ -99,6 +100,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		// install the edit policy to handle connection creation
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonResizableEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
 	}
 	
 	protected PathNode getNode(){

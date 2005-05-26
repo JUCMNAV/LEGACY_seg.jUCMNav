@@ -125,7 +125,6 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     public Command getCommand(Request request) {
-        // TODO Auto-generated method stub
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             CutPathCommand cp = new CutPathCommand(getPathGraph(), (NodeConnection)(getHost().getModel()));
             return cp;
