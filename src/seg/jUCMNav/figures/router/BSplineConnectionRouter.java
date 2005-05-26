@@ -11,6 +11,7 @@ import org.eclipse.draw2d.geometry.PointList;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.SplineConnection;
+import ucm.map.AndJoin;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
@@ -287,6 +288,17 @@ public class BSplineConnectionRouter extends AbstractRouter {
         conn.setPoints(points);
         // The connection now follow the spline.
 
+        // refresh outgoing andjoin only.
+        if (link.getLink().getSource() instanceof AndJoin)
+        {
+            PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getSource());
+            if (edit != null) {
+                edit.refreshVisuals();
+            }
+            
+        }
+        
+        // rest are refreshed ingoing.
         PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getTarget());
         if (edit != null) {
             edit.refreshVisuals();

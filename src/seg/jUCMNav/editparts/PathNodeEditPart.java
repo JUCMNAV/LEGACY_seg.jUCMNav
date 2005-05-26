@@ -143,7 +143,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		Point location = new Point(getNode().getX()-(dim.width/2), getNode().getY()-(dim.height/2));  // The position of the current figure
 		Rectangle bounds = new Rectangle(location, dim);
 		figure.setBounds(bounds);
-		if (nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size()>0) {
+		if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size()>0) {
             NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
             if (nc!=null) {
                                 
@@ -167,6 +167,30 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             		}
             	}
             }
+		}
+		else if (nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size()>0) {
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getSucc().get(0));
+            if (nc!=null) {
+                                
+            	SplineConnection sp = (SplineConnection) nc.getFigure();
+            	if(sp != null) {
+            		PointList list = sp.getPoints();
+            		if(list != null) {
+            			
+            			Ray r;
+
+            			if(list.size() > 2) {
+            				r = new Ray(list.getFirstPoint(), list.getPoint(1));
+            			} else {
+            				r = new Ray(list.getFirstPoint(), list.getMidpoint());
+            			}
+            			
+            			double angle = Math.atan2((double) r.y , (double) r.x);
+            			
+            			((Rotateable) nodeFigure).rotate(angle-Math.PI);
+            		}
+            	}
+            }		    
 		}
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent container 
