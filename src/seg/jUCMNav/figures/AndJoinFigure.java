@@ -3,20 +3,20 @@
  */
 package seg.jUCMNav.figures;
 
-import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Transform;
 
 /**
  * Represents an AND-Join in the model. Visually, lines join together on an invisible figure.
- * @author jpdaigle
+ * @author jpdaigle, Jordan McManus
  */
-public class AndJoinFigure extends PathNodeFigure {
+public class AndJoinFigure extends PathNodeFigure implements Rotateable {
 
-    RectangleFigure anchor;	
+   	private Polygon mainFigure;
+	private PointList edges;
 
     public AndJoinFigure() {
 		super();
@@ -26,30 +26,42 @@ public class AndJoinFigure extends PathNodeFigure {
 	 * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
 	 */
 	protected void createFigure() {
-		Dimension center = new Dimension(preferredSize.width / 2,
-				preferredSize.height / 2);
-		anchor = new RectangleFigure();
-		anchor.setLocation(new Point(center.width - 1, center.height - 1));
-		anchor.setSize(new Dimension(1, 1));
-		add(anchor);
+		mainFigure = new Polygon();
+    	edges = new PointList();
+    	
+    	edges.addPoint(DEFAULT_WIDTH / 2, 0);
+		edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
+		
+		mainFigure.setLineWidth(3);
+		mainFigure.setPoints(edges);
+		add(mainFigure);
 	}
+	public void rotate(double angle) {
+    	Transform t = new Transform();
+    	t.setRotation(angle);
+    	
+    	PointList newEdges = new PointList();
+    	Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
 
+    	for(int i = 0; i<edges.size(); i++) {
+    		Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y)); 
+    		newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+    	}
+    	
+    	mainFigure.setPoints(newEdges);
+    }
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
 	 */
 	protected void initAnchor() {
-		incomingAnchor = new EllipseAnchor(anchor);
-		outgoingAnchor = new EllipseAnchor(anchor);
+		incomingAnchor = new ChopboxAnchor(this);
+		outgoingAnchor = new ChopboxAnchor(this);
 	}
 
-	public void paintFigure(Graphics g) {
-		Rectangle r = getBounds().getCopy();
-		g.setLineWidth(4);
-		Point c = r.getCenter();
-
-		g.drawLine(c.x, c.y - 10, c.x, c.y + 10);
+	protected boolean useLocalCoordinates() {
+		return true;
 	}
-
+	
 	/**
 	 * @return Returns the default dimension.
 	 */
