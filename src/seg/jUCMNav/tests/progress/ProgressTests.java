@@ -32,11 +32,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
+import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
@@ -688,7 +691,7 @@ public class ProgressTests extends TestCase {
         assertTrue("Can't insert RespRef", cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-        PathNode pn=null;
+        PathNode pn = null;
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             pn = (PathNode) iter.next();
             if (pn instanceof RespRef) {
@@ -696,7 +699,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertTrue("no respref found", pn instanceof RespRef);
-        
+
         PathNodeEditPart part = (PathNodeEditPart) getEditPart(pn);
 
         cmd = part.getCommand(new GroupRequest(RequestConstants.REQ_DELETE));
@@ -817,15 +820,43 @@ public class ProgressTests extends TestCase {
         assertTrue("No palette entry creates EmptyPoint (No path tool)", isToolEntryPresent(PathToolEntry.class));
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemEmptyPoint
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemEmptyPoint2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemEmptyPoint
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemEmptyPoint2() {
+        testReqElemStartPoint1();
+        PathNode pn = null;
+
+        assertTrue("no path node found", getMap().getPathGraph().getPathNodes().size() > 0);
+        pn = (PathNode) getMap().getPathGraph().getPathNodes().get(0);
+
+        PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(pn);
+        assertNotNull("cannot find editpart", part);
+        
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean x, y, id, name;
+        x = y = id = name = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("name"))
+                name = true;
+            else if (str.equalsIgnoreCase("id"))
+                id = true;
+            else if (str.equalsIgnoreCase("x"))
+                x = true;
+            else if (str.equalsIgnoreCase("y"))
+                y = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", name && id && x && y);
+
+    }
 
     /**
      * Test #1 for requirement ReqElemEndPoint
@@ -940,15 +971,37 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates RespRef", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemResponsibility
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemResponsibility2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemResponsibility
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemResponsibility2() {
+        testReqElemStartPoint1();
+        Command cmd;
+        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
+        cmd = new SplitLinkCommand(getMap().getPathGraph(), resp, nc, 100, 100);
+        assertTrue("Can't insert RespRef", cmd.canExecute());
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(resp);
+        assertNotNull("cannot find editpart", part);
+        
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean def = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("definition"))
+                def = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", def);
+    }
 
     /**
      * Test #1 for requirement ReqElemStartPoint
@@ -995,15 +1048,40 @@ public class ProgressTests extends TestCase {
     //     assertTrue("Unimplemented", false);
     // }
 
-    //  /**
-    //  * Test #1 for requirement ReqElemStartPointAttributes
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemStartPointAttributes1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #1 for requirement ReqElemStartPointAttributes
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemStartPointAttributes1() {
+        testReqElemStartPoint1();
+
+        StartPoint start=null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                start = (StartPoint) element;
+            }
+        }
+        assertNotNull("cannot find startpoint", start);
+        
+        PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(start);
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean wl = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("workload"))
+                wl = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", wl);
+    }
 
     /**
      * Test #1 for requirement ReqElemStaticStub
@@ -1239,15 +1317,41 @@ public class ProgressTests extends TestCase {
     //     assertTrue("Unimplemented", false);
     // }
 
-    //  /**
-    //  * Test #1 for requirement ReqLabels
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqLabels1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+      /**
+      * Test #1 for requirement ReqLabels
+      *
+      * Author: jkealey
+      */
+     public void testReqLabels1() {
+         testReqElemStartPoint1();
+
+         StartPoint start=null;
+         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+             PathNode element = (PathNode) iter.next();
+             if (element instanceof StartPoint) {
+                 start = (StartPoint) element;
+             }
+         }
+         assertNotNull("cannot find startpoint", start);
+         assertNotNull("cannot find startpoint label", start.getLabel());
+         
+         LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(start.getLabel());
+         assertNotNull("cannot find label editpart", part);
+
+         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+         assertNotNull("No property source found", source);
+
+         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+         boolean name = false;
+         for (int i = 0; i < desc.length; i++) {
+             String str = desc[i].getDisplayName();
+             if (str.equalsIgnoreCase("name"))
+                 name = true;
+         }
+
+         assertTrue("Missing PropertyDescriptor (should show name/id of label reference)", name);
+     }
 
     //  /**
     //  * Test #2 for requirement ReqLabels
