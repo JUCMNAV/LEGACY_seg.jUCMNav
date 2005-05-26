@@ -9,6 +9,7 @@ import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -137,6 +138,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
                 result = mapfactory.createNodeConnection();
+            } else if (targetClass.equals(DirectionArrow.class)) {
+                result = mapfactory.createDirectionArrow();
             } else if (targetClass.equals(Responsibility.class)) {
                 result = urncorefactory.createResponsibility();
             } else if (targetClass.equals(StartPoint.class)) {

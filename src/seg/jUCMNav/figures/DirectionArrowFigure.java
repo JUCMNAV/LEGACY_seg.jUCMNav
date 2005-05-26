@@ -1,3 +1,6 @@
+/*
+ * Created on May 25, 2005
+ */
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
@@ -6,20 +9,16 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
 
 /**
- * Created 2005-02-14
- * 
- * This figure represent a responsibility
- * 
- * @author Etienne Tremblay
+ * @author Jordan McManus
  */
-public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
-	
+public class DirectionArrowFigure extends PathNodeFigure implements Rotateable {
+
 	private Polygon edge1;
 	private Polygon edge2;
 	private PointList enpoints1;
 	private PointList enpoints2;
-
-	public ResponsibilityFigure(){
+	
+	public DirectionArrowFigure(){
 		super();
 	}
 	
@@ -34,10 +33,10 @@ public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
 		enpoints2 = new PointList();
     	
 		enpoints1.addPoint(DEFAULT_WIDTH / 4 , DEFAULT_HEIGHT / 4);
-		enpoints1.addPoint(DEFAULT_WIDTH - DEFAULT_WIDTH / 4, DEFAULT_HEIGHT - DEFAULT_HEIGHT / 4);
+		enpoints1.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
 		
 		enpoints2.addPoint(DEFAULT_WIDTH / 4, DEFAULT_HEIGHT - DEFAULT_HEIGHT / 4);
-		enpoints2.addPoint(DEFAULT_WIDTH - DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4);
+		enpoints2.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
 		
 		edge1.setLineWidth(3);
 		edge1.setPoints(enpoints1);
@@ -70,7 +69,7 @@ public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
     	edge1.setPoints(newEdges1);
     	edge2.setPoints(newEdges2);
     }
-	
+
 	protected boolean useLocalCoordinates() {
 		return true;
 	}

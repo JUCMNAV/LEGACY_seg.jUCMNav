@@ -2,9 +2,7 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.Transform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
@@ -13,7 +11,7 @@ import org.eclipse.swt.graphics.Color;
  * 
  * @author Etienne Tremblay
  */
-public class StubFigure extends PathNodeFigure implements Rotateable {
+public class StubFigure extends PathNodeFigure {
 	
 	private static final int DEFAULT_WIDTH = 34;
 	private static final int DEFAULT_HEIGHT = 34;
@@ -50,21 +48,6 @@ public class StubFigure extends PathNodeFigure implements Rotateable {
 		mainFigure.setBackgroundColor(new Color(null, 255, 255, 255));
 		add(mainFigure);
 	}
-	
-	public void rotate(double angle) {
-    	Transform t = new Transform();
-    	t.setRotation(angle);
-    	
-    	PointList newEdges = new PointList();
-    	Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
-
-    	for(int i = 0; i<edges.size(); i++) {
-    		Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y)); 
-    		newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
-    	}
-    	
-    	mainFigure.setPoints(newEdges);
-    }
 
 	public void setDynamic(boolean dynamic) {
 		this.dynamic = dynamic;

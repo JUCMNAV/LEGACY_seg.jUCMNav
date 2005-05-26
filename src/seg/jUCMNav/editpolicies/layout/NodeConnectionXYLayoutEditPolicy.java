@@ -21,6 +21,7 @@ import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.AndFork;
+import ucm.map.DirectionArrow;
 import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
@@ -78,7 +79,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // converts relative to absolute positions (so that zooms work properly)
         Point constraint = getLocation(request);
 
-        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == Stub.class) {
+        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == DirectionArrow.class || newObjectType == Stub.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             //			if(oldLink.getSource() instanceof StartPoint || oldLink.getTarget() instanceof EndPoint)
             //				return null;

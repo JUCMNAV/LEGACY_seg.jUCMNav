@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPartFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -51,6 +52,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new PathNodeEditPart((StartPoint)model, root.getPathGraph());
 		else if(model instanceof EndPoint)
 			return new PathNodeEditPart((EndPoint)model, root.getPathGraph());
+		else if(model instanceof DirectionArrow)
+			return new PathNodeEditPart((DirectionArrow)model, root.getPathGraph());
 		else if(model instanceof RespRef)
 			return new PathNodeEditPart((RespRef)model, root.getPathGraph());
 		else if(model instanceof Label)

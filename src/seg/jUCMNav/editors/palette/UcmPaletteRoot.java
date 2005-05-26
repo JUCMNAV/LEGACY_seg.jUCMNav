@@ -17,6 +17,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.DirectionArrow;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.RespRef;
@@ -175,6 +176,12 @@ public class UcmPaletteRoot extends PaletteRoot {
                 RespRef.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
                 "icons/Resp24.gif"));
         entry.setId("Responsibility");
+        componentsDrawer.add(entry);
+        
+        entry = new CombinedTemplateCreationEntry("Direction Arrow", "Creates a direction arrow", DirectionArrow.class, new ModelCreationFactory(getURNspec(),
+        		DirectionArrow.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+                "icons/DirectionArrow24.gif"));
+        entry.setId("DirectionArrow");
         componentsDrawer.add(entry);
 
         entry = new CombinedTemplateCreationEntry("Or Fork", "Creates an OR fork", OrFork.class, new ModelCreationFactory(getURNspec(), OrFork.class), ImageDescriptor

@@ -24,6 +24,7 @@ import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.figures.AndForkFigure;
 import seg.jUCMNav.figures.AndJoinFigure;
+import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
@@ -37,6 +38,7 @@ import seg.jUCMNav.figures.StubFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.DirectionArrow;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OrFork;
@@ -81,6 +83,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 		    figure = new OrJoinFigure();
 		else if (getModel() instanceof AndJoin)
 		    figure = new AndJoinFigure();
+		else if (getModel() instanceof DirectionArrow)
+		    figure = new DirectionArrowFigure();
 		else if (getModel() instanceof Stub){
 			Stub stub = (Stub)getModel();
 			figure = new StubFigure(stub.isDynamic());
@@ -155,12 +159,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             				r = new Ray(list.getMidpoint(), list.getLastPoint());
             			}
             			
-            			if(r.x == 0) {
-            				((Rotateable) nodeFigure).rotate(Math.toRadians(90));
-            	    	} else {
-            	    		double angle = Math.atan((double) r.y/ (double) r.x);
-            	    		((Rotateable) nodeFigure).rotate(angle);
-            	    	}
+            			double angle = Math.atan2((double) r.y , (double) r.x);
+            			
+            			((Rotateable) nodeFigure).rotate(angle-Math.PI);
             		}
             	}
             }

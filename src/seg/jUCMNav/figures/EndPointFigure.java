@@ -10,7 +10,7 @@ import org.eclipse.draw2d.geometry.Transform;
  * 
  * This figure represent and EndPoint
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, Jordan McManus
  */
 public class EndPointFigure extends PathNodeFigure implements Rotateable {
 	
