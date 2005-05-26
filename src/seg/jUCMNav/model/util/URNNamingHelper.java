@@ -1,8 +1,10 @@
 package seg.jUCMNav.model.util;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -168,6 +170,26 @@ public class URNNamingHelper {
         // make sure that our URN is named.
         if (!isNameAndIDSet(urn)) {
             urn.setName(getPrefix(urn.getClass()));
+        }
+
+        if (urn.getUrnVersion() == null || urn.getUrnVersion().length() == 0)
+            urn.setUrnVersion("0.9");
+
+        if (urn.getSpecVersion() == null || urn.getSpecVersion().length() == 0)
+            urn.setSpecVersion("1");
+
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        try {
+            df.parse(urn.getModified());
+        } catch (Exception ex) {
+            String sDate = df.format(new Date());
+            urn.setModified(sDate);
+        }
+        try {
+            df.parse(urn.getCreated());
+        } catch (Exception ex) {
+            String sDate = df.format(new Date());
+            urn.setCreated(sDate);
         }
 
         // make sure all component elements and responsibilities have unique ids and names.
@@ -483,7 +505,7 @@ public class URNNamingHelper {
             if (element.getName().equalsIgnoreCase(proposedName))
                 return true;
         }
-        return proposedName.length()==0;
+        return proposedName.length() == 0;
     }
 
     /**
@@ -500,7 +522,7 @@ public class URNNamingHelper {
             if (element.getName().equalsIgnoreCase(proposedName))
                 return true;
         }
-        return proposedName.length()==0;
+        return proposedName.length() == 0;
     }
 
     /**

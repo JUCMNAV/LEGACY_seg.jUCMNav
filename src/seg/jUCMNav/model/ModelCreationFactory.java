@@ -1,5 +1,8 @@
 package seg.jUCMNav.model;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import org.eclipse.gef.requests.CreationFactory;
 
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
@@ -255,7 +258,16 @@ public class ModelCreationFactory implements CreationFactory {
 
         // seed the global id
         urnspec.setNextGlobalID("1");
+        
+        String sDate;
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        sDate = df.format(new Date());
+        urnspec.setCreated(sDate);
+        urnspec.setModified(sDate);
 
+        urnspec.setUrnVersion("0.9");
+        urnspec.setSpecVersion("0");
+        
         // add its URN definition
         urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());
 

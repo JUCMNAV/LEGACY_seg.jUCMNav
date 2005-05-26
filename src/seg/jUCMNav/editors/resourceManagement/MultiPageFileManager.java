@@ -2,6 +2,8 @@ package seg.jUCMNav.editors.resourceManagement;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -87,6 +89,11 @@ public class MultiPageFileManager {
             if (file.exists()
                     || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(), "Create File", "The file '" + file.getName()
                             + "' doesn't exist. Click OK to create it.")) {
+                String sDate;
+                DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+                sDate = df.format(new Date());
+                editor.getModel().setModified(sDate);
+                setVersions();
                 save(file, monitor);
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }
@@ -130,6 +137,13 @@ public class MultiPageFileManager {
             // creates a non existing resource and assigns it our model
             modelManager.createURNspec(path, getEditor().getModel());
 
+            String sDate;
+            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+            sDate = df.format(new Date());
+            editor.getModel().setCreated(sDate);
+            editor.getModel().setModified(sDate);
+            setVersions();
+            
             // save the new file
             modelManager.save(path);
             getEditor().getDelegatingCommandStack().markSaveLocation();
@@ -154,6 +168,22 @@ public class MultiPageFileManager {
      */
     private UCMNavMultiPageEditor getEditor() {
         return editor;
+    }
+
+    /**
+     * 
+     */
+    private void setVersions() {
+        String ver = editor.getModel().getSpecVersion();
+        try {
+            ver = Integer.toString((Integer.parseInt(ver)+1));
+        }
+        catch (Exception ex)
+        {
+            ver = "1";
+        }
+        editor.getModel().setSpecVersion(ver);
+        editor.getModel().setUrnVersion("0.9");
     }
 
     /**

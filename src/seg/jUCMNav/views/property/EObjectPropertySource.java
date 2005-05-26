@@ -200,7 +200,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         if (name.indexOf("color") >= 0) {
             pd = new ColorPropertyDescriptor(propertyid, attr.getName());
             descriptors.add(pd);
-        } else if (name.equals("id")) {
+        } else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion")) {
             CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
             text.setReadOnly(true);
             pd = text;
