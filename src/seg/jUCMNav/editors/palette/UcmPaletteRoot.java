@@ -175,20 +175,20 @@ public class UcmPaletteRoot extends PaletteRoot {
         entry.setId("Responsibility");
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry("Or Fork", "Creates an OR fork", null, new ModelCreationFactory(getURNspec(), OrFork.class), ImageDescriptor
+        entry = new CombinedTemplateCreationEntry("Or Fork", "Creates an OR fork", OrFork.class, new ModelCreationFactory(getURNspec(), OrFork.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork24.gif"));
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry("And Fork", "Creates an AND fork", null, new ModelCreationFactory(getURNspec(), AndFork.class),
+        entry = new CombinedTemplateCreationEntry("And Fork", "Creates an AND fork", AndFork.class, new ModelCreationFactory(getURNspec(), AndFork.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
                         "icons/AndFork24.gif"));
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", null, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor
+        entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
         componentsDrawer.add(entry);
         
-        entry = new CombinedTemplateCreationEntry("Dynamic Stub", "Creates a dynamic stub", null, new ModelCreationFactory(getURNspec(), Stub.class, 1), ImageDescriptor
+        entry = new CombinedTemplateCreationEntry("Dynamic Stub", "Creates a dynamic stub", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
         componentsDrawer.add(entry);
 
