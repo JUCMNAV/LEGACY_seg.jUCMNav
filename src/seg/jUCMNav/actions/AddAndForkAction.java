@@ -13,18 +13,22 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
 import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
+import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 import urn.URNspec;
 
 /**
  * @author jpdaigle
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code
- * Templates
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class AddAndForkAction extends SelectionAction {
 
@@ -53,7 +57,7 @@ public class AddAndForkAction extends SelectionAction {
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
             EditPart part = (EditPart) parts.get(0);
-            if ((part.getModel() instanceof EmptyPoint)) {
+            if (part.getModel() instanceof EmptyPoint || part.getModel() instanceof NodeConnection) {
                 return true;
             }
         }
@@ -65,10 +69,24 @@ public class AddAndForkAction extends SelectionAction {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
 
-        PathGraph pg = (PathGraph) ((EmptyPoint) part.getModel()).eContainer();
-        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
-                .eContainer(), AndFork.class);
-        AddForkOnEmptyPointCommand comm = new AddForkOnEmptyPointCommand(newAndFork, pg, (EmptyPoint) part.getModel());
+        PathGraph pg = null;
+        if (part.getModel() instanceof EmptyPoint)
+            pg = ((PathNode) part.getModel()).getPathGraph();
+        else if (part.getModel() instanceof NodeConnection)
+            pg = ((NodeConnection) part.getModel()).getPathGraph();
+        else
+            return null;
+
+        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer().eContainer(), AndFork.class);
+
+        Command comm = null;
+        if (part.getModel() instanceof EmptyPoint)
+            comm = new AddForkOnEmptyPointCommand(newAndFork, pg, (EmptyPoint) part.getModel());
+        else {
+            SplineConnection conn = (SplineConnection) ((NodeConnectionEditPart) part).getFigure();
+            comm = new AddForkOnConnectionCommand(newAndFork, pg, (NodeConnection) part.getModel(), conn.getPoints().getMidpoint().x, conn.getPoints()
+                    .getMidpoint().y);
+        }
         return comm;
     }
 

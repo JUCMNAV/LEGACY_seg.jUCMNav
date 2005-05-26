@@ -179,16 +179,23 @@ public class URNNamingHelper {
             urn.setSpecVersion("1");
 
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        String sDate = df.format(new Date());
         try {
-            df.parse(urn.getModified());
+            if (urn.getModified() == null || urn.getModified().length() == 0)
+                urn.setModified(sDate);
+            else
+                df.parse(urn.getModified());
         } catch (Exception ex) {
-            String sDate = df.format(new Date());
+
             urn.setModified(sDate);
         }
         try {
-            df.parse(urn.getCreated());
+            if (urn.getCreated() == null || urn.getCreated().length() == 0)
+                urn.setCreated(sDate);
+            else
+                df.parse(urn.getCreated());
         } catch (Exception ex) {
-            String sDate = df.format(new Date());
+
             urn.setCreated(sDate);
         }
 

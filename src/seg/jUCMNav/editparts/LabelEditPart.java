@@ -10,7 +10,16 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.TextCellEditor;
 
+import seg.jUCMNav.editpolicies.directEdit.ExtendedDirectEditManager;
+import seg.jUCMNav.editpolicies.directEdit.LabelCellEditorLocator;
+import seg.jUCMNav.editpolicies.directEdit.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
@@ -24,7 +33,6 @@ import urncore.Label;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 
-
 /**
  * Based on Etienne's implementation of PathNodeEditPart
  * 
@@ -37,6 +45,8 @@ public class LabelEditPart extends ModelElementEditPart {
 
     private static final int LABEL_PADDING_X = 6;
     private static final int LABEL_PADDING_Y = 4;
+
+    protected DirectEditManager manager;
 
     public LabelEditPart(Label model, UCMmodelElement modelElement) {
         super();
@@ -60,10 +70,12 @@ public class LabelEditPart extends ModelElementEditPart {
             modelElement.eAdapters().add(this);
             if (modelElement instanceof ComponentRef) {
                 comp = ((ComponentRef) modelElement).getCompDef();
-                if (comp!=null) comp.eAdapters().add(this);
+                if (comp != null)
+                    comp.eAdapters().add(this);
             } else if (modelElement instanceof RespRef) {
                 resp = ((RespRef) modelElement).getRespDef();
-                if (resp!=null) resp.eAdapters().add(this);
+                if (resp != null)
+                    resp.eAdapters().add(this);
             }
         }
         super.activate();
@@ -78,10 +90,12 @@ public class LabelEditPart extends ModelElementEditPart {
         if (isActive()) {
             modelElement.eAdapters().remove(this);
             if (modelElement instanceof ComponentRef) {
-                if (comp!=null) comp.eAdapters().remove(this);
+                if (comp != null)
+                    comp.eAdapters().remove(this);
                 comp = null;
             } else if (modelElement instanceof RespRef) {
-                if (resp!=null) resp.eAdapters().remove(this);
+                if (resp != null)
+                    resp.eAdapters().remove(this);
                 resp = null;
             }
         }
@@ -123,6 +137,7 @@ public class LabelEditPart extends ModelElementEditPart {
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
+        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
     }
 
     public LabelFigure getLabelFigure() {
@@ -141,11 +156,11 @@ public class LabelEditPart extends ModelElementEditPart {
 
             if (modelElement instanceof ComponentRef) {
                 ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
-                if (componentElement!=null)
+                if (componentElement != null)
                     label.setText(componentElement.getName());
             } else if (modelElement instanceof RespRef) {
                 Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-                if (responsibility!=null)
+                if (responsibility != null)
                     label.setText(responsibility.getName());
             } else {
                 label.setText(modelElement.getName());
@@ -176,8 +191,8 @@ public class LabelEditPart extends ModelElementEditPart {
 
         if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
-            location = new Point(	node.getX() - labelDimension.width/2 - label.getDeltaX(),
-            						node.getY() - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height/2) - label.getDeltaY());
+            location = new Point(node.getX() - labelDimension.width / 2 - label.getDeltaX(), node.getY()
+                    - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
         } else if (modelElement instanceof ComponentRef) {
             ComponentRef component = (ComponentRef) modelElement;
             location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
@@ -200,15 +215,19 @@ public class LabelEditPart extends ModelElementEditPart {
         if (type == Notification.SET) {
             if (featureId == MapPackage.COMPONENT_REF__COMP_DEF) {
                 if (modelElement instanceof ComponentRef) {
-                    if (comp!=null) comp.eAdapters().remove(this);
+                    if (comp != null)
+                        comp.eAdapters().remove(this);
                     comp = ((ComponentRef) modelElement).getCompDef();
-                    if (comp!=null) comp.eAdapters().add(this);
+                    if (comp != null)
+                        comp.eAdapters().add(this);
                 }
             } else if (featureId == MapPackage.RESP_REF__RESP_DEF)
                 if (modelElement instanceof RespRef) {
-                    if (resp!=null) resp.eAdapters().remove(this);
+                    if (resp != null)
+                        resp.eAdapters().remove(this);
                     resp = ((RespRef) modelElement).getRespDef();
-                    if (resp!=null) resp.eAdapters().add(this);
+                    if (resp != null)
+                        resp.eAdapters().add(this);
                 }
         }
 
@@ -216,5 +235,72 @@ public class LabelEditPart extends ModelElementEditPart {
             ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
             refreshVisuals();
         }
+    }
+
+    /**
+     * Show direct edit on label on double click, f2 or delay.
+     */
+    public void performRequest(Request request) {
+        if (request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
+            if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
+                return;
+            performDirectEdit();
+        }
+    }
+
+    /**
+     * For direct edit, verify location.
+     * 
+     * @param requestLoc
+     * @return
+     */
+    private boolean directEditHitTest(Point requestLoc) {
+        LabelFigure figure = (LabelFigure) getFigure();
+        EditableLabel nameLabel = figure.getLabel();
+        nameLabel.translateToRelative(requestLoc);
+        if (nameLabel.containsPoint(requestLoc))
+            return true;
+        return false;
+    }
+
+    /**
+     * Opens the direct edit manager.
+     *  
+     */
+    protected void performDirectEdit() {
+        if (manager == null) {
+            LabelFigure figure = (LabelFigure) getFigure();
+            EditableLabel nameLabel = figure.getLabel();
+
+            ICellEditorValidator validator = new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    return "";
+                }
+            };
+
+            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(nameLabel), nameLabel, validator);
+        }
+        manager.show();
+    }
+
+    /**
+     * @param handles
+     *            the name change during an edit
+     */
+    public void handleNameChange(String value) {
+        LabelFigure tableFigure = (LabelFigure) getFigure();
+        EditableLabel label = tableFigure.getLabel();
+        label.setVisible(false);
+        refreshVisuals();
+    }
+
+    /**
+     * Reverts to existing name in model when exiting from a direct edit (possibly before a commit which will result in a change in the label value)
+     */
+    public void revertNameChange() {
+        LabelFigure tableFigure = (LabelFigure) getFigure();
+        EditableLabel label = tableFigure.getLabel();
+        label.setVisible(true);
+        refreshVisuals();
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.DeleteAction;
+import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.EditorPartAction;
 import org.eclipse.gef.ui.actions.RedoAction;
 import org.eclipse.gef.ui.actions.SelectAllAction;
@@ -181,6 +182,10 @@ public class ActionRegistryManager {
 
         action = new AddMapAction(editor);
         action.setText("Add Use Case Map");
+        addEditPartAction((SelectionAction) action);
+        
+        action = new DirectEditAction((IWorkbenchPart)editor);
+        action.setText("edit");
         addEditPartAction((SelectionAction) action);
     }
 
