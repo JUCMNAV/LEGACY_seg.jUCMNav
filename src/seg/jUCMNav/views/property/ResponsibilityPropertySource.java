@@ -178,18 +178,13 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
             setReferencedObject(o, feature, result);
             resp = ((RespRef) object).getRespDef();
         } else if (feature.getName() == "name") {
-            if (value.toString().length() > 0 && !URNNamingHelper.doesResponsibilityNameExists(urn, (String) value)) {
+            String message = URNNamingHelper.isNameValid(urn, (RespRef) object, value.toString());
+
+            if (message.length() == 0) {
                 super.setPropertyValue(id, value);
 
-            } else {
-                if (++i % 2 == 1) {
-                    String message;
-                    if (value.toString().length() == 0)
-                        message = "Invalid responsibility name.";
-                    else
-                        message = "Responsibility name already in use.";
-                    MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message);
-                }
+            } else if (++i % 2 == 1) { // because refreshed twice.
+                MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message);
             }
 
         } else {

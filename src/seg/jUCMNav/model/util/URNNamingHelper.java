@@ -10,11 +10,15 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
+
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.PathGraph;
+import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import urn.URNlink;
 import urn.URNspec;
@@ -414,7 +418,7 @@ public class URNNamingHelper {
         if (htNames != null && nameConflicts != null) {
 
             // do we have a naming conflict?
-            if (htNames.containsKey(elem.getName().toLowerCase())) {
+            if (elem.getName().length() == 0 || htNames.containsKey(elem.getName().toLowerCase())) {
                 nameConflicts.add(elem);
             } else {
                 // remember the name
@@ -564,4 +568,38 @@ public class URNNamingHelper {
         }
 
     }
+
+    public static String isNameValid(URNspec urn, UCMmodelElement elem, String name) {
+        String message = "";
+
+        if (elem instanceof ComponentRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof ComponentElement) {
+            if (name.toString().trim().length() == 0) {
+                message = "Invalid name.";
+            }
+        }
+        if (elem instanceof ComponentRef || elem instanceof ComponentElement) {
+            if (URNNamingHelper.doesComponentNameExists(urn, name)) {
+                message = "Component name already exists.";
+            }
+        } else if (elem instanceof RespRef || elem instanceof Responsibility) {
+            if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
+                message = "Responsibility name already exists";
+            }
+        }
+
+        return message;
+    }
+
+    public static String isNameValid(UCMmodelElement elem, String name) {
+        EObject parent = elem;
+
+        while (!(parent instanceof URNspec)) {
+            if (parent == null)
+                return "element not in urnspec";
+
+            parent = parent.eContainer();
+        }
+        return isNameValid((URNspec) parent, elem, name);
+    }
+
 }

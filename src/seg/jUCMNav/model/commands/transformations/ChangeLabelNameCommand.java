@@ -59,22 +59,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @return
      */
     private boolean verifyUniqueness(String name) {
-        if (elem instanceof ComponentRef || elem instanceof RespRef) {
-            if (name.toString().trim().length() == 0) {
-                return false;
-            }
-        }
-
-        if (elem instanceof ComponentRef) {
-            if (URNNamingHelper.doesComponentNameExists(((ComponentRef) elem).getMap().getUcmspec().getUrnspec(), name)) {
-                return false;
-            }
-        } else if (elem instanceof RespRef) {
-            if (URNNamingHelper.doesResponsibilityNameExists(((RespRef) elem).getPathGraph().getMap().getUcmspec().getUrnspec(), name)) {
-                return false;
-            }
-        }
-        return true;
+        return URNNamingHelper.isNameValid(elem, name).length()==0;
     }
 
     /**
