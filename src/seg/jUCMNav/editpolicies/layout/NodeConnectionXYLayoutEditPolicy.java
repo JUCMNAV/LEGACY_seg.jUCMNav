@@ -17,12 +17,15 @@ import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
+import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -89,6 +92,14 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), AndFork.class);
             createCommand = new AddForkOnConnectionCommand(newAndFork, getPathGraph(), oldLink, constraint.x, constraint.y);
+        } else if (newObjectType == OrJoin.class) {
+            NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
+            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), OrJoin.class);
+            createCommand = new AddJoinOnConnectionCommand(newOrJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
+        } else if (newObjectType == AndJoin.class) {
+            NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
+            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), AndJoin.class);
+            createCommand = new AddJoinOnConnectionCommand(newAndJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
         }
 
         return createCommand;

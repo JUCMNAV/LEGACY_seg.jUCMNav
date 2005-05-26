@@ -15,8 +15,10 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import urn.URNspec;
@@ -184,6 +186,16 @@ public class UcmPaletteRoot extends PaletteRoot {
                         "icons/AndFork24.gif"));
         componentsDrawer.add(entry);
 
+        entry = new CombinedTemplateCreationEntry("Or Join", "Creates an OR join", OrJoin.class, new ModelCreationFactory(getURNspec(), OrJoin.class),
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+                        "icons/OrJoin24.gif"));
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry("And Join", "Creates an AND join", AndJoin.class, new ModelCreationFactory(getURNspec(), AndJoin.class),
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
+                        "icons/AndJoin24.gif"));
+        componentsDrawer.add(entry);
+        
         entry = new CombinedTemplateCreationEntry("Stub", "Creates a stub", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor
                 .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
         componentsDrawer.add(entry);

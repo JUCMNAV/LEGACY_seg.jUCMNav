@@ -156,11 +156,11 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new AddOrJoinAction(editor);
-        action.setText("OR-Join selected");
+        action.setText("Add OR-Join");
         addEditPartAction((SelectionAction) action);
 
         action = new AddAndJoinAction(editor);
-        action.setText("AND-Join selected");
+        action.setText("Add AND-Join");
         addEditPartAction((SelectionAction) action);
         
         action = new BindWithParent(editor);
