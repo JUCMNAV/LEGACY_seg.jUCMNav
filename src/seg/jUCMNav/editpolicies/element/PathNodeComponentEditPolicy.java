@@ -61,7 +61,6 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 			return cp;
 		}
 		if(request.getType() == REQ_CREATE) {
-		    System.out.println("REQ_CREATE");
 			Object	newObjectType = null;
 			if(((CreateRequest)request).getNewObject() != null)
 				newObjectType = ((CreateRequest)request).getNewObjectType();
