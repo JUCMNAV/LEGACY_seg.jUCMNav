@@ -22,6 +22,7 @@ import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.actions.AddAndForkAction;
+import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
@@ -156,6 +157,10 @@ public class ActionRegistryManager {
 
         action = new AddOrJoinAction(editor);
         action.setText("OR-Join selected");
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddAndJoinAction(editor);
+        action.setText("AND-Join selected");
         addEditPartAction((SelectionAction) action);
         
         action = new BindWithParent(editor);

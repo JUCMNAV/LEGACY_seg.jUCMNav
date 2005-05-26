@@ -9,6 +9,7 @@ package seg.jUCMNav.figures.util;
 import org.eclipse.draw2d.geometry.Dimension;
 
 import seg.jUCMNav.figures.AndForkFigure;
+import seg.jUCMNav.figures.AndJoinFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
@@ -17,6 +18,7 @@ import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
@@ -52,6 +54,8 @@ public class JUCMNavFigure {
 			return OrForkFigure.getDefaultDimension();
 		} else if(modelElement instanceof OrJoin) {
 		    return OrJoinFigure.getDefaultDimension();
+		} else if(modelElement instanceof AndJoin) {
+		    return AndJoinFigure.getDefaultDimension();
 		}
 		
 		return new Dimension(0,0);

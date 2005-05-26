@@ -1,5 +1,5 @@
 /*
- * Created on May 20, 2005
+ * Created on May 25, 2005
  */
 package seg.jUCMNav.actions;
 
@@ -12,22 +12,22 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
+import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import urn.URNspec;
 
 /**
  * @author jpdaigle
  */
-public class AddOrJoinAction extends SelectionAction {
-    public static final String ADDORJOIN = "AddOrJoin";
+public class AddAndJoinAction extends SelectionAction {
+    public static final String ADDANDJOIN = "AddAndJoin";
 
     /**
      * @param part
      */
-    public AddOrJoinAction(IWorkbenchPart part) {
+    public AddAndJoinAction(IWorkbenchPart part) {
         super(part);
     }
 
@@ -74,9 +74,9 @@ public class AddOrJoinAction extends SelectionAction {
         }
 
         PathGraph pg = (PathGraph) emPoint.eContainer();
-        OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
-                .eContainer(), OrJoin.class);
-        JoinPathsCommand comm = new JoinPathsCommand(emPoint, endPoint, newOrJoin);
+        AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
+                .eContainer(), AndJoin.class);
+        JoinPathsCommand comm = new JoinPathsCommand(emPoint, endPoint, newAndJoin);
         return comm;
     }
 
@@ -95,7 +95,7 @@ public class AddOrJoinAction extends SelectionAction {
      * @see org.eclipse.jface.action.IAction#getId()
      */
     public String getId() {
-        return ADDORJOIN;
+        return ADDANDJOIN;
     }
 
 }

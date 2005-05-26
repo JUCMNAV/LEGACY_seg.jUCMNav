@@ -23,6 +23,7 @@ import org.eclipse.gef.Request;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.figures.AndForkFigure;
+import seg.jUCMNav.figures.AndJoinFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkFigure;
@@ -35,6 +36,7 @@ import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OrFork;
@@ -77,6 +79,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 			figure = new AndForkFigure();
 		else if (getModel() instanceof OrJoin)
 		    figure = new OrJoinFigure();
+		else if (getModel() instanceof AndJoin)
+		    figure = new AndJoinFigure();
 		else if (getModel() instanceof Stub){
 			Stub stub = (Stub)getModel();
 			figure = new StubFigure(stub.isDynamic());

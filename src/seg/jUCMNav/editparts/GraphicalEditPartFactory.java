@@ -8,6 +8,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -62,6 +63,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		    return new PathNodeEditPart((AndFork)model, root.getPathGraph());
 		else if (model instanceof OrJoin)
 		    return new PathNodeEditPart((OrJoin)model, root.getPathGraph());
+		else if (model instanceof AndJoin)
+		    return new PathNodeEditPart((AndJoin)model, root.getPathGraph());
 		else if(model instanceof Stub)
 			return new StubEditPart((Stub)model, root.getPathGraph());
 		else { 	
