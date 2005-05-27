@@ -1,6 +1,7 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.ChopboxAnchor;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.SWT;
@@ -63,7 +64,14 @@ public class StubFigure extends PathNodeFigure {
 			mainFigure.setLineStyle(SWT.LINE_SOLID);
 		}
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
+	 */
+	public Figure getFigure() {
+		return mainFigure;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

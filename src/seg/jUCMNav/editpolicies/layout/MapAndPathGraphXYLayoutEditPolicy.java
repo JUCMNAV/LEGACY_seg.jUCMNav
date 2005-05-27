@@ -143,7 +143,17 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
             Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
-
+//            PathNode node = (PathNode) child.getModel();
+//            int x, y;
+//            x = node.getX();
+//            y = node.getY();
+//            System.out.println(location.x);
+//            System.out.println(location.y);
+//            node.setX(location.x);
+//            node.setY(location.y);
+////            node.setX(x);
+////            node.setY(y);
+            
             return new SetConstraintCommand((PathNode) child.getModel(), location.x, location.y);
         } else if (child.getModel() instanceof ComponentRef) {
             Rectangle rect = (Rectangle) constraint;

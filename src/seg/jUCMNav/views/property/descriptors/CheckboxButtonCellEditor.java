@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package seg.jUCMNav.views.property;
+package seg.jUCMNav.views.property.descriptors;
 
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.swt.SWT;

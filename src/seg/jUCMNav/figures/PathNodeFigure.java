@@ -4,6 +4,7 @@ import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Created on 2005-01-30
@@ -22,6 +23,7 @@ public abstract class PathNodeFigure extends Figure {
 	protected boolean selected;
 	protected XYLayout layout;
 	protected Dimension preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	private boolean hover;
 
 	public PathNodeFigure(){
 		super();
@@ -84,6 +86,30 @@ public abstract class PathNodeFigure extends Figure {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+		
+		if(selected == true)
+			setColor(new Color(null, 0, 102, 204));
+		else
+			setColor(new Color(null, 255, 255, 255));
+	}
+	
+	public void setHover(boolean hover){
+		this.hover = hover;
+		
+		if(selected == false){
+			if(hover)
+				setColor(new Color(null, 230, 230, 230));
+			else
+				setColor(new Color(null, 255, 255, 255));
+		}
+	}
+	
+	public void setColor(Color bg) {
+		getFigure().setBackgroundColor(bg);
+	}
+	
+	public Figure getFigure(){
+		return this;
 	}
 	
 	/**

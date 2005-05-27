@@ -17,6 +17,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * Created 2005-03-02
@@ -112,8 +113,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
             PathNode node = (PathNode) i.next();
             if (node instanceof StartPoint)
                 starts.add(node);
-            else if (node.getPred().size() > 1 || node.getSucc().size() > 1)
-                forks.add(node);
+            else if (node.getPred().size() > 1 || node.getSucc().size() > 1 || node instanceof Stub)
+            	forks.add(node);
             else if (node instanceof EndPoint)
                 ends.add(node);
         }
@@ -152,28 +153,23 @@ public class BSplineConnectionRouter extends AbstractRouter {
             conSplines.put(link, newSpline);
             newSpline.setPoints(nodes);
         } else {
-            // TODO Make generation of spline in function of forks work.
             // For each path going out of the fork, create a spline too.
             for (Iterator i = startNode.getSucc().iterator(); i.hasNext();) {
                 nodes = new ArrayList();
                 BSpline newSpline = new BSpline();
-                nodes.add(start); // Always add the start of the fork to the
-                // point list
+                nodes.add(start); // Always add the start of the fork to the point list
                 NodeConnection link = (NodeConnection) i.next();
 
                 do {
-                    conSplines.put(link, newSpline); // This connection belongs
-                    // to this spline.
+                    conSplines.put(link, newSpline); // This connection belongs to this spline.
                     startNode = link.getTarget();
                     nodes.add(startNode);
                     if (!(startNode instanceof EndPoint || forks.contains(startNode)))
-                        link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the
-                    // next link
+                        link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the next link
                     else
                         link = null;
-                } while (link != null); // While we don't encounter an EndPoint
-                // or a fork, continue to add to the
-                // node list for this spline.
+                } while (link != null); // While we don't encounter an EndPoint or a fork,
+                						// continue to add to the node list for this spline.
                 newSpline.setPoints(nodes);
             }
         }

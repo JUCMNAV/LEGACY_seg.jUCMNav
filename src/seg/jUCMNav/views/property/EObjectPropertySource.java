@@ -21,6 +21,8 @@ import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
+import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import ucm.map.MapPackage;
 
 /**

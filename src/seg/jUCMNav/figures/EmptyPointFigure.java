@@ -2,6 +2,7 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -43,5 +44,12 @@ public class EmptyPointFigure extends PathNodeFigure {
 	 */
 	public static Dimension getDefaultDimension() {
 		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+	}
+	
+	/* (non-Javadoc)
+	 * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
+	 */
+	public Figure getFigure() {
+		return ellipse;
 	}
 }

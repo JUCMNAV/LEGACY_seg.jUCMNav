@@ -10,12 +10,15 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.transformations.JoinEndToStubCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
+import seg.jUCMNav.model.commands.transformations.JoinStartToStubCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrJoin;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * Created on 25-May-2005
@@ -87,6 +90,11 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
             Rectangle cons = getCurrentConstraintFor((GraphicalEditPart)getHost());
             
             return new MergeStartEndCommand(start.getPathGraph().getMap(), start, end, cons.x, cons.y);
+        } else if((child.getModel() instanceof EndPoint && getHost().getModel() instanceof Stub)){
+        	return new JoinEndToStubCommand((EndPoint)child.getModel(), (Stub)getHost().getModel());
+        	
+        }else if((child.getModel() instanceof StartPoint && getHost().getModel() instanceof Stub)){
+        	return new JoinStartToStubCommand((StartPoint)child.getModel(), (Stub)getHost().getModel());
         }
         // don't allow drop
         return null;
@@ -100,5 +108,4 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         return null;
     }
-
 }
