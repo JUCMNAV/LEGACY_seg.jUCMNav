@@ -217,12 +217,14 @@ public class BSplineConnectionRouter extends AbstractRouter {
      * @param conn
      */
     protected void insertConnection(Connection conn) {
-        // We have to add it to the connection list
-        if (conn != null)
-            conns.add(conn);
-
         // Update the NodeConnections hashmap with the new connection
         SplineConnection con = (SplineConnection) conn;
+
+        // We have to add it to the connection list
+        if (conn != null)
+            conns.add(new Object[] { conn, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget() });
+
+        
         // The NodeConnection is the key, the SplineConnection the value
         connections.put(con.getLink(), con);
 
@@ -240,7 +242,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
         boolean simpleMove = false;
 
         // If the router doesn't contain the connection
-        if (!conns.contains(conn)) {
+        if (!conns.contains(new Object[] { conn, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget() })) {
             // We add it to the list and invalidate all the connections
             insertConnection(conn);
             if (allLoaded())
@@ -337,7 +339,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
      */
     public void drawSplines() {
         for (Iterator i = conns.iterator(); i.hasNext();)
-            drawConnection((SplineConnection) i.next());
+            drawConnection((SplineConnection) ((Object[])i.next())[0]);
     }
 
     /**
@@ -360,7 +362,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
     public void remove(Connection connection) {
         SplineConnection con = (SplineConnection) connection;
         // Remove from the connection list and the hashmap
-        conns.remove(connection);
+        conns.remove(new Object[] { connection, ((SplineConnection) connection).getLink().getSource(), ((SplineConnection) connection).getLink().getTarget() });
         connections.remove(con.getLink());
         conSplines.remove(con.getLink());
 
