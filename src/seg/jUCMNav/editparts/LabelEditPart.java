@@ -153,6 +153,7 @@ public class LabelEditPart extends ModelElementEditPart {
      */
     protected void refreshVisuals() {
         if (modelElement != null) {
+            eraseTargetFeedback(null);
             LabelFigure labelFigure = getLabelFigure();
             EditableLabel label = labelFigure.getLabel();
 
