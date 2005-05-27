@@ -1,7 +1,7 @@
 /*
  * Created on Jul 18, 2004
  */
-package seg.jUCMNav.editpolicies.directEdit;
+package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;

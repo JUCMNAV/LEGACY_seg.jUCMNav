@@ -17,9 +17,9 @@ import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 
-import seg.jUCMNav.editpolicies.directEdit.ExtendedDirectEditManager;
-import seg.jUCMNav.editpolicies.directEdit.LabelCellEditorLocator;
-import seg.jUCMNav.editpolicies.directEdit.LabelDirectEditPolicy;
+import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
+import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
+import seg.jUCMNav.editpolicies.directEditPolicy.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
