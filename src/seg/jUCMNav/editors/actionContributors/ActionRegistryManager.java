@@ -31,6 +31,7 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.TransmogrifyForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 
@@ -156,6 +157,10 @@ public class ActionRegistryManager {
         action.setText("Add AND-Fork");
         addEditPartAction((SelectionAction) action);
 
+        action = new TransmogrifyForkOrJoinAction(editor);
+        action.setText("Transmogrify");
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddOrJoinAction(editor);
         action.setText("Add OR-Join");
         addEditPartAction((SelectionAction) action);
