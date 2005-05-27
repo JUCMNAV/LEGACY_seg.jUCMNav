@@ -224,7 +224,7 @@ public class ProgressTests extends TestCase {
         if (!testproject.isOpen())
             testproject.open(null);
 
-        testfile = testproject.getFile("jUCMNav-test.ucm");
+        testfile = testproject.getFile("jUCMNav-test.jucm");
         // start with clean file
         if (testfile.exists())
             testfile.delete(true, false, null);
