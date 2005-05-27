@@ -21,6 +21,7 @@ import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelDirectEditPolicy;
 import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
+import seg.jUCMNav.editpolicies.feedback.LabelFeedbackEditPolicy;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
@@ -138,6 +139,7 @@ public class LabelEditPart extends ModelElementEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
     }
 
     public LabelFigure getLabelFigure() {
