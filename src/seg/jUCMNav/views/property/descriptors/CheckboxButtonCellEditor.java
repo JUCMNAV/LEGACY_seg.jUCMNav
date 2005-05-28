@@ -1,9 +1,3 @@
-/*
- * Created on 13-May-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.views.property.descriptors;
 
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -19,10 +13,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * @author TremblaE
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Created 15-05-2005
+ * 
+ * @author Etienne Tremblay
  */
 public class CheckboxButtonCellEditor extends CheckboxCellEditor implements SelectionListener, MouseListener {
 	

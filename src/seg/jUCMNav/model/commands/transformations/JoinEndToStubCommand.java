@@ -1,9 +1,3 @@
-/*
- * Created on May 27, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
@@ -15,90 +9,138 @@ import ucm.map.PathGraph;
 import ucm.map.Stub;
 
 /**
- * @author TremblaE
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Created 27-05-2005
+ * 
+ * This command represents the action of a user dragging an EndPoint in a Stub. This action will erase the EndPoint and add the path as a predecessor of the
+ * Stub.
+ * 
+ * @author Etienne Tremblay
  */
 public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 
-    private EndPoint oldEndPoint;
+	/**
+	 * <code>oldEndPoint</code>: The end point beeing dragged to the stub.
+	 */
+	private EndPoint oldEndPoint;
 
-    private Stub stub;
+	/**
+	 * <code>stub</code>: The stub where the end point will get merged.
+	 */
+	private Stub stub;
 
-    private int oldX, oldY;
+	/**
+	 * <code>oldX</code>: The old coordinates of the end point.
+	 */
+	private int oldX, oldY;
 
-    private NodeConnection ncOldEnd;
+	/**
+	 * <code>ncOldEnd</code>: The connection going from the end point initialy.
+	 */
+	private NodeConnection ncOldEnd;
 
-    private PathGraph pg;
+	private PathGraph pg;
 
 	/**
 	 * @param oldEndPoint
+	 *            The end point beeing dragged to the stub.
 	 * @param stub
-	 * @param ncOldEnd
+	 *            The stub where the end point will get merged.
 	 */
 	public JoinEndToStubCommand(EndPoint oldEndPoint, Stub stub) {
 		super();
 		this.oldEndPoint = oldEndPoint;
 		this.stub = stub;
 	}
+
 	/**
-	 * 
+	 * Disable the default constructor.
 	 */
 	private JoinEndToStubCommand() {
 		super();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return super.canExecute();
+		if (oldEndPoint != null && stub != null)
+			return true;
+		else
+			return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
 		oldX = oldEndPoint.getX();
 		oldY = oldEndPoint.getY();
-		
+
 		pg = oldEndPoint.getPathGraph();
-		ncOldEnd = (NodeConnection)oldEndPoint.getPred().get(0);
-		
+		ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
+
 		redo();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
 		ncOldEnd.setTarget(stub);
 		pg.getPathNodes().remove(oldEndPoint);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
 		pg.getPathNodes().add(oldEndPoint);
+
 		ncOldEnd.setTarget(oldEndPoint);
+
 		oldEndPoint.setX(oldX);
 		oldEndPoint.setY(oldY);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPreConditions() {
+		assert oldEndPoint != null : "pre old end point";
+		assert stub != null : "pre stub";
+		assert ncOldEnd != null : "pre old node connection";
+		assert pg != null : "pre pathgraph";
 
+		assert oldEndPoint.getX() == oldX && oldEndPoint.getY() == oldY : "pre old end position";
+		assert ncOldEnd.getSource() == oldEndPoint : "pre connection source is the end point";
+		assert pg.getPathNodes().contains(oldEndPoint) : "pre pathgraph contains the end point";
+		assert pg.getNodeConnections().contains(ncOldEnd) : "pre pathgraph contains the connection";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPostConditions() {
+		assert oldEndPoint != null : "post old end point";
+		assert stub != null : "post stub";
+		assert ncOldEnd != null : "post old node connection";
+		assert pg != null : "post pathgraph";
 
+		assert ncOldEnd.getSource() == stub : "post connection source is the stub";
+		assert !pg.getPathNodes().contains(oldEndPoint) : "post pathgraph doesn't contain the end point";
+		assert pg.getNodeConnections().contains(ncOldEnd) : "post pathgraph contains the connection";
 	}
 
 }
