@@ -202,7 +202,9 @@ public class BSplineConnectionRouter extends AbstractRouter {
         NodeConnection link = con.getLink();
 
         BSpline bSpline = (BSpline) conSplines.get(link);
-
+ 
+        // jkealey: sometimes crashed here. adding more defensive code. I think it is due to refreshing too early.   
+        if (bSpline==null) return new PointList();
         PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
         return points;
     }
