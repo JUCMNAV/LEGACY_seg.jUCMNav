@@ -3,19 +3,15 @@
  */
 package seg.jUCMNav.actions;
 
-import java.util.List;
-
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
-import ucm.map.EmptyPoint;
+import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import ucm.map.OrFork;
-import ucm.map.PathGraph;
-import urn.URNspec;
 
 /**
  * @author jpdaigle
@@ -40,29 +36,36 @@ public class AddOrForkAction extends SelectionAction {
     }
 
     private boolean canPerformAction() {
-        /*
-         * Conditions for enabling: selection contains exactly 1 item and it's a path node.
-         */
-        List parts = getSelectedObjects();
-        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
-            EditPart part = (EditPart) parts.get(0);
-            if ((part.getModel() instanceof EmptyPoint)) {
-                return true;
-            }
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.NODECONNECTION:
+        case SelectionHelper.EMPTYPOINT:
+        case SelectionHelper.STARTPOINT_EMPTYPOINT:
+            return true;
+        default:
+            return false;
         }
-
-        return false;
     }
 
     private Command getCommand() {
-        List parts = getSelectedObjects();
-        EditPart part = (EditPart) parts.get(0);
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrFork.class);
+        Command comm;
 
-        PathGraph pg = (PathGraph) ((EmptyPoint) part.getModel()).eContainer();
-        OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer()
-                .eContainer(), OrFork.class);
-        AddForkOnEmptyPointCommand comm = new AddForkOnEmptyPointCommand(newOrFork, pg, (EmptyPoint) part.getModel());
-        return comm;
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.STARTPOINT_EMPTYPOINT:
+            comm = new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), newOrFork);
+            return comm;
+        case SelectionHelper.EMPTYPOINT:
+            comm = new AddForkOnEmptyPointCommand(newOrFork, sel.getPathgraph(), sel.getEmptypoint());
+            return comm;
+        case SelectionHelper.NODECONNECTION:
+            comm = new AddForkOnConnectionCommand(newOrFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+                    .getNodeconnectionMiddle().y);
+            return comm;
+        default:
+            return null;
+        }
     }
 
     /*

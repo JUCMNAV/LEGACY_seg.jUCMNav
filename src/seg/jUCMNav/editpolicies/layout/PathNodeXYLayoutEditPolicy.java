@@ -10,12 +10,14 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinEndToStubCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinStartToStubCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -71,10 +73,15 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
      */
     protected Command createAddCommand(EditPart child, Object constraint) {
         if (child.getModel() instanceof EndPoint && getHost().getModel() instanceof EmptyPoint) {
-            // drag start over empty.
+            // drag end over empty.
             EmptyPoint target = (EmptyPoint) getHost().getModel();
             OrJoin join = (OrJoin) ModelCreationFactory.getNewObject(target.getPathGraph().getMap().getUcmspec().getUrnspec(), OrJoin.class);
             return new JoinPathsCommand(target, (EndPoint) child.getModel(), join);
+        } else if (child.getModel() instanceof StartPoint && getHost().getModel() instanceof EmptyPoint) {
+            // drag start over empty.
+            EmptyPoint target = (EmptyPoint) getHost().getModel();
+            OrFork fork = (OrFork) ModelCreationFactory.getNewObject(target.getPathGraph().getMap().getUcmspec().getUrnspec(), OrFork.class);
+            return new ForkPathsCommand(target, (StartPoint) child.getModel(), fork);
         } else if ((child.getModel() instanceof StartPoint && getHost().getModel() instanceof EndPoint)
                 || ((getHost().getModel() instanceof StartPoint && child.getModel() instanceof EndPoint))) {
             StartPoint start;
@@ -87,14 +94,14 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 end = (EndPoint) child.getModel();
             }
 
-            Rectangle cons = getCurrentConstraintFor((GraphicalEditPart)getHost());
-            
+            Rectangle cons = getCurrentConstraintFor((GraphicalEditPart) getHost());
+
             return new MergeStartEndCommand(start.getPathGraph().getMap(), start, end, cons.x, cons.y);
-        } else if((child.getModel() instanceof EndPoint && getHost().getModel() instanceof Stub)){
-        	return new JoinEndToStubCommand((EndPoint)child.getModel(), (Stub)getHost().getModel());
-        	
-        }else if((child.getModel() instanceof StartPoint && getHost().getModel() instanceof Stub)){
-        	return new JoinStartToStubCommand((StartPoint)child.getModel(), (Stub)getHost().getModel());
+        } else if ((child.getModel() instanceof EndPoint && getHost().getModel() instanceof Stub)) {
+            return new JoinEndToStubCommand((EndPoint) child.getModel(), (Stub) getHost().getModel());
+
+        } else if ((child.getModel() instanceof StartPoint && getHost().getModel() instanceof Stub)) {
+            return new JoinStartToStubCommand((StartPoint) child.getModel(), (Stub) getHost().getModel());
         }
         // don't allow drop
         return null;

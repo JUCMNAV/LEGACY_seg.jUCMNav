@@ -6,24 +6,15 @@
  */
 package seg.jUCMNav.actions;
 
-import java.util.List;
-
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.editparts.NodeConnectionEditPart;
-import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import ucm.map.AndFork;
-import ucm.map.EmptyPoint;
-import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
-import ucm.map.PathNode;
-import urn.URNspec;
 
 /**
  * @author jpdaigle
@@ -51,43 +42,36 @@ public class AddAndForkAction extends SelectionAction {
     }
 
     private boolean canPerformAction() {
-        /*
-         * Conditions for enabling: selection contains exactly 1 item and it's a path node.
-         */
-        List parts = getSelectedObjects();
-        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
-            EditPart part = (EditPart) parts.get(0);
-            if (part.getModel() instanceof EmptyPoint || part.getModel() instanceof NodeConnection) {
-                return true;
-            }
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.NODECONNECTION:
+        case SelectionHelper.EMPTYPOINT:
+        case SelectionHelper.STARTPOINT_EMPTYPOINT:
+            return true;
+        default:
+            return false;
         }
-
-        return false;
     }
 
     private Command getCommand() {
-        List parts = getSelectedObjects();
-        EditPart part = (EditPart) parts.get(0);
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), AndFork.class);
+        Command comm;
 
-        PathGraph pg = null;
-        if (part.getModel() instanceof EmptyPoint)
-            pg = ((PathNode) part.getModel()).getPathGraph();
-        else if (part.getModel() instanceof NodeConnection)
-            pg = ((NodeConnection) part.getModel()).getPathGraph();
-        else
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.STARTPOINT_EMPTYPOINT:
+            comm = new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), newAndFork);
+            return comm;
+        case SelectionHelper.EMPTYPOINT:
+            comm = new AddForkOnEmptyPointCommand(newAndFork, sel.getPathgraph(), sel.getEmptypoint());
+            return comm;
+        case SelectionHelper.NODECONNECTION:
+            comm = new AddForkOnConnectionCommand(newAndFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+                    .getNodeconnectionMiddle().y);
+            return comm;
+        default:
             return null;
-
-        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) pg.eContainer().eContainer().eContainer(), AndFork.class);
-
-        Command comm = null;
-        if (part.getModel() instanceof EmptyPoint)
-            comm = new AddForkOnEmptyPointCommand(newAndFork, pg, (EmptyPoint) part.getModel());
-        else {
-            SplineConnection conn = (SplineConnection) ((NodeConnectionEditPart) part).getFigure();
-            comm = new AddForkOnConnectionCommand(newAndFork, pg, (NodeConnection) part.getModel(), conn.getPoints().getMidpoint().x, conn.getPoints()
-                    .getMidpoint().y);
         }
-        return comm;
     }
 
     /*
