@@ -230,9 +230,11 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
             // Add key and action pairs to sharedKeyHandler
             sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
-            
-    		sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(
-    				GEFActionConstants.DIRECT_EDIT));
+
+            sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
+
+            sharedKeyHandler.put(KeyStroke.getPressed((char)1, 97, SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
+
         }
         return sharedKeyHandler;
     }

@@ -56,6 +56,8 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     /** if we are a RespRef, this is our respDef */
     private Responsibility respDef;
 
+    private boolean aborted=false;
+    
     public DeleteNodeCommand(PathNode node) {
         this.node = node;
         setLabel(DeleteCommand_Label);
@@ -68,7 +70,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public boolean canExecute() {
 
-        if (node instanceof StartPoint || node instanceof EndPoint)
+        if (node.eContainer()==null || node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
             if (node.getPred().size() == 1 && node.getSucc().size() == 1)
@@ -84,6 +86,11 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        // could happen if was already deleted by other command
+        if (node.eContainer() == null){
+            aborted=true;
+            return;
+        }
         map = (Map) node.eContainer().eContainer();
         previous = ((NodeConnection) node.getPred().get(0)).getSource();
         next = ((NodeConnection) node.getSucc().get(0)).getTarget();
@@ -106,6 +113,8 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+        if (aborted)
+            return;
         // ASSUMING ONLY FOR EMPTYNODE - 1 IN, ONE OUT.
 
         testPreConditions();
@@ -139,7 +148,8 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-
+        if (aborted)
+            return;
         testPostConditions();
 
         node.getSucc().addAll(targets);
@@ -216,7 +226,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
         assert previous != null && next != null && newConn != null : "post something is null";
-        assert node.getPred().size()==0 && 0 == node.getSucc().size() : "post source/target problem";
+        assert node.getPred().size() == 0 && 0 == node.getSucc().size() : "post source/target problem";
 
         for (Iterator iter = sources.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();

@@ -12,7 +12,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -34,7 +34,7 @@ import urncore.UCMmodelElement;
  * 
  * @author jkealey
  */
-public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
+public class LabelFeedbackEditPolicy extends NonResizableEditPolicy {
 
     Polyline line;
     RoundedRectangle roundrect;
@@ -144,4 +144,5 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             getFeedbackLayer().add(line);
         }
     }
+
 }

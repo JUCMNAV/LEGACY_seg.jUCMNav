@@ -18,6 +18,7 @@ import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
@@ -134,6 +135,8 @@ public class ActionRegistryManager {
 
         action = new SelectAllAction(editor);
         addAction(action);
+        action.setAccelerator(SWT.CTRL | 'A');
+        keyBindingService.registerAction(action);
 
         // Notice the following are calls to addEditPartAction().
         // They need to know the current selection to work.
@@ -160,7 +163,7 @@ public class ActionRegistryManager {
         action = new TransmogrifyForkOrJoinAction(editor);
         action.setText("Transmogrify");
         addEditPartAction((SelectionAction) action);
-        
+
         action = new AddOrJoinAction(editor);
         action.setText("Add OR-Join");
         addEditPartAction((SelectionAction) action);
@@ -168,7 +171,7 @@ public class ActionRegistryManager {
         action = new AddAndJoinAction(editor);
         action.setText("Add AND-Join");
         addEditPartAction((SelectionAction) action);
-        
+
         action = new BindWithParent(editor);
         action.setText("Bind with parent component");
         addEditPartAction((SelectionAction) action);
@@ -188,8 +191,8 @@ public class ActionRegistryManager {
         action = new AddMapAction(editor);
         action.setText("Add Use Case Map");
         addEditPartAction((SelectionAction) action);
-        
-        action = new DirectEditAction((IWorkbenchPart)editor);
+
+        action = new DirectEditAction((IWorkbenchPart) editor);
         action.setText("edit");
         addEditPartAction((SelectionAction) action);
     }
