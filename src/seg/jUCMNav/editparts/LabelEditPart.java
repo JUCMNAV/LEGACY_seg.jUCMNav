@@ -30,7 +30,9 @@ import ucm.map.MapPackage;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentElement;
+import urncore.ComponentLabel;
 import urncore.Label;
+import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 
@@ -58,7 +60,11 @@ public class LabelEditPart extends ModelElementEditPart {
     public LabelEditPart(Label model) {
         super();
         setModel(model);
-        modelElement = (UCMmodelElement) model.eContainer();
+        if (model instanceof NodeLabel)
+            modelElement = ((NodeLabel) model).getPathNode();
+        else if (model instanceof ComponentLabel)
+            modelElement = ((ComponentLabel) model).getCompRef();
+
     }
 
     /*

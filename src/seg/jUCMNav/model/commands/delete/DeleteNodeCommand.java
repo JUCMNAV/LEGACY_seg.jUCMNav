@@ -14,7 +14,6 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import urn.URNspec;
 import urncore.Responsibility;
 
 /**
@@ -56,8 +55,8 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     /** if we are a RespRef, this is our respDef */
     private Responsibility respDef;
 
-    private boolean aborted=false;
-    
+    private boolean aborted = false;
+
     public DeleteNodeCommand(PathNode node) {
         this.node = node;
         setLabel(DeleteCommand_Label);
@@ -70,7 +69,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public boolean canExecute() {
 
-        if (node.eContainer()==null || node instanceof StartPoint || node instanceof EndPoint)
+        if (node.getPathGraph() == null || node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
             if (node.getPred().size() == 1 && node.getSucc().size() == 1)
@@ -87,11 +86,11 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         // could happen if was already deleted by other command
-        if (node.eContainer() == null){
-            aborted=true;
+        if (node.getPathGraph() == null) {
+            aborted = true;
             return;
         }
-        map = (Map) node.eContainer().eContainer();
+        map = node.getPathGraph().getMap();
         previous = ((NodeConnection) node.getPred().get(0)).getSource();
         next = ((NodeConnection) node.getSucc().get(0)).getTarget();
         compRef = node.getCompRef();
@@ -99,7 +98,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         targets = new Vector();
         sources.addAll(node.getPred());
         targets.addAll(node.getSucc());
-        newConn = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) map.eContainer().eContainer(), NodeConnection.class);
+        newConn = (NodeConnection) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), NodeConnection.class);
 
         if (node instanceof RespRef) {
             respDef = ((RespRef) node).getRespDef();

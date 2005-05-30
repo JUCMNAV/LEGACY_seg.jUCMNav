@@ -7,7 +7,6 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -60,26 +59,27 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * Creates all required elements and invokes redo()
      */
     public void execute() {
+        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
         if (start == null)
-            start = (StartPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(), StartPoint.class);
+            start = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
 
         // start-----node-----end
         start.setX(x);
         start.setY(y);
 
-        node = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),EmptyPoint.class);
+        node = (EmptyPoint) ModelCreationFactory.getNewObject(urn,EmptyPoint.class);
         node.setX(x + 100);
         node.setY(y);
         
-        link1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),NodeConnection.class);
+        link1 = (NodeConnection) ModelCreationFactory.getNewObject(urn,NodeConnection.class);
         link1.setSource(start);
         link1.setTarget(node);
 
-        end = (EndPoint) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),EndPoint.class);
+        end = (EndPoint) ModelCreationFactory.getNewObject(urn,EndPoint.class);
         end.setX(x + 200);
         end.setY(y);
 
-        link2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec)diagram.eContainer().eContainer().eContainer(),NodeConnection.class);
+        link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn,NodeConnection.class);
         link2.setSource(node);
         link2.setTarget(end);
 
@@ -98,9 +98,9 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         diagram.getPathNodes().add(node);
         diagram.getPathNodes().add(end);
         
-        start.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x, y));        
-        node.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x + 100, y));
-        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x + 200, y));
+        start.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));        
+        node.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 100, y));
+        end.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 200, y));
         
         
         testPostConditions();

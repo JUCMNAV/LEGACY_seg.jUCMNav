@@ -9,7 +9,6 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
-import urn.URNspec;
 import urncore.ComponentLabel;
 import urncore.Label;
 import urncore.NodeLabel;
@@ -18,72 +17,75 @@ import urncore.UCMmodelElement;
 /**
  * @author Jordan
  */
-public class CreateLabelCommand extends Command implements JUCMNavCommand{
-    private static final String	CreateCommand_Label = "CreateLabelCommand";
-    
-	private Label label;
-	private UCMmodelElement modelElement;
-	private int deltaX;
-	private int deltaY;
-	
-	public CreateLabelCommand(UCMmodelElement elem)
-	{
-	    modelElement = elem; 
-	}
-	
-	public boolean canExecute() {
-		return modelElement != null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	public void execute() {
-		if(modelElement instanceof PathNode) {
-			label = (Label) ModelCreationFactory.getNewObject( 
-					(URNspec) (((PathNode) modelElement).eContainer().eContainer().eContainer().eContainer()) , NodeLabel.class);
-		} else if(modelElement instanceof ComponentRef) {
-			label = (Label) ModelCreationFactory.getNewObject( 
-					(URNspec) (((ComponentRef) modelElement).eContainer().eContainer().eContainer().eContainer()) , ComponentLabel.class);
+public class CreateLabelCommand extends Command implements JUCMNavCommand {
+    private static final String CreateCommand_Label = "CreateLabelCommand";
+
+    private Label label;
+    private UCMmodelElement modelElement;
+    private int deltaX;
+    private int deltaY;
+
+    public CreateLabelCommand(UCMmodelElement elem) {
+        modelElement = elem;
+    }
+
+    public boolean canExecute() {
+        return modelElement != null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        if (modelElement instanceof PathNode) {
+            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getPathGraph().getMap().getUcmspec().getUrnspec(), NodeLabel.class);
+        } else if (modelElement instanceof ComponentRef) {
+            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getMap().getUcmspec().getUrnspec(), ComponentLabel.class);
         }
-        
+
         label.setDeltaX(deltaX);
-	    label.setDeltaY(deltaY);
-		
-		redo();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	public void redo() {
-		testPreConditions();
-		
-		if(modelElement instanceof PathNode) {
-			((PathNode) modelElement).setLabel((NodeLabel) label);
-		} else if(modelElement instanceof ComponentRef) {
-			((ComponentRef) modelElement).setLabel((ComponentLabel) label);
+        label.setDeltaY(deltaY);
+
+        redo();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+
+        if (modelElement instanceof PathNode) {
+            ((PathNode) modelElement).setLabel((NodeLabel) label);
+        } else if (modelElement instanceof ComponentRef) {
+            ((ComponentRef) modelElement).setLabel((ComponentLabel) label);
         }
-		
+
         testPostConditions();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	public void undo() {
-		testPostConditions();
-		
-		if(modelElement instanceof PathNode) {
-			((PathNode) modelElement).setLabel(null);
-		} else if(modelElement instanceof ComponentRef) {
-			((ComponentRef) modelElement).setLabel(null);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
+
+        if (modelElement instanceof PathNode) {
+            ((PathNode) modelElement).setLabel(null);
+        } else if (modelElement instanceof ComponentRef) {
+            ((ComponentRef) modelElement).setLabel(null);
         }
 
         testPreConditions();
-	}
-	
-	/*
+    }
+
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
@@ -101,31 +103,34 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand{
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert label != null : "pre Label";
-    	assert modelElement != null : "pre UCMmodelElement";
+        assert label != null : "pre Label";
+        assert modelElement != null : "pre UCMmodelElement";
         //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
         //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }
 
-	/**
-	 * @param modelElement The modelElement to set.
-	 */
-	public void setModelElement(UCMmodelElement modelElement) {
-		this.modelElement = modelElement;
-	}
-	
-	/**
-	 * @param deltaX The deltaX to set.
-	 */
-	public void setDeltaX(int deltaX) {
-		this.deltaX = deltaX;
-	}
-	
-	/**
-	 * @param deltaY The deltaY to set.
-	 */
-	public void setDeltaY(int deltaY) {
-		this.deltaY = deltaY;
-	}
+    /**
+     * @param modelElement
+     *            The modelElement to set.
+     */
+    public void setModelElement(UCMmodelElement modelElement) {
+        this.modelElement = modelElement;
+    }
+
+    /**
+     * @param deltaX
+     *            The deltaX to set.
+     */
+    public void setDeltaX(int deltaX) {
+        this.deltaX = deltaX;
+    }
+
+    /**
+     * @param deltaY
+     *            The deltaY to set.
+     */
+    public void setDeltaY(int deltaY) {
+        this.deltaY = deltaY;
+    }
 }
 

@@ -21,8 +21,8 @@ import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.AndFork;
-import ucm.map.DirectionArrow;
 import ucm.map.AndJoin;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -31,7 +31,6 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
-import urn.URNspec;
 
 /**
  * Created 2005-02-25
@@ -87,19 +86,19 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
             createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == OrFork.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), OrFork.class);
+            OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrFork.class);
             createCommand = new AddForkOnConnectionCommand(newOrFork, getPathGraph(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == AndFork.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), AndFork.class);
+            AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndFork.class);
             createCommand = new AddForkOnConnectionCommand(newAndFork, getPathGraph(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == OrJoin.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), OrJoin.class);
+            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrJoin.class);
             createCommand = new AddJoinOnConnectionCommand(newOrJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == AndJoin.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject((URNspec) getPathGraph().eContainer().eContainer().eContainer(), AndJoin.class);
+            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndJoin.class);
             createCommand = new AddJoinOnConnectionCommand(newAndJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
         }
 

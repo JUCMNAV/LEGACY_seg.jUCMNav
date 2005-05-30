@@ -59,7 +59,7 @@ public class TransmogrifyForkOrJoinAction extends SelectionAction {
     private Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        PathGraph pg = (PathGraph) ((PathNode) part.getModel()).eContainer();
+        PathGraph pg = ((PathNode) part.getModel()).getPathGraph();
         TransmogrifyForkOrJoinCommand comm = new TransmogrifyForkOrJoinCommand((PathNode) part.getModel(), pg);
         return comm;
     }

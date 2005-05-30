@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
 import ucm.map.PathNode;
 
 /**
@@ -102,8 +101,8 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
      */
     private void setParents() {
         oldParent = node.getCompRef();
-        if (node.eContainer() != null && node.eContainer().eContainer() != null) {
-            newParent = ParentFinder.findParent((Map) node.eContainer().eContainer(), newX, newY);
+        if (node.getPathGraph() != null && node.getPathGraph().getMap() != null) {
+            newParent = ParentFinder.findParent(node.getPathGraph().getMap(), newX, newY);
         }
     }
 

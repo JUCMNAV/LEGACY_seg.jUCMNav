@@ -43,7 +43,7 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
      */
     public void execute() {
         // also set the relations
-        urn = (URNspec) getRespDef().eContainer().eContainer();
+        urn = getRespDef().getUrndefinition().getUrnspec();
 
         redo();
     }

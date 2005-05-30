@@ -58,7 +58,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         // add the component definition to the model
-        URNspec urnspec = (URNspec) map.eContainer().eContainer();
+        URNspec urnspec = map.getUcmspec().getUrnspec();
         urnspec.getUrndef().getComponents().add(compRef.getCompDef());
 
         // add the component reference to the model
@@ -93,7 +93,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         assert map != null : "post map";
 
         assert map.getCompRefs().contains(compRef): "post compRef in map";
-        assert ((URNspec) map.eContainer().eContainer()).getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model";
+        assert map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model";
     }
 
     /**
@@ -109,7 +109,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
 
         // make sure this is a new component definition.
         // if not, our undo() will remove it, breaking code.
-        assert !((URNspec) map.eContainer().eContainer()).getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model";
+        assert !map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model";
     }
 
     public void undo() {
@@ -119,7 +119,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         map.getCompRefs().remove(compRef);
 
         // remove the component definition from the model
-        URNspec urnspec = (URNspec) map.eContainer().eContainer();
+        URNspec urnspec = map.getUcmspec().getUrnspec();
         urnspec.getUrndef().getComponents().remove(compRef.getCompDef());
 
         testPreConditions();

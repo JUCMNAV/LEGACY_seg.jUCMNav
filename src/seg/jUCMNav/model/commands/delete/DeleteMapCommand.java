@@ -53,7 +53,7 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         // also set the relations
-        urn = (URNspec) getMap().eContainer().eContainer();
+        urn = getMap().getUcmspec().getUrnspec();
         htReferences = new Hashtable();
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();

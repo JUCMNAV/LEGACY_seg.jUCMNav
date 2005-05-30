@@ -43,7 +43,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
      */
     public void execute() {
         // also set the relations
-        urn = (URNspec) getCompDef().eContainer().eContainer();
+        urn = getCompDef().getUrndefinition().getUrnspec();
 
         redo();
     }

@@ -70,7 +70,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
             ((EObject) getModel()).eAdapters().remove(this);
             if (image != null) {
                 image.dispose();
-                image=null;
+                image = null;
             }
         }
         super.deactivate();
@@ -150,9 +150,9 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
     public Map getContainingMap() {
 
         if (getModel() instanceof PathNode) {
-            return (Map) (((PathNode) getModel()).eContainer().eContainer());
+            return (((PathNode) getModel()).getPathGraph().getMap());
         } else if (getModel() instanceof ComponentRef) {
-            return (Map) (((ComponentRef) getModel()).eContainer());
+            return (((ComponentRef) getModel()).getMap());
         } else if (getModel() instanceof Map) {
             return (Map) getModel();
         } else

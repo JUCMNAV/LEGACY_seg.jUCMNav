@@ -52,7 +52,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
      */
     public void execute() {
         // also set the relations
-        map = (Map) compRef.eContainer();
+        map = compRef.getMap();
         parent = compRef.getParent();
         compDef = compRef.getCompDef();
         // we're copying the arrays

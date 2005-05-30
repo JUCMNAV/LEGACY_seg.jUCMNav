@@ -9,7 +9,6 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -81,21 +80,19 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
             _newJoin.setX(x);
             _newJoin.setY(y);
 
-            _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                    .eContainer(), EmptyPoint.class);
+            URNspec urn = _pg.getMap().getUcmspec().getUrnspec();
+
+            _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
             _newEmptyPoint.setX(x - 25);
             _newEmptyPoint.setY(y - 25);
 
-            _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                    .eContainer(), NodeConnection.class);
+            _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
-            _newStartPoint = (StartPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                    .eContainer(), StartPoint.class);
+            _newStartPoint = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
             _newStartPoint.setX(x - 75);
             _newStartPoint.setY(y - 30);
 
-            _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                    .eContainer(), NodeConnection.class);
+            _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
             redo();
         }
@@ -125,11 +122,9 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         //_originEp = null;
 
         // bind to parent
-        _newJoin.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newJoin.getX(), _newJoin.getY()));
-        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint
-                .getY()));
-        _newStartPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newStartPoint.getX(), _newStartPoint
-                .getY()));
+        _newJoin.setCompRef(ParentFinder.findParent(_pg.getMap(), _newJoin.getX(), _newJoin.getY()));
+        _newEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
+        _newStartPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _newStartPoint.getX(), _newStartPoint.getY()));
     }
 
     public void undo() {
@@ -151,7 +146,7 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
 
         // Re-add old node
         _pg.getPathNodes().add(_originEp);
-        _originEp.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _originEp.getX(), _originEp.getY()));
+        _originEp.setCompRef(ParentFinder.findParent(_pg.getMap(), _originEp.getX(), _originEp.getY()));
 
         // unbind from parent
         _newJoin.setCompRef(null);
@@ -169,8 +164,7 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "pre newJoin";
         assert (_newStartPoint != null) : "pre newStartPoint";
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg
-                .getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 
@@ -184,8 +178,7 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "pre newJoin";
         assert (_newStartPoint != null) : "pre newStartPoint";
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg
-                .getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 

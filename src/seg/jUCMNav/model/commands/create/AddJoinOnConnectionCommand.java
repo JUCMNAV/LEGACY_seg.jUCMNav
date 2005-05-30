@@ -9,7 +9,6 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -66,37 +65,32 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         // Split existing connection
         _prevNode = _originNc.getSource();
         _nextNode = _originNc.getTarget();
-        _ncTarg = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                .eContainer(), NodeConnection.class);
+        URNspec urn = _pg.getMap().getUcmspec().getUrnspec();
+        _ncTarg = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         _ncPred = _originNc;
 
         // Startpoint -- EmptyPoint -- Join
         _newJoin.setX(_posX);
         _newJoin.setY(_posY);
 
-        _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                .eContainer(), EmptyPoint.class);
+        _newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
         _newEmptyPoint.setX(_posX - 25);
         _newEmptyPoint.setY(_posY - 25);
 
-        _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                .eContainer(), NodeConnection.class);
+        _newLink1 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
-        _newStartPoint = (StartPoint) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                .eContainer(), StartPoint.class);
+        _newStartPoint = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
         _newStartPoint.setX(_posX - 75);
         _newStartPoint.setY(_posY - 30);
 
-        _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer()
-                .eContainer(), NodeConnection.class);
-
+        _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
         redo();
     }
 
     public void redo() {
         testPreConditions();
-        
+
         // _ncPred is now the connection the user clicked on
         _ncTarg.setTarget(_nextNode);
         _ncTarg.setSource(_newJoin);
@@ -116,16 +110,16 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         _pg.getPathNodes().add(_newEmptyPoint);
         _pg.getPathNodes().add(_newStartPoint);
 
-        _newJoin.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newJoin.getX(), _newJoin.getY()));
-        _newEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
-        _newStartPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newStartPoint.getX(), _newStartPoint.getY()));
+        _newJoin.setCompRef(ParentFinder.findParent(_pg.getMap(), _newJoin.getX(), _newJoin.getY()));
+        _newEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _newEmptyPoint.getX(), _newEmptyPoint.getY()));
+        _newStartPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _newStartPoint.getX(), _newStartPoint.getY()));
 
         testPostConditions();
     }
-    
+
     public void undo() {
         testPostConditions();
-        
+
         _ncPred.setTarget(_nextNode);
 
         _ncTarg.setTarget(null);
@@ -148,10 +142,10 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         _newJoin.setCompRef(null);
         _newEmptyPoint.setCompRef(null);
         _newStartPoint.setCompRef(null);
-        
+
         testPreConditions();
     }
-    
+
     /**
      * @param label
      */
@@ -170,8 +164,7 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "pre newJoin";
         assert (_newStartPoint != null) : "pre newStartPoint";
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg
-                .getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
 
     }
 
@@ -185,8 +178,7 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "post newJoin";
         assert (_newStartPoint != null) : "post newEndPoint";
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg
-                .getPathNodes().contains(_newStartPoint)) : "post PathGraph contains new nodes";
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(_newStartPoint)) : "post PathGraph contains new nodes";
 
     }
 

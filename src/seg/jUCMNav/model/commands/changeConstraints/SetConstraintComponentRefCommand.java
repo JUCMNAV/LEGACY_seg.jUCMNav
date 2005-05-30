@@ -9,7 +9,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
 
 /**
  * This command is used to resize/move ComponentRefs
@@ -31,8 +30,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     // constraints
     private int oldWidth, oldHeight, newWidth, newHeight;
     private int oldX, oldY, newX, newY;
-    
-    
+
     public SetConstraintComponentRefCommand(ComponentRef cr, int x, int y, int width, int height) {
         setCompRef(cr);
         setNewX(x);
@@ -69,7 +67,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
      */
     private void setParents() {
         oldParent = compRef.getParent();
-        newParent = ParentFinder.findParent((Map) compRef.eContainer(), compRef, newX, newY, newWidth, newHeight);
+        newParent = ParentFinder.findParent(compRef.getMap(), compRef, newX, newY, newWidth, newHeight);
     }
 
     /**
@@ -106,14 +104,13 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     public int getNewY() {
         return newY;
     }
-    
+
     /**
      * @return Returns the children.
      */
     public List getOriginalChildren() {
         return children;
     }
-
 
     /**
      * Will not change model if new and old parameters are the same.
@@ -142,9 +139,11 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
      */
     public void setCompRef(ComponentRef compRef) {
         this.compRef = compRef;
-        children=new Vector();
-        for (int i=0; i< compRef.getChildren().size();i++) children.add(compRef.getChildren().get(i));
-        for (int i=0; i< compRef.getPathNodes().size();i++) children.add(compRef.getPathNodes().get(i));
+        children = new Vector();
+        for (int i = 0; i < compRef.getChildren().size(); i++)
+            children.add(compRef.getChildren().get(i));
+        for (int i = 0; i < compRef.getPathNodes().size(); i++)
+            children.add(compRef.getPathNodes().get(i));
     }
 
     /**
@@ -190,10 +189,11 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         assert compRef.getHeight() == this.newHeight : "post height";
         assert compRef.getX() == this.newX : "post x";
         assert compRef.getY() == this.newY : "post y";
-        
-        if (newParent!=null) 
-            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
-        
+
+        if (newParent != null)
+            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
+                    compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
+
     }
 
     public void testPreConditions() {
@@ -202,12 +202,12 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         assert compRef.getHeight() == this.oldHeight : "pre height";
         assert compRef.getX() == this.oldX : "pre x";
         assert compRef.getY() == this.oldY : "pre y";
-        
+
         // this is not true because in our compound command the parent might already have been moved.
         //        if (newParent!=null)
         //            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
         // compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
-        
+
     }
 
     /**
