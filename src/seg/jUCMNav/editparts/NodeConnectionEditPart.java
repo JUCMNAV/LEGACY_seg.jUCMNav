@@ -10,6 +10,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
@@ -44,6 +45,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NodeConnectionFeedbackEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
     }
 
     private NodeConnection getLink() {
