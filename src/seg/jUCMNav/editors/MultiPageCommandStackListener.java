@@ -93,6 +93,8 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 // add command stacks
                 this.editor.getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
 
+                mapChanged.eAdapters().add(this.editor);
+                
                 this.editor.getMultiPageTabManager().refreshPageNames();
                 this.editor.setActivePage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged));
 
@@ -108,6 +110,8 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 // remove command stacks
                 this.editor.getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) this.editor.getEditor(i)).getCommandStack());
 
+                mapChanged.eAdapters().remove(this.editor);
+                
                 this.editor.removePage(i);
 
                 this.editor.getMultiPageTabManager().currentPageChanged();
