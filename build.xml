@@ -215,6 +215,9 @@
 		<!-- Include test.xml in the zip for unit testing purposes -->
 		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
 
+		<!-- Include about.html in the zip -->
+		<copy file="about.html" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+			
 		<!-- Include help in the zip for integration with eclipse help-->
 		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
 
