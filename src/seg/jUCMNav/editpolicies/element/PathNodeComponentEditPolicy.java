@@ -17,6 +17,7 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EmptyPoint;
@@ -48,6 +49,11 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 		if(parent instanceof Map && ((PathNode)node).getPred().size()==1 && ((PathNode)node).getSucc().size()==1  ){
 			DeleteNodeCommand command = new DeleteNodeCommand((PathNode)node);
 			return command;
+		}
+		else if (parent instanceof Map && ((PathNode)node).getPred().size()>1 || ((PathNode)node).getSucc().size()>1)
+		{
+		    DeleteMultiNodeCommand command = new DeleteMultiNodeCommand((PathNode) node, getHost().getViewer().getEditPartRegistry());
+		    return command;
 		}
 		return super.createDeleteCommand(request);
 	}
