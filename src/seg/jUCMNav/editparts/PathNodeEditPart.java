@@ -40,6 +40,7 @@ import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.DirectionArrow;
+import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OrFork;
@@ -70,7 +71,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        PathNodeFigure figure = new EmptyPointFigure();
+        PathNodeFigure figure=null;
+        if (getModel() instanceof EmptyPoint)
+            figure = new EmptyPointFigure();
         if (getModel() instanceof RespRef)
             figure = new ResponsibilityFigure();
         else if (getModel() instanceof EndPoint)
