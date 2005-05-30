@@ -14,9 +14,12 @@ import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.GroupRequest;
+import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathCommand;
@@ -50,17 +53,25 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
     protected Command getDeleteCommand(GroupRequest request) {
         Object parent = getHost().getParent().getModel();
         Object node = getHost().getModel();
+        java.util.Map registry;
+        if (getHost().getViewer() instanceof TreeViewer) {
+            // we need an editpart registry with NodeConnectionEditParts
+            registry = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getHost().getViewer().getRootEditPart().getChildren().get(0)).getModel())
+                    .getCurrentPage().getGraphicalViewer().getEditPartRegistry();
+        } else
+            registry = getHost().getViewer().getEditPartRegistry();
+
         if (parent instanceof Map && node instanceof StartPoint) {
-            DeletePathCommand command = new DeletePathCommand((StartPoint) node, getHost().getViewer().getEditPartRegistry());
+            DeletePathCommand command = new DeletePathCommand((StartPoint) node, registry);
             return command;
         } else if (parent instanceof Map && node instanceof EndPoint) {
-            DeletePathCommand command = new DeletePathCommand((EndPoint) node, getHost().getViewer().getEditPartRegistry());
+            DeletePathCommand command = new DeletePathCommand((EndPoint) node, registry);
             return command;
         } else if (parent instanceof Map && ((PathNode) node).getPred().size() == 1 && ((PathNode) node).getSucc().size() == 1) {
             DeleteNodeCommand command = new DeleteNodeCommand((PathNode) node);
             return command;
         } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
-            DeleteMultiNodeCommand command = new DeleteMultiNodeCommand((PathNode) node, getHost().getViewer().getEditPartRegistry());
+            DeleteMultiNodeCommand command = new DeleteMultiNodeCommand((PathNode) node, registry);
             return command;
         }
 

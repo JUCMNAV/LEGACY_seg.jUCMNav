@@ -177,14 +177,19 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
             Point midPoint;
-            SplineConnection spline = (SplineConnection) ((NodeConnectionEditPart) editpartregistry.get(nc)).getFigure();
-            //          if we don't do this, when deleting multiple path elements, the spline might not have been refreshed and the mid point ends up being in the top
-            // left corner.
-            spline.getConnectionRouter().route(spline);
-            midPoint = spline.getPoints().getMidpoint();
             StartPoint sp = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
-            sp.setX(midPoint.x);
-            sp.setY(midPoint.y);
+
+            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            if (nodePart != null) {
+                SplineConnection spline = (SplineConnection) nodePart.getFigure();
+                //          if we don't do this, when deleting multiple path elements, the spline might not have been refreshed and the mid point ends up being in the
+                // top
+                // left corner.
+                spline.getConnectionRouter().route(spline);
+                midPoint = spline.getPoints().getMidpoint();
+                sp.setX(midPoint.x);
+                sp.setY(midPoint.y);
+            }
             newStart.add(sp);
         }
 
@@ -193,15 +198,18 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             NodeConnection nc = (NodeConnection) iter.next();
             Point midPoint;
             EndPoint ep = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
+            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            if (nodePart != null) {
+                SplineConnection spline = (SplineConnection) nodePart.getFigure();
 
-            SplineConnection spline = (SplineConnection) ((NodeConnectionEditPart) editpartregistry.get(nc)).getFigure();
-
-            // if we don't do this, when deleting multiple path elements, the spline might not have been refreshed and the mid point ends up being in the top
-            // left corner.
-            spline.getConnectionRouter().route(spline);
-            midPoint = spline.getPoints().getMidpoint();
-            ep.setX(midPoint.x);
-            ep.setY(midPoint.y);
+                // if we don't do this, when deleting multiple path elements, the spline might not have been refreshed and the mid point ends up being in the
+                // top
+                // left corner.
+                spline.getConnectionRouter().route(spline);
+                midPoint = spline.getPoints().getMidpoint();
+                ep.setX(midPoint.x);
+                ep.setY(midPoint.y);
+            }
             newEnd.add(ep);
         }
 
