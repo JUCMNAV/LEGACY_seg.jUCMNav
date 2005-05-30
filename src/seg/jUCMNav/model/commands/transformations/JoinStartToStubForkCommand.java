@@ -5,18 +5,18 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 import ucm.map.StartPoint;
-import ucm.map.Stub;
 
 /**
  * Created 27-05-2005
  * 
- * This command represents the action of a user dragging a StartPoint in a Stub. This action will erase the StartPoint and add the path as a successor of the
- * stub.
+ * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path as a successor of the
+ * stub/fork.
  * 
  * @author Etienne Tremblay
  */
-public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
+public class JoinStartToStubForkCommand extends Command implements JUCMNavCommand {
 
 	/**
 	 * <code>oldStartPoint</code>: The start point beeing dragged to the stub.
@@ -24,9 +24,9 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 	private StartPoint oldStartPoint;
 
 	/**
-	 * <code>stub</code>: The stub where the start point will get merged.
+	 * <code>stubOrFork</code>: The stub where the start point will get merged.
 	 */
-	private Stub stub;
+	private PathNode stubOrFork;
 
 	/**
 	 * <code>oldX, oldY</code>: The old coordinates of the start point.
@@ -42,20 +42,20 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 
 	/**
 	 * @param oldStartPoint
-	 *            The start point beeing dragged to the stub.
+	 *            The start point beeing dragged to the stub/fork.
 	 * @param stub
-	 *            The stub where the start point will get merged.
+	 *            The stub/fork where the start point will get merged.
 	 */
-	public JoinStartToStubCommand(StartPoint oldStartPoint, Stub stub) {
+	public JoinStartToStubForkCommand(StartPoint oldStartPoint, PathNode stubOrFork) {
 		super();
 		this.oldStartPoint = oldStartPoint;
-		this.stub = stub;
+		this.stubOrFork = stubOrFork;
 	}
 
 	/**
 	 * Disable the default constructor.
 	 */
-	private JoinStartToStubCommand() {
+	private JoinStartToStubForkCommand() {
 		super();
 	}
 
@@ -65,7 +65,7 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		if (stub != null && oldStartPoint != null)
+		if (stubOrFork != null && oldStartPoint != null)
 			return true;
 		else
 			return false;
@@ -96,7 +96,7 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 	public void redo() {
 		testPreConditions();
 
-		ncOldStart.setSource(stub);
+		ncOldStart.setSource(stubOrFork);
 		pg.getPathNodes().remove(oldStartPoint);
 
 		testPostConditions();
@@ -126,7 +126,7 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 	 */
 	public void testPreConditions() {
 		assert oldStartPoint != null : "pre old start point";
-		assert stub != null : "pre stub";
+		assert stubOrFork != null : "pre stub";
 		assert ncOldStart != null : "pre old node connection";
 		assert pg != null : "pre pathgraph";
 
@@ -143,11 +143,11 @@ public class JoinStartToStubCommand extends Command implements JUCMNavCommand {
 	 */
 	public void testPostConditions() {
 		assert oldStartPoint != null : "post old start point";
-		assert stub != null : "post stub";
+		assert stubOrFork != null : "post stub";
 		assert ncOldStart != null : "post old node connection";
 		assert pg != null : "post pathgraph";
 
-		assert ncOldStart.getSource() == stub : "post connection source is the stub";
+		assert ncOldStart.getSource() == stubOrFork : "post connection source is the stub";
 		assert !pg.getPathNodes().contains(oldStartPoint) : "post pathgraph doesn't contain the start point";
 		assert pg.getNodeConnections().contains(ncOldStart) : "post pathgraph contains the connection";
 	}

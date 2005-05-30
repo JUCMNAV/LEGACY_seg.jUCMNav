@@ -43,8 +43,10 @@ public class SelectionHelper {
     public static final int COMPONENTREF = 11;
     public static final int EMPTYPOINT = 1;
     public static final int ENDPOINT = 2;
+    public static final int ENDPOINT_ANDJOIN = 112;
     public static final int ENDPOINT_EMPTYPOINT = 101;
     public static final int ENDPOINT_NODECONNECTION = 102;
+    public static final int ENDPOINT_ORJOIN = 111;
     public static final int ENDPOINT_STUB = 103;
     public static final int ENDPOINT_TIMER = 104;
     public static final int ENDPOINT_WAITINGPLACE = 105;
@@ -55,9 +57,11 @@ public class SelectionHelper {
     public static final int OTHER = -1;
     public static final int RESPONSIBILITY = 4;
     public static final int STARTPOINT = 5;
+    public static final int STARTPOINT_ANDFORK = 114;
     public static final int STARTPOINT_EMPTYPOINT = 106;
     public static final int STARTPOINT_ENDPOINT = 107;
     public static final int STARTPOINT_NODECONNECTION = 108;
+    public static final int STARTPOINT_ORFORK = 113;
     public static final int STARTPOINT_STUB = 109;
     public static final int STARTPOINT_TIMER = 110;
     public static final int STUB = 6;
@@ -279,6 +283,14 @@ public class SelectionHelper {
             selectionType = ENDPOINT_TIMER;
         else if (endpoint != null && waitingplace != null)
             selectionType = ENDPOINT_WAITINGPLACE;
+        else if (startpoint != null && orfork != null)
+            selectionType = STARTPOINT_ORFORK;
+        else if (startpoint != null && andfork != null)
+            selectionType = STARTPOINT_ANDFORK;
+        else if (endpoint != null && orjoin != null)
+            selectionType = ENDPOINT_ORJOIN;
+        else if (endpoint != null && andjoin != null)
+            selectionType = ENDPOINT_ANDJOIN;
         else if (emptypoint != null)
             selectionType = EMPTYPOINT;
         else if (endpoint != null)

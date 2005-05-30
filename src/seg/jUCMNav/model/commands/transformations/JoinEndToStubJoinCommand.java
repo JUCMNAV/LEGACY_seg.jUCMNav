@@ -6,17 +6,17 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
-import ucm.map.Stub;
+import ucm.map.PathNode;
 
 /**
  * Created 27-05-2005
  * 
- * This command represents the action of a user dragging an EndPoint in a Stub. This action will erase the EndPoint and add the path as a predecessor of the
- * Stub.
+ * This command represents the action of a user dragging an EndPoint in a Stub/Join. This action will erase the EndPoint and add the path as a predecessor of the
+ * Stub/Join.
  * 
  * @author Etienne Tremblay
  */
-public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
+public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand {
 
 	/**
 	 * <code>oldEndPoint</code>: The end point beeing dragged to the stub.
@@ -24,9 +24,9 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 	private EndPoint oldEndPoint;
 
 	/**
-	 * <code>stub</code>: The stub where the end point will get merged.
+	 * <code>stubOrJoin</code>: The stub/join where the end point will get merged.
 	 */
-	private Stub stub;
+	private PathNode stubOrJoin;
 
 	/**
 	 * <code>oldX</code>: The old coordinates of the end point.
@@ -42,20 +42,20 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 
 	/**
 	 * @param oldEndPoint
-	 *            The end point beeing dragged to the stub.
-	 * @param stub
-	 *            The stub where the end point will get merged.
+	 *            The end point beeing dragged to the stub/join.
+	 * @param stubOrJoin
+	 *            The stub/join where the end point will get merged.
 	 */
-	public JoinEndToStubCommand(EndPoint oldEndPoint, Stub stub) {
+	public JoinEndToStubJoinCommand(EndPoint oldEndPoint, PathNode stubOrJoin) {
 		super();
 		this.oldEndPoint = oldEndPoint;
-		this.stub = stub;
+		this.stubOrJoin = stubOrJoin;
 	}
 
 	/**
 	 * Disable the default constructor.
 	 */
-	private JoinEndToStubCommand() {
+	private JoinEndToStubJoinCommand() {
 		super();
 	}
 
@@ -65,7 +65,7 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		if (oldEndPoint != null && stub != null)
+		if (oldEndPoint != null && stubOrJoin != null)
 			return true;
 		else
 			return false;
@@ -92,7 +92,7 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
-		ncOldEnd.setTarget(stub);
+		ncOldEnd.setTarget(stubOrJoin);
 		pg.getPathNodes().remove(oldEndPoint);
 	}
 
@@ -117,7 +117,7 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 	 */
 	public void testPreConditions() {
 		assert oldEndPoint != null : "pre old end point";
-		assert stub != null : "pre stub";
+		assert stubOrJoin != null : "pre stub";
 		assert ncOldEnd != null : "pre old node connection";
 		assert pg != null : "pre pathgraph";
 
@@ -134,11 +134,11 @@ public class JoinEndToStubCommand extends Command implements JUCMNavCommand {
 	 */
 	public void testPostConditions() {
 		assert oldEndPoint != null : "post old end point";
-		assert stub != null : "post stub";
+		assert stubOrJoin != null : "post stub";
 		assert ncOldEnd != null : "post old node connection";
 		assert pg != null : "post pathgraph";
 
-		assert ncOldEnd.getSource() == stub : "post connection source is the stub";
+		assert ncOldEnd.getSource() == stubOrJoin : "post connection source is the stub";
 		assert !pg.getPathNodes().contains(oldEndPoint) : "post pathgraph doesn't contain the end point";
 		assert pg.getNodeConnections().contains(ncOldEnd) : "post pathgraph contains the connection";
 	}

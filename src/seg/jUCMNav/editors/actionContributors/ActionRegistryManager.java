@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
@@ -172,6 +173,10 @@ public class ActionRegistryManager {
         action.setText("Add AND-Join");
         addEditPartAction((SelectionAction) action);
 
+        action = new AddBranchAction(editor);
+        action.setText("Add Branch");
+        addEditPartAction((SelectionAction) action);
+        
         action = new BindWithParent(editor);
         action.setText("Bind with parent component");
         addEditPartAction((SelectionAction) action);
@@ -193,7 +198,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new DirectEditAction((IWorkbenchPart) editor);
-        action.setText("edit");
+        action.setText("Edit");
         addEditPartAction((SelectionAction) action);
     }
 

@@ -8,8 +8,10 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
+import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -48,6 +50,10 @@ public class NodeConnectionComponentEditPolicy extends ComponentEditPolicy {
             command.add(new DeleteMultiNodeCommand(target, in, out, getHost().getViewer().getEditPartRegistry()));
         }
 
+        if (source instanceof EmptyPoint && target instanceof EmptyPoint) {
+            command.add(new CutPathCommand(nc.getPathGraph(), nc));
+        }
+        
         if (command.size() > 0)
             return command;
 

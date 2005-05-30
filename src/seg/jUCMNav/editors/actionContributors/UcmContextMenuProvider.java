@@ -16,6 +16,7 @@ import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
@@ -52,19 +53,19 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ActionFactory.REDO.getId());
         manager.appendToGroup(GEFActionConstants.GROUP_UNDO, action);
 
-		action = getActionRegistry().getAction(GEFActionConstants.ZOOM_IN);
-		manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+        action = getActionRegistry().getAction(GEFActionConstants.ZOOM_IN);
+        manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
 
-		action = getActionRegistry().getAction(GEFActionConstants.ZOOM_OUT);
-		manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
-		
-		action = getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId());
-		manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
-		
+        action = getActionRegistry().getAction(GEFActionConstants.ZOOM_OUT);
+        manager.appendToGroup(GEFActionConstants.GROUP_VIEW, action);
+
+        action = getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId());
+        manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
+
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
-        
+
         action = getActionRegistry().getAction(CutPathAction.CUTPATH);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -81,10 +82,6 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(TransmogrifyForkOrJoinAction.TRANSMOGRIFYFORKORJOIN);
-        if (action.isEnabled())
-            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
         action = getActionRegistry().getAction(AddOrJoinAction.ADDORJOIN);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -92,7 +89,15 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(AddAndJoinAction.ADDANDJOIN);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
+        action = getActionRegistry().getAction(AddBranchAction.ADDBRANCH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(TransmogrifyForkOrJoinAction.TRANSMOGRIFYFORKORJOIN);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -112,6 +117,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(AddMapAction.ADDMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
 
     }
 
