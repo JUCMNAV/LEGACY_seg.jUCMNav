@@ -20,6 +20,8 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.INavigationLocation;
+import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
@@ -58,7 +60,7 @@ import urn.URNspec;
  * @author jkealey
  *  
  */
-public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter {
+public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider {
     /** the actionregistry shared between all editors */
     private ActionRegistry actionRegistry;
 
@@ -561,7 +563,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         this.model = model;
 
         // we must register ourselves to be able to change the tabs when the names change.
-        for (int i = 0; i < model.getUcmspec().getMaps().size(); i++)
+        for (int i = 0; model!=null && i < model.getUcmspec().getMaps().size(); i++)
             ((Map) model.getUcmspec().getMaps().get(i)).eAdapters().add(this);
 
     }
@@ -589,5 +591,23 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     public void setTarget(Notifier newTarget) {
         target = newTarget;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.INavigationLocationProvider#createEmptyNavigationLocation()
+     */
+    public INavigationLocation createEmptyNavigationLocation() {
+        return new MultiPageEditorLocation(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.INavigationLocationProvider#createNavigationLocation()
+     */
+    public INavigationLocation createNavigationLocation() {
+        return new MultiPageEditorLocation(this);
     }
 }

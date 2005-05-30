@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
@@ -20,7 +21,7 @@ import urn.URNspec;
  * 
  * Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
- * Manages tab creation/addition/removal for the editor.  
+ * Manages tab creation/addition/removal for the editor.
  * 
  * @author jkealey
  *  
@@ -101,8 +102,9 @@ public class MultiPageTabManager {
             // update zoom actions
             editor.getDelegatingZoomManager().setCurrentZoomManager(editor.getZoomManager(getCurrentPage().getGraphicalViewer()));
 
+            IWorkbenchPage page = this.editor.getSite().getPage();
+            page.getNavigationHistory().markLocation(this.editor);
         }
-
     }
 
     /** Delegates to UCMNavMultiPageEditor */
