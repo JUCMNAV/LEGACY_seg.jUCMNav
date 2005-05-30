@@ -22,6 +22,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -173,6 +174,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createWaitingPlace();
             } else if (targetClass.equals(Timer.class)) {
                 result = mapfactory.createTimer();
+            } else if(targetClass.equals(PluginBinding.class)) {
+            	result = mapfactory.createPluginBinding();
             } else {
                 // complex creations
                 if (targetClass.equals(Map.class)) {
