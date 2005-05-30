@@ -81,4 +81,19 @@ public class DirectionArrowFigure extends PathNodeFigure implements Rotateable {
 		incomingAnchor = new ChopboxAnchor(this);
         outgoingAnchor = new ChopboxAnchor(this);
 	}
+	
+    public void setHover(boolean hover) {
+        this.hover = hover;
+
+        if (hover) {
+            edge1.setLineWidth(5);
+            edge2.setLineWidth(5);
+        }
+        else
+        {
+            edge1.setLineWidth(3);
+            edge2.setLineWidth(3);
+        }
+
+    }	
 }

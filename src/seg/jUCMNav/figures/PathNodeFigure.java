@@ -23,7 +23,7 @@ public abstract class PathNodeFigure extends Figure {
 	protected boolean selected;
 	protected XYLayout layout;
 	protected Dimension preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	private boolean hover;
+	protected boolean hover;
 
 	public PathNodeFigure(){
 		super();

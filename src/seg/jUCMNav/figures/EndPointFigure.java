@@ -13,9 +13,9 @@ import org.eclipse.draw2d.geometry.Transform;
  * @author Etienne Tremblay, Jordan McManus
  */
 public class EndPointFigure extends PathNodeFigure implements Rotateable {
-	
-	private Polygon mainFigure;
-	private PointList edges;
+
+    private Polygon mainFigure;
+    private PointList edges;
 
     /**
      *  
@@ -30,35 +30,35 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
      * @see seg.jUCMNav.figures.NodeFigure#createFigure()
      */
     protected void createFigure() {
-    	mainFigure = new Polygon();
-    	edges = new PointList();
-    	
-    	edges.addPoint(DEFAULT_WIDTH / 2, 0);
-		edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
-		
-		mainFigure.setLineWidth(3);
-		mainFigure.setPoints(edges);
-		add(mainFigure);
-    }
-    
-    public void rotate(double angle) {
-    	Transform t = new Transform();
-    	t.setRotation(angle);
-    	
-    	PointList newEdges = new PointList();
-    	Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+        mainFigure = new Polygon();
+        edges = new PointList();
 
-    	for(int i = 0; i<edges.size(); i++) {
-    		Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y)); 
-    		newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
-    	}
-    	
-    	mainFigure.setPoints(newEdges);
+        edges.addPoint(DEFAULT_WIDTH / 2, 0);
+        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
+
+        mainFigure.setLineWidth(3);
+        mainFigure.setPoints(edges);
+        add(mainFigure);
+    }
+
+    public void rotate(double angle) {
+        Transform t = new Transform();
+        t.setRotation(angle);
+
+        PointList newEdges = new PointList();
+        Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+
+        for (int i = 0; i < edges.size(); i++) {
+            Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y));
+            newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+        }
+
+        mainFigure.setPoints(newEdges);
     }
 
     protected boolean useLocalCoordinates() {
-		return true;
-	}
+        return true;
+    }
 
     /*
      * (non-Javadoc)
@@ -68,5 +68,14 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
     protected void initAnchor() {
         incomingAnchor = new ChopboxAnchor(this);
         outgoingAnchor = new ChopboxAnchor(this);
+    }
+
+    public void setHover(boolean hover) {
+        this.hover = hover;
+
+        if (hover)
+            mainFigure.setLineWidth(5);
+        else
+            mainFigure.setLineWidth(3);
     }
 }
