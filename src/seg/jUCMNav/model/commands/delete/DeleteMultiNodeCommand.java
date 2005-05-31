@@ -24,6 +24,7 @@ import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import urn.URNspec;
 
 /**
@@ -152,11 +153,13 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         if (!shouldDeleteNode) {
             // if one side or the other is left without any connection.
             if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
-                ncOut = new Vector();
-                ncIn = new Vector();
-                ncOut.addAll(toDelete.getSucc());
-                ncIn.addAll(toDelete.getPred());
-                shouldDeleteNode = true;
+                if (!(toDelete instanceof Stub) || ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0))) {
+                    ncOut = new Vector();
+                    ncIn = new Vector();
+                    ncOut.addAll(toDelete.getSucc());
+                    ncIn.addAll(toDelete.getPred());
+                    shouldDeleteNode = true;
+                }
             } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
                 if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
                     // need to downgrade pathnode to empty point.

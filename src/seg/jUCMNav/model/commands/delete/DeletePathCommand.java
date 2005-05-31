@@ -11,6 +11,7 @@ import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * Created on 29-May-2005
@@ -44,6 +45,15 @@ public class DeletePathCommand extends CompoundCommand {
         return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
+     */
+    public boolean canUndo() {
+        return true;
+    }
+    
     /**
      * Builds the compound from its end.
      */
@@ -65,10 +75,9 @@ public class DeletePathCommand extends CompoundCommand {
                 break;
             node = (PathNode) ((NodeConnection) node.getPred().get(0)).getSource();
 
-            if (node.getSucc().size() == 1 && node.getPred().size() == 1) {
+            if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
-
-            } else {
+            } else if (!(node instanceof StartPoint)&&!(node instanceof EndPoint)) {
                 Vector v = new Vector();
                 v.add((NodeConnection) next.getPred().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, new Vector(), v, this.editpartregistry));
@@ -102,9 +111,9 @@ public class DeletePathCommand extends CompoundCommand {
 
             node = (PathNode) ((NodeConnection) node.getSucc().get(0)).getTarget();
 
-            if (node.getSucc().size() == 1 && node.getPred().size() == 1) {
+            if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
-            } else {
+            } else if (!(node instanceof StartPoint)&&!(node instanceof EndPoint)) {
                 Vector v = new Vector();
                 v.add((NodeConnection) previous.getSucc().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, v, new Vector(), this.editpartregistry));
