@@ -7,6 +7,8 @@ import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+
 /**
  * Created 2005-03-24
  * 
@@ -15,21 +17,38 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
  * @author Etienne Tremblay
  */
 public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart {
-	
+
 	public static final String COMPONENT_LAYER = "COMPONENT";
+	
+	private UCMNavMultiPageEditor multiPageEditor;
 
-    /**
-     * Overwrite this function and add the connection layer before the primary layer. This will make the nodes display on top of the connections.
-     */
-    protected LayeredPane createPrintableLayers() {
-        FreeformLayeredPane layeredPane = new FreeformLayeredPane();
+	/**
+	 *  
+	 */
+	public ConnectionOnBottomRootEditPart(UCMNavMultiPageEditor editor) {
+		super();
+		multiPageEditor = editor;
+	}
 
-        FreeformLayer comp = new FreeformLayer();
-        comp.setLayoutManager(new FreeformLayout());
-        
-        layeredPane.add(comp, COMPONENT_LAYER);
-        layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
-        layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
-        return layeredPane;
-    }
+	/**
+	 * Overwrite this function and add the connection layer before the primary layer. This will make the nodes display on top of the connections.
+	 */
+	protected LayeredPane createPrintableLayers() {
+		FreeformLayeredPane layeredPane = new FreeformLayeredPane();
+
+		FreeformLayer comp = new FreeformLayer();
+		comp.setLayoutManager(new FreeformLayout());
+
+		layeredPane.add(comp, COMPONENT_LAYER);
+		layeredPane.add(new ConnectionLayer(), CONNECTION_LAYER);
+		layeredPane.add(new FreeformLayer(), PRIMARY_LAYER);
+		return layeredPane;
+	}
+
+	/**
+	 * @return Returns the MultiPageEditor.
+	 */
+	public UCMNavMultiPageEditor getMultiPageEditor() {
+		return multiPageEditor;
+	}
 }

@@ -102,7 +102,7 @@
       <view
             allowMultiple="true"
             class="seg.jUCMNav.views.StubBindingsView"
-            icon="icons/Stub16.gif"
+            icon="icons/Binding16.gif"
             category="seg.jUCMNav"
             name="StubBindings"
             id="seg.jUCMNav.view.StubBindings"/>

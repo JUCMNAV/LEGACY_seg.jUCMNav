@@ -101,8 +101,8 @@ public class UcmPaletteRoot extends PaletteRoot {
         
         ToolEntry entry;
         
-        entry = new PathToolEntry("PathTool", "PathTool", getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool.gif"), ImageDescriptor
-                .createFromFile(JUCMNavPlugin.class, "icons/AndJoin24.gif"));
+        entry = new PathToolEntry("PathTool", "PathTool", getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool16.gif"), ImageDescriptor
+                .createFromFile(JUCMNavPlugin.class, "icons/pathTool24.gif"));
         controls.add(entry);
 
         PaletteDrawer componentsDrawer = new PaletteDrawer("Components");
@@ -208,7 +208,7 @@ public class UcmPaletteRoot extends PaletteRoot {
         componentsDrawer.add(entry);
         
         entry = new CombinedTemplateCreationEntry("Dynamic Stub", "Creates a dynamic stub", Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), ImageDescriptor
-                .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif"));
+                .createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub24.gif"));
         componentsDrawer.add(entry);
 
         //        

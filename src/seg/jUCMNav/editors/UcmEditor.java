@@ -98,7 +98,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         super.configureGraphicalViewer();
 
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
-        ConnectionOnBottomRootEditPart root = new ConnectionOnBottomRootEditPart();
+        ConnectionOnBottomRootEditPart root = new ConnectionOnBottomRootEditPart(getParent());
 
         // zoom management is delegated to us from our parent.
         List zoomLevels = new ArrayList(3);

@@ -1,5 +1,6 @@
 package seg.jUCMNav.views;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -55,8 +57,8 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	private URNspec urnSpec;
 	private Stub stub;
 	
-	private String[] mapNames;
-	private Map[] mapsObjects;
+	private ArrayList mapNames = new ArrayList();
+	private ArrayList mapsObjects = new ArrayList();
 	
 	private Notifier target;
 	
@@ -117,10 +119,23 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		maps = new Combo(mapClient, SWT.DROP_DOWN);
 		maps.addSelectionListener(new SelectionListener(){
 			public void widgetSelected(SelectionEvent e) {
-				Map map = mapsObjects[maps.getSelectionIndex()];
-				PluginBinding binding = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-				binding.setPlugin(map);
-				binding.setStub(stub);
+				Map map = (Map)mapsObjects.get(maps.getSelectionIndex());
+				
+				if(stub.isDynamic()) {
+					PluginBinding binding = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+					binding.setPlugin(map);
+					binding.setStub(stub);
+				}
+				else {
+					if(stub.getBindings().size() > 0) {
+						PluginBinding binding = (PluginBinding)stub.getBindings().get(0);
+						binding.setPlugin(map);
+					} else {
+						PluginBinding binding = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+						binding.setPlugin(map);
+						binding.setStub(stub);
+					}
+				}
 				
 				refreshBindingsList();
 			}
@@ -153,9 +168,11 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		
 		// The table listing the plugins.
 		tabBindings = toolkit.createTable(sectionClient, SWT.SINGLE | SWT.FULL_SELECTION);
+		tabBindings.setLinesVisible(true);
+		tabBindings.setHeaderVisible(true);
 		GridData t = new GridData(GridData.FILL_BOTH);
 		t.grabExcessHorizontalSpace = true;
-		t.heightHint = 150;
+		t.heightHint = 100;
 		tabBindings.setLayoutData(t);
 		TableColumn tableColumn = new TableColumn(tabBindings, SWT.NONE);
 		tableColumn.setWidth(100);
@@ -195,16 +212,24 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		Label lb = toolkit.createLabel(stubComp, "Stub");
 		
 		Table tabStubIns = toolkit.createTable(stubComp, SWT.NULL);
+		tabStubIns.setLinesVisible(true);
+		tabStubIns.setHeaderVisible(true);
 		tabStubIns.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tableColumn = new TableColumn(tabStubIns, SWT.NONE);
-		tableColumn.setWidth(100);
-		tableColumn.setText("In Stub");
+		tableColumn.setWidth(50);
+		tableColumn.setText("In");
 		
 		
 		Composite buttonComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
 		grid.numColumns = 1;
+		grid.makeColumnsEqualWidth = true;
 		buttonComp.setLayout(grid);
+		
+		Button btBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
+		GridData g = new GridData();
+		g.horizontalAlignment = GridData.CENTER;
+		btBind.setLayoutData(g);
 		
 		Composite mapComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
@@ -213,10 +238,12 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		lb = toolkit.createLabel(mapComp, "Map");
 		
 		Table tabMapIns = toolkit.createTable(mapComp, SWT.NULL);
+		tabMapIns.setLinesVisible(true);
+		tabMapIns.setHeaderVisible(true);
 		tabMapIns.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tableColumn = new TableColumn(tabMapIns, SWT.NONE);
-		tableColumn.setWidth(100);
-		tableColumn.setText("In Map");
+		tableColumn.setWidth(50);
+		tableColumn.setText("In");
 		
 		getViewSite().getPage().addSelectionListener(this);
 	}
@@ -294,16 +321,39 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 
 	private void refreshMapList() {
 		List mapsList = stub.getPathGraph().getMap().getUcmspec().getMaps();
-		mapNames = new String[mapsList.size()];
-		mapsObjects = new Map[mapsList.size()];
-		int j=0;
+		
+		mapNames.clear();
+		mapsObjects.clear();
+		
+		ArrayList bindedMaps = new ArrayList();
+		List bindings = stub.getBindings();
+//		for (Iterator k = bindings.iterator(); k.hasNext();) {
+//			PluginBinding bind = (PluginBinding) k.next();
+//			bindedMaps.add(bind.getPlugin());
+//		}
+		
 		for (Iterator i = mapsList.iterator(); i.hasNext();) {
 			Map map = (Map) i.next();
-			mapsObjects[j] = map;
-			mapNames[j] = map.getName();
+			if(!bindedMaps.contains(map) && stub.getPathGraph().getMap() != map)
+				mapsObjects.add(map);
+		}
+		String[] items = new String[mapsObjects.size()];
+		int j=0;
+		for (Iterator i = mapsObjects.iterator(); i.hasNext();) {
+			Map s = (Map) i.next();
+			mapNames.add(s.getName());
+			items[j] = s.getName();
 			j++;
 		}
-		maps.setItems(mapNames);
+		maps.setItems(items);
+		
+		if(!stub.isDynamic()){
+			if(bindings.size() > 0){
+				PluginBinding b = (PluginBinding)bindings.get(0);
+				int in = mapNames.indexOf(b.getPlugin().getName());
+				maps.select(in);
+			}
+		}
 	}
 
 	private void refreshBindingsList() {
