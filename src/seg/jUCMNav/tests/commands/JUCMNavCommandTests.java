@@ -28,6 +28,8 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCom
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
+import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
@@ -35,20 +37,29 @@ import seg.jUCMNav.model.commands.delete.DeleteComponentElementCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteLabelCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
+import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
+import seg.jUCMNav.model.commands.delete.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
+import seg.jUCMNav.model.commands.delete.DeleteStartNCEndCommand;
+import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
+import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -193,6 +204,26 @@ public class JUCMNavCommandTests extends TestCase {
      * @author jkealey
      *  
      */
+    public void testAddBranchCommand() {
+        testAddForkOnConnectionCommand();
+        AndFork fork;
+        int i = 0;
+        // find empty point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
+            i++;
+        }
+        assertTrue("No and forks exist for AddBranchCommand!", i < pathgraph.getPathNodes().size());
+        fork = (AndFork) pathgraph.getPathNodes().get(i);
+
+        Command cmd = new AddBranchCommand(fork);
+        assertTrue("Can't execute AddBranchCommand", cmd.canExecute());
+        cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
     public void testAddComponentRefCommand() {
 
         Command cmd = new AddComponentRefCommand(map, compRef);
@@ -248,6 +279,77 @@ public class JUCMNavCommandTests extends TestCase {
         cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute());
         cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
+    public void testAddJoinOnConnectionCommand() {
+        testExtendPathCommand();
+        Command cmd;
+        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+        cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
+        assertTrue("Can't execute AddJoinOnConnectionCommand with orjoin.", cmd.canExecute());
+        cs.execute(cmd);
+        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
+        cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
+        assertTrue("Can't execute AddJoinOnConnectionCommand with andjoin.", cmd.canExecute());
+        cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
+    public void testAddJoinOnEmptyPointCommand() {
+        testExtendPathCommand();
+        EmptyPoint pt;
+        int i = 0;
+        // find empty point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+
+        Command cmd;
+        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+        cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        assertTrue("Can't execute AddJoinOnEmptyPointCommand with orjoin.", cmd.canExecute());
+        cs.execute(cmd);
+
+        // find another empty point.
+        i = 0;
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+
+        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
+        cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        assertTrue("Can't execute AddJoinOnEmptyPointCommand with andjoin.", cmd.canExecute());
+        cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
+    public void testChangeLabelNameCommand() {
+        testExtendPathCommand();
+        StartPoint pt;
+        int i = 0;
+        // find empty point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
+            i++;
+        }
+        assertTrue("No start points exist for ChangeLabelNameCommand!", i < pathgraph.getPathNodes().size());
+        pt = (StartPoint) pathgraph.getPathNodes().get(i);
+
+        Command cmd = new ChangeLabelNameCommand(pt.getLabel(), "new start name");
+        assertTrue("Can't execute ChangeLabelNameCommand", cmd.canExecute());
+        cs.execute(cmd);
+
     }
 
     /**
@@ -447,6 +549,27 @@ public class JUCMNavCommandTests extends TestCase {
      * @author jkealey
      *  
      */
+    public void testDeleteMultiNodeCommand() {
+        testAddForkOnConnectionCommand();
+        AndFork fork;
+        int i = 0;
+        // find empty point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
+            i++;
+        }
+        assertTrue("No and forksexist for DeleteMultiNodeCommand!", i < pathgraph.getPathNodes().size());
+        fork = (AndFork) pathgraph.getPathNodes().get(i);
+
+        Command cmd = new DeleteMultiNodeCommand(fork, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        assertTrue("Can't execute DeleteMultiNodeCommand", cmd.canExecute());
+        cs.execute(cmd);
+
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
     public void testDeleteNodeCommand() {
         testSplitLinkCommand();
 
@@ -505,6 +628,40 @@ public class JUCMNavCommandTests extends TestCase {
      * @author jkealey
      *  
      */
+    public void testDeletePathCommand() {
+        testAddBranchCommand();
+        StartPoint start;
+        EndPoint end;
+        int i = 0;
+        // find start point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
+            i++;
+        }
+        assertTrue("No start points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size());
+        start = (StartPoint) pathgraph.getPathNodes().get(i);
+
+        Command cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute());
+        cs.execute(cmd);
+
+        i = 0;
+        // find end point.
+        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EndPoint)) {
+            i++;
+        }
+        assertTrue("No end points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size());
+        end = (EndPoint) pathgraph.getPathNodes().get(i);
+
+        cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute());
+        cs.execute(cmd);
+
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
     public void testDeleteResponsibilityCommand() {
         testSplitLinkCommand();
 
@@ -536,6 +693,39 @@ public class JUCMNavCommandTests extends TestCase {
      * @author jkealey
      *  
      */
+    public void testDeleteStartNCEndCommand() {
+        testCreatePathCommand();
+
+        Command cmd = new DeleteStartNCEndCommand(start);
+        assertTrue("Can't execute DeleteStartNCEndCommand", cmd.canExecute());
+        cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
+    public void testDividePathOnNodeConnectionCompoundCommand() {
+        testCreatePathCommand();
+        
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        cs.execute(cmd);
+
+        cmd = new DividePathOnNodeConnectionCompoundCommand(start, (NodeConnection)newStart.getSucc().get(0), 459, 148, true );
+        assertTrue("Can't execute DividePathOnNodeConnectionCompoundCommand.", cmd.canExecute());
+        cs.execute(cmd);
+
+
+        
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
     public void testExtendPathCommand() {
         testCreatePathCommand();
         Command cmd;
@@ -551,9 +741,36 @@ public class JUCMNavCommandTests extends TestCase {
      * @author ??
      *  
      */
+    public void testForkPathsCommand() {
+        //TODO: implement test
+        assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+    }
+
+    /**
+     * @author ??
+     *  
+     */
+    public void testJoinEndToStubJoinCommand() {
+        //TODO: implement test
+        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false);
+    }
+
+    /**
+     * @author ??
+     *  
+     */
     public void testJoinPathsCommand() {
         //TODO: implement test
         assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+    }
+
+    /**
+     * @author ??
+     *  
+     */
+    public void testJoinStartToStubForkCommand() {
+        //TODO: implement test
+        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false);
     }
 
     /**
@@ -576,6 +793,33 @@ public class JUCMNavCommandTests extends TestCase {
 
         assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute());
         cs.execute(cmd);
+    }
+
+    /**
+     * @author jkealey
+     *  
+     */
+    public void testMergeStartEndCommand() {
+        testCreatePathCommand();
+        
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        cs.execute(cmd);
+        EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) start.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
+
+        cmd = new MergeStartEndCommand(map, newStart, end, 100, 100);
+        assertTrue("Can't execute MergeStartEndCommand.", cmd.canExecute());
+        cs.execute(cmd);
+        
+        
+        cmd = new MergeStartEndCommand(map, start, newEnd, 100, 100);
+        assertTrue("Should not be able to execute MergeStartEndCommand; will cause circular path.", !cmd.canExecute());
+//        cs.execute(cmd);        
+        
+        
+        
     }
 
     /**
@@ -632,6 +876,15 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
+     * @author ??
+     *  
+     */
+    public void testTransmogrifyForkOrJoinCommand() {
+        //TODO: implement test
+        assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+    }
+
+    /**
      * This method will go through all of the path nodes and component ref in all the maps and verify that they are all bound as they should be. will be usefull
      * to see if commands that create new elements bind them to their parents.
      */
@@ -649,6 +902,6 @@ public class JUCMNavCommandTests extends TestCase {
                 assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef());
             }
         }
-
     }
+
 }
