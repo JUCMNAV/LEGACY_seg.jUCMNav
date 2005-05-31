@@ -131,6 +131,10 @@ public class ExtendedDirectEditManager extends DirectEditManager
 		getCellEditor().setValidator(validator);
 
 		text.setFont(figureFont);
+		
+		// jkealey: bug 271; wasn't nice at 400% without this
+		text.pack();
+		
 		text.selectAll();
 	}
 
