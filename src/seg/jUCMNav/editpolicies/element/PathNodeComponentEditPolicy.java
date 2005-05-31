@@ -6,7 +6,6 @@
  */
 package seg.jUCMNav.editpolicies.element;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -27,7 +26,6 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
@@ -85,8 +83,8 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
      */
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
-            CutPathCommand cp = new CutPathCommand((PathGraph) ((EObject) ((EditPart) getHost()).getModel()).eContainer(), (EmptyPoint) ((EditPart) getHost())
-                    .getModel());
+            EmptyPoint ep = ((EmptyPoint) ((EditPart) getHost()).getModel());
+            CutPathCommand cp = new CutPathCommand(ep.getPathGraph(), ep);
             return cp;
         }
         if (request.getType() == REQ_CREATE) {
@@ -100,5 +98,4 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 
         return super.getCommand(request);
     }
-
 }

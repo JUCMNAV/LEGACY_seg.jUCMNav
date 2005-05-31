@@ -107,7 +107,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-        URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+        URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
         EList list = urn.getUrndef().getResponsibilities();
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -130,7 +130,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Responsibility) {
-            URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+            URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
             EList list = urn.getUrndef().getResponsibilities();
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((RespRef) getEditableValue()).getRespDef()))
@@ -169,7 +169,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
         Object result = getPropertyValue(id);
-        URNspec urn = (URNspec) ((RespRef) getEditableValue()).eContainer().eContainer().eContainer().eContainer();
+        URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
 
         if (feature.getEType().getInstanceClass() == Responsibility.class) {
 

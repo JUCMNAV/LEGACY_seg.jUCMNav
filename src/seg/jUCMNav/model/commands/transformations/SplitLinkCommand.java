@@ -5,7 +5,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -56,8 +55,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     public void execute() {
         previousNode = oldLink.getSource();
         nextNode = oldLink.getTarget();
-
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
+        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+        newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
         node.getSucc().add(0, newLink);
 
@@ -87,11 +86,13 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         diagram.getPathNodes().add(node);
         diagram.getNodeConnections().add(newLink);
 
-        if (node instanceof RespRef)
-            ((URNspec) diagram.eContainer().eContainer().eContainer()).getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+        if (node instanceof RespRef) {
+            URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+            urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+        }
 
         // bind to parent
-        node.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), x, y));
+        node.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
 
         testPostConditions();
     }
@@ -115,10 +116,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         oldLink.setTarget(nextNode);
         newLink.setTarget(null);
 
-        if (node instanceof RespRef)
-            ((URNspec) diagram.eContainer().eContainer().eContainer()).getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
+        if (node instanceof RespRef) {
+            URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+            urn.getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
+        }
 
-        
         testPreConditions();
     }
 

@@ -12,7 +12,6 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -64,19 +63,20 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
     public void execute() {
         _x = _oldNode.getX();
         _y = _oldNode.getY();
-
+        URNspec urn = _pg.getMap().getUcmspec().getUrnspec();
+        
         if (_oldNode instanceof AndFork) {
-            _newNode = (OrFork) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),
+            _newNode = (OrFork) ModelCreationFactory.getNewObject(urn,
                     OrFork.class);
         } else if (_oldNode instanceof OrFork) {
             _newNode = (AndFork) ModelCreationFactory.getNewObject(
-                    (URNspec) _pg.eContainer().eContainer().eContainer(), AndFork.class);
+                    urn, AndFork.class);
         } else if (_oldNode instanceof AndJoin) {
-            _newNode = (OrJoin) ModelCreationFactory.getNewObject((URNspec) _pg.eContainer().eContainer().eContainer(),
+            _newNode = (OrJoin) ModelCreationFactory.getNewObject(urn,
                     OrJoin.class);
         } else if (_oldNode instanceof OrJoin) {
             _newNode = (AndJoin) ModelCreationFactory.getNewObject(
-                    (URNspec) _pg.eContainer().eContainer().eContainer(), AndJoin.class);
+                    urn, AndJoin.class);
         } else
             throw new IllegalArgumentException("PathNode must be a fork");
 
@@ -110,7 +110,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _oldNode.setCompRef(null);
 
         // Add new node
-        _newNode.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newNode.getX(), _newNode.getY()));
+        _newNode.setCompRef(ParentFinder.findParent(_pg.getMap(), _newNode.getX(), _newNode.getY()));
         _pg.getPathNodes().add(_newNode);
     }
 
@@ -133,7 +133,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _newNode.setCompRef(null);
 
         // Add new node
-        _oldNode.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _oldNode.getX(), _oldNode.getY()));
+        _oldNode.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldNode.getX(), _oldNode.getY()));
         _pg.getPathNodes().add(_oldNode);
     }
 

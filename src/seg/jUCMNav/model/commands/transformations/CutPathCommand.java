@@ -7,7 +7,6 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -116,8 +115,9 @@ public static boolean canExecute(Object p) {
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        newStart = (StartPoint) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), StartPoint.class);
-        newEnd = (EndPoint) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), EndPoint.class);
+        URNspec urn =  diagram.getMap().getUcmspec().getUrnspec();
+        newStart = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
+        newEnd = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
 
         if (targetConn == null) {
             connToNext1 = (NodeConnection) emptyPoint.getSucc().get(0);
@@ -161,8 +161,8 @@ public static boolean canExecute(Object p) {
         diagram.getPathNodes().add(newStart);
         diagram.getPathNodes().add(newEnd);
 
-        newStart.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), newStart.getX(), newStart.getY()));
-        newEnd.setCompRef(ParentFinder.findParent((Map)diagram.eContainer(), newEnd.getX(), newEnd.getY()));
+        newStart.setCompRef(ParentFinder.findParent(diagram.getMap(), newStart.getX(), newStart.getY()));
+        newEnd.setCompRef(ParentFinder.findParent(diagram.getMap(), newEnd.getX(), newEnd.getY()));
         
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);

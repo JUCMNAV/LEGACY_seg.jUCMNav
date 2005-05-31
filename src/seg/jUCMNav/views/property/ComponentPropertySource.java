@@ -108,7 +108,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-        URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+        URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
         EList list = urn.getUrndef().getComponents();
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -134,7 +134,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
             /*
              * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
              */
-            URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+            URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
             EList list = urn.getUrndef().getComponents();
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
@@ -192,7 +192,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = (EStructuralFeature) o[1];
 
         Object result = getPropertyValue(id);
-        URNspec urn = (URNspec) ((ComponentRef) getEditableValue()).eContainer().eContainer().eContainer();
+        URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
         if (feature.getEType().getInstanceClass() == ComponentElement.class) {
 
             EList list = urn.getUrndef().getComponents();

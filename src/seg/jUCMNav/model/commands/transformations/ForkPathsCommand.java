@@ -6,7 +6,6 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
@@ -72,7 +71,7 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
         _newFork.setX(_x);
         _newFork.setY(_y);
 
-        _pg = (PathGraph) _oldEmptyPoint.eContainer();
+        _pg = _oldEmptyPoint.getPathGraph();
         _ncOldStart = (NodeConnection) _oldStartPoint.getSucc().get(0);
         _ncA = (NodeConnection) _oldEmptyPoint.getPred().get(0);
         _ncB = (NodeConnection) _oldEmptyPoint.getSucc().get(0);
@@ -96,7 +95,7 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
         _oldStartPoint.setCompRef(null);
 
         // Add new fork PathNode to model
-        _newFork.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newFork.getX(), _newFork.getY()));
+        _newFork.setCompRef(ParentFinder.findParent(_pg.getMap(), _newFork.getX(), _newFork.getY()));
         _pg.getPathNodes().add(_newFork);
     }
 
@@ -108,9 +107,9 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
         _pg.getPathNodes().add(_oldEmptyPoint);
         _pg.getPathNodes().add(_oldStartPoint);
-        _oldEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _oldEmptyPoint.getX(), _oldEmptyPoint
+        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint
                 .getY()));
-        _oldStartPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _oldStartPoint.getX(), _oldStartPoint
+        _oldStartPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldStartPoint.getX(), _oldStartPoint
                 .getY()));
 
         _newFork.setCompRef(null);

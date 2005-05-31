@@ -7,7 +7,6 @@ import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrJoin;
 import ucm.map.PathGraph;
@@ -72,7 +71,7 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
         _newJoin.setX(_x);
         _newJoin.setY(_y);
 
-        _pg = (PathGraph) _oldEmptyPoint.eContainer();
+        _pg = _oldEmptyPoint.getPathGraph();
         _ncOldEnd = (NodeConnection) _oldEndPoint.getPred().get(0);
         _ncA = (NodeConnection) _oldEmptyPoint.getPred().get(0);
         _ncB = (NodeConnection) _oldEmptyPoint.getSucc().get(0);
@@ -96,7 +95,7 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
         _oldEndPoint.setCompRef(null);
 
         // Add new join PathNode to model
-        _newJoin.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _newJoin.getX(), _newJoin.getY()));
+        _newJoin.setCompRef(ParentFinder.findParent(_pg.getMap(), _newJoin.getX(), _newJoin.getY()));
         _pg.getPathNodes().add(_newJoin);
     }
 
@@ -108,9 +107,9 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
 
         _pg.getPathNodes().add(_oldEmptyPoint);
         _pg.getPathNodes().add(_oldEndPoint);
-        _oldEmptyPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _oldEmptyPoint.getX(), _oldEmptyPoint
+        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint
                 .getY()));
-        _oldEndPoint.setCompRef(ParentFinder.findParent((Map) _pg.eContainer(), _oldEndPoint.getX(), _oldEndPoint
+        _oldEndPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEndPoint.getX(), _oldEndPoint
                 .getY()));
 
         _newJoin.setCompRef(null);

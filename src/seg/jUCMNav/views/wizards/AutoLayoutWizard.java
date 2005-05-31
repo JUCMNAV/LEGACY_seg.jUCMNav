@@ -30,7 +30,6 @@ import ucm.map.EmptyPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
-import urn.URNspec;
 
 /**
  * Created on 9-May-2005
@@ -260,7 +259,7 @@ public class AutoLayoutWizard extends Wizard {
 
             // ex: graph [bb="0,0,192,212"]; (for the digraph)
             if (line.matches("\\s*digraph " + MAPPREFIX + "\\d+\\s*\\{")) {
-                Map temp = URNElementFinder.findMap((URNspec) usecasemap.eContainer().eContainer(), line.substring(
+                Map temp = URNElementFinder.findMap(usecasemap.getUcmspec().getUrnspec(), line.substring(
                         line.indexOf(MAPPREFIX) + MAPPREFIX.length(), line.lastIndexOf('{')).trim());
                 if (!usecasemap.equals(temp)) {
                     throw new Exception("The layout information doesn't concern the appropriate map, it concerns the map with ID "
@@ -356,7 +355,7 @@ public class AutoLayoutWizard extends Wizard {
                         //                        if (((i / 2) - 2) % 3 == 0) {
 
                         if (i == sCoords.length - 2 || (Math.abs(avg - distances[i / 2]) > 0.97 * stdDev && distances[i / 2] >= 30)) {
-                            PathNode empty = (PathNode) ModelCreationFactory.getNewObject((URNspec) usecasemap.eContainer().eContainer(), EmptyPoint.class);
+                            PathNode empty = (PathNode) ModelCreationFactory.getNewObject(usecasemap.getUcmspec().getUrnspec(), EmptyPoint.class);
                             Command addEmpty = new SplitLinkCommand(usecasemap.getPathGraph(), empty, link, Integer.parseInt(sCoords[i]), pageHeight
                                     - Integer.parseInt(sCoords[i + 1]));
                             cmd.add(addEmpty);

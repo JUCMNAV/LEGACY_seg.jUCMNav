@@ -7,7 +7,6 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -54,8 +53,9 @@ public class ExtendPathCommand extends Command implements  JUCMNavCommand {
         lastNode = (PathNode) lastLink.getSource();
 
         // create new elements
-        newLink = (NodeConnection) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), NodeConnection.class);
-        newNode = (EmptyPoint) ModelCreationFactory.getNewObject((URNspec) diagram.eContainer().eContainer().eContainer(), EmptyPoint.class);
+        URNspec urn =  diagram.getMap().getUcmspec().getUrnspec();
+        newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+        newNode = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
 
         // link new elements
         newNode.getSucc().add(newLink);
@@ -119,8 +119,8 @@ public class ExtendPathCommand extends Command implements  JUCMNavCommand {
         diagram.getNodeConnections().add(newLink);
         
         // bind to parent
-        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), newX, newY));
-        newNode.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), oldX, oldY));
+        end.setCompRef(ParentFinder.findParent(diagram.getMap(), newX, newY));
+        newNode.setCompRef(ParentFinder.findParent(diagram.getMap(), oldX, oldY));
         
         
         testPostConditions();
@@ -236,7 +236,7 @@ public class ExtendPathCommand extends Command implements  JUCMNavCommand {
         testPostConditions();
 
         // bind to parent
-        end.setCompRef(ParentFinder.findParent((Map) diagram.eContainer(), oldX, oldY));
+        end.setCompRef(ParentFinder.findParent(diagram.getMap(), oldX, oldY));
         newNode.setCompRef(null);
 
         

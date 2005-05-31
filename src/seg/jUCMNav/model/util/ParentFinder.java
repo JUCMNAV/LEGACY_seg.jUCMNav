@@ -31,12 +31,12 @@ public class ParentFinder {
         ComponentRef parent;
         if (child instanceof ComponentRef) {
             ComponentRef cr = (ComponentRef) child;
-            assert cr.eContainer() instanceof Map : "getPossibleParent: should already be in model";
-            parent = ParentFinder.findParent((Map) cr.eContainer(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
+            assert cr.getMap() != null : "getPossibleParent: should already be in model";
+            parent = ParentFinder.findParent(cr.getMap(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
         } else {
             PathNode p = (PathNode) child;
-            assert p.eContainer().eContainer() instanceof Map : "getPossibleParent: should already be in model";
-            parent = ParentFinder.findParent((Map) p.eContainer().eContainer(), p.getX(), p.getY());
+            assert p.getPathGraph().getMap() != null : "getPossibleParent: should already be in model";
+            parent = ParentFinder.findParent(p.getPathGraph().getMap(), p.getX(), p.getY());
         }
         return parent;
     }
@@ -51,14 +51,14 @@ public class ParentFinder {
 
         Vector parents = new Vector();
         ComponentRef parent = getPossibleParent(child);
-        while (parent!=null)
-        {
+        while (parent != null) {
             parents.add(parent);
             parent = getPossibleParent(parent);
         }
         return parents;
-        
-   }    
+
+    }
+
     /**
      * We want to know who is the smallest ComponentRef at location newX, newY (our parent).
      * 
