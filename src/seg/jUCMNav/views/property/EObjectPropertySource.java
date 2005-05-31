@@ -176,7 +176,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         CheckboxPropertyDescriptor pd = new CheckboxPropertyDescriptor(propertyid, attr.getName());
 
         String name = attr.getName().toLowerCase();
-        if (name.equals("fixed")) {
+        if (name.equals("fixed") || name.equals("filled")) {
             pd.setCategory("Appearance");
         } else if (object.eClass() != (EClass) propertyid[0]) {
             pd.setCategory("Reference");
@@ -244,7 +244,7 @@ public class EObjectPropertySource implements IPropertySource2 {
             }
         });
         String name = attr.getName().toLowerCase();
-        if (name.equals("x") || name.equals("y") || name.equals("height") || name.equals("width")) {
+        if (name.equals("x") || name.equals("y") || name.equals("deltax") || name.equals("deltay") || name.equals("height") || name.equals("width")) {
             desc.setCategory("Appearance");
         } else if (object.eClass() != (EClass) propertyid[0]) {
             desc.setCategory("Reference");

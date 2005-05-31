@@ -1,7 +1,6 @@
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -9,18 +8,15 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
+import seg.jUCMNav.figures.ComponentRefFigure;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
-import urncore.ComponentElement;
+import urncore.Component;
 
 /**
  * Created 2005-02-15
@@ -70,9 +66,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        RectangleFigure rect = new RectangleFigure();
-
-        return rect;
+        return  new ComponentRefFigure();
     }
 
     /* (non-Javadoc)
@@ -110,31 +104,18 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         Dimension size = new Dimension(getComponentRef().getWidth(), getComponentRef().getHeight());
         Rectangle bounds = new Rectangle(location, size);
         figure.setBounds(bounds);
-        figure.validate(); // Make the label recenter itself.
-        RectangleFigure rect = (RectangleFigure) figure;
-        // we want the line to be thicker
-        rect.setLineWidth(3);
-        // set the colors
-        RGB color;
+        figure.setLocation(location);
 
-        ComponentElement comp = getComponentRef().getCompDef();
-        if (comp != null) {
-            if (comp.getFillColor() == null || comp.getFillColor().length() == 0)
-                rect.setFill(false);
-            else {
-                color = StringConverter.asRGB(comp.getFillColor());
-                rect.setFill(true);
-                rect.setBackgroundColor(new Color(Display.getCurrent(), color));
-            }
+        
+        if (getComponentRef().getCompDef() instanceof Component)
+        {
+            Component comp = (Component) getComponentRef().getCompDef();
+            ((ComponentRefFigure)figure).setKind(comp.getKind().getValue());
+            ((ComponentRefFigure)figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
+            
+        }
+            
 
-            if (comp.getLineColor() == null || comp.getLineColor().length() == 0) {
-                color = new RGB(0, 0, 0);
-            } else {
-                color = StringConverter.asRGB(comp.getLineColor());
-            }
-            rect.setForegroundColor(new Color(Display.getCurrent(), color));
-        } else
-            rect.setFill(false);
 
         figure.validate(); // Make the label recenter itself.
         
@@ -142,7 +123,6 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-//        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
         (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
     

@@ -4,7 +4,7 @@
  */
 package seg.jUCMNav.editpolicies.feedback;
 
-import org.eclipse.draw2d.RectangleFigure;
+import seg.jUCMNav.figures.ComponentRefFigure;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 
@@ -26,8 +26,8 @@ public class ComponentFeedbackEditPolicy extends GraphicalEditPolicy {
         super();
     }
 
-    private RectangleFigure getFigure() {
-        return (RectangleFigure) ((ComponentRefEditPart) this.getHost()).getFigure();
+    private ComponentRefFigure getFigure() {
+        return (ComponentRefFigure) ((ComponentRefEditPart) this.getHost()).getFigure();
     }
 
     public void eraseTargetFeedback(Request request) {

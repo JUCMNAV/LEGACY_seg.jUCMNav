@@ -31,9 +31,9 @@ public class URNReferencerChecker {
             for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
                 ComponentRef compRef = (ComponentRef) iter.next();
                 if (compRef.getCompDef() == null)
-                    // not linked? create one.                    
+                    // not linked? create one.
                     compRef.setCompDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
-                	urn.getUrndef().getComponents().add(compRef.getCompDef());
+                urn.getUrndef().getComponents().add(compRef.getCompDef());
             }
 
             // verify that all responsibility references have definitions
@@ -42,10 +42,20 @@ public class URNReferencerChecker {
                 if (node instanceof RespRef && ((RespRef) node).getRespDef() == null) {
                     // not linked? create one.
                     ((RespRef) node).setRespDef((Responsibility) ModelCreationFactory.getNewObject(urn, Responsibility.class));
-                    urn.getUrndef().getResponsibilities().add(((RespRef)node).getRespDef());
+                    urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
                 }
             }
 
         }
+
+        // uncomment the following to verify that components with colors are filled
+        /*
+        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
+            ComponentElement comp = (ComponentElement) iter.next();
+            if (comp.getFillColor() != null && comp.getFillColor().length() > 0 && !comp.isFilled())
+                comp.setFilled(true);
+
+        }
+        */
     }
 }

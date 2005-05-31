@@ -146,6 +146,9 @@ public class BSplineConnectionRouter extends AbstractRouter {
                 // This connection belongs to this spline.
                 conSplines.put(link, newSpline);
                 startNode = link.getTarget();
+                // bug 244
+                if (startNode==null || startNode.getSucc() == null || startNode.getSucc().size() == 0)
+                    return;
                 link = (NodeConnection) startNode.getSucc().get(0);
                 nodes.add(startNode);
             }

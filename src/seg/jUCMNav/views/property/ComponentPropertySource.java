@@ -220,9 +220,13 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#setReferencedObject(java.lang.Object[], org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
      */
     protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
-        if ((EClass) o[0] != object.eClass())
+        if ((EClass) o[0] != object.eClass()) {
             comp.eSet(feature, result);
-        else
+            if (feature.getName().equalsIgnoreCase("fillColor")) {
+                comp.setFilled(true);
+            }
+
+        } else
             object.eSet(feature, result);
     }
 
