@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
+import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
@@ -32,14 +33,17 @@ public class LabelPropertySource extends UCMElementPropertySource {
         super(obj);
         if (obj instanceof ComponentLabel) {
             ComponentLabel cl = (ComponentLabel) obj;
-            referencePS = new ComponentPropertySource(cl.getCompRef());
+            if (cl.getCompRef().getMap() != null)
+                referencePS = new ComponentPropertySource(cl.getCompRef());
         } else if (obj instanceof NodeLabel) {
             NodeLabel nl = (NodeLabel) obj;
             PathNode pn = nl.getPathNode();
-            if (pn instanceof RespRef)
-                referencePS = new ResponsibilityPropertySource(pn);
-            else
-                referencePS = new UCMElementPropertySource(pn);
+            if (pn.getPathGraph() != null && pn.getPathGraph().getMap() != null) {
+                if (pn instanceof RespRef)
+                    referencePS = new ResponsibilityPropertySource(pn);
+                else
+                    referencePS = new UCMElementPropertySource(pn);
+            }
         }
     }
 
@@ -51,6 +55,14 @@ public class LabelPropertySource extends UCMElementPropertySource {
         Vector v = new Vector();
 
         if (referencePS != null) {
+            
+            if (referencePS.getEditableValue() instanceof PathNode) {
+                if (((PathNode)referencePS.getEditableValue()).getPathGraph()==null) return v;
+            }
+            else if (referencePS.getEditableValue() instanceof ComponentRef) {
+                if (((ComponentRef)referencePS.getEditableValue()).getMap()==null) return v;
+            }
+              
             IPropertyDescriptor pds[] = referencePS.getPropertyDescriptors();
             for (int i = 0; i < pds.length; i++) {
                 v.add(pds[i]);
