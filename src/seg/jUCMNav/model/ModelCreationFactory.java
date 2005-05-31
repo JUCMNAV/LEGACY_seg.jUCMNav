@@ -15,11 +15,13 @@ import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.Map;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
@@ -176,7 +178,11 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createTimer();
             } else if(targetClass.equals(PluginBinding.class)) {
             	result = mapfactory.createPluginBinding();
-            } else {
+            } else if (targetClass.equals(InBinding.class)){
+            	result = mapfactory.createInBinding();
+            } else if (targetClass.equals(OutBinding.class)){
+            	result = mapfactory.createOutBinding();
+            }else {
                 // complex creations
                 if (targetClass.equals(Map.class)) {
                     // create a map

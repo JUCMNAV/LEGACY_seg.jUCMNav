@@ -11,6 +11,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -22,6 +24,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
@@ -35,54 +39,91 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import ucm.UcmPackage;
+import ucm.map.InBinding;
 import ucm.map.Map;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
+import ucm.map.OutBinding;
+import ucm.map.PathNode;
 import ucm.map.PluginBinding;
+import ucm.map.StartPoint;
 import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-05-28
+ * Created 2005-05-28 <br>
+ * <br>- This view is intended to be used to make bindings from a Stub with a Map. <br>- This view support static and dynamic stubs. <br>- You can bind an
+ * entry point from a Stub to a StartPoint of a Map. <br>- Tou can bind an exit point from a Stub to an EndPoint of a Map <br>
  * 
  * @author Etienne Tremblay
  */
 public class StubBindingsView extends ViewPart implements ISelectionListener, Adapter {
+	// The toolkit for eclipse forms
 	private FormToolkit toolkit;
+	// The main form where all the controls will be
 	private ScrolledForm form;
-	
-	private Table tabBindings;
+
+	// The description label.
 	private Label descrip;
-	private Combo maps;
-	
-	private URNspec urnSpec;
-	private Stub stub;
-	
+	// The combobox listing all the maps for changing the main plugin of a static stub
+	private Combo comboMaps;
+
+	// Two list used with the comboMaps object. The mapNames is used to hold the names of all the maps
+	// and then transform this list in an array that can fill the combobox. And then the mapsObjects contains
+	// the corresonding map objects for easy access.
 	private ArrayList mapNames = new ArrayList();
 	private ArrayList mapsObjects = new ArrayList();
-	
+
+	// The stub we are representing here
+	private Stub stub;
+	// The associated URNspec of this stub
+	private URNspec urnSpec;
+
+	// Used by for EMF notification
 	private Notifier target;
-	
+
 	// Sections in the form.
-	private Section mapSection;
-	private Section pluginListSection;
-	private Section addPluginSection;
-	
+	private Section mapSection; // Select the plugin(s) of the stub.
+	private Section pluginListSection; // List of all the PluginBindings with all there attributes.
+	private Section addPluginSection; // Here the in/out of the stub and map are listed to make In/OutBindings
+
+	// The tree listing the PluginBindings.
+	private Tree treeBindings;
+
+	private Table tabMapIns; // The table for making in bindings with maps
+	private TableColumn mapInsColumn; // It's first column (so that we can make it as wide as the table)
+	private Table tabStubIns; // The table for making in bindings with stubs
+	private TableColumn stubInsColumn; // It's first column (so that we can make it as wide as the table)
+
+	// The button for doing in bindings.
+	private Button btInBind;
+
 	/**
-	 * 
+	 *  
 	 */
 	public StubBindingsView() {
 		super();
 	}
 
+	/**
+	 * Create all the controls of the view and add the events handlers.
+	 * 
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
+		form.setVisible(false);
 		form.setText("Stub Bindings");
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 2;
 		form.getBody().setLayout(layout);
 		TableWrapData td = new TableWrapData();
-		ExpandableComposite ec = toolkit.createExpandableComposite(form.getBody(), ExpandableComposite.TWISTIE);
+
+		final ExpandableComposite ec = toolkit.createExpandableComposite(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		ec.setText("Stub Description");
 		descrip = toolkit.createLabel(ec, "", SWT.WRAP);
 		ec.setClient(descrip);
@@ -94,9 +135,9 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 				form.reflow(true);
 			}
 		});
-		
-//		 Connect map section
-		mapSection = toolkit.createSection(form.getBody(),Section.TWISTIE);
+
+		//		 Connect map section
+		mapSection = toolkit.createSection(form.getBody(), Section.TWISTIE);
 		mapSection.setText("Connect Map(s)");
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 2;
@@ -110,44 +151,28 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 			}
 		});
 		toolkit.createCompositeSeparator(mapSection);
-		
+
 		Composite mapClient = toolkit.createComposite(mapSection);
 		GridLayout grid = new GridLayout();
 		grid.numColumns = 1;
 		mapClient.setLayout(grid);
-		
-		maps = new Combo(mapClient, SWT.DROP_DOWN);
-		maps.addSelectionListener(new SelectionListener(){
+
+		comboMaps = new Combo(mapClient, SWT.DROP_DOWN | SWT.FLAT);
+		comboMaps.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				Map map = (Map)mapsObjects.get(maps.getSelectionIndex());
-				
-				if(stub.isDynamic()) {
-					PluginBinding binding = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-					binding.setPlugin(map);
-					binding.setStub(stub);
-				}
-				else {
-					if(stub.getBindings().size() > 0) {
-						PluginBinding binding = (PluginBinding)stub.getBindings().get(0);
-						binding.setPlugin(map);
-					} else {
-						PluginBinding binding = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-						binding.setPlugin(map);
-						binding.setStub(stub);
-					}
-				}
-				
-				refreshBindingsList();
+				handleBindingChanged(comboMaps.getSelectionIndex());
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
 		});
 		GridData gridData = new GridData();
 		gridData.widthHint = 150;
-		maps.setLayoutData(gridData);
-		toolkit.adapt(maps, true, true);
-		
+		comboMaps.setLayoutData(gridData);
+		toolkit.adapt(comboMaps, true, true);
+
 		mapSection.setClient(mapClient);
-		
+
 		// Plugin List section
 		pluginListSection = toolkit.createSection(form.getBody(), Section.DESCRIPTION | Section.TWISTIE);
 		td = new TableWrapData(TableWrapData.FILL);
@@ -156,6 +181,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		pluginListSection.addExpansionListener(new ExpansionAdapter() {
 			public void expansionStateChanged(ExpansionEvent e) {
 				form.reflow(true);
+				updateColumnWidth();
 			}
 		});
 		pluginListSection.setText("Plugins List");
@@ -165,22 +191,18 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		grid = new GridLayout();
 		grid.numColumns = 1;
 		sectionClient.setLayout(grid);
-		
-		// The table listing the plugins.
-		tabBindings = toolkit.createTable(sectionClient, SWT.SINGLE | SWT.FULL_SELECTION);
-		tabBindings.setLinesVisible(true);
-		tabBindings.setHeaderVisible(true);
+
+		// The tree listing the plugins.
+		treeBindings = toolkit.createTree(sectionClient, SWT.SINGLE);
 		GridData t = new GridData(GridData.FILL_BOTH);
 		t.grabExcessHorizontalSpace = true;
 		t.heightHint = 100;
-		tabBindings.setLayoutData(t);
-		TableColumn tableColumn = new TableColumn(tabBindings, SWT.NONE);
-		tableColumn.setWidth(100);
-		tableColumn.setText("Bindings");
+		treeBindings.setLayoutData(t);
+
 		pluginListSection.setClient(sectionClient);
-		
-		// Added Plugin section
-		addPluginSection = toolkit.createSection(form.getBody(),Section.TWISTIE);
+
+		// Add Plugin section
+		addPluginSection = toolkit.createSection(form.getBody(), Section.TWISTIE);
 		addPluginSection.setText("Add Bindigs");
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 2;
@@ -191,210 +213,504 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		addPluginSection.addExpansionListener(new ExpansionAdapter() {
 			public void expansionStateChanged(ExpansionEvent e) {
 				form.reflow(true);
+				updateColumnWidth();
 			}
 		});
 		toolkit.createCompositeSeparator(addPluginSection);
-		
+
 		Composite addPluginClient = toolkit.createComposite(addPluginSection);
 		grid = new GridLayout();
 		grid.numColumns = 3;
 		grid.makeColumnsEqualWidth = true;
 		addPluginClient.setLayout(grid);
-		
+
 		addPluginSection.setClient(addPluginClient);
-		
+
 		// Stub composite for creating new plugings.
 		Composite stubComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
 		grid.numColumns = 1;
 		stubComp.setLayout(grid);
-		
+		GridData g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		stubComp.setLayoutData(g);
+
 		Label lb = toolkit.createLabel(stubComp, "Stub");
-		
-		Table tabStubIns = toolkit.createTable(stubComp, SWT.NULL);
+
+		tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabStubIns.setLinesVisible(true);
 		tabStubIns.setHeaderVisible(true);
-		tabStubIns.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tableColumn = new TableColumn(tabStubIns, SWT.NONE);
-		tableColumn.setWidth(50);
-		tableColumn.setText("In");
-		
-		
+		tabStubIns.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btInBind.setEnabled(true);
+				else
+					btInBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		tabStubIns.setLayoutData(g);
+		stubInsColumn = new TableColumn(tabStubIns, SWT.NONE);
+		stubInsColumn.setWidth(50);
+		stubInsColumn.setText("In");
+
 		Composite buttonComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
 		grid.numColumns = 1;
 		grid.makeColumnsEqualWidth = true;
 		buttonComp.setLayout(grid);
-		
-		Button btBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
-		GridData g = new GridData();
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		buttonComp.setLayoutData(g);
+
+		btInBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
+		btInBind.setEnabled(false);
+		g = new GridData();
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
 		g.horizontalAlignment = GridData.CENTER;
-		btBind.setLayoutData(g);
-		
+		g.verticalAlignment = GridData.CENTER;
+		btInBind.setLayoutData(g);
+		btInBind.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				handleInBindClick();
+			}
+		});
+
 		Composite mapComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
 		grid.numColumns = 1;
 		mapComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		mapComp.setLayoutData(g);
+
 		lb = toolkit.createLabel(mapComp, "Map");
-		
-		Table tabMapIns = toolkit.createTable(mapComp, SWT.NULL);
+
+		tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabMapIns.setLinesVisible(true);
 		tabMapIns.setHeaderVisible(true);
-		tabMapIns.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tableColumn = new TableColumn(tabMapIns, SWT.NONE);
-		tableColumn.setWidth(50);
-		tableColumn.setText("In");
-		
+		tabMapIns.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btInBind.setEnabled(true);
+				else
+					btInBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.verticalSpan = 5;
+		tabMapIns.setLayoutData(g);
+		mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
+		mapInsColumn.setWidth(50);
+		mapInsColumn.setText("In");
+
+		// Listen to the selection from the workbench, so we know when a stub is selected.
 		getViewSite().getPage().addSelectionListener(this);
 	}
 
+	/**
+	 * This method is called when the user click the in bind button.
+	 */
+	protected void handleInBindClick() {
+		// Both list have something selected.  And the stub has to have at least one plugin.
+		if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
+			// Check that the selected Stub is not dynamic
+			if (!stub.isDynamic()) {
+				// Create a new InBinding
+				InBinding in = (InBinding) ModelCreationFactory.getNewObject(urnSpec, InBinding.class);
+				
+				int index;
+				
+				// Set the binding of the InBinding to to first one in the list of the plugin.
+				in.setBinding((PluginBinding) stub.getBindings().get(0));
+
+				index = tabMapIns.getSelectionIndex();
+				in.setStartPoint((StartPoint) inMapList.get(index));
+
+				index = tabStubIns.getSelectionIndex();
+				in.setStubEntry((NodeConnection) inStubList.get(index));
+
+				refreshInOutList();
+				refreshBindingsTree();
+			}
+			btInBind.setEnabled(false);
+			if(!pluginListSection.isExpanded()){
+				pluginListSection.setExpanded(true);
+				updateColumnWidth();
+			}
+		}
+	}
+
+	/**
+	 * Ths method is called when the user selects a new map to bind to the Stub from the combobox.
+	 */
+	protected void handleBindingChanged(int selectedIndex) {
+		Map map = (Map) mapsObjects.get(selectedIndex);
+
+		if (stub.isDynamic()) {
+			PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+			binding.setPlugin(map);
+			binding.setStub(stub);
+		} else {
+			if (stub.getBindings().size() > 0) {
+				PluginBinding binding = (PluginBinding) stub.getBindings().get(0);
+				binding.getIn().clear();
+				binding.getOut().clear();
+				binding.setPlugin(map);
+			} else {
+				PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+				binding.setPlugin(map);
+				binding.setStub(stub);
+			}
+		}
+
+		refreshInOutList();
+		refreshBindingsTree();
+	}
+
+	/**
+	 * This method updates the width of columns of tables to make them as wide as possible.
+	 */
+	protected void updateColumnWidth() {
+		mapInsColumn.setWidth(tabMapIns.getSize().x - 1);
+		stubInsColumn.setWidth(tabStubIns.getSize().x - 1);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
+	 */
 	public void dispose() {
+		// Remove this class from the selection listeners.
 		getViewSite().getPage().removeSelectionListener(this);
 		super.dispose();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	public void setFocus() {
+		// Give the form the focus.
 		form.setFocus();
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * We listen for the selection change of the workbench. When the selection is an EditPart and that the represented model is a Stub we can display the view.
+	 * If we're not selecting a Stub EditPart, then just display nothing in the view.
+	 * 
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		IStructuredSelection selecteds = (IStructuredSelection) selection;
 		List list = selecteds.toList();
 
-        if (list.size() == 1) {
-        	if(list.get(0) instanceof EditPart) {
-	            EditPart selected = (EditPart) (list.get(0));
-	            if(selected.getModel() instanceof Stub)
-	            	setStub((Stub)selected.getModel());
-	            else 
-	            	setStub(null);
-        	}
-        }
+		if (list.size() == 1) {
+			if (list.get(0) instanceof EditPart) {
+				EditPart selected = (EditPart) (list.get(0));
+				if (selected.getModel() instanceof Stub) {
+					setStub((Stub) selected.getModel());
+					return;
+				}
+			}
+		}
+		setStub(null);
 	}
-	
-	public void setStub(Stub stub){
-		if(stub != this.stub) {
-			this.stub = stub;
-			if(stub != null){
+
+	/**
+	 * This method is called when the selected Stub changes.
+	 * 
+	 * @param stub
+	 *            The stub beeing selected. null if we don't have any Stub selected.
+	 */
+	public void setStub(Stub stub) {
+		if (stub != this.stub) {
+			form.setVisible(true);
+			if (stub != null) {
+				if (this.stub != null)
+					this.stub.eAdapters().remove(this);
+				stub.eAdapters().add(this);
+
+				this.stub = stub;
 				urnSpec = stub.getPathGraph().getMap().getUcmspec().getUrnspec();
-				
+
 				// Expand those sections by default
 				mapSection.setExpanded(true);
-            	pluginListSection.setExpanded(true);
-				
+				if (stub.isDynamic())
+					pluginListSection.setExpanded(true);
+				else
+					addPluginSection.setExpanded(true);
+
 				refreshDescription();
-				refreshBindingsList();
+				refreshBindingsTree();
 				refreshMapList();
-				
+				refreshInOutList();
+
 			} else {
+				if (this.stub != null)
+					this.stub.eAdapters().remove(this);
+				this.stub = null;
 				resetInfo();
 			}
 			form.reflow(true);
+			updateColumnWidth();
 		}
 	}
 
 	/**
-	 * 
+	 * Reset all the view information when the selected Stub is null.
 	 */
 	private void resetInfo() {
 		descrip.setText("");
-		tabBindings.clearAll();
-		maps.setItems(new String[0]);
-		
+		treeBindings.removeAll();
+		comboMaps.setItems(new String[0]);
+		tabMapIns.removeAll();
+		tabStubIns.removeAll();
+
 		// Close the sections
 		mapSection.setExpanded(false);
-    	pluginListSection.setExpanded(false);
+		pluginListSection.setExpanded(false);
+		addPluginSection.setExpanded(false);
+		//    	form.setText("No stub selected");
+		//    	form.setForeground(new Color(null, 255, 0, 0));
+		form.setVisible(false);
+		form.reflow(true);
 	}
 
+	/**
+	 * Refresh the description of the selected Stub.
+	 */
 	private void refreshDescription() {
-		if(stub.getDescription() != null)
+		if (stub.getDescription() != null)
 			descrip.setText(stub.getDescription());
 		else
 			descrip.setText("");
 	}
 
+	/**
+	 * Refresh the map list display in the combobox listing the possible maps to plugin to.
+	 */
 	private void refreshMapList() {
 		List mapsList = stub.getPathGraph().getMap().getUcmspec().getMaps();
-		
+
 		mapNames.clear();
 		mapsObjects.clear();
-		
+
 		ArrayList bindedMaps = new ArrayList();
 		List bindings = stub.getBindings();
-//		for (Iterator k = bindings.iterator(); k.hasNext();) {
-//			PluginBinding bind = (PluginBinding) k.next();
-//			bindedMaps.add(bind.getPlugin());
-//		}
-		
+
 		for (Iterator i = mapsList.iterator(); i.hasNext();) {
 			Map map = (Map) i.next();
-			if(!bindedMaps.contains(map) && stub.getPathGraph().getMap() != map)
+			if (!bindedMaps.contains(map) && stub.getPathGraph().getMap() != map)
 				mapsObjects.add(map);
 		}
 		String[] items = new String[mapsObjects.size()];
-		int j=0;
+		int j = 0;
 		for (Iterator i = mapsObjects.iterator(); i.hasNext();) {
 			Map s = (Map) i.next();
 			mapNames.add(s.getName());
 			items[j] = s.getName();
 			j++;
 		}
-		maps.setItems(items);
-		
-		if(!stub.isDynamic()){
-			if(bindings.size() > 0){
-				PluginBinding b = (PluginBinding)bindings.get(0);
+		comboMaps.setItems(items);
+
+		if (!stub.isDynamic()) {
+			if (bindings.size() > 0) {
+				PluginBinding b = (PluginBinding) bindings.get(0);
 				int in = mapNames.indexOf(b.getPlugin().getName());
-				maps.select(in);
+				comboMaps.select(in);
 			}
 		}
 	}
 
-	private void refreshBindingsList() {
-		tabBindings.removeAll();
-		
+	/**
+	 * Refresh with the correct info the tree of the bindings of this stub. The tree will build itself with the following structure: <br>
+	 * Bindings <br>
+	 * |-+ Stub <->Map <br>| |-+ In bindings <br>| | |-+ StartPoint <->EmptyPoint <br>| |-+ Out bindings <br>| | |-+ EndPoint <->EmptyPoint <br>
+	 */
+	private void refreshBindingsTree() {
+		treeBindings.removeAll();
+
 		List list = stub.getBindings();
-		TableItem item;
+		TreeItem root = new TreeItem(treeBindings, SWT.NULL);
+		root.setText("Bindings");
+		TreeItem item;
+		TreeItem subLabelItem;
+		TreeItem subItem;
 		for (Iterator i = list.iterator(); i.hasNext();) {
+			item = root;
 			PluginBinding binding = (PluginBinding) i.next();
-			item = new TableItem(tabBindings, SWT.NULL);
+			item = new TreeItem(item, SWT.NULL);
 			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName());
+
+			subLabelItem = new TreeItem(item, SWT.NULL);
+			subLabelItem.setText("In bindings");
+
+			List in = binding.getIn();
+			for (Iterator j = in.iterator(); j.hasNext();) {
+				InBinding inBind = (InBinding) j.next();
+				subItem = new TreeItem(subLabelItem, SWT.NULL);
+				subItem.setText(inBind.getStubEntry().getSource().getName() + "<->" + inBind.getStartPoint().getName());
+			}
+			subLabelItem.setExpanded(true);
+
+			subLabelItem = new TreeItem(item, SWT.NULL);
+			subLabelItem.setText("Out bindings");
+
+			List out = binding.getOut();
+			for (Iterator j = out.iterator(); j.hasNext();) {
+				OutBinding outBind = (OutBinding) j.next();
+				subItem = new TreeItem(subLabelItem, SWT.NULL);
+				subItem.setText(outBind.getEndPoint().getName() + "<->" + outBind.getStubExit().getTarget().getName());
+			}
+			subLabelItem.setExpanded(true);
+			item.setExpanded(true);
 		}
+		root.setExpanded(true);
 	}
 
-	/* (non-Javadoc)
+	// The list of all the incoming connections from outside to the stub
+	private ArrayList inStubList;
+	// The list of all the StartPoints of the binded map.
+	private ArrayList inMapList;
+	// The list of all the outgoing connections from the stub to the outside.
+	private ArrayList outStubList;
+	// The list of all the EndPoints of the binded map.
+	private ArrayList outMapList;
+
+	/**
+	 * Refresh the lists and tables for the ins/out of the Stub and Map of a PluginBinding.
+	 */
+	protected void refreshInOutList() {
+		tabMapIns.removeAll();
+		tabStubIns.removeAll();
+
+		inStubList = new ArrayList();
+		inMapList = new ArrayList();
+		outStubList = new ArrayList();
+		outMapList = new ArrayList();
+
+		// Get the list of all the incoming connections from outside to the stub to fill the 'in' list.
+		List list = stub.getPred();
+		TableItem item;
+		for (Iterator i = list.iterator(); i.hasNext();) {
+			NodeConnection con = (NodeConnection) i.next();
+			if (!isNodeConnectionInBinded(con)) {
+				inStubList.add(con);
+				PathNode node = con.getSource();
+				item = new TableItem(tabStubIns, SWT.NULL);
+				item.setText(node.getName());
+			}
+		}
+
+		if(stub.getBindings().size() > 0) {
+			// This code will only work for static stub right now.
+			// Fill the list with all the startpoints of the plugin map.
+			list = ((PluginBinding) stub.getBindings().get(0)).getPlugin().getPathGraph().getPathNodes();
+			for (Iterator i = list.iterator(); i.hasNext();) {
+				PathNode node = (PathNode) i.next();
+				if (node instanceof StartPoint) {
+					if (!isStartPointInBinded((StartPoint) node)) {
+						inMapList.add(node);
+						item = new TableItem(tabMapIns, SWT.NULL);
+						item.setText(node.getName());
+					}
+				}
+			}
+		}
+
+		form.reflow(true);
+	}
+
+	/**
+	 * Utility method to know if a StartPoint is binded with the selected Stub.
+	 * 
+	 * @param start
+	 *            The StartPoint you want to know is binded or not.
+	 * @return True if the StartPoint is contained in an InBinding of the selected Stub PluginBinding. Else return false.
+	 */
+	private boolean isStartPointInBinded(StartPoint start) {
+		if(stub.getBindings().size() > 0) {
+			List ins = ((PluginBinding) stub.getBindings().get(0)).getIn();
+			for (Iterator i = ins.iterator(); i.hasNext();) {
+				InBinding in = (InBinding) i.next();
+				if (in.getStartPoint() == start)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Utility method to know if a NodeConnection is binded in an InBinding with the selected Stub
+	 * 
+	 * @param con
+	 *            The NodeConnection you want to know is binded or not.
+	 * @return True if the NodeConnection is contained in an InBinding of the selected Stub PluginBinding. Else return false.
+	 */
+	private boolean isNodeConnectionInBinded(NodeConnection con) {
+		if(stub.getBindings().size() > 0) {
+			List ins = ((PluginBinding) stub.getBindings().get(0)).getIn();
+			for (Iterator i = ins.iterator(); i.hasNext();) {
+				InBinding in = (InBinding) i.next();
+				if (in.getStubEntry() == con)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
 	 */
 	public void notifyChanged(Notification notification) {
-		int featureId = notification.getFeatureID(MapPackage.class);
+		int featureId = notification.getFeatureID(UcmPackage.class);
 		switch (featureId) {
-			case MapPackage.MAP__UCMSPEC:
-				System.out.println("A map has been added or deleted.");
-				break;
+		case MapPackage.MAP__UCMSPEC:
+			System.out.println("A map has been added or deleted.");
+			break;
+		case MapPackage.STUB__DESCRIPTION:
+			descrip.setText(stub.getDescription());
+			form.reflow(true);
+			break;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
 	 */
 	public Notifier getTarget() {
 		return target;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
 	 */
 	public void setTarget(Notifier newTarget) {
 		target = newTarget;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
 	 */
 	public boolean isAdapterForType(Object type) {
