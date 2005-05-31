@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import ucm.map.OrJoin;
 
@@ -41,6 +42,7 @@ public class AddOrJoinAction extends SelectionAction {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
         case SelectionHelper.NODECONNECTION:
         case SelectionHelper.EMPTYPOINT:
+        case SelectionHelper.ENDPOINT_NODECONNECTION:
             return true;
         default:
             return false;
@@ -56,6 +58,9 @@ public class AddOrJoinAction extends SelectionAction {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
             comm = new JoinPathsCommand(sel.getEmptypoint(), sel.getEndpoint(), newOrJoin);
             return comm;
+        case SelectionHelper.ENDPOINT_NODECONNECTION:
+            return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+                    .getNodeconnectionMiddle().y, false);
         case SelectionHelper.EMPTYPOINT:
             comm = new AddJoinOnEmptyPointCommand(newOrJoin, sel.getPathgraph(), sel.getEmptypoint());
             return comm;

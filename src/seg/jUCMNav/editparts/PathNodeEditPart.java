@@ -15,6 +15,7 @@ import org.eclipse.draw2d.geometry.Ray;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.ConnectionEditPart;
+import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
@@ -65,6 +66,12 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         this.diagram = diagram;
     }
 
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+     */
+    public DragTracker getDragTracker(Request request) {
+    	return new DragPathNodeTracker(this);
+    }
     /*
      * (non-Javadoc)
      * 

@@ -4,21 +4,27 @@
  */
 package seg.jUCMNav.editpolicies.layout;
 
+import java.util.Vector;
+
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -52,6 +58,19 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createAddCommand(EditPart child, Object constraint) {
+        Vector selection = new Vector();
+        selection.add(child);
+        selection.add(getHost());
+
+        SelectionHelper sel = new SelectionHelper(selection);
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.ENDPOINT_NODECONNECTION:
+            return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
+        case SelectionHelper.STARTPOINT_NODECONNECTION:
+            return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
+        }
+
+        // don't allow drop
         return null;
     }
 
@@ -125,10 +144,12 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
-            CutPathCommand cp = new CutPathCommand(getPathGraph(), (NodeConnection)(getHost().getModel()));
+            CutPathCommand cp = new CutPathCommand(getPathGraph(), (NodeConnection) (getHost().getModel()));
             return cp;
-        } else
+        } else {
             return super.getCommand(request);
+
+        }
     }
 
     /**
@@ -147,6 +168,17 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
      */
     protected Command getDeleteDependantCommand(Request request) {
         return null;
+    }
+
+    /**
+     * Overritten because we don't have an xylayout on the node connection and we don't really care about this right now.
+     * 
+     * Returns {@link XYLayout#getOrigin(IFigure)}.
+     * 
+     * @see ConstrainedLayoutEditPolicy#getLayoutOrigin()
+     */
+    protected Point getLayoutOrigin() {
+        return new Point(0, 0);
     }
 
 }

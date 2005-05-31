@@ -13,6 +13,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import ucm.map.AndFork;
 
@@ -45,6 +46,7 @@ public class AddAndForkAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.NODECONNECTION:
+        case SelectionHelper.STARTPOINT_NODECONNECTION:
         case SelectionHelper.EMPTYPOINT:
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
             return true;
@@ -62,6 +64,9 @@ public class AddAndForkAction extends SelectionAction {
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
             comm = new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), newAndFork);
             return comm;
+        case SelectionHelper.STARTPOINT_NODECONNECTION:
+            return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+                    .getNodeconnectionMiddle().y, false);
         case SelectionHelper.EMPTYPOINT:
             comm = new AddForkOnEmptyPointCommand(newAndFork, sel.getPathgraph(), sel.getEmptypoint());
             return comm;
