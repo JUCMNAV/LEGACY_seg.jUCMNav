@@ -40,6 +40,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UcmPackage;
+import ucm.map.EndPoint;
 import ucm.map.InBinding;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -95,9 +96,16 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	private TableColumn mapInsColumn; // It's first column (so that we can make it as wide as the table)
 	private Table tabStubIns; // The table for making in bindings with stubs
 	private TableColumn stubInsColumn; // It's first column (so that we can make it as wide as the table)
+	
+	private Table tabMapOuts; // The table for making out bindings with maps
+	private TableColumn mapOutsColumn; // It's first column (so that we can make it as wide as the table)
+	private Table tabStubOuts; // The table for making out bindings with stubs
+	private TableColumn stubOutsColumn; // It's first column (so that we can make it as wide as the table) 
 
 	// The button for doing in bindings.
 	private Button btInBind;
+	//	 The button for doing out bindings.
+	private Button btOutBind;
 
 	/**
 	 *  
@@ -196,7 +204,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		treeBindings = toolkit.createTree(sectionClient, SWT.SINGLE);
 		GridData t = new GridData(GridData.FILL_BOTH);
 		t.grabExcessHorizontalSpace = true;
-		t.heightHint = 100;
+		t.heightHint = 120;
 		treeBindings.setLayoutData(t);
 
 		pluginListSection.setClient(sectionClient);
@@ -311,9 +319,127 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
 		mapInsColumn.setWidth(50);
 		mapInsColumn.setText("In");
+		
+		// Out bindings controls
+		stubComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		stubComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		stubComp.setLayoutData(g);
+
+		lb = toolkit.createLabel(stubComp, "Stub");
+
+		tabStubOuts = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
+		tabStubOuts.setLinesVisible(true);
+		tabStubOuts.setHeaderVisible(true);
+		tabStubOuts.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btOutBind.setEnabled(true);
+				else
+					btOutBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		tabStubIns.setLayoutData(g);
+		stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
+		stubOutsColumn.setWidth(50);
+		stubOutsColumn.setText("Out");
+
+		buttonComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		grid.makeColumnsEqualWidth = true;
+		buttonComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		buttonComp.setLayoutData(g);
+
+		btOutBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
+		btOutBind.setEnabled(false);
+		g = new GridData();
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.horizontalAlignment = GridData.CENTER;
+		g.verticalAlignment = GridData.CENTER;
+		btOutBind.setLayoutData(g);
+		btOutBind.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				handleOutBindClick();
+			}
+		});
+
+		mapComp = toolkit.createComposite(addPluginClient);
+		grid = new GridLayout();
+		grid.numColumns = 1;
+		mapComp.setLayout(grid);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		mapComp.setLayoutData(g);
+
+		lb = toolkit.createLabel(mapComp, "Map");
+
+		tabMapOuts = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
+		tabMapOuts.setLinesVisible(true);
+		tabMapOuts.setHeaderVisible(true);
+		tabMapOuts.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0)
+					btOutBind.setEnabled(true);
+				else
+					btOutBind.setEnabled(false);
+			}
+		});
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.verticalSpan = 5;
+		tabMapOuts.setLayoutData(g);
+		mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
+		mapOutsColumn.setWidth(50);
+		mapOutsColumn.setText("Out");
 
 		// Listen to the selection from the workbench, so we know when a stub is selected.
 		getViewSite().getPage().addSelectionListener(this);
+	}
+
+	/**
+	 * 
+	 */
+	protected void handleOutBindClick() {
+		if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
+//			 Check that the selected Stub is not dynamic
+			if (!stub.isDynamic()) {
+//				 Create a new InBinding
+				OutBinding out = (OutBinding) ModelCreationFactory.getNewObject(urnSpec, OutBinding.class);
+				
+				int index;
+				
+				// Set the binding of the InBinding to to first one in the list of the plugin.
+				out.setBinding((PluginBinding) stub.getBindings().get(0));
+
+				index = tabMapOuts.getSelectionIndex();
+				out.setEndPoint((EndPoint) outMapList.get(index));
+
+				index = tabStubOuts.getSelectionIndex();
+				out.setStubExit((NodeConnection) outStubList.get(index));
+
+				refreshInOutList();
+				refreshBindingsTree();
+			}
+			btOutBind.setEnabled(false);
+			if(!pluginListSection.isExpanded()){
+				pluginListSection.setExpanded(true);
+				updateColumnWidth();
+			}
+		}
 	}
 
 	/**
@@ -382,6 +508,8 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	protected void updateColumnWidth() {
 		mapInsColumn.setWidth(tabMapIns.getSize().x - 1);
 		stubInsColumn.setWidth(tabStubIns.getSize().x - 1);
+		mapOutsColumn.setWidth(tabMapOuts.getSize().x - 1);
+		stubOutsColumn.setWidth(tabStubOuts.getSize().x - 1);
 	}
 
 	/*
@@ -596,6 +724,8 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	protected void refreshInOutList() {
 		tabMapIns.removeAll();
 		tabStubIns.removeAll();
+		tabMapOuts.removeAll();
+		tabStubOuts.removeAll();
 
 		inStubList = new ArrayList();
 		inMapList = new ArrayList();
@@ -614,6 +744,17 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 				item.setText(node.getName());
 			}
 		}
+		
+		list = stub.getSucc();
+		for (Iterator i = list.iterator(); i.hasNext();) {
+			NodeConnection con = (NodeConnection) i.next();
+			if (!isNodeConnectionOutBinded(con)) {
+				outStubList.add(con);
+				PathNode node = con.getTarget();
+				item = new TableItem(tabStubOuts, SWT.NULL);
+				item.setText(node.getName());
+			}
+		}
 
 		if(stub.getBindings().size() > 0) {
 			// This code will only work for static stub right now.
@@ -627,11 +768,49 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 						item = new TableItem(tabMapIns, SWT.NULL);
 						item.setText(node.getName());
 					}
+				} else if(node instanceof EndPoint){
+					if (!isEndPointOutBinded((EndPoint) node)) {
+						outMapList.add(node);
+						item = new TableItem(tabMapOuts, SWT.NULL);
+						item.setText(node.getName());
+					}
 				}
 			}
 		}
 
 		form.reflow(true);
+	}
+
+	/**
+	 * @param con
+	 * @return
+	 */
+	private boolean isNodeConnectionOutBinded(NodeConnection con) {
+		if(stub.getBindings().size() > 0) {
+			List outs = ((PluginBinding) stub.getBindings().get(0)).getOut();
+			for (Iterator i = outs.iterator(); i.hasNext();) {
+				OutBinding out = (OutBinding) i.next();
+				if (out.getStubExit() == con)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param point
+	 * @return
+	 */
+	private boolean isEndPointOutBinded(EndPoint end) {
+		if(stub.getBindings().size() > 0) {
+			List ins = ((PluginBinding) stub.getBindings().get(0)).getOut();
+			for (Iterator i = ins.iterator(); i.hasNext();) {
+				OutBinding out = (OutBinding) i.next();
+				if (out.getEndPoint() == end)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**
