@@ -422,8 +422,9 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 				
 				int index;
 				
-				// Set the binding of the InBinding to to first one in the list of the plugin.
-				out.setBinding((PluginBinding) stub.getBindings().get(0));
+				// Set the binding of the OutBinding to to first one in the list of the plugin.
+				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
+				plug.getOut().add(out);
 
 				index = tabMapOuts.getSelectionIndex();
 				out.setEndPoint((EndPoint) outMapList.get(index));
@@ -456,7 +457,8 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 				int index;
 				
 				// Set the binding of the InBinding to to first one in the list of the plugin.
-				in.setBinding((PluginBinding) stub.getBindings().get(0));
+				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
+				plug.getIn().add(in);
 
 				index = tabMapIns.getSelectionIndex();
 				in.setStartPoint((StartPoint) inMapList.get(index));
@@ -575,11 +577,8 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 				urnSpec = stub.getPathGraph().getMap().getUcmspec().getUrnspec();
 
 				// Expand those sections by default
-				mapSection.setExpanded(true);
-				if (stub.isDynamic())
-					pluginListSection.setExpanded(true);
-				else
-					addPluginSection.setExpanded(true);
+				pluginListSection.setExpanded(true);
+				addPluginSection.setExpanded(true);
 
 				refreshDescription();
 				refreshBindingsTree();
