@@ -26,6 +26,9 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -35,7 +38,9 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
@@ -48,6 +53,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentR
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -57,6 +63,7 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
+import ucm.map.EmptyPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -76,11 +83,35 @@ import urncore.UCMmodelElement;
  *  
  */
 public class ProgressTests extends TestCase {
+    private UCMNavMultiPageEditor editor;
+    private IFile testfile;
 
     // internal elements shared by all tests.
     private URNspec urn;
-    private IFile testfile;
-    private UCMNavMultiPageEditor editor;
+
+    private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
+
+        EObjectPropertySource eops = new ComponentPropertySource(cr);
+        EStructuralFeature attr;
+        Vector v = new Vector();
+        Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
+
+        // for each attribute and reference
+        while (i.hasNext()) {
+            attr = (EStructuralFeature) i.next();
+            String n = attr.getName();
+
+            // make sure that the ones we have targetted do amount in adding a property to the property descriptor
+            if (n.equals(name)) {
+                int vectorSize = v.size();
+                eops.addPropertyToDescriptor(v, attr, cr.eClass());
+                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
+                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
+            }
+        }
+
+        return v;
+    }
 
     /**
      * Because of visibility issues, we can't obtain the model creation factory or the request from our palette. Hence, we'll do a quick workaround in order to
@@ -124,6 +155,14 @@ public class ProgressTests extends TestCase {
 
     }
 
+    public EditPart getEditPart(Object o) {
+        return (EditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(o);
+    }
+
+    public ScrollingGraphicalViewer getGraphicalViewer() {
+        return (ScrollingGraphicalViewer) editor.getCurrentPage().getGraphicalViewer();
+    }
+
     public Map getMap() {
         return (Map) urn.getUcmspec().getMaps().get(0);
     }
@@ -132,20 +171,12 @@ public class ProgressTests extends TestCase {
         return (Map) urn.getUcmspec().getMaps().get(i);
     }
 
-    public EditPart getEditPart(Object o) {
-        return (EditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(o);
-    }
-
     public MapAndPathGraphEditPart getMapEditPart(int i) {
         return (MapAndPathGraphEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
     }
 
     public UcmPaletteRoot getPaletteRoot() {
         return (UcmPaletteRoot) editor.getCurrentPage().getPaletteRoot();
-    }
-
-    public ScrollingGraphicalViewer getGraphicalViewer() {
-        return (ScrollingGraphicalViewer) editor.getCurrentPage().getGraphicalViewer();
     }
 
     /**
@@ -430,30 +461,6 @@ public class ProgressTests extends TestCase {
         assertTrue("Parent not option in property values", "ParentTest".equals(values[1]));
     }
 
-    private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
-
-        EObjectPropertySource eops = new ComponentPropertySource(cr);
-        EStructuralFeature attr;
-        Vector v = new Vector();
-        Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
-
-        // for each attribute and reference
-        while (i.hasNext()) {
-            attr = (EStructuralFeature) i.next();
-            String n = attr.getName();
-
-            // make sure that the ones we have targetted do amount in adding a property to the property descriptor
-            if (n.equals(name)) {
-                int vectorSize = v.size();
-                eops.addPropertyToDescriptor(v, attr, cr.eClass());
-                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
-                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
-            }
-        }
-
-        return v;
-    }
-
     /**
      * Test #1 for requirement ReqCompCompUnbind
      * 
@@ -626,25 +633,95 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates AndFork", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemAndFork
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemAndFork2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemAndFork
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemAndFork2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-    //  /**
-    //  * Test #3 for requirement ReqElemAndFork
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemAndFork3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // get its emptypoint.
+        EmptyPoint ep = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+
+        // select the empty point and see if the addandfork action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+
+        IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+    }
+
+    /**
+     * Test #3 for requirement ReqElemAndFork
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemAndFork3() {
+
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // and another.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get an emptypoint and a start point, from the other path.
+        EmptyPoint ep = null;
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint && element.getSucc().get(0) != ep) {
+                sp = (StartPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no start point found", sp);
+
+        // select the empty point and see if the addandfork action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+        v.add(sp);
+
+        IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                i++;
+            }
+        }
+
+        assertEquals("should only have one start point left!", 1, i);
+    }
 
     /**
      * Test #1 for requirement ReqElemAndJoin
@@ -834,7 +911,7 @@ public class ProgressTests extends TestCase {
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(pn);
         assertNotNull("cannot find editpart", part);
-        
+
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
         assertNotNull("No property source found", source);
 
@@ -987,7 +1064,7 @@ public class ProgressTests extends TestCase {
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(resp);
         assertNotNull("cannot find editpart", part);
-        
+
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
         assertNotNull("No property source found", source);
 
@@ -1056,7 +1133,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemStartPointAttributes1() {
         testReqElemStartPoint1();
 
-        StartPoint start=null;
+        StartPoint start = null;
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
@@ -1064,7 +1141,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertNotNull("cannot find startpoint", start);
-        
+
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(start);
         assertNotNull("cannot find editpart", part);
 
@@ -1198,6 +1275,139 @@ public class ProgressTests extends TestCase {
     }
 
     //  /**
+    //  * Test #1 for requirement ReqBrowseHistory
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqBrowseHistory1() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    //  /**
+    //  * Test #1 for requirement ReqBrowseModel
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqBrowseModel1() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    //  /**
+    //  * Test #2 for requirement ReqBrowseModel
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqBrowseModel2() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    //  /**
+    //  * Test #3 for requirement ReqBrowseModel
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqBrowseModel3() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    //  /**
+    //  * Test #4 for requirement ReqBrowseModel
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqBrowseModel4() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    /**
+     * Test #1 for requirement ReqLabels
+     * 
+     * Author: jkealey
+     */
+    public void testReqLabels1() {
+        testReqElemStartPoint1();
+
+        StartPoint start = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                start = (StartPoint) element;
+            }
+        }
+        assertNotNull("cannot find startpoint", start);
+        assertNotNull("cannot find startpoint label", start.getLabel());
+
+        LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(start.getLabel());
+        assertNotNull("cannot find label editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean name = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("name"))
+                name = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor (should show name/id of label reference)", name);
+    }
+
+    /**
+     * Test #2 for requirement ReqLabels
+     * 
+     * Author: jkealey
+     */
+    public void testReqLabels2() {
+        testReqElemResponsibility2();
+
+        RespRef pn = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof RespRef) {
+                pn = (RespRef) element;
+                break;
+            }
+        }
+
+        assertNotNull("no RespRef found", pn);
+        assertNotNull("respref does not have a label", pn.getLabel());
+
+        LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(pn.getLabel());
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean deltaX, deltaY, id, name, definition;
+        deltaX = deltaY = id = name = definition = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("name"))
+                name = true;
+            else if (str.equalsIgnoreCase("id"))
+                id = true;
+            else if (str.equalsIgnoreCase("deltax"))
+                deltaX = true;
+            else if (str.equalsIgnoreCase("deltay"))
+                deltaY = true;
+            else if (str.equalsIgnoreCase("definition"))
+                definition = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", name && id && deltaX && deltaY && definition);
+    }
+
+    //  /**
     //  * Test #2 for requirement ReqElemWait
     //  *
     //  * Author:
@@ -1267,100 +1477,31 @@ public class ProgressTests extends TestCase {
         assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec);
     }
 
-    //  /**
-    //  * Test #1 for requirement ReqBrowseHistory
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseHistory1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Selects a list of model elements and returns the action with the given id, if it is enabled.
+     * 
+     * @param selected
+     *            A list of model elements to be selected.
+     * @param id
+     *            the action's id in the action registry.
+     */
+    private IAction getAction(List selected, String id) {
+        if (selected != null && selected.size() > 0) {
+            EditPart edit = getEditPart(selected.get(0));
+            getGraphicalViewer().select(edit);
 
-    //  /**
-    //  * Test #1 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+            for (int i = 1; i < selected.size(); i++) {
+                getGraphicalViewer().appendSelection(getEditPart(selected.get(i)));
+            }
+        } else
+            getGraphicalViewer().deselectAll();
+        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
+        if (contrib instanceof ActionContributionItem) {
+            return ((org.eclipse.jface.action.ActionContributionItem) contrib).getAction();
+        } else
+            return null;
 
-    //  /**
-    //  * Test #2 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
-    //  * Test #3 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
-    //  * Test #4 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel4() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-      /**
-      * Test #1 for requirement ReqLabels
-      *
-      * Author: jkealey
-      */
-     public void testReqLabels1() {
-         testReqElemStartPoint1();
-
-         StartPoint start=null;
-         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
-             PathNode element = (PathNode) iter.next();
-             if (element instanceof StartPoint) {
-                 start = (StartPoint) element;
-             }
-         }
-         assertNotNull("cannot find startpoint", start);
-         assertNotNull("cannot find startpoint label", start.getLabel());
-         
-         LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(start.getLabel());
-         assertNotNull("cannot find label editpart", part);
-
-         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-         assertNotNull("No property source found", source);
-
-         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
-
-         boolean name = false;
-         for (int i = 0; i < desc.length; i++) {
-             String str = desc[i].getDisplayName();
-             if (str.equalsIgnoreCase("name"))
-                 name = true;
-         }
-
-         assertTrue("Missing PropertyDescriptor (should show name/id of label reference)", name);
-     }
-
-    //  /**
-    //  * Test #2 for requirement ReqLabels
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqLabels2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    }
 
 }
