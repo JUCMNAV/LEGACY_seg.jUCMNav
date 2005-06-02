@@ -33,6 +33,7 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.TransmogrifyForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
@@ -153,6 +154,10 @@ public class ActionRegistryManager {
         action.setText("Add label");
         addEditPartAction((SelectionAction) action);
 
+        action = new MergeStartEndAction(editor);
+        action.setText("Merge start and end");
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddOrForkAction(editor);
         action.setText("Add OR-Fork");
         addEditPartAction((SelectionAction) action);
