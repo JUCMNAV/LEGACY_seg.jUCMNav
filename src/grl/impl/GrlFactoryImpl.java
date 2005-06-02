@@ -20,56 +20,56 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  * @generated
  */
 public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
-	/**
-	 * Creates and instance of the factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public GrlFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case GrlPackage.GR_LSPEC: return createGRLspec();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case GrlPackage.GR_LSPEC: return createGRLspec();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public GRLspec createGRLspec() {
-		GRLspecImpl grLspec = new GRLspecImpl();
-		return grLspec;
-	}
+        GRLspecImpl grLspec = new GRLspecImpl();
+        return grLspec;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public GrlPackage getGrlPackage() {
-		return (GrlPackage)getEPackage();
-	}
+        return (GrlPackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	public static GrlPackage getPackage() {
-		return GrlPackage.eINSTANCE;
-	}
+        return GrlPackage.eINSTANCE;
+    }
 
 } //GrlFactoryImpl

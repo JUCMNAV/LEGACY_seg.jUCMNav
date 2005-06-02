@@ -94,7 +94,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
 
-        Object[] propertyid = { c, attr };
+        PropertyID propertyid = new PropertyID(c, attr);
 
         if (type.getInstanceClass() == ComponentElement.class) {
             componentElementDescriptor(descriptors, attr, propertyid);
@@ -107,7 +107,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param propertyname
      * @param propertyid
      */
-    private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
         EList list = urn.getUrndef().getComponents();
         String[] values = new String[list.size()];
@@ -152,11 +152,11 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param feature
      * @return
      */
-    protected Object getFeature(Object[] o, EStructuralFeature feature) {
+    protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         Object result = null;
 
         // if this attribute comes from the referenced object
-        if ((EClass) o[0] != object.eClass())
+        if (propertyid.getEClass() != object.eClass())
             result = comp.eGet(feature);
         else
             result = object.eGet(feature);
@@ -169,12 +169,12 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef))) {
-            if ((EClass) o[0] != object.eClass())
+            if (propertyid.getEClass() != object.eClass())
                 comp.eSet(feature, null);
             else
                 object.eSet(feature, null);
@@ -188,8 +188,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
      */
     public void setPropertyValue(Object id, Object value) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
         URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
@@ -197,7 +197,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
             EList list = urn.getUrndef().getComponents();
             result = list.get(((Integer) value).intValue());
-            setReferencedObject(o, feature, result);
+            setReferencedObject(propertyid, feature, result);
             comp = ((ComponentRef) object).getCompDef();
         } else if (feature.getName() == "name") {
             String message = URNNamingHelper.isNameValid(urn, (ComponentRef) object, value.toString());
@@ -214,13 +214,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.views.EObjectPropertySource#setReferencedObject(java.lang.Object[], org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-     */
-    protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
-        if ((EClass) o[0] != object.eClass()) {
+    protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
+        if (propertyid.getEClass() != object.eClass()) {
             comp.eSet(feature, result);
             if (feature.getName().equalsIgnoreCase("fillColor")) {
                 comp.setFilled(true);

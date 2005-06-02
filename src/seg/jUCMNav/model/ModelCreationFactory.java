@@ -30,6 +30,8 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
+import ucm.performance.PerformanceFactory;
+import ucm.performance.Workload;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
@@ -126,6 +128,7 @@ public class ModelCreationFactory implements CreationFactory {
         MapFactory mapfactory = MapFactory.eINSTANCE;
         UcmFactory ucmfactory = UcmFactory.eINSTANCE;
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
+        PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
 
         Object result = null;
 
@@ -164,25 +167,19 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createOrJoin();
             } else if (targetClass.equals(AndJoin.class)) {
                 result = mapfactory.createAndJoin();
-            } else if (targetClass.equals(Stub.class)) {
-            	if(type == 0)
-            		result = mapfactory.createStub();
-            	else{
-            		result = mapfactory.createStub();
-            		Stub dyn = (Stub)result;
-            		dyn.setDynamic(true);
-            	}            		
             } else if (targetClass.equals(WaitingPlace.class)) {
                 result = mapfactory.createWaitingPlace();
             } else if (targetClass.equals(Timer.class)) {
                 result = mapfactory.createTimer();
-            } else if(targetClass.equals(PluginBinding.class)) {
-            	result = mapfactory.createPluginBinding();
-            } else if (targetClass.equals(InBinding.class)){
-            	result = mapfactory.createInBinding();
-            } else if (targetClass.equals(OutBinding.class)){
-            	result = mapfactory.createOutBinding();
-            }else {
+            } else if (targetClass.equals(PluginBinding.class)) {
+                result = mapfactory.createPluginBinding();
+            } else if (targetClass.equals(InBinding.class)) {
+                result = mapfactory.createInBinding();
+            } else if (targetClass.equals(OutBinding.class)) {
+                result = mapfactory.createOutBinding();
+            } else if (targetClass.equals(Workload.class)) {
+                result = performancefactory.createWorkload();                
+            } else {
                 // complex creations
                 if (targetClass.equals(Map.class)) {
                     // create a map
@@ -190,7 +187,7 @@ public class ModelCreationFactory implements CreationFactory {
                     URNNamingHelper.setElementNameAndID(urn, (Map) result);
 
                     // add an empty pathgraph to this map
-                   ((Map) result).setPathGraph(mapfactory.createPathGraph());
+                    ((Map) result).setPathGraph(mapfactory.createPathGraph());
                 } else if (targetClass.equals(ComponentRef.class)) {
                     // create the component ref
                     result = mapfactory.createComponentRef();
@@ -212,6 +209,14 @@ public class ModelCreationFactory implements CreationFactory {
                 } else if (targetClass.equals(Component.class)) {
                     result = urncorefactory.createComponent();
                     ((Component) result).setKind(ComponentKind.get(type));
+                } else if (targetClass.equals(Stub.class)) {
+                    if (type == 0)
+                        result = mapfactory.createStub();
+                    else {
+                        result = mapfactory.createStub();
+                        Stub dyn = (Stub) result;
+                        dyn.setDynamic(true);
+                    }
                 } else if (targetClass.equals(RespRef.class)) {
                     // should create responsibility definition
                     result = mapfactory.createRespRef();
@@ -267,7 +272,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // seed the global id
         urnspec.setNextGlobalID("1");
-        
+
         String sDate;
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
         sDate = df.format(new Date());
@@ -276,7 +281,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         urnspec.setUrnVersion("0.9");
         urnspec.setSpecVersion("0");
-        
+
         // add its URN definition
         urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());
 

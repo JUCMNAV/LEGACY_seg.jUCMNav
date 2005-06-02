@@ -20,56 +20,56 @@ import ucm.*;
  * @generated
  */
 public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
-	/**
-	 * Creates and instance of the factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UcmFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case UcmPackage.UC_MSPEC: return createUCMspec();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case UcmPackage.UC_MSPEC: return createUCMspec();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UCMspec createUCMspec() {
-		UCMspecImpl ucMspec = new UCMspecImpl();
-		return ucMspec;
-	}
+        UCMspecImpl ucMspec = new UCMspecImpl();
+        return ucMspec;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UcmPackage getUcmPackage() {
-		return (UcmPackage)getEPackage();
-	}
+        return (UcmPackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	public static UcmPackage getPackage() {
-		return UcmPackage.eINSTANCE;
-	}
+        return UcmPackage.eINSTANCE;
+    }
 
 } //UcmFactoryImpl

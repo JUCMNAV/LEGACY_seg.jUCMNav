@@ -2,7 +2,6 @@ package seg.jUCMNav.views.property;
 
 import java.util.Vector;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
@@ -55,14 +54,15 @@ public class LabelPropertySource extends UCMElementPropertySource {
         Vector v = new Vector();
 
         if (referencePS != null) {
-            
+
             if (referencePS.getEditableValue() instanceof PathNode) {
-                if (((PathNode)referencePS.getEditableValue()).getPathGraph()==null) return v;
+                if (((PathNode) referencePS.getEditableValue()).getPathGraph() == null)
+                    return v;
+            } else if (referencePS.getEditableValue() instanceof ComponentRef) {
+                if (((ComponentRef) referencePS.getEditableValue()).getMap() == null)
+                    return v;
             }
-            else if (referencePS.getEditableValue() instanceof ComponentRef) {
-                if (((ComponentRef)referencePS.getEditableValue()).getMap()==null) return v;
-            }
-              
+
             IPropertyDescriptor pds[] = referencePS.getPropertyDescriptors();
             for (int i = 0; i < pds.length; i++) {
                 v.add(pds[i]);
@@ -75,8 +75,8 @@ public class LabelPropertySource extends UCMElementPropertySource {
      * Returns the property value. If is not the label's, delegates.
      */
     public Object getPropertyValue(Object id) {
-        Object[] o = (Object[]) id;
-        if ((EClass) o[0] != object.eClass() && referencePS != null)
+        PropertyID propertyid = (PropertyID) id;
+        if (propertyid.getEClass() != object.eClass() && referencePS != null)
             return referencePS.getPropertyValue(id);
         else
             return super.getPropertyValue(id);
@@ -86,8 +86,8 @@ public class LabelPropertySource extends UCMElementPropertySource {
      * Sets the property value. If is not the label's, delegates.
      */
     public void setPropertyValue(Object id, Object value) {
-        Object[] o = (Object[]) id;
-        if ((EClass) o[0] != object.eClass() && referencePS != null)
+        PropertyID propertyid = (PropertyID) id;
+        if (propertyid.getEClass() != object.eClass() && referencePS != null)
             referencePS.setPropertyValue(id, value);
         else
             super.setPropertyValue(id, value);

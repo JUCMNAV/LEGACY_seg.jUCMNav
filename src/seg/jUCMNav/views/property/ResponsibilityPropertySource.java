@@ -93,7 +93,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
 
-        Object[] propertyid = { c, attr };
+        PropertyID propertyid = new PropertyID(c, attr);
 
         if (type.getInstanceClass() == Responsibility.class) {
             responsibilityDescriptor(descriptors, attr, propertyid);
@@ -106,7 +106,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @param propertyname
      * @param propertyid
      */
-    private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
         EList list = urn.getUrndef().getResponsibilities();
         String[] values = new String[list.size()];
@@ -148,11 +148,11 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @param feature
      * @return
      */
-    protected Object getFeature(Object[] o, EStructuralFeature feature) {
+    protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         Object result = null;
 
         // if this attribute comes from the referenced object
-        if ((EClass) o[0] != object.eClass())
+        if (propertyid.getEClass() != object.eClass())
             result = resp.eGet(feature);
         else
             result = object.eGet(feature);
@@ -165,8 +165,8 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
      */
     public void setPropertyValue(Object id, Object value) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
         URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
@@ -175,7 +175,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
             EList list = urn.getUrndef().getResponsibilities();
             result = list.get(((Integer) value).intValue());
-            setReferencedObject(o, feature, result);
+            setReferencedObject(propertyid, feature, result);
             resp = ((RespRef) object).getRespDef();
         } else if (feature.getName() == "name") {
             String message = URNNamingHelper.isNameValid(urn, (RespRef) object, value.toString());
@@ -193,13 +193,8 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.views.EObjectPropertySource#setReferencedObject(java.lang.Object[], org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-     */
-    protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
-        if ((EClass) o[0] != object.eClass())
+    protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
+        if (propertyid.getEClass() != object.eClass())
             resp.eSet(feature, result);
         else
             object.eSet(feature, result);

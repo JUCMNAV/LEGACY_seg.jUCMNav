@@ -39,222 +39,222 @@ import ucm.performance.PerformancePackage;
  * @generated
  */
 public class ExternalOperationImpl extends ActiveResourceImpl implements ExternalOperation {
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
 	protected static final String DESCRIPTION_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getDescription()
+     * @generated
+     * @ordered
+     */
 	protected String description = DESCRIPTION_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ExternalOperationImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EClass eStaticClass() {
-		return PerformancePackage.eINSTANCE.getExternalOperation();
-	}
+        return PerformancePackage.eINSTANCE.getExternalOperation();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String getDescription() {
-		return description;
-	}
+        return description;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION, oldDescription, description));
-	}
+        String oldDescription = description;
+        description = newDescription;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION, oldDescription, description));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-					if (eContainer != null)
-						msgs = eBasicRemoveFromContainer(msgs);
-					return eBasicSetContainer(otherEnd, PerformancePackage.EXTERNAL_OPERATION__UCMSPEC, msgs);
-				case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-					return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
-				default:
-					return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		if (eContainer != null)
-			msgs = eBasicRemoveFromContainer(msgs);
-		return eBasicSetContainer(otherEnd, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, PerformancePackage.EXTERNAL_OPERATION__UCMSPEC, msgs);
+                case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                    return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
+                default:
+                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        if (eContainer != null)
+            msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-		if (featureID >= 0) {
-			switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-				case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-					return eBasicSetContainer(null, PerformancePackage.EXTERNAL_OPERATION__UCMSPEC, msgs);
-				case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-					return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
-				default:
-					return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-			}
-		}
-		return eBasicSetContainer(null, featureID, msgs);
-	}
+        if (featureID >= 0) {
+            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                    return eBasicSetContainer(null, PerformancePackage.EXTERNAL_OPERATION__UCMSPEC, msgs);
+                case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                    return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
+                default:
+                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+            }
+        }
+        return eBasicSetContainer(null, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-		if (eContainerFeatureID >= 0) {
-			switch (eContainerFeatureID) {
-				case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-					return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
-				default:
-					return eDynamicBasicRemoveFromContainer(msgs);
-			}
-		}
-		return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-	}
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-				return getUcmspec();
-			case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-				return getDemands();
-			case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
-				return new Double(getOpTime());
-			case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
-				return getDescription();
-		}
-		return eDynamicGet(eFeature, resolve);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                return getUcmspec();
+            case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                return getDemands();
+            case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
+                return new Double(getOpTime());
+            case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
+                return getDescription();
+        }
+        return eDynamicGet(eFeature, resolve);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(EStructuralFeature eFeature, Object newValue) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-				setUcmspec((UCMspec)newValue);
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-				getDemands().clear();
-				getDemands().addAll((Collection)newValue);
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
-				setOpTime(((Double)newValue).doubleValue());
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
-				setDescription((String)newValue);
-				return;
-		}
-		eDynamicSet(eFeature, newValue);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                setUcmspec((UCMspec)newValue);
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                getDemands().clear();
+                getDemands().addAll((Collection)newValue);
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
+                setOpTime(((Double)newValue).doubleValue());
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
+                setDescription((String)newValue);
+                return;
+        }
+        eDynamicSet(eFeature, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-				setUcmspec((UCMspec)null);
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-				getDemands().clear();
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
-				setOpTime(OP_TIME_EDEFAULT);
-				return;
-			case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
-				return;
-		}
-		eDynamicUnset(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                setUcmspec((UCMspec)null);
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                getDemands().clear();
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
+                setOpTime(OP_TIME_EDEFAULT);
+                return;
+            case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
+                setDescription(DESCRIPTION_EDEFAULT);
+                return;
+        }
+        eDynamicUnset(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(EStructuralFeature eFeature) {
-		switch (eDerivedStructuralFeatureID(eFeature)) {
-			case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-				return getUcmspec() != null;
-			case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
-				return demands != null && !demands.isEmpty();
-			case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
-				return opTime != OP_TIME_EDEFAULT;
-			case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-		}
-		return eDynamicIsSet(eFeature);
-	}
+        switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
+                return getUcmspec() != null;
+            case PerformancePackage.EXTERNAL_OPERATION__DEMANDS:
+                return demands != null && !demands.isEmpty();
+            case PerformancePackage.EXTERNAL_OPERATION__OP_TIME:
+                return opTime != OP_TIME_EDEFAULT;
+            case PerformancePackage.EXTERNAL_OPERATION__DESCRIPTION:
+                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+        }
+        return eDynamicIsSet(eFeature);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (description: ");
-		result.append(description);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (description: ");
+        result.append(description);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ExternalOperationImpl

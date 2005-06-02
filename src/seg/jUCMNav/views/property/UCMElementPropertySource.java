@@ -8,11 +8,18 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
+import ucm.performance.ArrivalProcess;
+import ucm.performance.Workload;
+import urn.URNspec;
 import urncore.UCMmodelElement;
 
 /**
@@ -34,13 +41,37 @@ public class UCMElementPropertySource extends EObjectPropertySource {
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         // Get type for the structural feature
         EClassifier type = getFeatureType(attr);
-        Object[] propertyid = { c, attr };
+        PropertyID propertyid = new PropertyID(c, attr);
 
         if (type.getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)
                 && attr.getUpperBound() == 1) {
             componentRefDescriptor(descriptors, attr, propertyid);
-        } else
+        } else if (type.getInstanceClass() == Workload.class) {
+            workloadDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == ArrivalProcess.class) {
+            String[] values = new String[ArrivalProcess.VALUES.size()];
+            for (int i = 0; i < ArrivalProcess.VALUES.size(); i++)
+                values[i] = ((ArrivalProcess) (ArrivalProcess.VALUES.get(i))).getName();
+            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Arrival process", values));
+        } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
+        }
+    }
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void workloadDescriptor(Collection descriptors, PropertyID propertyid) {
+        PropertyDescriptor pd = new PropertyDescriptor(propertyid, "Workload");
+        pd.setCategory("Performance");
+        pd.setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
+                return "";
+            }
+        });
+
+        descriptors.add(pd);
     }
 
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
@@ -60,15 +91,24 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             if (result == null)
                 result = new Integer(0);
 
-        } else
+        } else if (getFeatureType(feature).getInstanceClass() == Workload.class) {
+            if (result == null) {
+                URNspec urn = ((StartPoint) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+                result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
+            }
+            result = new UCMElementPropertySource((EObject) result);
+        } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
+            result = new Integer(((Workload) getEditableValue()).getArrivalPattern().getValue());
+        } else {
             result = super.returnPropertyValue(feature, result);
+        }
 
         return result;
     }
 
     public void setPropertyValue(Object id, Object value) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
 
@@ -79,12 +119,15 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 result = null;
             else
                 result = list.get(((Integer) value).intValue() - 1);
-            setReferencedObject(o, feature, result);
+            setReferencedObject(propertyid, feature, result);
+        } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
+            setReferencedObject(propertyid, feature, ArrivalProcess.get(((Integer)value).intValue()));
         } else
+
             super.setPropertyValue(id, value);
     }
 
-    private void componentRefDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void componentRefDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
         String[] values = new String[list.size() + 1];
         values[0] = "[unbound]";
@@ -103,8 +146,8 @@ public class UCMElementPropertySource extends EObjectPropertySource {
      * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
      */
     public boolean isPropertySet(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class
                 && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)) {
@@ -113,12 +156,14 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             return super.isPropertySet(id);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.ui.views.properties.IPropertySource2#isPropertyResettable(java.lang.Object)
      */
     public boolean isPropertyResettable(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class
                 && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)) {
@@ -126,15 +171,15 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         } else
             return super.isPropertyResettable(id);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef))) {

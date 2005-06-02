@@ -77,7 +77,7 @@
       <eLiterals name="Interval" value="3"/>
       <eLiterals name="Wait" value="4"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Workload" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement">
+    <eClassifiers xsi:type="ecore:EClass" name="Workload" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="closed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalPattern" eType="#//performance/ArrivalProcess"/>

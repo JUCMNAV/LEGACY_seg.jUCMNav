@@ -25,52 +25,52 @@ import org.eclipse.emf.common.util.EList;
  * @model 
  * @generated
  */
-public interface ProcessingResource extends ActiveResource {
-	/**
-	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
-	 * The literals are from the enumeration {@link ucm.performance.DeviceKind}.
-	 * <!-- begin-user-doc -->
+public interface ProcessingResource extends ActiveResource{
+    /**
+     * Returns the value of the '<em><b>Kind</b></em>' attribute.
+     * The literals are from the enumeration {@link ucm.performance.DeviceKind}.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Kind</em>' attribute.
-	 * @see ucm.performance.DeviceKind
-	 * @see #setKind(DeviceKind)
-	 * @see ucm.performance.PerformancePackage#getProcessingResource_Kind()
-	 * @model 
-	 * @generated
-	 */
+     * @return the value of the '<em>Kind</em>' attribute.
+     * @see ucm.performance.DeviceKind
+     * @see #setKind(DeviceKind)
+     * @see ucm.performance.PerformancePackage#getProcessingResource_Kind()
+     * @model 
+     * @generated
+     */
 	DeviceKind getKind();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.ProcessingResource#getKind <em>Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.performance.ProcessingResource#getKind <em>Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Kind</em>' attribute.
-	 * @see ucm.performance.DeviceKind
-	 * @see #getKind()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Kind</em>' attribute.
+     * @see ucm.performance.DeviceKind
+     * @see #getKind()
+     * @generated
+     */
 	void setKind(DeviceKind value);
 
-	/**
-	 * Returns the value of the '<em><b>Components</b></em>' reference list.
-	 * The list contents are of type {@link urncore.ComponentRegular}.
-	 * It is bidirectional and its opposite is '{@link urncore.ComponentRegular#getHost <em>Host</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Components</b></em>' reference list.
+     * The list contents are of type {@link urncore.ComponentRegular}.
+     * It is bidirectional and its opposite is '{@link urncore.ComponentRegular#getHost <em>Host</em>}'.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Components</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Components</em>' reference list.
-	 * @see ucm.performance.PerformancePackage#getProcessingResource_Components()
-	 * @see urncore.ComponentRegular#getHost
-	 * @model type="urncore.ComponentRegular" opposite="host"
-	 * @generated
-	 */
+     * @return the value of the '<em>Components</em>' reference list.
+     * @see ucm.performance.PerformancePackage#getProcessingResource_Components()
+     * @see urncore.ComponentRegular#getHost
+     * @model type="urncore.ComponentRegular" opposite="host"
+     * @generated
+     */
 	EList getComponents();
 
 } // ProcessingResource

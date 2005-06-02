@@ -129,7 +129,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         // we are changing the passed property parameter because our feature id depends on the Eclass, which it does not contain.
         //String propertyid = Integer.toString(attr.getFeatureID());
-        Object[] propertyid = { c, attr };
+        PropertyID propertyid = new PropertyID(c, attr);
 
         if (attr instanceof EAttribute && ((EAttribute) attr).isID()) {
             // shouldn't be editable
@@ -169,16 +169,13 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param propertyname
      * @param propertyid
      */
-    private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
-        // this class doesn't exist. Etienne had recreated it, but it relies on a bogus class in the framework.
-        //descriptors.add(new CheckboxPropertyDescriptor(Integer.toString(attr.getFeatureID()), attr.getName()));
-        //		String[] values = { "false", "true" };
+    private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         CheckboxPropertyDescriptor pd = new CheckboxPropertyDescriptor(propertyid, attr.getName());
 
         String name = attr.getName().toLowerCase();
         if (name.equals("fixed") || name.equals("filled")) {
             pd.setCategory("Appearance");
-        } else if (object.eClass() != (EClass) propertyid[0]) {
+        } else if (object.eClass() != propertyid.getEClass()) {
             pd.setCategory("Reference");
         } else {
             pd.setCategory("Misc");
@@ -196,7 +193,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param propertyname
      * @param propertyid
      */
-    private void stringDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void stringDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         PropertyDescriptor pd;
         String name = attr.getName().toLowerCase();
         if (name.indexOf("color") >= 0) {
@@ -214,7 +211,7 @@ public class EObjectPropertySource implements IPropertySource2 {
             pd.setCategory("Info");
         } else if (name.indexOf("color") >= 0) {
             pd.setCategory("Appearance");
-        } else if (object.eClass() != (EClass) propertyid[0]) {
+        } else if (object.eClass() != propertyid.getEClass()) {
             pd.setCategory("Reference");
         } else {
             pd.setCategory("Misc");
@@ -229,7 +226,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param attr
      * @param propertyid
      */
-    private void intDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void intDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
 
         ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
@@ -246,7 +243,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         String name = attr.getName().toLowerCase();
         if (name.equals("x") || name.equals("y") || name.equals("deltax") || name.equals("deltay") || name.equals("height") || name.equals("width")) {
             desc.setCategory("Appearance");
-        } else if (object.eClass() != (EClass) propertyid[0]) {
+        } else if (object.eClass() != propertyid.getEClass()) {
             desc.setCategory("Reference");
         } else {
             desc.setCategory("Misc");
@@ -262,7 +259,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param attr
      * @param propertyid
      */
-    private void doubleDescriptor(Collection descriptors, EStructuralFeature attr, Object[] propertyid) {
+    private void doubleDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
 
         ((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
@@ -289,10 +286,10 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         //int propertyid = Integer.parseInt((String) id);
         //EStructuralFeature feature = object.eClass().getEStructuralFeature(propertyid);
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
-        Object result = getFeature(o, feature);
+        Object result = getFeature(propertyid, feature);
 
         result = returnPropertyValue(feature, result);
 
@@ -305,7 +302,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param feature
      * @return
      */
-    protected Object getFeature(Object[] o, EStructuralFeature feature) {
+    protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         return object.eGet(feature);
     }
 
@@ -340,8 +337,8 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
      */
     public boolean isPropertySet(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0) {
             return getPropertyValue(id) != null;
@@ -358,8 +355,8 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @see org.eclipse.ui.views.properties.IPropertySouce#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         if (feature instanceof EReference)
             object.eSet(feature, null);
@@ -374,8 +371,8 @@ public class EObjectPropertySource implements IPropertySource2 {
         //int propertyid = Integer.parseInt((String) id);
         //EStructuralFeature feature = object.eClass().getEStructuralFeature(propertyid);
         //EStructuralFeature feature = (EStructuralFeature) id;
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
 
@@ -390,7 +387,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         } else
             result = value;
 
-        setReferencedObject(o, feature, result);
+        setReferencedObject(propertyid, feature, result);
     }
 
     /**
@@ -398,9 +395,9 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @param feature
      * @param result
      */
-    protected void setReferencedObject(Object[] o, EStructuralFeature feature, Object result) {
+    protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
         // if this attribute concerns a referenced object.
-        if ((EClass) o[0] == object.eClass())
+        if (propertyid.getEClass() == object.eClass())
             object.eSet(feature, result);
     }
 
@@ -410,8 +407,8 @@ public class EObjectPropertySource implements IPropertySource2 {
      * @see org.eclipse.ui.views.properties.IPropertySource2#isPropertyResettable(java.lang.Object)
      */
     public boolean isPropertyResettable(Object id) {
-        Object[] o = (Object[]) id;
-        EStructuralFeature feature = (EStructuralFeature) o[1];
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
 
         return feature.getName().toLowerCase().indexOf("color") >= 0;
 

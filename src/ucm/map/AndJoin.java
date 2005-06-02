@@ -23,31 +23,31 @@ package ucm.map;
  * @model 
  * @generated
  */
-public interface AndJoin extends PathNode {
-	/**
-	 * Returns the value of the '<em><b>Orientation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+public interface AndJoin extends PathNode{
+    /**
+     * Returns the value of the '<em><b>Orientation</b></em>' attribute.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Orientation</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Orientation</em>' attribute.
-	 * @see #setOrientation(String)
-	 * @see ucm.map.MapPackage#getAndJoin_Orientation()
-	 * @model 
-	 * @generated
-	 */
+     * @return the value of the '<em>Orientation</em>' attribute.
+     * @see #setOrientation(String)
+     * @see ucm.map.MapPackage#getAndJoin_Orientation()
+     * @model 
+     * @generated
+     */
 	String getOrientation();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.AndJoin#getOrientation <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.map.AndJoin#getOrientation <em>Orientation</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Orientation</em>' attribute.
-	 * @see #getOrientation()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Orientation</em>' attribute.
+     * @see #getOrientation()
+     * @generated
+     */
 	void setOrientation(String value);
 
 } // AndJoin

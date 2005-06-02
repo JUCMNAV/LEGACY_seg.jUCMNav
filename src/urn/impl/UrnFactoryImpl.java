@@ -20,67 +20,67 @@ import urn.*;
  * @generated
  */
 public class UrnFactoryImpl extends EFactoryImpl implements UrnFactory {
-	/**
-	 * Creates and instance of the factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UrnFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case UrnPackage.UR_NSPEC: return createURNspec();
-			case UrnPackage.UR_NLINK: return createURNlink();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case UrnPackage.UR_NSPEC: return createURNspec();
+            case UrnPackage.UR_NLINK: return createURNlink();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public URNspec createURNspec() {
-		URNspecImpl urNspec = new URNspecImpl();
-		return urNspec;
-	}
+        URNspecImpl urNspec = new URNspecImpl();
+        return urNspec;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public URNlink createURNlink() {
-		URNlinkImpl urNlink = new URNlinkImpl();
-		return urNlink;
-	}
+        URNlinkImpl urNlink = new URNlinkImpl();
+        return urNlink;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UrnPackage getUrnPackage() {
-		return (UrnPackage)getEPackage();
-	}
+        return (UrnPackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	public static UrnPackage getPackage() {
-		return UrnPackage.eINSTANCE;
-	}
+        return UrnPackage.eINSTANCE;
+    }
 
 } //UrnFactoryImpl

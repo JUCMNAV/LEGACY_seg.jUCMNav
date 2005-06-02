@@ -21,193 +21,193 @@ import urncore.*;
  * @generated
  */
 public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
-	/**
-	 * Creates and instance of the factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates and instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UrncoreFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case UrncorePackage.UR_NDEFINITION: return createURNdefinition();
-			case UrncorePackage.RESPONSIBILITY: return createResponsibility();
-			case UrncorePackage.POOL: return createPool();
-			case UrncorePackage.COMPONENT: return createComponent();
-			case UrncorePackage.COMPONENT_TYPE: return createComponentType();
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY: return createDynamicResponsibility();
-			case UrncorePackage.NODE_LABEL: return createNodeLabel();
-			case UrncorePackage.COMPONENT_LABEL: return createComponentLabel();
-			case UrncorePackage.NEW_CLASS: return createNewClass();
-			case UrncorePackage.CONDITION: return createCondition();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case UrncorePackage.UR_NDEFINITION: return createURNdefinition();
+            case UrncorePackage.RESPONSIBILITY: return createResponsibility();
+            case UrncorePackage.POOL: return createPool();
+            case UrncorePackage.COMPONENT: return createComponent();
+            case UrncorePackage.COMPONENT_TYPE: return createComponentType();
+            case UrncorePackage.DYNAMIC_RESPONSIBILITY: return createDynamicResponsibility();
+            case UrncorePackage.NODE_LABEL: return createNodeLabel();
+            case UrncorePackage.COMPONENT_LABEL: return createComponentLabel();
+            case UrncorePackage.NEW_CLASS: return createNewClass();
+            case UrncorePackage.CONDITION: return createCondition();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case UrncorePackage.COMPONENT_KIND: {
-				ComponentKind result = ComponentKind.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-				return result;
-			}
-			case UrncorePackage.DYNAMIC_RESP_KIND: {
-				DynamicRespKind result = DynamicRespKind.get(initialValue);
-				if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-				return result;
-			}
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case UrncorePackage.COMPONENT_KIND: {
+                ComponentKind result = ComponentKind.get(initialValue);
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                return result;
+            }
+            case UrncorePackage.DYNAMIC_RESP_KIND: {
+                DynamicRespKind result = DynamicRespKind.get(initialValue);
+                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+                return result;
+            }
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case UrncorePackage.COMPONENT_KIND:
-				return instanceValue == null ? null : instanceValue.toString();
-			case UrncorePackage.DYNAMIC_RESP_KIND:
-				return instanceValue == null ? null : instanceValue.toString();
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case UrncorePackage.COMPONENT_KIND:
+                return instanceValue == null ? null : instanceValue.toString();
+            case UrncorePackage.DYNAMIC_RESP_KIND:
+                return instanceValue == null ? null : instanceValue.toString();
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public URNdefinition createURNdefinition() {
-		URNdefinitionImpl urNdefinition = new URNdefinitionImpl();
-		return urNdefinition;
-	}
+        URNdefinitionImpl urNdefinition = new URNdefinitionImpl();
+        return urNdefinition;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Responsibility createResponsibility() {
-		ResponsibilityImpl responsibility = new ResponsibilityImpl();
-		return responsibility;
-	}
+        ResponsibilityImpl responsibility = new ResponsibilityImpl();
+        return responsibility;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Pool createPool() {
-		PoolImpl pool = new PoolImpl();
-		return pool;
-	}
+        PoolImpl pool = new PoolImpl();
+        return pool;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Component createComponent() {
-		ComponentImpl component = new ComponentImpl();
-		return component;
-	}
+        ComponentImpl component = new ComponentImpl();
+        return component;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ComponentType createComponentType() {
-		ComponentTypeImpl componentType = new ComponentTypeImpl();
-		return componentType;
-	}
+        ComponentTypeImpl componentType = new ComponentTypeImpl();
+        return componentType;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public DynamicResponsibility createDynamicResponsibility() {
-		DynamicResponsibilityImpl dynamicResponsibility = new DynamicResponsibilityImpl();
-		return dynamicResponsibility;
-	}
+        DynamicResponsibilityImpl dynamicResponsibility = new DynamicResponsibilityImpl();
+        return dynamicResponsibility;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NodeLabel createNodeLabel() {
-		NodeLabelImpl nodeLabel = new NodeLabelImpl();
-		return nodeLabel;
-	}
+        NodeLabelImpl nodeLabel = new NodeLabelImpl();
+        return nodeLabel;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ComponentLabel createComponentLabel() {
-		ComponentLabelImpl componentLabel = new ComponentLabelImpl();
-		return componentLabel;
-	}
+        ComponentLabelImpl componentLabel = new ComponentLabelImpl();
+        return componentLabel;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NewClass createNewClass() {
-		NewClassImpl newClass = new NewClassImpl();
-		return newClass;
-	}
+        NewClassImpl newClass = new NewClassImpl();
+        return newClass;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Condition createCondition() {
-		ConditionImpl condition = new ConditionImpl();
-		return condition;
-	}
+        ConditionImpl condition = new ConditionImpl();
+        return condition;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public UrncorePackage getUrncorePackage() {
-		return (UrncorePackage)getEPackage();
-	}
+        return (UrncorePackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	public static UrncorePackage getPackage() {
-		return UrncorePackage.eINSTANCE;
-	}
+        return UrncorePackage.eINSTANCE;
+    }
 
 } //UrncoreFactoryImpl
