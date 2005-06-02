@@ -64,30 +64,25 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newStartOrEnd = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
             newEmpty.setX(insertionNode.getX() + 50);
             newStartOrEnd.setX(insertionNode.getX() + 100);
-        }
-        else {
+        } else {
             newStartOrEnd = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
             newEmpty.setX(insertionNode.getX() - 50);
             newStartOrEnd.setX(insertionNode.getX() - 100);
         }
 
-        
-        int i=insertionNode.getSucc().size() + insertionNode.getPred().size() - 1;
-        newEmpty.setY(insertionNode.getY() - i*30*(Math.abs((i%2)*2-1)/((i%2)*2-1)));
-        newStartOrEnd.setY(insertionNode.getY() - i*30*(Math.abs((i%2)*2-1)/((i%2)*2-1)));
+        int i = insertionNode.getSucc().size() + insertionNode.getPred().size() - 1;
+        newEmpty.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
+        newStartOrEnd.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
 
         newConn = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         newConn2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
-        {
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork) {
             newConn.setSource(insertionNode);
             newConn.setTarget(newEmpty);
             newConn2.setSource(newEmpty);
             newConn2.setTarget(newStartOrEnd);
-        }
-        else
-        {
+        } else {
             newConn.setTarget(insertionNode);
             newConn.setSource(newEmpty);
             newConn2.setTarget(newEmpty);
@@ -109,15 +104,15 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         pg.getPathNodes().add(newStartOrEnd);
         pg.getNodeConnections().add(newConn);
         pg.getNodeConnections().add(newConn2);
-        
+
         if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
             insertionNode.getSucc().add(newConn);
         else
             insertionNode.getPred().add(newConn);
-            
+
         newEmpty.setCompRef(ParentFinder.getPossibleParent(newEmpty));
         newStartOrEnd.setCompRef(ParentFinder.getPossibleParent(newStartOrEnd));
-        
+
         testPostConditions();
     }
 
@@ -132,20 +127,20 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             insertionNode.getSucc().remove(newConn);
         else
             insertionNode.getPred().remove(newConn);
-                    
+
         pg.getPathNodes().remove(newEmpty);
         pg.getPathNodes().remove(newStartOrEnd);
         pg.getNodeConnections().remove(newConn);
         pg.getNodeConnections().remove(newConn2);
-        
+
         if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
             insertionNode.getSucc().remove(newConn);
         else
             insertionNode.getPred().remove(newConn);
-            
+
         newEmpty.setCompRef(null);
         newStartOrEnd.setCompRef(null);
-                
+
         testPreConditions();
 
     }
@@ -156,7 +151,11 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "pre something null";
+        assert pg.getPathNodes().contains(insertionNode) : "pre node in model";
+        assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model";
+        assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model";
+        
 
     }
 
@@ -166,7 +165,10 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "post something null";
+        assert pg.getPathNodes().contains(insertionNode) : "post node in model";
+        assert pg.getPathNodes().contains(newEmpty) && pg.getPathNodes().contains(newStartOrEnd) : "post nodes in model";
+        assert pg.getNodeConnections().contains(newConn) && pg.getNodeConnections().contains(newConn) : "post connections in model";
 
     }
 
