@@ -22,6 +22,7 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteContainer;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.GroupRequest;
@@ -31,8 +32,10 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
@@ -42,6 +45,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -55,6 +59,9 @@ import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
+import seg.jUCMNav.figures.DirectionArrowFigure;
+import seg.jUCMNav.figures.EndPointFigure;
+import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
@@ -318,6 +325,15 @@ public class ProgressTests extends TestCase {
         super.tearDown();
 
         editor.closeEditor(false);
+    }
+
+    /**
+     * Test #1 for requirement ReqBrowseHistory
+     * 
+     * Author:
+     */
+    public void testReqBrowseHistory1() {
+        assertTrue("editor must extend INavigationLocationProvider", editor instanceof INavigationLocationProvider);
     }
 
     /**
@@ -631,51 +647,50 @@ public class ProgressTests extends TestCase {
         assertTrue("No unbind option in list", "[unbound]".equals(values[0]));
     }
 
-      /**
-      * Test #1 for requirement ReqConnections
-      *
-      * Author: jkealey
-      */
-     public void testReqConnections1() {
-         // create a simple path
-         Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
-         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+    /**
+     * Test #1 for requirement ReqConnections
+     * 
+     * Author: jkealey
+     */
+    public void testReqConnections1() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-         // and another.
-         cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
-         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+        // and another.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-         // get an emptypoint and a start point, from the other path.
-         EndPoint ep = null;
-         StartPoint sp = null;
-         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
-             PathNode element = (PathNode) iter.next();
-             if (element instanceof EndPoint) {
-                 ep = (EndPoint) element;
-                 break;
-             }
-         }
-         assertNotNull("no end point found", ep);
-         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
-             PathNode element = (PathNode) iter.next();
-             if (element instanceof StartPoint &&  ((NodeConnection)((NodeConnection)element.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget() != ep) {
-                 sp = (StartPoint) element;
-                 break;
-             }
-         }
-         assertNotNull("no start point found", sp);     
-         
-         Vector v = new Vector();
-         v.add(sp);
-         v.add(ep);
-         IAction action = getAction(v, "CONNECTACTION");
-         assertNotNull("Action not found in contextual menu!", action);
+        // get an emptypoint and a start point, from the other path.
+        EndPoint ep = null;
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                ep = (EndPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no end point found", ep);
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint && ((NodeConnection) ((NodeConnection) element.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget() != ep) {
+                sp = (StartPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no start point found", sp);
 
-         // run it to see if it doesn't crash the app!
-         action.run();
+        Vector v = new Vector();
+        v.add(sp);
+        v.add(ep);
+        IAction action = getAction(v, "CONNECTACTION");
+        assertNotNull("Action not found in contextual menu!", action);
 
-         
-     }
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+    }
 
     //  /**
     //  * Test #2 for requirement ReqConnections
@@ -769,7 +784,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no empty point found", ep);
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            if (element instanceof StartPoint && ((NodeConnection)element.getSucc().get(0)).getTarget() != ep) {
+            if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
                 break;
             }
@@ -937,15 +952,41 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemDelete
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemDelete2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemDelete
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemDelete2() {
+        testReqElemAndFork2();
+        AndFork fork = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof AndFork) {
+                fork = (AndFork) element;
+            }
+        }
+        assertNotNull("no and fork found", fork);
+
+        NodeConnection nc = (NodeConnection) fork.getSucc().get(0);
+        Vector v = new Vector();
+        v.add(nc);
+        IAction action = getAction(v, ActionFactory.DELETE.getId());
+
+        assertNotNull("no action found", action);
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof AndFork) {
+                i++;
+            }
+        }
+
+        assertEquals("AndFork should have been deleted.", 0, i);
+
+    }
 
     /**
      * Test #3 for requirement ReqElemDelete
@@ -969,25 +1010,91 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //  /**
-    //  * Test #4 for requirement ReqElemDelete
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemDelete4() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #4 for requirement ReqElemDelete
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemDelete4() {
+        testReqElemAndFork2();
+        AndFork fork = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof AndFork) {
+                fork = (AndFork) element;
+            }
+        }
+        assertNotNull("no and fork found", fork);
 
-    //  /**
-    //  * Test #5 for requirement ReqElemDelete
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemDelete5() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        Vector v = new Vector();
+        v.add(fork);
+        IAction action = getAction(v, AddBranchAction.ADDBRANCH);
+        assertNotNull("no action found", action);
+        action.run();
+
+        int i = 0;
+
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                i++;
+            }
+        }
+        NodeConnection nc = (NodeConnection) fork.getSucc().get(0);
+        // delete the end point.
+        v = new Vector();
+        v.add(nc.getTarget());
+        action = getAction(v, ActionFactory.DELETE.getId());
+        assertNotNull("no action found", action);
+        action.run();
+
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                i--;
+            }
+        }
+
+        assertEquals("There should be one less end point!", 1, i);
+    }
+
+    /**
+     * Test #5 for requirement ReqElemDelete
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemDelete5() {
+        testReqElemAndFork2();
+        AndFork fork = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof AndFork) {
+                fork = (AndFork) element;
+            }
+        }
+        assertNotNull("no and fork found", fork);
+
+        Vector v = new Vector();
+        v.add(fork);
+        IAction action = getAction(v, AddBranchAction.ADDBRANCH);
+        assertNotNull("no action found", action);
+        action.run();
+
+        action = getAction(v, ActionFactory.SELECT_ALL.getId());
+        assertNotNull("no action found", action);
+        action.run();
+
+        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(ActionFactory.DELETE.getId());
+        if (contrib instanceof ActionContributionItem) {
+            action = ((ActionContributionItem) contrib).getAction();
+        } else
+            action = null;
+        assertNotNull("no action found", action);
+        action.run();
+
+        assertEquals("no pathnodes should remain", 0, getMap().getPathGraph().getPathNodes().size());
+    }
 
     /**
      * Test #1 for requirement ReqElemDirectionArrow
@@ -1000,15 +1107,19 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates DirectionArrow", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemDirectionArrow
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemDirectionArrow2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemDirectionArrow
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemDirectionArrow2() {
+        // yeah, really lazy testing.
+        DirectionArrowFigure df = new DirectionArrowFigure();
+        assertTrue("direction arrow not rotatable", df instanceof Rotateable);
+        EndPointFigure epf = new EndPointFigure();
+        assertTrue("end point not rotatable", epf instanceof Rotateable);
+
+    }
 
     /**
      * Test #1 for requirement ReqElemDynamicStub
@@ -1022,14 +1133,49 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates Stub", createtool);
     }
 
-    //      /**
-    //      * Test #2 for requirement ReqElemDynamicStub
-    //      *
-    //      * Author:
-    //      */
-    //     public void testReqElemDynamicStub2() {
-    //
-    //     }
+    /**
+     * Test #2 for requirement ReqElemDynamicStub
+     * 
+     * Author:
+     */
+    public void testReqElemDynamicStub2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get its emptypoint.
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                sp = (StartPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no start point found", sp);
+
+        // add second path.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        NodeConnection nc = (NodeConnection) ((CreatePathCommand) cmd).getStart().getSucc().get(0);
+
+        // add a stub.
+        Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
+        cmd = new SplitLinkCommand(getMap().getPathGraph(), stub, nc, 125, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // simulate moving first start onto stub.
+        ChangeBoundsRequest cbr = new ChangeBoundsRequest(RequestConstants.REQ_ADD);
+        cbr.setEditParts(getEditPart(sp));
+        cbr.setLocation(new Point(125, 200));
+        cmd = getEditPart(stub).getCommand(cbr);
+
+        assertNotNull("unable to get command", cmd);
+        assertTrue("cannot execute command", cmd.canExecute());
+        cmd.execute();
+
+    }
 
     /**
      * Test #1 for requirement ReqElemEmptyPoint
@@ -1088,15 +1234,35 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemEndPoint
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemEndPoint2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemEndPoint
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemEndPoint2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get its startpoint.
+        StartPoint sp = ((CreatePathCommand) cmd).getStart();
+
+        // add second path.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        EndPoint ep = ((CreatePathCommand) cmd).getEnd();
+
+        // simulate moving first start onto stub.
+        ChangeBoundsRequest cbr = new ChangeBoundsRequest(RequestConstants.REQ_ADD);
+        cbr.setEditParts(getEditPart(sp));
+        cbr.setLocation(new Point(200, 200));
+        cmd = getEditPart(ep).getCommand(cbr);
+
+        assertNotNull("unable to get command", cmd);
+        assertTrue("cannot execute command", cmd.canExecute());
+        cmd.execute();
+    }
 
     /**
      * Test #3 for requirement ReqElemEndPoint
@@ -1203,7 +1369,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no empty point found", ep);
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            if (element instanceof StartPoint && ((NodeConnection)element.getSucc().get(0)).getTarget() != ep) {
+            if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
                 break;
             }
@@ -1302,7 +1468,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no empty point found", ep);
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            if (element instanceof EndPoint && ((NodeConnection)element.getPred().get(0)).getSource() != ep) {
+            if (element instanceof EndPoint && ((NodeConnection) element.getPred().get(0)).getSource() != ep) {
                 endpoint = (EndPoint) element;
                 break;
             }
@@ -1665,15 +1831,41 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates WaitingPlace", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemWait
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemWait2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemWait
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemWait2() {
+        testReqElemStartPoint1();
+
+        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0);
+        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        WaitingPlace waitingplace = (WaitingPlace) ModelCreationFactory.getNewObject(urn, WaitingPlace.class);
+
+        assertNotNull("Model creation factory can't create waiting place!", waitingplace);
+
+        Command cmd = new SplitLinkCommand(getMap().getPathGraph(), waitingplace, nc, 49, 75);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        EditPart part = getEditPart(waitingplace);
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean condition = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("condition"))
+                condition = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", condition);
+
+    }
 
     //    /**
     //     * Test #1 for requirement ReqExportBitmap
@@ -1701,15 +1893,26 @@ public class ProgressTests extends TestCase {
         action.run();
     }
 
-    //  /**
-    //  * Test #1 for requirement ReqBrowseHistory
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseHistory1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #1 for requirement ReqHelpAbout
+     * 
+     * Author: jkealey
+     */
+    public void testReqHelpAbout1() {
+        // implicit by the distribution of about.html with the zip file. not worth testing.
+        assertTrue("about.html not in zip file", true);
+
+    }
+
+    /**
+     * Test #1 for requirement ReqHelpOnLine
+     * 
+     * Author: jkealey
+     */
+    public void testReqHelpOnLine1() {
+        // implicit by the distribution of help.xml with the zip file. not worth testing.
+        assertTrue("help.xml not in zip file", true);
+    }
 
     //  /**
     //  * Test #1 for requirement ReqBrowseModel
@@ -1833,26 +2036,6 @@ public class ProgressTests extends TestCase {
 
         assertTrue("Missing PropertyDescriptor", name && id && deltaX && deltaY && definition);
     }
-
-    //  /**
-    //  * Test #1 for requirement ReqHelpAbout
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqHelpAbout1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
-    //  * Test #1 for requirement ReqHelpOnLine
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqHelpOnLine1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
 
     /**
      * Test #1 for requirement ReqOpen

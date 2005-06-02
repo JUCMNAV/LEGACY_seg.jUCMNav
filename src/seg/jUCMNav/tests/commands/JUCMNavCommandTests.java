@@ -553,11 +553,11 @@ public class JUCMNavCommandTests extends TestCase {
         testAddForkOnConnectionCommand();
         AndFork fork;
         int i = 0;
-        // find empty point.
+        // find andforks point.
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
             i++;
         }
-        assertTrue("No and forksexist for DeleteMultiNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No andforks exist for DeleteMultiNodeCommand!", i < pathgraph.getPathNodes().size());
         fork = (AndFork) pathgraph.getPathNodes().get(i);
 
         Command cmd = new DeleteMultiNodeCommand(fork, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
