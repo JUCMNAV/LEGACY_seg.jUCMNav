@@ -1162,6 +1162,7 @@ public class ProgressTests extends TestCase {
 
         // add a stub.
         Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
+        stub.setDynamic(true);
         cmd = new SplitLinkCommand(getMap().getPathGraph(), stub, nc, 125, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
@@ -1693,15 +1694,48 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates Stub", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemStaticStub
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemStaticStub2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+      /**
+      * Test #2 for requirement ReqElemStaticStub
+      *
+      * Author: jkealey
+      */
+     public void testReqElemStaticStub2() {
+         // create a simple path
+         Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+         // get its emptypoint.
+         StartPoint sp = null;
+         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+             PathNode element = (PathNode) iter.next();
+             if (element instanceof StartPoint) {
+                 sp = (StartPoint) element;
+                 break;
+             }
+         }
+         assertNotNull("no start point found", sp);
+
+         // add second path.
+         cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+         NodeConnection nc = (NodeConnection) ((CreatePathCommand) cmd).getStart().getSucc().get(0);
+
+         // add a stub.
+         Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
+         cmd = new SplitLinkCommand(getMap().getPathGraph(), stub, nc, 125, 200);
+         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+         // simulate moving first start onto stub.
+         ChangeBoundsRequest cbr = new ChangeBoundsRequest(RequestConstants.REQ_ADD);
+         cbr.setEditParts(getEditPart(sp));
+         cbr.setLocation(new Point(125, 200));
+         cmd = getEditPart(stub).getCommand(cbr);
+
+         assertNotNull("unable to get command", cmd);
+         assertTrue("cannot execute command", cmd.canExecute());
+         cmd.execute();
+     }
 
     //  /**
     //  * Test #1 for requirement ReqElemStubActions
