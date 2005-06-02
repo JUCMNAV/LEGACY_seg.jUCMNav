@@ -40,23 +40,6 @@ public class UcmOutlinePage extends ContentOutlinePage {
     }
 
     /**
-     * Initialize the action registry so that undo/redo keyboard shortcuts work here.
-     * 
-     * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
-     */
-    public void init(IPageSite pageSite) {
-        super.init(pageSite);
-        ActionRegistry registry = multieditor.getActionRegistry();
-        IActionBars bars = pageSite.getActionBars();
-        String id = ActionFactory.UNDO.getId();
-        bars.setGlobalActionHandler(id, registry.getAction(id));
-        id = ActionFactory.REDO.getId();
-        bars.setGlobalActionHandler(id, registry.getAction(id));
-        id = ActionFactory.DELETE.getId();
-        bars.setGlobalActionHandler(id, registry.getAction(id));
-    }
-
-    /**
      * Creates the tree view and performs appropriate connections.
      * 
      * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite)
@@ -111,5 +94,29 @@ public class UcmOutlinePage extends ContentOutlinePage {
      */
     public Control getControl() {
         return getViewer().getControl();
+    }
+
+    /**
+     * To allow outside access (tests)
+     */
+    public EditPartViewer getViewer() {
+        return super.getViewer();
+    }
+
+    /**
+     * Initialize the action registry so that undo/redo keyboard shortcuts work here.
+     * 
+     * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
+     */
+    public void init(IPageSite pageSite) {
+        super.init(pageSite);
+        ActionRegistry registry = multieditor.getActionRegistry();
+        IActionBars bars = pageSite.getActionBars();
+        String id = ActionFactory.UNDO.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.REDO.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
+        id = ActionFactory.DELETE.getId();
+        bars.setGlobalActionHandler(id, registry.getAction(id));
     }
 }

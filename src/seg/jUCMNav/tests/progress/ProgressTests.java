@@ -16,6 +16,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
@@ -33,19 +34,25 @@ import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.ComboBoxLabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.actions.AddAndForkAction;
+import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddOrForkAction;
+import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmOutlinePage;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -64,6 +71,7 @@ import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
+import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -88,6 +96,33 @@ public class ProgressTests extends TestCase {
 
     // internal elements shared by all tests.
     private URNspec urn;
+
+    /**
+     * Selects a list of model elements and returns the action with the given id, if it is enabled.
+     * 
+     * @param selected
+     *            A list of model elements to be selected.
+     * @param id
+     *            the action's id in the action registry.
+     */
+    private IAction getAction(List selected, String id) {
+        if (selected != null && selected.size() > 0) {
+            EditPart edit = getEditPart(selected.get(0));
+            getGraphicalViewer().select(edit);
+
+            for (int i = 1; i < selected.size(); i++) {
+                getGraphicalViewer().appendSelection(getEditPart(selected.get(i)));
+            }
+        } else
+            getGraphicalViewer().deselectAll();
+        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
+        if (contrib instanceof ActionContributionItem) {
+            return ((ActionContributionItem) contrib).getAction();
+        } else
+            return null;
+
+    }
 
     private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
 
@@ -173,6 +208,10 @@ public class ProgressTests extends TestCase {
 
     public MapAndPathGraphEditPart getMapEditPart(int i) {
         return (MapAndPathGraphEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
+    }
+
+    public EditPartViewer getOutlineGraphicalViewer() {
+        return ((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer();
     }
 
     public UcmPaletteRoot getPaletteRoot() {
@@ -592,15 +631,51 @@ public class ProgressTests extends TestCase {
         assertTrue("No unbind option in list", "[unbound]".equals(values[0]));
     }
 
-    //  /**
-    //  * Test #1 for requirement ReqConnections
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqConnections1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+      /**
+      * Test #1 for requirement ReqConnections
+      *
+      * Author: jkealey
+      */
+     public void testReqConnections1() {
+         // create a simple path
+         Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+         // and another.
+         cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+         // get an emptypoint and a start point, from the other path.
+         EndPoint ep = null;
+         StartPoint sp = null;
+         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+             PathNode element = (PathNode) iter.next();
+             if (element instanceof EndPoint) {
+                 ep = (EndPoint) element;
+                 break;
+             }
+         }
+         assertNotNull("no end point found", ep);
+         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+             PathNode element = (PathNode) iter.next();
+             if (element instanceof StartPoint &&  ((NodeConnection)((NodeConnection)element.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget() != ep) {
+                 sp = (StartPoint) element;
+                 break;
+             }
+         }
+         assertNotNull("no start point found", sp);     
+         
+         Vector v = new Vector();
+         v.add(sp);
+         v.add(ep);
+         IAction action = getAction(v, "CONNECTACTION");
+         assertNotNull("Action not found in contextual menu!", action);
+
+         // run it to see if it doesn't crash the app!
+         action.run();
+
+         
+     }
 
     //  /**
     //  * Test #2 for requirement ReqConnections
@@ -694,7 +769,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no empty point found", ep);
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
-            if (element instanceof StartPoint && element.getSucc().get(0) != ep) {
+            if (element instanceof StartPoint && ((NodeConnection)element.getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
                 break;
             }
@@ -734,25 +809,93 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates AndJoin", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemAndJoin
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemAndJoin2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemAndJoin
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemAndJoin2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-    //  /**
-    //  * Test #3 for requirement ReqElemAndJoin
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemAndJoin3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // get its emptypoint.
+        EmptyPoint ep = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+
+        IAction action = getAction(v, AddAndJoinAction.ADDANDJOIN);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+    }
+
+    /**
+     * Test #3 for requirement ReqElemAndJoin
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemAndJoin3() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // and another.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get an emptypoint and an end point, from the other path.
+        EmptyPoint ep = null;
+        EndPoint endpoint = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint && element.getPred().get(0) != ep) {
+                endpoint = (EndPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no end point found", endpoint);
+
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+        v.add(endpoint);
+
+        IAction action = getAction(v, AddAndJoinAction.ADDANDJOIN);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                i++;
+            }
+        }
+
+        assertEquals("should only have one end point left!", 1, i);
+    }
 
     /**
      * Test #1 for requirement ReqElemDelete
@@ -955,15 +1098,40 @@ public class ProgressTests extends TestCase {
     //     assertTrue("Unimplemented", false);
     // }
 
-    //  /**
-    //  * Test #3 for requirement ReqElemEndPoint
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemEndPoint3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #3 for requirement ReqElemEndPoint
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemEndPoint3() {
+        testReqElemStartPoint1();
+
+        EndPoint end = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                end = (EndPoint) element;
+            }
+        }
+        assertNotNull("cannot find endpoint", end);
+
+        PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(end);
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean condition = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("postcondition"))
+                condition = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", condition);
+    }
 
     /**
      * Test #1 for requirement ReqElemOrFork
@@ -976,25 +1144,93 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates OrFork", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemOrFork
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemOrFork2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemOrFork
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrFork2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-    //  /**
-    //  * Test #3 for requirement ReqElemOrFork
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemOrFork3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // get its emptypoint.
+        EmptyPoint ep = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+
+        IAction action = getAction(v, AddOrForkAction.ADDORFORK);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+    }
+
+    /**
+     * Test #3 for requirement ReqElemOrFork
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrFork3() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // and another.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get an emptypoint and a start point, from the other path.
+        EmptyPoint ep = null;
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint && ((NodeConnection)element.getSucc().get(0)).getTarget() != ep) {
+                sp = (StartPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no start point found", sp);
+
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+        v.add(sp);
+
+        IAction action = getAction(v, AddOrForkAction.ADDORFORK);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                i++;
+            }
+        }
+
+        assertEquals("should only have one start point left!", 1, i);
+    }
 
     /**
      * Test #1 for requirement ReqElemOrJoin
@@ -1007,35 +1243,129 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates OrJoin", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemOrJoin
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemOrJoin2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemOrJoin
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrJoin2() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-    //  /**
-    //  * Test #3 for requirement ReqElemOrJoin
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemOrJoin3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // get its emptypoint.
+        EmptyPoint ep = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
 
-    //  /**
-    //  * Test #4 for requirement ReqElemOrJoin
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemOrJoin4() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+
+        IAction action = getAction(v, AddOrJoinAction.ADDORJOIN);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+    }
+
+    /**
+     * Test #3 for requirement ReqElemOrJoin
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrJoin3() {
+        // create a simple path
+        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // and another.
+        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        // get an emptypoint and an end point, from the other path.
+        EmptyPoint ep = null;
+        EndPoint endpoint = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EmptyPoint) {
+                ep = (EmptyPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no empty point found", ep);
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint && ((NodeConnection)element.getPred().get(0)).getSource() != ep) {
+                endpoint = (EndPoint) element;
+                break;
+            }
+        }
+        assertNotNull("no end point found", endpoint);
+
+        // select the empty point and see if the action is in the contextual menu
+        Vector v = new Vector();
+        v.add(ep);
+        v.add(endpoint);
+
+        IAction action = getAction(v, AddOrJoinAction.ADDORJOIN);
+        assertNotNull("Action not found in contextual menu!", action);
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                i++;
+            }
+        }
+
+        assertEquals("should only have one end point left!", 1, i);
+    }
+
+    /**
+     * Test #4 for requirement ReqElemOrJoin
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrJoin4() {
+        testReqElemOrJoin3();
+
+        OrJoin join = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof OrJoin) {
+                join = (OrJoin) element;
+            }
+        }
+        assertNotNull("cannot find orjoin", join);
+
+        assertNotNull("no preceeding node connection", join.getPred().get(0));
+        NodeConnectionEditPart part = (NodeConnectionEditPart) getGraphicalViewer().getEditPartRegistry().get(join.getPred().get(0));
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean condition = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("condition"))
+                condition = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", condition);
+    }
 
     /**
      * Test #1 for requirement ReqElemResponsibility
@@ -1115,15 +1445,40 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemStartPoint
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemStartPoint2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemStartPoint
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemStartPoint2() {
+        testReqElemStartPoint1();
+
+        StartPoint start = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                start = (StartPoint) element;
+            }
+        }
+        assertNotNull("cannot find startpoint", start);
+
+        PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(start);
+        assertNotNull("cannot find editpart", part);
+
+        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+        assertNotNull("No property source found", source);
+
+        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+        boolean condition = false;
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("precondition"))
+                condition = true;
+        }
+
+        assertTrue("Missing PropertyDescriptor", condition);
+    }
 
     /**
      * Test #1 for requirement ReqElemStartPointAttributes
@@ -1253,15 +1608,51 @@ public class ProgressTests extends TestCase {
         assertNotNull("No palette entry creates Timer", createtool);
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqElemTimer
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemTimer2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqElemTimer
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemTimer2() {
+        testReqElemStartPoint1();
+
+        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0);
+        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        Timer timer = (Timer) ModelCreationFactory.getNewObject(urn, Timer.class);
+
+        assertNotNull("Model creation factory can't create timers!", timer);
+
+        Command cmd = new SplitLinkCommand(getMap().getPathGraph(), timer, nc, 49, 75);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        Vector v = new Vector();
+        IAction action = getAction(v, "ADDTIMEOUTPATHACTION");
+
+        assertNotNull("Action not found in contextual menu!", action);
+
+        int i, j;
+        i = j = 0;
+
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                i++;
+            }
+        }
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint) {
+                j++;
+            }
+        }
+
+        assertEquals("one (and exactly one) new end point should have been added", i + 1, j);
+
+    }
 
     /**
      * Test #1 for requirement ReqElemWait
@@ -1272,6 +1663,42 @@ public class ProgressTests extends TestCase {
         // Is there a tool to create a WaitingPlace in the palette?
         CreationTool createtool = getToolEntryForClass(WaitingPlace.class);
         assertNotNull("No palette entry creates WaitingPlace", createtool);
+    }
+
+    //  /**
+    //  * Test #2 for requirement ReqElemWait
+    //  *
+    //  * Author:
+    //  */
+    // public void testReqElemWait2() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    //    /**
+    //     * Test #1 for requirement ReqExportBitmap
+    //     *
+    //     * Author:
+    //     */
+    //    public void testReqExportBitmap1() {
+    //     // TODO: implement
+    //     assertTrue("Unimplemented", false);
+    // }
+
+    /**
+     * Test #2 for requirement ReqExportBitmap
+     * 
+     * Author: jkealey
+     */
+    public void testReqExportBitmap2() {
+        Vector v = new Vector();
+        v.add(getMap());
+        IAction action = getAction(v, "EXPORTBITMAP");
+
+        assertNotNull("action is null", action);
+
+        // test if can run
+        action.run();
     }
 
     //  /**
@@ -1408,36 +1835,6 @@ public class ProgressTests extends TestCase {
     }
 
     //  /**
-    //  * Test #2 for requirement ReqElemWait
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemWait2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
-    //  * Test #1 for requirement ReqExportBitmap
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqExportBitmap1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
-    //  * Test #2 for requirement ReqExportBitmap
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqExportBitmap2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
-
-    //  /**
     //  * Test #1 for requirement ReqHelpAbout
     //  *
     //  * Author:
@@ -1475,33 +1872,6 @@ public class ProgressTests extends TestCase {
     public void testReqSave1() {
         // real testing done in JUCMNavCommandTests
         assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec);
-    }
-
-    /**
-     * Selects a list of model elements and returns the action with the given id, if it is enabled.
-     * 
-     * @param selected
-     *            A list of model elements to be selected.
-     * @param id
-     *            the action's id in the action registry.
-     */
-    private IAction getAction(List selected, String id) {
-        if (selected != null && selected.size() > 0) {
-            EditPart edit = getEditPart(selected.get(0));
-            getGraphicalViewer().select(edit);
-
-            for (int i = 1; i < selected.size(); i++) {
-                getGraphicalViewer().appendSelection(getEditPart(selected.get(i)));
-            }
-        } else
-            getGraphicalViewer().deselectAll();
-        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
-        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
-        if (contrib instanceof ActionContributionItem) {
-            return ((org.eclipse.jface.action.ActionContributionItem) contrib).getAction();
-        } else
-            return null;
-
     }
 
 }
