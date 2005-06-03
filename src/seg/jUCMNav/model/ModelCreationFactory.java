@@ -39,6 +39,7 @@ import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.NodeLabel;
 import urncore.Responsibility;
@@ -155,6 +156,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createStartPoint();
             } else if (targetClass.equals(EndPoint.class)) {
                 result = mapfactory.createEndPoint();
+            } else if (targetClass.equals(Condition.class)) {
+                result = urncorefactory.createCondition();
             } else if (targetClass.equals(NodeLabel.class)) {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {

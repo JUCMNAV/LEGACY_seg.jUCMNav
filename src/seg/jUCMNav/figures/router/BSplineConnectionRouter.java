@@ -9,6 +9,7 @@ import org.eclipse.draw2d.AbstractRouter;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.geometry.PointList;
 
+import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.AndJoin;
@@ -290,6 +291,16 @@ public class BSplineConnectionRouter extends AbstractRouter {
         // Set the points for the given connection
         conn.setPoints(points);
         // The connection now follow the spline.
+        
+        //refresh conditions.
+        if (link.getLink().getCondition() != null)
+        {
+        	ConditionEditPart edit = (ConditionEditPart) editpartregistry.get(link.getLink().getCondition());
+            if (edit != null) {
+                edit.refreshVisuals();
+            }
+            
+        }
 
         // refresh outgoing andjoin only.
         if (link.getLink().getSource() instanceof AndJoin)

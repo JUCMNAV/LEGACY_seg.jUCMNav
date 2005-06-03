@@ -354,6 +354,20 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         List list = getComponents();
         list.addAll(getPathNodes());
         list.addAll(getLabels());
+        list.addAll(getConditions());
+        return list;
+    }
+    
+    private List getConditions() {
+    	List list = new ArrayList();
+
+        for (Iterator i = getPathGraph().getNodeConnections().iterator(); i.hasNext();) {
+        	NodeConnection nc = (NodeConnection) i.next();
+        	if(nc.getCondition() != null) {
+        		list.add(nc.getCondition());
+        	}
+        }
+
         return list;
     }
 
@@ -459,17 +473,14 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                 break;
             default:
                 if (notification.getNotifier() instanceof PathNode) {
-                    if (((PathNode) notification.getNotifier()).getLabel() != null)
-                        refreshChildren();
-                    else
-                        refreshChildren();
+                	refreshChildren();
                 }
             }
             refreshVisuals();
             break;
         }
 
-        //		refreshChildren();
+        		refreshChildren();
     }
 
     /**

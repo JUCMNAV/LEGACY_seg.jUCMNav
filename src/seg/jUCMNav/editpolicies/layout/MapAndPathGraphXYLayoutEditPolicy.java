@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
@@ -16,8 +17,12 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.figures.SplineConnection;
+import seg.jUCMNav.model.commands.changeConstraints.ConditionSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
@@ -32,6 +37,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
 
@@ -170,6 +176,25 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
             return moveResize;
 
+        } else if (child.getModel() instanceof Condition) {
+        	Condition condition = (Condition) child.getModel();
+        	ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
+        	
+        	NodeConnectionEditPart nc = (NodeConnectionEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(((ConditionEditPart) child).getNodeConnection());
+        	if (nc != null) {
+                SplineConnection sp = (SplineConnection) nc.getFigure();
+                if (sp != null) {
+                    PointList list = sp.getPoints();
+                    if (list != null) {
+                    	Point mid = list.getMidpoint();
+                    	locationCommand.setNewPosition(mid.x - ((Rectangle) constraint).x, mid.y - ((Rectangle) constraint).y);
+                    }
+                }
+            }
+        	
+            locationCommand.setCondition(condition);
+
+            return locationCommand;
         } else if (child.getModel() instanceof Label) {
         	Label label = (Label) child.getModel();
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();

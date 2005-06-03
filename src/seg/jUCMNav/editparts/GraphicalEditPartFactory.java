@@ -20,6 +20,7 @@ import ucm.map.OrJoin;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import urncore.Condition;
 import urncore.Label;
 
 /**
@@ -56,6 +57,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new PathNodeEditPart((DirectionArrow)model, root.getPathGraph());
 		else if(model instanceof RespRef)
 			return new PathNodeEditPart((RespRef)model, root.getPathGraph());
+		else if(model instanceof Condition)
+			return new ConditionEditPart((Condition)model, root.getPathGraph());
 		else if(model instanceof Label)
 			return new LabelEditPart((Label)model);
 		else if(model instanceof ComponentRef) 
