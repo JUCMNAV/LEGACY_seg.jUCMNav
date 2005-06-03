@@ -51,4 +51,11 @@ public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart
 	public UCMNavMultiPageEditor getMultiPageEditor() {
 		return multiPageEditor;
 	}
+	
+	/* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.ScalableFreeformRootEditPart#getScaledLayers()
+     */
+    public LayeredPane getScaledLayers() {
+        return super.getScaledLayers();
+    }
 }

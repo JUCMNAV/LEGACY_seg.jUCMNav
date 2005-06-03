@@ -164,7 +164,11 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         // Remove the trashed object from the editpart children
         for (i = 0; i < trash.size(); i++) {
             EditPart ep = (EditPart) trash.get(i);
-            removeChild(ep);
+            try {
+                removeChild(ep);
+            } catch (Exception ex) {
+                // TODO : QUICK FIX TO PREVENT CRASHING (Jordan's Last Commit)
+            }
         }
     }
 
@@ -357,15 +361,15 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         list.addAll(getConditions());
         return list;
     }
-    
+
     private List getConditions() {
-    	List list = new ArrayList();
+        List list = new ArrayList();
 
         for (Iterator i = getPathGraph().getNodeConnections().iterator(); i.hasNext();) {
-        	NodeConnection nc = (NodeConnection) i.next();
-        	if(nc.getCondition() != null) {
-        		list.add(nc.getCondition());
-        	}
+            NodeConnection nc = (NodeConnection) i.next();
+            if (nc.getCondition() != null) {
+                list.add(nc.getCondition());
+            }
         }
 
         return list;
@@ -458,7 +462,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
             case MapPackage.PATH_NODE__LABEL:
                 refreshChildren();
                 break;
-// duplicate with pn_label            case MapPackage.COMPONENT_REF__WIDTH:
+            // duplicate with pn_label case MapPackage.COMPONENT_REF__WIDTH:
             case MapPackage.COMPONENT_REF__HEIGHT:
                 if (notification.getNotifier() instanceof ComponentRef) {
                     // Wait until we received a notification for both width and height
@@ -473,14 +477,14 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                 break;
             default:
                 if (notification.getNotifier() instanceof PathNode) {
-                	refreshChildren();
+                    refreshChildren();
                 }
             }
             refreshVisuals();
             break;
         }
 
-        		refreshChildren();
+        refreshChildren();
     }
 
     /**

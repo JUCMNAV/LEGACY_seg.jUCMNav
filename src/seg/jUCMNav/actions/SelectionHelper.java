@@ -30,7 +30,9 @@ import urncore.NodeLabel;
 
 /**
  * This class will help reduce redundant code in all action classes. When given a selection, it parses it and gives utility functions to return its type and
- * allows for easy access to the concerned model elements by encapsulating the casts and other management overhead. Created on 28-May-2005
+ * allows for easy access to the concerned model elements by encapsulating the casts and other management overhead.
+ * 
+ * Created on 28-May-2005
  * 
  * @author jkealey
  *  
@@ -67,6 +69,8 @@ public class SelectionHelper {
     public static final int STUB = 6;
     public static final int TIMER = 7;
     public static final int WAITINGPLACE = 8;
+    public static final int MAP = 16;
+    public static final int URNSPEC = 17;
 
     // internal variables; for quick reference.
     private AndFork andfork;
@@ -217,6 +221,12 @@ public class SelectionHelper {
             orjoin = (OrJoin) model;
         else if (model instanceof AndJoin)
             andjoin = (AndJoin) model;
+        else if (model instanceof Map) {
+            map = (Map) model;
+            urnspec = map.getUcmspec().getUrnspec();
+        } else if (model instanceof URNspec) {
+            urnspec = (URNspec) model;
+        }
 
         if (model instanceof NodeConnection || model instanceof PathNode || model instanceof ComponentRef) {
             if (model instanceof NodeConnection)
@@ -321,6 +331,10 @@ public class SelectionHelper {
             selectionType = ORJOIN;
         else if (andjoin != null)
             selectionType = ANDJOIN;
+        else if (map != null)
+            selectionType = MAP;
+        else if (urnspec != null)
+            selectionType = URNSPEC;
         else
             selectionType = OTHER;
 

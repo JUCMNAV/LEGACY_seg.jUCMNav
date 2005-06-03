@@ -25,6 +25,7 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.TransmogrifyForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -128,6 +129,9 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
     }
 

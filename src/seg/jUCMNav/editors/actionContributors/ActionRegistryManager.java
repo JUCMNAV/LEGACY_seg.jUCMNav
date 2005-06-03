@@ -34,6 +34,7 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.TransmogrifyForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -210,6 +211,10 @@ public class ActionRegistryManager {
         action = new DirectEditAction((IWorkbenchPart) editor);
         action.setText("Edit");
         addEditPartAction((SelectionAction) action);
+        
+        action = new ExportImageAction((IWorkbenchPart) editor);
+        action.setText("Export to image");
+        addEditPartAction((SelectionAction) action);        
     }
 
     /**

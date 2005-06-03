@@ -75,7 +75,7 @@
             icon="icons/icon16.gif"
             descriptionImage="icons/perspectiveIcon.gif"
             category="seg.jUCMNav"
-            name="UCM file"
+            name="Use Case Map"
             id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
    </extension>
    <extension
@@ -110,6 +110,18 @@
    <extension
          point="org.eclipse.help.toc">
       <toc file="help.xml" primary="true"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            icon="icons/perspectiveIcon.gif"
+            class="seg.jUCMNav.views.wizards.ExportImageWizard"
+            name="Export Use Case Map to Image"
+            id="seg.jUCMNav.views.wizards.ExportImageWizard">
+         <selection
+               class="org.eclipse.core.resources.IFile"
+               name="*.jucm"/>
+      </wizard>
    </extension>
 
 </plugin>
