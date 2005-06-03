@@ -21,6 +21,8 @@ import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
+import ucm.UcmPackage;
+import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 
@@ -33,15 +35,15 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     private PathGraph diagram;
     protected IPropertySource propertySource = null;
     NodeConnectionAdapter adapter;
-    
+
     public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
         super();
         setModel(link);
         this.diagram = diagram;
-        
+
         adapter = new NodeConnectionAdapter((Notifier) getModel());
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -106,7 +108,6 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         super.refreshVisuals();
     }
 
-    
     /*
      * (non-Javadoc)
      * 
@@ -121,28 +122,38 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         }
         return super.getAdapter(adapter);
     }
-    
+
     private class NodeConnectionAdapter implements Adapter {
-    	private Notifier target;
-    	
-    	public NodeConnectionAdapter(Notifier target) {
-    		this.target = target;
-    	}
-    	
-    	public void notifyChanged(Notification notification) {
-    		EditPartViewer viewer = getViewer();
-    		if(viewer != null) {
-    			Map registry = viewer.getEditPartRegistry();
-    			if(registry != null) {
-    				MapAndPathGraphEditPart part = (MapAndPathGraphEditPart) registry.get(getPathGraph().getMap());
-    				if(part != null) {
-    					part.notifyChanged(notification);
-    				}
-    			}
-    		}
-    	}
-    	
-    	/*
+        private Notifier target;
+
+        public NodeConnectionAdapter(Notifier target) {
+            this.target = target;
+        }
+
+        public void notifyChanged(Notification notification) {
+
+            int type = notification.getEventType();
+            int featureId = notification.getFeatureID(UcmPackage.class);
+            switch (type) {
+            case Notification.SET:
+                if (featureId == MapPackage.NODE_CONNECTION__CONDITION) {
+                    EditPartViewer viewer = getViewer();
+                    if (viewer != null) {
+                        Map registry = viewer.getEditPartRegistry();
+                        if (registry != null) {
+                            MapAndPathGraphEditPart part = (MapAndPathGraphEditPart) registry.get(getPathGraph().getMap());
+                            if (part != null) {
+
+                                part.notifyChanged(notification);
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        /*
          * (non-Javadoc)
          * 
          * @see org.eclipse.emf.common.notify.Adapter#getTarget()

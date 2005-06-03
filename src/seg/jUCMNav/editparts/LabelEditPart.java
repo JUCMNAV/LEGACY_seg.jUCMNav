@@ -17,6 +17,7 @@ import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
@@ -30,10 +31,12 @@ import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
 import urncore.Responsibility;
@@ -46,13 +49,14 @@ import urncore.UCMmodelElement;
  */
 public class LabelEditPart extends ModelElementEditPart {
 
-    private static final int LABEL_PADDING_X = 6;
-    private static final int LABEL_PADDING_Y = 4;
+    protected static final int LABEL_PADDING_X = 6;
+    protected static final int LABEL_PADDING_Y = 4;
     private ComponentElement comp = null;
 
     protected DirectEditManager manager;
-    private UCMmodelElement modelElement;
+    private EObject modelElement;
     private Responsibility resp = null;
+    private NodeConnection nc = null;
 
     public LabelEditPart(Label model) {
         super();
@@ -61,10 +65,12 @@ public class LabelEditPart extends ModelElementEditPart {
             modelElement = ((NodeLabel) model).getPathNode();
         else if (model instanceof ComponentLabel)
             modelElement = ((ComponentLabel) model).getCompRef();
+        else if (model instanceof Condition)
+            modelElement = ((Condition) model).getNodeConnection();
 
     }
 
-    public LabelEditPart(Label model, UCMmodelElement modelElement) {
+    public LabelEditPart(Label model, EObject modelElement) {
         super();
         setModel(model);
         this.modelElement = modelElement;
@@ -86,12 +92,16 @@ public class LabelEditPart extends ModelElementEditPart {
                 resp = ((RespRef) modelElement).getRespDef();
                 if (resp != null)
                     resp.eAdapters().add(this);
+            } else if (modelElement instanceof Condition) {
+                nc = ((Condition) modelElement).getNodeConnection();
+                if (nc != null)
+                    nc.eAdapters().add(this);
             }
         }
         super.activate();
     }
 
-    private Point calculateModelElementPosition(Label label, Dimension labelDimension) {
+    protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location;
 
         if (modelElement instanceof PathNode) {
@@ -190,7 +200,7 @@ public class LabelEditPart extends ModelElementEditPart {
      * 
      * @see seg.jUCMNav.editparts.ModelEditPart#getModelObj()
      */
-    public UCMmodelElement getUCMmodelElement() {
+    public EObject getUCMmodelElement() {
         return modelElement;
     }
 
@@ -231,12 +241,14 @@ public class LabelEditPart extends ModelElementEditPart {
                     if (resp != null)
                         resp.eAdapters().add(this);
                 }
+
+            if (getParent() != null) {
+
+                ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+                refreshVisuals();
+            }
         }
 
-        if (getParent() != null) {
-            ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
-            refreshVisuals();
-        }
     }
 
     /**
@@ -275,7 +287,7 @@ public class LabelEditPart extends ModelElementEditPart {
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
-    protected void refreshVisuals() {
+    public void refreshVisuals() {
         if (modelElement != null) {
             eraseTargetFeedback(null);
             LabelFigure labelFigure = getLabelFigure();
@@ -289,15 +301,26 @@ public class LabelEditPart extends ModelElementEditPart {
                 Responsibility responsibility = ((RespRef) modelElement).getRespDef();
                 if (responsibility != null)
                     label.setText(responsibility.getName());
-            } else {
-                label.setText(modelElement.getName());
+            } else if (modelElement instanceof UCMmodelElement) {
+                label.setText(((UCMmodelElement) modelElement).getName());
+            } else if (modelElement instanceof NodeConnection) {
+                Condition cond = ((NodeConnection) modelElement).getCondition();
+                if (cond != null) {
+                    label.setText("[" + cond.getLabel() + "]");
+                    label.setForegroundColor(new Color(null,175,175,175));
+                }
+                
             }
 
             Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
             Dimension newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
 
             //The position of the new figure
-            Point location = calculateModelElementPosition(getModelObj(), newLabelDimension);
+            Point location;
+            if (getParent() != null)
+                location = calculateModelElementPosition(getModelObj(), newLabelDimension);
+            else
+                location = new Point(0, 0);
 
             Rectangle bounds = new Rectangle(location, newLabelDimension);
             figure.setBounds(bounds);

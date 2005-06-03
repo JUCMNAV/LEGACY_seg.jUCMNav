@@ -156,8 +156,6 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createStartPoint();
             } else if (targetClass.equals(EndPoint.class)) {
                 result = mapfactory.createEndPoint();
-            } else if (targetClass.equals(Condition.class)) {
-                result = urncorefactory.createCondition();
             } else if (targetClass.equals(NodeLabel.class)) {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
@@ -230,6 +228,12 @@ public class ModelCreationFactory implements CreationFactory {
 
                     URNNamingHelper.setElementNameAndID(urn, respdef);
                     URNNamingHelper.resolveNamingConflict(urn, respdef);
+                } else if (targetClass.equals(Condition.class)) {
+                    Condition cond = urncorefactory.createCondition();
+                    cond.setExpression("true");
+                    cond.setLabel("true");
+                    result = cond;
+                    
                 } else {
                     System.out.println("Unknown class passed to ModelCreationFactory");
                 }

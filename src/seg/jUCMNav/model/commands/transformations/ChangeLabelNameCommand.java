@@ -1,13 +1,16 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
 import urncore.UCMmodelElement;
@@ -18,7 +21,7 @@ import urncore.UCMmodelElement;
  * @author jkealey
  */
 public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
-    private UCMmodelElement elem;
+    private EObject elem;
 
     private String name, oldName;
 
@@ -27,7 +30,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             this.elem = ((ComponentLabel) lbl).getCompRef();
         else if (lbl instanceof NodeLabel)
             this.elem = ((NodeLabel) lbl).getPathNode();
-
+        else if (lbl instanceof Condition)
+            this.elem = ((Condition) lbl).getNodeConnection();
         this.name = name;
     }
 
@@ -41,6 +45,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             oldName = ((RespRef) elem).getRespDef().getName();
         } else if (elem instanceof PathNode) {
             oldName = ((PathNode) elem).getName();
+        } else if (elem instanceof NodeConnection) {
+            oldName = ((NodeConnection) elem).getCondition().getLabel();
         }
         redo();
     }
@@ -49,7 +55,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-        if (elem instanceof ComponentRef || elem instanceof PathNode) {
+        if (elem instanceof ComponentRef || elem instanceof PathNode || elem instanceof NodeConnection) {
             return verifyUniqueness(name);
         } else
             return false;
@@ -59,7 +65,10 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @return
      */
     private boolean verifyUniqueness(String name) {
-        return URNNamingHelper.isNameValid(elem, name).length()==0;
+        if (elem instanceof UCMmodelElement) {
+            return URNNamingHelper.isNameValid((UCMmodelElement) elem, name).length() == 0;
+        }
+        return true;
     }
 
     /**
@@ -96,6 +105,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((RespRef) elem).getRespDef().setName(name);
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(name);
+        } else if (elem instanceof NodeConnection) {
+            ((NodeConnection) elem).getCondition().setLabel(name);
         }
         testPostConditions();
     }
@@ -111,6 +122,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((RespRef) elem).getRespDef().setName(oldName);
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(oldName);
+        } else if (elem instanceof NodeConnection) {
+            ((NodeConnection) elem).getCondition().setLabel(oldName);
         }
         testPreConditions();
     }

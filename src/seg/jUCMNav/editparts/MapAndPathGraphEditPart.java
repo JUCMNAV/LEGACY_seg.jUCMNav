@@ -477,7 +477,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                 break;
             default:
                 if (notification.getNotifier() instanceof PathNode) {
-                    refreshChildren();
+                    //refreshChildren();
                 }
             }
             refreshVisuals();

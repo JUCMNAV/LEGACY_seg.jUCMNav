@@ -10,6 +10,7 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
@@ -18,14 +19,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.LabelEditPart;
+import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.LabelFigure;
+import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.ComponentRef;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
-import urncore.UCMmodelElement;
 
 /**
  * Created 2005-03-04
@@ -50,13 +54,16 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
         return (LabelFigure) ((LabelEditPart) this.getHost()).getFigure();
     }
 
-    private UCMmodelElement getReference() {
+    private EObject getReference() {
         Label lbl = (Label) ((LabelEditPart) this.getHost()).getModel();
         if (lbl instanceof NodeLabel)
             return ((NodeLabel) lbl).getPathNode();
         else if (lbl instanceof ComponentLabel)
             return ((ComponentLabel) lbl).getCompRef();
+        else if (lbl instanceof Condition)
+            return ((Condition) lbl).getNodeConnection();
         else
+
             return null;
     }
 
@@ -71,7 +78,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
         }
     }
 
-    public void showTargetFeedback(Request request) {
+public void showTargetFeedback(Request request) {
         if (line == null && roundrect == null) {
             // we need to scale our feedback.
             double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getHost().getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
@@ -101,6 +108,17 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                     rect = null;
                 }
                 pt2 = new Point(pn.getX(), pn.getY());
+            } else if (getReference() instanceof NodeConnection) {
+                NodeConnection nc = (NodeConnection)getReference();
+                
+                try {
+                    SplineConnection spline = (SplineConnection) ((NodeConnectionEditPart) getHost().getViewer().getEditPartRegistry().get(nc)).getFigure();
+                    pt2 = spline.getPoints().getMidpoint();
+                } catch (Exception ex) {
+                    pt2=pt;
+                }                
+                
+                    
             }
 
             // calculate the differences.
@@ -143,6 +161,4 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             getFeedbackLayer().add(roundrect);
             getFeedbackLayer().add(line);
         }
-    }
-
-}
+    }}
