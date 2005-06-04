@@ -15,11 +15,14 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 import urn.URNspec;
+import urncore.Condition;
+import urncore.Label;
 import urncore.UCMmodelElement;
 
 /**
@@ -48,6 +51,8 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             componentRefDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == Workload.class) {
             workloadDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label)) {
+            conditionDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == ArrivalProcess.class) {
             String[] values = new String[ArrivalProcess.VALUES.size()];
             for (int i = 0; i < ArrivalProcess.VALUES.size(); i++)
@@ -65,6 +70,22 @@ public class UCMElementPropertySource extends EObjectPropertySource {
     private void workloadDescriptor(Collection descriptors, PropertyID propertyid) {
         PropertyDescriptor pd = new PropertyDescriptor(propertyid, "Workload");
         pd.setCategory("Performance");
+        pd.setLabelProvider(new LabelProvider() {
+            public String getText(Object element) {
+                return "";
+            }
+        });
+
+        descriptors.add(pd);
+    }
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void conditionDescriptor(Collection descriptors, PropertyID propertyid) {
+        PropertyDescriptor pd = new PropertyDescriptor(propertyid, "Condition");
+        pd.setCategory("Scenario");
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return "";
@@ -97,6 +118,17 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
             }
             result = new UCMElementPropertySource((EObject) result);
+        } else if (getFeatureType(feature).getInstanceClass() == Condition.class) {
+            if (result == null) {
+                URNspec urn;
+                if (getEditableValue() instanceof NodeConnection)
+                    urn = ((NodeConnection) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+                else
+                    urn = ((PathNode) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+
+                result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+            }
+            result = new UCMElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
             result = new Integer(((Workload) getEditableValue()).getArrivalPattern().getValue());
         } else {
@@ -121,7 +153,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 result = list.get(((Integer) value).intValue() - 1);
             setReferencedObject(propertyid, feature, result);
         } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
-            setReferencedObject(propertyid, feature, ArrivalProcess.get(((Integer)value).intValue()));
+            setReferencedObject(propertyid, feature, ArrivalProcess.get(((Integer) value).intValue()));
         } else
 
             super.setPropertyValue(id, value);

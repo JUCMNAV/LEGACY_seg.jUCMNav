@@ -9,6 +9,7 @@ import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.NodeLabel;
 
 /**
@@ -43,6 +44,8 @@ public class LabelPropertySource extends UCMElementPropertySource {
                 else
                     referencePS = new UCMElementPropertySource(pn);
             }
+        } else if (obj instanceof Condition) {
+            referencePS = new UCMElementPropertySource(((Condition) obj).getNodeConnection());
         }
     }
 
@@ -65,7 +68,7 @@ public class LabelPropertySource extends UCMElementPropertySource {
 
             IPropertyDescriptor pds[] = referencePS.getPropertyDescriptors();
             for (int i = 0; i < pds.length; i++) {
-                v.add(pds[i]);
+                   v.add(pds[i]);
             }
         }
         return v;
