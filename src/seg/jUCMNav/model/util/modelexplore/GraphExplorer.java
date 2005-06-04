@@ -4,6 +4,9 @@
  */
 package seg.jUCMNav.model.util.modelexplore;
 
+import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
+
 /**
  * @author jpdaigle
  * 

@@ -1,5 +1,5 @@
 /*
- * Created on 31-May-2005
+ * Created on 1-Jun-2005
  *
  */
 package seg.jUCMNav.model.util.modelexplore;
@@ -8,8 +8,10 @@ package seg.jUCMNav.model.util.modelexplore;
  * @author jpdaigle
  *  
  */
-public class EndPointFinder implements QueryProcessorChain {
-    private QueryProcessorChain _nextInChain;
+public abstract class AbstractQueryProcessor implements QueryProcessorChain {
+    protected QueryProcessorChain _nextInChain;
+
+    protected String [] _answerQueryTypes;
 
     /*
      * (non-Javadoc)
@@ -17,8 +19,10 @@ public class EndPointFinder implements QueryProcessorChain {
      * @see seg.jUCMNav.model.util.modelexplore.QueryProcessorChain#addChain(seg.jUCMNav.model.util.modelexplore.QueryProcessorChain)
      */
     public void addChain(QueryProcessorChain c) {
-        // TODO Auto-generated method stub
-
+        if (_nextInChain == null)
+            _nextInChain = c;
+        else
+            throw new IllegalArgumentException("Already have a next in chain");
     }
 
     /*
@@ -26,10 +30,7 @@ public class EndPointFinder implements QueryProcessorChain {
      * 
      * @see seg.jUCMNav.model.util.modelexplore.QueryProcessorChain#sendToChain(seg.jUCMNav.model.util.modelexplore.QueryObject)
      */
-    public QueryResponse sendToChain(QueryObject q) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public abstract QueryResponse sendToChain(QueryObject q);
 
     /*
      * (non-Javadoc)
@@ -37,8 +38,8 @@ public class EndPointFinder implements QueryProcessorChain {
      * @see seg.jUCMNav.model.util.modelexplore.QueryProcessorChain#getChain()
      */
     public QueryProcessorChain getChain() {
-        // TODO Auto-generated method stub
-        return null;
+        return _nextInChain;
     }
-
+    
+    
 }
