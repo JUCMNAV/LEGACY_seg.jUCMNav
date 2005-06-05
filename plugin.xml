@@ -99,13 +99,6 @@
             category="seg.jUCMNav"
             name="Responsibilities"
             id="seg.jUCMNav.views.ResponsibilityView"/>
-      <view
-            allowMultiple="true"
-            class="seg.jUCMNav.views.StubBindingsView"
-            icon="icons/Binding16.gif"
-            category="seg.jUCMNav"
-            name="StubBindings"
-            id="seg.jUCMNav.view.StubBindings"/>
    </extension>
    <extension
          point="org.eclipse.help.toc">

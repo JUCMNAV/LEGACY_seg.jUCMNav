@@ -1,9 +1,12 @@
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
+import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.figures.StubFigure;
+import seg.jUCMNav.views.property.StubPropertySource;
 import ucm.map.Map;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -53,5 +56,9 @@ public class StubEditPart extends PathNodeEditPart {
 					((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
 			}
 		}
+	}
+	protected IPropertySource getPropertySource() {
+		propertySource = new StubPropertySource((EObject) getModel());
+		return propertySource;
 	}
 }

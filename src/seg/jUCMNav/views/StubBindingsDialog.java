@@ -8,6 +8,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -15,12 +17,16 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -36,7 +42,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UcmPackage;
@@ -53,14 +58,12 @@ import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-05-28 <br>
- * <br>- This view is intended to be used to make bindings from a Stub with a Map. <br>- This view support static and dynamic stubs. <br>- You can bind an
- * entry point from a Stub to a StartPoint of a Map. <br>- Tou can bind an exit point from a Stub to an EndPoint of a Map <br>
+ * Created 2005-06-01
  * 
  * @author Etienne Tremblay
  */
-public class StubBindingsView extends ViewPart implements ISelectionListener, Adapter {
-	// The toolkit for eclipse forms
+public class StubBindingsDialog extends Dialog  implements ISelectionListener, Adapter {
+//	 The toolkit for eclipse forms
 	private FormToolkit toolkit;
 	// The main form where all the controls will be
 	private ScrolledForm form;
@@ -107,24 +110,26 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	//	 The button for doing out bindings.
 	private Button btOutBind;
 
-	/**
-	 *  
-	 */
-	public StubBindingsView() {
-		super();
+	public StubBindingsDialog(Shell parentShell) {
+		super(parentShell);
+		parentShell.setActive();
+		parentShell.setText("Stub Bindings");
+		setShellStyle(SWT.SHELL_TRIM);
 	}
 
-	/**
-	 * Create all the controls of the view and add the events handlers.
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	 */
-	public void createPartControl(Composite parent) {
-		toolkit = new FormToolkit(parent.getDisplay());
-		form = toolkit.createScrolledForm(parent);
-		form.setVisible(false);
+	protected Control createDialogArea(Composite parent) {		
+		Composite area = (Composite) super.createDialogArea(parent);
+		GridLayout l = (GridLayout)area.getLayout();
+		l.marginWidth = 0;
+		l.marginHeight = 0;
+		GridData d = new GridData(GridData.FILL_BOTH);
+		d.grabExcessHorizontalSpace = true;
+		d.grabExcessVerticalSpace = true;
+		area.setLayoutData(d);
+
+		toolkit = new FormToolkit(area.getDisplay());
+		form = toolkit.createScrolledForm(area);
+		form.setLayoutData(d);
 		form.setText("Stub Bindings");
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 2;
@@ -180,11 +185,15 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		toolkit.adapt(comboMaps, true, true);
 
 		mapSection.setClient(mapClient);
+		
+//		Composite listAddComp = new Composite(form.getBody(), SWT.NULL);
 
 		// Plugin List section
 		pluginListSection = toolkit.createSection(form.getBody(), Section.DESCRIPTION | Section.TWISTIE);
 		td = new TableWrapData(TableWrapData.FILL);
-		td.colspan = 2;
+		td.colspan = 1;
+		td.grabHorizontal = true;
+		td.grabVertical = true;
 		pluginListSection.setLayoutData(td);
 		pluginListSection.addExpansionListener(new ExpansionAdapter() {
 			public void expansionStateChanged(ExpansionEvent e) {
@@ -205,6 +214,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		GridData t = new GridData(GridData.FILL_BOTH);
 		t.grabExcessHorizontalSpace = true;
 		t.heightHint = 120;
+		t.widthHint = 200;
 		treeBindings.setLayoutData(t);
 
 		pluginListSection.setClient(sectionClient);
@@ -213,7 +223,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		addPluginSection = toolkit.createSection(form.getBody(), Section.TWISTIE);
 		addPluginSection.setText("Add Bindigs");
 		td = new TableWrapData(TableWrapData.FILL);
-		td.colspan = 2;
+		td.colspan = 1;
 		td.grabHorizontal = true;
 		td.grabVertical = true;
 		addPluginSection.setLayoutData(td);
@@ -229,7 +239,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		Composite addPluginClient = toolkit.createComposite(addPluginSection);
 		grid = new GridLayout();
 		grid.numColumns = 3;
-		grid.makeColumnsEqualWidth = true;
+		grid.makeColumnsEqualWidth = false;
 		addPluginClient.setLayout(grid);
 
 		addPluginSection.setClient(addPluginClient);
@@ -346,7 +356,7 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
-		tabStubIns.setLayoutData(g);
+		tabStubOuts.setLayoutData(g);
 		stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
 		stubOutsColumn.setWidth(50);
 		stubOutsColumn.setText("Out");
@@ -405,11 +415,25 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
 		mapOutsColumn.setWidth(50);
 		mapOutsColumn.setText("Out");
-
-		// Listen to the selection from the workbench, so we know when a stub is selected.
-		getViewSite().getPage().addSelectionListener(this);
+		
+		mapSection.setExpanded(true);
+		pluginListSection.setExpanded(true);
+		addPluginSection.setExpanded(true);
+		
+		return area;
 	}
 
+	protected void createButtonsForButtonBar(Composite parent) {
+		parent.getParent().setBackground(new Color(null, 255, 255, 255));
+		parent.setBackground(new Color(null, 255, 255, 255));
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+	}
+
+	protected Point getInitialSize() {
+		return new Point(800, 600);
+	}
+	
 	/**
 	 * 
 	 */
@@ -514,27 +538,6 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 		stubOutsColumn.setWidth(tabStubOuts.getSize().x - 1);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
-	 */
-	public void dispose() {
-		// Remove this class from the selection listeners.
-		getViewSite().getPage().removeSelectionListener(this);
-		super.dispose();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
-	public void setFocus() {
-		// Give the form the focus.
-		form.setFocus();
-	}
-
 	/**
 	 * We listen for the selection change of the workbench. When the selection is an EditPart and that the represented model is a Stub we can display the view.
 	 * If we're not selecting a Stub EditPart, then just display nothing in the view.
@@ -567,7 +570,6 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 	 */
 	public void setStub(Stub stub) {
 		if (stub != this.stub) {
-			form.setVisible(true);
 			if (stub != null) {
 				if (this.stub != null)
 					this.stub.eAdapters().remove(this);
@@ -575,10 +577,6 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 
 				this.stub = stub;
 				urnSpec = stub.getPathGraph().getMap().getUcmspec().getUrnspec();
-
-				// Expand those sections by default
-				pluginListSection.setExpanded(true);
-				addPluginSection.setExpanded(true);
 
 				refreshDescription();
 				refreshBindingsTree();
@@ -595,7 +593,14 @@ public class StubBindingsView extends ViewPart implements ISelectionListener, Ad
 			updateColumnWidth();
 		}
 	}
-
+	
+	public int open(Stub stub) {
+		create();
+		getParentShell().setText("Stub Bindings");
+		setStub(stub);
+		return super.open();
+	}
+	
 	/**
 	 * Reset all the view information when the selected Stub is null.
 	 */

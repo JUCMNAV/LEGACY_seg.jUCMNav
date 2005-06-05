@@ -34,7 +34,7 @@ public class PropertyID {
      * Overridden to allow the properties HashMap to detect changes properly.
      */
     public int hashCode() {
-        return c.hashCode() + feature.hashCode();
+    	return c.hashCode() + feature.hashCode();
     }
 
     /**
