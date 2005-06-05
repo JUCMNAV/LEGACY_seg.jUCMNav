@@ -307,20 +307,23 @@ public class LabelEditPart extends ModelElementEditPart {
                 Condition cond = ((NodeConnection) modelElement).getCondition();
                 if (cond != null) {
                     label.setText("[" + cond.getLabel() + "]");
-                    label.setForegroundColor(new Color(null,175,175,175));
+                    label.setForegroundColor(new Color(null, 175, 175, 175));
                 }
-                
-            }
 
-            Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
-            Dimension newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
+            }
 
             //The position of the new figure
             Point location;
-            if (getParent() != null)
+            Dimension newLabelDimension;
+            if (getParent() != null) {
+                Dimension dimEditableLabel = labelFigure.getLabel().getPreferredSize().getCopy();
+                newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
+
                 location = calculateModelElementPosition(getModelObj(), newLabelDimension);
-            else
+            } else {
                 location = new Point(0, 0);
+                newLabelDimension = new Dimension(100, 100);
+            }
 
             Rectangle bounds = new Rectangle(location, newLabelDimension);
             figure.setBounds(bounds);

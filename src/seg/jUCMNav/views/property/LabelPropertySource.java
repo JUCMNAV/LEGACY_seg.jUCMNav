@@ -68,7 +68,8 @@ public class LabelPropertySource extends UCMElementPropertySource {
 
             IPropertyDescriptor pds[] = referencePS.getPropertyDescriptors();
             for (int i = 0; i < pds.length; i++) {
-                   v.add(pds[i]);
+                if (((PropertyID) pds[i].getId()).getFeature().getEType().getInstanceClass() != Condition.class)
+                    v.add(pds[i]);
             }
         }
         return v;
