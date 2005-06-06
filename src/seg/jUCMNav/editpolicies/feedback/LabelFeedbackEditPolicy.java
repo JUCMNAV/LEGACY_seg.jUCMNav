@@ -60,10 +60,16 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             return ((NodeLabel) lbl).getPathNode();
         else if (lbl instanceof ComponentLabel)
             return ((ComponentLabel) lbl).getCompRef();
-        else if (lbl instanceof Condition)
-            return ((Condition) lbl).getNodeConnection();
-        else
-
+        else if (lbl instanceof Condition) {
+            if (((Condition) lbl).getNodeConnection() != null)
+                return ((Condition) lbl).getNodeConnection();
+            else if (((Condition) lbl).getStartPoint() != null)
+                return ((Condition) lbl).getStartPoint();
+            else if (((Condition) lbl).getEndPoint() != null)
+                return ((Condition) lbl).getEndPoint();
+            else
+                return null;
+        } else
             return null;
     }
 
@@ -78,7 +84,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
         }
     }
 
-public void showTargetFeedback(Request request) {
+    public void showTargetFeedback(Request request) {
         if (line == null && roundrect == null) {
             // we need to scale our feedback.
             double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getHost().getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
@@ -109,16 +115,15 @@ public void showTargetFeedback(Request request) {
                 }
                 pt2 = new Point(pn.getX(), pn.getY());
             } else if (getReference() instanceof NodeConnection) {
-                NodeConnection nc = (NodeConnection)getReference();
-                
+                NodeConnection nc = (NodeConnection) getReference();
+
                 try {
                     SplineConnection spline = (SplineConnection) ((NodeConnectionEditPart) getHost().getViewer().getEditPartRegistry().get(nc)).getFigure();
                     pt2 = spline.getPoints().getMidpoint();
                 } catch (Exception ex) {
-                    pt2=pt;
-                }                
-                
-                    
+                    pt2 = pt;
+                }
+
             }
 
             // calculate the differences.
@@ -161,4 +166,5 @@ public void showTargetFeedback(Request request) {
             getFeedbackLayer().add(roundrect);
             getFeedbackLayer().add(line);
         }
-    }}
+    }
+}

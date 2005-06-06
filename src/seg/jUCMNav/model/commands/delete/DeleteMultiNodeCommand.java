@@ -347,7 +347,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
         if (!shouldDeleteNode && empty != null) {
             // must upgrade back to non empty point.
-            if (outConditions != null) {
+            if (outConditions != null && outConditions.size()>0) {
                 ((NodeConnection) empty.getSucc().get(0)).setCondition((Condition) outConditions.get(0));
             }
 

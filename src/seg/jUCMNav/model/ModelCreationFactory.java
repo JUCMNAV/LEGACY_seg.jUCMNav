@@ -152,10 +152,6 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createDirectionArrow();
             } else if (targetClass.equals(Responsibility.class)) {
                 result = urncorefactory.createResponsibility();
-            } else if (targetClass.equals(StartPoint.class)) {
-                result = mapfactory.createStartPoint();
-            } else if (targetClass.equals(EndPoint.class)) {
-                result = mapfactory.createEndPoint();
             } else if (targetClass.equals(NodeLabel.class)) {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
@@ -233,7 +229,18 @@ public class ModelCreationFactory implements CreationFactory {
                     cond.setExpression("true");
                     cond.setLabel("");
                     result = cond;
-                    
+                } else if (targetClass.equals(StartPoint.class)) {
+                    StartPoint sp = mapfactory.createStartPoint();
+                    sp.setPrecondition((Condition)getNewObject(urn, Condition.class));
+                    sp.getPrecondition().setDeltaX(40);
+                    sp.getPrecondition().setDeltaY(-17);
+                    result = sp;
+                } else if (targetClass.equals(EndPoint.class)) {
+                    EndPoint ep = mapfactory.createEndPoint();
+                    ep.setPostcondition((Condition)getNewObject(urn, Condition.class));
+                    ep.getPostcondition().setDeltaX(-40);
+                    ep.getPostcondition().setDeltaY(-20);
+                    result = ep;
                 } else {
                     System.out.println("Unknown class passed to ModelCreationFactory");
                 }

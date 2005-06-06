@@ -25,11 +25,13 @@ import seg.jUCMNav.figures.router.BSplineConnectionRouter;
 import seg.jUCMNav.model.util.ComponentRefAreaComparator;
 import ucm.UcmPackage;
 import ucm.map.ComponentRef;
+import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 
 /**
  * Top level edit part. Contains the drawing board where everything is inserted.
@@ -164,12 +166,21 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
         // Remove the trashed object from the editpart children
         for (i = 0; i < trash.size(); i++) {
             EditPart ep = (EditPart) trash.get(i);
-            try {
-                removeChild(ep);
-            } catch (Exception ex) {
-                // TODO : QUICK FIX TO PREVENT CRASHING (Jordan's Last Commit)
-            }
+            removeChild(ep);
         }
+
+        // if we ever want to notify the outline view when of changes instead of having the pathgraph inform it, here is the code.
+        // for now, doesn't change anything because refreshChildren() is also called too often.
+        //
+        //        UCMNavMultiPageEditor editor = ((ConnectionOnBottomRootEditPart) getParent()).getMultiPageEditor();
+        //        if (editor.getPageCount() > 0 && editor.getActivePage() > -1) {
+        //            MapTreeEditPart part = (MapTreeEditPart) ((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer().getEditPartRegistry().get(
+        //                    getMap());
+        //            if (part != null)
+        //                part.refresh();
+        //
+        //        }
+        //
     }
 
     /**
@@ -371,6 +382,14 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                 list.add(nc.getCondition());
             }
         }
+        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
+            PathNode pn = (PathNode) i.next();
+            if (pn instanceof StartPoint && ((StartPoint) pn).getPrecondition() != null) {
+                list.add(((StartPoint) pn).getPrecondition());
+            } else if (pn instanceof EndPoint && ((EndPoint) pn).getPostcondition() != null) {
+                list.add(((EndPoint) pn).getPostcondition());
+            }
+        }
 
         return list;
     }
@@ -475,10 +494,6 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                         countChanged++;
                 }
                 break;
-            default:
-                if (notification.getNotifier() instanceof PathNode) {
-                    //refreshChildren();
-                }
             }
             refreshVisuals();
             break;

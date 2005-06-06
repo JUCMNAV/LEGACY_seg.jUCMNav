@@ -7,8 +7,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import ucm.map.ComponentRef;
+import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.Label;
@@ -21,9 +23,23 @@ public class DeleteLabelCommand extends Command {
     private static final String CreateCommand_Label = "DeleteLabelCommand";
     private Label label;
     EObject modelElement;
+    private String oldStr;
 
     public boolean canExecute() {
-        return label != null && modelElement != null;
+        if (!(label instanceof Condition))
+            return label != null && modelElement != null;
+        else {
+            boolean b = label != null && modelElement != null;
+            if (label instanceof Condition && modelElement instanceof StartPoint)
+                return b && ((StartPoint) modelElement).getPrecondition() != null;
+            else if (label instanceof Condition && modelElement instanceof EndPoint)
+                return b && ((EndPoint) modelElement).getPostcondition() != null;
+            else if (label instanceof Condition && modelElement instanceof NodeConnection)
+                return b && ((NodeConnection) modelElement).getCondition() != null;
+            else
+                return false;
+        }
+
     }
 
     /*
@@ -32,6 +48,13 @@ public class DeleteLabelCommand extends Command {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        if (label instanceof Condition && modelElement instanceof StartPoint && ((StartPoint) modelElement).getPrecondition() != null)
+            oldStr = ((StartPoint) modelElement).getPrecondition().getLabel();
+        else if (label instanceof Condition && modelElement instanceof EndPoint && ((EndPoint) modelElement).getPostcondition() != null)
+            oldStr = ((EndPoint) modelElement).getPostcondition().getLabel();
+        else if (label instanceof Condition && modelElement instanceof NodeConnection && ((NodeConnection) modelElement).getCondition() != null)
+            oldStr = ((NodeConnection) modelElement).getCondition().getLabel();
+
         redo();
     }
 
@@ -43,22 +66,39 @@ public class DeleteLabelCommand extends Command {
     public void redo() {
         testPreConditions();
 
-        if (modelElement instanceof PathNode) {
+        if (label instanceof Condition) {
+
+            if (modelElement instanceof StartPoint)
+                ((StartPoint) modelElement).getPrecondition().setLabel(null);
+            else if (modelElement instanceof EndPoint)
+                ((EndPoint) modelElement).getPostcondition().setLabel(null);
+            else if (modelElement instanceof NodeConnection) {
+                if (((NodeConnection) modelElement).getCondition() != null) {
+                    ((NodeConnection) modelElement).getCondition().setLabel(null);
+                }
+            }
+
+        } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             node.setLabel(null);
         } else if (modelElement instanceof ComponentRef) {
             ComponentRef component = (ComponentRef) modelElement;
             component.setLabel(null);
-        } else if (modelElement instanceof NodeConnection) {
-            NodeConnection nc = (NodeConnection) modelElement;
-            nc.setCondition(null);
         }
 
         testPostConditions();
     }
 
     public boolean canUndo() {
-        if (modelElement instanceof PathNode) {
+
+        if (label instanceof Condition) {
+            if (modelElement instanceof StartPoint)
+                return label != null && ((StartPoint) modelElement).getPrecondition() != null;
+            else if (modelElement instanceof EndPoint)
+                return label != null && ((EndPoint) modelElement).getPostcondition() != null;
+            else if (modelElement instanceof NodeConnection)
+                return label != null;
+        } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             return label != null && node.getLabel() == null;
         } else if (modelElement instanceof ComponentRef) {
@@ -69,7 +109,7 @@ public class DeleteLabelCommand extends Command {
             return label != null && nc.getCondition() == null;
         }
 
-        return false;
+        return true;
     }
 
     /*
@@ -80,7 +120,17 @@ public class DeleteLabelCommand extends Command {
     public void undo() {
         testPostConditions();
 
-        if (modelElement instanceof PathNode) {
+        if (label instanceof Condition) {
+            if (modelElement instanceof StartPoint)
+                ((StartPoint) modelElement).getPrecondition().setLabel(oldStr);
+            else if (modelElement instanceof EndPoint)
+                ((EndPoint) modelElement).getPostcondition().setLabel(oldStr);
+            else if (modelElement instanceof NodeConnection)
+                if (((NodeConnection) modelElement).getCondition() != null && oldStr != null) {
+                    ((NodeConnection) modelElement).getCondition().setLabel(oldStr);
+                }
+
+        } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             node.setLabel((NodeLabel) label);
         } else if (modelElement instanceof ComponentRef) {

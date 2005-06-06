@@ -93,7 +93,10 @@ public class UCMElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void conditionDescriptor(Collection descriptors, PropertyID propertyid) {
-        PropertyDescriptor pd = new PropertyDescriptor(propertyid, "Condition");
+        PropertyDescriptor pd;
+
+        pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
+
         pd.setCategory("Scenario");
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {

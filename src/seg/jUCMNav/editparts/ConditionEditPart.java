@@ -8,14 +8,19 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.SplineConnection;
+import seg.jUCMNav.figures.util.JUCMNavFigure;
+import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
+import ucm.map.StartPoint;
 import urncore.Condition;
 import urncore.Label;
 
@@ -38,19 +43,31 @@ public class ConditionEditPart extends LabelEditPart {
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location = new Point(0, 0);
 
-        NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(getNodeConnection());
-        if (nc != null) {
-            SplineConnection sp = (SplineConnection) nc.getFigure();
-            if (sp != null) {
-                PointList list = sp.getPoints();
-                if (list != null) {
-                    Point mid = list.getMidpoint();
-                    location = new Point(mid.x - ((Condition) getModel()).getDeltaX(), mid.y - ((Condition) getModel()).getDeltaY());
+        if (getUCMmodelElement() instanceof NodeConnection) {
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(getNodeConnection());
+            if (nc != null) {
+                SplineConnection sp = (SplineConnection) nc.getFigure();
+                if (sp != null) {
+                    PointList list = sp.getPoints();
+                    if (list != null) {
+                        Point mid = list.getMidpoint();
+                        location = new Point(mid.x - ((Condition) getModel()).getDeltaX(), mid.y - ((Condition) getModel()).getDeltaY());
+                    }
                 }
             }
+            return location;
+        } else if (getUCMmodelElement() instanceof PathNode) {
+            PathNode node = (PathNode) getUCMmodelElement();
+            location = new Point(node.getX() - labelDimension.width / 2 - label.getDeltaX(), node.getY()
+                    - (labelDimension.height + JUCMNavFigure.getDimension(getUCMmodelElement()).height / 2) - label.getDeltaY());
         }
 
-        return location;
+        return super.calculateModelElementPosition(label, labelDimension);
+
+    }
+
+    public NodeConnection getNodeConnection() {
+        return (NodeConnection) getUCMmodelElement();
     }
 
     /**
@@ -90,8 +107,30 @@ public class ConditionEditPart extends LabelEditPart {
         refreshVisuals();
     }
 
-    public NodeConnection getNodeConnection() {
-        return (NodeConnection) getUCMmodelElement();
+    protected void setLabelText() {
+        LabelFigure labelFigure = getLabelFigure();
+        EditableLabel label = labelFigure.getLabel();
+
+        Condition cond = null;
+        if (getUCMmodelElement() instanceof NodeConnection) {
+            cond = getNodeConnection().getCondition();
+        } else if (getUCMmodelElement() instanceof StartPoint) {
+            cond = ((StartPoint) getUCMmodelElement()).getPrecondition();
+        } else if (getUCMmodelElement() instanceof EndPoint) {
+            cond = ((EndPoint) getUCMmodelElement()).getPostcondition();
+        }
+
+        if (cond != null) {
+            if (cond.getLabel() != null && !cond.getLabel().equals("")) {
+                label.setText("[" + cond.getLabel() + "]");
+                labelFigure.setVisible(true);
+            } else {
+                labelFigure.setVisible(false);
+                this.setSelected(0);
+            }
+
+            label.setForegroundColor(new Color(null, 175, 175, 175));
+        }
     }
 
 }

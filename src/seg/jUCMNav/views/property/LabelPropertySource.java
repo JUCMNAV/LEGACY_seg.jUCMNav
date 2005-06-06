@@ -45,7 +45,13 @@ public class LabelPropertySource extends UCMElementPropertySource {
                     referencePS = new UCMElementPropertySource(pn);
             }
         } else if (obj instanceof Condition) {
-            referencePS = new UCMElementPropertySource(((Condition) obj).getNodeConnection());
+            if (((Condition) obj).getNodeConnection() != null)
+                referencePS = new UCMElementPropertySource(((Condition) obj).getNodeConnection());
+            else if (((Condition) obj).getStartPoint() != null)
+                referencePS = new UCMElementPropertySource(((Condition) obj).getStartPoint());
+            else if (((Condition) obj).getEndPoint() != null)
+                referencePS = new UCMElementPropertySource(((Condition) obj).getEndPoint());
+
         }
     }
 

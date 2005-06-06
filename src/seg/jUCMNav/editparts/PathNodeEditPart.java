@@ -141,6 +141,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
             break;
         case MapPackage.PATH_NODE__LABEL:
+        case MapPackage.START_POINT__PRECONDITION:
+        case MapPackage.END_POINT__POSTCONDITION:
             ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
             break;
         default:

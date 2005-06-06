@@ -179,7 +179,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
             return moveResize;
 
-        } else if (child.getModel() instanceof Condition) {
+        } else if (child.getModel() instanceof Condition && ((Condition) child.getModel()).getNodeConnection() != null) {
             Condition condition = (Condition) child.getModel();
             ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
 
@@ -197,7 +197,25 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             }
 
             locationCommand.setCondition(condition);
+            return locationCommand;
+        } else if (child.getModel() instanceof Condition && ((Condition) child.getModel()).getNodeConnection() == null) {
+            Condition condition = (Condition) child.getModel();
+            ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
+            Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
+            PathNode node = null;
+            if (condition.getStartPoint() != null) {
+                node = condition.getStartPoint();
+            } else if (condition.getEndPoint() != null) {
+                node = condition.getEndPoint();
+            }
+            PathNodeEditPart p = (PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node);
 
+            int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
+            Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y
+                    - (dim.height + height / 2));
+            locationCommand.setNewPosition(location.x, location.y);
+
+            locationCommand.setCondition(condition);
             return locationCommand;
         } else if (child.getModel() instanceof Label) {
             Label label = (Label) child.getModel();

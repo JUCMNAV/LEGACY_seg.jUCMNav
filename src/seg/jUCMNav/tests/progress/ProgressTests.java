@@ -1400,6 +1400,46 @@ public class ProgressTests extends TestCase {
     }
 
     /**
+     * Test #4 for requirement ReqElemOrFork
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemOrFork4() {
+        testReqElemOrFork3();
+
+        OrFork fork = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof OrFork) {
+                fork = (OrFork) element;
+            }
+        }
+        assertNotNull("cannot find orfork", fork);
+
+        assertTrue("no preceeding node connection", fork.getSucc().size()>=2);
+        for (Iterator iter = fork.getSucc().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+
+            NodeConnectionEditPart part = (NodeConnectionEditPart) getGraphicalViewer().getEditPartRegistry().get(nc);
+            assertNotNull("cannot find editpart", part);
+
+            IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
+            assertNotNull("No property source found", source);
+
+            IPropertyDescriptor desc[] = source.getPropertyDescriptors();
+
+            boolean condition = false;
+            for (int i = 0; i < desc.length; i++) {
+                String str = desc[i].getDisplayName();
+                if (str.equalsIgnoreCase("condition"))
+                    condition = true;
+            }
+
+            assertTrue("Missing PropertyDescriptor", condition);
+        }
+    }
+
+    /**
      * Test #1 for requirement ReqElemOrJoin
      * 
      * Author: jkealey
@@ -1499,42 +1539,6 @@ public class ProgressTests extends TestCase {
     }
 
     /**
-     * Test #4 for requirement ReqElemOrJoin
-     * 
-     * Author: jkealey
-     */
-    public void testReqElemOrJoin4() {
-        testReqElemOrJoin3();
-
-        OrJoin join = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
-            PathNode element = (PathNode) iter.next();
-            if (element instanceof OrJoin) {
-                join = (OrJoin) element;
-            }
-        }
-        assertNotNull("cannot find orjoin", join);
-
-        assertNotNull("no preceeding node connection", join.getPred().get(0));
-        NodeConnectionEditPart part = (NodeConnectionEditPart) getGraphicalViewer().getEditPartRegistry().get(join.getPred().get(0));
-        assertNotNull("cannot find editpart", part);
-
-        IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
-
-        IPropertyDescriptor desc[] = source.getPropertyDescriptors();
-
-        boolean condition = false;
-        for (int i = 0; i < desc.length; i++) {
-            String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("condition"))
-                condition = true;
-        }
-
-        assertTrue("Missing PropertyDescriptor", condition);
-    }
-
-    /**
      * Test #1 for requirement ReqElemResponsibility
      * 
      * Author: jkealey
@@ -1608,7 +1612,7 @@ public class ProgressTests extends TestCase {
         assertEquals("Simple path not added.", 3, getMap().getPathGraph().getPathNodes().size());
 
         // verify that the edit part tree has changed.
-        assertEquals("MapAndPathGraphEditPart should have exactly " + (childCount + 5) + " children", childCount + 5, getMapEditPart(0).getChildren().size());
+        assertEquals("MapAndPathGraphEditPart should have exactly " + (childCount + 7) + " children", childCount + 7, getMapEditPart(0).getChildren().size());
 
     }
 

@@ -63,6 +63,9 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /** KeyHandler with common bindings for both the Outline View and the Editor. */
     private KeyHandler sharedKeyHandler;
 
+    // our outline page. 
+    private UcmOutlinePage outline; 
+    
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
         this.parent = parent;
@@ -208,9 +211,18 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         else if (type == ActionRegistry.class)
             return getActionRegistry();
         else if (type == IContentOutlinePage.class)
-            return new UcmOutlinePage(getParent(), new TreeViewer());
+            return getOutlinePage();
 
         return super.getAdapter(type);
+    }
+
+    /**
+     * @return
+     */
+    private UcmOutlinePage getOutlinePage() {
+        if (outline==null)
+            outline  = new UcmOutlinePage(getParent(), new TreeViewer());
+        return outline;
     }
 
     /**
