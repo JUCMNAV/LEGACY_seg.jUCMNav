@@ -1,7 +1,10 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.Vector;
+
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
@@ -11,6 +14,7 @@ import ucm.map.OrFork;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import urncore.Condition;
 
 /**
  * @author jpdaigle, jkealey
@@ -31,6 +35,8 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
     PathGraph _pg;
 
+    Vector _newConditions;
+
     public ForkPathsCommand() {
         super();
     }
@@ -40,8 +46,8 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
      * 
      * @param emPoint
      *            EmptyPoint on target path to join to.
-     * @param start Point
-     *            EndPoint on source path to join.
+     * @param start
+     *            Point EndPoint on source path to join.
      * @param newFork
      *            OrFork or AndFork to split paths.
      */
@@ -57,7 +63,7 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
         assert (_newFork != null);
 
-        this.setLabel("Join Paths");
+        this.setLabel("Fork Paths");
     }
 
     public boolean canExecute() {
@@ -75,6 +81,13 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
         _ncOldStart = (NodeConnection) _oldStartPoint.getSucc().get(0);
         _ncA = (NodeConnection) _oldEmptyPoint.getPred().get(0);
         _ncB = (NodeConnection) _oldEmptyPoint.getSucc().get(0);
+
+        if (_newFork instanceof OrFork) {
+            _newConditions = new Vector();
+            //need two conditions, one for each branch.
+            _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
+            _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
+        }
 
         redo();
     }
@@ -97,6 +110,12 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
         // Add new fork PathNode to model
         _newFork.setCompRef(ParentFinder.findParent(_pg.getMap(), _newFork.getX(), _newFork.getY()));
         _pg.getPathNodes().add(_newFork);
+        
+        if (_newConditions!=null)
+        {
+            _ncOldStart.setCondition((Condition)_newConditions.get(0));
+            _ncB.setCondition((Condition)_newConditions.get(1));
+        }
     }
 
     public void undo() {
@@ -107,13 +126,17 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
         _pg.getPathNodes().add(_oldEmptyPoint);
         _pg.getPathNodes().add(_oldStartPoint);
-        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint
-                .getY()));
-        _oldStartPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldStartPoint.getX(), _oldStartPoint
-                .getY()));
+        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint.getY()));
+        _oldStartPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldStartPoint.getX(), _oldStartPoint.getY()));
 
         _newFork.setCompRef(null);
         _pg.getPathNodes().remove(_newFork);
+        
+        if (_newConditions!=null)
+        {
+            _ncOldStart.setCondition(null);
+            _ncB.setCondition(null);
+        }        
     }
 
     /*

@@ -16,6 +16,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * Created on 30-May-2005
@@ -29,7 +30,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     private EmptyPoint newEmpty;
     private NodeConnection newConn, newConn2;
     private PathNode newStartOrEnd;
-
+    private Condition newCondition;
     private PathGraph pg;
     private URNspec urn;
 
@@ -88,6 +89,11 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newConn2.setTarget(newEmpty);
             newConn2.setSource(newStartOrEnd);
         }
+        
+        if (insertionNode instanceof OrFork) {
+            newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+            newConn.setCondition(newCondition);
+        }
 
         redo();
     }
@@ -113,6 +119,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         newEmpty.setCompRef(ParentFinder.getPossibleParent(newEmpty));
         newStartOrEnd.setCompRef(ParentFinder.getPossibleParent(newStartOrEnd));
 
+        
         testPostConditions();
     }
 
@@ -155,7 +162,6 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         assert pg.getPathNodes().contains(insertionNode) : "pre node in model";
         assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model";
         assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model";
-        
 
     }
 

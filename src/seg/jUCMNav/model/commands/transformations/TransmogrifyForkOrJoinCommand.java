@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
@@ -18,6 +19,7 @@ import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * @author jpdaigle
@@ -32,6 +34,8 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
     int _x, _y;
 
     Vector _inConn, _outConn;
+
+    Vector _outConditions;
 
     public TransmogrifyForkOrJoinCommand() {
         super();
@@ -64,19 +68,15 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _x = _oldNode.getX();
         _y = _oldNode.getY();
         URNspec urn = _pg.getMap().getUcmspec().getUrnspec();
-        
+
         if (_oldNode instanceof AndFork) {
-            _newNode = (OrFork) ModelCreationFactory.getNewObject(urn,
-                    OrFork.class);
+            _newNode = (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
         } else if (_oldNode instanceof OrFork) {
-            _newNode = (AndFork) ModelCreationFactory.getNewObject(
-                    urn, AndFork.class);
+            _newNode = (AndFork) ModelCreationFactory.getNewObject(urn, AndFork.class);
         } else if (_oldNode instanceof AndJoin) {
-            _newNode = (OrJoin) ModelCreationFactory.getNewObject(urn,
-                    OrJoin.class);
+            _newNode = (OrJoin) ModelCreationFactory.getNewObject(urn, OrJoin.class);
         } else if (_oldNode instanceof OrJoin) {
-            _newNode = (AndJoin) ModelCreationFactory.getNewObject(
-                    urn, AndJoin.class);
+            _newNode = (AndJoin) ModelCreationFactory.getNewObject(urn, AndJoin.class);
         } else
             throw new IllegalArgumentException("PathNode must be a fork");
 
@@ -88,6 +88,14 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _outConn = new Vector();
         _outConn.addAll(_oldNode.getSucc());
 
+        _outConditions = new Vector();
+        for (Iterator iter = _outConn.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (_oldNode instanceof OrFork)
+                _outConditions.add(nc.getCondition());
+            else if (_newNode instanceof OrFork)
+                _outConditions.add((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
+        }
         redo();
     }
 
@@ -103,6 +111,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         for (i = 0; i < _outConn.size(); i++) {
             nc = (NodeConnection) _outConn.get(i);
             nc.setSource(_newNode);
+            if (_oldNode instanceof OrFork)
+                nc.setCondition(null);
+            else if (_newNode instanceof OrFork)
+                nc.setCondition((Condition) _outConditions.get(i));
         }
 
         // Remove old node
@@ -112,6 +124,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         // Add new node
         _newNode.setCompRef(ParentFinder.findParent(_pg.getMap(), _newNode.getX(), _newNode.getY()));
         _pg.getPathNodes().add(_newNode);
+
     }
 
     public void undo() {
@@ -126,6 +139,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         for (i = 0; i < _outConn.size(); i++) {
             nc = (NodeConnection) _outConn.get(i);
             nc.setSource(_oldNode);
+            if (_oldNode instanceof OrFork)
+                nc.setCondition((Condition) _outConditions.get(i));
+            else if (_newNode instanceof OrFork)
+                nc.setCondition(null);            
         }
 
         // Remove old node

@@ -46,9 +46,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
     // list of incoming and outgoing node connections
     private List ncIn, ncOut;
 
-    // when deleting an orfork, remember its out conditions. 
+    // when deleting an orfork, remember its out conditions.
     private List outConditions;
-    
+
     // list of new start points and end points.
     private List newStart, newEnd;
 
@@ -65,7 +65,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
     private EmptyPoint empty;
 
     // if we are downgrading an orfork to an empty point, we need to get rid of the condition.
-//    private Condition condition;
+    //    private Condition condition;
 
     // the URNspec which contains all the elements
     private URNspec urn;
@@ -174,14 +174,16 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                     empty.setX(toDelete.getX());
                     empty.setY(toDelete.getY());
 
-                    // index of connection to be deleted.
-                    int index = toDelete.getSucc().indexOf(ncOut.get(0));
-                    // index of remaining node connection
-                    index = (++index % 2);
-                    // we need to get rid of this condition.
-                    if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
-                        outConditions = new Vector();
-                        outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
+                    if (ncOut.size() > 0) {
+                        // index of connection to be deleted.
+                        int index = toDelete.getSucc().indexOf(ncOut.get(0));
+                        // index of remaining node connection
+                        index = (++index % 2);
+                        // we need to get rid of this condition.
+                        if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
+                            outConditions = new Vector();
+                            outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
+                        }
                     }
                 }
 
@@ -233,8 +235,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             newEnd.add(ep);
         }
 
-        if (shouldDeleteNode)
-        {
+        if (shouldDeleteNode) {
             outConditions = new Vector();
             for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
@@ -275,7 +276,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             nc.setSource(pn);
             pg.getPathNodes().add(pn);
             pn.setCompRef(ParentFinder.getPossibleParent(pn));
-            if (shouldDeleteNode && outConditions!=null)
+            if (shouldDeleteNode && outConditions != null)
                 nc.setCondition(null);
         }
 
@@ -287,7 +288,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             toDelete.setCompRef(null);
             pg.getPathNodes().remove(toDelete);
             pg.getPathNodes().add(empty);
-            
+
             if (outConditions != null) {
                 ((NodeConnection) empty.getSucc().get(0)).setCondition(null);
             }
@@ -351,7 +352,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         if (!shouldDeleteNode && empty != null) {
             // must upgrade back to non empty point.
             if (outConditions != null) {
-                ((NodeConnection) empty.getSucc().get(0)).setCondition((Condition)outConditions.get(0));
+                ((NodeConnection) empty.getSucc().get(0)).setCondition((Condition) outConditions.get(0));
             }
 
             ((NodeConnection) empty.getPred().get(0)).setTarget(toDelete);
@@ -377,9 +378,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             PathNode pn = (PathNode) newStart.get(i);
             pg.getPathNodes().remove(pn);
             pn.setCompRef(null);
-            if (shouldDeleteNode && outConditions!=null)
-                nc.setCondition((Condition)outConditions.get(i));
-            
+            if (shouldDeleteNode && outConditions != null)
+                nc.setCondition((Condition) outConditions.get(i));
+
         }
 
         if (shouldDeleteNode) {
