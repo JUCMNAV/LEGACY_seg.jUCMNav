@@ -26,6 +26,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * Created on 29-May-2005
@@ -45,6 +46,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
     // list of incoming and outgoing node connections
     private List ncIn, ncOut;
 
+    // when deleting an orfork, remember its out conditions. 
+    private List outConditions;
+    
     // list of new start points and end points.
     private List newStart, newEnd;
 
@@ -59,6 +63,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
     // if the pathnode was downgraded to an empty point, this is it.
     private EmptyPoint empty;
+
+    // if we are downgrading an orfork to an empty point, we need to get rid of the condition.
+//    private Condition condition;
 
     // the URNspec which contains all the elements
     private URNspec urn;
@@ -166,6 +173,16 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                     empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
                     empty.setX(toDelete.getX());
                     empty.setY(toDelete.getY());
+
+                    // index of connection to be deleted.
+                    int index = toDelete.getSucc().indexOf(ncOut.get(0));
+                    // index of remaining node connection
+                    index = (++index % 2);
+                    // we need to get rid of this condition.
+                    if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
+                        outConditions = new Vector();
+                        outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
+                    }
                 }
 
             }
@@ -216,6 +233,14 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             newEnd.add(ep);
         }
 
+        if (shouldDeleteNode)
+        {
+            outConditions = new Vector();
+            for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                outConditions.add(nc.getCondition());
+            }
+        }
         redo();
     }
 
@@ -250,6 +275,8 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             nc.setSource(pn);
             pg.getPathNodes().add(pn);
             pn.setCompRef(ParentFinder.getPossibleParent(pn));
+            if (shouldDeleteNode && outConditions!=null)
+                nc.setCondition(null);
         }
 
         if (!shouldDeleteNode && empty != null) {
@@ -260,6 +287,10 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             toDelete.setCompRef(null);
             pg.getPathNodes().remove(toDelete);
             pg.getPathNodes().add(empty);
+            
+            if (outConditions != null) {
+                ((NodeConnection) empty.getSucc().get(0)).setCondition(null);
+            }
         }
         testPostConditions();
     }
@@ -319,6 +350,10 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
         if (!shouldDeleteNode && empty != null) {
             // must upgrade back to non empty point.
+            if (outConditions != null) {
+                ((NodeConnection) empty.getSucc().get(0)).setCondition((Condition)outConditions.get(0));
+            }
+
             ((NodeConnection) empty.getPred().get(0)).setTarget(toDelete);
             ((NodeConnection) empty.getSucc().get(0)).setSource(toDelete);
             toDelete.setCompRef(empty.getCompRef());
@@ -342,6 +377,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             PathNode pn = (PathNode) newStart.get(i);
             pg.getPathNodes().remove(pn);
             pn.setCompRef(null);
+            if (shouldDeleteNode && outConditions!=null)
+                nc.setCondition((Condition)outConditions.get(i));
+            
         }
 
         if (shouldDeleteNode) {

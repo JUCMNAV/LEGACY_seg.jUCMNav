@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
@@ -20,6 +19,8 @@ import urncore.Responsibility;
  * Command to delete a node on a path.
  * 
  * Currently deletes pathnodes that have 1 in, 1 out.
+ * 
+ * Was intended to work for nodes that have more than 1 in or out, but this code was put in DeleteMultiNodeCommand
  * 
  * @author Etienne Tremblay, jkealey
  *  
@@ -36,9 +37,6 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
 
     /** the next node; assuming just one */
     private PathNode next;
-
-    /** our node's sources; right now only one */
-    private Vector sources;
 
     /** our node's targets; right now only one */
     private Vector targets;
@@ -86,7 +84,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         // could happen if was already deleted by other command
-        if (node.getPathGraph() == null) {
+        if (node.getPathGraph() == null || !canExecute()) {
             aborted = true;
             return;
         }
@@ -94,11 +92,9 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         previous = ((NodeConnection) node.getPred().get(0)).getSource();
         next = ((NodeConnection) node.getSucc().get(0)).getTarget();
         compRef = node.getCompRef();
-        sources = new Vector();
         targets = new Vector();
-        sources.addAll(node.getPred());
         targets.addAll(node.getSucc());
-        newConn = (NodeConnection) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), NodeConnection.class);
+        newConn = (NodeConnection) node.getPred().get(0);
 
         if (node instanceof RespRef) {
             respDef = ((RespRef) node).getRespDef();
@@ -121,12 +117,12 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         node.getSucc().clear();
         node.getPred().clear();
 
-        ((NodeConnection) sources.get(0)).setSource(null);
+        //((NodeConnection) sources.get(0)).setSource(null);
         ((NodeConnection) targets.get(0)).setTarget(null);
 
-        map.getPathGraph().getNodeConnections().remove((NodeConnection) sources.get(0));
+        //map.getPathGraph().getNodeConnections().remove((NodeConnection) sources.get(0));
         map.getPathGraph().getNodeConnections().remove((NodeConnection) targets.get(0));
-        map.getPathGraph().getNodeConnections().add(newConn);
+        //map.getPathGraph().getNodeConnections().add(newConn);
 
         map.getPathGraph().getPathNodes().remove(node);
 
@@ -152,14 +148,12 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         node.getSucc().addAll(targets);
-        node.getPred().addAll(sources);
 
-        ((NodeConnection) sources.get(0)).setSource(previous);
+        newConn.setSource(previous);
+        newConn.setTarget(node);
         ((NodeConnection) targets.get(0)).setTarget(next);
 
-        map.getPathGraph().getNodeConnections().add((NodeConnection) sources.get(0));
         map.getPathGraph().getNodeConnections().add((NodeConnection) targets.get(0));
-        map.getPathGraph().getNodeConnections().remove(newConn);
 
         map.getPathGraph().getPathNodes().add(node);
 
@@ -167,8 +161,6 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
             ((RespRef) node).setRespDef(respDef);
         }
         node.setCompRef(compRef);
-        newConn.setSource(null);
-        newConn.setTarget(null);
 
         testPreConditions();
 
@@ -197,12 +189,9 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert canExecute() : "pre canExecute";
         assert previous != null && next != null && newConn != null : "pre something is null";
-        assert sources.size() == node.getPred().size() && targets.size() == node.getSucc().size() : "pre source/target problem";
-        for (Iterator iter = sources.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            assert node.getPred().contains(nc) : "pre missing source";
-            assert map.getPathGraph().getNodeConnections().contains(nc) : "pre source not in model";
-        }
+        assert targets.size() == node.getSucc().size() : "pre source/target problem";
+        assert node.getPred().contains(newConn) : "pre missing source";
+        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre source not in model";
         for (Iterator iter = targets.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
             assert node.getSucc().contains(nc) : "pre missing target";
@@ -214,7 +203,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
             assert respDef != null && respDef == ((RespRef) node).getRespDef() : "pre respref not linked";
         }
 
-        assert !map.getPathGraph().getNodeConnections().contains(newConn) : "pre new conn";
+        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre new conn";
 
     }
 
@@ -227,10 +216,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         assert previous != null && next != null && newConn != null : "post something is null";
         assert node.getPred().size() == 0 && 0 == node.getSucc().size() : "post source/target problem";
 
-        for (Iterator iter = sources.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            assert !map.getPathGraph().getNodeConnections().contains(nc) : "post source in model";
-        }
+        
         for (Iterator iter = targets.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
             assert !map.getPathGraph().getNodeConnections().contains(nc) : "post target in model";

@@ -16,8 +16,10 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Timer;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 import urn.URNspec;
@@ -52,7 +54,14 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         } else if (type.getInstanceClass() == Workload.class) {
             workloadDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label)) {
-            conditionDescriptor(descriptors, propertyid);
+            if (getEditableValue() instanceof NodeConnection) {
+                NodeConnection nc = (NodeConnection) getEditableValue();
+                // only on node connections that follow an or fork or for timeout paths
+                if (nc.getSource() instanceof OrFork || (nc.getSource() instanceof Timer && ((Timer) nc.getSource()).getSucc().indexOf(nc) == 1)) {
+                    conditionDescriptor(descriptors, propertyid);
+                }
+            } else
+                conditionDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == ArrivalProcess.class) {
             String[] values = new String[ArrivalProcess.VALUES.size()];
             for (int i = 0; i < ArrivalProcess.VALUES.size(); i++)
