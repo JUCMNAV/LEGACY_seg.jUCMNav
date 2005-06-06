@@ -74,9 +74,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Rectangle constraint = (Rectangle) getConstraintFor(request);
         Command createCommand = null;
 
-        if (newObjectType == StartPoint.class) {
-            createCommand = new CreatePathCommand(getPathGraph(), (StartPoint) request.getNewObject(), constraint.x, constraint.y);
-        } else if (newObjectType == EndPoint.class) {
+        if (newObjectType == EndPoint.class || newObjectType == StartPoint.class) {
 
             // Get the list of selected items
             List selectedParts = ((IStructuredSelection) getHost().getViewer().getSelection()).toList();
@@ -86,6 +84,8 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 EditPart selected = (EditPart) (selectedParts.get(0));
                 if (selected.getModel() instanceof EndPoint) {
                     createCommand = new ExtendPathCommand(getPathGraph(), (EndPoint) selected.getModel(), constraint.x, constraint.y);
+                } else if (selected.getModel() instanceof StartPoint) {
+                    createCommand = new ExtendPathCommand(getPathGraph(), (StartPoint) selected.getModel(), constraint.x, constraint.y);
                 } else if (selected.getModel() instanceof PathGraph) {
                     // JK: I'm not sure when this code is invoked.
                     // ET: executed when nothing other than the background is selected; used to work without this code when the top level element was the
@@ -149,54 +149,55 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
             Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y + (dim.height / 2));
-//            PathNode node = (PathNode) child.getModel();
-//            int x, y;
-//            x = node.getX();
-//            y = node.getY();
-//            System.out.println(location.x);
-//            System.out.println(location.y);
-//            node.setX(location.x);
-//            node.setY(location.y);
-////            node.setX(x);
-////            node.setY(y);
-            
+            //            PathNode node = (PathNode) child.getModel();
+            //            int x, y;
+            //            x = node.getX();
+            //            y = node.getY();
+            //            System.out.println(location.x);
+            //            System.out.println(location.y);
+            //            node.setX(location.x);
+            //            node.setY(location.y);
+            //// node.setX(x);
+            //// node.setY(y);
+
             return new SetConstraintCommand((PathNode) child.getModel(), location.x, location.y);
         } else if (child.getModel() instanceof ComponentRef) {
             Rectangle rect = (Rectangle) constraint;
             ComponentRef compRef = (ComponentRef) child.getModel();
 
-			// this would have moved the component only, changed 01-05-2005 to allow binding/unbinding using the compound command
+            // this would have moved the component only, changed 01-05-2005 to allow binding/unbinding using the compound command
             //SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, rect.getLocation().x, rect.getLocation().y,
             // rect.width,
             //       rect.height);
 
-			// compound command for binding.
+            // compound command for binding.
             SetConstraintBoundComponentRefCompoundCommand moveResize = new SetConstraintBoundComponentRefCompoundCommand(compRef, rect.getLocation().x, rect
                     .getLocation().y, rect.width, rect.height);
 
             return moveResize;
 
         } else if (child.getModel() instanceof Condition) {
-        	Condition condition = (Condition) child.getModel();
-        	ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
-        	
-        	NodeConnectionEditPart nc = (NodeConnectionEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(((ConditionEditPart) child).getNodeConnection());
-        	if (nc != null) {
+            Condition condition = (Condition) child.getModel();
+            ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
+
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(
+                    ((ConditionEditPart) child).getNodeConnection());
+            if (nc != null) {
                 SplineConnection sp = (SplineConnection) nc.getFigure();
                 if (sp != null) {
                     PointList list = sp.getPoints();
                     if (list != null) {
-                    	Point mid = list.getMidpoint();
-                    	locationCommand.setNewPosition(mid.x - ((Rectangle) constraint).x, mid.y - ((Rectangle) constraint).y);
+                        Point mid = list.getMidpoint();
+                        locationCommand.setNewPosition(mid.x - ((Rectangle) constraint).x, mid.y - ((Rectangle) constraint).y);
                     }
                 }
             }
-        	
+
             locationCommand.setCondition(condition);
 
             return locationCommand;
         } else if (child.getModel() instanceof Label) {
-        	Label label = (Label) child.getModel();
+            Label label = (Label) child.getModel();
             LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
             locationCommand.setLabel(label);
             //		Rectangle constraint = (Rectangle)getConstraintFor(request);
@@ -205,35 +206,35 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             //		((GraphicalEditPart)(child)).getFigure().translateToRelative((Rectangle)constraint);
             //		rect.translate(getLayoutOrigin().getNegated());
 
-            
             // Adjust the coordinates with the coordinates of the figure too
             // since
             // the x,y coordinates is
             // the center of the figure.
             Dimension dim = ((LabelEditPart) child).getLabelFigure().getPreferredSize().getCopy();
-            if(label instanceof NodeLabel) {
-            	PathNode node = (PathNode) (((LabelEditPart) child).getUCMmodelElement());
+            if (label instanceof NodeLabel) {
+                PathNode node = (PathNode) (((LabelEditPart) child).getUCMmodelElement());
 
-            	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
-            		PathNodeEditPart p = (PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node);
-            		
-            		int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
-                	Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y - (dim.height + height/2));
+                if (((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
+                    PathNodeEditPart p = (PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node);
+
+                    int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
+                    Point location = new Point(node.getX() - ((Rectangle) constraint).x - (dim.width / 2), node.getY() - ((Rectangle) constraint).y
+                            - (dim.height + height / 2));
                     locationCommand.setNewPosition(location.x, location.y);
                 } else {
-                	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
+                    locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
                 }
-            } else if(label instanceof ComponentLabel) {
-            	ComponentRef component = (ComponentRef) (((LabelEditPart) child).getUCMmodelElement());
+            } else if (label instanceof ComponentLabel) {
+                ComponentRef component = (ComponentRef) (((LabelEditPart) child).getUCMmodelElement());
 
-            	if(((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
-                	Point location = new Point(component.getX() - ((Rectangle) constraint).x, component.getY() - ((Rectangle) constraint).y - dim.height);
+                if (((IStructuredSelection) getHost().getViewer().getSelection()).toList().size() == 1) {
+                    Point location = new Point(component.getX() - ((Rectangle) constraint).x, component.getY() - ((Rectangle) constraint).y - dim.height);
                     locationCommand.setNewPosition(location.x, location.y);
                 } else {
-                	locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
+                    locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
                 }
             } else {
-            	System.out.println("unknown label upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
+                System.out.println("unknown label upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
                 return null;
             }
 
