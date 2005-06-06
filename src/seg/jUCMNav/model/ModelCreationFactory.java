@@ -231,7 +231,7 @@ public class ModelCreationFactory implements CreationFactory {
                 } else if (targetClass.equals(Condition.class)) {
                     Condition cond = urncorefactory.createCondition();
                     cond.setExpression("true");
-                    cond.setLabel("true");
+                    cond.setLabel("");
                     result = cond;
                     
                 } else {

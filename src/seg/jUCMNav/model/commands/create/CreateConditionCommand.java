@@ -25,9 +25,6 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
     }
 
     public boolean canExecute() {
-    	if(connection == null) {
-    		System.out.println("hello");
-    	}
         return connection != null;
     }
 

@@ -26,7 +26,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
-import seg.jUCMNav.actions.AddConditionAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
@@ -155,10 +154,6 @@ public class ActionRegistryManager {
 
         action = new AddLabelAction(editor);
         action.setText("Add label");
-        addEditPartAction((SelectionAction) action);
-        
-        action = new AddConditionAction(editor);
-        action.setText("Add Condition");
         addEditPartAction((SelectionAction) action);
 
         action = new MergeStartEndAction(editor);

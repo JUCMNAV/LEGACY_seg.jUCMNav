@@ -306,7 +306,14 @@ public class LabelEditPart extends ModelElementEditPart {
             } else if (modelElement instanceof NodeConnection) {
                 Condition cond = ((NodeConnection) modelElement).getCondition();
                 if (cond != null) {
-                    label.setText("[" + cond.getLabel() + "]");
+                	if(!cond.getLabel().equals("")) {
+                		label.setText("[" + cond.getLabel() + "]");
+                		labelFigure.setVisible(true);
+                	} else {
+                		labelFigure.setVisible(false);
+                		this.setSelected(0);
+                	}
+                    
                     label.setForegroundColor(new Color(null, 175, 175, 175));
                 }
 
