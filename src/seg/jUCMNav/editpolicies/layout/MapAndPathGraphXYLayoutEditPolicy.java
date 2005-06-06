@@ -83,13 +83,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             if (selectedParts.size() == 1) {
                 EditPart selected = (EditPart) (selectedParts.get(0));
                 if (selected.getModel() instanceof EndPoint) {
+                    // extend end point
                     createCommand = new ExtendPathCommand(getPathGraph(), (EndPoint) selected.getModel(), constraint.x, constraint.y);
                 } else if (selected.getModel() instanceof StartPoint) {
+                    // extend start point
                     createCommand = new ExtendPathCommand(getPathGraph(), (StartPoint) selected.getModel(), constraint.x, constraint.y);
-                } else if (selected.getModel() instanceof PathGraph) {
-                    // JK: I'm not sure when this code is invoked.
-                    // ET: executed when nothing other than the background is selected; used to work without this code when the top level element was the
-                    // PathGraph
+                } else if (selected.getModel() instanceof PathGraph || selected.getModel() instanceof Map) {
+                    // create new path
                     createCommand = new CreatePathCommand(getPathGraph(), constraint.x, constraint.y);
                 }
             }
