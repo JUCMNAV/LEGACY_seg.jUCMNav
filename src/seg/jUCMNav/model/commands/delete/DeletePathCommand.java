@@ -9,6 +9,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
+import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -24,6 +25,8 @@ public class DeletePathCommand extends CompoundCommand {
     private Map editpartregistry;
     private EndPoint end;
 
+    private PathGraph pg;
+    
     private StartPoint start;
 
     public DeletePathCommand(EndPoint end, Map editpartregistry) {
@@ -53,7 +56,7 @@ public class DeletePathCommand extends CompoundCommand {
     public boolean canUndo() {
         return true;
     }
-    
+
     /**
      * Builds the compound from its end.
      */
@@ -62,6 +65,7 @@ public class DeletePathCommand extends CompoundCommand {
         if (this.end.getPathGraph() == null)
             return;
 
+        PathGraph pg = this.end.getPathGraph();
         PathNode node = this.end;
         PathNode next;
         commands = new Stack();
@@ -77,7 +81,7 @@ public class DeletePathCommand extends CompoundCommand {
 
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
-            } else if (!(node instanceof StartPoint)&&!(node instanceof EndPoint)) {
+            } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
                 Vector v = new Vector();
                 v.add((NodeConnection) next.getPred().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, new Vector(), v, this.editpartregistry));
@@ -96,6 +100,8 @@ public class DeletePathCommand extends CompoundCommand {
         // was already deleted.
         if (this.start.getPathGraph() == null)
             return;
+        
+        PathGraph pg = this.start.getPathGraph();
 
         PathNode node = this.start;
         PathNode previous;
@@ -113,7 +119,7 @@ public class DeletePathCommand extends CompoundCommand {
 
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
-            } else if (!(node instanceof StartPoint)&&!(node instanceof EndPoint)) {
+            } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
                 Vector v = new Vector();
                 v.add((NodeConnection) previous.getSucc().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, v, new Vector(), this.editpartregistry));
@@ -138,4 +144,6 @@ public class DeletePathCommand extends CompoundCommand {
             buildFromEnd();
         super.execute();
     }
+
+
 }

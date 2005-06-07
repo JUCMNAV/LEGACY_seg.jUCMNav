@@ -4,11 +4,12 @@
  */
 package seg.jUCMNav.editpolicies.feedback;
 
-import seg.jUCMNav.figures.ComponentRefFigure;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 
 import seg.jUCMNav.editparts.ComponentRefEditPart;
+import seg.jUCMNav.figures.ComponentRefFigure;
+import urncore.ComponentKind;
 
 /**
  * Created 2005-03-04
@@ -31,10 +32,16 @@ public class ComponentFeedbackEditPolicy extends GraphicalEditPolicy {
     }
 
     public void eraseTargetFeedback(Request request) {
-        getFigure().setLineWidth(3);
+        if (getFigure().getKind() == ComponentKind.AGENT)
+            getFigure().setLineWidth(6);
+        else
+            getFigure().setLineWidth(3);
     }
 
     public void showTargetFeedback(Request request) {
-        getFigure().setLineWidth(6);
+        if (getFigure().getKind() == ComponentKind.AGENT)
+            getFigure().setLineWidth(9);
+        else
+            getFigure().setLineWidth(6);
     }
 }

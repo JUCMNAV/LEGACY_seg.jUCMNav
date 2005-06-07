@@ -3,6 +3,8 @@ package seg.jUCMNav.figures;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -59,7 +61,14 @@ public class ComponentRefFigure extends RectangleFigure {
      * @param type
      */
     public void setKind(int type) {
-        this.kind = type;
+        if (type != kind) {
+            if (type == ComponentKind.AGENT)
+                this.setLineWidth(this.getLineWidth() + 3);
+            else if (kind == ComponentKind.AGENT)
+                this.setLineWidth(this.getLineWidth() - 3);
+
+            this.kind = type;
+        }
     }
 
     /**
@@ -74,8 +83,28 @@ public class ComponentRefFigure extends RectangleFigure {
      * @see Shape#outlineShape(Graphics)
      */
     protected void outlineShape(Graphics graphics) {
-        // planning on overriding for other types.
+        Rectangle r = getBounds().getCopy();
         switch (kind) {
+        case ComponentKind.OBJECT:
+            r.x += lineWidth / 2;
+            r.y += lineWidth / 2;
+            r.width -= lineWidth;
+            r.height -= lineWidth;
+            graphics.drawRoundRectangle(r, 50, 50);
+            break;
+        case ComponentKind.PROCESS:
+            r.x += lineWidth / 2;
+            r.y += lineWidth / 2;
+            r.width -= lineWidth;
+            r.height -= lineWidth;
+            PointList points = new PointList();
+            points.addPoint(r.getTopRight());
+            points.addPoint(r.getBottomRight().x - r.height / 10, r.getBottomRight().y);
+            points.addPoint(r.getBottomLeft());
+            points.addPoint(r.getTopLeft().x + r.height / 10, r.getTopLeft().y);
+
+            graphics.drawPolygon(points);
+            break;
         case ComponentKind.TEAM:
         case ComponentKind.OTHER:
         default:
@@ -84,5 +113,9 @@ public class ComponentRefFigure extends RectangleFigure {
 
         }
 
+    }
+
+    public int getKind() {
+        return kind;
     }
 }
