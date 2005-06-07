@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Display;
 import urncore.ComponentKind;
 
 /**
- * Created on 30-May-2005 
+ * Created on 30-May-2005
  * 
  * A figure for components refs.
  * 
@@ -78,6 +78,7 @@ public class ComponentRefFigure extends RectangleFigure {
         switch (kind) {
         case ComponentKind.TEAM:
         case ComponentKind.OTHER:
+        default:
             super.outlineShape(graphics);
             break;
 

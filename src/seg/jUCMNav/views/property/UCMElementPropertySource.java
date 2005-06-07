@@ -1,8 +1,10 @@
 package seg.jUCMNav.views.property;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
+import org.eclipse.emf.common.util.AbstractEnumerator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -20,7 +22,6 @@ import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Timer;
-import ucm.performance.ArrivalProcess;
 import ucm.performance.Workload;
 import urn.URNspec;
 import urncore.Condition;
@@ -62,13 +63,36 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 }
             } else
                 conditionDescriptor(descriptors, propertyid);
-        } else if (type.getInstanceClass() == ArrivalProcess.class) {
-            String[] values = new String[ArrivalProcess.VALUES.size()];
-            for (int i = 0; i < ArrivalProcess.VALUES.size(); i++)
-                values[i] = ((ArrivalProcess) (ArrivalProcess.VALUES.get(i))).getName();
-            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "Arrival process", values));
+        } else if (type.getInstanceClass().getSuperclass() == AbstractEnumerator.class) {
+            // these are enums created by EMF
+            enumerationDescriptor(descriptors, propertyid);
         } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
+        }
+    }
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void enumerationDescriptor(Collection descriptors, PropertyID propertyid) {
+        try {
+            EClassifier type = getFeatureType(propertyid.getFeature());
+            Class enum = type.getInstanceClass();
+            List VALUES;
+
+            VALUES = (List) enum.getField("VALUES").get(null);
+
+            String[] values = new String[VALUES.size()];
+            for (int i = 0; i < VALUES.size(); i++)
+                values[i] = ((AbstractEnumerator) (VALUES.get(i))).getName();
+            
+            String name = enum.getName().substring(enum.getName().lastIndexOf('.')+1);
+            
+            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -141,8 +165,9 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             }
             result = new UCMElementPropertySource((EObject) result);
-        } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
-            result = new Integer(((Workload) getEditableValue()).getArrivalPattern().getValue());
+        } else if (result instanceof AbstractEnumerator) {
+            // if this is an EMF enumeration
+            result = new Integer(((AbstractEnumerator)result).getValue());
         } else {
             result = super.returnPropertyValue(feature, result);
         }
@@ -164,8 +189,16 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             else
                 result = list.get(((Integer) value).intValue() - 1);
             setReferencedObject(propertyid, feature, result);
-        } else if (getFeatureType(feature).getInstanceClass() == ArrivalProcess.class) {
-            setReferencedObject(propertyid, feature, ArrivalProcess.get(((Integer) value).intValue()));
+        } else if (getFeatureType(feature).getInstanceClass().getSuperclass() == AbstractEnumerator.class) {
+            // if this is an EMF enumeration
+            Class enum = getFeatureType(feature).getInstanceClass();
+            try {
+                result = enum.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            setReferencedObject(propertyid, feature, result);
         } else
 
             super.setPropertyValue(id, value);
