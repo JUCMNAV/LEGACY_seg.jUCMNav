@@ -52,6 +52,8 @@ public class ExportImageWizardPage extends WizardPage {
 
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
+        
+        
 
         if (mapsToExport.size() == 0) {
             setErrorMessage("No maps have been selected for export. Either you did not select a .jucm file or the .jucm file you selected does not contain any Maps.");
@@ -156,6 +158,7 @@ public class ExportImageWizardPage extends WizardPage {
             lstMaps.add(((ExportImageWizard) getWizard()).getMapName(map));
         }
         lstMaps.selectAll();
+        lstMaps.add("kjhlkj");
         lstMaps.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 setPageComplete(lstMaps.getSelectionCount() > 0);

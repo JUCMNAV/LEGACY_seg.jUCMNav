@@ -6,7 +6,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
@@ -30,8 +29,9 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             this.elem = ((ComponentLabel) lbl).getCompRef();
         else if (lbl instanceof NodeLabel)
             this.elem = ((NodeLabel) lbl).getPathNode();
-        else if (lbl instanceof Condition)
-            this.elem = ((Condition) lbl).getNodeConnection();
+        else if (lbl instanceof Condition) {
+            this.elem = lbl;
+        }
         this.name = name;
     }
 
@@ -45,8 +45,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             oldName = ((RespRef) elem).getRespDef().getName();
         } else if (elem instanceof PathNode) {
             oldName = ((PathNode) elem).getName();
-        } else if (elem instanceof NodeConnection) {
-            oldName = ((NodeConnection) elem).getCondition().getLabel();
+        } else if (elem instanceof Condition) {
+            oldName = ((Condition)elem).getLabel();
         }
         redo();
     }
@@ -55,7 +55,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @return whether we can apply changes
      */
     public boolean canExecute() {
-        if (elem instanceof ComponentRef || elem instanceof PathNode || elem instanceof NodeConnection) {
+        if (elem instanceof ComponentRef || elem instanceof PathNode || elem instanceof Condition) {
             return verifyUniqueness(name);
         } else
             return false;
@@ -105,8 +105,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((RespRef) elem).getRespDef().setName(name);
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(name);
-        } else if (elem instanceof NodeConnection) {
-            ((NodeConnection) elem).getCondition().setLabel(name);
+        } else if (elem instanceof Condition) {
+            ((Condition)elem).setLabel(name);
         }
         testPostConditions();
     }
@@ -122,8 +122,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((RespRef) elem).getRespDef().setName(oldName);
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(oldName);
-        } else if (elem instanceof NodeConnection) {
-            ((NodeConnection) elem).getCondition().setLabel(oldName);
+        } else if (elem instanceof Condition) {
+            ((Condition)elem).setLabel(oldName);
         }
         testPreConditions();
     }
