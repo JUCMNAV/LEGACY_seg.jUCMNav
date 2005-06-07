@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.property.descriptors;
 
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -21,18 +22,14 @@ public class StubPluginsCellEditor extends DialogCellEditor {
 	
 	private Label defaultLabel;
 
-	/**
-	 * 
-	 */
-	public StubPluginsCellEditor() {
-		super();
-	}
+	private CommandStack cmdStack;
 
 	/**
 	 * @param parent
 	 */
-	public StubPluginsCellEditor(Composite parent) {
+	public StubPluginsCellEditor(Composite parent, CommandStack cmdStack) {
 		super(parent);
+		this.cmdStack = cmdStack;
 	}
 
 	/**
@@ -48,7 +45,7 @@ public class StubPluginsCellEditor extends DialogCellEditor {
 	 */
 	protected Object openDialogBox(Control cellEditorWindow) {
 		Shell shell = new Shell();
-		StubBindingsDialog d = new StubBindingsDialog(shell);
+		StubBindingsDialog d = new StubBindingsDialog(shell, cmdStack);
 		d.open(getStub());
 		return null;
 	}

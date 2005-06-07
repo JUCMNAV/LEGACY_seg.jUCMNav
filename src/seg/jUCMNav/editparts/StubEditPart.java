@@ -3,6 +3,7 @@ package seg.jUCMNav.editparts;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.figures.StubFigure;
@@ -57,8 +58,10 @@ public class StubEditPart extends PathNodeEditPart {
 			}
 		}
 	}
+	
 	protected IPropertySource getPropertySource() {
-		propertySource = new StubPropertySource((EObject) getModel());
+		CommandStack cmdStack = getViewer().getEditDomain().getCommandStack();
+		propertySource = new StubPropertySource((EObject) getModel(), cmdStack);
 		return propertySource;
 	}
 }

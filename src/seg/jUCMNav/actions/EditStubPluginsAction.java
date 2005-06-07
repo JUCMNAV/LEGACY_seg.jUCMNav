@@ -45,7 +45,7 @@ public class EditStubPluginsAction extends SelectionAction {
      */
     public void run() {
     	Shell shell = new Shell();
-		StubBindingsDialog d = new StubBindingsDialog(shell);
+		StubBindingsDialog d = new StubBindingsDialog(shell, getCommandStack());
 		d.open(stub);
     }
 

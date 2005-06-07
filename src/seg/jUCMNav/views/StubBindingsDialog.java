@@ -8,6 +8,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ISelection;
@@ -43,7 +45,10 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddInBinding;
+import seg.jUCMNav.model.commands.create.AddOutBinding;
+import seg.jUCMNav.model.commands.create.AddPlugin;
+import seg.jUCMNav.model.commands.transformations.ReplacePlugin;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -109,12 +114,16 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	private Button btInBind;
 	//	 The button for doing out bindings.
 	private Button btOutBind;
+	
+	// The editor from wich this dialog was opened.
+	private CommandStack cmdStack;
 
-	public StubBindingsDialog(Shell parentShell) {
+	public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
 		super(parentShell);
 		parentShell.setActive();
 		parentShell.setText("Stub Bindings");
 		setShellStyle(SWT.SHELL_TRIM);
+		this.cmdStack = cmdStack;
 	}
 
 	protected Control createDialogArea(Composite parent) {		
@@ -173,7 +182,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		comboMaps = new Combo(mapClient, SWT.DROP_DOWN | SWT.FLAT);
 		comboMaps.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				handleBindingChanged(comboMaps.getSelectionIndex());
+				handlePluginChanged(comboMaps.getSelectionIndex());
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -434,6 +443,27 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		return new Point(800, 600);
 	}
 	
+	protected void execute(Command command){
+		if (command == null || !command.canExecute())
+			return;
+		getCommandStack().execute(command);
+	}
+	
+	protected void undo(){
+		getCommandStack().undo();
+	}
+	
+	protected void redo(){
+		getCommandStack().redo();
+	}
+	
+	/**
+	 * @return
+	 */
+	private CommandStack getCommandStack() {
+		return cmdStack;
+	}
+
 	/**
 	 * 
 	 */
@@ -441,20 +471,16 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
 //			 Check that the selected Stub is not dynamic
 			if (!stub.isDynamic()) {
-//				 Create a new InBinding
-				OutBinding out = (OutBinding) ModelCreationFactory.getNewObject(urnSpec, OutBinding.class);
-				
-				int index;
 				
 				// Set the binding of the OutBinding to to first one in the list of the plugin.
 				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
-				plug.getOut().add(out);
 
-				index = tabMapOuts.getSelectionIndex();
-				out.setEndPoint((EndPoint) outMapList.get(index));
-
-				index = tabStubOuts.getSelectionIndex();
-				out.setStubExit((NodeConnection) outStubList.get(index));
+				// Get the selected EndPoint and NodeConnection in the map and stub out table.
+				EndPoint end = (EndPoint)outMapList.get(tabMapOuts.getSelectionIndex());
+				NodeConnection con = (NodeConnection)outStubList.get(tabStubOuts.getSelectionIndex());
+				
+				AddOutBinding out = new AddOutBinding(plug, end, con);
+				execute(out);
 
 				refreshInOutList();
 				refreshBindingsTree();
@@ -475,20 +501,15 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
 			// Check that the selected Stub is not dynamic
 			if (!stub.isDynamic()) {
-				// Create a new InBinding
-				InBinding in = (InBinding) ModelCreationFactory.getNewObject(urnSpec, InBinding.class);
-				
-				int index;
-				
-				// Set the binding of the InBinding to to first one in the list of the plugin.
+//				 Set the binding of the InBinding to to first one in the list of the plugin.
 				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
-				plug.getIn().add(in);
 
-				index = tabMapIns.getSelectionIndex();
-				in.setStartPoint((StartPoint) inMapList.get(index));
-
-				index = tabStubIns.getSelectionIndex();
-				in.setStubEntry((NodeConnection) inStubList.get(index));
+				// Get the selected StartPoint and NodeConnection in the map and stub in table.
+				StartPoint start = (StartPoint)inMapList.get(tabMapIns.getSelectionIndex());
+				NodeConnection con = (NodeConnection)inStubList.get(tabStubIns.getSelectionIndex());
+				
+				AddInBinding in = new AddInBinding(plug, start, con);
+				execute(in);
 
 				refreshInOutList();
 				refreshBindingsTree();
@@ -502,30 +523,34 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	}
 
 	/**
-	 * Ths method is called when the user selects a new map to bind to the Stub from the combobox.
+	 * Ths method is called when the user selects a new map as a plugin to the Stub from the combobox.
 	 */
-	protected void handleBindingChanged(int selectedIndex) {
+	protected void handlePluginChanged(int selectedIndex) {
 		Map map = (Map) mapsObjects.get(selectedIndex);
 
 		if (stub.isDynamic()) {
-			PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-			binding.setPlugin(map);
-			binding.setStub(stub);
+//			PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
+//			binding.setPlugin(map);
+//			binding.setStub(stub);
 		} else {
-			if (stub.getBindings().size() > 0) {
-				PluginBinding binding = (PluginBinding) stub.getBindings().get(0);
-				binding.getIn().clear();
-				binding.getOut().clear();
-				binding.setPlugin(map);
-			} else {
-				PluginBinding binding = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-				binding.setPlugin(map);
-				binding.setStub(stub);
+			if (stub.getBindings().size() == 1) {
+				if(((PluginBinding)stub.getBindings().get(0)).getPlugin() != map) {
+					ReplacePlugin plugin = new ReplacePlugin((PluginBinding)stub.getBindings().get(0));
+					
+					execute(plugin);
+					
+					refreshInOutList();
+					refreshBindingsTree();
+				}
+			} else if(stub.getBindings().size() == 0) {
+				AddPlugin plugin = new AddPlugin(stub, map);
+				
+				execute(plugin);
+				
+				refreshInOutList();
+				refreshBindingsTree();
 			}
 		}
-
-		refreshInOutList();
-		refreshBindingsTree();
 	}
 
 	/**
