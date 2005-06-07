@@ -57,7 +57,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         assert (_oldNode != null);
 
-        this.setLabel("Transmogrify");
+        this.setLabel("Convert");
     }
 
     public boolean canExecute() {
@@ -78,7 +78,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         } else if (_oldNode instanceof OrJoin) {
             _newNode = (AndJoin) ModelCreationFactory.getNewObject(urn, AndJoin.class);
         } else
-            throw new IllegalArgumentException("PathNode must be a fork");
+            throw new IllegalArgumentException("PathNode must be a fork or join");
 
         _newNode.setX(_x);
         _newNode.setY(_y);
