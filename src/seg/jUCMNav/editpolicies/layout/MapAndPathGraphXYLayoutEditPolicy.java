@@ -88,7 +88,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 } else if (selected.getModel() instanceof StartPoint) {
                     // extend start point
                     createCommand = new ExtendPathCommand(getPathGraph(), (StartPoint) selected.getModel(), constraint.x, constraint.y);
-                } else if (selected.getModel() instanceof PathGraph || selected.getModel() instanceof Map) {
+                } else {
                     // create new path
                     if (request.getNewObject() instanceof StartPoint)
                         createCommand = new CreatePathCommand(getPathGraph(), (StartPoint) request.getNewObject(), constraint.x, constraint.y);
