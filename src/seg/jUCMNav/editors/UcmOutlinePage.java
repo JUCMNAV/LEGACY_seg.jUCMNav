@@ -68,18 +68,20 @@ public class UcmOutlinePage extends ContentOutlinePage {
         // show outline viewer
 
         Tree tree = (Tree) getControl();
-        Object[] items = tree.getTopItem().getItems();
-        for (int i = 0; i < items.length; i++) {
-            ((TreeItem) items[i]).setExpanded(true);
-        }
-        tree.getTopItem().setExpanded(true);
+		if (tree.getTopItem() != null) {	//fix for crash on linux!
+			Object[] items = tree.getTopItem().getItems();
+			for (int i = 0; i < items.length; i++) {
+				((TreeItem) items[i]).setExpanded(true);
+			}
+			tree.getTopItem().setExpanded(true);
+		}
     }
 
     /**
-     * Removes listeners
-     * 
-     * @see org.eclipse.ui.part.IPage#dispose()
-     */
+	 * Removes listeners
+	 * 
+	 * @see org.eclipse.ui.part.IPage#dispose()
+	 */
     public void dispose() {
         // unhook outline viewer
         multieditor.getSelectionSynchronizer().removeViewer(getViewer());
