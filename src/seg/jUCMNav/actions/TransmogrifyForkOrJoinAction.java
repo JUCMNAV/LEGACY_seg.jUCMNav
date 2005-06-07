@@ -11,17 +11,17 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
-import ucm.map.AndFork;
-import ucm.map.AndJoin;
-import ucm.map.OrFork;
-import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
  * @author jpdaigle
+ * 
+ * This action exposes a "Transmogrify" action in Fork contextual menus, allowing them to be changed to a Join / Fork.
+ * This action is now an abstract base class for TransmogrifyAndForkOrJoinAction and TransmogrifyOrForkOrJoinAction.
+ * 
  */
-public class TransmogrifyForkOrJoinAction extends SelectionAction {
+public abstract class TransmogrifyForkOrJoinAction extends SelectionAction {
     public static final String TRANSMOGRIFYFORKORJOIN = "TransmogrifyForkOrJoin";
 
     /**
@@ -40,23 +40,25 @@ public class TransmogrifyForkOrJoinAction extends SelectionAction {
         return canPerformAction();
     }
 
-    private boolean canPerformAction() {
-        /*
-         * Conditions for enabling: selection contains exactly 1 item and it's a fork.
-         */
-        List parts = getSelectedObjects();
-        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
-            EditPart part = (EditPart) parts.get(0);
-            if (part.getModel() instanceof AndFork || part.getModel() instanceof OrFork
-                    || part.getModel() instanceof AndJoin || part.getModel() instanceof OrJoin) {
-                return true;
-            }
-        }
+//    private boolean canPerformAction() {
+//        /*
+//         * Conditions for enabling: selection contains exactly 1 item and it's a fork.
+//         */
+//        List parts = getSelectedObjects();
+//        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
+//            EditPart part = (EditPart) parts.get(0);
+//            if (part.getModel() instanceof AndFork || part.getModel() instanceof OrFork
+//                    || part.getModel() instanceof AndJoin || part.getModel() instanceof OrJoin) {
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
-        return false;
-    }
-
-    private Command getCommand() {
+    abstract boolean canPerformAction();
+    
+    protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
         PathGraph pg = ((PathNode) part.getModel()).getPathGraph();
