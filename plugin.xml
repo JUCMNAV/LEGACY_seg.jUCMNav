@@ -61,13 +61,13 @@
       <perspective
             class="seg.jUCMNav.views.UCMPerspectiveFactory"
             icon="icons/icon16.gif"
-            name="JUCMNav"
+            name="jUCMNav"
             id="seg.jUCMNav.UCMEditor"/>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="JUCMNav"
+            name="jUCMNav"
             id="seg.jUCMNav"/>
       <wizard
             finalPerspective="seg.jUCMNav.UCMEditor"
@@ -91,7 +91,7 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="JUCMNav"
+            name="jUCMNav"
             id="seg.jUCMNav"/>
       <view
             class="seg.jUCMNav.views.ResponsibilityView"
