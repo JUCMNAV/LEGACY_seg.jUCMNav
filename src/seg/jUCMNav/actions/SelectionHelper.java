@@ -234,12 +234,14 @@ public class SelectionHelper {
             else if (model instanceof PathNode)
                 pathgraph = ((PathNode) model).getPathGraph();
 
-            if (model instanceof ComponentRef)
-                map = componentref.getMap();
-            else
-                map = pathgraph.getMap();
+            if (componentref != null || pathgraph != null) {
+                if (model instanceof ComponentRef)
+                    map = componentref.getMap();
+                else
+                    map = pathgraph.getMap();
 
-            urnspec = map.getUcmspec().getUrnspec();
+                urnspec = map.getUcmspec().getUrnspec();
+            }
         }
     }
 
