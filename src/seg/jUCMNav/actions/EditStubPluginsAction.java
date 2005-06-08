@@ -1,9 +1,11 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.StubBindingsDialog;
 import ucm.map.Stub;
 
@@ -23,6 +25,7 @@ public class EditStubPluginsAction extends SelectionAction {
 	 */
 	public EditStubPluginsAction(IWorkbenchPart part) {
 		super(part);
+		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif"));
 	}
 
 	/* (non-Javadoc)

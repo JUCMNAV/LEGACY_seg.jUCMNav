@@ -5,8 +5,10 @@ package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
@@ -25,6 +27,7 @@ public class AddOrForkAction extends SelectionAction {
      */
     public AddOrForkAction(IWorkbenchPart part) {
         super(part);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"));
     }
 
     /*

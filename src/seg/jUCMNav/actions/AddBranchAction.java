@@ -2,8 +2,10 @@ package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import ucm.map.PathNode;
@@ -44,14 +46,21 @@ public class AddBranchAction extends SelectionAction {
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDFORK:
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"));
+        	break;
         case SelectionHelper.ORFORK:
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"));
+        	break;
         case SelectionHelper.ANDJOIN:
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"));
+        	break;
         case SelectionHelper.ORJOIN:
-            return true;
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"));
+        	break;
         default:
             return false;
-
         }
+        return true;
     }
 
     private Command getCommand() {

@@ -6,8 +6,10 @@ package seg.jUCMNav.actions;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 
@@ -35,8 +37,13 @@ public class TransmogrifyOrForkOrJoinAction extends TransmogrifyForkOrJoinAction
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
             EditPart part = (EditPart) parts.get(0);
-            if (part.getModel() instanceof OrJoin || part.getModel() instanceof OrFork) {
+            if (part.getModel() instanceof OrJoin) {
+            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"));
                 return true;
+            }
+            else if(part.getModel() instanceof OrFork) {
+            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"));
+            	return true;
             }
         }
 

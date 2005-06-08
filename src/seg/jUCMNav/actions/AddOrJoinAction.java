@@ -5,8 +5,10 @@ package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
@@ -25,6 +27,7 @@ public class AddOrJoinAction extends SelectionAction {
      */
     public AddOrJoinAction(IWorkbenchPart part) {
         super(part);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"));
     }
 
     /*
