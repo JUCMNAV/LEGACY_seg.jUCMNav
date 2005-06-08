@@ -50,6 +50,7 @@ import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
+import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
@@ -92,7 +93,8 @@ public class JUCMNavCommandTests extends TestCase {
     private PathGraph pathgraph;
     private UCMmodelElement pathNodeWithLabel;
     private StartPoint start;
-
+    private PathNode fork;
+    
     // during teardown, if testBindings==true, call verifyBindings()
     private boolean testBindings;
     private IFile testfile;
@@ -239,7 +241,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testAddForkOnConnectionCommand() {
         testExtendPathCommand();
         Command cmd;
-        PathNode fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
         cmd = new AddForkOnConnectionCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
         assertTrue("Can't execute AddForkOnConnectionCommand with orfork.", cmd.canExecute());
         cs.execute(cmd);
@@ -264,7 +266,7 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
 
         Command cmd;
-        PathNode fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
         cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddForkOnEmptyPointCommand with orfork.", cmd.canExecute());
         cs.execute(cmd);
@@ -757,7 +759,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author ??
+     * @author jpdaigle
      *  
      */
     public void testJoinPathsCommand() {
@@ -902,8 +904,23 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testTransmogrifyForkOrJoinCommand() {
-        //TODO: implement test
-        assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+    	testAddForkOnEmptyPointCommand();
+    	
+    	assertTrue("Initial AndFork not created!", fork instanceof AndFork);
+    	
+    	Command cmd = new TransmogrifyForkOrJoinCommand(fork, pathgraph);
+    	assertTrue("Transmogrify can't execute!", cmd.canExecute());
+    	cs.execute(cmd);
+
+    	// Find the first fork in the pathgraph (hack)
+    	PathNode newFork = null;
+    	for(int i=0; (i<pathgraph.getPathNodes().size()) && (newFork == null); i++) {
+    	    if ((pathgraph.getPathNodes().get(i) instanceof OrFork) || (pathgraph.getPathNodes().get(i) instanceof AndFork))
+    	        newFork = (PathNode) pathgraph.getPathNodes().get(i);
+    	}
+
+    	assertTrue("Can't locate a fork in the pathgraph", newFork != null);
+    	assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork);
     }
 
     /**
