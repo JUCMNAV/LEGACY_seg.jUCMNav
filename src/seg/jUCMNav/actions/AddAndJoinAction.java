@@ -20,14 +20,14 @@ import ucm.map.AndJoin;
  * @author jpdaigle
  */
 public class AddAndJoinAction extends SelectionAction {
-    public static final String ADDANDJOIN = "AddAndJoin";
+    public static final String ADDANDJOIN = "AddAndJoin"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddAndJoinAction(IWorkbenchPart part) {
         super(part);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"));
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
     }
 
     /*

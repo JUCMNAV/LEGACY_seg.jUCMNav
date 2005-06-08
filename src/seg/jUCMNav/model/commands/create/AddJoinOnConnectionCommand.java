@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -45,7 +46,7 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
      */
     public AddJoinOnConnectionCommand() {
         super();
-        this.setLabel("Add Join");
+        this.setLabel(Messages.getString("AddJoinOnConnectionCommand.addJoin")); //$NON-NLS-1$
     }
 
     public AddJoinOnConnectionCommand(PathNode newJoin, PathGraph pg, NodeConnection nc, int x, int y) {
@@ -54,7 +55,7 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
         _posX = x;
         _posY = y;
         _newJoin = newJoin;
-        this.setLabel("Add Join");
+        this.setLabel(Messages.getString("AddJoinOnConnectionCommand.addJoin")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {
@@ -160,11 +161,11 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
-        assert (_newJoin != null) : "pre newJoin";
-        assert (_newStartPoint != null) : "pre newStartPoint";
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint"; //$NON-NLS-1$
+        assert (_newJoin != null) : "pre newJoin"; //$NON-NLS-1$
+        assert (_newStartPoint != null) : "pre newStartPoint"; //$NON-NLS-1$
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -174,11 +175,11 @@ public class AddJoinOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert (_newEmptyPoint != null) : "post newEmptyPoint";
-        assert (_newJoin != null) : "post newJoin";
-        assert (_newStartPoint != null) : "post newEndPoint";
+        assert (_newEmptyPoint != null) : "post newEmptyPoint"; //$NON-NLS-1$
+        assert (_newJoin != null) : "post newJoin"; //$NON-NLS-1$
+        assert (_newStartPoint != null) : "post newEndPoint"; //$NON-NLS-1$
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(_newStartPoint)) : "post PathGraph contains new nodes";
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(_newStartPoint)) : "post PathGraph contains new nodes"; //$NON-NLS-1$
 
     }
 

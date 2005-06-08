@@ -17,7 +17,7 @@ import seg.jUCMNav.views.wizards.ExportImageWizard;
  */
 public class ExportImageAction extends SelectionAction {
 
-    public static final String EXPORTBITMAP = "EXPORTBITMAP";
+    public static final String EXPORTBITMAP = "EXPORTBITMAP"; //$NON-NLS-1$
 
     /**
      * @param part

@@ -74,7 +74,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      * @see org.eclipse.ui.INavigationLocation#restoreState(org.eclipse.ui.IMemento)
      */
     public void restoreState(IMemento memento) {
-        memento.getString("iCurrentPage");
+        memento.getString("iCurrentPage"); //$NON-NLS-1$
 
     }
 
@@ -84,7 +84,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      * @see org.eclipse.ui.INavigationLocation#saveState(org.eclipse.ui.IMemento)
      */
     public void saveState(IMemento memento) {
-        memento.putString("iCurrentPage", currentMapID);
+        memento.putString("iCurrentPage", currentMapID); //$NON-NLS-1$
 
     }
 

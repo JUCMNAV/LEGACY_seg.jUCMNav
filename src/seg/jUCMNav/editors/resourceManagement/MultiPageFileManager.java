@@ -23,6 +23,7 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import urn.URNspec;
 
@@ -70,7 +71,7 @@ public class MultiPageFileManager {
 
             urn = modelManager.getModel();
             if (null == urn) {
-                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error loading the UCM.", null));
+                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorLoadingUCM"), null)); //$NON-NLS-1$
             }
 
         }
@@ -87,8 +88,8 @@ public class MultiPageFileManager {
         try {
             IFile file = ((IFileEditorInput) getEditor().getEditorInput()).getFile();
             if (file.exists()
-                    || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(), "Create File", "The file '" + file.getName()
-                            + "' doesn't exist. Click OK to create it.")) {
+                    || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.createFile"), Messages.getString("MultiPageFileManager.theFile") + file.getName() //$NON-NLS-1$ //$NON-NLS-2$
+                            + Messages.getString("MultiPageFileManager.doesntExistClickOk"))) { //$NON-NLS-1$
                 String sDate;
                 DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
                 sDate = df.format(new Date());
@@ -98,7 +99,7 @@ public class MultiPageFileManager {
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }
         } catch (CoreException e) {
-            ErrorDialog.openError(getEditor().getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", e.getStatus());
+            ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
@@ -156,8 +157,8 @@ public class MultiPageFileManager {
             getEditor().recreatePages();
 
         } catch (Exception e) {
-            ErrorDialog.openError(getEditor().getSite().getShell(), "Error During Save", "The current UCM model could not be saved.", new Status(IStatus.ERROR,
-                    "seg.jUCMNav", IStatus.ERROR, "", e));
+            ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), new Status(IStatus.ERROR, //$NON-NLS-1$ //$NON-NLS-2$
+                    "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -180,10 +181,10 @@ public class MultiPageFileManager {
         }
         catch (Exception ex)
         {
-            ver = "1";
+            ver = "1"; //$NON-NLS-1$
         }
         editor.getModel().setSpecVersion(ver);
-        editor.getModel().setUrnVersion("0.9");
+        editor.getModel().setUrnVersion("0.9"); //$NON-NLS-1$
     }
 
     /**
@@ -200,10 +201,10 @@ public class MultiPageFileManager {
         if (null == progressMonitor)
             progressMonitor = new NullProgressMonitor();
 
-        progressMonitor.beginTask("Saving " + file, 2);
+        progressMonitor.beginTask(Messages.getString("MultiPageFileManager.saving") + file, 2); //$NON-NLS-1$
 
         if (null == modelManager) {
-            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "No model manager found for saving the file.", null);
+            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.noModelManagerFound"), null); //$NON-NLS-1$
             throw new CoreException(status);
         }
 
@@ -214,12 +215,12 @@ public class MultiPageFileManager {
             file.refreshLocal(IResource.DEPTH_ZERO, new SubProgressMonitor(progressMonitor, 1));
             progressMonitor.done();
         } catch (FileNotFoundException e) {
-            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error writing file.", e);
+            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorWritingFile"), e); //$NON-NLS-1$
             throw new CoreException(status);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
-            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, "Error writing file.", e);
+            IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorWritingFile"), e); //$NON-NLS-1$
             throw new CoreException(status);
         }
     }

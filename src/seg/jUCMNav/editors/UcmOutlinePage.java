@@ -58,7 +58,7 @@ public class UcmOutlinePage extends ContentOutlinePage {
         // configure & add context menu to viewer
         ContextMenuProvider cmProvider = new UcmContextMenuProvider(getViewer(), multieditor.getActionRegistry());
         getViewer().setContextMenu(cmProvider);
-        getSite().registerContextMenu("org.eclipse.gef.examples.shapes.outline.contextmenu", cmProvider, getSite().getSelectionProvider());
+        getSite().registerContextMenu("org.eclipse.gef.examples.shapes.outline.contextmenu", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
         // hook outline viewer
         multieditor.getSelectionSynchronizer().addViewer(getViewer());
 

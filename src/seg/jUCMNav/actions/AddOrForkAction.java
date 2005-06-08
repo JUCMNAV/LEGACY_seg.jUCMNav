@@ -20,14 +20,14 @@ import ucm.map.OrFork;
  * @author jpdaigle
  */
 public class AddOrForkAction extends SelectionAction {
-    public static final String ADDORFORK = "AddOrFork";
+    public static final String ADDORFORK = "AddOrFork"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddOrForkAction(IWorkbenchPart part) {
         super(part);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"));
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
     }
 
     /*

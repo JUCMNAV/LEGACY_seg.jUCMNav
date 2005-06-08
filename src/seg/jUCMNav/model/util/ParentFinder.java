@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
+import seg.jUCMNav.Messages;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
@@ -31,11 +32,11 @@ public class ParentFinder {
         ComponentRef parent;
         if (child instanceof ComponentRef) {
             ComponentRef cr = (ComponentRef) child;
-            assert cr.getMap() != null : "getPossibleParent: should already be in model";
+            assert cr.getMap() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
             parent = ParentFinder.findParent(cr.getMap(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
         } else {
             PathNode p = (PathNode) child;
-            assert p.getPathGraph().getMap() != null : "getPossibleParent: should already be in model";
+            assert p.getPathGraph().getMap() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
             parent = ParentFinder.findParent(p.getPathGraph().getMap(), p.getX(), p.getY());
         }
         return parent;
@@ -189,7 +190,7 @@ public class ParentFinder {
         while (parent.getParent() != null) {
             if (parent.getParent() == child) {
                 // circular binding found
-                System.out.println("ParentFinder: Circular Binding Found!");
+                System.out.println(Messages.getString("ParentFinder.circularBinding")); //$NON-NLS-1$
                 return false;
             } else
                 parent = parent.getParent();

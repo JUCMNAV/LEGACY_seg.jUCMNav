@@ -134,8 +134,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert verifyUniqueness(name) : "pre problem; non unique name used.";
-        assert elem != null : "pre no elemement to name!";
+        assert verifyUniqueness(name) : "pre problem; non unique name used."; //$NON-NLS-1$
+        assert elem != null : "pre no elemement to name!"; //$NON-NLS-1$
 
     }
 
@@ -145,7 +145,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert verifyUniqueness(oldName) : "post problem; non unique name used.";
-        assert elem != null : "post no elemement to name!";
+        assert verifyUniqueness(oldName) : "post problem; non unique name used."; //$NON-NLS-1$
+        assert elem != null : "post no elemement to name!"; //$NON-NLS-1$
     }
 }

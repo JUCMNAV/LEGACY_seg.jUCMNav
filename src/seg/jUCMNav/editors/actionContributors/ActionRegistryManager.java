@@ -23,6 +23,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
@@ -150,75 +151,75 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new CutPathAction(editor);
-        action.setText("Cut path");
+        action.setText(Messages.getString("ActionRegistryManager.cutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddLabelAction(editor);
-        action.setText("Add label");
+        action.setText(Messages.getString("ActionRegistryManager.addLabel")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new MergeStartEndAction(editor);
-        action.setText("Merge start and end");
+        action.setText(Messages.getString("ActionRegistryManager.mergeStartEnd")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddOrForkAction(editor);
-        action.setText("Add OR-Fork");
+        action.setText(Messages.getString("ActionRegistryManager.addOrFork")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddAndForkAction(editor);
-        action.setText("Add AND-Fork");
+        action.setText(Messages.getString("ActionRegistryManager.addAndFork")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new TransmogrifyOrForkOrJoinAction(editor);
-        action.setText("Convert to AND-*");
+        action.setText(Messages.getString("ActionRegistryManager.convertToAnd")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new TransmogrifyAndForkOrJoinAction(editor);
-        action.setText("Convert to OR-*");
+        action.setText(Messages.getString("ActionRegistryManager.convertToOr")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddOrJoinAction(editor);
-        action.setText("Add OR-Join");
+        action.setText(Messages.getString("ActionRegistryManager.addOrJoin")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddAndJoinAction(editor);
-        action.setText("Add AND-Join");
+        action.setText(Messages.getString("ActionRegistryManager.addAndJoin")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddBranchAction(editor);
-        action.setText("Add Branch");
+        action.setText(Messages.getString("ActionRegistryManager.addBranch")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new BindWithParent(editor);
-        action.setText("Bind with parent component");
+        action.setText(Messages.getString("ActionRegistryManager.bindWithParent")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new UnbindFromParent(editor);
-        action.setText("Unbind from parent component");
+        action.setText(Messages.getString("ActionRegistryManager.unbindFromParent")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new UnbindChildren(editor);
-        action.setText("Unbind all enclosed elements");
+        action.setText(Messages.getString("ActionRegistryManager.unbindAll")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new BindChildren(editor);
-        action.setText("Bind all enclosed elements");
+        action.setText(Messages.getString("ActionRegistryManager.bindAll")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddMapAction(editor);
-        action.setText("Add Use Case Map");
+        action.setText(Messages.getString("ActionRegistryManager.addMap")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new DirectEditAction((IWorkbenchPart) editor);
-        action.setText("Edit");
+        action.setText(Messages.getString("ActionRegistryManager.edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new ExportImageAction((IWorkbenchPart) editor);
-        action.setText("Export to image");
+        action.setText(Messages.getString("ActionRegistryManager.exportImage")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditStubPluginsAction((IWorkbenchPart) editor);
-        action.setText("Edit Stub Plugins");
+        action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
     }
 

@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin
    id="seg.jUCMNav"
-   name="JUCMNav Plug-in"
+   name="%pluginName"
    version="1.0.0"
    provider-name="UseCaseMaps.org"
    class="seg.jUCMNav.JUCMNavPlugin">
@@ -46,7 +46,7 @@
                disabledIcon="icons/Node16.gif"
                hoverIcon="icons/Node16.gif"
                toolbarPath="jUCMNav"
-               label="Auto Layout"
+               label="%autoLayout"
                icon="icons/Node16.gif"
                tooltip="Auto Layout"
                class="seg.jUCMNav.actions.AutoLayoutAction"
@@ -97,7 +97,7 @@
             class="seg.jUCMNav.views.ResponsibilityView"
             icon="icons/Resp16.gif"
             category="seg.jUCMNav"
-            name="Responsibilities"
+            name="%responsibility"
             id="seg.jUCMNav.views.ResponsibilityView"/>
    </extension>
    <extension
@@ -109,7 +109,7 @@
       <wizard
             icon="icons/perspectiveIcon.gif"
             class="seg.jUCMNav.views.wizards.ExportImageWizard"
-            name="Export Use Case Map to Image"
+            name="%exportToImage"
             id="seg.jUCMNav.views.wizards.ExportImageWizard">
          <selection
                class="org.eclipse.core.resources.IFile"

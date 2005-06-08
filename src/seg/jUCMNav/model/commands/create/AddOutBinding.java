@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
@@ -35,7 +36,7 @@ public class AddOutBinding extends Command implements JUCMNavCommand {
 		this.plugin = plugin;
 		this.end = end;
 		this.exit = entry;
-		setLabel("Add Out Binding");
+		setLabel(Messages.getString("AddOutBinding.addOutBinding")); //$NON-NLS-1$
 	}
 
 	public boolean canExecute() {
@@ -76,19 +77,19 @@ public class AddOutBinding extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPreConditions() {
-		assert plugin != null : "Pre plugin null";
-		assert end != null : "Pre end point null";
-		assert exit != null : "Pre exit connection null";
-		assert !plugin.getOut().contains(out) : "Pre plugin contains the out binding";
+		assert plugin != null : "Pre plugin null"; //$NON-NLS-1$
+		assert end != null : "Pre end point null"; //$NON-NLS-1$
+		assert exit != null : "Pre exit connection null"; //$NON-NLS-1$
+		assert !plugin.getOut().contains(out) : "Pre plugin contains the out binding"; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPostConditions() {
-		assert plugin != null : "Post plugin null";
-		assert end != null : "Post end point null";
-		assert exit != null : "Post exit connection null";
-		assert plugin.getOut().contains(out) : "Post plugin doesn't contains the out binding";
+		assert plugin != null : "Post plugin null"; //$NON-NLS-1$
+		assert end != null : "Post end point null"; //$NON-NLS-1$
+		assert exit != null : "Post exit connection null"; //$NON-NLS-1$
+		assert plugin.getOut().contains(out) : "Post plugin doesn't contains the out binding"; //$NON-NLS-1$
 	}
 }

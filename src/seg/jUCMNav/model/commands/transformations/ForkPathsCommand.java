@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -58,12 +59,12 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
         if (!(_newFork instanceof OrFork || _newFork instanceof AndFork)) {
             // check that the PathNode passed in is an Or or And Join.
-            throw new IllegalArgumentException("PathNode must be an OrFork or AndFork.");
+            throw new IllegalArgumentException(Messages.getString("ForkPathsCommand.mustBeOrorAndFork")); //$NON-NLS-1$
         }
 
         assert (_newFork != null);
 
-        this.setLabel("Fork Paths");
+        this.setLabel(Messages.getString("ForkPathsCommand.forkPaths")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {

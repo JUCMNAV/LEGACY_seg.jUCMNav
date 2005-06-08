@@ -74,8 +74,8 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert condition != null : "pre Condition";
-        assert connection != null : "pre Connection";
+        assert condition != null : "pre Condition"; //$NON-NLS-1$
+        assert connection != null : "pre Connection"; //$NON-NLS-1$
     }
 
     /*
@@ -84,8 +84,8 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert condition != null : "pre Condition";
-        assert connection != null : "pre Connection";
+    	assert condition != null : "pre Condition"; //$NON-NLS-1$
+        assert connection != null : "pre Connection"; //$NON-NLS-1$
     }
 
     /**

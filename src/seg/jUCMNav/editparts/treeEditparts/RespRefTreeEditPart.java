@@ -36,9 +36,9 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
     protected String getText() {
         Responsibility resp = getRespRef().getRespDef();
         if (resp != null)
-            return "ref " + getRespRef().getId() + ": " + resp.getName();
+            return "ref " + getRespRef().getId() + ": " + resp.getName(); //$NON-NLS-1$ //$NON-NLS-2$
         else
-            return "ref " + getRespRef().getId();
+            return "ref " + getRespRef().getId(); //$NON-NLS-1$
     }
 
     private RespRef getRespRef() {
@@ -47,7 +47,7 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
 
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
         return super.getImage();
     }
 }

@@ -298,18 +298,18 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && pg != null && toDelete != null && ncIn != null && ncOut != null && newStart != null && newEnd != null : "post something is null";
-        assert ncIn.size() == newEnd.size() && ncOut.size() == newStart.size() : "post invalid sizes";
+        assert urn != null && pg != null && toDelete != null && ncIn != null && ncOut != null && newStart != null && newEnd != null : "post something is null"; //$NON-NLS-1$
+        assert ncIn.size() == newEnd.size() && ncOut.size() == newStart.size() : "post invalid sizes"; //$NON-NLS-1$
         if (shouldDeleteNode)
-            assert !pg.getPathNodes().contains(toDelete) : "post node not in model";
+            assert !pg.getPathNodes().contains(toDelete) : "post node not in model"; //$NON-NLS-1$
 
         for (int i = 0; i < ncIn.size(); i++) {
-            assert !toDelete.getPred().contains(ncIn.get(i)) : "post pred nc not in pred " + i;
-            assert pg.getPathNodes().contains(newEnd.get(i)) : "post new end not in graph " + i;
+            assert !toDelete.getPred().contains(ncIn.get(i)) : "post pred nc not in pred " + i; //$NON-NLS-1$
+            assert pg.getPathNodes().contains(newEnd.get(i)) : "post new end not in graph " + i; //$NON-NLS-1$
         }
         for (int i = 0; i < ncOut.size(); i++) {
-            assert !toDelete.getSucc().contains(ncOut.get(i)) : "post succ nc not in succ " + i;
-            assert pg.getPathNodes().contains(newStart.get(i)) : "post new start not in graph " + i;
+            assert !toDelete.getSucc().contains(ncOut.get(i)) : "post succ nc not in succ " + i; //$NON-NLS-1$
+            assert pg.getPathNodes().contains(newStart.get(i)) : "post new start not in graph " + i; //$NON-NLS-1$
         }
 
     }
@@ -320,17 +320,17 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && pg != null && toDelete != null && ncIn != null && ncOut != null && newStart != null && newEnd != null : "pre something is null";
-        assert ncIn.size() == newEnd.size() && ncOut.size() == newStart.size() : "pre invalid sizes";
+        assert urn != null && pg != null && toDelete != null && ncIn != null && ncOut != null && newStart != null && newEnd != null : "pre something is null"; //$NON-NLS-1$
+        assert ncIn.size() == newEnd.size() && ncOut.size() == newStart.size() : "pre invalid sizes"; //$NON-NLS-1$
         if (shouldDeleteNode)
-            assert pg.getPathNodes().contains(toDelete) : "pre node not in model";
+            assert pg.getPathNodes().contains(toDelete) : "pre node not in model"; //$NON-NLS-1$
         for (int i = 0; i < ncIn.size(); i++) {
-            assert toDelete.getPred().contains(ncIn.get(i)) : "pre pred nc not in pred " + i;
-            assert !pg.getPathNodes().contains(newEnd.get(i)) : "pre new end not in graph " + i;
+            assert toDelete.getPred().contains(ncIn.get(i)) : "pre pred nc not in pred " + i; //$NON-NLS-1$
+            assert !pg.getPathNodes().contains(newEnd.get(i)) : "pre new end not in graph " + i; //$NON-NLS-1$
         }
         for (int i = 0; i < ncOut.size(); i++) {
-            assert toDelete.getSucc().contains(ncOut.get(i)) : "pre succ nc not in succ " + i;
-            assert !pg.getPathNodes().contains(newStart.get(i)) : "pre new start not in graph " + i;
+            assert toDelete.getSucc().contains(ncOut.get(i)) : "pre succ nc not in succ " + i; //$NON-NLS-1$
+            assert !pg.getPathNodes().contains(newStart.get(i)) : "pre new start not in graph " + i; //$NON-NLS-1$
         }
 
     }

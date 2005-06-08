@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
+import seg.jUCMNav.Messages;
+
 /**
  * Created 15-05-2005
  * 
@@ -75,9 +77,9 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
 		Boolean b = (Boolean)value;
 		check.setSelection(b.booleanValue());
 		if(b.booleanValue())
-			label.setText("true");
+			label.setText(Messages.getString("CheckboxButtonCellEditor.true")); //$NON-NLS-1$
 		else
-			label.setText("false");
+			label.setText(Messages.getString("CheckboxButtonCellEditor.false")); //$NON-NLS-1$
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.CellEditor#activate()

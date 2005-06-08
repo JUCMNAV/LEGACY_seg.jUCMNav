@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
@@ -33,7 +34,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
     public AddComponentRefCommand(Map m, ComponentRef cr) {
         this.map = m;
         this.compRef = cr;
-        setLabel("Create Component");
+        setLabel(Messages.getString("AddComponentRefCommand.createComp")); //$NON-NLS-1$
     }
 
     public void execute() {
@@ -88,12 +89,12 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
      *  
      */
     public void testPostConditions() {
-        assert compRef != null : "post compRef";
-        assert compRef.getCompDef() != null : "post compDef";
-        assert map != null : "post map";
+        assert compRef != null : "post compRef"; //$NON-NLS-1$
+        assert compRef.getCompDef() != null : "post compDef"; //$NON-NLS-1$
+        assert map != null : "post map"; //$NON-NLS-1$
 
-        assert map.getCompRefs().contains(compRef): "post compRef in map";
-        assert map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model";
+        assert map.getCompRefs().contains(compRef): "post compRef in map"; //$NON-NLS-1$
+        assert map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model"; //$NON-NLS-1$
     }
 
     /**
@@ -101,15 +102,15 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
      *  
      */
     public void testPreConditions() {
-        assert compRef != null : "pre compRef";
-        assert compRef.getCompDef() != null : "pre compDef";
-        assert map != null : "pre Map";
+        assert compRef != null : "pre compRef"; //$NON-NLS-1$
+        assert compRef.getCompDef() != null : "pre compDef"; //$NON-NLS-1$
+        assert map != null : "pre Map"; //$NON-NLS-1$
 
-        assert !map.getCompRefs().contains(compRef): "pre compRef not in map";
+        assert !map.getCompRefs().contains(compRef): "pre compRef not in map"; //$NON-NLS-1$
 
         // make sure this is a new component definition.
         // if not, our undo() will remove it, breaking code.
-        assert !map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model";
+        assert !map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model"; //$NON-NLS-1$
     }
 
     public void undo() {

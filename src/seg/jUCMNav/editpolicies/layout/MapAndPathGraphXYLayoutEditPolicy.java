@@ -17,6 +17,7 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
@@ -255,13 +256,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                     locationCommand.setNewPosition(label.getDeltaX(), label.getDeltaY());
                 }
             } else {
-                System.out.println("unknown label upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
+                System.out.println(Messages.getString("MapAndPathGraphXYLayoutEditPolicy.unkownLabel")); //$NON-NLS-1$
                 return null;
             }
 
             return locationCommand;
         } else {
-            System.out.println("unknown model element upon which to call MapAndPathGraphXYLayoutEditPolicy.createChangeConstraintCommand()");
+            System.out.println(Messages.getString("MapAndPathGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
             return null;
         }
 

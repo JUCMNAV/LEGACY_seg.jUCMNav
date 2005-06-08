@@ -18,7 +18,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  */
 public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart {
 
-	public static final String COMPONENT_LAYER = "COMPONENT";
+	public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 	
 	private UCMNavMultiPageEditor multiPageEditor;
 

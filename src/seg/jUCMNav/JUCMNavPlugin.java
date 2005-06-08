@@ -13,7 +13,7 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
 	//Resource bundle.
 	private ResourceBundle resourceBundle;
 	
-	public static final String PLUGIN_ID = "seg.jUCMNav";
+	public static final String PLUGIN_ID = "seg.jUCMNav"; //$NON-NLS-1$
 	
 	/**
 	 * The constructor.
@@ -22,7 +22,7 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
 		super();
 		plugin = this;
 		try {
-			resourceBundle = ResourceBundle.getBundle("seg.jUCMNav.JUCMNavPluginResources");
+			resourceBundle = ResourceBundle.getBundle("seg.jUCMNav.JUCMNavPluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}

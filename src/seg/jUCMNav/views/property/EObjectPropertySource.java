@@ -21,6 +21,7 @@ import org.eclipse.ui.views.properties.IPropertySource2;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import ucm.map.MapPackage;
@@ -173,12 +174,12 @@ public class EObjectPropertySource implements IPropertySource2 {
         CheckboxPropertyDescriptor pd = new CheckboxPropertyDescriptor(propertyid, attr.getName());
 
         String name = attr.getName().toLowerCase();
-        if (name.equals("fixed") || name.equals("filled")) {
-            pd.setCategory("Appearance");
+        if (name.equals("fixed") || name.equals("filled")) { //$NON-NLS-1$ //$NON-NLS-2$
+            pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
         } else if (object.eClass() != propertyid.getEClass()) {
-            pd.setCategory("Reference");
+            pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
         } else {
-            pd.setCategory("Misc");
+            pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
         }
 
         descriptors.add(pd);
@@ -196,10 +197,10 @@ public class EObjectPropertySource implements IPropertySource2 {
     private void stringDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         PropertyDescriptor pd;
         String name = attr.getName().toLowerCase();
-        if (name.indexOf("color") >= 0) {
+        if (name.indexOf("color") >= 0) { //$NON-NLS-1$
             pd = new ColorPropertyDescriptor(propertyid, attr.getName());
             descriptors.add(pd);
-        } else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion")) {
+        } else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
             CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
             text.setReadOnly(true);
             pd = text;
@@ -207,14 +208,14 @@ public class EObjectPropertySource implements IPropertySource2 {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());
         }
 
-        if (name.equals("id") || name.equals("name") || name.equals("description")) {
-            pd.setCategory("Info");
-        } else if (name.indexOf("color") >= 0) {
-            pd.setCategory("Appearance");
+        if (name.equals("id") || name.equals("name") || name.equals("description")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            pd.setCategory(Messages.getString("EObjectPropertySource.info")); //$NON-NLS-1$
+        } else if (name.indexOf("color") >= 0) { //$NON-NLS-1$
+            pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
         } else if (object.eClass() != propertyid.getEClass()) {
-            pd.setCategory("Reference");
+            pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
         } else {
-            pd.setCategory("Misc");
+            pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
         }
         descriptors.add(pd);
     }
@@ -236,17 +237,17 @@ public class EObjectPropertySource implements IPropertySource2 {
                     intValue = Integer.parseInt((String) value);
                     return null;
                 } catch (NumberFormatException exc) {
-                    return "Not a number";
+                    return Messages.getString("EObjectPropertySource.notNumber"); //$NON-NLS-1$
                 }
             }
         });
         String name = attr.getName().toLowerCase();
-        if (name.equals("x") || name.equals("y") || name.equals("deltax") || name.equals("deltay") || name.equals("height") || name.equals("width")) {
-            desc.setCategory("Appearance");
+        if (name.equals("x") || name.equals("y") || name.equals("deltax") || name.equals("deltay") || name.equals("height") || name.equals("width")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+            desc.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
         } else if (object.eClass() != propertyid.getEClass()) {
-            desc.setCategory("Reference");
+            desc.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
         } else {
-            desc.setCategory("Misc");
+            desc.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
         }
 
         descriptors.add(desc);
@@ -269,12 +270,12 @@ public class EObjectPropertySource implements IPropertySource2 {
                     doubleValue = Double.parseDouble(value.toString());
                     return null;
                 } catch (NumberFormatException exc) {
-                    return "Not a valid number";
+                    return Messages.getString("EObjectPropertySource.notValidNumber"); //$NON-NLS-1$
                 }
             }
         });
 
-        desc.setCategory("Misc");
+        desc.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
 
         descriptors.add(desc);
     }
@@ -293,7 +294,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 
         result = returnPropertyValue(feature, result);
 
-        return result != null ? result : "";
+        return result != null ? result : ""; //$NON-NLS-1$
     }
 
     /**
@@ -319,7 +320,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         } else if (result instanceof Boolean) {
             //            result = ((Boolean) result).booleanValue() ? new Integer(1) : new Integer(0);
             result = (Boolean) result;
-        } else if (feature.getName().toLowerCase().indexOf("color") >= 0) {
+        } else if (feature.getName().toLowerCase().indexOf("color") >= 0) { //$NON-NLS-1$
             if (result == null || ((String) result).length() == 0)
                 result = new RGB(0, 0, 0);
             else
@@ -340,7 +341,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        if (feature.getName().toLowerCase().indexOf("color") >= 0) {
+        if (feature.getName().toLowerCase().indexOf("color") >= 0) { //$NON-NLS-1$
             return getPropertyValue(id) != null;
         }
 
@@ -410,7 +411,7 @@ public class EObjectPropertySource implements IPropertySource2 {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        return feature.getName().toLowerCase().indexOf("color") >= 0;
+        return feature.getName().toLowerCase().indexOf("color") >= 0; //$NON-NLS-1$
 
     }
 

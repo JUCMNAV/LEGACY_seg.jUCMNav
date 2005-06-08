@@ -68,9 +68,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && urn.getUcmspec() != null && map != null : "post not null";
-        assert urn.getUcmspec().getMaps().contains(map) : "post map not in model";
-        assert oldCount+1==urn.getUcmspec().getMaps().size() : "post should have only one map added";
+        assert urn != null && urn.getUcmspec() != null && map != null : "post not null"; //$NON-NLS-1$
+        assert urn.getUcmspec().getMaps().contains(map) : "post map not in model"; //$NON-NLS-1$
+        assert oldCount+1==urn.getUcmspec().getMaps().size() : "post should have only one map added"; //$NON-NLS-1$
 
     }
 
@@ -80,9 +80,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && urn.getUcmspec() != null && map != null : "pre not null";
-        assert !urn.getUcmspec().getMaps().contains(map) : "pre map not in model";
-        assert oldCount==urn.getUcmspec().getMaps().size() : "pre map count wrong";
+        assert urn != null && urn.getUcmspec() != null && map != null : "pre not null"; //$NON-NLS-1$
+        assert !urn.getUcmspec().getMaps().contains(map) : "pre map not in model"; //$NON-NLS-1$
+        assert oldCount==urn.getUcmspec().getMaps().size() : "pre map count wrong"; //$NON-NLS-1$
     }
 
     public void undo() {

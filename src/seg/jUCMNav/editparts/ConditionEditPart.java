@@ -85,7 +85,7 @@ public class ConditionEditPart extends LabelEditPart {
 
             ICellEditorValidator validator = new ICellEditorValidator() {
                 public String isValid(Object value) {
-                    return "";
+                    return ""; //$NON-NLS-1$
                 }
             };
 
@@ -121,8 +121,8 @@ public class ConditionEditPart extends LabelEditPart {
         }
 
         if (cond != null) {
-            if (cond.getLabel() != null && !cond.getLabel().equals("")) {
-                label.setText("[" + cond.getLabel() + "]");
+            if (cond.getLabel() != null && !cond.getLabel().equals("")) { //$NON-NLS-1$
+                label.setText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 labelFigure.setVisible(true);
             } else {
                 labelFigure.setVisible(false);

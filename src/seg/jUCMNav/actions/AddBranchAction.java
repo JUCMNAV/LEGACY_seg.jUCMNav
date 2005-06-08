@@ -18,7 +18,7 @@ import ucm.map.PathNode;
  */
 public class AddBranchAction extends SelectionAction {
 
-    public static final String ADDBRANCH = "Add Branch";
+    public static final String ADDBRANCH = "Add Branch"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -46,16 +46,16 @@ public class AddBranchAction extends SelectionAction {
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDFORK:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"));
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
         	break;
         case SelectionHelper.ORFORK:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"));
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
         	break;
         case SelectionHelper.ANDJOIN:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"));
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
         	break;
         case SelectionHelper.ORJOIN:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"));
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
         	break;
         default:
             return false;

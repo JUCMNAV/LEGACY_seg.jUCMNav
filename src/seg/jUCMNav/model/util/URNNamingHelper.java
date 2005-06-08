@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
@@ -45,8 +46,8 @@ public class URNNamingHelper {
 
     static {
         htPrefixes = new Hashtable();
-        htPrefixes.put(StartPoint.class, "Start");
-        htPrefixes.put(EndPoint.class, "End");
+        htPrefixes.put(StartPoint.class, Messages.getString("URNNamingHelper.start")); //$NON-NLS-1$
+        htPrefixes.put(EndPoint.class, Messages.getString("URNNamingHelper.end")); //$NON-NLS-1$
 
     }
 
@@ -61,7 +62,7 @@ public class URNNamingHelper {
     private static String getNewID(URNspec urn) {
 
         if (urn == null) {
-            return "";
+            return ""; //$NON-NLS-1$
         }
 
         String id = urn.getNextGlobalID();
@@ -71,8 +72,8 @@ public class URNNamingHelper {
         if (id != null && id.length() > 0)
             id = Long.toString(Long.parseLong(id) + 1);
         else {
-            id = "2"; // for backwards compatibility reasons with early jUCMNav files.
-            System.out.println("Old file; please discard.");
+            id = "2"; // for backwards compatibility reasons with early jUCMNav files. //$NON-NLS-1$
+            System.out.println(Messages.getString("URNNamingHelper.oldFileDiscard")); //$NON-NLS-1$
         }
 
         urn.setNextGlobalID(id);
@@ -89,7 +90,7 @@ public class URNNamingHelper {
     public static String getPrefix(Class targetClass) {
         if (htPrefixes.get(targetClass) != null)
             return (String) htPrefixes.get(targetClass);
-        else if (getSimpleName(targetClass).endsWith("Impl"))
+        else if (getSimpleName(targetClass).endsWith("Impl")) //$NON-NLS-1$
             return getSimpleName(targetClass).substring(0, getSimpleName(targetClass).length() - 4);
         else
             return getSimpleName(targetClass);
@@ -104,7 +105,7 @@ public class URNNamingHelper {
      */
     private static String getSimpleName(Class targetClass) {
         String simpleName = targetClass.getName();
-        return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip the package name
+        return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip the package name //$NON-NLS-1$
     }
 
     /**
@@ -168,7 +169,7 @@ public class URNNamingHelper {
 
         // make sure that we have a legal Long as our proposedTopID
         if (proposedTopID == null || proposedTopID.length() == 0 || !isValidID(proposedTopID)) {
-            proposedTopID = setTopID(urn, "2");
+            proposedTopID = setTopID(urn, "2"); //$NON-NLS-1$
         }
 
         // make sure that our URN is named.
@@ -177,10 +178,10 @@ public class URNNamingHelper {
         }
 
         if (urn.getUrnVersion() == null || urn.getUrnVersion().length() == 0)
-            urn.setUrnVersion("0.9");
+            urn.setUrnVersion("0.9"); //$NON-NLS-1$
 
         if (urn.getSpecVersion() == null || urn.getSpecVersion().length() == 0)
-            urn.setSpecVersion("1");
+            urn.setSpecVersion("1"); //$NON-NLS-1$
 
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
         String sDate = df.format(new Date());
@@ -335,7 +336,7 @@ public class URNNamingHelper {
 
             do {
                 // set it to nothing
-                elem.setId("");
+                elem.setId(""); //$NON-NLS-1$
 
                 // get the next ID; might take a while.. find first free space.
                 setElementNameAndID(urn, elem);
@@ -378,14 +379,14 @@ public class URNNamingHelper {
             int i = 1;
 
             // it might be a custom name, try setting the default name (maybe we fixed the ID)
-            elem.setName("");
+            elem.setName(""); //$NON-NLS-1$
             setElementNameAndID(urn, elem);
 
             // if that didn't work, try adding -1, -2, -3 ... until it works.
             while (htNames.containsKey(elem.getName().toLowerCase())) {
-                elem.setName("");
+                elem.setName(""); //$NON-NLS-1$
                 setElementNameAndID(urn, elem);
-                elem.setName(elem.getName() + "-" + (i++));
+                elem.setName(elem.getName() + "-" + (i++)); //$NON-NLS-1$
             }
             htNames.put(elem.getName().toLowerCase(), null);
 
@@ -486,7 +487,7 @@ public class URNNamingHelper {
                 model.setName(getPrefix(o.getClass()));
             }
         } else {
-            System.out.println("Unknown class given to UCMNamingHelper.setElementNameAndID();");
+            System.out.println(Messages.getString("URNNamingHelper.unknownClass")); //$NON-NLS-1$
         }
     }
 
@@ -551,7 +552,7 @@ public class URNNamingHelper {
         } else if (elem instanceof ComponentElement) {
             c = urn.getUrndef().getComponents();
         } else {
-            System.out.println("Unable to resolveNamingConflict on an element of this class.");
+            System.out.println(Messages.getString("URNNamingHelper.unableToResolve")); //$NON-NLS-1$
             return;
         }
 
@@ -570,20 +571,20 @@ public class URNNamingHelper {
     }
 
     public static String isNameValid(URNspec urn, UCMmodelElement elem, String name) {
-        String message = "";
+        String message = ""; //$NON-NLS-1$
 
         if (elem instanceof ComponentRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof ComponentElement) {
             if (name.toString().trim().length() == 0) {
-                message = "Invalid name.";
+                message = Messages.getString("URNNamingHelper.invalidName"); //$NON-NLS-1$
             }
         }
         if (elem instanceof ComponentRef || elem instanceof ComponentElement) {
             if (URNNamingHelper.doesComponentNameExists(urn, name)) {
-                message = "Component name already exists.";
+                message = Messages.getString("URNNamingHelper.compNameExist"); //$NON-NLS-1$
             }
         } else if (elem instanceof RespRef || elem instanceof Responsibility) {
             if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
-                message = "Responsibility name already exists";
+                message = Messages.getString("URNNamingHelper.respNameExist"); //$NON-NLS-1$
             }
         }
 
@@ -595,7 +596,7 @@ public class URNNamingHelper {
 
         while (!(parent instanceof URNspec)) {
             if (parent == null)
-                return "element not in urnspec";
+                return Messages.getString("URNNamingHelper.elementNotInUrnspec"); //$NON-NLS-1$
 
             parent = parent.eContainer();
         }

@@ -53,7 +53,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#isAddable(org.eclipse.emf.ecore.EStructuralFeature)
      */
     protected boolean canAddFeature(EStructuralFeature attr) {
-        if (resp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) {
+        if (resp != null && (attr.getName().equals("name") || attr.getName().equals("id") || attr.getName().equals("description"))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             // replace with that of RespRef with that of Responsibility
             return false;
         } else
@@ -114,11 +114,11 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
             values[i] = ((Responsibility) list.get(i)).getName();
             if (values[i] == null)
-                values[i] = "[unnamed]";
+                values[i] = "[unnamed]"; //$NON-NLS-1$
         }
 
-        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values);
-        pd.setCategory("Reference");
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values); //$NON-NLS-1$
+        pd.setCategory("Reference"); //$NON-NLS-1$
         descriptors.add(pd);
 
     }
@@ -177,14 +177,14 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
             resp = ((RespRef) object).getRespDef();
-        } else if (feature.getName() == "name") {
+        } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (RespRef) object, value.toString());
 
             if (message.length() == 0) {
                 super.setPropertyValue(id, value);
 
             } else if (++i % 2 == 1) { // because refreshed twice.
-                MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message);
+                MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message); //$NON-NLS-1$
             }
 
         } else {

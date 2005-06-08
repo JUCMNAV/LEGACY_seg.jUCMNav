@@ -27,12 +27,12 @@ public class ResponsibilityTreeEditPart extends UcmModelElementTreeEditPart {
 		return (Responsibility)getModel();
 	}	
 	protected String getText() {
-		return getResponsibility().getId() + ": " + getResponsibility().getName();
+		return getResponsibility().getId() + ": " + getResponsibility().getName(); //$NON-NLS-1$
 	}
 	
 	protected Image getImage() {
 		if(super.getImage() == null)
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
 		return super.getImage();
 	}
 	

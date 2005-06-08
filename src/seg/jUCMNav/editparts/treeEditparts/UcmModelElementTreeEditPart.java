@@ -86,7 +86,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
     protected String getText() {
         if (getModel() instanceof UCMmodelElement) {
             UCMmodelElement elem = (UCMmodelElement) getModel();
-            return elem.getId() + ": " + elem.getName();
+            return elem.getId() + ": " + elem.getName(); //$NON-NLS-1$
         } else
             return super.getText();
     }

@@ -77,7 +77,7 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
 
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage());
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage()); //$NON-NLS-1$
         return super.getImage();
     }
 

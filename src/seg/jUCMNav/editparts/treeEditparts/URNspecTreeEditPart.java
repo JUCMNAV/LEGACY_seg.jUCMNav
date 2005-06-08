@@ -7,6 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 
 /**
@@ -53,15 +54,15 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 	
 	protected Image getImage() {
 		if(super.getImage() == null)
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage());
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage()); //$NON-NLS-1$
 		return super.getImage();
 	}	
 
 	protected List getModelChildren() {
 		ArrayList list = new ArrayList();
 		list.addAll(getURNspec().getUcmspec().getMaps());
-		list.add("Components");
-		list.add("Responsibilities");
+		list.add(Messages.getString("URNspecTreeEditPart.components")); //$NON-NLS-1$
+		list.add(Messages.getString("URNspecTreeEditPart.responsibilities")); //$NON-NLS-1$
 		return list;	}
 
 	protected String getText() {

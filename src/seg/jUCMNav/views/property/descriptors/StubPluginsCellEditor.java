@@ -66,7 +66,7 @@ public class StubPluginsCellEditor extends DialogCellEditor {
 	}
 	
 	protected void updateContents(Object value) {
-		defaultLabel.setText("");
+		defaultLabel.setText(""); //$NON-NLS-1$
 	}
 
 	protected Label getDefaultLabel() {

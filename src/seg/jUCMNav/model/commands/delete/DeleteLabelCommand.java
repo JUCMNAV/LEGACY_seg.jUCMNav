@@ -20,7 +20,7 @@ import urncore.NodeLabel;
  * @author Jordan
  */
 public class DeleteLabelCommand extends Command {
-    private static final String CreateCommand_Label = "DeleteLabelCommand";
+    private static final String CreateCommand_Label = "DeleteLabelCommand"; //$NON-NLS-1$
     private Label label;
     EObject modelElement;
     private String oldStr;
@@ -150,8 +150,8 @@ public class DeleteLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert label != null : "pre Label";
-        assert modelElement != null : "pre UCMmodelElement";
+        assert label != null : "pre Label"; //$NON-NLS-1$
+        assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         //assert label.getPathNode() != null : "pre NodeLabel not connected to a PathNode";
         //assert node.getLabel() != null : "pre PathNode not connected to a NodeLabel";
     }
@@ -162,8 +162,8 @@ public class DeleteLabelCommand extends Command {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert label != null : "pre Label";
-        assert modelElement != null : "pre UCMmodelElement";
+        assert label != null : "pre Label"; //$NON-NLS-1$
+        assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
         //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }

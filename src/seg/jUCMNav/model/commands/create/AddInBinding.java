@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.InBinding;
@@ -35,7 +36,7 @@ public class AddInBinding extends Command implements JUCMNavCommand {
 		this.plugin = plugin;
 		this.start = start;
 		this.entry = entry;
-		setLabel("Add In Binding");
+		setLabel(Messages.getString("AddInBinding.addnBinding")); //$NON-NLS-1$
 	}
 
 	public boolean canExecute() {
@@ -76,19 +77,19 @@ public class AddInBinding extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPreConditions() {
-		assert plugin != null : "Pre plugin null";
-		assert start != null : "Pre start point null";
-		assert entry != null : "Pre entry connection null";
-		assert !plugin.getIn().contains(in) : "Pre plugin contains the in binding";
+		assert plugin != null : "Pre plugin null"; //$NON-NLS-1$
+		assert start != null : "Pre start point null"; //$NON-NLS-1$
+		assert entry != null : "Pre entry connection null"; //$NON-NLS-1$
+		assert !plugin.getIn().contains(in) : "Pre plugin contains the in binding"; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPostConditions() {
-		assert plugin != null : "Post plugin null";
-		assert start != null : "Post start point null";
-		assert entry != null : "Post entry connection null";
-		assert plugin.getIn().contains(in) : "Post plugin doesn't contains the in binding";
+		assert plugin != null : "Post plugin null"; //$NON-NLS-1$
+		assert start != null : "Post start point null"; //$NON-NLS-1$
+		assert entry != null : "Post entry connection null"; //$NON-NLS-1$
+		assert plugin.getIn().contains(in) : "Post plugin doesn't contains the in binding"; //$NON-NLS-1$
 	}
 }

@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -46,7 +47,7 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      */
     public AddForkOnConnectionCommand() {
         super();
-        this.setLabel("Add Fork");
+        this.setLabel(Messages.getString("AddForkOnConnectionCommand.addFork")); //$NON-NLS-1$
     }
 
     public AddForkOnConnectionCommand(PathNode newFork, PathGraph pg, NodeConnection nc, int x, int y) {
@@ -55,7 +56,7 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
         _posX = x;
         _posY = y;
         _newFork = newFork;
-        this.setLabel("Add Fork");
+        this.setLabel(Messages.getString("AddForkOnConnectionCommand.addFork")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {
@@ -184,12 +185,12 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
-        assert (_newFork != null) : "pre newFork";
-        assert (_newEndPoint != null) : "pre newEndPoint";
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint"; //$NON-NLS-1$
+        assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
+        assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
         assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg
-                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
+                .getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -199,12 +200,12 @@ public class AddForkOnConnectionCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert (_newEmptyPoint != null) : "post newEmptyPoint";
-        assert (_newFork != null) : "post newFork";
-        assert (_newEndPoint != null) : "post newEndPoint";
+        assert (_newEmptyPoint != null) : "post newEmptyPoint"; //$NON-NLS-1$
+        assert (_newFork != null) : "post newFork"; //$NON-NLS-1$
+        assert (_newEndPoint != null) : "post newEndPoint"; //$NON-NLS-1$
 
         assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg
-                .getPathNodes().contains(_newEndPoint)) : "post PathGraph contains new nodes";
+                .getPathNodes().contains(_newEndPoint)) : "post PathGraph contains new nodes"; //$NON-NLS-1$
 
     }
 

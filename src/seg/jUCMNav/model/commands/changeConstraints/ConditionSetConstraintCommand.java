@@ -57,16 +57,16 @@ public class ConditionSetConstraintCommand extends Command implements JUCMNavCom
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPreConditions() {
-		assert condition != null : "post Condition";
-		assert condition.getDeltaX() == oldDeltaX && condition.getDeltaY() == oldDeltaY : "pre Condition position";
+		assert condition != null : "post Condition"; //$NON-NLS-1$
+		assert condition.getDeltaX() == oldDeltaX && condition.getDeltaY() == oldDeltaY : "pre Condition position"; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPostConditions() {
-		assert condition != null : "post Condition";
-		assert condition.getDeltaX() == newDeltaX && condition.getDeltaY() == newDeltaY : "post Condition position";
+		assert condition != null : "post Condition"; //$NON-NLS-1$
+		assert condition.getDeltaX() == newDeltaX && condition.getDeltaY() == newDeltaY : "post Condition position"; //$NON-NLS-1$
 	}
 
 	/**

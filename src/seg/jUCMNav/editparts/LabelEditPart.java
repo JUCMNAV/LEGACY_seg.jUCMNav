@@ -141,7 +141,7 @@ public class LabelEditPart extends ModelElementEditPart {
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        EditableLabel label = new EditableLabel("");
+        EditableLabel label = new EditableLabel(""); //$NON-NLS-1$
         return new LabelFigure(label);
     }
 
@@ -272,7 +272,7 @@ public class LabelEditPart extends ModelElementEditPart {
 
             ICellEditorValidator validator = new ICellEditorValidator() {
                 public String isValid(Object value) {
-                    return "";
+                    return ""; //$NON-NLS-1$
                 }
             };
 

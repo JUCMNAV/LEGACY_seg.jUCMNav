@@ -142,15 +142,15 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert oldStartPoint != null : "pre old start point";
-        assert stubOrFork != null : "pre stub";
-        assert ncOldStart != null : "pre old node connection";
-        assert pg != null : "pre pathgraph";
+        assert oldStartPoint != null : "pre old start point"; //$NON-NLS-1$
+        assert stubOrFork != null : "pre stub"; //$NON-NLS-1$
+        assert ncOldStart != null : "pre old node connection"; //$NON-NLS-1$
+        assert pg != null : "pre pathgraph"; //$NON-NLS-1$
 
-        assert oldStartPoint.getX() == oldX && oldStartPoint.getY() == oldY : "pre old start position";
-        assert ncOldStart.getSource() == oldStartPoint : "pre connection source is the start point";
-        assert pg.getPathNodes().contains(oldStartPoint) : "pre pathgraph contains the start point";
-        assert pg.getNodeConnections().contains(ncOldStart) : "pre pathgraph contains the connection";
+        assert oldStartPoint.getX() == oldX && oldStartPoint.getY() == oldY : "pre old start position"; //$NON-NLS-1$
+        assert ncOldStart.getSource() == oldStartPoint : "pre connection source is the start point"; //$NON-NLS-1$
+        assert pg.getPathNodes().contains(oldStartPoint) : "pre pathgraph contains the start point"; //$NON-NLS-1$
+        assert pg.getNodeConnections().contains(ncOldStart) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
 
     /*
@@ -159,14 +159,14 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert oldStartPoint != null : "post old start point";
-        assert stubOrFork != null : "post stub";
-        assert ncOldStart != null : "post old node connection";
-        assert pg != null : "post pathgraph";
+        assert oldStartPoint != null : "post old start point"; //$NON-NLS-1$
+        assert stubOrFork != null : "post stub"; //$NON-NLS-1$
+        assert ncOldStart != null : "post old node connection"; //$NON-NLS-1$
+        assert pg != null : "post pathgraph"; //$NON-NLS-1$
 
-        assert ncOldStart.getSource() == stubOrFork : "post connection source is the stub";
-        assert !pg.getPathNodes().contains(oldStartPoint) : "post pathgraph doesn't contain the start point";
-        assert pg.getNodeConnections().contains(ncOldStart) : "post pathgraph contains the connection";
+        assert ncOldStart.getSource() == stubOrFork : "post connection source is the stub"; //$NON-NLS-1$
+        assert !pg.getPathNodes().contains(oldStartPoint) : "post pathgraph doesn't contain the start point"; //$NON-NLS-1$
+        assert pg.getNodeConnections().contains(ncOldStart) : "post pathgraph contains the connection"; //$NON-NLS-1$
     }
 
 }

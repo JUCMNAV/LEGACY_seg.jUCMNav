@@ -4,6 +4,8 @@
  */
 package seg.jUCMNav.model.util.modelexplore;
 
+import seg.jUCMNav.Messages;
+
 /**
  * @author jpdaigle
  *  
@@ -22,7 +24,7 @@ public abstract class AbstractQueryProcessor implements QueryProcessorChain {
         if (_nextInChain == null)
             _nextInChain = c;
         else
-            throw new IllegalArgumentException("Already have a next in chain");
+            throw new IllegalArgumentException(Messages.getString("AbstractQueryProcessor.alreadyHaveNextInChain")); //$NON-NLS-1$
     }
 
     /*

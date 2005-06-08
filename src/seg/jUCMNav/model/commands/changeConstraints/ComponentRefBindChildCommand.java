@@ -117,11 +117,11 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
      */
     public void testPreConditions() {
 
-        assert canExecute() : "pre can execute";
-        assert parent != null : "pre parent null";
+        assert canExecute() : "pre can execute"; //$NON-NLS-1$
+        assert parent != null : "pre parent null"; //$NON-NLS-1$
         for (int i = 0; i < children.size(); i++) {
             UCMmodelElement child = (UCMmodelElement) children.get(i);
-            assert !parent.getChildren().contains(child) && !parent.getPathNodes().contains(child) : "pre is not bound: " + i;
+            assert !parent.getChildren().contains(child) && !parent.getPathNodes().contains(child) : "pre is not bound: " + i; //$NON-NLS-1$
         }
 
     }
@@ -132,12 +132,12 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert canExecute() : "post can execute";
-        assert parent != null : "post parent null";
+        assert canExecute() : "post can execute"; //$NON-NLS-1$
+        assert parent != null : "post parent null"; //$NON-NLS-1$
         for (int i = 0; i < children.size(); i++) {
             UCMmodelElement child = (UCMmodelElement) children.get(i);
             assert (child instanceof ComponentRef && parent.getChildren().contains(child))
-                    || (child instanceof PathNode && parent.getPathNodes().contains(child)) : "post is bound: " + i;
+                    || (child instanceof PathNode && parent.getPathNodes().contains(child)) : "post is bound: " + i; //$NON-NLS-1$
         }
     }
 

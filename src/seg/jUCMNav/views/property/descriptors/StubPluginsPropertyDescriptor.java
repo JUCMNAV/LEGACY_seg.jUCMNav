@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import ucm.map.Stub;
 
 /**
@@ -22,7 +23,7 @@ public class StubPluginsPropertyDescriptor extends PropertyDescriptor {
 	 * 
 	 */
 	public StubPluginsPropertyDescriptor(Object id, Stub stub, CommandStack cmdStack) {
-		super(id, "Plugins");
+		super(id, Messages.getString("StubPluginsPropertyDescriptor.plugins")); //$NON-NLS-1$
 		this.stub = stub;
 		this.cmdStack = cmdStack;
 	}

@@ -27,12 +27,12 @@ public class ComponentTreeEditPart extends UcmModelElementTreeEditPart {
 	}
 
 	protected String getText() {
-		return getComp().getId() + ": " + getComp().getName();
+		return getComp().getId() + ": " + getComp().getName(); //$NON-NLS-1$
 	}
 	
 	protected Image getImage() {
 		if(super.getImage() == null)
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
 		return super.getImage();
 	}
 	

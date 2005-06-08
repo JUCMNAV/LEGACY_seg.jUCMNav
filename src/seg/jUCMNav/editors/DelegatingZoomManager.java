@@ -218,7 +218,7 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     public String getZoomAsText()
     {
         if(null == currentZoomManager)
-            return " 100%";
+            return " 100%"; //$NON-NLS-1$
             
         return currentZoomManager.getZoomAsText();
     }
@@ -240,7 +240,7 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     public String[] getZoomLevelsAsText()
     {
         if(null == currentZoomManager)
-            return new String[] {" 100%"};
+            return new String[] {" 100%"}; //$NON-NLS-1$
             
         return currentZoomManager.getZoomLevelsAsText();
     }

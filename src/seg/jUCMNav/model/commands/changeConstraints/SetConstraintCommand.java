@@ -4,6 +4,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
@@ -27,7 +28,7 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
         this.newX = x;
         this.newY = y;
 
-        setLabel("Move Node");
+        setLabel(Messages.getString("SetConstraintCommand.moveNode")); //$NON-NLS-1$
 
     }
 
@@ -112,12 +113,12 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert node != null : "post node";
-        assert node.getX() == newX && node.getY() == newY : "post node position";
+        assert node != null : "post node"; //$NON-NLS-1$
+        assert node.getX() == newX && node.getY() == newY : "post node position"; //$NON-NLS-1$
 
         if (newParent != null)
             assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight()))
-                    .contains(new Point(node.getX(), node.getY())) : "post node in parent.";
+                    .contains(new Point(node.getX(), node.getY())) : "post node in parent."; //$NON-NLS-1$
 
     }
 
@@ -127,8 +128,8 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert node != null : "pre node";
-        assert node.getX() == oldX && node.getY() == oldY : "pre node position";
+        assert node != null : "pre node"; //$NON-NLS-1$
+        assert node.getX() == oldX && node.getY() == oldY : "pre node position"; //$NON-NLS-1$
 
         // this is not true because in our compound command the parent might already have been moved.
         //        if (oldParent!=null)

@@ -20,7 +20,7 @@ import ucm.map.AndJoin;
  *  
  */
 public class TransmogrifyAndForkOrJoinAction extends TransmogrifyForkOrJoinAction {
-    public static final String TRANSMOGRIFYJOIN = "TransmogrifyJoin";
+    public static final String TRANSMOGRIFYJOIN = "TransmogrifyJoin"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -38,11 +38,11 @@ public class TransmogrifyAndForkOrJoinAction extends TransmogrifyForkOrJoinActio
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
             EditPart part = (EditPart) parts.get(0);
             if (part.getModel() instanceof AndJoin) {
-            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"));
+            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
                 return true;
             }
             else if(part.getModel() instanceof AndFork){
-            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"));
+            	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
             	return true;
             }
         }

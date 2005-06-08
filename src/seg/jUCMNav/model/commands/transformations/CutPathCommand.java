@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -47,18 +48,18 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     public CutPathCommand(PathGraph pg, EmptyPoint ep) {
         this.diagram = pg;
         this.emptyPoint = ep;
-        setLabel("Cut Path");
+        setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
     }
 
     public CutPathCommand(PathGraph pg, NodeConnection nc) {
         this.diagram = pg;
         this.targetConn = nc;
-        setLabel("Cut Path");
+        setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
     }
 
     public CutPathCommand() {
         super();
-        setLabel("Cut Path");
+        setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
     }
 
     /**
@@ -240,44 +241,44 @@ public static boolean canExecute(Object p) {
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        assert diagram != null : "pre diagram";
-        assert canExecute() : "pre canExecute (surrounded by empty nodes?)";
+        assert diagram != null : "pre diagram"; //$NON-NLS-1$
+        assert canExecute() : "pre canExecute (surrounded by empty nodes?)"; //$NON-NLS-1$
 
-        assert previousPoint != null && diagram.getPathNodes().contains(previousPoint) : "pre graph contains previousPoint";
-        assert nextPoint != null && diagram.getPathNodes().contains(nextPoint) : "pre graph contains nextPoint";
-        assert newStart != null && !diagram.getPathNodes().contains(newStart) : "pre graph doesn't contain newStart";
-        assert newEnd != null && !diagram.getPathNodes().contains(newEnd) : "pre graph doesn't contain newEnd";
+        assert previousPoint != null && diagram.getPathNodes().contains(previousPoint) : "pre graph contains previousPoint"; //$NON-NLS-1$
+        assert nextPoint != null && diagram.getPathNodes().contains(nextPoint) : "pre graph contains nextPoint"; //$NON-NLS-1$
+        assert newStart != null && !diagram.getPathNodes().contains(newStart) : "pre graph doesn't contain newStart"; //$NON-NLS-1$
+        assert newEnd != null && !diagram.getPathNodes().contains(newEnd) : "pre graph doesn't contain newEnd"; //$NON-NLS-1$
 
-        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "pre graph contains connToPrev2";
-        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "pre graph contains connToNext2";
+        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "pre graph contains connToPrev2"; //$NON-NLS-1$
+        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "pre graph contains connToNext2"; //$NON-NLS-1$
 
-        assert previousPoint.getPred().size() == 1 && previousPoint.getSucc().size() == 1 : "pre previous point has 1 in, 1 out";
-        assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 1 : "pre nextPoint has 1 in, 1 out";
-        assert newStart.getPred().size() == 0 && newStart.getSucc().size() == 0 : "pre new start has 0 in, 0 out";
-        assert newEnd.getPred().size() == 0 && newEnd.getSucc().size() == 0 : "pre new end has 0 in, 0 out";
+        assert previousPoint.getPred().size() == 1 && previousPoint.getSucc().size() == 1 : "pre previous point has 1 in, 1 out"; //$NON-NLS-1$
+        assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 1 : "pre nextPoint has 1 in, 1 out"; //$NON-NLS-1$
+        assert newStart.getPred().size() == 0 && newStart.getSucc().size() == 0 : "pre new start has 0 in, 0 out"; //$NON-NLS-1$
+        assert newEnd.getPred().size() == 0 && newEnd.getSucc().size() == 0 : "pre new end has 0 in, 0 out"; //$NON-NLS-1$
 
-        assert connToPrev2.getTarget() == previousPoint : "pre link1";
-        assert nextPoint.getSucc().get(0) == connToNext2 : "pre link6";
+        assert connToPrev2.getTarget() == previousPoint : "pre link1"; //$NON-NLS-1$
+        assert nextPoint.getSucc().get(0) == connToNext2 : "pre link6"; //$NON-NLS-1$
 
-        assert newStart.getX() == nextPoint.getX() && newStart.getY() == nextPoint.getY() : "pre new start position";
-        assert newEnd.getX() == previousPoint.getX() && newEnd.getY() == previousPoint.getY() : "pre new end position";
+        assert newStart.getX() == nextPoint.getX() && newStart.getY() == nextPoint.getY() : "pre new start position"; //$NON-NLS-1$
+        assert newEnd.getX() == previousPoint.getX() && newEnd.getY() == previousPoint.getY() : "pre new end position"; //$NON-NLS-1$
 
         // if clicked on empty point
         if (targetConn == null) {
-            assert emptyPoint != null : "pre emptyPoint";
-            assert diagram.getPathNodes().contains(emptyPoint) : "pre graph contains emptyPoint";
-            assert connToPrev1 != null && diagram.getNodeConnections().contains(connToPrev1) : "pre graph contains connToPrev1";
-            assert connToNext1 != null && diagram.getNodeConnections().contains(connToNext1) : "pre graph contains connToNext1";
-            assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "pre empty point has 1 in, 1 out";
-            assert previousPoint.getSucc().get(0) == connToPrev1 : "pre link2";
-            assert connToPrev1.getTarget() == emptyPoint : "pre link3";
-            assert emptyPoint.getSucc().get(0) == connToNext1 : "pre link4";
-            assert connToNext1.getTarget() == nextPoint : "pre link5";
+            assert emptyPoint != null : "pre emptyPoint"; //$NON-NLS-1$
+            assert diagram.getPathNodes().contains(emptyPoint) : "pre graph contains emptyPoint"; //$NON-NLS-1$
+            assert connToPrev1 != null && diagram.getNodeConnections().contains(connToPrev1) : "pre graph contains connToPrev1"; //$NON-NLS-1$
+            assert connToNext1 != null && diagram.getNodeConnections().contains(connToNext1) : "pre graph contains connToNext1"; //$NON-NLS-1$
+            assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "pre empty point has 1 in, 1 out"; //$NON-NLS-1$
+            assert previousPoint.getSucc().get(0) == connToPrev1 : "pre link2"; //$NON-NLS-1$
+            assert connToPrev1.getTarget() == emptyPoint : "pre link3"; //$NON-NLS-1$
+            assert emptyPoint.getSucc().get(0) == connToNext1 : "pre link4"; //$NON-NLS-1$
+            assert connToNext1.getTarget() == nextPoint : "pre link5"; //$NON-NLS-1$
 
         } else { // clicked on node connection
-            assert diagram.getNodeConnections().contains(targetConn) : "pre graph contains targetConn";
-            assert previousPoint.getSucc().get(0) == targetConn : "pre link 7";
-            assert targetConn.getTarget() == nextPoint : "pre link 8";
+            assert diagram.getNodeConnections().contains(targetConn) : "pre graph contains targetConn"; //$NON-NLS-1$
+            assert previousPoint.getSucc().get(0) == targetConn : "pre link 7"; //$NON-NLS-1$
+            assert targetConn.getTarget() == nextPoint : "pre link 8"; //$NON-NLS-1$
         }
     }
 
@@ -294,35 +295,35 @@ public static boolean canExecute(Object p) {
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        assert diagram != null : "post diagram";
+        assert diagram != null : "post diagram"; //$NON-NLS-1$
 
-        assert previousPoint != null && !diagram.getPathNodes().contains(previousPoint) : "post graph doesn't contain previousPoint";
-        assert nextPoint != null && !diagram.getPathNodes().contains(nextPoint) : "post graph doesn't contain nextPoint";
-        assert newStart != null && diagram.getPathNodes().contains(newStart) : "post graph contains newStart";
-        assert newEnd != null && diagram.getPathNodes().contains(newEnd) : "post graph contains newEnd";
+        assert previousPoint != null && !diagram.getPathNodes().contains(previousPoint) : "post graph doesn't contain previousPoint"; //$NON-NLS-1$
+        assert nextPoint != null && !diagram.getPathNodes().contains(nextPoint) : "post graph doesn't contain nextPoint"; //$NON-NLS-1$
+        assert newStart != null && diagram.getPathNodes().contains(newStart) : "post graph contains newStart"; //$NON-NLS-1$
+        assert newEnd != null && diagram.getPathNodes().contains(newEnd) : "post graph contains newEnd"; //$NON-NLS-1$
 
-        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "post graph contains connToPrev2";
-        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "post graph contains connToNext2";
+        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "post graph contains connToPrev2"; //$NON-NLS-1$
+        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "post graph contains connToNext2"; //$NON-NLS-1$
 
-        assert previousPoint.getPred().size() == 0 && previousPoint.getSucc().size() == 1 : "post previous point has 0 in, 1 out";
-        assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 0 : "post nextPoint has 1 in, 0 out";
-        assert newStart.getPred().size() == 0 && newStart.getSucc().size() == 1 : "post new start has 0 in, 1 out";
-        assert newEnd.getPred().size() == 1 && newEnd.getSucc().size() == 0 : "post new end has 1 in, 0 out";
+        assert previousPoint.getPred().size() == 0 && previousPoint.getSucc().size() == 1 : "post previous point has 0 in, 1 out"; //$NON-NLS-1$
+        assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 0 : "post nextPoint has 1 in, 0 out"; //$NON-NLS-1$
+        assert newStart.getPred().size() == 0 && newStart.getSucc().size() == 1 : "post new start has 0 in, 1 out"; //$NON-NLS-1$
+        assert newEnd.getPred().size() == 1 && newEnd.getSucc().size() == 0 : "post new end has 1 in, 0 out"; //$NON-NLS-1$
 
-        assert connToPrev2.getTarget() == newEnd : "post link1";
-        assert newStart.getSucc().get(0) == connToNext2 : "post link2";
+        assert connToPrev2.getTarget() == newEnd : "post link1"; //$NON-NLS-1$
+        assert newStart.getSucc().get(0) == connToNext2 : "post link2"; //$NON-NLS-1$
 
-        assert newStart.getX() == nextPoint.getX() && newStart.getY() == nextPoint.getY() : "post new start position";
-        assert newEnd.getX() == previousPoint.getX() && newEnd.getY() == previousPoint.getY() : "post new end position";
+        assert newStart.getX() == nextPoint.getX() && newStart.getY() == nextPoint.getY() : "post new start position"; //$NON-NLS-1$
+        assert newEnd.getX() == previousPoint.getX() && newEnd.getY() == previousPoint.getY() : "post new end position"; //$NON-NLS-1$
 
         if (targetConn == null) {
-            assert emptyPoint != null : "post emptyPoint";
-            assert !diagram.getPathNodes().contains(emptyPoint) : "post graph doesn't contain emptyPoint";
-            assert connToPrev1 != null && !diagram.getNodeConnections().contains(connToPrev1) : "post graph doesn't contain connToPrev1";
-            assert connToNext1 != null && !diagram.getNodeConnections().contains(connToNext1) : "post graph doesn't contain connToNext1";
-            assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "post empty point has 1 in, 1 out";
+            assert emptyPoint != null : "post emptyPoint"; //$NON-NLS-1$
+            assert !diagram.getPathNodes().contains(emptyPoint) : "post graph doesn't contain emptyPoint"; //$NON-NLS-1$
+            assert connToPrev1 != null && !diagram.getNodeConnections().contains(connToPrev1) : "post graph doesn't contain connToPrev1"; //$NON-NLS-1$
+            assert connToNext1 != null && !diagram.getNodeConnections().contains(connToNext1) : "post graph doesn't contain connToNext1"; //$NON-NLS-1$
+            assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "post empty point has 1 in, 1 out"; //$NON-NLS-1$
         } else {
-            assert !diagram.getNodeConnections().contains(targetConn) : "post graph doesn't contain targetConn";
+            assert !diagram.getNodeConnections().contains(targetConn) : "post graph doesn't contain targetConn"; //$NON-NLS-1$
         }
     }
 

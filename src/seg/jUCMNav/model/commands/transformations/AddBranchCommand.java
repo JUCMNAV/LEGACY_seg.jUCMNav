@@ -158,10 +158,10 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "pre something null";
-        assert pg.getPathNodes().contains(insertionNode) : "pre node in model";
-        assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model";
-        assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model";
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "pre something null"; //$NON-NLS-1$
+        assert pg.getPathNodes().contains(insertionNode) : "pre node in model"; //$NON-NLS-1$
+        assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model"; //$NON-NLS-1$
+        assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model"; //$NON-NLS-1$
 
     }
 
@@ -171,10 +171,10 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "post something null";
-        assert pg.getPathNodes().contains(insertionNode) : "post node in model";
-        assert pg.getPathNodes().contains(newEmpty) && pg.getPathNodes().contains(newStartOrEnd) : "post nodes in model";
-        assert pg.getNodeConnections().contains(newConn) && pg.getNodeConnections().contains(newConn) : "post connections in model";
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "post something null"; //$NON-NLS-1$
+        assert pg.getPathNodes().contains(insertionNode) : "post node in model"; //$NON-NLS-1$
+        assert pg.getPathNodes().contains(newEmpty) && pg.getPathNodes().contains(newStartOrEnd) : "post nodes in model"; //$NON-NLS-1$
+        assert pg.getNodeConnections().contains(newConn) && pg.getNodeConnections().contains(newConn) : "post connections in model"; //$NON-NLS-1$
 
     }
 

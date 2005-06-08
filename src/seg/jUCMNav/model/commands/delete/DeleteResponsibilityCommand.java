@@ -14,7 +14,7 @@ import urncore.Responsibility;
  */
 public class DeleteResponsibilityCommand extends Command implements JUCMNavCommand {
 
-    private static final String DeleteCommand_Label = "DeleteResponsibilityCommand";
+    private static final String DeleteCommand_Label = "DeleteResponsibilityCommand"; //$NON-NLS-1$
 
     // the responsibility definition to delete
     private Responsibility respDef;
@@ -72,9 +72,9 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
      */
     public void testPostConditions() {
         // lists could be empty but not null
-        assert getRespDef() != null && urn != null : "post something is null";
-        assert getRespDef().getRespRefs().size() == 0 : "post there are still children";
-        assert !urn.getUrndef().getResponsibilities().contains(getRespDef()) : "post responsibility still in model";
+        assert getRespDef() != null && urn != null : "post something is null"; //$NON-NLS-1$
+        assert getRespDef().getRespRefs().size() == 0 : "post there are still children"; //$NON-NLS-1$
+        assert !urn.getUrndef().getResponsibilities().contains(getRespDef()) : "post responsibility still in model"; //$NON-NLS-1$
     }
 
     /*
@@ -85,9 +85,9 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
     public void testPreConditions() {
 
         // lists could be empty but not null
-        assert getRespDef() != null && urn != null : "pre something is null";
-        assert getRespDef().getRespRefs().size() == 0 : "pre can't delete if still referenced.";
-        assert urn.getUrndef().getResponsibilities().contains(getRespDef()) : "pre responsibility in model";
+        assert getRespDef() != null && urn != null : "pre something is null"; //$NON-NLS-1$
+        assert getRespDef().getRespRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
+        assert urn.getUrndef().getResponsibilities().contains(getRespDef()) : "pre responsibility in model"; //$NON-NLS-1$
 
     }
 

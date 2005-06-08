@@ -16,7 +16,7 @@ import ucm.map.Stub;
  */
 public class EditStubPluginsAction extends SelectionAction {
 	
-	public static final String EDITSTUBPLUGINS = "EditStubPluginsAction";
+	public static final String EDITSTUBPLUGINS = "EditStubPluginsAction"; //$NON-NLS-1$
 	
 	private Stub stub;
 
@@ -25,7 +25,7 @@ public class EditStubPluginsAction extends SelectionAction {
 	 */
 	public EditStubPluginsAction(IWorkbenchPart part) {
 		super(part);
-		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif"));
+		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")); //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)

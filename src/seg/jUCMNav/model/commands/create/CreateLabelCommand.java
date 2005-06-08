@@ -18,7 +18,7 @@ import urncore.UCMmodelElement;
  * @author Jordan
  */
 public class CreateLabelCommand extends Command implements JUCMNavCommand {
-    private static final String CreateCommand_Label = "CreateLabelCommand";
+    private static final String CreateCommand_Label = "CreateLabelCommand"; //$NON-NLS-1$
 
     private Label label;
     private UCMmodelElement modelElement;
@@ -91,8 +91,8 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert label != null : "pre Label";
-        assert modelElement != null : "pre UCMmodelElement";
+        assert label != null : "pre Label"; //$NON-NLS-1$
+        assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         //assert label.getPathNode() == null : "pre NodeLabel not connected to a PathNode";
         //assert node.getLabel() == null : "pre PathNode not connected to a NodeLabel";
     }
@@ -103,8 +103,8 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert label != null : "pre Label";
-        assert modelElement != null : "pre UCMmodelElement";
+        assert label != null : "pre Label"; //$NON-NLS-1$
+        assert modelElement != null : "pre UCMmodelElement"; //$NON-NLS-1$
         //assert label.getPathNode().equals(node) : "pre NodeLabel connected to correct PathNode";
         //assert node.getLabel().equals(label) : "pre PathNode connected to correct NodeLabel";
     }

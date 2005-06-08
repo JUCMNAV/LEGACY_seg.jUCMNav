@@ -26,14 +26,14 @@ import ucm.map.AndFork;
  */
 public class AddAndForkAction extends SelectionAction {
 
-    public static final String ADDANDFORK = "AddAndFork";
+    public static final String ADDANDFORK = "AddAndFork"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddAndForkAction(IWorkbenchPart part) {
         super(part);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"));
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
     }
 
     /*

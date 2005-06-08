@@ -38,9 +38,9 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
     protected String getText() {
         ComponentElement comp = getCompRef().getCompDef();
         if (comp != null)
-            return "ref " + getCompRef().getId() + ": " + comp.getName();
+            return "ref " + getCompRef().getId() + ": " + comp.getName(); //$NON-NLS-1$ //$NON-NLS-2$
         else
-            return "ref " + getCompRef().getId();
+            return "ref " + getCompRef().getId(); //$NON-NLS-1$
     }
 
     /*
@@ -61,7 +61,7 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
         return super.getImage();
     }
 }

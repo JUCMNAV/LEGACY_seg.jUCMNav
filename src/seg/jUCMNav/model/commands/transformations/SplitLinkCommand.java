@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -44,7 +45,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         this.x = x;
         this.y = y;
 
-        setLabel("Insert a node on a path");
+        setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
 
     /*
@@ -205,25 +206,25 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert diagram != null : "pre diagram";
-        assert node != null : "pre node";
-        assert previousNode != null : "pre previous node";
-        assert nextNode != null : "pre next node";
-        assert newLink != null : "pre newLink1";
-        assert oldLink != null : "pre oldLink";
+        assert diagram != null : "pre diagram"; //$NON-NLS-1$
+        assert node != null : "pre node"; //$NON-NLS-1$
+        assert previousNode != null : "pre previous node"; //$NON-NLS-1$
+        assert nextNode != null : "pre next node"; //$NON-NLS-1$
+        assert newLink != null : "pre newLink1"; //$NON-NLS-1$
+        assert oldLink != null : "pre oldLink"; //$NON-NLS-1$
 
-        assert node.getX() == x && node.getY() == y : "pre node position";
+        assert node.getX() == x && node.getY() == y : "pre node position"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(previousNode) : "pre graph contains previousNode";
-        assert diagram.getPathNodes().contains(nextNode) : "pre graph contains nextNode";
-        assert !diagram.getPathNodes().contains(node) : "pre graph doesn't contain node";
-        assert diagram.getNodeConnections().contains(oldLink) : "pre graph contains oldLink";
-        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink";
+        assert diagram.getPathNodes().contains(previousNode) : "pre graph contains previousNode"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(nextNode) : "pre graph contains nextNode"; //$NON-NLS-1$
+        assert !diagram.getPathNodes().contains(node) : "pre graph doesn't contain node"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(oldLink) : "pre graph contains oldLink"; //$NON-NLS-1$
+        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
 
-        assert previousNode.getSucc().contains(oldLink) : "pre link1";
-        assert oldLink.getTarget() == nextNode : "pre link2";
+        assert previousNode.getSucc().contains(oldLink) : "pre link1"; //$NON-NLS-1$
+        assert oldLink.getTarget() == nextNode : "pre link2"; //$NON-NLS-1$
 
-        assert node.getPred().size() == 0 && node.getSucc().size() == 1 : "post node 0 in 1 out";
+        assert node.getPred().size() == 0 && node.getSucc().size() == 1 : "post node 0 in 1 out"; //$NON-NLS-1$
 
     }
 
@@ -233,27 +234,27 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert diagram != null : "post diagram";
-        assert node != null : "post node";
-        assert previousNode != null : " postvious node";
-        assert nextNode != null : "post next node";
-        assert newLink != null : "post newLink1";
-        assert oldLink != null : "post oldLink";
+        assert diagram != null : "post diagram"; //$NON-NLS-1$
+        assert node != null : "post node"; //$NON-NLS-1$
+        assert previousNode != null : " postvious node"; //$NON-NLS-1$
+        assert nextNode != null : "post next node"; //$NON-NLS-1$
+        assert newLink != null : "post newLink1"; //$NON-NLS-1$
+        assert oldLink != null : "post oldLink"; //$NON-NLS-1$
 
-        assert node.getX() == x && node.getY() == y : "post node position";
+        assert node.getX() == x && node.getY() == y : "post node position"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(previousNode) : "post graph contains previousNode";
-        assert diagram.getPathNodes().contains(nextNode) : "post graph contains nextNode";
-        assert diagram.getPathNodes().contains(node) : "post graph contains node";
-        assert diagram.getNodeConnections().contains(oldLink) : "post graph contains oldLink";
-        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink";
+        assert diagram.getPathNodes().contains(previousNode) : "post graph contains previousNode"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(nextNode) : "post graph contains nextNode"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(node) : "post graph contains node"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(oldLink) : "post graph contains oldLink"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
 
-        assert previousNode.getSucc().contains(oldLink) : "post link1";
-        assert oldLink.getTarget() == node : "post link2";
-        assert node.getSucc().get(0) == newLink : "post link3";
-        assert newLink.getTarget() == nextNode : "post link4";
+        assert previousNode.getSucc().contains(oldLink) : "post link1"; //$NON-NLS-1$
+        assert oldLink.getTarget() == node : "post link2"; //$NON-NLS-1$
+        assert node.getSucc().get(0) == newLink : "post link3"; //$NON-NLS-1$
+        assert newLink.getTarget() == nextNode : "post link4"; //$NON-NLS-1$
 
-        assert node.getPred().size() == 1 && node.getSucc().size() == 1 : "post node 1 in 1 out";
+        assert node.getPred().size() == 1 && node.getSucc().size() == 1 : "post node 1 in 1 out"; //$NON-NLS-1$
 
     }
 }

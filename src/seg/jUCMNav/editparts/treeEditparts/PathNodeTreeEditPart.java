@@ -84,21 +84,21 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 
         if (super.getImage() == null) {
             if (node instanceof StartPoint)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof EmptyPoint)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof EndPoint)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof RespRef)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof OrFork) {
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")).createImage()); //$NON-NLS-1$
             } else if (node instanceof AndFork) {
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")).createImage()); //$NON-NLS-1$
             } else if (node instanceof Stub)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage()); //$NON-NLS-1$
             else
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage());
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
         }
 
         return super.getImage();

@@ -29,6 +29,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
@@ -420,12 +421,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
 			// validate URNspec
 			if (null == getModel())
-				throw new PartInitException("The specified input is not a valid URN file.");
+				throw new PartInitException(Messages.getString("UCMNavMultiPageEditor.inputNotValidURN")); //$NON-NLS-1$
 
 		} catch (CoreException e) {
 			throw new PartInitException(e.getStatus());
 		} catch (ClassCastException e) {
-			throw new PartInitException("The specified input is not a valid URN file.", e);
+			throw new PartInitException(Messages.getString("UCMNavMultiPageEditor.inputNotValidURN"), e); //$NON-NLS-1$
 		}
 
 		// URNspec is ok

@@ -34,6 +34,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteListener;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
@@ -114,7 +115,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
         ContextMenuProvider provider = new UcmContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider", provider, viewer);
+        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider", provider, viewer); //$NON-NLS-1$
 
         viewer.setEditPartFactory(new GraphicalEditPartFactory(getModel()));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
@@ -171,7 +172,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @deprecated
      */
     public void doSave(IProgressMonitor monitor) {
-        System.out.println("old save; no longer used; now done in MultiPage");
+        System.out.println(Messages.getString("UcmEditor.oldSave")); //$NON-NLS-1$
     }
 
     /**
@@ -180,7 +181,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @deprecated
      */
     public void doSaveAs() {
-        System.out.println("old save as; no longer used; now done in MultiPage");
+        System.out.println(Messages.getString("UcmEditor.oldSaveAs")); //$NON-NLS-1$
     }
 
     /**

@@ -53,6 +53,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.internal.WorkbenchImages;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.create.AddInBinding;
 import seg.jUCMNav.model.commands.create.AddOutBinding;
 import seg.jUCMNav.model.commands.create.AddPlugin;
@@ -149,15 +150,15 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		toolkit = new FormToolkit(area.getDisplay());
 		form = toolkit.createScrolledForm(area);
 		form.setLayoutData(d);
-		form.setText("Stub Bindings");
+		form.setText(Messages.getString("StubBindingsDialog.stubBindings")); //$NON-NLS-1$
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 3;
 		form.getBody().setLayout(layout);
 		TableWrapData td = new TableWrapData();
 
 		final ExpandableComposite ec = toolkit.createExpandableComposite(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		ec.setText("Stub Description");
-		descrip = toolkit.createLabel(ec, "", SWT.WRAP);
+		ec.setText(Messages.getString("StubBindingsDialog.stubDesc")); //$NON-NLS-1$
+		descrip = toolkit.createLabel(ec, "", SWT.WRAP); //$NON-NLS-1$
 		ec.setClient(descrip);
 		td = new TableWrapData();
 		td.colspan = 3;
@@ -170,7 +171,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 		//		 Connect map section
 		mapSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
-		mapSection.setText("Select Plugin Map(s)");
+		mapSection.setText(Messages.getString("StubBindingsDialog.selectPluginMaps")); //$NON-NLS-1$
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 1;
 		td.grabHorizontal = true;
@@ -198,7 +199,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		mapList.setLayoutData(g);
 		TableColumn mapListColumn = new TableColumn(mapList, SWT.NONE);
 		mapListColumn.setWidth(150);
-		mapListColumn.setText("Maps");
+		mapListColumn.setText(Messages.getString("StubBindingsDialog.maps")); //$NON-NLS-1$
 		
 		mapList.addSelectionListener(new SelectionAdapter(){
 			public void widgetSelected(SelectionEvent e) {
@@ -222,7 +223,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 //				updateColumnWidth();
 			}
 		});
-		pluginListSection.setText("Plugins List");
+		pluginListSection.setText(Messages.getString("StubBindingsDialog.pluginList")); //$NON-NLS-1$
 		toolkit.createCompositeSeparator(pluginListSection);
 		Composite sectionClient = toolkit.createComposite(pluginListSection);
 		grid = new GridLayout();
@@ -321,7 +322,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 		// Add Plugin section
 		addPluginSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
-		addPluginSection.setText("Add Bindings");
+		addPluginSection.setText(Messages.getString("StubBindingsDialog.addPlugins")); //$NON-NLS-1$
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 1;
 		td.grabHorizontal = true;
@@ -355,7 +356,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		f.grabExcessVerticalSpace = true;
 		stubComp.setLayoutData(f);
 
-		Label lb = toolkit.createLabel(stubComp, "Stub");
+		Label lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
 
 		tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabStubIns.setLinesVisible(true);
@@ -374,7 +375,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		tabStubIns.setLayoutData(g);
 		stubInsColumn = new TableColumn(tabStubIns, SWT.NONE);
 		stubInsColumn.setWidth(50);
-		stubInsColumn.setText("In");
+		stubInsColumn.setText(Messages.getString("StubBindingsDialog.in")); //$NON-NLS-1$
 
 		Composite buttonComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
@@ -386,7 +387,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g.grabExcessVerticalSpace = true;
 		buttonComp.setLayoutData(g);
 
-		btInBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
+		btInBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
 		btInBind.setEnabled(false);
 		g = new GridData();
 		g.grabExcessHorizontalSpace = true;
@@ -409,7 +410,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g.grabExcessVerticalSpace = true;
 		mapComp.setLayoutData(g);
 
-		lb = toolkit.createLabel(mapComp, "Map");
+		lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.map")); //$NON-NLS-1$
 
 		tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabMapIns.setLinesVisible(true);
@@ -429,7 +430,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		tabMapIns.setLayoutData(g);
 		mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
 		mapInsColumn.setWidth(50);
-		mapInsColumn.setText("In");
+		mapInsColumn.setText(Messages.getString("StubBindingsDialog.in")); //$NON-NLS-1$
 		
 		// Out bindings controls
 		stubComp = toolkit.createComposite(addPluginClient);
@@ -441,7 +442,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g.grabExcessVerticalSpace = true;
 		stubComp.setLayoutData(g);
 
-		lb = toolkit.createLabel(stubComp, "Stub");
+		lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
 
 		tabStubOuts = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabStubOuts.setLinesVisible(true);
@@ -460,7 +461,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		tabStubOuts.setLayoutData(g);
 		stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
 		stubOutsColumn.setWidth(50);
-		stubOutsColumn.setText("Out");
+		stubOutsColumn.setText(Messages.getString("StubBindingsDialog.out")); //$NON-NLS-1$
 
 		buttonComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
@@ -472,7 +473,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g.grabExcessVerticalSpace = true;
 		buttonComp.setLayoutData(g);
 
-		btOutBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT);
+		btOutBind = toolkit.createButton(buttonComp, "<->", SWT.PUSH | SWT.FLAT); //$NON-NLS-1$
 		btOutBind.setEnabled(false);
 		g = new GridData();
 		g.grabExcessHorizontalSpace = true;
@@ -495,7 +496,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g.grabExcessVerticalSpace = true;
 		mapComp.setLayoutData(g);
 
-		lb = toolkit.createLabel(mapComp, "Map");
+		lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.map")); //$NON-NLS-1$
 
 		tabMapOuts = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
 		tabMapOuts.setLinesVisible(true);
@@ -515,7 +516,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		tabMapOuts.setLayoutData(g);
 		mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
 		mapOutsColumn.setWidth(50);
-		mapOutsColumn.setText("Out");
+		mapOutsColumn.setText(Messages.getString("StubBindingsDialog.out")); //$NON-NLS-1$
 		
 		mapSection.setExpanded(true);
 		pluginListSection.setExpanded(true);
@@ -552,13 +553,13 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		Object data = source.getData();
 		if(data != null){
 			if(data instanceof PluginBinding){
-				System.out.println("PluginBinding");
+				System.out.println("PluginBinding"); //$NON-NLS-1$
 			}
 			else if(data instanceof InBinding){
-				System.out.println("InBinding");
+				System.out.println("InBinding"); //$NON-NLS-1$
 			}
 			else if(data instanceof OutBinding){
-				System.out.println("OutBinding");
+				System.out.println("OutBinding"); //$NON-NLS-1$
 			}
 		}
 	}
@@ -749,8 +750,8 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	public int open(Stub stub) {
 		create();
 		getShell().setActive();
-		getShell().setText("Stub Bindings");
-		Image image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage();
+		getShell().setText(Messages.getString("StubBindingsDialog.stubBindings")); //$NON-NLS-1$
+		Image image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
 		images.add(image);
 		getShell().setImage(image);
 		getShell().addShellListener(new ShellAdapter(){
@@ -771,7 +772,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * Reset all the view information when the selected Stub is null.
 	 */
 	private void resetInfo() {
-		descrip.setText("");
+		descrip.setText(""); //$NON-NLS-1$
 		treeBindings.removeAll();
 		tabMapIns.removeAll();
 		tabStubIns.removeAll();
@@ -793,7 +794,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		if (stub.getDescription() != null)
 			descrip.setText(stub.getDescription());
 		else {
-			descrip.setText("");
+			descrip.setText(""); //$NON-NLS-1$
 			
 		}
 	}
@@ -825,7 +826,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 		List list = stub.getBindings();
 		TreeItem root = new TreeItem(treeBindings, SWT.NULL);
-		root.setText("Bindings");
+		root.setText(Messages.getString("StubBindingsDialog.bindings")); //$NON-NLS-1$
 		TreeItem item; // This represents a PluginBinding
 		TreeItem subLabelItem; // An item for a label under item.  This item cannot be deleted/selected.
 		TreeItem subItem; // This represent a In/OutBinding
@@ -838,23 +839,23 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			PluginBinding binding = (PluginBinding) i.next();
 			// Generate a tree item under root for this PluginBinding
 			item = new TreeItem(item, SWT.NULL);
-			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName());
-			image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage();
+			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName()); //$NON-NLS-1$
+			image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
 			images.add(image);
 			item.setImage(image);
 			item.setData(binding);
 			
 			// Then add a label for InBindings under this item
 			subLabelItem = new TreeItem(item, SWT.NULL);
-			subLabelItem.setText("In bindings");
+			subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
 
 			// Loop through all the InBindings and add them under the InBinding label
 			List in = binding.getIn();
 			for (Iterator j = in.iterator(); j.hasNext();) {
 				InBinding inBind = (InBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
-				subItem.setText(inBind.getStubEntry().getSource().getName() + "<->" + inBind.getStartPoint().getName());
-				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/InBinding16.gif")).createImage();
+				subItem.setText(inBind.getStubEntry().getSource().getName() + "<->" + inBind.getStartPoint().getName()); //$NON-NLS-1$
+				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/InBinding16.gif")).createImage(); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
 				subItem.setData(inBind);
@@ -863,15 +864,15 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 			// The add the label for OutBindings under the PluginBinding item
 			subLabelItem = new TreeItem(item, SWT.NULL);
-			subLabelItem.setText("Out bindings");
+			subLabelItem.setText(Messages.getString("StubBindingsDialog.outBindings")); //$NON-NLS-1$
 
 			// Loop through all the OutBindings and add them under the OutBinding label
 			List out = binding.getOut();
 			for (Iterator j = out.iterator(); j.hasNext();) {
 				OutBinding outBind = (OutBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
-				subItem.setText(outBind.getEndPoint().getName() + "<->" + outBind.getStubExit().getTarget().getName());
-				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OutBinding16.gif")).createImage();
+				subItem.setText(outBind.getEndPoint().getName() + "<->" + outBind.getStubExit().getTarget().getName()); //$NON-NLS-1$
+				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OutBinding16.gif")).createImage(); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
 				subItem.setData(outBind);
@@ -1034,7 +1035,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		int featureId = notification.getFeatureID(UcmPackage.class);
 		switch (featureId) {
 		case MapPackage.MAP__UCMSPEC:
-			System.out.println("A map has been added or deleted.");
+			System.out.println("A map has been added or deleted."); //$NON-NLS-1$
 			break;
 		case MapPackage.STUB__DESCRIPTION:
 			descrip.setText(stub.getDescription());

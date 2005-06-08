@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -35,7 +36,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         this.newX = x;
         this.newY = y;
 
-        setLabel("Extend Path");
+        setLabel(Messages.getString("ExtendPathCommand.extendPath")); //$NON-NLS-1$
 
     }
 
@@ -45,7 +46,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         this.newX = x;
         this.newY = y;
 
-        setLabel("Extend Path");
+        setLabel(Messages.getString("ExtendPathCommand.extendPath")); //$NON-NLS-1$
 
     }
 
@@ -207,44 +208,44 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
 
-        assert diagram != null : "post diagram";
-        assert end != null || start != null : "post end";
+        assert diagram != null : "post diagram"; //$NON-NLS-1$
+        assert end != null || start != null : "post end"; //$NON-NLS-1$
         PathNode moved = end;
         if (moved == null)
             moved = start;
-        assert lastNode != null : "post last node";
-        assert lastLink != null : "post last link";
-        assert newNode != null : "post new node";
-        assert newLink != null : "post new link";
+        assert lastNode != null : "post last node"; //$NON-NLS-1$
+        assert lastLink != null : "post last link"; //$NON-NLS-1$
+        assert newNode != null : "post new node"; //$NON-NLS-1$
+        assert newLink != null : "post new link"; //$NON-NLS-1$
 
-        assert newNode.getX() == oldX && newNode.getY() == oldY : "post new Node position";
-        assert moved.getX() == newX && moved.getY() == newY : "post end position";
+        assert newNode.getX() == oldX && newNode.getY() == oldY : "post new Node position"; //$NON-NLS-1$
+        assert moved.getX() == newX && moved.getY() == newY : "post end position"; //$NON-NLS-1$
 
-        assert diagram.getNodeConnections().contains(lastLink) : "post graph contains lastLink";
-        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink";
-        assert diagram.getPathNodes().contains(lastNode) : "post graph contains lastNode";
-        assert diagram.getPathNodes().contains(newNode) : "post graph contains newNode";
+        assert diagram.getNodeConnections().contains(lastLink) : "post graph contains lastLink"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(lastNode) : "post graph contains lastNode"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(newNode) : "post graph contains newNode"; //$NON-NLS-1$
 
         if (end != null) {
-            assert newLink.getSource() == newNode : "post link1";
-            assert newLink.getTarget() == end : "post link2";
-            assert lastLink.getSource() == lastNode : "post link3";
-            assert lastLink.getTarget() == newNode : "post link4";
-            assert newNode.getSucc().get(0) == newLink : "post link5";
-            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 1 : "post newNode 1 in, 1 out";
+            assert newLink.getSource() == newNode : "post link1"; //$NON-NLS-1$
+            assert newLink.getTarget() == end : "post link2"; //$NON-NLS-1$
+            assert lastLink.getSource() == lastNode : "post link3"; //$NON-NLS-1$
+            assert lastLink.getTarget() == newNode : "post link4"; //$NON-NLS-1$
+            assert newNode.getSucc().get(0) == newLink : "post link5"; //$NON-NLS-1$
+            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 1 : "post newNode 1 in, 1 out"; //$NON-NLS-1$
 
             // not checking successors to be able to extend connects
-            assert end.getPred().size() == 1 && end.getPred().get(0) == newLink : "post end pred";
+            assert end.getPred().size() == 1 && end.getPred().get(0) == newLink : "post end pred"; //$NON-NLS-1$
         } else {
-            assert newLink.getTarget() == newNode : "post link1";
-            assert newLink.getSource() == start : "post link2";
-            assert lastLink.getSource() == newNode : "post link3";
-            assert lastLink.getTarget() == lastNode : "post link4";
-            assert newNode.getPred().get(0) == newLink : "post link5";
-            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 1 : "post newNode 1 in, 1 out";
+            assert newLink.getTarget() == newNode : "post link1"; //$NON-NLS-1$
+            assert newLink.getSource() == start : "post link2"; //$NON-NLS-1$
+            assert lastLink.getSource() == newNode : "post link3"; //$NON-NLS-1$
+            assert lastLink.getTarget() == lastNode : "post link4"; //$NON-NLS-1$
+            assert newNode.getPred().get(0) == newLink : "post link5"; //$NON-NLS-1$
+            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 1 : "post newNode 1 in, 1 out"; //$NON-NLS-1$
 
             // not checking successors to be able to extend connects
-            assert start.getSucc().size() == 1 && start.getSucc().get(0) == newLink : "post start succ";
+            assert start.getSucc().size() == 1 && start.getSucc().get(0) == newLink : "post start succ"; //$NON-NLS-1$
 
         }
 
@@ -257,46 +258,46 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
 
-        assert diagram != null : "pre diagram";
-        assert end != null || start != null : "pre end";
+        assert diagram != null : "pre diagram"; //$NON-NLS-1$
+        assert end != null || start != null : "pre end"; //$NON-NLS-1$
         PathNode moved = end;
         if (moved == null)
             moved = start;
-        assert lastNode != null : "pre last node";
-        assert lastLink != null : "pre last link";
-        assert newNode != null : "pre new node";
-        assert newLink != null : "pre new link";
+        assert lastNode != null : "pre last node"; //$NON-NLS-1$
+        assert lastLink != null : "pre last link"; //$NON-NLS-1$
+        assert newNode != null : "pre new node"; //$NON-NLS-1$
+        assert newLink != null : "pre new link"; //$NON-NLS-1$
 
-        assert newNode.getX() == oldX && newNode.getY() == oldY : "pre new Node position";
-        assert moved.getX() == oldX && moved.getY() == oldY : "pre end position";
+        assert newNode.getX() == oldX && newNode.getY() == oldY : "pre new Node position"; //$NON-NLS-1$
+        assert moved.getX() == oldX && moved.getY() == oldY : "pre end position"; //$NON-NLS-1$
 
-        assert diagram.getNodeConnections().contains(lastLink) : "pre graph contains lastLink";
-        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink";
-        assert diagram.getPathNodes().contains(lastNode) : "pre graph contains lastNode";
-        assert !diagram.getPathNodes().contains(newNode) : "pre graph doesn't contain newNode";
+        assert diagram.getNodeConnections().contains(lastLink) : "pre graph contains lastLink"; //$NON-NLS-1$
+        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(lastNode) : "pre graph contains lastNode"; //$NON-NLS-1$
+        assert !diagram.getPathNodes().contains(newNode) : "pre graph doesn't contain newNode"; //$NON-NLS-1$
 
         if (end != null) {
-            assert newLink.getSource() == newNode : "pre link1";
-            assert newLink.getTarget() == null : "pre link2";
-            assert lastLink.getSource() == lastNode : "pre link3";
-            assert lastLink.getTarget() == end : "pre link4";
-            assert newNode.getSucc().get(0) == newLink : "pre link5";
+            assert newLink.getSource() == newNode : "pre link1"; //$NON-NLS-1$
+            assert newLink.getTarget() == null : "pre link2"; //$NON-NLS-1$
+            assert lastLink.getSource() == lastNode : "pre link3"; //$NON-NLS-1$
+            assert lastLink.getTarget() == end : "pre link4"; //$NON-NLS-1$
+            assert newNode.getSucc().get(0) == newLink : "pre link5"; //$NON-NLS-1$
 
-            assert newNode.getPred().size() == 0 && newNode.getSucc().size() == 1 : "pre newNode 0 in, 1 out";
+            assert newNode.getPred().size() == 0 && newNode.getSucc().size() == 1 : "pre newNode 0 in, 1 out"; //$NON-NLS-1$
 
             // not checking successors to be able to extend connects
-            assert end.getPred().size() == 1 && end.getPred().get(0) == lastLink : "pre end pred";
+            assert end.getPred().size() == 1 && end.getPred().get(0) == lastLink : "pre end pred"; //$NON-NLS-1$
         } else {
-            assert newLink.getSource() == null : "pre link1";
-            assert newLink.getTarget() == newNode : "pre link2";
-            assert lastLink.getSource() == start : "pre link3";
-            assert lastLink.getTarget() == lastNode : "pre link4";
-            assert newNode.getPred().get(0) == newLink : "pre link5";
+            assert newLink.getSource() == null : "pre link1"; //$NON-NLS-1$
+            assert newLink.getTarget() == newNode : "pre link2"; //$NON-NLS-1$
+            assert lastLink.getSource() == start : "pre link3"; //$NON-NLS-1$
+            assert lastLink.getTarget() == lastNode : "pre link4"; //$NON-NLS-1$
+            assert newNode.getPred().get(0) == newLink : "pre link5"; //$NON-NLS-1$
 
-            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 0 : "pre newNode 1 in, 0 out";
+            assert newNode.getPred().size() == 1 && newNode.getSucc().size() == 0 : "pre newNode 1 in, 0 out"; //$NON-NLS-1$
 
             // not checking successors to be able to extend connects
-            assert start.getSucc().size() == 1 && start.getSucc().get(0) == lastLink : "pre start succ";
+            assert start.getSucc().size() == 1 && start.getSucc().get(0) == lastLink : "pre start succ"; //$NON-NLS-1$
 
         }
 

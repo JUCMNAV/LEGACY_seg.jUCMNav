@@ -31,7 +31,7 @@ public class StubPropertySource extends UCMElementPropertySource {
 	protected Vector addSpecificProperties() {
 		Vector property = new Vector();
 		
-		property.add(new StubPluginsPropertyDescriptor(new PropertyID(stub.eClass(), stub.eClass().getEStructuralFeature("bindings")), stub, cmdStack));
+		property.add(new StubPluginsPropertyDescriptor(new PropertyID(stub.eClass(), stub.eClass().getEStructuralFeature("bindings")), stub, cmdStack)); //$NON-NLS-1$
 		
 		return property;
 	}

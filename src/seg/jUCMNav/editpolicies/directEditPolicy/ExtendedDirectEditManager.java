@@ -90,9 +90,9 @@ public class ExtendedDirectEditManager extends DirectEditManager
 				String rightText = oldText.substring(event.end, oldText.length());
 				GC gc = new GC(text);
 				if (leftText == null)
-					leftText = "";
+					leftText = ""; //$NON-NLS-1$
 				if (rightText == null)
-					rightText = "";
+					rightText = ""; //$NON-NLS-1$
 
 				String s = leftText + event.text + rightText;
 

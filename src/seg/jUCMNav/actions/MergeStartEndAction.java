@@ -13,7 +13,7 @@ import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
  */
 public class MergeStartEndAction extends SelectionAction {
 
-    public static final String MERGESTARTEND = "MergeStartEnd";
+    public static final String MERGESTARTEND = "MergeStartEnd"; //$NON-NLS-1$
 
     /**
      * @param part

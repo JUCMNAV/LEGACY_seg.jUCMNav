@@ -14,7 +14,7 @@ import urncore.ComponentElement;
  */
 public class DeleteComponentElementCommand extends Command implements JUCMNavCommand {
 
-    private static final String DeleteCommand_Label = "DeleteComponentElementCommand";
+    private static final String DeleteCommand_Label = "DeleteComponentElementCommand"; //$NON-NLS-1$
 
     // the component definition to delete
     private ComponentElement compDef;
@@ -77,9 +77,9 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
      */
     public void testPostConditions() {
         // lists could be empty but not null
-        assert getCompDef() != null && urn != null : "post something is null";
-        assert getCompDef().getCompRefs().size() == 0 : "post there are still children";
-        assert !urn.getUrndef().getComponents().contains(getCompDef()) : "post component element still in model";
+        assert getCompDef() != null && urn != null : "post something is null"; //$NON-NLS-1$
+        assert getCompDef().getCompRefs().size() == 0 : "post there are still children"; //$NON-NLS-1$
+        assert !urn.getUrndef().getComponents().contains(getCompDef()) : "post component element still in model"; //$NON-NLS-1$
     }
 
     /*
@@ -90,9 +90,9 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
     public void testPreConditions() {
 
         // lists could be empty but not null
-        assert getCompDef() != null && urn != null : "pre something is null";
-        assert getCompDef().getCompRefs().size() == 0 : "pre can't delete if still referenced.";
-        assert urn.getUrndef().getComponents().contains(getCompDef()) : "pre component element in model";
+        assert getCompDef() != null && urn != null : "pre something is null"; //$NON-NLS-1$
+        assert getCompDef().getCompRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
+        assert urn.getUrndef().getComponents().contains(getCompDef()) : "pre component element in model"; //$NON-NLS-1$
 
     }
 

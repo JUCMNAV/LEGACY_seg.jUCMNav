@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -52,12 +53,12 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _pg = pg;
         if (!(_oldNode instanceof OrFork || _oldNode instanceof AndFork || _oldNode instanceof OrJoin || _oldNode instanceof AndJoin)) {
             // check that the PathNode passed in is an Or or And Fork or Join.
-            throw new IllegalArgumentException("PathNode must be a Fork or Join.");
+            throw new IllegalArgumentException(Messages.getString("TransmogrifyForkOrJoinCommand.mustBeForkorJoin")); //$NON-NLS-1$
         }
 
         assert (_oldNode != null);
 
-        this.setLabel("Convert");
+        this.setLabel(Messages.getString("TransmogrifyForkOrJoinCommand.convert")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {
@@ -78,7 +79,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         } else if (_oldNode instanceof OrJoin) {
             _newNode = (AndJoin) ModelCreationFactory.getNewObject(urn, AndJoin.class);
         } else
-            throw new IllegalArgumentException("PathNode must be a fork or join");
+            throw new IllegalArgumentException(Messages.getString("TransmogrifyForkOrJoinCommand.mustBeForkorJoin")); //$NON-NLS-1$
 
         _newNode.setX(_x);
         _newNode.setY(_y);

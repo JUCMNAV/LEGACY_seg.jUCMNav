@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
@@ -81,7 +82,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             Class enum = type.getInstanceClass();
             List VALUES;
 
-            VALUES = (List) enum.getField("VALUES").get(null);
+            VALUES = (List) enum.getField("VALUES").get(null); //$NON-NLS-1$
 
             String[] values = new String[VALUES.size()];
             for (int i = 0; i < VALUES.size(); i++)
@@ -101,11 +102,11 @@ public class UCMElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void workloadDescriptor(Collection descriptors, PropertyID propertyid) {
-        PropertyDescriptor pd = new PropertyDescriptor(propertyid, "Workload");
-        pd.setCategory("Performance");
+        PropertyDescriptor pd = new PropertyDescriptor(propertyid, Messages.getString("UCMElementPropertySource.workload")); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("UCMElementPropertySource.performance")); //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
-                return "";
+                return ""; //$NON-NLS-1$
             }
         });
 
@@ -121,10 +122,10 @@ public class UCMElementPropertySource extends EObjectPropertySource {
 
         pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
 
-        pd.setCategory("Scenario");
+        pd.setCategory(Messages.getString("UCMElementPropertySource.scenario")); //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
-                return "";
+                return ""; //$NON-NLS-1$
             }
         });
 
@@ -193,7 +194,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             // if this is an EMF enumeration
             Class enum = getFeatureType(feature).getInstanceClass();
             try {
-                result = enum.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } );
+                result = enum.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } ); //$NON-NLS-1$
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -207,14 +208,14 @@ public class UCMElementPropertySource extends EObjectPropertySource {
     private void componentRefDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
         String[] values = new String[list.size() + 1];
-        values[0] = "[unbound]";
+        values[0] = "[unbound]"; //$NON-NLS-1$
         for (int i = 1; i < list.size() + 1; i++) {
             values[i] = ((ComponentRef) list.get(i - 1)).getCompDef().getName();
             if (values[i] == null)
-                values[i] = "[unnamed]";
+                values[i] = "[unnamed]"; //$NON-NLS-1$
         }
 
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "parent", values));
+        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "parent", values)); //$NON-NLS-1$
     }
 
     /*
@@ -258,7 +259,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        if (feature.getName().toLowerCase().indexOf("color") >= 0
+        if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef))) {
             object.eSet(feature, null);
         } else

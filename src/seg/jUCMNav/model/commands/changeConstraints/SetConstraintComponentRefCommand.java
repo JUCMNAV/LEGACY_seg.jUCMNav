@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
@@ -38,7 +39,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         setNewWidth(width);
         setNewHeight(height);
 
-        setLabel("Change Component Constraints");
+        setLabel(Messages.getString("SetConstraintComponentRefCommand.changeCompConst")); //$NON-NLS-1$
 
     }
 
@@ -184,24 +185,24 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     }
 
     public void testPostConditions() {
-        assert canExecute() : "post canExecute";
-        assert compRef.getWidth() == this.newWidth : "post width";
-        assert compRef.getHeight() == this.newHeight : "post height";
-        assert compRef.getX() == this.newX : "post x";
-        assert compRef.getY() == this.newY : "post y";
+        assert canExecute() : "post canExecute"; //$NON-NLS-1$
+        assert compRef.getWidth() == this.newWidth : "post width"; //$NON-NLS-1$
+        assert compRef.getHeight() == this.newHeight : "post height"; //$NON-NLS-1$
+        assert compRef.getX() == this.newX : "post x"; //$NON-NLS-1$
+        assert compRef.getY() == this.newY : "post y"; //$NON-NLS-1$
 
         if (newParent != null)
             assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
-                    compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
+                    compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent."; //$NON-NLS-1$
 
     }
 
     public void testPreConditions() {
-        assert canExecute() : "pre canExecute";
-        assert compRef.getWidth() == this.oldWidth : "pre width";
-        assert compRef.getHeight() == this.oldHeight : "pre height";
-        assert compRef.getX() == this.oldX : "pre x";
-        assert compRef.getY() == this.oldY : "pre y";
+        assert canExecute() : "pre canExecute"; //$NON-NLS-1$
+        assert compRef.getWidth() == this.oldWidth : "pre width"; //$NON-NLS-1$
+        assert compRef.getHeight() == this.oldHeight : "pre height"; //$NON-NLS-1$
+        assert compRef.getX() == this.oldX : "pre x"; //$NON-NLS-1$
+        assert compRef.getY() == this.oldY : "pre y"; //$NON-NLS-1$
 
         // this is not true because in our compound command the parent might already have been moved.
         //        if (newParent!=null)

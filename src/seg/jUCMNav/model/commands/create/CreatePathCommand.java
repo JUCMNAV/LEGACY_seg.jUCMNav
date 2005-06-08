@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -37,7 +38,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
 
     public CreatePathCommand() {
         super();
-        setLabel("Create New Path");
+        setLabel(Messages.getString("CreatePathCommand.createNewPath")); //$NON-NLS-1$
     }
 
     public CreatePathCommand(PathGraph pg, StartPoint sp, int x, int y) {
@@ -45,14 +46,14 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         this.start = sp;
         this.x = x;
         this.y = y;
-        setLabel("Create New Path");
+        setLabel(Messages.getString("CreatePathCommand.createNewPath")); //$NON-NLS-1$
     }
 
     public CreatePathCommand(PathGraph pg, int x, int y) {
         this.diagram = pg;
         this.x = x;
         this.y = y;
-        setLabel("Create New Path");
+        setLabel(Messages.getString("CreatePathCommand.createNewPath")); //$NON-NLS-1$
     }
 
     /**
@@ -169,26 +170,26 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert diagram != null : "pre Diagram";
-        assert start != null : "pre Start";
-        assert node != null : "pre Node";
-        assert end != null : "pre End";
-        assert link1 != null : "pre Link1";
-        assert link2 != null : "pre Link1";
+        assert diagram != null : "pre Diagram"; //$NON-NLS-1$
+        assert start != null : "pre Start"; //$NON-NLS-1$
+        assert node != null : "pre Node"; //$NON-NLS-1$
+        assert end != null : "pre End"; //$NON-NLS-1$
+        assert link1 != null : "pre Link1"; //$NON-NLS-1$
+        assert link2 != null : "pre Link1"; //$NON-NLS-1$
 
-        assert !diagram.getPathNodes().contains(start) : "pre pathgraph does not contain start";
-        assert !diagram.getPathNodes().contains(end) : "pre pathgraph does not contain end";
-        assert !diagram.getPathNodes().contains(node) : "pre pathgraph does not contain node";
-        assert !diagram.getNodeConnections().contains(link1) : "pre pathgraph does not contain link1";
-        assert !diagram.getNodeConnections().contains(link2) : "pre pathgraph does not contain link2";
+        assert !diagram.getPathNodes().contains(start) : "pre pathgraph does not contain start"; //$NON-NLS-1$
+        assert !diagram.getPathNodes().contains(end) : "pre pathgraph does not contain end"; //$NON-NLS-1$
+        assert !diagram.getPathNodes().contains(node) : "pre pathgraph does not contain node"; //$NON-NLS-1$
+        assert !diagram.getNodeConnections().contains(link1) : "pre pathgraph does not contain link1"; //$NON-NLS-1$
+        assert !diagram.getNodeConnections().contains(link2) : "pre pathgraph does not contain link2"; //$NON-NLS-1$
 
-        assert start.getSucc().contains(link1) : "pre link1 not succ of start";
-        assert link1.getTarget() == node : "pre node not target of link1";
-        assert node.getSucc().contains(link2) : "pre link2 not succ of node";
-        assert link2.getTarget() == end : "pre end not target of link2";
+        assert start.getSucc().contains(link1) : "pre link1 not succ of start"; //$NON-NLS-1$
+        assert link1.getTarget() == node : "pre node not target of link1"; //$NON-NLS-1$
+        assert node.getSucc().contains(link2) : "pre link2 not succ of node"; //$NON-NLS-1$
+        assert link2.getTarget() == end : "pre end not target of link2"; //$NON-NLS-1$
 
-        assert start.getX() == x : "pre start point x";
-        assert start.getY() == y : "pre start point y";
+        assert start.getX() == x : "pre start point x"; //$NON-NLS-1$
+        assert start.getY() == y : "pre start point y"; //$NON-NLS-1$
 
     }
 
@@ -198,26 +199,26 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert diagram != null : "post Diagram";
-        assert start != null : "post Start";
-        assert node != null : "post Node";
-        assert end != null : "post End";
-        assert link1 != null : "post Link1";
-        assert link2 != null : "post Link1";
+        assert diagram != null : "post Diagram"; //$NON-NLS-1$
+        assert start != null : "post Start"; //$NON-NLS-1$
+        assert node != null : "post Node"; //$NON-NLS-1$
+        assert end != null : "post End"; //$NON-NLS-1$
+        assert link1 != null : "post Link1"; //$NON-NLS-1$
+        assert link2 != null : "post Link1"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(start) : "pre pathgraph contains start";
-        assert diagram.getPathNodes().contains(end) : "pre pathgraph contains end";
-        assert diagram.getPathNodes().contains(node) : "pre pathgraph contains node";
-        assert diagram.getNodeConnections().contains(link1) : "pre pathgraph contains link1";
-        assert diagram.getNodeConnections().contains(link2) : "pre pathgraph contains link2";
+        assert diagram.getPathNodes().contains(start) : "pre pathgraph contains start"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(end) : "pre pathgraph contains end"; //$NON-NLS-1$
+        assert diagram.getPathNodes().contains(node) : "pre pathgraph contains node"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(link1) : "pre pathgraph contains link1"; //$NON-NLS-1$
+        assert diagram.getNodeConnections().contains(link2) : "pre pathgraph contains link2"; //$NON-NLS-1$
 
-        assert start.getSucc().contains(link1) : "post link1 not succ of start";
-        assert link1.getTarget() == node : "post node not target of link1";
-        assert node.getSucc().contains(link2) : "post link2 not succ of node";
-        assert link2.getTarget() == end : "post end not target of link2";
+        assert start.getSucc().contains(link1) : "post link1 not succ of start"; //$NON-NLS-1$
+        assert link1.getTarget() == node : "post node not target of link1"; //$NON-NLS-1$
+        assert node.getSucc().contains(link2) : "post link2 not succ of node"; //$NON-NLS-1$
+        assert link2.getTarget() == end : "post end not target of link2"; //$NON-NLS-1$
 
-        assert start.getX() == x : "post start point x";
-        assert start.getY() == y : "post start point y";
+        assert start.getX() == x : "post start point x"; //$NON-NLS-1$
+        assert start.getY() == y : "post start point y"; //$NON-NLS-1$
 
     }
 

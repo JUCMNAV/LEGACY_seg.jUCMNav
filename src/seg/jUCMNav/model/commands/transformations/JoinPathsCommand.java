@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndJoin;
@@ -52,12 +53,12 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
 
         if (!(_newJoin instanceof OrJoin || _newJoin instanceof AndJoin)) {
             // check that the PathNode passed in is an Or or And Join.
-            throw new IllegalArgumentException("PathNode must be an OrJoin or AndJoin.");
+            throw new IllegalArgumentException(Messages.getString("JoinPathsCommand.mustBeOrorAndJoin")); //$NON-NLS-1$
         }
 
         assert (_newJoin != null);
 
-        this.setLabel("Join Paths");
+        this.setLabel(Messages.getString("JoinPathsCommand.joinPaths")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {

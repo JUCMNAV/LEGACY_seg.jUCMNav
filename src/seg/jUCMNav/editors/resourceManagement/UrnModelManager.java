@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.URNReferencerChecker;
@@ -79,7 +80,7 @@ public class UrnModelManager {
         // Register the XMI resource factory for the .ucm extension
         Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
         Map m = reg.getExtensionToFactoryMap();
-        m.put("ucm", new XMIResourceFactoryImpl());
+        m.put(Messages.getString("UrnModelManager.ucmExtension"), new XMIResourceFactoryImpl()); //$NON-NLS-1$
         // Obtain a new resource set
         return new ResourceSetImpl();
     }

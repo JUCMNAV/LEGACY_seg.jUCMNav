@@ -22,7 +22,7 @@ import ucm.map.PathNode;
  * 
  */
 public abstract class TransmogrifyForkOrJoinAction extends SelectionAction {
-    public static final String TRANSMOGRIFYFORKORJOIN = "TransmogrifyForkOrJoin";
+    public static final String TRANSMOGRIFYFORKORJOIN = "TransmogrifyForkOrJoin"; //$NON-NLS-1$
 
     /**
      * @param part

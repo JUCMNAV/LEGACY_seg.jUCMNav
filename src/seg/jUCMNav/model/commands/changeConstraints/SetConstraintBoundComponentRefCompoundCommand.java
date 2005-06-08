@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -36,7 +37,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
         // must precede compRef because of factor calculation.
         setConstraints(x, y, width, height);
         setCompRef(cr);
-        setLabel("Change Component Constraints");
+        setLabel(Messages.getString("SetConstraintBoundComponentRefCompoundCommand.changeCompConstraints")); //$NON-NLS-1$
     }
 
     /*
@@ -46,9 +47,9 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
      */
     public void testPreConditions() {
         // because we can't clear the parent list.
-        assert size() == 0 : "pre: trying to add commands even though the children have already been generated. ";
+        assert size() == 0 : "pre: trying to add commands even though the children have already been generated. "; //$NON-NLS-1$
 
-        assert oldWidth > 0 && oldHeight > 0 : "pre: invalid constraints; may cause division by zero.";
+        assert oldWidth > 0 && oldHeight > 0 : "pre: invalid constraints; may cause division by zero."; //$NON-NLS-1$
 
     }
 
@@ -137,7 +138,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
                 add(cmd2);
 
             } else {
-                System.out.println("Error: unknown type in SetConstraintBoundComponentRefCompoundCommand");
+                System.out.println(Messages.getString("SetConstraintBoundComponentRefCompoundCommand.unknownType")); //$NON-NLS-1$
             }
 
             v.remove(0);

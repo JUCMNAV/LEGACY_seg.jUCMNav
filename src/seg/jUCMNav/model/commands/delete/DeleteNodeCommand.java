@@ -27,7 +27,7 @@ import urncore.Responsibility;
  */
 public class DeleteNodeCommand extends Command implements JUCMNavCommand {
 
-    private static final String DeleteCommand_Label = "DeletePathNodeCommand";
+    private static final String DeleteCommand_Label = "DeletePathNodeCommand"; //$NON-NLS-1$
 
     /** the node to be removed */
     private PathNode node;
@@ -187,23 +187,23 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert canExecute() : "pre canExecute";
-        assert previous != null && next != null && newConn != null : "pre something is null";
-        assert targets.size() == node.getSucc().size() : "pre source/target problem";
-        assert node.getPred().contains(newConn) : "pre missing source";
-        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre source not in model";
+        assert canExecute() : "pre canExecute"; //$NON-NLS-1$
+        assert previous != null && next != null && newConn != null : "pre something is null"; //$NON-NLS-1$
+        assert targets.size() == node.getSucc().size() : "pre source/target problem"; //$NON-NLS-1$
+        assert node.getPred().contains(newConn) : "pre missing source"; //$NON-NLS-1$
+        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre source not in model"; //$NON-NLS-1$
         for (Iterator iter = targets.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
-            assert node.getSucc().contains(nc) : "pre missing target";
-            assert map.getPathGraph().getNodeConnections().contains(nc) : "pre target not in model";
+            assert node.getSucc().contains(nc) : "pre missing target"; //$NON-NLS-1$
+            assert map.getPathGraph().getNodeConnections().contains(nc) : "pre target not in model"; //$NON-NLS-1$
         }
 
-        assert compRef == node.getCompRef() : "pre parent problem";
+        assert compRef == node.getCompRef() : "pre parent problem"; //$NON-NLS-1$
         if (node instanceof RespRef) {
-            assert respDef != null && respDef == ((RespRef) node).getRespDef() : "pre respref not linked";
+            assert respDef != null && respDef == ((RespRef) node).getRespDef() : "pre respref not linked"; //$NON-NLS-1$
         }
 
-        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre new conn";
+        assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre new conn"; //$NON-NLS-1$
 
     }
 
@@ -213,19 +213,19 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert previous != null && next != null && newConn != null : "post something is null";
-        assert node.getPred().size() == 0 && 0 == node.getSucc().size() : "post source/target problem";
+        assert previous != null && next != null && newConn != null : "post something is null"; //$NON-NLS-1$
+        assert node.getPred().size() == 0 && 0 == node.getSucc().size() : "post source/target problem"; //$NON-NLS-1$
 
         
         for (Iterator iter = targets.iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
-            assert !map.getPathGraph().getNodeConnections().contains(nc) : "post target in model";
+            assert !map.getPathGraph().getNodeConnections().contains(nc) : "post target in model"; //$NON-NLS-1$
         }
-        assert null == node.getCompRef() : "post parent problem";
+        assert null == node.getCompRef() : "post parent problem"; //$NON-NLS-1$
         if (node instanceof RespRef) {
-            assert respDef != null && null == ((RespRef) node).getRespDef() : "post respref still linked";
+            assert respDef != null && null == ((RespRef) node).getRespDef() : "post respref still linked"; //$NON-NLS-1$
         }
 
-        assert map.getPathGraph().getNodeConnections().contains(newConn) : "post new conn";
+        assert map.getPathGraph().getNodeConnections().contains(newConn) : "post new conn"; //$NON-NLS-1$
     }
 }

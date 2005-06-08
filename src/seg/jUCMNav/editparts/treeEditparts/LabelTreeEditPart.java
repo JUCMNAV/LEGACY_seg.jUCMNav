@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 
 /**
@@ -68,9 +69,9 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
 
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        if (getLabel().equals("Components"))
+        if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getComponents());
-        else if (getLabel().equals("Responsibilities"))
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getResponsibilities());
         return list;
     }
@@ -80,20 +81,20 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     protected String getText() {
-        if (getLabel().equals("Components")) {
-            return "Component Definitions";
-        } else if (getLabel().equals("Responsibilities")) {
-            return "Responsibility Definitions";
+        if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) { //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) { //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.responsibilityDef"); //$NON-NLS-1$
         } else
             return null;
 
     }
 
     protected Image getImage() {
-        if (super.getImage() == null && getLabel().equals("Components"))
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage());
-        else if (super.getImage() == null && getLabel().equals("Responsibilities"))
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage());
+        if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
 
         return super.getImage();
     }

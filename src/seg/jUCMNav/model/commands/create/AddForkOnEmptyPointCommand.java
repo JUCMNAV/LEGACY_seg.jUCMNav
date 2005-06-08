@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -46,14 +47,14 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
      */
     public AddForkOnEmptyPointCommand() {
         super();
-        this.setLabel("Add Fork");
+        this.setLabel(Messages.getString("AddForkOnEmptyPointCommand.addFork")); //$NON-NLS-1$
     }
 
     public AddForkOnEmptyPointCommand(PathNode newFork, PathGraph pg, EmptyPoint ep) {
         _newFork = newFork;
         _pg = pg;
         _originEp = ep;
-        this.setLabel("Add Fork");
+        this.setLabel(Messages.getString("AddForkOnEmptyPointCommand.addFork")); //$NON-NLS-1$
     }
 
     /**
@@ -178,11 +179,11 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
-        assert (_newFork != null) : "pre newFork";
-        assert (_newEndPoint != null) : "pre newEndPoint";
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint"; //$NON-NLS-1$
+        assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
+        assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -192,11 +193,11 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert (_newEmptyPoint != null) : "pre newEmptyPoint";
-        assert (_newFork != null) : "pre newFork";
-        assert (_newEndPoint != null) : "pre newEndPoint";
+        assert (_newEmptyPoint != null) : "pre newEmptyPoint"; //$NON-NLS-1$
+        assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
+        assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes";
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 

@@ -17,7 +17,7 @@ import urncore.ComponentElement;
  */
 public class DeleteComponentRefCommand extends Command implements JUCMNavCommand {
 
-    private static final String DeleteCommand_Label = "DeleteComponentRefCommand";
+    private static final String DeleteCommand_Label = "DeleteComponentRefCommand"; //$NON-NLS-1$
 
     // the component reference to delete
     private ComponentRef compRef;
@@ -104,12 +104,12 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
      */
     public void testPostConditions() {
         // lists could be empty but not null
-        assert compRef != null && map != null && compRefChildren != null && pathNodeChildren != null && compDef != null : "post something is null";
+        assert compRef != null && map != null && compRefChildren != null && pathNodeChildren != null && compDef != null : "post something is null"; //$NON-NLS-1$
 
-        assert compRef.getCompDef() == null : "post compRef-compDef";
-        assert !map.getCompRefs().contains(compRef) : "post compRef in map";
-        assert compRef.getParent() == null : "post parent";
-        assert 0 == compRef.getChildren().size() && 0 == compRef.getPathNodes().size() : "post children size invalid";
+        assert compRef.getCompDef() == null : "post compRef-compDef"; //$NON-NLS-1$
+        assert !map.getCompRefs().contains(compRef) : "post compRef in map"; //$NON-NLS-1$
+        assert compRef.getParent() == null : "post parent"; //$NON-NLS-1$
+        assert 0 == compRef.getChildren().size() && 0 == compRef.getPathNodes().size() : "post children size invalid"; //$NON-NLS-1$
     }
 
     /*
@@ -120,17 +120,17 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
     public void testPreConditions() {
 
         // lists could be empty but not null
-        assert compRef != null && map != null && compRefChildren != null && pathNodeChildren != null && compDef != null : "pre something is null";
+        assert compRef != null && map != null && compRefChildren != null && pathNodeChildren != null && compDef != null : "pre something is null"; //$NON-NLS-1$
 
-        assert compRef.getCompDef() == compDef : "pre compRef-compDef";
-        assert map.getCompRefs().contains(compRef) : "pre compRef in map";
-        assert compRef.getParent() == parent : "pre parent";
-        assert compRefChildren.size() == compRef.getChildren().size() && pathNodeChildren.size() == compRef.getPathNodes().size() : "pre children size invalid";
+        assert compRef.getCompDef() == compDef : "pre compRef-compDef"; //$NON-NLS-1$
+        assert map.getCompRefs().contains(compRef) : "pre compRef in map"; //$NON-NLS-1$
+        assert compRef.getParent() == parent : "pre parent"; //$NON-NLS-1$
+        assert compRefChildren.size() == compRef.getChildren().size() && pathNodeChildren.size() == compRef.getPathNodes().size() : "pre children size invalid"; //$NON-NLS-1$
         for (int i = 0; i < compRefChildren.size(); i++) {
-            assert compRef.getChildren().contains(compRefChildren.get(i)) : "pre missing child compRef";
+            assert compRef.getChildren().contains(compRefChildren.get(i)) : "pre missing child compRef"; //$NON-NLS-1$
         }
         for (int i = 0; i < pathNodeChildren.size(); i++) {
-            assert compRef.getPathNodes().contains(pathNodeChildren.get(i)) : "pre missing child PathNode";
+            assert compRef.getPathNodes().contains(pathNodeChildren.get(i)) : "pre missing child PathNode"; //$NON-NLS-1$
         }
 
     }

@@ -23,7 +23,7 @@ import urncore.Responsibility;
  */
 public class DeleteMapCommand extends Command implements JUCMNavCommand {
 
-    private static final String DeleteCommand_Label = "DeleteMapCommand";
+    private static final String DeleteCommand_Label = "DeleteMapCommand"; //$NON-NLS-1$
 
     // the map to delete
     private Map map;
@@ -100,19 +100,19 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
         // lists could be empty but not null
-        assert getMap() != null && urn != null : "post something is null";
-        assert !urn.getUcmspec().getMaps().contains(getMap()) : "post map still in model";
+        assert getMap() != null && urn != null : "post something is null"; //$NON-NLS-1$
+        assert !urn.getUcmspec().getMaps().contains(getMap()) : "post map still in model"; //$NON-NLS-1$
 
         // verify no more references
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            assert comp.getCompDef() == null : "post compRef still references definition";
+            assert comp.getCompDef() == null : "post compRef still references definition"; //$NON-NLS-1$
         }
 
         for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
-                assert ((RespRef) node).getRespDef() == null : "post respref still references definition";
+                assert ((RespRef) node).getRespDef() == null : "post respref still references definition"; //$NON-NLS-1$
         }
     }
 
@@ -124,8 +124,8 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
 
         // lists could be empty but not null
-        assert getMap() != null && urn != null : "pre something is null";
-        assert urn.getUcmspec().getMaps().contains(getMap()) : "pre map in model";
+        assert getMap() != null && urn != null : "pre something is null"; //$NON-NLS-1$
+        assert urn.getUcmspec().getMaps().contains(getMap()) : "pre map in model"; //$NON-NLS-1$
 
     }
 

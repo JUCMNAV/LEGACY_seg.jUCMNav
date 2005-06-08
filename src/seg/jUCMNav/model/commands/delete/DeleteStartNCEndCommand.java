@@ -114,10 +114,10 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert start != null && nc != null && end != null && pg != null : "pre something is null";
-        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "pre is simple path";
-        assert pg.getPathNodes().contains(start) && pg.getPathNodes().contains(end) : "pre nodes in graph";
-        assert pg.getNodeConnections().contains(nc) : "pre connection in graph";
+        assert start != null && nc != null && end != null && pg != null : "pre something is null"; //$NON-NLS-1$
+        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "pre is simple path"; //$NON-NLS-1$
+        assert pg.getPathNodes().contains(start) && pg.getPathNodes().contains(end) : "pre nodes in graph"; //$NON-NLS-1$
+        assert pg.getNodeConnections().contains(nc) : "pre connection in graph"; //$NON-NLS-1$
     }
 
     /*
@@ -126,10 +126,10 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert start != null && nc != null && end != null && pg != null : "post something is null";
-        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "post is simple path";
-        assert !pg.getPathNodes().contains(start) && !pg.getPathNodes().contains(end) : "post nodes not in graph";
-        assert !pg.getNodeConnections().contains(nc) : "post connection not in graph";
+        assert start != null && nc != null && end != null && pg != null : "post something is null"; //$NON-NLS-1$
+        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "post is simple path"; //$NON-NLS-1$
+        assert !pg.getPathNodes().contains(start) && !pg.getPathNodes().contains(end) : "post nodes not in graph"; //$NON-NLS-1$
+        assert !pg.getNodeConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
     }
 
 }

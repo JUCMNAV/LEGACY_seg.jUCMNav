@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.Map;
@@ -30,7 +31,7 @@ public class AddPlugin extends Command implements JUCMNavCommand {
 		super();
 		this.stub = stub;
 		this.map = map;
-		setLabel("Add Plugin");
+		setLabel(Messages.getString("AddPlugin.addPlugin")); //$NON-NLS-1$
 	}
 
 	public boolean canExecute() {
@@ -70,19 +71,19 @@ public class AddPlugin extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPreConditions() {
-		assert stub != null : "Pre stub null";
-		assert plugin != null : "Pre plugin null";
-		assert !stub.getBindings().contains(plugin) : "Pre plugin contained in stub plugins";
-		assert !map.getParentStub().contains(plugin) : "Pre plugin contained in map parent stub";
+		assert stub != null : "Pre stub null"; //$NON-NLS-1$
+		assert plugin != null : "Pre plugin null"; //$NON-NLS-1$
+		assert !stub.getBindings().contains(plugin) : "Pre plugin contained in stub plugins"; //$NON-NLS-1$
+		assert !map.getParentStub().contains(plugin) : "Pre plugin contained in map parent stub"; //$NON-NLS-1$
 	}
 
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPostConditions() {
-		assert stub != null : "Post stub null";
-		assert plugin != null : "Post plugin null";
-		assert stub.getBindings().contains(plugin) : "Post plugin not contained in stub plugins";
-		assert map.getParentStub().contains(plugin) : "Post plugin not contained in map parent stub";
+		assert stub != null : "Post stub null"; //$NON-NLS-1$
+		assert plugin != null : "Post plugin null"; //$NON-NLS-1$
+		assert stub.getBindings().contains(plugin) : "Post plugin not contained in stub plugins"; //$NON-NLS-1$
+		assert map.getParentStub().contains(plugin) : "Post plugin not contained in map parent stub"; //$NON-NLS-1$
 	}
 }

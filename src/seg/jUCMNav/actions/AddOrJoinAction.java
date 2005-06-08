@@ -20,14 +20,14 @@ import ucm.map.OrJoin;
  * @author jpdaigle
  */
 public class AddOrJoinAction extends SelectionAction {
-    public static final String ADDORJOIN = "AddOrJoin";
+    public static final String ADDORJOIN = "AddOrJoin"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddOrJoinAction(IWorkbenchPart part) {
         super(part);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"));
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
     }
 
     /*
