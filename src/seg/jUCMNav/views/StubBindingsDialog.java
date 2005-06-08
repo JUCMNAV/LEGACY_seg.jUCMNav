@@ -321,7 +321,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 		// Add Plugin section
 		addPluginSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
-		addPluginSection.setText("Add Bindigs");
+		addPluginSection.setText("Add Bindings");
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 1;
 		td.grabHorizontal = true;
