@@ -47,6 +47,7 @@ import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
+import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
@@ -760,8 +761,29 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testJoinPathsCommand() {
-        //TODO: implement test
-        assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+        testCreatePathCommand();
+
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        cs.execute(cmd);
+
+        EmptyPoint ep = null;
+        OrJoin newJoin = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+        
+        for(int i=0; (i<pathgraph.getPathNodes().size()) && (ep == null); i++) {
+            if (pathgraph.getPathNodes().get(i) instanceof EmptyPoint) {
+                ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
+            }
+        }
+        assertTrue("Can't find an EmptyPoint on 2nd path", ep != null);
+        
+        cmd = new JoinPathsCommand(ep, end, newJoin);
+        assertTrue("Couldn't create JoinPathsCommand", cmd != null);
+        assertTrue("JoinPathsCommand can't execute", cmd.canExecute());
+        
+        cs.execute(cmd);
     }
 
     /**
