@@ -47,6 +47,7 @@ import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
+import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -741,12 +742,44 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author ??
+     * @author jpdaigle
      *  
      */
     public void testForkPathsCommand() {
-        //TODO: implement test
-        assertTrue("Jean-Philippe Daigle, do me! (in the implementation sense)", false);
+        testCreatePathCommand();
+        
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        cs.execute(cmd);
+
+        EmptyPoint ep = null;
+        OrFork newFork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+        
+        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
+        for(int i=0; (i<pathgraph.getPathNodes().size()) && (ep == null); i++) {
+            if (pathgraph.getPathNodes().get(i) instanceof EmptyPoint) {
+                ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
+            }
+        }
+        assertTrue("Can't find an EmptyPoint on path", ep != null);
+        
+        cmd = new ForkPathsCommand(ep, newStart, newFork);
+        assertTrue("Couldn't create ForkPathsCommand", cmd != null);
+        assertTrue("ForkPathsCommand can't execute", cmd.canExecute());
+        
+        cs.execute(cmd);
+
+        boolean isForkInPath = false;
+        for(int i=0; (i<pathgraph.getPathNodes().size()) && (isForkInPath == false); i++) {
+            if (pathgraph.getPathNodes().get(i) == newFork) {
+                isForkInPath = true;
+            }
+        }
+        
+        assertTrue("Can't find new fork on path", isForkInPath);
+    
     }
 
     /**
@@ -774,6 +807,7 @@ public class JUCMNavCommandTests extends TestCase {
         EmptyPoint ep = null;
         OrJoin newJoin = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
         
+        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
         for(int i=0; (i<pathgraph.getPathNodes().size()) && (ep == null); i++) {
             if (pathgraph.getPathNodes().get(i) instanceof EmptyPoint) {
                 ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
