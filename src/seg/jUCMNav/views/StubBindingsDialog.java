@@ -807,9 +807,11 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		TableItem item;
 		for (Iterator i = mapsList.iterator(); i.hasNext();) {
 			Map map = (Map) i.next();
-			item = new TableItem(mapList, SWT.NONE);
-			item.setText(map.getName());
-			item.setData(map);
+			if(map != stub.getPathGraph().getMap()){
+				item = new TableItem(mapList, SWT.NONE);
+				item.setText(map.getName());
+				item.setData(map);
+			}
 		}
 	}
 
