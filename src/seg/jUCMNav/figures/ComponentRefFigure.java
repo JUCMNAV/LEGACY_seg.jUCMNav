@@ -75,8 +75,36 @@ public class ComponentRefFigure extends RectangleFigure {
      * @see Shape#fillShape(Graphics)
      */
     protected void fillShape(Graphics graphics) {
-        //planning on overriding for other types.
-        graphics.fillRectangle(getBounds());
+        Rectangle r = getBounds().getCopy();
+        switch (kind) {
+        case ComponentKind.OBJECT:
+            r.x += lineWidth / 2;
+            r.y += lineWidth / 2;
+            r.width -= lineWidth;
+            r.height -= lineWidth;
+            graphics.fillRoundRectangle(r, 50, 50);
+            break;
+        case ComponentKind.PROCESS:
+            r.x += lineWidth / 2;
+            r.y += lineWidth / 2;
+            r.width -= lineWidth;
+            r.height -= lineWidth;
+            PointList points = new PointList();
+            points.addPoint(r.getTopRight());
+            points.addPoint(r.getBottomRight().x - r.height / 10, r.getBottomRight().y);
+            points.addPoint(r.getBottomLeft());
+            points.addPoint(r.getTopLeft().x + r.height / 10, r.getTopLeft().y);
+
+            graphics.fillPolygon(points);
+            break;
+        case ComponentKind.TEAM:
+        case ComponentKind.OTHER:
+        default:
+            super.fillShape(graphics);
+            break;
+
+        }
+
     }
 
     /**
