@@ -43,10 +43,11 @@ public class MultiPageEditorLocation extends NavigationLocation {
      * @see org.eclipse.ui.INavigationLocation#mergeInto(org.eclipse.ui.INavigationLocation)
      */
     public boolean mergeInto(INavigationLocation currentLocation) {
-        if (((MultiPageEditorLocation) currentLocation).getCurrentMapID() == currentMapID)
-            return true;
-        else
-            return false;
+        if (currentLocation instanceof MultiPageEditorLocation) {
+            if (((MultiPageEditorLocation) currentLocation).getCurrentMapID() == currentMapID)
+                return true;
+        }
+        return false;
     }
 
     /*
