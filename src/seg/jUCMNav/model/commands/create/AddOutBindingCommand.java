@@ -16,7 +16,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class AddOutBinding extends Command implements JUCMNavCommand {
+public class AddOutBindingCommand extends Command implements JUCMNavCommand {
 
 	private PluginBinding plugin;
 	private EndPoint end;
@@ -31,7 +31,7 @@ public class AddOutBinding extends Command implements JUCMNavCommand {
 	 * @param start
 	 * @param entry
 	 */
-	public AddOutBinding(PluginBinding plugin, EndPoint end, NodeConnection entry) {
+	public AddOutBindingCommand(PluginBinding plugin, EndPoint end, NodeConnection entry) {
 		super();
 		this.plugin = plugin;
 		this.end = end;

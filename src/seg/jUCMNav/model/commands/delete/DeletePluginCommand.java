@@ -1,4 +1,4 @@
-package seg.jUCMNav.model.commands.transformations;
+package seg.jUCMNav.model.commands.delete;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -23,13 +22,11 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class ReplacePlugin extends Command implements JUCMNavCommand {
+public class DeletePluginCommand extends Command implements JUCMNavCommand {
 	
 	private Stub stub;
-	private Map map;
 	private Map oldMap;
 	private PluginBinding oldPlugin;
-	private PluginBinding newPlugin;
 	
 	private ArrayList inBindings = new ArrayList();
 	private ArrayList outBindings = new ArrayList();
@@ -46,14 +43,13 @@ public class ReplacePlugin extends Command implements JUCMNavCommand {
 	 * @param stub
 	 * @param plugin
 	 */
-	public ReplacePlugin(PluginBinding oldPlugin, Map map) {
+	public DeletePluginCommand(PluginBinding oldPlugin) {
 		super();
 		this.oldPlugin = oldPlugin;
-		this.map = map;
 	}
 
 	public boolean canExecute() {
-		if(oldPlugin != null && map != null)
+		if(oldPlugin != null)
 			return true;
 		else
 			return false;
@@ -78,9 +74,7 @@ public class ReplacePlugin extends Command implements JUCMNavCommand {
 			ends.put(out, out.getEndPoint());
 			exit.put(out, out.getStubExit());
 		}
-		
-		newPlugin = (PluginBinding)ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
-		
+
 		redo();
 	}
 	
@@ -105,17 +99,11 @@ public class ReplacePlugin extends Command implements JUCMNavCommand {
 		stub.getBindings().remove(oldPlugin);
 		oldMap.getParentStub().remove(oldPlugin);
 		
-		map.getParentStub().add(newPlugin);
-		stub.getBindings().add(newPlugin);
-		
 		testPostConditions();
 	}
 	
 	public void undo() {
 		testPostConditions();
-		
-		stub.getBindings().remove(newPlugin);
-		map.getParentStub().remove(newPlugin);
 		
 		oldMap.getParentStub().add(oldPlugin);
 		stub.getBindings().add(oldPlugin);

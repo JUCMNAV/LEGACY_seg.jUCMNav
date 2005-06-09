@@ -41,8 +41,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -54,10 +52,11 @@ import org.eclipse.ui.internal.WorkbenchImages;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.commands.create.AddInBinding;
-import seg.jUCMNav.model.commands.create.AddOutBinding;
-import seg.jUCMNav.model.commands.create.AddPlugin;
-import seg.jUCMNav.model.commands.transformations.ReplacePlugin;
+import seg.jUCMNav.model.commands.create.AddInBindingCommand;
+import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
+import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.delete.DeletePluginCommand;
+import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -76,8 +75,8 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class StubBindingsDialog extends Dialog  implements ISelectionListener, Adapter {
-//	 The toolkit for eclipse forms
+public class StubBindingsDialog extends Dialog implements ISelectionListener, Adapter {
+	//	 The toolkit for eclipse forms
 	private FormToolkit toolkit;
 	// The main form where all the controls will be
 	private ScrolledForm form;
@@ -105,29 +104,30 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	private TableColumn mapInsColumn; // It's first column (so that we can make it as wide as the table)
 	private Table tabStubIns; // The table for making in bindings with stubs
 	private TableColumn stubInsColumn; // It's first column (so that we can make it as wide as the table)
-	
+
 	private Table tabMapOuts; // The table for making out bindings with maps
 	private TableColumn mapOutsColumn; // It's first column (so that we can make it as wide as the table)
 	private Table tabStubOuts; // The table for making out bindings with stubs
-	private TableColumn stubOutsColumn; // It's first column (so that we can make it as wide as the table) 
+	private TableColumn stubOutsColumn; // It's first column (so that we can make it as wide as the table)
 
 	// The button for doing in bindings.
 	private Button btInBind;
 	//	 The button for doing out bindings.
 	private Button btOutBind;
-	
+
 	// The editor from wich this dialog was opened.
 	private CommandStack cmdStack;
-	
+
 	// The list of images to dispose at the end.
 	private ArrayList images = new ArrayList();
-	
+
 	private Table mapList;
-	
+	private TableColumn mapListColumn;
+
 	private ImageHyperlink btRedo;
 	private ImageHyperlink btUndo;
 	private ImageHyperlink btDeletePlugin;
-	
+
 	private int executedCount = 0;
 	private int totalExecuted;
 
@@ -137,9 +137,9 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		setShellStyle(SWT.SHELL_TRIM | SWT.APPLICATION_MODAL);
 	}
 
-	protected Control createDialogArea(Composite parent) {		
+	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
-		GridLayout l = (GridLayout)area.getLayout();
+		GridLayout l = (GridLayout) area.getLayout();
 		l.marginWidth = 0;
 		l.marginHeight = 0;
 		GridData d = new GridData(GridData.FILL_BOTH);
@@ -163,11 +163,6 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		td = new TableWrapData();
 		td.colspan = 3;
 		ec.setLayoutData(td);
-		ec.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
-//				form.reflow(true);
-			}
-		});
 
 		//		 Connect map section
 		mapSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
@@ -178,51 +173,41 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		td.grabVertical = true;
 		mapSection.setLayoutData(td);
 		td.align = TableWrapData.FILL;
-		mapSection.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
-//				form.reflow(true);
-			}
-		});
 		toolkit.createCompositeSeparator(mapSection);
 
 		Composite mapClient = toolkit.createComposite(mapSection);
 		GridLayout grid = new GridLayout();
 		grid.numColumns = 1;
 		mapClient.setLayout(grid);
-		
-		mapList = toolkit.createTable(mapClient, SWT.SINGLE | SWT.FULL_SELECTION);
+
+		mapList = toolkit.createTable(mapClient, SWT.SINGLE | SWT.FULL_SELECTION | SWT.CHECK);
 		mapList.setLinesVisible(true);
 		mapList.setHeaderVisible(true);
 		GridData g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
 		mapList.setLayoutData(g);
-		TableColumn mapListColumn = new TableColumn(mapList, SWT.NONE);
+		mapListColumn = new TableColumn(mapList, SWT.NONE);
 		mapListColumn.setWidth(150);
 		mapListColumn.setText(Messages.getString("StubBindingsDialog.maps")); //$NON-NLS-1$
-		
-		mapList.addSelectionListener(new SelectionAdapter(){
+
+		mapList.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				handlePluginSelected((TableItem)e.item);
+				if(e.detail == SWT.CHECK)
+					handlePluginSelected((TableItem) e.item);
 			}
 		});
 
 		mapSection.setClient(mapClient);
-		
-//		Composite listAddComp = new Composite(form.getBody(), SWT.NULL);
+
+		//		Composite listAddComp = new Composite(form.getBody(), SWT.NULL);
 
 		// Plugin List section
-		pluginListSection = toolkit.createSection(form.getBody(),Section.TWISTIE | Section.TITLE_BAR);
+		pluginListSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 1;
 		td.grabVertical = true;
 		pluginListSection.setLayoutData(td);
-		pluginListSection.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
-//				form.reflow(true);
-//				updateColumnWidth();
-			}
-		});
 		pluginListSection.setText(Messages.getString("StubBindingsDialog.pluginList")); //$NON-NLS-1$
 		toolkit.createCompositeSeparator(pluginListSection);
 		Composite sectionClient = toolkit.createComposite(pluginListSection);
@@ -230,7 +215,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		grid.numColumns = 1;
 		grid.makeColumnsEqualWidth = false;
 		sectionClient.setLayout(grid);
-		
+
 		Composite treeButtons = toolkit.createComposite(sectionClient, SWT.NONE);
 		grid = new GridLayout();
 		grid.numColumns = 3;
@@ -238,17 +223,17 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		GridData t = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		t.grabExcessHorizontalSpace = true;
 		treeButtons.setLayoutData(t);
-		
+
 		btDeletePlugin = toolkit.createImageHyperlink(treeButtons, SWT.NONE);
-//		btDeletePlugin.setVisible(false);
+		btDeletePlugin.setVisible(false);
 		Image image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE).createImage();
 		images.add(image);
 		btDeletePlugin.setImage(image);
-		btDeletePlugin.addMouseTrackListener(new MouseTrackAdapter(){
+		btDeletePlugin.addMouseTrackListener(new MouseTrackAdapter() {
 			public void mouseEnter(MouseEvent e) {
 				btDeletePlugin.setBackground(new Color(null, 225, 225, 225));
 			}
-			
+
 			public void mouseExit(MouseEvent e) {
 				btDeletePlugin.setBackground(new Color(null, 255, 255, 255));
 			}
@@ -256,21 +241,21 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		t = new GridData(GridData.FILL_HORIZONTAL);
 		t.grabExcessHorizontalSpace = false;
 		btDeletePlugin.setLayoutData(t);
-		
+
 		btUndo = toolkit.createImageHyperlink(treeButtons, SWT.NONE);
 		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO).createImage();
 		images.add(image);
 		btUndo.setImage(image);
-		btUndo.addMouseTrackListener(new MouseTrackAdapter(){
+		btUndo.addMouseTrackListener(new MouseTrackAdapter() {
 			public void mouseEnter(MouseEvent e) {
 				btUndo.setBackground(new Color(null, 225, 225, 225));
 			}
-			
+
 			public void mouseExit(MouseEvent e) {
 				btUndo.setBackground(new Color(null, 255, 255, 255));
 			}
 		});
-		btUndo.addMouseListener(new MouseAdapter(){
+		btUndo.addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
 				undo();
 			}
@@ -278,23 +263,23 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		t = new GridData(GridData.FILL_HORIZONTAL);
 		t.grabExcessHorizontalSpace = false;
 		btUndo.setLayoutData(t);
-		
-		btUndo.setEnabled(false);
-		
+
+		btUndo.setVisible(false);
+
 		btRedo = toolkit.createImageHyperlink(treeButtons, SWT.NONE);
 		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO).createImage();
 		images.add(image);
 		btRedo.setImage(image);
-		btRedo.addMouseTrackListener(new MouseTrackAdapter(){
+		btRedo.addMouseTrackListener(new MouseTrackAdapter() {
 			public void mouseEnter(MouseEvent e) {
 				btRedo.setBackground(new Color(null, 225, 225, 225));
 			}
-			
+
 			public void mouseExit(MouseEvent e) {
 				btRedo.setBackground(new Color(null, 255, 255, 255));
 			}
 		});
-		btRedo.addMouseListener(new MouseAdapter(){
+		btRedo.addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
 				redo();
 			}
@@ -302,25 +287,26 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		t = new GridData(GridData.FILL_HORIZONTAL);
 		t.grabExcessHorizontalSpace = false;
 		btRedo.setLayoutData(t);
-		
-		btRedo.setEnabled(false);
+
+		btRedo.setVisible(false);
 
 		// The tree listing the plugins.
 		treeBindings = toolkit.createTree(sectionClient, SWT.SINGLE | SWT.BORDER);
 		t = new GridData(GridData.FILL_BOTH);
 		t.grabExcessHorizontalSpace = true;
+		t.grabExcessVerticalSpace = true;
 		t.heightHint = 160;
 		t.widthHint = 200;
 		treeBindings.setLayoutData(t);
-		treeBindings.addSelectionListener(new SelectionAdapter(){
+		treeBindings.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				handleTreeBindingsSelected((TreeItem)e.item);
+				handleTreeBindingsSelected((TreeItem) e.item);
 			}
-		});		
+		});
 
 		pluginListSection.setClient(sectionClient);
 
-		// Add Plugin section
+		// Add Bindings section
 		addPluginSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
 		addPluginSection.setText(Messages.getString("StubBindingsDialog.addPlugins")); //$NON-NLS-1$
 		td = new TableWrapData(TableWrapData.FILL);
@@ -329,13 +315,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		td.grabVertical = true;
 		addPluginSection.setLayoutData(td);
 		td.align = TableWrapData.FILL;
-		addPluginSection.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
-//				form.reflow(true);
-//				addPluginSection.pack(true);
-//				updateColumnWidth();
-			}
-		});
+
 		toolkit.createCompositeSeparator(addPluginSection);
 
 		Composite addPluginClient = toolkit.createComposite(addPluginSection);
@@ -346,7 +326,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 
 		addPluginSection.setClient(addPluginClient);
 
-		// Stub composite for creating new plugings.
+		// Stub composite for creating new bindings.
 		Composite stubComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
 		grid.numColumns = 1;
@@ -372,6 +352,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
+		g.heightHint = 75;
 		tabStubIns.setLayoutData(g);
 		stubInsColumn = new TableColumn(tabStubIns, SWT.NONE);
 		stubInsColumn.setWidth(50);
@@ -426,12 +407,12 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
-		g.verticalSpan = 5;
+		g.heightHint = 75;
 		tabMapIns.setLayoutData(g);
 		mapInsColumn = new TableColumn(tabMapIns, SWT.NONE);
 		mapInsColumn.setWidth(50);
 		mapInsColumn.setText(Messages.getString("StubBindingsDialog.in")); //$NON-NLS-1$
-		
+
 		// Out bindings controls
 		stubComp = toolkit.createComposite(addPluginClient);
 		grid = new GridLayout();
@@ -458,6 +439,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
+		g.heightHint = 75;
 		tabStubOuts.setLayoutData(g);
 		stubOutsColumn = new TableColumn(tabStubOuts, SWT.NONE);
 		stubOutsColumn.setWidth(50);
@@ -512,37 +494,54 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
-		g.verticalSpan = 5;
+		g.heightHint = 75;
 		tabMapOuts.setLayoutData(g);
 		mapOutsColumn = new TableColumn(tabMapOuts, SWT.NONE);
 		mapOutsColumn.setWidth(50);
 		mapOutsColumn.setText(Messages.getString("StubBindingsDialog.out")); //$NON-NLS-1$
-		
+
 		mapSection.setExpanded(true);
 		pluginListSection.setExpanded(true);
 		addPluginSection.setExpanded(true);
-		
+
 		return area;
 	}
 
 	/**
-	 * 
+	 *  
 	 */
 	protected void handlePluginSelected(TableItem item) {
-		Map map = (Map)item.getData();
-
-		if (stub.isDynamic()) {
-			
-		} else {
-			if (stub.getBindings().size() >= 1) {
-				if(((PluginBinding)stub.getBindings().get(0)).getPlugin() != map) {
-					ReplacePlugin plugin = new ReplacePlugin((PluginBinding)stub.getBindings().get(0), map);
+		Map map = (Map) item.getData();
+		
+		// If the item is checked
+		if(item.getChecked()){	
+			if (stub.isDynamic()) {
+				AddPluginCommand plugin = new AddPluginCommand(stub, map);
+				execute(plugin);
+			} else {
+				if (stub.getBindings().size() >= 1) {
+					if (((PluginBinding) stub.getBindings().get(0)).getPlugin() != map) {
+						ReplacePluginCommand plugin = new ReplacePluginCommand((PluginBinding) stub.getBindings().get(0), map);
+						execute(plugin);
+					}
+				} else if (stub.getBindings().size() == 0) {
+					AddPluginCommand plugin = new AddPluginCommand(stub, map);
 					execute(plugin);
 				}
-			} else if(stub.getBindings().size() == 0) {
-				AddPlugin plugin = new AddPlugin(stub, map);
-				execute(plugin);
 			}
+		}
+		else {
+			PluginBinding plugin = null;
+			boolean finished = false;
+			for (Iterator i = stub.getBindings().iterator(); i.hasNext() && !finished;) {
+				PluginBinding plug = (PluginBinding) i.next();
+				if(plug.getPlugin() == map) {
+					finished = true;
+					plugin = plug;
+				}
+			}
+			DeletePluginCommand delete = new DeletePluginCommand(plugin);
+			execute(delete);
 		}
 	}
 
@@ -551,19 +550,24 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 */
 	protected void handleTreeBindingsSelected(TreeItem source) {
 		Object data = source.getData();
-		if(data != null){
-			if(data instanceof PluginBinding){
+		if (data != null) {
+			if (data instanceof PluginBinding) {
 				System.out.println("PluginBinding"); //$NON-NLS-1$
-			}
-			else if(data instanceof InBinding){
+			} else if (data instanceof InBinding) {
 				System.out.println("InBinding"); //$NON-NLS-1$
-			}
-			else if(data instanceof OutBinding){
+			} else if (data instanceof OutBinding) {
 				System.out.println("OutBinding"); //$NON-NLS-1$
 			}
 		}
 	}
 
+	protected void cancelPressed() {
+		for (int i = executedCount; i > 0; i--) {
+			getCommandStack().undo();
+		}
+		
+		super.cancelPressed();
+	}
 	protected void createButtonsForButtonBar(Composite parent) {
 		parent.getParent().setBackground(new Color(null, 255, 255, 255));
 		parent.setBackground(new Color(null, 255, 255, 255));
@@ -574,46 +578,49 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	protected Point getInitialSize() {
 		return new Point(900, 500);
 	}
-	
-	protected void execute(Command command){
+
+	protected void execute(Command command) {
 		if (command == null || !command.canExecute())
 			return;
 		getCommandStack().execute(command);
-		
+
 		executedCount++;
-		totalExecuted++;
-		
-		btUndo.setEnabled(true);
-		btRedo.setEnabled(false);
-		
+		totalExecuted = executedCount;
+
+		btUndo.setVisible(true);
+		btRedo.setVisible(false);
+
+		refreshMapList();
 		refreshBindingsTree();
 		refreshInOutList();
 	}
-	
-	protected void undo(){
+
+	protected void undo() {
 		getCommandStack().undo();
-		
+
 		executedCount--;
-		if(executedCount == 0)
-			btUndo.setEnabled(false);
-		
-		btRedo.setEnabled(true);
-		
+		if (executedCount == 0)
+			btUndo.setVisible(false);
+
+		btRedo.setVisible(true);
+
+		refreshMapList();
 		refreshBindingsTree();
 		refreshInOutList();
 	}
-	
-	protected void redo(){
+
+	protected void redo() {
 		getCommandStack().redo();
-		
+
 		executedCount++;
-		if(executedCount == totalExecuted)
-			btRedo.setEnabled(false);
-		
+		if (executedCount == totalExecuted)
+			btRedo.setVisible(false);
+
+		refreshMapList();
 		refreshBindingsTree();
 		refreshInOutList();
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -622,25 +629,25 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	}
 
 	/**
-	 * 
+	 *  
 	 */
 	protected void handleOutBindClick() {
 		if (tabStubOuts.getSelectionCount() >= 1 && tabMapOuts.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
-//			 Check that the selected Stub is not dynamic
+			//			 Check that the selected Stub is not dynamic
 			if (!stub.isDynamic()) {
-				
+
 				// Set the binding of the OutBinding to to first one in the list of the plugin.
 				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
 
 				// Get the selected EndPoint and NodeConnection in the map and stub out table.
-				EndPoint end = (EndPoint)outMapList.get(tabMapOuts.getSelectionIndex());
-				NodeConnection con = (NodeConnection)outStubList.get(tabStubOuts.getSelectionIndex());
-				
-				AddOutBinding out = new AddOutBinding(plug, end, con);
+				EndPoint end = (EndPoint) outMapList.get(tabMapOuts.getSelectionIndex());
+				NodeConnection con = (NodeConnection) outStubList.get(tabStubOuts.getSelectionIndex());
+
+				AddOutBindingCommand out = new AddOutBindingCommand(plug, end, con);
 				execute(out);
 			}
 			btOutBind.setEnabled(false);
-			if(!pluginListSection.isExpanded()){
+			if (!pluginListSection.isExpanded()) {
 				pluginListSection.setExpanded(true);
 				updateColumnWidth();
 			}
@@ -651,22 +658,22 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * This method is called when the user click the in bind button.
 	 */
 	protected void handleInBindClick() {
-		// Both list have something selected.  And the stub has to have at least one plugin.
+		// Both list have something selected. And the stub has to have at least one plugin.
 		if (tabStubIns.getSelectionCount() >= 1 && tabMapIns.getSelectionCount() >= 1 && stub.getBindings().size() > 0) {
 			// Check that the selected Stub is not dynamic
 			if (!stub.isDynamic()) {
-//				 Set the binding of the InBinding to to first one in the list of the plugin.
+				//				 Set the binding of the InBinding to to first one in the list of the plugin.
 				PluginBinding plug = (PluginBinding) stub.getBindings().get(0);
 
 				// Get the selected StartPoint and NodeConnection in the map and stub in table.
-				StartPoint start = (StartPoint)inMapList.get(tabMapIns.getSelectionIndex());
-				NodeConnection con = (NodeConnection)inStubList.get(tabStubIns.getSelectionIndex());
-				
-				AddInBinding in = new AddInBinding(plug, start, con);
+				StartPoint start = (StartPoint) inMapList.get(tabMapIns.getSelectionIndex());
+				NodeConnection con = (NodeConnection) inStubList.get(tabStubIns.getSelectionIndex());
+
+				AddInBindingCommand in = new AddInBindingCommand(plug, start, con);
 				execute(in);
 			}
 			btInBind.setEnabled(false);
-			if(!pluginListSection.isExpanded()){
+			if (!pluginListSection.isExpanded()) {
 				pluginListSection.setExpanded(true);
 				updateColumnWidth();
 			}
@@ -677,8 +684,8 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * Ths method is called when the user selects a new map as a plugin to the Stub from the combobox.
 	 */
 	protected void handlePluginChanged(int selectedIndex) {
-//		Map map = (Map) mapsObjects.get(selectedIndex);
-		
+		//		Map map = (Map) mapsObjects.get(selectedIndex);
+
 	}
 
 	/**
@@ -689,6 +696,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		stubInsColumn.setWidth(tabStubIns.getSize().x - 2);
 		mapOutsColumn.setWidth(tabMapOuts.getSize().x - 2);
 		stubOutsColumn.setWidth(tabStubOuts.getSize().x - 2);
+		mapListColumn.setWidth(mapList.getSize().x - 2);
 	}
 
 	/**
@@ -746,7 +754,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			updateColumnWidth();
 		}
 	}
-	
+
 	public int open(Stub stub) {
 		create();
 		getShell().setActive();
@@ -754,7 +762,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		Image image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
 		images.add(image);
 		getShell().setImage(image);
-		getShell().addShellListener(new ShellAdapter(){
+		getShell().addShellListener(new ShellAdapter() {
 			public void shellClosed(ShellEvent e) {
 				for (Iterator i = images.iterator(); i.hasNext();) {
 					Image image = (Image) i.next();
@@ -764,10 +772,10 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		});
 		setStub(stub);
 		updateColumnWidth();
-		form.reflow(true);
+//		form.reflow(true);
 		return super.open();
 	}
-	
+
 	/**
 	 * Reset all the view information when the selected Stub is null.
 	 */
@@ -784,7 +792,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		//    	form.setText("No stub selected");
 		//    	form.setForeground(new Color(null, 255, 0, 0));
 		form.setVisible(false);
-		form.reflow(true);
+//		form.reflow(true);
 	}
 
 	/**
@@ -795,7 +803,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			descrip.setText(stub.getDescription());
 		else {
 			descrip.setText(""); //$NON-NLS-1$
-			
+
 		}
 	}
 
@@ -803,15 +811,27 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * Refresh the map list display in the combobox listing the possible maps to plugin to.
 	 */
 	private void refreshMapList() {
+		mapList.removeAll();
 		List mapsList = stub.getPathGraph().getMap().getUcmspec().getMaps();
-		
+
+		ArrayList binded = new ArrayList();
+
+		List plugins = stub.getBindings();
+		for (Iterator i = plugins.iterator(); i.hasNext();) {
+			PluginBinding plugin = (PluginBinding) i.next();
+			binded.add(plugin.getPlugin());
+		}
+
 		TableItem item;
 		for (Iterator i = mapsList.iterator(); i.hasNext();) {
 			Map map = (Map) i.next();
-			if(map != stub.getPathGraph().getMap()){
+			if (map != stub.getPathGraph().getMap()) {
 				item = new TableItem(mapList, SWT.NONE);
 				item.setText(map.getName());
 				item.setData(map);
+				if (binded.contains(map)) {
+					item.setChecked(true);
+				}
 			}
 		}
 	}
@@ -828,11 +848,11 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 		TreeItem root = new TreeItem(treeBindings, SWT.NULL);
 		root.setText(Messages.getString("StubBindingsDialog.bindings")); //$NON-NLS-1$
 		TreeItem item; // This represents a PluginBinding
-		TreeItem subLabelItem; // An item for a label under item.  This item cannot be deleted/selected.
+		TreeItem subLabelItem; // An item for a label under item. This item cannot be deleted/selected.
 		TreeItem subItem; // This represent a In/OutBinding
-		
+
 		Image image;
-		
+
 		// Loop through all the PluginBindings
 		for (Iterator i = list.iterator(); i.hasNext();) {
 			item = root;
@@ -844,7 +864,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			images.add(image);
 			item.setImage(image);
 			item.setData(binding);
-			
+
 			// Then add a label for InBindings under this item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
@@ -877,7 +897,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 				subItem.setImage(image);
 				subItem.setData(outBind);
 			}
-//			 We want everything expanded by default.
+			//			 We want everything expanded by default.
 			subLabelItem.setExpanded(true);
 			item.setExpanded(true);
 		}
@@ -919,7 +939,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 				item.setText(node.getName());
 			}
 		}
-		
+
 		list = stub.getSucc();
 		for (Iterator i = list.iterator(); i.hasNext();) {
 			NodeConnection con = (NodeConnection) i.next();
@@ -931,7 +951,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			}
 		}
 
-		if(stub.getBindings().size() > 0) {
+		if (stub.getBindings().size() > 0) {
 			// This code will only work for static stub right now.
 			// Fill the list with all the startpoints of the plugin map.
 			list = ((PluginBinding) stub.getBindings().get(0)).getPlugin().getPathGraph().getPathNodes();
@@ -943,7 +963,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 						item = new TableItem(tabMapIns, SWT.NULL);
 						item.setText(node.getName());
 					}
-				} else if(node instanceof EndPoint){
+				} else if (node instanceof EndPoint) {
 					if (!isEndPointOutBinded((EndPoint) node)) {
 						outMapList.add(node);
 						item = new TableItem(tabMapOuts, SWT.NULL);
@@ -953,7 +973,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			}
 		}
 
-		form.reflow(true);
+//		form.reflow(true);
 	}
 
 	/**
@@ -961,7 +981,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * @return
 	 */
 	private boolean isNodeConnectionOutBinded(NodeConnection con) {
-		if(stub.getBindings().size() > 0) {
+		if (stub.getBindings().size() > 0) {
 			List outs = ((PluginBinding) stub.getBindings().get(0)).getOut();
 			for (Iterator i = outs.iterator(); i.hasNext();) {
 				OutBinding out = (OutBinding) i.next();
@@ -977,7 +997,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * @return
 	 */
 	private boolean isEndPointOutBinded(EndPoint end) {
-		if(stub.getBindings().size() > 0) {
+		if (stub.getBindings().size() > 0) {
 			List ins = ((PluginBinding) stub.getBindings().get(0)).getOut();
 			for (Iterator i = ins.iterator(); i.hasNext();) {
 				OutBinding out = (OutBinding) i.next();
@@ -996,7 +1016,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * @return True if the StartPoint is contained in an InBinding of the selected Stub PluginBinding. Else return false.
 	 */
 	private boolean isStartPointInBinded(StartPoint start) {
-		if(stub.getBindings().size() > 0) {
+		if (stub.getBindings().size() > 0) {
 			List ins = ((PluginBinding) stub.getBindings().get(0)).getIn();
 			for (Iterator i = ins.iterator(); i.hasNext();) {
 				InBinding in = (InBinding) i.next();
@@ -1015,7 +1035,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 	 * @return True if the NodeConnection is contained in an InBinding of the selected Stub PluginBinding. Else return false.
 	 */
 	private boolean isNodeConnectionInBinded(NodeConnection con) {
-		if(stub.getBindings().size() > 0) {
+		if (stub.getBindings().size() > 0) {
 			List ins = ((PluginBinding) stub.getBindings().get(0)).getIn();
 			for (Iterator i = ins.iterator(); i.hasNext();) {
 				InBinding in = (InBinding) i.next();
@@ -1039,7 +1059,7 @@ public class StubBindingsDialog extends Dialog  implements ISelectionListener, A
 			break;
 		case MapPackage.STUB__DESCRIPTION:
 			descrip.setText(stub.getDescription());
-			form.reflow(true);
+//			form.reflow(true);
 			break;
 		}
 	}

@@ -15,7 +15,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class AddPlugin extends Command implements JUCMNavCommand {
+public class AddPluginCommand extends Command implements JUCMNavCommand {
 	
 	private Stub stub;
 	private Map map;
@@ -27,7 +27,7 @@ public class AddPlugin extends Command implements JUCMNavCommand {
 	 * @param stub
 	 * @param map
 	 */
-	public AddPlugin(Stub stub, Map map) {
+	public AddPluginCommand(Stub stub, Map map) {
 		super();
 		this.stub = stub;
 		this.map = map;
