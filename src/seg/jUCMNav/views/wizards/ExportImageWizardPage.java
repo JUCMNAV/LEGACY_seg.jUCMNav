@@ -158,7 +158,6 @@ public class ExportImageWizardPage extends WizardPage {
             lstMaps.add(((ExportImageWizard) getWizard()).getMapName(map));
         }
         lstMaps.selectAll();
-        lstMaps.add("kjhlkj");
         lstMaps.addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
                 setPageComplete(lstMaps.getSelectionCount() > 0);

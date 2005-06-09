@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Online Help for jUCMNav"  topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
+<toc label="jUCMNav Online Help"  topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
     <topic label="Part I – Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
         <topic label="What is a UCM?"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#What_is_a_UCM"/>
         <topic label="Quick tour of jUCMNav"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Quick_tour_of_jUCMNav"/>
