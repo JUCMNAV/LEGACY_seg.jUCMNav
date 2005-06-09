@@ -552,7 +552,7 @@ public class StubBindingsDialog extends Dialog implements ISelectionListener, Ad
 		Object data = source.getData();
 		if (data != null) {
 			if (data instanceof PluginBinding) {
-				System.out.println("PluginBinding"); //$NON-NLS-1$
+				
 			} else if (data instanceof InBinding) {
 				System.out.println("InBinding"); //$NON-NLS-1$
 			} else if (data instanceof OutBinding) {
