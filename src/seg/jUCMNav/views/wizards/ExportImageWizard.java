@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -141,19 +142,20 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
             pane.paint(graphics);
 
             // generate the path.
-            String path = ExportImageWizard.getPreferenceStore().getString(ExportImageWizard.PREF_PATH) + "\\" + getMapName(map);
+            Path genericPath = new Path(ExportImageWizard.getPreferenceStore().getString(ExportImageWizard.PREF_PATH));
+            genericPath = (Path) genericPath.append("/" + getMapName(map));
             int type = ExportImageWizard.getPreferenceStore().getInt(ExportImageWizard.PREF_IMAGETYPE);
             switch (type) {
             case 0:
-                path += ".bmp";
+                genericPath = (Path) genericPath.addFileExtension("bmp");
                 break;
             case 1:
-                path += ".jpg";
+                genericPath = (Path) genericPath.addFileExtension("jpg");
                 break;
             }
 
             // save it.
-            fos = new FileOutputStream(path);
+            fos = new FileOutputStream(genericPath.toOSString());
             ImageLoader loader = new ImageLoader();
             loader.data = new ImageData[] { image.getImageData() };
             switch (type) {
