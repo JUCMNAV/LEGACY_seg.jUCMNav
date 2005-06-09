@@ -17,6 +17,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.jface.util.Assert;
 
@@ -495,7 +496,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
                 }
                 break;
             }
-            refreshVisuals();
+            //            refreshVisuals();
             break;
         }
 
@@ -520,6 +521,13 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
      * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
+        for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+            AbstractGraphicalEditPart element = (AbstractGraphicalEditPart) iter.next();
+            element.refresh();
+            // refresh stub labels; doing this in its refreshVisuals crashed the app with a heap space error.
+            if (element instanceof StubEditPart)
+                ((StubEditPart) element).refreshInOuts();
+        }
     }
 
     /**

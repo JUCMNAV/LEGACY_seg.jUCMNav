@@ -16,50 +16,53 @@ import org.eclipse.ui.actions.ActionFactory;
  * This class define all the modification we should make to the workbench when we are editing an UCM.
  * 
  * @author Etienne Tremblay
- *
+ *  
  */
 public class UCMActionBarContributor extends ActionBarContributor {
-	/**
-	 * Create actions managed by this contributor.
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
-	 */
-	protected void buildActions() {
-		addRetargetAction(new UndoRetargetAction());
-		addRetargetAction(new RedoRetargetAction());
-		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());
-		
-//		RetargetAction action = new RetargetAction(CutPathAction.CUTPATH, "Cut path");
-//		action.setDescription("Cut Path");
-//		addRetargetAction(action);
-	}
+    /**
+     * Create actions managed by this contributor.
+     * 
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
+     */
+    protected void buildActions() {
+        addRetargetAction(new UndoRetargetAction());
+        addRetargetAction(new RedoRetargetAction());
+        addRetargetAction(new ZoomInRetargetAction());
+        addRetargetAction(new ZoomOutRetargetAction());
 
-	/**
-	 * Add actions to the given toolbar.
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
-	 */
-	public void contributeToToolBar(IToolBarManager toolBarManager) {
-		super.contributeToToolBar(toolBarManager);
-		toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
-		toolBarManager.add(getAction(ActionFactory.REDO.getId()));
-		toolBarManager.add(new Separator());	
-		String[] zoomStrings = new String[] {	ZoomManager.FIT_ALL, 
-												ZoomManager.FIT_HEIGHT, 
-												ZoomManager.FIT_WIDTH	};
-		toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));
-	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
-	 */
-	protected void declareGlobalActionKeys() {
-		// currently none
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
-	 */
-	public void contributeToMenu(IMenuManager menuManager) {
-		super.contributeToMenu(menuManager);
-	}
+    /**
+     * Add actions to the given toolbar.
+     * 
+     * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org.eclipse.jface.action.IToolBarManager)
+     */
+    public void contributeToToolBar(IToolBarManager toolBarManager) {
+        super.contributeToToolBar(toolBarManager);
+        toolBarManager.add(getAction(ActionFactory.UNDO.getId()));
+        toolBarManager.add(getAction(ActionFactory.REDO.getId()));
+        toolBarManager.add(new Separator());
+        String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
+        toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));
+        String[] modeStrings = new String[] { "View all elements", "Hide empty points" };
+        toolBarManager.add(new ModeComboContributionItem(getPage(), modeStrings));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+     */
+    protected void declareGlobalActionKeys() {
+        // currently none
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
+     */
+    public void contributeToMenu(IMenuManager menuManager) {
+        super.contributeToMenu(menuManager);
+    }
 }

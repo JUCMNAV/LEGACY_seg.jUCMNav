@@ -66,19 +66,22 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         this.diagram = diagram;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
      */
     public DragTracker getDragTracker(Request request) {
-    	return new DragPathNodeTracker(this);
+        return new DragPathNodeTracker(this);
     }
+
     /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
-        PathNodeFigure figure=null;
+        PathNodeFigure figure = null;
         if (getModel() instanceof EmptyPoint)
             figure = new EmptyPointFigure();
         if (getModel() instanceof RespRef)
@@ -162,16 +165,14 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         PathNodeFigure nodeFigure = getNodeFigure();
         Dimension dim = nodeFigure.getPreferredSize().getCopy();
         Point location = new Point(getNode().getX() - (dim.width / 2), getNode().getY() - (dim.height / 2)); // The
-                                                                                                             // position
-                                                                                                             // of the
-                                                                                                             // current
-                                                                                                             // figure
+        // position
+        // of the
+        // current
+        // figure
         Rectangle bounds = new Rectangle(location, dim);
         figure.setBounds(bounds);
-        if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable
-                && ((PathNode) getModel()).getPred().size() > 0) {
-            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(
-                    ((PathNode) getModel()).getPred().get(0));
+        if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
             if (nc != null) {
 
                 SplineConnection sp = (SplineConnection) nc.getFigure();
@@ -195,8 +196,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                 }
             }
         } else if (nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
-            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(
-                    ((PathNode) getModel()).getSucc().get(0));
+            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getSucc().get(0));
             if (nc != null) {
 
                 SplineConnection sp = (SplineConnection) nc.getFigure();
@@ -219,6 +219,11 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                 }
             }
         }
+
+        if (getModel() instanceof EmptyPoint) {
+            ((IFigure)getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+        }
+
         // notify parent container of changed position & location
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure

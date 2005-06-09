@@ -159,23 +159,28 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      */
     protected void refreshVisuals() {
         if (getLink().getTarget() instanceof Stub) {
-            //if (endLabel == null) {
             addEndLabel((SplineConnection) getFigure());
-            //}
         } else if (endLabel != null) {
             ((SplineConnection) getFigure()).remove(endLabel);
             endLabel = null;
         }
 
         if (getLink().getSource() instanceof Stub) {
-            //if (startLabel == null) {
             addStartLabel((SplineConnection) getFigure());
-            //}
         } else if (startLabel != null) {
             ((SplineConnection) getFigure()).remove(startLabel);
             startLabel = null;
         }
 
+        
+        // hide in print mode.
+        if (startLabel != null) {
+            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+        }
+
+        if (endLabel != null) {
+            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+        }
         super.refreshVisuals();
     }
 

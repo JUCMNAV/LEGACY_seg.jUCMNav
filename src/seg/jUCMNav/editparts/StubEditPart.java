@@ -103,4 +103,16 @@ public class StubEditPart extends PathNodeEditPart {
         }
     }
 
+    public void refreshInOuts() {
+        for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            refreshNodeConnection(nc);
+        }
+
+        for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            refreshNodeConnection(nc);
+        }
+    }
+
 }

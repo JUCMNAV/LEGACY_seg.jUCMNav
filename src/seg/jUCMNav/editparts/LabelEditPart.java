@@ -29,6 +29,7 @@ import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
+import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -321,6 +322,10 @@ public class LabelEditPart extends ModelElementEditPart {
             Rectangle bounds = new Rectangle(location, newLabelDimension);
             labelFigure.setBounds(bounds);
             label.setBounds(bounds);
+            
+            if (modelElement instanceof EmptyPoint) {
+               labelFigure.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            }            
             // notify parent container of changed position & location
             // if this line is removed, the XYLayoutManager used by the parent container
             // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
