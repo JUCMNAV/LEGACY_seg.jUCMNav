@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import seg.jUCMNav.views.StubBindingsDialog;
+import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.map.Stub;
 
 /**

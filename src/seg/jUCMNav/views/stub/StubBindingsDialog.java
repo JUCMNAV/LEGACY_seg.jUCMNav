@@ -1,4 +1,4 @@
-package seg.jUCMNav.views;
+package seg.jUCMNav.views.stub;
 
 import java.util.ArrayList;
 import java.util.Iterator;

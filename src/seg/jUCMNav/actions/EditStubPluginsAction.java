@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.views.StubBindingsDialog;
+import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.map.Stub;
 
 /**

@@ -7,10 +7,12 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.views.property.StubPropertySource;
+import seg.jUCMNav.views.stub.PluginListDialog;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -55,12 +57,18 @@ public class StubEditPart extends PathNodeEditPart {
      * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
      */
     public void performRequest(Request req) {
-        if (req.getType() == REQ_OPEN) {
+    	if (req.getType() == REQ_OPEN) {
             Stub stub = (Stub) getModel();
-            if (stub.getBindings().size() > 0) {
+            if (stub.getBindings().size() == 1) {
                 Map map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
                 if (map != null)
                     ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+            }
+            else {	        	
+	        	PluginListDialog dlg = new PluginListDialog(new Shell(), ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor());
+	        	dlg.setInput(stub.getBindings());
+	        	dlg.setMessage("Select plugin:");
+	        	dlg.open();
             }
         }
     }
