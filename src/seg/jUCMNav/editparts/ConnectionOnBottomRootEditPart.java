@@ -68,7 +68,9 @@ public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart
     /**
      * 0: normal show everything mode
      * 
-     * 1: print mode: remove info that is only for editing (empty points + stub labels)
+     * 1: print mode 1: remove empty points
+     * 
+     * 2: print mode 2: remove empty points + stub labels
      * 
      * @return
      */

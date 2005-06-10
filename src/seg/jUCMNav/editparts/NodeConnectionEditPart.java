@@ -175,11 +175,11 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         
         // hide in print mode.
         if (startLabel != null) {
-            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
 
         if (endLabel != null) {
-            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
         super.refreshVisuals();
     }

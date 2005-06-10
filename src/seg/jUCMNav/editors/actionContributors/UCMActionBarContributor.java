@@ -44,7 +44,7 @@ public class UCMActionBarContributor extends ActionBarContributor {
         toolBarManager.add(new Separator());
         String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
         toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));
-        String[] modeStrings = new String[] { "View all elements", "Hide empty points" };
+        String[] modeStrings = new String[] { "View all elements", "Hide empty points", "Hide empty points and stub labels" };
         toolBarManager.add(new ModeComboContributionItem(getPage(), modeStrings));
     }
 
