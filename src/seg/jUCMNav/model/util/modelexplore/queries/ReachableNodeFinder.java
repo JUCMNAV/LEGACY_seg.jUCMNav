@@ -56,7 +56,6 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         } else {
             // visit this node!
             _visitedNodes.add(n);
-            System.out.println(">>>" + n.getId()); //debug
 
             Vector toVisit = new Vector();
 
