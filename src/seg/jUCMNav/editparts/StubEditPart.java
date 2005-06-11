@@ -64,7 +64,7 @@ public class StubEditPart extends PathNodeEditPart {
                 if (map != null)
                     ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
             }
-            else {	        	
+            else if(stub.getBindings().size() > 1) {	        	
 	        	PluginListDialog dlg = new PluginListDialog(new Shell(), ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor());
 	        	dlg.setInput(stub.getBindings());
 	        	dlg.setMessage("Select plugin:");
