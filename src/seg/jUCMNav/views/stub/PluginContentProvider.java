@@ -1,9 +1,3 @@
-/*
- * Created on Jun 10, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.views.stub;
 
 import java.util.List;
@@ -12,10 +6,11 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * @author TremblaE
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Created 2005-06-10
+ * 
+ * Provide the list of PluginBindings.  This class pass items to PluginLabelProvider.
+ * 
+ * @author Etienne Tremblay
  */
 public class PluginContentProvider implements IStructuredContentProvider {
 

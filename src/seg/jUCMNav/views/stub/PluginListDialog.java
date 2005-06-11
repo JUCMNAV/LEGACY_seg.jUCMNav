@@ -1,9 +1,3 @@
-/*
- * Created on Jun 10, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.views.stub;
 
 import java.util.List;
@@ -22,16 +16,17 @@ import ucm.map.Map;
 import ucm.map.PluginBinding;
 
 /**
- * @author TremblaE
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * Created 2005-06-10
+ * 
+ * Dialog listing all the PluginBindings for the given dynamic stub.
+ * 
+ * @author Etienne Tremblay
  */
 public class PluginListDialog extends ListDialog {
 
 	private List input;
-	private UCMNavMultiPageEditor editor;
 
+	private UCMNavMultiPageEditor editor;
 
 	/**
 	 * @param parent
@@ -41,63 +36,70 @@ public class PluginListDialog extends ListDialog {
 		super(parent);
 		setShellStyle(SWT.TOOL | SWT.BORDER);
 		this.setContentProvider(new PluginContentProvider());
-    	this.setLabelProvider(new MapLabelProvider());
-    	this.editor = editor;
+		this.setLabelProvider(new PluginLabelProvider());
+		this.editor = editor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.dialogs.ListDialog#setInput(java.lang.Object)
 	 */
 	public void setInput(Object input) {
-		this.input = (List)input;
+		this.input = (List) input;
 		super.setInput(input);
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea(Composite container) {
 		container.setBackground(new Color(null, 255, 255, 255));
 		setWidthInChars(30);
-		if(input != null)
+		if (input != null)
 			setHeightInChars(input.size());
 		else
 			setHeightInChars(10);
 		Control toReturn = super.createDialogArea(container);
 		toReturn.setBackground(new Color(null, 255, 255, 255));
-		getTableViewer().getControl().setBackground(new Color(null, 235, 235, 235));
+		getTableViewer().getControl().setBackground(
+				new Color(null, 235, 235, 235));
 		return toReturn;
 	}
-	
+
 	protected Control createButtonBar(Composite parent) {
 		return parent;
 	}
-	
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	protected void okPressed() {
-		IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
-		Map map = ((PluginBinding)selection.toList().get(0)).getPlugin();
-        if (map != null)
-            editor.setActivePage(map);
-        
+		IStructuredSelection selection = (IStructuredSelection) getTableViewer()
+				.getSelection();
+		Map map = ((PluginBinding) selection.toList().get(0)).getPlugin();
+		if (map != null)
+			editor.setActivePage(map);
+
 		super.okPressed();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
 		parent.setVisible(false);
-//		super.createButtonsForButtonBar(parent);
-//		parent.setBackground(new Color(null, 255, 255, 255));
-//		parent.getParent().setBackground(new Color(null, 255, 255, 255));
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Label createMessageArea(Composite composite) {
