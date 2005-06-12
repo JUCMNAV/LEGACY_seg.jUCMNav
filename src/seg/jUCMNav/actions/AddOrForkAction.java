@@ -43,10 +43,13 @@ public class AddOrForkAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.NODECONNECTION:
-        case SelectionHelper.EMPTYPOINT:
-        case SelectionHelper.STARTPOINT_EMPTYPOINT:
-        case SelectionHelper.STARTPOINT_NODECONNECTION:
             return true;
+        case SelectionHelper.EMPTYPOINT:
+            return true;
+        case SelectionHelper.STARTPOINT_EMPTYPOINT:
+            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getEmptypoint());
+        case SelectionHelper.STARTPOINT_NODECONNECTION:
+            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getNodeconnection());
         default:
             return false;
         }

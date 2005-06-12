@@ -35,7 +35,7 @@ public class MergeStartEndAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.STARTPOINT_ENDPOINT:
-            return true;
+            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getEndpoint());
         default:
             return false;
         }
