@@ -280,6 +280,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		});
 
 		btUndo = new ToolItem(toolBar, SWT.PUSH);
+		btUndo.setToolTipText("Undo previous action");
 		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO).createImage();
 		images.add(image);
 		btUndo.setImage(image);
@@ -292,6 +293,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		btUndo.setEnabled(false);
 
 		btRedo = new ToolItem(toolBar, SWT.PUSH);
+		btRedo.setToolTipText("Redo previous action");
 		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO).createImage();
 		images.add(image);
 		btRedo.setImage(image);
@@ -990,7 +992,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			for (Iterator j = in.iterator(); j.hasNext();) {
 				InBinding inBind = (InBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
-				subItem.setText("IN" + stub.getPred().indexOf(inBind.getStubEntry()) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$
+				subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry())+1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$
 				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/InBinding16.gif")).createImage(); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
@@ -1007,7 +1009,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			for (Iterator j = out.iterator(); j.hasNext();) {
 				OutBinding outBind = (OutBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
-				subItem.setText("OUT" + stub.getSucc().indexOf(outBind.getStubExit()) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$
+				subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit())+1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$
 				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OutBinding16.gif")).createImage(); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
@@ -1069,7 +1071,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// Get the list of all the incoming connections from outside to the stub to fill the 'in' list.
 			List list = stub.getPred();
 			TableItem item;
-			int j = 0;
+			int j = 1;
 			// This will fill the list for the entries of the stub.
 			for (Iterator i = list.iterator(); i.hasNext();) {
 				NodeConnection con = (NodeConnection) i.next();
@@ -1083,7 +1085,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 
 			list = stub.getSucc();
-			j = 0;
+			j = 1;
 			// This will fill the list for the exists of the stub.
 			for (Iterator i = list.iterator(); i.hasNext();) {
 				NodeConnection con = (NodeConnection) i.next();
