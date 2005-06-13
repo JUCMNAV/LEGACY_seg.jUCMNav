@@ -40,6 +40,8 @@ import urncore.Condition;
  * 
  * We create new start and end points to truncate the paths that enter or exit this PathNode.
  * 
+ * This command handles the deletion of PluginBindings, InBindings and OutBindings from Stubs.
+ * 
  * @author jkealey
  *  
  */
@@ -77,44 +79,28 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 	// the URNspec which contains all the elements
 	private URNspec urn;
 
-	/**
-	 * If the node is a Stub, then we have to keep a list of it's plugins.
-	 */
-	private ArrayList plugings = new ArrayList();
+	// If the node is a Stub, then we have to keep a list of it's plugins.
+	private ArrayList plugins = new ArrayList();
 
-	/**
-	 * HashMap containing pairs of (PluginBinding, Map)
-	 */
+	// HashMap containing pairs of (PluginBinding, Map)
 	private HashMap maps = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (PluginBinding, InBinding)
-	 */
+	// HashMap containing pairs of (PluginBinding, ArrayList of InBinding)
 	private HashMap inBindings = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (PluginBinding, OutBinding)
-	 */
+	// HashMap containing pairs of (PluginBinding, ArrayList of OutBinding)
 	private HashMap outBindings = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (InBinding, StartPoint)
-	 */
+	// HashMap containing pairs of (InBinding, StartPoint)
 	private HashMap starts = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (OutBinding, EndPoint)
-	 */
+	// HashMap containing pairs of (OutBinding, EndPoint)
 	private HashMap ends = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (InBinding, NodeConnection)
-	 */
+	// HashMap containing pairs of (InBinding, NodeConnection)
 	private HashMap entry = new HashMap();
 
-	/**
-	 * HashMap containing pairs of (OutBinding, NodeConnection)
-	 */
+	// HashMap containing pairs of (OutBinding, NodeConnection)
 	private HashMap exit = new HashMap();
 
 	// if this is false, we're only removing branches.
@@ -244,25 +230,31 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
 		}
 
+		// If the node to delete is a stub then initialize all the arrays with all the information from the PluginBindings.
 		if (toDelete instanceof Stub) {
-			plugings.addAll(((Stub) toDelete).getBindings());
-			for (Iterator i = plugings.iterator(); i.hasNext();) {
+			plugins.addAll(((Stub) toDelete).getBindings());
+			for (Iterator i = plugins.iterator(); i.hasNext();) {
 				PluginBinding plugin = (PluginBinding) i.next();
 
+				// Maps contains the pair(PluginBinding, Map)
 				maps.put(plugin, plugin.getPlugin());
 
+				//inBindings will store the ArrayList of InBindings from this PluginBinding.
 				ArrayList ins = new ArrayList();
 				ins.addAll(plugin.getIn());
 				inBindings.put(plugin, ins);
+				// For each InBindings, store the StartPoint and the connection entry.
 				for (Iterator j = ins.iterator(); j.hasNext();) {
 					InBinding in = (InBinding) j.next();
 					starts.put(in, in.getStartPoint());
 					entry.put(in, in.getStubEntry());
 				}
 
+				// outBindings will store the ArrayList of OutBindings from this PluginBinding.
 				ArrayList outs = new ArrayList();
 				outs.addAll(plugin.getOut());
 				outBindings.put(plugin, outs);
+				//				 For each OutBindings, store the EndPoint and the connection exit.
 				for (Iterator j = outs.iterator(); j.hasNext();) {
 					OutBinding out = (OutBinding) j.next();
 					ends.put(out, out.getEndPoint());
@@ -340,14 +332,15 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 		testPreConditions();
 
 		if (shouldDeleteNode) {
+			// If the node to delete is a stub then delete all the PluginBindings.
 			if (toDelete instanceof Stub) {
-				for (Iterator i = plugings.iterator(); i.hasNext();) {
+				for (Iterator i = plugins.iterator(); i.hasNext();) {
 					PluginBinding plugin = (PluginBinding) i.next();
 					DeletePluginCommand del = new DeletePluginCommand(plugin);
 					del.execute();
 				}
 			}
-			
+
 			// remove the current node from the map
 			toDelete.setCompRef(null);
 			pg.getPathNodes().remove(toDelete);
@@ -404,6 +397,31 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 			assert pg.getPathNodes().contains(newStart.get(i)) : "post new start not in graph " + i; //$NON-NLS-1$
 		}
 
+		if (toDelete instanceof Stub) {
+			Stub stub = (Stub) toDelete;
+
+			assert stub.getBindings().size() == plugins.size() : "Pre Stub PluginBindings count is different."; //$NON-NLS-1$
+			for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+				PluginBinding plugin = (PluginBinding) i.next();
+
+				assert plugin.getPlugin() == maps.get(plugin) : "Pre the map associated with the PluginBinding is not the same as before."; //$NON-NLS-1$
+
+				assert plugin.getIn().size() == ((ArrayList) inBindings.get(plugin)).size() : "Pre number of InBinding is not the same for this PluginBinding"; //$NON-NLS-1$
+				assert plugin.getOut().size() == ((ArrayList) outBindings.get(plugin)).size() : "Pre number of OutBinding is not the same for this PluginBinding"; //$NON-NLS-1$
+
+				for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
+					InBinding in = (InBinding) j.next();
+					assert in.getStartPoint() == starts.get(in) : "Pre the StartPoint for this InBinding is not the same as before."; //$NON-NLS-1$
+					assert in.getStubEntry() == entry.get(in) : "Pre the entry for this InBinding is not the same as before."; //$NON-NLS-1$
+				}
+
+				for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
+					OutBinding out = (OutBinding) j.next();
+					assert out.getEndPoint() == starts.get(out) : "Pre the EndPoint for this OutBinding is not the same as before."; //$NON-NLS-1$
+					assert out.getStubExit() == entry.get(out) : "Pre the exit for this OutBinding is not the same as before."; //$NON-NLS-1$
+				}
+			}
+		}
 	}
 
 	/*
@@ -425,6 +443,31 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 			assert !pg.getPathNodes().contains(newStart.get(i)) : "pre new start not in graph " + i; //$NON-NLS-1$
 		}
 
+		if (toDelete instanceof Stub) {
+			Stub stub = (Stub) toDelete;
+
+			assert stub.getBindings().size() == 0 : "Post Stub PluginBindings count is not 0."; //$NON-NLS-1$
+			for (Iterator i = plugins.iterator(); i.hasNext();) {
+				PluginBinding plugin = (PluginBinding) i.next();
+
+				assert plugin.getPlugin() == null : "Post the map associated with the PluginBinding is not null."; //$NON-NLS-1$
+
+				assert plugin.getIn().size() == 0 : "Post number of InBinding is not 0."; //$NON-NLS-1$
+				assert plugin.getOut().size() == 0 : "Post number of OutBinding is not 0."; //$NON-NLS-1$
+
+				for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
+					InBinding in = (InBinding) j.next();
+					assert in.getStartPoint() == null : "Post the StartPoint for this InBinding is not null."; //$NON-NLS-1$
+					assert in.getStubEntry() == null : "Post the entry for this InBinding is not null."; //$NON-NLS-1$
+				}
+
+				for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
+					OutBinding out = (OutBinding) j.next();
+					assert out.getEndPoint() == null : "Post the EndPoint for this OutBinding is not null."; //$NON-NLS-1$
+					assert out.getStubExit() == null : "Post the exit for this OutBinding is not null."; //$NON-NLS-1$
+				}
+			}
+		}
 	}
 
 	/*
@@ -472,19 +515,18 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 		}
 
 		if (shouldDeleteNode) {
-			// add the pathnode to the graph
-			toDelete.setCompRef(parent);
-			pg.getPathNodes().add(toDelete);
-			
+			// If the node to delete is a Stub
 			if (toDelete instanceof Stub) {
 				Stub stub = (Stub) toDelete;
 
-				stub.getBindings().addAll(plugings);
+				// Restore all the PluginBindings
+				stub.getBindings().addAll(plugins);
 				for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
 					PluginBinding plugin = (PluginBinding) i.next();
 
 					plugin.setPlugin((ucm.map.Map) maps.get(plugin));
 
+					// Restore all the InBindings.
 					plugin.getIn().addAll((List) inBindings.get(plugin));
 					for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
 						InBinding in = (InBinding) j.next();
@@ -492,6 +534,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 						in.setStubEntry((NodeConnection) entry.get(in));
 					}
 
+					// Restore all the OutBindings.
 					plugin.getOut().addAll((List) outBindings.get(plugin));
 					for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
 						OutBinding out = (OutBinding) j.next();
@@ -500,6 +543,10 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 					}
 				}
 			}
+
+			// add the pathnode to the graph
+			toDelete.setCompRef(parent);
+			pg.getPathNodes().add(toDelete);
 		}
 
 		testPreConditions();

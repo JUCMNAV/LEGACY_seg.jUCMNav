@@ -307,7 +307,6 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
 		}
 
 		assert map.getPathGraph().getNodeConnections().contains(newConn) : "pre new conn"; //$NON-NLS-1$
-
 	}
 
 	/*
