@@ -9,25 +9,28 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
- * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor
- * 2) An open file gets renamed or moved -> change the editor's input accordingly
+ * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor 2)
+ * An open file gets renamed or moved -> change the editor's input accordingly
  * 
  * @author Gunnar Wagenknecht
  */
 public class ResourceTracker implements IResourceChangeListener, IResourceDeltaVisitor {
-	
-	UCMNavMultiPageEditor editor;
-	
-	public ResourceTracker(UCMNavMultiPageEditor editor){
-		this.editor = editor;
-	}
-	
+
+    UCMNavMultiPageEditor editor;
+
+    public ResourceTracker(UCMNavMultiPageEditor editor) {
+        this.editor = editor;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -66,7 +69,17 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                 Display display = editor.getSite().getShell().getDisplay();
                 display.asyncExec(new Runnable() {
                     public void run() {
-                        editor.setInput(new FileEditorInput(newFile));
+
+                        // added for bug 303
+                        try {
+                            editor.closeEditor(true);
+                            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+
+                            IDE.openEditor(page, newFile, true);
+                        } catch (PartInitException e) {
+                        }
+                        // end of addition
+                        //editor.setInput(new FileEditorInput(newFile));
                     }
                 });
             }
