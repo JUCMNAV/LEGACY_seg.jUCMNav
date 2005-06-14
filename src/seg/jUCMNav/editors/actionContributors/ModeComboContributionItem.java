@@ -3,6 +3,7 @@ package seg.jUCMNav.editors.actionContributors;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.jface.action.ContributionItem;
 import org.eclipse.jface.util.Assert;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.FocusEvent;
@@ -16,6 +17,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -27,7 +29,7 @@ import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
  * 
  * @author jkealey
  * 
- * Complete rip of ZoomComboContributionItem, with a few changes. 
+ * Complete rip of ZoomComboContributionItem, with a few changes.
  *  
  */
 public class ModeComboContributionItem extends ContributionItem {
@@ -37,6 +39,8 @@ public class ModeComboContributionItem extends ContributionItem {
     private ToolItem toolitem;
     private IWorkbenchPage service;
     private IPartListener partListener;
+    private ISelectionListener selectionListener;
+
     private ConnectionOnBottomRootEditPart part;
 
     /**
@@ -53,12 +57,23 @@ public class ModeComboContributionItem extends ContributionItem {
         //this.part = part;
         service = partService;
         Assert.isNotNull(partService);
+        partService.addSelectionListener(selectionListener = new ISelectionListener() {
+            public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+                if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
+                    ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
+                            .getGraphicalViewer().getRootEditPart());
+
+                    refresh(true);
+                }
+            }
+        });
+
         partService.addPartListener(partListener = new IPartListener() {
             public void partActivated(IWorkbenchPart part) {
                 if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
                     ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
                             .getGraphicalViewer().getRootEditPart());
-                    
+
                     refresh(true);
                 }
             }
@@ -219,8 +234,7 @@ public class ModeComboContributionItem extends ContributionItem {
         if (part != null)
             if (combo.getSelectionIndex() >= 0) {
                 part.setMode(combo.getSelectionIndex());
-            }
-            else
+            } else
                 part.setMode(0);
 
         /*
