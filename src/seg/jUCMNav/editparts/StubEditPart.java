@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.figures.StubFigure;
@@ -31,6 +32,7 @@ import ucm.map.Stub;
 public class StubEditPart extends PathNodeEditPart {
 
     private StubFigure figure;
+    private PluginListDialog dlg;
 
     /**
      *  
@@ -58,23 +60,26 @@ public class StubEditPart extends PathNodeEditPart {
      * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
      */
     public void performRequest(Request req) {
-    	if (req.getType() == REQ_OPEN) {
+        if (req.getType() == REQ_OPEN) {
             Stub stub = (Stub) getModel();
             if (stub.getBindings().size() == 1) {
                 Map map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
                 if (map != null)
                     ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
-            }
-            else if(stub.getBindings().size() > 1) {	        	
-	        	PluginListDialog dlg = new PluginListDialog(new Shell(), ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor());
-	        	dlg.setInput(stub.getBindings());
-	        	dlg.setMessage("Select plugin:");
-	        	dlg.open();
-            } else 
-            {
-            	Shell shell = new Shell();
-        		StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart)getRoot()).getMultiPageEditor().getDelegatingCommandStack());
-        		d.open(stub);
+            } else if (stub.getBindings().size() > 1) {
+                if (dlg != null) {
+                    dlg.close();
+                }
+                dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((ConnectionOnBottomRootEditPart) getRoot())
+                        .getMultiPageEditor());
+                dlg.setInput(stub.getBindings());
+                dlg.setMessage("Select plugin:");
+                dlg.open();
+            } else {
+                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor()
+                        .getDelegatingCommandStack());
+                d.open(stub);
             }
         }
     }

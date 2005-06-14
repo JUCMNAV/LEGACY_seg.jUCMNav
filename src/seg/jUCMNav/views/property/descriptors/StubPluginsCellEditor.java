@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.map.Stub;
@@ -44,7 +45,7 @@ public class StubPluginsCellEditor extends DialogCellEditor {
 	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.widgets.Control)
 	 */
 	protected Object openDialogBox(Control cellEditorWindow) {
-		Shell shell = new Shell();
+	    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		StubBindingsDialog d = new StubBindingsDialog(shell, cmdStack);
 		d.open(getStub());
 		return null;

@@ -4,6 +4,7 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.stub.StubBindingsDialog;
@@ -47,7 +48,7 @@ public class EditStubPluginsAction extends SelectionAction {
      * @see org.eclipse.jface.action.IAction#run()
      */
     public void run() {
-    	Shell shell = new Shell();
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		StubBindingsDialog d = new StubBindingsDialog(shell, getCommandStack());
 		d.open(stub);
     }
