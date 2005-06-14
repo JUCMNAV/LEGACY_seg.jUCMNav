@@ -111,11 +111,10 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
         // Add new fork PathNode to model
         _newFork.setCompRef(ParentFinder.findParent(_pg.getMap(), _newFork.getX(), _newFork.getY()));
         _pg.getPathNodes().add(_newFork);
-        
-        if (_newConditions!=null)
-        {
-            _ncOldStart.setCondition((Condition)_newConditions.get(0));
-            _ncB.setCondition((Condition)_newConditions.get(1));
+
+        if (_newConditions != null) {
+            _ncOldStart.setCondition((Condition) _newConditions.get(0));
+            _ncB.setCondition((Condition) _newConditions.get(1));
         }
     }
 
@@ -132,12 +131,11 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
 
         _newFork.setCompRef(null);
         _pg.getPathNodes().remove(_newFork);
-        
-        if (_newConditions!=null)
-        {
+
+        if (_newConditions != null) {
             _ncOldStart.setCondition(null);
             _ncB.setCondition(null);
-        }        
+        }
     }
 
     /*

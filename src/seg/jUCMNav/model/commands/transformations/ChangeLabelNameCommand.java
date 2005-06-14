@@ -46,7 +46,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         } else if (elem instanceof PathNode) {
             oldName = ((PathNode) elem).getName();
         } else if (elem instanceof Condition) {
-            oldName = ((Condition)elem).getLabel();
+            oldName = ((Condition) elem).getLabel();
         }
         redo();
     }
@@ -106,7 +106,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(name);
         } else if (elem instanceof Condition) {
-            ((Condition)elem).setLabel(name);
+            ((Condition) elem).setLabel(name);
         }
         testPostConditions();
     }
@@ -123,7 +123,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         } else if (elem instanceof PathNode) {
             ((PathNode) elem).setName(oldName);
         } else if (elem instanceof Condition) {
-            ((Condition)elem).setLabel(oldName);
+            ((Condition) elem).setLabel(oldName);
         }
         testPreConditions();
     }

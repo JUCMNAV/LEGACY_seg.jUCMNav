@@ -21,6 +21,7 @@ import urncore.UCMmodelElement;
 public class ComponentRefBindChildCommand extends Command implements JUCMNavCommand {
 
     private ComponentRef parent;
+
     private Vector children;
 
     /**

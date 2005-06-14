@@ -27,8 +27,11 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
 
     // its relationships with the rest of the metamodel
     private Vector compRefChildren;
+
     private Vector pathNodeChildren;
+
     private ComponentRef parent;
+
     private ComponentElement compDef;
 
     public DeleteComponentRefCommand(ComponentRef cr) {
@@ -150,7 +153,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         compRef.setCompDef(compDef);
         // must be last so that the label has access to the component definition
         map.getCompRefs().add(compRef);
-        
+
         testPreConditions();
     }
 }

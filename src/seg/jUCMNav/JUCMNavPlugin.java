@@ -8,64 +8,64 @@ import java.util.*;
  * The main plugin class to be used in the desktop.
  */
 public class JUCMNavPlugin extends AbstractUIPlugin {
-	//The shared instance.
-	private static JUCMNavPlugin plugin;
-	//Resource bundle.
-	private ResourceBundle resourceBundle;
-	
-	public static final String PLUGIN_ID = "seg.jUCMNav"; //$NON-NLS-1$
-	
-	/**
-	 * The constructor.
-	 */
-	public JUCMNavPlugin() {
-		super();
-		plugin = this;
-		try {
-			resourceBundle = ResourceBundle.getBundle("seg.jUCMNav.JUCMNavPluginResources"); //$NON-NLS-1$
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
-		}
-	}
+    //The shared instance.
+    private static JUCMNavPlugin plugin;
 
-	/**
-	 * This method is called upon plug-in activation
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
+    //Resource bundle.
+    private ResourceBundle resourceBundle;
 
-	/**
-	 * This method is called when the plug-in is stopped
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-	}
+    public static final String PLUGIN_ID = "seg.jUCMNav"; //$NON-NLS-1$
 
-	/**
-	 * Returns the shared instance.
-	 */
-	public static JUCMNavPlugin getDefault() {
-		return plugin;
-	}
+    /**
+     * The constructor.
+     */
+    public JUCMNavPlugin() {
+        super();
+        plugin = this;
+        try {
+            resourceBundle = ResourceBundle.getBundle("seg.jUCMNav.JUCMNavPluginResources"); //$NON-NLS-1$
+        } catch (MissingResourceException x) {
+            resourceBundle = null;
+        }
+    }
 
-	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
-	 */
-	public static String getResourceString(String key) {
-		ResourceBundle bundle = JUCMNavPlugin.getDefault().getResourceBundle();
-		try {
-			return (bundle != null) ? bundle.getString(key) : key;
-		} catch (MissingResourceException e) {
-			return key;
-		}
-	}
+    /**
+     * This method is called upon plug-in activation
+     */
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+    }
 
-	/**
-	 * Returns the plugin's resource bundle,
-	 */
-	public ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
+    /**
+     * This method is called when the plug-in is stopped
+     */
+    public void stop(BundleContext context) throws Exception {
+        super.stop(context);
+    }
+
+    /**
+     * Returns the shared instance.
+     */
+    public static JUCMNavPlugin getDefault() {
+        return plugin;
+    }
+
+    /**
+     * Returns the string from the plugin's resource bundle, or 'key' if not found.
+     */
+    public static String getResourceString(String key) {
+        ResourceBundle bundle = JUCMNavPlugin.getDefault().getResourceBundle();
+        try {
+            return (bundle != null) ? bundle.getString(key) : key;
+        } catch (MissingResourceException e) {
+            return key;
+        }
+    }
+
+    /**
+     * Returns the plugin's resource bundle,
+     */
+    public ResourceBundle getResourceBundle() {
+        return resourceBundle;
+    }
 }

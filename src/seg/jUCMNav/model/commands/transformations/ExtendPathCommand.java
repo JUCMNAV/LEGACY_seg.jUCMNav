@@ -22,12 +22,19 @@ import urn.URNspec;
 public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     private PathGraph diagram; // The UCM diagram
+
     private EndPoint end; // The end node to be moved
+
     private NodeConnection lastLink; // The end node's predecessor
+
     private PathNode lastNode; // The last node before the end node
+
     private NodeConnection newLink; // The new link that has been created, linking the end point's old and new locations
+
     private PathNode newNode; // The new node located at the end point's old location
+
     private int oldX, oldY, newX, newY; // where to move the end point
+
     private StartPoint start; // or maybe it is the start point that is moved.
 
     public ExtendPathCommand(PathGraph pg, EndPoint end, int x, int y) {

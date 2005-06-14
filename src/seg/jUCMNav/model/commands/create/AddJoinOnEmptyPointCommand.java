@@ -165,7 +165,8 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "pre newJoin"; //$NON-NLS-1$
         assert (_newStartPoint != null) : "pre newStartPoint"; //$NON-NLS-1$
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newJoin) && !_pg.getPathNodes().contains(
+                _newStartPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -179,7 +180,8 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newJoin != null) : "pre newJoin"; //$NON-NLS-1$
         assert (_newStartPoint != null) : "pre newStartPoint"; //$NON-NLS-1$
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(_newStartPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newJoin) && _pg.getPathNodes().contains(
+                _newStartPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 

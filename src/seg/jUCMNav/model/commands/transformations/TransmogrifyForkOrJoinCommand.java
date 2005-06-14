@@ -143,7 +143,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
             if (_oldNode instanceof OrFork)
                 nc.setCondition((Condition) _outConditions.get(i));
             else if (_newNode instanceof OrFork)
-                nc.setCondition(null);            
+                nc.setCondition(null);
         }
 
         // Remove old node

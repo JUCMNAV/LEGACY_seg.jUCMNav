@@ -108,10 +108,8 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
 
         _pg.getPathNodes().add(_oldEmptyPoint);
         _pg.getPathNodes().add(_oldEndPoint);
-        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint
-                .getY()));
-        _oldEndPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEndPoint.getX(), _oldEndPoint
-                .getY()));
+        _oldEmptyPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEmptyPoint.getX(), _oldEmptyPoint.getY()));
+        _oldEndPoint.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldEndPoint.getX(), _oldEndPoint.getY()));
 
         _newJoin.setCompRef(null);
         _pg.getPathNodes().remove(_newJoin);

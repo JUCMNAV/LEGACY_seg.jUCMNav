@@ -29,10 +29,13 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
     //  The new node we are inserting
     private PathNode node;
+
     //  The node before the new node
     private PathNode previousNode;
+
     // The node following the new node
     private PathNode nextNode;
+
     //  The two new links for the new node
     private NodeConnection newLink;
 

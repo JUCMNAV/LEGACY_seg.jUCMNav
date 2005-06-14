@@ -27,11 +27,17 @@ import urncore.Condition;
 public class AddBranchCommand extends Command implements JUCMNavCommand {
 
     private PathNode insertionNode;
+
     private EmptyPoint newEmpty;
+
     private NodeConnection newConn, newConn2;
+
     private PathNode newStartOrEnd;
+
     private Condition newCondition;
+
     private PathGraph pg;
+
     private URNspec urn;
 
     /**
@@ -89,7 +95,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newConn2.setTarget(newEmpty);
             newConn2.setSource(newStartOrEnd);
         }
-        
+
         if (insertionNode instanceof OrFork) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             newConn.setCondition(newCondition);
@@ -119,7 +125,6 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         newEmpty.setCompRef(ParentFinder.getPossibleParent(newEmpty));
         newStartOrEnd.setCompRef(ParentFinder.getPossibleParent(newStartOrEnd));
 
-        
         testPostConditions();
     }
 
@@ -158,7 +163,8 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "pre something null"; //$NON-NLS-1$
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null
+                && urn != null : "pre something null"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(insertionNode) : "pre node in model"; //$NON-NLS-1$
         assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model"; //$NON-NLS-1$
         assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model"; //$NON-NLS-1$
@@ -171,7 +177,8 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "post something null"; //$NON-NLS-1$
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null
+                && urn != null : "post something null"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(insertionNode) : "post node in model"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(newEmpty) && pg.getPathNodes().contains(newStartOrEnd) : "post nodes in model"; //$NON-NLS-1$
         assert pg.getNodeConnections().contains(newConn) && pg.getNodeConnections().contains(newConn) : "post connections in model"; //$NON-NLS-1$

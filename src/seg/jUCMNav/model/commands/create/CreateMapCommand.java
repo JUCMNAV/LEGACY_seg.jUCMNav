@@ -10,20 +10,21 @@ import urn.URNspec;
 /**
  * Created on 21-May-2005
  * 
- * This command adds a new map to the urnspec. 
+ * This command adds a new map to the urnspec.
  * 
  * @author jkealey
  *  
  */
 public class CreateMapCommand extends Command implements JUCMNavCommand {
     private Map map;
+
     private URNspec urn;
+
     private int oldCount;
-    
 
     public CreateMapCommand(URNspec urn) {
         this.urn = urn;
-        
+
         // must be created here for getMap() to work properly.
         map = (Map) ModelCreationFactory.getNewObject(urn, Map.class);
 
@@ -44,9 +45,10 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        oldCount=urn.getUcmspec().getMaps().size();
+        oldCount = urn.getUcmspec().getMaps().size();
         redo();
     }
+
     public Map getMap() {
         return map;
     }
@@ -70,7 +72,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
     public void testPostConditions() {
         assert urn != null && urn.getUcmspec() != null && map != null : "post not null"; //$NON-NLS-1$
         assert urn.getUcmspec().getMaps().contains(map) : "post map not in model"; //$NON-NLS-1$
-        assert oldCount+1==urn.getUcmspec().getMaps().size() : "post should have only one map added"; //$NON-NLS-1$
+        assert oldCount + 1 == urn.getUcmspec().getMaps().size() : "post should have only one map added"; //$NON-NLS-1$
 
     }
 
@@ -82,7 +84,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert urn != null && urn.getUcmspec() != null && map != null : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getMaps().contains(map) : "pre map not in model"; //$NON-NLS-1$
-        assert oldCount==urn.getUcmspec().getMaps().size() : "pre map count wrong"; //$NON-NLS-1$
+        assert oldCount == urn.getUcmspec().getMaps().size() : "pre map count wrong"; //$NON-NLS-1$
     }
 
     public void undo() {

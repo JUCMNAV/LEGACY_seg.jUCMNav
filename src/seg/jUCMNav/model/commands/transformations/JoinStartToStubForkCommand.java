@@ -14,8 +14,8 @@ import urncore.Condition;
 /**
  * Created 27-05-2005
  * 
- * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path as a successor of
- * the stub/fork.
+ * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path
+ * as a successor of the stub/fork.
  * 
  * @author Etienne Tremblay
  */
@@ -110,9 +110,9 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         ncOldStart.setSource(stubOrFork);
         pg.getPathNodes().remove(oldStartPoint);
 
-        if (newCondition!=null)
+        if (newCondition != null)
             ncOldStart.setCondition(newCondition);
-        
+
         testPostConditions();
     }
 
@@ -130,9 +130,9 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         oldStartPoint.setX(oldX);
         oldStartPoint.setY(oldY);
 
-        if (newCondition!=null)
+        if (newCondition != null)
             ncOldStart.setCondition(null);
-        
+
         testPreConditions();
     }
 

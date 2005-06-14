@@ -15,8 +15,8 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start point. deletes the
- * current empty node and its surrounding connections or the passed connection . Created 2005-03-21
+ * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start
+ * point. deletes the current empty node and its surrounding connections or the passed connection . Created 2005-03-21
  * 
  * pass either a node connection or an empty point, but not both.
  * 
@@ -29,18 +29,23 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
      */
     private PathGraph diagram;
+
     private EmptyPoint emptyPoint;
 
     private PathNode nextPoint;
+
     private PathNode previousPoint;
 
     private StartPoint newStart;
+
     private EndPoint newEnd;
 
     private NodeConnection connToPrev1;
+
     private NodeConnection connToNext1;
 
     private NodeConnection connToPrev2;
+
     private NodeConnection connToNext2;
 
     private NodeConnection targetConn;
@@ -63,14 +68,14 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * Static method that contains the business logic in knowing if we can execute a cut path command on a certain Object Object must be of type EmptyPoint and
-     * must be surrounded by EmptyPoints.
+     * Static method that contains the business logic in knowing if we can execute a cut path command on a certain Object Object must be of
+     * type EmptyPoint and must be surrounded by EmptyPoints.
      * 
      * @param p
      *            The EmptyPoint upon which we want to cut the path.
      * @return if you create a command using this object, you will be able to execute it.
      */
-public static boolean canExecute(Object p) {
+    public static boolean canExecute(Object p) {
         boolean b;
         b = p != null && p instanceof EmptyPoint;
         if (b) {
@@ -79,8 +84,7 @@ public static boolean canExecute(Object p) {
                 b = ((NodeConnection) ep.getSucc().get(0)).getTarget() instanceof EmptyPoint;
 
                 b = b && ((NodeConnection) ep.getPred().get(0)).getSource() instanceof EmptyPoint;
-            }
-            else 
+            } else
                 return false;
         }
         if (b == false && p instanceof NodeConnection) {
@@ -92,8 +96,10 @@ public static boolean canExecute(Object p) {
         return b;
 
     }
+
     /**
-     * We don't want to execute this command if the target is not between two empty nodes. We might want to generate these automatically later on.
+     * We don't want to execute this command if the target is not between two empty nodes. We might want to generate these automatically
+     * later on.
      */
     public boolean canExecute() {
 
@@ -110,13 +116,14 @@ public static boolean canExecute(Object p) {
     public void execute() {
 
         /*
-         * (targetConn==null) Before: ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * (targetConn==null) Before: ...
+         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * (targetConn!=null) Before: ... ---[connToPrev2]---(previousPoint)--[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        URNspec urn =  diagram.getMap().getUcmspec().getUrnspec();
+        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
         newStart = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
         newEnd = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
 
@@ -164,7 +171,7 @@ public static boolean canExecute(Object p) {
 
         newStart.setCompRef(ParentFinder.findParent(diagram.getMap(), newStart.getX(), newStart.getY()));
         newEnd.setCompRef(ParentFinder.findParent(diagram.getMap(), newEnd.getX(), newEnd.getY()));
-        
+
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);
         testPostConditions();
@@ -235,7 +242,8 @@ public static boolean canExecute(Object p) {
      */
     public void testPreConditions() {
         /*
-         * Before (targetConn==null): ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * Before (targetConn==null): ...
+         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * Before (targetConn!=null): ... ---[connToPrev2]---(previousPoint)---[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 
@@ -289,7 +297,8 @@ public static boolean canExecute(Object p) {
      */
     public void testPostConditions() {
         /*
-         * Before (targetConn==null): ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * Before (targetConn==null): ...
+         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * Before (targetConn!=null): ... ---[connToPrev2]---(previousPoint)---[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 

@@ -18,10 +18,15 @@ import ucm.map.StartPoint;
 public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
 
     private StartPoint start;
+
     private EndPoint end;
+
     private NodeConnection nc;
+
     private PathGraph pg;
+
     private ComponentRef startParent, endParent;
+
     private boolean aborted = false;
 
     /**

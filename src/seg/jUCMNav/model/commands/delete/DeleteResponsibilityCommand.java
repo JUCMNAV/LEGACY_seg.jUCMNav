@@ -48,7 +48,6 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         redo();
     }
 
-
     /*
      * (non-Javadoc)
      * 
@@ -62,8 +61,6 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
 
         testPostConditions();
     }
-
-
 
     /*
      * (non-Javadoc)
@@ -104,9 +101,11 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
 
         testPreConditions();
     }
+
     public Responsibility getRespDef() {
         return respDef;
     }
+
     public void setRespDef(Responsibility respDef) {
         this.respDef = respDef;
     }

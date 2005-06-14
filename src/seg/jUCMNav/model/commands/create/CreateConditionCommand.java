@@ -15,13 +15,16 @@ import urncore.Condition;
  */
 public class CreateConditionCommand extends Command implements JUCMNavCommand {
 
-	private Condition condition;
+    private Condition condition;
+
     private NodeConnection connection;
+
     private int deltaX;
+
     private int deltaY;
-    
+
     public CreateConditionCommand(NodeConnection connection) {
-    	this.connection = connection;
+        this.connection = connection;
     }
 
     public boolean canExecute() {
@@ -34,7 +37,8 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        condition = (Condition) ModelCreationFactory.getNewObject(connection.getPathGraph().getMap().getUcmspec().getUrnspec(), Condition.class);
+        condition = (Condition) ModelCreationFactory.getNewObject(connection.getPathGraph().getMap().getUcmspec().getUrnspec(),
+                Condition.class);
 
         condition.setDeltaX(deltaX);
         condition.setDeltaY(deltaY);
@@ -49,7 +53,7 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        
+
         connection.setCondition(condition);
 
         testPostConditions();
@@ -84,7 +88,7 @@ public class CreateConditionCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert condition != null : "pre Condition"; //$NON-NLS-1$
+        assert condition != null : "pre Condition"; //$NON-NLS-1$
         assert connection != null : "pre Connection"; //$NON-NLS-1$
     }
 

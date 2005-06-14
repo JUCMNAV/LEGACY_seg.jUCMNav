@@ -20,7 +20,9 @@ import ucm.map.ComponentRef;
 public class SetConstraintComponentRefCommand extends Command implements JUCMNavCommand {
     // default size for new components
     public static final int DEFAULT_HEIGHT = 100;
+
     public static final int DEFAULT_WIDTH = 100;
+
     private Vector children;
 
     // the ComponentRef
@@ -30,6 +32,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
 
     // constraints
     private int oldWidth, oldHeight, newWidth, newHeight;
+
     private int oldX, oldY, newX, newY;
 
     public SetConstraintComponentRefCommand(ComponentRef cr, int x, int y, int width, int height) {
@@ -192,8 +195,8 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         assert compRef.getY() == this.newY : "post y"; //$NON-NLS-1$
 
         if (newParent != null)
-            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
-                    compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent."; //$NON-NLS-1$
+            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(
+                    compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent."; //$NON-NLS-1$
 
     }
 
@@ -206,7 +209,8 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
 
         // this is not true because in our compound command the parent might already have been moved.
         //        if (newParent!=null)
-        //            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
+        //            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new
+        // Rectangle(compRef.getX(),
         // compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent.";
 
     }

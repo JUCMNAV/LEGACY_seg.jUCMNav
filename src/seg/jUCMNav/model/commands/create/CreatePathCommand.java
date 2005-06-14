@@ -15,7 +15,8 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * This command creates a simple path. Given a StartPoint, link it to a empty node and an end point. If you don't give us a StartPoint, we'll create a new one.
+ * This command creates a simple path. Given a StartPoint, link it to a empty node and an end point. If you don't give us a StartPoint,
+ * we'll create a new one.
  * 
  * Created 2005-02-21
  * 
@@ -31,9 +32,13 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
 
     // new variables
     private StartPoint start;
+
     private PathNode node;
+
     private EndPoint end;
+
     private NodeConnection link1;
+
     private NodeConnection link2;
 
     public CreatePathCommand() {
@@ -68,19 +73,19 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         start.setX(x);
         start.setY(y);
 
-        node = (EmptyPoint) ModelCreationFactory.getNewObject(urn,EmptyPoint.class);
+        node = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
         node.setX(x + 100);
         node.setY(y);
-        
-        link1 = (NodeConnection) ModelCreationFactory.getNewObject(urn,NodeConnection.class);
+
+        link1 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         link1.setSource(start);
         link1.setTarget(node);
 
-        end = (EndPoint) ModelCreationFactory.getNewObject(urn,EndPoint.class);
+        end = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
         end.setX(x + 200);
         end.setY(y);
 
-        link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn,NodeConnection.class);
+        link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         link2.setSource(node);
         link2.setTarget(end);
 
@@ -98,12 +103,11 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         diagram.getPathNodes().add(start);
         diagram.getPathNodes().add(node);
         diagram.getPathNodes().add(end);
-        
-        start.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));        
+
+        start.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
         node.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 100, y));
         end.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 200, y));
-        
-        
+
         testPostConditions();
     }
 
@@ -112,7 +116,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        start.setCompRef(null);        
+        start.setCompRef(null);
         node.setCompRef(null);
         end.setCompRef(null);
 

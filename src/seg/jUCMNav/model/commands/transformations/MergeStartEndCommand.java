@@ -21,10 +21,15 @@ import ucm.map.StartPoint;
 public class MergeStartEndCommand extends Command implements JUCMNavCommand {
 
     private StartPoint startPoint;
+
     private EndPoint endPoint;
+
     private EmptyPoint newEmptyPoint;
+
     private Map map;
+
     private int x, y;
+
     private NodeConnection prevConn, nextConn;
 
     /**

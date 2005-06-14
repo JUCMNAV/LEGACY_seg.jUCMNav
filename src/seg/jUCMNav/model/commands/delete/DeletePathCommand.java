@@ -22,11 +22,13 @@ import ucm.map.Stub;
  */
 public class DeletePathCommand extends CompoundCommand {
     private Stack commands;
+
     private Map editpartregistry;
+
     private EndPoint end;
 
     private PathGraph pg;
-    
+
     private StartPoint start;
 
     public DeletePathCommand(EndPoint end, Map editpartregistry) {
@@ -100,7 +102,7 @@ public class DeletePathCommand extends CompoundCommand {
         // was already deleted.
         if (this.start.getPathGraph() == null)
             return;
-        
+
         PathGraph pg = this.start.getPathGraph();
 
         PathNode node = this.start;
@@ -144,6 +146,5 @@ public class DeletePathCommand extends CompoundCommand {
             buildFromEnd();
         super.execute();
     }
-
 
 }

@@ -15,8 +15,8 @@ import urncore.ComponentElement;
 import urncore.Responsibility;
 
 /**
- * Command to delete a Map. (Remove it from the model). This command only takes into consideration links between RespRefs+ComponentRefs and their respective
- * definitions. No other links are broken (stubs, etc.).
+ * Command to delete a Map. (Remove it from the model). This command only takes into consideration links between RespRefs+ComponentRefs and
+ * their respective definitions. No other links are broken (stubs, etc.).
  * 
  * @author jkealey
  *  
@@ -27,6 +27,7 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
 
     // the map to delete
     private Map map;
+
     private Hashtable htReferences;
 
     // the URNspec in which it is contained

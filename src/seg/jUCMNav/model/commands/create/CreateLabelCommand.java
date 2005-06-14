@@ -21,8 +21,11 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
     private static final String CreateCommand_Label = "CreateLabelCommand"; //$NON-NLS-1$
 
     private Label label;
+
     private UCMmodelElement modelElement;
+
     private int deltaX;
+
     private int deltaY;
 
     public CreateLabelCommand(UCMmodelElement elem) {
@@ -40,9 +43,11 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (modelElement instanceof PathNode) {
-            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getPathGraph().getMap().getUcmspec().getUrnspec(), NodeLabel.class);
+            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getPathGraph().getMap().getUcmspec().getUrnspec(),
+                    NodeLabel.class);
         } else if (modelElement instanceof ComponentRef) {
-            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getMap().getUcmspec().getUrnspec(), ComponentLabel.class);
+            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getMap().getUcmspec().getUrnspec(),
+                    ComponentLabel.class);
         }
 
         label.setDeltaX(deltaX);
@@ -133,4 +138,3 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
         this.deltaY = deltaY;
     }
 }
-

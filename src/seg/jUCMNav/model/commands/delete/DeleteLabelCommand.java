@@ -21,8 +21,11 @@ import urncore.NodeLabel;
  */
 public class DeleteLabelCommand extends Command {
     private static final String CreateCommand_Label = "DeleteLabelCommand"; //$NON-NLS-1$
+
     private Label label;
+
     EObject modelElement;
+
     private String oldStr;
 
     public boolean canExecute() {
@@ -52,7 +55,8 @@ public class DeleteLabelCommand extends Command {
             oldStr = ((StartPoint) modelElement).getPrecondition().getLabel();
         else if (label instanceof Condition && modelElement instanceof EndPoint && ((EndPoint) modelElement).getPostcondition() != null)
             oldStr = ((EndPoint) modelElement).getPostcondition().getLabel();
-        else if (label instanceof Condition && modelElement instanceof NodeConnection && ((NodeConnection) modelElement).getCondition() != null)
+        else if (label instanceof Condition && modelElement instanceof NodeConnection
+                && ((NodeConnection) modelElement).getCondition() != null)
             oldStr = ((NodeConnection) modelElement).getCondition().getLabel();
 
         redo();

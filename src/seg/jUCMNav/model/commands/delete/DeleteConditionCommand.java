@@ -14,57 +14,63 @@ import urncore.Condition;
 
 /**
  * @author Jordan
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * 
+ * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class DeleteConditionCommand extends Command implements JUCMNavCommand {
-	private Condition condition;
-	private NodeConnection connection;
-	
-	public DeleteConditionCommand(Condition condition) {
-		this.condition = condition;
-		connection = condition.getNodeConnection();
-	}
-	
-	public boolean canExecute() {
-		return condition != null && connection != null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#execute()
-	 */
-	public void execute() {
-		redo();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#redo()
-	 */
-	public void redo() {
-		testPreConditions();
-		
-		connection.setCondition(null);
+    private Condition condition;
+
+    private NodeConnection connection;
+
+    public DeleteConditionCommand(Condition condition) {
+        this.condition = condition;
+        connection = condition.getNodeConnection();
+    }
+
+    public boolean canExecute() {
+        return condition != null && connection != null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        redo();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+
+        connection.setCondition(null);
 
         testPostConditions();
-	}
-	
-	public boolean canUndo() {
-		return condition != null && connection.getCondition() == null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#undo()
-	 */
-	public void undo() {
-		testPostConditions();
+    }
 
-		connection.setCondition(condition);
+    public boolean canUndo() {
+        return condition != null && connection.getCondition() == null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
+
+        connection.setCondition(condition);
 
         testPreConditions();
-	}
-	
-	/*
+    }
+
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()

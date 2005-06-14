@@ -35,7 +35,7 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
     NodeConnection _newLink1, _newLink2, _ncPred, _ncTarg;
 
     NodeConnection _originNc;
-    
+
     Condition _orForkCondition1, _orForkCondition2;
 
     PathNode _prevNode, _nextNode;
@@ -94,10 +94,10 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
             _newEndPoint.setY(y - 30);
 
             _newLink2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
-            
-            if(_newFork instanceof OrFork) {
-            	_orForkCondition1 = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-            	_orForkCondition2 = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+
+            if (_newFork instanceof OrFork) {
+                _orForkCondition1 = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+                _orForkCondition2 = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             }
 
             // TODO Add an empty point *ON* the connection going towards the
@@ -117,10 +117,10 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         _newLink1.setTarget(_newEmptyPoint);
         _newLink2.setSource(_newEmptyPoint);
         _newLink2.setTarget(_newEndPoint);
-        
-        if(_newFork instanceof OrFork) {
-        	_newLink1.setCondition(_orForkCondition1);
-        	_ncTarg.setCondition(_orForkCondition2);
+
+        if (_newFork instanceof OrFork) {
+            _newLink1.setCondition(_orForkCondition1);
+            _ncTarg.setCondition(_orForkCondition2);
         }
 
         // Add to model
@@ -150,10 +150,10 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         _newLink1.setTarget(null);
         _newLink2.setSource(null);
         _newLink2.setTarget(null);
-        
-        if(_newFork instanceof OrFork) {
-        	_newLink1.setCondition(null);
-        	_ncTarg.setCondition(null);
+
+        if (_newFork instanceof OrFork) {
+            _newLink1.setCondition(null);
+            _ncTarg.setCondition(null);
         }
 
         // Remove from model
@@ -183,7 +183,8 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
         assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(
+                _newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -197,7 +198,8 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
         assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(
+                _newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 

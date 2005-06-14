@@ -117,8 +117,8 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
         assert node.getX() == newX && node.getY() == newY : "post node position"; //$NON-NLS-1$
 
         if (newParent != null)
-            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight()))
-                    .contains(new Point(node.getX(), node.getY())) : "post node in parent."; //$NON-NLS-1$
+            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Point(node
+                    .getX(), node.getY())) : "post node in parent."; //$NON-NLS-1$
 
     }
 
@@ -133,7 +133,8 @@ public class SetConstraintCommand extends Command implements JUCMNavCommand {
 
         // this is not true because in our compound command the parent might already have been moved.
         //        if (oldParent!=null)
-        //            assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new Point(node.getX(), node.getY()))
+        //            assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new
+        // Point(node.getX(), node.getY()))
         // : "pre node in parent.";
     }
 

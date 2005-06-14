@@ -38,8 +38,8 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
     }
 
     /**
-     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might have been a better
-     * place to check for this.
+     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might
+     * have been a better place to check for this.
      * 
      * To change in future.
      */
@@ -48,21 +48,20 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
             return true;
         else
             return super.canExecute();
-    }	
-    
+    }
+
     /**
-     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might have been a better
-     * place to check for this.
+     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might
+     * have been a better place to check for this.
      * 
      * To change in future.
-     */    
+     */
     public boolean canUndo() {
         if (getCommands().size() == 0)
             return true;
         else
             return super.canUndo();
     }
-    
 
     /**
      * Adds a DeleteNodeCommand to the compound command if this is an empty point that hasn't been named and that has no label.
@@ -70,7 +69,8 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
      * @param pn
      */
     private void deleteIfPossible(PathNode pn) {
-        if (pn instanceof EmptyPoint && !toRemove.contains(pn) && pn.getLabel() == null && pn.getName().equals(URNNamingHelper.getPrefix(EmptyPoint.class))) {
+        if (pn instanceof EmptyPoint && !toRemove.contains(pn) && pn.getLabel() == null
+                && pn.getName().equals(URNNamingHelper.getPrefix(EmptyPoint.class))) {
             add(new DeleteNodeCommand(pn));
             toRemove.add(pn);
         }

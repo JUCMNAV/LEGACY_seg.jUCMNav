@@ -9,9 +9,10 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * This command adds a ComponentRef and its corresponding definition to the model. Its definition must not be referenced by any other classes.
+ * This command adds a ComponentRef and its corresponding definition to the model. Its definition must not be referenced by any other
+ * classes.
  * 
- * Note: this command does not bind a component to its parent. use the SetConstraintComponentRef command instead. 
+ * Note: this command does not bind a component to its parent. use the SetConstraintComponentRef command instead.
  * 
  * @author jkealey
  *  
@@ -93,7 +94,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         assert compRef.getCompDef() != null : "post compDef"; //$NON-NLS-1$
         assert map != null : "post map"; //$NON-NLS-1$
 
-        assert map.getCompRefs().contains(compRef): "post compRef in map"; //$NON-NLS-1$
+        assert map.getCompRefs().contains(compRef) : "post compRef in map"; //$NON-NLS-1$
         assert map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model"; //$NON-NLS-1$
     }
 
@@ -106,7 +107,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         assert compRef.getCompDef() != null : "pre compDef"; //$NON-NLS-1$
         assert map != null : "pre Map"; //$NON-NLS-1$
 
-        assert !map.getCompRefs().contains(compRef): "pre compRef not in map"; //$NON-NLS-1$
+        assert !map.getCompRefs().contains(compRef) : "pre compRef not in map"; //$NON-NLS-1$
 
         // make sure this is a new component definition.
         // if not, our undo() will remove it, breaking code.
