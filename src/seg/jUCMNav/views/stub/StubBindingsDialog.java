@@ -653,12 +653,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				selectedItem = data;
 				// Refresh the add bindings view with the correct plugin.
 				setSelectedPluginView((PluginBinding) data);
-			} else if (data instanceof InBinding) {
+			} else if (data instanceof InBinding || data instanceof OutBinding) {
 				selectedItem = data;
-				setSelectedPluginView(null); // Erase the binding view
-			} else if (data instanceof OutBinding) {
-				selectedItem = data;
-				setSelectedPluginView(null); // Erase the binding view
+				// show the binding 
+				setSelectedPluginView((PluginBinding)source.getParentItem().getParentItem().getData()); 
 			} else {
 				setSelectedPluginView(null); // Erase the binding view
 				btDelete.setEnabled(false);
@@ -666,8 +664,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 			btDelete.setEnabled(true);
 		}
-		else
+		else {
+		    setSelectedPluginView((PluginBinding)source.getParentItem().getData());
 			btDelete.setEnabled(false);
+		}
 	}
 
 	/*
