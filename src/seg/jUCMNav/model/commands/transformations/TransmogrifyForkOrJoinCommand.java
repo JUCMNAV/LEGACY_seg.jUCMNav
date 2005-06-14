@@ -11,7 +11,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.NodeConnection;
@@ -120,11 +119,15 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         // Remove old node
         _pg.getPathNodes().remove(_oldNode);
-        _oldNode.setCompRef(null);
 
         // Add new node
-        _newNode.setCompRef(ParentFinder.findParent(_pg.getMap(), _newNode.getX(), _newNode.getY()));
         _pg.getPathNodes().add(_newNode);
+        
+        // reset parents
+        _newNode.setCompRef(_oldNode.getCompRef());
+        _oldNode.setCompRef(null);
+        
+
 
     }
 
@@ -148,11 +151,14 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         // Remove old node
         _pg.getPathNodes().remove(_newNode);
-        _newNode.setCompRef(null);
 
         // Add new node
-        _oldNode.setCompRef(ParentFinder.findParent(_pg.getMap(), _oldNode.getX(), _oldNode.getY()));
         _pg.getPathNodes().add(_oldNode);
+        
+        // reset parents
+        _oldNode.setCompRef(_newNode.getCompRef());
+        _newNode.setCompRef(null);
+        
     }
 
     /*

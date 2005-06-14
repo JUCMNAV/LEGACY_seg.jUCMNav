@@ -6,6 +6,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -15,8 +16,8 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start
- * point. deletes the current empty node and its surrounding connections or the passed connection . Created 2005-03-21
+ * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start point. deletes the
+ * current empty node and its surrounding connections or the passed connection . Created 2005-03-21
  * 
  * pass either a node connection or an empty point, but not both.
  * 
@@ -35,6 +36,8 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     private PathNode nextPoint;
 
     private PathNode previousPoint;
+
+    private ComponentRef parentEmpty, parentPrevious, parentNext;
 
     private StartPoint newStart;
 
@@ -68,8 +71,8 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * Static method that contains the business logic in knowing if we can execute a cut path command on a certain Object Object must be of
-     * type EmptyPoint and must be surrounded by EmptyPoints.
+     * Static method that contains the business logic in knowing if we can execute a cut path command on a certain Object Object must be of type EmptyPoint and
+     * must be surrounded by EmptyPoints.
      * 
      * @param p
      *            The EmptyPoint upon which we want to cut the path.
@@ -98,8 +101,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * We don't want to execute this command if the target is not between two empty nodes. We might want to generate these automatically
-     * later on.
+     * We don't want to execute this command if the target is not between two empty nodes. We might want to generate these automatically later on.
      */
     public boolean canExecute() {
 
@@ -116,8 +118,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     public void execute() {
 
         /*
-         * (targetConn==null) Before: ...
-         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * (targetConn==null) Before: ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * (targetConn!=null) Before: ... ---[connToPrev2]---(previousPoint)--[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 
@@ -140,6 +141,12 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
 
         connToPrev2 = (NodeConnection) previousPoint.getPred().get(0);
         connToNext2 = (NodeConnection) nextPoint.getSucc().get(0);
+
+        if (emptyPoint != null) {
+            parentEmpty = emptyPoint.getCompRef();
+        }
+        parentPrevious = previousPoint.getCompRef();
+        parentNext = nextPoint.getCompRef();
 
         newStart.setX(nextPoint.getX());
         newStart.setY(nextPoint.getY());
@@ -174,6 +181,13 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
 
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);
+
+        if (emptyPoint != null) {
+            emptyPoint.setCompRef(null);
+        }
+        previousPoint.setCompRef(null);
+        nextPoint.setCompRef(null);
+
         testPostConditions();
     }
 
@@ -201,6 +215,12 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
 
         newStart.setCompRef(null);
         newEnd.setCompRef(null);
+
+        if (emptyPoint != null) {
+            emptyPoint.setCompRef(parentEmpty);
+        }
+        previousPoint.setCompRef(parentPrevious);
+        nextPoint.setCompRef(parentNext);
 
         testPreConditions();
     }
@@ -242,8 +262,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         /*
-         * Before (targetConn==null): ...
-         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * Before (targetConn==null): ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * Before (targetConn!=null): ... ---[connToPrev2]---(previousPoint)---[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 
@@ -297,8 +316,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
         /*
-         * Before (targetConn==null): ...
-         * ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
+         * Before (targetConn==null): ... ---[connToPrev2]---(previousPoint)--[connToPrev1]---(emptyPoint)---[connToNext1]---(nextPoint)---[connToNext2]--- ...
          * 
          * Before (targetConn!=null): ... ---[connToPrev2]---(previousPoint)---[targetConn]---(nextPoint)---[connToNext2]--- ...
          * 

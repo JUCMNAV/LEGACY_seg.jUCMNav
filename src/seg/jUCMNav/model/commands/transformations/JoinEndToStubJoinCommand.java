@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.transformations;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
@@ -34,10 +35,18 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
     private int oldX, oldY;
 
     /**
+     * end point's parent componentref. 
+     */
+    private ComponentRef oldParent;
+    
+    /**
      * <code>ncOldEnd</code>: The connection going from the end point initialy.
      */
     private NodeConnection ncOldEnd;
 
+    /**
+     * The pathgraph containing the nodes and connections
+     */
     private PathGraph pg;
 
     /**
@@ -82,6 +91,8 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
 
         pg = oldEndPoint.getPathGraph();
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
+        oldParent = oldEndPoint.getCompRef();
+        
 
         redo();
     }
@@ -94,6 +105,7 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
     public void redo() {
         ncOldEnd.setTarget(stubOrJoin);
         pg.getPathNodes().remove(oldEndPoint);
+        oldEndPoint.setCompRef(null);
     }
 
     /*
@@ -108,6 +120,8 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
 
         oldEndPoint.setX(oldX);
         oldEndPoint.setY(oldY);
+        oldEndPoint.setCompRef(oldParent);
+        
     }
 
     /*

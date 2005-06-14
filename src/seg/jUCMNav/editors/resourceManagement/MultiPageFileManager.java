@@ -100,6 +100,7 @@ public class MultiPageFileManager {
             }
         } catch (CoreException e) {
             ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+            assert false : "error occured while saving; ";
         }
     }
 

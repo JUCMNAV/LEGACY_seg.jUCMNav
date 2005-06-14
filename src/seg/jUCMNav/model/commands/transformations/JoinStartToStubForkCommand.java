@@ -4,6 +4,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
@@ -14,8 +15,8 @@ import urncore.Condition;
 /**
  * Created 27-05-2005
  * 
- * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path
- * as a successor of the stub/fork.
+ * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path as a successor of
+ * the stub/fork.
  * 
  * @author Etienne Tremblay
  */
@@ -46,6 +47,14 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
      */
     private Condition newCondition;
 
+    /**
+     * end point's parent componentref.
+     */
+    private ComponentRef oldParent;
+
+    /**
+     * The pathgraph containing the nodes and connections
+     */
     private PathGraph pg;
 
     /**
@@ -96,6 +105,8 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         if (stubOrFork instanceof OrFork) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(pg.getMap().getUcmspec().getUrnspec(), Condition.class);
         }
+
+        oldParent = oldStartPoint.getCompRef();
         redo();
     }
 
@@ -112,6 +123,8 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
 
         if (newCondition != null)
             ncOldStart.setCondition(newCondition);
+
+        oldStartPoint.setCompRef(null);
 
         testPostConditions();
     }
@@ -133,6 +146,8 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         if (newCondition != null)
             ncOldStart.setCondition(null);
 
+        oldStartPoint.setCompRef(oldParent);
+        
         testPreConditions();
     }
 

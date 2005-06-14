@@ -140,6 +140,15 @@ public class JUCMNavCommandTests extends TestCase {
         //cs = new CommandStack();
         cs = editor.getDelegatingCommandStack();
 
+        
+        ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        Command cmd = new AddComponentRefCommand(map, backgroundBindingChecker);
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
+        cs.execute(cmd);
+        cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
+        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
+        cs.execute(cmd);
+        
         testBindings = true;
     }
 
@@ -230,9 +239,12 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testAddComponentRefCommand() {
 
+        // This command should not be called directly by anything else that testSetConstraintComponentRefCommand. 
+       
         Command cmd = new AddComponentRefCommand(map, compRef);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
         cs.execute(cmd);
+        testBindings=false;
     }
 
     /**
@@ -368,7 +380,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         // add another one
         compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
-        testAddComponentRefCommand();
+        testSetConstraintComponentRefCommand();
 
         Command cmd = new SetConstraintComponentRefCommand(compRef, 0, 0, 1000, 1000);
         assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute());
@@ -403,7 +415,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testCreateLabelCommand() {
-        testAddComponentRefCommand();
+        testSetConstraintBoundComponentRefCompoundCommand();
         testCreatePathCommand();
 
         pathNodeWithLabel = (UCMmodelElement) end;
@@ -481,7 +493,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteComponentElementCommand() {
-        testAddComponentRefCommand();
+        testSetConstraintComponentRefCommand();
 
         Command cmd = new DeleteComponentElementCommand(compRef.getCompDef());
         assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute());
@@ -503,7 +515,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteComponentRefCommand() {
-        testAddComponentRefCommand();
+        testSetConstraintComponentRefCommand();
 
         Command cmd = new DeleteComponentRefCommand(compRef);
         assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute());
@@ -917,6 +929,7 @@ public class JUCMNavCommandTests extends TestCase {
         cmd = new SetConstraintComponentRefCommand(compRef, 69, 69, 69, 69);
         assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
         cs.execute(cmd);
+        testBindings=true;
     }
 
     /**

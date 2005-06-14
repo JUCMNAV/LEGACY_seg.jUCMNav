@@ -4,6 +4,8 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.ParentFinder;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -25,6 +27,8 @@ public class MergeStartEndCommand extends Command implements JUCMNavCommand {
     private EndPoint endPoint;
 
     private EmptyPoint newEmptyPoint;
+    
+    private ComponentRef parentStart, parentEnd;
 
     private Map map;
 
@@ -56,6 +60,9 @@ public class MergeStartEndCommand extends Command implements JUCMNavCommand {
         this.prevConn = (NodeConnection) endPoint.getPred().get(0);
         this.nextConn = (NodeConnection) startPoint.getSucc().get(0);
 
+        parentStart = startPoint.getCompRef();
+        parentEnd = endPoint.getCompRef();
+        
         redo();
     }
 
@@ -82,6 +89,10 @@ public class MergeStartEndCommand extends Command implements JUCMNavCommand {
         map.getPathGraph().getPathNodes().remove(startPoint);
         map.getPathGraph().getPathNodes().remove(endPoint);
         map.getPathGraph().getPathNodes().add(newEmptyPoint);
+        
+        startPoint.setCompRef(null);
+        endPoint.setCompRef(null);
+        newEmptyPoint.setCompRef(ParentFinder.getPossibleParent(newEmptyPoint));
 
         testPostConditions();
     }
@@ -100,6 +111,10 @@ public class MergeStartEndCommand extends Command implements JUCMNavCommand {
         map.getPathGraph().getPathNodes().add(endPoint);
         map.getPathGraph().getPathNodes().remove(newEmptyPoint);
 
+        startPoint.setCompRef(parentStart);
+        endPoint.setCompRef(parentEnd);
+        newEmptyPoint.setCompRef(null);
+        
         testPreConditions();
     }
 
