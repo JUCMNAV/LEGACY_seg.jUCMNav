@@ -322,10 +322,12 @@ public class LabelEditPart extends ModelElementEditPart {
             Rectangle bounds = new Rectangle(location, newLabelDimension);
             labelFigure.setBounds(bounds);
             label.setBounds(bounds);
-            
+
             if (modelElement instanceof EmptyPoint) {
-               labelFigure.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
-            }            
+                if (getParent() != null) {
+                    labelFigure.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+                }
+            }
             // notify parent container of changed position & location
             // if this line is removed, the XYLayoutManager used by the parent container
             // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
