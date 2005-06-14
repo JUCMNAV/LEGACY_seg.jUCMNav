@@ -13,6 +13,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
+import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -69,6 +70,11 @@ public class StubEditPart extends PathNodeEditPart {
 	        	dlg.setInput(stub.getBindings());
 	        	dlg.setMessage("Select plugin:");
 	        	dlg.open();
+            } else 
+            {
+            	Shell shell = new Shell();
+        		StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart)getRoot()).getMultiPageEditor().getDelegatingCommandStack());
+        		d.open(stub);
             }
         }
     }
