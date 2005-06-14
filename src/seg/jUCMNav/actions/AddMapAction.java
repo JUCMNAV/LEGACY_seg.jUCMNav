@@ -8,9 +8,12 @@ import java.util.List;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import ucm.map.Map;
 import urn.URNspec;
 
 /**
@@ -24,6 +27,7 @@ public class AddMapAction extends SelectionAction {
      */
     public AddMapAction(IWorkbenchPart part) {
         super(part);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
     }
 
     /*
@@ -39,7 +43,7 @@ public class AddMapAction extends SelectionAction {
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
             EditPart part = (EditPart) parts.get(0);
-            return (part.getModel() instanceof URNspec);
+            return (part.getModel() instanceof URNspec || part.getModel() instanceof Map);
         }
 
         return false;
@@ -49,7 +53,12 @@ public class AddMapAction extends SelectionAction {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
 
-        URNspec urn = (URNspec) part.getModel();
+        URNspec urn;
+        if (part.getModel() instanceof URNspec)
+        urn = (URNspec) part.getModel();
+        else
+            urn = ((Map) part.getModel()).getUcmspec().getUrnspec();
+        
         CreateMapCommand create = new CreateMapCommand(urn);
 
         return create;

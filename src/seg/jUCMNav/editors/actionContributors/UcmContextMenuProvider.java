@@ -1,9 +1,3 @@
-/*
- * Created on 2005-03-21
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editors.actionContributors;
 
 import org.eclipse.gef.ContextMenuProvider;
@@ -34,6 +28,8 @@ import seg.jUCMNav.actions.UnbindFromParent;
 
 /**
  * Created 2005-03-21
+ * 
+ * This class builds the context menu used in our editor and views.
  * 
  * @author Etienne Tremblay
  */
@@ -81,7 +77,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(MergeStartEndAction.MERGESTARTEND);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -109,8 +105,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(TransmogrifyAndForkOrJoinAction.TRANSMOGRIFYJOIN);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
-        
+
         action = getActionRegistry().getAction(BindWithParent.BINDWITHPARENT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -134,7 +129,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(EditStubPluginsAction.EDITSTUBPLUGINS);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
