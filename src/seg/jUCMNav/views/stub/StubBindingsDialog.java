@@ -270,6 +270,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 		btDelete = new ToolItem(toolBar, SWT.PUSH);
 		btDelete.setEnabled(false);
+		btDelete.setToolTipText("Delete binding");
 		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE).createImage();
 		images.add(image);
 		btDelete.setImage(image);
