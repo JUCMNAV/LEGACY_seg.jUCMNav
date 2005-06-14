@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -36,11 +37,69 @@ import ucm.map.Stub;
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
-    private PathGraph diagram;
-    protected IPropertySource propertySource = null;
-    private Label endLabel, startLabel;
+    private class NodeConnectionAdapter implements Adapter {
+        private Notifier target;
+
+        public NodeConnectionAdapter(Notifier target) {
+            this.target = target;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+         */
+        public Notifier getTarget() {
+            return target;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+         */
+        public boolean isAdapterForType(Object type) {
+            return type.equals(getModel().getClass());
+        }
+
+        public void notifyChanged(Notification notification) {
+
+            int type = notification.getEventType();
+            int featureId = notification.getFeatureID(UcmPackage.class);
+            switch (type) {
+            case Notification.SET:
+                if (featureId == MapPackage.NODE_CONNECTION__CONDITION) {
+                    EditPartViewer viewer = getViewer();
+                    if (viewer != null) {
+                        Map registry = viewer.getEditPartRegistry();
+                        if (registry != null) {
+                            MapAndPathGraphEditPart part = (MapAndPathGraphEditPart) registry.get(getPathGraph().getMap());
+                            if (part != null) {
+
+                                part.notifyChanged(notification);
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+         */
+        public void setTarget(Notifier newTarget) {
+            target = newTarget;
+        }
+    }
 
     NodeConnectionAdapter adapter;
+
+    private PathGraph diagram;
+    private Label endLabel, startLabel;
+    protected IPropertySource propertySource = null;
 
     public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
         super();
@@ -59,67 +118,6 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         if (!isActive())
             ((EObject) getModel()).eAdapters().add(adapter);
         super.activate();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive())
-            ((EObject) getModel()).eAdapters().remove(adapter);
-        super.deactivate();
-        if (endLabel != null) {
-            ((SplineConnection) getFigure()).remove(endLabel);
-            endLabel = null;
-        }
-
-        if (startLabel != null) {
-            ((SplineConnection) getFigure()).remove(startLabel);
-            startLabel = null;
-        }
-
-    }
-
-    public PathGraph getPathGraph() {
-        return diagram;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-     */
-    protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
-        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NodeConnectionFeedbackEditPolicy());
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
-    }
-
-    private NodeConnection getLink() {
-        return (NodeConnection) getModel();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-     */
-    protected IFigure createFigure() {
-        SplineConnection connection = new SplineConnection(getLink());
-        connection.setRoutingConstraint(getLink());
-        connection.setLineWidth(3);
-        //		PolygonDecoration p = new PolygonDecoration();
-        //		connection.setTargetDecoration(p); // arrow at target endpoint
-
-        if (getLink().getTarget() instanceof Stub) {
-            addEndLabel(connection);
-        }
-        if (getLink().getSource() instanceof Stub) {
-            addStartLabel(connection);
-        }
-        return connection;
     }
 
     /**
@@ -155,33 +153,54 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
-    protected void refreshVisuals() {
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NodeConnectionFeedbackEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+     */
+    protected IFigure createFigure() {
+        SplineConnection connection = new SplineConnection(getLink());
+        connection.setRoutingConstraint(getLink());
+        connection.setLineWidth(3);
+        //		PolygonDecoration p = new PolygonDecoration();
+        //		connection.setTargetDecoration(p); // arrow at target endpoint
+
         if (getLink().getTarget() instanceof Stub) {
-            addEndLabel((SplineConnection) getFigure());
-        } else if (endLabel != null) {
+            addEndLabel(connection);
+        }
+        if (getLink().getSource() instanceof Stub) {
+            addStartLabel(connection);
+        }
+        return connection;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate() {
+        if (isActive())
+            ((EObject) getModel()).eAdapters().remove(adapter);
+        super.deactivate();
+        if (endLabel != null) {
             ((SplineConnection) getFigure()).remove(endLabel);
             endLabel = null;
         }
 
-        if (getLink().getSource() instanceof Stub) {
-            addStartLabel((SplineConnection) getFigure());
-        } else if (startLabel != null) {
+        if (startLabel != null) {
             ((SplineConnection) getFigure()).remove(startLabel);
             startLabel = null;
         }
 
-        
-        // hide in print mode.
-        if (startLabel != null) {
-            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
-        }
-
-        if (endLabel != null) {
-            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
-        }
-        super.refreshVisuals();
     }
 
     /*
@@ -199,61 +218,53 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         return super.getAdapter(adapter);
     }
 
-    private class NodeConnectionAdapter implements Adapter {
-        private Notifier target;
+    private NodeConnection getLink() {
+        return (NodeConnection) getModel();
+    }
 
-        public NodeConnectionAdapter(Notifier target) {
-            this.target = target;
+    /**
+     * 
+     * @return The middle point of the spline.
+     */
+    public Point getMiddlePoint() {
+        if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null)
+            return new Point(0, 0);
+        else
+            return ((SplineConnection) getFigure()).getPoints().getMidpoint();
+    }
+
+    public PathGraph getPathGraph() {
+        return diagram;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+     */
+    protected void refreshVisuals() {
+        if (getLink().getTarget() instanceof Stub) {
+            addEndLabel((SplineConnection) getFigure());
+        } else if (endLabel != null) {
+            ((SplineConnection) getFigure()).remove(endLabel);
+            endLabel = null;
         }
 
-        public void notifyChanged(Notification notification) {
-
-            int type = notification.getEventType();
-            int featureId = notification.getFeatureID(UcmPackage.class);
-            switch (type) {
-            case Notification.SET:
-                if (featureId == MapPackage.NODE_CONNECTION__CONDITION) {
-                    EditPartViewer viewer = getViewer();
-                    if (viewer != null) {
-                        Map registry = viewer.getEditPartRegistry();
-                        if (registry != null) {
-                            MapAndPathGraphEditPart part = (MapAndPathGraphEditPart) registry.get(getPathGraph().getMap());
-                            if (part != null) {
-
-                                part.notifyChanged(notification);
-                            }
-                        }
-                    }
-                }
-                break;
-            }
+        if (getLink().getSource() instanceof Stub) {
+            addStartLabel((SplineConnection) getFigure());
+        } else if (startLabel != null) {
+            ((SplineConnection) getFigure()).remove(startLabel);
+            startLabel = null;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-         */
-        public Notifier getTarget() {
-            return target;
+        // hide in print mode.
+        if (startLabel != null) {
+            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-         */
-        public void setTarget(Notifier newTarget) {
-            target = newTarget;
+        if (endLabel != null) {
+            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
-
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-         */
-        public boolean isAdapterForType(Object type) {
-            return type.equals(getModel().getClass());
-        }
+        super.refreshVisuals();
     }
 }

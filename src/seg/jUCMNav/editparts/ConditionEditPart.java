@@ -5,7 +5,6 @@ package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
@@ -14,7 +13,6 @@ import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
-import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -46,14 +44,7 @@ public class ConditionEditPart extends LabelEditPart {
         if (getUCMmodelElement() instanceof NodeConnection) {
             NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(getNodeConnection());
             if (nc != null) {
-                SplineConnection sp = (SplineConnection) nc.getFigure();
-                if (sp != null) {
-                    PointList list = sp.getPoints();
-                    if (list != null) {
-                        Point mid = list.getMidpoint();
-                        location = new Point(mid.x - ((Condition) getModel()).getDeltaX(), mid.y - ((Condition) getModel()).getDeltaY());
-                    }
-                }
+                location = new Point(nc.getMiddlePoint().x - ((Condition) getModel()).getDeltaX(), nc.getMiddlePoint().y - ((Condition) getModel()).getDeltaY());
             }
             return location;
         } else if (getUCMmodelElement() instanceof PathNode) {

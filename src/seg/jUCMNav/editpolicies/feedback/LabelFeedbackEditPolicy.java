@@ -22,7 +22,6 @@ import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.LabelFigure;
-import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -118,8 +117,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
                 NodeConnection nc = (NodeConnection) getReference();
 
                 try {
-                    SplineConnection spline = (SplineConnection) ((NodeConnectionEditPart) getHost().getViewer().getEditPartRegistry().get(nc)).getFigure();
-                    pt2 = spline.getPoints().getMidpoint();
+                    pt2 = ((NodeConnectionEditPart) getHost().getViewer().getEditPartRegistry().get(nc)).getMiddlePoint();
                 } catch (Exception ex) {
                     pt2 = pt;
                 }

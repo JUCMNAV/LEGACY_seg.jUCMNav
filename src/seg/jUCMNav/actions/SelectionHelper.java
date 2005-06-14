@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
-import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -195,8 +194,7 @@ public class SelectionHelper {
             endpoint = (EndPoint) model;
         else if (model instanceof NodeConnection) {
             nodeconnection = (NodeConnection) model;
-            SplineConnection conn = (SplineConnection) ((NodeConnectionEditPart) part).getFigure();
-            nodeconnectionmiddle = conn.getPoints().getMidpoint();
+            nodeconnectionmiddle = ((NodeConnectionEditPart) part).getMiddlePoint();
         } else if (model instanceof RespRef)
             respref = (RespRef) model;
         else if (model instanceof StartPoint)
