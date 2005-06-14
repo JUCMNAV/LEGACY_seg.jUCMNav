@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.util.Collections;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -24,6 +25,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentR
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
+import seg.jUCMNav.model.util.AutoLayoutCommandComparator;
 import seg.jUCMNav.model.util.URNElementFinder;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
@@ -312,7 +314,6 @@ public class AutoLayoutWizard extends Wizard {
                 String[] coords = subline.split(",");
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
-
             } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+\\s*->\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) {
                 //ex: PathNode50 -> PathNode34 [pos="e,436,488 436,524 436,516 436,507 436,498"];
 
@@ -366,6 +367,8 @@ public class AutoLayoutWizard extends Wizard {
 
             }
         }
+        // bug 304: Sort commands, putting component ref moves before pathnode moves. 
+        Collections.sort(cmd.getCommands(), new AutoLayoutCommandComparator());
         return cmd;
     }
 }
