@@ -144,6 +144,9 @@ public class UrnModelManager {
         getResource(path);
         Map options = new HashMap();
         options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
+        // latin 1
+        options.put(XMIResource.OPTION_ENCODING, "ISO-8859-1");
+                
         resource.save(options);
     }
 
