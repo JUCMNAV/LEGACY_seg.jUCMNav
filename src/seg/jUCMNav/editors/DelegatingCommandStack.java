@@ -33,7 +33,7 @@ import ucm.map.Map;
  * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will
  * not be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
  * 
- * All ugly URNspecStack related code added by jkealey.
+ * All ugly stkUrnSpec related code added by jkealey.
  * 
  * @author Gunnar Wagenknecht, jkealey
  */
@@ -44,7 +44,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
 
     // some of our commands add/delete map don't belong in any of the editor stacks.
     // this stack is only available if the last execute was a DeleteMapCommand or a CreateMapCommand. it is flushed after that.
-    private CommandStack URNspecStack;
+    private CommandStack stkUrnSpec;
     private Map lastAffectedMap;
     private boolean unsavedChanges = false;
 
@@ -52,8 +52,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      *  
      */
     public DelegatingCommandStack() {
-        URNspecStack = new CommandStack();
-        URNspecStack.addCommandStackListener(this);
+        stkUrnSpec = new CommandStack();
+        stkUrnSpec.addCommandStackListener(this);
     }
 
     /**
@@ -96,7 +96,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      */
     public boolean canRedo() {
 
-        if (URNspecStack.getRedoCommand() != null)
+        if (stkUrnSpec.getRedoCommand() != null)
             return true;
         else {
             if (null == currentCommandStack)
@@ -112,7 +112,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#canUndo()
      */
     public boolean canUndo() {
-        if (URNspecStack.getUndoCommand() != null)
+        if (stkUrnSpec.getUndoCommand() != null)
             return true;
         else {
 
@@ -142,10 +142,10 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
                 && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
             lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
-            URNspecStack.execute(command);
+            stkUrnSpec.execute(command);
         } else if (command instanceof CreateMapCommand) {
             lastAffectedMap = ((CreateMapCommand) command).getMap();
-            URNspecStack.execute(command);
+            stkUrnSpec.execute(command);
 
         } else if (null != currentCommandStack) {
             flushURNspecStack();
@@ -181,8 +181,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#getRedoCommand()
      */
     public Command getRedoCommand() {
-        if (URNspecStack.getRedoCommand() != null) {
-            return URNspecStack.getRedoCommand();
+        if (stkUrnSpec.getRedoCommand() != null) {
+            return stkUrnSpec.getRedoCommand();
         } else {
             if (null == currentCommandStack)
                 return UnexecutableCommand.INSTANCE;
@@ -197,8 +197,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#getUndoCommand()
      */
     public Command getUndoCommand() {
-        if (URNspecStack.getUndoCommand() != null) {
-            return URNspecStack.getUndoCommand();
+        if (stkUrnSpec.getUndoCommand() != null) {
+            return stkUrnSpec.getUndoCommand();
         } else {
 
             if (null == currentCommandStack)
@@ -226,7 +226,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#isDirty()
      */
     public boolean isDirty() {
-        if (URNspecStack.getUndoCommand() != null || unsavedChanges) {
+        if (stkUrnSpec.getUndoCommand() != null || unsavedChanges) {
             return true;
         } else {
 
@@ -243,7 +243,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#markSaveLocation()
      */
     public void markSaveLocation() {
-        URNspecStack.flush();
+        stkUrnSpec.flush();
         unsavedChanges = false;
 
         if (null != currentCommandStack)
@@ -256,9 +256,9 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#redo()
      */
     public void redo() {
-        if (URNspecStack.getRedoCommand() != null) {
+        if (stkUrnSpec.getRedoCommand() != null) {
 
-            Command command = URNspecStack.getRedoCommand();
+            Command command = stkUrnSpec.getRedoCommand();
             if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
                     && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
                 lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
@@ -266,7 +266,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 lastAffectedMap = ((CreateMapCommand) command).getMap();
             }
 
-            URNspecStack.redo();
+            stkUrnSpec.redo();
         } else {
             if (null != currentCommandStack)
                 currentCommandStack.redo();
@@ -289,8 +289,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#undo()
      */
     public void undo() {
-        if (URNspecStack.getUndoCommand() != null) {
-            Command command = URNspecStack.getUndoCommand();
+        if (stkUrnSpec.getUndoCommand() != null) {
+            Command command = stkUrnSpec.getUndoCommand();
             if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
                     && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
                 lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
@@ -298,7 +298,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 lastAffectedMap = ((CreateMapCommand) command).getMap();
             }
 
-            URNspecStack.undo();
+            stkUrnSpec.undo();
         } else {
 
             if (null != currentCommandStack)
@@ -329,15 +329,15 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     }
 
     public CommandStack getURNspecStack() {
-        return URNspecStack;
+        return stkUrnSpec;
     }
 
     public void flushURNspecStack() {
 
-        if (URNspecStack.getCommands().length > 0) {
-            if (URNspecStack.getUndoCommand() != null)
+        if (stkUrnSpec.getCommands().length > 0) {
+            if (stkUrnSpec.getUndoCommand() != null)
                 unsavedChanges = true;
-            URNspecStack.flush();
+            stkUrnSpec.flush();
         }
         lastAffectedMap = null;
 
