@@ -23,6 +23,8 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 
 /**
  * @author TremblaE
@@ -30,7 +32,6 @@ import ucm.map.Stub;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
-
 
     /**
      * @param model
@@ -83,7 +84,7 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
         PathNode node = (PathNode) getModel();
 
         if (super.getImage() == null) {
-            if (node instanceof StartPoint)
+            if (node instanceof StartPoint || node instanceof WaitingPlace)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof EmptyPoint)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
@@ -97,6 +98,8 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")).createImage()); //$NON-NLS-1$
             } else if (node instanceof Stub)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage()); //$NON-NLS-1$
+            else if (node instanceof Timer)
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")).createImage()); //$NON-NLS-1$
             else
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
         }

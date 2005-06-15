@@ -112,6 +112,7 @@ public class ComponentRefFigure extends RectangleFigure {
      */
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
+        PointList points = new PointList();
         switch (kind) {
         case ComponentKind.OBJECT:
             r.x += lineWidth / 2;
@@ -125,13 +126,46 @@ public class ComponentRefFigure extends RectangleFigure {
             r.y += lineWidth / 2;
             r.width -= lineWidth;
             r.height -= lineWidth;
-            PointList points = new PointList();
+
             points.addPoint(r.getTopRight());
             points.addPoint(r.getBottomRight().x - r.height / 10, r.getBottomRight().y);
             points.addPoint(r.getBottomLeft());
             points.addPoint(r.getTopLeft().x + r.height / 10, r.getTopLeft().y);
 
             graphics.drawPolygon(points);
+            break;
+        case ComponentKind.ACTOR:
+            //draw rectangle
+            int x = r.x + lineWidth / 2;
+            int y = r.y + lineWidth / 2;
+            int w = r.width - lineWidth;
+            int h = r.height - lineWidth;
+            graphics.drawRectangle(x, y, w, h);
+
+            // offset figure
+            x+=5;
+            y-=5;
+            
+            // paint stickman
+            graphics.setLineWidth(2);
+            points.addPoint(x + 10, y + 20);
+            points.addPoint(x + 10, y + 30);
+            points.addPoint(x + 5, y + 35);
+            graphics.drawPolyline(points);
+
+            points.removeAllPoints();
+            points.addPoint(x + 10, y + 30);
+            points.addPoint(x + 15, y + 35);
+            graphics.drawPolyline(points);
+
+            points.removeAllPoints();
+            points.addPoint(x + 5, y + 24);
+            points.addPoint(x + 15, y + 24);
+            graphics.drawPolyline(points);
+
+            // draw manly head.
+            graphics.drawOval(x + 7, y + 14, 6, 6);
+
             break;
         case ComponentKind.TEAM:
         case ComponentKind.OTHER:

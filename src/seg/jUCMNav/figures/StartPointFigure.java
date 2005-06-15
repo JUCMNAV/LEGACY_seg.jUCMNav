@@ -10,7 +10,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Created 2005-02-15
  * 
- * This figure represent a StartPoint
+ * This figure represent a StartPoint and Waiting Place!
  * 
  * @author Etienne Tremblay
  */

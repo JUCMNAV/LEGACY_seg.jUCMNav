@@ -7,18 +7,10 @@ package seg.jUCMNav.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
-import ucm.map.AndFork;
-import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
-import ucm.map.DirectionArrow;
-import ucm.map.EmptyPoint;
-import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
-import ucm.map.OrFork;
-import ucm.map.OrJoin;
-import ucm.map.RespRef;
-import ucm.map.StartPoint;
+import ucm.map.PathNode;
 import ucm.map.Stub;
 import urncore.Condition;
 import urncore.Label;
@@ -47,32 +39,16 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new MapAndPathGraphEditPart((Map)model);
 		else if(model instanceof NodeConnection)
 			return new NodeConnectionEditPart((NodeConnection)model, root.getPathGraph());
-		else if(model instanceof EmptyPoint)
-			return new PathNodeEditPart((EmptyPoint)model, root.getPathGraph());
-		else if(model instanceof StartPoint)
-			return new PathNodeEditPart((StartPoint)model, root.getPathGraph());
-		else if(model instanceof EndPoint)
-			return new PathNodeEditPart((EndPoint)model, root.getPathGraph());
-		else if(model instanceof DirectionArrow)
-			return new PathNodeEditPart((DirectionArrow)model, root.getPathGraph());
-		else if(model instanceof RespRef)
-			return new PathNodeEditPart((RespRef)model, root.getPathGraph());
 		else if(model instanceof Condition)
 			return new ConditionEditPart((Condition)model, root.getPathGraph());
 		else if(model instanceof Label)
 			return new LabelEditPart((Label)model);
 		else if(model instanceof ComponentRef) 
 		    return new ComponentRefEditPart((ComponentRef)model, root);
-		else if(model instanceof OrFork)
-		    return new PathNodeEditPart((OrFork)model, root.getPathGraph());
-		else if(model instanceof AndFork)
-		    return new PathNodeEditPart((AndFork)model, root.getPathGraph());
-		else if (model instanceof OrJoin)
-		    return new PathNodeEditPart((OrJoin)model, root.getPathGraph());
-		else if (model instanceof AndJoin)
-		    return new PathNodeEditPart((AndJoin)model, root.getPathGraph());
 		else if(model instanceof Stub)
 			return new StubEditPart((Stub)model, root.getPathGraph());
+		else if(model instanceof PathNode)
+			return new PathNodeEditPart((PathNode)model, root.getPathGraph());
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();"); //$NON-NLS-1$
 			return null;

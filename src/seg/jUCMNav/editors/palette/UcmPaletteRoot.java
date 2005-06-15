@@ -23,6 +23,8 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.RespRef;
 import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentKind;
 
@@ -102,214 +104,104 @@ public class UcmPaletteRoot extends PaletteRoot {
 
         ToolEntry entry;
 
-        entry = new PathToolEntry(Messages.getString("UcmPaletteRoot.pathTool"), Messages.getString("UcmPaletteRoot.pathTool"), getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool16.gif"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        entry = new PathToolEntry(
+                Messages.getString("UcmPaletteRoot.pathTool"), Messages.getString("UcmPaletteRoot.pathTool"), getURNspec(), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool16.gif"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/pathTool24.gif")); //$NON-NLS-1$
         controls.add(entry);
 
         PaletteDrawer componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.components")); //$NON-NLS-1$
 
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.team"), Messages.getString("UcmPaletteRoot.createTeam"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                ComponentKind.TEAM), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.team"), Messages.getString("UcmPaletteRoot.createTeam"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
+                        ComponentKind.TEAM), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.object"), Messages.getString("UcmPaletteRoot.createObject"), null, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                ComponentKind.OBJECT), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                JUCMNavPlugin.class, "icons/Object24.gif")); //$NON-NLS-1$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.object"), Messages.getString("UcmPaletteRoot.createObject"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
+                        ComponentKind.OBJECT), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Object24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.process"), Messages.getString("UcmPaletteRoot.createProcess"), null, new ModelCreationFactory(getURNspec(), ComponentRef.class,ComponentKind.PROCESS), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
-                JUCMNavPlugin.class, "icons/Process16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.process"), Messages.getString("UcmPaletteRoot.createProcess"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, ComponentKind.PROCESS), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
+                                JUCMNavPlugin.class, "icons/Process16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
-//        entry = new CombinedTemplateCreationEntry("Pool", "Create a pool", null, new ModelCreationFactory(null), ImageDescriptor.createFromFile(
-//                JUCMNavPlugin.class, "icons/Pool16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Pool24.gif"));
-//        componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.agent"), Messages.getString("UcmPaletteRoot.createAgent"), null, new ModelCreationFactory(getURNspec(), ComponentRef.class,ComponentKind.AGENT), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
-                JUCMNavPlugin.class, "icons/Agent16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.agent"), Messages.getString("UcmPaletteRoot.createAgent"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, ComponentKind.AGENT), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
+                                JUCMNavPlugin.class, "icons/Agent16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.other"), Messages.getString("UcmPaletteRoot.createOther"), ComponentRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
-                ComponentRef.class, ComponentKind.OTHER), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor //$NON-NLS-1$
-                .createFromFile(JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
+        entry = new CombinedTemplateCreationEntry("Actor", "Create an actor", ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class,
+                ComponentKind.ACTOR), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif"), ImageDescriptor.createFromFile(
+                JUCMNavPlugin.class, "icons/Actor24.gif"));
+        componentsDrawer.add(entry);
+        
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.other"), Messages.getString("UcmPaletteRoot.createOther"), ComponentRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+                        ComponentRef.class, ComponentKind.OTHER), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor //$NON-NLS-1$
+                        .createFromFile(JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         add(componentsDrawer);
 
         componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.path")); //$NON-NLS-1$
 
-        //        entry = new CombinedTemplateCreationEntry("StartPoint", "Creates a path", StartPoint.class, new ModelCreationFactory(getURNspec(), StartPoint.class),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        //                        "icons/Start24.gif"));
-        //        componentsDrawer.add(entry);
-        //        entry.setId("StartPoint");
-        //
-        //        entry = new CombinedTemplateCreationEntry("Node", "Creates an empty node", EmptyPoint.class, new ModelCreationFactory(getURNspec(),
-        // EmptyPoint.class),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        //                        "icons/Node24.gif"));
-        //        entry.setId("EmptyPoint");
-        //        componentsDrawer.add(entry);
-        //
-        //        endPointTool = new CombinedTemplateCreationEntry("End Point", "Creates an end point", EndPoint.class, new ModelCreationFactory(getURNspec(),
-        //                EndPoint.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        //                "icons/End24.gif"));
-        //        endPointTool.setId("EndPoint");
-        //        componentsDrawer.add(endPointTool);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.responsibility"), Messages.getString("UcmPaletteRoot.createResponsibility"), RespRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
-                RespRef.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
-                "icons/Resp24.gif")); //$NON-NLS-1$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.responsibility"), Messages.getString("UcmPaletteRoot.createResponsibility"), RespRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+                        RespRef.class),
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/Resp24.gif")); //$NON-NLS-1$
         entry.setId(Messages.getString("UcmPaletteRoot.responsibility")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.dirrectionArrow"), Messages.getString("UcmPaletteRoot.createArrow"), DirectionArrow.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
-                DirectionArrow.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                JUCMNavPlugin.class, "icons/DirectionArrow24.gif")); //$NON-NLS-1$
-        entry.setId(Messages.getString("UcmPaletteRoot.dirrectionArrowId")); //$NON-NLS-1$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                        .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
 
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.orFork"), Messages.getString("UcmPaletteRoot.createOrFork"), OrFork.class, new ModelCreationFactory(getURNspec(), OrFork.class), //$NON-NLS-1$ //$NON-NLS-2$
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
-                        "icons/OrFork24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.andFork"), Messages.getString("UcmPaletteRoot.createAndFork"), AndFork.class, new ModelCreationFactory(getURNspec(), AndFork.class), //$NON-NLS-1$ //$NON-NLS-2$
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
-                        "icons/AndFork24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.orJoin"), Messages.getString("UcmPaletteRoot.createOrJoin"), OrJoin.class, new ModelCreationFactory(getURNspec(), OrJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
-                        "icons/OrJoin24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.andJoin"), Messages.getString("UcmPaletteRoot.createAndJoin"), AndJoin.class, new ModelCreationFactory(getURNspec(), AndJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
-                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
-                        "icons/AndJoin24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
-                .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
-        componentsDrawer.add(entry);
-
-        entry = new CombinedTemplateCreationEntry(Messages.getString("UcmPaletteRoot.dynamicStub"), Messages.getString("UcmPaletteRoot.createDynamicStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.dynamicStub"), Messages.getString("UcmPaletteRoot.createDynamicStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/DynStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Loop",
-        //                "Creates a loop",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Loop16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Loop24.gif"));
-        //        componentsDrawer.add(entry);
-        //		
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Goal Tag",
-        //                "Creates a goal tag",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/GoalTag16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/GoalTag24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Failure Point",
-        //                "Creates a failure point",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/FailurePoint16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/FailurePoint24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //		add(componentsDrawer);
-        //        
-        //        componentsDrawer = new PaletteDrawer("Fork");
-        //        
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "And Fork",
-        //                "Creates an and fork",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/AndFork16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/AndFork24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Or Join",
-        //                "Creates an or join",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/OrJoin16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/OrJoin24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "And Join",
-        //                "Creates a and join",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/AndJoin16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/AndJoin24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        add(componentsDrawer);
-        //        
-        //        componentsDrawer = new PaletteDrawer("Timing");
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Timer",
-        //                "Creates a timer",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Timer16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Timer24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Wait",
-        //                "Creates a wait",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Wait16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/Wait24.gif"));
-        //        componentsDrawer.add(entry);
-        //        
-        //        entry =
-        //            new CombinedTemplateCreationEntry(
-        //                "Timestamp",
-        //                "Creates a timestamp",
-        //                null,
-        //                new ModelCreationFactory(null),
-        //                ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/TimestampPoint16.gif"),
-        //				ImageDescriptor.createFromFile(JUCMNavPlugin.class,
-        // "icons/TimestampPoint24.gif"));
-        //        componentsDrawer.add(entry);
+        entry = new CombinedTemplateCreationEntry("Timer", "Creates a timer", Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor
+                .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer24.gif"));
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry("Waiting Place", "Creates a waiting place", WaitingPlace.class, new ModelCreationFactory(getURNspec(),
+                WaitingPlace.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Wait16.gif"), ImageDescriptor.createFromFile(
+                JUCMNavPlugin.class, "icons/Wait24.gif"));
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.dirrectionArrow"), Messages.getString("UcmPaletteRoot.createArrow"), DirectionArrow.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+                        DirectionArrow.class),
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/DirectionArrow24.gif")); //$NON-NLS-1$
+        entry.setId(Messages.getString("UcmPaletteRoot.dirrectionArrowId")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.orFork"), Messages.getString("UcmPaletteRoot.createOrFork"), OrFork.class, new ModelCreationFactory(getURNspec(), OrFork.class), //$NON-NLS-1$ //$NON-NLS-2$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/OrFork24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.andFork"), Messages.getString("UcmPaletteRoot.createAndFork"), AndFork.class, new ModelCreationFactory(getURNspec(), AndFork.class), //$NON-NLS-1$ //$NON-NLS-2$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/AndFork24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.orJoin"), Messages.getString("UcmPaletteRoot.createOrJoin"), OrJoin.class, new ModelCreationFactory(getURNspec(), OrJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/OrJoin24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+
+        entry = new CombinedTemplateCreationEntry(
+                Messages.getString("UcmPaletteRoot.andJoin"), Messages.getString("UcmPaletteRoot.createAndJoin"), AndJoin.class, new ModelCreationFactory(getURNspec(), AndJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/AndJoin24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
 
         add(componentsDrawer);
     }

@@ -37,6 +37,7 @@ import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
+import seg.jUCMNav.figures.TimerFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -51,6 +52,8 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 
 /**
  * @author Etienne Tremblay
@@ -88,7 +91,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new ResponsibilityFigure();
         else if (getModel() instanceof EndPoint)
             figure = new EndPointFigure();
-        else if (getModel() instanceof StartPoint)
+        else if (getModel() instanceof Timer)
+            figure = new TimerFigure();
+        else if (getModel() instanceof StartPoint || getModel() instanceof WaitingPlace)
             figure = new StartPointFigure();
         else if (getModel() instanceof OrFork)
             figure = new OrForkFigure();
