@@ -179,7 +179,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                 //sp.layout();
                 if (sp != null) {
                     PointList list = sp.getPoints();
-                    if (list != null) {
+                    if (list != null && list.size()>0) {
 
                         Ray r;
 
@@ -200,9 +200,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             if (nc != null) {
 
                 SplineConnection sp = (SplineConnection) nc.getFigure();
+                //sp.layout();
                 if (sp != null) {
                     PointList list = sp.getPoints();
-                    if (list != null) {
+                    if (list != null && sp.getPoints().size()>0) {
 
                         Ray r;
 

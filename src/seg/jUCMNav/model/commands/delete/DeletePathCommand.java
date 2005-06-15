@@ -89,7 +89,7 @@ public class DeletePathCommand extends CompoundCommand {
                 commands.add(new DeleteMultiNodeCommand(node, new Vector(), v, this.editpartregistry));
                 break;
             }
-        } while (node != null && node.getPred().size() == 1);
+        } while (node != null && node.getPred().size() == 1 && !(node instanceof StartPoint));
 
         while (commands.size() != 0)
             add((Command) commands.pop());
@@ -127,7 +127,7 @@ public class DeletePathCommand extends CompoundCommand {
                 commands.add(new DeleteMultiNodeCommand(node, v, new Vector(), this.editpartregistry));
                 break;
             }
-        } while (node != null && node.getSucc().size() == 1);
+        } while (node != null && node.getSucc().size() == 1 && !(node instanceof EndPoint));
 
         while (commands.size() != 0)
             add((Command) commands.pop());

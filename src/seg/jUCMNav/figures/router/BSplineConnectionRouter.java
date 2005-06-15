@@ -170,8 +170,14 @@ public class BSplineConnectionRouter extends AbstractRouter {
                     nodes.add(startNode);
                     if (!(startNode instanceof EndPoint || forks.contains(startNode)))
                         link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the next link
-                    else
+                    else {
+                        if (forks.contains(startNode) && startNode.getSucc().size()>0) {
+                            link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the next link
+                            nodes.add(link.getTarget());
+                            conSplines.put(link, newSpline);
+                        }
                         link = null;
+                    }
                 } while (link != null); // While we don't encounter an EndPoint or a fork,
                 // continue to add to the node list for this spline.
                 newSpline.setPoints(nodes);
@@ -206,8 +212,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
         BSpline bSpline = (BSpline) conSplines.get(link);
 
         // jkealey: sometimes crashed here. adding more defensive code. I think it is due to refreshing too early.
-        if (bSpline == null)
-            return new PointList();
+        if (bSpline == null) {
+            PointList pl = new PointList();
+            return pl;
+        }
         PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
         return points;
     }
@@ -241,6 +249,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
     public void route(Connection conn) {
         boolean simpleMove = false;
         SplineConnection con = (SplineConnection) conn;
+        if (con.getPoints().size() == 0) {
+            initialized = false;
+            generateAll = true;
+        }
 
         // If the router doesn't contain the connection
         if (!conns.contains(new ConnectionID(con, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget()))) {
@@ -253,12 +265,11 @@ public class BSplineConnectionRouter extends AbstractRouter {
             // just moved a node.
             initialized = true;
         }
-
         // When the diagram is completly initialized and that we have to
         // generate everything
         if (initialized && generateAll) {
             // Then generate all the splines and draw them
-            generateAll = false;
+            generateAll = true;
             generateSplines();
             drawSplines();
         } else if (initialized && !generateAll && simpleMove) {
@@ -348,8 +359,18 @@ public class BSplineConnectionRouter extends AbstractRouter {
      * Draw all the splines (all the connections of the graph).
      */
     public void drawSplines() {
-        for (Iterator i = conns.iterator(); i.hasNext();)
-            drawConnection((SplineConnection) ((ConnectionID) i.next()).getConnection());
+        ArrayList toRemove = new ArrayList();
+        for (Iterator i = conns.iterator(); i.hasNext();) {
+            SplineConnection link = (SplineConnection) ((ConnectionID) i.next()).getConnection();
+            if (link.getLink().getSource() == null || link.getLink().getTarget() == null)
+                toRemove.add(link);
+            else
+                drawConnection(link);
+        }
+
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            remove((Connection) iter.next());//conns.remove(iter.next());
+        }
     }
 
     /**
@@ -377,7 +398,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
         conSplines.remove(con.getLink());
 
         generateAll = true;
-        //		initialized = false;
+        //initialized = false;
 
         super.remove(connection);
     }

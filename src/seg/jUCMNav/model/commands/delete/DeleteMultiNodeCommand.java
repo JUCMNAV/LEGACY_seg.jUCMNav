@@ -116,8 +116,8 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
      * @param toDelete
      *            The PathNode to be deleted.
      * @param editpartregistry
-     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between
-     *            NodeConnections and NodeConnectionEditParts.
+     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
+     *            NodeConnectionEditParts.
      *  
      */
     public DeleteMultiNodeCommand(PathNode toDelete, Map editpartregistry) {
@@ -134,15 +134,13 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
      * @param toDelete
      *            The PathNode to be deleted.
      * @param ncIn
-     *            The node connections that enter this PathNode. Pass an empty list if none should be disconnected or null if all should be
-     *            disconnected.
+     *            The node connections that enter this PathNode. Pass an empty list if none should be disconnected or null if all should be disconnected.
      * @param ncOut
-     *            The node connections that exist this PathNode. Pass an empty list if none should be disconnected or null if all should be
-     *            disconnected.
+     *            The node connections that exist this PathNode. Pass an empty list if none should be disconnected or null if all should be disconnected.
      * 
      * @param editpartregistry
-     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between
-     *            NodeConnections and NodeConnectionEditParts.
+     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
+     *            NodeConnectionEditParts.
      *  
      */
     public DeleteMultiNodeCommand(PathNode toDelete, List ncIn, List ncOut, Map editpartregistry) {
@@ -200,8 +198,7 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         if (!shouldDeleteNode) {
             // if one side or the other is left without any connection.
             if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
-                if (!(toDelete instanceof Stub)
-                        || ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0))) {
+                if (!(toDelete instanceof Stub) || ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0))) {
                     ncOut = new Vector();
                     ncIn = new Vector();
                     ncOut.addAll(toDelete.getSucc());
@@ -285,9 +282,11 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                 // top
                 // left corner.
                 spline.getConnectionRouter().route(spline);
-                midPoint = spline.getPoints().getMidpoint();
-                sp.setX(midPoint.x);
-                sp.setY(midPoint.y);
+                if (spline.getPoints().size() > 0) {
+                    midPoint = spline.getPoints().getMidpoint();
+                    sp.setX(midPoint.x);
+                    sp.setY(midPoint.y);
+                }
             }
             newStart.add(sp);
         }
@@ -307,9 +306,21 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                 // top
                 // left corner.
                 spline.getConnectionRouter().route(spline);
-                midPoint = spline.getPoints().getMidpoint();
-                ep.setX(midPoint.x);
-                ep.setY(midPoint.y);
+                if (spline.getPoints().size() > 0) {
+                    midPoint = spline.getPoints().getMidpoint();
+                    ep.setX(midPoint.x);
+                    ep.setY(midPoint.y);
+                }
+                else {
+                    if (nc.getSource()!=null && nc.getSource()!=toDelete)  {
+                        ep.setX(nc.getSource().getX());
+                        ep.setY(nc.getSource().getY());
+                    }
+                    if (nc.getTarget()!=null && nc.getTarget()!=toDelete)  {
+                        ep.setX(nc.getTarget().getX());
+                        ep.setY(nc.getTarget().getY());
+                    }                    
+                }
             }
             newEnd.add(ep);
         }
@@ -400,31 +411,25 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             assert pg.getPathNodes().contains(newStart.get(i)) : "post new start not in graph " + i; //$NON-NLS-1$
         }
 
-        if (toDelete instanceof Stub) {
-            Stub stub = (Stub) toDelete;
-
-            assert stub.getBindings().size() == plugins.size() : "Pre Stub PluginBindings count is different."; //$NON-NLS-1$
-            for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-                PluginBinding plugin = (PluginBinding) i.next();
-
-                assert plugin.getPlugin() == maps.get(plugin) : "Pre the map associated with the PluginBinding is not the same as before."; //$NON-NLS-1$
-
-                assert plugin.getIn().size() == ((ArrayList) inBindings.get(plugin)).size() : "Pre number of InBinding is not the same for this PluginBinding"; //$NON-NLS-1$
-                assert plugin.getOut().size() == ((ArrayList) outBindings.get(plugin)).size() : "Pre number of OutBinding is not the same for this PluginBinding"; //$NON-NLS-1$
-
-                for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
-                    InBinding in = (InBinding) j.next();
-                    assert in.getStartPoint() == starts.get(in) : "Pre the StartPoint for this InBinding is not the same as before."; //$NON-NLS-1$
-                    assert in.getStubEntry() == entry.get(in) : "Pre the entry for this InBinding is not the same as before."; //$NON-NLS-1$
-                }
-
-                for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
-                    OutBinding out = (OutBinding) j.next();
-                    assert out.getEndPoint() == starts.get(out) : "Pre the EndPoint for this OutBinding is not the same as before."; //$NON-NLS-1$
-                    assert out.getStubExit() == entry.get(out) : "Pre the exit for this OutBinding is not the same as before."; //$NON-NLS-1$
-                }
-            }
-        }
+        /*
+         * if (toDelete instanceof Stub) { Stub stub = (Stub) toDelete;
+         * 
+         * assert stub.getBindings().size() == 0 : "Post Stub PluginBindings count is not 0."; //$NON-NLS-1$ for (Iterator i = plugins.iterator(); i.hasNext();) {
+         * PluginBinding plugin = (PluginBinding) i.next();
+         * 
+         * assert plugin.getPlugin() == null : "Post the map associated with the PluginBinding is not null."; //$NON-NLS-1$
+         * 
+         * assert plugin.getIn().size() == 0 : "Post number of InBinding is not 0."; //$NON-NLS-1$ assert plugin.getOut().size() == 0 : "Post number of
+         * OutBinding is not 0."; //$NON-NLS-1$
+         * 
+         * for (Iterator j = plugin.getIn().iterator(); j.hasNext();) { InBinding in = (InBinding) j.next(); assert in.getStartPoint() == null : "Post the
+         * StartPoint for this InBinding is not null."; //$NON-NLS-1$ assert in.getStubEntry() == null : "Post the entry for this InBinding is not null.";
+         * //$NON-NLS-1$ }
+         * 
+         * for (Iterator j = plugin.getOut().iterator(); j.hasNext();) { OutBinding out = (OutBinding) j.next(); assert out.getEndPoint() == null : "Post the
+         * EndPoint for this OutBinding is not null."; //$NON-NLS-1$ assert out.getStubExit() == null : "Post the exit for this OutBinding is not null.";
+         * //$NON-NLS-1$ } } }
+         */
     }
 
     /*
@@ -445,32 +450,27 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             assert toDelete.getSucc().contains(ncOut.get(i)) : "pre succ nc not in succ " + i; //$NON-NLS-1$
             assert !pg.getPathNodes().contains(newStart.get(i)) : "pre new start not in graph " + i; //$NON-NLS-1$
         }
+        /*
+         * if (toDelete instanceof Stub) { Stub stub = (Stub) toDelete;
+         * 
+         * assert stub.getBindings().size() == plugins.size() : "Pre Stub PluginBindings count is different."; //$NON-NLS-1$ for (Iterator i =
+         * stub.getBindings().iterator(); i.hasNext();) { PluginBinding plugin = (PluginBinding) i.next();
+         * 
+         * assert plugin.getPlugin() == maps.get(plugin) : "Pre the map associated with the PluginBinding is not the same as before."; //$NON-NLS-1$
+         * 
+         * assert plugin.getIn().size() == ((ArrayList) inBindings.get(plugin)).size() : "Pre number of InBinding is not the same for this PluginBinding";
+         * //$NON-NLS-1$ assert plugin.getOut().size() == ((ArrayList) outBindings.get(plugin)).size() : "Pre number of OutBinding is not the same for this
+         * PluginBinding"; //$NON-NLS-1$
+         * 
+         * for (Iterator j = plugin.getIn().iterator(); j.hasNext();) { InBinding in = (InBinding) j.next(); assert in.getStartPoint() == starts.get(in) : "Pre
+         * the StartPoint for this InBinding is not the same as before."; //$NON-NLS-1$ assert in.getStubEntry() == entry.get(in) : "Pre the entry for this
+         * InBinding is not the same as before."; //$NON-NLS-1$ }
+         * 
+         * for (Iterator j = plugin.getOut().iterator(); j.hasNext();) { OutBinding out = (OutBinding) j.next(); assert out.getEndPoint() == starts.get(out) :
+         * "Pre the EndPoint for this OutBinding is not the same as before."; //$NON-NLS-1$ assert out.getStubExit() == entry.get(out) : "Pre the exit for this
+         * OutBinding is not the same as before."; //$NON-NLS-1$ } } }
+         */
 
-        if (toDelete instanceof Stub) {
-            Stub stub = (Stub) toDelete;
-
-            assert stub.getBindings().size() == 0 : "Post Stub PluginBindings count is not 0."; //$NON-NLS-1$
-            for (Iterator i = plugins.iterator(); i.hasNext();) {
-                PluginBinding plugin = (PluginBinding) i.next();
-
-                assert plugin.getPlugin() == null : "Post the map associated with the PluginBinding is not null."; //$NON-NLS-1$
-
-                assert plugin.getIn().size() == 0 : "Post number of InBinding is not 0."; //$NON-NLS-1$
-                assert plugin.getOut().size() == 0 : "Post number of OutBinding is not 0."; //$NON-NLS-1$
-
-                for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
-                    InBinding in = (InBinding) j.next();
-                    assert in.getStartPoint() == null : "Post the StartPoint for this InBinding is not null."; //$NON-NLS-1$
-                    assert in.getStubEntry() == null : "Post the entry for this InBinding is not null."; //$NON-NLS-1$
-                }
-
-                for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
-                    OutBinding out = (OutBinding) j.next();
-                    assert out.getEndPoint() == null : "Post the EndPoint for this OutBinding is not null."; //$NON-NLS-1$
-                    assert out.getStubExit() == null : "Post the exit for this OutBinding is not null."; //$NON-NLS-1$
-                }
-            }
-        }
     }
 
     /*
