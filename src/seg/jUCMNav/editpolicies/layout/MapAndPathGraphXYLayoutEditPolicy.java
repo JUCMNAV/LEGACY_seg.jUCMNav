@@ -188,11 +188,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
             } else if (label instanceof Condition || label instanceof NodeLabel) {
                 // get middle of pathnode
                 PathNode node = null;
-                Condition condition = (Condition) label;
-                if (condition.getStartPoint() != null) {
-                    node = condition.getStartPoint();
-                } else if (condition.getEndPoint() != null) {
-                    node = condition.getEndPoint();
+                if (label instanceof Condition) {
+                    Condition condition = (Condition) label;
+                    if (condition.getStartPoint() != null) {
+                        node = condition.getStartPoint();
+                    } else if (condition.getEndPoint() != null) {
+                        node = condition.getEndPoint();
+                    }
                 } else
                     node = (PathNode) (((LabelEditPart) child).getUCMmodelElement());
 
@@ -200,7 +202,6 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
                 y = node.getY() - ((Rectangle) constraint).y - (dim.height + height / 2);
 
-                return null;
             } else {
                 // unknown label
                 x = 0;
