@@ -115,7 +115,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
             if (node instanceof StartPoint)
                 starts.add(node);
             else if (node.getPred().size() > 1 || node.getSucc().size() > 1 || node instanceof Stub)
-            	forks.add(node);
+                forks.add(node);
             else if (node instanceof EndPoint)
                 ends.add(node);
         }
@@ -148,7 +148,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
                 conSplines.put(link, newSpline);
                 startNode = link.getTarget();
                 // bug 244
-                if (startNode==null || startNode.getSucc() == null || startNode.getSucc().size() == 0)
+                if (startNode == null || startNode.getSucc() == null || startNode.getSucc().size() == 0)
                     return;
                 link = (NodeConnection) startNode.getSucc().get(0);
                 nodes.add(startNode);
@@ -173,7 +173,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
                     else
                         link = null;
                 } while (link != null); // While we don't encounter an EndPoint or a fork,
-                						// continue to add to the node list for this spline.
+                // continue to add to the node list for this spline.
                 newSpline.setPoints(nodes);
             }
         }
@@ -190,8 +190,6 @@ public class BSplineConnectionRouter extends AbstractRouter {
         PathNode start = spline.getStartPoint();
         generateSpline(start);
 
-
-
     }
 
     /**
@@ -206,9 +204,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
         NodeConnection link = con.getLink();
 
         BSpline bSpline = (BSpline) conSplines.get(link);
- 
-        // jkealey: sometimes crashed here. adding more defensive code. I think it is due to refreshing too early.   
-        if (bSpline==null) return new PointList();
+
+        // jkealey: sometimes crashed here. adding more defensive code. I think it is due to refreshing too early.
+        if (bSpline == null)
+            return new PointList();
         PointList points = bSpline.getPointsBetween(link.getSource(), link.getTarget());
         return points;
     }
@@ -224,9 +223,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 
         // We have to add it to the connection list
         if (conn != null)
-            conns.add(new Object[] { conn, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget() });
+            conns.add(new ConnectionID(con, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget()));
 
-        
         // The NodeConnection is the key, the SplineConnection the value
         connections.put(con.getLink(), con);
 
@@ -242,9 +240,10 @@ public class BSplineConnectionRouter extends AbstractRouter {
      */
     public void route(Connection conn) {
         boolean simpleMove = false;
+        SplineConnection con = (SplineConnection) conn;
 
         // If the router doesn't contain the connection
-        if (!conns.contains(new Object[] { conn, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget() })) {
+        if (!conns.contains(new ConnectionID(con, ((SplineConnection) conn).getLink().getSource(), ((SplineConnection) conn).getLink().getTarget()))) {
             // We add it to the list and invalidate all the connections
             insertConnection(conn);
             if (allLoaded())
@@ -291,27 +290,25 @@ public class BSplineConnectionRouter extends AbstractRouter {
         // Set the points for the given connection
         conn.setPoints(points);
         // The connection now follow the spline.
-        
+
         //refresh conditions.
-        if (link.getLink().getCondition() != null)
-        {
-        	ConditionEditPart edit = (ConditionEditPart) editpartregistry.get(link.getLink().getCondition());
+        if (link.getLink().getCondition() != null) {
+            ConditionEditPart edit = (ConditionEditPart) editpartregistry.get(link.getLink().getCondition());
             if (edit != null) {
                 edit.refreshVisuals();
             }
-            
+
         }
 
         // refresh outgoing andjoin only.
-        if (link.getLink().getSource() instanceof AndJoin)
-        {
+        if (link.getLink().getSource() instanceof AndJoin) {
             PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getSource());
             if (edit != null) {
                 edit.refreshVisuals();
             }
-            
+
         }
-        
+
         // rest are refreshed ingoing.
         PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getTarget());
         if (edit != null) {
@@ -328,12 +325,12 @@ public class BSplineConnectionRouter extends AbstractRouter {
     public void drawSpline(BSpline spline) {
         ArrayList nodes = spline.getPoints();
         SplineConnection con;
-
         for (int j = 0; j <= nodes.size() - 2; j++) {
             // Find the link between nodeA and nodeB
             PathNode nodeA = (PathNode) nodes.get(j);
             PathNode nodeB = (PathNode) nodes.get(j + 1);
             for (int k = 0; k < nodeA.getSucc().size(); k++) {
+
                 // Examine link k in outbound links from nodeA and draw it if it
                 // goes to nodeB
                 NodeConnection link = (NodeConnection) nodeA.getSucc().get(k);
@@ -342,6 +339,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
                     if (con != null)
                         drawConnection(con);
                 }
+
             }
         }
     }
@@ -351,7 +349,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
      */
     public void drawSplines() {
         for (Iterator i = conns.iterator(); i.hasNext();)
-            drawConnection((SplineConnection) ((Object[])i.next())[0]);
+            drawConnection((SplineConnection) ((ConnectionID) i.next()).getConnection());
     }
 
     /**
@@ -374,7 +372,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
     public void remove(Connection connection) {
         SplineConnection con = (SplineConnection) connection;
         // Remove from the connection list and the hashmap
-        conns.remove(new Object[] { connection, ((SplineConnection) connection).getLink().getSource(), ((SplineConnection) connection).getLink().getTarget() });
+        conns.remove(new ConnectionID(con, ((SplineConnection) connection).getLink().getSource(), ((SplineConnection) connection).getLink().getTarget()));
         connections.remove(con.getLink());
         conSplines.remove(con.getLink());
 
