@@ -79,16 +79,16 @@ public class UCMElementPropertySource extends EObjectPropertySource {
     private void enumerationDescriptor(Collection descriptors, PropertyID propertyid) {
         try {
             EClassifier type = getFeatureType(propertyid.getFeature());
-            Class enum = type.getInstanceClass();
+            Class enumer = type.getInstanceClass();
             List VALUES;
 
-            VALUES = (List) enum.getField("VALUES").get(null); //$NON-NLS-1$
+            VALUES = (List) enumer.getField("VALUES").get(null); //$NON-NLS-1$
 
             String[] values = new String[VALUES.size()];
             for (int i = 0; i < VALUES.size(); i++)
                 values[i] = ((AbstractEnumerator) (VALUES.get(i))).getName();
             
-            String name = enum.getName().substring(enum.getName().lastIndexOf('.')+1);
+            String name = enumer.getName().substring(enumer.getName().lastIndexOf('.')+1);
             
             descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
             
@@ -192,9 +192,9 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             setReferencedObject(propertyid, feature, result);
         } else if (getFeatureType(feature).getInstanceClass().getSuperclass() == AbstractEnumerator.class) {
             // if this is an EMF enumeration
-            Class enum = getFeatureType(feature).getInstanceClass();
+            Class enumer = getFeatureType(feature).getInstanceClass();
             try {
-                result = enum.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } ); //$NON-NLS-1$
+                result = enumer.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } ); //$NON-NLS-1$
             } catch (Exception e) {
                 e.printStackTrace();
             }
