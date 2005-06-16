@@ -129,7 +129,8 @@
 		           destdir="docs/api"
 		           author="true"
 		           version="true"
-			   use="true"
+				   use="true"
+					breakiterator="yes"
 			   additionalparam="-quiet -source 1.4"
 		           windowtitle="jUCMNav">
 			   <tag name="todo" scope="all" description="To do:" />
