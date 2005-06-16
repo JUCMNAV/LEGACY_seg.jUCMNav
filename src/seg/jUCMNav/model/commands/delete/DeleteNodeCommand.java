@@ -280,7 +280,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @param PathPathNode
+     * @param node
      *            The PathPathNode to set.
      */
     public void setPathNode(PathNode node) {

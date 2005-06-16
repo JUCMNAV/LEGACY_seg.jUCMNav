@@ -110,7 +110,7 @@ public class ModelCreationFactory implements CreationFactory {
      * 
      * @param targetClass
      *            the class to obtain a new instance of
-     * @return
+     * @return the class to obtain a new instance of
      */
     public static Object getNewObject(URNspec urn, Class targetClass) {
         return getNewObject(urn, targetClass, 0);
@@ -120,7 +120,7 @@ public class ModelCreationFactory implements CreationFactory {
      * Returns a new model element preset with its default values. Note that no exception will be thrown for unknown classes but there will be a message printed
      * on the standard output to facilitate debugging for new developers.
      * 
-     * @param URNspec
+     * @param urn
      *            The URNspec containing the ID seed. Use null if the targetClass does not have an id/name.
      * 
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
@@ -269,9 +269,7 @@ public class ModelCreationFactory implements CreationFactory {
     }
 
     /**
-     * @param targetClass
-     * @param factory
-     * @return
+     * @return new URN spec
      */
     public static URNspec getNewURNspec() {
         MapFactory factory = MapFactory.eINSTANCE;

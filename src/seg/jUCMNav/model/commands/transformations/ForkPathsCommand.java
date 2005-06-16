@@ -47,7 +47,7 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
      * 
      * @param emPoint
      *            EmptyPoint on target path to fork.
-     * @param start
+     * @param startPoint
      *            StartPoint on source path to join with the other path (via a fork).
      * @param newFork
      *            OrFork or AndFork to split paths.

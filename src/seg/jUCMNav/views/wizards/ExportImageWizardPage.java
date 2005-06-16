@@ -180,7 +180,7 @@ public class ExportImageWizardPage extends WizardPage {
     /**
      * Updates passed Vector and preference store with the selection properties
      * 
-     * @return
+     * @return success
      */
     public boolean finish() {
         File dir = new File(txtExportPath.getText());

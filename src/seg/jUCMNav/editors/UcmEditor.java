@@ -302,7 +302,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /**
      * Returns this editor's container.
      * 
-     * @return
+     * @return parent multi-page editor
      */
     public UCMNavMultiPageEditor getParent() {
         return parent;

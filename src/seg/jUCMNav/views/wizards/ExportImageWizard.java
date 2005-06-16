@@ -63,7 +63,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
      * Removes illegal characters from filenames. Not sure if the complete list is here.
      * 
      * @param name
-     * @return
+     * @return cleaned up filename
      */
     public static String cleanFileName(String name) {
         name = name.replace('\\', '_');
@@ -187,7 +187,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
      * To be used to save to disk.
      * 
      * @param map
-     * @return
+     * @return map name
      */
     public String getMapName(Map map) {
         UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(map);

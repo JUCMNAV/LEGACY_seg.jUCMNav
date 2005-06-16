@@ -29,9 +29,8 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
     private URNspec urnSpec;
 
     /**
-     * @param stub
      * @param plugin
-     * @param start
+     * @param end
      * @param entry
      */
     public AddOutBindingCommand(PluginBinding plugin, EndPoint end, NodeConnection entry) {

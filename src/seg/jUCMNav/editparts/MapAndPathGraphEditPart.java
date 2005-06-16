@@ -518,7 +518,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
     /**
      * (non-Javadoc)
      * 
-     * @see seg.jUCMNav.editparts.ModelElementlEditPart#refreshVisuals()
+     * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {

@@ -200,7 +200,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	/**
 	 * Returns the action registry manager. We delegate action registry management to this class.
 	 * 
-	 * @return
+	 * @return the action registry manager
 	 */
 	protected ActionRegistryManager getActionRegistryManager() {
 		if (actionRegistryManager == null) {
@@ -295,7 +295,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	/**
 	 * Returns our file manager.
 	 * 
-	 * @return
+	 * @return our file manager
 	 */
 	public MultiPageFileManager getFileManager() {
 		if (fileManager == null)
@@ -328,7 +328,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 	/**
 	 * Returns our tab manager to which we delegate the tab related work.
 	 * 
-	 * @return
+	 * @return our tab manager
 	 */
 	protected MultiPageTabManager getMultiPageTabManager() {
 

@@ -53,7 +53,7 @@
 		<property name="env.ECLIPSE_HOME" value="/opt/eclipse/" />
 		<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
 		
-		<echo>Using ECLIPSE_HOME: ${eclipsehome}</echo>
+		<!-- <echo>Using ECLIPSE_HOME: ${eclipsehome}</echo> -->
 	</target>
 
 	<target name="clean.buildjar" depends="init, clean">

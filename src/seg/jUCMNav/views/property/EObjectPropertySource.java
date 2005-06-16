@@ -120,7 +120,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * 
      * @param descriptors
      * @param attr
-     * @param type
+     * @param c
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         // Get type for the structural feature
@@ -151,7 +151,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * Return the type of the feature
      * 
      * @param attr
-     * @return
+     * @return feature type
      */
     protected EClassifier getFeatureType(EStructuralFeature attr) {
         EClassifier type;
@@ -299,9 +299,9 @@ public class EObjectPropertySource implements IPropertySource2 {
 
     /**
      * 
-     * @param o
+     * @param propertyid
      * @param feature
-     * @return
+     * @return a feature
      */
     protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         return object.eGet(feature);
@@ -310,7 +310,7 @@ public class EObjectPropertySource implements IPropertySource2 {
     /**
      * @param feature
      * @param result
-     * @return
+     * @return value
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Integer) {
@@ -353,7 +353,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * 
      * Same added for parent ComponentRef.
      * 
-     * @see org.eclipse.ui.views.properties.IPropertySouce#resetPropertyValue(java.lang.Object)
+     * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
      */
     public void resetPropertyValue(Object id) {
         PropertyID propertyid = (PropertyID) id;
@@ -392,7 +392,7 @@ public class EObjectPropertySource implements IPropertySource2 {
     }
 
     /**
-     * @param o
+     * @param propertyid
      * @param feature
      * @param result
      */

@@ -29,7 +29,7 @@ public class URNElementFinder {
      * 
      * @param urn
      * @param id
-     * @return
+     * @return element
      */
     public static Object find(URNspec urn, String id) {
 
@@ -56,7 +56,7 @@ public class URNElementFinder {
      * 
      * @param urn
      * @param id
-     * @return
+     * @return matching component element
      */
     public static ComponentElement findComponentElement(URNspec urn, String id) {
         return (ComponentElement) find(urn.getUrndef().getComponents(), id);
@@ -67,7 +67,7 @@ public class URNElementFinder {
      * 
      * @param urn
      * @param id
-     * @return
+     * @return matching resp
      */
     public static Responsibility findResponsibility(URNspec urn, String id) {
         return (Responsibility) find(urn.getUrndef().getResponsibilities(), id);
@@ -78,7 +78,7 @@ public class URNElementFinder {
      * 
      * @param map
      * @param id
-     * @return
+     * @return matching ref
      */
     public static ComponentRef findComponentRef(Map map, String id) {
         return (ComponentRef) find(map.getCompRefs(), id);
@@ -89,7 +89,7 @@ public class URNElementFinder {
      * 
      * @param map
      * @param id
-     * @return
+     * @return matching pathnode
      */
     public static PathNode findPathNode(Map map, String id) {
         return (PathNode) find(map.getPathGraph().getPathNodes(), id);
@@ -100,7 +100,7 @@ public class URNElementFinder {
      * 
      * @param urn
      * @param id
-     * @return
+     * @return matching map
      */
     public static Map findMap(URNspec urn, String id) {
         return (Map) find(urn.getUcmspec().getMaps(), id);
@@ -111,7 +111,7 @@ public class URNElementFinder {
      * 
      * @param c
      * @param id
-     * @return
+     * @return matching model elem
      */
     private static Object find(Collection c, String id) {
 

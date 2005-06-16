@@ -216,7 +216,7 @@ public class LabelEditPart extends ModelElementEditPart {
     }
 
     /**
-     * @param handles
+     * @param value
      *            the name change during an edit
      */
     public void handleNameChange(String value) {
@@ -340,7 +340,7 @@ public class LabelEditPart extends ModelElementEditPart {
     }
 
     /**
-     * @param labelFigure
+     * 
      */
     protected void setLabelText() {
         LabelFigure labelFigure = getLabelFigure();

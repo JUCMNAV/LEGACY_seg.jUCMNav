@@ -148,9 +148,9 @@ public class ComponentPropertySource extends UCMElementPropertySource {
     }
 
     /**
-     * @param o
+     * @param propertyid
      * @param feature
-     * @return
+     * @return a feature
      */
     protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         Object result = null;

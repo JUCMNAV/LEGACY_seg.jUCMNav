@@ -41,7 +41,7 @@ public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCo
      * 
      * @param parent
      *            The component to which the child is bound and will move with.
-     * @param child
+     * @param children
      *            A list of either PathNodes or ComponentRefs.
      */
     public ComponentRefUnbindChildCommand(ComponentRef parent, List children) {

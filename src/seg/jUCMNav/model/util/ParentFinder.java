@@ -25,7 +25,7 @@ public class ParentFinder {
      * Wrapper for findParent to find the possible parent for a child already in a Map.
      * 
      * @param child
-     * @return
+     * @return possible parent
      */
     public static ComponentRef getPossibleParent(UCMmodelElement child) {
 
@@ -46,7 +46,7 @@ public class ParentFinder {
      * Will invoke getPossibleParent recursively to build a list of alternative parents that contain the element.
      * 
      * @param child
-     * @return
+     * @return vector of possible parents
      */
     public static Vector getPossibleParents(UCMmodelElement child) {
 
@@ -67,7 +67,7 @@ public class ParentFinder {
      *            Map containing all the possible ComponentRefs to look at.
      * @param newX
      * @param newY
-     * @return
+     * @return a ComponentRef
      */
     public static ComponentRef findParent(Map map, int newX, int newY) {
         Vector v = new Vector();
@@ -103,7 +103,7 @@ public class ParentFinder {
      * @param newY
      * @param newWidth
      * @param newHeight
-     * @return
+     * @return a ComponentRef
      */
     public static ComponentRef findParent(Map map, ComponentRef compRef, int newX, int newY, int newWidth, int newHeight) {
         Rectangle rectMoved = new Rectangle(newX, newY, newWidth, newHeight);
@@ -150,7 +150,7 @@ public class ParentFinder {
      *            Map containing all the possible ComponentRefs to look at. May or may not contain compRef
      * @param compRef
      *            The parent for which we find the children.
-     * @return
+     * @return vector with new children of the compRef
      */
     public static Vector findNewChildren(Map map, ComponentRef compRef) {
         Rectangle rectMoved = new Rectangle(compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight());

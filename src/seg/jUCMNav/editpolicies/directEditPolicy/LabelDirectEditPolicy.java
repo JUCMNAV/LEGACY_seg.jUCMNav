@@ -44,7 +44,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy
 	}
 
 	/**
-	 * @param to
+	 * @param request
 	 *            Saves the initial text value so that if the user's changes are not committed then 
 	 */
 	protected void storeOldEditValue(DirectEditRequest request)

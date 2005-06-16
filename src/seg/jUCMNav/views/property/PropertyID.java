@@ -41,7 +41,7 @@ public class PropertyID {
      * Overridden to allow appropriate comparisons.
      * 
      * @param obj
-     * @return
+     * @return boolean showing equality
      */
     public boolean equals(Object obj) {
         if (obj instanceof PropertyID) {

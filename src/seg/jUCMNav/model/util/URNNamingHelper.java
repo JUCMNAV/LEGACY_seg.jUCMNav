@@ -57,7 +57,7 @@ public class URNNamingHelper {
      * @param urn
      *            The URNspec containing the value.
      * 
-     * @return
+     * @return a string
      */
     private static String getNewID(URNspec urn) {
 
@@ -85,7 +85,7 @@ public class URNNamingHelper {
      * When creating names, we often need a generic name. Using this method, we can obtain a prefix using the appropriate naming convention.
      * 
      * @param targetClass
-     * @return
+     * @return prefix
      */
     public static String getPrefix(Class targetClass) {
         if (htPrefixes.get(targetClass) != null)
@@ -509,7 +509,7 @@ public class URNNamingHelper {
      * 
      * @param urn
      * @param proposedName
-     * @return
+     * @return bool showing if name exists
      */
     public static boolean doesComponentNameExists(URNspec urn, String proposedName) {
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
@@ -526,7 +526,7 @@ public class URNNamingHelper {
      * 
      * @param urn
      * @param proposedName
-     * @return
+     * @return bool: does resp name exist
      */
     public static boolean doesResponsibilityNameExists(URNspec urn, String proposedName) {
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {

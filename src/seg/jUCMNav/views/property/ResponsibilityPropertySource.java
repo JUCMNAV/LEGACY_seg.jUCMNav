@@ -144,9 +144,9 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
     }
 
     /**
-     * @param o
+     * @param propertyid
      * @param feature
-     * @return
+     * @return the feature
      */
     protected Object getFeature(PropertyID propertyid, EStructuralFeature feature) {
         Object result = null;

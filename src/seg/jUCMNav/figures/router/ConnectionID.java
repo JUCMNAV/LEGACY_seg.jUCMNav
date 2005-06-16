@@ -25,7 +25,7 @@ public class ConnectionID {
      * Overridden to allow appropriate comparisons.
      * 
      * @param obj
-     * @return
+     * @return boolean indicating equality
      */
     public boolean equals(Object obj) {
         if (obj instanceof ConnectionID) {

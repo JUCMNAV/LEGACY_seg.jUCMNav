@@ -45,7 +45,7 @@ public class UrnModelManager {
      * Returns the resource containing the UCM. Uses lazy initialization.
      * 
      * @param path
-     * @return
+     * @return resource containing the UCM
      */
     public Resource getResource(IPath path) {
         if (resource == null) {
@@ -60,7 +60,7 @@ public class UrnModelManager {
      * Creates a resource to contain the UCM. The resource file does not exist yet.
      * 
      * @param path
-     * @return
+     * @return resource to contain the UCM
      */
     private Resource createResource(IPath path) {
         ResourceSet resSet = getResourceSet();
@@ -72,7 +72,7 @@ public class UrnModelManager {
      * Returns the resource set.
      * 
      * @param
-     * @return
+     * @return the resource set
      */
     private ResourceSet getResourceSet() {
         // Initialize the ucm package
@@ -89,7 +89,7 @@ public class UrnModelManager {
      * Creates a new URNspec.
      * 
      * @param path
-     * @return
+     * @return a new URNspec
      */
     public URNspec createURNspec(IPath path) {
         createResource(path);
@@ -105,7 +105,7 @@ public class UrnModelManager {
      * 
      * @param path
      * @param urnspec
-     * @return
+     * @return a new URNspec
      */
     public URNspec createURNspec(IPath path, URNspec urnspec) {
         createResource(path);
@@ -153,7 +153,7 @@ public class UrnModelManager {
     /**
      * Gets the top level model elements.
      * 
-     * @return
+     * @return top level model elements
      */
     public URNspec getModel() {
         if (null == model) {

@@ -72,7 +72,7 @@ public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart
      * 
      * 2: print mode 2: remove empty points + stub labels
      * 
-     * @return
+     * @return number of current mode
      */
     public int getMode() {
         return this.mode;

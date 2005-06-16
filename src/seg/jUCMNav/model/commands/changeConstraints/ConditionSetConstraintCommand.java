@@ -90,7 +90,9 @@ public class ConditionSetConstraintCommand extends Command implements JUCMNavCom
     }
 
     /**
-     * @param newPosition
+     * @param newDeltaX
+     *            The newPosition to set.
+     * @param newDeltaY
      *            The newPosition to set.
      */
     public void setNewPosition(int newDeltaX, int newDeltaY) {

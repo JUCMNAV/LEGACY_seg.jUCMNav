@@ -27,7 +27,7 @@ public class NewUcmFileWizardPage extends WizardPage {
 
 	/**
 	 * Constructor for SampleNewWizardPage.
-	 * @param pageName
+	 * @param selection
 	 */
 	public NewUcmFileWizardPage(ISelection selection) {
 		super("wizardPage");
@@ -38,7 +38,6 @@ public class NewUcmFileWizardPage extends WizardPage {
 	}
 
 	/**
-	 * @see IDialogPage#createControl(Composite)
 	 */
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);

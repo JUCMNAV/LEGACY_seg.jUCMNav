@@ -50,8 +50,8 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
     private URNspec urnSpec;
 
     /**
-     * @param stub
-     * @param plugin
+     * @param oldPlugin
+     * @param map
      */
     public ReplacePluginCommand(PluginBinding oldPlugin, Map map) {
         super();

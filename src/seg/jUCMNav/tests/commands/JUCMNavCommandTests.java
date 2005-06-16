@@ -214,7 +214,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+
      *  
      */
     public void testAddBranchCommand() {
@@ -234,7 +234,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testAddComponentRefCommand() {
@@ -248,7 +248,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testAddForkOnConnectionCommand() {
@@ -265,7 +265,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testAddForkOnEmptyPointCommand() {
@@ -298,7 +298,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testAddJoinOnConnectionCommand() {
@@ -315,7 +315,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testAddJoinOnEmptyPointCommand() {
@@ -348,7 +348,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testChangeLabelNameCommand() {
@@ -369,7 +369,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testComponentRefBindChildCommand() {
@@ -393,7 +393,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testComponentRefUnbindChildCommand() {
@@ -411,7 +411,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jmcmanus
+     *
      *  
      */
     public void testCreateLabelCommand() {
@@ -439,7 +439,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testCreateMapCommand() {
@@ -461,7 +461,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testCreatePathCommand() {
@@ -475,7 +475,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testCutPathCommand() {
@@ -489,7 +489,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteComponentElementCommand() {
@@ -511,7 +511,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteComponentRefCommand() {
@@ -523,7 +523,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jmcmanus
+     *
      *  
      */
     public void testDeleteLabelCommand() {
@@ -546,7 +546,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteMapCommand() {
@@ -562,7 +562,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteMultiNodeCommand() {
@@ -583,7 +583,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteNodeCommand() {
@@ -641,7 +641,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeletePathCommand() {
@@ -675,7 +675,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteResponsibilityCommand() {
@@ -706,7 +706,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDeleteStartNCEndCommand() {
@@ -718,7 +718,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testDividePathOnNodeConnectionCompoundCommand() {
@@ -739,7 +739,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testExtendPathCommand() {
@@ -754,7 +754,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jpdaigle
+     *
      *  
      */
     public void testForkPathsCommand() {
@@ -795,7 +795,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author ??
+     *
      *  
      */
     public void testJoinEndToStubJoinCommand() {
@@ -804,7 +804,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jpdaigle
+     *
      *  
      */
     public void testJoinPathsCommand() {
@@ -835,7 +835,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author ??
+     *
      *  
      */
     public void testJoinStartToStubForkCommand() {
@@ -844,7 +844,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jmcmanus
+     *
      *  
      */
     public void testLabelSetConstraintCommand() {
@@ -866,7 +866,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testMergeStartEndCommand() {
@@ -893,7 +893,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testSetConstraintBoundComponentRefCompoundCommand() {
@@ -906,7 +906,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testSetConstraintCommand() {
@@ -917,7 +917,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testSetConstraintComponentRefCommand() {
@@ -933,7 +933,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author jkealey
+     *
      *  
      */
     public void testSplitLinkCommand() {
@@ -947,7 +947,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     * @author ??
+     *
      *  
      */
     public void testTransmogrifyForkOrJoinCommand() {

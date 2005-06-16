@@ -29,7 +29,6 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
     private URNspec urnSpec;
 
     /**
-     * @param stub
      * @param plugin
      * @param start
      * @param entry

@@ -60,7 +60,7 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
     /**
      * @param oldStartPoint
      *            The start point beeing dragged to the stub/fork.
-     * @param stub
+     * @param stubOrFork
      *            The stub/fork where the start point will get merged.
      */
     public JoinStartToStubForkCommand(StartPoint oldStartPoint, PathNode stubOrFork) {

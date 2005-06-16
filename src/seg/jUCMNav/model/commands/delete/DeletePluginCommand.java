@@ -55,7 +55,7 @@ public class DeletePluginCommand extends Command implements JUCMNavCommand {
     /**
      * This command delete a PluginBinding from a Stub.
      * 
-     * @param plugin
+     * @param oldPlugin
      *            The PluginBindng to delete from the Stub.
      */
     public DeletePluginCommand(PluginBinding oldPlugin) {

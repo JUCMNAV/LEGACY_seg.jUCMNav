@@ -182,7 +182,7 @@ public class StubConnectionEndpointLocator implements Locator {
 
     /**
      * Relocates the given IFigure at either the source or target end of the Connection, based on the <code>boolean</code> given in the constructor
-     * {@link #ConnectionEndpointLocator(Connection, boolean)}.
+     * {@link #StubConnectionEndpointLocator(Connection, boolean)}.
      * 
      * @param figure
      *            The figure to relocate

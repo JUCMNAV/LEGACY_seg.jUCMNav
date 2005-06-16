@@ -104,9 +104,11 @@ public class LabelSetConstraintCommand extends Command implements JUCMNavCommand
     }
 
     /**
-     * @param newPosition
-     *            The newPosition to set.
-     */
+     * @param newDeltaX
+     *            The newPosition X to set.
+     * @param newDeltaY
+     *            The newPosition Y to set.
+     **/
     public void setNewPosition(int newDeltaX, int newDeltaY) {
         this.newDeltaX = newDeltaX;
         this.newDeltaY = newDeltaY;
