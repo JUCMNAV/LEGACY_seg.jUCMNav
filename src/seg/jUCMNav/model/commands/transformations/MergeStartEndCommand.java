@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.actions.SafePathChecker;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -72,8 +73,7 @@ public class MergeStartEndCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        // TODO Should check if not on same path.
-        return super.canExecute();
+        return SafePathChecker.isSafeJoin(this.startPoint, this.endPoint);
     }
 
     /*

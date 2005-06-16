@@ -877,7 +877,7 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
         cs.execute(cmd);
-        EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) start.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
+        EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) newStart.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
 
         cmd = new MergeStartEndCommand(map, newStart, end, 100, 100);
         assertTrue("Can't execute MergeStartEndCommand.", cmd.canExecute());
