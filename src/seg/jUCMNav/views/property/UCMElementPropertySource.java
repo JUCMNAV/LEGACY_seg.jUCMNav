@@ -22,7 +22,7 @@ import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
-import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
 import urn.URNspec;
 import urncore.Condition;
@@ -58,8 +58,8 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label)) {
             if (getEditableValue() instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) getEditableValue();
-                // only on node connections that follow an or fork or for timeout paths
-                if (nc.getSource() instanceof OrFork || (nc.getSource() instanceof Timer && ((Timer) nc.getSource()).getSucc().indexOf(nc) == 1)) {
+                // only on node connections that follow an or fork or a waitingplace/timer, but not on the timeout path
+                if (nc.getSource() instanceof OrFork || (nc.getSource() instanceof WaitingPlace && ((WaitingPlace) nc.getSource()).getSucc().indexOf(nc) == 0)) {
                     conditionDescriptor(descriptors, propertyid);
                 }
             } else

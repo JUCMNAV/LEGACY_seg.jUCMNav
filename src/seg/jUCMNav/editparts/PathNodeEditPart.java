@@ -4,10 +4,13 @@
  */
 package seg.jUCMNav.editparts;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.Locator;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -37,6 +40,7 @@ import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.StubFigure;
+import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
@@ -45,6 +49,7 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathGraph;
@@ -56,7 +61,7 @@ import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
 /**
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  *  
  */
 public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart {
@@ -69,13 +74,28 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         this.diagram = diagram;
     }
 
+    /**
+     * Overriding because we also have to listen to the responsibility definition
+     * 
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate() {
+        if (!isActive() && getNode() instanceof RespRef && ((RespRef) getNode()).getRespDef() != null)
+            ((RespRef) getNode()).getRespDef().eAdapters().add(this);
+
+        super.activate();
+    }
+
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
-    public DragTracker getDragTracker(Request request) {
-        return new DragPathNodeTracker(this);
+    protected void createEditPolicies() {
+        // install the edit policy to handle connection creation
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonResizableEditPolicy());
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
     }
 
     /*
@@ -112,16 +132,50 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return figure;
     }
 
+    /**
+     * Overriding because we also have to listen to the responsibility definition
+     * 
+     * @see org.eclipse.gef.EditPart#deactivate()
+     */
+    public void deactivate() {
+        if (isActive() && getNode() instanceof RespRef && ((RespRef) getNode()).getRespDef() != null)
+            ((RespRef) getNode()).getRespDef().eAdapters().remove(this);
+        super.deactivate();
+
+    }
+
+    /**
+     * @return Returns the diagram.
+     */
+    public PathGraph getDiagram() {
+        return diagram;
+    }
+
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
      */
-    protected void createEditPolicies() {
-        // install the edit policy to handle connection creation
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
-        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new PathNodeNonResizableEditPolicy());
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
+    public DragTracker getDragTracker(Request request) {
+        return new DragPathNodeTracker(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+     */
+    protected List getModelSourceConnections() {
+        return getNode().getSucc();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+     */
+    protected List getModelTargetConnections() {
+        return getNode().getPred();
     }
 
     protected PathNode getNode() {
@@ -130,6 +184,50 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
     public PathNodeFigure getNodeFigure() {
         return (PathNodeFigure) getFigure();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+        return getNodeFigure().getSourceConnectionAnchor();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+        return getNodeFigure().getSourceConnectionAnchor();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+        return getNodeFigure().getTargetConnectionAnchor();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+        return getNodeFigure().getTargetConnectionAnchor();
+    }
+
+    /**
+     * @param nodeFigure
+     * @return
+     */
+    private boolean needsMove(PathNodeFigure nodeFigure) {
+        return nodeFigure.getBounds().getCenter().x != ((PathNode) getModel()).getX() || nodeFigure.getBounds().getCenter().y != ((PathNode) getModel()).getY();
     }
 
     /*
@@ -161,6 +259,112 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         refreshVisuals();
     }
 
+    /**
+     * @param nodeFigure
+     */
+    private void rotateFromNext(PathNodeFigure nodeFigure) {
+        NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getSucc().get(0));
+        if (nc != null) {
+
+            SplineConnection sp = (SplineConnection) nc.getFigure();
+            //sp.layout();
+            if (sp != null) {
+                PointList list = sp.getPoints();
+                if (list != null && sp.getPoints().size() > 0) {
+
+                    Ray r;
+
+                    if (list.size() > 2) {
+                        r = new Ray(list.getFirstPoint(), list.getPoint(1));
+                    } else {
+                        r = new Ray(list.getFirstPoint(), list.getMidpoint());
+                    }
+
+                    double angle = Math.atan2((double) r.y, (double) r.x);
+
+                    ((Rotateable) nodeFigure).rotate(angle - Math.PI);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param nc
+     */
+    private boolean refreshNodeConnection(NodeConnection conn) {
+        NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
+        if (nc != null) {
+            for (Iterator iter = nc.getFigure().getChildren().iterator(); iter.hasNext();) {
+                IFigure fig = (IFigure) iter.next();
+                if (fig instanceof TimeoutPathFigure || fig instanceof Label) {
+                    Locator loc = (Locator) ((SplineConnection) nc.getFigure()).getLayoutManager().getConstraint(fig);
+                    // don't know why isn't refreshing stub labels
+                    // probably has to do with implementation of locator
+                    loc.relocate(fig);
+                }
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * @param nodeFigure
+     */
+    private void rotateFromPrevious(PathNodeFigure nodeFigure) {
+        NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
+        if (nc != null) {
+
+            SplineConnection sp = (SplineConnection) nc.getFigure();
+            //sp.layout();
+            if (sp != null) {
+                PointList list = sp.getPoints();
+                if (list != null && list.size() > 0) {
+
+                    Ray r;
+
+                    if (list.size() > 2) {
+                        r = new Ray(list.getPoint(list.size() - 2), list.getLastPoint());
+                    } else {
+                        r = new Ray(list.getMidpoint(), list.getLastPoint());
+                    }
+
+                    double angle = Math.atan2((double) r.y, (double) r.x);
+
+                    ((Rotateable) nodeFigure).rotate(angle - Math.PI);
+                }
+            }
+        }
+    }
+
+    private boolean refreshStubLabels(PathNodeFigure nodeFigure) {
+        boolean b = false;
+        if (nodeFigure instanceof StubFigure && !needsMove(nodeFigure)) {
+            for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                b = b || refreshNodeConnection(nc);
+            }
+            for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                b = b || refreshNodeConnection(nc);
+            }
+        }
+        return b;
+    }
+
+    /**
+     * @param nodeFigure
+     */
+    private boolean refreshTimeoutPath(PathNodeFigure nodeFigure) {
+        // we don't want to move the label if we are moving the node because it will stop the execution of refresh visuals
+        // we don't want to refresh it either if no timeout path exists.
+        if (!needsMove(nodeFigure) && nodeFigure instanceof TimerFigure && ((PathNode) getModel()).getSucc().size() > 1) {
+            return refreshNodeConnection((NodeConnection) ((PathNode) getModel()).getSucc().get(1));
+        }
+        return false;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -168,66 +372,27 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      */
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
+
+        // refresh node connection decorations
+        // must not continue or will cause infinite loops
+        if (refreshTimeoutPath(nodeFigure))
+            return;
+        else if (refreshStubLabels(nodeFigure))
+            return;
+
         Dimension dim = nodeFigure.getPreferredSize().getCopy();
         Point location = new Point(getNode().getX() - (dim.width / 2), getNode().getY() - (dim.height / 2)); // The
-        // position
-        // of the
-        // current
-        // figure
+        // position of the current figure
         Rectangle bounds = new Rectangle(location, dim);
         figure.setBounds(bounds);
         if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
-            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
-            if (nc != null) {
-
-                SplineConnection sp = (SplineConnection) nc.getFigure();
-                //sp.layout();
-                if (sp != null) {
-                    PointList list = sp.getPoints();
-                    if (list != null && list.size()>0) {
-
-                        Ray r;
-
-                        if (list.size() > 2) {
-                            r = new Ray(list.getPoint(list.size() - 2), list.getLastPoint());
-                        } else {
-                            r = new Ray(list.getMidpoint(), list.getLastPoint());
-                        }
-
-                        double angle = Math.atan2((double) r.y, (double) r.x);
-
-                        ((Rotateable) nodeFigure).rotate(angle - Math.PI);
-                    }
-                }
-            }
-        } else if (nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
-            NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getSucc().get(0));
-            if (nc != null) {
-
-                SplineConnection sp = (SplineConnection) nc.getFigure();
-                //sp.layout();
-                if (sp != null) {
-                    PointList list = sp.getPoints();
-                    if (list != null && sp.getPoints().size()>0) {
-
-                        Ray r;
-
-                        if (list.size() > 2) {
-                            r = new Ray(list.getFirstPoint(), list.getPoint(1));
-                        } else {
-                            r = new Ray(list.getFirstPoint(), list.getMidpoint());
-                        }
-
-                        double angle = Math.atan2((double) r.y, (double) r.x);
-
-                        ((Rotateable) nodeFigure).rotate(angle - Math.PI);
-                    }
-                }
-            }
+            rotateFromPrevious(nodeFigure);
+        } else if (nodeFigure instanceof AndJoinFigure && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+            rotateFromNext(nodeFigure);
         }
 
         if (getModel() instanceof EmptyPoint) {
-            ((IFigure)getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            ((IFigure) getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
         }
 
         // notify parent container of changed position & location
@@ -235,67 +400,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
         ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
-     */
-    protected List getModelSourceConnections() {
-        return getNode().getSucc();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
-     */
-    protected List getModelTargetConnections() {
-        return getNode().getPred();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-     */
-    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-        return getNodeFigure().getSourceConnectionAnchor();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-     */
-    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        return getNodeFigure().getTargetConnectionAnchor();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
-     */
-    public ConnectionAnchor getSourceConnectionAnchor(Request request) {
-        return getNodeFigure().getSourceConnectionAnchor();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
-     */
-    public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-        return getNodeFigure().getTargetConnectionAnchor();
-    }
-
-    /**
-     * @return Returns the diagram.
-     */
-    public PathGraph getDiagram() {
-        return diagram;
     }
 
     /**
@@ -304,29 +409,5 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      */
     public void setDiagram(PathGraph diagram) {
         this.diagram = diagram;
-    }
-
-    /**
-     * Overriding because we also have to listen to the responsibility definition
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate() {
-        if (!isActive() && getNode() instanceof RespRef && ((RespRef) getNode()).getRespDef() != null)
-            ((RespRef) getNode()).getRespDef().eAdapters().add(this);
-
-        super.activate();
-    }
-
-    /**
-     * Overriding because we also have to listen to the responsibility definition
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive() && getNode() instanceof RespRef && ((RespRef) getNode()).getRespDef() != null)
-            ((RespRef) getNode()).getRespDef().eAdapters().remove(this);
-        super.deactivate();
-
     }
 }

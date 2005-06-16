@@ -6,8 +6,10 @@ package seg.jUCMNav.editparts;
 
 import java.util.Map;
 
+import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -23,6 +25,8 @@ import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
+import seg.jUCMNav.figures.TimeoutPathFigure;
+import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
 import ucm.UcmPackage;
@@ -30,6 +34,7 @@ import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.Stub;
+import ucm.map.Timer;
 
 /**
  * @author Etienne Tremblay
@@ -99,6 +104,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     private PathGraph diagram;
     private Label endLabel, startLabel;
+    private TimeoutPathFigure timeout;
     protected IPropertySource propertySource = null;
 
     public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
@@ -150,6 +156,19 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         connection.add(startLabel, targetEndpointLocator);
     }
 
+    private void addTimeout(SplineConnection connection) {
+        if (timeout != null)
+            getFigure().remove(timeout);
+        int index = getLink().getSource().getSucc().indexOf(getLink());
+        if (index == 1) {
+            NodeConnectionLocator constraint = new NodeConnectionLocator(connection, ConnectionLocator.MIDDLE);
+            constraint.setRelativePosition(PositionConstants.CENTER);
+            timeout = new TimeoutPathFigure();
+            connection.add(timeout, constraint);
+        }
+
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -179,6 +198,10 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         if (getLink().getSource() instanceof Stub) {
             addStartLabel(connection);
         }
+        if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
+            addTimeout(connection);
+        }
+
         return connection;
     }
 
@@ -242,7 +265,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
-    protected void refreshVisuals() {
+    public void refreshVisuals() {
         if (getLink().getTarget() instanceof Stub) {
             addEndLabel((SplineConnection) getFigure());
         } else if (endLabel != null) {
@@ -255,6 +278,13 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         } else if (startLabel != null) {
             ((SplineConnection) getFigure()).remove(startLabel);
             startLabel = null;
+        }
+
+        if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
+            addTimeout((SplineConnection) getFigure());
+        } else if (timeout != null) {
+            ((SplineConnection) getFigure()).remove(timeout);
+            timeout = null;
         }
 
         // hide in print mode.

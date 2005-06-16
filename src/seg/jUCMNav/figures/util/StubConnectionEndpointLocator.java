@@ -201,7 +201,6 @@ public class StubConnectionEndpointLocator implements Locator {
 
         conn.getPoints().getPoint(startPoint, startPointPosition);
         conn.getPoints().getPoint(endPoint, endPointPosition);
-
         IFigure connOwner = getConnectionOwner();
 
         int quadrant;

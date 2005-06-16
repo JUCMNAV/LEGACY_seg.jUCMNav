@@ -30,6 +30,7 @@ import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
 import urn.URNspec;
 import urncore.Condition;
 
@@ -206,7 +207,16 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
                     shouldDeleteNode = true;
                 }
+            } else if (toDelete instanceof Timer && ncOut.size() == 1 && toDelete.getSucc().indexOf(ncOut.get(0)) == 0) {
+                // if trying to delete the normal path of a timer, must disconnect its timeout path as well.
+                ncOut = new Vector();
+                ncIn = new Vector();
+                ncOut.addAll(toDelete.getSucc());
+                ncIn.addAll(toDelete.getPred());
+
+                shouldDeleteNode = true;
             } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
+
                 if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
                     // need to downgrade pathnode to empty point.
                     empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
@@ -310,16 +320,15 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                     midPoint = spline.getPoints().getMidpoint();
                     ep.setX(midPoint.x);
                     ep.setY(midPoint.y);
-                }
-                else {
-                    if (nc.getSource()!=null && nc.getSource()!=toDelete)  {
+                } else {
+                    if (nc.getSource() != null && nc.getSource() != toDelete) {
                         ep.setX(nc.getSource().getX());
                         ep.setY(nc.getSource().getY());
                     }
-                    if (nc.getTarget()!=null && nc.getTarget()!=toDelete)  {
+                    if (nc.getTarget() != null && nc.getTarget() != toDelete) {
                         ep.setX(nc.getTarget().getX());
                         ep.setY(nc.getTarget().getY());
-                    }                    
+                    }
                 }
             }
             newEnd.add(ep);

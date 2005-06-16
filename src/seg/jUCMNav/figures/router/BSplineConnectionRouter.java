@@ -19,6 +19,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
 
 /**
  * Created 2005-03-02
@@ -311,8 +312,8 @@ public class BSplineConnectionRouter extends AbstractRouter {
 
         }
 
-        // refresh outgoing andjoin only.
-        if (link.getLink().getSource() instanceof AndJoin) {
+        // refresh outgoing andjoin/timer only.
+        if (link.getLink().getSource() instanceof AndJoin || link.getLink().getSource() instanceof Timer || link.getLink().getSource() instanceof Stub) {
             PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(link.getLink().getSource());
             if (edit != null) {
                 edit.refreshVisuals();

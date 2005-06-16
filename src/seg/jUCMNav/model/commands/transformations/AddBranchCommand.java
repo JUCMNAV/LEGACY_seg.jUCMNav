@@ -15,6 +15,7 @@ import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Timer;
 import urn.URNspec;
 import urncore.Condition;
 
@@ -53,7 +54,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork || this.insertionNode instanceof AndJoin)
+        return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && this.insertionNode.getSucc().size()==1) )
                 && this.insertionNode.getPathGraph() != null;
     }
 
@@ -67,7 +68,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         urn = pg.getMap().getUcmspec().getUrnspec();
         newEmpty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork) {
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork || insertionNode instanceof Timer) {
             newStartOrEnd = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
             newEmpty.setX(insertionNode.getX() + 50);
             newStartOrEnd.setX(insertionNode.getX() + 100);
@@ -75,7 +76,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newStartOrEnd = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
             newEmpty.setX(insertionNode.getX() - 50);
             newStartOrEnd.setX(insertionNode.getX() - 100);
-        }
+        } 
 
         int i = insertionNode.getSucc().size() + insertionNode.getPred().size() - 1;
         newEmpty.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
@@ -84,7 +85,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         newConn = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         newConn2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork) {
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork || insertionNode instanceof Timer) {
             newConn.setSource(insertionNode);
             newConn.setTarget(newEmpty);
             newConn2.setSource(newEmpty);
@@ -96,7 +97,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newConn2.setSource(newStartOrEnd);
         }
 
-        if (insertionNode instanceof OrFork) {
+        if (insertionNode instanceof OrFork || insertionNode instanceof Timer) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             newConn.setCondition(newCondition);
         }
@@ -117,7 +118,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         pg.getNodeConnections().add(newConn);
         pg.getNodeConnections().add(newConn2);
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork || insertionNode instanceof Timer)
             insertionNode.getSucc().add(newConn);
         else
             insertionNode.getPred().add(newConn);
@@ -135,7 +136,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork || insertionNode instanceof Timer)
             insertionNode.getSucc().remove(newConn);
         else
             insertionNode.getPred().remove(newConn);
@@ -145,7 +146,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         pg.getNodeConnections().remove(newConn);
         pg.getNodeConnections().remove(newConn2);
 
-        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork)
+        if (insertionNode instanceof OrFork || insertionNode instanceof AndFork || insertionNode instanceof Timer)
             insertionNode.getSucc().remove(newConn);
         else
             insertionNode.getPred().remove(newConn);

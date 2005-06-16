@@ -49,6 +49,7 @@ import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmOutlinePage;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -1828,7 +1829,8 @@ public class ProgressTests extends TestCase {
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         Vector v = new Vector();
-        IAction action = getAction(v, "ADDTIMEOUTPATHACTION");
+        v.add(timer);
+        IAction action = getAction(v, AddTimeoutPathAction.ADDTIMEOUTPATH);
 
         assertNotNull("Action not found in contextual menu!", action);
 
@@ -1884,7 +1886,7 @@ public class ProgressTests extends TestCase {
         Command cmd = new SplitLinkCommand(getMap().getPathGraph(), waitingplace, nc, 49, 75);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-        EditPart part = getEditPart(waitingplace);
+        EditPart part = getEditPart(waitingplace.getSucc().get(0));
         assertNotNull("cannot find editpart", part);
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);

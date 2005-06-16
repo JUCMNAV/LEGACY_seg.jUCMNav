@@ -31,6 +31,7 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.CutPathAction;
@@ -188,6 +189,10 @@ public class ActionRegistryManager {
 
         action = new AddBranchAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addBranch")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddTimeoutPathAction(editor);
+        action.setText("Add timeout path"); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new BindWithParent(editor);
