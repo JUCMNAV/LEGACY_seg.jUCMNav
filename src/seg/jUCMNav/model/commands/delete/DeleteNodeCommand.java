@@ -1,20 +1,15 @@
 package seg.jUCMNav.model.commands.delete;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
-import ucm.map.InBinding;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
-import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
@@ -32,7 +27,7 @@ import urncore.Responsibility;
  * @author Etienne Tremblay, jkealey
  *  
  */
-public class DeleteNodeCommand extends Command implements JUCMNavCommand {
+public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand {
 
     private static final String DeleteCommand_Label = "DeletePathNodeCommand"; //$NON-NLS-1$
 
@@ -60,46 +55,6 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     /** if we are a RespRef, this is our respDef */
     private Responsibility respDef;
 
-    /**
-     * If the node is a Stub, then we have to keep a list of it's plugins.
-     */
-    private ArrayList plugings = new ArrayList();
-
-    /**
-     * HashMap containing pairs of (PluginBinding, Map)
-     */
-    private HashMap maps = new HashMap();
-
-    /**
-     * HashMap containing pairs of (PluginBinding, InBinding)
-     */
-    private HashMap inBindings = new HashMap();
-
-    /**
-     * HashMap containing pairs of (PluginBinding, OutBinding)
-     */
-    private HashMap outBindings = new HashMap();
-
-    /**
-     * HashMap containing pairs of (InBinding, StartPoint)
-     */
-    private HashMap starts = new HashMap();
-
-    /**
-     * HashMap containing pairs of (OutBinding, EndPoint)
-     */
-    private HashMap ends = new HashMap();
-
-    /**
-     * HashMap containing pairs of (InBinding, NodeConnection)
-     */
-    private HashMap entry = new HashMap();
-
-    /**
-     * HashMap containing pairs of (OutBinding, NodeConnection)
-     */
-    private HashMap exit = new HashMap();
-
     private boolean aborted = false;
 
     public DeleteNodeCommand(PathNode node) {
@@ -123,13 +78,31 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
                 return false;
         }
     }
-
+	/* 
+	 * (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
     /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+    	if(node instanceof Stub){
+        	Stub stub = (Stub)node;
+        	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+				PluginBinding plugin = (PluginBinding) i.next();
+				DeletePluginCommand del = new DeletePluginCommand(plugin);
+				add(del);
+			}
+        }
+    	
         // could happen if was already deleted by other command
         if (node.getPathGraph() == null || !canExecute()) {
             aborted = true;
@@ -147,34 +120,11 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
             respDef = ((RespRef) node).getRespDef();
         }
 
-        if (node instanceof Stub) {
-            plugings.addAll(((Stub) node).getBindings());
-            for (Iterator i = plugings.iterator(); i.hasNext();) {
-                PluginBinding plugin = (PluginBinding) i.next();
-
-                maps.put(plugin, plugin.getPlugin());
-
-                ArrayList ins = new ArrayList();
-                ins.addAll(plugin.getIn());
-                inBindings.put(plugin, ins);
-                for (Iterator j = ins.iterator(); j.hasNext();) {
-                    InBinding in = (InBinding) j.next();
-                    starts.put(in, in.getStartPoint());
-                    entry.put(in, in.getStubEntry());
-                }
-
-                ArrayList outs = new ArrayList();
-                outs.addAll(plugin.getOut());
-                outBindings.put(plugin, outs);
-                for (Iterator j = outs.iterator(); j.hasNext();) {
-                    OutBinding out = (OutBinding) j.next();
-                    ends.put(out, out.getEndPoint());
-                    exit.put(out, out.getStubExit());
-                }
-            }
-        }
-
-        redo();
+        doRedo();
+        
+        // Important to call this if we want the added commands to this compound command to execute.
+        if(getCommands().size() > 0)
+        	super.execute();
     }
 
     /*
@@ -189,13 +139,18 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
 
         testPreConditions();
 
-        for (Iterator i = plugings.iterator(); i.hasNext();) {
-            PluginBinding plugin = (PluginBinding) i.next();
-            DeletePluginCommand del = new DeletePluginCommand(plugin);
-            del.execute();
-        }
+        doRedo();
+        
+        super.redo();
 
-        node.getSucc().clear();
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		node.getSucc().clear();
         node.getPred().clear();
 
         //((NodeConnection) sources.get(0)).setSource(null);
@@ -215,11 +170,9 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
 
         newConn.setSource(previous);
         newConn.setTarget(next);
+	}
 
-        testPostConditions();
-    }
-
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#undo()
@@ -228,6 +181,8 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         if (aborted)
             return;
         testPostConditions();
+        
+        super.undo();
 
         node.getSucc().addAll(targets);
 
@@ -243,31 +198,6 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
             ((RespRef) node).setRespDef(respDef);
         }
         node.setCompRef(compRef);
-
-        if (node instanceof Stub) {
-            Stub stub = (Stub) node;
-
-            stub.getBindings().addAll(plugings);
-            for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-                PluginBinding plugin = (PluginBinding) i.next();
-
-                plugin.setPlugin((Map) maps.get(plugin));
-
-                plugin.getIn().addAll((List) inBindings.get(plugin));
-                for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
-                    InBinding in = (InBinding) j.next();
-                    in.setStartPoint((StartPoint) starts.get(in));
-                    in.setStubEntry((NodeConnection) entry.get(in));
-                }
-
-                plugin.getOut().addAll((List) outBindings.get(plugin));
-                for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
-                    OutBinding out = (OutBinding) j.next();
-                    out.setEndPoint((EndPoint) ends.get(out));
-                    out.setStubExit((NodeConnection) exit.get(out));
-                }
-            }
-        }
 
         testPreConditions();
     }

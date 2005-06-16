@@ -1,14 +1,12 @@
 package seg.jUCMNav.model.commands.delete;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.figures.SplineConnection;
@@ -20,11 +18,9 @@ import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
@@ -46,7 +42,7 @@ import urncore.Condition;
  * @author jkealey
  *  
  */
-public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
+public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCommand {
 
     // needed to get access to the SplineConnection of incoming / outgoing node
     // connections.
@@ -79,30 +75,6 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
     // the URNspec which contains all the elements
     private URNspec urn;
-
-    // If the node is a Stub, then we have to keep a list of it's plugins.
-    private ArrayList plugins = new ArrayList();
-
-    // HashMap containing pairs of (PluginBinding, Map)
-    private HashMap maps = new HashMap();
-
-    // HashMap containing pairs of (PluginBinding, ArrayList of InBinding)
-    private HashMap inBindings = new HashMap();
-
-    // HashMap containing pairs of (PluginBinding, ArrayList of OutBinding)
-    private HashMap outBindings = new HashMap();
-
-    // HashMap containing pairs of (InBinding, StartPoint)
-    private HashMap starts = new HashMap();
-
-    // HashMap containing pairs of (OutBinding, EndPoint)
-    private HashMap ends = new HashMap();
-
-    // HashMap containing pairs of (InBinding, NodeConnection)
-    private HashMap entry = new HashMap();
-
-    // HashMap containing pairs of (OutBinding, NodeConnection)
-    private HashMap exit = new HashMap();
 
     // if this is false, we're only removing branches.
     private boolean shouldDeleteNode = true;
@@ -168,12 +140,30 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         // OrJoin);
     }
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
     /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+    	if(toDelete instanceof Stub){
+        	Stub stub = (Stub)toDelete;
+        	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+				PluginBinding plugin = (PluginBinding) i.next();
+				DeletePluginCommand del = new DeletePluginCommand(plugin);
+				add(del);
+			}
+        }
+    	
         // this could happen when multiple nodes are selected for deletion and
         // this one has already been deleted.
         if (!canExecute()) {
@@ -238,39 +228,6 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
 
             }
 
-        }
-
-        // If the node to delete is a stub then initialize all the arrays with all the information from the PluginBindings.
-        if (toDelete instanceof Stub) {
-            plugins.addAll(((Stub) toDelete).getBindings());
-            for (Iterator i = plugins.iterator(); i.hasNext();) {
-                PluginBinding plugin = (PluginBinding) i.next();
-
-                // Maps contains the pair(PluginBinding, Map)
-                maps.put(plugin, plugin.getPlugin());
-
-                //inBindings will store the ArrayList of InBindings from this PluginBinding.
-                ArrayList ins = new ArrayList();
-                ins.addAll(plugin.getIn());
-                inBindings.put(plugin, ins);
-                // For each InBindings, store the StartPoint and the connection entry.
-                for (Iterator j = ins.iterator(); j.hasNext();) {
-                    InBinding in = (InBinding) j.next();
-                    starts.put(in, in.getStartPoint());
-                    entry.put(in, in.getStubEntry());
-                }
-
-                // outBindings will store the ArrayList of OutBindings from this PluginBinding.
-                ArrayList outs = new ArrayList();
-                outs.addAll(plugin.getOut());
-                outBindings.put(plugin, outs);
-                //				 For each OutBindings, store the EndPoint and the connection exit.
-                for (Iterator j = outs.iterator(); j.hasNext();) {
-                    OutBinding out = (OutBinding) j.next();
-                    ends.put(out, out.getEndPoint());
-                    exit.put(out, out.getStubExit());
-                }
-            }
         }
 
         pg = toDelete.getPathGraph();
@@ -341,7 +298,8 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
                 outConditions.add(nc.getCondition());
             }
         }
-        redo();
+        doRedo();
+        super.execute();
     }
 
     /*
@@ -354,15 +312,18 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             return;
         testPreConditions();
 
-        if (shouldDeleteNode) {
-            // If the node to delete is a stub then delete all the PluginBindings.
-            if (toDelete instanceof Stub) {
-                for (Iterator i = plugins.iterator(); i.hasNext();) {
-                    PluginBinding plugin = (PluginBinding) i.next();
-                    DeletePluginCommand del = new DeletePluginCommand(plugin);
-                    del.execute();
-                }
-            }
+        doRedo();
+        
+        super.redo();
+        
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		if (shouldDeleteNode) {
 
             // remove the current node from the map
             toDelete.setCompRef(null);
@@ -397,10 +358,9 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
             pg.getPathNodes().add(empty);
 
         }
-        testPostConditions();
-    }
+	}
 
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
@@ -491,6 +451,8 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         if (aborted)
             return;
         testPostConditions();
+        
+        super.undo();
 
         if (!shouldDeleteNode && empty != null) {
             // must upgrade back to non empty point.
@@ -527,35 +489,6 @@ public class DeleteMultiNodeCommand extends Command implements JUCMNavCommand {
         }
 
         if (shouldDeleteNode) {
-            // If the node to delete is a Stub
-            if (toDelete instanceof Stub) {
-                Stub stub = (Stub) toDelete;
-
-                // Restore all the PluginBindings
-                stub.getBindings().addAll(plugins);
-                for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-                    PluginBinding plugin = (PluginBinding) i.next();
-
-                    plugin.setPlugin((ucm.map.Map) maps.get(plugin));
-
-                    // Restore all the InBindings.
-                    plugin.getIn().addAll((List) inBindings.get(plugin));
-                    for (Iterator j = plugin.getIn().iterator(); j.hasNext();) {
-                        InBinding in = (InBinding) j.next();
-                        in.setStartPoint((StartPoint) starts.get(in));
-                        in.setStubEntry((NodeConnection) entry.get(in));
-                    }
-
-                    // Restore all the OutBindings.
-                    plugin.getOut().addAll((List) outBindings.get(plugin));
-                    for (Iterator j = plugin.getOut().iterator(); j.hasNext();) {
-                        OutBinding out = (OutBinding) j.next();
-                        out.setEndPoint((EndPoint) ends.get(out));
-                        out.setStubExit((NodeConnection) exit.get(out));
-                    }
-                }
-            }
-
             // add the pathnode to the graph
             toDelete.setCompRef(parent);
             pg.getPathNodes().add(toDelete);

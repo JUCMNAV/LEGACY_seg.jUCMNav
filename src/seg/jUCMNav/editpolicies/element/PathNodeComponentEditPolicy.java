@@ -28,6 +28,7 @@ import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * Created 2005-03-21
@@ -70,6 +71,9 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
             return command;
         } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
             DeleteMultiNodeCommand command = new DeleteMultiNodeCommand((PathNode) node, registry);
+            return command;
+        } else if(parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() < 1 || ((PathNode) node).getSucc().size() < 1) {
+        	DeleteMultiNodeCommand command = new DeleteMultiNodeCommand((PathNode) node, registry);
             return command;
         }
 

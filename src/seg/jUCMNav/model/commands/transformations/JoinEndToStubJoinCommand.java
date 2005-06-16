@@ -103,9 +103,13 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+    	testPreConditions();
+    	
         ncOldEnd.setTarget(stubOrJoin);
         pg.getPathNodes().remove(oldEndPoint);
         oldEndPoint.setCompRef(null);
+        
+        testPostConditions();
     }
 
     /*
@@ -114,6 +118,8 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+    	testPostConditions();
+    	
         pg.getPathNodes().add(oldEndPoint);
 
         ncOldEnd.setTarget(oldEndPoint);
@@ -122,6 +128,7 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
         oldEndPoint.setY(oldY);
         oldEndPoint.setCompRef(oldParent);
         
+        testPreConditions();
     }
 
     /*
