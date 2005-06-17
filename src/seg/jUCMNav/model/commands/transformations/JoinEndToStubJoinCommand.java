@@ -143,7 +143,7 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
         assert pg != null : "pre pathgraph"; //$NON-NLS-1$
 
         assert oldEndPoint.getX() == oldX && oldEndPoint.getY() == oldY : "pre old end position"; //$NON-NLS-1$
-        assert ncOldEnd.getSource() == oldEndPoint : "pre connection source is the end point"; //$NON-NLS-1$
+        assert ncOldEnd.getTarget() == oldEndPoint : "pre connection target is the end point"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(oldEndPoint) : "pre pathgraph contains the end point"; //$NON-NLS-1$
         assert pg.getNodeConnections().contains(ncOldEnd) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
@@ -159,7 +159,7 @@ public class JoinEndToStubJoinCommand extends Command implements JUCMNavCommand 
         assert ncOldEnd != null : "post old node connection"; //$NON-NLS-1$
         assert pg != null : "post pathgraph"; //$NON-NLS-1$
 
-        assert ncOldEnd.getSource() == stubOrJoin : "post connection source is the stub"; //$NON-NLS-1$
+        assert ncOldEnd.getTarget() == stubOrJoin : "post connection target is the stub"; //$NON-NLS-1$
         assert !pg.getPathNodes().contains(oldEndPoint) : "post pathgraph doesn't contain the end point"; //$NON-NLS-1$
         assert pg.getNodeConnections().contains(ncOldEnd) : "post pathgraph contains the connection"; //$NON-NLS-1$
     }
