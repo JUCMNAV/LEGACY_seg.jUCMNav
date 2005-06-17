@@ -6,6 +6,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
@@ -69,6 +70,14 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
+    public boolean canExecute() {
+        return !(oldLink.getSource() instanceof Connect || oldLink.getTarget() instanceof Connect);
+    }
+    
     /*
      * (non-Javadoc)
      * 

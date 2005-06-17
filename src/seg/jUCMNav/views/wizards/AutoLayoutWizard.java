@@ -261,8 +261,8 @@ public class AutoLayoutWizard extends Wizard {
 
             // ex: graph [bb="0,0,192,212"]; (for the digraph)
             if (line.matches("\\s*digraph " + MAPPREFIX + "\\d+\\s*\\{")) {
-                Map temp = URNElementFinder.findMap(usecasemap.getUcmspec().getUrnspec(), line.substring(
-                        line.indexOf(MAPPREFIX) + MAPPREFIX.length(), line.lastIndexOf('{')).trim());
+                Map temp = URNElementFinder.findMap(usecasemap.getUcmspec().getUrnspec(), line.substring(line.indexOf(MAPPREFIX) + MAPPREFIX.length(),
+                        line.lastIndexOf('{')).trim());
                 if (!usecasemap.equals(temp)) {
                     throw new Exception("The layout information doesn't concern the appropriate map, it concerns the map with ID "
                             + line.substring(line.indexOf(MAPPREFIX) + MAPPREFIX.length(), line.lastIndexOf('{')).trim() + ". Please verify the dot input.");
@@ -359,7 +359,9 @@ public class AutoLayoutWizard extends Wizard {
                             PathNode empty = (PathNode) ModelCreationFactory.getNewObject(usecasemap.getUcmspec().getUrnspec(), EmptyPoint.class);
                             Command addEmpty = new SplitLinkCommand(usecasemap.getPathGraph(), empty, link, Integer.parseInt(sCoords[i]), pageHeight
                                     - Integer.parseInt(sCoords[i + 1]));
-                            cmd.add(addEmpty);
+                            if (addEmpty.canExecute()) {
+                                cmd.add(addEmpty);
+                            }
                         }
 
                     }
@@ -367,7 +369,7 @@ public class AutoLayoutWizard extends Wizard {
 
             }
         }
-        // bug 304: Sort commands, putting component ref moves before pathnode moves. 
+        // bug 304: Sort commands, putting component ref moves before pathnode moves.
         Collections.sort(cmd.getCommands(), new AutoLayoutCommandComparator());
         return cmd;
     }
