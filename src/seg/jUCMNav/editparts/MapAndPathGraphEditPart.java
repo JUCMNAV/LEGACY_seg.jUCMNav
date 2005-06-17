@@ -26,6 +26,7 @@ import seg.jUCMNav.figures.router.BSplineConnectionRouter;
 import seg.jUCMNav.model.util.ComponentRefAreaComparator;
 import ucm.UcmPackage;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.EndPoint;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -403,7 +404,10 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 
         // put the nodes on top because they are always over components.
         for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
-            list.add(i.next());
+            PathNode pn = (PathNode) i.next();
+            if (!(pn instanceof Connect)) {
+                list.add(pn);
+            }
         }
 
         return list;

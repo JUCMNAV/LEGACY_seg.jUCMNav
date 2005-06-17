@@ -190,21 +190,11 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
             // if one side or the other is left without any connection.
             if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
                 if (!(toDelete instanceof Stub) || ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0))) {
-                    ncOut = new Vector();
-                    ncIn = new Vector();
-                    ncOut.addAll(toDelete.getSucc());
-                    ncIn.addAll(toDelete.getPred());
-
-                    shouldDeleteNode = true;
+                    markNodeForDeletion();
                 }
             } else if (toDelete instanceof Timer && ncOut.size() == 1 && toDelete.getSucc().indexOf(ncOut.get(0)) == 0) {
                 // if trying to delete the normal path of a timer, must disconnect its timeout path as well.
-                ncOut = new Vector();
-                ncIn = new Vector();
-                ncOut.addAll(toDelete.getSucc());
-                ncIn.addAll(toDelete.getPred());
-
-                shouldDeleteNode = true;
+                markNodeForDeletion();
             } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
 
                 if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
@@ -300,6 +290,18 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
         doRedo();
         super.execute();
+    }
+
+    /**
+     * 
+     */
+    private void markNodeForDeletion() {
+        ncOut = new Vector();
+        ncIn = new Vector();
+        ncOut.addAll(toDelete.getSucc());
+        ncIn.addAll(toDelete.getPred());
+
+        shouldDeleteNode = true;
     }
 
     /*

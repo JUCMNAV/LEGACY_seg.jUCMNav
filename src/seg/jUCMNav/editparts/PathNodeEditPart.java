@@ -128,7 +128,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         else if (getModel() instanceof Stub) {
             Stub stub = (Stub) getModel();
             figure = new StubFigure(stub.isDynamic());
-        }
+        } 
         return figure;
     }
 

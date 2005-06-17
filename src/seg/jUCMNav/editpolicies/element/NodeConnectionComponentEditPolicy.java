@@ -51,9 +51,12 @@ public class NodeConnectionComponentEditPolicy extends ComponentEditPolicy {
         }
 
         if (source instanceof EmptyPoint && target instanceof EmptyPoint) {
-            command.add(new CutPathCommand(nc.getPathGraph(), nc));
+            Command cmd = new CutPathCommand(nc.getPathGraph(), nc);
+            if (cmd.canExecute()) {
+                command.add(cmd);
+            }
         }
-        
+
         if (command.size() > 0)
             return command;
 

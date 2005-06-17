@@ -10,6 +10,7 @@ import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -42,7 +43,10 @@ public class SelectionHelper {
     public static final int ANDJOIN = 14;
     public static final int COMPONENTLABEL = 10;
     public static final int COMPONENTREF = 11;
+    public static final int CONNECT = 18;
     public static final int EMPTYPOINT = 1;
+    public static final int EMPTYPOINT_TIMER = 116;
+    public static final int EMPTYPOINT_WAITINGPLACE = 115;
     public static final int ENDPOINT = 2;
     public static final int ENDPOINT_ANDJOIN = 112;
     public static final int ENDPOINT_EMPTYPOINT = 101;
@@ -51,6 +55,7 @@ public class SelectionHelper {
     public static final int ENDPOINT_STUB = 103;
     public static final int ENDPOINT_TIMER = 104;
     public static final int ENDPOINT_WAITINGPLACE = 105;
+    public static final int MAP = 16;
     public static final int NODECONNECTION = 3;
     public static final int NODELABEL = 9;
     public static final int ORFORK = 12;
@@ -67,15 +72,15 @@ public class SelectionHelper {
     public static final int STARTPOINT_TIMER = 110;
     public static final int STUB = 6;
     public static final int TIMER = 7;
-    public static final int WAITINGPLACE = 8;
-    public static final int MAP = 16;
     public static final int URNSPEC = 17;
+    public static final int WAITINGPLACE = 8;
 
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
     private ComponentLabel componentlabel;
     private ComponentRef componentref;
+    private Connect connect;
     private EmptyPoint emptypoint;
     private EndPoint endpoint;
     private Map map;
@@ -112,6 +117,10 @@ public class SelectionHelper {
 
     public ComponentRef getComponentref() {
         return componentref;
+    }
+
+    public Connect getConnect() {
+        return connect;
     }
 
     public EmptyPoint getEmptypoint() {
@@ -188,24 +197,39 @@ public class SelectionHelper {
     private void setInternals(EditPart part) {
         EObject model = (EObject) part.getModel();
 
-        if (model instanceof EmptyPoint)
+        if (model instanceof EmptyPoint) {
             emptypoint = (EmptyPoint) model;
-        else if (model instanceof EndPoint)
+            if (emptypoint.getSucc().size() == 2) {
+                connect = (Connect) ((NodeConnection) emptypoint.getSucc().get(1)).getTarget();
+            }
+        } else if (model instanceof EndPoint) {
             endpoint = (EndPoint) model;
-        else if (model instanceof NodeConnection) {
+            if (endpoint.getSucc().size() == 1) {
+                connect = (Connect) ((NodeConnection) endpoint.getSucc().get(0)).getTarget();
+            }
+        } else if (model instanceof NodeConnection) {
             nodeconnection = (NodeConnection) model;
             nodeconnectionmiddle = ((NodeConnectionEditPart) part).getMiddlePoint();
         } else if (model instanceof RespRef)
             respref = (RespRef) model;
-        else if (model instanceof StartPoint)
+        else if (model instanceof StartPoint) {
             startpoint = (StartPoint) model;
-        else if (model instanceof Stub)
+            if (startpoint.getPred().size() == 1) {
+                connect = (Connect) ((NodeConnection) startpoint.getPred().get(0)).getSource();
+            }
+        } else if (model instanceof Stub)
             stub = (Stub) model;
-        else if (model instanceof Timer)
+        else if (model instanceof Timer) {
             timer = (Timer) model;
-        else if (model instanceof WaitingPlace)
+            if (timer.getPred().size() == 2) {
+                connect = (Connect) ((NodeConnection) timer.getPred().get(1)).getSource();
+            }
+        } else if (model instanceof WaitingPlace) {
             waitingplace = (WaitingPlace) model;
-        else if (model instanceof NodeLabel)
+            if (waitingplace.getPred().size() == 2) {
+                connect = (Connect) ((NodeConnection) waitingplace.getPred().get(1)).getSource();
+            }
+        } else if (model instanceof NodeLabel)
             nodelabel = (NodeLabel) model;
         else if (model instanceof ComponentLabel)
             componentlabel = (ComponentLabel) model;
@@ -273,7 +297,9 @@ public class SelectionHelper {
      *  
      */
     private void setType() {
-        if (startpoint != null && emptypoint != null)
+        if (connect != null)
+            selectionType = CONNECT;
+        else if (startpoint != null && emptypoint != null)
             selectionType = STARTPOINT_EMPTYPOINT;
         else if (startpoint != null && endpoint != null)
             selectionType = STARTPOINT_ENDPOINT;
@@ -301,6 +327,10 @@ public class SelectionHelper {
             selectionType = ENDPOINT_ORJOIN;
         else if (endpoint != null && andjoin != null)
             selectionType = ENDPOINT_ANDJOIN;
+        else if (emptypoint != null && waitingplace != null)
+            selectionType = EMPTYPOINT_WAITINGPLACE;
+        else if (emptypoint != null && timer != null)
+            selectionType = EMPTYPOINT_TIMER;
         else if (emptypoint != null)
             selectionType = EMPTYPOINT;
         else if (endpoint != null)

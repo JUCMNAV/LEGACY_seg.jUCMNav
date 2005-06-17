@@ -7,12 +7,14 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.WaitingPlace;
 
 /**
  * Created on 29-May-2005
@@ -67,12 +69,21 @@ public class DeletePathCommand extends CompoundCommand {
         if (this.end.getPathGraph() == null)
             return;
 
+        Command disconnectCmd;
+
         PathGraph pg = this.end.getPathGraph();
         PathNode node = this.end;
         PathNode next;
         commands = new Stack();
 
         commands.add(new DeleteStartNCEndCommand(this.end));
+
+        if (this.end.getSucc().size() > 0) {
+            disconnectCmd = new DisconnectCommand(this.end);
+            if (disconnectCmd.canExecute()) {
+                commands.add(disconnectCmd);
+            }
+        }
 
         do {
             next = node;
@@ -84,12 +95,26 @@ public class DeletePathCommand extends CompoundCommand {
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
             } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
+                if ((node instanceof EmptyPoint && node.getSucc().size() == 2) || (node instanceof WaitingPlace && node.getPred().size() == 2)) {
+                    disconnectCmd = new DisconnectCommand(node);
+                    if (disconnectCmd.canExecute()) {
+                        commands.add(disconnectCmd);
+                    }
+                }
+
                 Vector v = new Vector();
                 v.add((NodeConnection) next.getPred().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, new Vector(), v, this.editpartregistry));
                 break;
             }
         } while (node != null && node.getPred().size() == 1 && !(node instanceof StartPoint));
+
+        if (node instanceof StartPoint && node.getPred().size() == 1) {
+            disconnectCmd = new DisconnectCommand(node);
+            if (disconnectCmd.canExecute()) {
+                commands.add(disconnectCmd);
+            }
+        }
 
         while (commands.size() != 0)
             add((Command) commands.pop());
@@ -103,6 +128,7 @@ public class DeletePathCommand extends CompoundCommand {
         if (this.start.getPathGraph() == null)
             return;
 
+        Command disconnectCmd;
         PathGraph pg = this.start.getPathGraph();
 
         PathNode node = this.start;
@@ -110,6 +136,12 @@ public class DeletePathCommand extends CompoundCommand {
         commands = new Stack();
 
         commands.add(new DeleteStartNCEndCommand(this.start));
+        if (this.start.getSucc().size() > 0) {
+            disconnectCmd = new DisconnectCommand(this.start);
+            if (disconnectCmd.canExecute()) {
+                commands.add(disconnectCmd);
+            }
+        }
 
         do {
             previous = node;
@@ -122,6 +154,12 @@ public class DeletePathCommand extends CompoundCommand {
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
             } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
+                if ((node instanceof EmptyPoint && node.getSucc().size() == 2) || (node instanceof WaitingPlace && node.getPred().size() == 2)) {
+                    disconnectCmd = new DisconnectCommand(node);
+                    if (disconnectCmd.canExecute()) {
+                        commands.add(disconnectCmd);
+                    }
+                }                
                 Vector v = new Vector();
                 v.add((NodeConnection) previous.getSucc().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, v, new Vector(), this.editpartregistry));
@@ -129,6 +167,12 @@ public class DeletePathCommand extends CompoundCommand {
             }
         } while (node != null && node.getSucc().size() == 1 && !(node instanceof EndPoint));
 
+        if (node instanceof EndPoint && node.getSucc().size() == 1) {
+            disconnectCmd = new DisconnectCommand(node);
+            if (disconnectCmd.canExecute()) {
+                commands.add(disconnectCmd);
+            }
+        }
         while (commands.size() != 0)
             add((Command) commands.pop());
     }

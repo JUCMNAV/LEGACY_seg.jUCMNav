@@ -84,16 +84,27 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         if (b) {
             EmptyPoint ep = (EmptyPoint) p;
             if (ep.getSucc().size() > 0 && ep.getPred().size() > 0) {
-                b = ((NodeConnection) ep.getSucc().get(0)).getTarget() instanceof EmptyPoint;
+                PathNode pn = ((NodeConnection) ep.getSucc().get(0)).getTarget();
+                b = pn instanceof EmptyPoint;
+                // check if no connects
+                b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
 
-                b = b && ((NodeConnection) ep.getPred().get(0)).getSource() instanceof EmptyPoint;
+                pn = ((NodeConnection) ep.getPred().get(0)).getSource();
+                b = b && pn instanceof EmptyPoint;
+                // check if no connects
+                b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
+
             } else
                 return false;
         }
         if (b == false && p instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) p;
             b = nc.getTarget() instanceof EmptyPoint;
+            //check if no connects
+            b = b && nc.getTarget().getSucc().size() == 1 && nc.getTarget().getPred().size() == 1;
             b = b && nc.getSource() instanceof EmptyPoint;
+            //check if no connects
+            b = b && nc.getSource().getSucc().size() == 1 && nc.getSource().getPred().size() == 1;
         }
 
         return b;

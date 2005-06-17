@@ -12,6 +12,7 @@ import ucm.UcmFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -176,6 +177,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createOutBinding();
             } else if (targetClass.equals(Workload.class)) {
                 result = performancefactory.createWorkload();                
+            } else if (targetClass.equals(Connect.class)) {
+                result = mapfactory.createConnect();                
             } else {
                 // complex creations
                 if (targetClass.equals(Map.class)) {

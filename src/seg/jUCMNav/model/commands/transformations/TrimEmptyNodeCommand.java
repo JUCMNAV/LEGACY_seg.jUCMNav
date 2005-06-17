@@ -38,8 +38,8 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
     }
 
     /**
-     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might
-     * have been a better place to check for this.
+     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might have been a better
+     * place to check for this.
      * 
      * To change in future.
      */
@@ -51,8 +51,8 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
     }
 
     /**
-     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might
-     * have been a better place to check for this.
+     * Method changed to allow empty trimemptynodecommands to be executable so that they can be pushed on the stack. the external code might have been a better
+     * place to check for this.
      * 
      * To change in future.
      */
@@ -64,15 +64,17 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
     }
 
     /**
-     * Adds a DeleteNodeCommand to the compound command if this is an empty point that hasn't been named and that has no label.
+     * Adds a DeleteNodeCommand to the compound command if this is an empty point that hasn't been named, that has no label and isn't connected to anything..
      * 
      * @param pn
      */
     private void deleteIfPossible(PathNode pn) {
-        if (pn instanceof EmptyPoint && !toRemove.contains(pn) && pn.getLabel() == null
-                && pn.getName().equals(URNNamingHelper.getPrefix(EmptyPoint.class))) {
-            add(new DeleteNodeCommand(pn));
-            toRemove.add(pn);
+        if (pn instanceof EmptyPoint && !toRemove.contains(pn) && pn.getLabel() == null && pn.getName().equals(URNNamingHelper.getPrefix(EmptyPoint.class))) {
+            // don't add if is connected to something.
+            if (pn.getPred().size() == 1 && pn.getSucc().size() == 1) {
+                add(new DeleteNodeCommand(pn));
+                toRemove.add(pn);
+            }
         }
     }
 }

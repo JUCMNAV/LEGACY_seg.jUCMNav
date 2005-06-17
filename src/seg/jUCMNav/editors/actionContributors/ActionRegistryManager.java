@@ -34,12 +34,14 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
+import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
-import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
+import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 
@@ -192,8 +194,17 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
         
         action = new AddTimeoutPathAction(editor);
-        action.setText("Add timeout path"); //$NON-NLS-1$
+        action.setText("Add timeout path"); 
         addEditPartAction((SelectionAction) action);
+
+        action = new ConnectAction(editor);
+        action.setText("Connect elements"); 
+        addEditPartAction((SelectionAction) action);
+
+        action = new DisconnectAction(editor);
+        action.setText("Disonnect elements"); 
+        addEditPartAction((SelectionAction) action);
+
         
         action = new BindWithParent(editor);
         action.setText(Messages.getString("ActionRegistryManager.bindWithParent")); //$NON-NLS-1$
