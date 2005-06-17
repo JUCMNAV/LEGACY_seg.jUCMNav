@@ -2,14 +2,17 @@ package seg.jUCMNav.model.commands.delete;
 
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Responsibility;
@@ -21,7 +24,7 @@ import urncore.Responsibility;
  * @author jkealey
  *  
  */
-public class DeleteMapCommand extends Command implements JUCMNavCommand {
+public class DeleteMapCommand extends CompoundCommand implements JUCMNavCommand {
 
     private static final String DeleteCommand_Label = "DeleteMapCommand"; //$NON-NLS-1$
 
@@ -65,10 +68,40 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 htReferences.put(node, ((RespRef) node).getRespDef());
+            
+            if(node instanceof Stub){
+            	Stub stub = (Stub)node;
+            	List plugins = stub.getBindings();
+            	for (Iterator i = plugins.iterator(); i.hasNext();) {
+        			PluginBinding plugin = (PluginBinding) i.next();
+        			DeletePluginCommand cmd = new DeletePluginCommand(plugin, urn);
+        			add(cmd);
+        		}
+            }
         }
-        redo();
+        
+        List plugins = map.getParentStub();
+        for (Iterator i = plugins.iterator(); i.hasNext();) {
+			PluginBinding plugin = (PluginBinding) i.next();
+			DeletePluginCommand cmd = new DeletePluginCommand(plugin, urn);
+			add(cmd);
+		}
+        
+        doRedo();
+        
+        super.execute();
     }
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
+	
     /*
      * (non-Javadoc)
      * 
@@ -77,7 +110,18 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
-        // remove map
+        doRedo();
+        
+        super.redo();
+        
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		// remove map
         urn.getUcmspec().getMaps().remove(getMap());
 
         // break relations
@@ -91,10 +135,9 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef(null);
         }
-        testPostConditions();
-    }
+	}
 
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
@@ -137,6 +180,8 @@ public class DeleteMapCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
+        
+        super.undo();
 
         // re-add map
         urn.getUcmspec().getMaps().add(getMap());

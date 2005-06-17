@@ -43,6 +43,12 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
         super();
         this.oldPlugin = oldPlugin;
     }
+    
+    public DeletePluginCommand(PluginBinding oldPlugin, URNspec urnSpec){
+    	super();
+        this.oldPlugin = oldPlugin;
+        this.urnSpec = urnSpec;
+    }
 
     public boolean canExecute() {
         // This command can execute only if oldPlugin is not null and that this plugin is contained in a stub.
@@ -64,10 +70,12 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
 			return true;
 		return super.canUndo();
 	}
+	
     public void execute() {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
-        urnSpec = oldMap.getUcmspec().getUrnspec();
+        if(urnSpec == null)
+        	urnSpec = oldMap.getUcmspec().getUrnspec();
 
         for (Iterator i = oldPlugin.getIn().iterator(); i.hasNext();) {
             InBinding in = (InBinding) i.next();
