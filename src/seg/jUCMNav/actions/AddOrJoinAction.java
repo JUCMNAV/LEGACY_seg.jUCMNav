@@ -66,7 +66,7 @@ public class AddOrJoinAction extends SelectionAction {
             return comm;
         case SelectionHelper.ENDPOINT_NODECONNECTION:
             return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, false);
+                    .getNodeconnectionMiddle().y, true);
         case SelectionHelper.EMPTYPOINT:
             comm = new AddJoinOnEmptyPointCommand(newOrJoin, sel.getPathgraph(), sel.getEmptypoint());
             return comm;
