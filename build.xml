@@ -223,6 +223,9 @@
 		<!-- Include help in the zip for integration with eclipse help-->
 		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
 
+		<!-- Include plugin i18n strings for view names, etc -->
+		<copy file="plugin.properties" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+		
 		<!-- jkealey: create icons directory, bug 238 -->
 		<mkdir dir="${temp.folder}/seg.jUCMNav_1.0.0/icons"/>
 		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0/icons">
