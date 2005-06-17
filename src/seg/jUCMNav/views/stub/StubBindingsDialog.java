@@ -992,7 +992,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 InBinding inBind = (InBinding) j.next();
                 subItem = new TreeItem(subLabelItem, SWT.NULL);
                 subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$
-                image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/InBinding16.gif")).createImage(); //$NON-NLS-1$
+                image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")).createImage(); //$NON-NLS-1$
                 images.add(image);
                 subItem.setImage(image);
                 subItem.setData(inBind);
@@ -1009,7 +1009,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 OutBinding outBind = (OutBinding) j.next();
                 subItem = new TreeItem(subLabelItem, SWT.NULL);
                 subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$
-                image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OutBinding16.gif")).createImage(); //$NON-NLS-1$
+                image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")).createImage(); //$NON-NLS-1$
                 images.add(image);
                 subItem.setImage(image);
                 subItem.setData(outBind);
@@ -1060,8 +1060,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             // Initialize those images to add to the table items.
             Image start = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage(); //$NON-NLS-1$
             Image end = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage(); //$NON-NLS-1$
-            Image in = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/InBinding16.gif")).createImage(); //$NON-NLS-1$
-            Image out = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OutBinding16.gif")).createImage(); //$NON-NLS-1$
+            Image in = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")).createImage(); //$NON-NLS-1$
+            Image out = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")).createImage(); //$NON-NLS-1$
             images.add(in);
             images.add(out);
             images.add(start);
