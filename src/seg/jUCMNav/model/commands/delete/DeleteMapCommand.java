@@ -86,10 +86,13 @@ public class DeleteMapCommand extends CompoundCommand implements JUCMNavCommand 
 			DeletePluginCommand cmd = new DeletePluginCommand(plugin, urn);
 			add(cmd);
 		}
+        testPreConditions();
         
         doRedo();
         
         super.execute();
+        
+        testPostConditions();
     }
 
 	/* (non-Javadoc)

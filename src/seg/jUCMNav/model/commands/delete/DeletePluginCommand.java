@@ -88,9 +88,12 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
             DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
             add(cmd);
         }
+        testPreConditions();
         
         doRedo();
         super.execute();
+        
+        testPostConditions();
     }
 
     public void redo() {
@@ -134,21 +137,6 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
 
         assert stub.getBindings().contains(oldPlugin) : "Pre oldPlugin not contained in stub bindings";
         assert oldMap.getParentStub().contains(oldPlugin) : "Pre oldPlugin not contained in the map parent stubs";
-
-//        assert oldPlugin.getIn().size() == inBindings.size() : "Pre InBindings size changed";
-//        assert oldPlugin.getOut().size() == outBindings.size() : "Pre OutBindings size changed";
-//
-//        for (Iterator i = oldPlugin.getIn().iterator(); i.hasNext();) {
-//            InBinding in = (InBinding) i.next();
-//            assert in.getStartPoint() != starts.get(in.getBinding()) : "Pre an InBinding start point is not equal to what it was before";
-//            assert in.getStubEntry() != entry.get(in.getBinding()) : "Pre an InBinding node connection entry is not equals to what is was before";
-//        }
-//
-//        for (Iterator i = oldPlugin.getOut().iterator(); i.hasNext();) {
-//            OutBinding out = (OutBinding) i.next();
-//            assert out.getEndPoint() != starts.get(out.getBinding()) : "Pre an OutBinding end point is not equal to what it was before";
-//            assert out.getStubExit() != entry.get(out.getBinding()) : "Pre an OutBinding node connection exit is not equals to what is was before";
-//        }
     }
 
     /*
@@ -158,7 +146,6 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
      */
     public void testPostConditions() {
         assert oldPlugin != null : "Post oldPlugin is null";
-        assert oldPlugin != null : "Post oldPlugin is null";
         assert stub != null : "Post stub is null";
         assert oldMap != null : "Post the associated map is null";
 
@@ -167,18 +154,6 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
 
         assert oldPlugin.getIn().size() == 0 : "Post InBindings size is not zero";
         assert oldPlugin.getOut().size() == 0 : "Post OutBindings size is not zero";
-
-//        for (Iterator i = inBindings.iterator(); i.hasNext();) {
-//            InBinding in = (InBinding) i.next();
-//            assert in.getStartPoint() == null : "Post an InBinding start point is not null.";
-//            assert in.getStubEntry() == null : "Post an InBinding node connection entry is not null";
-//        }
-//
-//        for (Iterator i = outBindings.iterator(); i.hasNext();) {
-//            OutBinding out = (OutBinding) i.next();
-//            assert out.getEndPoint() == null : "Post an OutBinding end point is not null";
-//            assert out.getStubExit() == null : "Post an OutBinding node connection exit is not null";
-//        }
     }
 
 }

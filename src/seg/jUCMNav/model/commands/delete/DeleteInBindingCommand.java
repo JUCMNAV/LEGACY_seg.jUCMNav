@@ -58,9 +58,13 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+    	testPreConditions();
+    	
         plugin.getIn().remove(in);
         start.getInBindings().remove(in);
         stubEntry.getInBindings().remove(in);
+        
+        testPostConditions();
     }
 
     /*
@@ -69,9 +73,13 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+    	testPostConditions();
+    	
         plugin.getIn().add(in);
         start.getInBindings().add(in);
         stubEntry.getInBindings().add(in);
+        
+        testPreConditions();
     }
 
     /*
@@ -80,7 +88,11 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-
+    	assert in != null : "Pre Inbindin is null";
+    	
+    	assert in.getStartPoint() == start : "Pre Start point changed";
+    	assert in.getStubEntry() == stubEntry : "Pre stub entry changed";
+    	assert in.getBinding() == plugin : "Pre PluginBinding changed";
     }
 
     /*
@@ -89,6 +101,10 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-
+    	assert in != null : "Post Inbinding is null";
+    	
+    	assert in.getStartPoint() == null : "Post Start point changed";
+    	assert in.getStubEntry() == null : "Post stub entry changed";
+    	assert in.getBinding() == null : "Post PluginBinding changed";
     }
 }

@@ -1,15 +1,20 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
 import ucm.map.EmptyPoint;
+import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
@@ -22,7 +27,7 @@ import urncore.Condition;
  * 
  *  
  */
-public class ForkPathsCommand extends Command implements JUCMNavCommand {
+public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand {
 
     EmptyPoint _oldEmptyPoint;
 
@@ -68,8 +73,21 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
     }
 
     public boolean canExecute() {
+    	// Make sure we can execute even if we don't have any added commands
+    	if(getCommands().size() == 0)
+			return true;
         return super.canExecute();
     }
+    
+    /* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
 
     public void execute() {
         _x = _oldEmptyPoint.getX();
@@ -89,12 +107,37 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
             _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
             _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
         }
-
-        redo();
+        
+        List ins = _oldStartPoint.getInBindings();
+        for (Iterator i = ins.iterator(); i.hasNext();) {
+			InBinding in = (InBinding) i.next();
+			Command cmd = new DeleteInBindingCommand(in);
+			add(cmd);
+		}
+        
+        testPreConditions();
+        
+        doRedo();
+        super.execute();
+        
+        testPostConditions();
     }
 
     public void redo() {
-        // Set the start of the link going to _oldStartPoint to point to the new fork.
+    	testPreConditions();
+    	
+        doRedo();
+        
+        super.redo();
+        
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		// Set the start of the link going to _oldStartPoint to point to the new fork.
         _ncOldStart.setSource(_newFork);
 
         // Move the old empty point's connections to the new fork.
@@ -116,9 +159,13 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
             _ncOldStart.setCondition((Condition) _newConditions.get(0));
             _ncB.setCondition((Condition) _newConditions.get(1));
         }
-    }
+	}
 
-    public void undo() {
+	public void undo() {
+		testPostConditions();
+		
+		super.undo();
+		
         _ncOldStart.setSource(_oldStartPoint);
 
         _ncA.setTarget(_oldEmptyPoint);
@@ -136,6 +183,8 @@ public class ForkPathsCommand extends Command implements JUCMNavCommand {
             _ncOldStart.setCondition(null);
             _ncB.setCondition(null);
         }
+        
+        testPreConditions();
     }
 
     /*

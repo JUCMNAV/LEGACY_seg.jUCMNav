@@ -1,10 +1,16 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import ucm.map.ComponentRef;
+import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
@@ -20,7 +26,7 @@ import urncore.Condition;
  * 
  * @author Etienne Tremblay
  */
-public class JoinStartToStubForkCommand extends Command implements JUCMNavCommand {
+public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMNavCommand {
 
     /**
      * <code>oldStartPoint</code>: The start point beeing dragged to the stub.
@@ -87,6 +93,16 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         else
             return false;
     }
+    
+    /* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
 
     /*
      * (non-Javadoc)
@@ -107,7 +123,20 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
         }
 
         oldParent = oldStartPoint.getCompRef();
-        redo();
+        
+        List ins = oldStartPoint.getInBindings();
+        for (Iterator i = ins.iterator(); i.hasNext();) {
+			InBinding in = (InBinding) i.next();
+			Command cmd = new DeleteInBindingCommand(in);
+			add(cmd);
+		}
+        
+        testPreConditions();
+        
+        doRedo();
+        super.execute();
+        
+        testPostConditions();
     }
 
     /*
@@ -118,24 +147,35 @@ public class JoinStartToStubForkCommand extends Command implements JUCMNavComman
     public void redo() {
         testPreConditions();
 
-        ncOldStart.setSource(stubOrFork);
+        doRedo();
+        
+        super.redo();
+
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		ncOldStart.setSource(stubOrFork);
         pg.getPathNodes().remove(oldStartPoint);
 
         if (newCondition != null)
             ncOldStart.setCondition(newCondition);
 
         oldStartPoint.setCompRef(null);
+	}
 
-        testPostConditions();
-    }
-
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
         testPostConditions();
+        
+        super.undo();
 
         pg.getPathNodes().add(oldStartPoint);
         ncOldStart.setSource(oldStartPoint);

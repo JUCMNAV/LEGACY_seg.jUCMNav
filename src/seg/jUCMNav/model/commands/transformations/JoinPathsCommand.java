@@ -1,15 +1,21 @@
 package seg.jUCMNav.model.commands.transformations;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.commands.delete.DeleteOutBindingCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndJoin;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
@@ -18,7 +24,7 @@ import ucm.map.PathNode;
  * 
  *  
  */
-public class JoinPathsCommand extends Command implements JUCMNavCommand {
+public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand {
 
     EmptyPoint _oldEmptyPoint;
 
@@ -62,8 +68,21 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
     }
 
     public boolean canExecute() {
+    	// Make sure we can execute even if we don't have any added commands
+    	if(getCommands().size() == 0)
+			return true;
         return super.canExecute();
     }
+    
+    /* (non-Javadoc)
+	 * @see org.eclipse.gef.commands.Command#canUndo()
+	 */
+	public boolean canUndo() {
+		// Make sure we can undo even if we don't have any added commands
+		if(getCommands().size() == 0)
+			return true;
+		return super.canUndo();
+	}
 
     public void execute() {
         _x = _oldEmptyPoint.getX();
@@ -76,12 +95,36 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
         _ncOldEnd = (NodeConnection) _oldEndPoint.getPred().get(0);
         _ncA = (NodeConnection) _oldEmptyPoint.getPred().get(0);
         _ncB = (NodeConnection) _oldEmptyPoint.getSucc().get(0);
+        
+        List outs = _oldEndPoint.getOutBindings();
+        for (Iterator i = outs.iterator(); i.hasNext();) {
+			OutBinding out = (OutBinding) i.next();
+			Command cmd = new DeleteOutBindingCommand(out);
+			add(cmd);
+		}
 
-        redo();
+        testPreConditions();
+        
+        doRedo();
+        super.execute();
+        
+        testPostConditions();
     }
 
     public void redo() {
-        // Set the end of the link going to _oldEndPoint to point to the new join.
+    	testPreConditions();
+    	
+        doRedo();
+        super.redo();
+        
+        testPostConditions();
+    }
+
+    /**
+	 * 
+	 */
+	private void doRedo() {
+		// Set the end of the link going to _oldEndPoint to point to the new join.
         _ncOldEnd.setTarget(_newJoin);
 
         // Move the old empty point's connections to the new join.
@@ -98,9 +141,13 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
         // Add new join PathNode to model
         _newJoin.setCompRef(ParentFinder.findParent(_pg.getMap(), _newJoin.getX(), _newJoin.getY()));
         _pg.getPathNodes().add(_newJoin);
-    }
+	}
 
-    public void undo() {
+	public void undo() {
+		testPostConditions();
+		
+		super.undo();
+		
         _ncOldEnd.setTarget(_oldEndPoint);
 
         _ncA.setTarget(_oldEmptyPoint);
@@ -113,6 +160,8 @@ public class JoinPathsCommand extends Command implements JUCMNavCommand {
 
         _newJoin.setCompRef(null);
         _pg.getPathNodes().remove(_newJoin);
+        
+        testPreConditions();
     }
 
     /*

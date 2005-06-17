@@ -239,9 +239,13 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         verifyShouldDelete();
 
         initialize();
-
+        
+        testPreConditions();
+        
         super.execute();
-        redo();
+        doRedo();
+        
+        testPostConditions();
     }
 
     /**
