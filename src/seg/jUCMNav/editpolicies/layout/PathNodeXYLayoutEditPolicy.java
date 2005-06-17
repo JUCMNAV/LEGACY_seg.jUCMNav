@@ -13,6 +13,7 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
@@ -152,6 +153,15 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
             return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getOrfork());
         case SelectionHelper.STARTPOINT_ANDFORK:
             return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getAndfork());
+        case SelectionHelper.EMPTYPOINT_TIMER:
+            return new ConnectCommand(sel.getEmptypoint(), sel.getTimer());
+        case SelectionHelper.EMPTYPOINT_WAITINGPLACE:
+            return new ConnectCommand(sel.getEmptypoint(), sel.getWaitingPlace());
+        case SelectionHelper.ENDPOINT_TIMER:
+            return new ConnectCommand(sel.getEndpoint(), sel.getTimer());
+        case SelectionHelper.ENDPOINT_WAITINGPLACE:
+            return new ConnectCommand(sel.getEndpoint(), sel.getWaitingPlace());
+
         }
 
         // don't allow drop
