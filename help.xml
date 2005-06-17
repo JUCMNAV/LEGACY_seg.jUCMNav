@@ -23,3 +23,31 @@
         <topic label="Javadoc"  href="http://jkealey.shade.ca:82/jucmnav-docs/"/>
     </topic>
 </toc>
+<toc label="jUCMNav Online Help"  topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
+    <topic label="Part I – Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
+        <topic label="The Use Case Maps (UCM) Notation"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#The_Use_Case_Maps_UCM_Notation"/>
+        <topic label="Setup and Installation"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Setup_and_Installation"/>
+        <topic label="Quick Tour of Eclipse and jUCMNav"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Quick_Tour_of_Eclipse_and_jUCMNa"/>
+    </topic>
+    <topic label="Part II – Basic Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_II_Basic_Editing">
+    	<topic label="Components" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Components"/>
+    	<topic label="Creating Paths" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Creating_Paths"/>
+    	<topic label="Elements bound to components" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Elements_bound_to_components"/>    	    	
+    	<topic label="Working with labels" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_labels"/>    	
+    	<topic label="Forks/Joins" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Forks_Joins"/>
+    	<topic label="Conditions" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Conditions"/>    	    	
+       	<topic label="Deletion" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Deletion"/>    	    	
+	   	<topic label="Waiting places, timers and connects" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Waiting_places_timers_and_connec"/>    	    	
+    </topic>
+    <topic label="Part III – Advanced Editing"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_III_Advanced_Editing">
+    	<topic label="Working with Multiple Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_Multiple_Maps"/>
+    	<topic label="Zooming and view modes" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Zooming_and_view_modes"/>
+    	<topic label="Auto-layout" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Auto_layout"/>
+    	<topic label="Using Stubs" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Using_Stubs"/>
+    	<topic label="Exporting Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Exporting_Maps"/>    	    	    	    	    
+    </topic>
+    <topic label="Part IV – Developer Reference"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
+        <topic label="Javadoc"  href="http://jkealey.shade.ca:82/jucmnav-docs/"/>
+        <topib label="Developer site" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/WebHome"/>
+    </topic>
+</toc>
