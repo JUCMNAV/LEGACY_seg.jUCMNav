@@ -16,26 +16,35 @@ import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.Condition;
 
 /**
  * Created on 29-May-2005
  * 
- * This is the first implementation of deletion for a PathNode that has multiple inputs or outputs.
+ * This class implements the deletion for a PathNode that has multiple inputs or outputs.
  * 
  * We create new start and end points to truncate the paths that enter or exit this PathNode.
+ * 
+ * It is important to be noted that one can pass a subset of the node connections in the constructor and only these will be deleted. Therefore, depending on the
+ * constructor parameters, this command doesn't necessarily delete the actual node, it might just disconnect branches. Furthermore, note that even though a
+ * subset of branches is passed, an internal decision might be taken to delete the pathnode. For example, deleting the incoming branch of a fork will delete the
+ * fork itself.
  * 
  * This command handles the deletion of PluginBindings, InBindings and OutBindings from Stubs.
  * 
@@ -44,18 +53,25 @@ import urncore.Condition;
  */
 public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCommand {
 
+    // if the node has already been deleted, this will prevent the command from
+    // being done/undone without breaking the stack.
+    private boolean aborted = false;
+
     // needed to get access to the SplineConnection of incoming / outgoing node
     // connections.
     private Map editpartregistry;
 
+    // if the pathnode was downgraded to an empty point, this is it.
+    private EmptyPoint empty;
+
     // list of incoming and outgoing node connections
     private List ncIn, ncOut;
 
-    // when deleting an orfork, remember its out conditions.
-    private List outConditions;
-
     // list of new start points and end points.
     private List newStart, newEnd;
+
+    // when deleting an orfork, remember its out conditions.
+    private List outConditions;
 
     // if the node is bound to a parent
     private ComponentRef parent;
@@ -63,41 +79,14 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
     // the pathgraph that contains the node.
     private PathGraph pg;
 
-    // the pathnode to be deleted.
-    private PathNode toDelete;
-
-    // if the pathnode was downgraded to an empty point, this is it.
-    private EmptyPoint empty;
-
-    // if we are downgrading an orfork to an empty point, we need to get rid of
-    // the condition.
-    //    private Condition condition;
-
-    // the URNspec which contains all the elements
-    private URNspec urn;
-
     // if this is false, we're only removing branches.
     private boolean shouldDeleteNode = true;
 
-    // if the node has already been deleted, this will prevent the command from
-    // being done/undone without breaking the stack.
-    private boolean aborted = false;
+    // the pathnode to be deleted.
+    private PathNode toDelete;
 
-    /**
-     * Deletes a PathNode and replaces its incoming and outgoing node connections with start points and end points.
-     * 
-     * @param toDelete
-     *            The PathNode to be deleted.
-     * @param editpartregistry
-     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
-     *            NodeConnectionEditParts.
-     *  
-     */
-    public DeleteMultiNodeCommand(PathNode toDelete, Map editpartregistry) {
-        this.toDelete = toDelete;
-        this.editpartregistry = editpartregistry;
-        this.shouldDeleteNode = true;
-    }
+    // the URNspec which contains all the elements
+    private URNspec urn;
 
     /**
      * Deletes a PathNode and replaces the specified incoming and outgoing node connections with start points and end points.
@@ -124,6 +113,56 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         this.shouldDeleteNode = false;
     }
 
+    /**
+     * Deletes a PathNode and replaces its incoming and outgoing node connections with start points and end points.
+     * 
+     * @param toDelete
+     *            The PathNode to be deleted.
+     * @param editpartregistry
+     *            The Edit Part Viewer's edit part registry. It is sufficient to pass a map containing only the mapping between NodeConnections and
+     *            NodeConnectionEditParts.
+     *  
+     */
+    public DeleteMultiNodeCommand(PathNode toDelete, Map editpartregistry) {
+        this.toDelete = toDelete;
+        this.editpartregistry = editpartregistry;
+        this.shouldDeleteNode = true;
+    }
+
+    /**
+     * Delete bindings if any exist.
+     */
+    private void addDeletePluginBindingCommands() {
+        if (toDelete instanceof Stub) {
+            Stub stub = (Stub) toDelete;
+
+            if (shouldDeleteNode) {
+                // remove the plugin binding and its bindings
+                for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+                    PluginBinding plugin = (PluginBinding) i.next();
+                    DeletePluginCommand del = new DeletePluginCommand(plugin);
+                    add(del);
+                }
+            } else {
+                // simply delete the affected bindings
+                for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
+                    NodeConnection nc = (NodeConnection) iter.next();
+                    for (Iterator iterator = nc.getInBindings().iterator(); iterator.hasNext();) {
+                        InBinding binding = (InBinding) iterator.next();
+                        add(new DeleteInBindingCommand(binding));
+                    }
+                }
+                for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+                    NodeConnection nc = (NodeConnection) iter.next();
+                    for (Iterator iterator = nc.getOutBindings().iterator(); iterator.hasNext();) {
+                        OutBinding binding = (OutBinding) iterator.next();
+                        add(new DeleteOutBindingCommand(binding));
+                    }
+                }
+            }
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -131,202 +170,25 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
      */
     public boolean canExecute() {
         return toDelete != null && toDelete.getPathGraph() != null;
-        // At first, was only intended for the following elements but this is
-        // not necessary. Performs work similar to the CutPathCommand.
-        //
-        //&& (toDelete instanceof Stub || toDelete instanceof AndFork ||
-        // toDelete instanceof AndJoin || toDelete instanceof OrFork || toDelete
-        // instanceof
-        // OrJoin);
-    }
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute() {
-    	if(toDelete instanceof Stub){
-        	Stub stub = (Stub)toDelete;
-        	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-				PluginBinding plugin = (PluginBinding) i.next();
-				DeletePluginCommand del = new DeletePluginCommand(plugin);
-				add(del);
-			}
-        }
-    	
-        // this could happen when multiple nodes are selected for deletion and
-        // this one has already been deleted.
-        if (!canExecute()) {
-            aborted = true;
-            return;
-        }
-        // create new vectors.
-        newStart = new Vector();
-        newEnd = new Vector();
-
-        // save current state.
-        if (ncOut == null) {
-            ncOut = new Vector();
-            ncOut.addAll(toDelete.getSucc());
-        }
-
-        if (ncIn == null) {
-            ncIn = new Vector();
-            ncIn.addAll(toDelete.getPred());
-        }
-
-        // make sure it is valid to simply break the connection.
-        if (!shouldDeleteNode) {
-            // if one side or the other is left without any connection.
-            if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
-                if (!(toDelete instanceof Stub) || ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0))) {
-                    markNodeForDeletion();
-                }
-            } else if (toDelete instanceof Timer && ncOut.size() == 1 && toDelete.getSucc().indexOf(ncOut.get(0)) == 0) {
-                // if trying to delete the normal path of a timer, must disconnect its timeout path as well.
-                markNodeForDeletion();
-            } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
-
-                if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
-                    // need to downgrade pathnode to empty point.
-                    empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
-                    empty.setX(toDelete.getX());
-                    empty.setY(toDelete.getY());
-
-                    if (ncOut.size() > 0) {
-                        // index of connection to be deleted.
-                        int index = toDelete.getSucc().indexOf(ncOut.get(0));
-                        // index of remaining node connection
-                        index = (++index % 2);
-                        // we need to get rid of this condition.
-                        if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
-                            outConditions = new Vector();
-                            outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-        pg = toDelete.getPathGraph();
-        urn = toDelete.getPathGraph().getMap().getUcmspec().getUrnspec();
-        parent = toDelete.getCompRef();
-
-        // create and initialize all new start points.
-        for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            Point midPoint;
-            StartPoint sp = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
-
-            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
-            if (nodePart != null) {
-                SplineConnection spline = (SplineConnection) nodePart.getFigure();
-                //          if we don't do this, when deleting multiple path elements,
-                // the spline might not have been refreshed and the mid point
-                // ends up being in the
-                // top
-                // left corner.
-                spline.getConnectionRouter().route(spline);
-                if (spline.getPoints().size() > 0) {
-                    midPoint = spline.getPoints().getMidpoint();
-                    sp.setX(midPoint.x);
-                    sp.setY(midPoint.y);
-                }
-            }
-            newStart.add(sp);
-        }
-
-        // create and initialize all new end points.
-        for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            Point midPoint;
-            EndPoint ep = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
-            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
-            if (nodePart != null) {
-                SplineConnection spline = (SplineConnection) nodePart.getFigure();
-
-                // if we don't do this, when deleting multiple path elements,
-                // the spline might not have been refreshed and the mid point
-                // ends up being in the
-                // top
-                // left corner.
-                spline.getConnectionRouter().route(spline);
-                if (spline.getPoints().size() > 0) {
-                    midPoint = spline.getPoints().getMidpoint();
-                    ep.setX(midPoint.x);
-                    ep.setY(midPoint.y);
-                } else {
-                    if (nc.getSource() != null && nc.getSource() != toDelete) {
-                        ep.setX(nc.getSource().getX());
-                        ep.setY(nc.getSource().getY());
-                    }
-                    if (nc.getTarget() != null && nc.getTarget() != toDelete) {
-                        ep.setX(nc.getTarget().getX());
-                        ep.setY(nc.getTarget().getY());
-                    }
-                }
-            }
-            newEnd.add(ep);
-        }
-
-        if (outConditions == null) {
-            outConditions = new Vector();
-            for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                outConditions.add(nc.getCondition());
-            }
-        }
-        doRedo();
-        super.execute();
-    }
-
-    /**
-     * 
-     */
-    private void markNodeForDeletion() {
-        ncOut = new Vector();
-        ncIn = new Vector();
-        ncOut.addAll(toDelete.getSucc());
-        ncIn.addAll(toDelete.getPred());
-
-        shouldDeleteNode = true;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.commands.Command#redo()
+     * @see org.eclipse.gef.commands.Command#canUndo()
      */
-    public void redo() {
-        if (aborted)
-            return;
-        testPreConditions();
-
-        doRedo();
-        
-        super.redo();
-        
-        testPostConditions();
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		if (shouldDeleteNode) {
-
+     *  
+     */
+    private void doRedo() {
+        if (shouldDeleteNode) {
             // remove the current node from the map
             toDelete.setCompRef(null);
             pg.getPathNodes().remove(toDelete);
@@ -360,9 +222,197 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
             pg.getPathNodes().add(empty);
 
         }
-	}
+    }
 
-	/*
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        // this could happen when multiple nodes are selected for deletion and
+        // this one has already been deleted.
+        if (!canExecute()) {
+            aborted = true;
+            return;
+        }
+        verifyShouldDelete();
+
+        initialize();
+
+        super.execute();
+        redo();
+    }
+
+    /**
+     * Given the list of incoming node connections, create end points and set them at the right place (mid node connection).
+     */
+    private void initEndPoints() {
+        // create and initialize all new end points.
+        for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            Point midPoint;
+            EndPoint ep = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
+            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            if (nodePart != null) {
+                SplineConnection spline = (SplineConnection) nodePart.getFigure();
+
+                // if we don't do this, when deleting multiple path elements,
+                // the spline might not have been refreshed and the mid point
+                // ends up being in the
+                // top
+                // left corner.
+                spline.getConnectionRouter().route(spline);
+                if (spline.getPoints().size() > 0) {
+                    midPoint = spline.getPoints().getMidpoint();
+                    ep.setX(midPoint.x);
+                    ep.setY(midPoint.y);
+                } else {
+                    if (nc.getSource() != null && nc.getSource() != toDelete) {
+                        ep.setX(nc.getSource().getX());
+                        ep.setY(nc.getSource().getY());
+                    }
+                    if (nc.getTarget() != null && nc.getTarget() != toDelete) {
+                        ep.setX(nc.getTarget().getX());
+                        ep.setY(nc.getTarget().getY());
+                    }
+                }
+            }
+            newEnd.add(ep);
+        }
+    }
+
+    /**
+     * Initializes all the internal variables, given a properly define list of in/outs to be deleted.
+     */
+    private void initialize() {
+        addDeletePluginBindingCommands();
+        addDisconnectCommand();
+        trimConnectNodeConnections();
+        initVariables();
+        initStartPoints();
+        initEndPoints();
+        initOutConditions();
+
+    }
+
+    /**
+     * Because other commands get rid of connects, we need to get rid of a few node connections.
+     */
+    private void trimConnectNodeConnections() {
+        Vector v = new Vector();
+        for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (nc.getSource() instanceof Connect)
+                v.add(nc);
+        }
+        for (Iterator iter = v.iterator(); iter.hasNext();) {
+            ncIn.remove(iter.next());
+        }
+        v = new Vector();
+        for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (nc.getTarget() instanceof Connect)
+                v.add(nc);
+        }
+        for (Iterator iter = v.iterator(); iter.hasNext();) {
+            ncOut.remove(iter.next());
+        }
+    }
+
+    /**
+     * Removes the connect to this pathnode if necessary.
+     */
+    private void addDisconnectCommand() {
+        if (shouldDeleteNode) {
+            DisconnectCommand cmd = new DisconnectCommand(toDelete);
+            if (cmd.canExecute()) {
+                add(cmd);
+            }
+        }
+    }
+
+    /**
+     * Store the list of conditions on outgoing node connections. Since there are no conditions on incoming connections, don't need the inverse.
+     */
+    private void initOutConditions() {
+        if (outConditions == null) {
+            outConditions = new Vector();
+            for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                outConditions.add(nc.getCondition());
+            }
+        }
+    }
+
+    /**
+     * Given the list of outgoing node connections, create start points and set them at the right place (mid node connection).
+     */
+    private void initStartPoints() {
+        // create and initialize all new start points.
+        for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            Point midPoint;
+            StartPoint sp = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
+
+            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            if (nodePart != null) {
+                SplineConnection spline = (SplineConnection) nodePart.getFigure();
+                // if we don't do this, when deleting multiple path elements,
+                // the spline might not have been refreshed and the mid point
+                // ends up being in the top left corner
+
+                spline.getConnectionRouter().route(spline);
+                if (spline.getPoints().size() > 0) {
+                    midPoint = spline.getPoints().getMidpoint();
+                    sp.setX(midPoint.x);
+                    sp.setY(midPoint.y);
+                }
+            }
+            newStart.add(sp);
+        }
+    }
+
+    /**
+     * save pathgraph/urn and other simple variables
+     */
+    private void initVariables() {
+        pg = toDelete.getPathGraph();
+        urn = toDelete.getPathGraph().getMap().getUcmspec().getUrnspec();
+        parent = toDelete.getCompRef();
+    }
+
+    /**
+     * Make sure we delete all in/out connects and disconnect any connects from the element.
+     */
+    private void markNodeForDeletion() {
+        ncOut = new Vector();
+        ncIn = new Vector();
+        ncOut.addAll(toDelete.getSucc());
+        ncIn.addAll(toDelete.getPred());
+
+        shouldDeleteNode = true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        if (aborted)
+            return;
+
+        super.redo();
+
+        testPreConditions();
+
+        doRedo();
+
+        testPostConditions();
+    }
+
+    /*
      * (non-Javadoc)
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
@@ -453,8 +503,6 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         if (aborted)
             return;
         testPostConditions();
-        
-        super.undo();
 
         if (!shouldDeleteNode && empty != null) {
             // must upgrade back to non empty point.
@@ -497,5 +545,91 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
 
         testPreConditions();
+
+        super.undo();
+
+    }
+
+    /**
+     * We must verify that the given node connections to be deleted imply the path node must be deleted.
+     * 
+     * For example, a timer must be deleted if we remove its primary input/output but is still legal if we delete its timeoutpath.
+     */
+    private void verifyShouldDelete() {
+        // create new vectors.
+        newStart = new Vector();
+        newEnd = new Vector();
+
+        // save current state.
+        if (ncOut == null) {
+            ncOut = new Vector();
+            ncOut.addAll(toDelete.getSucc());
+        }
+
+        if (ncIn == null) {
+            ncIn = new Vector();
+            ncIn.addAll(toDelete.getPred());
+        }
+
+        // make sure it is valid to simply break the connection.
+        if (!shouldDeleteNode) {
+            int minIn = 0;
+            int minOut = 0;
+
+            if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
+                // delete element if has no elements on one side or the other.
+                markNodeForDeletion();
+            } else if (toDelete instanceof Timer && ncOut.size() == 1 && toDelete.getSucc().indexOf(ncOut.get(0)) == 0) {
+                // if trying to delete the normal path of a timer, must disconnect its timeout path as well.
+                markNodeForDeletion();
+            } else if ((new DisconnectCommand(toDelete)).canExecute()) {
+                // is this pathnode connected to a connect?
+                if (toDelete instanceof EmptyPoint && ncOut.contains(toDelete.getSucc().get(0))) {
+                    // must delete if we delete the out that isn't a connect.
+                    markNodeForDeletion();
+                } else if (toDelete instanceof WaitingPlace && ncIn.contains(toDelete.getPred().get(0))) {
+                    // must delete if we delete the in that isn't a connect. (remember timer subclass of waitingplace)
+                    markNodeForDeletion();
+                }
+            } else { // not connected to anything.
+                if (toDelete instanceof Stub) {
+                    // stubs are deleted only when they have neither inputs nor outputs
+                    if ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0)) {
+                        markNodeForDeletion();
+                    }
+                } else if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
+                    // normal path nodes are deleted when they either have no inputs or outputs
+                    markNodeForDeletion();
+                } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
+                    // we downgrade forks/joins to empty points when they have only 1 in/out
+                    if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
+                        initEmptyPoint();
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     *  
+     */
+    private void initEmptyPoint() {
+        // need to downgrade pathnode to empty point.
+        empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
+        empty.setX(toDelete.getX());
+        empty.setY(toDelete.getY());
+
+        if (ncOut.size() > 0) {
+            // index of connection to be deleted.
+            int index = toDelete.getSucc().indexOf(ncOut.get(0));
+            // index of remaining node connection
+            index = (++index % 2);
+            // we need to get rid of this condition.
+            if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
+                outConditions = new Vector();
+                outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
+            }
+        }
     }
 }

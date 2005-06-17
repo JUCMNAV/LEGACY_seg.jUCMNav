@@ -202,7 +202,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new DisconnectAction(editor);
-        action.setText("Disonnect elements"); 
+        action.setText("Disconnect elements"); 
         addEditPartAction((SelectionAction) action);
 
         

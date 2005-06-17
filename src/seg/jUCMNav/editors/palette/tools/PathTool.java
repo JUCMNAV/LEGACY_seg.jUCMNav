@@ -240,10 +240,13 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
             }
         }
 
-        if (selected.getModel() instanceof EndPoint) {
-            state = ENDPOINT;
-        } else if (selected.getModel() instanceof StartPoint) {
-            state = STARTPOINT;
+        if (selected != null) {
+            if (selected.getModel() instanceof EndPoint) {
+                state = ENDPOINT;
+            } else if (selected.getModel() instanceof StartPoint) {
+                state = STARTPOINT;
+            } else
+                state = NOSELECT;
         } else {
             state = NOSELECT;
         }

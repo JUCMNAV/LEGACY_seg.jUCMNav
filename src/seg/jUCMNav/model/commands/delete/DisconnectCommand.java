@@ -6,7 +6,6 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -24,9 +23,6 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
     private NodeConnection ncLeft, ncRight;
     private Connect connect;
     private URNspec urn;
-
-    private int oldLeftX, oldLeftY;
-    private ComponentRef oldLeftParent;
 
     public DisconnectCommand(PathNode pn) {
         // pn to the left of a connect?
@@ -80,10 +76,6 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        this.oldLeftX = this.left.getX();
-        this.oldLeftY = this.left.getY();
-        this.oldLeftParent = this.left.getCompRef();
-
         redo();
     }
 
@@ -103,12 +95,12 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
 
         left.getPathGraph().getNodeConnections().add(ncLeft);
         left.getPathGraph().getNodeConnections().add(ncRight);
-        left.getPathGraph().getPathNodes().add(connect);
+        right.getPathGraph().getPathNodes().add(connect);
 
-        left.setX(oldLeftX);
-        left.setY(oldLeftY);
+        left.setX(right.getX());
+        left.setY(right.getY());
 
-        left.setCompRef(oldLeftParent);
+        left.setCompRef(right.getCompRef());
 
         testPreConditions();
     }

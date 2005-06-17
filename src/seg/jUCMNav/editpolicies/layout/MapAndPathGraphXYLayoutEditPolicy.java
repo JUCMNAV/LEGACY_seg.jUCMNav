@@ -4,7 +4,6 @@
  */
 package seg.jUCMNav.editpolicies.layout;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -13,7 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -32,10 +30,8 @@ import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Connect;
 import ucm.map.EndPoint;
 import ucm.map.Map;
-import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
@@ -276,27 +272,8 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
         PathNode node = (PathNode) child.getModel();
 
-        CompoundCommand cmd = new CompoundCommand();
-        cmd.add(new SetConstraintCommand(node, location.x, location.y));
+        return new SetConstraintCommand(node, location.x, location.y);
 
-        if (node.getPred().size() > 0) {
-            for (Iterator iter = node.getPred().iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                if (nc.getSource() instanceof Connect) {
-                    cmd.add(new SetConstraintCommand(((NodeConnection) nc.getSource().getPred().get(0)).getSource(), location.x, location.y));
-                }
-            }
-        }
-        if (node.getSucc().size() > 0) {
-            for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                if (nc.getTarget() instanceof Connect) {
-                    cmd.add(new SetConstraintCommand(((NodeConnection) nc.getTarget().getSucc().get(0)).getTarget(), location.x, location.y));
-                }
-            }
-        }
-
-        return cmd;
 
     }
 }

@@ -13,6 +13,7 @@ import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.SplineConnection;
 import ucm.map.AndJoin;
+import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
@@ -115,9 +116,11 @@ public class BSplineConnectionRouter extends AbstractRouter {
             PathNode node = (PathNode) i.next();
             if (node instanceof StartPoint)
                 starts.add(node);
-            else if (node.getPred().size() > 1 || node.getSucc().size() > 1 || node instanceof Stub)
-                forks.add(node);
-            else if (node instanceof EndPoint)
+            else if (node.getPred().size() > 1 || node.getSucc().size() > 1 || node instanceof Stub) {
+                // prevent connects
+                if (!(node instanceof EmptyPoint))
+                    forks.add(node); 
+            } else if (node instanceof EndPoint)
                 ends.add(node);
         }
     }
@@ -154,6 +157,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
                 link = (NodeConnection) startNode.getSucc().get(0);
                 nodes.add(startNode);
             }
+
             nodes.add(link.getTarget()); // Add the last node
             conSplines.put(link, newSpline);
             newSpline.setPoints(nodes);
@@ -168,11 +172,12 @@ public class BSplineConnectionRouter extends AbstractRouter {
                 do {
                     conSplines.put(link, newSpline); // This connection belongs to this spline.
                     startNode = link.getTarget();
+
                     nodes.add(startNode);
                     if (!(startNode instanceof EndPoint || forks.contains(startNode)))
                         link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the next link
                     else {
-                        if (forks.contains(startNode) && startNode.getSucc().size()>0) {
+                        if (forks.contains(startNode) && startNode.getSucc().size() > 0) {
                             link = (NodeConnection) startNode.getSucc().get(0); // If not at an EndPoint or a Fork, get the next link
                             nodes.add(link.getTarget());
                             conSplines.put(link, newSpline);
@@ -346,6 +351,7 @@ public class BSplineConnectionRouter extends AbstractRouter {
                 // Examine link k in outbound links from nodeA and draw it if it
                 // goes to nodeB
                 NodeConnection link = (NodeConnection) nodeA.getSucc().get(k);
+
                 if (link.getTarget().equals(nodeB)) {
                     con = (SplineConnection) connections.get(link);
                     if (con != null)

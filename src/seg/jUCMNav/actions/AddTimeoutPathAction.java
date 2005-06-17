@@ -44,33 +44,28 @@ public class AddTimeoutPathAction extends SelectionAction {
     protected boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.TIMER:
+        if (sel.getTimer() != null) {
             setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")); //$NON-NLS-1$
-        	return sel.getTimer().getSucc().size()==1; 
-        default:
+            return sel.getTimer().getSucc().size() == 1;
+        } else
             return false;
-        }
 
     }
 
     private Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
 
-        case SelectionHelper.TIMER:
+        if (sel.getTimer() != null) {
             return new AddBranchCommand((PathNode) ((PathNodeEditPart) getSelectedObjects().get(0)).getModel());
-        default:
+        } else
             return null;
 
-        }
-    }
+    } /*
+       * (non-Javadoc)
+       * 
+       * @see org.eclipse.jface.action.IAction#run()
+       */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
     public void run() {
         execute(getCommand());
     }

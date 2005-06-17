@@ -200,11 +200,15 @@ public class SelectionHelper {
         if (model instanceof EmptyPoint) {
             emptypoint = (EmptyPoint) model;
             if (emptypoint.getSucc().size() == 2) {
+                // if this throws an exception, a previous command broke the link order.
+                // don't try-catch this
                 connect = (Connect) ((NodeConnection) emptypoint.getSucc().get(1)).getTarget();
             }
         } else if (model instanceof EndPoint) {
             endpoint = (EndPoint) model;
             if (endpoint.getSucc().size() == 1) {
+                // if this throws an exception, a previous command broke the link order.
+                // don't try-catch this                
                 connect = (Connect) ((NodeConnection) endpoint.getSucc().get(0)).getTarget();
             }
         } else if (model instanceof NodeConnection) {
@@ -215,6 +219,8 @@ public class SelectionHelper {
         else if (model instanceof StartPoint) {
             startpoint = (StartPoint) model;
             if (startpoint.getPred().size() == 1) {
+                // if this throws an exception, a previous command broke the link order.
+                // don't try-catch this                
                 connect = (Connect) ((NodeConnection) startpoint.getPred().get(0)).getSource();
             }
         } else if (model instanceof Stub)
@@ -222,11 +228,15 @@ public class SelectionHelper {
         else if (model instanceof Timer) {
             timer = (Timer) model;
             if (timer.getPred().size() == 2) {
+                // if this throws an exception, a previous command broke the link order.
+                // don't try-catch this                
                 connect = (Connect) ((NodeConnection) timer.getPred().get(1)).getSource();
             }
         } else if (model instanceof WaitingPlace) {
             waitingplace = (WaitingPlace) model;
             if (waitingplace.getPred().size() == 2) {
+                // if this throws an exception, a previous command broke the link order.
+                // don't try-catch this                
                 connect = (Connect) ((NodeConnection) waitingplace.getPred().get(1)).getSource();
             }
         } else if (model instanceof NodeLabel)

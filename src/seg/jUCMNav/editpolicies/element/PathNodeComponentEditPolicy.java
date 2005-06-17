@@ -22,7 +22,6 @@ import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathCommand;
-import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -71,28 +70,14 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
             Command command = new DeleteNodeCommand((PathNode) node);
             return command;
         } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
-            return deleteAndDisconnect(node, registry);
+            return new DeleteMultiNodeCommand((PathNode) node, registry);
         } else if(parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() < 1 || ((PathNode) node).getSucc().size() < 1) {
-            return deleteAndDisconnect(node, registry);
+            return new DeleteMultiNodeCommand((PathNode) node, registry);
         }
 
         return super.createDeleteCommand(request);
     }
 
-    /**
-     * @param node
-     * @param registry
-     * @return
-     */
-    private Command deleteAndDisconnect(Object node, java.util.Map registry) {
-        Command command = new DeleteMultiNodeCommand((PathNode) node, registry);
-        Command command2 = new DisconnectCommand((PathNode) node);
-
-        if (command2.canExecute())
-            return command2.chain(command);
-        else
-            return command;
-    }
 
     /*
      * (non-Javadoc)

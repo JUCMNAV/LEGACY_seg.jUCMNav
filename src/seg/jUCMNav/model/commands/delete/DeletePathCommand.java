@@ -7,14 +7,12 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
-import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
-import ucm.map.WaitingPlace;
 
 /**
  * Created on 29-May-2005
@@ -95,13 +93,6 @@ public class DeletePathCommand extends CompoundCommand {
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
             } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
-                if ((node instanceof EmptyPoint && node.getSucc().size() == 2) || (node instanceof WaitingPlace && node.getPred().size() == 2)) {
-                    disconnectCmd = new DisconnectCommand(node);
-                    if (disconnectCmd.canExecute()) {
-                        commands.add(disconnectCmd);
-                    }
-                }
-
                 Vector v = new Vector();
                 v.add((NodeConnection) next.getPred().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, new Vector(), v, this.editpartregistry));
@@ -154,12 +145,6 @@ public class DeletePathCommand extends CompoundCommand {
             if (!(node instanceof Stub) && node.getSucc().size() == 1 && node.getPred().size() == 1) {
                 commands.add(new DeleteNodeCommand(node));
             } else if (!(node instanceof StartPoint) && !(node instanceof EndPoint)) {
-                if ((node instanceof EmptyPoint && node.getSucc().size() == 2) || (node instanceof WaitingPlace && node.getPred().size() == 2)) {
-                    disconnectCmd = new DisconnectCommand(node);
-                    if (disconnectCmd.canExecute()) {
-                        commands.add(disconnectCmd);
-                    }
-                }                
                 Vector v = new Vector();
                 v.add((NodeConnection) previous.getSucc().get(0));
                 commands.add(new DeleteMultiNodeCommand(node, v, new Vector(), this.editpartregistry));
