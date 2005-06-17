@@ -16,9 +16,12 @@ import org.eclipse.swt.widgets.Widget;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import ucm.map.AndFork;
+import ucm.map.AndJoin;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -84,23 +87,32 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
         PathNode node = (PathNode) getModel();
 
         if (super.getImage() == null) {
-            if (node instanceof StartPoint || node instanceof WaitingPlace)
+            if (node instanceof Timer)
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")).createImage()); //$NON-NLS-1$
+            else if (node instanceof StartPoint || node instanceof WaitingPlace)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof EmptyPoint)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof EndPoint)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage()); //$NON-NLS-1$
+            else if (node instanceof DirectionArrow)
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof RespRef)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
             else if (node instanceof OrFork) {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")).createImage()); //$NON-NLS-1$
             } else if (node instanceof AndFork) {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")).createImage()); //$NON-NLS-1$
-            } else if (node instanceof Stub)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage()); //$NON-NLS-1$
-            else if (node instanceof Timer)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")).createImage()); //$NON-NLS-1$
-            else
+            } else if (node instanceof OrJoin) {
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")).createImage()); //$NON-NLS-1$
+            } else if (node instanceof AndJoin) {
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")).createImage()); //$NON-NLS-1$
+            } else if (node instanceof Stub) {
+                if (((Stub) node).isDynamic())
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage()); //$NON-NLS-1$
+                else
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage()); //$NON-NLS-1$
+            } else
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
         }
 

@@ -8,7 +8,9 @@ package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -17,8 +19,10 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
+import ucm.map.Connect;
 import ucm.map.Map;
 import ucm.map.PathGraph;
+import ucm.map.PathNode;
 
 /**
  * @author TremblaE
@@ -63,7 +67,14 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
         Map map = getMap();
         PathGraph graph = map.getPathGraph();
         list.addAll(map.getCompRefs());
-        list.addAll(graph.getPathNodes());
+        Vector v = new Vector();
+        for (Iterator iter = graph.getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (!(element instanceof Connect))
+                v.add(element);
+        }
+        list.addAll(v);
+
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }

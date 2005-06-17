@@ -7,7 +7,9 @@ import org.eclipse.swt.graphics.Image;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import ucm.map.ComponentRef;
+import urncore.Component;
 import urncore.ComponentElement;
+import urncore.ComponentKind;
 
 /**
  * Created 2005-05-17
@@ -60,8 +62,28 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     protected Image getImage() {
-        if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+        ComponentElement comp = getCompRef().getCompDef();
+        if (super.getImage() == null) {
+            if (comp instanceof Component) {
+                switch (((Component) comp).getKind().getValue()) {
+                case ComponentKind.AGENT:
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent16.gif")).createImage()); //$NON-NLS-1$
+                    break;
+                case ComponentKind.ACTOR:
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage()); //$NON-NLS-1$
+                    break;
+                case ComponentKind.OBJECT:
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif")).createImage()); //$NON-NLS-1$
+                    break;
+                case ComponentKind.PROCESS:
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
+                    break;                
+                default:
+                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+                }
+            } else
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+        }
         return super.getImage();
     }
 }
