@@ -50,6 +50,7 @@ import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmOutlinePage;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -694,7 +695,7 @@ public class ProgressTests extends TestCase {
         Vector v = new Vector();
         v.add(sp);
         v.add(ep);
-        IAction action = getAction(v, "CONNECTACTION");
+        IAction action = getAction(v, ConnectAction.CONNECT);
         assertNotNull("Action not found in contextual menu!", action);
 
         // run it to see if it doesn't crash the app!
