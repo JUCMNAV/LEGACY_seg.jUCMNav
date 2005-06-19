@@ -10,6 +10,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -20,7 +21,9 @@ import org.eclipse.gef.requests.CreateRequest;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
@@ -62,7 +65,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
+     *      java.lang.Object)
      */
     protected Command createAddCommand(EditPart child, Object constraint) {
         Vector selection = new Vector();
@@ -80,12 +84,14 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // If it's reachable, abort because this is an illegal action (destruction of endpoint / creation of loops).
             checkNode = sel.getNodeconnection().getTarget();
             EndPoint checkEndPoint = sel.getEndpoint();
-            EndPointFinder.QFindReachableEndPoints qReachableEnds = new EndPointFinder().new QFindReachableEndPoints(checkNode);
-            EndPointFinder.RReachableEndPoints rReachableEnds = (EndPointFinder.RReachableEndPoints) GraphExplorer.getInstance().run(qReachableEnds);
+            EndPointFinder.QFindReachableEndPoints qReachableEnds = new EndPointFinder().new QFindReachableEndPoints(
+                    checkNode);
+            EndPointFinder.RReachableEndPoints rReachableEnds = (EndPointFinder.RReachableEndPoints) GraphExplorer
+                    .getInstance().run(qReachableEnds);
             vReachable = rReachableEnds.getNodes();
             if (!vReachable.contains(checkEndPoint)) {
-                return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                        .getNodeconnectionMiddle().y, true);
+                return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel
+                        .getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
             }
             break;
         case SelectionHelper.STARTPOINT_NODECONNECTION:
@@ -95,25 +101,35 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // loops).
             checkNode = sel.getNodeconnection().getTarget();
             StartPoint checkStartPoint = sel.getStartpoint();
-            StartPointFinder.QFindReachableStartPoints qReachableStarts = new StartPointFinder().new QFindReachableStartPoints(checkNode);
-            StartPointFinder.RReachableStartPoints rReachableStarts = (StartPointFinder.RReachableStartPoints) GraphExplorer.getInstance()
-                    .run(qReachableStarts);
+            StartPointFinder.QFindReachableStartPoints qReachableStarts = new StartPointFinder().new QFindReachableStartPoints(
+                    checkNode);
+            StartPointFinder.RReachableStartPoints rReachableStarts = (StartPointFinder.RReachableStartPoints) GraphExplorer
+                    .getInstance().run(qReachableStarts);
             vReachable = rReachableStarts.getNodes();
             if (!vReachable.contains(checkStartPoint)) {
-                return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                        .getNodeconnectionMiddle().y, true);
+                return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel
+                        .getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y, true);
             }
             break;
         }
 
+        // We're going to allow dropping here to simply move the pathnode
+        // This is not a creation command so I don't like the placement of this too much but it works
+        Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
+        Point location = new Point(((Rectangle) constraint).x + (dim.width / 2), ((Rectangle) constraint).y
+                + (dim.height / 2));
+        PathNode node = (PathNode) child.getModel();
+        return new SetConstraintCommand(node, location.x, location.y);
+
         // don't allow drop
-        return null;
+        //return null;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
+     *      java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         return null;
@@ -133,29 +149,39 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // converts relative to absolute positions (so that zooms work properly)
         Point constraint = getLocation(request);
 
-        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == DirectionArrow.class || newObjectType == Stub.class
+        if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class
+                || newObjectType == DirectionArrow.class || newObjectType == Stub.class
                 || newObjectType == WaitingPlace.class || newObjectType == Timer.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             //			if(oldLink.getSource() instanceof StartPoint || oldLink.getTarget() instanceof EndPoint)
             //				return null;
 
-            createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
+            createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink,
+                    constraint.x, constraint.y);
         } else if (newObjectType == OrFork.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrFork.class);
-            createCommand = new AddForkOnConnectionCommand(newOrFork, getPathGraph(), oldLink, constraint.x, constraint.y);
+            OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec()
+                    .getUrnspec(), OrFork.class);
+            createCommand = new AddForkOnConnectionCommand(newOrFork, getPathGraph(), oldLink, constraint.x,
+                    constraint.y);
         } else if (newObjectType == AndFork.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndFork.class);
-            createCommand = new AddForkOnConnectionCommand(newAndFork, getPathGraph(), oldLink, constraint.x, constraint.y);
+            AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec()
+                    .getUrnspec(), AndFork.class);
+            createCommand = new AddForkOnConnectionCommand(newAndFork, getPathGraph(), oldLink, constraint.x,
+                    constraint.y);
         } else if (newObjectType == OrJoin.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrJoin.class);
-            createCommand = new AddJoinOnConnectionCommand(newOrJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
+            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec()
+                    .getUrnspec(), OrJoin.class);
+            createCommand = new AddJoinOnConnectionCommand(newOrJoin, getPathGraph(), oldLink, constraint.x,
+                    constraint.y);
         } else if (newObjectType == AndJoin.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndJoin.class);
-            createCommand = new AddJoinOnConnectionCommand(newAndJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
+            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec()
+                    .getUrnspec(), AndJoin.class);
+            createCommand = new AddJoinOnConnectionCommand(newAndJoin, getPathGraph(), oldLink, constraint.x,
+                    constraint.y);
         }
 
         return createCommand;
@@ -164,8 +190,9 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /**
      * This method is a subset of getConstraintFor(request).
      * 
-     * JK: eTremblay doesn't know why he created it, he knows it had something to do with fixing a bug. I attempted to change the calling code to use
-     * getConstraintFor but the code no longer works. Will leave as is as I'm not familiar with this structure.
+     * JK: eTremblay doesn't know why he created it, he knows it had something to do with fixing a bug. I attempted to
+     * change the calling code to use getConstraintFor but the code no longer works. Will leave as is as I'm not
+     * familiar with this structure.
      * 
      * @param request
      * @return
@@ -190,7 +217,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
-     * The NodeConnectionEditPart contain a reference to the diagram too. This function query the editpart and return the PathGraph.
+     * The NodeConnectionEditPart contain a reference to the diagram too. This function query the editpart and return
+     * the PathGraph.
      * 
      * @return The PathGraph this NodeConnection is associated with.
      */
@@ -208,7 +236,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
-     * Overritten because we don't have an xylayout on the node connection and we don't really care about this right now.
+     * Overritten because we don't have an xylayout on the node connection and we don't really care about this right
+     * now.
      * 
      * Returns {@link XYLayout#getOrigin(IFigure)}.
      * 
