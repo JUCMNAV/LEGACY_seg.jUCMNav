@@ -14,7 +14,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 /**
  * Created 2005-03-24
  * 
- * This class only change the order of the layers of the root edit part.
+ * This class only changes the order of the layers of the root edit part.
  * 
  * @author Etienne Tremblay
  */

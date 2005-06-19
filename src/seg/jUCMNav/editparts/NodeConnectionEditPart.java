@@ -37,6 +37,8 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 
 /**
+ * EditPart associated with NodeConnection.
+ * 
  * @author Etienne Tremblay
  *  
  */

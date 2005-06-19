@@ -16,8 +16,10 @@ import urncore.Condition;
 import urncore.Label;
 
 /**
+ * This is where all EditParts are created.
+ * Once GEF detects the creation of a model object, the method createEditPart is called with this object
+ * 
  * @author Etienne Tremblay
- *
  */
 public class GraphicalEditPartFactory implements EditPartFactory {
 	

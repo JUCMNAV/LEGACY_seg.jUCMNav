@@ -43,7 +43,7 @@ import urncore.Responsibility;
 import urncore.UCMmodelElement;
 
 /**
- * Based on Etienne's implementation of PathNodeEditPart
+ * EditPart associated with urncore.Label
  * 
  * @author Jordan McManus
  */

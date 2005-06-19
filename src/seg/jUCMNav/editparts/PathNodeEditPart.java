@@ -61,6 +61,9 @@ import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
 /**
+ * EditPart associated with PathNodes.
+ * All model elements that extend PathNode should be associated with this EditPart.
+ * 
  * @author Etienne Tremblay, jkealey
  *  
  */

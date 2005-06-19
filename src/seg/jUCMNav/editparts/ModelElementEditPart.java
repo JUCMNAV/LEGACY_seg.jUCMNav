@@ -17,6 +17,9 @@ import seg.jUCMNav.views.property.UCMElementPropertySource;
 import ucm.map.RespRef;
 
 /**
+ * This is a top level EditPart that defines the behaviour that needs to be adhered to in order to function properly.
+ * All jUCMNav EditParts should subclass this EditPart.
+ * 
  * Created 2005-02-23
  * 
  * @author Etienne Tremblay

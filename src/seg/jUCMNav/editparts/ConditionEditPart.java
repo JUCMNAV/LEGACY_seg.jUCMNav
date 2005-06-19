@@ -23,6 +23,8 @@ import urncore.Condition;
 import urncore.Label;
 
 /**
+ * Editpart associated with urncore.Condition
+ * 
  * @author Jordan
  */
 public class ConditionEditPart extends LabelEditPart {
