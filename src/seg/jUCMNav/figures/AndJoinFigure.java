@@ -62,6 +62,18 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
 		return true;
 	}
 	
+	public void setHover(boolean hover){
+		this.hover = hover;
+		
+		if(selected == false){
+			if(hover)
+				mainFigure.setLineWidth(6);
+			else
+			    mainFigure.setLineWidth(3);
+		}
+	}
+
+	
 	/**
 	 * @return Returns the default dimension.
 	 */
