@@ -22,7 +22,7 @@ import ucm.map.StartPoint;
  */
 public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavCommand {
 
-    private StartPoint start;
+    private boolean aborted = false;
 
     private EndPoint end;
 
@@ -30,9 +30,18 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
 
     private PathGraph pg;
 
+    private StartPoint start;
+
     private ComponentRef startParent, endParent;
 
-    private boolean aborted = false;
+    /**
+     * 
+     * @param end
+     *            The simple path's end point.
+     */
+    public DeleteStartNCEndCommand(EndPoint end) {
+        this.end = end;
+    }
 
     /**
      * 
@@ -43,13 +52,39 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         this.start = start;
     }
 
-    /**
+    /*
+     * (non-Javadoc)
      * 
-     * @param end
-     *            The simple path's end point.
+     * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
      */
-    public DeleteStartNCEndCommand(EndPoint end) {
-        this.end = end;
+    public boolean canExecute() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canExecute();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
+    /**
+     *  
+     */
+    private void doRedo() {
+        pg.getPathNodes().remove(start);
+        pg.getPathNodes().remove(end);
+        pg.getNodeConnections().remove(nc);
+        start.setCompRef(null);
+        end.setCompRef(null);
     }
 
     /*
@@ -68,13 +103,13 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             }
             nc = (NodeConnection) start.getSucc().get(0);
             end = (EndPoint) nc.getTarget();
-            
+
             List ins = start.getInBindings();
-        	for (Iterator i = ins.iterator(); i.hasNext();) {
-				InBinding in = (InBinding) i.next();
-				DeleteInBindingCommand cmd = new DeleteInBindingCommand(in);
-				add(cmd);
-			}
+            for (Iterator i = ins.iterator(); i.hasNext();) {
+                InBinding in = (InBinding) i.next();
+                DeleteInBindingCommand cmd = new DeleteInBindingCommand(in);
+                add(cmd);
+            }
         } else if (end != null) {
             // might have already been deleted.
             if (end.getPred().size() == 0 || !(((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint)) {
@@ -83,36 +118,26 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             }
             nc = (NodeConnection) end.getPred().get(0);
             start = (StartPoint) nc.getSource();
-            
+
             List outs = end.getOutBindings();
             for (Iterator i = outs.iterator(); i.hasNext();) {
-				OutBinding out = (OutBinding) i.next();
-				DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
-				add(cmd);
-			}
+                OutBinding out = (OutBinding) i.next();
+                DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
+                add(cmd);
+            }
         }
-        
+
         pg = start.getPathGraph();
         startParent = start.getCompRef();
         endParent = end.getCompRef();
 
         testPreConditions();
-        
+
         doRedo();
         super.execute();
-        
+
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
 
     /*
      * (non-Javadoc)
@@ -123,43 +148,23 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         if (aborted)
             return;
         testPreConditions();
-        
+
         doRedo();
         super.redo();
-        
+
         testPostConditions();
     }
 
-    /**
-	 * 
-	 */
-	private void doRedo() {
-		pg.getPathNodes().remove(start);
-        pg.getPathNodes().remove(end);
-        pg.getNodeConnections().remove(nc);
-        start.setCompRef(null);
-        end.setCompRef(null);
-	}
-
-	/*
+    /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.commands.Command#undo()
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
-    public void undo() {
-        if (aborted)
-            return;
-        testPostConditions();
-        
-        super.undo();
-        
-        pg.getPathNodes().add(start);
-        pg.getPathNodes().add(end);
-        pg.getNodeConnections().add(nc);
-        start.setCompRef(startParent);
-        end.setCompRef(endParent);
-        
-        testPreConditions();
+    public void testPostConditions() {
+        assert start != null && nc != null && end != null && pg != null : "post something is null"; //$NON-NLS-1$
+        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "post is simple path"; //$NON-NLS-1$
+        assert !pg.getPathNodes().contains(start) && !pg.getPathNodes().contains(end) : "post nodes not in graph"; //$NON-NLS-1$
+        assert !pg.getNodeConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
     }
 
     /*
@@ -177,13 +182,22 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
     /*
      * (non-Javadoc)
      * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     * @see org.eclipse.gef.commands.Command#undo()
      */
-    public void testPostConditions() {
-        assert start != null && nc != null && end != null && pg != null : "post something is null"; //$NON-NLS-1$
-        assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "post is simple path"; //$NON-NLS-1$
-        assert !pg.getPathNodes().contains(start) && !pg.getPathNodes().contains(end) : "post nodes not in graph"; //$NON-NLS-1$
-        assert !pg.getNodeConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
+    public void undo() {
+        if (aborted)
+            return;
+        testPostConditions();
+
+        super.undo();
+
+        pg.getPathNodes().add(start);
+        pg.getPathNodes().add(end);
+        pg.getNodeConnections().add(nc);
+        start.setCompRef(startParent);
+        end.setCompRef(endParent);
+
+        testPreConditions();
     }
 
 }
