@@ -580,7 +580,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
             int minIn = 0;
             int minOut = 0;
 
-            if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
+            if (!(toDelete instanceof Stub) && ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0))) {
                 // delete element if has no elements on one side or the other.
                 markNodeForDeletion();
             } else if (toDelete instanceof Timer && ncOut.size() == 1 && toDelete.getSucc().indexOf(ncOut.get(0)) == 0) {
