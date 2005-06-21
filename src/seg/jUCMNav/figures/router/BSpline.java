@@ -11,8 +11,10 @@ import ucm.map.PathNode;
 /**
  * Created 2005-03-02
  * 
- * This class represent an interpolated B-Spline. Specify a point list representing the points on the curve and the class will be able to return the points of
- * the curve.
+ * This class represent an interpolated B-Spline. Specify a point list representing the points on the curve and the class will be able to return a bspline going
+ * through those points.
+ * 
+ * In the initial version of the connection router, used PathNodes for positions. Now uses a pointlist.
  * 
  * @author Etienne Tremblay
  */
@@ -31,12 +33,28 @@ public class BSpline {
     // of the curve.
 
     /**
-     * We want the user to use the constructor giving a PointList
+     * Build an empty spline. Points will be passed later.
      */
     public BSpline() {
 
     }
 
+    /**
+     * Build a spline from a list of points.
+     * 
+     * @param list
+     */
+    public BSpline(PointList list) {
+        n = list.size();
+        if (n <= 1)
+            return; // We have to have two points or more to make a spline
+        init(list);
+    }
+
+    /**
+     * @deprecated Pass a point list, not an arraylist of pathnodes.
+     * @param nodes
+     */
     public BSpline(ArrayList nodes) {
         setPoints(nodes);
     }
@@ -156,6 +174,7 @@ public class BSpline {
     /**
      * Set the list of points.
      * 
+     * @deprecated
      * @param nodes
      *            A list of PathNodes that this BSpline should follow.
      */
@@ -172,11 +191,11 @@ public class BSpline {
         }
         init(points);
     }
-    
+
     /**
      * @return The a path node point list contained in an ArrayList.
      */
-    public ArrayList getPoints(){
+    public ArrayList getPoints() {
         return nodes;
     }
 
@@ -225,6 +244,7 @@ public class BSpline {
     /**
      * Get the nearest index for the PathNode specified
      * 
+     * @deprecated
      * @param node
      *            The node we want the index.
      * @return The index of the following node.
@@ -234,6 +254,7 @@ public class BSpline {
     }
 
     /**
+     * @deprecated
      * @return The start point of this BSpline.
      */
     public PathNode getStartPoint() {
@@ -241,6 +262,7 @@ public class BSpline {
     }
 
     /**
+     * @deprecated
      * @return The end point of this BSpline.
      */
     public PathNode getEndPoint() {
@@ -248,8 +270,8 @@ public class BSpline {
     }
 
     /**
-     * Return a point list of the points of the curve between two points on the curve. The funcontion check for wich point is the closed to the two points
-     * specified as parameter and return the corresponding index of the point on the curve for each point. So you have to give pretty precise points if you
+     * Return a point list of the points of the curve between two points on the curve. The function checks for which point is the closest to the two points
+     * specified as parameter and return the corresponding index of the points on the curve for each point. So you have to give pretty precise points if you
      * don't want the function to find a point that is near the point you specified but is not the point you wanted.
      * 
      * @param p1
@@ -258,11 +280,13 @@ public class BSpline {
      *            The second point
      * @return The point list between the point p1 and p2.
      */
-    private PointList getPointsBetween(Point p1, Point p2) {
+    public PointList getPointsBetween(Point p1, Point p2) {
         findCPoints(); // Find curve points
         int start = getPoint(p1.x, p1.y);
         int end = getPoint(p2.x, p2.y);
 
+        if (start > end && end == 0 && Px[0] == Px[n - 1] && Py[0] == Py[n - 1])
+            end = n - 1;
         PointList points = getPointBetween(start, end);
 
         return points;
@@ -271,6 +295,7 @@ public class BSpline {
     /**
      * Return the point list between the PathNode p1 and p2.
      * 
+     * @deprecated
      * @param p1
      *            The first point
      * @param p2
@@ -320,7 +345,7 @@ public class BSpline {
 
         for (int i = start; i < end; i++) {
             for (int k = 0; k < precision; k++) {
-                X = (int)Math.round((Px[i] * B0[k] + (Px[i] + dx[i]) * B1[k] + (Px[i + 1] - dx[i + 1]) * B2[k] + Px[i + 1] * B3[k]));
+                X = (int) Math.round((Px[i] * B0[k] + (Px[i] + dx[i]) * B1[k] + (Px[i + 1] - dx[i + 1]) * B2[k] + Px[i + 1] * B3[k]));
                 Y = (int) Math.round((Py[i] * B0[k] + (Py[i] + dy[i]) * B1[k] + (Py[i + 1] - dy[i + 1]) * B2[k] + Py[i + 1] * B3[k]));
 
                 points.addPoint(X, Y);

@@ -4,6 +4,7 @@
  */
 package seg.jUCMNav.editparts;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import seg.jUCMNav.figures.TimerFigure;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -61,8 +63,7 @@ import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
 /**
- * EditPart associated with PathNodes.
- * All model elements that extend PathNode should be associated with this EditPart.
+ * EditPart associated with PathNodes. All model elements that extend PathNode should be associated with this EditPart.
  * 
  * @author Etienne Tremblay, jkealey
  *  
@@ -131,7 +132,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         else if (getModel() instanceof Stub) {
             Stub stub = (Stub) getModel();
             figure = new StubFigure(stub.isDynamic());
-        } 
+        }
         return figure;
     }
 
@@ -163,22 +164,30 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return new DragPathNodeTracker(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+    /**
+     * All succ NodeConnections except those that lead to connects.
      */
     protected List getModelSourceConnections() {
-        return getNode().getSucc();
+        ArrayList v = new ArrayList();
+        for (Iterator iter = getNode().getSucc().iterator(); iter.hasNext();) {
+            NodeConnection element = (NodeConnection) iter.next();
+            if (!(element.getTarget() instanceof Connect))
+                v.add(element);
+        }
+        return v;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+    /**
+     * All pred NodeConnections except those that lead to connects.
      */
     protected List getModelTargetConnections() {
-        return getNode().getPred();
+        ArrayList v = new ArrayList();
+        for (Iterator iter = getNode().getPred().iterator(); iter.hasNext();) {
+            NodeConnection element = (NodeConnection) iter.next();
+            if (!(element.getSource() instanceof Connect))
+                v.add(element);
+        }
+        return v;
     }
 
     protected PathNode getNode() {

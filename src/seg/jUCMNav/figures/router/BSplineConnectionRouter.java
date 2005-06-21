@@ -25,6 +25,9 @@ import ucm.map.Timer;
 /**
  * Created 2005-03-02
  * 
+ * Use UCMConnectionRouter instead. Left here in case we need to fallback to it. 
+ * 
+ * @deprecated
  * @author Etienne Tremblay
  */
 public class BSplineConnectionRouter extends AbstractRouter {

@@ -22,7 +22,7 @@ import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.jface.util.Assert;
 
 import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
-import seg.jUCMNav.figures.router.BSplineConnectionRouter;
+import seg.jUCMNav.figures.router.UCMConnectionRouter;
 import seg.jUCMNav.model.util.ComponentRefAreaComparator;
 import ucm.UcmPackage;
 import ucm.map.ComponentRef;
@@ -514,7 +514,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
      */
     protected void registerVisuals() {
         ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        cLayer.setConnectionRouter(new BSplineConnectionRouter(getViewer().getEditPartRegistry(), getPathGraph()));
+        cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), getPathGraph()));
 
         super.registerVisuals();
     }

@@ -38,22 +38,20 @@ public class SplineConnection extends PolylineConnection {
      * @since 2.0
      */
     public void layout() {
-//        if (link.getSource() != null && link.getTarget() != null) {
-            if (getSourceAnchor() != null && getTargetAnchor() != null)
-                getConnectionRouter().route(this);
+        if (getSourceAnchor() != null && getTargetAnchor() != null)
+            getConnectionRouter().route(this);
 
-            Rectangle oldBounds = bounds;
-            if (this.getPoints().size() > 0)
-                super.layout();
-            bounds = null;
+        Rectangle oldBounds = bounds;
+        if (this.getPoints().size() > 0)
+            super.layout();
+        bounds = null;
 
-            if (!getBounds().contains(oldBounds)) {
-                getParent().translateToParent(oldBounds);
-                getUpdateManager().addDirtyRegion(getParent(), oldBounds);
-            }
+        if (!getBounds().contains(oldBounds)) {
+            getParent().translateToParent(oldBounds);
+            getUpdateManager().addDirtyRegion(getParent(), oldBounds);
+        }
 
-            repaint();
-            fireMoved();
-//        }
+        repaint();
+        fireMoved();
     }
 }
