@@ -1,12 +1,12 @@
 package seg.jUCMNav.actions;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import ucm.map.PathNode;
 
@@ -56,7 +56,7 @@ public class AddTimeoutPathAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
         if (sel.getTimer() != null) {
-            return new AddBranchCommand((PathNode) ((PathNodeEditPart) getSelectedObjects().get(0)).getModel());
+            return new AddBranchCommand((PathNode) ((EditPart) getSelectedObjects().get(0)).getModel());
         } else
             return null;
 
