@@ -115,45 +115,6 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
                 nc = null;
 
         }
-        /*
-         * while (target != null && target.getPred().indexOf(nc) == 0 && target.getSucc().size() > 0 && !(target instanceof Connect)) { if
-         * (!_splinePath.contains(nc)) _splinePath.add(nc); nc = (NodeConnection) target.getSucc().get(0); target = nc.getTarget(); }
-         * 
-         * if (target != null && !(target instanceof Connect) && !_splinePath.contains(nc)) _splinePath.add(nc);
-         */
-        //        // build traversable sequence of node connections recursively, starting with n
-        //        if (_visitedConnections.contains(n) || n.getTarget() instanceof Connect || n.getSource() instanceof Connect) {
-        //            return;
-        //        } else {
-        //            _visitedConnections.add(n);
-        //            if (n.getTarget() != null && n.getSource() != null) {
-        //
-        //                // add predecessors
-        //                if (n.getTarget().getSucc().size() == 1 && n.getSource().getPred().size() == 1) {
-        //                    //straight route
-        //                    processNodeConnection((NodeConnection) n.getSource().getPred().get(0));
-        //                } else if (n.getTarget().getSucc().size() == 1 && n.getSource().getPred().size() > 1 && n.getSource().getSucc().indexOf(n) == 0
-        //                        && (n.getSource() instanceof EmptyPoint || n.getSource() instanceof WaitingPlace || n.getSource() instanceof Stub)) {
-        //                    // could have connects, route through anyways
-        //// processNodeConnection((NodeConnection) n.getSource().getPred().get(0));
-        //                }
-        //
-        //                // visit this connection!
-        //                // might have been modified recursively before
-        //                if (!_splinePath.contains(n))
-        //                    _splinePath.add(n);
-        //
-        //                // add successors
-        //                if (n.getTarget().getSucc().size() == 1 && n.getSource().getPred().size() == 1) {
-        //                    // straight route
-        //                    processNodeConnection((NodeConnection) n.getTarget().getSucc().get(0));
-        //                } else if (n.getSource().getPred().size() == 1 && n.getTarget().getSucc().size() > 1 && n.getTarget().getPred().indexOf(n) == 0
-        //                        && (n.getTarget() instanceof EmptyPoint || n.getTarget() instanceof WaitingPlace || n.getTarget() instanceof Stub)) {
-        //                    // could have connects or timeout paths, route through anyways
-        //// processNodeConnection((NodeConnection) n.getTarget().getSucc().get(0));
-        //                }
-        //            }
-        //        }
     }
 
     public class QFindSpline extends QueryRequest {
