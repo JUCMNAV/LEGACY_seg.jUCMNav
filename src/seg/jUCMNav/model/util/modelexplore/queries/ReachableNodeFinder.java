@@ -13,6 +13,7 @@ import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
 import seg.jUCMNav.model.util.modelexplore.QueryObject;
 import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
+import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
@@ -62,13 +63,17 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             EList links = n.getPred();
             for (int i = 0; i < links.size(); i++) {
                 // add the connection's source to the list
-                toVisit.add(((NodeConnection) links.get(i)).getSource());
+                PathNode node = ((NodeConnection) links.get(i)).getSource();
+                if (!(node instanceof Connect))
+                    toVisit.add(node);
             }
 
             links = n.getSucc();
             for (int i = 0; i < links.size(); i++) {
                 // add the connection's target to the list
-                toVisit.add(((NodeConnection) links.get(i)).getTarget());
+                PathNode node = ((NodeConnection) links.get(i)).getTarget();
+                if (!(node instanceof Connect))
+                    toVisit.add(node);
             }
 
             // recursive call to process all nodes in the list to visit
