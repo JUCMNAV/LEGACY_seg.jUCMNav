@@ -274,6 +274,7 @@ public class BSpline {
      * specified as parameter and return the corresponding index of the points on the curve for each point. So you have to give pretty precise points if you
      * don't want the function to find a point that is near the point you specified but is not the point you wanted.
      * 
+     * This function was used by the connection router at first, but has problems with loops. If one of the two points is repeated on the spline, the function used the first occurrence, which caused bugs. 
      * @param p1
      *            The first point
      * @param p2
@@ -285,15 +286,6 @@ public class BSpline {
         int start = getPoint(p1.x, p1.y);
         int end = getPoint(p2.x, p2.y);
 
-        // jkealey: added for loops
-        if (start > end) {
-            for (int j = (start + 1) % n; j != start; j = ((j + 1) % n)) {
-                if (Px[end] == Px[j] && Py[end] == Py[j]) {
-                    end = j;
-                    break;
-                }
-            }
-        }
         PointList points = getPointBetween(start, end);
 
         return points;
@@ -341,7 +333,7 @@ public class BSpline {
      *            The last index
      * @return The point list representing the curve between those two index.
      */
-    private PointList getPointBetween(int start, int end) {
+    public PointList getPointBetween(int start, int end) {
         int X, Y;
         int Xo = (int) Math.round(Px[0]);
         int Yo = (int) Math.round(Py[0]);

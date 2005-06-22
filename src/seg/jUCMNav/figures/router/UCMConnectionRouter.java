@@ -60,15 +60,23 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * 
      * @param nc
+     *            the node connection to draw
      * @param bspline
+     *            the spline it is on
+     * @param iLeftPointIndex
+     *            the index of its left point. this is mandatory because the BSpline cannot differentiate multiple occurences of the same point. We cannot do it
+     *            internally in this method because you could have multiple node connections to and from the same points, in the same order.
      */
-    private void drawConnection(NodeConnection nc, BSpline bspline) {
+    private void drawConnection(NodeConnection nc, BSpline bspline, int iLeftPointIndex) {
         if (editpartregistry.get(nc) == null)
             return;
         SplineConnection conn = (SplineConnection) ((NodeConnectionEditPart) editpartregistry.get(nc)).getFigure();
         if (conn != null) {
-            PointList pts = bspline.getPointsBetween(getLeftPoint(nc), getRightPoint(nc));
+
+            //PointList pts = bspline.getPointsBetween(getLeftPoint(nc), getRightPoint(nc));
+            PointList pts = bspline.getPointBetween(iLeftPointIndex, iLeftPointIndex + 1);
             conn.setPoints(pts);
             connections.put(nc, Boolean.TRUE);
 
@@ -107,10 +115,14 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
         QFindSpline qReachableConnections = new ConnectionSplineFinder().new QFindSpline(source.getLink());
         ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.getInstance().run(qReachableConnections);
         Vector vReachable = rReachableConnections.getConnections();
-
         if (vReachable.size() > 0) {
             PointList pts = new PointList();
             NodeConnection nc;
+            // this array is used to memorize the index of each node connection's left point in the pts PointList.
+            // the reason we need to pass this is the BSpline class cannot differentiate between multiple occurrences of the same point, if loops occur.
+            int[] iPositions = new int[vReachable.size()];
+            int i = 0;
+
             // build point sequence
             for (Iterator iter = vReachable.iterator(); iter.hasNext();) {
                 nc = (NodeConnection) iter.next();
@@ -120,13 +132,17 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                 if (pts.size() == 0 || !pts.getLastPoint().equals(left))
                     pts.addPoint(left);
                 pts.addPoint(right);
+                // memorize left point position
+                iPositions[i++] = pts.size() - 2;
             }
 
             // build a spline from the sequence
             BSpline bspline = new BSpline(pts);
-            for (Iterator iter = vReachable.iterator(); iter.hasNext();) {
-                nc = (NodeConnection) iter.next();
-                drawConnection(nc, bspline);
+            bspline.findCPoints();
+            
+            for (i = 0; i < vReachable.size(); i++) {
+                nc = (NodeConnection) vReachable.get(i);
+                drawConnection(nc, bspline, iPositions[i]);
             }
         }
     }
