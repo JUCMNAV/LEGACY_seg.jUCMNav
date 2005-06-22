@@ -66,6 +66,9 @@ public class MultiPageFileManager {
             try {
                 modelManager.load(file.getFullPath());
             } catch (Exception e) {
+
+                ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"),
+                        "Error opening file; creating new URNspec.\n\n" + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e));
                 modelManager.createURNspec(file.getFullPath());
             }
 
@@ -88,8 +91,9 @@ public class MultiPageFileManager {
         try {
             IFile file = ((IFileEditorInput) getEditor().getEditorInput()).getFile();
             if (file.exists()
-                    || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.createFile"), Messages.getString("MultiPageFileManager.theFile") + file.getName() //$NON-NLS-1$ //$NON-NLS-2$
-                            + Messages.getString("MultiPageFileManager.doesntExistClickOk"))) { //$NON-NLS-1$
+                    || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(),
+                            Messages.getString("MultiPageFileManager.createFile"), Messages.getString("MultiPageFileManager.theFile") + file.getName() //$NON-NLS-1$ //$NON-NLS-2$
+                                    + Messages.getString("MultiPageFileManager.doesntExistClickOk"))) { //$NON-NLS-1$
                 String sDate;
                 DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
                 sDate = df.format(new Date());
@@ -99,7 +103,8 @@ public class MultiPageFileManager {
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }
         } catch (CoreException e) {
-            ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+            ErrorDialog.openError(getEditor().getSite().getShell(),
+                    Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
             assert false : "error occured while saving; ";
         }
     }
@@ -145,7 +150,7 @@ public class MultiPageFileManager {
             editor.getModel().setCreated(sDate);
             editor.getModel().setModified(sDate);
             setVersions();
-            
+
             // save the new file
             modelManager.save(path);
             getEditor().getDelegatingCommandStack().markSaveLocation();
@@ -158,14 +163,19 @@ public class MultiPageFileManager {
             getEditor().recreatePages();
 
         } catch (Exception e) {
-            ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), new Status(IStatus.ERROR, //$NON-NLS-1$ //$NON-NLS-2$
-                    "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$
+            ErrorDialog
+                    .openError(
+                            getEditor().getSite().getShell(),
+
+                            Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), new Status(IStatus.ERROR, //$NON-NLS-1$ //$NON-NLS-2$
+                                    "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
 
     /**
-     * Returns the editor that is worked on. 
+     * Returns the editor that is worked on.
+     * 
      * @return
      */
     private UCMNavMultiPageEditor getEditor() {
@@ -173,15 +183,13 @@ public class MultiPageFileManager {
     }
 
     /**
-     * 
+     *  
      */
     private void setVersions() {
         String ver = editor.getModel().getSpecVersion();
         try {
-            ver = Integer.toString((Integer.parseInt(ver)+1));
-        }
-        catch (Exception ex)
-        {
+            ver = Integer.toString((Integer.parseInt(ver) + 1));
+        } catch (Exception ex) {
             ver = "1"; //$NON-NLS-1$
         }
         editor.getModel().setSpecVersion(ver);
