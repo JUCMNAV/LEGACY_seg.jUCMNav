@@ -6,6 +6,8 @@
  */
 package seg.jUCMNav.editpolicies.element;
 
+import java.util.ArrayList;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -26,6 +28,7 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
+import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -66,18 +69,34 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         } else if (parent instanceof Map && node instanceof EndPoint) {
             DeletePathCommand command = new DeletePathCommand((EndPoint) node, registry);
             return command;
-        } else if (parent instanceof Map && ((PathNode) node).getPred().size() == 1 && ((PathNode) node).getSucc().size() == 1) {
-            Command command = new DeleteNodeCommand((PathNode) node);
-            return command;
-        } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
+        } else if (parent instanceof Map && node instanceof Stub) {
             return new DeleteMultiNodeCommand((PathNode) node, registry);
-        } else if(parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() < 1 || ((PathNode) node).getSucc().size() < 1) {
+        } else if (parent instanceof Map && ((PathNode) node).getPred().size() == 1 && ((PathNode) node).getSucc().size() == 1) {
+            NodeConnection in = (NodeConnection) ((PathNode) node).getPred().get(0);
+            NodeConnection out = (NodeConnection) ((PathNode) node).getSucc().get(0);
+            if (!in.getSource().equals(out.getTarget())) {
+                Command command = new DeleteNodeCommand((PathNode) node);
+                return command;
+            } else {
+                // if deleting the last node on a loop leading to a stub, get it to be disconnected instead of deleted.
+                ArrayList lIn = new ArrayList();
+                ArrayList lOut = new ArrayList();
+                // inversed because out of this node is in of stub. 
+                lOut.add(in);
+                lIn.add(out);
+
+                Command command = new DeleteMultiNodeCommand(in.getSource(), lIn, lOut, registry);
+                return command;
+            }
+
+        } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
+
+        } else if (parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() <= 1 || ((PathNode) node).getSucc().size() <= 1) {
             return new DeleteMultiNodeCommand((PathNode) node, registry);
         }
 
         return super.createDeleteCommand(request);
     }
-
 
     /*
      * (non-Javadoc)
