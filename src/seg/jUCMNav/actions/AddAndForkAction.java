@@ -17,6 +17,7 @@ import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
+import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndFork;
 
 /**
@@ -51,11 +52,11 @@ public class AddAndForkAction extends SelectionAction {
         case SelectionHelper.NODECONNECTION:
             return true;
         case SelectionHelper.STARTPOINT_NODECONNECTION:
-            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getNodeconnection());
+            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getNodeconnection());
         case SelectionHelper.EMPTYPOINT:
             return true;
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
-            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getEmptypoint());
+            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEmptypoint());
         default:
             return false;
         }

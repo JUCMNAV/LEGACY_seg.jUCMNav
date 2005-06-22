@@ -14,6 +14,7 @@ import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
+import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.OrJoin;
 
 /**
@@ -43,13 +44,13 @@ public class AddOrJoinAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
-            return SafePathChecker.isSafeJoin(sel.getEndpoint(), sel.getEmptypoint());
+            return SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getEmptypoint());
         case SelectionHelper.NODECONNECTION:
             return true;
         case SelectionHelper.EMPTYPOINT:
             return true;
         case SelectionHelper.ENDPOINT_NODECONNECTION:
-            return SafePathChecker.isSafeJoin(sel.getEndpoint(), sel.getNodeconnection());
+            return SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getNodeconnection());
         default:
             return false;
         }

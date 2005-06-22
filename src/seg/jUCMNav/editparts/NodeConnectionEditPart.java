@@ -252,8 +252,11 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * @return The middle point of the spline.
      */
     public Point getMiddlePoint() {
-        if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null)
-            return new Point(0, 0);
+        if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null || ((SplineConnection) getFigure()).getPoints().size() == 0)
+            if (getLink().getSource() != null && getLink().getTarget() != null)
+                return new Point(getLink().getTarget().getX() - getLink().getSource().getX(), getLink().getTarget().getY() - getLink().getSource().getY());
+            else 
+                return new Point(0, 0);
         else
             return ((SplineConnection) getFigure()).getPoints().getMidpoint();
     }

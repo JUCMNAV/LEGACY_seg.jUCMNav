@@ -23,6 +23,8 @@ public abstract class QueryObject {
     public static final String FINDREACHABLENODES = "FINDREACHABLENODES"; //$NON-NLS-1$
     
     public static final String FINDSPLINE = "FINDSPLINE"; //$NON-NLS-1$
+    
+    public static final String FINDDELETIONPATH = "FINDDELETIONPATH"; //$NON-NLS-1$
 
     public String _queryType;
 

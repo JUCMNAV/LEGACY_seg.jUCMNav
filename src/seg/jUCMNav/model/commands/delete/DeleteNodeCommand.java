@@ -78,31 +78,34 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
                 return false;
         }
     }
-	/* 
-	 * (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
     /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-    	if(node instanceof Stub){
-        	Stub stub = (Stub)node;
-        	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-				PluginBinding plugin = (PluginBinding) i.next();
-				DeletePluginCommand del = new DeletePluginCommand(plugin);
-				add(del);
-			}
+        if (node instanceof Stub) {
+            Stub stub = (Stub) node;
+            for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+                PluginBinding plugin = (PluginBinding) i.next();
+                DeletePluginCommand del = new DeletePluginCommand(plugin);
+                add(del);
+            }
         }
-    	
+
         // could happen if was already deleted by other command
         if (node.getPathGraph() == null || !canExecute()) {
             aborted = true;
@@ -121,10 +124,10 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
         }
 
         doRedo();
-        
+
         // Important to call this if we want the added commands to this compound command to execute.
-        if(getCommands().size() > 0)
-        	super.execute();
+        if (getCommands().size() > 0)
+            super.execute();
     }
 
     /*
@@ -140,17 +143,17 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
         testPreConditions();
 
         doRedo();
-        
+
         super.redo();
 
         testPostConditions();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		node.getSucc().clear();
+     *  
+     */
+    private void doRedo() {
+        node.getSucc().clear();
         node.getPred().clear();
 
         //((NodeConnection) sources.get(0)).setSource(null);
@@ -168,11 +171,16 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
             ((RespRef) node).setRespDef(null);
         }
 
-        newConn.setSource(previous);
-        newConn.setTarget(next);
-	}
+        if (!previous.equals(next)) {
+            newConn.setSource(previous);
+            newConn.setTarget(next);
+        } else {
+            newConn.setSource(null);
+            map.getPathGraph().getNodeConnections().remove(newConn);
+        }
+    }
 
-	/*
+    /*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.commands.Command#undo()
@@ -181,13 +189,16 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
         if (aborted)
             return;
         testPostConditions();
-        
+
         super.undo();
 
         node.getSucc().addAll(targets);
 
         newConn.setSource(previous);
         newConn.setTarget(node);
+        if (previous.equals(next)) {
+            map.getPathGraph().getNodeConnections().add(newConn);
+        }
         ((NodeConnection) targets.get(0)).setTarget(next);
 
         map.getPathGraph().getNodeConnections().add((NodeConnection) targets.get(0));
@@ -248,7 +259,7 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert previous != null && next != null && newConn != null : "post something is null"; //$NON-NLS-1$
+        assert previous != null && next != null : "post something is null"; //$NON-NLS-1$
         assert node.getPred().size() == 0 && 0 == node.getSucc().size() : "post source/target problem"; //$NON-NLS-1$
 
         for (Iterator iter = targets.iterator(); iter.hasNext();) {
@@ -260,6 +271,5 @@ public class DeleteNodeCommand extends CompoundCommand implements JUCMNavCommand
             assert respDef != null && null == ((RespRef) node).getRespDef() : "post respref still linked"; //$NON-NLS-1$
         }
 
-        assert map.getPathGraph().getNodeConnections().contains(newConn) : "post new conn"; //$NON-NLS-1$
     }
 }

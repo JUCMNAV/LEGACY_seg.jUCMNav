@@ -24,7 +24,7 @@ import ucm.map.PathNode;
  */
 public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
-    private Vector _splinePath;
+    protected Vector _splinePath;
 
     public ConnectionSplineFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDSPLINE };
@@ -43,6 +43,13 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
             processNodeConnection(((QFindSpline) q).getStartNodeConnection());
         }
 
+        return getResponse();
+    }
+
+    /**
+     * @return
+     */
+    protected QueryResponse getResponse() {
         // Return a response containing the visited node list
         RSpline r = new RSpline();
         r.setConnections(_splinePath);
@@ -57,7 +64,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * 
      * @param n
      */
-    private void processNodeConnection(NodeConnection n) {
+    protected void processNodeConnection(NodeConnection n) {
         //        System.out.println("starts with: " + n.getSource());
         //        System.out.println("ends with: " + n.getTarget());
 
@@ -81,7 +88,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
                 source = nc.getSource();
 
                 // prevent infinite loops
-                if (s.contains(nc) || (source instanceof Connect))
+                if (s.contains(nc) || isPathStopper(source))
                     nc = null;
             } else
                 nc = null;
@@ -109,12 +116,20 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
                 nc = (NodeConnection) target.getSucc().get(0);
                 target = nc.getTarget();
                 // prevent infinite loops
-                if (_splinePath.contains(nc) || (target instanceof Connect))
+                if (_splinePath.contains(nc) || isPathStopper(target))
                     nc = null;
             } else
                 nc = null;
 
         }
+    }
+
+    /**
+     * @param node
+     * @return returns true if path traversal should be stopped when hitting one of this node. 
+     */
+    public static boolean isPathStopper(PathNode node) {
+        return (node instanceof Connect);
     }
 
     public class QFindSpline extends QueryRequest {
@@ -140,7 +155,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
         }
 
         /**
-         * @return Returns the nodes.
+         * @return Returns the node connections.
          */
         public Vector getConnections() {
             return connections;
@@ -148,7 +163,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
         /**
          * @param nodes
-         *            The nodes to set.
+         *            The nodes connections to set.
          */
         public void setConnections(Vector connections) {
             this.connections = connections;

@@ -6,12 +6,12 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
-import seg.jUCMNav.actions.SafePathChecker;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.DeleteOutBindingCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -100,7 +100,7 @@ public class MergeStartEndCommand extends CompoundCommand implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return SafePathChecker.isSafeJoin(this.startPoint, this.endPoint);
+        return SafePathChecker.isSafeFusion(this.startPoint, this.endPoint);
     }
     
     /* (non-Javadoc)

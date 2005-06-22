@@ -1,6 +1,7 @@
 package seg.jUCMNav.editors.palette.tools;
 
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
@@ -12,6 +13,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
+import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder.QFindReachableEndPoints;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -271,6 +275,9 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
             return;
         if (model instanceof StartPoint) {
             StartPoint start = (StartPoint) model;
+            // in case creation was cancelled. 
+            if (start.getSucc().size() == 0)
+                return;
             if (state == NOSELECT) {
                 PathNode node = (PathNode) ((NodeConnection) start.getSucc().get(0)).getTarget();
                 PathNode end = (PathNode) ((NodeConnection) node.getSucc().get(0)).getTarget();
@@ -294,19 +301,14 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
      * @return The endpoint of the path.
      */
     private PathNode findEndPoint(PathNode start) {
-        PathNode node = null;
-        PathNode end = null;
-        end = start;
-        if (end instanceof EndPoint)
-            return end;
+        QFindReachableEndPoints qry = new EndPointFinder().new QFindReachableEndPoints(start);
+        EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.getInstance().run(qry);
+        Vector vEndPoints = resp.getNodes();
 
-        while (!(end instanceof EndPoint)) {
-            if (end.getSucc().size() == 0)
-                return null;
-            end = (PathNode) ((NodeConnection) end.getSucc().get(0)).getTarget();
-        }
-
-        return end;
+        if (vEndPoints.size() > 0)
+            return (PathNode) vEndPoints.firstElement();
+        else
+            return start;
     }
 
     /**

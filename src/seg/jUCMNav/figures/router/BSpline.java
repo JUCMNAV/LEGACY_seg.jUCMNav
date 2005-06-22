@@ -285,8 +285,15 @@ public class BSpline {
         int start = getPoint(p1.x, p1.y);
         int end = getPoint(p2.x, p2.y);
 
-        if (start > end && end == 0 && Px[0] == Px[n - 1] && Py[0] == Py[n - 1])
-            end = n - 1;
+        // jkealey: added for loops
+        if (start > end) {
+            for (int j = (start + 1) % n; j != start; j = ((j + 1) % n)) {
+                if (Px[end] == Px[j] && Py[end] == Py[j]) {
+                    end = j;
+                    break;
+                }
+            }
+        }
         PointList points = getPointBetween(start, end);
 
         return points;

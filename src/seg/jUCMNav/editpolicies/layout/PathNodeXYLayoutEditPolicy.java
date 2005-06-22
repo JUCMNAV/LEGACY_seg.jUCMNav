@@ -19,14 +19,9 @@ import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinStartToStubForkCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
-import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
-import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
-import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
-import ucm.map.EndPoint;
+import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathNode;
-import ucm.map.StartPoint;
 
 /**
  * Created on 25-May-2005
@@ -75,8 +70,7 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-     *      java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createAddCommand(EditPart child, Object constraint) {
 
@@ -85,74 +79,64 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
         selection.add(getHost());
 
         SelectionHelper sel = new SelectionHelper(selection);
-        PathNode checkNode;
-        Vector vReachable;
-        StartPoint checkStartPoint;
-        EndPoint checkEndPoint;
-        StartPointFinder.RReachableStartPoints rReachableStarts;
-        StartPointFinder.QFindReachableStartPoints qReachableStarts;
-        EndPointFinder.QFindReachableEndPoints qReachableEnds;
-        EndPointFinder.RReachableEndPoints rReachableEnds;
-
         switch (sel.getSelectionType()) {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
-            // JP: use new querying capabilities to make sure the endpoint being dropped is not already reachable from
-            // this EmptyPoint.
-            // If it's reachable, abort because this is an illegal action (destruction of endpoint / creation of loops).
-            checkNode = sel.getEmptypoint();
-            checkEndPoint = sel.getEndpoint();
-            qReachableEnds = new EndPointFinder().new QFindReachableEndPoints(checkNode);
-            rReachableEnds = (EndPointFinder.RReachableEndPoints) GraphExplorer.getInstance().run(qReachableEnds);
-            vReachable = rReachableEnds.getNodes();
-            if (!vReachable.contains(checkEndPoint)) {
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getEmptypoint())) {
                 OrJoin join = (OrJoin) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrJoin.class);
                 return new JoinPathsCommand(sel.getEmptypoint(), sel.getEndpoint(), join);
             }
-            break; // This is just for style, yo :)
+            break;
 
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
-            // JP: use new querying capabilities to make sure the startpoint being dropped is not already reachable from
-            // this node.
-            // If it's reachable, abort because this is an illegal action (destruction of startpoint / creation of
-            // loops).
-            checkNode = sel.getEmptypoint();
-            checkStartPoint = sel.getStartpoint();
-            qReachableStarts = new StartPointFinder().new QFindReachableStartPoints(checkNode);
-            rReachableStarts = (StartPointFinder.RReachableStartPoints) GraphExplorer.getInstance().run(
-                    qReachableStarts);
-            vReachable = rReachableStarts.getNodes();
-            if (!vReachable.contains(checkStartPoint)) {
+            if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEmptypoint())) {
                 OrFork fork = (OrFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrFork.class);
                 return new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), fork);
             }
             break;
 
         case SelectionHelper.STARTPOINT_ENDPOINT:
-            // disable creation of loops by checking that the SP is not already reachable from the EP
-            checkNode = sel.getEndpoint();
-            checkStartPoint = sel.getStartpoint();
-            qReachableStarts = new StartPointFinder().new QFindReachableStartPoints(checkNode);
-            rReachableStarts = (StartPointFinder.RReachableStartPoints) GraphExplorer.getInstance().run(
-                    qReachableStarts);
-            vReachable = rReachableStarts.getNodes();
-            if (!vReachable.contains(checkStartPoint)) {
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getStartpoint())) {
                 Rectangle cons = getCurrentConstraintFor((GraphicalEditPart) getHost());
                 return new MergeStartEndCommand(sel.getMap(), sel.getStartpoint(), sel.getEndpoint(), cons.x, cons.y);
             }
             break;
 
         case SelectionHelper.ENDPOINT_STUB:
-            return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getStub());
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getStub())) {
+                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getStub());
+            }
+            break;
+
         case SelectionHelper.ENDPOINT_ORJOIN:
-            return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getOrjoin());
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getOrjoin())) {
+                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getOrjoin());
+            }
+            break;
+
         case SelectionHelper.ENDPOINT_ANDJOIN:
-            return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getAndjoin());
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getAndjoin())) {
+                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getAndjoin());
+            }
+            break;
+
         case SelectionHelper.STARTPOINT_STUB:
-            return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getStub());
+            if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getStub())) {
+                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getStub());
+            }
+            break;
+
         case SelectionHelper.STARTPOINT_ORFORK:
-            return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getOrfork());
+            if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getOrfork())) {
+                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getOrfork());
+            }
+            break;
+
         case SelectionHelper.STARTPOINT_ANDFORK:
-            return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getAndfork());
+            if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getAndfork())) {
+                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getAndfork());
+            }
+            break;
+
         case SelectionHelper.EMPTYPOINT_TIMER:
             return new ConnectCommand(sel.getEmptypoint(), sel.getTimer());
         case SelectionHelper.EMPTYPOINT_WAITINGPLACE:
@@ -171,8 +155,7 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
     /*
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
-     *      java.lang.Object)
+     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         return null;

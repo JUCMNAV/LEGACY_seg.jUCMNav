@@ -132,18 +132,14 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
-     * Returns a hashmap with NodeConnection/Boolean couples. if the boolean is Boolean.TRUE, refresh is not needed.
-     * 
-     * @return
+     * @return A hashmap with NodeConnection/Boolean couples. if the boolean is Boolean.TRUE, refresh is not needed.
      */
     public HashMap getConnections() {
         return connections;
     }
 
     /**
-     * Returns the editpart registry. Used for refresh for figures that must be rotated.
-     * 
-     * @return
+     * @return the editpart registry. Used for refresh for figures that must be rotated.
      */
     public Map getEditpartregistry() {
         return editpartregistry;
@@ -225,12 +221,9 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                     registerListeners(getPathgraph());
                 case Notification.REMOVE:
                     /*
-                    if (feature.getName().equals("pathNodes")) {
-                        System.out.println("added or removed pathnodes");
-                    } else if (feature.getName().equals("nodeConnections")) {
-                         System.out.println("added or removed nodeconnections");
-                    }
-                    */
+                     * if (feature.getName().equals("pathNodes")) { System.out.println("added or removed pathnodes"); } else if
+                     * (feature.getName().equals("nodeConnections")) { System.out.println("added or removed nodeconnections"); }
+                     */
                     refreshConnections();
 
                     break;
@@ -280,7 +273,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @param nc
      */
     private void refreshConnections(NodeConnection nc) {
-        ConnectionSplineFinder.QFindSpline qReachableConnections = new ConnectionSplineFinder().new QFindSpline(nc);
+        QFindSpline qReachableConnections = new ConnectionSplineFinder().new QFindSpline(nc);
         refreshConnections(qReachableConnections);
     }
 
@@ -290,7 +283,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private void refreshConnections(PathNode pn) {
         if (pn instanceof Connect)
             return;
-        ConnectionSplineFinder.QFindSpline qReachableConnections;
+        QFindSpline qReachableConnections;
         for (Iterator iter = pn.getPred().iterator(); iter.hasNext();) {
             qReachableConnections = new ConnectionSplineFinder().new QFindSpline((NodeConnection) iter.next());
             refreshConnections(qReachableConnections);

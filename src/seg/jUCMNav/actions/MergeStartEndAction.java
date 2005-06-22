@@ -5,6 +5,7 @@ import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
+import seg.jUCMNav.model.util.SafePathChecker;
 
 /**
  * @author jkealey
@@ -35,7 +36,7 @@ public class MergeStartEndAction extends SelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.STARTPOINT_ENDPOINT:
-            return SafePathChecker.isSafeJoin(sel.getStartpoint(), sel.getEndpoint());
+            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEndpoint());
         default:
             return false;
         }
