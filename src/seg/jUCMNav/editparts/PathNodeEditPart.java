@@ -406,7 +406,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         if (getModel() instanceof EmptyPoint) {
             ((IFigure) getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
         }
-
+        // should we offset it so that it doesn't overlap another element?
+        if (getModel() instanceof EndPoint) {
+            ((EndPointFigure) nodeFigure).setOffset((((EndPoint) getModel()).getSucc().size() > 0));
+        }
         // notify parent container of changed position & location
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
