@@ -129,8 +129,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	 */
 
 	private InputStream openContentStream() {
-		String contents =
-			"This is the initial file contents for *.jucm file that should be word-sorted in the Preview page of the multi-page editor";
+		String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\">\n<ucmspec>\n<maps id=\"2\" name=\"Map\">\n<pathGraph/>\n</maps>\n</ucmspec>\n<urndef/>\n</urn:URNspec>";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 
