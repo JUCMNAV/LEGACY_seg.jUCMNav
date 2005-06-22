@@ -128,7 +128,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * @param node
      * @return returns true if path traversal should be stopped when hitting one of this node. 
      */
-    public static boolean isPathStopper(PathNode node) {
+    public boolean isPathStopper(PathNode node) {
         return (node instanceof Connect);
     }
 
@@ -148,7 +148,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
     public class RSpline extends QueryResponse {
         /* Data structure (query response) for passing a vector of connections */
-        private Vector connections;
+        protected Vector connections;
 
         public RSpline() {
             this._queryType = QueryObject.FINDSPLINE;

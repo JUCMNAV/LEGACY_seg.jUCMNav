@@ -16,16 +16,29 @@ import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 
 /**
  * @author jpdaigle, jkealey
- *
+ * 
  * Check if a proposed fusion of two nodes is <i>safe </i>, that is, will not cause an illegal loop. joinFromPathNode is expected to be a StartPoint or
  * EndPoint, but not enforced.
  * 
  *  
  */
 public class SafePathChecker {
+
+    /**
+     * One can loop a start/end with a stub on the same deletion path if they are not already directly joined.
+     *  
+     * @param nc
+     * @param nodes
+     * @return
+     */
+    private static boolean isLoopBackToStubAllowed(NodeConnection nc, Vector nodes) {
+        return (nodes.firstElement() instanceof Stub && !nc.getSource().equals(nodes.firstElement()) && !nc.getTarget().equals(nodes.firstElement()))
+                || (nodes.lastElement() instanceof Stub && !nc.getSource().equals(nodes.lastElement()) && !nc.getTarget().equals(nodes.lastElement()));
+    }
 
     public static boolean isSafeFusion(PathNode joinFromPathNode, NodeConnection joinToNodeConnection) {
         PathNode toNode = joinToNodeConnection.getTarget();
@@ -49,8 +62,8 @@ public class SafePathChecker {
             // don't verify opposite; trust query returns same vector but in different order (equals doesn't work here)
             return true;
         }
-        
-        // remove passed start/ends from reachable pathnodes 
+
+        // remove passed start/ends from reachable pathnodes
         if (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint)
             vReachable.remove(joinFromPathNode);
         if (joinToPathNode instanceof StartPoint || joinToPathNode instanceof EndPoint)
@@ -69,9 +82,9 @@ public class SafePathChecker {
         }
 
         // verify that merger will leave at least one start and end point in the path
-        if (iStartPoints>0 && iEndPoints>0) {
+        if (iStartPoints > 0 && iEndPoints > 0) {
 
-            // find the node connection following the start or preceeding the end. 
+            // find the node connection following the start or preceeding the end.
             NodeConnection nc = null;
             if (joinFromPathNode instanceof StartPoint)
                 nc = (NodeConnection) joinFromPathNode.getSucc().get(0);
@@ -84,15 +97,15 @@ public class SafePathChecker {
             else
                 assert false : "incorrect call to isSafeFusion";
 
-            // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops. 
+            // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops.
             QFindSpline qry = new DeletionPathFinder().new QFindSpline(nc);
             DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.getInstance().run(qry);
             Vector nodes = resp.getPathNodes();
 
             if (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint)
-                return !nodes.contains(joinToPathNode);
+                return !nodes.contains(joinToPathNode) || isLoopBackToStubAllowed(nc, nodes);
             else
-                return !nodes.contains(joinFromPathNode);
+                return !nodes.contains(joinFromPathNode) || isLoopBackToStubAllowed(nc, nodes);
 
         } else
             return false;

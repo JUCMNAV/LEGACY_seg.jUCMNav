@@ -45,38 +45,24 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * @param node
      * @return returns true if path traversal should be stopped when hitting one of this node.
      */
-    public static boolean isPathStopper(PathNode node) {
+    public boolean isPathStopper(PathNode node) {
         return (node instanceof Connect) || (node instanceof AndFork) || (node instanceof AndJoin) || (node instanceof OrFork) || (node instanceof OrJoin)
                 || (node instanceof Stub);
     }
 
     public class QFindSpline extends ConnectionSplineFinder.QFindSpline {
-        // Finds reachable node connections starting with a NodeConnection
-        NodeConnection _StartNodeConnection;
 
         public QFindSpline(NodeConnection nodeConnection) {
             super(nodeConnection);
             this._queryType = QueryObject.FINDDELETIONPATH;
         }
 
-        public NodeConnection getStartNodeConnection() {
-            return _StartNodeConnection;
-        }
     }
 
     public class RSpline extends ConnectionSplineFinder.RSpline {
-        /* Data structure (query response) for passing a vector of connections */
-        private Vector connections;
 
         public RSpline() {
             this._queryType = QueryObject.FINDDELETIONPATH;
-        }
-
-        /**
-         * @return Returns the nodes connections on the path.
-         */
-        public Vector getConnections() {
-            return connections;
         }
 
         /**
@@ -97,13 +83,6 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
             return v;
         }
 
-        /**
-         * @param nodes
-         *            The node connections to set.
-         */
-        public void setConnections(Vector connections) {
-            this.connections = connections;
-        }
     }
 
 }
