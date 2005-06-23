@@ -121,6 +121,7 @@ public class UrnModelManager {
     public void load(IPath path) throws IOException {
         getResource(path);
         Map options = new HashMap();
+        
         options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
         resource.load(options);
     }

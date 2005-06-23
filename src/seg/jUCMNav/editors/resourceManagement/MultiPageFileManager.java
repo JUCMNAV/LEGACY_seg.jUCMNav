@@ -16,11 +16,16 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
+import org.xml.sax.SAXParseException;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
@@ -65,10 +70,13 @@ public class MultiPageFileManager {
         if (file.exists()) {
             try {
                 modelManager.load(file.getFullPath());
-            } catch (Exception e) {
+            } catch (Exception e) {//SAXParseException
+                if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException) || ((SAXParseException)((WrappedException) e).exception()).getLineNumber() >= 0) {
+                    // dont pop error if file is empty (not created by wizard).
+                    ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"),
+                            "Error opening file; creating new URNspec.\n\n" + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e));
 
-                ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"),
-                        "Error opening file; creating new URNspec.\n\n" + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e));
+                }
                 modelManager.createURNspec(file.getFullPath());
             }
 
@@ -153,14 +161,13 @@ public class MultiPageFileManager {
 
             // save the new file
             modelManager.save(path);
-            getEditor().getDelegatingCommandStack().markSaveLocation();
 
-            // reinit everything
-            getEditor().init(getEditor().getEditorSite(), new FileEditorInput(file));
-
-            getEditor().setMultiPageCommandStackListener(null);
-
-            getEditor().recreatePages();
+            // we used to reinit everything without closing the editor but this caused bugs that appeared out of nowhere and made the whole codebase weaker.
+            // therefore, we're closing the editor and reopening it.
+            getEditor().closeEditor(false);
+            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+            IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+            editor = (UCMNavMultiPageEditor) page.openEditor(new FileEditorInput(file), desc.getId());
 
         } catch (Exception e) {
             ErrorDialog
