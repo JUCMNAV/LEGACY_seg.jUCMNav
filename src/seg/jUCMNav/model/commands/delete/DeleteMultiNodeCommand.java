@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.delete;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,9 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -163,6 +167,18 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
     }
 
+    /**
+     * Removes the connect to this pathnode if necessary.
+     */
+    private void addDisconnectCommand() {
+        if (shouldDeleteNode) {
+            DisconnectCommand cmd = new DisconnectCommand(toDelete);
+            if (cmd.canExecute()) {
+                add(cmd);
+            }
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -239,13 +255,35 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         verifyShouldDelete();
 
         initialize();
-        
+
         testPreConditions();
-        
+
         super.execute();
         doRedo();
-        
+
         testPostConditions();
+    }
+
+    /**
+     *  
+     */
+    private void initEmptyPoint() {
+        // need to downgrade pathnode to empty point.
+        empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
+        empty.setX(toDelete.getX());
+        empty.setY(toDelete.getY());
+
+        if (ncOut.size() > 0) {
+            // index of connection to be deleted.
+            int index = toDelete.getSucc().indexOf(ncOut.get(0));
+            // index of remaining node connection
+            index = (++index % 2);
+            // we need to get rid of this condition.
+            if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
+                outConditions = new Vector();
+                outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
+            }
+        }
     }
 
     /**
@@ -298,42 +336,6 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         initEndPoints();
         initOutConditions();
 
-    }
-
-    /**
-     * Because other commands get rid of connects, we need to get rid of a few node connections.
-     */
-    private void trimConnectNodeConnections() {
-        Vector v = new Vector();
-        for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            if (nc.getSource() instanceof Connect)
-                v.add(nc);
-        }
-        for (Iterator iter = v.iterator(); iter.hasNext();) {
-            ncIn.remove(iter.next());
-        }
-        v = new Vector();
-        for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
-            NodeConnection nc = (NodeConnection) iter.next();
-            if (nc.getTarget() instanceof Connect)
-                v.add(nc);
-        }
-        for (Iterator iter = v.iterator(); iter.hasNext();) {
-            ncOut.remove(iter.next());
-        }
-    }
-
-    /**
-     * Removes the connect to this pathnode if necessary.
-     */
-    private void addDisconnectCommand() {
-        if (shouldDeleteNode) {
-            DisconnectCommand cmd = new DisconnectCommand(toDelete);
-            if (cmd.canExecute()) {
-                add(cmd);
-            }
-        }
     }
 
     /**
@@ -498,6 +500,30 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
 
     }
 
+    /**
+     * Because other commands get rid of connects, we need to get rid of a few node connections.
+     */
+    private void trimConnectNodeConnections() {
+        Vector v = new Vector();
+        for (Iterator iter = ncIn.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (nc.getSource() instanceof Connect)
+                v.add(nc);
+        }
+        for (Iterator iter = v.iterator(); iter.hasNext();) {
+            ncIn.remove(iter.next());
+        }
+        v = new Vector();
+        for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (nc.getTarget() instanceof Connect)
+                v.add(nc);
+        }
+        for (Iterator iter = v.iterator(); iter.hasNext();) {
+            ncOut.remove(iter.next());
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -555,6 +581,52 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
     }
 
     /**
+     * @return true if the deletion of these branches on a fork/join would cause a loop.
+     */
+    private boolean verifyCausesLoop() {
+        HashSet exclusions = new HashSet();
+
+        int direction = 0;
+
+        if (toDelete instanceof AndFork || toDelete instanceof OrFork) {
+            // this is a fork, we haven't marked it for deletion yet so we have deleted some (but not all) its outputs and have not touched its
+            // input.
+            // we want to verify that by going backwards in the graph, without going through the connections that are marked for deletion, if we can
+            // find an end point
+            exclusions.addAll(ncOut);
+            direction = QFindReachableNodes.DIRECTION_FORWARD;
+        } else {
+            // this is a join, we haven't marked it for deletion yet so we have deleted some (but not all) its inputs and have not touched its
+            // outputs.
+            // we want to verify that by going backwards in the graph, without going through the connections that are marked for deletion, if we can
+            // find a start point
+            exclusions.addAll(ncIn);
+            direction = QFindReachableNodes.DIRECTION_REVERSE;
+        }
+
+        // run the query of reachable nodes.
+        QFindReachableNodes qry = new ReachableNodeFinder().new QFindReachableNodes(toDelete, exclusions, direction);
+        ReachableNodeFinder.RReachableNodes resp = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qry);
+        Vector vReachable = resp.getNodes();
+
+        // iterate through the collection, looking to see if we can reach a start/end.
+        boolean foundStartOrEnd = false;
+        for (Iterator iter = vReachable.iterator(); iter.hasNext() && !foundStartOrEnd;) {
+            PathNode element = (PathNode) iter.next();
+
+            // paths can start with startpoints or stubs.
+            if (direction == QFindReachableNodes.DIRECTION_REVERSE && element instanceof StartPoint || element instanceof Stub)
+                foundStartOrEnd = true;
+
+            // paths can end with endpoints, stubs or timeout paths (that have yet to be inserted).
+            if (direction == QFindReachableNodes.DIRECTION_FORWARD && element instanceof EndPoint || element instanceof Stub
+                    || (element instanceof Timer && element.getSucc().size() == 1))
+                foundStartOrEnd = true;
+        }
+        return foundStartOrEnd;
+    }
+
+    /**
      * We must verify that the given node connections to be deleted imply the path node must be deleted.
      * 
      * For example, a timer must be deleted if we remove its primary input/output but is still legal if we delete its timeoutpath.
@@ -595,45 +667,25 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
                     // must delete if we delete the in that isn't a connect. (remember timer subclass of waitingplace)
                     markNodeForDeletion();
                 }
-            } else { // not connected to anything.
-                if (toDelete instanceof Stub) {
-                    // stubs are deleted only when they have neither inputs nor outputs
-                    if ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0)) {
-                        markNodeForDeletion();
-                    }
-                } else if ((toDelete.getSucc().size() - ncOut.size() == 0) || (toDelete.getPred().size() - ncIn.size() == 0)) {
-                    // normal path nodes are deleted when they either have no inputs or outputs
+            } else if (toDelete instanceof Stub) {
+                // stubs are deleted only when they have neither inputs nor outputs
+                if ((toDelete.getSucc().size() - ncOut.size() == 0) && (toDelete.getPred().size() - ncIn.size() == 0)) {
                     markNodeForDeletion();
-                } else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
-                    // we downgrade forks/joins to empty points when they have only 1 in/out
-                    if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
+                }
+            } else {
+                if (toDelete instanceof AndFork || toDelete instanceof OrFork || toDelete instanceof AndJoin || toDelete instanceof OrJoin) {
+                    boolean foundStartOrEnd = verifyCausesLoop();
+
+                    // if we can't find one, we made a bad loop: delete it.
+                    if (!foundStartOrEnd)
+                        markNodeForDeletion();
+                    else if ((toDelete.getSucc().size() - ncOut.size() == 1) && (toDelete.getPred().size() - ncIn.size() == 1)) {
+                        // we downgrade forks/joins to empty points when they have only 1 in/out
                         initEmptyPoint();
                     }
                 }
             }
 
-        }
-    }
-
-    /**
-     *  
-     */
-    private void initEmptyPoint() {
-        // need to downgrade pathnode to empty point.
-        empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
-        empty.setX(toDelete.getX());
-        empty.setY(toDelete.getY());
-
-        if (ncOut.size() > 0) {
-            // index of connection to be deleted.
-            int index = toDelete.getSucc().indexOf(ncOut.get(0));
-            // index of remaining node connection
-            index = (++index % 2);
-            // we need to get rid of this condition.
-            if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
-                outConditions = new Vector();
-                outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
-            }
         }
     }
 }

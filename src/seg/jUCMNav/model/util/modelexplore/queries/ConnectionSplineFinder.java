@@ -47,7 +47,9 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
     }
 
     /**
-     * @return
+     * Subclassed to return inner class of subclass.
+     * 
+     * @return A response containing the visited node list.
      */
     protected QueryResponse getResponse() {
         // Return a response containing the visited node list
@@ -126,7 +128,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
     /**
      * @param node
-     * @return returns true if path traversal should be stopped when hitting one of this node. 
+     * @return returns true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
         return (node instanceof Connect);
@@ -162,7 +164,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
         }
 
         /**
-         * @param nodes
+         * @param connections
          *            The nodes connections to set.
          */
         public void setConnections(Vector connections) {

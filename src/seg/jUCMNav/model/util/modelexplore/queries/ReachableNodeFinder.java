@@ -4,6 +4,8 @@
  */
 package seg.jUCMNav.model.util.modelexplore.queries;
 
+import java.util.Collections;
+import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.emf.common.util.EList;
@@ -40,7 +42,10 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
 
         if (((QFindReachableNodes) q).getStartPathNode() != null) {
             // call recursive function processNode with the start node
-            processNode(((QFindReachableNodes) q).getStartPathNode());
+            Set exclusions = ((QFindReachableNodes) q).getExclusionSet();
+            if (exclusions == null)
+                exclusions = Collections.EMPTY_SET;
+            processNode(((QFindReachableNodes) q).getStartPathNode(), exclusions, ((QFindReachableNodes) q).getDirection());
         }
 
         // Return a response containing the visited node list
@@ -49,7 +54,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         return r;
     }
 
-    private void processNode(PathNode n) {
+    private void processNode(PathNode n, Set exclusions, int direction) {
         // visit nodes, call on next, fill vector
 
         if (_visitedNodes.contains(n)) {
@@ -61,39 +66,68 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             Vector toVisit = new Vector();
 
             EList links = n.getPred();
-            for (int i = 0; i < links.size(); i++) {
+            for (int i = 0; direction != QFindReachableNodes.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
                 PathNode node = ((NodeConnection) links.get(i)).getSource();
-                if (!(node instanceof Connect))
+                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
                     toVisit.add(node);
             }
 
             links = n.getSucc();
-            for (int i = 0; i < links.size(); i++) {
+            for (int i = 0; direction != QFindReachableNodes.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
                 PathNode node = ((NodeConnection) links.get(i)).getTarget();
-                if (!(node instanceof Connect))
+                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
                     toVisit.add(node);
             }
 
             // recursive call to process all nodes in the list to visit
             for (int i = 0; i < toVisit.size(); i++) {
-                processNode((PathNode) toVisit.get(i));
+                processNode((PathNode) toVisit.get(i), exclusions, direction);
             }
         }
     }
 
     public class QFindReachableNodes extends QueryRequest {
+        public static final int DIRECTION_BOTH = 0;
+        public static final int DIRECTION_REVERSE = 1;
+        public static final int DIRECTION_FORWARD = 2;
         // Finds reachable nodes from a PathNode
-        PathNode _StartPathNode;
+        private PathNode _StartPathNode;
+        private Set _ExclusionSet;
+        private int _Direction = 0;
 
         public QFindReachableNodes(PathNode startNode) {
             this._queryType = QueryObject.FINDREACHABLENODES;
             _StartPathNode = startNode;
         }
 
+        /**
+         * 
+         * @param startNode
+         *            the starting point for traversal.
+         * @param nodeConnectionExclusionSet
+         *            A set of node connections that must not be traversed
+         * @param direction
+         *            the direction of traversal; both sides, following the directed graph or opposite the directed graph.
+         */
+        public QFindReachableNodes(PathNode startNode, Set nodeConnectionExclusionSet, int direction) {
+            this._queryType = QueryObject.FINDREACHABLENODES;
+            _StartPathNode = startNode;
+            _ExclusionSet = nodeConnectionExclusionSet;
+            _Direction = direction;
+        }
+
         public PathNode getStartPathNode() {
             return _StartPathNode;
+        }
+
+        public Set getExclusionSet() {
+            return _ExclusionSet;
+        }
+
+        public int getDirection() {
+            return _Direction;
         }
     }
 
