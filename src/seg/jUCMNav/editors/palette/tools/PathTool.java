@@ -135,6 +135,27 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
     /*
      * (non-Javadoc)
      * 
+     * @see org.eclipse.gef.tools.CreationTool#handleButtonUp(int)
+     */
+    protected boolean handleButtonUp(int button) {
+
+        // see AbstractTool
+        int FLAG_UNLOAD = 4;
+        if (getCommand() != null) {
+            setFlag(FLAG_UNLOAD, getState() == STATE_INVALID);
+
+            return super.handleButtonUp(button);
+        } else {
+            setFlag(FLAG_UNLOAD, true);
+            getCurrentViewer().select(getTargetEditPart());
+            getDomain().getPaletteViewer().setActiveTool(null);
+            return true;
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.tools.AbstractTool#handleMove()
      */
     protected boolean handleMove() {
@@ -275,7 +296,7 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
             return;
         if (model instanceof StartPoint) {
             StartPoint start = (StartPoint) model;
-            // in case creation was cancelled. 
+            // in case creation was cancelled.
             if (start.getSucc().size() == 0)
                 return;
             if (state == NOSELECT) {

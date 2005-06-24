@@ -36,7 +36,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
-import seg.jUCMNav.editors.palette.UcmPaletteListener;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
@@ -147,7 +146,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
                 // from the palette into the editor
                 // @see ShapesEditor#createTransferDropTargetListener()
                 viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
-                viewer.addPaletteListener(new UcmPaletteListener());
             }
         };
     }
