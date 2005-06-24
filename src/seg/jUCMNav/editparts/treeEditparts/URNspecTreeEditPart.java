@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -8,6 +9,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
@@ -61,9 +63,12 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 	protected List getModelChildren() {
 		ArrayList list = new ArrayList();
 		list.addAll(getURNspec().getUcmspec().getMaps());
+		Collections.sort(list, new EObjectClassNameComparator());
 		list.add(Messages.getString("URNspecTreeEditPart.components")); //$NON-NLS-1$
 		list.add(Messages.getString("URNspecTreeEditPart.responsibilities")); //$NON-NLS-1$
-		return list;	}
+		return list;
+		
+	}
 
 	protected String getText() {
 		return getURNspec().getName();

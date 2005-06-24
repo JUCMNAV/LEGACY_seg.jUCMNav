@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -11,6 +12,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
@@ -73,6 +75,8 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
             list.addAll(root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getResponsibilities());
+        
+        Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
 

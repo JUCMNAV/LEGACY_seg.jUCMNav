@@ -28,10 +28,6 @@ public class ComponentTreeEditPart extends UcmModelElementTreeEditPart {
         return (ComponentElement) getModel();
     }
 
-    protected String getText() {
-        return getComp().getId() + ": " + getComp().getName(); //$NON-NLS-1$
-    }
-
     protected Image getImage() {
         if (super.getImage() == null) {
             if (getComp() instanceof Component) {

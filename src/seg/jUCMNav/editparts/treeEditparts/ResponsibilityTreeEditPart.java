@@ -26,10 +26,7 @@ public class ResponsibilityTreeEditPart extends UcmModelElementTreeEditPart {
 	protected Responsibility getResponsibility(){
 		return (Responsibility)getModel();
 	}	
-	protected String getText() {
-		return getResponsibility().getId() + ": " + getResponsibility().getName(); //$NON-NLS-1$
-	}
-	
+
 	protected Image getImage() {
 		if(super.getImage() == null)
 			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$

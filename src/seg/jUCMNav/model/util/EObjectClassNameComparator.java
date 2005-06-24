@@ -5,9 +5,9 @@ import java.util.Comparator;
 import org.eclipse.emf.ecore.EObject;
 
 import ucm.map.ComponentRef;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
-import urncore.UCMmodelElement;
 
 /**
  * Created on 19-May-2005
@@ -25,33 +25,78 @@ public class EObjectClassNameComparator implements Comparator {
     public int compare(Object arg0, Object arg1) {
 
         try {
-            // if same class
-            if (((EObject) arg0).eClass().getInstanceClassName().equals(((EObject) arg1).eClass().getInstanceClassName())) {
+            // sort by classes first
+            int i = compareClass((EObject) arg0, (EObject) arg1);
 
-                if (arg0 instanceof ComponentRef && arg1 instanceof ComponentRef && ((ComponentRef) arg0).getCompDef()!=null && ((ComponentRef) arg1).getCompDef()!=null  ) {
-                    // order by component definition names
-                    return ((ComponentRef) arg0).getCompDef().getName().compareTo(((ComponentRef) arg1).getCompDef().getName());
-                } else if (arg0 instanceof RespRef && arg1 instanceof RespRef && ((RespRef) arg0).getRespDef()!=null && ((RespRef) arg1).getRespDef()!=null) {
-                    // order by responsibility definition names
-                    return ((RespRef) arg0).getRespDef().getName().compareTo(((RespRef) arg1).getRespDef().getName());
-                } else if (arg0 instanceof UCMmodelElement && arg1 instanceof UCMmodelElement) {
-                    // order by ucmmodelelement name
-                    return ((UCMmodelElement) arg0).getName().compareTo(((UCMmodelElement) arg1).getName());
-                }
+            if (i != 0)
+                return i;
+            else {
+                // then by name if same class.
+                return getSortableElementName((EObject) arg0).compareToIgnoreCase(getSortableElementName((EObject) arg1));
             }
 
-            if (arg0 instanceof EmptyPoint && !(arg1 instanceof EmptyPoint)) {
-                // empty point is lower in the list.
-                return 1;
-            } else if (arg1 instanceof EmptyPoint && !(arg0 instanceof EmptyPoint)) {
-                // empty point is lower in the list.
-                return -1;
-            }
-
-            // order class names alphabetically
-            return ((EObject) arg0).eClass().getInstanceClassName().compareTo(((EObject) arg1).eClass().getInstanceClassName());
         } catch (Exception ex) {
             return 0;
         }
+    }
+
+    public static String getSortableElementName(EObject o) {
+
+        String s;
+        // want to build a string like so: Name (ID)
+        // but have to deal with special cases
+
+        if (o instanceof ComponentRef && ((ComponentRef) o).getCompDef() != null) {
+            s = ((ComponentRef) o).getCompDef().getName();
+        } else if (o instanceof RespRef && ((RespRef) o).getRespDef() != null) {
+            s = ((RespRef) o).getRespDef().getName();
+        } else {
+            try {
+                Object name = o.eGet(o.eClass().getEStructuralFeature("name"));
+                if (name == null)
+                    s = "";
+                else
+                    s = name.toString();
+            } catch (IllegalArgumentException ex) {
+                s = o.eClass().getName();
+            }
+
+        }
+
+        try {
+            Object id = o.eGet(o.eClass().getEStructuralFeature("id"));
+            if (id != null)
+                s += " (" + id.toString() + ")";
+        } catch (IllegalArgumentException ex) {
+        }
+
+        return s;
+    }
+
+    /**
+     * Compares elements by class type
+     *  
+     */
+    private int compareClass(EObject arg0, EObject arg1) {
+        int i = getClassRank(arg0) - getClassRank(arg1);
+
+        if (i != 0)
+            return i;
+        else {
+            return arg0.eClass().getInstanceClassName().compareToIgnoreCase(arg1.eClass().getInstanceClassName());
+        }
+    }
+
+    /**
+     * Associates a rank to model element classes. In a sorted list, elements should be sorted by ascending rank.
+     * 
+     * @param o
+     * @return rank
+     */
+    private int getClassRank(Object o) {
+        if (o instanceof EmptyPoint || o instanceof DirectionArrow) {
+            return 1;
+        } else
+            return 0;
     }
 }

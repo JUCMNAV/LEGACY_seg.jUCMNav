@@ -10,10 +10,12 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.ResponsibilityPropertySource;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
@@ -21,7 +23,6 @@ import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
-import urncore.UCMmodelElement;
 
 /**
  * @author TremblaE
@@ -80,15 +81,16 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         if (notification.getEventType() != Notification.REMOVING_ADAPTER) {
             refreshChildren();
             refreshVisuals();
+
+            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) {
+                getParent().refresh();
+            }
+
         }
     }
 
     protected String getText() {
-        if (getModel() instanceof UCMmodelElement) {
-            UCMmodelElement elem = (UCMmodelElement) getModel();
-            return elem.getId() + ": " + elem.getName(); //$NON-NLS-1$
-        } else
-            return super.getText();
+        return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
     }
 
     protected IPropertySource getPropertySource() {

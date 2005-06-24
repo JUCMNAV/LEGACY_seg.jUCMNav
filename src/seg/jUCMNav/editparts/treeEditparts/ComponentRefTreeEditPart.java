@@ -37,14 +37,6 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
             getCompRef().getCompDef().eAdapters().remove(this);
     }
 
-    protected String getText() {
-        ComponentElement comp = getCompRef().getCompDef();
-        if (comp != null)
-            return "ref " + getCompRef().getId() + ": " + comp.getName(); //$NON-NLS-1$ //$NON-NLS-2$
-        else
-            return "ref " + getCompRef().getId(); //$NON-NLS-1$
-    }
-
     /*
      * (non-Javadoc)
      * 

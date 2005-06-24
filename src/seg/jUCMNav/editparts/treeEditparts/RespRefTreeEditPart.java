@@ -5,7 +5,6 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import ucm.map.RespRef;
-import urncore.Responsibility;
 
 /**
  * Created 2005-05-17
@@ -31,14 +30,6 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
         super.deactivate();
         if (getRespRef().getRespDef() != null)
             getRespRef().getRespDef().eAdapters().remove(this);
-    }
-
-    protected String getText() {
-        Responsibility resp = getRespRef().getRespDef();
-        if (resp != null)
-            return "ref " + getRespRef().getId() + ": " + resp.getName(); //$NON-NLS-1$ //$NON-NLS-2$
-        else
-            return "ref " + getRespRef().getId(); //$NON-NLS-1$
     }
 
     private RespRef getRespRef() {
