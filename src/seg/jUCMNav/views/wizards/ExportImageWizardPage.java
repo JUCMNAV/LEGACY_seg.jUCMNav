@@ -36,10 +36,16 @@ public class ExportImageWizardPage extends WizardPage {
 
     private Combo cboImageType;
 
+    private int[] iMapSelectionIndices;
+
+    private int iTypeSelectionIndex;
+
     // widget list
     private List lstMaps;
     private HashMap mapsToEditor;
     private Vector mapsToExport;
+
+    private String sExportPath;
     private Text txtExportPath;
 
     /**
@@ -52,8 +58,6 @@ public class ExportImageWizardPage extends WizardPage {
 
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
-        
-        
 
         if (mapsToExport.size() == 0) {
             setErrorMessage("No maps have been selected for export. Either you did not select a .jucm file or the .jucm file you selected does not contain any Maps.");
@@ -183,14 +187,14 @@ public class ExportImageWizardPage extends WizardPage {
      * @return success
      */
     public boolean finish() {
-        File dir = new File(txtExportPath.getText());
+        File dir = new File(sExportPath);
         if (!(dir.exists() && dir.isDirectory())) {
             setErrorMessage("Invalid path specified");
             return false;
         }
 
-        setPath(txtExportPath.getText());
-        setImageType(cboImageType.getSelectionIndex());
+        setPath(sExportPath);
+        setImageType(iTypeSelectionIndex);
         updateMapsToExport();
 
         return true;
@@ -202,6 +206,16 @@ public class ExportImageWizardPage extends WizardPage {
 
     public String getPath() {
         return ExportImageWizard.getPreferenceStore().getString(ExportImageWizard.PREF_PATH);
+    }
+
+    /**
+     * Saves the current state of the page so that another thread can run finish() and not worry about thread access exceptions.
+     *  
+     */
+    public void preFinish() {
+        sExportPath = txtExportPath.getText();
+        iTypeSelectionIndex = cboImageType.getSelectionIndex();
+        iMapSelectionIndices = lstMaps.getSelectionIndices();
     }
 
     public void setImageType(int type) {
@@ -218,8 +232,8 @@ public class ExportImageWizardPage extends WizardPage {
      */
     private void updateMapsToExport() {
         Vector toKeep = new Vector();
-        for (int i = 0; i < lstMaps.getSelectionIndices().length; i++) {
-            int index = lstMaps.getSelectionIndices()[i];
+        for (int i = 0; i < iMapSelectionIndices.length; i++) {
+            int index = iMapSelectionIndices[i];
             toKeep.add(mapsToExport.get(i));
         }
 

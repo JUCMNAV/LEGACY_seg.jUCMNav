@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,9 +11,12 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.draw2d.SWTGraphics;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -81,11 +85,11 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     public static IPreferenceStore getPreferenceStore() {
         return JUCMNavPlugin.getDefault().getPreferenceStore();
     }
-    protected HashMap mapsToEditor;
+    protected HashMap mapsToEditor, mapsToSpecificEditor;
     protected Vector mapsToExport;
     protected Collection openedEditors;
+    protected IWorkbenchPage page;
     protected IStructuredSelection selection;
-    protected IWorkbench workbench;
 
     /**
      *  
@@ -102,7 +106,6 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
      * Closes the editors opened during the wizard's work.
      */
     private void closedOpenedEditors() {
-        IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
         for (Iterator iter = openedEditors.iterator(); iter.hasNext();) {
             IEditorPart element = (IEditorPart) iter.next();
             page.closeEditor(element, false);
@@ -118,6 +121,31 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     }
 
     /**
+     * @param editor
+     * @param map
+     */
+    private void defineMapping(UCMNavMultiPageEditor editor, Map map) {
+        mapsToEditor.put(map, editor);
+        mapsToSpecificEditor.put(map, editor.getEditor(editor.getModel().getUcmspec().getMaps().indexOf(map)));
+    }
+
+    /**
+     * Saves all images and closes opened editors.
+     */
+    private boolean doFinish(IProgressMonitor monitor) {
+        boolean b = ((ExportImageWizardPage) getPage(PAGE1)).finish();
+
+        if (b) {
+            for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
+                ExportMap((Map) iter.next());
+                monitor.worked(1);
+            }
+
+        }
+        return b;
+    }
+
+    /**
      * Exports a map to a file. Uses mapsToExport to find the editor and the preference store to build the file name.
      * 
      * @param map
@@ -125,20 +153,18 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     private void ExportMap(Map map) {
         FileOutputStream fos = null;
         try {
-            // get the multi editor
-            UCMNavMultiPageEditor multieditor = (UCMNavMultiPageEditor) mapsToEditor.get(map);
-            // find the index of the given map
-            int i = multieditor.getModel().getUcmspec().getMaps().indexOf(map);
             // get the simple editor
-            UcmEditor editor = (UcmEditor) (multieditor).getEditor(i);
+            UcmEditor editor = (UcmEditor) mapsToSpecificEditor.get(map);
 
             // get the high level IFigure to be saved.
-            IFigure pane = ((ConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
+            LayeredPane pane = ((ConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
 
             // generate image
             Image image = new Image(Display.getCurrent(), pane.getSize().width, pane.getSize().height);
             GC gc = new GC(image);
             SWTGraphics graphics = new SWTGraphics(gc);
+            // if the bounds are in the negative x/y, we don't see them without a translation
+            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
             pane.paint(graphics);
 
             // generate the path.
@@ -208,10 +234,11 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
      *            a collection of .jucm IFiles, Maps or URNspecs
      */
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
-        this.workbench = workbench;
+        this.page = workbench.getActiveWorkbenchWindow().getActivePage();
         this.mapsToExport = new Vector();
         this.openedEditors = new Vector();
         this.mapsToEditor = new HashMap();
+        this.mapsToSpecificEditor = new HashMap();
 
         setWindowTitle("Export Image Wizard");
 
@@ -251,19 +278,23 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
                 this.mapsToExport.addAll(editor.getModel().getUcmspec().getMaps());
                 for (Iterator iterator = editor.getModel().getUcmspec().getMaps().iterator(); iterator.hasNext();) {
                     Map map = (Map) iterator.next();
-                    mapsToEditor.put(map, editor);
+                    defineMapping(editor, map);
                 }
             } else {
                 // is a Map or URNSpec; extract maps from those.
-                IEditorPart editor = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-                if (obj instanceof Map) {
-                    this.mapsToExport.add(obj);
-                    this.mapsToEditor.put(obj, editor);
-                } else if (obj instanceof URNspec) {
-                    this.mapsToExport.addAll(((URNspec) obj).getUcmspec().getMaps());
-                    for (Iterator iterator = ((URNspec) obj).getUcmspec().getMaps().iterator(); iterator.hasNext();) {
-                        Map map = (Map) iterator.next();
-                        this.mapsToEditor.put(map, editor);
+                IEditorPart editorpart = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+                if (editorpart instanceof UCMNavMultiPageEditor) {
+                    UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorpart;
+                    if (obj instanceof Map) {
+                        Map map = (Map) obj;
+                        this.mapsToExport.add(obj);
+                        defineMapping(editor, map);
+                    } else if (obj instanceof URNspec) {
+                        this.mapsToExport.addAll(((URNspec) obj).getUcmspec().getMaps());
+                        for (Iterator iterator = ((URNspec) obj).getUcmspec().getMaps().iterator(); iterator.hasNext();) {
+                            Map map = (Map) iterator.next();
+                            defineMapping(editor, map);
+                        }
                     }
                 }
             }
@@ -281,19 +312,32 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     }
 
     /**
-     * Saves all images and closes opened editors.
+     * This method is called when 'Finish' button is pressed in the wizard. We will create an operation and run it using wizard as execution context.
      */
     public boolean performFinish() {
-        boolean b = ((ExportImageWizardPage) getPage(PAGE1)).finish();
-
-        if (b) {
-            for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
-                ExportMap((Map) iter.next());
+        IRunnableWithProgress op = new IRunnableWithProgress() {
+            public void run(IProgressMonitor monitor) throws InvocationTargetException {
+                try {
+                    doFinish(monitor);
+                } finally {
+                    monitor.done();
+                }
             }
 
+        };
+        try {
+            ((ExportImageWizardPage) getPage(PAGE1)).preFinish();
+            getContainer().run(true, false, op);
             closedOpenedEditors();
+
+        } catch (InterruptedException e) {
+            return false;
+        } catch (InvocationTargetException e) {
+            Throwable realException = e.getTargetException();
+            MessageDialog.openError(getShell(), "Error", realException.getMessage());
+            return false;
         }
-        return b;
+        return true;
     }
 
 }
