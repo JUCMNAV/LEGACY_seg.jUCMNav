@@ -39,7 +39,7 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
         edges.addPoint(DEFAULT_WIDTH / 2, 0);
         edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
 
-        mainFigure.setLineWidth(3);
+        mainFigure.setLineWidth(5);
         mainFigure.setPoints(edges);
         add(mainFigure);
     }
@@ -92,9 +92,9 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
         this.hover = hover;
 
         if (hover)
-            mainFigure.setLineWidth(5);
+            mainFigure.setLineWidth(7);
         else
-            mainFigure.setLineWidth(3);
+            mainFigure.setLineWidth(5);
     }
 
     /*
