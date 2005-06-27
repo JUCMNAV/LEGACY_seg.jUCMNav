@@ -33,15 +33,17 @@ public class NodeConnectionLocator extends ConnectionLocator {
     public void relocate(IFigure target) {
         Dimension prefSize = target.getPreferredSize();
         Point center = getReferencePoint();
+        target.translateToRelative(center);
         if (target instanceof TimeoutPathFigure) {
             TimeoutPathFigure fig = (TimeoutPathFigure) target;
+
             Polyline child = (Polyline) fig.getChildren().get(0);
-            child.getPoints().performTranslate(center.x-child.getPoints().getFirstPoint().x+fig.getInitial().x, center.y-child.getPoints().getFirstPoint().y+fig.getInitial().y);
-            
+            child.getPoints().performTranslate(center.x - child.getPoints().getFirstPoint().x + fig.getInitial().x,
+                    center.y - child.getPoints().getFirstPoint().y + fig.getInitial().y);
+
             // force refresh bounds
             child.setPoints(child.getPoints());
-        } else
-            target.translateToRelative(center);
+        }
 
         target.setBounds(getNewBounds(prefSize, center));
     }
