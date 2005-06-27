@@ -284,10 +284,16 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                 PointList list = sp.getPoints();
                 if (list != null && sp.getPoints().size() > 0) {
 
-                    Ray r;
+                    Ray r = new Ray();
 
                     if (list.size() > 2) {
-                        r = new Ray(list.getFirstPoint(), list.getPoint(1));
+                        int i = 1;
+                        // try a further point if both points are identical
+                        while (i < list.size() && r.length() == 0) {
+                            r = new Ray(list.getFirstPoint(), list.getPoint(i));
+                            i++;
+                        }
+
                     } else {
                         r = new Ray(list.getFirstPoint(), list.getMidpoint());
                     }
@@ -334,10 +340,16 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                 PointList list = sp.getPoints();
                 if (list != null && list.size() > 0) {
 
-                    Ray r;
+                    Ray r = new Ray();
 
                     if (list.size() > 2) {
-                        r = new Ray(list.getPoint(list.size() - 2), list.getLastPoint());
+                        int i = 2;
+                        // try a further point if both points are identical
+                        while (i <= list.size() && r.length() == 0) {
+                            r = new Ray(list.getPoint(list.size() - 2), list.getLastPoint());
+                            i++;
+                        }
+
                     } else {
                         r = new Ray(list.getMidpoint(), list.getLastPoint());
                     }
