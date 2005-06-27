@@ -50,7 +50,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      *  
      */
     public UCMConnectionRouter(Map editpartregistry, PathGraph pathgraph) {
-        assert pathgraph != null : "null path graph!";
+        assert pathgraph != null : "null path graph!"; //$NON-NLS-1$
 
         this.pathgraph = pathgraph;
         this.editpartregistry = editpartregistry;
@@ -215,7 +215,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             EStructuralFeature feature = (EStructuralFeature) notification.getFeature();
             if (type == Notification.SET && notifier instanceof PathNode) {
                 PathNode pn = (PathNode) notifier;
-                if (feature.getName().equals("x") || feature.getName().equals("y")) {
+                if (feature.getName().equals("x") || feature.getName().equals("y")) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (pn.getPathGraph() != null) {
                         //System.out.println("moved pathnode");
                         refreshConnections(pn);
@@ -223,7 +223,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                 }
             } else if (type == Notification.SET && notifier instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) notifier;
-                if (feature.getName().equals("source") || feature.getName().equals("target")) {
+                if (feature.getName().equals("source") || feature.getName().equals("target")) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (nc.getPathGraph() != null && nc.getSource() != null && nc.getTarget() != null) {
                         //                        System.out.println("changed connections");
                         refreshConnections(nc);

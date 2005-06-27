@@ -15,6 +15,8 @@ import java.io.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 
+import seg.jUCMNav.Messages;
+
 /**
  * This is a sample new wizard. Its role is to create a new file 
  * resource in the provided container. If the container resource
@@ -36,7 +38,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	public NewUcmFileWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("New jUCM file");
+		this.setWindowTitle(Messages.getString("NewUcmFileWizard.newJUCMFile")); //$NON-NLS-1$
 	}
 	
 	/**
@@ -73,7 +75,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), Messages.getString("NewUcmFileWizard.error"), realException.getMessage()); //$NON-NLS-1$
 			return false;
 		}
 		return true;
@@ -91,11 +93,11 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 		IProgressMonitor monitor)
 		throws CoreException {
 		// create a sample file
-		monitor.beginTask("Creating " + fileName, 2);
+		monitor.beginTask(Messages.getString("NewUcmFileWizard.creating") + fileName, 2); //$NON-NLS-1$
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource resource = root.findMember(new Path(containerName));
 		if (!resource.exists() || !(resource instanceof IContainer)) {
-			throwCoreException("Container \"" + containerName + "\" does not exist.");
+			throwCoreException(Messages.getString("NewUcmFileWizard.container") + containerName + Messages.getString("NewUcmFileWizard.doesNotExist")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
@@ -110,7 +112,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 		} catch (IOException e) {
 		}
 		monitor.worked(1);
-		monitor.setTaskName("Opening file for editing...");
+		monitor.setTaskName(Messages.getString("NewUcmFileWizard.openingForEditing")); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				IWorkbenchPage page =
@@ -129,13 +131,13 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	 */
 
 	private InputStream openContentStream() {
-		String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\">\n<ucmspec>\n<maps id=\"2\" name=\"Map\">\n<pathGraph/>\n</maps>\n</ucmspec>\n<urndef/>\n</urn:URNspec>";
+		String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\">\n<ucmspec>\n<maps id=\"2\" name=\"Map\">\n<pathGraph/>\n</maps>\n</ucmspec>\n<urndef/>\n</urn:URNspec>"; //$NON-NLS-1$
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
-			new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null);
+			new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
 		throw new CoreException(status);
 	}
 

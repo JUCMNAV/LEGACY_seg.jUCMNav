@@ -129,9 +129,9 @@ public class UcmPaletteRoot extends PaletteRoot {
                 Messages.getString("UcmPaletteRoot.agent"), Messages.getString("UcmPaletteRoot.createAgent"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, ComponentKind.AGENT), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
                                 JUCMNavPlugin.class, "icons/Agent16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
-        entry = new UCMElementCreationEntry("Actor", "Create an actor", ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class,
-                ComponentKind.ACTOR), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif"), ImageDescriptor.createFromFile(
-                JUCMNavPlugin.class, "icons/Actor24.gif"));
+        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.actor"), Messages.getString("UcmPaletteRoot.createActor"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
+                ComponentKind.ACTOR), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                JUCMNavPlugin.class, "icons/Actor24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         
         entry = new UCMElementCreationEntry(
@@ -162,21 +162,21 @@ public class UcmPaletteRoot extends PaletteRoot {
                         "icons/DynStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry("Timer", "Creates a timer", Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor
-                .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer24.gif"));
+        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.timer"), Messages.getString("UcmPaletteRoot.createTimer"), Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+                .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry("Waiting Place", "Creates a waiting place", WaitingPlace.class, new ModelCreationFactory(getURNspec(),
-                WaitingPlace.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Wait16.gif"), ImageDescriptor.createFromFile(
-                JUCMNavPlugin.class, "icons/Wait24.gif"));
+        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.waitingPlace"), Messages.getString("UcmPaletteRoot.createWaitingPlace"), WaitingPlace.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+                WaitingPlace.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Wait16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                JUCMNavPlugin.class, "icons/Wait24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
         entry = new UCMElementCreationEntry(
-                Messages.getString("UcmPaletteRoot.dirrectionArrow"), Messages.getString("UcmPaletteRoot.createArrow"), DirectionArrow.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+                Messages.getString("UcmPaletteRoot.directionArrow"), Messages.getString("UcmPaletteRoot.createArrow"), DirectionArrow.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
                         DirectionArrow.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/DirectionArrow24.gif")); //$NON-NLS-1$
-        entry.setId(Messages.getString("UcmPaletteRoot.dirrectionArrowId")); //$NON-NLS-1$
+        entry.setId(Messages.getString("UcmPaletteRoot.directionArrowId")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
         entry = new UCMElementCreationEntry(

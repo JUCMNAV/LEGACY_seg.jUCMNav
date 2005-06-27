@@ -248,13 +248,13 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         t.grabExcessHorizontalSpace = true;
         t.grabExcessVerticalSpace = false;
         lb1.setLayoutData(t);
-        Label lb = toolkit.createLabel(lb1, "");
+        Label lb = toolkit.createLabel(lb1, ""); //$NON-NLS-1$
         lb.setImage(image);
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        lb = toolkit.createLabel(lb1, "Plugin Tree");
-        lb.setFont(new Font(null, new FontData("", 8, SWT.BOLD)));
+        lb = toolkit.createLabel(lb1, Messages.getString("StubBindingsDialog.pluginTree")); //$NON-NLS-1$
+        lb.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
@@ -270,7 +270,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
         btDelete = new ToolItem(toolBar, SWT.PUSH);
         btDelete.setEnabled(false);
-        btDelete.setToolTipText("Delete binding");
+        btDelete.setToolTipText(Messages.getString("StubBindingsDialog.deleteBinding")); //$NON-NLS-1$
         image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE).createImage();
         images.add(image);
         btDelete.setImage(image);
@@ -281,7 +281,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         });
 
         btUndo = new ToolItem(toolBar, SWT.PUSH);
-        btUndo.setToolTipText("Undo previous action");
+        btUndo.setToolTipText(Messages.getString("StubBindingsDialog.undoPreviousAction")); //$NON-NLS-1$
         image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_UNDO).createImage();
         images.add(image);
         btUndo.setImage(image);
@@ -294,7 +294,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         btUndo.setEnabled(false);
 
         btRedo = new ToolItem(toolBar, SWT.PUSH);
-        btRedo.setToolTipText("Redo previous action");
+        btRedo.setToolTipText(Messages.getString("StubBindingsDialog.redoPreviousAction")); //$NON-NLS-1$
         image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO).createImage();
         images.add(image);
         btRedo.setImage(image);
@@ -318,17 +318,17 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         t.grabExcessHorizontalSpace = true;
         t.grabExcessVerticalSpace = false;
         lb2.setLayoutData(t);
-        lb = toolkit.createLabel(lb2, "");
+        lb = toolkit.createLabel(lb2, ""); //$NON-NLS-1$
         lb.setImage(image);
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        lb = toolkit.createLabel(lb2, "Add Bindings for: ");
-        lb.setFont(new Font(null, new FontData("", 8, SWT.BOLD)));
+        lb = toolkit.createLabel(lb2, Messages.getString("StubBindingsDialog.addBindingsFor")); //$NON-NLS-1$
+        lb.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        selectedPluginLabel = toolkit.createLabel(lb2, "[no Plugin selected]");
+        selectedPluginLabel = toolkit.createLabel(lb2, Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = true;
         selectedPluginLabel.setLayoutData(t);
@@ -991,7 +991,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             for (Iterator j = in.iterator(); j.hasNext();) {
                 InBinding inBind = (InBinding) j.next();
                 subItem = new TreeItem(subLabelItem, SWT.NULL);
-                subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$
+                subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
                 image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")).createImage(); //$NON-NLS-1$
                 images.add(image);
                 subItem.setImage(image);
@@ -1008,7 +1008,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
             for (Iterator j = out.iterator(); j.hasNext();) {
                 OutBinding outBind = (OutBinding) j.next();
                 subItem = new TreeItem(subLabelItem, SWT.NULL);
-                subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$
+                subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
                 image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")).createImage(); //$NON-NLS-1$
                 images.add(image);
                 subItem.setImage(image);
@@ -1052,7 +1052,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         // If the user selected a plugin
         if (selectedPlugin != null) {
             // Update the label
-            selectedPluginLabel.setText(selectedPlugin.getStub().getName() + " <-> " + selectedPlugin.getPlugin().getName());
+            selectedPluginLabel.setText(selectedPlugin.getStub().getName() + " <-> " + selectedPlugin.getPlugin().getName()); //$NON-NLS-1$
             selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD)));
             selectedPluginLabel.setData(selectedPlugin);
             addPluginClient.setVisible(true);
@@ -1077,7 +1077,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 if (!isNodeConnectionInBinded(con, selectedPlugin)) {
                     inStubList.add(con);
                     item = new TableItem(tabStubIns, SWT.NULL);
-                    item.setText("IN" + j);
+                    item.setText(Messages.getString("StubBindingsDialog.IN") + j); //$NON-NLS-1$
                     item.setImage(in);
                 }
                 j++;
@@ -1091,7 +1091,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 if (!isNodeConnectionOutBinded(con, selectedPlugin)) {
                     outStubList.add(con);
                     item = new TableItem(tabStubOuts, SWT.NULL);
-                    item.setText("OUT" + j);
+                    item.setText(Messages.getString("StubBindingsDialog.OUT") + j); //$NON-NLS-1$
                     item.setImage(out);
                 }
                 j++;
@@ -1120,8 +1120,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 }
             }
         } else {
-            selectedPluginLabel.setText("[no Plugin selected]");
-            selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD)));
+            selectedPluginLabel.setText(Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
+            selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
             addPluginClient.setVisible(false);
         }
     }

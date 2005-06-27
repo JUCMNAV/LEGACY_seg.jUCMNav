@@ -229,8 +229,8 @@ public class ModelCreationFactory implements CreationFactory {
                     URNNamingHelper.resolveNamingConflict(urn, respdef);
                 } else if (targetClass.equals(Condition.class)) {
                     Condition cond = urncorefactory.createCondition();
-                    cond.setExpression("true");
-                    cond.setLabel("");
+                    cond.setExpression("true"); //$NON-NLS-1$
+                    cond.setLabel(""); //$NON-NLS-1$
                     result = cond;
                 } else if (targetClass.equals(StartPoint.class)) {
                     StartPoint sp = mapfactory.createStartPoint();
@@ -245,7 +245,7 @@ public class ModelCreationFactory implements CreationFactory {
                     ep.getPostcondition().setDeltaY(-20);
                     result = ep;
                 } else {
-                    System.out.println("Unknown class passed to ModelCreationFactory");
+                    System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }
             }
         }
@@ -286,7 +286,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setName(URNNamingHelper.getPrefix(URNspec.class));
 
         // seed the global id
-        urnspec.setNextGlobalID("1");
+        urnspec.setNextGlobalID("1"); //$NON-NLS-1$
 
         String sDate;
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
@@ -294,8 +294,8 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setCreated(sDate);
         urnspec.setModified(sDate);
 
-        urnspec.setUrnVersion("0.9");
-        urnspec.setSpecVersion("0");
+        urnspec.setUrnVersion("0.9"); //$NON-NLS-1$
+        urnspec.setSpecVersion("0"); //$NON-NLS-1$
 
         // add its URN definition
         urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());

@@ -80,11 +80,11 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-    	assert out != null : "Pre Outbinding is null";
+    	assert out != null : "Pre Outbinding is null"; //$NON-NLS-1$
     	
-    	assert out.getEndPoint() == end : "Pre End point changed";
-    	assert out.getStubExit() == stubExit : "Pre stub exit changed";
-    	assert out.getBinding() == plugin : "Pre PluginBinding changed";
+    	assert out.getEndPoint() == end : "Pre End point changed"; //$NON-NLS-1$
+    	assert out.getStubExit() == stubExit : "Pre stub exit changed"; //$NON-NLS-1$
+    	assert out.getBinding() == plugin : "Pre PluginBinding changed"; //$NON-NLS-1$
     }
 
     /*
@@ -93,10 +93,10 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-    	assert out != null : "Post Outbinding is null";
+    	assert out != null : "Post Outbinding is null"; //$NON-NLS-1$
     	
-    	assert out.getEndPoint() == null : "Post end point changed";
-    	assert out.getStubExit() == null : "Post stub exit changed";
-    	assert out.getBinding() == null : "Post PluginBinding changed";
+    	assert out.getEndPoint() == null : "Post end point changed"; //$NON-NLS-1$
+    	assert out.getStubExit() == null : "Post stub exit changed"; //$NON-NLS-1$
+    	assert out.getBinding() == null : "Post PluginBinding changed"; //$NON-NLS-1$
     }
 }

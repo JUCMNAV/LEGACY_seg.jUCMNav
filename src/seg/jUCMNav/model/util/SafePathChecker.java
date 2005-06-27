@@ -95,7 +95,7 @@ public class SafePathChecker {
             else if (joinToPathNode instanceof EndPoint)
                 nc = (NodeConnection) joinToPathNode.getPred().get(0);
             else
-                assert false : "incorrect call to isSafeFusion";
+                assert false : "incorrect call to isSafeFusion"; //$NON-NLS-1$
 
             // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops.
             QFindSpline qry = new DeletionPathFinder().new QFindSpline(nc);

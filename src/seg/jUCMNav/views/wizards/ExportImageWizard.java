@@ -38,6 +38,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
@@ -59,9 +60,9 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
 
     public final static String DEFAULTPATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
 
-    protected static final String PAGE1 = "Export Image";
-    public final static String PREF_IMAGETYPE = "seg.jUCMNav.ExportImage.ImageType";
-    public final static String PREF_PATH = "seg.jUCMNav.ExportImage.Path";
+    protected static final String PAGE1 = Messages.getString("ExportImageWizard.exportImage"); //$NON-NLS-1$
+    public final static String PREF_IMAGETYPE = "seg.jUCMNav.ExportImage.ImageType"; //$NON-NLS-1$
+    public final static String PREF_PATH = "seg.jUCMNav.ExportImage.Path"; //$NON-NLS-1$
 
     /**
      * Removes illegal characters from filenames. Not sure if the complete list is here.
@@ -169,14 +170,14 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportImageWizard.getPreferenceStore().getString(ExportImageWizard.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + getMapName(map));
+            genericPath = (Path) genericPath.append("/" + getMapName(map)); //$NON-NLS-1$
             int type = ExportImageWizard.getPreferenceStore().getInt(ExportImageWizard.PREF_IMAGETYPE);
             switch (type) {
             case 0:
-                genericPath = (Path) genericPath.addFileExtension("bmp");
+                genericPath = (Path) genericPath.addFileExtension("bmp"); //$NON-NLS-1$
                 break;
             case 1:
-                genericPath = (Path) genericPath.addFileExtension("jpg");
+                genericPath = (Path) genericPath.addFileExtension("jpg"); //$NON-NLS-1$
                 break;
             }
 
@@ -223,7 +224,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
 
         String name = map.getName();
         name = cleanFileName(name);
-        return filename + "-" + "Map" + map.getId() + "-" + name;
+        return filename + "-" + "Map" + map.getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     }
 
     /**
@@ -240,7 +241,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
         this.mapsToEditor = new HashMap();
         this.mapsToSpecificEditor = new HashMap();
 
-        setWindowTitle("Export Image Wizard");
+        setWindowTitle(Messages.getString("ExportImageWizard.exportImageWizard")); //$NON-NLS-1$
 
         // filter ifile resources
         this.selection = currentSelection;
@@ -334,7 +335,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
             return false;
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
-            MessageDialog.openError(getShell(), "Error", realException.getMessage());
+            MessageDialog.openError(getShell(), Messages.getString("ExportImageWizard.error"), realException.getMessage()); //$NON-NLS-1$
             return false;
         }
         return true;

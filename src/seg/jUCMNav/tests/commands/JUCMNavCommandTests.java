@@ -109,20 +109,20 @@ public class JUCMNavCommandTests extends TestCase {
         super.setUp();
 
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests");
+        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 
         if (!testproject.isOpen())
             testproject.open(null);
 
-        testfile = testproject.getFile("jUCMNav-test.jucm");
+        testfile = testproject.getFile("jUCMNav-test.jucm"); //$NON-NLS-1$
 
         // start with clean file
         if (testfile.exists())
             testfile.delete(true, false, null);
 
-        testfile.create(new ByteArrayInputStream("".getBytes()), false, null);
+        testfile.create(new ByteArrayInputStream("".getBytes()), false, null); //$NON-NLS-1$
 
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(testfile.getName());
@@ -143,10 +143,10 @@ public class JUCMNavCommandTests extends TestCase {
         
         ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
         Command cmd = new AddComponentRefCommand(map, backgroundBindingChecker);
-        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         testBindings = true;
@@ -169,7 +169,7 @@ public class JUCMNavCommandTests extends TestCase {
         for (Iterator iter = urnspec.getUcmspec().getMaps().iterator(); iter.hasNext();) {
             Map map = (Map) iter.next();
             cmd = new TrimEmptyNodeCommand(map);
-            assertTrue("Can't execute trim empty node command!", cmd.canExecute());
+            assertTrue("Can't execute trim empty node command!", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
 
@@ -182,16 +182,16 @@ public class JUCMNavCommandTests extends TestCase {
         int i = cs.getCommands().length;
 
         if (cs.getCommands().length > 0) {
-            assertTrue("Can't undo first command", cs.canUndo());
+            assertTrue("Can't undo first command", cs.canUndo()); //$NON-NLS-1$
             cs.undo();
             editor.doSave(null);
-            assertTrue("Can't redo first command", cs.canRedo());
+            assertTrue("Can't redo first command", cs.canRedo()); //$NON-NLS-1$
             cs.redo();
             editor.doSave(null);
         }
 
         while (i-- > 0) {
-            assertTrue("Can't undo a certain command", cs.canUndo());
+            assertTrue("Can't undo a certain command", cs.canUndo()); //$NON-NLS-1$
             cs.undo();
         }
 
@@ -199,7 +199,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         i = cs.getCommands().length;
         while (i-- > 0) {
-            assertTrue("Can't redo a certain command", cs.canRedo());
+            assertTrue("Can't redo a certain command", cs.canRedo()); //$NON-NLS-1$
             cs.redo();
         }
 
@@ -225,11 +225,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
             i++;
         }
-        assertTrue("No and forks exist for AddBranchCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No and forks exist for AddBranchCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         fork = (AndFork) pathgraph.getPathNodes().get(i);
 
         Command cmd = new AddBranchCommand(fork);
-        assertTrue("Can't execute AddBranchCommand", cmd.canExecute());
+        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -242,7 +242,7 @@ public class JUCMNavCommandTests extends TestCase {
         // This command should not be called directly by anything else that testSetConstraintComponentRefCommand. 
        
         Command cmd = new AddComponentRefCommand(map, compRef);
-        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         testBindings=false;
     }
@@ -256,11 +256,11 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd;
         fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
         cmd = new AddForkOnConnectionCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
-        assertTrue("Can't execute AddForkOnConnectionCommand with orfork.", cmd.canExecute());
+        assertTrue("Can't execute AddForkOnConnectionCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
         cmd = new AddForkOnConnectionCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
-        assertTrue("Can't execute AddForkOnConnectionCommand with andfork.", cmd.canExecute());
+        assertTrue("Can't execute AddForkOnConnectionCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -276,12 +276,12 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         Command cmd;
         fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
         cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-        assertTrue("Can't execute AddForkOnEmptyPointCommand with orfork.", cmd.canExecute());
+        assertTrue("Can't execute AddForkOnEmptyPointCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // find another empty point.
@@ -289,11 +289,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
         cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-        assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute());
+        assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -306,11 +306,11 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd;
         PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
         cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
-        assertTrue("Can't execute AddJoinOnConnectionCommand with orjoin.", cmd.canExecute());
+        assertTrue("Can't execute AddJoinOnConnectionCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
         cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
-        assertTrue("Can't execute AddJoinOnConnectionCommand with andjoin.", cmd.canExecute());
+        assertTrue("Can't execute AddJoinOnConnectionCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -326,12 +326,12 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         Command cmd;
         PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
         cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-        assertTrue("Can't execute AddJoinOnEmptyPointCommand with orjoin.", cmd.canExecute());
+        assertTrue("Can't execute AddJoinOnEmptyPointCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // find another empty point.
@@ -339,11 +339,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
         cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-        assertTrue("Can't execute AddJoinOnEmptyPointCommand with andjoin.", cmd.canExecute());
+        assertTrue("Can't execute AddJoinOnEmptyPointCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -359,11 +359,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
             i++;
         }
-        assertTrue("No start points exist for ChangeLabelNameCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No start points exist for ChangeLabelNameCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         pt = (StartPoint) pathgraph.getPathNodes().get(i);
 
-        Command cmd = new ChangeLabelNameCommand(pt.getLabel(), "new start name");
-        assertTrue("Can't execute ChangeLabelNameCommand", cmd.canExecute());
+        Command cmd = new ChangeLabelNameCommand(pt.getLabel(), "new start name"); //$NON-NLS-1$
+        assertTrue("Can't execute ChangeLabelNameCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -383,12 +383,12 @@ public class JUCMNavCommandTests extends TestCase {
         testSetConstraintComponentRefCommand();
 
         Command cmd = new SetConstraintComponentRefCommand(compRef, 0, 0, 1000, 1000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         // the current compRef is now behind the original one.
 
         cmd = new ComponentRefBindChildCommand(compRef, child);
-        assertTrue("Can't execute ComponentRefBindChildCommand.", cmd.canExecute());
+        assertTrue("Can't execute ComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -402,7 +402,7 @@ public class JUCMNavCommandTests extends TestCase {
         ComponentRef child = (ComponentRef) compRef.getChildren().get(0);
 
         Command cmd = new ComponentRefUnbindChildCommand(parent, child);
-        assertTrue("Can't execute ComponentRefUnbindChildCommand.", cmd.canExecute());
+        assertTrue("Can't execute ComponentRefUnbindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // we don't want to test the bindings as we have explicitely changed them.
@@ -424,7 +424,7 @@ public class JUCMNavCommandTests extends TestCase {
         cmd.setDeltaX(50);
         cmd.setDeltaX(50);
 
-        assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         componentRefWithLabel = (UCMmodelElement) compRef;
@@ -433,7 +433,7 @@ public class JUCMNavCommandTests extends TestCase {
         cmd.setDeltaX(0);
         cmd.setDeltaX(0);
 
-        assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -445,11 +445,11 @@ public class JUCMNavCommandTests extends TestCase {
     public void testCreateMapCommand() {
 
         CreateMapCommand cmd = new CreateMapCommand(urnspec);
-        assertTrue("Can't execute CreateMapCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreateMapCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        assertEquals("map was not added properly in model", urnspec.getUcmspec().getMaps().size(), 2);
-        assertEquals("map was not added properly in editor", editor.getPageCount(), 2);
+        assertEquals("map was not added properly in model", urnspec.getUcmspec().getMaps().size(), 2); //$NON-NLS-1$
+        assertEquals("map was not added properly in editor", editor.getPageCount(), 2); //$NON-NLS-1$
 
         // add bogus data to new map; set variables to help other commands access this new map
         map = (Map) urnspec.getUcmspec().getMaps().get(1);
@@ -466,7 +466,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testCreatePathCommand() {
         Command cmd = new CreatePathCommand(pathgraph, start, 35, 67);
-        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // for future use
@@ -483,7 +483,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         EmptyPoint empty = (EmptyPoint) ((NodeConnection) ((NodeConnection) end.getPred().get(0)).getSource().getPred().get(0)).getSource();
         Command cmd = new CutPathCommand(pathgraph, empty);
-        assertTrue("Can't execute CutPathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CutPathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -496,16 +496,16 @@ public class JUCMNavCommandTests extends TestCase {
         testSetConstraintComponentRefCommand();
 
         Command cmd = new DeleteComponentElementCommand(compRef.getCompDef());
-        assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute());
+        assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         ComponentElement compDef = compRef.getCompDef();
         cmd = new DeleteComponentRefCommand(compRef);
-        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteComponentElementCommand(compDef);
-        assertTrue("Can't execute DeleteComponentElementCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteComponentElementCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -518,7 +518,7 @@ public class JUCMNavCommandTests extends TestCase {
         testSetConstraintComponentRefCommand();
 
         Command cmd = new DeleteComponentRefCommand(compRef);
-        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -533,14 +533,14 @@ public class JUCMNavCommandTests extends TestCase {
         cmd.setModelElement(pathNodeWithLabel);
         cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
 
-        assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute());
+        assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteLabelCommand();
         cmd.setModelElement(componentRefWithLabel);
         cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
 
-        assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute());
+        assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -553,7 +553,7 @@ public class JUCMNavCommandTests extends TestCase {
         testCreateMapCommand();
 
         DeleteMapCommand cmd = new DeleteMapCommand(map);
-        assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteMapCommand.", cmd.canExecute()); //$NON-NLS-1$
 
         // must run as CompoundCommand because framework refreshes these
         CompoundCommand cmd2 = new CompoundCommand();
@@ -573,11 +573,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
             i++;
         }
-        assertTrue("No andforks exist for DeleteMultiNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No andforks exist for DeleteMultiNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         fork = (AndFork) pathgraph.getPathNodes().get(i);
 
         Command cmd = new DeleteMultiNodeCommand(fork, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-        assertTrue("Can't execute DeleteMultiNodeCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteMultiNodeCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -595,11 +595,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No empty points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         pn = (EmptyPoint) pathgraph.getPathNodes().get(i);
 
         DeleteNodeCommand cmd = new DeleteNodeCommand(pn);
-        assertTrue("Can't execute DeleteNodeCommand.", cmd.canExecute());
+        assertTrue("Can't execute DeleteNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         i = 0;
@@ -607,11 +607,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
             i++;
         }
-        assertTrue("No start points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No start points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         pn = (StartPoint) pathgraph.getPathNodes().get(i);
 
         cmd = new DeleteNodeCommand(pn);
-        assertTrue("Should not be able to delete start point DeleteNodeCommand.", !cmd.canExecute());
+        assertTrue("Should not be able to delete start point DeleteNodeCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         i = 0;
@@ -619,11 +619,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EndPoint)) {
             i++;
         }
-        assertTrue("No end points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No end points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         pn = (EndPoint) pathgraph.getPathNodes().get(i);
 
         cmd = new DeleteNodeCommand(pn);
-        assertTrue("Should not be able to delete end point DeleteNodeCommand.", !cmd.canExecute());
+        assertTrue("Should not be able to delete end point DeleteNodeCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         i = 0;
@@ -631,11 +631,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof RespRef)) {
             i++;
         }
-        assertTrue("No RespRefs exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No RespRefs exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         pn = (RespRef) pathgraph.getPathNodes().get(i);
 
         cmd = new DeleteNodeCommand(pn);
-        assertTrue("Can't execute DeleteNodeCommand on RespRef.", cmd.canExecute());
+        assertTrue("Can't execute DeleteNodeCommand on RespRef.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -653,11 +653,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
             i++;
         }
-        assertTrue("No start points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No start points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         start = (StartPoint) pathgraph.getPathNodes().get(i);
 
         Command cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-        assertTrue("Can't execute DeletePathCommand", cmd.canExecute());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         i = 0;
@@ -665,11 +665,11 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EndPoint)) {
             i++;
         }
-        assertTrue("No end points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No end points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         end = (EndPoint) pathgraph.getPathNodes().get(i);
 
         cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-        assertTrue("Can't execute DeletePathCommand", cmd.canExecute());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -687,20 +687,20 @@ public class JUCMNavCommandTests extends TestCase {
         while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof RespRef)) {
             i++;
         }
-        assertTrue("No RespRefs exist for testDeleteResponsibilityCommand!", i < pathgraph.getPathNodes().size());
+        assertTrue("No RespRefs exist for testDeleteResponsibilityCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
         rr = (RespRef) pathgraph.getPathNodes().get(i);
         Responsibility resp = rr.getRespDef();
 
         Command cmd = new DeleteResponsibilityCommand(resp);
-        assertTrue("Must not be able to delete referenced responsibility.", !cmd.canExecute());
+        assertTrue("Must not be able to delete referenced responsibility.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteNodeCommand(rr);
-        assertTrue("Can't delete RespRef", cmd.canExecute());
+        assertTrue("Can't delete RespRef", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteResponsibilityCommand(resp);
-        assertTrue("Can't execute DeleteResponsibilityCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteResponsibilityCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -713,7 +713,7 @@ public class JUCMNavCommandTests extends TestCase {
         testCreatePathCommand();
 
         Command cmd = new DeleteStartNCEndCommand(start);
-        assertTrue("Can't execute DeleteStartNCEndCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteStartNCEndCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -727,11 +727,11 @@ public class JUCMNavCommandTests extends TestCase {
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
         Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DividePathOnNodeConnectionCompoundCommand(start, (NodeConnection)newStart.getSucc().get(0), 459, 148, true );
-        assertTrue("Can't execute DividePathOnNodeConnectionCompoundCommand.", cmd.canExecute());
+        assertTrue("Can't execute DividePathOnNodeConnectionCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
 
@@ -748,7 +748,7 @@ public class JUCMNavCommandTests extends TestCase {
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
             cmd = new ExtendPathCommand(pathgraph, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
-            assertTrue("Can't execute ExtendPathCommand.", cmd.canExecute());
+            assertTrue("Can't execute ExtendPathCommand.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
     }
@@ -763,7 +763,7 @@ public class JUCMNavCommandTests extends TestCase {
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
         Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         EmptyPoint ep = null;
@@ -775,11 +775,11 @@ public class JUCMNavCommandTests extends TestCase {
                 ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
             }
         }
-        assertTrue("Can't find an EmptyPoint on path", ep != null);
+        assertTrue("Can't find an EmptyPoint on path", ep != null); //$NON-NLS-1$
         
         cmd = new ForkPathsCommand(ep, newStart, newFork);
-        assertTrue("Couldn't create ForkPathsCommand", cmd != null);
-        assertTrue("ForkPathsCommand can't execute", cmd.canExecute());
+        assertTrue("Couldn't create ForkPathsCommand", cmd != null); //$NON-NLS-1$
+        assertTrue("ForkPathsCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
         
         cs.execute(cmd);
 
@@ -790,7 +790,7 @@ public class JUCMNavCommandTests extends TestCase {
             }
         }
         
-        assertTrue("Can't find new fork on path", isForkInPath);
+        assertTrue("Can't find new fork on path", isForkInPath); //$NON-NLS-1$
     
     }
 
@@ -800,7 +800,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testJoinEndToStubJoinCommand() {
         //TODO: implement test
-        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false);
+        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false); //$NON-NLS-1$
     }
 
     /**
@@ -813,7 +813,7 @@ public class JUCMNavCommandTests extends TestCase {
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
         Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         EmptyPoint ep = null;
@@ -825,11 +825,11 @@ public class JUCMNavCommandTests extends TestCase {
                 ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
             }
         }
-        assertTrue("Can't find an EmptyPoint on 2nd path", ep != null);
+        assertTrue("Can't find an EmptyPoint on 2nd path", ep != null); //$NON-NLS-1$
         
         cmd = new JoinPathsCommand(ep, end, newJoin);
-        assertTrue("Couldn't create JoinPathsCommand", cmd != null);
-        assertTrue("JoinPathsCommand can't execute", cmd.canExecute());
+        assertTrue("Couldn't create JoinPathsCommand", cmd != null); //$NON-NLS-1$
+        assertTrue("JoinPathsCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
         
         cs.execute(cmd);
     }
@@ -840,7 +840,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testJoinStartToStubForkCommand() {
         //TODO: implement test
-        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false);
+        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false); //$NON-NLS-1$
     }
 
     /**
@@ -854,14 +854,14 @@ public class JUCMNavCommandTests extends TestCase {
         cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
         cmd.setNewPosition(75, 75);
 
-        assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute());
+        assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new LabelSetConstraintCommand();
         cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
         cmd.setNewPosition(25, 25);
 
-        assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute());
+        assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -875,17 +875,17 @@ public class JUCMNavCommandTests extends TestCase {
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
         Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute());
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) newStart.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
 
         cmd = new MergeStartEndCommand(map, newStart, end, 100, 100);
-        assertTrue("Can't execute MergeStartEndCommand.", cmd.canExecute());
+        assertTrue("Can't execute MergeStartEndCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         
         cmd = new MergeStartEndCommand(map, start, newEnd, 100, 100);
-        assertTrue("Should not be able to execute MergeStartEndCommand; will cause circular path.", !cmd.canExecute());
+        assertTrue("Should not be able to execute MergeStartEndCommand; will cause circular path.", !cmd.canExecute()); //$NON-NLS-1$
 //        cs.execute(cmd);        
         
         
@@ -901,7 +901,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         ComponentRef parent = compRef;
         Command cmd = new SetConstraintBoundComponentRefCompoundCommand(parent, 150, 300, 453, 148);
-        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -912,7 +912,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testSetConstraintCommand() {
         testCreatePathCommand();
         Command cmd = new SetConstraintCommand(end, 96, 36);
-        assertTrue("Can't execute SetConstraintCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -924,10 +924,10 @@ public class JUCMNavCommandTests extends TestCase {
 
         testAddComponentRefCommand();
         Command cmd = new SetConstraintComponentRefCommand(compRef, 100, 200, 300, 400);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new SetConstraintComponentRefCommand(compRef, 69, 69, 69, 69);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         testBindings=true;
     }
@@ -941,7 +941,7 @@ public class JUCMNavCommandTests extends TestCase {
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
         Command cmd = new SplitLinkCommand(pathgraph, resp, nc, 55, 86);
-        assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute());
+        assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
@@ -953,10 +953,10 @@ public class JUCMNavCommandTests extends TestCase {
     public void testTransmogrifyForkOrJoinCommand() {
     	testAddForkOnEmptyPointCommand();
     	
-    	assertTrue("Initial AndFork not created!", fork instanceof AndFork);
+    	assertTrue("Initial AndFork not created!", fork instanceof AndFork); //$NON-NLS-1$
     	
     	Command cmd = new TransmogrifyForkOrJoinCommand(fork, pathgraph);
-    	assertTrue("Transmogrify can't execute!", cmd.canExecute());
+    	assertTrue("Transmogrify can't execute!", cmd.canExecute()); //$NON-NLS-1$
     	cs.execute(cmd);
 
     	// Find the first fork in the pathgraph (hack)
@@ -966,8 +966,8 @@ public class JUCMNavCommandTests extends TestCase {
     	        newFork = (PathNode) pathgraph.getPathNodes().get(i);
     	}
 
-    	assertTrue("Can't locate a fork in the pathgraph", newFork != null);
-    	assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork);
+    	assertTrue("Can't locate a fork in the pathgraph", newFork != null); //$NON-NLS-1$
+    	assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork); //$NON-NLS-1$
     }
 
     /**
@@ -980,12 +980,12 @@ public class JUCMNavCommandTests extends TestCase {
 
             for (Iterator iter2 = map.getCompRefs().iterator(); iter2.hasNext();) {
                 ComponentRef comp = (ComponentRef) iter2.next();
-                assertEquals("Component " + comp.toString() + " is not properly bound.", ParentFinder.getPossibleParent(comp), comp.getParent());
+                assertEquals("Component " + comp.toString() + " is not properly bound.", ParentFinder.getPossibleParent(comp), comp.getParent()); //$NON-NLS-1$ //$NON-NLS-2$
 
             }
             for (Iterator iter2 = map.getPathGraph().getPathNodes().iterator(); iter2.hasNext();) {
                 PathNode pn = (PathNode) iter2.next();
-                assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef());
+                assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
             }
         }
     }

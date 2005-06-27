@@ -199,19 +199,19 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
         
         action = new AddTimeoutPathAction(editor);
-        action.setText("Add timeout path"); 
+        action.setText(Messages.getString("ActionRegistryManager.addTimeoutPath"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new DisconnectTimeoutPathAction(editor);
-        action.setText("Disconnect timeout path");
+        action.setText(Messages.getString("ActionRegistryManager.disconnectTimeoutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction)action);
         
         action = new ConnectAction(editor);
-        action.setText("Connect elements"); 
+        action.setText(Messages.getString("ActionRegistryManager.connectElements"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new DisconnectAction(editor);
-        action.setText("Disconnect elements"); 
+        action.setText(Messages.getString("ActionRegistryManager.disconnectElements"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         

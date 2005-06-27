@@ -82,7 +82,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
             refreshChildren();
             refreshVisuals();
 
-            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) {
+            if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
                 getParent().refresh();
             }
 

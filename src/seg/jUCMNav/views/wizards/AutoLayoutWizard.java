@@ -19,6 +19,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.Wizard;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
@@ -40,20 +41,20 @@ import ucm.map.PathNode;
  *  
  */
 public class AutoLayoutWizard extends Wizard {
-    public final static String DEFAULTDOTPATH = "c:\\program files\\ATT\\GraphViz\\bin\\dot.exe";
+    public final static String DEFAULTDOTPATH = "c:\\program files\\ATT\\GraphViz\\bin\\dot.exe"; //$NON-NLS-1$
     public final static double DEFAULTHEIGHT = 11;
     public final static int DEFAULTORIENTATION = 0;
     public final static double DEFAULTWIDTH = 8.5;
     public final static boolean DEFAULTEMPTYPOINTS = true;
-    public final static String PREF_DOTPATH = "seg.jUCMNav.AutoLayout.DotPath";
-    public final static String PREF_HEIGHT = "seg.jUCMNav.AutoLayout.Height";
-    public final static String PREF_ORIENTATION = "seg.jUCMNav.AutoLayout.Orientation";
-    public final static String PREF_WIDTH = "seg.jUCMNav.AutoLayout.Width";
-    public final static String PREF_EMPTYPOINTS = "seg.jUCMNav.AutoLayout.EmptyPoints";
-    private final static String PATHNODEPREFIX = "PathNode";
-    private final static String MAPPREFIX = "Map";
+    public final static String PREF_DOTPATH = "seg.jUCMNav.AutoLayout.DotPath"; //$NON-NLS-1$
+    public final static String PREF_HEIGHT = "seg.jUCMNav.AutoLayout.Height"; //$NON-NLS-1$
+    public final static String PREF_ORIENTATION = "seg.jUCMNav.AutoLayout.Orientation"; //$NON-NLS-1$
+    public final static String PREF_WIDTH = "seg.jUCMNav.AutoLayout.Width"; //$NON-NLS-1$
+    public final static String PREF_EMPTYPOINTS = "seg.jUCMNav.AutoLayout.EmptyPoints"; //$NON-NLS-1$
+    private final static String PATHNODEPREFIX = "PathNode"; //$NON-NLS-1$
+    private final static String MAPPREFIX = "Map"; //$NON-NLS-1$
     // must start with cluster if we want them rendered.
-    private final static String COMPONENTPREFIX = "cluster_ComponentRef";
+    private final static String COMPONENTPREFIX = "cluster_ComponentRef"; //$NON-NLS-1$
 
     public static IPreferenceStore getPreferenceStore() {
         return JUCMNavPlugin.getDefault().getPreferenceStore();
@@ -77,7 +78,7 @@ public class AutoLayoutWizard extends Wizard {
      * @see org.eclipse.jface.wizard.IWizard#addPages()
      */
     public void addPages() {
-        addPage(new AutoLayoutDotSettingsWizardPage("Dot Config"));
+        addPage(new AutoLayoutDotSettingsWizardPage(Messages.getString("AutoLayoutWizard.dotConfig"))); //$NON-NLS-1$
 
     }
 
@@ -85,16 +86,16 @@ public class AutoLayoutWizard extends Wizard {
      * @param initial
      */
     private String autoLayoutDotString(String initial) {
-        String s = "";
+        String s = ""; //$NON-NLS-1$
         StringBuffer builder = new StringBuffer();
-        InputStream is = callDOT(initial.getBytes(), "dot");
+        InputStream is = callDOT(initial.getBytes(), "dot"); //$NON-NLS-1$
         if (is != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
             try {
 
                 while ((s = reader.readLine()) != null)
-                    builder.append(s + "\n");
+                    builder.append(s + "\n"); //$NON-NLS-1$
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -107,11 +108,11 @@ public class AutoLayoutWizard extends Wizard {
 
     private void buildCluster(ComponentRef compRef, StringBuffer dot) {
 
-        dot.append("subgraph " + COMPONENTPREFIX + compRef.getId() + "{\n");
+        dot.append("subgraph " + COMPONENTPREFIX + compRef.getId() + "{\r\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
         //ensure visibility
         //dot.append("cheaptrick[shape=\"none\",label=\"\"];\n");
-        dot.append("CheapTrick" + id++ + ";\n");
+        dot.append("CheapTrick" + id++ + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
         ComponentRef child;
         for (int i = 0; i < compRef.getChildren().size(); i++) {
@@ -121,15 +122,15 @@ public class AutoLayoutWizard extends Wizard {
         for (int i = 0; i < compRef.getPathNodes().size(); i++) {
             PathNode node = (PathNode) compRef.getPathNodes().get(i);
 
-            dot.append(PATHNODEPREFIX + node.getId() + ";\n");
+            dot.append(PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
         }
 
-        dot.append("}\n");
+        dot.append("}\n"); //$NON-NLS-1$
     }
 
     private synchronized InputStream callDOT(byte input_for_dot[], String image_type) {
         InputStream istream = null;
-        String dot_command = getPreferenceStore().getString(PREF_DOTPATH) + " -T" + image_type;
+        String dot_command = getPreferenceStore().getString(PREF_DOTPATH) + " -T" + image_type; //$NON-NLS-1$
         try {
             Process p = Runtime.getRuntime().exec(dot_command);
             OutputStream ostream = p.getOutputStream();
@@ -137,12 +138,12 @@ public class AutoLayoutWizard extends Wizard {
             ostream.close();
             istream = new BufferedInputStream(p.getInputStream());
         } catch (Exception e) {
-            Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e);
+            Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
             ErrorDialog
                     .openError(
                             getShell(),
-                            "Auto layout error",
-                            "An error occured while invoking dot. Please verify that you are using a recent version of Graphviz dot and that you have correctly set the path to dot.",
+                            Messages.getString("AutoLayoutWizard.autoLayoutError"), //$NON-NLS-1$
+                            Messages.getString("AutoLayoutWizard.errorOccured"), //$NON-NLS-1$
                             status, IStatus.ERROR | IStatus.WARNING);
 
             return null;
@@ -158,10 +159,10 @@ public class AutoLayoutWizard extends Wizard {
         id = 0;
 
         StringBuffer dot = new StringBuffer();
-        String rankdir = getPreferenceStore().getInt(PREF_ORIENTATION) == 0 ? "TB" : "LR";
-        String size = getPreferenceStore().getString(PREF_WIDTH) + "," + getPreferenceStore().getString(PREF_HEIGHT);
+        String rankdir = getPreferenceStore().getInt(PREF_ORIENTATION) == 0 ? "TB" : "LR"; //$NON-NLS-1$ //$NON-NLS-2$
+        String size = getPreferenceStore().getString(PREF_WIDTH) + "," + getPreferenceStore().getString(PREF_HEIGHT); //$NON-NLS-1$
 
-        dot.append("digraph " + MAPPREFIX + map.getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\n");
+        dot.append("digraph " + MAPPREFIX + map.getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
         for (i = 0; i < map.getCompRefs().size(); i++) {
             ComponentRef compRef = (ComponentRef) map.getCompRefs().get(i);
@@ -175,16 +176,16 @@ public class AutoLayoutWizard extends Wizard {
             PathNode node = (PathNode) map.getPathGraph().getPathNodes().get(i);
             // we only want loose nodes components
             if (node.getCompRef() == null) {
-                dot.append(PATHNODEPREFIX + node.getId() + ";\n");
+                dot.append(PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
             }
         }
 
         for (i = 0; i < map.getPathGraph().getNodeConnections().size(); i++) {
             NodeConnection conn = (NodeConnection) map.getPathGraph().getNodeConnections().get(i);
 
-            dot.append(PATHNODEPREFIX + conn.getSource().getId() + "->" + PATHNODEPREFIX + conn.getTarget().getId() + ";\n");
+            dot.append(PATHNODEPREFIX + conn.getSource().getId() + "->" + PATHNODEPREFIX + conn.getTarget().getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
         }
-        dot.append("}\n");
+        dot.append("}\n"); //$NON-NLS-1$
         System.out.println(dot.toString());
         return dot.toString();
     }
@@ -218,8 +219,8 @@ public class AutoLayoutWizard extends Wizard {
             }
 
         } catch (Exception e) {
-            Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), "Auto layout error", "An error occured while repositioning the map.", status, IStatus.ERROR | IStatus.WARNING);
+            Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
+            ErrorDialog.openError(getShell(), Messages.getString("AutoLayoutWizard.autoLayoutError"), Messages.getString("AutoLayoutWizard.repositioningError"), status, IStatus.ERROR | IStatus.WARNING); //$NON-NLS-1$ //$NON-NLS-2$
             e.printStackTrace();
             return false;
         }
@@ -242,7 +243,7 @@ public class AutoLayoutWizard extends Wizard {
             if (cmd.canExecute()) {
                 editor.execute(cmd);
             } else {
-                MessageDialog.openError(getShell(), "Error", "Error while manipulating empty nodes.");
+                MessageDialog.openError(getShell(), Messages.getString("AutoLayoutWizard.error"), Messages.getString("AutoLayoutWizard.emptyNodeError")); //$NON-NLS-1$ //$NON-NLS-2$
                 return false;
             }
         }
@@ -250,7 +251,7 @@ public class AutoLayoutWizard extends Wizard {
     }
 
     private static CompoundCommand repositionLayout(Map usecasemap, String positioned) throws Exception {
-        positioned = positioned.replaceAll("\\\\n", "");
+        positioned = positioned.replaceAll("\\\\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
         BufferedReader reader = new BufferedReader(new StringReader(positioned));
         String line;
 
@@ -260,67 +261,67 @@ public class AutoLayoutWizard extends Wizard {
         while ((line = reader.readLine()) != null) {
 
             // ex: graph [bb="0,0,192,212"]; (for the digraph)
-            if (line.matches("\\s*digraph " + MAPPREFIX + "\\d+\\s*\\{")) {
+            if (line.matches("\\s*digraph " + MAPPREFIX + "\\d+\\s*\\{")) { //$NON-NLS-1$ //$NON-NLS-2$
                 Map temp = URNElementFinder.findMap(usecasemap.getUcmspec().getUrnspec(), line.substring(line.indexOf(MAPPREFIX) + MAPPREFIX.length(),
                         line.lastIndexOf('{')).trim());
                 if (!usecasemap.equals(temp)) {
-                    throw new Exception("The layout information doesn't concern the appropriate map, it concerns the map with ID "
-                            + line.substring(line.indexOf(MAPPREFIX) + MAPPREFIX.length(), line.lastIndexOf('{')).trim() + ". Please verify the dot input.");
+                    throw new Exception(Messages.getString("AutoLayoutWizard.invalidMap") //$NON-NLS-1$
+                            + line.substring(line.indexOf(MAPPREFIX) + MAPPREFIX.length(), line.lastIndexOf('{')).trim() + Messages.getString("AutoLayoutWizard.verifyDotInput")); //$NON-NLS-1$
                 }
 
-            } else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"\\];")) {
-                pageHeight = Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\"")));
-            } else if (line.matches("\\s*subgraph " + COMPONENTPREFIX + "\\d+ \\{")) { // ex: subgraph cluster_0 {
+            } else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"\\];")) { //$NON-NLS-1$
+                pageHeight = Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
+            } else if (line.matches("\\s*subgraph " + COMPONENTPREFIX + "\\d+ \\{")) { // ex: subgraph cluster_0 { //$NON-NLS-1$ //$NON-NLS-2$
 
                 ComponentRef compRef = URNElementFinder.findComponentRef(usecasemap, line.substring(line.indexOf(COMPONENTPREFIX) + COMPONENTPREFIX.length(),
                         line.lastIndexOf('{')).trim());
 
                 if (compRef == null)
-                    throw new Exception("Unable to find ComponentRef with the ID "
+                    throw new Exception(Messages.getString("AutoLayoutWizard.cantFindCompRef") //$NON-NLS-1$
                             + line.substring(line.indexOf(COMPONENTPREFIX) + COMPONENTPREFIX.length(), line.lastIndexOf('{')).trim()
-                            + " in the map. Please verify the dot input.");
+                            + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
 
                 line = reader.readLine();
 
                 // ex: graph [bb="0,0,192,212"];
-                if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"];")) {
-                    String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\""));
-                    String[] coords = subline.split(",");
+                if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"];")) { //$NON-NLS-1$
+                    String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$
+                    String[] coords = subline.split(","); //$NON-NLS-1$
                     // we've got lower left x, y, upper right x, y
                     Command resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, Integer.parseInt(coords[0]), pageHeight
                             - Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
                             - Integer.parseInt(coords[1]));
                     cmd.add(resize);
-                } else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: graph [bb=""];
+                } else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: graph [bb=""]; //$NON-NLS-1$
 
                     // don't know what to do with these.
-                    System.out.println("empty componentref. don't know what to do with it.");
+                    System.out.println("empty componentref. don't know what to do with it."); //$NON-NLS-1$
                     /*
                      * if (compRef.getParent() == ParentFinder.findParent((Map) compRef.eContainer(), compRef, compRef.getX(), height-compRef.getY()-36, 54,
                      * 36)) { //Command resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, compRef.getX(), compRef.getY(), 108, 72); Command
                      * resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, compRef.getX(), height-compRef.getY()-36, 54, 36); cmd.add(resize); }
                      */
                 }
-            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) {
+            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$
                 // ex: PathNode5 [pos="76,122", width="1.22", height="0.50"];
                 line = line.trim();
-                PathNode pn = URNElementFinder.findPathNode(usecasemap, line.substring(PATHNODEPREFIX.length(), line.indexOf(" ")));
+                PathNode pn = URNElementFinder.findPathNode(usecasemap, line.substring(PATHNODEPREFIX.length(), line.indexOf(" "))); //$NON-NLS-1$
 
                 if (pn == null)
-                    throw new Exception("Unable to find PathNode with the ID " + line.substring(PATHNODEPREFIX.length(), line.indexOf(" "))
-                            + " in the map. Please verify the dot input.");
+                    throw new Exception(Messages.getString("AutoLayoutWizard.cantFindPathNode") + line.substring(PATHNODEPREFIX.length(), line.indexOf(" ")) //$NON-NLS-1$ //$NON-NLS-2$
+                            + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
 
-                String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1));
-                String[] coords = subline.split(",");
+                String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                String[] coords = subline.split(","); //$NON-NLS-1$
                 Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[1]));
                 cmd.add(move);
-            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+\\s*->\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) {
+            } else if (line.matches("\\s*" + PATHNODEPREFIX + "\\d+\\s*->\\s*" + PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                 //ex: PathNode50 -> PathNode34 [pos="e,436,488 436,524 436,516 436,507 436,498"];
 
                 if (getPreferenceStore().getBoolean(PREF_EMPTYPOINTS)) {
                     line = line.trim();
-                    String sCoordsList = line.substring(line.indexOf(",") + 1, line.lastIndexOf("\"")).replace(' ', ',');
-                    String[] sCoords = sCoordsList.split(",");
+                    String sCoordsList = line.substring(line.indexOf(",") + 1, line.lastIndexOf("\"")).replace(' ', ','); //$NON-NLS-1$ //$NON-NLS-2$
+                    String[] sCoords = sCoordsList.split(","); //$NON-NLS-1$
 
                     // the dot file puts the last point at the start. move it.
                     String firstX = sCoords[0], firstY = sCoords[1];
@@ -331,9 +332,9 @@ public class AutoLayoutWizard extends Wizard {
                     sCoords[sCoords.length - 2] = firstX;
                     sCoords[sCoords.length - 1] = firstY;
 
-                    String sSource = line.substring(line.indexOf(PATHNODEPREFIX) + PATHNODEPREFIX.length(), line.indexOf("-")).trim();
-                    String sTarget = line.substring(line.indexOf(PATHNODEPREFIX, line.indexOf(">")) + PATHNODEPREFIX.length(),
-                            line.indexOf("[", line.indexOf(PATHNODEPREFIX, line.indexOf(">")))).trim();
+                    String sSource = line.substring(line.indexOf(PATHNODEPREFIX) + PATHNODEPREFIX.length(), line.indexOf("-")).trim(); //$NON-NLS-1$
+                    String sTarget = line.substring(line.indexOf(PATHNODEPREFIX, line.indexOf(">")) + PATHNODEPREFIX.length(), //$NON-NLS-1$
+                            line.indexOf("[", line.indexOf(PATHNODEPREFIX, line.indexOf(">")))).trim(); //$NON-NLS-1$ //$NON-NLS-2$
 
                     NodeConnection link = URNElementFinder.findNodeConnection(usecasemap, sSource, sTarget);
 

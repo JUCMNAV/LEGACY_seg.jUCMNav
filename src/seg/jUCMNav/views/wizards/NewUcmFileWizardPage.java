@@ -12,6 +12,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.*;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well as the file name. The page will only accept file name without the extension OR
@@ -29,10 +30,10 @@ public class NewUcmFileWizardPage extends WizardPage {
      * @param selection
      */
     public NewUcmFileWizardPage(ISelection selection) {
-        super("wizardPage");
-        setTitle("UCM File");
-        setDescription("This wizard creates a new *.jucm file that can be opened with the JUCMNav editor.");
-        this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif"));
+        super("wizardPage"); //$NON-NLS-1$
+        setTitle(Messages.getString("NewUcmFileWizardPage.jUCMFile")); //$NON-NLS-1$
+        setDescription(Messages.getString("NewUcmFileWizardPage.createsNewJUCM")); //$NON-NLS-1$
+        this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
         this.selection = selection;
     }
 
@@ -45,7 +46,7 @@ public class NewUcmFileWizardPage extends WizardPage {
         layout.numColumns = 3;
         layout.verticalSpacing = 9;
         Label label = new Label(container, SWT.NULL);
-        label.setText("&Container:");
+        label.setText(Messages.getString("NewUcmFileWizardPage.Container")); //$NON-NLS-1$
 
         containerText = new Text(container, SWT.BORDER | SWT.SINGLE);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -57,14 +58,14 @@ public class NewUcmFileWizardPage extends WizardPage {
         });
 
         Button button = new Button(container, SWT.PUSH);
-        button.setText("Browse...");
+        button.setText(Messages.getString("NewUcmFileWizardPage.Browse")); //$NON-NLS-1$
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 handleBrowse();
             }
         });
         label = new Label(container, SWT.NULL);
-        label.setText("&File name:");
+        label.setText(Messages.getString("NewUcmFileWizardPage.fileName")); //$NON-NLS-1$
 
         fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
         gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -98,7 +99,7 @@ public class NewUcmFileWizardPage extends WizardPage {
                 containerText.setText(container.getFullPath().toString());
             }
         }
-        fileText.setText("new_file.jucm");
+        fileText.setText(Messages.getString("NewUcmFileWizardPage.newFile.jucm")); //$NON-NLS-1$
     }
 
     /**
@@ -106,7 +107,7 @@ public class NewUcmFileWizardPage extends WizardPage {
      */
 
     private void handleBrowse() {
-        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, "Select new file container");
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages.getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
         if (dialog.open() == ContainerSelectionDialog.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {
@@ -124,22 +125,22 @@ public class NewUcmFileWizardPage extends WizardPage {
         String fileName = getFileName();
 
         if (container.length() == 0) {
-            updateStatus("File container must be specified");
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileContainerMissing")); //$NON-NLS-1$
             return;
         }
         if (fileName.length() == 0) {
-            updateStatus("File name must be specified");
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileNameMissing")); //$NON-NLS-1$
             return;
         }
         int dotLoc = fileName.lastIndexOf('.');
         if (dotLoc != -1) {
             String ext = fileName.substring(dotLoc + 1);
-            if (ext.equalsIgnoreCase("jucm") == false) {
-                updateStatus("File extension must be \"jucm\"");
+            if (ext.equalsIgnoreCase("jucm") == false) { //$NON-NLS-1$
+                updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
                 return;
             }
         } else {
-            updateStatus("File extension must be \"jucm\"");
+            updateStatus(Messages.getString("NewUcmFileWizardPage.fileExtensionJUCM")); //$NON-NLS-1$
             return;
         }
 

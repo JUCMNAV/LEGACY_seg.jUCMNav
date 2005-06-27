@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
 import ucm.map.Map;
 
 /**
@@ -53,14 +54,14 @@ public class ExportImageWizardPage extends WizardPage {
      */
     protected ExportImageWizardPage(String pageName, Vector mapsToExport, HashMap mapsToEditor) {
         super(pageName);
-        setDescription("Please select the image export format and choose an export directory. Existing files will be overwritten.");
-        setTitle("Export Image Wizard");
+        setDescription(Messages.getString("ExportImageWizardPage.pleaseSelectFormatAndDirectory")); //$NON-NLS-1$
+        setTitle(Messages.getString("ExportImageWizardPage.exportImageWizard")); //$NON-NLS-1$
 
         this.mapsToEditor = mapsToEditor;
         this.mapsToExport = mapsToExport;
 
         if (mapsToExport.size() == 0) {
-            setErrorMessage("No maps have been selected for export. Either you did not select a .jucm file or the .jucm file you selected does not contain any Maps.");
+            setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
             setPageComplete(false);
         }
 
@@ -79,7 +80,7 @@ public class ExportImageWizardPage extends WizardPage {
         GridData data;
 
         Label lblPath = new Label(composite, SWT.NONE);
-        lblPath.setText("Directory to export images to : ");
+        lblPath.setText(Messages.getString("ExportImageWizardPage.directoryToExport")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         lblPath.setLayoutData(data);
@@ -97,7 +98,7 @@ public class ExportImageWizardPage extends WizardPage {
             public void modifyText(ModifyEvent e) {
                 File dir = new File(txtExportPath.getText());
                 if (!(dir.exists() && dir.isDirectory())) {
-                    setErrorMessage("Invalid path specified");
+                    setErrorMessage(Messages.getString("ExportImageWizardPage.invalidPath")); //$NON-NLS-1$
                     setPageComplete(false);
                 } else {
                     setErrorMessage(null);
@@ -108,13 +109,13 @@ public class ExportImageWizardPage extends WizardPage {
 
         Button b = new Button(getShell(), SWT.PUSH);
         b.setParent(composite);
-        b.setText("...");
+        b.setText("..."); //$NON-NLS-1$
         b.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 DirectoryDialog dialog = new DirectoryDialog(getShell(), SWT.OPEN);
                 dialog.setFilterPath(txtExportPath.getText());
 
-                dialog.setText("Please select the export directory");
+                dialog.setText(Messages.getString("ExportImageWizardPage.pleaseSelectDirectory")); //$NON-NLS-1$
                 String path = dialog.open();
 
                 if (path != null) {
@@ -125,7 +126,7 @@ public class ExportImageWizardPage extends WizardPage {
         });
 
         Label lblOrientation = new Label(composite, SWT.NONE);
-        lblOrientation.setText("File type : ");
+        lblOrientation.setText(Messages.getString("ExportImageWizardPage.fileType")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
@@ -141,7 +142,7 @@ public class ExportImageWizardPage extends WizardPage {
         // https://bugs.eclipse.org/bugs/show_bug.cgi?id=24697
         //
 
-        cboImageType.setItems(new String[] { "BMP", "JPEG" });
+        cboImageType.setItems(new String[] { "BMP", "JPEG" }); //$NON-NLS-1$ //$NON-NLS-2$
         cboImageType.select(getImageType());
 
         data = new GridData();
@@ -150,7 +151,7 @@ public class ExportImageWizardPage extends WizardPage {
         cboImageType.setLayoutData(data);
 
         Label lblMaps = new Label(composite, SWT.NONE);
-        lblMaps.setText("Maps to be exported: ");
+        lblMaps.setText(Messages.getString("ExportImageWizardPage.mapsToBeExported")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         data.horizontalAlignment = GridData.FILL;
@@ -189,7 +190,7 @@ public class ExportImageWizardPage extends WizardPage {
     public boolean finish() {
         File dir = new File(sExportPath);
         if (!(dir.exists() && dir.isDirectory())) {
-            setErrorMessage("Invalid path specified");
+            setErrorMessage(Messages.getString("ExportImageWizardPage.invalidPath")); //$NON-NLS-1$
             return false;
         }
 

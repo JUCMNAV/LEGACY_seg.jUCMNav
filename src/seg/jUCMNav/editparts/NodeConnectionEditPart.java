@@ -21,6 +21,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
@@ -138,7 +139,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
         targetEndpointLocator.setVDistance(10);
         targetEndpointLocator.setUDistance(30);
-        endLabel = new Label("IN" + Integer.toString(index + 1));
+        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
         endLabel.setForegroundColor(new Color(null, 150, 150, 150));
         connection.add(endLabel, targetEndpointLocator);
     }
@@ -153,7 +154,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
         targetEndpointLocator.setVDistance(10);
         targetEndpointLocator.setUDistance(30);
-        startLabel = new Label("OUT" + Integer.toString(index + 1));
+        startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
         startLabel.setForegroundColor(new Color(null, 150, 150, 150));
         connection.add(startLabel, targetEndpointLocator);
     }

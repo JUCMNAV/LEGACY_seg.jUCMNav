@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
@@ -73,7 +74,7 @@ public class StubEditPart extends PathNodeEditPart {
                 dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((ConnectionOnBottomRootEditPart) getRoot())
                         .getMultiPageEditor());
                 dlg.setInput(stub.getBindings());
-                dlg.setMessage("Select plugin:");
+                dlg.setMessage(Messages.getString("StubEditPart.selectPlugin")); //$NON-NLS-1$
                 dlg.open();
             } else {
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();

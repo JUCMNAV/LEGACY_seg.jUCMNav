@@ -12,7 +12,7 @@ import seg.jUCMNav.editors.UcmEditor;
  */
 public class SelectDefaultPaletteToolAction extends UCMSelectionAction {
 
-    public static final String SETDEFAULTPALETTETOOL = "seg.jUCMNav.SelectDefaultPaletteTool";
+    public static final String SETDEFAULTPALETTETOOL = "seg.jUCMNav.SelectDefaultPaletteTool"; //$NON-NLS-1$
 
     public SelectDefaultPaletteToolAction(IWorkbenchPart part) {
         super(part);

@@ -151,8 +151,8 @@ public class ProgressTests extends TestCase {
             if (n.equals(name)) {
                 int vectorSize = v.size();
                 eops.addPropertyToDescriptor(v, attr, cr.eClass());
-                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
-                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
+                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1); //$NON-NLS-1$
+                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize)); //$NON-NLS-1$
             }
         }
 
@@ -298,19 +298,19 @@ public class ProgressTests extends TestCase {
         super.setUp();
 
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests");
+        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 
         if (!testproject.isOpen())
             testproject.open(null);
 
-        testfile = testproject.getFile("jUCMNav-test.jucm");
+        testfile = testproject.getFile("jUCMNav-test.jucm"); //$NON-NLS-1$
         // start with clean file
         if (testfile.exists())
             testfile.delete(true, false, null);
 
-        testfile.create(new ByteArrayInputStream("".getBytes()), false, null);
+        testfile.create(new ByteArrayInputStream("".getBytes()), false, null); //$NON-NLS-1$
 
         IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(testfile.getName());
@@ -323,10 +323,10 @@ public class ProgressTests extends TestCase {
         CommandStack cs = getGraphicalViewer().getEditDomain().getCommandStack();
         ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(editor.getModel(), ComponentRef.class);
         Command cmd = new AddComponentRefCommand(getMap(), backgroundBindingChecker);
-        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute());
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute());
+        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -345,7 +345,7 @@ public class ProgressTests extends TestCase {
      * Author:
      */
     public void testReqBrowseHistory1() {
-        assertTrue("editor must extend INavigationLocationProvider", editor instanceof INavigationLocationProvider);
+        assertTrue("editor must extend INavigationLocationProvider", editor instanceof INavigationLocationProvider); //$NON-NLS-1$
     }
 
     /**
@@ -357,22 +357,22 @@ public class ProgressTests extends TestCase {
 
         // Is there a tool to create a ComponentRef in the palette?
         CreationTool createtool = getToolEntryForClass(ComponentRef.class);
-        assertNotNull("No palette entry creates ComponentRef", createtool);
+        assertNotNull("No palette entry creates ComponentRef", createtool); //$NON-NLS-1$
 
         // verify that both the componentref and component element are not in the model
-        assertEquals("Should be only one component in model", 1, urn.getUrndef().getComponents().size());
-        assertEquals("Should be only one component reference in model", 1, getMap().getCompRefs().size());
+        assertEquals("Should be only one component in model", 1, urn.getUrndef().getComponents().size()); //$NON-NLS-1$
+        assertEquals("Should be only one component reference in model", 1, getMap().getCompRefs().size()); //$NON-NLS-1$
 
         // verify that the edit part tree is empty.
-        assertEquals("MapAndPathGraphEditPart should have only two children", 2, getMapEditPart(0).getChildren().size());
+        assertEquals("MapAndPathGraphEditPart should have only two children", 2, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
 
         // simulate a CreateRequest that we would have liked to have obtained from the palette
         CreateRequest cr = getCreateRequest(new ModelCreationFactory(urn, ComponentRef.class, ComponentKind.TEAM), new Point(10, 100));
-        assertNotNull("Unable to build create request", cr);
+        assertNotNull("Unable to build create request", cr); //$NON-NLS-1$
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.
         Command cmd = (Command) getMapEditPart(0).getCommand(cr);
-        assertNotNull("Can't get command to obtain a new ComponentRef", cmd);
+        assertNotNull("Can't get command to obtain a new ComponentRef", cmd); //$NON-NLS-1$
 
         // execute the command, adding the componentref to the model
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
@@ -382,11 +382,11 @@ public class ProgressTests extends TestCase {
         getMapEditPart(0).refreshChildren();
 
         // verify that both the componentref and component element have been added in the model.
-        assertEquals("No component added to model", 2, urn.getUrndef().getComponents().size());
-        assertEquals("No component ref added to model", 2, getMap().getCompRefs().size());
+        assertEquals("No component added to model", 2, urn.getUrndef().getComponents().size()); //$NON-NLS-1$
+        assertEquals("No component ref added to model", 2, getMap().getCompRefs().size()); //$NON-NLS-1$
 
         // verify that the edit part tree has changed.
-        assertEquals("MapAndPathGraphEditPart should have exactly four children (2*component+label)", 4, getMapEditPart(0).getChildren().size());
+        assertEquals("MapAndPathGraphEditPart should have exactly four children (2*component+label)", 4, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
     }
 
     /**
@@ -416,11 +416,11 @@ public class ProgressTests extends TestCase {
             String n = attr.getName();
 
             // make sure that the ones we have targetted do amount in adding a property to the property descriptor
-            if (n.equals("x") || n.equals("y") || n.equals("width") || n.equals("height") || n.equals("compDef")) {
+            if (n.equals("x") || n.equals("y") || n.equals("width") || n.equals("height") || n.equals("compDef")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
                 int vectorSize = v.size();
                 eops.addPropertyToDescriptor(v, attr, cr.eClass());
-                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1);
-                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize));
+                assertTrue("No object in descriptor was added for attribute " + n, v.size() == vectorSize + 1); //$NON-NLS-1$
+                assertNotNull("Null object in descriptor was added for attribute " + n, v.get(vectorSize)); //$NON-NLS-1$
             }
         }
 
@@ -429,14 +429,14 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
 
         // verify that we can't move/resize fixed components.
         cr.setFixed(true);
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && !cmd.canExecute());
 
     }
@@ -448,7 +448,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompBind1() {
 
-        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", SetConstraintComponentRefCommand.DEFAULT_HEIGHT
+        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", SetConstraintComponentRefCommand.DEFAULT_HEIGHT //$NON-NLS-1$
                 * SetConstraintComponentRefCommand.DEFAULT_WIDTH < 300 * 400);
 
         // create the component ref that will be used for testing.
@@ -471,14 +471,14 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getEditPart(parent); 
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertEquals("Error in test; wrong parentEditPart.", parent, parentEditPart.getModel());
+        assertEquals("Error in test; wrong parentEditPart.", parent, parentEditPart.getModel()); //$NON-NLS-1$
 
         // set the child in it.
         // explanation for get(3): we've made the parent larger. refreshChildren() will put it at position 0 so the child is at position 3
@@ -486,26 +486,26 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart childEditPart = (ComponentRefEditPart) getEditPart(child);
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(childEditPart,
                 new Rectangle(150, 250, 50, 50));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertEquals("Error in test; wrong childEditPart.", child, childEditPart.getModel());
+        assertEquals("Error in test; wrong childEditPart.", child, childEditPart.getModel()); //$NON-NLS-1$
 
-        assertEquals("Child not bound to parent", parent, child.getParent());
+        assertEquals("Child not bound to parent", parent, child.getParent()); //$NON-NLS-1$
 
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(0, 0, 150, 200));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Child not moved", child.getX() != 150 && child.getY() != 250);
-        assertTrue("Child not resized", child.getWidth() == 25 && child.getHeight() == 25);
+        assertTrue("Child not moved", child.getX() != 150 && child.getY() != 250); //$NON-NLS-1$
+        assertTrue("Child not resized", child.getWidth() == 25 && child.getHeight() == 25); //$NON-NLS-1$
 
     }
 
@@ -517,14 +517,14 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompBind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest");
+        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the small component ref
         ComponentRef cr = (ComponentRef) getMap().getCompRefs().get(2);
 
-        Vector v = getAttributeDescriptor(cr, "parent");
+        Vector v = getAttributeDescriptor(cr, "parent"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("Parent not option in property values", "ParentTest (7)".equals(values[2]));
+        assertTrue("Parent not option in property values", "ParentTest (7)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -541,17 +541,17 @@ public class ProgressTests extends TestCase {
         ComponentRef parent = (ComponentRef) parentEditPart.getModel();
         ComponentRef child = (ComponentRef) childEditPart.getModel();
 
-        assertEquals("Invalid preconditions for testReqCompUnbind1", child.getParent(), parent);
+        assertEquals("Invalid preconditions for testReqCompUnbind1", child.getParent(), parent); //$NON-NLS-1$
 
         Command cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(
                 childEditPart, new Rectangle(200, 200, 300, 150));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Child still bound to parent", child.getParent()!=parent);
+        assertTrue("Child still bound to parent", child.getParent()!=parent); //$NON-NLS-1$
 
     }
 
@@ -563,12 +563,12 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompUnbind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest");
+        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the large component ref
-        Vector v = getAttributeDescriptor(parent, "parent");
+        Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("No unbind option in list", "[unbound]".equals(values[0]));
+        assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -589,7 +589,7 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(0, 0, 400, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ",
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
@@ -598,7 +598,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         for (int i = 0; i < getMap().getPathGraph().getPathNodes().size(); i++) {
-            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getPathGraph().getPathNodes().get(i)).getCompRef());
+            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getPathGraph().getPathNodes().get(i)).getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -612,11 +612,11 @@ public class ProgressTests extends TestCase {
         testReqCompPathBind1();
         PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest");
+        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
 
-        Vector v = getAttributeDescriptor(node, "compRef");
+        Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("Parent not option in property values", "ParentTest (7)".equals(values[2]));
+        assertTrue("Parent not option in property values", "ParentTest (7)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -634,12 +634,12 @@ public class ProgressTests extends TestCase {
         
         Command cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(pnpart,
                 new Rectangle(500, 500, 0, 0));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintCommand ", cmd instanceof SetConstraintCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintCommand ", cmd instanceof SetConstraintCommand && cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Moved node should no longer have the same parent.", pn.getCompRef()!=parent);
+        assertTrue("Moved node should no longer have the same parent.", pn.getCompRef()!=parent); //$NON-NLS-1$
 
     }
 
@@ -652,11 +652,11 @@ public class ProgressTests extends TestCase {
         testReqCompPathUnbind1();
         PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest");
+        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
 
-        Vector v = getAttributeDescriptor(node, "compRef");
+        Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("No unbind option in list", "[unbound]".equals(values[0]));
+        assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -683,7 +683,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no end point found", ep);
+        assertNotNull("no end point found", ep); //$NON-NLS-1$
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) ((NodeConnection) element.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget() != ep) {
@@ -691,13 +691,13 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no start point found", sp);
+        assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         Vector v = new Vector();
         v.add(sp);
         v.add(ep);
         IAction action = getAction(v, ConnectAction.CONNECT);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -732,7 +732,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemAndFork1() {
         // Is there a tool to create a AndFork in the palette?
         CreationTool createtool = getToolEntryForClass(AndFork.class);
-        assertNotNull("No palette entry creates AndFork", createtool);
+        assertNotNull("No palette entry creates AndFork", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -754,14 +754,14 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
 
         // select the empty point and see if the addandfork action is in the contextual menu
         Vector v = new Vector();
         v.add(ep);
 
         IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -793,7 +793,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
@@ -801,7 +801,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no start point found", sp);
+        assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // select the empty point and see if the addandfork action is in the contextual menu
         Vector v = new Vector();
@@ -809,7 +809,7 @@ public class ProgressTests extends TestCase {
         v.add(sp);
 
         IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -822,7 +822,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("should only have one start point left!", 1, i);
+        assertEquals("should only have one start point left!", 1, i); //$NON-NLS-1$
     }
 
     /**
@@ -833,7 +833,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemAndJoin1() {
         // Is there a tool to create a AndJoin in the palette?
         CreationTool createtool = getToolEntryForClass(AndJoin.class);
-        assertNotNull("No palette entry creates AndJoin", createtool);
+        assertNotNull("No palette entry creates AndJoin", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -855,14 +855,14 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
         v.add(ep);
 
         IAction action = getAction(v, AddAndJoinAction.ADDANDJOIN);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -888,8 +888,8 @@ public class ProgressTests extends TestCase {
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         ep = (EmptyPoint) ((NodeConnection)cmd.getStart().getSucc().get(0)).getTarget();
 
-        assertNotNull("no empty point found", ep);
-        assertNotNull("no end point found", endpoint);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
+        assertNotNull("no end point found", endpoint); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
@@ -897,7 +897,7 @@ public class ProgressTests extends TestCase {
         v.add(endpoint);
 
         IAction action = getAction(v, AddAndJoinAction.ADDANDJOIN);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -910,7 +910,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("should only have one end point left!", 1, i);
+        assertEquals("should only have one end point left!", 1, i); //$NON-NLS-1$
     }
 
     /**
@@ -924,7 +924,7 @@ public class ProgressTests extends TestCase {
         NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
         cmd = new SplitLinkCommand(getMap().getPathGraph(), resp, nc, 100, 100);
-        assertTrue("Can't insert RespRef", cmd.canExecute());
+        assertTrue("Can't insert RespRef", cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         PathNode pn = null;
@@ -934,12 +934,12 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertTrue("no respref found", pn instanceof RespRef);
+        assertTrue("no respref found", pn instanceof RespRef); //$NON-NLS-1$
 
         PathNodeEditPart part = (PathNodeEditPart) getEditPart(pn);
 
         cmd = part.getCommand(new GroupRequest(RequestConstants.REQ_DELETE));
-        assertTrue("no/bad DeleteNodeCommand", cmd instanceof DeleteNodeCommand && cmd.canExecute());
+        assertTrue("no/bad DeleteNodeCommand", cmd instanceof DeleteNodeCommand && cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack
@@ -947,7 +947,7 @@ public class ProgressTests extends TestCase {
 
         for (Iterator iterator = getMap().getPathGraph().getPathNodes().iterator(); iterator.hasNext();) {
             PathNode pn2 = (PathNode) iterator.next();
-            assertTrue("No respref should remain in model ", !(pn2 instanceof RespRef));
+            assertTrue("No respref should remain in model ", !(pn2 instanceof RespRef)); //$NON-NLS-1$
 
         }
 
@@ -967,14 +967,14 @@ public class ProgressTests extends TestCase {
                 fork = (AndFork) element;
             }
         }
-        assertNotNull("no and fork found", fork);
+        assertNotNull("no and fork found", fork); //$NON-NLS-1$
 
         NodeConnection nc = (NodeConnection) fork.getSucc().get(0);
         Vector v = new Vector();
         v.add(nc);
         IAction action = getAction(v, ActionFactory.DELETE.getId());
 
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
         int i = 0;
@@ -985,7 +985,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("AndFork should have been deleted.", 0, i);
+        assertEquals("AndFork should have been deleted.", 0, i); //$NON-NLS-1$
 
     }
 
@@ -1000,14 +1000,14 @@ public class ProgressTests extends TestCase {
         // set the parent somewhere.
         ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getMapEditPart(0).getChildren().get(2);
         Command cmd = parentEditPart.getCommand(new GroupRequest(RequestConstants.REQ_DELETE));
-        assertTrue("ComponentRefEditPolicy doesn't return a valid DeleteComponentRefCommand", cmd instanceof DeleteComponentRefCommand && cmd.canExecute());
+        assertTrue("ComponentRefEditPolicy doesn't return a valid DeleteComponentRefCommand", cmd instanceof DeleteComponentRefCommand && cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertEquals("only one ComponentRef should remain in model ", 1, getMap().getCompRefs().size());
-        assertEquals("Only one ComponentRefEditPart should remain in editpart tree ", 2, getMapEditPart(0).getChildren().size());
+        assertEquals("only one ComponentRef should remain in model ", 1, getMap().getCompRefs().size()); //$NON-NLS-1$
+        assertEquals("Only one ComponentRefEditPart should remain in editpart tree ", 2, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
 
     }
 
@@ -1025,12 +1025,12 @@ public class ProgressTests extends TestCase {
                 fork = (AndFork) element;
             }
         }
-        assertNotNull("no and fork found", fork);
+        assertNotNull("no and fork found", fork); //$NON-NLS-1$
 
         Vector v = new Vector();
         v.add(fork);
         IAction action = getAction(v, AddBranchAction.ADDBRANCH);
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
         int i = 0;
@@ -1046,7 +1046,7 @@ public class ProgressTests extends TestCase {
         v = new Vector();
         v.add(nc.getTarget());
         action = getAction(v, ActionFactory.DELETE.getId());
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
@@ -1056,7 +1056,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("There should be one less end point!", 1, i);
+        assertEquals("There should be one less end point!", 1, i); //$NON-NLS-1$
     }
 
     /**
@@ -1073,16 +1073,16 @@ public class ProgressTests extends TestCase {
                 fork = (AndFork) element;
             }
         }
-        assertNotNull("no and fork found", fork);
+        assertNotNull("no and fork found", fork); //$NON-NLS-1$
 
         Vector v = new Vector();
         v.add(fork);
         IAction action = getAction(v, AddBranchAction.ADDBRANCH);
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
         action = getAction(v, ActionFactory.SELECT_ALL.getId());
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
         ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
@@ -1091,10 +1091,10 @@ public class ProgressTests extends TestCase {
             action = ((ActionContributionItem) contrib).getAction();
         } else
             action = null;
-        assertNotNull("no action found", action);
+        assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
-        assertEquals("no pathnodes should remain", 0, getMap().getPathGraph().getPathNodes().size());
+        assertEquals("no pathnodes should remain", 0, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
     }
 
     /**
@@ -1105,7 +1105,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemDirectionArrow1() {
         // Is there a tool to create a DirectionArrow in the palette?
         CreationTool createtool = getToolEntryForClass(DirectionArrow.class);
-        assertNotNull("No palette entry creates DirectionArrow", createtool);
+        assertNotNull("No palette entry creates DirectionArrow", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1116,9 +1116,9 @@ public class ProgressTests extends TestCase {
     public void testReqElemDirectionArrow2() {
         // yeah, really lazy testing.
         DirectionArrowFigure df = new DirectionArrowFigure();
-        assertTrue("direction arrow not rotatable", df instanceof Rotateable);
+        assertTrue("direction arrow not rotatable", df instanceof Rotateable); //$NON-NLS-1$
         EndPointFigure epf = new EndPointFigure();
-        assertTrue("end point not rotatable", epf instanceof Rotateable);
+        assertTrue("end point not rotatable", epf instanceof Rotateable); //$NON-NLS-1$
 
     }
 
@@ -1131,7 +1131,7 @@ public class ProgressTests extends TestCase {
         // Is there a tool to create a Stub in the palette? without rewriting stuff, we can't get access to the creationfactory. assume dynamic exists if stub
         // exists
         CreationTool createtool = getToolEntryForClass(Stub.class);
-        assertNotNull("No palette entry creates Stub", createtool);
+        assertNotNull("No palette entry creates Stub", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1153,7 +1153,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no start point found", sp);
+        assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // add second path.
         cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
@@ -1173,8 +1173,8 @@ public class ProgressTests extends TestCase {
         cbr.setLocation(new Point(125, 200));
         cmd = getEditPart(stub).getCommand(cbr);
 
-        assertNotNull("unable to get command", cmd);
-        assertTrue("cannot execute command", cmd.canExecute());
+        assertNotNull("unable to get command", cmd); //$NON-NLS-1$
+        assertTrue("cannot execute command", cmd.canExecute()); //$NON-NLS-1$
         cmd.execute();
 
     }
@@ -1185,7 +1185,7 @@ public class ProgressTests extends TestCase {
      * Author: jkealey
      */
     public void testReqElemEmptyPoint1() {
-        assertTrue("No palette entry creates EmptyPoint (No path tool)", isToolEntryPresent(PathToolEntry.class));
+        assertTrue("No palette entry creates EmptyPoint (No path tool)", isToolEntryPresent(PathToolEntry.class)); //$NON-NLS-1$
     }
 
     /**
@@ -1197,14 +1197,14 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
         PathNode pn = null;
 
-        assertTrue("no path node found", getMap().getPathGraph().getPathNodes().size() > 0);
+        assertTrue("no path node found", getMap().getPathGraph().getPathNodes().size() > 0); //$NON-NLS-1$
         pn = (PathNode) getMap().getPathGraph().getPathNodes().get(0);
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(pn);
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
@@ -1212,17 +1212,17 @@ public class ProgressTests extends TestCase {
         x = y = id = name = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("name"))
+            if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
                 name = true;
-            else if (str.equalsIgnoreCase("id"))
+            else if (str.equalsIgnoreCase("id")) //$NON-NLS-1$
                 id = true;
-            else if (str.equalsIgnoreCase("x"))
+            else if (str.equalsIgnoreCase("x")) //$NON-NLS-1$
                 x = true;
-            else if (str.equalsIgnoreCase("y"))
+            else if (str.equalsIgnoreCase("y")) //$NON-NLS-1$
                 y = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", name && id && x && y);
+        assertTrue("Missing PropertyDescriptor", name && id && x && y); //$NON-NLS-1$
 
     }
 
@@ -1232,7 +1232,7 @@ public class ProgressTests extends TestCase {
      * Author: jkealey
      */
     public void testReqElemEndPoint1() {
-        assertTrue("No palette entry creates EndPoint (No path tool)", isToolEntryPresent(PathToolEntry.class));
+        assertTrue("No palette entry creates EndPoint (No path tool)", isToolEntryPresent(PathToolEntry.class)); //$NON-NLS-1$
 
     }
 
@@ -1261,8 +1261,8 @@ public class ProgressTests extends TestCase {
         cbr.setLocation(new Point(200, 200));
         cmd = getEditPart(ep).getCommand(cbr);
 
-        assertNotNull("unable to get command", cmd);
-        assertTrue("cannot execute command", cmd.canExecute());
+        assertNotNull("unable to get command", cmd); //$NON-NLS-1$
+        assertTrue("cannot execute command", cmd.canExecute()); //$NON-NLS-1$
         cmd.execute();
     }
 
@@ -1281,24 +1281,24 @@ public class ProgressTests extends TestCase {
                 end = (EndPoint) element;
             }
         }
-        assertNotNull("cannot find endpoint", end);
+        assertNotNull("cannot find endpoint", end); //$NON-NLS-1$
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(end);
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean condition = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("postcondition"))
+            if (str.equalsIgnoreCase("postcondition")) //$NON-NLS-1$
                 condition = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", condition);
+        assertTrue("Missing PropertyDescriptor", condition); //$NON-NLS-1$
     }
 
     /**
@@ -1309,7 +1309,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemOrFork1() {
         // Is there a tool to create a OrFork in the palette?
         CreationTool createtool = getToolEntryForClass(OrFork.class);
-        assertNotNull("No palette entry creates OrFork", createtool);
+        assertNotNull("No palette entry creates OrFork", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1331,14 +1331,14 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
         v.add(ep);
 
         IAction action = getAction(v, AddOrForkAction.ADDORFORK);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -1368,7 +1368,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
@@ -1376,7 +1376,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no start point found", sp);
+        assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
@@ -1384,7 +1384,7 @@ public class ProgressTests extends TestCase {
         v.add(sp);
 
         IAction action = getAction(v, AddOrForkAction.ADDORFORK);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -1397,7 +1397,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("should only have one start point left!", 1, i);
+        assertEquals("should only have one start point left!", 1, i); //$NON-NLS-1$
     }
 
     /**
@@ -1415,28 +1415,28 @@ public class ProgressTests extends TestCase {
                 fork = (OrFork) element;
             }
         }
-        assertNotNull("cannot find orfork", fork);
+        assertNotNull("cannot find orfork", fork); //$NON-NLS-1$
 
-        assertTrue("no preceeding node connection", fork.getSucc().size()>=2);
+        assertTrue("no preceeding node connection", fork.getSucc().size()>=2); //$NON-NLS-1$
         for (Iterator iter = fork.getSucc().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
 
             NodeConnectionEditPart part = (NodeConnectionEditPart) getGraphicalViewer().getEditPartRegistry().get(nc);
-            assertNotNull("cannot find editpart", part);
+            assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
             IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-            assertNotNull("No property source found", source);
+            assertNotNull("No property source found", source); //$NON-NLS-1$
 
             IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
             boolean condition = false;
             for (int i = 0; i < desc.length; i++) {
                 String str = desc[i].getDisplayName();
-                if (str.equalsIgnoreCase("condition"))
+                if (str.equalsIgnoreCase("condition")) //$NON-NLS-1$
                     condition = true;
             }
 
-            assertTrue("Missing PropertyDescriptor", condition);
+            assertTrue("Missing PropertyDescriptor", condition); //$NON-NLS-1$
         }
     }
 
@@ -1448,7 +1448,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemOrJoin1() {
         // Is there a tool to create a OrJoin in the palette?
         CreationTool createtool = getToolEntryForClass(OrJoin.class);
-        assertNotNull("No palette entry creates OrJoin", createtool);
+        assertNotNull("No palette entry creates OrJoin", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1470,14 +1470,14 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
         v.add(ep);
 
         IAction action = getAction(v, AddOrJoinAction.ADDORJOIN);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -1507,7 +1507,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no empty point found", ep);
+        assertNotNull("no empty point found", ep); //$NON-NLS-1$
         for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint && ((NodeConnection) element.getPred().get(0)).getSource() != ep) {
@@ -1515,7 +1515,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no end point found", endpoint);
+        assertNotNull("no end point found", endpoint); //$NON-NLS-1$
 
         // select the empty point and see if the action is in the contextual menu
         Vector v = new Vector();
@@ -1523,7 +1523,7 @@ public class ProgressTests extends TestCase {
         v.add(endpoint);
 
         IAction action = getAction(v, AddOrJoinAction.ADDORJOIN);
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         // run it to see if it doesn't crash the app!
         action.run();
@@ -1536,7 +1536,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("should only have one end point left!", 1, i);
+        assertEquals("should only have one end point left!", 1, i); //$NON-NLS-1$
     }
 
     /**
@@ -1547,7 +1547,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemResponsibility1() {
         // Is there a tool to create a RespRef in the palette?
         CreationTool createtool = getToolEntryForClass(RespRef.class);
-        assertNotNull("No palette entry creates RespRef", createtool);
+        assertNotNull("No palette entry creates RespRef", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1561,25 +1561,25 @@ public class ProgressTests extends TestCase {
         NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
         cmd = new SplitLinkCommand(getMap().getPathGraph(), resp, nc, 100, 100);
-        assertTrue("Can't insert RespRef", cmd.canExecute());
+        assertTrue("Can't insert RespRef", cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(resp);
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean def = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("definition"))
+            if (str.equalsIgnoreCase("definition")) //$NON-NLS-1$
                 def = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", def);
+        assertTrue("Missing PropertyDescriptor", def); //$NON-NLS-1$
     }
 
     /**
@@ -1590,18 +1590,18 @@ public class ProgressTests extends TestCase {
     public void testReqElemStartPoint1() {
         int childCount = getMapEditPart(0).getChildren().size();
 
-        assertTrue("No palette entry creates StartPoint (No path tool)", isToolEntryPresent(PathToolEntry.class));
+        assertTrue("No palette entry creates StartPoint (No path tool)", isToolEntryPresent(PathToolEntry.class)); //$NON-NLS-1$
 
         // verify that the StartPoint is not in the model
-        assertEquals("Should be no PathNodes in model", 0, getMap().getPathGraph().getPathNodes().size());
+        assertEquals("Should be no PathNodes in model", 0, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
 
         // simulate a CreateRequest that we would have liked to have obtained from the palette
         CreateRequest cr = getCreateRequest(new ModelCreationFactory(urn, StartPoint.class), new Point(50, 70));
-        assertNotNull("Unable to build create request", cr);
+        assertNotNull("Unable to build create request", cr); //$NON-NLS-1$
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.
         Command cmd = (Command) getMapEditPart(0).getCommand(cr);
-        assertNotNull("Can't get command to obtain a new StartPoint", cmd);
+        assertNotNull("Can't get command to obtain a new StartPoint", cmd); //$NON-NLS-1$
 
         // execute the command, adding the StartPoint to the model
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
@@ -1610,10 +1610,10 @@ public class ProgressTests extends TestCase {
         getMapEditPart(0).refreshChildren();
 
         // verify that the StartPoint is in the model
-        assertEquals("Simple path not added.", 3, getMap().getPathGraph().getPathNodes().size());
+        assertEquals("Simple path not added.", 3, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
 
         // verify that the edit part tree has changed.
-        assertEquals("MapAndPathGraphEditPart should have exactly " + (childCount + 7) + " children", childCount + 7, getMapEditPart(0).getChildren().size());
+        assertEquals("MapAndPathGraphEditPart should have exactly " + (childCount + 7) + " children", childCount + 7, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$ //$NON-NLS-2$
 
     }
 
@@ -1632,24 +1632,24 @@ public class ProgressTests extends TestCase {
                 start = (StartPoint) element;
             }
         }
-        assertNotNull("cannot find startpoint", start);
+        assertNotNull("cannot find startpoint", start); //$NON-NLS-1$
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(start);
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean condition = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("precondition"))
+            if (str.equalsIgnoreCase("precondition")) //$NON-NLS-1$
                 condition = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", condition);
+        assertTrue("Missing PropertyDescriptor", condition); //$NON-NLS-1$
     }
 
     /**
@@ -1667,24 +1667,24 @@ public class ProgressTests extends TestCase {
                 start = (StartPoint) element;
             }
         }
-        assertNotNull("cannot find startpoint", start);
+        assertNotNull("cannot find startpoint", start); //$NON-NLS-1$
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(start);
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean wl = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("workload"))
+            if (str.equalsIgnoreCase("workload")) //$NON-NLS-1$
                 wl = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", wl);
+        assertTrue("Missing PropertyDescriptor", wl); //$NON-NLS-1$
     }
 
     /**
@@ -1696,7 +1696,7 @@ public class ProgressTests extends TestCase {
         // Is there a tool to create a Stub in the palette? without rewriting stuff, we can't get access to the creationfactory. assume static exists if stub
         // exists
         CreationTool createtool = getToolEntryForClass(Stub.class);
-        assertNotNull("No palette entry creates Stub", createtool);
+        assertNotNull("No palette entry creates Stub", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1718,7 +1718,7 @@ public class ProgressTests extends TestCase {
                 break;
             }
         }
-        assertNotNull("no start point found", sp);
+        assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // add second path.
         cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
@@ -1737,8 +1737,8 @@ public class ProgressTests extends TestCase {
         cbr.setLocation(new Point(125, 200));
         cmd = getEditPart(stub).getCommand(cbr);
 
-        assertNotNull("unable to get command", cmd);
-        assertTrue("cannot execute command", cmd.canExecute());
+        assertNotNull("unable to get command", cmd); //$NON-NLS-1$
+        assertTrue("cannot execute command", cmd.canExecute()); //$NON-NLS-1$
         cmd.execute();
     }
 
@@ -1810,7 +1810,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemTimer1() {
         // Is there a tool to create a Timer in the palette?
         CreationTool createtool = getToolEntryForClass(Timer.class);
-        assertNotNull("No palette entry creates Timer", createtool);
+        assertNotNull("No palette entry creates Timer", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1821,11 +1821,11 @@ public class ProgressTests extends TestCase {
     public void testReqElemTimer2() {
         testReqElemStartPoint1();
 
-        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0);
+        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0); //$NON-NLS-1$
         NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
         Timer timer = (Timer) ModelCreationFactory.getNewObject(urn, Timer.class);
 
-        assertNotNull("Model creation factory can't create timers!", timer);
+        assertNotNull("Model creation factory can't create timers!", timer); //$NON-NLS-1$
 
         Command cmd = new SplitLinkCommand(getMap().getPathGraph(), timer, nc, 49, 75);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
@@ -1834,7 +1834,7 @@ public class ProgressTests extends TestCase {
         v.add(timer);
         IAction action = getAction(v, AddTimeoutPathAction.ADDTIMEOUTPATH);
 
-        assertNotNull("Action not found in contextual menu!", action);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
         int i, j;
         i = j = 0;
@@ -1856,7 +1856,7 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertEquals("one (and exactly one) new end point should have been added", i + 1, j);
+        assertEquals("one (and exactly one) new end point should have been added", i + 1, j); //$NON-NLS-1$
 
     }
 
@@ -1868,7 +1868,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemWait1() {
         // Is there a tool to create a WaitingPlace in the palette?
         CreationTool createtool = getToolEntryForClass(WaitingPlace.class);
-        assertNotNull("No palette entry creates WaitingPlace", createtool);
+        assertNotNull("No palette entry creates WaitingPlace", createtool); //$NON-NLS-1$
     }
 
     /**
@@ -1879,31 +1879,31 @@ public class ProgressTests extends TestCase {
     public void testReqElemWait2() {
         testReqElemStartPoint1();
 
-        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0);
+        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0); //$NON-NLS-1$
         NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
         WaitingPlace waitingplace = (WaitingPlace) ModelCreationFactory.getNewObject(urn, WaitingPlace.class);
 
-        assertNotNull("Model creation factory can't create waiting place!", waitingplace);
+        assertNotNull("Model creation factory can't create waiting place!", waitingplace); //$NON-NLS-1$
 
         Command cmd = new SplitLinkCommand(getMap().getPathGraph(), waitingplace, nc, 49, 75);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         EditPart part = getEditPart(waitingplace.getSucc().get(0));
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean condition = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("condition"))
+            if (str.equalsIgnoreCase("condition")) //$NON-NLS-1$
                 condition = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", condition);
+        assertTrue("Missing PropertyDescriptor", condition); //$NON-NLS-1$
 
     }
 
@@ -1927,7 +1927,7 @@ public class ProgressTests extends TestCase {
         v.add(getMap());
         IAction action = getAction(v, ExportImageAction.EXPORTBITMAP);
 
-        assertNotNull("action is null", action);
+        assertNotNull("action is null", action); //$NON-NLS-1$
 
         // don't test if can run; crashes cruisecontrol
         //        action.run();
@@ -1940,7 +1940,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqHelpAbout1() {
         // implicit by the distribution of about.html with the zip file. not worth testing.
-        assertTrue("about.html not in zip file", true);
+        assertTrue("about.html not in zip file", true); //$NON-NLS-1$
 
     }
 
@@ -1951,7 +1951,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqHelpOnLine1() {
         // implicit by the distribution of help.xml with the zip file. not worth testing.
-        assertTrue("help.xml not in zip file", true);
+        assertTrue("help.xml not in zip file", true); //$NON-NLS-1$
     }
 
     //  /**
@@ -2009,25 +2009,25 @@ public class ProgressTests extends TestCase {
                 start = (StartPoint) element;
             }
         }
-        assertNotNull("cannot find startpoint", start);
-        assertNotNull("cannot find startpoint label", start.getLabel());
+        assertNotNull("cannot find startpoint", start); //$NON-NLS-1$
+        assertNotNull("cannot find startpoint label", start.getLabel()); //$NON-NLS-1$
 
         LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(start.getLabel());
-        assertNotNull("cannot find label editpart", part);
+        assertNotNull("cannot find label editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
         boolean name = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("name"))
+            if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
                 name = true;
         }
 
-        assertTrue("Missing PropertyDescriptor (should show name/id of label reference)", name);
+        assertTrue("Missing PropertyDescriptor (should show name/id of label reference)", name); //$NON-NLS-1$
     }
 
     /**
@@ -2047,14 +2047,14 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertNotNull("no RespRef found", pn);
-        assertNotNull("respref does not have a label", pn.getLabel());
+        assertNotNull("no RespRef found", pn); //$NON-NLS-1$
+        assertNotNull("respref does not have a label", pn.getLabel()); //$NON-NLS-1$
 
         LabelEditPart part = (LabelEditPart) getGraphicalViewer().getEditPartRegistry().get(pn.getLabel());
-        assertNotNull("cannot find editpart", part);
+        assertNotNull("cannot find editpart", part); //$NON-NLS-1$
 
         IPropertySource source = (IPropertySource) part.getAdapter(IPropertySource.class);
-        assertNotNull("No property source found", source);
+        assertNotNull("No property source found", source); //$NON-NLS-1$
 
         IPropertyDescriptor desc[] = source.getPropertyDescriptors();
 
@@ -2062,19 +2062,19 @@ public class ProgressTests extends TestCase {
         deltaX = deltaY = id = name = definition = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("name"))
+            if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
                 name = true;
-            else if (str.equalsIgnoreCase("id"))
+            else if (str.equalsIgnoreCase("id")) //$NON-NLS-1$
                 id = true;
-            else if (str.equalsIgnoreCase("deltax"))
+            else if (str.equalsIgnoreCase("deltax")) //$NON-NLS-1$
                 deltaX = true;
-            else if (str.equalsIgnoreCase("deltay"))
+            else if (str.equalsIgnoreCase("deltay")) //$NON-NLS-1$
                 deltaY = true;
-            else if (str.equalsIgnoreCase("definition"))
+            else if (str.equalsIgnoreCase("definition")) //$NON-NLS-1$
                 definition = true;
         }
 
-        assertTrue("Missing PropertyDescriptor", name && id && deltaX && deltaY && definition);
+        assertTrue("Missing PropertyDescriptor", name && id && deltaX && deltaY && definition); //$NON-NLS-1$
     }
 
     /**
@@ -2084,7 +2084,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqOpen1() {
         // real testing done in JUCMNavCommandTests
-        assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec);
+        assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec); //$NON-NLS-1$
     }
 
     /**
@@ -2094,7 +2094,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqSave1() {
         // real testing done in JUCMNavCommandTests
-        assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec);
+        assertTrue("top level model element is URNSpec", editor.getModel() instanceof URNspec); //$NON-NLS-1$
     }
 
 }

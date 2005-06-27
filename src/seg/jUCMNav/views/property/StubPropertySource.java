@@ -47,7 +47,7 @@ public class StubPropertySource extends UCMElementPropertySource {
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         super.addPropertyToDescriptor(descriptors, attr, c);
-        if (attr.getName().equalsIgnoreCase("dynamic")) {
+        if (attr.getName().equalsIgnoreCase("dynamic")) { //$NON-NLS-1$
             Vector v = (Vector) descriptors;
             CheckboxPropertyDescriptor pd = (CheckboxPropertyDescriptor) v.get(v.size() - 1);
 

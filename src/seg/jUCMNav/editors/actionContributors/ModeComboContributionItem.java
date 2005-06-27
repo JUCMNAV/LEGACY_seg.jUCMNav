@@ -52,7 +52,7 @@ public class ModeComboContributionItem extends ContributionItem {
      *            the initial string displayed in the combo
      */
     public ModeComboContributionItem(IWorkbenchPage partService, String[] initStrings) {
-        super("seg.jUCMNav.ModeComboContributionItem");
+        super("seg.jUCMNav.ModeComboContributionItem"); //$NON-NLS-1$
         this.initStrings = initStrings;
         //this.part = part;
         service = partService;
@@ -108,7 +108,7 @@ public class ModeComboContributionItem extends ContributionItem {
                 if (index >= 0 && index <= combo.getItemCount())
                     combo.select(index);
                 else
-                    combo.setText("");
+                    combo.setText(""); //$NON-NLS-1$
                 combo.setEnabled(true);
             }
         } catch (SWTException exception) {

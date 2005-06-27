@@ -96,7 +96,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
                 nc = null;
         }
 
-        assert s.contains(n) : "missing initial connection";
+        assert s.contains(n) : "missing initial connection"; //$NON-NLS-1$
 
         // we went through the spline in the inverse direction so we need to insert them in the opposite order using the stack
         while (s.size() > 0) {

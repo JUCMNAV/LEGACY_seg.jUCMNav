@@ -131,12 +131,12 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert oldPlugin != null : "Pre oldPlugin is null";
-        assert stub != null : "Pre stub is null";
-        assert oldMap != null : "Pre the associated map is null";
+        assert oldPlugin != null : "Pre oldPlugin is null"; //$NON-NLS-1$
+        assert stub != null : "Pre stub is null"; //$NON-NLS-1$
+        assert oldMap != null : "Pre the associated map is null"; //$NON-NLS-1$
 
-        assert stub.getBindings().contains(oldPlugin) : "Pre oldPlugin not contained in stub bindings";
-        assert oldMap.getParentStub().contains(oldPlugin) : "Pre oldPlugin not contained in the map parent stubs";
+        assert stub.getBindings().contains(oldPlugin) : "Pre oldPlugin not contained in stub bindings"; //$NON-NLS-1$
+        assert oldMap.getParentStub().contains(oldPlugin) : "Pre oldPlugin not contained in the map parent stubs"; //$NON-NLS-1$
     }
 
     /*
@@ -145,15 +145,15 @@ public class DeletePluginCommand extends CompoundCommand implements JUCMNavComma
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert oldPlugin != null : "Post oldPlugin is null";
-        assert stub != null : "Post stub is null";
-        assert oldMap != null : "Post the associated map is null";
+        assert oldPlugin != null : "Post oldPlugin is null"; //$NON-NLS-1$
+        assert stub != null : "Post stub is null"; //$NON-NLS-1$
+        assert oldMap != null : "Post the associated map is null"; //$NON-NLS-1$
 
-        assert !stub.getBindings().contains(oldPlugin) : "Post oldPlugin contained in stub bindings";
-        assert !oldMap.getParentStub().contains(oldPlugin) : "Post oldPlugin contained in the map parent stubs";
+        assert !stub.getBindings().contains(oldPlugin) : "Post oldPlugin contained in stub bindings"; //$NON-NLS-1$
+        assert !oldMap.getParentStub().contains(oldPlugin) : "Post oldPlugin contained in the map parent stubs"; //$NON-NLS-1$
 
-        assert oldPlugin.getIn().size() == 0 : "Post InBindings size is not zero";
-        assert oldPlugin.getOut().size() == 0 : "Post OutBindings size is not zero";
+        assert oldPlugin.getIn().size() == 0 : "Post InBindings size is not zero"; //$NON-NLS-1$
+        assert oldPlugin.getOut().size() == 0 : "Post OutBindings size is not zero"; //$NON-NLS-1$
     }
 
 }

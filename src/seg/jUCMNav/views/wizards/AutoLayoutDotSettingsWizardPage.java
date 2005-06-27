@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
+
 /**
  * Created on 9-May-2005
  * 
@@ -33,8 +35,8 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
      */
     protected AutoLayoutDotSettingsWizardPage(String pageName) {
         super(pageName);
-        setDescription("Please enter any preferences and press Finish to layout the map that is currently opened.");
-        setTitle("Auto Layout Wizard");
+        setDescription(Messages.getString("AutoLayoutDotSettingsWizardPage.pleaseEnterPreferences")); //$NON-NLS-1$
+        setTitle(Messages.getString("AutoLayoutDotSettingsWizardPage.autoLayoutWizard")); //$NON-NLS-1$
 
     }
 
@@ -53,7 +55,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         GridData data;
 
         Label lblPath = new Label(composite, SWT.NONE);
-        lblPath.setText("Path to dot : ");
+        lblPath.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.dotPath")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         lblPath.setLayoutData(data);
@@ -79,12 +81,12 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
         Button b = new Button(getShell(), SWT.PUSH);
         b.setParent(composite);
-        b.setText("...");
+        b.setText("..."); //$NON-NLS-1$
         b.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
                 dialog.setFileName(getDotPath());
-                dialog.setText("Please select GraphViz dot");
+                dialog.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.selectGraphvizDot")); //$NON-NLS-1$
                 String path = dialog.open();
 
                 if (path != null)
@@ -94,13 +96,13 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         });
 
         Label lblWidth = new Label(composite, SWT.NONE);
-        lblWidth.setText("Width (inches) : ");
+        lblWidth.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.width")); //$NON-NLS-1$
 
         Label lblHeight = new Label(composite, SWT.NONE);
-        lblHeight.setText("Height (inches) : ");
+        lblHeight.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.height")); //$NON-NLS-1$
 
         Label lblOrientation = new Label(composite, SWT.NONE);
-        lblOrientation.setText("Map orientation : ");
+        lblOrientation.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.orientation")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 2;
         lblOrientation.setLayoutData(data);
@@ -139,7 +141,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         });
 
         cboOrientation = new Combo(composite, SWT.READ_ONLY);
-        cboOrientation.setItems(new String[] { "Top down", "Left to right" });
+        cboOrientation.setItems(new String[] { Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), Messages.getString("AutoLayoutDotSettingsWizardPage.leftright") }); //$NON-NLS-1$ //$NON-NLS-2$
         cboOrientation.select(getOrientation());
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
@@ -155,7 +157,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         });
 
         chkEmptyPoints = new Button(composite, SWT.CHECK);
-        chkEmptyPoints.setText("Manipulate empty points?");
+        chkEmptyPoints.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.manipulateEmptyPoints")); //$NON-NLS-1$
         chkEmptyPoints.setSelection(getEmptyPoints());
         data = new GridData();
         data.horizontalSpan = 3;
@@ -205,7 +207,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             double d = Double.parseDouble(height);
             s = Double.toString(d);
         } catch (Exception e) {
-            s = "0";
+            s = "0"; //$NON-NLS-1$
         }
         txtHeight.setText(s);
 
@@ -224,7 +226,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
             double d = Double.parseDouble(width);
             s = Double.toString(d);
         } catch (Exception e) {
-            s = "0";
+            s = "0"; //$NON-NLS-1$
         }
         txtWidth.setText(s);
 

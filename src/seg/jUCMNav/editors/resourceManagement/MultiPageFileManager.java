@@ -73,8 +73,8 @@ public class MultiPageFileManager {
             } catch (Exception e) {//SAXParseException
                 if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException) || ((SAXParseException)((WrappedException) e).exception()).getLineNumber() >= 0) {
                     // dont pop error if file is empty (not created by wizard).
-                    ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"),
-                            "Error opening file; creating new URNspec.\n\n" + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e));
+                    ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"), //$NON-NLS-1$
+                            Messages.getString("MultiPageFileManager.errorOpeningFileCreatingNew") + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
                 }
                 modelManager.createURNspec(file.getFullPath());
@@ -113,7 +113,7 @@ public class MultiPageFileManager {
         } catch (CoreException e) {
             ErrorDialog.openError(getEditor().getSite().getShell(),
                     Messages.getString("MultiPageFileManager.errorDuringSave"), Messages.getString("MultiPageFileManager.ucmCouldNotBeSaved"), e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
-            assert false : "error occured while saving; ";
+            assert false : "error occured while saving; "; //$NON-NLS-1$
         }
     }
 

@@ -52,9 +52,9 @@ public class EObjectClassNameComparator implements Comparator {
             s = ((RespRef) o).getRespDef().getName();
         } else {
             try {
-                Object name = o.eGet(o.eClass().getEStructuralFeature("name"));
+                Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$
                 if (name == null)
-                    s = "";
+                    s = ""; //$NON-NLS-1$
                 else
                     s = name.toString();
             } catch (IllegalArgumentException ex) {
@@ -64,9 +64,9 @@ public class EObjectClassNameComparator implements Comparator {
         }
 
         try {
-            Object id = o.eGet(o.eClass().getEStructuralFeature("id"));
+            Object id = o.eGet(o.eClass().getEStructuralFeature("id")); //$NON-NLS-1$
             if (id != null)
-                s += " (" + id.toString() + ")";
+                s += " (" + id.toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         } catch (IllegalArgumentException ex) {
         }
 

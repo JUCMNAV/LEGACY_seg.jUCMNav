@@ -12,6 +12,8 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
 
+import seg.jUCMNav.Messages;
+
 /**
  * This class define all the modification we should make to the workbench when we are editing an UCM.
  * 
@@ -44,7 +46,7 @@ public class UCMActionBarContributor extends ActionBarContributor {
         toolBarManager.add(new Separator());
         String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
         toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));
-        String[] modeStrings = new String[] { "View all elements", "Hide empty points", "Hide empty points and stub labels" };
+        String[] modeStrings = new String[] { Messages.getString("UCMActionBarContributor.viewAllElements"), Messages.getString("UCMActionBarContributor.hideEmptyPoints"), Messages.getString("UCMActionBarContributor.hideEmptyPointsAndStubLabels") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         toolBarManager.add(new ModeComboContributionItem(getPage(), modeStrings));
     }
 
