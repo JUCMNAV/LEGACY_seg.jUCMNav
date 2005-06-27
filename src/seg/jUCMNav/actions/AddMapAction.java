@@ -1,16 +1,11 @@
 package seg.jUCMNav.actions;
 
-import java.util.List;
-
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
-import ucm.map.Map;
-import urn.URNspec;
 
 /**
  * Adds a new blank use case map in the current editor.
@@ -33,27 +28,14 @@ public class AddMapAction extends UCMSelectionAction {
      * If you have a URNspec or Map selected.
      */
     protected boolean calculateEnabled() {
-
-        List parts = getSelectedObjects();
-        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
-            EditPart part = (EditPart) parts.get(0);
-            return (part.getModel() instanceof URNspec || part.getModel() instanceof Map);
-        }
-
-        return false;
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
+        return sel.getUrnspec() != null;
     }
 
     protected Command getCommand() {
-        List parts = getSelectedObjects();
-        EditPart part = (EditPart) parts.get(0);
+        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
-        URNspec urn;
-        if (part.getModel() instanceof URNspec)
-            urn = (URNspec) part.getModel();
-        else
-            urn = ((Map) part.getModel()).getUcmspec().getUrnspec();
-
-        CreateMapCommand create = new CreateMapCommand(urn);
+        CreateMapCommand create = new CreateMapCommand(sel.getUrnspec());
 
         return create;
     }

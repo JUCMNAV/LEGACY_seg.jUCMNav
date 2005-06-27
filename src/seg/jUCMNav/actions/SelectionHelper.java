@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -208,7 +209,7 @@ public class SelectionHelper {
             endpoint = (EndPoint) model;
             if (endpoint.getSucc().size() == 1) {
                 // if this throws an exception, a previous command broke the link order.
-                // don't try-catch this                
+                // don't try-catch this
                 connect = (Connect) ((NodeConnection) endpoint.getSucc().get(0)).getTarget();
             }
         } else if (model instanceof NodeConnection) {
@@ -220,7 +221,7 @@ public class SelectionHelper {
             startpoint = (StartPoint) model;
             if (startpoint.getPred().size() == 1) {
                 // if this throws an exception, a previous command broke the link order.
-                // don't try-catch this                
+                // don't try-catch this
                 connect = (Connect) ((NodeConnection) startpoint.getPred().get(0)).getSource();
             }
         } else if (model instanceof Stub)
@@ -229,14 +230,14 @@ public class SelectionHelper {
             timer = (Timer) model;
             if (timer.getPred().size() == 2) {
                 // if this throws an exception, a previous command broke the link order.
-                // don't try-catch this                
+                // don't try-catch this
                 connect = (Connect) ((NodeConnection) timer.getPred().get(1)).getSource();
             }
         } else if (model instanceof WaitingPlace) {
             waitingplace = (WaitingPlace) model;
             if (waitingplace.getPred().size() == 2) {
                 // if this throws an exception, a previous command broke the link order.
-                // don't try-catch this                
+                // don't try-catch this
                 connect = (Connect) ((NodeConnection) waitingplace.getPred().get(1)).getSource();
             }
         } else if (model instanceof NodeLabel)
@@ -297,6 +298,29 @@ public class SelectionHelper {
                 setInternals(ep);
             }
 
+        }
+
+        // just set the URNspec.
+        if (selection.size() > 2) {
+            for (Iterator iter = selection.iterator(); iter.hasNext();) {
+                Object element = (Object) iter.next();
+                if (element instanceof EditPart && ((EditPart) element).getModel() != null) {
+                    Object model = ((EditPart) element).getModel();
+                    if (model instanceof URNspec)
+                        urnspec = (URNspec) model;
+                    else if (model instanceof Map)
+                        urnspec = ((Map) model).getUcmspec().getUrnspec();
+                    else if (model instanceof PathNode)
+                        urnspec = ((PathNode) model).getPathGraph().getMap().getUcmspec().getUrnspec();
+                    else if (model instanceof NodeConnection)
+                        urnspec = ((NodeConnection) model).getPathGraph().getMap().getUcmspec().getUrnspec();
+                    else if (model instanceof ComponentRef)
+                        urnspec = ((ComponentRef) model).getMap().getUcmspec().getUrnspec();
+
+                }
+                if (urnspec != null)
+                    break;
+            }
         }
 
         setType();

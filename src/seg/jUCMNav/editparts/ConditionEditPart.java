@@ -5,7 +5,6 @@ package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Color;
@@ -124,7 +123,6 @@ public class ConditionEditPart extends LabelEditPart {
             }
 
             label.setForegroundColor(new Color(null, 100, 100, 100));
-            label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
         }
     }
 

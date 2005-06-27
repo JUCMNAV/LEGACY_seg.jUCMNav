@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
@@ -27,6 +29,7 @@ public class BindWithParent extends UCMSelectionAction {
     public BindWithParent(IWorkbenchPart part) {
         super(part);
         setId(BINDWITHPARENT);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")); //$NON-NLS-1$sa
     }
 
     /**

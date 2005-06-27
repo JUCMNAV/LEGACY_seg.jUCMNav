@@ -15,6 +15,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -340,7 +341,7 @@ public class LabelEditPart extends ModelElementEditPart {
     }
 
     /**
-     * 
+     *  
      */
     protected void setLabelText() {
         LabelFigure labelFigure = getLabelFigure();
@@ -350,6 +351,8 @@ public class LabelEditPart extends ModelElementEditPart {
             ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
             if (componentElement != null)
                 label.setText(componentElement.getName());
+
+            label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
         } else if (modelElement instanceof RespRef) {
             Responsibility responsibility = ((RespRef) modelElement).getRespDef();
             if (responsibility != null)
@@ -357,6 +360,8 @@ public class LabelEditPart extends ModelElementEditPart {
         } else if (modelElement instanceof UCMmodelElement) {
             label.setText(((UCMmodelElement) modelElement).getName());
         }
+        
+
     }
 
     /**

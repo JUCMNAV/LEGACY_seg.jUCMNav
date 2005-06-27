@@ -24,7 +24,8 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
     // Where to create the Join
     PathGraph _pg;
 
-    EmptyPoint _originEp;
+    // can be empty point or direction arrow. 
+    PathNode _originEp;
 
     // New items
     PathNode _newJoin;
@@ -49,7 +50,7 @@ public class AddJoinOnEmptyPointCommand extends Command implements JUCMNavComman
         this.setLabel(Messages.getString("AddJoinOnEmptyPointCommand.addJoin")); //$NON-NLS-1$
     }
 
-    public AddJoinOnEmptyPointCommand(PathNode newJoin, PathGraph pg, EmptyPoint ep) {
+    public AddJoinOnEmptyPointCommand(PathNode newJoin, PathGraph pg, PathNode ep) {
         _newJoin = newJoin;
         _pg = pg;
         _originEp = ep;

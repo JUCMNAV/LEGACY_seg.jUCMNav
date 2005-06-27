@@ -23,7 +23,8 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
     // Where to create the Fork
     PathGraph _pg;
 
-    EmptyPoint _originEp;
+    // can be empty point or direction arrow.
+    PathNode _originEp;
 
     // New items
     PathNode _newFork;
@@ -50,7 +51,7 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         this.setLabel(Messages.getString("AddForkOnEmptyPointCommand.addFork")); //$NON-NLS-1$
     }
 
-    public AddForkOnEmptyPointCommand(PathNode newFork, PathGraph pg, EmptyPoint ep) {
+    public AddForkOnEmptyPointCommand(PathNode newFork, PathGraph pg, PathNode ep) {
         _newFork = newFork;
         _pg = pg;
         _originEp = ep;
@@ -183,8 +184,7 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
         assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(
-                _newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (!_pg.getPathNodes().contains(_newEmptyPoint) && !_pg.getPathNodes().contains(_newFork) && !_pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 
@@ -198,8 +198,7 @@ public class AddForkOnEmptyPointCommand extends Command implements JUCMNavComman
         assert (_newFork != null) : "pre newFork"; //$NON-NLS-1$
         assert (_newEndPoint != null) : "pre newEndPoint"; //$NON-NLS-1$
 
-        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(
-                _newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
+        assert (_pg.getPathNodes().contains(_newEmptyPoint) && _pg.getPathNodes().contains(_newFork) && _pg.getPathNodes().contains(_newEndPoint)) : "pre PathGraph doesn't contain new nodes"; //$NON-NLS-1$
 
     }
 

@@ -13,6 +13,8 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
@@ -21,6 +23,8 @@ import seg.jUCMNav.model.commands.transformations.JoinStartToStubForkCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
+import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -55,7 +59,16 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
         if ((getHost().getModel() instanceof EmptyPoint || getHost().getModel() instanceof DirectionArrow)
                 && request.getNewObject() instanceof PathNode
                 && !(request.getNewObject() instanceof StartPoint || request.getNewObject() instanceof EndPoint || request.getNewObject() instanceof EmptyPoint)) {
-            return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
+            // because we don't want forks/joins without only 1 in/out
+            if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork)
+                return new AddForkOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(),
+                        (PathNode) getHost().getModel());
+
+            else if (request.getNewObject() instanceof AndJoin || request.getNewObject() instanceof OrJoin)
+                return new AddJoinOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(),
+                        (PathNode) getHost().getModel());
+            else
+                return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
         } else
             return null;
     }
