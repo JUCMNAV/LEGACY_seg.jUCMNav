@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -11,88 +10,50 @@ import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import ucm.map.PathNode;
 
 /**
- * Created on 30-May-2005
+ * Action to add an additional branch to an existing fork or join.
  * 
  * @author jkealey
  *  
  */
-public class AddBranchAction extends SelectionAction {
+public class AddBranchAction extends UCMSelectionAction {
 
-    public static final String ADDBRANCH = "Add Branch"; //$NON-NLS-1$
+    public static final String ADDBRANCH = "seg.jUCMNav.AddBranch"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddBranchAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDBRANCH);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * Returns true if the selection is a fork/join. Also sets the image dynamically.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDFORK:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
-        	break;
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
+            break;
         case SelectionHelper.ORFORK:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
-        	break;
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
+            break;
         case SelectionHelper.ANDJOIN:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
-        	break;
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
+            break;
         case SelectionHelper.ORJOIN:
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
-        	break;
+            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
+            break;
         default:
             return false;
         }
         return true;
     }
 
-    private Command getCommand() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.ANDFORK:
-        case SelectionHelper.ORFORK:
-        case SelectionHelper.ANDJOIN:
-        case SelectionHelper.ORJOIN:
-            return new AddBranchCommand((PathNode) ((PathNodeEditPart)getSelectedObjects().get(0)).getModel());
-        default:
-            return null;
-
-        }
+    protected Command getCommand() {
+        // PathNode not necessarily one of the above; might be different in subclass (timeout path)
+        return new AddBranchCommand((PathNode) ((PathNodeEditPart) getSelectedObjects().get(0)).getModel());
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#getId()
-     */
-    public String getId() {
-        return ADDBRANCH;
-    }
-
 }

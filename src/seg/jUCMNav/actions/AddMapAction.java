@@ -1,13 +1,9 @@
-/*
- * Created on Mar 30, 2005
- */
 package seg.jUCMNav.actions;
 
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -17,9 +13,11 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * @author Jordan
+ * Adds a new blank use case map in the current editor.
+ * 
+ * @author jkealey
  */
-public class AddMapAction extends SelectionAction {
+public class AddMapAction extends UCMSelectionAction {
     public static final String ADDMAP = "seg.jUCMNav.AddMap"; //$NON-NLS-1$
 
     /**
@@ -27,19 +25,15 @@ public class AddMapAction extends SelectionAction {
      */
     public AddMapAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDMAP);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * If you have a URNspec or Map selected.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
 
-    private boolean canPerformAction() {
         List parts = getSelectedObjects();
         if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
             EditPart part = (EditPart) parts.get(0);
@@ -49,36 +43,19 @@ public class AddMapAction extends SelectionAction {
         return false;
     }
 
-    private Command getCommand() {
+    protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
 
         URNspec urn;
         if (part.getModel() instanceof URNspec)
-        urn = (URNspec) part.getModel();
+            urn = (URNspec) part.getModel();
         else
             urn = ((Map) part.getModel()).getUcmspec().getUrnspec();
-        
+
         CreateMapCommand create = new CreateMapCommand(urn);
 
         return create;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#getId()
-     */
-    public String getId() {
-        return ADDMAP;
-    }
 }

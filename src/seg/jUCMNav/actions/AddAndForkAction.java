@@ -1,107 +1,40 @@
-/*
- * Created on 8-May-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.actions;
 
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
-import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
-import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndFork;
+import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
- * @author jpdaigle
+ * Adds an and-fork. Given selection, determines which command to invoke. Might create new small path or might replace elements.
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
+ * @author jpdaigle, jkealey
+ * @see SafePathChecker
  */
-public class AddAndForkAction extends SelectionAction {
+public class AddAndForkAction extends AddOrForkAction {
 
-    public static final String ADDANDFORK = "AddAndFork"; //$NON-NLS-1$
+    public static final String ADDANDFORK = "seg.jUCMNav.AddAndFork"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddAndForkAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDANDFORK);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * @param urn
+     * @return an and-fork
      */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    private boolean canPerformAction() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.NODECONNECTION:
-            return true;
-        case SelectionHelper.STARTPOINT_NODECONNECTION:
-            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getNodeconnection());
-        case SelectionHelper.EMPTYPOINT:
-            return true;
-        case SelectionHelper.STARTPOINT_EMPTYPOINT:
-            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEmptypoint());
-        default:
-            return false;
-        }
-    }
-
-    private Command getCommand() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), AndFork.class);
-        Command comm;
-
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.STARTPOINT_EMPTYPOINT:
-            comm = new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), newAndFork);
-            return comm;
-        case SelectionHelper.STARTPOINT_NODECONNECTION:
-            return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, false);
-        case SelectionHelper.EMPTYPOINT:
-            comm = new AddForkOnEmptyPointCommand(newAndFork, sel.getPathgraph(), sel.getEmptypoint());
-            return comm;
-        case SelectionHelper.NODECONNECTION:
-            comm = new AddForkOnConnectionCommand(newAndFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y);
-            return comm;
-        default:
-            return null;
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#getId()
-     */
-    public String getId() {
-        return ADDANDFORK;
+    protected PathNode getNewFork(URNspec urn) {
+        return (AndFork) ModelCreationFactory.getNewObject(urn, AndFork.class);
     }
 
 }

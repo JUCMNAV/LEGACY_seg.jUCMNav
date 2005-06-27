@@ -1,103 +1,39 @@
-/*
- * Created on May 25, 2005
- */
 package seg.jUCMNav.actions;
 
-import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
-import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
-import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndJoin;
+import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
- * @author jpdaigle
+ * Adds an and-join. Given selection, determines which command to invoke. Might create new small path or might replace elements.
+ * 
+ * @author jpdaigle, jkealey
+ * @see SafePathChecker
  */
-public class AddAndJoinAction extends SelectionAction {
-    public static final String ADDANDJOIN = "AddAndJoin"; //$NON-NLS-1$
+public class AddAndJoinAction extends AddOrJoinAction {
+    public static final String ADDANDJOIN = "seg.jUCMNav.AddAndJoin"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddAndJoinAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDANDJOIN);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * @param urn
+     * @return an AndJoin
      */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    private boolean canPerformAction() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.ENDPOINT_EMPTYPOINT:
-            return SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getEmptypoint());
-        case SelectionHelper.ENDPOINT_NODECONNECTION:
-            return SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getNodeconnection());
-        case SelectionHelper.NODECONNECTION:
-            return true;
-        case SelectionHelper.EMPTYPOINT:
-            return true;
-        default:
-            return false;
-        }
-    }
-
-    private Command getCommand() {
-        SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject(sel.getUrnspec(), AndJoin.class);
-        Command comm;
-
-        switch (sel.getSelectionType()) {
-        case SelectionHelper.ENDPOINT_EMPTYPOINT:
-            comm = new JoinPathsCommand(sel.getEmptypoint(), sel.getEndpoint(), newAndJoin);
-            return comm;
-        case SelectionHelper.ENDPOINT_NODECONNECTION:
-            return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, false);
-        case SelectionHelper.EMPTYPOINT:
-            comm = new AddJoinOnEmptyPointCommand(newAndJoin, sel.getPathgraph(), sel.getEmptypoint());
-            return comm;
-        case SelectionHelper.NODECONNECTION:
-            comm = new AddJoinOnConnectionCommand(newAndJoin, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y);
-            return comm;
-
-        default:
-            return null;
-        }
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#getId()
-     */
-    public String getId() {
-        return ADDANDJOIN;
+    protected PathNode getNewJoin(URNspec urn) {
+        return (AndJoin) ModelCreationFactory.getNewObject(urn, AndJoin.class);
     }
 
 }

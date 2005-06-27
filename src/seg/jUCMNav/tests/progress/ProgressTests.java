@@ -51,6 +51,7 @@ import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.ConnectAction;
+import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmOutlinePage;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -1924,7 +1925,7 @@ public class ProgressTests extends TestCase {
     public void testReqExportBitmap2() {
         Vector v = new Vector();
         v.add(getMap());
-        IAction action = getAction(v, "EXPORTBITMAP");
+        IAction action = getAction(v, ExportImageAction.EXPORTBITMAP);
 
         assertNotNull("action is null", action);
 

@@ -11,12 +11,12 @@ import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 import ucm.map.Map;
 
 /**
- * Created on 4-May-2005
+ * Opens the AutoLayout Wizard.
  * 
  * @author jkealey
  *  
  */
-public class AutoLayoutAction implements IEditorActionDelegate {
+public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor editor;
 
@@ -52,11 +52,7 @@ public class AutoLayoutAction implements IEditorActionDelegate {
 
             WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
 
-            if (WizardDialog.OK == dialog.open()) {
-                /*
-                 * Command cmd = wizard.getCommand(); if (cmd.canExecute()) editor.getCurrentPage().execute(cmd);
-                 */
-            }
+            dialog.open();
         }
     }
 

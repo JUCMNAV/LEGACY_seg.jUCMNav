@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
@@ -9,37 +8,28 @@ import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import ucm.map.PathNode;
 
 /**
- * Created on 16-Jun-05
+ * Breaks an existing synchronous or asynchronous connection.
  * 
  * @author jkealey
  *  
  */
-public class DisconnectAction extends SelectionAction {
+public class DisconnectAction extends UCMSelectionAction {
 
-    public static final String DISCONNECT = "Disconnect"; //$NON-NLS-1$
+    public static final String DISCONNECT = "seg.jUCMNav.Disconnect"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public DisconnectAction(IWorkbenchPart part) {
         super(part);
+        setId(DISCONNECT);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * True if selected object is connected to a connect.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.CONNECT:
@@ -49,26 +39,8 @@ public class DisconnectAction extends SelectionAction {
         }
     }
 
-    private Command getCommand() {
+    protected Command getCommand() {
         return new DisconnectCommand((PathNode) ((PathNodeEditPart) getSelectedObjects().get(0)).getModel());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#getId()
-     */
-    public String getId() {
-        return DISCONNECT;
     }
 
 }

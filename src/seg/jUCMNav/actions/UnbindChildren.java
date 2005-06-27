@@ -5,21 +5,18 @@ import java.util.Vector;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
 import ucm.map.ComponentRef;
 
 /**
- * Created 2005-05-02.
- * 
- * Unbinds the selected element with from its parent, if it is bound. For more detail, see canPerformAction().
+ * Unbinds the selected element with from its parent, if it is bound. For more detail, see calculatedEnabled().
  * 
  * @author jkealey
  */
-public class UnbindChildren extends SelectionAction {
-    public static final String UNBINDCHILDREN = "UnbindChildren"; //$NON-NLS-1$
+public class UnbindChildren extends UCMSelectionAction {
+    public static final String UNBINDCHILDREN = "seg.jUCMNav.UnbindChildren"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -27,15 +24,6 @@ public class UnbindChildren extends SelectionAction {
     public UnbindChildren(IWorkbenchPart part) {
         super(part);
         setId(UNBINDCHILDREN);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
     }
 
     /**
@@ -49,9 +37,9 @@ public class UnbindChildren extends SelectionAction {
      * 
      * 4. the selected ComponentRefs all have at least one child.
      * 
-     * @return
+     * @return should the action be allowed to execute
      */
-    private boolean canPerformAction() {
+    protected boolean calculateEnabled() {
         if (getSelectedObjects().isEmpty())
             return false; // #1 failed
         List parts = getSelectedObjects();
@@ -74,13 +62,11 @@ public class UnbindChildren extends SelectionAction {
         // all tests pass
         return true;
     }
-    
+
     /**
-     * Builds a chained command to unbind all of the selected components's children. 
-     * 
-     * @return
+     * @return Builds a chained command to unbind all of the selected components's children.
      */
-    private Command getCommand() {
+    protected Command getCommand() {
         Command cmd;
         if (getSelectedObjects().isEmpty()) {
             return null;
@@ -103,15 +89,6 @@ public class UnbindChildren extends SelectionAction {
 
             return cmd;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
     }
 
 }

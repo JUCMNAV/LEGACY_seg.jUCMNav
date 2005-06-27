@@ -1,10 +1,6 @@
-/*
- * Created on Apr 27, 2005
- */
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -16,31 +12,31 @@ import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionComp
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.OrFork;
+import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
- * @author jpdaigle
+ * Adds an or-fork. Given selection, determines which command to invoke. Might create new small path or might replace elements.
+ * 
+ * @see SafePathChecker
+ * @author jpdaigle, jkealey
  */
-public class AddOrForkAction extends SelectionAction {
-    public static final String ADDORFORK = "AddOrFork"; //$NON-NLS-1$
+public class AddOrForkAction extends UCMSelectionAction {
+    public static final String ADDORFORK = "seg.jUCMNav.AddOrFork"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddOrForkAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDORFORK);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * @return true if have selected elements that can be forked, and when forked will not cause illegal loops.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    private boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.NODECONNECTION:
@@ -56,9 +52,12 @@ public class AddOrForkAction extends SelectionAction {
         }
     }
 
-    private Command getCommand() {
+    /**
+     * Returns the appropriate fork creation command, given the current selection. 
+     */
+    protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrFork.class);
+        PathNode newOrFork = getNewFork(sel.getUrnspec());
         Command comm;
 
         switch (sel.getSelectionType()) {
@@ -80,22 +79,12 @@ public class AddOrForkAction extends SelectionAction {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
+    /**
+     * @param urn
+     * @return an or-fork
      */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#getId()
-     */
-    public String getId() {
-        return ADDORFORK;
+    protected PathNode getNewFork(URNspec urn) {
+        return (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
     }
 
 }

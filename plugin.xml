@@ -45,13 +45,13 @@
          <action
                toolbarPath="jUCMNav"
                label="%autoLayout"
-               class="seg.jUCMNav.actions.AutoLayoutAction"
+               class="seg.jUCMNav.actions.AutoLayoutActionDelegate"
                tooltip="Auto Layout"
                icon="icons/Node16.gif"
                style="push"
                menubarPath="seg.jUCMNav/ext"
                id="seg.jUCMNav.AutoLayout"
-               actionID="seg.jUCMNav.actions.AutoLayoutAction">
+               actionID="seg.jUCMNav.actions.AutoLayoutActionDelegate">
          </action>
          <menu
                label="jUCMNav"

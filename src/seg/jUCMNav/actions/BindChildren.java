@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
@@ -12,15 +11,13 @@ import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 
 /**
- * Created 2005-05-02.
- * 
- * Binds the selected elements with their respective parents, if they are unbound. For more details see canPerformAction.
+ * Binds the selected elements with their respective parents, if they are unbound. For more details see calculateEnabled.
  * 
  * @author jkealey
  */
-public class BindChildren extends SelectionAction {
+public class BindChildren extends UCMSelectionAction {
 
-    public static final String BINDCHILDREN = "BindChildren"; //$NON-NLS-1$
+    public static final String BINDCHILDREN = "seg.jUCMNav.BindChildren"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -28,15 +25,6 @@ public class BindChildren extends SelectionAction {
     public BindChildren(IWorkbenchPart part) {
         super(part);
         setId(BINDCHILDREN);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
     }
 
     /**
@@ -50,9 +38,9 @@ public class BindChildren extends SelectionAction {
      * 
      * 4. the selected ComponentRefs all have at least one new possible child.
      * 
-     * @return
+     * @return should the action be allowed to execute
      */
-    private boolean canPerformAction() {
+    protected boolean calculateEnabled() {
         if (getSelectedObjects().isEmpty())
             return false; // #1 failed
         else {
@@ -81,11 +69,9 @@ public class BindChildren extends SelectionAction {
     }
 
     /**
-     * Builds a chained command to bind all selected components with their new children.
-     * 
-     * @return
+     * @return a chained command to bind all selected components with their new children.
      */
-    private Command getCommand() {
+    protected Command getCommand() {
         Command cmd;
         if (getSelectedObjects().isEmpty()) {
             return null;
@@ -107,15 +93,6 @@ public class BindChildren extends SelectionAction {
 
             return cmd;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
     }
 
 }

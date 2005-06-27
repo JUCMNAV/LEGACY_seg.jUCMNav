@@ -1,10 +1,6 @@
-/*
- * Created on May 20, 2005
- */
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -16,31 +12,31 @@ import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionComp
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.OrJoin;
+import ucm.map.PathNode;
+import urn.URNspec;
 
 /**
- * @author jpdaigle
+ * Adds an or-join. Given selection, determines which command to invoke. Might create new small path or might replace elements.
+ * 
+ * @author jpdaigle, jkealey
+ * @see SafePathChecker
  */
-public class AddOrJoinAction extends SelectionAction {
-    public static final String ADDORJOIN = "AddOrJoin"; //$NON-NLS-1$
+public class AddOrJoinAction extends UCMSelectionAction {
+    public static final String ADDORJOIN = "seg.jUCMNav.AddOrJoin"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public AddOrJoinAction(IWorkbenchPart part) {
         super(part);
+        setId(ADDORJOIN);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * @return true if have selected elements that can be joined, and when joined will not cause illegal loops.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    private boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
@@ -56,9 +52,12 @@ public class AddOrJoinAction extends SelectionAction {
         }
     }
 
-    private Command getCommand() {
+    /**
+     * Returns the appropriate join creation command, given the current selection.
+     */
+    protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrJoin.class);
+        PathNode newOrJoin = getNewJoin(sel.getUrnspec());
         Command comm;
 
         switch (sel.getSelectionType()) {
@@ -82,22 +81,11 @@ public class AddOrJoinAction extends SelectionAction {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
+    /**
+     * @param urn
+     * @return an or-join
      */
-    public void run() {
-        execute(getCommand());
+    protected PathNode getNewJoin(URNspec urn) {
+        return (OrJoin) ModelCreationFactory.getNewObject(urn, OrJoin.class);
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#getId()
-     */
-    public String getId() {
-        return ADDORJOIN;
-    }
-
 }

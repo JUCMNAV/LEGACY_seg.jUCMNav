@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPart;
@@ -8,16 +7,16 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.views.wizards.ExportImageWizard;
 
 /**
- * Created on 2-Jun-2005
- * 
  * Opens the ExportImageWizard with the current selection (map or URNspec)
+ * 
+ * jkealey: could be modified to allow exporting when anything in a map is selected, not just the background.
  * 
  * @author jkealey
  *  
  */
-public class ExportImageAction extends SelectionAction {
+public class ExportImageAction extends UCMSelectionAction {
 
-    public static final String EXPORTBITMAP = "EXPORTBITMAP"; //$NON-NLS-1$
+    public static final String EXPORTBITMAP = "seg.jUCMNav.EXPORTBITMAP"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -27,10 +26,8 @@ public class ExportImageAction extends SelectionAction {
         setId(EXPORTBITMAP);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * True if we've selected a Map or URNSpec
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

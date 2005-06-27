@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editparts.PathNodeEditPart;
@@ -9,37 +8,27 @@ import seg.jUCMNav.model.commands.create.ConnectCommand;
 import ucm.map.PathNode;
 
 /**
- * Created on 16-Jun-05
+ * Creates synchronous and asynchronous connections between elements.
  * 
  * @author jkealey
  *  
  */
-public class ConnectAction extends SelectionAction {
+public class ConnectAction extends UCMSelectionAction {
 
-    public static final String CONNECT = "Connect"; //$NON-NLS-1$
+    public static final String CONNECT = "seg.jUCMNav.Connect"; //$NON-NLS-1$
 
     /**
      * @param part
      */
     public ConnectAction(IWorkbenchPart part) {
         super(part);
+        setId(CONNECT);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * Returns true if selected (end||empty) && (start||wait||timer)
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean canPerformAction() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 
         switch (sel.getSelectionType()) {
@@ -56,7 +45,7 @@ public class ConnectAction extends SelectionAction {
 
     }
 
-    private Command getCommand() {
+    protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.STARTPOINT_ENDPOINT:
@@ -72,23 +61,4 @@ public class ConnectAction extends SelectionAction {
 
         }
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#getId()
-     */
-    public String getId() {
-        return CONNECT;
-    }
-
 }

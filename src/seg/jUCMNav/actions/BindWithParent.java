@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
@@ -14,15 +13,13 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created 2005-05-02.
- * 
- * Binds the selected elements with their respective parents, if they are unbound. For more details, see canPerformAction()
+ * Binds the selected elements with their respective parents, if they are unbound. For more details, see calculateEnabled()
  * 
  * @author jkealey
  */
-public class BindWithParent extends SelectionAction {
+public class BindWithParent extends UCMSelectionAction {
 
-    public static final String BINDWITHPARENT = "BindWithParent"; //$NON-NLS-1$
+    public static final String BINDWITHPARENT = "seg.jUCMNav.BindWithParent"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -30,15 +27,6 @@ public class BindWithParent extends SelectionAction {
     public BindWithParent(IWorkbenchPart part) {
         super(part);
         setId(BINDWITHPARENT);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
     }
 
     /**
@@ -52,9 +40,9 @@ public class BindWithParent extends SelectionAction {
      * 
      * 4. the model element for all of the selected objects have a possible parent.
      * 
-     * @return
+     * @return should the action be allowed to execute
      */
-    private boolean canPerformAction() {
+    protected boolean calculateEnabled() {
         if (getSelectedObjects().isEmpty())
             return false; // #1 failed
         List parts = getSelectedObjects();
@@ -69,17 +57,17 @@ public class BindWithParent extends SelectionAction {
                 else {
                     if (p.getModel() instanceof ComponentRef) {
                         ComponentRef child = (ComponentRef) p.getModel();
-                        if (child.getMap()==null)
+                        if (child.getMap() == null)
                             return false;
                         else if (null == ParentFinder.findParent(child.getMap(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
                             return false; // #4 failed for ComponentRefs
                     } else if (p.getModel() instanceof PathNode) {
                         PathNode child = (PathNode) p.getModel();
-                        if (child.getPathGraph()==null || child.getPathGraph().getMap()==null)
+                        if (child.getPathGraph() == null || child.getPathGraph().getMap() == null)
                             return false;
                         else if (null == ParentFinder.findParent(child.getPathGraph().getMap(), child.getX(), child.getY()))
                             return false; // #4 failed for PathNodes
-                    } 
+                    }
                 }
 
             } else {
@@ -92,11 +80,9 @@ public class BindWithParent extends SelectionAction {
     }
 
     /**
-     * Builds a chained command to bind all selected components with their parent.
-     * 
-     * @return
+     * @return A chained command to bind all selected components with their parent. 
      */
-    private Command getCommand() {
+    protected Command getCommand() {
         Command cmd;
         if (getSelectedObjects().isEmpty()) {
             return null;
@@ -118,15 +104,6 @@ public class BindWithParent extends SelectionAction {
 
             return cmd;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
@@ -14,16 +13,13 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created 2005-05-02.
- * 
- * Unbinds the selected element with from its parent, if it is unbound. For more details, see canPerformAction().
+ * Unbinds the selected element with from its parent, if it is unbound. For more details, see calculateEnabled().
  * 
  * @author jkealey
  */
-public class UnbindFromParent extends SelectionAction {
+public class UnbindFromParent extends UCMSelectionAction {
 
-
-    public static final String UNBINDFROMPARENT = "UnbindFromParent"; //$NON-NLS-1$
+    public static final String UNBINDFROMPARENT = "seg.jUCMNav.UnbindFromParent"; //$NON-NLS-1$
 
     /**
      * @param part
@@ -33,15 +29,6 @@ public class UnbindFromParent extends SelectionAction {
         setId(UNBINDFROMPARENT);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-     */
-    protected boolean calculateEnabled() {
-        return canPerformAction();
-    }
-    
     /**
      * Can perform if:
      * 
@@ -51,11 +38,11 @@ public class UnbindFromParent extends SelectionAction {
      * 
      * 3. the model element for all of the selected objects is an _bound_ (ComponentRef or PathNode)
      * 
-     * @return
+     * @return should the action be allowed to execute
      */
-    private boolean canPerformAction() {
+    protected boolean calculateEnabled() {
         if (getSelectedObjects().isEmpty())
-            return false; // #1 failed 
+            return false; // #1 failed
         List parts = getSelectedObjects();
         for (int i = 0; i < parts.size(); i++) {
 
@@ -67,13 +54,12 @@ public class UnbindFromParent extends SelectionAction {
                         return false; //#3 failed for ComponentRef
                 } else if (p.getModel() instanceof PathNode) {
                     if (((PathNode) p.getModel()).getCompRef() == null)
-                        return false;  //#3 failed for PathNode
-                } else 
+                        return false; //#3 failed for PathNode
+                } else
                     return false; // #3 failed.
 
-                
             } else {
-                return false; // #2 failed. 
+                return false; // #2 failed.
             }
         }
 
@@ -82,11 +68,9 @@ public class UnbindFromParent extends SelectionAction {
     }
 
     /**
-     * Builds a chained command to unbind all selected components from their parent.
-     * 
-     * @return
+     * @return Builds a chained command to unbind all selected components from their parent.
      */
-    private Command getCommand() {
+    protected Command getCommand() {
         Command cmd;
         if (getSelectedObjects().isEmpty()) {
             return null;
@@ -106,15 +90,6 @@ public class UnbindFromParent extends SelectionAction {
 
             return cmd;
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.IAction#run()
-     */
-    public void run() {
-        execute(getCommand());
     }
 
 }

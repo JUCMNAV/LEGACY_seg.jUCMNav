@@ -10,7 +10,7 @@ import org.eclipse.ui.internal.EditorPluginAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
- * Created on 27-Jun-2005
+ * This is an action delegate that can be used in plugin.xml to run commands that are in the action registry.
  * 
  * @author jkealey
  *  
@@ -38,9 +38,8 @@ public class UCMActionDelegate implements IEditorActionDelegate {
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */
     public void run(IAction action) {
-        
         if (action instanceof EditorPluginAction) {
-            EditorPluginAction pluginaction = (EditorPluginAction)action;
+            EditorPluginAction pluginaction = (EditorPluginAction) action;
             ActionRegistry registry = (ActionRegistry) target.getAdapter(ActionRegistry.class);
             IAction torun = registry.getAction(pluginaction.getId());
             torun.run();
@@ -53,6 +52,7 @@ public class UCMActionDelegate implements IEditorActionDelegate {
      * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
      */
     public void selectionChanged(IAction action, ISelection selection) {
+        // does not depend on selection.
     }
 
 }

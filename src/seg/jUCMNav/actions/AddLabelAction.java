@@ -1,13 +1,9 @@
-/*
- * Created on Mar 30, 2005
- */
 package seg.jUCMNav.actions;
 
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
@@ -16,65 +12,49 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
+ * Adds a label to a PathNode or ComponentRef.
+ * 
  * @author Jordan
  */
-public class AddLabelAction extends SelectionAction {
-    public static final String ADDLABEL = "AddLabel";   //$NON-NLS-1$
+public class AddLabelAction extends UCMSelectionAction {
+    public static final String ADDLABEL = "seg.jUCMNav.AddLabel"; //$NON-NLS-1$
 
-	/**
-	 * @param part
-	 */
-	public AddLabelAction(IWorkbenchPart part) {
-		super(part);
-	}
-	
-    /* (non-Javadoc)
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * @param part
+     */
+    public AddLabelAction(IWorkbenchPart part) {
+        super(part);
+        setId(ADDLABEL);
+    }
+
+    /**
+     * can only add labels if none already exist.
      */
     protected boolean calculateEnabled() {
-        return canPerformAction();
+        List parts = getSelectedObjects();
+        if (parts.size() == 1 && parts.get(0) instanceof EditPart) {
+            EditPart part = (EditPart) parts.get(0);
+
+            if ((part.getModel() instanceof PathNode)) {
+                PathNode node = (PathNode) part.getModel();
+                return node.getLabel() == null;
+            } else if ((part.getModel() instanceof ComponentRef)) {
+                ComponentRef component = (ComponentRef) part.getModel();
+                return component.getLabel() == null;
+            }
+        }
+
+        return false;
     }
-    
-    private boolean canPerformAction() {
-    	List parts = getSelectedObjects();
-		if(parts.size() == 1 && parts.get(0) instanceof EditPart){
-			EditPart part = (EditPart) parts.get(0);
-			if ((part.getModel() instanceof PathNode)) {
-			    PathNode node = (PathNode) part.getModel();
-			    if(node.getLabel() == null) {
-			        return true;
-			    }
-			} else if((part.getModel() instanceof ComponentRef)) {
-				ComponentRef component = (ComponentRef) part.getModel();
-			    if(component.getLabel() == null) {
-			        return true;
-			    }
-			}
-		}
-		
-		return false;
-	}
-    
-    private Command getCommand() {
+
+    protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        
+
         UCMmodelElement modelElement = (UCMmodelElement) part.getModel();
         CreateLabelCommand create = new CreateLabelCommand(modelElement);
-	    
-		return create;
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.action.IAction#run()
-	 */
-	public void run() {
-		execute(getCommand());
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.action.IAction#getId()
-	 */
-	public String getId() {
-		return ADDLABEL;
-	}
+        return create;
+    }
+
 }
