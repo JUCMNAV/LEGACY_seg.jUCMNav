@@ -11,6 +11,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.NodeConnection;
@@ -20,6 +21,7 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import urn.URNspec;
 import urncore.Condition;
+import urncore.NodeLabel;
 
 /**
  * @author jpdaigle
@@ -36,6 +38,8 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
     Vector _inConn, _outConn;
 
     Vector _outConditions;
+
+    NodeLabel _oldLabel;
 
     public TransmogrifyForkOrJoinCommand() {
         super();
@@ -96,6 +100,16 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
             else if (_newNode instanceof OrFork)
                 _outConditions.add((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
         }
+
+        _oldLabel = _oldNode.getLabel();
+
+        // transfer name/description
+        // don't transfer name if was default.
+        if (!_oldNode.getName().equals(URNNamingHelper.getPrefix(_oldNode.getClass())))
+            _newNode.setName(_oldNode.getName());
+
+        _newNode.setDescription(_oldNode.getDescription());
+        
         redo();
     }
 
@@ -122,12 +136,13 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         // Add new node
         _pg.getPathNodes().add(_newNode);
-        
+
         // reset parents
         _newNode.setCompRef(_oldNode.getCompRef());
         _oldNode.setCompRef(null);
-        
 
+        // transfer label
+        _newNode.setLabel(_oldLabel);
 
     }
 
@@ -154,11 +169,14 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
         // Add new node
         _pg.getPathNodes().add(_oldNode);
-        
+
         // reset parents
         _oldNode.setCompRef(_newNode.getCompRef());
         _newNode.setCompRef(null);
-        
+
+        // transfer label
+        _oldNode.setLabel(_oldLabel);
+
     }
 
     /*
