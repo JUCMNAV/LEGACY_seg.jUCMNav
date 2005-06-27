@@ -21,6 +21,7 @@ import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
+import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
@@ -114,6 +115,10 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
         action = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

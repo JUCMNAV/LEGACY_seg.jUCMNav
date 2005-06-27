@@ -37,6 +37,7 @@ import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
+import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
@@ -201,6 +202,10 @@ public class ActionRegistryManager {
         action.setText("Add timeout path"); 
         addEditPartAction((SelectionAction) action);
 
+        action = new DisconnectTimeoutPathAction(editor);
+        action.setText("Disconnect timeout path");
+        addEditPartAction((SelectionAction)action);
+        
         action = new ConnectAction(editor);
         action.setText("Connect elements"); 
         addEditPartAction((SelectionAction) action);

@@ -17,6 +17,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.Stub;
+import ucm.map.Timer;
 
 /**
  * Created on 30-May-2005
@@ -37,7 +38,7 @@ public class NodeConnectionComponentEditPolicy extends ComponentEditPolicy {
         PathNode target = nc.getTarget();
 
         CompoundCommand command = new CompoundCommand();
-        if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork) {
+        if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) ==1) ) {
             Vector in = new Vector();
             Vector out = new Vector();
             out.add(nc);
