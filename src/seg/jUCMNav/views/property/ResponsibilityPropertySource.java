@@ -1,10 +1,10 @@
 package seg.jUCMNav.views.property;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -14,6 +14,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.RespRef;
 import urn.URNspec;
@@ -108,11 +109,12 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
-        EList list = urn.getUrndef().getResponsibilities();
+        Vector list = new Vector(urn.getUrndef().getResponsibilities());
+        Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
 
-            values[i] = ((Responsibility) list.get(i)).getName();
+            values[i] = EObjectClassNameComparator.getSortableElementName((Responsibility) list.get(i));
             if (values[i] == null)
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }
@@ -131,7 +133,8 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Responsibility) {
             URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
-            EList list = urn.getUrndef().getResponsibilities();
+            Vector list = new Vector(urn.getUrndef().getResponsibilities());
+            Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((RespRef) getEditableValue()).getRespDef()))
                     result = new Integer(i);
@@ -173,7 +176,8 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
         if (feature.getEType().getInstanceClass() == Responsibility.class) {
 
-            EList list = urn.getUrndef().getResponsibilities();
+            Vector list = new Vector(urn.getUrndef().getResponsibilities());
+            Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
             resp = ((RespRef) object).getRespDef();

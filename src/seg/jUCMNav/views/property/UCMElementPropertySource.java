@@ -1,6 +1,8 @@
 package seg.jUCMNav.views.property;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +18,7 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
@@ -77,23 +80,37 @@ public class UCMElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void enumerationDescriptor(Collection descriptors, PropertyID propertyid) {
+        EClassifier type = getFeatureType(propertyid.getFeature());
+        Class enumer = type.getInstanceClass();
+        String[] values = getEnumerationValues(enumer);
+        String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
+
+        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
+
+    }
+
+    /**
+     * @param enumer
+     *            A class having a VALUES field returning a List of AbstractEnumerators.
+     * @return A sorted list of strings corresponding to the names of the values.
+     * @throws IllegalAccessException
+     * @throws NoSuchFieldException
+     */
+    private String[] getEnumerationValues(Class enumer) {
         try {
-            EClassifier type = getFeatureType(propertyid.getFeature());
-            Class enumer = type.getInstanceClass();
             List VALUES;
 
             VALUES = (List) enumer.getField("VALUES").get(null); //$NON-NLS-1$
-
             String[] values = new String[VALUES.size()];
             for (int i = 0; i < VALUES.size(); i++)
                 values[i] = ((AbstractEnumerator) (VALUES.get(i))).getName();
-            
-            String name = enumer.getName().substring(enumer.getName().lastIndexOf('.')+1);
-            
-            descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
-            
+
+            Arrays.sort(values);
+            return values;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return new String[] {};
         }
     }
 
@@ -137,6 +154,8 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)) {
             //&& feature.getName().toLowerCase().indexOf("parent") >= 0) {
             Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+            Collections.sort(list, new EObjectClassNameComparator());
+
             for (int i = 0; i < list.size(); i++) {
                 ComponentRef parent;
                 if (getEditableValue() instanceof ComponentRef)
@@ -168,12 +187,26 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             result = new UCMElementPropertySource((EObject) result);
         } else if (result instanceof AbstractEnumerator) {
             // if this is an EMF enumeration
-            result = new Integer(((AbstractEnumerator)result).getValue());
+            int i = getEnumerationIndex((AbstractEnumerator) result);
+            result = new Integer(i);
         } else {
             result = super.returnPropertyValue(feature, result);
         }
 
         return result;
+    }
+
+    /**
+     * @param result
+     * @return the index of an AbstractEnumerator in its sorted list.
+     */
+    private int getEnumerationIndex(AbstractEnumerator result) {
+        String[] values = getEnumerationValues(result.getClass());
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(((AbstractEnumerator) result).getName()))
+                return i;
+        }
+        return -1;
     }
 
     public void setPropertyValue(Object id, Object value) {
@@ -185,6 +218,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class
                 && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef)) {
             Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+            Collections.sort(list, new EObjectClassNameComparator());
             if (((Integer) value).equals(new Integer(0)))
                 result = null;
             else
@@ -194,11 +228,14 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             // if this is an EMF enumeration
             Class enumer = getFeatureType(feature).getInstanceClass();
             try {
-                result = enumer.getMethod("get", new Class[] { int.class }).invoke(getEditableValue(), new Object[] { ((Integer) value) } ); //$NON-NLS-1$
+                
+                int selectedIndex = ((Integer) value).intValue();
+                String selectedString = getEnumerationValues(enumer)[selectedIndex];
+                result = enumer.getMethod("get", new Class[] { String.class }).invoke(getEditableValue(), new Object[] { selectedString }); //$NON-NLS-1$
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             setReferencedObject(propertyid, feature, result);
         } else
 
@@ -207,10 +244,11 @@ public class UCMElementPropertySource extends EObjectPropertySource {
 
     private void componentRefDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
+        Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size() + 1];
         values[0] = "[unbound]"; //$NON-NLS-1$
         for (int i = 1; i < list.size() + 1; i++) {
-            values[i] = ((ComponentRef) list.get(i - 1)).getCompDef().getName();
+            values[i] = EObjectClassNameComparator.getSortableElementName((ComponentRef) list.get(i - 1));
             if (values[i] == null)
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }

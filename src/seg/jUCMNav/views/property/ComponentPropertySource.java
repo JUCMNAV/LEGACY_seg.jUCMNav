@@ -1,10 +1,10 @@
 package seg.jUCMNav.views.property;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -15,6 +15,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -109,11 +110,13 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
-        EList list = urn.getUrndef().getComponents();
+        Vector list = new Vector(urn.getUrndef().getComponents());
+        Collections.sort(list, new EObjectClassNameComparator());
+
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
 
-            values[i] = ((ComponentElement) list.get(i)).getName();
+            values[i] = EObjectClassNameComparator.getSortableElementName((ComponentElement) list.get(i));
             if (values[i] == null)
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }
@@ -135,7 +138,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
              * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
              */
             URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
-            EList list = urn.getUrndef().getComponents();
+            Vector list = new Vector(urn.getUrndef().getComponents());
+            Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
                     result = new Integer(i);
@@ -195,7 +199,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
         if (feature.getEType().getInstanceClass() == ComponentElement.class) {
 
-            EList list = urn.getUrndef().getComponents();
+            Vector list = new Vector(urn.getUrndef().getComponents());
+            Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
             comp = ((ComponentRef) object).getCompDef();
