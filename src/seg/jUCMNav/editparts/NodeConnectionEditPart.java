@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -137,10 +138,11 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             getFigure().remove(endLabel);
         int index = getLink().getTarget().getPred().indexOf(getLink());
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
-        targetEndpointLocator.setVDistance(10);
+        targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
         endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
-        endLabel.setForegroundColor(new Color(null, 150, 150, 150));
+        endLabel.setForegroundColor(new Color(null, 150, 0, 150));
+        endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(endLabel, targetEndpointLocator);
     }
 
@@ -152,10 +154,11 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             getFigure().remove(startLabel);
         int index = getLink().getSource().getSucc().indexOf(getLink());
         StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
-        targetEndpointLocator.setVDistance(10);
+        targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
         startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
-        startLabel.setForegroundColor(new Color(null, 150, 150, 150));
+        startLabel.setForegroundColor(new Color(null, 150, 0, 150));
+        startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(startLabel, targetEndpointLocator);
     }
 

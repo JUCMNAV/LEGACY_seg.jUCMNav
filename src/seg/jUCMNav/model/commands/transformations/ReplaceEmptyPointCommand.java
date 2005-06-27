@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.transformations;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -18,11 +19,12 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
     /**
      * 
      * @param empty
-     *            the empty node to remove
+     *            the empty node or direction arrow to remove
      * @param newNode
      *            the new node to replace it with
      */
-    public ReplaceEmptyPointCommand(EmptyPoint empty, PathNode newNode) {
+    public ReplaceEmptyPointCommand(PathNode empty, PathNode newNode) {
+        assert empty instanceof EmptyPoint || empty instanceof DirectionArrow : "invalid empty point"; //$NON-NLS-1$
         if (empty.getPred().size() == 1 && empty.getSucc().size() == 1) {
             int x = empty.getX();
             int y = empty.getY();

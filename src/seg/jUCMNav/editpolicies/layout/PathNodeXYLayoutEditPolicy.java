@@ -21,6 +21,7 @@ import seg.jUCMNav.model.commands.transformations.JoinStartToStubForkCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.OrFork;
@@ -51,10 +52,10 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected Command getCreateCommand(CreateRequest request) {
-        if (getHost().getModel() instanceof EmptyPoint
+        if ((getHost().getModel() instanceof EmptyPoint || getHost().getModel() instanceof DirectionArrow)
                 && request.getNewObject() instanceof PathNode
                 && !(request.getNewObject() instanceof StartPoint || request.getNewObject() instanceof EndPoint || request.getNewObject() instanceof EmptyPoint)) {
-            return new ReplaceEmptyPointCommand((EmptyPoint) getHost().getModel(), (PathNode) request.getNewObject());
+            return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
         } else
             return null;
     }

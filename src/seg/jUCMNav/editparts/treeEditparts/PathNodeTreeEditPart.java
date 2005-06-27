@@ -61,7 +61,7 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
         super.setWidget(widget);
         if (widget instanceof TreeItem) {
             if (getModel() instanceof EmptyPoint || getModel() instanceof DirectionArrow)
-                ((TreeItem) widget).setForeground(new Color(null, 200, 200, 200));
+                ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
         }
 
     }
