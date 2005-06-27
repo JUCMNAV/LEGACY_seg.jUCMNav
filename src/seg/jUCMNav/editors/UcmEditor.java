@@ -255,7 +255,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * 
      * @see org.eclipse.gef.ui.parts.GraphicalEditor#getEditDomain()
      */
-    protected DefaultEditDomain getEditDomain() {
+    public DefaultEditDomain getEditDomain() {
         return super.getEditDomain();
     }
 

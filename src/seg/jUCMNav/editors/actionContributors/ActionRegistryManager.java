@@ -40,6 +40,7 @@ import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
+import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
@@ -135,10 +136,13 @@ public class ActionRegistryManager {
 
         IAction zoomIn = new ZoomInAction(zm);
         IAction zoomOut = new ZoomOutAction(zm);
+        IAction selectDefaultTool = new SelectDefaultPaletteToolAction(editor);
         addAction(zoomIn);
         addAction(zoomOut);
+        addAction(selectDefaultTool);
         keyBindingService.registerAction(zoomIn);
         keyBindingService.registerAction(zoomOut);
+        keyBindingService.registerAction(selectDefaultTool);
 
         IAction action;
 

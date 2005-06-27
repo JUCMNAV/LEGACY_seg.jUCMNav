@@ -147,7 +147,10 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
             return super.handleButtonUp(button);
         } else {
             setFlag(FLAG_UNLOAD, true);
-            getCurrentViewer().select(getTargetEditPart());
+            if (getTargetEditPart()!=null)
+                getCurrentViewer().select(getTargetEditPart());
+            else
+                getCurrentViewer().deselectAll();
             getDomain().getPaletteViewer().setActiveTool(null);
             return true;
         }
