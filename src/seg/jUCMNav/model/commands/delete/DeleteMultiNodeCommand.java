@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.delete;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -75,7 +76,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
     private List newStart, newEnd;
 
     // when deleting an orfork, remember its out conditions.
-    private List outConditions;
+    private HashMap outConditions;
 
     // if the node is bound to a parent
     private ComponentRef parent;
@@ -231,6 +232,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         if (!shouldDeleteNode && empty != null) {
             // must downgrade to empty point.
             ((NodeConnection) toDelete.getPred().get(0)).setTarget(empty);
+            ((NodeConnection) toDelete.getSucc().get(0)).setCondition(null);
             ((NodeConnection) toDelete.getSucc().get(0)).setSource(empty);
             empty.setCompRef(toDelete.getCompRef());
             toDelete.setCompRef(null);
@@ -272,18 +274,6 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
         empty.setX(toDelete.getX());
         empty.setY(toDelete.getY());
-
-        if (ncOut.size() > 0) {
-            // index of connection to be deleted.
-            int index = toDelete.getSucc().indexOf(ncOut.get(0));
-            // index of remaining node connection
-            index = (++index % 2);
-            // we need to get rid of this condition.
-            if (((NodeConnection) toDelete.getSucc().get(index)).getCondition() != null) {
-                outConditions = new Vector();
-                outConditions.add(((NodeConnection) toDelete.getSucc().get(index)).getCondition());
-            }
-        }
     }
 
     /**
@@ -342,12 +332,10 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
      * Store the list of conditions on outgoing node connections. Since there are no conditions on incoming connections, don't need the inverse.
      */
     private void initOutConditions() {
-        if (outConditions == null) {
-            outConditions = new Vector();
-            for (Iterator iter = ncOut.iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                outConditions.add(nc.getCondition());
-            }
+        outConditions = new HashMap();
+        for (Iterator iter = toDelete.getSucc().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            outConditions.put(nc, nc.getCondition());
         }
     }
 
@@ -535,11 +523,6 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         testPostConditions();
 
         if (!shouldDeleteNode && empty != null) {
-            // must upgrade back to non empty point.
-            if (outConditions != null && outConditions.size() > 0) {
-                ((NodeConnection) empty.getSucc().get(0)).setCondition((Condition) outConditions.get(0));
-            }
-
             ((NodeConnection) empty.getPred().get(0)).setTarget(toDelete);
             ((NodeConnection) empty.getSucc().get(0)).setSource(toDelete);
             toDelete.setCompRef(empty.getCompRef());
@@ -563,9 +546,12 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
             PathNode pn = (PathNode) newStart.get(i);
             pg.getPathNodes().remove(pn);
             pn.setCompRef(null);
-            if (shouldDeleteNode || empty == null)
-                nc.setCondition((Condition) outConditions.get(i));
+        }
 
+        for (Iterator iter = outConditions.keySet().iterator(); iter.hasNext();) {
+            NodeConnection nc = (NodeConnection) iter.next();
+            if (outConditions.get(nc) != nc.getCondition())
+                nc.setCondition((Condition) outConditions.get(nc));
         }
 
         if (shouldDeleteNode) {
