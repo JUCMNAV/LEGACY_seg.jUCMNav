@@ -43,17 +43,30 @@
             targetID="seg.jUCMNav.MainEditor"
             id="seg.jUCMNav.editorContribution1">
          <action
-               disabledIcon="icons/Node16.gif"
-               hoverIcon="icons/Node16.gif"
                toolbarPath="jUCMNav"
                label="%autoLayout"
-               icon="icons/Node16.gif"
-               tooltip="Auto Layout"
                class="seg.jUCMNav.actions.AutoLayoutAction"
+               tooltip="Auto Layout"
+               icon="icons/Node16.gif"
                style="push"
-               actionID="seg.jUCMNav.actions.AutoLayoutAction"
-               id="seg.jUCMNav.AutoLayout">
+               menubarPath="seg.jUCMNav/ext"
+               id="seg.jUCMNav.AutoLayout"
+               actionID="seg.jUCMNav.actions.AutoLayoutAction">
          </action>
+         <menu
+               label="jUCMNav"
+               id="seg.jUCMNav">
+            <separator name="ext"/>
+         </menu>
+         <action
+               label="&amp;Add Use Case Map"
+               class="seg.jUCMNav.actions.UCMActionDelegate"
+               icon="icons/icon16.gif"
+               tooltip="Add Use Case Map"
+               style="push"
+               menubarPath="seg.jUCMnav/ext"
+               id="seg.jUCMNav.AddMap"
+               actionID="seg.jUCMNav.actions.AddMapAction"/>
       </editorContribution>
    </extension>
    <extension

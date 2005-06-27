@@ -20,7 +20,7 @@ import urn.URNspec;
  * @author Jordan
  */
 public class AddMapAction extends SelectionAction {
-    public static final String ADDMAP = "AddMap"; //$NON-NLS-1$
+    public static final String ADDMAP = "seg.jUCMNav.AddMap"; //$NON-NLS-1$
 
     /**
      * @param part
