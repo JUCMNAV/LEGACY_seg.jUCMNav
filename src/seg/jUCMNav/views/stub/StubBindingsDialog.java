@@ -541,7 +541,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-     * Delete the selected item in the tree view. This will delete it in the model too.
+     * Delete the selected item in the tree view. This will delete it in the model too with a command.
      */
     protected void delete() {
         if (selectedItem instanceof PluginBinding) {
