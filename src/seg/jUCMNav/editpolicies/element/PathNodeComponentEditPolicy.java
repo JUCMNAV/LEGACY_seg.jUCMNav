@@ -90,7 +90,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
             }
 
         } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
-
+            return new DeleteMultiNodeCommand((PathNode) node, registry);
         } else if (parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() <= 1 || ((PathNode) node).getSucc().size() <= 1) {
             return new DeleteMultiNodeCommand((PathNode) node, registry);
         }
