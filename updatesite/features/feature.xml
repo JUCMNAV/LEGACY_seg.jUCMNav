@@ -9,16 +9,16 @@
 
    <install-handler/>
 
-   <description url="[Enter Feature URL here.]">
-	jUCMNav is a graphical Use Case Map modelling tool for Eclipse.
+   <description url="http://www.softwareengineering.ca/jucmnav/">
+jUCMNav is a graphical Use Case Map modelling tool for Eclipse.
    </description>
 
-   <copyright url="[Enter Copyright URL here.]">
-	(c) 2004-2005 usecasemaps.org
+   <copyright url="http://www.usecasemaps.org">
+(c) 2004-2005 usecasemaps.org
    </copyright>
 
-   <license url="[Enter License URL here.]">
-	EPL
+   <license url="http://www.eclipse.org/legal/epl-v10.html">
+Eclipse Public License 1.0 (EPL)
    </license>
 
    <requires>

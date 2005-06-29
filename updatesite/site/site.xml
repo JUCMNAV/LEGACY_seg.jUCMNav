@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="file:///tmp/update/">
+   <description url="http://daigle.homelinux.com:82/update/">
    Update site for usecasemaps.org
    Maintainer: Jean-Philippe Daigle (jpdaigle@softwareengineering.ca)
    </description>
