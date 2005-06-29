@@ -305,14 +305,14 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             }
         }
 
-        if (((NodeConnection) vReachable.lastElement()).getTarget() instanceof AndFork) {
+        if (vReachable.size()>0 && ((NodeConnection) vReachable.lastElement()).getTarget() instanceof AndFork) {
             for (Iterator iter = ((NodeConnection) vReachable.lastElement()).getTarget().getSucc().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshConnections(nc);
             }
         }
 
-        if (((NodeConnection) vReachable.firstElement()).getSource() instanceof AndJoin) {
+        if (vReachable.size()>0 && ((NodeConnection) vReachable.firstElement()).getSource() instanceof AndJoin) {
             for (Iterator iter = ((NodeConnection) vReachable.firstElement()).getSource().getPred().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshConnections(nc);
