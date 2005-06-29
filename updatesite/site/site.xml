@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="file:///tmp/update/">
+   Update site for usecasemaps.org
+   Maintainer: Jean-Philippe Daigle (jpdaigle@softwareengineering.ca)
+   </description>
+   <feature url="features/:FEATUREJAR:" id="org.usecasemaps.jUCMNav" version=":VERSION:" >
+      <category name="jUCMNav"/>
+   </feature>
+   <category-def name="jUCMNav" label="jUCMNav"/>
+</site>

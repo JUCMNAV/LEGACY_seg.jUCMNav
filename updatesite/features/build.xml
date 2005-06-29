@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Author:	Jean-Philippe Daigle
+			jpdaigle@softwareengineering.ca
+-->
+<project name="jUCMNav_feature" default="build.feature" basedir=".">
+	<property name="dir.out" value="build/" />
+	<property name="jar.basename" value="org.usecasemaps.jUCMNav" />
+	<property name="jucmnav.version" value="0.0.1" />
+	
+	<target name="clean" description="clean output directory">
+		<delete dir="${dir.out}" />
+	</target>
+			
+	<target name="build.feature" description="Builds feature jar into output directory" depends="clean">
+		<mkdir dir="${dir.out}feature" />
+		<copy file="feature.xml" todir="${dir.out}feature/" />
+		<replace token=":VERSION:" value="${jucmnav.version}" file="${dir.out}feature/feature.xml" summary="true" />
+		<jar basedir="${dir.out}feature/" jarfile="${dir.out}${jar.basename}_${jucmnav.version}.jar" />
+		<delete dir="${dir.out}feature/" />
+	</target>
+</project>

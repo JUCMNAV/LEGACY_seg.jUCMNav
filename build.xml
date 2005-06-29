@@ -46,6 +46,10 @@
 		<property name="build.result.folder" value="${basedir}/build/"/>
 		<property name="temp.folder" value="${basedir}/temp.folder"/>
 		<property name="plugin.destination" value="${basedir}/build/"/>
+		<property name="updatesite.destination" value="${plugin.destination}/updatesite" />
+		<property name="updatesite.features" value="${updatesite.destination}/features" />
+		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
+
 		<condition property="env.ECLIPSE_HOME" value="c:/eclipse/">
 			<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
 			<os family="windows" />
@@ -186,6 +190,7 @@
 		<delete file="${build.result.folder}/jUCMNavdocs.zip"/>
 		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.jar"/>
 		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.zip"/>
+		<delete dir="${plugin.destination}/updatesite" />
 		<delete dir="${temp.folder}"/>
 		<delete dir="docs/api"/>
 	</target>
@@ -233,7 +238,26 @@
 		</copy>
 		
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<jar jarfile="${plugin.destination}/seg.jUCMNav_plugin.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0/" update="false" />
 		<delete dir="${temp.folder}"/>
+	</target>
+	
+	<target name="mkupdate" description="Make update site files" depends="init">
+		<mkdir dir="${updatesite.features}" />
+		<mkdir dir="${updatesite.plugins}" />
+
+		<property name="dir.out" value="build/" />
+		<property name="jar.basename" value="org.usecasemaps.jUCMNav" />
+		<property name="jucmnav.version" value="0.0.2" />
+		
+		<ant dir="updatesite/features/" description="Make feature jar" inheritall="true">
+		</ant>
+		<ant dir="updatesite/site/" description="Make site.xml" inheritall="true">
+		</ant>
+
+		<copy todir="${updatesite.features}" file="updatesite/features/build/${jar.basename}_${jucmnav.version}.jar" />
+		<copy todir="${updatesite.destination}" file="updatesite/site/build/site.xml" />
+		<copy tofile="${updatesite.plugins}/seg.jUCMNav_${jucmnav.version}.jar" file="${plugin.destination}/seg.jUCMNav_plugin.jar" />
 	</target>
 	
 	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task.

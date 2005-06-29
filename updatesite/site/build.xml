@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Author:	Jean-Philippe Daigle
+			jpdaigle@softwareengineering.ca
+-->
+<project name="jUCMNav_site" default="build.site" basedir=".">
+	<property name="dir.out" value="build/" />
+	<property name="jar.basename" value="org.usecasemaps.jUCMNav" />
+	<property name="jucmnav.version" value="0.0.1" />
+	
+	<target name="clean" description="clean output directory">
+		<delete dir="${dir.out}" />
+	</target>
+			
+	<target name="build.site" description="Builds site.xml into output directory" depends="clean">
+		<mkdir dir="${dir.out}" />
+		<copy file="site.xml" todir="${dir.out}" />
+		<replace token=":VERSION:" value="${jucmnav.version}" file="${dir.out}site.xml" summary="true" />
+		<replace token=":FEATUREJAR:" value="${jar.basename}_${jucmnav.version}.jar" file="${dir.out}site.xml" summary="true" />
+	</target>
+</project>
