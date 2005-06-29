@@ -12,6 +12,8 @@ import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
 import seg.jUCMNav.model.util.modelexplore.QueryObject;
 import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
+import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -84,14 +86,23 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
         while (nc != null && source != null) {
             // add the connection
             s.push(nc);
+
+            // if we are adding a node connection connected to an and fork/join, stop processing further.
+            if (isPathStopper(n.getSource()))
+                break;
+
             // if we can continue further
             if (source.getSucc().indexOf(nc) == 0 && source.getPred().size() > 0) {
                 nc = (NodeConnection) source.getPred().get(0);
                 source = nc.getSource();
 
                 // prevent infinite loops
-                if (s.contains(nc) || isPathStopper(source))
+                if (s.contains(nc) || isPathStopper(source)) {
+                    // if we are adding a node connection connected to an and fork/join, stop processing further but save the connection.
+                    if (!s.contains(nc))
+                        s.push(nc);
                     nc = null;
+                }
             } else
                 nc = null;
         }
@@ -104,9 +115,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
         }
 
         nc = n;
-
-        while (nc != null && target != null) {
-
+        while (nc != null && target != null && !isPathStopper(target)) {
             // adding the connection
             //
             // checking because we don't want to add the middle one twice
@@ -118,12 +127,25 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
                 nc = (NodeConnection) target.getSucc().get(0);
                 target = nc.getTarget();
                 // prevent infinite loops
-                if (_splinePath.contains(nc) || isPathStopper(target))
+                if (_splinePath.contains(nc) || isPathStopper(target)) {
+                    // if we are adding a node connection connected to an and fork/join, stop processing further but save the connection.
+                    if (!_splinePath.contains(nc))
+                        _splinePath.add(nc);
                     nc = null;
+                }
             } else
                 nc = null;
 
         }
+
+        // Debugging
+        //        System.out.println("**");
+        //        System.out.println("\t" + n.getSource() + "\n\t" + n.getTarget());
+        //        for (Iterator iter = _splinePath.iterator(); iter.hasNext();) {
+        //            NodeConnection elem = (NodeConnection) iter.next();
+        //            System.out.println(elem.getSource() + "\n" + elem.getTarget());
+        //
+        //        }
     }
 
     /**
@@ -131,7 +153,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * @return returns true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
-        return (node instanceof Connect);
+        return (node instanceof Connect || node instanceof AndFork || node instanceof AndJoin);
     }
 
     public class QFindSpline extends QueryRequest {

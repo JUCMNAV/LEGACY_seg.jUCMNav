@@ -7,6 +7,8 @@ package seg.jUCMNav.editparts;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
+import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.NodeConnection;
@@ -49,6 +51,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		    return new ComponentRefEditPart((ComponentRef)model, root);
 		else if(model instanceof Stub)
 			return new StubEditPart((Stub)model, root.getPathGraph());
+		else if (model instanceof AndFork || model instanceof AndJoin)
+		    return new AndForkJoinEditPart((PathNode) model, root.getPathGraph());
 		else if(model instanceof PathNode)
 			return new PathNodeEditPart((PathNode)model, root.getPathGraph());
 		else { 	

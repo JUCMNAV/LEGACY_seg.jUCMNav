@@ -397,6 +397,12 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
 
+        if (nodeFigure instanceof AndForkFigure) {
+            ((AndForkFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
+        } else if (nodeFigure instanceof AndJoinFigure) {
+            ((AndJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
+        }
+
         // refresh node connection decorations
         // must not continue or will cause infinite loops
         if (refreshTimeoutPath(nodeFigure))

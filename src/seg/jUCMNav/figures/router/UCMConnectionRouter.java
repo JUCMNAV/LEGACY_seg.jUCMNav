@@ -14,7 +14,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.gef.ConnectionEditPart;
 
+import seg.jUCMNav.editparts.AndForkJoinEditPart;
 import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
@@ -22,6 +24,7 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ConnectionSplineFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ConnectionSplineFinder.QFindSpline;
+import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
@@ -77,6 +80,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
 
             //PointList pts = bspline.getPointsBetween(getLeftPoint(nc), getRightPoint(nc));
             PointList pts = bspline.getPointBetween(iLeftPointIndex, iLeftPointIndex + 1);
+            boolean hasMoved = !pts.getFirstPoint().equals(conn.getPoints().getFirstPoint());
             conn.setPoints(pts);
             connections.put(nc, Boolean.TRUE);
 
@@ -96,6 +100,15 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                     edit.refreshVisuals();
                 }
 
+            }
+
+			// if we moved a connection anchor for an and fork/join, we need to update all the paths. 
+            if (hasMoved && nc.getSource() instanceof AndFork) {
+                AndForkJoinEditPart edit = (AndForkJoinEditPart) editpartregistry.get(nc.getSource());
+                edit.anchorMoved(null);
+            } else if (hasMoved && nc.getTarget() instanceof AndJoin) {
+                AndForkJoinEditPart edit = (AndForkJoinEditPart) editpartregistry.get(nc.getTarget());
+                edit.anchorMoved(null);
             }
 
             // rest are refreshed ingoing.
@@ -139,7 +152,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             // build a spline from the sequence
             BSpline bspline = new BSpline(pts);
             bspline.findCPoints();
-            
+
             for (i = 0; i < vReachable.size(); i++) {
                 nc = (NodeConnection) vReachable.get(i);
                 drawConnection(nc, bspline, iPositions[i]);
@@ -168,7 +181,11 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @return
      */
     private Point getLeftPoint(NodeConnection nc) {
-        return new Point(nc.getSource().getX(), nc.getSource().getY());
+        if (nc.getSource() instanceof AndFork) {
+            return ((PathNodeEditPart) editpartregistry.get(nc.getSource())).getTargetConnectionAnchor((ConnectionEditPart) editpartregistry.get(nc))
+                    .getLocation(new Point(nc.getTarget().getX(), nc.getTarget().getY()));
+        } else
+            return new Point(nc.getSource().getX(), nc.getSource().getY());
     }
 
     public PathGraph getPathgraph() {
@@ -182,7 +199,11 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @return
      */
     private Point getRightPoint(NodeConnection nc) {
-        return new Point(nc.getTarget().getX(), nc.getTarget().getY());
+        if (nc.getTarget() instanceof AndJoin) {
+            return ((PathNodeEditPart) editpartregistry.get(nc.getTarget())).getSourceConnectionAnchor((ConnectionEditPart) editpartregistry.get(nc))
+                    .getLocation(new Point(nc.getSource().getX(), nc.getSource().getY()));
+        } else
+            return new Point(nc.getTarget().getX(), nc.getTarget().getY());
     }
 
     /*
@@ -253,7 +274,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     /**
      *  
      */
-    private void refreshConnections() {
+    public void refreshConnections() {
         connections = new HashMap(getPathgraph().getNodeConnections().size());
         for (Iterator iter = getPathgraph().getNodeConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
@@ -281,6 +302,20 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                 connections.put(nc, Boolean.TRUE);
             else {
                 connections.put(nc, Boolean.FALSE);
+            }
+        }
+
+        if (((NodeConnection) vReachable.lastElement()).getTarget() instanceof AndFork) {
+            for (Iterator iter = ((NodeConnection) vReachable.lastElement()).getTarget().getSucc().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                refreshConnections(nc);
+            }
+        }
+
+        if (((NodeConnection) vReachable.firstElement()).getSource() instanceof AndJoin) {
+            for (Iterator iter = ((NodeConnection) vReachable.firstElement()).getSource().getPred().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                refreshConnections(nc);
             }
         }
     }

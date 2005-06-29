@@ -17,6 +17,8 @@ public class AndForkFigure extends PathNodeFigure implements Rotateable {
 
     private Polygon mainFigure;
     private PointList edges;
+    private int branchCount;
+    private double angle;
 
     public AndForkFigure() {
         super();
@@ -34,24 +36,27 @@ public class AndForkFigure extends PathNodeFigure implements Rotateable {
         edges.addPoint(DEFAULT_WIDTH / 2, 0);
         edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
 
-        mainFigure.setLineWidth(3);
+        mainFigure.setLineWidth(6);
         mainFigure.setPoints(edges);
         add(mainFigure);
     }
 
     public void rotate(double angle) {
-        Transform t = new Transform();
-        t.setRotation(angle);
-
-        PointList newEdges = new PointList();
-        Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
-
-        for (int i = 0; i < edges.size(); i++) {
-            Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y));
-            newEdges.addPoint(new Point(center.x - newPoint.x, center.y - newPoint.y));
+        if (this.angle != angle) {
+            this.angle = angle;
+            Transform t = new Transform();
+            t.setRotation(angle);
+            PointList newEdges = new PointList();
+            Point center = new Point(DEFAULT_WIDTH / 2, (DEFAULT_HEIGHT * (branchCount - 1)) / 2);
+            Point centerScaledRotated = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);
+            for (int i = 0; i < edges.size(); i++) {
+                Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y));
+                newEdges.addPoint(newPoint);
+            }
+            newEdges.translate(centerScaledRotated.x, centerScaledRotated.y);
+            mainFigure.setPoints(newEdges);
+            ((ChopboxAnchor) outgoingAnchor).ancestorMoved(this);
         }
-
-        mainFigure.setPoints(newEdges);
     }
 
     /*
@@ -72,9 +77,9 @@ public class AndForkFigure extends PathNodeFigure implements Rotateable {
         this.hover = hover;
 
         if (hover)
-            mainFigure.setLineWidth(6);
+            mainFigure.setLineWidth(9);
         else
-            mainFigure.setLineWidth(3);
+            mainFigure.setLineWidth(6);
     }
 
     /**
@@ -82,5 +87,62 @@ public class AndForkFigure extends PathNodeFigure implements Rotateable {
      */
     public static Dimension getDefaultDimension() {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    public PointList getEdges() {
+        return edges;
+    }
+
+    public int getBranchCount() {
+        return branchCount;
+    }
+
+    public void setBranchCount(int branchCount) {
+        if (branchCount == 0)
+            return;
+        assert branchCount > 0 : "invalid branch count";
+
+        if (this.branchCount != branchCount) {
+
+            this.branchCount = branchCount;
+            PointList newEdges = new PointList();
+
+            for (int i = 0; i < branchCount; i++) {
+                newEdges.addPoint(DEFAULT_WIDTH / 2, i * DEFAULT_HEIGHT);
+            }
+
+            edges = newEdges;
+
+            // force refresh
+            double ang = angle;
+            angle = ang + 1;
+            rotate(ang);
+        }
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#getPreferredSize(int, int)
+     */
+    public Dimension getPreferredSize(int wHint, int hHint) {
+        return new Dimension(DEFAULT_WIDTH * (branchCount - 1), DEFAULT_WIDTH * (branchCount - 1));
+        //        Dimension d = getRotatedSize();
+        //        if (d.width < DEFAULT_WIDTH)
+        //            d.width = DEFAULT_WIDTH;
+        //        else if (d.height < DEFAULT_HEIGHT)
+        //            d.height = DEFAULT_HEIGHT;
+        //        return d;
+    }
+
+    /**
+     * Supposed to get the size of the bounding box given the angle, but doesn't work or isn't queried late enough.
+     *  
+     */
+    public Dimension getRotatedSize() {
+        int w = Math.abs((int) (DEFAULT_WIDTH * (branchCount - 1) * Math.cos(angle + Math.PI / 2)));
+        int h = Math.abs((int) (DEFAULT_HEIGHT * (branchCount - 1) * Math.sin(angle + Math.PI / 2)));
+        return new Dimension(w, h);
     }
 }
