@@ -12,19 +12,26 @@ import org.eclipse.draw2d.geometry.Transform;
 /**
  * Represents an AND-Join in the model. Visually, lines join together on an invisible figure.
  * 
- * @author jpdaigle, Jordan McManus
+ * @author jpdaigle, Jordan McManus, jkealey
  */
 public class AndJoinFigure extends PathNodeFigure implements Rotateable {
+    protected static int DEFAULT_WIDTH = 16;
+    protected static int DEFAULT_HEIGHT = 16;
 
     private Polygon mainFigure;
     private PointList edges;
     private int branchCount;
     private double angle;
-    
+
     public AndJoinFigure() {
         super();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
+     */
     /*
      * (non-Javadoc)
      * 
@@ -35,7 +42,9 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
         edges = new PointList();
 
         edges.addPoint(DEFAULT_WIDTH / 2, 0);
-        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT);
+        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2);
+        edges.addPoint(DEFAULT_WIDTH / 2, 3 * DEFAULT_HEIGHT / 2);
+        edges.addPoint(DEFAULT_WIDTH / 2, 2 * DEFAULT_HEIGHT);
 
         mainFigure.setLineWidth(6);
         mainFigure.setPoints(edges);
@@ -48,14 +57,13 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
             Transform t = new Transform();
             t.setRotation(angle);
             PointList newEdges = new PointList();
-            Point center = new Point(DEFAULT_WIDTH / 2, (DEFAULT_HEIGHT * (branchCount - 1)) / 2);
+            Point center = new Point(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT * branchCount / 2);
             Point centerScaledRotated = new Point(getPreferredSize().width / 2, getPreferredSize().height / 2);
             for (int i = 0; i < edges.size(); i++) {
                 Point newPoint = t.getTransformed(new Point(edges.getPoint(i).x - center.x, edges.getPoint(i).y - center.y));
                 newEdges.addPoint(newPoint);
             }
             newEdges.translate(centerScaledRotated.x, centerScaledRotated.y);
-            
             mainFigure.setPoints(newEdges);
             ((ChopboxAnchor) outgoingAnchor).ancestorMoved(this);
         }
@@ -90,7 +98,7 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
     public static Dimension getDefaultDimension() {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
-    
+
     public PointList getEdges() {
         return edges;
     }
@@ -108,10 +116,11 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
 
             this.branchCount = branchCount;
             PointList newEdges = new PointList();
-
+            newEdges.addPoint(DEFAULT_WIDTH/2, 0);
             for (int i = 0; i < branchCount; i++) {
-                newEdges.addPoint(DEFAULT_WIDTH / 2, i * DEFAULT_HEIGHT);
+                newEdges.addPoint(DEFAULT_WIDTH / 2, i * DEFAULT_HEIGHT + DEFAULT_HEIGHT / 2);
             }
+            newEdges.addPoint(DEFAULT_WIDTH/2, DEFAULT_HEIGHT * branchCount);
 
             edges = newEdges;
 
@@ -129,7 +138,7 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
      * @see seg.jUCMNav.figures.PathNodeFigure#getPreferredSize(int, int)
      */
     public Dimension getPreferredSize(int wHint, int hHint) {
-        return new Dimension(DEFAULT_WIDTH * (branchCount - 1), DEFAULT_WIDTH * (branchCount - 1));
+        return new Dimension(DEFAULT_WIDTH * branchCount, DEFAULT_WIDTH * branchCount);
         //        Dimension d = getRotatedSize();
         //        if (d.width < DEFAULT_WIDTH)
         //            d.width = DEFAULT_WIDTH;
@@ -143,8 +152,8 @@ public class AndJoinFigure extends PathNodeFigure implements Rotateable {
      *  
      */
     public Dimension getRotatedSize() {
-        int w = Math.abs((int) (DEFAULT_WIDTH * (branchCount - 1) * Math.cos(angle + Math.PI / 2)));
-        int h = Math.abs((int) (DEFAULT_HEIGHT * (branchCount - 1) * Math.sin(angle + Math.PI / 2)));
+        int w = Math.abs((int) (DEFAULT_WIDTH * branchCount * Math.cos(angle + Math.PI / 2)));
+        int h = Math.abs((int) (DEFAULT_HEIGHT * branchCount * Math.sin(angle + Math.PI / 2)));
         return new Dimension(w, h);
-    }    
+    }
 }

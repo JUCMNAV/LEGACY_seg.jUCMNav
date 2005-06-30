@@ -15,8 +15,8 @@ import org.eclipse.swt.graphics.Color;
  */
 public abstract class PathNodeFigure extends Figure {
 	
-	protected static final int DEFAULT_WIDTH = 24;
-	protected static final int DEFAULT_HEIGHT = 24;
+	protected static int DEFAULT_WIDTH = 24;
+	protected static int DEFAULT_HEIGHT = 24;
 	
 	protected ConnectionAnchor incomingAnchor;
 	protected ConnectionAnchor outgoingAnchor;

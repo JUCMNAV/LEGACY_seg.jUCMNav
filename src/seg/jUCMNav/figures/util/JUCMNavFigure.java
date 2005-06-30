@@ -27,7 +27,7 @@ import ucm.map.WaitingPlace;
  * 
  * This is a utility class to obtain the default dimensions of model elements to position labels at creation. We must use this class because the editparts have
  * not been created when the label is created.
- * 
+ *  
  */
 public class JUCMNavFigure {
     public static Dimension getDimension(Object modelElement) {
@@ -37,7 +37,10 @@ public class JUCMNavFigure {
             //ellipse.setBounds(new Rectangle(4, 4, DEFAULT_WIDTH, DEFAULT_HEIGHT));
             return new Dimension(dim.width, dim.height + 10);
         } else if (modelElement instanceof EndPoint) {
-            return EndPointFigure.getDefaultDimension();
+            if (((EndPoint) modelElement).getSucc().size() == 0)
+                return EndPointFigure.getDefaultDimension();
+            else // if connected to startpoint, avoids overlapping (figure grows anyways)
+                return EndPointFigure.getDefaultDimension().getCopy().scale(EndPointFigure.RESIZEFACTOR+0.5);
         } else if (modelElement instanceof Stub) {
             return StubFigure.getDefaultDimension();
         } else if (modelElement instanceof RespRef) {
@@ -45,13 +48,13 @@ public class JUCMNavFigure {
         } else if (modelElement instanceof EmptyPoint) {
             return EmptyPointFigure.getDefaultDimension();
         } else if (modelElement instanceof AndFork) {
-            return AndForkFigure.getDefaultDimension();
+            return AndForkFigure.getDefaultDimension().getCopy().scale(((AndFork) modelElement).getSucc().size());
         } else if (modelElement instanceof OrFork) {
             return OrForkFigure.getDefaultDimension();
         } else if (modelElement instanceof OrJoin) {
             return OrJoinFigure.getDefaultDimension();
         } else if (modelElement instanceof AndJoin) {
-            return AndJoinFigure.getDefaultDimension();
+            return AndJoinFigure.getDefaultDimension().getCopy().scale(((AndJoin) modelElement).getPred().size());
         }
 
         return new Dimension(0, 0);

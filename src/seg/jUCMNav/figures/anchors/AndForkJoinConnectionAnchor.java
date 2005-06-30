@@ -60,7 +60,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
         Vector v = new Vector();
 
         if (pn instanceof AndFork) {
-            if (subfig.getPoints().size() >= pn.getSucc().size()) {
+            if (subfig.getPoints().size() - 2 >= pn.getSucc().size()) {
 
                 // put all target nodes into vector.
                 for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
@@ -112,6 +112,8 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
     }
 
     /**
+     * Note that this method does not look at the first or last point in the pointlist.
+     * 
      * @param list
      * @param fromPoint
      * @return the point in the list that is closest to fromPoint
@@ -122,7 +124,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
         double minDist = Double.MAX_VALUE;
         int minPoint = -1;
 
-        for (int index = 0; index < list.size(); index++) {
+        for (int index = 1; index < list.size() - 1; index++) {
             Point global = getGlobalPoint(list, figure, index);
             double dist = global.getDistance(new Point(fromPoint.x, fromPoint.y));
             if (dist < minDist) {
