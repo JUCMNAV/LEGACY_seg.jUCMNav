@@ -64,7 +64,7 @@
 			we can't have a .0xx (leading zero) anywhere because eclipse removes it and filenames
 			don't match from then on. (This is why there's a year and a 'v' before the time)
 			The date formatter also cannot truncate a year to a single character so we're hardcoding
-			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of overflow restrictions.
+			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
 			-->
 			<format property="buildtime" pattern="'5'MMdd.'v'HHmm"/>
 		</tstamp>
