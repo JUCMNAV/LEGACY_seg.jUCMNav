@@ -8,7 +8,9 @@ import org.eclipse.ui.NavigationLocation;
 import ucm.map.Map;
 
 /**
- * Created on 30-May-2005
+ * A NavigationLocation for jUCMNav. Memorizes the currently opened page.
+ * 
+ * Maybe should start memorizing URNspec/IFile path instead of the actual editor.
  * 
  * @author jkealey
  *  
@@ -17,8 +19,6 @@ public class MultiPageEditorLocation extends NavigationLocation {
 
     private String currentMapID;
     private UCMNavMultiPageEditor editor;
-
-    //    private int iPreviousPage;
 
     /**
      * @param editorPart
@@ -29,18 +29,24 @@ public class MultiPageEditorLocation extends NavigationLocation {
         update();
     }
 
+    /**
+     * 
+     * @return returns the map ID for this location. (not relative position)
+     */
     public String getCurrentMapID() {
         return currentMapID;
     }
 
+    /**
+     * 
+     * @return the UCMNavMultiPageEditor that is associated with this location.
+     */
     public UCMNavMultiPageEditor getEditor() {
         return editor;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.INavigationLocation#mergeInto(org.eclipse.ui.INavigationLocation)
+    /**
+     * The navigation location stack tries to minimize the number of entries by merging duplicates/similar entries together.
      */
     public boolean mergeInto(INavigationLocation currentLocation) {
         if (currentLocation instanceof MultiPageEditorLocation) {
@@ -50,14 +56,10 @@ public class MultiPageEditorLocation extends NavigationLocation {
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.INavigationLocation#restoreLocation()
+    /**
+     * Loads the appropriate tab.
      */
     public void restoreLocation() {
-        //        IWorkbenchPage page = this.editor.getSite().getPage();
-        //        page.getNavigationHistory().markLocation(this.editor);
 
         for (int i = 0; i < editor.getModel().getUcmspec().getMaps().size(); i++) {
             Map map = (Map) editor.getModel().getUcmspec().getMaps().get(i);
@@ -69,38 +71,43 @@ public class MultiPageEditorLocation extends NavigationLocation {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.INavigationLocation#restoreState(org.eclipse.ui.IMemento)
+    /**
+     * Loads its state from the memento
+     *  
      */
     public void restoreState(IMemento memento) {
+        // can only load page because reference to editor is useless.
         memento.getString("iCurrentPage"); //$NON-NLS-1$
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.INavigationLocation#saveState(org.eclipse.ui.IMemento)
+    /**
+     * Saves the state in the memento.
      */
     public void saveState(IMemento memento) {
+        // can only save page because reference to editor is useless.
         memento.putString("iCurrentPage", currentMapID); //$NON-NLS-1$
 
     }
 
+    /**
+     * @param currentPage
+     *            the page that is currently opened
+     */
     public void setCurrentMapID(String currentPage) {
         currentMapID = currentPage;
     }
 
+    /**
+     * @param editor
+     *            the editor in which the page is opened.
+     */
     public void setEditor(UCMNavMultiPageEditor editor) {
         this.editor = editor;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.INavigationLocation#update()
+    /**
+     * update this location by querying the active page
      */
     public void update() {
         if (editor.getCurrentPage() != null)

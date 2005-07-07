@@ -1,4 +1,4 @@
-package seg.jUCMNav.editors;
+package seg.jUCMNav.views.outline;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
@@ -13,6 +13,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.IPageSite;
 
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
 

@@ -33,8 +33,6 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import urn.URNspec;
 
 /**
- * Created on 24-May-2005
- * 
  * Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
  * UCMNavMultiPageEditor delegates file management operations to this class. Saving / creating is handled here.
@@ -71,10 +69,14 @@ public class MultiPageFileManager {
             try {
                 modelManager.load(file.getFullPath());
             } catch (Exception e) {//SAXParseException
-                if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException) || ((SAXParseException)((WrappedException) e).exception()).getLineNumber() >= 0) {
+                if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException)
+                        || ((SAXParseException) ((WrappedException) e).exception()).getLineNumber() >= 0) {
                     // dont pop error if file is empty (not created by wizard).
-                    ErrorDialog.openError(getEditor().getSite().getShell(), Messages.getString("MultiPageFileManager.errorLoadingUCM"), //$NON-NLS-1$
-                            Messages.getString("MultiPageFileManager.errorOpeningFileCreatingNew") + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    ErrorDialog
+                            .openError(
+                                    getEditor().getSite().getShell(),
+                                    Messages.getString("MultiPageFileManager.errorLoadingUCM"), //$NON-NLS-1$
+                                    Messages.getString("MultiPageFileManager.errorOpeningFileCreatingNew") + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
                 }
                 modelManager.createURNspec(file.getFullPath());
@@ -152,6 +154,7 @@ public class MultiPageFileManager {
             // creates a non existing resource and assigns it our model
             modelManager.createURNspec(path, getEditor().getModel());
 
+            // set its data.
             String sDate;
             DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
             sDate = df.format(new Date());
@@ -190,7 +193,7 @@ public class MultiPageFileManager {
     }
 
     /**
-     *  
+     * Sets the current URN/UCM versions to saved files.
      */
     private void setVersions() {
         String ver = editor.getModel().getSpecVersion();

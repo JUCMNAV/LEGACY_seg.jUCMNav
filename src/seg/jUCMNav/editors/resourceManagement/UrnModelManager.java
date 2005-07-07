@@ -22,8 +22,6 @@ import ucm.map.impl.MapPackageImpl;
 import urn.URNspec;
 
 /**
- * Created 2005-02-11
- * 
  * This class is used to load and save the model from the file system.
  * 
  * This class is inspired from the IBM RedBook Eclipse Development using the Graphical Editing Framework and the Eclipse Modeling Framework
@@ -166,6 +164,7 @@ public class UrnModelManager {
                     model = (URNspec) o;
             }
 
+            // clean the loaded file to make sure its semantics are valid. 
             URNNamingHelper.sanitizeURNspec(model);
             URNReferencerChecker.sanitizeReferences(model);
         }

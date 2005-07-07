@@ -33,7 +33,7 @@ import ucm.map.Map;
  * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will
  * not be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
  * 
- * All ugly stkUrnSpec related code added by jkealey.
+ * All ugly stkUrnSpec related code added by jkealey. This code is to allow DeleteMapCommands/CreateMapCommands to be undone because they can't be executed in one of the UcmEditor's command stacks. 
  * 
  * @author Gunnar Wagenknecht, jkealey
  */
@@ -41,52 +41,19 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     private static final Object[] EMPTY_OBJECT_ARRAY = new Object[] {};
     /** the current command stack */
     private CommandStack currentCommandStack;
+    private Map lastAffectedMap;
 
     // some of our commands add/delete map don't belong in any of the editor stacks.
     // this stack is only available if the last execute was a DeleteMapCommand or a CreateMapCommand. it is flushed after that.
     private CommandStack stkUrnSpec;
-    private Map lastAffectedMap;
     private boolean unsavedChanges = false;
 
     /**
-     *  
+     *  Creates a stack that delegates to another stack. This stack can be registered once and have its behaviour change dynamically.   
      */
     public DelegatingCommandStack() {
         stkUrnSpec = new CommandStack();
         stkUrnSpec.addCommandStackListener(this);
-    }
-
-    /**
-     * Returns the current <code>CommandStack</code>.
-     * 
-     * @return the current <code>CommandStack</code>
-     */
-    public CommandStack getCurrentCommandStack() {
-        return currentCommandStack;
-    }
-
-    /**
-     * Sets the current <code>CommandStack</code>.
-     * 
-     * @param stack
-     *            the <code>CommandStack</code> to set
-     */
-    public void setCurrentCommandStack(CommandStack stack) {
-        if (currentCommandStack == stack)
-            return;
-
-        // remove from old command stack
-        if (null != currentCommandStack)
-            currentCommandStack.removeCommandStackListener(this);
-
-        // set new command stack
-        currentCommandStack = stack;
-
-        // watch new command stack
-        currentCommandStack.addCommandStackListener(this);
-
-        // the command stack changed
-        notifyListeners();
     }
 
     /*
@@ -121,6 +88,15 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
 
             return currentCommandStack.canUndo();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
+     */
+    public void commandStackChanged(EventObject event) {
+        notifyListeners();
     }
 
     /*
@@ -163,6 +139,20 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             currentCommandStack.flush();
     }
 
+    /**
+     * Clears the stack that is external to any of the individual editors. 
+     *
+     */
+    public void flushURNspecStack() {
+
+        if (stkUrnSpec.getCommands().length > 0) {
+            if (stkUrnSpec.getUndoCommand() != null)
+                unsavedChanges = true;
+            stkUrnSpec.flush();
+        }
+        lastAffectedMap = null;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -173,6 +163,23 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             return EMPTY_OBJECT_ARRAY;
 
         return currentCommandStack.getCommands();
+    }
+
+    /**
+     * Returns the current <code>CommandStack</code>.
+     * 
+     * @return the current <code>CommandStack</code>
+     */
+    public CommandStack getCurrentCommandStack() {
+        return currentCommandStack;
+    }
+
+    /** 
+     * 
+     * @return the map for which the command stack was last changed.  
+     */
+    public Map getLastAffectedMap() {
+        return lastAffectedMap;
     }
 
     /*
@@ -218,6 +225,13 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             return -1;
 
         return currentCommandStack.getUndoLimit();
+    }
+
+    /** 
+     * @return A stack that is external to any of the individual editors. 
+     */
+    public CommandStack getURNspecStack() {
+        return stkUrnSpec;
     }
 
     /*
@@ -273,6 +287,30 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         }
     }
 
+    /**
+     * Sets the current <code>CommandStack</code>.
+     * 
+     * @param stack
+     *            the <code>CommandStack</code> to set
+     */
+    public void setCurrentCommandStack(CommandStack stack) {
+        if (currentCommandStack == stack)
+            return;
+
+        // remove from old command stack
+        if (null != currentCommandStack)
+            currentCommandStack.removeCommandStackListener(this);
+
+        // set new command stack
+        currentCommandStack = stack;
+
+        // watch new command stack
+        currentCommandStack.addCommandStackListener(this);
+
+        // the command stack changed
+        notifyListeners();
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -281,6 +319,15 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     public void setUndoLimit(int undoLimit) {
         if (null != currentCommandStack)
             currentCommandStack.setUndoLimit(undoLimit);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return "DelegatingCommandStack(" + currentCommandStack + ")"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /*
@@ -304,42 +351,5 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             if (null != currentCommandStack)
                 currentCommandStack.undo();
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return "DelegatingCommandStack(" + currentCommandStack + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
-     */
-    public void commandStackChanged(EventObject event) {
-        notifyListeners();
-    }
-
-    public Map getLastAffectedMap() {
-        return lastAffectedMap;
-    }
-
-    public CommandStack getURNspecStack() {
-        return stkUrnSpec;
-    }
-
-    public void flushURNspecStack() {
-
-        if (stkUrnSpec.getCommands().length > 0) {
-            if (stkUrnSpec.getUndoCommand() != null)
-                unsavedChanges = true;
-            stkUrnSpec.flush();
-        }
-        lastAffectedMap = null;
-
     }
 }

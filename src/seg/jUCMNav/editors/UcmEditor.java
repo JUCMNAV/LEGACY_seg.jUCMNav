@@ -40,6 +40,7 @@ import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
+import seg.jUCMNav.views.outline.UcmOutlinePage;
 import ucm.map.Map;
 
 /**
@@ -64,9 +65,9 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     /** KeyHandler with common bindings for both the Outline View and the Editor. */
     private KeyHandler sharedKeyHandler;
 
-    // our outline page. 
-    private UcmOutlinePage outline; 
-    
+    // our outline page.
+    private UcmOutlinePage outline;
+
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
         this.parent = parent;
@@ -220,8 +221,8 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
      * @return
      */
     private UcmOutlinePage getOutlinePage() {
-        if (outline==null)
-            outline  = new UcmOutlinePage(getParent(), new TreeViewer());
+        if (outline == null)
+            outline = new UcmOutlinePage(getParent(), new TreeViewer());
         return outline;
     }
 
@@ -245,9 +246,10 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
             sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
 
-            sharedKeyHandler.put(KeyStroke.getPressed((char)1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
-            
-           sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry().getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
+            sharedKeyHandler.put(KeyStroke.getPressed((char) 1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
+
+            sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
+                    .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
 
         }
         return sharedKeyHandler;

@@ -11,10 +11,9 @@ import org.eclipse.ui.PartInitException;
 
 import ucm.map.Map;
 
-
 /**
- * This class listens for command stack changes of the pages contained in this editor. It decides if the editor is dirty or not and refreshes the pages if
- * maps are added/removed.
+ * This class listens for command stack changes of the pages contained in this editor. It decides if the editor is dirty or not and refreshes the pages if maps
+ * are added/removed.
  * 
  * @author Gunnar Wagenknecht, jkealey
  */
@@ -94,7 +93,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 this.editor.getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
 
                 mapChanged.eAdapters().add(this.editor);
-                
+
                 this.editor.getMultiPageTabManager().refreshPageNames();
                 this.editor.setActivePage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged));
 
@@ -111,7 +110,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 this.editor.getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) this.editor.getEditor(i)).getCommandStack());
 
                 mapChanged.eAdapters().remove(this.editor);
-                
+
                 this.editor.removePage(i);
 
                 this.editor.getMultiPageTabManager().currentPageChanged();

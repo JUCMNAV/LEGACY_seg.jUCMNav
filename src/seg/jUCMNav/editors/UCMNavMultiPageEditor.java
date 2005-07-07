@@ -34,17 +34,14 @@ import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.views.outline.UcmOutlinePage;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
 import urn.URNspec;
 
 /**
- * Created on 17-Apr-2005
- * 
- * Refactored 24-May-2005.
- * 
- * This class is the central location for our editor. Its main responsibilities are
+ * This class is the central location for our editor. Its main responsibilities are as follows. 
  * 
  * 1) The editor associated with .jucm files. See seg.jUCMNav.editors.resourceManagement.MultiPageFileManager.
  * 
@@ -206,9 +203,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     /**
      * Returns the action registry of this editor.
      * 
+     * Public to give the outline access. 
+     * 
      * @return the action registry
      */
-    protected ActionRegistry getActionRegistry() {
+    public ActionRegistry getActionRegistry() {
         if (actionRegistry == null)
             actionRegistry = new ActionRegistry();
 
@@ -390,9 +389,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     /**
      * Returns the selection syncronizer object. The synchronizer can be used to sync the selection of 2 or more EditPartViewers.
      * 
+     * Public to give the outline access. 
+     * 
      * @return the syncrhonizer
      */
-    protected SelectionSynchronizer getSelectionSynchronizer() {
+    public SelectionSynchronizer getSelectionSynchronizer() {
         if (synchronizer == null)
             synchronizer = new SelectionSynchronizer();
         return synchronizer;

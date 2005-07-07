@@ -18,38 +18,36 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * Created on 24-May-2005
- * 
- * Originally included in the UCMNavMultiPageEditor, this code was factored out.
- * 
- * Manages tab creation/addition/removal for the editor.
+ * Manages tab creation/addition/removal for the editor. Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
  * @author jkealey
  *  
  */
 public class MultiPageTabManager {
-	
-	private ListenerList pageListeners = new ListenerList(3);
+
+    private ListenerList pageListeners = new ListenerList(3);
 
     /** the managed editor */
     private UCMNavMultiPageEditor editor;
-    
+
     /**
      * The listener will get notifications when the current page is changed.
      * 
-     * @param listener The listener to add
+     * @param listener
+     *            The listener to add
      */
     public void addPageChangeListener(IPageChangeListener listener) {
-    	pageListeners.add(listener);
+        pageListeners.add(listener);
     }
-    
+
     /**
      * Remove a page change listener.
      * 
-     * @param listener The listener to remove
+     * @param listener
+     *            The listener to remove
      */
     public void removePageChangeListener(IPageChangeListener listener) {
-    	pageListeners.remove(listener);
+        pageListeners.remove(listener);
     }
 
     /** the selection listener */
@@ -188,7 +186,7 @@ public class MultiPageTabManager {
 
         // select the background map
         editor.getCurrentPage().getGraphicalViewer().select(mappart);
-        
+
         // Tell to listeners that the current page changed
         firePageChanged();
 
@@ -197,17 +195,17 @@ public class MultiPageTabManager {
     }
 
     /**
-	 * Fires that the current page in the editor changed.
-	 */
-	private void firePageChanged() {
-		Object[] listeners = pageListeners.getListeners();
-		for (int i = 0; i < listeners.length; i++) {
-			IPageChangeListener listener = (IPageChangeListener)listeners[i];
-			listener.pageChanged();
-		}
-	}
+     * Fires that the current page in the editor changed.
+     */
+    private void firePageChanged() {
+        Object[] listeners = pageListeners.getListeners();
+        for (int i = 0; i < listeners.length; i++) {
+            IPageChangeListener listener = (IPageChangeListener) listeners[i];
+            listener.pageChanged();
+        }
+    }
 
-	/** Refreshes the tab text for all pages */
+    /** Refreshes the tab text for all pages */
     protected void refreshPageNames() {
         for (int i = 0; i < editor.getModel().getUcmspec().getMaps().size(); i++)
             editor.setPageText(i, ((Map) editor.getModel().getUcmspec().getMaps().get(i)).getName());
