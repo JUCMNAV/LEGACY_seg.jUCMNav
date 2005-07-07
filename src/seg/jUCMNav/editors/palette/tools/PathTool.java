@@ -24,9 +24,6 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Created 2005-03-28 <br>
- * <br>
- * 
  * This class represent the main tool used to edit paths in the UcmEditor. The tool has a very specific behavior depending on the selecting of the editpart
  * viewer selection and the target editpart the tool is currently pointing at. <br>
  * <br>
@@ -105,10 +102,10 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
         this.urn = urn;
     }
 
-    protected Request createTargetRequest() {
-        return super.createTargetRequest();
-    }
 
+    /***
+     * Saves the target request. 
+     */
     protected void setTargetRequest(Request req) {
         targetRequest = req;
         super.setTargetRequest(req);
@@ -132,22 +129,18 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
         super.setTargetEditPart(editpart);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.tools.CreationTool#handleButtonUp(int)
+    /**
+     * What is done when a mouse button is clicked. We might want to desactivate the tool if an invalid button was clicked or perform an action otherwise.
      */
     protected boolean handleButtonUp(int button) {
 
-        // see AbstractTool
-        int FLAG_UNLOAD = 4;
         if (getCommand() != null) {
-            setFlag(FLAG_UNLOAD, getState() == STATE_INVALID);
+            setUnloadWhenFinished(getState() == STATE_INVALID);
 
             return super.handleButtonUp(button);
         } else {
-            setFlag(FLAG_UNLOAD, true);
-            if (getTargetEditPart()!=null)
+            setUnloadWhenFinished(true);
+            if (getTargetEditPart() != null)
                 getCurrentViewer().select(getTargetEditPart());
             else
                 getCurrentViewer().deselectAll();
@@ -156,10 +149,9 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.tools.AbstractTool#handleMove()
+    /**
+     * What happens when the mouse moves
+     *  
      */
     protected boolean handleMove() {
         // Change the target under the mouse before updating the target request...
@@ -173,8 +165,6 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
     /**
      * This function is called when the editpart viewer the tool is pointing changes. We need to add the tool as a listener to the selection changes of the
      * viewer.
-     * 
-     * (non-Javadoc)
      * 
      * @see org.eclipse.gef.Tool#setViewer(org.eclipse.gef.EditPartViewer)
      */

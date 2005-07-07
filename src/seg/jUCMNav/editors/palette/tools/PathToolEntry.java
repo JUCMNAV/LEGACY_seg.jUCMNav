@@ -7,7 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import urn.URNspec;
 
 /**
- * Created 2005-05-14
+ * ToolEntry that loads the PathTool. 
  * 
  * @author Etienne Tremblay
  */

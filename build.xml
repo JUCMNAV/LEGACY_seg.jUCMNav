@@ -147,9 +147,10 @@
 		           author="true"
 		           version="true"
 				   use="true"
-					breakiterator="yes"
-			   additionalparam="-quiet -source 1.4"
-		           windowtitle="jUCMNav">
+				   breakiterator="yes"
+			       additionalparam="-quiet -source 1.4"
+		           windowtitle="jUCMNav"
+			access="private">
 			   <tag name="todo" scope="all" description="To do:" />
 			<classpath>
 				<fileset dir="${eclipsehome}/plugins/">

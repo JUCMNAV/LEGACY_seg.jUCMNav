@@ -29,9 +29,7 @@ import urn.URNspec;
 import urncore.ComponentKind;
 
 /**
- * Created on 2005-01-30
- * 
- * This is the main palette of UCMEditor.
+ * This is the main palette of UCMEditor. Elements are added to the palette in buildPalette()
  * 
  * @author Etienne Tremblay
  */
@@ -40,7 +38,7 @@ public class UcmPaletteRoot extends PaletteRoot {
     /** Default palette size. */
     private static final int DEFAULT_PALETTE_SIZE = 125;
 
-    /* pinned open */
+    /** pinned open */
     private static final int DEFAULT_PALETTE_STATE = 4;
 
     /** Preference ID used to persist the palette location. */
@@ -52,12 +50,10 @@ public class UcmPaletteRoot extends PaletteRoot {
     /** Preference ID used to persist the flyout palette's state. */
     private static final String PALETTE_STATE = "jUCMNAVPaletteFactory.State"; //$NON-NLS-1$
 
-    private ToolEntry endPointTool;
-
-    // for palette purposes
+    // to obtain URNspec
     private UCMNavMultiPageEditor parent;
 
-    // for other purposes
+    // we need to pass this to ModelCreationFactory
     private URNspec urn;
 
     /**
@@ -90,14 +86,14 @@ public class UcmPaletteRoot extends PaletteRoot {
     }
 
     /**
-     *  
+     *  Builds the palette entries. 
      */
     private void buildPalette() {
         // a group of default control tools
         PaletteGroup controls = new PaletteGroup(Messages.getString("UcmPaletteRoot.controls")); //$NON-NLS-1$
         add(controls);
 
-        // the selection tool
+        // the selection tool; default tool 
         ToolEntry tool = new SelectionToolEntry();
         controls.add(tool);
         setDefaultEntry(tool);
@@ -262,21 +258,10 @@ public class UcmPaletteRoot extends PaletteRoot {
         return PALETTE_DOCK_LOCATION;
     }
 
-    /**
-     * @return Returns the endPointTool.
-     */
-    public ToolEntry getEndPointTool() {
-        return endPointTool;
-    }
 
     /**
-     * @param endPointTool
-     *            The endPointTool to set.
+     * @return Returns the URNspec associated with this palette. 
      */
-    public void setEndPointTool(ToolEntry endPointTool) {
-        this.endPointTool = endPointTool;
-    }
-
     public URNspec getURNspec() {
         if (parent != null)
             return parent.getModel();
