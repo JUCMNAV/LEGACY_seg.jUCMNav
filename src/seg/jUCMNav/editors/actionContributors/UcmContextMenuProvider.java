@@ -31,8 +31,6 @@ import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 
 /**
- * Created 2005-03-21
- * 
  * This class builds the context menu used in our editor and views.
  * 
  * @author Etienne Tremblay
@@ -41,10 +39,8 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 
     private ActionRegistry actionRegistry;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+    /**
+     * Looks up a set of actions in the action registry. If they are enabled, adds them to the correct groups.
      */
     public void buildContextMenu(IMenuManager manager) {
         GEFActionConstants.addStandardActionGroups(manager);
@@ -85,12 +81,11 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ConnectAction.CONNECT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(DisconnectAction.DISCONNECT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        
         action = getActionRegistry().getAction(AddOrForkAction.ADDORFORK);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -118,7 +113,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(DisconnectTimeoutPathAction.DISCONNECTTIMEOUTPATH);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(TransmogrifyOrForkOrJoinAction.TRANSMOGRIFYFORK);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -165,10 +160,18 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         setActionRegistry(registry);
     }
 
+    /**
+     * 
+     * @return the action registry used by the context menu provider. 
+     */
     private ActionRegistry getActionRegistry() {
         return actionRegistry;
     }
 
+    /**
+     * 
+     * @param registry the action registry used by the context menu provider. 
+     */
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
     }

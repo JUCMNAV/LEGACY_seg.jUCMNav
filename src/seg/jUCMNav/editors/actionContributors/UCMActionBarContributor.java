@@ -7,7 +7,6 @@ import org.eclipse.gef.ui.actions.UndoRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomComboContributionItem;
 import org.eclipse.gef.ui.actions.ZoomInRetargetAction;
 import org.eclipse.gef.ui.actions.ZoomOutRetargetAction;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.actions.ActionFactory;
@@ -46,25 +45,16 @@ public class UCMActionBarContributor extends ActionBarContributor {
         toolBarManager.add(new Separator());
         String[] zoomStrings = new String[] { ZoomManager.FIT_ALL, ZoomManager.FIT_HEIGHT, ZoomManager.FIT_WIDTH };
         toolBarManager.add(new ZoomComboContributionItem(getPage(), zoomStrings));
-        String[] modeStrings = new String[] { Messages.getString("UCMActionBarContributor.viewAllElements"), Messages.getString("UCMActionBarContributor.hideEmptyPoints"), Messages.getString("UCMActionBarContributor.hideEmptyPointsAndStubLabels") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        String[] modeStrings = new String[] {
+                Messages.getString("UCMActionBarContributor.viewAllElements"), Messages.getString("UCMActionBarContributor.hideEmptyPoints"), Messages.getString("UCMActionBarContributor.hideEmptyPointsAndStubLabels") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         toolBarManager.add(new ModeComboContributionItem(getPage(), modeStrings));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+    /**
+     * Registers actions that are global to the UCMNavMultiPageEditor, not specific to the UcmEditor.
      */
     protected void declareGlobalActionKeys() {
         // currently none
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse.jface.action.IMenuManager)
-     */
-    public void contributeToMenu(IMenuManager menuManager) {
-        super.contributeToMenu(menuManager);
-    }
 }

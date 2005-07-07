@@ -25,12 +25,10 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 
 /**
- * Created on 9-Jun-2005
+ * Creates a combo box to be used in the toolbars to select a view mode for a use case map editor. Complete rip of ZoomComboContributionItem, with a few
+ * changes.
  * 
  * @author jkealey
- * 
- * Complete rip of ZoomComboContributionItem, with a few changes.
- *  
  */
 public class ModeComboContributionItem extends ContributionItem {
 
@@ -92,6 +90,12 @@ public class ModeComboContributionItem extends ContributionItem {
         });
     }
 
+    /**
+     * Refreshes the combo box.
+     * 
+     * @param repopulateCombo
+     *            should the combo box be rebuild from scratch
+     */
     void refresh(boolean repopulateCombo) {
         if (combo == null || combo.isDisposed())
             return;

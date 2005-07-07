@@ -48,9 +48,7 @@ import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 
 /**
- * Created on 24-May-2005
- * 
- * Originally included in the UCMNavMultiPageEditor, this code was factored out.
+ * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
  * @author jkealey
  *  
@@ -69,6 +67,10 @@ public class ActionRegistryManager {
     /** the list of action ids that are to CommandStack actions */
     private List stackActionIDs = new ArrayList();
 
+    /**
+     * 
+     * @param reg the ActionRegistry to be build
+     */
     public ActionRegistryManager(ActionRegistry reg) {
         this.actionRegistry = reg;
     }
@@ -213,7 +215,6 @@ public class ActionRegistryManager {
         action = new DisconnectAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.disconnectElements"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
-
         
         action = new BindWithParent(editor);
         action.setText(Messages.getString("ActionRegistryManager.bindWithParent")); //$NON-NLS-1$
