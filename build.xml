@@ -58,6 +58,18 @@
 		<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
 		
 		<!-- <echo>Using ECLIPSE_HOME: ${eclipsehome}</echo> -->
+		<tstamp>
+			<!--
+			JPDaigle: There are rules to respect when assigning a plugin version!
+			we can't have a .0xx (leading zero) anywhere because eclipse removes it and filenames
+			don't match from then on. (This is why there's a year and a 'v' before the time)
+			The date formatter also cannot truncate a year to a single character so we're hardcoding
+			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of overflow restrictions.
+			-->
+			<format property="buildtime" pattern="'5'MMdd.'v'HHmm"/>
+		</tstamp>
+		<property name="jucmnav.version" value="0.0.${buildtime}" />
+		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
 
@@ -82,7 +94,7 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.jar" basedir="${temp.folder}/seg.jUCMNav_1.0.0" filesonly="false" whenempty="skip" update="false"/>
+		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/seg.jUCMNav_${jucmnav.version}" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
@@ -156,11 +168,11 @@
 	</target>
 	
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
-		<copy todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="true">
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
+		<copy todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="true">
 			<fileset dir="${build.result.folder}" includes="jUCMNav.jar"			/>
 		</copy>
-		<copy todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="true">
+		<copy todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="true">
 			<fileset dir="${basedir}" includes="plugin.xml,jUCMNav.jar"			/>
 		</copy>
 	</target>
@@ -169,28 +181,31 @@
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
-		<copy file="${build.result.folder}/jUCMNavsrc.zip" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
+		<copy file="${build.result.folder}/jUCMNavsrc.zip" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
 	</target>
 
 	<target name="gather.docs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
-		<copy file="${build.result.folder}/jUCMNavdocs.zip" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
+		<copy file="${build.result.folder}/jUCMNavdocs.zip" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
 	</target>
 	
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_1.0.0"/>
-		<copy file="${temp.folder}/jUCMNav.jar.bin.log" todir="${destination.temp.folder}/seg.jUCMNav_1.0.0" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
+		<copy file="${temp.folder}/jUCMNav.jar.bin.log" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: seg.jUCMNav of all the zips, jars and logs created.">
 		<delete file="testresults.xml"/>
-		<delete file="${build.result.folder}/jUCMNav.jar"/>
-		<delete file="${build.result.folder}/jUCMNavsrc.zip"/>
-		<delete file="${build.result.folder}/jUCMNavdocs.zip"/>
-		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.jar"/>
-		<delete file="${plugin.destination}/seg.jUCMNav_1.0.0.zip"/>
-		<delete dir="${plugin.destination}/updatesite" />
+		<delete>
+			<!-- Lucky for us, Ant ignores the CVS folder and .cvsignore files -->
+			<fileset dir="${build.result.folder}">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${plugin.destination}">
+				<include name="**/*"/>
+			</fileset>
+		</delete>
 		<delete dir="${temp.folder}"/>
 		<delete dir="docs/api"/>
 	</target>
@@ -220,35 +235,34 @@
 		</delete>
 
 		<!-- Include test.xml in the zip for unit testing purposes -->
-		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
 
 		<!-- Include about.html in the zip -->
-		<copy file="about.html" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+		<copy file="about.html" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
 			
 		<!-- Include help in the zip for integration with eclipse help-->
-		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
 
 		<!-- Include plugin i18n strings for view names, etc -->
-		<copy file="plugin.properties" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0" />
+		<copy file="plugin.properties" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
 		
 		<!-- jkealey: create icons directory, bug 238 -->
-		<mkdir dir="${temp.folder}/seg.jUCMNav_1.0.0/icons"/>
-		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0/icons">
+		<mkdir dir="${temp.folder}/seg.jUCMNav_${jucmnav.version}/icons"/>
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/icons">
 		    <fileset dir="src/seg/jUCMNav/icons"/>
 		</copy>
 		
-		<zip zipfile="${plugin.destination}/seg.jUCMNav_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
-		<jar jarfile="${plugin.destination}/seg.jUCMNav_plugin.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_1.0.0/" update="false" />
+		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<jar jarfile="${plugin.destination}/seg.jUCMNav_plugin.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
 		<delete dir="${temp.folder}"/>
 	</target>
 	
-	<target name="mkupdate" description="Make update site files" depends="init">
+	<target name="mkupdate" description="Make update site files" depends="init,build.fullzip">
 		<mkdir dir="${updatesite.features}" />
 		<mkdir dir="${updatesite.plugins}" />
 
 		<property name="dir.out" value="build/" />
 		<property name="jar.basename" value="org.usecasemaps.jUCMNav" />
-		<property name="jucmnav.version" value="0.0.2" />
 		
 		<ant dir="updatesite/features/" description="Make feature jar" inheritall="true">
 		</ant>
@@ -257,7 +271,7 @@
 
 		<copy todir="${updatesite.features}" file="updatesite/features/build/${jar.basename}_${jucmnav.version}.jar" />
 		<copy todir="${updatesite.destination}" file="updatesite/site/build/site.xml" />
-		<copy tofile="${updatesite.plugins}/seg.jUCMNav_${jucmnav.version}.jar" file="${plugin.destination}/seg.jUCMNav_plugin.jar" />
+		<move tofile="${updatesite.plugins}/seg.jUCMNav_${jucmnav.version}.jar" file="${plugin.destination}/seg.jUCMNav_plugin.jar" />
 	</target>
 	
 	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task.
