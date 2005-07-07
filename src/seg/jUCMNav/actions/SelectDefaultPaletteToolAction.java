@@ -1,9 +1,10 @@
 package seg.jUCMNav.actions;
 
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
  * Reverts the palette to the default tool. To be used with keybindings.
@@ -31,6 +32,8 @@ public class SelectDefaultPaletteToolAction extends UCMSelectionAction {
      * @see seg.jUCMNav.actions.UCMSelectionAction#run()
      */
     public void run() {
-     ((UcmEditor)getWorkbenchPart()).getEditDomain().getPaletteViewer().setActiveTool(null);
+     // this one is already done by the framework. 
+     ((UCMNavMultiPageEditor)getWorkbenchPart()).getCurrentPage().getEditDomain().getPaletteViewer().setActiveTool(null);
+     ((UCMNavMultiPageEditor)getWorkbenchPart()).getCurrentPage().getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
     }
 }
