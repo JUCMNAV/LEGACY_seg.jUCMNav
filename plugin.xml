@@ -107,7 +107,7 @@
             name="jUCMNav"
             id="seg.jUCMNav"/>
       <view
-            class="seg.jUCMNav.views.ResponsibilityView"
+            class="seg.jUCMNav.views.resp.ResponsibilityView"
             icon="icons/Resp16.gif"
             category="seg.jUCMNav"
             name="%responsibility"

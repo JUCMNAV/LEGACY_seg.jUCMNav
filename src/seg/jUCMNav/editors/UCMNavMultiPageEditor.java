@@ -139,6 +139,24 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         getMultiPageTabManager().currentPageChanged();
 
     }
+    
+    /**
+     * The listener will get notifications when the current page is changed.
+     * 
+     * @param listener The listener to add
+     */
+    public void addPageChangeListener(IPageChangeListener listener) {
+    	multiPageTabManager.addPageChangeListener(listener);
+    }
+    
+    /**
+     * Remove a page change listener.
+     * 
+     * @param listener The listener to remove
+     */
+    public void removePageChangeListener(IPageChangeListener listener) {
+    	multiPageTabManager.removePageChangeListener(listener);
+    }
 
     /**
      * Releases all listeners

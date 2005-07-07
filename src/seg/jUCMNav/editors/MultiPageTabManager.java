@@ -1,6 +1,7 @@
 package seg.jUCMNav.editors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -27,9 +28,29 @@ import urn.URNspec;
  *  
  */
 public class MultiPageTabManager {
+	
+	private ListenerList pageListeners = new ListenerList(3);
 
     /** the managed editor */
     private UCMNavMultiPageEditor editor;
+    
+    /**
+     * The listener will get notifications when the current page is changed.
+     * 
+     * @param listener The listener to add
+     */
+    public void addPageChangeListener(IPageChangeListener listener) {
+    	pageListeners.add(listener);
+    }
+    
+    /**
+     * Remove a page change listener.
+     * 
+     * @param listener The listener to remove
+     */
+    public void removePageChangeListener(IPageChangeListener listener) {
+    	pageListeners.remove(listener);
+    }
 
     /** the selection listener */
     private ISelectionListener selectionListener = new ISelectionListener() {
@@ -167,12 +188,26 @@ public class MultiPageTabManager {
 
         // select the background map
         editor.getCurrentPage().getGraphicalViewer().select(mappart);
+        
+        // Tell to listeners that the current page changed
+        firePageChanged();
 
         // refresh content depending on current page
         currentPageChanged();
     }
 
-    /** Refreshes the tab text for all pages */
+    /**
+	 * Fires that the current page in the editor changed.
+	 */
+	private void firePageChanged() {
+		Object[] listeners = pageListeners.getListeners();
+		for (int i = 0; i < listeners.length; i++) {
+			IPageChangeListener listener = (IPageChangeListener)listeners[i];
+			listener.pageChanged();
+		}
+	}
+
+	/** Refreshes the tab text for all pages */
     protected void refreshPageNames() {
         for (int i = 0; i < editor.getModel().getUcmspec().getMaps().size(); i++)
             editor.setPageText(i, ((Map) editor.getModel().getUcmspec().getMaps().get(i)).getName());

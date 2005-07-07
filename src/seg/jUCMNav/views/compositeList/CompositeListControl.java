@@ -1,4 +1,4 @@
-package seg.jUCMNav.views;
+package seg.jUCMNav.views.compositeList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,15 +11,16 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+
+import seg.jUCMNav.views.resp.RespListItem;
 /**
  * @author Etienne Tremblay
  *
  */
-public class RespListControl extends Composite implements ISelectionProvider, MouseListener {
+public class CompositeListControl extends Composite implements ISelectionProvider, ISelectionListener {
 	
 	private ISelection selection = new StructuredSelection();
 	
@@ -35,7 +36,7 @@ public class RespListControl extends Composite implements ISelectionProvider, Mo
 	 * @param parent
 	 * @param style
 	 */
-	public RespListControl(Composite parent, int style) {
+	public CompositeListControl(Composite parent, int style) {
 		super(parent, style | SWT.H_SCROLL);
 		initialize();
 	}
@@ -61,9 +62,9 @@ public class RespListControl extends Composite implements ISelectionProvider, Mo
 //		setSize(new org.eclipse.swt.graphics.Point(300,260));
 	}
 	
-	void add(RespListItem item){
+	public void add(CompositeListItem item){
 		items.add(item);
-		item.addMouseListener(this);
+		item.addSelectionListener(this);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		item.setLayoutData(data);
 	}
@@ -93,24 +94,7 @@ public class RespListControl extends Composite implements ISelectionProvider, Mo
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
 		selectionChangedListeners.remove(listener);
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseDoubleClick(MouseEvent e) {}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseDown(MouseEvent e) {
-		setSelection(new StructuredSelection(e.widget));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.MouseEvent)
-	 */
-	public void mouseUp(MouseEvent e) {}
-
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
 	 */
@@ -127,15 +111,34 @@ public class RespListControl extends Composite implements ISelectionProvider, Mo
 		StructuredSelection s = (StructuredSelection)selection;
 		Object[] array = s.toArray();
 		
-		ArrayList resp = new ArrayList();
+		ArrayList selected = new ArrayList();
 		for (int i = 0; i < array.length; i++) {
-			resp.add(array[i]);
+			CompositeListItem item = (CompositeListItem)array[i];
+			if(item != null) {
+				selected.add(array[i]);
+				if(!item.isSelected())
+					item.select();
+			}
 		}
 		
 		for (Iterator i = items.iterator(); i.hasNext();) {
-			RespListItem item = (RespListItem) i.next();
-			if(!resp.contains(item) && item.isSelected())
+			CompositeListItem item = (CompositeListItem) i.next();
+			if(!selected.contains(item) && item.isSelected())
 				item.unselect();
 		}
+	}
+	
+	public void deselectAll() {
+		for (Iterator i = items.iterator(); i.hasNext();) {
+			CompositeListItem item = (CompositeListItem) i.next();
+			item.unselect();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see seg.jUCMNav.views.ISelectionInListListener#selectionChanged(seg.jUCMNav.views.CompositeListItem)
+	 */
+	public void selectionChanged(CompositeListItem selected) {
+		setSelection(new StructuredSelection(selected));
 	}
   }  //  @jve:decl-index=0:visual-constraint="10,10"
