@@ -157,7 +157,6 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     private Point getLocation(CreateRequest request) {
         IFigure figure = getLayoutContainer();
         Point where = request.getLocation().getCopy();
-        Dimension size = request.getSize();
         figure.translateToRelative(where);
         figure.translateFromParent(where);
         return where;

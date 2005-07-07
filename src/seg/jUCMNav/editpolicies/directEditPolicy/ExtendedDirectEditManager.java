@@ -94,8 +94,6 @@ public class ExtendedDirectEditManager extends DirectEditManager
 				if (rightText == null)
 					rightText = ""; //$NON-NLS-1$
 
-				String s = leftText + event.text + rightText;
-
 				Point size = gc.textExtent(leftText + event.text + rightText);
 
 				gc.dispose();

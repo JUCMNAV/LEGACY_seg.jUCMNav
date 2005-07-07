@@ -443,7 +443,6 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
      */
     private List getComponents() {
         List list = new ArrayList();
-        Object o = new Object();
 
         // get all component references
         for (Iterator i = getMap().getCompRefs().iterator(); i.hasNext();) {
