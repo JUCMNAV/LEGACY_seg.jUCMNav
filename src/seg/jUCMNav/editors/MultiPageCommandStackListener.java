@@ -5,6 +5,7 @@ import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.ui.PartInitException;
@@ -96,6 +97,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
 
                 this.editor.getMultiPageTabManager().refreshPageNames();
                 this.editor.setActivePage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged));
+                u.getGraphicalViewer().select((EditPart) u.getGraphicalViewer().getEditPartRegistry().get(mapChanged));
 
             } else // was deleted
             {

@@ -83,7 +83,8 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         EClassifier type = getFeatureType(propertyid.getFeature());
         Class enumer = type.getInstanceClass();
         String[] values = getEnumerationValues(enumer);
-        String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
+        //String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
+        String name = propertyid.getFeature().getName();
 
         descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
 

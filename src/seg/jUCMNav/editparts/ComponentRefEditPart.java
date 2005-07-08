@@ -86,7 +86,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         refreshVisuals();
         
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
-       if (notification.getEventType() == Notification.SET)
+       if (notification.getEventType() == Notification.SET && getParent()!=null)
         ((MapAndPathGraphEditPart)getParent()).notifyChanged(notification);        
     }
 
@@ -123,7 +123,8 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-        (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
+        if (getParent()!=null)
+            (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
     
 	/* (non-Javadoc)
