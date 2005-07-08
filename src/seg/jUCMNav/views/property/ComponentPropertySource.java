@@ -121,7 +121,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }
 
-        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "Definition", values); //$NON-NLS-1$
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
         pd.setCategory("Reference"); //$NON-NLS-1$
         descriptors.add(pd);
 
