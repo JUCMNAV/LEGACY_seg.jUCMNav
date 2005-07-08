@@ -154,6 +154,8 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 
     /**
      * @param viewer
+     * @param registry
+     *            has to be passed in case we don't want to use the action registry used in the viewer. [is this bad coding?]
      */
     public UcmContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
         super(viewer);
@@ -162,7 +164,7 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 
     /**
      * 
-     * @return the action registry used by the context menu provider. 
+     * @return the action registry used by the context menu provider.
      */
     private ActionRegistry getActionRegistry() {
         return actionRegistry;
@@ -170,7 +172,8 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
 
     /**
      * 
-     * @param registry the action registry used by the context menu provider. 
+     * @param registry
+     *            the action registry used by the context menu provider.
      */
     private void setActionRegistry(ActionRegistry registry) {
         actionRegistry = registry;
