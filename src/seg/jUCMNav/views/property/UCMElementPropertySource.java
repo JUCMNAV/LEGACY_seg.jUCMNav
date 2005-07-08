@@ -85,8 +85,9 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         String[] values = getEnumerationValues(enumer);
         //String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
         String name = propertyid.getFeature().getName();
-
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, name, values));
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
+        pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
+        descriptors.add(pd);
 
     }
 
@@ -229,7 +230,7 @@ public class UCMElementPropertySource extends EObjectPropertySource {
             // if this is an EMF enumeration
             Class enumer = getFeatureType(feature).getInstanceClass();
             try {
-                
+
                 int selectedIndex = ((Integer) value).intValue();
                 String selectedString = getEnumerationValues(enumer)[selectedIndex];
                 result = enumer.getMethod("get", new Class[] { String.class }).invoke(getEditableValue(), new Object[] { selectedString }); //$NON-NLS-1$
@@ -254,7 +255,9 @@ public class UCMElementPropertySource extends EObjectPropertySource {
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }
 
-        descriptors.add(new ComboBoxPropertyDescriptor(propertyid, "parent", values)); //$NON-NLS-1$
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "parent", values);
+        pd.setCategory(Messages.getString("EObjectPropertySource.info")); //$NON-NLS-1$
+        descriptors.add(pd);
     }
 
     /*
