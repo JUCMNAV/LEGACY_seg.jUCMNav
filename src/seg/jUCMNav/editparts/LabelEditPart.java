@@ -255,7 +255,6 @@ public class LabelEditPart extends ModelElementEditPart {
                 }
 
             if (getParent() != null) {
-
                 ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
                 refreshVisuals();
             }
@@ -360,7 +359,6 @@ public class LabelEditPart extends ModelElementEditPart {
         } else if (modelElement instanceof UCMmodelElement) {
             label.setText(((UCMmodelElement) modelElement).getName());
         }
-        
 
     }
 
