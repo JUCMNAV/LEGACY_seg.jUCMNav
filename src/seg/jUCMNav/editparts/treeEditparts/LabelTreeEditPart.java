@@ -16,7 +16,7 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
- * Created 2005-05-17
+ * Editpart for textual strings used in the outline such as "Components" and "Responsibilities"
  * 
  * @author Etienne Tremblay
  */
@@ -32,6 +32,9 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
         this.root = root;
     }
 
+    /**
+     * Activate listeners
+     */
     public void activate() {
         if (!isActive()) {
             ((EObject) root.getUrndef()).eAdapters().add(this);
@@ -49,6 +52,9 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
         fireActivated();
     }
 
+    /**
+     * Deactivate listeners
+     */
     public void deactivate() {
         if (isActive()) {
             ((EObject) root.getUrndef()).eAdapters().remove(this);
@@ -65,25 +71,39 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
         fireDeactivated();
     }
 
+    /**
+     * Labels don't have any properties.
+     */
     protected IPropertySource getPropertySource() {
         return null;
     }
 
+    /**
+     * Return the sorted list of component or responsibility definitions.
+     */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getResponsibilities());
-        
+
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
 
+    /**
+     * Their label is their model string.
+     * 
+     * @return the label associated with this string.
+     */
     protected String getLabel() {
         return (String) getModel();
     }
 
+    /**
+     * Their label text is inferred from the model element. (Mapping)
+     */
     protected String getText() {
         if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
@@ -94,6 +114,9 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
 
     }
 
+    /**
+     * Return icons associated with the textual strings.
+     */
     protected Image getImage() {
         if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$

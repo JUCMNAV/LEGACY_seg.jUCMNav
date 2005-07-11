@@ -1,9 +1,3 @@
-/*
- * Created on 17-May-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
@@ -25,40 +19,47 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * @author TremblaE
+ * TreeEditPart for the Map and PathGraph.
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
+ * @author TremblaE
  */
 public class MapTreeEditPart extends UcmModelElementTreeEditPart {
 
     /**
      * @param model
+     *            the map
      */
-    public MapTreeEditPart(Object model) {
+    public MapTreeEditPart(Map model) {
         super(model);
     }
 
+    /**
+     * Listens to both Map and PathGraph
+     */
     public void activate() {
         super.activate();
         getMap().getPathGraph().eAdapters().add(this);
     }
 
+    /**
+     * Remove listeners.
+     */
     public void deactivate() {
         super.deactivate();
         getMap().getPathGraph().eAdapters().remove(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new MapComponentEditPolicy());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns list of components and pathnodes, sorted by type and name using EObjectClassNameComparator
+     * 
+     * Doesn't include connects
      * 
      * @see org.eclipse.gef.EditPart#getChildren()
      */
@@ -80,12 +81,15 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     /**
-     * @return
+     * @return the map being represented.
      */
     private Map getMap() {
         return ((Map) getModel());
     }
 
+    /**
+     * Returns an icon representing a map.
+     */
     protected Image getImage() {
         if (super.getImage() == null)
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage()); //$NON-NLS-1$

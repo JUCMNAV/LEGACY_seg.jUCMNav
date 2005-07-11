@@ -1,9 +1,3 @@
-/*
- * Created on 17-May-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import org.eclipse.gef.EditPolicy;
@@ -25,35 +19,34 @@ import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
 /**
- * @author TremblaE
+ * TreeEditPart for PathNodes
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
+ * @author TremblaE
+ *  
  */
 public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 
     /**
      * @param model
+     *            the pathnode
      */
-    public PathNodeTreeEditPart(Object model) {
+    public PathNodeTreeEditPart(PathNode model) {
         super(model);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new PathNodeComponentEditPolicy());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * When setting widgets, uses a lighter coloir for DirectionArrows and EmptyPoints
      * 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#setWidget(org.eclipse.swt.widgets.Widget)
      */
@@ -66,21 +59,14 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
 
     }
 
-    //	protected List getModelChildren() {
-    //		ArrayList list = new ArrayList();
-    //		if(getPathNode().getLabel() != null)
-    //			list.add(getPathNode().getLabel());
-    //		return list;
-    //	}
-
+    /**
+     */
     protected PathNode getPathNode() {
         return (PathNode) getModel();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractTreeEditPart#getImage()
+    /**
+     * Returns an image representing the PathNode.
      */
     protected Image getImage() {
 
@@ -107,11 +93,6 @@ public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")).createImage()); //$NON-NLS-1$
             } else if (node instanceof AndJoin) {
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")).createImage()); //$NON-NLS-1$
-            } else if (node instanceof Stub) {
-                if (((Stub) node).isDynamic())
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage()); //$NON-NLS-1$
-                else
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage()); //$NON-NLS-1$
             } else
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage()); //$NON-NLS-1$
         }

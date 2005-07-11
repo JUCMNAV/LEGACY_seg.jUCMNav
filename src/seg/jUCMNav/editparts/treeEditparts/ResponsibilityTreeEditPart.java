@@ -11,48 +11,56 @@ import seg.jUCMNav.editpolicies.element.ResponsibilityComponentEditPolicy;
 import urncore.Responsibility;
 
 /**
- * Created 2005-05-17
+ * TreeEditPart for a responsibility definition.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class ResponsibilityTreeEditPart extends UcmModelElementTreeEditPart {
 
-	/**
-	 * @param model
-	 */
-	public ResponsibilityTreeEditPart(Object model) {
-		super(model);
-	}
+    /**
+     * @param model
+     *            the responsibility definition
+     */
+    public ResponsibilityTreeEditPart(Responsibility model) {
+        super(model);
+    }
 
-	
-	protected Responsibility getResponsibility(){
-		return (Responsibility)getModel();
-	}	
+    /**
+     * 
+     * @return the responsibility definition
+     */
+    protected Responsibility getResponsibility() {
+        return (Responsibility) getModel();
+    }
 
-	protected Image getImage() {
-		if(super.getImage() == null)
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
-		return super.getImage();
-	}
-	
-    /*
-     * (non-Javadoc)
+    /**
+     * @return the icon associated with responsibilities
+     */
+    protected Image getImage() {
+        if (super.getImage() == null)
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
+        return super.getImage();
+    }
+
+    /**
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new ResponsibilityComponentEditPolicy());
     }
-    
-    /* (non-Javadoc)
+
+    /**
+     * Unreferenced responsibilities are displayed in a lighter color. 
+     * 
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getResponsibility().getRespRefs().size()==0)
+        if (getResponsibility().getRespRefs().size() == 0)
             ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
         else
             ((TreeItem) widget).setForeground(new Color(null, 0, 0, 0));
 
         super.refreshVisuals();
-    }    
+    }
 }

@@ -1,45 +1,52 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
+import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
 
 /**
- * Created 2005-05-17
+ * TreeEditPart for ComponentRefs
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
 
     /**
      * @param model
+     *            the componentRef
      */
-    public ComponentRefTreeEditPart(Object model) {
+    public ComponentRefTreeEditPart(ComponentRef model) {
         super(model);
     }
 
+    /**
+     * Listens to reference and definition.
+     */
     public void activate() {
         super.activate();
         if (getCompRef().getCompDef() != null)
             getCompRef().getCompDef().eAdapters().add(this);
     }
 
+    /**
+     * Stops listening to reference and definition.
+     */
     public void deactivate() {
         super.deactivate();
         if (getCompRef().getCompDef() != null)
             getCompRef().getCompDef().eAdapters().remove(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -47,35 +54,55 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     /**
-     * @return
+     * @return the component ref model element.
      */
     private ComponentRef getCompRef() {
         return (ComponentRef) getModel();
     }
 
+    /**
+     * Returns the icon appropriate for the definition's kind
+     */
     protected Image getImage() {
         ComponentElement comp = getCompRef().getCompDef();
         if (super.getImage() == null) {
             if (comp instanceof Component) {
-                switch (((Component) comp).getKind().getValue()) {
-                case ComponentKind.AGENT:
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent16.gif")).createImage()); //$NON-NLS-1$
-                    break;
-                case ComponentKind.ACTOR:
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage()); //$NON-NLS-1$
-                    break;
-                case ComponentKind.OBJECT:
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif")).createImage()); //$NON-NLS-1$
-                    break;
-                case ComponentKind.PROCESS:
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
-                    break;                
-                default:
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
-                }
-            } else
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+                setImage(ComponentTreeEditPart.getComponentImage(((Component) comp).getKind()));
+            } else {
+                setImage(ComponentTreeEditPart.getComponentImage(ComponentKind.TEAM_LITERAL));
+            }
         }
         return super.getImage();
+    }
+
+    /**
+     * Change image if kind changes.
+     * 
+     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
+     */
+    public void notifyChanged(Notification notification) {
+        if (notification.getFeature() instanceof EStructuralFeature) {
+            EStructuralFeature structuralFeature = (EStructuralFeature) notification.getFeature();
+            if (structuralFeature.getEType().getInstanceClass() == ComponentKind.class) {
+                // next getImage() will refresh it. (refreshVisuals() in parent will do it)
+                if (getImage() != null) {
+                    getImage().dispose();
+                    setImage(null);
+                }
+            }
+        }
+        super.notifyChanged(notification);
+    }
+
+    /**
+     * Returns a ComponentPropertySource
+     * 
+     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#getPropertySource()
+     */
+    protected IPropertySource getPropertySource() {
+        if (propertySource == null)
+            propertySource = new ComponentPropertySource(getCompRef());
+
+        return propertySource;
     }
 }

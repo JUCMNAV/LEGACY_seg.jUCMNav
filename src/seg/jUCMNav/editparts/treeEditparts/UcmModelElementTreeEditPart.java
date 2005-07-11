@@ -1,9 +1,3 @@
-/*
- * Created on 17-May-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -16,42 +10,39 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
-import seg.jUCMNav.views.property.ComponentPropertySource;
-import seg.jUCMNav.views.property.ResponsibilityPropertySource;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
-import ucm.map.RespRef;
 
 /**
- * @author TremblaE
+ * TreeEditPart for all UcmModelElements. Baseclass for most other TreeEditParts.
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
+ * Handles disposal of image.
+ * 
+ * @author TremblaE
  */
 public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 
+    // The property source associated with this model element.
     protected IPropertySource propertySource = null;
+
+    // for impleneting Adapter
     private Notifier target;
 
+    // the image associated with this TreeEditPart.
     protected Image image;
 
     /**
      * @param model
+     *            the model element being edited.
      */
     public UcmModelElementTreeEditPart(Object model) {
         super(model);
     }
 
     /**
-     *  
-     */
-    private UcmModelElementTreeEditPart() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+     * Listens to the model element.
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
@@ -61,8 +52,9 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         super.activate();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * 
+     * Stops listening to the model element and destroys image.
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
@@ -77,11 +69,16 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         super.deactivate();
     }
 
+    /**
+     * When something is changed, refresh. We are also refreshing the parent so that elements can be reordered if renamed
+     *  
+     */
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER) {
             refreshChildren();
             refreshVisuals();
 
+            // refresh parent to reorder children if name changes.
             if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
                 getParent().refresh();
             }
@@ -89,25 +86,28 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         }
     }
 
+    /**
+     * Returns the textual string associated with this element.
+     * 
+     * @see seg.jUCMNav.model.util.EObjectClassNameComparator
+     */
     protected String getText() {
         return EObjectClassNameComparator.getSortableElementName((EObject) getModel());
     }
 
+    /**
+     * 
+     * @return the property source associated with this element.
+     */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
-            if (getModel() instanceof RespRef)
-                propertySource = new ResponsibilityPropertySource((EObject) getModel());
-            else if (getModel() instanceof ComponentRef)
-                propertySource = new ComponentPropertySource((EObject) getModel());
-            else
-                propertySource = new UCMElementPropertySource((EObject) getModel());
+            propertySource = new UCMElementPropertySource((EObject) getModel());
         }
         return propertySource;
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#getTarget()
      */
@@ -115,8 +115,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         return target;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
      */
@@ -124,8 +123,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         target = newTarget;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
      */
@@ -133,9 +131,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         return type.equals(getModel().getClass());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class key) {
@@ -149,8 +145,12 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
         return super.getAdapter(key);
     }
 
+    /**
+     * Convenience method to return the map that containst his element.
+     * 
+     * @return the map containing this element. 
+     */
     public Map getContainingMap() {
-
         if (getModel() instanceof PathNode) {
             return (((PathNode) getModel()).getPathGraph().getMap());
         } else if (getModel() instanceof ComponentRef) {
@@ -161,10 +161,16 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
             return null;
     }
 
+    /**
+     * @return The icon associated with this model element. 
+     */
     protected Image getImage() {
         return image;
     }
 
+    /**
+     * @param image the icon associated with this model element. 
+     */
     public void setImage(Image image) {
         this.image = image;
     }
