@@ -1,6 +1,3 @@
-/*
- * Created on Jun 1, 2005
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -13,32 +10,54 @@ import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
-import seg.jUCMNav.figures.util.JUCMNavFigure;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathGraph;
-import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urncore.Condition;
 import urncore.Label;
 
 /**
- * Editpart associated with urncore.Condition
+ * Editpart associated with urncore.Condition; a special label.
  * 
- * @author Jordan
+ * @author Jordan, jkealey
  */
 public class ConditionEditPart extends LabelEditPart {
-    private PathGraph diagram;
 
     public ConditionEditPart(Condition model, PathGraph diagram) {
         super(model);
-        this.diagram = diagram;
+
+        // conditions can be on these model elements. we don't know which until we check the references.
+        if (model.getNodeConnection() != null)
+            modelElement = model.getNodeConnection();
+        else if (model.getStartPoint() != null)
+            modelElement = model.getStartPoint();
+        else if (model.getEndPoint() != null)
+            modelElement = model.getEndPoint();
+
     }
 
-    /*
-     * (non-Javadoc)
+    // jkealey: Removed during cleanup; I don't think we need to listen to conditions as they don't hold any condition relevant properties. leaving just in case
+    // until next cleanup; see dactivate() as well. 
+    //
+    //    public void activate() {
+    //        if (!isActive()) {
+    //            if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
+    //                NodeConnection nc = ((Condition) modelElement).getNodeConnection();
+    //                if (nc != null)
+    //                    nc.eAdapters().add(this);
+    //            }
+    //        }
+    //        super.activate();
+    //    }
+
+    /**
+     * Places labels on the screen given their size, the model element's position and the deltax/y.
      * 
-     * @see seg.jUCMNav.editparts.LabelEditPart#calculateModelElementPosition(urncore.Label, org.eclipse.draw2d.geometry.Dimension)
+     * NodeConnection conditions are placed relative to the middle of the node connection.
+     * 
+     * For pre/post-conditions, refer to superclass.   
+     *  
      */
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location = new Point(0, 0);
@@ -49,16 +68,27 @@ public class ConditionEditPart extends LabelEditPart {
                 location = new Point(nc.getMiddlePoint().x - ((Condition) getModel()).getDeltaX(), nc.getMiddlePoint().y - ((Condition) getModel()).getDeltaY());
             }
             return location;
-        } else if (getUCMmodelElement() instanceof PathNode) {
-            PathNode node = (PathNode) getUCMmodelElement();
-            location = new Point(node.getX() - labelDimension.width / 2 - label.getDeltaX(), node.getY()
-                    - (labelDimension.height + JUCMNavFigure.getDimension(getUCMmodelElement()).height / 2) - label.getDeltaY());
         }
-
         return super.calculateModelElementPosition(label, labelDimension);
 
     }
 
+    //    public void deactivate() {
+    //        if (isActive()) {
+    //            if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
+    //                NodeConnection nc = ((Condition) modelElement).getNodeConnection();
+    //                if (nc != null)
+    //                    nc.eAdapters().remove(this);
+    //            }
+    //        }
+    //        super.deactivate();
+    //    }
+
+    /**
+     * Returns the node connection; no check to see if we are actually linking to a node connection
+     * 
+     * @return the node connection on which the condition is located
+     */
     public NodeConnection getNodeConnection() {
         return (NodeConnection) getUCMmodelElement();
     }
@@ -100,6 +130,9 @@ public class ConditionEditPart extends LabelEditPart {
         refreshVisuals();
     }
 
+    /**
+     * Sets the text in the label and its properties. make it surrounded by [] and of a lighter color.
+     */
     protected void setLabelText() {
         LabelFigure labelFigure = getLabelFigure();
         EditableLabel label = labelFigure.getLabel();

@@ -27,7 +27,8 @@ import ucm.map.PathNode;
  */
 public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListener {
 
-    HashMap extraAnchors;
+    // although this is called extraAnchors; we're generating all the anchors in here. 
+    private HashMap extraAnchors;
 
     /**
      * @param model
@@ -40,22 +41,32 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
         getNodeFigure().getTargetConnectionAnchor().addAnchorListener(this);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.editparts.PathNodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+    /**
+     * Refreshes all outgoing or incoming connections if the super classes's anchors are moved. 
      */
-    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        return getAnchor((NodeConnection) connection.getModel());
-    }
+    public void anchorMoved(ConnectionAnchor anchor) {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.editparts.PathNodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-     */
-    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
-        return getAnchor((NodeConnection) connection.getModel());
+        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+
+        // jk (later): I'm not sure why we are refreshing all the connections; might want to try to reduce the scope. 
+        if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter)
+            ((UCMConnectionRouter) cLayer.getConnectionRouter()).refreshConnections();
+
+        List toRefresh;
+        // and forks have their outputs rearranged; therefore the connection's source are rearranged.
+        if (getModel() instanceof AndFork)
+            toRefresh = getModelSourceConnections();
+        else
+            toRefresh = getModelTargetConnections();
+
+        // when one anchor is moved, we must inform the others as we are using mutually exclusive locations. 
+        for (Iterator iter = toRefresh.iterator(); iter.hasNext();) {
+            NodeConnection element = (NodeConnection) iter.next();
+            AndForkJoinConnectionAnchor anch = ((AndForkJoinConnectionAnchor) getAnchor(element));
+            if (anch != anchor)
+                anch.ancestorMoved(getFigure());
+        }
+
     }
 
     /**
@@ -71,28 +82,21 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
 
     }
 
+
     /**
-     * Refreshes all outgoing or incoming connections if the super classes's anchors are moved. 
+     * @param connection for which to obtain the anchor
+     * @return the anchor on the source side of the connection
      */
-    public void anchorMoved(ConnectionAnchor anchor) {
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+        return getAnchor((NodeConnection) connection.getModel());
+    }
 
-        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter)
-            ((UCMConnectionRouter) cLayer.getConnectionRouter()).refreshConnections();
-
-        List toRefresh;
-        if (getModel() instanceof AndFork)
-            toRefresh = getModelSourceConnections();
-        else
-            toRefresh = getModelTargetConnections();
-
-        for (Iterator iter = toRefresh.iterator(); iter.hasNext();) {
-            NodeConnection element = (NodeConnection) iter.next();
-            AndForkJoinConnectionAnchor anch = ((AndForkJoinConnectionAnchor) getAnchor(element));
-            if (anch != anchor)
-                anch.ancestorMoved(getFigure());
-        }
-
+    /**
+     * @param connection for which to obtain the anchor
+     * @return the anchor on the target side of the connection
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+        return getAnchor((NodeConnection) connection.getModel());
     }
 
 }

@@ -12,23 +12,24 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
- * Created 2005-03-24
+ * Our root edit part; this class mainly changes the order of the layers of the root edit part.
  * 
- * This class only changes the order of the layers of the root edit part.
- * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart {
 
     public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 
+    // bad design but used to simplify some stub binding code. 
     private UCMNavMultiPageEditor multiPageEditor;
 
+    // what is the current view mode for this editor. 
     private int mode = 0;
 
-    /**
-     *  
-     */
+	/**
+	 * 
+	 * @param editor the multi page editor
+	 */
     public ConnectionOnBottomRootEditPart(UCMNavMultiPageEditor editor) {
         super();
         multiPageEditor = editor;
@@ -50,22 +51,22 @@ public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart
     }
 
     /**
-     * @return Returns the MultiPageEditor.
+     * @return Returns the MultiPageEditor. This is bad design but used to simplify some stub binding code. 
      */
     public UCMNavMultiPageEditor getMultiPageEditor() {
         return multiPageEditor;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.ScalableFreeformRootEditPart#getScaledLayers()
-     */
+	/**
+	 * Overridden to allow access from export image wizard. 
+	 */
     public LayeredPane getScaledLayers() {
         return super.getScaledLayers();
     }
 
     /**
+     * See UCMActionBarContributor's use of ModeComboContributionItem.
+     * 
      * 0: normal show everything mode
      * 
      * 1: print mode 1: remove empty points
@@ -78,6 +79,9 @@ public class ConnectionOnBottomRootEditPart extends ScalableFreeformRootEditPart
         return this.mode;
     }
 
+    /**
+     * @param mode the new mode to be used; refreshes the editor. 
+     */
     public void setMode(int mode) {
         this.mode = mode;
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {

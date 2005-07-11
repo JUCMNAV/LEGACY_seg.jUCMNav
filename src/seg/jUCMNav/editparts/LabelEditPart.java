@@ -1,6 +1,3 @@
-/*
- * Created on Mar 27, 2005
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
@@ -32,12 +29,10 @@ import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
-import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
 import urncore.Responsibility;
@@ -46,19 +41,34 @@ import urncore.UCMmodelElement;
 /**
  * EditPart associated with urncore.Label
  * 
- * @author Jordan McManus
+ * For conditions, see ConditionEditPart.
+ * 
+ * @author Jordan McManus, jkealey
  */
 public class LabelEditPart extends ModelElementEditPart {
 
+    // label padding
     protected static final int LABEL_PADDING_X = 6;
     protected static final int LABEL_PADDING_Y = 4;
+
+    // when referencing comprefs, the label's text is contained in the definition.
     private ComponentElement comp = null;
 
+    // for direct edit
     protected DirectEditManager manager;
-    private EObject modelElement;
-    private Responsibility resp = null;
-    private NodeConnection nc = null;
 
+    // the model element being referenced; might be component, pathnode or even node connection (see ConditionEditPart)
+    protected EObject modelElement;
+
+    // when referencing resprefs, the label's text is contained in the definition.
+    private Responsibility resp = null;
+
+    /**
+     * Constructor infers the referenced model element for NodeLabels and ComponentLabels.
+     * 
+     * @param model
+     *            the urncore.Label to be represented
+     */
     public LabelEditPart(Label model) {
         super();
         setModel(model);
@@ -66,49 +76,50 @@ public class LabelEditPart extends ModelElementEditPart {
             modelElement = ((NodeLabel) model).getPathNode();
         else if (model instanceof ComponentLabel)
             modelElement = ((ComponentLabel) model).getCompRef();
-        else if (model instanceof Condition) {
-            if (((Condition) model).getNodeConnection() != null)
-                modelElement = ((Condition) model).getNodeConnection();
-            else if (((Condition) model).getStartPoint() != null)
-                modelElement = ((Condition) model).getStartPoint();
-            else if (((Condition) model).getEndPoint() != null)
-                modelElement = ((Condition) model).getEndPoint();
-
-        }
 
     }
 
+    /**
+     * 
+     * @param model
+     *            the urncore.Label to be represented
+     * @param modelElement
+     *            the model element is is supposed to be linked to.
+     */
     public LabelEditPart(Label model, EObject modelElement) {
         super();
         setModel(model);
         this.modelElement = modelElement;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
+    /**
+     * activates the listeners
      */
     public void activate() {
         if (!isActive()) {
             modelElement.eAdapters().add(this);
-            if (modelElement instanceof ComponentRef) {
+            if (modelElement instanceof ComponentRef && ((ComponentRef) modelElement).getCompDef() != null) {
                 comp = ((ComponentRef) modelElement).getCompDef();
-                if (comp != null)
-                    comp.eAdapters().add(this);
-            } else if (modelElement instanceof RespRef) {
+                comp.eAdapters().add(this);
+            } else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
                 resp = ((RespRef) modelElement).getRespDef();
-                if (resp != null)
-                    resp.eAdapters().add(this);
-            } else if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
-                nc = ((Condition) modelElement).getNodeConnection();
-                if (nc != null)
-                    nc.eAdapters().add(this);
+                resp.eAdapters().add(this);
             }
         }
         super.activate();
     }
 
+    /**
+     * Places labels on the screen given their size, the model element's position and the deltax/y.
+     * 
+     * NodeLabels are positioned relative to the center of the PathNode. ComponentLabels are positioned relative to the top left corner of the ComponenRef.
+     * 
+     * @param label
+     *            the urncore.Label to be drawn.
+     * @param labelDimension
+     *            its dimensions.
+     * @return the point where the label should be located. 
+     */
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location;
 
@@ -120,15 +131,15 @@ public class LabelEditPart extends ModelElementEditPart {
             ComponentRef component = (ComponentRef) modelElement;
             location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
         } else {
+            // if we don't know how to place this label, use top left corner of screen.
+            // not used in practice, simply for debugging.
             location = new Point(0, 0);
         }
 
         return location;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -137,9 +148,7 @@ public class LabelEditPart extends ModelElementEditPart {
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
     protected IFigure createFigure() {
@@ -147,26 +156,18 @@ public class LabelEditPart extends ModelElementEditPart {
         return new LabelFigure(label);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
+    /**
+     * removes listeners
      */
     public void deactivate() {
         if (isActive()) {
             modelElement.eAdapters().remove(this);
-            if (modelElement instanceof ComponentRef) {
-                if (comp != null)
-                    comp.eAdapters().remove(this);
+            if (modelElement instanceof ComponentRef && comp != null) {
+                comp.eAdapters().remove(this);
                 comp = null;
-            } else if (modelElement instanceof RespRef) {
-                if (resp != null)
-                    resp.eAdapters().remove(this);
+            } else if (modelElement instanceof RespRef && resp != null) {
+                resp.eAdapters().remove(this);
                 resp = null;
-            } else if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
-                nc = ((Condition) modelElement).getNodeConnection();
-                if (nc != null)
-                    nc.eAdapters().remove(this);
             }
         }
         super.deactivate();
@@ -176,7 +177,7 @@ public class LabelEditPart extends ModelElementEditPart {
      * For direct edit, verify location.
      * 
      * @param requestLoc
-     * @return
+     * @return true if the label contains the point
      */
     private boolean directEditHitTest(Point requestLoc) {
         LabelFigure figure = (LabelFigure) getFigure();
@@ -187,19 +188,27 @@ public class LabelEditPart extends ModelElementEditPart {
         return false;
     }
 
+    /**
+     * Convenience method to avoid casting.
+     * 
+     * @return the label's figure.
+     */
     public LabelFigure getLabelFigure() {
         return (LabelFigure) getFigure();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Convenience method to avoid casting.
      * 
-     * @see seg.jUCMNav.editparts.ModelEditPart#getModelObj()
+     * @return the label
      */
     public Label getModelObj() {
         return (Label) getModel();
     }
 
+    /**
+     * @return an instance of LabelPropertySource.
+     */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
             propertySource = new LabelPropertySource((EObject) getModel());
@@ -207,10 +216,9 @@ public class LabelEditPart extends ModelElementEditPart {
         return propertySource;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see seg.jUCMNav.editparts.ModelEditPart#getModelObj()
+     * @return the referenced model element.
      */
     public EObject getUCMmodelElement() {
         return modelElement;
@@ -227,16 +235,16 @@ public class LabelEditPart extends ModelElementEditPart {
         refreshVisuals();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+    /**
+     * When the label's model element definition changes, we must change our references.
+     *  
      */
     public void notifyChanged(Notification notification) {
         int type = notification.getEventType();
         int featureId = notification.getFeatureID(MapPackage.class);
 
         if (type == Notification.SET) {
+            // if changing component definitions
             if (featureId == MapPackage.COMPONENT_REF__COMP_DEF) {
                 if (modelElement instanceof ComponentRef) {
                     if (comp != null)
@@ -245,7 +253,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     if (comp != null)
                         comp.eAdapters().add(this);
                 }
-            } else if (featureId == MapPackage.RESP_REF__RESP_DEF)
+            } else if (featureId == MapPackage.RESP_REF__RESP_DEF) // if changing responsibility definitions
                 if (modelElement instanceof RespRef) {
                     if (resp != null)
                         resp.eAdapters().remove(this);
@@ -254,6 +262,7 @@ public class LabelEditPart extends ModelElementEditPart {
                         resp.eAdapters().add(this);
                 }
 
+            // something changed; inform parent. not sure how useful this is anymore
             if (getParent() != null) {
                 ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
                 refreshVisuals();
@@ -293,10 +302,8 @@ public class LabelEditPart extends ModelElementEditPart {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+    /**
+     * Refresh the label.
      */
     public void refreshVisuals() {
         if (modelElement != null) {
@@ -304,6 +311,7 @@ public class LabelEditPart extends ModelElementEditPart {
             LabelFigure labelFigure = getLabelFigure();
             EditableLabel label = labelFigure.getLabel();
 
+            // set the label's text
             setLabelText();
 
             //The position of the new figure
@@ -312,9 +320,9 @@ public class LabelEditPart extends ModelElementEditPart {
             if (getParent() != null) {
                 Dimension dimEditableLabel = label.getPreferredSize().getCopy();
                 newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
-
                 location = calculateModelElementPosition(getModelObj(), newLabelDimension);
             } else {
+                // happens in mass deletions; random unimportant location.
                 location = new Point(0, 0);
                 newLabelDimension = new Dimension(100, 100);
             }
@@ -323,11 +331,13 @@ public class LabelEditPart extends ModelElementEditPart {
             labelFigure.setBounds(bounds);
             label.setBounds(bounds);
 
+            // We only show empty points (and their labels) when the mode is 0.
             if (modelElement instanceof EmptyPoint) {
                 if (getParent() != null) {
                     labelFigure.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
                 }
             }
+
             // notify parent container of changed position & location
             // if this line is removed, the XYLayoutManager used by the parent container
             // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
@@ -340,29 +350,6 @@ public class LabelEditPart extends ModelElementEditPart {
     }
 
     /**
-     *  
-     */
-    protected void setLabelText() {
-        LabelFigure labelFigure = getLabelFigure();
-        EditableLabel label = labelFigure.getLabel();
-
-        if (modelElement instanceof ComponentRef) {
-            ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
-            if (componentElement != null)
-                label.setText(componentElement.getName());
-
-            label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
-        } else if (modelElement instanceof RespRef) {
-            Responsibility responsibility = ((RespRef) modelElement).getRespDef();
-            if (responsibility != null)
-                label.setText(responsibility.getName());
-        } else if (modelElement instanceof UCMmodelElement) {
-            label.setText(((UCMmodelElement) modelElement).getName());
-        }
-
-    }
-
-    /**
      * Reverts to existing name in model when exiting from a direct edit (possibly before a commit which will result in a change in the label value)
      */
     public void revertNameChange() {
@@ -370,5 +357,28 @@ public class LabelEditPart extends ModelElementEditPart {
         EditableLabel label = tableFigure.getLabel();
         label.setVisible(true);
         refreshVisuals();
+    }
+
+    /**
+     * Sets the label's text, given its referenced model element.
+     */
+    protected void setLabelText() {
+        LabelFigure labelFigure = getLabelFigure();
+        EditableLabel label = labelFigure.getLabel();
+
+        if (modelElement instanceof ComponentRef) { // use definition
+            ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
+            if (comp != null)
+                label.setText(componentElement.getName());
+            // componentref labels are in bold.
+            label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+        } else if (modelElement instanceof RespRef) { // use definition
+            Responsibility responsibility = ((RespRef) modelElement).getRespDef();
+            if (responsibility != null)
+                label.setText(responsibility.getName());
+        } else if (modelElement instanceof UCMmodelElement) { // use element's name directly.
+            label.setText(((UCMmodelElement) modelElement).getName());
+        }
+
     }
 }

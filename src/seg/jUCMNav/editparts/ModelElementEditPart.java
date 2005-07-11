@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-23
- *
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.IFigure;
@@ -20,8 +16,6 @@ import ucm.map.RespRef;
  * This is a top level EditPart that defines the behaviour that needs to be adhered to in order to function properly.
  * All jUCMNav EditParts should subclass this EditPart.
  * 
- * Created 2005-02-23
- * 
  * @author Etienne Tremblay
  */
 public abstract class ModelElementEditPart extends AbstractGraphicalEditPart implements Adapter {
@@ -29,11 +23,18 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
     private Notifier target;
 
     /**
-     *  
+     * @see org.eclipse.gef.EditPart#activate()
      */
-    public ModelElementEditPart() {
-        super();
+    public void activate() {
+        if (!isActive())
+            ((EObject) getModel()).eAdapters().add(this);
+        super.activate();
     }
+
+    /**
+     * Create the editpolicies for this editpart.
+     */
+    protected abstract void createEditPolicies();
 
     /**
      * Each editparts has to provide a way to create their figures.
@@ -43,33 +44,6 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
     protected abstract IFigure createFigure();
 
     /**
-     * Create the editpolicies for this editpart.
-     */
-    protected abstract void createEditPolicies();
-
-    protected abstract void refreshVisuals();
-
-    /**
-     * This method is called when the model element is changed. The edit part has to update the visuals of the change.
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-     */
-    public abstract void notifyChanged(Notification notification);
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate() {
-        if (!isActive())
-            ((EObject) getModel()).eAdapters().add(this);
-        super.activate();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
@@ -78,47 +52,7 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
         super.deactivate();
     }
 
-    protected IPropertySource getPropertySource() {
-        if (propertySource == null) {
-            if (getModel() instanceof RespRef)
-                propertySource = new ResponsibilityPropertySource((EObject) getModel());
-            else
-                propertySource = new UCMElementPropertySource((EObject) getModel());
-        }
-        return propertySource;
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-     */
-    public Notifier getTarget() {
-        return target;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-     */
-    public void setTarget(Notifier newTarget) {
-        target = newTarget;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-     */
-    public boolean isAdapterForType(Object type) {
-        return type.equals(getModel().getClass());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
      */
     public Object getAdapter(Class key) {
@@ -130,5 +64,53 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
             return getPropertySource();
         }
         return super.getAdapter(key);
+    }
+
+    /**
+     * Returns a ResponsibilityPropertySource if the model element is a RespRef,  UCMElementPropertySource otherwise. 
+     * @return a property source for our object
+     */
+    protected IPropertySource getPropertySource() {
+        if (propertySource == null) {
+            if (getModel() instanceof RespRef)
+                propertySource = new ResponsibilityPropertySource((EObject) getModel());
+            else
+                propertySource = new UCMElementPropertySource((EObject) getModel());
+        }
+        return propertySource;
+
+    }
+
+    /**
+     * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+     */
+    public Notifier getTarget() {
+        return target;
+    }
+
+    /**
+     * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+     */
+    public boolean isAdapterForType(Object type) {
+        return type.equals(getModel().getClass());
+    }
+
+    /**
+     * This method is called when the model element is changed. The edit part has to update the visuals of the change.
+     * 
+     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+     */
+    public abstract void notifyChanged(Notification notification);
+
+    /**
+     * Called when the figure needs to be refreshed. 
+     */
+    protected abstract void refreshVisuals();
+
+    /**
+     * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+     */
+    public void setTarget(Notifier newTarget) {
+        target = newTarget;
     }
 }

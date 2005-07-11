@@ -184,9 +184,8 @@ public class MultiPageFileManager {
     }
 
     /**
-     * Returns the editor that is worked on.
      * 
-     * @return
+     * @return the editor that is worked on.
      */
     private UCMNavMultiPageEditor getEditor() {
         return editor;

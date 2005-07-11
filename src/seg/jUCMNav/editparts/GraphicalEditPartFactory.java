@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.gef.EditPart;
@@ -24,8 +20,8 @@ import urncore.Label;
  * @author Etienne Tremblay
  */
 public class GraphicalEditPartFactory implements EditPartFactory {
-	
-	Map root;
+	// the root map for this factory. 
+	private Map root;
 	
 	public GraphicalEditPartFactory(){
 		super();
@@ -35,8 +31,10 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		this.root = root;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)
+
+	/**
+	 * Creates a new instance of an editpart given the model element. 
+	 * If we forget to add code here when creating new model elements, an assertion will fail. 
 	 */
 	public EditPart createEditPart(EditPart context, Object model) {
 		if(model instanceof Map)
@@ -54,9 +52,11 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 		else if (model instanceof AndFork || model instanceof AndJoin)
 		    return new AndForkJoinEditPart((PathNode) model, root.getPathGraph());
 		else if(model instanceof PathNode)
+		    // all other pathnodes share the same editpart. 
 			return new PathNodeEditPart((PathNode)model, root.getPathGraph());
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();"); //$NON-NLS-1$
+		    assert false : "Unknown class in GraphicalEditPartFactory.createEditPart();";
 			return null;
 		}
 	}

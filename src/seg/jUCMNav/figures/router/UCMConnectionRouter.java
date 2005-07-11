@@ -93,7 +93,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
 
             }
 
-            // refresh outgoing andjoin/timer only.
+            // refresh outgoing andjoin/timer/stub only. (for rotation/node connection labels)
             if (nc.getSource() instanceof AndJoin || nc.getSource() instanceof Timer || nc.getSource() instanceof Stub) {
                 PathNodeEditPart edit = (PathNodeEditPart) editpartregistry.get(nc.getSource());
                 if (edit != null) {

@@ -218,7 +218,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * @return
+     * @return the outline associated with this editor
      */
     private UcmOutlinePage getOutlinePage() {
         if (outline == null)

@@ -22,6 +22,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 
 /**
@@ -39,7 +40,14 @@ public class ModeComboContributionItem extends ContributionItem {
     private IPartListener partListener;
     private ISelectionListener selectionListener;
 
+    // should mode be local to current editor only?
+    private static boolean local = false;
+
+    // when local to editor
     private ConnectionOnBottomRootEditPart part;
+
+    // when global to all editors
+    private UCMNavMultiPageEditor editor;
 
     /**
      * Constructor for ComboToolItem.
@@ -60,6 +68,7 @@ public class ModeComboContributionItem extends ContributionItem {
                 if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
                     ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
                             .getGraphicalViewer().getRootEditPart());
+                    ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor(); 
 
                     refresh(true);
                 }
@@ -71,7 +80,7 @@ public class ModeComboContributionItem extends ContributionItem {
                 if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
                     ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
                             .getGraphicalViewer().getRootEditPart());
-
+                    ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor();
                     refresh(true);
                 }
             }
@@ -234,12 +243,7 @@ public class ModeComboContributionItem extends ContributionItem {
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(SelectionEvent)
      */
     private void handleWidgetSelected(SelectionEvent event) {
-        // TODO: GTK Workaround (fixed in 3.0) - see SWT bug #44345
-        if (part != null)
-            if (combo.getSelectionIndex() >= 0) {
-                part.setMode(combo.getSelectionIndex());
-            } else
-                part.setMode(0);
+        refreshEditor(); 
 
         /*
          * There are several cases where invoking setZoomAsText (above) will not result in zoomChanged being fired (the method below), such as when the user
@@ -250,4 +254,38 @@ public class ModeComboContributionItem extends ContributionItem {
         refresh(false);
     }
 
+    /**
+     * Refreshes the editor given the current state of the combo box. 
+     */
+    public void refreshEditor() {
+        // TODO: GTK Workaround (fixed in 3.0) - see SWT bug #44345
+        if (part != null)
+            if (combo.getSelectionIndex() >= 0) {
+                if (isLocal()) {
+                    part.setMode(combo.getSelectionIndex());
+                } else {
+                    UcmEditor u;
+                    // for all editors, 
+                    for (int i=0; i<editor.getPageCount();i++) {
+                        u = (UcmEditor) editor.getEditor(i);
+                        ((ConnectionOnBottomRootEditPart) u.getGraphicalViewer().getRootEditPart()).setMode(combo.getSelectionIndex());
+                    }
+                }
+            }
+    }
+
+    /**
+     * @return do changes impact only the currently opened editor or does it affect all of them?
+     */
+    public static boolean isLocal() {
+        return local;
+    }
+    
+    /**
+     * 
+     * @param local do changes impact only the currently opened editor or does it affect all of them?
+     */
+    public static void setLocal(boolean local) {
+        ModeComboContributionItem.local = local;
+    }
 }

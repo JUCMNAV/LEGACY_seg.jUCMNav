@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.editparts;
 
 import java.util.Map;
@@ -41,11 +37,15 @@ import ucm.map.Timer;
 /**
  * EditPart associated with NodeConnection.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jmcmanus, jkealey
  *  
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
+    /**
+     * Because GEF's AbstractConnectionEditPart has methods conflicting with EMF's Adapter, we needed an internal class to act as a listener.
+     *  
+     */
     private class NodeConnectionAdapter implements Adapter {
         private Notifier target;
 
@@ -53,24 +53,23 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             this.target = target;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
+        /**
          * @see org.eclipse.emf.common.notify.Adapter#getTarget()
          */
         public Notifier getTarget() {
             return target;
         }
 
-        /*
-         * (non-Javadoc)
-         * 
+        /**
          * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
          */
         public boolean isAdapterForType(Object type) {
             return type.equals(getModel().getClass());
         }
 
+        /**
+         * When connection's condition is changed, refresh map and path graph.
+         */
         public void notifyChanged(Notification notification) {
 
             int type = notification.getEventType();
@@ -94,9 +93,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             }
         }
 
-        /*
-         * (non-Javadoc)
-         * 
+        /**
          * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
          */
         public void setTarget(Notifier newTarget) {
@@ -108,9 +105,17 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     private PathGraph diagram;
     private Label endLabel, startLabel;
-    private TimeoutPathFigure timeout;
     protected IPropertySource propertySource = null;
+    private TimeoutPathFigure timeout;
 
+    /**
+     * Build an edit part for the given link, in the given pathgraph.
+     * 
+     * @param link
+     *            to be represented
+     * @param diagram
+     *            the pathgraph which contains it.
+     */
     public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
         super();
         setModel(link);
@@ -119,8 +124,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         adapter = new NodeConnectionAdapter((Notifier) getModel());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Add NodeConnectionAdapter to listeners.
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
@@ -131,6 +136,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     }
 
     /**
+     * Given a connection which goes into a Stub, adds the appropriate label.
+     * 
      * @param connection
      */
     private void addEndLabel(SplineConnection connection) {
@@ -147,6 +154,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     }
 
     /**
+     * Given a connection which originates from a Stub, adds the appropriate label.
+     * 
      * @param connection
      */
     private void addStartLabel(SplineConnection connection) {
@@ -162,6 +171,11 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         connection.add(startLabel, targetEndpointLocator);
     }
 
+    /**
+     * Given a connection, draw the TimeoutPathFigure on the node connection.
+     * 
+     * @param connection
+     */
     private void addTimeout(SplineConnection connection) {
         if (timeout != null)
             getFigure().remove(timeout);
@@ -175,9 +189,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -186,8 +198,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates a SplineConnection and adds appropriate decorations.
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
@@ -211,8 +223,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         return connection;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Removes the adapter.
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
@@ -220,20 +232,22 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         if (isActive())
             ((EObject) getModel()).eAdapters().remove(adapter);
         super.deactivate();
-        if (endLabel != null) {
-            ((SplineConnection) getFigure()).remove(endLabel);
-            endLabel = null;
-        }
 
-        if (startLabel != null) {
-            ((SplineConnection) getFigure()).remove(startLabel);
-            startLabel = null;
-        }
+        // jkealey: removed during cleanup; i think the figure tree will remove these automatically.
+        // leaving in case testing needs to be done.
+        //        if (endLabel != null) {
+        //            ((SplineConnection) getFigure()).remove(endLabel);
+        //            endLabel = null;
+        //        }
+        //        if (startLabel != null) {
+        //            ((SplineConnection) getFigure()).remove(startLabel);
+        //            startLabel = null;
+        //        }
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a UCMElementPropertySource
      * 
      * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
      */
@@ -247,11 +261,17 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         return super.getAdapter(adapter);
     }
 
+    /**
+     * @return the concerned node connection.
+     */
     private NodeConnection getLink() {
         return (NodeConnection) getModel();
     }
 
     /**
+     * Queries the figure to obtain its middle point. This method has no knowledge of whether the connection has been routed or not. If not, you might get
+     * invalid results. Used to encapsulate access to the middle point in this class instead of having everyone directly access the figure (still is bad code
+     * though).
      * 
      * @return The middle point of the spline.
      */
@@ -259,18 +279,24 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null || ((SplineConnection) getFigure()).getPoints().size() == 0)
             if (getLink().getSource() != null && getLink().getTarget() != null)
                 return new Point(getLink().getTarget().getX() - getLink().getSource().getX(), getLink().getTarget().getY() - getLink().getSource().getY());
-            else 
+            else
                 return new Point(0, 0);
         else
             return ((SplineConnection) getFigure()).getPoints().getMidpoint();
     }
 
+    /**
+     * 
+     * @return the pathgraph containing the connection.
+     */
     public PathGraph getPathGraph() {
         return diagram;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Refreshes the connection; adds/removes/replaces connection decorations if appropriate.
+     * 
+     * Hides the stub label if in print mode.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
@@ -301,6 +327,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
             startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
 
+        // hide in print mode.
         if (endLabel != null) {
             endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }

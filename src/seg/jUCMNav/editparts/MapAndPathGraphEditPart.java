@@ -36,7 +36,11 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
- * Top level edit part. Contains the drawing board where everything is inserted.
+ * Editpart for a use case map and its pathgraph. Contains the drawing board where everything is inserted.
+ * 
+ * Parent of all other edit parts in the editor.
+ * 
+ * This edit part and those calling it don't follow GEF standards. It may be possible to refactor our code so that it is cleaner, but we have not yet attempted.  Don't use this class as an example for edit part behaviour. 
  * 
  * @author Etienne Tremblay, jkealey
  */
@@ -44,13 +48,80 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
 
     protected EditPart editPartInProcess = null;
 
+    /**
+     * Creates an editpart for the map
+     * @param map the use case map
+     */
     public MapAndPathGraphEditPart(Map map) {
         setModel(map);
-        //		map.getPathGraph().eAdapters().add(this);
     }
 
     /**
-     * ( Creates the freeform layout
+     * @see org.eclipse.gef.EditPart#activate()
+     */
+    public void activate() {
+        if (!isActive()) {
+            getPathGraph().eAdapters().add(this);
+            getMap().eAdapters().add(this);
+        }
+        super.activate();
+    }
+
+    /**
+     * Had to be overridden to take into account the fact that components are at the end of the children list of editpart. Since this function is called with a
+     * different index for normal child and components, we had to change this.
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#addChild(org.eclipse.gef.EditPart, int)
+     */
+    protected void addChild(EditPart child, int index) {
+        editPartInProcess = child;
+        Assert.isNotNull(child);
+        if (index == -1)
+            index = getChildren().size();
+        if (children == null)
+            children = new ArrayList(2);
+
+        int i = index;
+        if (child.getModel() instanceof ComponentRef)
+            i += getPathNodeEditParts().size();
+
+        children.add(i, child);
+        child.setParent(this);
+        addChildVisual(child, index);
+        child.addNotify();
+
+        if (isActive())
+            child.activate();
+        fireChildAdded(child, index);
+        editPartInProcess = null;
+    }
+
+    /**
+     * @see #removeChildVisual(EditPart childEditPart)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+     */
+    protected void addChildVisual(EditPart childEditPart, int index) {
+        if (!(childEditPart.getModel() instanceof ComponentRef)) {
+            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+            getContentPane().add(child, index);
+        } else {
+            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+            getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(child, index);
+        }
+    }
+
+    /**
+     * Creates our top level edit policies.
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapAndPathGraphXYLayoutEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+    }
+
+    /**
+     * Creates the freeform layout
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
@@ -63,32 +134,230 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
     }
 
     /**
-     * Creates our top level edit policities.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     * @see org.eclipse.gef.EditPart#deactivate()
      */
-    protected void createEditPolicies() {
-        // This install a container policy
-        //		installEditPolicy(EditPolicy.CONTAINER_ROLE, new UcmEditPolicy());
-        // This install the layout edit policy. Wich commands are used for
-        // create/move/resize etc...
-
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new MapAndPathGraphXYLayoutEditPolicy());
-        //		installEditPolicy(EditPolicy.NODE_ROLE, null);
-        //		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
-        //		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
+    public void deactivate() {
+        if (isActive()) {
+            getMap().eAdapters().remove(this);
+            getPathGraph().eAdapters().remove(this);
+        }
+        super.deactivate();
     }
 
     /**
-     * This function was overwrited to make it possible to refresh both normal objects and components objects. Both have to be considered differently because
-     * components are now in their own layer: COMPONENT_LAYER wich is a top level layer at the bottom most level (under connections).
+     * Return all the components editparts from the children list.
+     * 
+     * @return All the components editparts children of this editpart.
+     */
+    protected List getComponentEditParts() {
+        List children = getChildren();
+        List comps = new ArrayList();
+
+        for (Iterator j = children.iterator(); j.hasNext();) {
+            EditPart edit = (EditPart) j.next();
+            if (edit.getModel() instanceof ComponentRef)
+                comps.add(edit);
+        }
+
+        return comps;
+    }
+
+    /**
+     * @return the componentrefs, ordered by area.
+     */
+    private List getComponents() {
+        List list = new ArrayList();
+
+        // get all component references
+        for (Iterator i = getMap().getCompRefs().iterator(); i.hasNext();) {
+            list.add(i.next());
+        }
+
+        // sort them by ascending area
+        Collections.sort(list, new ComponentRefAreaComparator());
+        // reverse the list so that our largest components are in the back.
+        Collections.reverse(list);
+        return list;
+    }
+
+    /**
+     * 
+     * @return the conditions linked to node connection, start points or end points.
+     */
+    private List getConditions() {
+        List list = new ArrayList();
+
+        for (Iterator i = getPathGraph().getNodeConnections().iterator(); i.hasNext();) {
+            NodeConnection nc = (NodeConnection) i.next();
+            if (nc.getCondition() != null) {
+                list.add(nc.getCondition());
+            }
+        }
+        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
+            PathNode pn = (PathNode) i.next();
+            if (pn instanceof StartPoint && ((StartPoint) pn).getPrecondition() != null) {
+                list.add(((StartPoint) pn).getPrecondition());
+            } else if (pn instanceof EndPoint && ((EndPoint) pn).getPostcondition() != null) {
+                list.add(((EndPoint) pn).getPostcondition());
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Depending if the editPart currently in process is a component or not, return a different content pane.
+     * 
+     * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
+     */
+    public IFigure getContentPane() {
+        if (editPartInProcess != null) {
+            if (editPartInProcess.getModel() instanceof ComponentRef)
+                return getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER);
+            else
+                return super.getContentPane();
+        } else
+            return super.getContentPane();
+    }
+
+    /**
+     * @return the labels linked to pathnodes or componentrefs.
+     */
+    private List getLabels() {
+        List list = new ArrayList();
+
+        // put the labels on top because they are always over components.
+        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
+            PathNode node = (PathNode) i.next();
+            if (node.getLabel() != null) {
+                list.add(node.getLabel());
+            }
+        }
+
+        for (Iterator i = getMap().getCompRefs().iterator(); i.hasNext();) {
+            ComponentRef component = (ComponentRef) i.next();
+            if (component.getLabel() != null) {
+                list.add(component.getLabel());
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 
+     * @return the top level ucm.map.Map used to store all information. Contains ComponentRefs and a PathGraph.
+     */
+    private Map getMap() {
+        return (Map) getModel();
+    }
+
+    /**
+     * Returns the map&pathgraph's children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
+     * the board.
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
+     */
+    protected List getModelChildren() {
+        List list = getComponents();
+        list.addAll(getPathNodes());
+        list.addAll(getLabels());
+        list.addAll(getConditions());
+        return list;
+    }
+
+    /**
+     * 
+     * @return The Map's path graph, used to insert nodes and connections.
+     */
+    private PathGraph getPathGraph() {
+        return ((Map) getModel()).getPathGraph();
+    }
+
+    /**
+     * @return Return all the pathnode editparts children of this editpart.
+     */
+    protected List getPathNodeEditParts() {
+        List children = getChildren();
+        List pathNodes = new ArrayList();
+
+        for (Iterator j = children.iterator(); j.hasNext();) {
+            EditPart edit = (EditPart) j.next();
+            if (edit.getModel() instanceof PathNode)
+                pathNodes.add(edit);
+        }
+
+        return pathNodes;
+    }
+
+    /**
+     * @return the pathnodes in the pathgraph, except for Connects.
+     */
+    private List getPathNodes() {
+        List list = new ArrayList();
+
+        // put the nodes on top because they are always over components.
+        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
+            PathNode pn = (PathNode) i.next();
+            if (!(pn instanceof Connect)) {
+                list.add(pn);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Change listener. Has to handle when its children are changed and when we might have to reorder them.
+     * 
+     * This method should be reviewed for performance issues. We probably refresh too often. 
+     * 
+     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+     */
+    public void notifyChanged(Notification notification) {
+        int type = notification.getEventType();
+        int featureId = notification.getFeatureID(UcmPackage.class);
+        switch (type) {
+        case Notification.ADD:
+        case Notification.ADD_MANY:
+            // Don't call refreshChildren if a NodeConnection is sending a notification.
+            if (!(notification.getNewValue() instanceof NodeConnection))
+                refreshChildren();
+            break;
+        case Notification.REMOVE:
+        case Notification.REMOVE_MANY:
+            // Don't call refreshChildren if a NodeConnection is sending a notification.
+            if (!(notification.getOldValue() instanceof NodeConnection))
+                refreshChildren();
+            break;
+        case Notification.SET:
+            switch (featureId) {
+            case MapPackage.COMPONENT_REF__LABEL:
+            case MapPackage.PATH_NODE__LABEL:
+                refreshChildren();
+                break;
+            // duplicate with pn_label case MapPackage.COMPONENT_REF__WIDTH:
+            case MapPackage.COMPONENT_REF__HEIGHT:
+                if (notification.getNotifier() instanceof ComponentRef) {
+                    // we might have to reorder the children so as to put the largest components in the back.
+                    refreshChildren();
+                }
+                break;
+            }
+            //            refreshVisuals();
+            break;
+        }
+
+        refreshChildren();
+    }
+
+    /**
+     * This function was overridden to make it possible to refresh both normal objects and components objects. Both have to be considered differently because
+     * components are now in their own layer: COMPONENT_LAYER which is a top level layer at the bottom most level (under connections).
      * 
      * Components editparts are children of this editpart but the component figures are children of COMPONENT_LAYER. This concept doesn't work well with the
      * default behavior of refreshChildren because the default behavior is to add or reorder children within the children figures of the figure of this edit
      * part.
-     * 
-     * (non-Javadoc)
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshChildren()
      */
@@ -186,40 +455,52 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
     }
 
     /**
-     * Had to be overwrited to take into account the fact that components are at the end of the children list of editpart Since this function is called with a
-     * different index for normal child and components, we had to change this.
-     * 
      * (non-Javadoc)
      * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#addChild(org.eclipse.gef.EditPart, int)
+     * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
-    protected void addChild(EditPart child, int index) {
-        editPartInProcess = child;
-        Assert.isNotNull(child);
-        if (index == -1)
-            index = getChildren().size();
-        if (children == null)
-            children = new ArrayList(2);
-
-        int i = index;
-        if (child.getModel() instanceof ComponentRef)
-            i += getPathNodeEditParts().size();
-
-        children.add(i, child);
-        child.setParent(this);
-        addChildVisual(child, index);
-        child.addNotify();
-
-        if (isActive())
-            child.activate();
-        fireChildAdded(child, index);
-        editPartInProcess = null;
+    protected void refreshVisuals() {
+        for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+            AbstractGraphicalEditPart element = (AbstractGraphicalEditPart) iter.next();
+            element.refresh();
+            // refresh stub labels; doing this in its refreshVisuals crashed the app with a heap space error.
+            if (element instanceof StubEditPart)
+                ((StubEditPart) element).refreshInOuts();
+        }
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
-     * @see addChild(EditPart child, int index)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
+     */
+    protected void registerVisuals() {
+        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+        cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), getPathGraph()));
+
+        super.registerVisuals();
+    }
+
+    /**
+     * Remove the child from the parent figure. Remove components from the COMPONENT_LAYER, do the normal behavior.
+     * 
+     * @see org.eclipse.gef.editparts.AbstractEditPart#removeChildVisual(org.eclipse.gef.EditPart)
+     */
+    protected void removeChildVisual(EditPart childEditPart) {
+        if (!(childEditPart.getModel() instanceof ComponentRef)) {
+            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+            getContentPane().remove(child);
+        } else {
+            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
+            getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).remove(child);
+        }
+    }
+
+    /**
+     * Had to be overridden to take into account the fact that components are at the end of the children list of editpart. Since this function is called with a
+     * different index for normal child and components, we had to change this.
+     * 
+     * @see #addChild(EditPart child, int index)
      * @see org.eclipse.gef.editparts.AbstractEditPart#reorderChild(org.eclipse.gef.EditPart, int)
      */
     protected void reorderChild(EditPart child, int index) {
@@ -248,26 +529,7 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
     }
 
     /**
-     * Depending if the editPart currently in process is a component or not, return a different content pane.
-     * 
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
-     */
-    public IFigure getContentPane() {
-        if (editPartInProcess != null) {
-            if (editPartInProcess.getModel() instanceof ComponentRef)
-                return getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER);
-            else
-                return super.getContentPane();
-        } else
-            return super.getContentPane();
-    }
-
-    /**
-     * Overwrite the default behavior to setContraint on the component layer for components.
-     * 
-     * (non-Javadoc)
+     * Overrode the default behavior to setContraint on the component layer for components.
      * 
      * @see org.eclipse.gef.GraphicalEditPart#setLayoutConstraint(org.eclipse.gef.EditPart, org.eclipse.draw2d.IFigure, java.lang.Object)
      */
@@ -276,287 +538,6 @@ public class MapAndPathGraphEditPart extends ModelElementEditPart {
             getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).setConstraint(childFigure, constraint);
         else
             super.setLayoutConstraint(child, childFigure, constraint);
-    }
-
-    /**
-     * Remove the child from the parent figure. Remove components from the COMPONENT_LAYER, do the normal behavior.
-     * 
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#removeChildVisual(org.eclipse.gef.EditPart)
-     */
-    protected void removeChildVisual(EditPart childEditPart) {
-        if (!(childEditPart.getModel() instanceof ComponentRef)) {
-            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
-            getContentPane().remove(child);
-        } else {
-            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
-            getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).remove(child);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see removeChildVisual(EditPart childEditPart)
-     * @see org.eclipse.gef.editparts.AbstractEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
-     */
-    protected void addChildVisual(EditPart childEditPart, int index) {
-        if (!(childEditPart.getModel() instanceof ComponentRef)) {
-            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
-            getContentPane().add(child, index);
-        } else {
-            IFigure child = ((GraphicalEditPart) childEditPart).getFigure();
-            getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER).add(child, index);
-        }
-    }
-
-    /**
-     * Return all the components editparts from the children list.
-     * 
-     * @return All the components editparts children of this editpart.
-     */
-    protected List getComponentEditParts() {
-        List children = getChildren();
-        List comps = new ArrayList();
-
-        for (Iterator j = children.iterator(); j.hasNext();) {
-            EditPart edit = (EditPart) j.next();
-            if (edit.getModel() instanceof ComponentRef)
-                comps.add(edit);
-        }
-
-        return comps;
-    }
-
-    /**
-     * @return Return all the pathnode editparts children of this editpart.
-     */
-    protected List getPathNodeEditParts() {
-        List children = getChildren();
-        List pathNodes = new ArrayList();
-
-        for (Iterator j = children.iterator(); j.hasNext();) {
-            EditPart edit = (EditPart) j.next();
-            if (edit.getModel() instanceof PathNode)
-                pathNodes.add(edit);
-        }
-
-        return pathNodes;
-    }
-
-    /**
-     * 
-     * @return the top level ucm.map.Map used to store all information. Contains ComponentRefs and a PathGraph.
-     */
-    private Map getMap() {
-        return (Map) getModel();
-    }
-
-    /**
-     * 
-     * @return The Map's path graph, used to insert nodes and connections.
-     */
-    private PathGraph getPathGraph() {
-        return ((Map) getModel()).getPathGraph();
-    }
-
-    /**
-     * Returns the map&pathgraph's children: ComponentRefs and PathNodes and PathNode Labels, ordered in such a way that they don't interfere with each other on
-     * the board.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
-     */
-    protected List getModelChildren() {
-        List list = getComponents();
-        list.addAll(getPathNodes());
-        list.addAll(getLabels());
-        list.addAll(getConditions());
-        return list;
-    }
-
-    private List getConditions() {
-        List list = new ArrayList();
-
-        for (Iterator i = getPathGraph().getNodeConnections().iterator(); i.hasNext();) {
-            NodeConnection nc = (NodeConnection) i.next();
-            if (nc.getCondition() != null) {
-                list.add(nc.getCondition());
-            }
-        }
-        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
-            PathNode pn = (PathNode) i.next();
-            if (pn instanceof StartPoint && ((StartPoint) pn).getPrecondition() != null) {
-                list.add(((StartPoint) pn).getPrecondition());
-            } else if (pn instanceof EndPoint && ((EndPoint) pn).getPostcondition() != null) {
-                list.add(((EndPoint) pn).getPostcondition());
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * @return
-     */
-    private List getPathNodes() {
-        List list = new ArrayList();
-
-        // put the nodes on top because they are always over components.
-        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
-            PathNode pn = (PathNode) i.next();
-            if (!(pn instanceof Connect)) {
-                list.add(pn);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * @return
-     */
-    private List getLabels() {
-        List list = new ArrayList();
-
-        // put the labels on top because they are always over components.
-        for (Iterator i = getPathGraph().getPathNodes().iterator(); i.hasNext();) {
-            PathNode node = (PathNode) i.next();
-            if (node.getLabel() != null) {
-                list.add(node.getLabel());
-            }
-        }
-
-        for (Iterator i = getMap().getCompRefs().iterator(); i.hasNext();) {
-            ComponentRef component = (ComponentRef) i.next();
-            if (component.getLabel() != null) {
-                list.add(component.getLabel());
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * 
-     * @return
-     */
-    private List getComponents() {
-        List list = new ArrayList();
-
-        // get all component references
-        for (Iterator i = getMap().getCompRefs().iterator(); i.hasNext();) {
-            list.add(i.next());
-        }
-
-        // sort them by ascending area
-        Collections.sort(list, new ComponentRefAreaComparator());
-        // reverse the list so that our largest components are in the back.
-        Collections.reverse(list);
-        return list;
-    }
-
-    private int countChanged = 1;
-
-    /**
-     * Change listener. Has to handle when its children are changed and when we might have to reorder them.
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-     */
-    public void notifyChanged(Notification notification) {
-        int type = notification.getEventType();
-        int featureId = notification.getFeatureID(UcmPackage.class);
-        switch (type) {
-        case Notification.ADD:
-        case Notification.ADD_MANY:
-            // Don't call refreshChildren if a NodeConnection is sending a notification.
-            if (!(notification.getNewValue() instanceof NodeConnection))
-                refreshChildren();
-            break;
-        case Notification.REMOVE:
-        case Notification.REMOVE_MANY:
-            // Don't call refreshChildren if a NodeConnection is sending a notification.
-            if (!(notification.getOldValue() instanceof NodeConnection))
-                refreshChildren();
-            break;
-        case Notification.SET:
-            switch (featureId) {
-            case MapPackage.COMPONENT_REF__LABEL:
-            case MapPackage.PATH_NODE__LABEL:
-                refreshChildren();
-                break;
-            // duplicate with pn_label case MapPackage.COMPONENT_REF__WIDTH:
-            case MapPackage.COMPONENT_REF__HEIGHT:
-                if (notification.getNotifier() instanceof ComponentRef) {
-                    // Wait until we received a notification for both width and height
-                    // This way we don't call refreshChildren two times.
-                    if (countChanged == 2) {
-                        // we might have to reorder the children so as to put the largest components in the back.
-                        refreshChildren();
-                        countChanged = 1;
-                    } else
-                        countChanged++;
-                }
-                break;
-            }
-            //            refreshVisuals();
-            break;
-        }
-
-        refreshChildren();
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
-     */
-    protected void registerVisuals() {
-        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), getPathGraph()));
-
-        super.registerVisuals();
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
-     */
-    protected void refreshVisuals() {
-        for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
-            AbstractGraphicalEditPart element = (AbstractGraphicalEditPart) iter.next();
-            element.refresh();
-            // refresh stub labels; doing this in its refreshVisuals crashed the app with a heap space error.
-            if (element instanceof StubEditPart)
-                ((StubEditPart) element).refreshInOuts();
-        }
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate() {
-        if (!isActive()) {
-            getPathGraph().eAdapters().add(this);
-            getMap().eAdapters().add(this);
-        }
-        super.activate();
-    }
-
-    /**
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive()) {
-            getMap().eAdapters().remove(this);
-            getPathGraph().eAdapters().remove(this);
-        }
-        super.deactivate();
     }
 
 }

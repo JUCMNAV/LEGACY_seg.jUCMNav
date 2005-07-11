@@ -12,6 +12,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
@@ -26,73 +27,44 @@ import ucm.map.PluginBinding;
 import ucm.map.Stub;
 
 /**
- * Created 2005-05-11
+ * Editpart for Stubs. Adds double-click behaviour and different figures for static/dynamic stubs.
  * 
- * @author Etienne Tremblay
+ * Stub in/out labels are refreshed here. I must admit that the refreshing code is cryptic; was not documented during creation and is alot of trial&error.
+ * 
+ * @author Etienne Tremblay, jkealey
  */
 public class StubEditPart extends PathNodeEditPart {
-
-    private StubFigure figure;
     private PluginListDialog dlg;
 
+    private StubFigure figure;
+
     /**
-     *  
+     * Creates a stub editpart.
      */
     public StubEditPart(PathNode model, PathGraph diagram) {
         super(model, diagram);
     }
 
-    public void refreshVisuals() {
-        Stub stub = (Stub) getNode();
-        figure.setDynamic(stub.isDynamic());
-
-        super.refreshVisuals();
-    }
-
+    /**
+     * Creates a StubFigure and sets its dynamic property.
+     */
     protected IFigure createFigure() {
         Stub stub = (Stub) getModel();
         figure = new StubFigure(stub.isDynamic());
         return figure;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
+    /**
+     * Returns a StubPropertySource
      */
-    public void performRequest(Request req) {
-        if (req.getType() == REQ_OPEN) {
-            Stub stub = (Stub) getModel();
-            if (stub.getBindings().size() == 1) {
-                Map map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
-                if (map != null)
-                    ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
-            } else if (stub.getBindings().size() > 1) {
-                if (dlg != null) {
-                    dlg.close();
-                }
-                dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((ConnectionOnBottomRootEditPart) getRoot())
-                        .getMultiPageEditor());
-                dlg.setInput(stub.getBindings());
-                dlg.setMessage(Messages.getString("StubEditPart.selectPlugin")); //$NON-NLS-1$
-                dlg.open();
-            } else {
-                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor()
-                        .getDelegatingCommandStack());
-                d.open(stub);
-            }
-        }
-    }
-
     protected IPropertySource getPropertySource() {
         CommandStack cmdStack = getViewer().getEditDomain().getCommandStack();
         propertySource = new StubPropertySource((EObject) getModel(), cmdStack);
         return propertySource;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Refreshes all incoming/outgoing connections when changes are made to connections.
      * 
      * @see seg.jUCMNav.editparts.PathNodeEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -115,14 +87,57 @@ public class StubEditPart extends PathNodeEditPart {
     }
 
     /**
-     * @param nc
+     * What should be done when the stub is double clicked.
+     * 
+     * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
      */
-    private void refreshNodeConnection(NodeConnection nc) {
-        if (getRoot().getViewer().getEditPartRegistry().get(nc) != null) {
-            ((NodeConnectionEditPart) getRoot().getViewer().getEditPartRegistry().get(nc)).refreshVisuals();
+    public void performRequest(Request req) {
+        if (req.getType() == REQ_OPEN) {
+            Stub stub = (Stub) getModel();
+            if (stub.getBindings().size() == 1) {
+                // if only one plugin, open it.
+                Map map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
+                if (map != null)
+                    ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+            } else if (stub.getBindings().size() > 1) {
+                // if multiple plugins, bring up selection window
+                if (dlg != null) {
+                    dlg.close();
+                }
+                dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((ConnectionOnBottomRootEditPart) getRoot())
+                        .getMultiPageEditor());
+                dlg.setInput(stub.getBindings());
+                dlg.setMessage(Messages.getString("StubEditPart.selectPlugin")); //$NON-NLS-1$
+                dlg.open();
+            } else {
+                // if none, bring up the bindings dialog.
+                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor()
+                        .getDelegatingCommandStack());
+                d.open(stub);
+            }
         }
     }
 
+    /**
+     * Refreshes stub labels and anything else the parent needs to refresh.
+     * 
+     * @return true if something to refresh was found.
+     */
+    protected boolean refreshDecorations() {
+        boolean b = refreshStubLabels(getNodeFigure());
+        // make sure we refresh everything that can be refreshed.
+        b = super.refreshDecorations() || b;
+
+        // inform if was refreshed.
+        return b;
+
+    }
+
+    /**
+     * Refreshes all the incoming/outgoing connections
+     *  
+     */
     public void refreshInOuts() {
         for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
@@ -133,6 +148,38 @@ public class StubEditPart extends PathNodeEditPart {
             NodeConnection nc = (NodeConnection) iter.next();
             refreshNodeConnection(nc);
         }
+    }
+
+    /**
+     * Refreshes the stub labels if the stub is moved.
+     * 
+     * @param nodeFigure
+     *            our figure
+     * @return true if the labels were refreshed.
+     */
+    private boolean refreshStubLabels(PathNodeFigure nodeFigure) {
+        boolean b = false;
+        if (nodeFigure instanceof StubFigure && !needsMove(nodeFigure)) {
+            for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                b = refreshNodeConnection(nc) || b;
+            }
+            for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
+                NodeConnection nc = (NodeConnection) iter.next();
+                b = refreshNodeConnection(nc) || b;
+            }
+        }
+        return b;
+    }
+
+    /**
+     * Refreshes the StubFigure
+     */
+    public void refreshVisuals() {
+        Stub stub = (Stub) getNode();
+        figure.setDynamic(stub.isDynamic());
+
+        super.refreshVisuals();
     }
 
 }

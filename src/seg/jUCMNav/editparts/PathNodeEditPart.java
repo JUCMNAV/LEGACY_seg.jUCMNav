@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *
- */
 package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
@@ -40,7 +36,6 @@ import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
-import seg.jUCMNav.figures.StubFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import ucm.UcmPackage;
@@ -58,7 +53,6 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
-import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
@@ -70,8 +64,16 @@ import ucm.map.WaitingPlace;
  */
 public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart {
 
+    // the pathgraph contain our node.
     private PathGraph diagram;
 
+    /**
+     * 
+     * @param model
+     *            the element to be represented.
+     * @param diagram
+     *            the pathgraph containing our element.
+     */
     public PathNodeEditPart(PathNode model, PathGraph diagram) {
         super();
         setModel(model);
@@ -90,8 +92,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         super.activate();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -102,8 +103,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new PathNodeXYLayoutEditPolicy());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Mapping between PathNode and its figure. Assertion will fail if unable to find mapping.
      * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
      */
@@ -129,10 +130,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new AndJoinFigure();
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
-        else if (getModel() instanceof Stub) {
-            Stub stub = (Stub) getModel();
-            figure = new StubFigure(stub.isDynamic());
-        }
+
+        assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()";
+
         return figure;
     }
 
@@ -155,8 +155,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return diagram;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * When nodes are dragged in GEF, they explictly remove connections from being possible drop targets. By overriding DragEditPartsTracker, we allow this
+     * behaviour.
      * 
      * @see org.eclipse.gef.EditPart#getDragTracker(org.eclipse.gef.Request)
      */
@@ -190,16 +191,22 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return v;
     }
 
+    /**
+     * @return the node being represented.
+     */
     protected PathNode getNode() {
         return (PathNode) getModel();
     }
 
+    /**
+     * @return The node's figure
+     */
     public PathNodeFigure getNodeFigure() {
         return (PathNodeFigure) getFigure();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * We must return a connection anchor or else GEF blows up. Most PathNodes don't use these.
      * 
      * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
      */
@@ -207,8 +214,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return getNodeFigure().getSourceConnectionAnchor();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * We must return a connection anchor or else GEF blows up. Most PathNodes don't use these.
      * 
      * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
      */
@@ -216,8 +223,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return getNodeFigure().getSourceConnectionAnchor();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * We must return a connection anchor or else GEF blows up. Most PathNodes don't use these.
      * 
      * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
      */
@@ -225,8 +232,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return getNodeFigure().getTargetConnectionAnchor();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * We must return a connection anchor or else GEF blows up. Most PathNodes don't use these.
      * 
      * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
      */
@@ -235,15 +242,17 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     }
 
     /**
+     * 
      * @param nodeFigure
-     * @return
+     *            to be checked
+     * @return should the figure be moved in order for its coordinates to match the model element.
      */
-    private boolean needsMove(PathNodeFigure nodeFigure) {
+    protected boolean needsMove(PathNodeFigure nodeFigure) {
         return nodeFigure.getBounds().getCenter().x != ((PathNode) getModel()).getX() || nodeFigure.getBounds().getCenter().y != ((PathNode) getModel()).getY();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Is informed when the model changes.
      * 
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
@@ -275,14 +284,19 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     }
 
     /**
+     * Call if this path node editpart must be rotated to be perpendicular to its first outgoing connection. (AndFork)
+     * 
      * @param nodeFigure
+     *            rotate this figure
+     * @see #rotateFromPrevious(PathNodeFigure)
      */
     private void rotateFromNext(PathNodeFigure nodeFigure) {
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getSucc().get(0));
         if (nc != null) {
 
             SplineConnection sp = (SplineConnection) nc.getFigure();
-            //sp.layout();
+            // sometimes causes infinite loops
+            // sp.layout();
             if (sp != null) {
                 PointList list = sp.getPoints();
                 if (list != null && sp.getPoints().size() > 0) {
@@ -310,17 +324,24 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     }
 
     /**
-     * @param nc
+     * Refresh this node SplineConnection's children (its decorations). Calling the locator's relocate() moves these decorations. 
+     * 
+     * @param conn
+     *            the node connection
+     * @return true if we could refresh (edit part and figure exist)
      */
-    private boolean refreshNodeConnection(NodeConnection conn) {
+    protected boolean refreshNodeConnection(NodeConnection conn) {
+        
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
         if (nc != null) {
+            nc.refreshVisuals();
             for (Iterator iter = nc.getFigure().getChildren().iterator(); iter.hasNext();) {
                 IFigure fig = (IFigure) iter.next();
                 if (fig instanceof TimeoutPathFigure || fig instanceof Label) {
                     Locator loc = (Locator) ((SplineConnection) nc.getFigure()).getLayoutManager().getConstraint(fig);
-                    // don't know why isn't refreshing stub labels
+                    // don't know why isn't refreshing stub/timer labels
                     // probably has to do with implementation of locator
+                    // Seems to be useful when moving the node connection indirectly. 
                     loc.relocate(fig);
                 }
             }
@@ -331,7 +352,13 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     }
 
     /**
+     * Call if this path node editpart must be rotated to be perpendicular to its first incoming connection. (EndPoint, AndJoin, RespRef, ..)
+     * 
+     * Very similar to rotateFromNext but using the opposite direction.
+     * 
      * @param nodeFigure
+     *            rotate this figure
+     * @see #rotateFromNext(PathNodeFigure)
      */
     private void rotateFromPrevious(PathNodeFigure nodeFigure) {
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(((PathNode) getModel()).getPred().get(0));
@@ -365,23 +392,11 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         }
     }
 
-    private boolean refreshStubLabels(PathNodeFigure nodeFigure) {
-        boolean b = false;
-        if (nodeFigure instanceof StubFigure && !needsMove(nodeFigure)) {
-            for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                b = b || refreshNodeConnection(nc);
-            }
-            for (Iterator iter = ((Stub) getModel()).getPred().iterator(); iter.hasNext();) {
-                NodeConnection nc = (NodeConnection) iter.next();
-                b = b || refreshNodeConnection(nc);
-            }
-        }
-        return b;
-    }
-
     /**
+     * Refreshes the timeout path figures if the timer is moved.
+     * 
      * @param nodeFigure
+     *            our figure
      */
     private boolean refreshTimeoutPath(PathNodeFigure nodeFigure) {
         // we don't want to move the label if we are moving the node because it will stop the execution of refresh visuals
@@ -392,14 +407,15 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         return false;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Refreshes the pathnode and any incoming/outgoing node connections.
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
 
+        // inform and forks/joins how many branches they must display.
         if (nodeFigure instanceof AndForkFigure) {
             ((AndForkFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
         } else if (nodeFigure instanceof AndJoinFigure) {
@@ -408,22 +424,24 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
         // refresh node connection decorations
         // must not continue or will cause infinite loops
-        if (refreshTimeoutPath(nodeFigure))
-            return;
-        else if (refreshStubLabels(nodeFigure))
+        if (refreshDecorations())
             return;
 
+        // position the figure
         Dimension dim = nodeFigure.getPreferredSize().getCopy();
         Point location = new Point(getNode().getX() - (dim.width / 2), getNode().getY() - (dim.height / 2)); // The
         // position of the current figure
         Rectangle bounds = new Rectangle(location, dim);
         figure.setBounds(bounds);
+
+        // rotate it if necessary.
         if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
         } else if (nodeFigure instanceof AndJoinFigure && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 
+        // hide empty points when not in view all elements mode.
         if (getModel() instanceof EmptyPoint) {
             ((IFigure) getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
         }
@@ -437,6 +455,18 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // and will not draw it correctly.
         ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
+    }
+
+    /**
+     * Refresh the associated node connection decorations.
+     * 
+     * @return true if there was something to be refreshed. .
+     */
+    protected boolean refreshDecorations() {
+        if (refreshTimeoutPath(getNodeFigure()))
+            return true;
+        else
+            return false;
     }
 
     /**

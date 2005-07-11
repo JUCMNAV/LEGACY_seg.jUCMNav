@@ -1127,8 +1127,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-     * @param con
-     * @return
+     * @param con the connection to check 
+     * @param plugin the binding in which to check
+     * @return true if the connection is bound
      */
     private boolean isNodeConnectionOutBinded(NodeConnection con, PluginBinding plugin) {
         if (stub.getBindings().size() > 0) {
@@ -1143,8 +1144,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-     * @param point
-     * @return
+     * @param end the point to check
+     * @param plugin the binding in which to check 
+     * @return true if the end point is bound
      */
     private boolean isEndPointOutBinded(EndPoint end, PluginBinding plugin) {
         if (stub.getBindings().size() > 0) {

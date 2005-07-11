@@ -19,19 +19,20 @@ import ucm.map.Map;
 import urncore.Component;
 
 /**
- * Created 2005-02-15 EditPart for all ComponentRefs. They listen to changes in both the reference and the definition.
+ * EditPart for all ComponentRefs. They listen to changes in both the reference and the definition.
  * 
  * @author Etienne Tremblay, jkealey
  */
 public class ComponentRefEditPart extends ModelElementEditPart implements Adapter {
 
+    /***
+     * 
+     * @param model the component ref to draw
+     * @param map the map in which it is contained. 
+     */
     public ComponentRefEditPart(ComponentRef model, Map map) {
         super();
         setModel(model);
-    }
-
-    private ComponentRef getComponentRef() {
-        return (ComponentRef) getModel();
     }
 
     /**
@@ -43,19 +44,16 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         if (!isActive() && getComponentRef().getCompDef() != null)
             getComponentRef().getCompDef().eAdapters().add(this);
 
+        // listen to reference
         super.activate();
     }
 
-    /**
-     * Overriding because we also have to listen to the Component definition
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive() && getComponentRef().getCompDef() != null)
-            getComponentRef().getCompDef().eAdapters().remove(this);
-        super.deactivate();
-
+	/**
+	 * Installs edit policies.  
+	 */
+    protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefComponentEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
     }
 
     /**
@@ -67,14 +65,36 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         return new ComponentRefFigure();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Overriding because we also have to listen to the Component definition
      * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     * @see org.eclipse.gef.EditPart#deactivate()
      */
-    protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentRefComponentEditPolicy());
-        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
+    public void deactivate() {
+        if (isActive() && getComponentRef().getCompDef() != null)
+            getComponentRef().getCompDef().eAdapters().remove(this);
+         
+        //stop listenening to reference
+        super.deactivate();
+
+    }
+
+    /**
+     * 
+     * @return the component ref to draw
+     */
+    private ComponentRef getComponentRef() {
+        return (ComponentRef) getModel();
+    }
+
+	/**
+	 * @return a ComponentPropertySource 
+	 */
+    protected IPropertySource getPropertySource() {
+        if (propertySource == null) {
+            propertySource = new ComponentPropertySource((EObject) getModel());
+        }
+        return propertySource;
     }
 
     /**
@@ -97,20 +117,23 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        Point location = new Point(getComponentRef().getX(), getComponentRef().getY()); // The position of the current figure
+        // The position of the current figure
+        Point location = new Point(getComponentRef().getX(), getComponentRef().getY());
+        // its size
         Dimension size = new Dimension(getComponentRef().getWidth(), getComponentRef().getHeight());
         Rectangle bounds = new Rectangle(location, size);
         figure.setBounds(bounds);
         figure.setLocation(location);
 
+        // set information for specific drawing
         if (getComponentRef().getCompDef() instanceof Component) {
             Component comp = (Component) getComponentRef().getCompDef();
             ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
             ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
-
         }
 
-        figure.validate(); // Make the label recenter itself.
+        //   Make the label recenter itself.
+        figure.validate(); 
 
         // notify parent container of changed position & location
         // if this line is removed, the XYLayoutManager used by the parent container
@@ -118,17 +141,5 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // and will not draw it correctly.
         if (getParent() != null)
             (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.editparts.ModelElementEditPart#getPropertySource()
-     */
-    protected IPropertySource getPropertySource() {
-        if (propertySource == null) {
-            propertySource = new ComponentPropertySource((EObject) getModel());
-        }
-        return propertySource;
     }
 }

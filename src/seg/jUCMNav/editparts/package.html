@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+EditParts used by UcmEditor
+
+<h2>Package Specification</h2>
+
+<p>
+EditParts are GEF specific; we recommend you read some GEF documentation before playing with these classes. See DevDocEditPartCreation to understand how EditParts are created. 
+</p>
+
+<ul>
+<li>The edit part factory is GraphicalEditPartFactory.</li>
+<li>Our root edit part is ConnectionOnBottomRootEditPart</li>
+<li>All model elements except for node connections use ModelElementEditPart
+	<ul>
+	<li>All PathNodes use PathNodeEditPart although some have their own specific EditParts</li>
+	<li>ComponentRefs use ComponentRefEditPart</li>
+	<li>Our MapAndPathGraphEditPart is used for both the Map and the PathGraph. Hence, it is the parent of all edit parts in the graphical editor. <b>This edit part and those calling it don't follow GEF standards. It may be possible to refactor our code so that it is cleaner, but we have not yet attempted.  Don't use this class as an example for edit part behaviour. </b></li>
+	</ul>
+</li>
+<li>All node connections use NodeConnectionEditPart</li>
+</ul>
+
+<p>
+Newcomers should look into ModelElementEditPart and PathNodeEditPart to have an understand of what an edit part has to do.  Other classes might be too implementation specific to allow for good understanding. 
+</p>
+
+
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+@see seg.jUCMNav.editparts.GraphicalEditPartFactory
+@see seg.jUCMNav.editparts.ModelElementEditPart
+@see seg.jUCMNav.editparts.PathNodeEditPart
+</body>
+</html>

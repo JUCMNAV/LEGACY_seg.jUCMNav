@@ -69,7 +69,6 @@ public class UrnModelManager {
     /**
      * Returns the resource set.
      * 
-     * @param
      * @return the resource set
      */
     private ResourceSet getResourceSet() {
