@@ -24,6 +24,7 @@ import ucm.UcmPackage;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import urncore.Responsibility;
 
 
 /**
@@ -93,6 +94,18 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 		}
 		return null;
 	}
+	
+	protected ArrayList doFindItems(Object element) {
+		Object[] children = list.getItems();
+		ArrayList items = new ArrayList();
+		for (int i = 0; i < children.length; i++) {
+			RespListItem item = (RespListItem)children[i];
+			RespRef data = (RespRef)item.getData();
+			if (data != null && equals(data.getRespDef(), element))
+				items.add(item);
+		}
+		return items;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget, java.lang.Object, boolean)
@@ -136,6 +149,7 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 		for (int i = 0; i < children.length; i++) {
 			RespRef resp = (RespRef)children[i];
 			resp.eAdapters().add(this);
+			resp.getRespDef().eAdapters().add(this);
 			RespListItem item = new RespListItem(list, SWT.NONE);
 			updateItem(item, resp);
 		}
@@ -188,19 +202,32 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 		unmapElement(element, item);
 		item.setData(null);
 	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
 	 */
 	protected void inputChanged(Object input, Object oldInput) {
+		List list = (List)input;
+		
 		if(oldInput != null) {
 			List oldList = (List)oldInput;
 			if(oldList.size() > 0) {
 				PathNode node = (PathNode)oldList.get(0);
 				node.getPathGraph().eAdapters().remove(this);
 			}
-		}
 			
-		List list = (List)input;
+			for (Iterator i = oldList.iterator(); i.hasNext();) {
+				PathNode node = (PathNode) i.next();
+				if(node instanceof RespRef) {
+					RespRef ref = (RespRef)node;
+					if(!list.contains(node)) {
+						ref.eAdapters().remove(this);
+						ref.getRespDef().eAdapters().remove(this);
+					}
+				}
+			}
+		}
+		
 		if(list.size() > 0) {
 			PathNode node = (PathNode)list.get(0);
 			node.getPathGraph().eAdapters().add(this);
@@ -220,6 +247,18 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 			if(doFindItem(resp) != null) {
 				RespListItem item = (RespListItem)doFindItem(resp);
 				item.setRespName(resp.getRespDef().getName());
+				if(resp.getDescription() != null)
+					item.setDescription(resp.getDescription());
+			}
+		}
+		else if(notifier instanceof Responsibility) {
+			Responsibility resp = (Responsibility)notifier;
+			
+			ArrayList items = doFindItems(resp);
+			
+			for (Iterator i = items.iterator(); i.hasNext();) {
+				RespListItem item = (RespListItem)i.next();
+				item.setRespName(resp.getName());
 				if(resp.getDescription() != null)
 					item.setDescription(resp.getDescription());
 			}
