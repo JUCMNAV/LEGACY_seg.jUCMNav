@@ -34,9 +34,7 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 
 /**
- * Created on 20-Jun-2005
- * 
- * Connection router for a use case map. Builds bsplines and refreshes them only when necessary.
+ * Connection router for a use case map. Builds BSplines and refreshes them only when necessary.
  * 
  * Uses the ConnectionSplineFinder to find affected connections.
  * 
@@ -50,7 +48,11 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private Notifier target;
 
     /**
-     *  
+     * 
+     * @param editpartregistry
+     *            the editpartregistry containing all our editparts.
+     * @param pathgraph
+     *            the PathGraph containing all the conections.
      */
     public UCMConnectionRouter(Map editpartregistry, PathGraph pathgraph) {
         assert pathgraph != null : "null path graph!"; //$NON-NLS-1$
@@ -63,6 +65,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Draws a particular node connection given its spline (which contains the points).
      * 
      * @param nc
      *            the node connection to draw
@@ -102,7 +105,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
 
             }
 
-			// if we moved a connection anchor for an and fork/join, we need to update all the paths. 
+            // if we moved a connection anchor for an and fork/join, we need to update all the paths.
             if (hasMoved && nc.getSource() instanceof AndFork) {
                 AndForkJoinEditPart edit = (AndForkJoinEditPart) editpartregistry.get(nc.getSource());
                 edit.anchorMoved(null);
@@ -121,6 +124,8 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Draw a spline, given one of its SplineConections.
+     * 
      * @param source
      */
     private void drawSpline(SplineConnection source) {
@@ -175,10 +180,11 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
-     * To be modified for better handling of and forks/joins
+     * Given a NodeConnection, we want its starting point.
      * 
      * @param nc
-     * @return left point
+     *            the node connection
+     * @return connection's left point
      */
     private Point getLeftPoint(NodeConnection nc) {
         if (nc.getSource() instanceof AndFork) {
@@ -188,15 +194,20 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             return new Point(nc.getSource().getX(), nc.getSource().getY());
     }
 
+    /**
+     * 
+     * @return the pathgraph containing the connections
+     */
     public PathGraph getPathgraph() {
         return pathgraph;
     }
 
     /**
-     * To be modified for better handling of and forks/joins
+     * Given a NodeConnection, we want its ending point.
      * 
      * @param nc
-     * @return right point
+     *            the node connection
+     * @return connection's right point
      */
     private Point getRightPoint(NodeConnection nc) {
         if (nc.getTarget() instanceof AndJoin) {
@@ -206,8 +217,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             return new Point(nc.getTarget().getX(), nc.getTarget().getY());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#getTarget()
      */
@@ -215,8 +225,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
         return target;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
      */
@@ -272,7 +281,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
-     *  
+     * Refresh all the connections; simply marks them as dirty in the connections HashMap.
      */
     public void refreshConnections() {
         connections = new HashMap(getPathgraph().getNodeConnections().size());
@@ -289,7 +298,10 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Refresh the connections found on a certain spline, defined by qSpline. Simply marks them as dirty in the connections HashMap.
+     * 
      * @param qSpline
+     *            the query returning the spline to refresh
      */
     private void refreshConnections(ConnectionSplineFinder.QFindSpline qSpline) {
         ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.getInstance().run(qSpline);
@@ -305,14 +317,14 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             }
         }
 
-        if (vReachable.size()>0 && ((NodeConnection) vReachable.lastElement()).getTarget() instanceof AndFork) {
+        if (vReachable.size() > 0 && ((NodeConnection) vReachable.lastElement()).getTarget() instanceof AndFork) {
             for (Iterator iter = ((NodeConnection) vReachable.lastElement()).getTarget().getSucc().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshConnections(nc);
             }
         }
 
-        if (vReachable.size()>0 && ((NodeConnection) vReachable.firstElement()).getSource() instanceof AndJoin) {
+        if (vReachable.size() > 0 && ((NodeConnection) vReachable.firstElement()).getSource() instanceof AndJoin) {
             for (Iterator iter = ((NodeConnection) vReachable.firstElement()).getSource().getPred().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshConnections(nc);
@@ -321,7 +333,10 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Given a NodeConnection, refresh spline containing it.
+     * 
      * @param nc
+     *            the node connection
      */
     private void refreshConnections(NodeConnection nc) {
         QFindSpline qReachableConnections = new ConnectionSplineFinder().new QFindSpline(nc);
@@ -329,7 +344,10 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Given a PathNode, refresh the splines containing it (there may be many)
+     * 
      * @param pn
+     *            the path node
      */
     private void refreshConnections(PathNode pn) {
         if (pn instanceof Connect)
@@ -347,7 +365,10 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     }
 
     /**
+     * Listens to the pathgraph, node connections and pathnodes. (Except for Connects and connections leading to Connects).
+     * 
      * @param pathgraph
+     *            the pathgraph containing all these elements.
      */
     private void registerListeners(PathGraph pathgraph) {
         if (!pathgraph.eAdapters().contains(this))
@@ -364,8 +385,10 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * If the passed SplineConnection is dirty (as defined by the connections HashMap), redraw it.
+     * 
+     * Otherwise, redraw is not required.
      * 
      * @see org.eclipse.draw2d.ConnectionRouter#route(org.eclipse.draw2d.Connection)
      */
@@ -376,20 +399,34 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
         }
     }
 
+    /**
+     * 
+     * @param connections
+     *            the HashMap defining which connections are dirty.
+     */
     public void setConnections(HashMap connections) {
         this.connections = connections;
     }
 
+    /**
+     * 
+     * @param editpartregistry
+     *            the editpartregistry containing all the editparts that must be informed when redrawing splines.
+     */
     public void setEditpartregistry(Map editpartregistry) {
         this.editpartregistry = editpartregistry;
     }
 
+    /**
+     * 
+     * @param pathgraph
+     *            the pathgraph containing all the model elements relevant to this connection router.
+     */
     public void setPathgraph(PathGraph pathgraph) {
         this.pathgraph = pathgraph;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
      */

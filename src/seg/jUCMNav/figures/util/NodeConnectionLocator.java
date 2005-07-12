@@ -10,7 +10,8 @@ import org.eclipse.draw2d.geometry.Point;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 
 /**
- * Created on 16-Jun-2005
+ * This is a simple addition to ConnectionLocator (which we use to find the middle of a SplineConnection) to force the refresh of the TimeoutPathFigure when the
+ * locator is moved.
  * 
  * @author jkealey
  *  

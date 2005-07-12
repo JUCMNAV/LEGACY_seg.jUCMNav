@@ -144,7 +144,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * getConstraintFor but the code no longer works. Will leave as is as I'm not familiar with this structure.
      * 
      * @param request
-     * @return
+     * @return the translated location.
      */
     private Point getLocation(CreateRequest request) {
         IFigure figure = getLayoutContainer();

@@ -24,13 +24,11 @@ import org.eclipse.gef.Request;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
-import seg.jUCMNav.figures.AndForkFigure;
-import seg.jUCMNav.figures.AndJoinFigure;
+import seg.jUCMNav.figures.AndForkJoinFigure;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
-import seg.jUCMNav.figures.OrForkFigure;
-import seg.jUCMNav.figures.OrJoinFigure;
+import seg.jUCMNav.figures.OrForkJoinFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.figures.Rotateable;
@@ -120,14 +118,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new TimerFigure();
         else if (getModel() instanceof StartPoint || getModel() instanceof WaitingPlace)
             figure = new StartPointFigure();
-        else if (getModel() instanceof OrFork)
-            figure = new OrForkFigure();
-        else if (getModel() instanceof AndFork)
-            figure = new AndForkFigure();
-        else if (getModel() instanceof OrJoin)
-            figure = new OrJoinFigure();
-        else if (getModel() instanceof AndJoin)
-            figure = new AndJoinFigure();
+        else if (getModel() instanceof OrFork || getModel() instanceof OrJoin)
+            figure = new OrForkJoinFigure();
+        else if (getModel() instanceof AndFork || getModel() instanceof AndJoin)
+            figure = new AndForkJoinFigure();
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
 
@@ -324,14 +318,14 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     }
 
     /**
-     * Refresh this node SplineConnection's children (its decorations). Calling the locator's relocate() moves these decorations. 
+     * Refresh this node SplineConnection's children (its decorations). Calling the locator's relocate() moves these decorations.
      * 
      * @param conn
      *            the node connection
      * @return true if we could refresh (edit part and figure exist)
      */
     protected boolean refreshNodeConnection(NodeConnection conn) {
-        
+
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
         if (nc != null) {
             nc.refreshVisuals();
@@ -341,7 +335,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                     Locator loc = (Locator) ((SplineConnection) nc.getFigure()).getLayoutManager().getConstraint(fig);
                     // don't know why isn't refreshing stub/timer labels
                     // probably has to do with implementation of locator
-                    // Seems to be useful when moving the node connection indirectly. 
+                    // Seems to be useful when moving the node connection indirectly.
                     loc.relocate(fig);
                 }
             }
@@ -416,10 +410,10 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         PathNodeFigure nodeFigure = getNodeFigure();
 
         // inform and forks/joins how many branches they must display.
-        if (nodeFigure instanceof AndForkFigure) {
-            ((AndForkFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
-        } else if (nodeFigure instanceof AndJoinFigure) {
-            ((AndJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
+        if (getNode() instanceof AndFork) {
+            ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
+        } else if (getNode() instanceof AndJoin) {
+            ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
         }
 
         // refresh node connection decorations
@@ -435,9 +429,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         figure.setBounds(bounds);
 
         // rotate it if necessary.
-        if (!(nodeFigure instanceof AndJoinFigure) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
+        if (!(getNode() instanceof AndJoin) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
-        } else if (nodeFigure instanceof AndJoinFigure && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+        } else if (getNode() instanceof AndJoin && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 

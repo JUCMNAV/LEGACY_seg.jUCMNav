@@ -2,37 +2,26 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * This figure represent an empty point in the model.
+ * Represents an OR-Fork and an OR-Join in the model. No visuals; only the container.
  * 
- * @author Etienne Tremblay
+ * @author jpdaigle
  */
-public class EmptyPointFigure extends PathNodeFigure {
+public class OrForkJoinFigure extends PathNodeFigure {
 
-    /** The empty point is an ellipse. */
     private Ellipse ellipse;
 
     /**
-     * A simple filled circle taking up half the available space.
+     * An invisible ellipse two which to bind the anchors; not used otherwise.
      * 
      * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
         ellipse = new Ellipse();
-        ellipse.setBounds(new Rectangle(preferredSize.width / 4, preferredSize.height / 4, DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2));
+        ellipse.setBounds(new Rectangle(preferredSize.width / 4, preferredSize.height / 4, 0, 0)); // Size: 0 (invisible)
         add(ellipse);
-    }
-
-    /**
-     * Returns the figure.
-     * 
-     * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
-     */
-    public Figure getFigure() {
-        return ellipse;
     }
 
     /**
@@ -42,4 +31,5 @@ public class EmptyPointFigure extends PathNodeFigure {
         incomingAnchor = new EllipseAnchor(ellipse);
         outgoingAnchor = new EllipseAnchor(ellipse);
     }
+
 }

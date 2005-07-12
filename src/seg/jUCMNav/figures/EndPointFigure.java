@@ -7,8 +7,6 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Transform;
 
 /**
- * Created 2005-02-15
- * 
  * This figure represent and EndPoint
  * 
  * @author Etienne Tremblay, Jordan McManus
@@ -17,20 +15,17 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
 
     private Polygon mainFigure;
     private PointList edges;
+
+    // is this end point connected to a start point
     private boolean offset;
+
+    // by how much to scale when connected to start point.
     public static double RESIZEFACTOR = 1.4;
 
     /**
-     *  
-     */
-    public EndPointFigure() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+     * A simple line, as wide as the bounds.
      * 
-     * @see seg.jUCMNav.figures.NodeFigure#createFigure()
+     * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
         mainFigure = new Polygon();
@@ -44,6 +39,9 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
         add(mainFigure);
     }
 
+    /**
+     * Rotate the line. Figure knows that center moves if there offset==true
+     */
     public void rotate(double angle) {
         Transform t = new Transform();
         t.setRotation(angle);
@@ -74,13 +72,14 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
         this.offset = offset;
     }
 
+    /**
+     * Must use local coordinates in calculations.
+     */
     protected boolean useLocalCoordinates() {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.figures.NodeFigure#initAnchor()
      */
     protected void initAnchor() {
@@ -88,6 +87,9 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
         outgoingAnchor = new ChopboxAnchor(this);
     }
 
+    /**
+     * Line thickens on hover
+     */
     public void setHover(boolean hover) {
         this.hover = hover;
 
@@ -97,8 +99,8 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
             mainFigure.setLineWidth(5);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * if offset, returns a scaled (RESIZEFACTOR) copy of the regular size.
      * 
      * @see seg.jUCMNav.figures.PathNodeFigure#getPreferredSize(int, int)
      */

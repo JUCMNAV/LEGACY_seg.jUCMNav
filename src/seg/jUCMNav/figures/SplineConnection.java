@@ -7,11 +7,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import ucm.map.NodeConnection;
 
 /**
- * Created 2005-03-02
- * 
  * This figure represent a connection between two path nodes.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class SplineConnection extends PolylineConnection {
     /**
@@ -20,6 +18,11 @@ public class SplineConnection extends PolylineConnection {
      */
     private final NodeConnection link;
 
+    /**
+     * 
+     * @param link
+     *            the node connection
+     */
     public SplineConnection(NodeConnection link) {
         super();
         this.link = link;
@@ -33,6 +36,8 @@ public class SplineConnection extends PolylineConnection {
     }
 
     /**
+     * Overridden to add a check to avoid crashing when spline has not ye been routed and thus has no points.
+     * 
      * Lays out this Figure using its {@link LayoutManager}.
      * 
      * @since 2.0

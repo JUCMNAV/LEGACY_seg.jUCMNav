@@ -5,23 +5,17 @@ import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.Shape;
 
 /**
- * Created 2005-05-11
+ * A Polyline that can be filled.
  * 
  * @author Etienne Tremblay
  */
 public class Polygon extends Polyline {
 
-	/**
-	 * 
-	 */
-	public Polygon() {
-		super();
-	}
-	
-	/**
-	 * @see Shape#fillShape(Graphics)
-	 */
-	protected void fillShape(Graphics g) {
-		g.fillPolygon(getPoints());
-	}
+
+    /**
+     * @see Shape#fillShape(Graphics)
+     */
+    protected void fillShape(Graphics g) {
+        g.fillPolygon(getPoints());
+    }
 }

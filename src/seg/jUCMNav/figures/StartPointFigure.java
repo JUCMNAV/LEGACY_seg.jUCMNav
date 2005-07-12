@@ -2,47 +2,32 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Created 2005-02-15
- * 
  * This figure represent a StartPoint and Waiting Place!
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class StartPointFigure extends PathNodeFigure {
-    private static final int DEFAULT_WIDTH = 15;
-    private static final int DEFAULT_HEIGHT = 15;
-
     private Ellipse ellipse;
 
     /**
-     *  
-     */
-    public StartPointFigure() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+     * An ellipse that fills 2/3 of the area.
      * 
-     * @see seg.jUCMNav.figures.NodeFigure#createFigure()
+     * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
         ellipse = new Ellipse();
-        ellipse.setBounds(new Rectangle(4, 4, DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        ellipse.setBounds(new Rectangle(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6, DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3));
         ellipse.setBackgroundColor(new Color(null, 0, 0, 0));
         add(ellipse);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.figures.NodeFigure#initAnchor()
+    /**
+     * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
      */
     protected void initAnchor() {
         incomingAnchor = new EllipseAnchor(ellipse);
@@ -50,26 +35,28 @@ public class StartPointFigure extends PathNodeFigure {
     }
 
     /**
-     * @return Returns the default dimension.
+     * Makes it larger on hover.
      */
-    public static Dimension getDefaultDimension() {
-        return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
     public void setHover(boolean hover) {
         this.hover = hover;
 
         if (hover) {
-            if (ellipse.getSize().height == DEFAULT_HEIGHT) {
-                ellipse.setSize(DEFAULT_HEIGHT + 5, DEFAULT_HEIGHT + 5);
-                ellipse.setLocation(new Point(ellipse.getLocation().x - 2, ellipse.getLocation().y - 2));
-            }
-        } else {
-            if (ellipse.getSize().height != DEFAULT_HEIGHT) {
-                ellipse.setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
-                ellipse.setLocation(new Point(ellipse.getLocation().x + 2, ellipse.getLocation().y + 2));
-            }
-        }
+            ellipse.setLocation(new Point(DEFAULT_WIDTH / 6 - 2, DEFAULT_HEIGHT / 6 - 2));
+            ellipse.setSize(DEFAULT_WIDTH * 2 / 3 + 4, DEFAULT_HEIGHT * 2 / 3 + 4);
 
+        } else {
+            ellipse.setLocation(new Point(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6));
+            ellipse.setSize(DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3);
+        }
+    }
+
+    /**
+     * We need local coordinates when resizing
+     * 
+     * @see org.eclipse.draw2d.Figure#useLocalCoordinates()
+     */
+    protected boolean useLocalCoordinates() {
+
+        return true;
     }
 }

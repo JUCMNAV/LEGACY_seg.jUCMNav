@@ -2,7 +2,6 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.EllipseAnchor;
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -22,21 +21,20 @@ public class TimerFigure extends PathNodeFigure {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    /** The empty point is an ellipse. */
+    // The base figure is an ellipse.
     private Ellipse ellipse;
+
+    // with a line in it.
     private Polyline poly;
 
-    public TimerFigure() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates a filled circle containing an L like segment to simulate a clock.
      * 
      * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
         ellipse = new Ellipse();
+        // we're making it larger than the empty point.
         ellipse.setBounds(new Rectangle(preferredSize.width / 8, preferredSize.height / 8, DEFAULT_WIDTH * 3 / 4, DEFAULT_HEIGHT * 3 / 4));
         poly = new Polyline();
         poly.addPoint(new Point(DEFAULT_WIDTH / 2, preferredSize.height / 8));
@@ -45,22 +43,12 @@ public class TimerFigure extends PathNodeFigure {
         ellipse.add(poly);
         ellipse.setLineWidth(2);
         poly.setLineWidth(2);
-        
+
         add(ellipse);
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
-     */
-    public Figure getFigure() {
-        return this;
-    }
-
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
      */
@@ -69,7 +57,9 @@ public class TimerFigure extends PathNodeFigure {
         outgoingAnchor = new EllipseAnchor(this);
     }
 
-
+    /**
+     * We're using local coordinates in our calculation.
+     */
     protected boolean useLocalCoordinates() {
         return true;
     }

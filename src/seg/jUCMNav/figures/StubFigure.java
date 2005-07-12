@@ -8,85 +8,97 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Created 2005-05-11
+ * Figure for stubs.
  * 
  * @author Etienne Tremblay
  */
 public class StubFigure extends PathNodeFigure {
-	
-	private static final int DEFAULT_WIDTH = 34;
-	private static final int DEFAULT_HEIGHT = 34;
-	
-	private boolean dynamic = false;
+    // is of a larger size.
+    private static final int DEFAULT_HEIGHT = 34;
+    private static final int DEFAULT_WIDTH = 34;
 
-	private Polygon mainFigure;
-	private PointList edges;
+    /**
+     * Overriden to allow automatic label placement.
+     */
+    public static Dimension getDefaultDimension() {
+        return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
 
-	/**
-	 *  
-	 */
-	public StubFigure(boolean dynamic) {
-		super();
-		this.dynamic = dynamic;
-	}
+    // if dynamic, used dotted line.
+    private boolean dynamic = false;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
-	 */
-	protected void createFigure() {
-		mainFigure = new Polygon();
-		edges = new PointList();
-		preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		edges.addPoint(DEFAULT_WIDTH / 2, 1);
-		edges.addPoint(1, DEFAULT_HEIGHT / 2);
-		edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT-1);
-		edges.addPoint(DEFAULT_WIDTH-1, DEFAULT_HEIGHT / 2);
-		edges.addPoint(DEFAULT_WIDTH / 2, 1);
-		mainFigure.setLineWidth(2);
-		mainFigure.setPoints(edges);
-		mainFigure.setBackgroundColor(new Color(null, 255, 255, 255));
-		add(mainFigure);
-	}
+    // the lozenge.
+    private Polygon mainFigure;
 
-	public void setDynamic(boolean dynamic) {
-		this.dynamic = dynamic;
-		if (dynamic == true) {
-		    /* You won't be able to change the line width to 2 until the target platform is 3.0.2 or 3.1:
-		     * https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
-		     */
-			mainFigure.setLineWidth(1);
-			mainFigure.setLineStyle(SWT.LINE_DOT);
-		}
-		else {
-			mainFigure.setLineWidth(2);
-			mainFigure.setLineStyle(SWT.LINE_SOLID);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
-	 */
-	public Figure getFigure() {
-		return mainFigure;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
-	 */
-	protected void initAnchor() {
-		incomingAnchor = new ChopboxAnchor(mainFigure);
-		outgoingAnchor = new ChopboxAnchor(mainFigure);
-	}
+    /**
+     * @param dynamic
+     *            is this stub dynamic? if so, use a dotted line.
+     */
+    public StubFigure(boolean dynamic) {
+        super();
+        this.dynamic = dynamic;
+    }
 
-	protected boolean useLocalCoordinates() {
-		return true;
-	}
-	
-	public static Dimension getDefaultDimension() {
-    	return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    /**
+     * Is a lozenge, dotted if dynamic, straight line otherwise.
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
+     */
+    protected void createFigure() {
+        mainFigure = new Polygon();
+        PointList edges = new PointList();
+        preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        edges.addPoint(DEFAULT_WIDTH / 2, 1);
+        edges.addPoint(1, DEFAULT_HEIGHT / 2);
+        edges.addPoint(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT - 1);
+        edges.addPoint(DEFAULT_WIDTH - 1, DEFAULT_HEIGHT / 2);
+        edges.addPoint(DEFAULT_WIDTH / 2, 1);
+        mainFigure.setLineWidth(2);
+        mainFigure.setPoints(edges);
+        mainFigure.setBackgroundColor(new Color(null, 255, 255, 255));
+        add(mainFigure);
+    }
+
+    /**
+     * Returns the lozenge.
+     * 
+     * @see seg.jUCMNav.figures.PathNodeFigure#getFigure()
+     */
+    public Figure getFigure() {
+        return mainFigure;
+    }
+
+    /**
+     * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
+     */
+    protected void initAnchor() {
+        incomingAnchor = new ChopboxAnchor(mainFigure);
+        outgoingAnchor = new ChopboxAnchor(mainFigure);
+    }
+
+    /**
+     * Set if is dynamic; we the state changes, we must update its line style.
+     * 
+     * @param dynamic
+     */
+    public void setDynamic(boolean dynamic) {
+        this.dynamic = dynamic;
+        if (dynamic == true) {
+            /*
+             * You won't be able to change the line width to 2 until the target platform is 3.0.2 or 3.1: https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
+             */
+            mainFigure.setLineWidth(1);
+            mainFigure.setLineStyle(SWT.LINE_DOT);
+        } else {
+            mainFigure.setLineWidth(2);
+            mainFigure.setLineStyle(SWT.LINE_SOLID);
+        }
+    }
+
+    /**
+     * We need to use local coordinates for our edge manipulation.
+     */
+    protected boolean useLocalCoordinates() {
+        return true;
     }
 }

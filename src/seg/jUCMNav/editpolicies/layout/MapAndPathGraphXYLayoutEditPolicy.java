@@ -38,7 +38,7 @@ import urncore.NodeLabel;
 
 /**
  * 
- * XYLayoutEditPolicy for the MapAndPathGraphEditPart. Handles creation of new elements and moving/resizing of existing ones. 
+ * XYLayoutEditPolicy for the MapAndPathGraphEditPart. Handles creation of new elements and moving/resizing of existing ones.
  * 
  * @author etremblay, jkealey
  *  
@@ -295,7 +295,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
      *            the PathNodeEditPart
      * @param constraint
      *            where it should be moved to.
-     * @return
+     * @return a SetConstraintCommand
      */
     private Command handleMovePathNode(EditPart child, Object constraint) {
         // Adjust the coordinates with the coordinates of the figure too

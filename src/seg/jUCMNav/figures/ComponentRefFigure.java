@@ -13,65 +13,28 @@ import org.eclipse.swt.widgets.Display;
 import urncore.ComponentKind;
 
 /**
- * Created on 30-May-2005
- * 
- * A figure for components refs.
+ * A figure for components refs. Changes appearance depending on ComponentKind. Bounds still stay square.
  * 
  * @author jkealey
  *  
  */
 public class ComponentRefFigure extends RectangleFigure {
 
+    // the ComponentKind.
     private int kind;
 
+    /**
+     * Default figure is a TEAM.
+     *  
+     */
     public ComponentRefFigure() {
         setLineWidth(3);
-
         setKind(ComponentKind.TEAM);
     }
 
     /**
-     * Sets the figure's colors. The default line color is black, the default fill color is white.
+     * Fills the interior of the ComponentRef.
      * 
-     * @param lineColor
-     * @param fillColor
-     * @param filled
-     */
-    public void setColors(String lineColor, String fillColor, boolean filled) {
-        RGB color;
-        setFill(filled);
-
-        if (fillColor == null || fillColor.length() == 0) {
-            fillColor = StringConverter.asString(new RGB(255, 255, 255));
-        }
-        color = StringConverter.asRGB(fillColor);
-        setBackgroundColor(new Color(Display.getCurrent(), color));
-
-        if (lineColor == null || lineColor.length() == 0) {
-            lineColor = StringConverter.asString(new RGB(0, 0, 0));
-        }
-
-        color = StringConverter.asRGB(lineColor);
-        setForegroundColor(new Color(Display.getCurrent(), color));
-    }
-
-    /**
-     * A ComponentKind.
-     * 
-     * @param type
-     */
-    public void setKind(int type) {
-        if (type != kind) {
-            if (type == ComponentKind.AGENT)
-                this.setLineWidth(this.getLineWidth() + 3);
-            else if (kind == ComponentKind.AGENT)
-                this.setLineWidth(this.getLineWidth() - 3);
-
-            this.kind = type;
-        }
-    }
-
-    /**
      * @see Shape#fillShape(Graphics)
      */
     protected void fillShape(Graphics graphics) {
@@ -108,6 +71,19 @@ public class ComponentRefFigure extends RectangleFigure {
     }
 
     /**
+     * 
+     * @return the ComponentKind.
+     */
+    public int getKind() {
+        return kind;
+    }
+
+    /**
+     * Defines the outline of the shape.
+     * 
+     * Object: Rounded Rectangle, Process: Parallellogram, Team/Other: Rectangle, Actor: Rectangle with stickman
+     * 
+     * 
      * @see Shape#outlineShape(Graphics)
      */
     protected void outlineShape(Graphics graphics) {
@@ -143,9 +119,9 @@ public class ComponentRefFigure extends RectangleFigure {
             graphics.drawRectangle(x, y, w, h);
 
             // offset figure
-            x+=5;
-            y-=5;
-            
+            x += 5;
+            y -= 5;
+
             // paint stickman
             graphics.setLineWidth(2);
             points.addPoint(x + 10, y + 20);
@@ -177,7 +153,47 @@ public class ComponentRefFigure extends RectangleFigure {
 
     }
 
-    public int getKind() {
-        return kind;
+    /**
+     * Sets the figure's colors. The default line color is black, the default fill color is white.
+     * 
+     * @param lineColor
+     *            outline color
+     * @param fillColor
+     *            inside color
+     * @param filled
+     *            should it be filled?
+     */
+    public void setColors(String lineColor, String fillColor, boolean filled) {
+        RGB color;
+        setFill(filled);
+
+        if (fillColor == null || fillColor.length() == 0) {
+            fillColor = StringConverter.asString(new RGB(255, 255, 255));
+        }
+        color = StringConverter.asRGB(fillColor);
+        setBackgroundColor(new Color(Display.getCurrent(), color));
+
+        if (lineColor == null || lineColor.length() == 0) {
+            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        }
+
+        color = StringConverter.asRGB(lineColor);
+        setForegroundColor(new Color(Display.getCurrent(), color));
+    }
+
+    /**
+     * 
+     * @param type
+     *            A ComponentKind.
+     */
+    public void setKind(int type) {
+        if (type != kind) {
+            if (type == ComponentKind.AGENT)
+                this.setLineWidth(this.getLineWidth() + 3);
+            else if (kind == ComponentKind.AGENT)
+                this.setLineWidth(this.getLineWidth() - 3);
+
+            this.kind = type;
+        }
     }
 }

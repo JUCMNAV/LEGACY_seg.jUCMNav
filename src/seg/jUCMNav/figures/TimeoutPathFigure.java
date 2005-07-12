@@ -6,18 +6,21 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Created on 16-Jun-2005
+ * Figure for a TimeoutPath. Is intented to be placed on a SplineConnection.
+ * 
+ * Attempts to make rotateable failed.
  * 
  * @author jkealey
  *  
  */
-public class TimeoutPathFigure extends Figure implements Rotateable {
+public class TimeoutPathFigure extends Figure {
 
     public final static int WIDTH = 20;
     public final static int HEIGHT = 16;
     public final static int DELTA = 2;
 
-    Polyline poly;
+    // the figure
+    private Polyline poly;
 
     /**
      *  
@@ -26,6 +29,10 @@ public class TimeoutPathFigure extends Figure implements Rotateable {
         createFigure();
     }
 
+    /**
+     * Is a Z like figure determined by the three static constants, WIDTH, HEIGHT and DELTA
+     *  
+     */
     protected void createFigure() {
         poly = new Polyline();
         poly.setLineWidth(3);
@@ -35,11 +42,10 @@ public class TimeoutPathFigure extends Figure implements Rotateable {
         poly.addPoint(new Point(WIDTH / 2, -DELTA));
 
         add(poly);
-
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns the minimum size to contain the figure.
      * 
      * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
      */
@@ -47,19 +53,13 @@ public class TimeoutPathFigure extends Figure implements Rotateable {
         return new Dimension(WIDTH + poly.getLineWidth(), HEIGHT + poly.getLineWidth());
     }
 
+    /**
+     * Change to offset figure placement.
+     * 
+     * @return the initial point for the drawing.
+     */
     public Point getInitial() {
         return new Point(-WIDTH / 2, DELTA);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.figures.Rotateable#rotate(double)
-     */
-    public void rotate(double angle) {
-        // force refresh of bounds
-        poly.setPoints(poly.getPoints());
-
     }
 
 }

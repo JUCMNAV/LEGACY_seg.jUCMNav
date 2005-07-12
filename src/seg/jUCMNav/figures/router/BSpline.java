@@ -1,22 +1,18 @@
 package seg.jUCMNav.figures.router;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
-import ucm.map.PathNode;
-
 /**
- * Created 2005-03-02
- * 
  * This class represent an interpolated B-Spline. Specify a point list representing the points on the curve and the class will be able to return a bspline going
  * through those points.
  * 
- * In the initial version of the connection router, used PathNodes for positions. Now uses a pointlist.
+ * In the initial version of the connection router, used PathNodes for positions (with BSplineConnectionRouter). Now uses a PointList. See CVS history for
+ * original implementation.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class BSpline {
 
@@ -28,9 +24,7 @@ public class BSpline {
             dx, dy, // The direction for the spline at each point
             Ax, Ay, Bi, B0, B1, B2, B3;
 
-    private int precision = 26; // Number of iteration to do between two points
-
-    // of the curve.
+    private int precision = 26; // Number of iteration to do between two points of the curve.
 
     /**
      * Build an empty spline. Points will be passed later.
@@ -49,14 +43,6 @@ public class BSpline {
         if (n <= 1)
             return; // We have to have two points or more to make a spline
         init(list);
-    }
-
-    /**
-     * @deprecated Pass a point list, not an arraylist of pathnodes.
-     * @param nodes
-     */
-    public BSpline(ArrayList nodes) {
-        setPoints(nodes);
     }
 
     /**
@@ -172,27 +158,6 @@ public class BSpline {
     }
 
     /**
-     * Set the list of points.
-     * 
-     * @deprecated
-     * @param nodes
-     *            A list of PathNodes that this BSpline should follow.
-     */
-    public void setPoints(ArrayList nodes) {
-        n = nodes.size();
-        if (n <= 1)
-            return; // We have to have two points or more to make a spline
-
-        this.nodes = nodes;
-        PointList points = new PointList();
-        for (Iterator i = nodes.iterator(); i.hasNext();) {
-            PathNode node = (PathNode) i.next();
-            points.addPoint(node.getX(), node.getY());
-        }
-        init(points);
-    }
-
-    /**
      * @return The a path node point list contained in an ArrayList.
      */
     public ArrayList getPoints() {
@@ -242,39 +207,13 @@ public class BSpline {
     }
 
     /**
-     * Get the nearest index for the PathNode specified
-     * 
-     * @deprecated
-     * @param node
-     *            The node we want the index.
-     * @return The index of the following node.
-     */
-    public int getPoint(PathNode node) {
-        return nodes.indexOf(node);
-    }
-
-    /**
-     * @deprecated
-     * @return The start point of this BSpline.
-     */
-    public PathNode getStartPoint() {
-        return (PathNode) nodes.get(0);
-    }
-
-    /**
-     * @deprecated
-     * @return The end point of this BSpline.
-     */
-    public PathNode getEndPoint() {
-        return (PathNode) nodes.get(nodes.size() - 1);
-    }
-
-    /**
      * Return a point list of the points of the curve between two points on the curve. The function checks for which point is the closest to the two points
      * specified as parameter and return the corresponding index of the points on the curve for each point. So you have to give pretty precise points if you
      * don't want the function to find a point that is near the point you specified but is not the point you wanted.
      * 
-     * This function was used by the connection router at first, but has problems with loops. If one of the two points is repeated on the spline, the function used the first occurrence, which caused bugs. 
+     * This function was used by the connection router at first, but has problems with loops. If one of the two points is repeated on the spline, the function
+     * used the first occurrence, which caused bugs.
+     * 
      * @param p1
      *            The first point
      * @param p2
@@ -285,26 +224,6 @@ public class BSpline {
         findCPoints(); // Find curve points
         int start = getPoint(p1.x, p1.y);
         int end = getPoint(p2.x, p2.y);
-
-        PointList points = getPointBetween(start, end);
-
-        return points;
-    }
-
-    /**
-     * Return the point list between the PathNode p1 and p2.
-     * 
-     * @deprecated
-     * @param p1
-     *            The first point
-     * @param p2
-     *            The point following the first point
-     * @return The point list representing the path between the two points.
-     */
-    public PointList getPointsBetween(PathNode p1, PathNode p2) {
-        findCPoints(); // Find curve points
-        int start = getPoint(p1);
-        int end = getPoint(p2);
 
         PointList points = getPointBetween(start, end);
 

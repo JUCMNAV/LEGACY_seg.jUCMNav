@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+Figures used by our seg.jUCMNav.editparts. 
+
+<h2>Package Specification</h2>
+
+<p>
+Figures are the view side of GEF's model-view-controller architecture. See DevDocFigures for more information. 
+</p>
+<p>
+New PathNode figures should extend PathNodeFigure. If the new figures must be rotateable, implement the Rotateable interface.  Don't forget to look into JUCMNavFigure if your new figure doesn't have the default size!
+</p>
+<p>
+If you ever try to create a figure and notice that it doesn't always get displayed properly if you change its size/location after creation, look into making useLocalCoordinates() return true. 
+</p>
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+@see seg.jUCMNav.figures.util.JUCMNavFigure
+@see seg.jUCMNav.figures.Rotateable
+@see seg.jUCMNav.figures.PathNodeFigure
+</body>
+</html>
