@@ -10,10 +10,13 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
@@ -31,21 +34,27 @@ import urncore.Responsibility;
  * @author Etienne Tremblay
  *
  */
-public class RespListViewer extends StructuredViewer implements Adapter {
+public class RespListViewer extends StructuredViewer implements Adapter, ISelectionChangedListener {
 	
 	private CompositeListControl list;
+	private ScrolledComposite scrolled;
 	
 	public RespListViewer(Composite parent, int style){
-		this(new CompositeListControl(parent, style));
+		super();
+//		scrolled = new ScrolledComposite(parent, SWT.V_SCROLL);
+		list = new CompositeListControl(parent, style);
+		list.addSelectionChangedListener(this);
+		
+//		list.setSize(new Point(400, 400));
+//		
+//		scrolled.setContent(list);
+//		scrolled.setMinSize(400, 400);
+//		scrolled.setExpandHorizontal(true);
+//		scrolled.setExpandVertical(true);
+//		scrolled.setMinWidth(400);
+//		scrolled.setMinHeight(400);
 	}
 	
-	/**
-	 * @param list
-	 */
-	public RespListViewer(CompositeListControl list) {
-		super();
-		this.list = list;
-	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.Viewer#getControl()
 	 */
@@ -65,10 +74,17 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 	 */
 	public void setSelection(ISelection selection, boolean reveal) {
 		StructuredSelection sel = (StructuredSelection)selection;
+		ArrayList items = new ArrayList();
 		for (Iterator i = sel.iterator(); i.hasNext();) {
-			CompositeListItem item = (CompositeListItem) i.next();
-			item.select();
+			PathNode node = (PathNode) i.next();
+			if(node instanceof RespRef) {
+				CompositeListItem item = (CompositeListItem)doFindItem(node);
+				items.add(item);
+			}
 		}
+		sel = new StructuredSelection(items);
+		
+		list.setSelection(sel);
 	}
 
 	/* (non-Javadoc)
@@ -279,6 +295,23 @@ public class RespListViewer extends StructuredViewer implements Adapter {
 	        	break;
 	        }
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 */
+	public void selectionChanged(SelectionChangedEvent event) {
+		StructuredSelection sel = (StructuredSelection)event.getSelection();
+		
+		ArrayList items = new ArrayList();
+		for (Iterator i = sel.iterator(); i.hasNext();) {
+			CompositeListItem item = (CompositeListItem) i.next();
+			RespRef ref = (RespRef)item.getData();
+			items.add(ref);
+		}
+		sel = new StructuredSelection(items);
+		
+		fireSelectionChanged(new SelectionChangedEvent(this, sel));
 	}
 
 	/* (non-Javadoc)

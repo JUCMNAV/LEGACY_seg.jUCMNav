@@ -7,6 +7,7 @@ import org.eclipse.jface.util.ListenerList;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -31,13 +32,13 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 	 *
 	 * @see #selectionChanged(CompositeListItem)
 	 */
-	private ListenerList selectionChangedListeners = new ListenerList(3);
+	private ListenerList selectListeners = new ListenerList(3);
 	/**
 	 * @param parent
 	 * @param style
 	 */
 	public CompositeListControl(Composite parent, int style) {
-		super(parent, style | SWT.H_SCROLL);
+		super(parent, style | SWT.V_SCROLL);
 		initialize();
 	}
 
@@ -55,11 +56,6 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 		layout.horizontalSpacing = 0;
 		this.setLayout(layout);
 		this.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
-//		rowLayout6.type = org.eclipse.swt.SWT.VERTICAL;
-//		rowLayout6.fill = true;
-//		rowLayout6.pack = false;
-//		rowLayout6.wrap = true;
-//		setSize(new org.eclipse.swt.graphics.Point(300,260));
 	}
 	
 	public void add(CompositeListItem item){
@@ -85,14 +81,14 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		selectionChangedListeners.add(listener);
+		selectListeners.add(listener);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#removeSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-		selectionChangedListeners.remove(listener);
+		selectListeners.remove(listener);
 	}
 	
 	/* (non-Javadoc)
@@ -134,11 +130,23 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 			item.unselect();
 		}
 	}
+	
+	protected void fireSelected(){
+		
+		StructuredSelection sel = (StructuredSelection)getSelection();
+		
+		Object[] listeners = selectListeners.getListeners();
+		for (int i = 0; i < listeners.length; i++) {
+			ISelectionChangedListener listener = (ISelectionChangedListener)listeners[i];
+			listener.selectionChanged(new SelectionChangedEvent(this, sel));
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.views.ISelectionInListListener#selectionChanged(seg.jUCMNav.views.CompositeListItem)
 	 */
-	public void selectionChanged(CompositeListItem selected) {
+	public void selectionChanged(Object selected) {
 		setSelection(new StructuredSelection(selected));
+		fireSelected();
 	}
   }  //  @jve:decl-index=0:visual-constraint="10,10"

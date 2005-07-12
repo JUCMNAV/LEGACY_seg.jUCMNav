@@ -1,9 +1,11 @@
 package seg.jUCMNav.views.resp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -13,11 +15,13 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -39,7 +43,7 @@ import ucm.map.Map;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 
-public class ResponsibilityView extends ViewPart implements IPartListener2, ISelectionChangedListener, IPageChangeListener {
+public class ResponsibilityView extends ViewPart implements IPartListener2, ISelectionChangedListener, IPageChangeListener, ISelectionProvider {
     private RespListViewer viewer;
     private Action action1;
     private Action action2;
@@ -100,6 +104,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      */
     public void createPartControl(Composite parent) {
         viewer = new RespListViewer(parent, SWT.MULTI | SWT.V_SCROLL);
+        viewer.addSelectionChangedListener(this);
         viewer.setContentProvider(new RespContentProvider());
         viewer.setLabelProvider(new RespLabelProvider());
 
@@ -209,22 +214,8 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     public void partBroughtToTop(IWorkbenchPartReference partRef) {
         // If the part brought to top is this view, then update the input.
         if (partRef.getPart(false) == this) {
-            if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-                setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-                setInput(editor.getCurrentPage().getModel());
-            }
+        	setEditor(partRef);
         }
-    }
-
-    /**
-     * @param editor
-     */
-    private void setEditor(UCMNavMultiPageEditor editor) {
-        if (this.editor != null) {
-            this.editor.removePageChangeListener(this);
-        }
-        this.editor = editor;
-        editor.addPageChangeListener(this);
     }
 
     /*
@@ -253,10 +244,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partOpened(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partOpened(IWorkbenchPartReference partRef) {
-        if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-            setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-            setInput(editor.getCurrentPage().getModel());
-        }
+    	setEditor(partRef);
     }
 
     /*
@@ -275,10 +263,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partVisible(IWorkbenchPartReference partRef) {
-        if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
-            setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-            setInput(editor.getCurrentPage().getModel());
-        }
+        setEditor(partRef);
     }
 
     /*
@@ -288,6 +273,26 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      */
     public void partInputChanged(IWorkbenchPartReference partRef) {
 
+    }
+    
+    private void setEditor(IWorkbenchPartReference partRef) {
+    	if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+            setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
+            setInput(editor.getCurrentPage().getModel());
+        }
+    }
+    
+    /**
+     * @param editor
+     */
+    private void setEditor(UCMNavMultiPageEditor editor) {
+        if (this.editor != null) {
+            this.editor.removePageChangeListener(this);
+        }
+        this.editor = editor;
+        editor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
+        editor.addPageChangeListener(this);
+        editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
     }
 
     private void setInput(Map input) {
@@ -320,7 +325,41 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
      */
     public void selectionChanged(SelectionChangedEvent event) {
-
+    	StructuredSelection sel = (StructuredSelection)event.getSelection();
+    	
+    	if(event.getSource() instanceof RespListViewer) {
+    		ArrayList items = new ArrayList();
+    		if(editor != null && editor.getCurrentPage() != null) {
+	    		HashMap registry = (HashMap)editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
+	    		
+		    	for (Iterator i = sel.iterator(); i.hasNext();) {
+					Object obj = (Object) i.next();
+					if(obj instanceof RespRef) {
+						RespRef ref = (RespRef) obj;
+						EditPart part = (EditPart)registry.get(ref);
+						if(part != null)
+							editor.getCurrentPage().getGraphicalViewer().select(part);
+					}
+				}
+    		}
+//	    	sel = new StructuredSelection(items);
+    		
+			
+//	    	if(editor != null)
+//	    		editor.getSelectionSynchronizer().selectionChanged(new SelectionChangedEvent(this, sel));
+    	}
+    	else {
+	    	ArrayList items = new ArrayList();
+	    	for (Iterator i = sel.iterator(); i.hasNext();) {
+				EditPart part = (EditPart) i.next();
+				Object model = part.getModel();
+				if(model instanceof RespRef)
+					items.add(model);
+			}
+	    	sel = new StructuredSelection(items);
+			
+			viewer.setSelection(sel);
+    	}
     }
 
     /*
@@ -331,4 +370,36 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     public void pageChanged() {
         setInput(editor.getCurrentPage().getModel());
     }
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
+	 */
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
+	 */
+	public ISelection getSelection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#removeSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
+	 */
+	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#setSelection(org.eclipse.jface.viewers.ISelection)
+	 */
+	public void setSelection(ISelection selection) {
+		// TODO Auto-generated method stub
+		
+	}
 }
