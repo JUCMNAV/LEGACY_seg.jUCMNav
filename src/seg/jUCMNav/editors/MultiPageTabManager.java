@@ -123,6 +123,8 @@ public class MultiPageTabManager {
 
             IWorkbenchPage page = this.editor.getSite().getPage();
             page.getNavigationHistory().markLocation(this.editor);
+            
+            firePageChanged();
         }
     }
 

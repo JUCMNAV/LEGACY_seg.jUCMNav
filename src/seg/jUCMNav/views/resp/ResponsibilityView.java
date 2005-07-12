@@ -203,7 +203,9 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partActivated(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partActivated(IWorkbenchPartReference partRef) {
-
+    	if (partRef.getPart(false) == this) {
+        	setEditor(partRef);
+        }
     }
 
     /*
@@ -224,8 +226,9 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partClosed(IWorkbenchPartReference partRef) {
-        if (partRef.getPart(false) instanceof UCMNavMultiPageEditor)
+        if (partRef.getPart(false) instanceof UCMNavMultiPageEditor && partRef.getPage().getActiveEditor() == null) {
             setInput(null);
+        }
     }
 
     /*
@@ -234,8 +237,8 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partDeactivated(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partDeactivated(IWorkbenchPartReference partRef) {
-        // TODO Auto-generated method stub
-
+//    	if (partRef.getPart(false) instanceof UCMNavMultiPageEditor)
+//          setInput(null);
     }
 
     /*
@@ -253,8 +256,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partHidden(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partHidden(IWorkbenchPartReference partRef) {
-        if (partRef.getPart(false) instanceof UCMNavMultiPageEditor)
-            setInput(null);
+    	
     }
 
     /*
@@ -278,7 +280,8 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     private void setEditor(IWorkbenchPartReference partRef) {
     	if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
             setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-            setInput(editor.getCurrentPage().getModel());
+            if(editor.getCurrentPage().getModel() != input)
+            	setInput(editor.getCurrentPage().getModel());
         }
     }
     
@@ -292,7 +295,6 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
         this.editor = editor;
         editor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
         editor.addPageChangeListener(this);
-        editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
     }
 
     private void setInput(Map input) {
