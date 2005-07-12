@@ -33,6 +33,7 @@ import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -47,10 +48,12 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
+import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.ConnectAction;
+import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -77,6 +80,7 @@ import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.views.outline.UcmOutlinePage;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
+import seg.jUCMNav.views.wizards.ExportImageWizard;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -202,7 +206,13 @@ public class ProgressTests extends TestCase {
     }
 
     public EditPart getEditPart(Object o) {
-        return (EditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(o);
+        EditPart ep = (EditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(o);
+
+        // if can't find in editor, look in outline.
+        if (ep == null)
+            ep = (EditPart) (((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(o);
+        
+        return ep;
     }
 
     public ScrollingGraphicalViewer getGraphicalViewer() {
@@ -325,7 +335,7 @@ public class ProgressTests extends TestCase {
         Command cmd = new AddComponentRefCommand(getMap(), backgroundBindingChecker);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
+        cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
         assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
@@ -425,7 +435,7 @@ public class ProgressTests extends TestCase {
         }
 
         // verify that we can move/resize components.
-        
+
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
@@ -468,7 +478,7 @@ public class ProgressTests extends TestCase {
         getMapEditPart(0).refreshChildren();
 
         // set the parent somewhere.
-        ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getEditPart(parent); 
+        ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getEditPart(parent);
         cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(100, 200, 300, 400));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
@@ -551,7 +561,7 @@ public class ProgressTests extends TestCase {
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Child still bound to parent", child.getParent()!=parent); //$NON-NLS-1$
+        assertTrue("Child still bound to parent", child.getParent() != parent); //$NON-NLS-1$
 
     }
 
@@ -631,7 +641,7 @@ public class ProgressTests extends TestCase {
         PathNode pn = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
         PathNodeEditPart pnpart = (PathNodeEditPart) getEditPart(pn);
         ComponentRef parent = pn.getCompRef();
-        
+
         Command cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(pnpart,
                 new Rectangle(500, 500, 0, 0));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintCommand ", cmd instanceof SetConstraintCommand && cmd.canExecute()); //$NON-NLS-1$
@@ -639,7 +649,7 @@ public class ProgressTests extends TestCase {
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Moved node should no longer have the same parent.", pn.getCompRef()!=parent); //$NON-NLS-1$
+        assertTrue("Moved node should no longer have the same parent.", pn.getCompRef() != parent); //$NON-NLS-1$
 
     }
 
@@ -704,25 +714,74 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //  /**
-    //  * Test #2 for requirement ReqConnections
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqConnections2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #2 for requirement ReqConnections
+     * 
+     * Author: jkealey
+     */
+    public void testReqConnections2() {
+        testReqConnections1();
+        // get an endpoint connected to a start point.
+        EndPoint ep = null;
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint && element.getSucc().size() > 0) {
+                ep = (EndPoint) element;
+                NodeConnection nc = (NodeConnection) element.getSucc().get(0);
+                nc = (NodeConnection) nc.getTarget().getSucc().get(0);
+                sp = (StartPoint) nc.getTarget();
+                break;
+            }
+        }
 
-    //  /**
-    //  * Test #3 for requirement ReqConnections
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqConnections3() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        Vector v = new Vector();
+        v.add(sp);
+        IAction action = getAction(v, DisconnectAction.DISCONNECT);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
+
+        // try with other element.
+        v.clear();
+        v.add(ep);
+
+        action = getAction(v, DisconnectAction.DISCONNECT);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        // test to see if really disconnected.
+        assertTrue("items not disconnected", ep.getSucc().size() == 0 && sp.getPred().size() == 0);
+
+    }
+
+    /**
+     * Test #3 for requirement ReqConnections
+     * 
+     * Author: jkealey
+     */
+    public void testReqConnections3() {
+        testReqConnections1();
+        // get an endpoint connected to a start point.
+        EndPoint ep = null;
+        StartPoint sp = null;
+        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof EndPoint && element.getSucc().size() > 0) {
+                ep = (EndPoint) element;
+                NodeConnection nc = (NodeConnection) element.getSucc().get(0);
+                nc = (NodeConnection) nc.getTarget().getSucc().get(0);
+                sp = (StartPoint) nc.getTarget();
+                break;
+            }
+        }
+
+        // move one
+        Command cmd = new SetConstraintCommand(sp, 85, 148);
+        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
+
+        assertTrue("connected elements didn't move together", sp.getX() == ep.getX() && sp.getX() == 85 && sp.getY() == ep.getY() && sp.getY() == 148);
+    }
 
     /**
      * Test #1 for requirement ReqElemAndFork
@@ -882,11 +941,11 @@ public class ProgressTests extends TestCase {
         CreatePathCommand cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         endpoint = cmd.getEnd();
-        
+
         // and another.
         cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
-        ep = (EmptyPoint) ((NodeConnection)cmd.getStart().getSucc().get(0)).getTarget();
+        ep = (EmptyPoint) ((NodeConnection) cmd.getStart().getSucc().get(0)).getTarget();
 
         assertNotNull("no empty point found", ep); //$NON-NLS-1$
         assertNotNull("no end point found", endpoint); //$NON-NLS-1$
@@ -1417,7 +1476,7 @@ public class ProgressTests extends TestCase {
         }
         assertNotNull("cannot find orfork", fork); //$NON-NLS-1$
 
-        assertTrue("no preceeding node connection", fork.getSucc().size()>=2); //$NON-NLS-1$
+        assertTrue("no preceeding node connection", fork.getSucc().size() >= 2); //$NON-NLS-1$
         for (Iterator iter = fork.getSucc().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
 
@@ -1742,25 +1801,41 @@ public class ProgressTests extends TestCase {
         cmd.execute();
     }
 
-    //  /**
-    //  * Test #1 for requirement ReqElemStubActions
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemStubActions1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #1 for requirement ReqElemStubActions
+     * 
+     * Author: jkealey
+     */
+    public void testReqElemStubActions1() {
+        Vector v = new Vector();
+        v.add(urn);
+        IAction action = getAction(v, AddMapAction.ADDMAP);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
 
-    //  /**
-    //  * Test #2 for requirement ReqElemStubActions
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqElemStubActions2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+        // test if doesn't crash.
+        action.run();
+
+        assertEquals("map not added", 2, editor.getPageCount());
+        assertEquals("new map not loaded", getMap(1), editor.getCurrentPage().getModel());
+
+    }
+
+//    /**
+//     * Test #2 for requirement ReqElemStubActions
+//     * 
+//     * Author: 
+//     */
+//    public void testReqElemStubActions2() {
+//        testReqElemStubActions1();
+//        /* failed attempt. 
+//        EditPart edit = (EditPart) (((UcmOutlinePage) editor.getEditor(0).getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(getMap(0));
+//        StructuredSelection s = new StructuredSelection(edit);
+//        edit.setSelected(2);
+//        ((TreeViewer)edit.getViewer()).setSelection(s);
+//        */
+//        
+//        assertEquals("old map not visible", getMap(0), editor.getCurrentPage().getModel());
+//    }
 
     //  /**
     //  * Test #3 for requirement ReqElemStubActions
@@ -1907,15 +1982,15 @@ public class ProgressTests extends TestCase {
 
     }
 
-    //    /**
-    //     * Test #1 for requirement ReqExportBitmap
-    //     *
-    //     * Author:
-    //     */
-    //    public void testReqExportBitmap1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+    /**
+     * Test #1 for requirement ReqExportBitmap
+     * 
+     * Author: jkealey
+     */
+    public void testReqExportBitmap1() {
+        ExportImageWizard wiz = new ExportImageWizard();
+        assertTrue("not an export wizard", wiz instanceof IExportWizard);
+    }
 
     /**
      * Test #2 for requirement ReqExportBitmap
@@ -1954,25 +2029,32 @@ public class ProgressTests extends TestCase {
         assertTrue("help.xml not in zip file", true); //$NON-NLS-1$
     }
 
-    //  /**
-    //  * Test #1 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel1() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+      /**
+      * Test #1 for requirement ReqBrowseModel
+      *
+      * Author:jkealey
+      */
+     public void testReqBrowseModel1() {
+         assertNotNull("outline doesn't exist", editor.getAdapter(IContentOutlinePage.class));
+     }
 
-    //  /**
-    //  * Test #2 for requirement ReqBrowseModel
-    //  *
-    //  * Author:
-    //  */
-    // public void testReqBrowseModel2() {
-    //     // TODO: implement
-    //     assertTrue("Unimplemented", false);
-    // }
+      /**
+      * Test #2 for requirement ReqBrowseModel
+      *
+      * Author: jkealey
+      */
+     public void testReqBrowseModel2() {
+         // botched implementation. 
+         IPropertySource ips = (IPropertySource) getEditPart(getMap(0)).getAdapter(IPropertySource.class);
+         boolean name = false;
+         IPropertyDescriptor [] desc = ips.getPropertyDescriptors();
+         for (int i = 0; i < desc.length; i++) {
+             String str = desc[i].getDisplayName();
+             if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
+                 name = true;
+         }
+         assertTrue("can't rename map", name);
+     }
 
     //  /**
     //  * Test #3 for requirement ReqBrowseModel

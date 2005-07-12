@@ -3,28 +3,6 @@
 
 <toc label="jUCMNav Online Help"  topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
     <topic label="Part I – Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
-        <topic label="What is a UCM?"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#What_is_a_UCM"/>
-        <topic label="Quick tour of jUCMNav"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Quick_tour_of_jUCMNav"/>
-        <topic label="Basic Elements (Path, Component, Responsibility)"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Basic_Elements_Path_Component_Re"/>
-    </topic>
-    <topic label="Part II – Basic Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_II_Basic_Editing">
-        <topic label="Binding and unbinding components"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Binding_and_unbinding_components"/>
-        <topic label="Adding/removing labels"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Adding_removing_labels"/>
-        <topic label="Changing properties (name, color, etc.)"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Changing_properties_name_color_e"/>
-        <topic label="Using the Outline"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Using_the_Outline"/>
-        <topic label="Forks"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Forks"/>
-    </topic>
-    <topic label="Part III – Advanced Editing"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_III_Advanced_Editing">
-        <topic label="More Elements (Agent, Failure Point, Goal Tag, ISR, Loop, Object, Pool, Process, Stub, Timer, Timestamp Point, Wait)"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#More_Elements_Agent_Failure_Poin"/>
-        <topic label="Creating Multiple Maps"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Creating_Multiple_Maps"/>
-        <topic label="Using Stubs"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Using_Stubs"/>
-    </topic>
-    <topic label="Part IV – Developer Reference"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
-        <topic label="Javadoc"  href="http://jkealey.shade.ca:82/jucmnav-docs/"/>
-    </topic>
-</toc>
-<toc label="jUCMNav Online Help"  topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
-    <topic label="Part I – Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
         <topic label="The Use Case Maps (UCM) Notation"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#The_Use_Case_Maps_UCM_Notation"/>
         <topic label="Setup and Installation"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Setup_and_Installation"/>
         <topic label="Quick Tour of Eclipse and jUCMNav"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine#Quick_Tour_of_Eclipse_and_jUCMNa"/>
