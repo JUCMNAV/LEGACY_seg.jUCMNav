@@ -12,7 +12,7 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Created 2005-06-06
+ * Adds an in-binding between a stub and one of its plugin's start points.
  * 
  * @author Etienne Tremblay
  */
@@ -30,8 +30,11 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
 
     /**
      * @param plugin
+     *            the concerned plugin binding
      * @param start
+     *            one of the plugin's start points
      * @param entry
+     *            the stub's entry connection
      */
     public AddInBindingCommand(PluginBinding plugin, StartPoint start, NodeConnection entry) {
         super();
@@ -41,6 +44,10 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("AddInBinding.addnBinding")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
         if (plugin != null && start != null && entry != null)
             return true;
@@ -48,6 +55,10 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
             return false;
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         urnSpec = plugin.getPlugin().getUcmspec().getUrnspec();
 
@@ -56,6 +67,10 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         testPreConditions();
 
@@ -66,6 +81,10 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
 
@@ -76,9 +95,7 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -88,9 +105,7 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
         assert !plugin.getIn().contains(in) : "Pre plugin contains the in binding"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

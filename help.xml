@@ -26,6 +26,6 @@
     </topic>
     <topic label="Part IV – Developer Reference"  href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
         <topic label="Javadoc"  href="http://jkealey.shade.ca:82/jucmnav-docs/"/>
-        <topib label="Developer site" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/WebHome"/>
+        <topic label="Developer site" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/WebHome"/>
     </topic>
 </toc>

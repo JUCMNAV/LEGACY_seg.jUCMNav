@@ -41,29 +41,41 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
 
+    private boolean inCompoundCommand = false;
+
     /**
-     *  
+     * @param insertionNode
+     *            the fork/join/stub on which to add a branch
+     * @param inCompoundCommand
+     *            if true, relax pre/post condition checking.
+     */
+    public AddBranchCommand(PathNode insertionNode, boolean inCompoundCommand) {
+        this.insertionNode = insertionNode;
+        this.inCompoundCommand = inCompoundCommand;
+    }
+
+    /**
+     * @param insertionNode
+     *            the fork/join/stub on which to add a branch
      */
     public AddBranchCommand(PathNode insertionNode) {
         this.insertionNode = insertionNode;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && this.insertionNode.getSucc().size()==1) )
-                && this.insertionNode.getPathGraph() != null;
+        return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork
+                || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && this.insertionNode.getSucc().size() == 1))
+                && (this.insertionNode.getPathGraph() != null || inCompoundCommand);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        // generate new isntances. 
         pg = this.insertionNode.getPathGraph();
         urn = pg.getMap().getUcmspec().getUrnspec();
         newEmpty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
@@ -76,7 +88,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newStartOrEnd = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
             newEmpty.setX(insertionNode.getX() - 50);
             newStartOrEnd.setX(insertionNode.getX() - 100);
-        } 
+        }
 
         int i = insertionNode.getSucc().size() + insertionNode.getPred().size() - 1;
         newEmpty.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
@@ -105,9 +117,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -129,9 +139,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -158,28 +166,24 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null
-                && urn != null : "pre something null"; //$NON-NLS-1$
-        assert pg.getPathNodes().contains(insertionNode) : "pre node in model"; //$NON-NLS-1$
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null  : "pre something null"; //$NON-NLS-1$
+        assert inCompoundCommand || (pg != null && urn != null);
+        
+        assert inCompoundCommand || pg.getPathNodes().contains(insertionNode) : "pre node in model"; //$NON-NLS-1$
         assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model"; //$NON-NLS-1$
         assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model"; //$NON-NLS-1$
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null
-                && urn != null : "post something null"; //$NON-NLS-1$
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null && pg != null && urn != null : "post something null"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(insertionNode) : "post node in model"; //$NON-NLS-1$
         assert pg.getPathNodes().contains(newEmpty) && pg.getPathNodes().contains(newStartOrEnd) : "post nodes in model"; //$NON-NLS-1$
         assert pg.getNodeConnections().contains(newConn) && pg.getNodeConnections().contains(newConn) : "post connections in model"; //$NON-NLS-1$

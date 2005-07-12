@@ -26,10 +26,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentR
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
-import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
-import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
@@ -90,11 +87,11 @@ public class JUCMNavCommandTests extends TestCase {
     private CommandStack cs;
     private UCMNavMultiPageEditor editor;
     private EndPoint end;
+    private PathNode fork;
     private Map map;
     private PathGraph pathgraph;
     private UCMmodelElement pathNodeWithLabel;
     private StartPoint start;
-    private PathNode fork;
     
     // during teardown, if testBindings==true, call verifyBindings()
     private boolean testBindings;
@@ -255,11 +252,11 @@ public class JUCMNavCommandTests extends TestCase {
         testExtendPathCommand();
         Command cmd;
         fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
-        cmd = new AddForkOnConnectionCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
+        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
         assertTrue("Can't execute AddForkOnConnectionCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
-        cmd = new AddForkOnConnectionCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
+        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
         assertTrue("Can't execute AddForkOnConnectionCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
@@ -280,7 +277,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         Command cmd;
         fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
-        cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddForkOnEmptyPointCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -292,9 +289,13 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
-        cmd = new AddForkOnEmptyPointCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
+    }
+    
+    public void testAddInBindingCommand() {
+        	assertTrue("ET: do me", false);
     }
 
     /**
@@ -305,11 +306,11 @@ public class JUCMNavCommandTests extends TestCase {
         testExtendPathCommand();
         Command cmd;
         PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
-        cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
+        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
         assertTrue("Can't execute AddJoinOnConnectionCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
-        cmd = new AddJoinOnConnectionCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
+        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
         assertTrue("Can't execute AddJoinOnConnectionCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
@@ -330,7 +331,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         Command cmd;
         PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
-        cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddJoinOnEmptyPointCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -342,10 +343,16 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
 
         join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
-        cmd = new AddJoinOnEmptyPointCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
+        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
         assertTrue("Can't execute AddJoinOnEmptyPointCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
+    public void testAddOutBindingCommand() {
+    	assertTrue("ET: do me", false);
+}
+    public void testAddPluginCommand() {
+    	assertTrue("ET: do me", false);
+}
 
     /**
      *

@@ -6,8 +6,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
+import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
@@ -68,10 +67,10 @@ public class AddOrForkAction extends UCMSelectionAction {
             return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
                     .getNodeconnectionMiddle().y, true);
         case SelectionHelper.EMPTYPOINT:
-            comm = new AddForkOnEmptyPointCommand(newOrFork, sel.getPathgraph(), sel.getEmptypoint());
+            comm = new AddForkOrJoinCompoundCommand(newOrFork, sel.getPathgraph(), sel.getEmptypoint());
             return comm;
         case SelectionHelper.NODECONNECTION:
-            comm = new AddForkOnConnectionCommand(newOrFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+            comm = new AddForkOrJoinCompoundCommand(newOrFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
                     .getNodeconnectionMiddle().y);
             return comm;
         default:

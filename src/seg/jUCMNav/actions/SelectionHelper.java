@@ -254,7 +254,7 @@ public class SelectionHelper {
             orjoin = (OrJoin) model;
         else if (model instanceof AndJoin)
             andjoin = (AndJoin) model;
-        else if (model instanceof Map) {
+        else if (model instanceof Map && ((Map)model).getUcmspec()!=null) {
             map = (Map) model;
             urnspec = map.getUcmspec().getUrnspec();
         } else if (model instanceof URNspec) {

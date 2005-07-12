@@ -20,8 +20,7 @@ import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.create.AddForkOnConnectionCommand;
-import seg.jUCMNav.model.commands.create.AddJoinOnConnectionCommand;
+import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
@@ -116,22 +115,12 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 || newObjectType == WaitingPlace.class || newObjectType == Timer.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
-        } else if (newObjectType == OrFork.class) {
+        } else if (newObjectType == OrFork.class || newObjectType == AndFork.class || newObjectType == OrJoin.class || newObjectType == AndJoin.class) {
+
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrFork newOrFork = (OrFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrFork.class);
-            createCommand = new AddForkOnConnectionCommand(newOrFork, getPathGraph(), oldLink, constraint.x, constraint.y);
-        } else if (newObjectType == AndFork.class) {
-            NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndFork newAndFork = (AndFork) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndFork.class);
-            createCommand = new AddForkOnConnectionCommand(newAndFork, getPathGraph(), oldLink, constraint.x, constraint.y);
-        } else if (newObjectType == OrJoin.class) {
-            NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            OrJoin newOrJoin = (OrJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), OrJoin.class);
-            createCommand = new AddJoinOnConnectionCommand(newOrJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
-        } else if (newObjectType == AndJoin.class) {
-            NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            AndJoin newAndJoin = (AndJoin) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), AndJoin.class);
-            createCommand = new AddJoinOnConnectionCommand(newAndJoin, getPathGraph(), oldLink, constraint.x, constraint.y);
+            PathNode newNode = (PathNode) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), (Class) newObjectType);
+            createCommand = new AddForkOrJoinCompoundCommand(newNode, getPathGraph(), oldLink, constraint.x, constraint.y);
+
         }
 
         return createCommand;

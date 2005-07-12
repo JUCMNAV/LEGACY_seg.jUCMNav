@@ -12,35 +12,38 @@ import ucm.map.PluginBinding;
 import urn.URNspec;
 
 /**
- * Created 2005-06-06
+ * Adds an out-binding between a stub and one of its plugin's end points.
  * 
  * @author Etienne Tremblay
  */
 public class AddOutBindingCommand extends Command implements JUCMNavCommand {
 
     private PluginBinding plugin;
-
     private EndPoint end;
-
     private NodeConnection exit;
-
     private OutBinding out;
-
     private URNspec urnSpec;
 
     /**
      * @param plugin
+     *            the concerned plugin binding
      * @param end
-     * @param entry
+     *            one of the plugin's end points
+     * @param exit
+     *            the stub's exit connection
      */
-    public AddOutBindingCommand(PluginBinding plugin, EndPoint end, NodeConnection entry) {
+    public AddOutBindingCommand(PluginBinding plugin, EndPoint end, NodeConnection exit) {
         super();
         this.plugin = plugin;
         this.end = end;
-        this.exit = entry;
+        this.exit = exit;
         setLabel(Messages.getString("AddOutBinding.addOutBinding")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
         if (plugin != null && end != null && exit != null)
             return true;
@@ -48,6 +51,10 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
             return false;
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         urnSpec = plugin.getPlugin().getUcmspec().getUrnspec();
 
@@ -56,6 +63,10 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         testPreConditions();
 
@@ -66,6 +77,10 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
 
@@ -76,9 +91,7 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -88,9 +101,7 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
         assert !plugin.getOut().contains(out) : "Pre plugin contains the out binding"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

@@ -9,8 +9,7 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * This command adds a ComponentRef and its corresponding definition to the model. Its definition must not be referenced by any other
- * classes.
+ * This command adds a ComponentRef and its corresponding definition to the model. Its definition must not be referenced by any other classes.
  * 
  * Note: this command does not bind a component to its parent. use the SetConstraintComponentRef command instead.
  * 
@@ -38,6 +37,10 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("AddComponentRefCommand.createComp")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         redo();
     }
@@ -56,6 +59,10 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         return map;
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         testPreConditions();
 
@@ -114,6 +121,10 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         assert !map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model"; //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
 

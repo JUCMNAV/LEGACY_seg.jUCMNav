@@ -11,23 +11,22 @@ import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-06-06
+ * Creates a new plugin binding between a stub and a map. Doesn't check to see if should be valid.
  * 
  * @author Etienne Tremblay
  */
 public class AddPluginCommand extends Command implements JUCMNavCommand {
 
     private Stub stub;
-
     private Map map;
-
     private PluginBinding plugin;
-
     private URNspec urnSpec;
 
     /**
      * @param stub
+     *            the stub
      * @param map
+     *            its new plugin
      */
     public AddPluginCommand(Stub stub, Map map) {
         super();
@@ -36,6 +35,11 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("AddPlugin.addPlugin")); //$NON-NLS-1$
     }
 
+    /**
+     * Should check to see if doesn't cause circular relationship.
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
         if (stub != null && map != null)
             return true;
@@ -43,6 +47,9 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
             return false;
     }
 
+    /**
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         urnSpec = map.getUcmspec().getUrnspec();
 
@@ -51,6 +58,10 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         testPreConditions();
 
@@ -60,6 +71,10 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
 
@@ -69,9 +84,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -81,9 +94,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
         assert !map.getParentStub().contains(plugin) : "Pre plugin contained in map parent stub"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
