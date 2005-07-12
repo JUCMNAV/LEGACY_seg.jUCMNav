@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-07
- *
- */
 package seg.jUCMNav.editpolicies.element;
 
 import org.eclipse.gef.commands.Command;
@@ -12,12 +8,14 @@ import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
 import urncore.Responsibility;
 
 /**
+ * ComponentEditPolicy for URN Responsibilities. Returns delete commands.
+ * 
  * @author jkealey
  */
 public class ResponsibilityComponentEditPolicy extends ComponentEditPolicy {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a DeleteResponsibilityCommand
      * 
      * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
      */

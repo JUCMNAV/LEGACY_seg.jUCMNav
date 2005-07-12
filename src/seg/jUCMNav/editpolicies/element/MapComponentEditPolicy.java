@@ -1,7 +1,3 @@
-/*
- * Created on 2005-05-23
- *
- */
 package seg.jUCMNav.editpolicies.element;
 
 import org.eclipse.gef.commands.Command;
@@ -12,12 +8,14 @@ import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import ucm.map.Map;
 
 /**
+ * ComponentEditPolicy for UCM Maps. Returns delete commands.
+ * 
  * @author jkealey
  */
 public class MapComponentEditPolicy extends ComponentEditPolicy {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a DeleteMapCommand
      * 
      * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
      */

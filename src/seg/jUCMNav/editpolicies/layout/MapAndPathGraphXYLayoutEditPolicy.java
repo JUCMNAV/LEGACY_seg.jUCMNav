@@ -1,7 +1,3 @@
-/*
- * Created on 2005-01-30
- *  
- */
 package seg.jUCMNav.editpolicies.layout;
 
 import java.util.List;
@@ -40,10 +36,17 @@ import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
 
+/**
+ * 
+ * XYLayoutEditPolicy for the MapAndPathGraphEditPart. Handles creation of new elements and moving/resizing of existing ones. 
+ * 
+ * @author etremblay, jkealey
+ *  
+ */
 public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Not used.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
@@ -51,16 +54,28 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return null;
     }
 
+    /**
+     * Convenience method to prevent casting
+     * 
+     * @return the path graph
+     */
     protected PathGraph getPathGraph() {
         return ((Map) getHost().getModel()).getPathGraph();
     }
 
+    /**
+     * Convenience method to prevent casting
+     * 
+     * @return the map
+     */
     protected Map getMap() {
         return (Map) getHost().getModel();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a command to be executed when the palette tries to create something on the MapAndPathGraphEditPart.
+     * 
+     * Extends path for PathTool and creates ComponentRefs. PathNodes are created on NodeConnections so are not handled here.
      * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
@@ -73,8 +88,9 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Rectangle constraint = (Rectangle) getConstraintFor(request);
         Command createCommand = null;
 
+        // if PathTool
         if (newObjectType == EndPoint.class || newObjectType == StartPoint.class) {
-            createCommand = handleCreateOrExtendPath(request, constraint, createCommand);
+            createCommand = handleCreateOrExtendPath(request, constraint);
         } else if (newObjectType == ComponentRef.class) {
             createCommand = handleCreateComponentRef(request, constraint);
         }
@@ -84,8 +100,10 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /**
      * @param request
+     *            the CreateRequest containing the new ComponentRef
      * @param constraint
-     * @return
+     *            where the new object should be created
+     * @return a command that adds a new ComponentRef on the Map and moves/resizes it into place.
      */
     private Command handleCreateComponentRef(CreateRequest request, Rectangle constraint) {
         Command createCommand;
@@ -102,11 +120,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /**
      * @param request
+     *            the CreateRequest containing the new object
      * @param constraint
-     * @param createCommand
-     * @return
+     *            where the object (startpoint /endpoint) should be created
+     * @return the command to extend an existing path in the appropriate direction or create a new one.
      */
-    private Command handleCreateOrExtendPath(CreateRequest request, Rectangle constraint, Command createCommand) {
+    private Command handleCreateOrExtendPath(CreateRequest request, Rectangle constraint) {
+        Command createCommand = null;
         // Get the list of selected items
         List selectedParts = ((IStructuredSelection) getHost().getViewer().getSelection()).toList();
 
@@ -130,8 +150,8 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return createCommand;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Not used.
      * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
      */
@@ -139,8 +159,8 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Handles moving/resizing of MapAndPathGraphEditPart's children.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
@@ -162,9 +182,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
+     * Moves a label. Doesn't move it if its path not is being moved as well. Moves PathNode conditions as well. Keeps the label centered on its location.
+     * 
      * @param child
+     *            the LabelEditPart
      * @param constraint
-     * @return
+     *            where it should be moved
+     * @return the command to accomplish the move
      */
     private Command handleMoveLabel(EditPart child, Object constraint) {
         Label label = (Label) child.getModel();
@@ -219,9 +243,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
+     * Handles moving a NodeConnection condition.
+     * 
      * @param child
+     *            the ConditionEditPart
      * @param constraint
-     * @return
+     *            where it should be moved.
+     * @return the command to accomplish the move
      */
     private Command handleMoveNodeConnectionCondition(EditPart child, Object constraint) {
         Condition condition = (Condition) child.getModel();
@@ -242,9 +270,13 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
+     * Handles moving/resizing a ComponentRef.
+     * 
      * @param child
+     *            the ComponentRefEditPart
      * @param constraint
-     * @return
+     *            where it should be moved and its new dimensions.
+     * @return a SetConstraintBoundComponentRefCompoundCommand
      */
     private Command handleMoveResizeComponentRef(EditPart child, Object constraint) {
         Rectangle rect = (Rectangle) constraint;
@@ -257,14 +289,17 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
+     * Handles moving a PathNode.
+     * 
      * @param child
+     *            the PathNodeEditPart
      * @param constraint
+     *            where it should be moved to.
      * @return
      */
     private Command handleMovePathNode(EditPart child, Object constraint) {
         // Adjust the coordinates with the coordinates of the figure too
-        // since
-        // the x,y coordinates is
+        // since the x,y coordinates is
         // the center of the figure.
         Dimension dim = ((PathNodeEditPart) child).getNodeFigure().getPreferredSize().getCopy();
 
@@ -273,7 +308,5 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         PathNode node = (PathNode) child.getModel();
 
         return new SetConstraintCommand(node, location.x, location.y);
-
-
     }
 }

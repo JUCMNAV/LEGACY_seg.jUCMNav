@@ -1,9 +1,3 @@
-/*
- * Created on 2005-03-21
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package seg.jUCMNav.editpolicies.element;
 
 import java.util.ArrayList;
@@ -34,21 +28,14 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 
 /**
- * Created 2005-03-21
+ * ComponentEditPolicy for UCM PathNodes. Returns delete commands.
  * 
  * @author Etienne Tremblay, jkealey
  */
 public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 
     /**
-     *  
-     */
-    public PathNodeComponentEditPolicy() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+     * Returns either a DeletePathCommand, DeleteNodeCommand or DeleteMultiNodeCommand.
      * 
      * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
      */
@@ -81,7 +68,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
                 // if deleting the last node on a loop leading to a stub, get it to be disconnected instead of deleted.
                 ArrayList lIn = new ArrayList();
                 ArrayList lOut = new ArrayList();
-                // inversed because out of this node is in of stub. 
+                // inversed because out of this node is in of stub.
                 lOut.add(in);
                 lIn.add(out);
 
@@ -98,8 +85,13 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         return super.createDeleteCommand(request);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * jkealey: This method is supposed to handle requests. However, it seems to have been implemented early on when we didn't know too well how GEF worked. The
+     * function runs but I don't think it ever ends up running LINE A or LINE B, but we may be able to simply delete it.
+     * 
+     * I'm not 100% sure though, so I am leaving the code here and adding debug information to help us resolve this matter.
+     * 
+     * This method returns an UnexecutableCommand when trying to resize a PathNode, used to indicate that this action is illegal.
      * 
      * @see org.eclipse.gef.EditPolicy#getCommand(org.eclipse.gef.Request)
      */
@@ -107,16 +99,23 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             EmptyPoint ep = ((EmptyPoint) ((EditPart) getHost()).getModel());
             CutPathCommand cp = new CutPathCommand(ep.getPathGraph(), ep);
+            // LINE A
+            System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run.");
             return cp;
         }
         if (request.getType() == REQ_CREATE) {
             Object newObjectType = null;
             if (((CreateRequest) request).getNewObject() != null)
                 newObjectType = ((CreateRequest) request).getNewObjectType();
-            if (newObjectType instanceof EndPoint)
+            if (newObjectType instanceof EndPoint) {
+                // LINE B
+                System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE B to run.");
                 getHost().getViewer().setSelection(new StructuredSelection(getHost()));
-        } else if (request.getType() == REQ_RESIZE)
+            }
+        } else if (request.getType() == REQ_RESIZE) {
+            // This line gives feedback to the user when he attempts to resize a pathnode. This is illegal.
             return UnexecutableCommand.INSTANCE;
+        }
 
         return super.getCommand(request);
     }

@@ -16,6 +16,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddForkOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.create.AddJoinOnEmptyPointCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
+import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
@@ -34,65 +35,16 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
- * Created on 25-May-2005
+ * XYLayoutEditPolicy for PathNodes. Allows replacing empty points and direction arrows with other PathNodes when using the Palette. Furthermore, manages the
+ * drag&drop behaviour of PathNodes on each other.
  * 
  * @author jkealey
  *  
  */
 public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
-     */
-    protected EditPolicy createChildEditPolicy(EditPart child) {
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
-     */
-    protected Command getCreateCommand(CreateRequest request) {
-        if ((getHost().getModel() instanceof EmptyPoint || getHost().getModel() instanceof DirectionArrow)
-                && request.getNewObject() instanceof PathNode
-                && !(request.getNewObject() instanceof StartPoint || request.getNewObject() instanceof EndPoint || request.getNewObject() instanceof EmptyPoint)) {
-            // because we don't want forks/joins without only 1 in/out
-            if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork)
-                return new AddForkOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(),
-                        (PathNode) getHost().getModel());
-
-            else if (request.getNewObject() instanceof AndJoin || request.getNewObject() instanceof OrJoin)
-                return new AddJoinOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(),
-                        (PathNode) getHost().getModel());
-            else
-                return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
-        } else
-            return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
-     */
-    protected Command getDeleteDependantCommand(Request request) {
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getMoveChildrenCommand(org.eclipse.gef.Request)
-     */
-    protected Command getMoveChildrenCommand(Request request) {
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
+    /**
+     * Used to allow drag&drop of pathnodes on others. SafePathChecker is used profusely to make sure no illegal loops are formed.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
@@ -176,12 +128,93 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Not used.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
         return null;
+    }
+
+    /**
+     * Not used
+     * 
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#createChildEditPolicy(org.eclipse.gef.EditPart)
+     */
+    protected EditPolicy createChildEditPolicy(EditPart child) {
+        return null;
+    }
+
+    /**
+     * Replaces empty points and direction arrows with other new node created in palette.
+     * 
+     * Adds branches on existing forks/joins if palette tool is path tool or fork/join.
+     * 
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+     */
+    protected Command getCreateCommand(CreateRequest request) {
+        // can replace with new object?
+        if (isReplaceable(getHost().getModel()) && !(isPathTool(request) || isReplaceable(request.getNewObject()))) {
+            // because we don't want forks/joins without only 1 in/out
+            if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork)
+                return new AddForkOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(), (PathNode) getHost()
+                        .getModel());
+
+            else if (request.getNewObject() instanceof AndJoin || request.getNewObject() instanceof OrJoin)
+                return new AddJoinOnEmptyPointCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(), (PathNode) getHost()
+                        .getModel());
+            else
+                return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
+        } else if (isForkOrJoin(getHost().getModel()) && (isForkOrJoin(request.getNewObject()) || isPathTool(request))) {
+            return new AddBranchCommand((PathNode) getHost().getModel());
+        } else
+            return null;
+    }
+
+    /**
+     * Not used.
+     * 
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
+     */
+    protected Command getDeleteDependantCommand(Request request) {
+        return null;
+    }
+
+    /**
+     * Not used.
+     * 
+     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getMoveChildrenCommand(org.eclipse.gef.Request)
+     */
+    protected Command getMoveChildrenCommand(Request request) {
+        return null;
+    }
+
+    /**
+     * 
+     * @param pn
+     *            the pathnode to check
+     * @return true if pn is a fork or join
+     */
+    private boolean isForkOrJoin(Object pn) {
+        return pn instanceof AndFork || pn instanceof AndJoin || pn instanceof OrFork || pn instanceof OrJoin;
+    }
+
+    /**
+     * @param request
+     *            the palette's CreateRequest
+     * @return true if the request's new object is generated by the PathTool.
+     */
+    private boolean isPathTool(CreateRequest request) {
+        return request.getNewObject() instanceof StartPoint || request.getNewObject() instanceof EndPoint;
+    }
+
+    /**
+     * @param pn
+     *            the pathnode to check
+     * @return true if pn is an empty point or direction arrow
+     */
+    private boolean isReplaceable(Object pn) {
+        return (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
     }
 }

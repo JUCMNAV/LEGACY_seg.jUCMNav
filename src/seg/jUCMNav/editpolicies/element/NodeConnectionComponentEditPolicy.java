@@ -20,14 +20,14 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 
 /**
- * Created on 30-May-2005
+ * ComponentEditPolicy for UCM NodeConnections. Returns delete commands.
  * 
  * @author jkealey
  *  
  */
 public class NodeConnectionComponentEditPolicy extends ComponentEditPolicy {
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a CompoundCommand disconnecting the node connection from its extremities, if possible.
      * 
      * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
      */
@@ -38,7 +38,7 @@ public class NodeConnectionComponentEditPolicy extends ComponentEditPolicy {
         PathNode target = nc.getTarget();
 
         CompoundCommand command = new CompoundCommand();
-        if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) ==1) ) {
+        if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) == 1)) {
             Vector in = new Vector();
             Vector out = new Vector();
             out.add(nc);

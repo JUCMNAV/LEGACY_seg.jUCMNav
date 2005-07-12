@@ -1,7 +1,3 @@
-/*
- * Created on 2005-03-04
- *
- */
 package seg.jUCMNav.editpolicies.feedback;
 
 import org.eclipse.draw2d.IFigure;
@@ -31,28 +27,32 @@ import urncore.Label;
 import urncore.NodeLabel;
 
 /**
- * Created 2005-03-04
- * 
  * On mouse hover of labels, draw line from label to referenced part.
  * 
  * @author jkealey
  */
 public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
-    Polyline line;
-    RoundedRectangle roundrect;
+    // the line from the element to the label
+    private Polyline line;
+
+    // the bounding box around the label.
+    private RoundedRectangle roundrect;
 
     /**
-     *  
+     * Convenience method to avoid casting.
+     * 
+     * @return the LabelFigure being editd.
      */
-    public LabelFeedbackEditPolicy() {
-        super();
-    }
-
     private LabelFigure getFigure() {
         return (LabelFigure) ((LabelEditPart) this.getHost()).getFigure();
     }
 
+    /**
+     * Returns the associated ComponentRef, PathNode or NodeConnection, given a the label type.
+     * 
+     * @return the model object associated with this label
+     */
     private EObject getReference() {
         Label lbl = (Label) ((LabelEditPart) this.getHost()).getModel();
         if (lbl instanceof NodeLabel)
@@ -72,6 +72,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             return null;
     }
 
+    /** 
+     * Remove the bounding box and line. 
+     */
     public void eraseTargetFeedback(Request request) {
         if (line != null) {
             getFeedbackLayer().remove(line);
@@ -83,6 +86,9 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
         }
     }
 
+    /** 
+     * Add the bounding box and line. 
+     */
     public void showTargetFeedback(Request request) {
         if (line == null && roundrect == null) {
             // we need to scale our feedback.

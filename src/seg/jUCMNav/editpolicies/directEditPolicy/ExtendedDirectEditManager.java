@@ -1,6 +1,3 @@
-/*
- * Created on Jul 13, 2004
- */
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import org.eclipse.draw2d.IFigure;
@@ -22,162 +19,150 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * A generic DirectEdit manager to be used for labels which includes validation
- * functionality by adding the ICellEditorValidator on startup
+ * 
+ * A generic DirectEdit manager to be used for labels which includes validation functionality by adding the ICellEditorValidator on startup
+ * 
+ * Class taken from some example with only a few lines modified.
+ * 
+ * @author Phil Zoio
  */
-public class ExtendedDirectEditManager extends DirectEditManager
-{
+public class ExtendedDirectEditManager extends DirectEditManager {
 
-	Font figureFont;
-	protected VerifyListener verifyListener;
-	protected Label label;
-	protected String originalValue;
-	private boolean committing = false;
-	private ICellEditorValidator validator = null;
+    Font figureFont;
+    protected VerifyListener verifyListener;
+    protected Label label;
+    protected String originalValue;
+    private boolean committing = false;
+    private ICellEditorValidator validator = null;
 
-	/**
-	 * Creates a new ActivityDirectEditManager with the given attributes.
-	 * 
-	 * @param source
-	 *            the source EditPart
-	 * @param editorType
-	 *            type of editor
-	 * @param locator
-	 *            the CellEditorLocator
-	 */
-	public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator,
-			Label label, ICellEditorValidator validator)
-	{
-		super(source, editorType, locator);
-		this.label = label;
-		this.originalValue = label.getText();
-		this.validator = validator;
-	}
+    /**
+     * Creates a new ActivityDirectEditManager with the given attributes.
+     * 
+     * @param source
+     *            the source EditPart
+     * @param editorType
+     *            type of editor
+     * @param locator
+     *            the CellEditorLocator
+     */
+    public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, Label label, ICellEditorValidator validator) {
+        super(source, editorType, locator);
+        this.label = label;
+        this.originalValue = label.getText();
+        this.validator = validator;
+    }
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
-	 */
-	protected void bringDown()
-	{
-		Font disposeFont = figureFont;
-		figureFont = null;
-		super.bringDown();
-		if (disposeFont != null)
-			disposeFont.dispose();
-	}
+    /**
+     * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
+     */
+    protected void bringDown() {
+        Font disposeFont = figureFont;
+        figureFont = null;
+        super.bringDown();
+        if (disposeFont != null)
+            disposeFont.dispose();
+    }
 
-	/**
-	 * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
-	 */
-	protected void initCellEditor()
-	{
+    /**
+     * @see org.eclipse.gef.tools.DirectEditManager#initCellEditor()
+     */
+    protected void initCellEditor() {
 
-		Text text = (Text) getCellEditor().getControl();
+        Text text = (Text) getCellEditor().getControl();
 
-		//add the verifyListener to apply changes to the control size
-		verifyListener = new VerifyListener()
-		{
+        //add the verifyListener to apply changes to the control size
+        verifyListener = new VerifyListener() {
 
-			/**
-			 * Changes the size of the editor control to reflect the changed
-			 * text
-			 */
-			public void verifyText(VerifyEvent event)
-			{
-				Text text = (Text) getCellEditor().getControl();
-				String oldText = text.getText();
-				String leftText = oldText.substring(0, event.start);
-				String rightText = oldText.substring(event.end, oldText.length());
-				GC gc = new GC(text);
-				if (leftText == null)
-					leftText = ""; //$NON-NLS-1$
-				if (rightText == null)
-					rightText = ""; //$NON-NLS-1$
+            /**
+             * Changes the size of the editor control to reflect the changed text
+             */
+            public void verifyText(VerifyEvent event) {
+                Text text = (Text) getCellEditor().getControl();
+                String oldText = text.getText();
+                String leftText = oldText.substring(0, event.start);
+                String rightText = oldText.substring(event.end, oldText.length());
+                GC gc = new GC(text);
+                if (leftText == null)
+                    leftText = ""; //$NON-NLS-1$
+                if (rightText == null)
+                    rightText = ""; //$NON-NLS-1$
 
-				Point size = gc.textExtent(leftText + event.text + rightText);
+                Point size = gc.textExtent(leftText + event.text + rightText);
 
-				gc.dispose();
-				if (size.x != 0)
-					size = text.computeSize(size.x, SWT.DEFAULT);
-				else
-				{
-					//just make it square
-					size.x = size.y;
-				}
-				getCellEditor().getControl().setSize(size.x, size.y);
-			}
+                gc.dispose();
+                if (size.x != 0)
+                    size = text.computeSize(size.x, SWT.DEFAULT);
+                else {
+                    //just make it square
+                    size.x = size.y;
+                }
+                getCellEditor().getControl().setSize(size.x, size.y);
+            }
 
-		};
-		text.addVerifyListener(verifyListener);
+        };
+        text.addVerifyListener(verifyListener);
 
-		//set the initial value of the
-		originalValue = this.label.getText();
-		getCellEditor().setValue(originalValue);
+        //set the initial value of the
+        originalValue = this.label.getText();
+        getCellEditor().setValue(originalValue);
 
-		//calculate the font size of the underlying
-		IFigure figure = ((GraphicalEditPart) getEditPart()).getFigure();
-		figureFont = figure.getFont();
-		FontData data = figureFont.getFontData()[0];
-		Dimension fontSize = new Dimension(0, data.getHeight());
+        //calculate the font size of the underlying
+        IFigure figure = ((GraphicalEditPart) getEditPart()).getFigure();
+        figureFont = figure.getFont();
+        FontData data = figureFont.getFontData()[0];
+        Dimension fontSize = new Dimension(0, data.getHeight());
 
-		//set the font to be used
-		this.label.translateToAbsolute(fontSize);
-		data.setHeight(fontSize.height);
-		figureFont = new Font(null, data);
+        //set the font to be used
+        this.label.translateToAbsolute(fontSize);
+        data.setHeight(fontSize.height);
+        figureFont = new Font(null, data);
 
-		//set the validator for the CellEditor
-		getCellEditor().setValidator(validator);
+        //set the validator for the CellEditor
+        getCellEditor().setValidator(validator);
 
-		text.setFont(figureFont);
-		
-		// jkealey: bug 271; wasn't nice at 400% without this
-		text.pack();
-		
-		text.selectAll();
-	}
+        text.setFont(figureFont);
 
-	/**
-	 * Commits the current value of the cell editor by getting a {@link Command}
-	 * from the source edit part and executing it via the {@link CommandStack}.
-	 * Finally, {@link #bringDown()}is called to perform and necessary cleanup.
-	 */
-	protected void commit()
-	{
+        // jkealey: bug 271; wasn't nice at 400% without this
+        text.pack();
 
-		if (committing)
-			return;
-		committing = true;
-		try
-		{
+        text.selectAll();
+    }
 
-			//we set the cell editor control to invisible to remove any
-			// possible flicker
-			getCellEditor().getControl().setVisible(false);
-			if (isDirty())
-			{
-				CommandStack stack = getEditPart().getViewer().getEditDomain().getCommandStack();
-				Command command = getEditPart().getCommand(getDirectEditRequest());
+    /**
+     * Commits the current value of the cell editor by getting a {@link Command}from the source edit part and executing it via the {@link CommandStack}.
+     * Finally, {@link #bringDown()}is called to perform and necessary cleanup.
+     */
+    protected void commit() {
 
-				if (command != null && command.canExecute())
-					stack.execute(command);
-			}
-		}
-		finally
-		{
-			bringDown();
-			committing = false;
-		}
-	}
+        if (committing)
+            return;
+        committing = true;
+        try {
 
-	/**
-	 * Need to override so as to remove the verify listener
-	 */
-	protected void unhookListeners()
-	{
-		super.unhookListeners();
-		Text text = (Text) getCellEditor().getControl();
-		text.removeVerifyListener(verifyListener);
-		verifyListener = null;
-	}
+            //we set the cell editor control to invisible to remove any
+            // possible flicker
+            getCellEditor().getControl().setVisible(false);
+            if (isDirty()) {
+                CommandStack stack = getEditPart().getViewer().getEditDomain().getCommandStack();
+                Command command = getEditPart().getCommand(getDirectEditRequest());
+
+                if (command != null && command.canExecute())
+                    stack.execute(command);
+            }
+        } finally {
+            bringDown();
+            committing = false;
+        }
+    }
+
+    /**
+     * Need to override so as to remove the verify listener
+     */
+    protected void unhookListeners() {
+        super.unhookListeners();
+        Text text = (Text) getCellEditor().getControl();
+        text.removeVerifyListener(verifyListener);
+        verifyListener = null;
+    }
 
 }

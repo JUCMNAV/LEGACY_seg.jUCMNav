@@ -1,6 +1,3 @@
-/*
- * Created on Jul 13, 2004
- */
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import org.eclipse.draw2d.Label;

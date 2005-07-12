@@ -1,7 +1,3 @@
-/*
- * Created on 2005-02-25
- *
- */
 package seg.jUCMNav.editpolicies.layout;
 
 import java.util.Vector;
@@ -45,21 +41,20 @@ import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 
 /**
- * Created 2005-02-25
+ * XYLayoutEditPolicy for node connections. Adds support for creating elements on node connection from the palette and drag&drop of PathNodes on
+ * NodeConnections.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, jkealey
  */
 public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /**
-     *  
-     */
-    public NodeConnectionXYLayoutEditPolicy() {
-        super();
-    }
-
-    /*
-     * (non-Javadoc)
+     * Is executed when someone drag&drops an existing PathNode on a NodeConnection.
+     * 
+     * If does not create illegal loops (see SafePathChecker) will return a DividePathOnNodeConnectionCompoundCommand. Otherwise, moves the dragged PathNode
+     * using SetConstraintCommand.
+     * 
+     * Only start/end points can be dragged onto NodeConnections.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
@@ -94,8 +89,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Not used.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
@@ -103,8 +98,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Used to insert PathNodes on paths, using the palette. Uses SplitLinkCommand for most purposes except for forks/joins.
      * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
@@ -120,9 +115,6 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         if (newObjectType == EmptyPoint.class || newObjectType == RespRef.class || newObjectType == DirectionArrow.class || newObjectType == Stub.class
                 || newObjectType == WaitingPlace.class || newObjectType == Timer.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            //			if(oldLink.getSource() instanceof StartPoint || oldLink.getTarget() instanceof EndPoint)
-            //				return null;
-
             createCommand = new SplitLinkCommand(getPathGraph(), (PathNode) request.getNewObject(), oldLink, constraint.x, constraint.y);
         } else if (newObjectType == OrFork.class) {
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
@@ -162,6 +154,10 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return where;
     }
 
+    /**
+     * Returns CutPathCommand if request is a CUTPATH_REQUEST. Implemented when we didn't know much about actions. Could be changed and put directly in the
+     * action instead of having the action query the edit part.
+     */
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             CutPathCommand cp = new CutPathCommand(getPathGraph(), (NodeConnection) (getHost().getModel()));
@@ -181,8 +177,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return ((NodeConnectionEditPart) getHost()).getPathGraph();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Not used.
      * 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
      */
@@ -191,7 +187,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
 
     /**
-     * Overritten because we don't have an xylayout on the node connection and we don't really care about this right now.
+     * Overridden because we don't have an xylayout on the node connection and we don't really care about this right now.
      * 
      * Returns {@link XYLayout#getOrigin(IFigure)}.
      * 

@@ -368,7 +368,7 @@ public class LabelEditPart extends ModelElementEditPart {
 
         if (modelElement instanceof ComponentRef) { // use definition
             ComponentElement componentElement = ((ComponentRef) modelElement).getCompDef();
-            if (comp != null)
+            if (componentElement != null)
                 label.setText(componentElement.getName());
             // componentref labels are in bold.
             label.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
