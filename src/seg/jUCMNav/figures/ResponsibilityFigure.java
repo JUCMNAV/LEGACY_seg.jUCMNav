@@ -23,7 +23,7 @@ public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
     /**
      * Simply an X that can be rotated.
      * 
-     * @see seg.jUCMNav.figures.NodeFigure#createFigure()
+     * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
         edge1 = new Polygon();

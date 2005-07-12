@@ -80,7 +80,7 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
     }
 
     /**
-     * @see seg.jUCMNav.figures.NodeFigure#initAnchor()
+     * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
      */
     protected void initAnchor() {
         incomingAnchor = new ChopboxAnchor(this);

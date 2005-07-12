@@ -10,6 +10,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.ui.PartInitException;
 
+import seg.jUCMNav.editors.actionContributors.ModeComboContributionItem;
+import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import ucm.map.Map;
 
 /**
@@ -84,6 +86,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 UcmEditor u = new UcmEditor(this.editor);
                 u.setModel(mapChanged);
 
+
                 try {
                     this.editor.addPage(u, this.editor.getEditorInput());
                 } catch (PartInitException e) {
@@ -95,9 +98,16 @@ public class MultiPageCommandStackListener implements CommandStackListener {
 
                 mapChanged.eAdapters().add(this.editor);
 
+                // set the mode to that already in use
+                if (!ModeComboContributionItem.isLocal() && this.editor.getPageCount()>=1) {
+                    int mode = ((ConnectionOnBottomRootEditPart)((UcmEditor)this.editor.getEditor(0)).getGraphicalViewer().getRootEditPart()).getMode();
+                    ((ConnectionOnBottomRootEditPart)u.getGraphicalViewer().getRootEditPart()).setMode(mode);
+                }
+                
                 this.editor.getMultiPageTabManager().refreshPageNames();
                 this.editor.setActivePage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged));
                 u.getGraphicalViewer().select((EditPart) u.getGraphicalViewer().getEditPartRegistry().get(mapChanged));
+
 
             } else // was deleted
             {
