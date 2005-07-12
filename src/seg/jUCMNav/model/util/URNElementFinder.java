@@ -15,8 +15,6 @@ import urncore.UCMmodelElement;
 /**
  * This class is used to find an element in an instance of the meta model with a particular ID. This ID is supposed to be unique.
  * 
- * Created on 13-May-2005
- * 
  * @author jkealey
  *  
  */
@@ -123,14 +121,23 @@ public class URNElementFinder {
         }
         return null;
     }
-    
-    public static NodeConnection findNodeConnection(Map map, String idSource, String idTarget)
-    {
+
+    /**
+     * Given a map, find the NodeConnection connected to PathNodes with the specified ids.
+     * 
+     * @param map
+     *            the map containing the connections.
+     * @param idSource
+     *            the source PathNode
+     * @param idTarget
+     *            the target PathNode
+     * @return matching node connection
+     */
+    public static NodeConnection findNodeConnection(Map map, String idSource, String idTarget) {
         for (Iterator iter = map.getPathGraph().getNodeConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
-            
-            if (nc.getSource().getId().equals(idSource) && nc.getTarget().getId().equals(idTarget))
-            {
+
+            if (nc.getSource().getId().equals(idSource) && nc.getTarget().getId().equals(idTarget)) {
                 return nc;
             }
         }

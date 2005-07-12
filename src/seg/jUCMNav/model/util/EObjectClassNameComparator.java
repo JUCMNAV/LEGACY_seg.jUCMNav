@@ -10,17 +10,19 @@ import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
 
 /**
- * Created on 19-May-2005
+ * Orders EObjects by class name then by element name.
  * 
  * @author jkealey
  *  
  */
 public class EObjectClassNameComparator implements Comparator {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Sorts alphabetically by class name, except for DirectionArrows and EmptyPoints that are put at the end. Then, if still equal, sorts using
+     * getSortableElementName()
      * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     * @see #getSortableElementName(EObject)
      */
     public int compare(Object arg0, Object arg1) {
 
@@ -40,6 +42,14 @@ public class EObjectClassNameComparator implements Comparator {
         }
     }
 
+    /**
+     * Returns a name to be used in the sort procedure. ComponentRefs/RespRefs use definition name, others uses the "name" attribute if it exists and the class
+     * name otherwise.
+     * 
+     * @param o
+     *            the object for which to obtain the name
+     * @return the name
+     */
     public static String getSortableElementName(EObject o) {
 
         String s;
@@ -74,8 +84,9 @@ public class EObjectClassNameComparator implements Comparator {
     }
 
     /**
-     * Compares elements by class type
-     *  
+     * Compares elements by class type. First sorts using getClassRank() and then using the class name.
+     * 
+     * @see #getClassRank(Object)
      */
     private int compareClass(EObject arg0, EObject arg1) {
         int i = getClassRank(arg0) - getClassRank(arg1);
@@ -90,8 +101,11 @@ public class EObjectClassNameComparator implements Comparator {
     /**
      * Associates a rank to model element classes. In a sorted list, elements should be sorted by ascending rank.
      * 
+     * Divides elements into two groups (DirectionArrows and EmptyPoints) versus the rest.
+     * 
      * @param o
-     * @return rank
+     *            the object for which to obtain the rank
+     * @return rank the rank itself. 1 for DirectionArrows and EmptyPoints, 0 otherwise.
      */
     private int getClassRank(Object o) {
         if (o instanceof EmptyPoint || o instanceof DirectionArrow) {

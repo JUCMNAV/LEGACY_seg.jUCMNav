@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+Query Infrastructure - QueryProcessors
+
+<h2>Package Specification</h2>
+
+<p>
+See DevDocQueryInfrastructure for overview and usage.  Basically, send specific QueryRequests to GraphExplorer and await QueryResponses. The mapping between queries and responses is done by QueryProcessors, which can process certain types of requests, as defined in seg.jUCMNav.model.util.modelexplore.QueryObject. 
+</p>
+<ul>
+<li>ConnectionSplineFinder: used by the connection router to find a list of node connections that should be redrawn together</li>
+<li>DeletionPathFinder: used to determine the impact of a deletion when deleting a start/end point</li>
+<li>ReachableNodeFinder: given a starting PathNode or NodeConnection, find all reachable nodes. Limit the search by specifying NodeConnection exclusion-set and a traversal direction. </li>
+<li>StartPointFinder: subset of ReachableNodeFinder containing only StartPoints</li>
+<li>EndPointFinder: subset of ReachableNodeFinder containing only EndPoints</li>
+</ul>
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+@see seg.jUCMNav.model.util.modelexplore.GraphExplorer
+@see seg.jUCMNav.model.util.modelexplore.QueryObject
+@see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor
+
+</body>
+</html>

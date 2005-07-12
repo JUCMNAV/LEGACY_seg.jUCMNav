@@ -1,7 +1,3 @@
-/*
- * Created on 31-May-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore.queries;
 
 import java.util.Vector;
@@ -16,6 +12,11 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
 /**
+ * Given a PathNode on a certain set of splines, find all reachable start points. Note that this returns StartPoints only, not Stubs that behave as start
+ * points.
+ * 
+ * If modifications are made here, might need to be made in EndPointFinder as well. 
+ * 
  * @author jpdaigle
  *  
  */
@@ -28,8 +29,7 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
     public QueryResponse runImpl(QueryRequest qr) {
         PathNode startNode = ((QFindReachableStartPoints) qr).getStartPathNode();
         ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode);
-        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer
-                .getInstance().run(qrn);
+        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
 
         // extract vector of all reachable nodes
         Vector vReachableNodes = reachableNodes.getNodes();

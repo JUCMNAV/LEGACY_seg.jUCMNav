@@ -1,7 +1,3 @@
-/*
- * Created on 31-May-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore.queries;
 
 import java.util.Vector;
@@ -16,6 +12,10 @@ import ucm.map.EndPoint;
 import ucm.map.PathNode;
 
 /**
+ * Given a PathNode on a certain set of splines, find all reachable end points. Note that this returns EndPoints only, not Stubs that behave as end points.
+ * 
+ * If modifications are made here, might need to be made in StartPointFinder as well.
+ * 
  * @author jpdaigle
  *  
  */
@@ -27,8 +27,7 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
     public QueryResponse runImpl(QueryRequest qr) {
         PathNode startNode = ((QFindReachableEndPoints) qr).getStartPathNode();
         ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode);
-        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer
-                .getInstance().run(qrn);
+        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
 
         // extract vector of all reachable nodes
         Vector vReachableNodes = reachableNodes.getNodes();

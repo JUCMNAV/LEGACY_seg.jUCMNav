@@ -6,16 +6,15 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentR
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 
 /**
- * Created on 14-Jun-2005
+ * To be used to sort commands in a compound command in order to move the components before the path nodes. *
  * 
  * @author jkealey
- * 
- * To be used to sort commands in a compound command in order to move the components before the path nodes.
+ *  
  */
 public class AutoLayoutCommandComparator implements Comparator {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Puts SetConstraintBoundComponentRefCompoundCommand before SetConstraintCommand
      * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */

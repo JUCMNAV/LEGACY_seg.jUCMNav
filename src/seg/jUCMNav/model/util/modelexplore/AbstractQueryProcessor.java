@@ -1,12 +1,10 @@
-/*
- * Created on 1-Jun-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore;
 
 import seg.jUCMNav.Messages;
 
 /**
+ * Basic implementation for a query processor that verifies if it can run a certain QueryRequest and, if not, sends to chained QueryProcessors.
+ * 
  * @author jpdaigle
  *  
  */
@@ -15,8 +13,8 @@ public abstract class AbstractQueryProcessor implements IQueryProcessorChain {
 
     protected String[] _answerQueryTypes;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Adds a chain after this one. Must not be an existing successor chain.
      * 
      * @see seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain#addChain(seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain)
      */
@@ -27,10 +25,10 @@ public abstract class AbstractQueryProcessor implements IQueryProcessorChain {
             throw new IllegalArgumentException(Messages.getString("AbstractQueryProcessor.alreadyHaveNextInChain")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * If the request is in the _answerqueryTypes, process it using runImpl(QueryRequest). Otherwise, pass onto the chain.
      * 
-     * @see seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain#sendToChain(seg.jUCMNav.model.util.modelexplore.QueryObject)
+     * @see seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain#sendToChain(seg.jUCMNav.model.util.modelexplore.QueryRequest)
      */
     public QueryResponse sendToChain(QueryRequest q) {
         // See if we handle queries like q
@@ -48,10 +46,17 @@ public abstract class AbstractQueryProcessor implements IQueryProcessorChain {
         }
     }
 
+    /**
+     * Process the given request. Assumption: the q.getQueryType() is in _answerQueryTypes.
+     * 
+     * @param q
+     *            the request
+     * @return its response
+     */
     public abstract QueryResponse runImpl(QueryRequest q);
 
-    /*
-     * (non-Javadoc)
+    /**
+     * @return the chained QueryProcessor
      * 
      * @see seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain#getChain()
      */

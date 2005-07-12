@@ -1,7 +1,3 @@
-/*
- * Created on 11-Jun-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore.queries;
 
 import java.util.Collections;
@@ -20,9 +16,12 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
- * @author jpdaigle
- * 
  * Query processor for finding reachable nodes given a start point in the graph.
+ * 
+ * One can define a set of node connections that must not be traversed to find additional node connections and a traversal direciton. 
+ * 
+ * @author jpdaigle, jkealey
+ *  
  */
 public class ReachableNodeFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
@@ -32,9 +31,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         this._answerQueryTypes = new String[] { QueryObject.FINDREACHABLENODES };
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
      */
     public QueryResponse runImpl(QueryRequest q) {
@@ -54,6 +51,16 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         return r;
     }
 
+    
+    /**
+     * 
+     * @param n
+     *            the starting point for traversal.
+     * @param exclusions
+     *            A set of node connections that must not be traversed
+     * @param direction
+     *            the direction of traversal; both sides, following the directed graph or opposite the directed graph.
+     */
     private void processNode(PathNode n, Set exclusions, int direction) {
         // visit nodes, call on next, fill vector
 

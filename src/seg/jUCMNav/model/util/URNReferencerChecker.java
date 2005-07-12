@@ -14,13 +14,19 @@ import urncore.ComponentKind;
 import urncore.Responsibility;
 
 /**
- * Created on 13-May-2005
+ * Verifies that references have definitions; if not, creates them. To be used on Component and Responsibility references.
  * 
  * @author jkealey
  *  
  */
 public class URNReferencerChecker {
 
+    /**
+     * For each ComponentRef and RespRef in any of the maps, will verify if it has a definition. If not, creates one.
+     * 
+     * @param urn
+     *            the URNspec to clean
+     */
     public static void sanitizeReferences(URNspec urn) {
 
         // for each map
@@ -50,12 +56,8 @@ public class URNReferencerChecker {
 
         // uncomment the following to verify that components with colors are filled
         /*
-        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            ComponentElement comp = (ComponentElement) iter.next();
-            if (comp.getFillColor() != null && comp.getFillColor().length() > 0 && !comp.isFilled())
-                comp.setFilled(true);
-
-        }
-        */
+         * for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) { ComponentElement comp = (ComponentElement) iter.next(); if
+         * (comp.getFillColor() != null && comp.getFillColor().length() > 0 && !comp.isFilled()) comp.setFilled(true); }
+         */
     }
 }

@@ -5,9 +5,6 @@ import java.util.Vector;
 
 import seg.jUCMNav.model.util.modelexplore.QueryObject;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
-import ucm.map.AndFork;
-import ucm.map.AndJoin;
-import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -15,16 +12,13 @@ import ucm.map.PathNode;
 import ucm.map.Stub;
 
 /**
- * Created on 21-Jun-2005
+ * Special kind of ConnectionSplineFinder with more path stoppers. Used to determine deletion paths.
  * 
  * @author jkealey
  *  
  */
 public class DeletionPathFinder extends ConnectionSplineFinder {
 
-    /**
-     *  
-     */
     public DeletionPathFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDDELETIONPATH };
     }
@@ -42,16 +36,30 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
     }
 
     /**
+     * Deletion path stoppers are same as parent + OrForks/OrJoins and stubs.
+     * 
      * @param node
-     * @return returns true if path traversal should be stopped when hitting one of this node.
+     *            the node to evaluate
+     * @return true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
-        return (node instanceof Connect) || (node instanceof AndFork) || (node instanceof AndJoin) || (node instanceof OrFork) || (node instanceof OrJoin)
-                || (node instanceof Stub);
+        return super.isPathStopper(node) || (node instanceof OrFork) || (node instanceof OrJoin) || (node instanceof Stub);
     }
 
+    /**
+     * 
+     * Must subclass inner class; same behaviour has superclass with different querytype.
+     * 
+     * @author jkealey
+     *  
+     */
     public class QFindSpline extends ConnectionSplineFinder.QFindSpline {
 
+        /**
+         * 
+         * @param nodeConnection
+         *            the connection to start the traversal
+         */
         public QFindSpline(NodeConnection nodeConnection) {
             super(nodeConnection);
             this._queryType = QueryObject.FINDDELETIONPATH;
@@ -59,6 +67,13 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
 
     }
 
+    /**
+     * 
+     * QueryResponse for deletion paths. Same as superclass but can also return the path as a list of nodes.
+     * 
+     * @author jkealey
+     *  
+     */
     public class RSpline extends ConnectionSplineFinder.RSpline {
 
         public RSpline() {
@@ -67,7 +82,7 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
 
         /**
          * 
-         * @return Returns the nodes on path
+         * @return the nodes on path
          */
         public Vector getPathNodes() {
             Vector v = new Vector();

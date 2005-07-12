@@ -7,24 +7,30 @@ import org.eclipse.draw2d.geometry.Point;
 import ucm.map.PathNode;
 
 /**
- * Created on 29-Jun-2005
+ * Comparator that sorts element by distance from the reference point given in the constructor.
  * 
  * @author jkealey
  *  
  */
 public class PathNodeDistanceComparator implements Comparator {
 
-    Point from;
+    // the reference point
+    private Point from;
 
     /**
-     *  
+     * @param from
+     *            the reference point
      */
     public PathNodeDistanceComparator(Point from) {
         this.from = from;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * @param arg0
+     *            a PathNode
+     * @param arg1
+     *            a PathNode
+     * @return zero if equal distance to the reference point, negative if arg0 is closer and positive if arg1 is
      * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */

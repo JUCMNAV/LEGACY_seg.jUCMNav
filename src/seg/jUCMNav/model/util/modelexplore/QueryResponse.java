@@ -1,10 +1,8 @@
-/*
- * Created on 31-May-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore;
 
 /**
+ * Base class for query responses.
+ * 
  * @author jpdaigle
  *  
  */

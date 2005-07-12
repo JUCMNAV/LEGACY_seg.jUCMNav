@@ -1,7 +1,3 @@
-/*
- * Created on 31-May-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore;
 
 import seg.jUCMNav.model.util.modelexplore.queries.ConnectionSplineFinder;
@@ -11,11 +7,14 @@ import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
 
 /**
- * @author jpdaigle
  * 
  * Singleton used to send queries for exploring graphs: finding startpoints, endpoints, etc
  * 
  * Design intended to scale up to a large chain of objects implementing the IQueryProcessorChain interface
+ * 
+ * If implementing a new query, add it at the end of the chain.
+ * 
+ * @author jpdaigle
  *  
  */
 public class GraphExplorer {
@@ -24,15 +23,19 @@ public class GraphExplorer {
     private static StartPointFinder _spFinder;
 
     private static EndPointFinder _epFinder;
-    
+
     private static ReachableNodeFinder _rnFinder;
 
     private static AbstractQueryProcessor _chainHead;
-    
+
     private static ConnectionSplineFinder _splineFinder;
-    
+
     private static DeletionPathFinder _deletionPathFinder;
-    
+
+    /**
+     * Singleton pattern.
+     *  
+     */
     private GraphExplorer() {
         // instantiate
         _spFinder = new StartPointFinder();
@@ -50,13 +53,23 @@ public class GraphExplorer {
         _deletionPathFinder.addChain(null);
     }
 
+    /**
+     * @return the sole instance of GraphExplorer
+     */
     public static GraphExplorer getInstance() {
         if (_instance == null)
             _instance = new GraphExplorer();
 
         return _instance;
     }
-    
+
+    /**
+     * Passes through the static chain of query processors and tries to execute the given request.
+     * 
+     * @param qr
+     *            the query
+     * @return its response
+     */
     public QueryResponse run(QueryRequest qr) {
         return _chainHead.sendToChain(qr);
     }

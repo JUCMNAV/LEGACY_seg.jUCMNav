@@ -30,8 +30,6 @@ import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 
 /**
- * Created on 12-May-2005
- * 
  * This class provides functionality to name (and number using the ID) the meta model objects in jUCMNav. See setElementNameAndID() for this purpose.
  * 
  * Furthermore, using sanitizeURNspec(), one can clean up a meta-model and make sure all elements have ids and names.
@@ -85,6 +83,7 @@ public class URNNamingHelper {
      * When creating names, we often need a generic name. Using this method, we can obtain a prefix using the appropriate naming convention.
      * 
      * @param targetClass
+     *            the class
      * @return prefix
      */
     public static String getPrefix(Class targetClass) {
@@ -101,6 +100,7 @@ public class URNNamingHelper {
      * In simple cases, equivalent to the java 1.5 Class.getSimpleName(); To avoid depending on Java 1.5
      * 
      * @param targetClass
+     *            the class
      * @return simple name
      */
     private static String getSimpleName(Class targetClass) {
@@ -113,6 +113,7 @@ public class URNNamingHelper {
      * many types like UCMmodelElement, GRLmodelElement, etc.
      * 
      * @param o
+     *            the object to test
      * @return boolean showing whether name and ID are set
      */
     private static boolean isNameAndIDSet(Object o) {
@@ -137,7 +138,8 @@ public class URNNamingHelper {
      * Verifies that the passed string is equivalent to the canonical form of a Long
      * 
      * @param s
-     * @return true if the passed string is equivalent to the canonical form of a Long
+     *            the id in String format
+     * @return true if s is equivalent to the canonical form of a Long
      */
     private static boolean isValidID(String s) {
         try {
@@ -157,6 +159,7 @@ public class URNNamingHelper {
      * This is only a partial implementation. It doesn't scan all GRL elements. Pretty much limited to what is needed for UCM manipulation.
      * 
      * @param urn
+     *            the URNspec to sanitize
      */
     public static void sanitizeURNspec(URNspec urn) {
         String proposedTopID = urn.getNextGlobalID();
@@ -263,12 +266,20 @@ public class URNNamingHelper {
      * If you find any, using the hash maps, add them to the appropriate conflict vectors.
      * 
      * @param urn
+     *            the URNspec containing the URNdef
      * @param htIDs
+     *            a hashmap of used ids
      * @param htComponentNames
+     *            a hashmap of used component names
      * @param htResponsibilityNames
+     *            a hashmap of used responsibility names
      * @param IDConflicts
+     *            a vector in which to store id conflicts
      * @param CompNameConflicts
+     *            a vector in which to store component name conflicts
      * @param RespNameConflicts
+     *            a vector in which to store responsibility name conflicts.
+     *  
      */
     private static void sanitizeURNdef(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, Vector IDConflicts,
             Vector CompNameConflicts, Vector RespNameConflicts) {
@@ -305,12 +316,19 @@ public class URNNamingHelper {
      * Resolve ID and naming conflicts; change the ids and names so that no problems subsist.
      * 
      * @param urn
+     *            the urn to clean
      * @param htIDs
+     *            a hashmap of used ids
      * @param htComponentNames
+     *            a hashmap of used component names
      * @param htResponsibilityNames
+     *            a hashmap of used responsibility names
      * @param IDConflicts
+     *            a vector in which to store id conflicts
      * @param CompNameConflicts
+     *            a vector in which to store component name conflicts
      * @param RespNameConflicts
+     *            a vector in which to store responsibility name conflicts.
      */
     private static void resolveConflicts(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, Vector IDConflicts,
             Vector CompNameConflicts, Vector RespNameConflicts) {
@@ -326,8 +344,11 @@ public class URNNamingHelper {
      * Resolve ID conflicts; change the ids so that no problems subsist. Update the URNspec with the new top ID if it changes.
      * 
      * @param urn
+     *            the urn to clean
      * @param htIDs
+     *            a hashmap of used ids
      * @param IDConflicts
+     *            a vector in which to store id conflicts
      */
     private static void resolveIDConflicts(URNspec urn, HashMap htIDs, Vector IDConflicts) {
         String proposedTopID;
@@ -369,8 +390,11 @@ public class URNNamingHelper {
      * Resolve naming conflicts; change the names so that no problems subsist.
      * 
      * @param urn
+     *            the urn to clean
      * @param htNames
+     *            a hashmap of used names.
      * @param nameConflicts
+     *            a vector in which to store conflicts
      */
     private static void resolveNamingConflicts(URNspec urn, HashMap htNames, Vector nameConflicts) {
         // resolve responsibility naming conflicts
@@ -399,10 +423,15 @@ public class URNNamingHelper {
      * map and vector.
      * 
      * @param htIDs
+     *            a hashmap of used ids
      * @param htNames
+     *            a hashmap of used names
      * @param idConflicts
+     *            a vector in which to store id conflicts
      * @param nameConflicts
+     *            a vector in which to store naming conflicts
      * @param elem
+     *            the element to check
      */
     private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, UCMmodelElement elem) {
 
@@ -434,7 +463,9 @@ public class URNNamingHelper {
      * unicity.
      * 
      * @param urn
+     *            the urnspec containing all the elements
      * @param o
+     *            the element to name
      */
     public static void setElementNameAndID(URNspec urn, Object o) {
 
@@ -495,7 +526,9 @@ public class URNNamingHelper {
      * Changes the top ID in the URNspec; to be used if we find an error.
      * 
      * @param urn
+     *            the urnspec to name
      * @param id
+     *            the new id
      * @return the new ID
      */
     private static String setTopID(URNspec urn, String id) {
@@ -508,8 +541,10 @@ public class URNNamingHelper {
      * directly; this method will only add overhead.
      * 
      * @param urn
+     *            the urnspec containg all components
      * @param proposedName
-     * @return bool showing if name exists
+     *            the proposed name
+     * @return true if name exists
      */
     public static boolean doesComponentNameExists(URNspec urn, String proposedName) {
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
@@ -525,8 +560,10 @@ public class URNNamingHelper {
      * directly; this method will only add overhead.
      * 
      * @param urn
+     *            the urnspec containg all responsibilities
      * @param proposedName
-     * @return bool: does resp name exist
+     *            the proposed name
+     * @return true if resp name exists
      */
     public static boolean doesResponsibilityNameExists(URNspec urn, String proposedName) {
         for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
@@ -543,7 +580,9 @@ public class URNNamingHelper {
      * does(Component|Responsibility)NameExist().
      * 
      * @param urn
+     *            the urnspec containing all elements.
      * @param elem
+     *            the element with a naming conflict
      */
     public static void resolveNamingConflict(URNspec urn, UCMmodelElement elem) {
         Collection c;
@@ -570,6 +609,17 @@ public class URNNamingHelper {
 
     }
 
+    /**
+     * Checks to see if the given name is valid, in the given context
+     * 
+     * @param urn
+     *            the urnspec containin all the names.
+     * @param elem
+     *            the element to name. (a componentref or respref)
+     * @param name
+     *            the proposed name.
+     * @return true if unused
+     */
     public static String isNameValid(URNspec urn, UCMmodelElement elem, String name) {
         String message = ""; //$NON-NLS-1$
 
@@ -591,6 +641,16 @@ public class URNNamingHelper {
         return message;
     }
 
+    /**
+     * Checks to see if the given name is valid, in the given context. calls isNameValid(URNspec, UCMmodelElement, String) using the URNspec inferred from the
+     * UCMmodelElement. Only works if element is already in URNspec.
+     * 
+     * @param elem
+     *            the element to check.
+     * @param name
+     *            the proposed name
+     * @return true if unused
+     */
     public static String isNameValid(UCMmodelElement elem, String name) {
         EObject parent = elem;
 

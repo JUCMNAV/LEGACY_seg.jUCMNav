@@ -13,8 +13,9 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created on 2-May-2005 When creating or moving a ComponentRef or a PathNode, one must set the parent so that bindings are preserved. Otherwise, weird things
- * will happen.
+ * When creating or moving a ComponentRef or a PathNode, one must set the parent so that bindings are preserved. Otherwise, weird things will happen.
+ * 
+ * See DevDocModelUtilities 
  * 
  * @author jkealey
  *  

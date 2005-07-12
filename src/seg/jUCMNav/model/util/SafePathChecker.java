@@ -1,7 +1,3 @@
-/*
- * Created on 11-Jun-2005
- *
- */
 package seg.jUCMNav.model.util;
 
 import java.util.Iterator;
@@ -19,20 +15,22 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 
 /**
- * @author jpdaigle, jkealey
  * 
  * Check if a proposed fusion of two nodes is <i>safe </i>, that is, will not cause an illegal loop. joinFromPathNode is expected to be a StartPoint or
  * EndPoint, but not enforced.
  * 
+ * @author jpdaigle, jkealey
  *  
  */
 public class SafePathChecker {
 
     /**
      * One can loop a start/end with a stub on the same deletion path if they are not already directly joined.
-     *  
+     * 
      * @param nc
+     *            the node connection
      * @param nodes
+     *            the nodes on the path segment
      * @return true/false showing whether loopback to stub is allowed
      */
     private static boolean isLoopBackToStubAllowed(NodeConnection nc, Vector nodes) {
@@ -40,11 +38,29 @@ public class SafePathChecker {
                 || (nodes.lastElement() instanceof Stub && !nc.getSource().equals(nodes.lastElement()) && !nc.getTarget().equals(nodes.lastElement()));
     }
 
+    /**
+     * Is it safe to put this pathnode onto this node connection; might cause forks/joins to be created
+     * 
+     * @param joinFromPathNode
+     *            the pathnode
+     * @param joinToNodeConnection
+     *            the node connection
+     * @return true if safe
+     */
     public static boolean isSafeFusion(PathNode joinFromPathNode, NodeConnection joinToNodeConnection) {
         PathNode toNode = joinToNodeConnection.getTarget();
         return isSafeFusion(joinFromPathNode, toNode);
     }
 
+    /**
+     * Is it safe to combine these two pathnodes? Might replace a start/end with an empty point.
+     * 
+     * @param joinFromPathNode
+     *            the first pathnode
+     * @param joinToPathNode
+     *            the second pathnode
+     * @return true if safe; no illegal loops caused
+     */
     public static boolean isSafeFusion(PathNode joinFromPathNode, PathNode joinToPathNode) {
         // Query for reachable nodes starting from joinToPathNode: if joinFromPathNode is not included in there,
         // the join won't cause a loop.

@@ -3,17 +3,15 @@ package seg.jUCMNav.model.util;
 import java.util.Comparator;
 
 /**
- * Created on 12-May-2005
- * 
- * Converts the argumets to longs and compares them.
+ * Converts the arguments to longs and compares them numerically instead of alphabetically.
  * 
  * @author jkealey
  *  
  */
 public class LongAsStringComparator implements Comparator {
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Uses Long.parseLong on arguments.toString() to compare. 
      * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */

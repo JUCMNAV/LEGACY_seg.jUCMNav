@@ -1,7 +1,3 @@
-/*
- * Created on 20-Jun-2005
- *
- */
 package seg.jUCMNav.model.util.modelexplore.queries;
 
 import java.util.Stack;
@@ -19,10 +15,9 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
- * @author jkealey
- * 
  * Query processor for returning all node connections in a spline, given a node connection on this spline.
- *  
+ * 
+ * @author jkealey
  */
 public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
@@ -32,9 +27,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
         this._answerQueryTypes = new String[] { QueryObject.FINDSPLINE };
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
      */
     public QueryResponse runImpl(QueryRequest q) {
@@ -67,6 +60,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
      * connected to Connect elements, as they have no visual representation.
      * 
      * @param n
+     *            the node connection to start with
      */
     protected void processNodeConnection(NodeConnection n) {
         //        System.out.println("starts with: " + n.getSource());
@@ -149,27 +143,53 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
     }
 
     /**
+     * Connects/AndForks/AndJoins are path stoppers for regular splines.
+     * 
      * @param node
-     * @return returns true if path traversal should be stopped when hitting one of this node.
+     *            the node to check
+     * @return true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
         return (node instanceof Connect || node instanceof AndFork || node instanceof AndJoin);
     }
 
+    /**
+     * 
+     * QueryRequest to find a spline, starting with a node connection.
+     * 
+     * @author jkealey
+     *  
+     */
     public class QFindSpline extends QueryRequest {
         // Finds reachable node connections starting with a NodeConnection
         NodeConnection _StartNodeConnection;
 
+        /**
+         * 
+         * @param nodeConnection
+         *            the starting point for the traversal
+         */
         public QFindSpline(NodeConnection nodeConnection) {
             this._queryType = QueryObject.FINDSPLINE;
             _StartNodeConnection = nodeConnection;
         }
 
+        /**
+         * 
+         * @return the starting point for the starting point.
+         */
         public NodeConnection getStartNodeConnection() {
             return _StartNodeConnection;
         }
     }
 
+    /**
+     * 
+     * QueryResponse containing a list of connections on a certain spline.
+     * 
+     * @author jkealey
+     *  
+     */
     public class RSpline extends QueryResponse {
         /* Data structure (query response) for passing a vector of connections */
         protected Vector connections;

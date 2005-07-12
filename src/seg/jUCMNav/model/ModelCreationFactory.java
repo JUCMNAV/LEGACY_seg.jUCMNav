@@ -49,8 +49,6 @@ import urncore.URNdefinition;
 import urncore.UrncoreFactory;
 
 /**
- * Created on 2005-01-30
- * 
  * This class implements the CreationFactory to be used as the central point to obtain new model elements. It sets up the default values for all new elements.
  * It in turn uses the EMF-generated factories to create the model instances
  * 
@@ -58,8 +56,10 @@ import urncore.UrncoreFactory;
  * non-static methods.
  * 
  * Since it would make no sense to provide a URNspec to be able to obtain one, an additional specific method was created for this task: getNewURNspec().
- * 
- * @author ddean, jkealey
+ *  
+ * See DevDocModelCreationFactory
+ *  
+ * @author jkealey
  *  
  */
 public class ModelCreationFactory implements CreationFactory {
@@ -93,8 +93,8 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * @return the target class.
      * 
      * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
      */
@@ -102,6 +102,9 @@ public class ModelCreationFactory implements CreationFactory {
         return targetClass;
     }
 
+    /**
+     * @return the object defined by the constructor parameters
+     */
     public Object getNewObject() {
         return getNewObject(urn, targetClass, type);
     }
@@ -176,9 +179,9 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(OutBinding.class)) {
                 result = mapfactory.createOutBinding();
             } else if (targetClass.equals(Workload.class)) {
-                result = performancefactory.createWorkload();                
+                result = performancefactory.createWorkload();
             } else if (targetClass.equals(Connect.class)) {
-                result = mapfactory.createConnect();                
+                result = mapfactory.createConnect();
             } else {
                 // complex creations
                 if (targetClass.equals(Map.class)) {
@@ -234,13 +237,13 @@ public class ModelCreationFactory implements CreationFactory {
                     result = cond;
                 } else if (targetClass.equals(StartPoint.class)) {
                     StartPoint sp = mapfactory.createStartPoint();
-                    sp.setPrecondition((Condition)getNewObject(urn, Condition.class));
+                    sp.setPrecondition((Condition) getNewObject(urn, Condition.class));
                     sp.getPrecondition().setDeltaX(40);
                     sp.getPrecondition().setDeltaY(-17);
                     result = sp;
                 } else if (targetClass.equals(EndPoint.class)) {
                     EndPoint ep = mapfactory.createEndPoint();
-                    ep.setPostcondition((Condition)getNewObject(urn, Condition.class));
+                    ep.setPostcondition((Condition) getNewObject(urn, Condition.class));
                     ep.getPostcondition().setDeltaX(-40);
                     ep.getPostcondition().setDeltaY(-20);
                     result = ep;
@@ -272,7 +275,7 @@ public class ModelCreationFactory implements CreationFactory {
     }
 
     /**
-     * @return new URN spec
+     * @return a new URN spec
      */
     public static URNspec getNewURNspec() {
         MapFactory factory = MapFactory.eINSTANCE;
