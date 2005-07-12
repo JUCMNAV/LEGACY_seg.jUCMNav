@@ -165,7 +165,7 @@ public class ProgressTests extends TestCase {
      * 
      * @param m
      *            The ModelCreationFactory to be used.
-     * @return
+     * @return a creation request
      */
     private CreateRequest getCreateRequest(ModelCreationFactory m, Point location) {
 

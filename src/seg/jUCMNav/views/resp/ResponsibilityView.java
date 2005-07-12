@@ -217,7 +217,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     }
 
     /**
-     * @param editor2
+     * @param editor
      */
     private void setEditor(UCMNavMultiPageEditor editor) {
         if (this.editor != null) {

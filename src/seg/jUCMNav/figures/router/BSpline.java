@@ -231,7 +231,7 @@ public class BSpline {
     }
 
     /**
-     * @see getPoint(x,y)
+     * @see #getPoint(int, int)
      * @param point
      *            Return the index of the nearest point on the curve for this point.
      * @return The index of the nearest point on the curve for this point.

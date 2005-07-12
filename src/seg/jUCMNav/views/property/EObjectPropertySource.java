@@ -167,7 +167,7 @@ public class EObjectPropertySource implements IPropertySource2 {
      * Build a boolean property descriptor
      * 
      * @param descriptors
-     * @param propertyname
+     * @param attr
      * @param propertyid
      */
     private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
@@ -191,7 +191,6 @@ public class EObjectPropertySource implements IPropertySource2 {
      * 
      * @param descriptors
      * @param attr
-     * @param propertyname
      * @param propertyid
      */
     private void stringDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {

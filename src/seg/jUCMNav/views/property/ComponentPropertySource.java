@@ -105,7 +105,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
     /**
      * @param descriptors
-     * @param propertyname
+     * @param attr
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {

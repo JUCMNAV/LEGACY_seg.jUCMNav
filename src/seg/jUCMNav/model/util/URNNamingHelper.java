@@ -101,7 +101,7 @@ public class URNNamingHelper {
      * In simple cases, equivalent to the java 1.5 Class.getSimpleName(); To avoid depending on Java 1.5
      * 
      * @param targetClass
-     * @return
+     * @return simple name
      */
     private static String getSimpleName(Class targetClass) {
         String simpleName = targetClass.getName();
@@ -113,7 +113,7 @@ public class URNNamingHelper {
      * many types like UCMmodelElement, GRLmodelElement, etc.
      * 
      * @param o
-     * @return
+     * @return boolean showing whether name and ID are set
      */
     private static boolean isNameAndIDSet(Object o) {
         if (o instanceof UCMmodelElement) {
@@ -137,7 +137,7 @@ public class URNNamingHelper {
      * Verifies that the passed string is equivalent to the canonical form of a Long
      * 
      * @param s
-     * @return
+     * @return true if the passed string is equivalent to the canonical form of a Long
      */
     private static boolean isValidID(String s) {
         try {
@@ -496,7 +496,7 @@ public class URNNamingHelper {
      * 
      * @param urn
      * @param id
-     * @return
+     * @return the new ID
      */
     private static String setTopID(URNspec urn, String id) {
         urn.setNextGlobalID(id);

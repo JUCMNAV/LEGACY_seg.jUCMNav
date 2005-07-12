@@ -183,7 +183,7 @@ public class ParentFinder {
      * 
      * @param parent
      * @param child
-     * @return
+     * @return a boolean = false if child is an ancestor parent
      */
     private static boolean noCircularBindings(ComponentRef parent, ComponentRef child) {
         //If there already is a circular binding present, infinite loop will occur.

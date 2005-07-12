@@ -29,7 +29,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 	/**
 	 * List of selection change listeners (element type: <code>ISelectionChangedListener</code>).
 	 *
-	 * @see #fireSelectionChanged
+	 * @see #selectionChanged(CompositeListItem)
 	 */
 	private ListenerList selectionChangedListeners = new ListenerList(3);
 	/**

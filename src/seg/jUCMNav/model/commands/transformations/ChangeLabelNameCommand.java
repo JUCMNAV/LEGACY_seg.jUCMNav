@@ -62,7 +62,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return
+     * @return true or false - uniqueness of name
      */
     private boolean verifyUniqueness(String name) {
         if (elem instanceof UCMmodelElement) {

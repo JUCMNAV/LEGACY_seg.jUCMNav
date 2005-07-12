@@ -233,7 +233,7 @@ public class AutoLayoutWizard extends Wizard {
     }
 
     /**
-     * @return
+     * @return success
      */
     private boolean trimEmptyPoints() {
         CompoundCommand cmd;

@@ -104,7 +104,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
 
     /**
      * @param descriptors
-     * @param propertyname
+     * @param attr
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {

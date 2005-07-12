@@ -178,7 +178,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * To be modified for better handling of and forks/joins
      * 
      * @param nc
-     * @return
+     * @return left point
      */
     private Point getLeftPoint(NodeConnection nc) {
         if (nc.getSource() instanceof AndFork) {
@@ -196,7 +196,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * To be modified for better handling of and forks/joins
      * 
      * @param nc
-     * @return
+     * @return right point
      */
     private Point getRightPoint(NodeConnection nc) {
         if (nc.getTarget() instanceof AndJoin) {

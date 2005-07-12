@@ -33,7 +33,7 @@ public class SafePathChecker {
      *  
      * @param nc
      * @param nodes
-     * @return
+     * @return true/false showing whether loopback to stub is allowed
      */
     private static boolean isLoopBackToStubAllowed(NodeConnection nc, Vector nodes) {
         return (nodes.firstElement() instanceof Stub && !nc.getSource().equals(nodes.firstElement()) && !nc.getTarget().equals(nodes.firstElement()))
