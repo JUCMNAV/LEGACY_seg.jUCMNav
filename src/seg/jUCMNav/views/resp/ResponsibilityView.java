@@ -103,10 +103,13 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * This is a callback that will allow us to create the viewer and initialize it.
      */
     public void createPartControl(Composite parent) {
-        viewer = new RespListViewer(parent, SWT.MULTI | SWT.V_SCROLL);
+        viewer = new RespListViewer(parent, SWT.NONE);
         viewer.addSelectionChangedListener(this);
         viewer.setContentProvider(new RespContentProvider());
         viewer.setLabelProvider(new RespLabelProvider());
+        
+        if(input != null)
+        	viewer.setInput(input.getPathGraph().getPathNodes());
 
         makeActions();
         hookContextMenu();
@@ -114,8 +117,6 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
         contributeToActionBars();
 
         getSite().getPage().addPartListener(this);
-
-        //		getSite().getSelectionProvider().addSelectionChangedListener(this);
     }
 
     private void hookContextMenu() {
@@ -203,7 +204,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partActivated(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partActivated(IWorkbenchPartReference partRef) {
-    	if (partRef.getPart(false) == this) {
+    	if (partRef.getPart(false) == this || partRef.getPart(false) instanceof UCMNavMultiPageEditor) {
         	setEditor(partRef);
         }
     }
@@ -247,7 +248,8 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partOpened(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partOpened(IWorkbenchPartReference partRef) {
-    	setEditor(partRef);
+    	if(partRef.getPart(false) instanceof UCMNavMultiPageEditor || partRef.getPart(false) == this)
+    		setEditor(partRef);
     }
 
     /*
@@ -265,7 +267,8 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partVisible(IWorkbenchPartReference partRef) {
-        setEditor(partRef);
+    	if(partRef.getPart(false) instanceof UCMNavMultiPageEditor || partRef.getPart(false) == this)
+    		setEditor(partRef);
     }
 
     /*
@@ -280,8 +283,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     private void setEditor(IWorkbenchPartReference partRef) {
     	if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
             setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-            if(editor.getCurrentPage().getModel() != input)
-            	setInput(editor.getCurrentPage().getModel());
+            setInput(editor.getCurrentPage().getModel());
         }
     }
     
@@ -298,13 +300,15 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     }
 
     private void setInput(Map input) {
-        this.input = input;
         if (viewer != null) {
             if (input == null)
                 viewer.setInput(new ArrayList());
-            else
-                viewer.setInput(input.getPathGraph().getPathNodes());
+            else {
+            	if(input != this.input)
+            		viewer.setInput(input.getPathGraph().getPathNodes());
+            }
         }
+        this.input = input;
     }
 
     /*

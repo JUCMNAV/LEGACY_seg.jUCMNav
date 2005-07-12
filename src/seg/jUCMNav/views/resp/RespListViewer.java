@@ -16,7 +16,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
@@ -36,22 +35,11 @@ import urncore.Responsibility;
 public class RespListViewer extends StructuredViewer implements Adapter, ISelectionChangedListener {
 
     private CompositeListControl list;
-    private ScrolledComposite scrolled;
 
     public RespListViewer(Composite parent, int style) {
         super();
-        //		scrolled = new ScrolledComposite(parent, SWT.V_SCROLL);
         list = new CompositeListControl(parent, style);
         list.addSelectionChangedListener(this);
-
-        //		list.setSize(new Point(400, 400));
-        //		
-        //		scrolled.setContent(list);
-        //		scrolled.setMinSize(400, 400);
-        //		scrolled.setExpandHorizontal(true);
-        //		scrolled.setExpandVertical(true);
-        //		scrolled.setMinWidth(400);
-        //		scrolled.setMinHeight(400);
     }
 
     /*

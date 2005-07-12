@@ -10,8 +10,10 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -27,6 +29,8 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 	
 	private ArrayList items = new ArrayList();
 	
+	private ScrolledComposite scrollComp;
+	
 	/**
 	 * List of selection change listeners (element type: <code>ISelectionChangedListener</code>).
 	 *
@@ -38,11 +42,12 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 	 * @param style
 	 */
 	public CompositeListControl(Composite parent, int style) {
-		super(parent, style | SWT.V_SCROLL);
+		super(new ScrolledComposite(parent, SWT.V_SCROLL | SWT.BORDER), style);
+		scrollComp = (ScrolledComposite)this.getParent();
 		initialize();
 	}
 
-	private void initialize() {
+	private void initialize() {		
 		this.addMouseListener(new MouseAdapter(){
 			public void mouseDown(MouseEvent e) {
 				setSelection(new StructuredSelection());
@@ -52,10 +57,21 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 		layout.numColumns = 1;
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
-		layout.verticalSpacing = 2;
+		layout.verticalSpacing = 1;
 		layout.horizontalSpacing = 0;
 		this.setLayout(layout);
 		this.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
+		scrollComp.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
+		
+		scrollComp.setContent(this);
+//		this.layout();
+		
+		scrollComp.setAlwaysShowScrollBars(true);
+		scrollComp.setExpandHorizontal(true);
+		scrollComp.setExpandVertical(false);
+		
+		Point size = this.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		this.setSize(size);
 	}
 	
 	public void add(CompositeListItem item){
@@ -63,6 +79,9 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 		item.addSelectionListener(this);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		item.setLayoutData(data);
+		
+		Point size = this.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		this.setSize(size);
 	}
 	
 	public Object[] getItems(){
