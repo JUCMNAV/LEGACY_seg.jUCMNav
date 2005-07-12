@@ -9,13 +9,22 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
- * This command is used to resize/move PathNodes. Is a compound command because might move connected elements. 
+ * This command is used to resize/move PathNodes. Is a compound command because might move connected elements.
  * 
- * @author  jkealey
+ * @author jkealey
  *  
  */
 public class SetConstraintCommand extends CompoundCommand {
 
+    /**
+     * 
+     * @param node
+     *            The PathNode to move
+     * @param x
+     *            the new X
+     * @param y
+     *            the new Y
+     */
     public SetConstraintCommand(PathNode node, int x, int y) {
         add(new MovePathNodeCommand(node, x, y));
 
@@ -38,6 +47,5 @@ public class SetConstraintCommand extends CompoundCommand {
             }
         }
     }
-
 
 }

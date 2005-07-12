@@ -7,22 +7,22 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 
 /**
- * This command is used to resize/move ComponentRefs
+ * This command is used to resize/move ComponentRefs. Doesn't move anything inside it although it remembers its children for undo/redo purposes.
+ * 
+ * Would put package access because we don't want the external framework using it; we want them to use
+ * seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand. However, don't want to modify a bunch of test cases that depend
+ * on this command's behaviour. 
  * 
  * @author jkealey
- *  
+ * @see seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand
  */
 public class SetConstraintComponentRefCommand extends Command implements JUCMNavCommand {
-    // default size for new components
-    public static final int DEFAULT_HEIGHT = 100;
-
-    public static final int DEFAULT_WIDTH = 100;
-
     private Vector children;
 
     // the ComponentRef
@@ -55,6 +55,10 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         return compRef != null && !compRef.isFixed();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         oldX = compRef.getX();
         oldY = compRef.getY();
@@ -157,7 +161,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     public void setNewHeight(int newHeight) {
         this.newHeight = newHeight;
         if (newHeight <= 0)
-            this.newHeight = DEFAULT_HEIGHT;
+            this.newHeight = ModelCreationFactory.DEFAULT_COMPONENT_HEIGHT;
     }
 
     /**
@@ -168,7 +172,7 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
 
         this.newWidth = newWidth;
         if (newWidth <= 0)
-            this.newWidth = DEFAULT_WIDTH;
+            this.newWidth = ModelCreationFactory.DEFAULT_COMPONENT_WIDTH;
     }
 
     /**
@@ -187,6 +191,10 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         this.newY = newY;
     }
 
+    /**
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
     public void testPostConditions() {
         assert canExecute() : "post canExecute"; //$NON-NLS-1$
         assert compRef.getWidth() == this.newWidth : "post width"; //$NON-NLS-1$
@@ -195,11 +203,15 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
         assert compRef.getY() == this.newY : "post y"; //$NON-NLS-1$
 
         if (newParent != null)
-            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(
-                    compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent."; //$NON-NLS-1$
+            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Rectangle(compRef.getX(),
+                    compRef.getY(), compRef.getWidth(), compRef.getHeight())) : "post component in parent."; //$NON-NLS-1$
 
     }
 
+    /**
+     * 
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
     public void testPreConditions() {
         assert canExecute() : "pre canExecute"; //$NON-NLS-1$
         assert compRef.getWidth() == this.oldWidth : "pre width"; //$NON-NLS-1$

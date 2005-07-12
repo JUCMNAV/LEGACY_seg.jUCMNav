@@ -11,8 +11,6 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created on 28-Apr-2005
- * 
  * Unbinds a child/children (PathNode or ComponentRef) from a parent ComponentRef.
  * 
  * @author jkealey
@@ -62,18 +60,14 @@ public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCo
         return b;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         redo();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -90,9 +84,7 @@ public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCo
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -109,9 +101,7 @@ public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCo
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -125,9 +115,7 @@ public class ComponentRefUnbindChildCommand extends Command implements JUCMNavCo
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

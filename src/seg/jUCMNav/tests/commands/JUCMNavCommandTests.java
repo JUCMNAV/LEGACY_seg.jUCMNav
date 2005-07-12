@@ -145,8 +145,8 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd = new AddComponentRefCommand(map, backgroundBindingChecker);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new SetConstraintBoundComponentRefCompoundCommand(backgroundBindingChecker, -1000,-1000,5000, 5000);
+        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
         testBindings = true;
@@ -382,7 +382,7 @@ public class JUCMNavCommandTests extends TestCase {
         compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new SetConstraintComponentRefCommand(compRef, 0, 0, 1000, 1000);
+        Command cmd = new SetConstraintBoundComponentRefCompoundCommand(compRef, 0, 0, 1000, 1000);
         assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         // the current compRef is now behind the original one.
@@ -917,7 +917,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     /**
-     *
+     *  
      *  
      */
     public void testSetConstraintComponentRefCommand() {

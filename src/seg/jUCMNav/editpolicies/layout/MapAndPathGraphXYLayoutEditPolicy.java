@@ -17,11 +17,9 @@ import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
-import seg.jUCMNav.model.commands.changeConstraints.ConditionSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
@@ -110,7 +108,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         ComponentRef compRef = (ComponentRef) request.getNewObject();
 
         AddComponentRefCommand create = new AddComponentRefCommand(getMap(), compRef);
-        SetConstraintComponentRefCommand moveResize = new SetConstraintComponentRefCommand(compRef, constraint.x, constraint.y, constraint.width,
+        SetConstraintBoundComponentRefCompoundCommand moveResize = new SetConstraintBoundComponentRefCompoundCommand(compRef, constraint.x, constraint.y, constraint.width,
                 constraint.height);
 
         // after creation, move and resize the component;
@@ -253,7 +251,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
      */
     private Command handleMoveNodeConnectionCondition(EditPart child, Object constraint) {
         Condition condition = (Condition) child.getModel();
-        ConditionSetConstraintCommand locationCommand = new ConditionSetConstraintCommand();
+        LabelSetConstraintCommand locationCommand = new LabelSetConstraintCommand();
 
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(
                 ((ConditionEditPart) child).getNodeConnection());
@@ -265,7 +263,7 @@ public class MapAndPathGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
                 locationCommand.setNewPosition(condition.getDeltaX(), condition.getDeltaY());
         }
 
-        locationCommand.setCondition(condition);
+        locationCommand.setLabel(condition);
         return locationCommand;
     }
 

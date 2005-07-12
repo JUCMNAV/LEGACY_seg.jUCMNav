@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.eclipse.gef.requests.CreationFactory;
 
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.UCMspec;
 import ucm.UcmFactory;
@@ -66,6 +65,8 @@ public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
     private URNspec urn;
+    public static int DEFAULT_COMPONENT_HEIGHT=100;
+    public static int DEFAULT_COMPONENT_WIDTH=100;
 
     /**
      * @param urn
@@ -205,8 +206,8 @@ public class ModelCreationFactory implements CreationFactory {
                     URNNamingHelper.setElementNameAndID(urn, compdef);
                     URNNamingHelper.resolveNamingConflict(urn, compdef);
 
-                    ((ComponentRef) result).setHeight(SetConstraintComponentRefCommand.DEFAULT_HEIGHT);
-                    ((ComponentRef) result).setWidth(SetConstraintComponentRefCommand.DEFAULT_WIDTH);
+                    ((ComponentRef) result).setHeight(DEFAULT_COMPONENT_HEIGHT);
+                    ((ComponentRef) result).setWidth(DEFAULT_COMPONENT_WIDTH);
 
                     ((ComponentRef) result).setLabel(urncorefactory.createComponentLabel());
                 } else if (targetClass.equals(Component.class)) {

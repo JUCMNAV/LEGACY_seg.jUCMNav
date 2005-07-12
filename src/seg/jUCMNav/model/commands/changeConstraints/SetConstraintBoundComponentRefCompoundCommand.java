@@ -12,7 +12,9 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created on 1-May-2005 Compound command that moves/resizes a ComponentRef and all of its children.
+ * Compound command that moves/resizes a ComponentRef and all of its children.
+ * 
+ * [class wins worst name ever award]
  * 
  * @author jkealey
  *  
@@ -46,9 +48,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
         setLabel(Messages.getString("SetConstraintBoundComponentRefCompoundCommand.changeCompConstraints")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -59,13 +59,11 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // nothing to check.
+        // nothing useful to check.
     }
 
     /**
@@ -76,8 +74,8 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Set the component to be moved/resized with its children. This method is private because we ca only generate the children once because
-     * we can't clear the command list.
+     * Set the component to be moved/resized with its children. This method is private because we ca only generate the children once because we can't clear the
+     * command list.
      * 
      * @param compRef
      *            The compRef to set.
@@ -93,13 +91,16 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Set the new constraints. This method is private because we ca only generate the children once because we can't clear the command
-     * list.
+     * Set the new constraints. This method is private because we ca only generate the children once because we can't clear the command list.
      * 
      * @param x
+     *            the new x
      * @param y
+     *            the new y
      * @param width
+     *            the new width
      * @param height
+     *            the new height
      */
     private void setConstraints(int x, int y, int width, int height) {
         newX = x;
@@ -109,10 +110,9 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Using the compRef's children (PathNodes and ComponentRefs), build a set of commands to be executed to move/resize the children with
-     * the parent. Note: when resizing the parent, children are moved inside the parent so they retain the same relative position inside the
-     * parent. if they kept the same absolute position, they could potentially become outside the parent and they would thus no longer be
-     * children of the parnet.
+     * Using the compRef's children (PathNodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note:
+     * when resizing the parent, children are moved inside the parent so they retain the same relative position inside the parent. if they kept the same
+     * absolute position, they could potentially become outside the parent and they would thus no longer be children of the parnet.
      *  
      */
     private void buildChildCommands() {
@@ -142,8 +142,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
             } else if (elem instanceof PathNode) {
                 PathNode child = (PathNode) elem;
 
-                Command cmd2 = new SetConstraintCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY
-                        + (int) ((child.getY() - oldY) * factorH));
+                Command cmd2 = new SetConstraintCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY + (int) ((child.getY() - oldY) * factorH));
                 add(cmd2);
 
             } else {

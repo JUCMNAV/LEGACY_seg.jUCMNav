@@ -71,7 +71,6 @@ import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
@@ -211,7 +210,7 @@ public class ProgressTests extends TestCase {
         // if can't find in editor, look in outline.
         if (ep == null)
             ep = (EditPart) (((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(o);
-        
+
         return ep;
     }
 
@@ -335,7 +334,7 @@ public class ProgressTests extends TestCase {
         Command cmd = new AddComponentRefCommand(getMap(), backgroundBindingChecker);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintComponentRefCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
+        cmd = new SetConstraintBoundComponentRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
         assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
@@ -458,8 +457,8 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompBind1() {
 
-        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", SetConstraintComponentRefCommand.DEFAULT_HEIGHT //$NON-NLS-1$
-                * SetConstraintComponentRefCommand.DEFAULT_WIDTH < 300 * 400);
+        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", ModelCreationFactory.DEFAULT_COMPONENT_HEIGHT //$NON-NLS-1$
+                * ModelCreationFactory.DEFAULT_COMPONENT_WIDTH < 300 * 400);
 
         // create the component ref that will be used for testing.
         ComponentRef parent = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, ComponentKind.TEAM);
@@ -1820,22 +1819,23 @@ public class ProgressTests extends TestCase {
 
     }
 
-//    /**
-//     * Test #2 for requirement ReqElemStubActions
-//     * 
-//     * Author: 
-//     */
-//    public void testReqElemStubActions2() {
-//        testReqElemStubActions1();
-//        /* failed attempt. 
-//        EditPart edit = (EditPart) (((UcmOutlinePage) editor.getEditor(0).getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(getMap(0));
-//        StructuredSelection s = new StructuredSelection(edit);
-//        edit.setSelected(2);
-//        ((TreeViewer)edit.getViewer()).setSelection(s);
-//        */
-//        
-//        assertEquals("old map not visible", getMap(0), editor.getCurrentPage().getModel());
-//    }
+    //    /**
+    //     * Test #2 for requirement ReqElemStubActions
+    //     *
+    //     * Author:
+    //     */
+    //    public void testReqElemStubActions2() {
+    //        testReqElemStubActions1();
+    //        /* failed attempt.
+    //        EditPart edit = (EditPart) (((UcmOutlinePage)
+    // editor.getEditor(0).getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(getMap(0));
+    //        StructuredSelection s = new StructuredSelection(edit);
+    //        edit.setSelected(2);
+    //        ((TreeViewer)edit.getViewer()).setSelection(s);
+    //        */
+    //        
+    //        assertEquals("old map not visible", getMap(0), editor.getCurrentPage().getModel());
+    //    }
 
     //  /**
     //  * Test #3 for requirement ReqElemStubActions
@@ -2029,32 +2029,32 @@ public class ProgressTests extends TestCase {
         assertTrue("help.xml not in zip file", true); //$NON-NLS-1$
     }
 
-      /**
-      * Test #1 for requirement ReqBrowseModel
-      *
-      * Author:jkealey
-      */
-     public void testReqBrowseModel1() {
-         assertNotNull("outline doesn't exist", editor.getAdapter(IContentOutlinePage.class));
-     }
+    /**
+     * Test #1 for requirement ReqBrowseModel
+     * 
+     * Author:jkealey
+     */
+    public void testReqBrowseModel1() {
+        assertNotNull("outline doesn't exist", editor.getAdapter(IContentOutlinePage.class));
+    }
 
-      /**
-      * Test #2 for requirement ReqBrowseModel
-      *
-      * Author: jkealey
-      */
-     public void testReqBrowseModel2() {
-         // botched implementation. 
-         IPropertySource ips = (IPropertySource) getEditPart(getMap(0)).getAdapter(IPropertySource.class);
-         boolean name = false;
-         IPropertyDescriptor [] desc = ips.getPropertyDescriptors();
-         for (int i = 0; i < desc.length; i++) {
-             String str = desc[i].getDisplayName();
-             if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
-                 name = true;
-         }
-         assertTrue("can't rename map", name);
-     }
+    /**
+     * Test #2 for requirement ReqBrowseModel
+     * 
+     * Author: jkealey
+     */
+    public void testReqBrowseModel2() {
+        // botched implementation.
+        IPropertySource ips = (IPropertySource) getEditPart(getMap(0)).getAdapter(IPropertySource.class);
+        boolean name = false;
+        IPropertyDescriptor[] desc = ips.getPropertyDescriptors();
+        for (int i = 0; i < desc.length; i++) {
+            String str = desc[i].getDisplayName();
+            if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
+                name = true;
+        }
+        assertTrue("can't rename map", name);
+    }
 
     //  /**
     //  * Test #3 for requirement ReqBrowseModel

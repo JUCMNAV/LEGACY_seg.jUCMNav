@@ -1,6 +1,3 @@
-/*
- * Created on Mar 31, 2005
- */
 package seg.jUCMNav.model.commands.changeConstraints;
 
 import org.eclipse.gef.commands.Command;
@@ -10,37 +7,33 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.Label;
 
 /**
+ * Changes a label's offset from its reference element.
+ * 
  * @author Jordan
  */
 public class LabelSetConstraintCommand extends Command implements JUCMNavCommand {
-    private static final String Command_Label_Location = Messages.getString("LabelSetConstraintCommand.changeLocation"); //$NON-NLS-1$
-
-    private static final String Command_Label_Resize = Messages.getString("LabelSetConstraintCommand.resizeCommand"); //$NON-NLS-1$
 
     private int newDeltaX;
-
     private int newDeltaY;
-
     private int oldDeltaX;
-
     private int oldDeltaY;
-
     private Label label;
 
-    /*
-     * (non-Javadoc)
-     * 
+    public LabelSetConstraintCommand() {
+        setLabel(Messages.getString("LabelSetConstraintCommand.resizeCommand"));//$NON-NLS-1$
+    }
+
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         oldDeltaX = label.getDeltaX();
         oldDeltaY = label.getDeltaY();
         redo();
+
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -52,9 +45,7 @@ public class LabelSetConstraintCommand extends Command implements JUCMNavCommand
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -66,18 +57,7 @@ public class LabelSetConstraintCommand extends Command implements JUCMNavCommand
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#getLabel()
-     */
-    public String getLabel() {
-        return Command_Label_Resize;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -85,9 +65,7 @@ public class LabelSetConstraintCommand extends Command implements JUCMNavCommand
         assert label.getDeltaX() == newDeltaX && label.getDeltaY() == newDeltaY : "post Label position"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -108,7 +86,7 @@ public class LabelSetConstraintCommand extends Command implements JUCMNavCommand
      *            The newPosition X to set.
      * @param newDeltaY
      *            The newPosition Y to set.
-     **/
+     */
     public void setNewPosition(int newDeltaX, int newDeltaY) {
         this.newDeltaX = newDeltaX;
         this.newDeltaY = newDeltaY;

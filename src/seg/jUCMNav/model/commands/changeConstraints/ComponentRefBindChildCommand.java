@@ -11,8 +11,6 @@ import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
- * Created on 28-Apr-2005
- * 
  * Binds a child/children (PathNode or ComponentRef) to a parent ComponentRef.
  * 
  * @author jkealey
@@ -64,17 +62,14 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         redo();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -93,8 +88,7 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#undo()
      */
@@ -111,9 +105,7 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -127,9 +119,7 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

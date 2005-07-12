@@ -13,16 +13,27 @@ import ucm.map.PathNode;
 /**
  * This command is used to resize/move PathNodes.
  * 
+ * Package access because we don't want external classes using it directly. Use SetConstraintCommand instead.
+ * 
  * @author Etienne Tremblay, jkealey
  *  
  */
-public class MovePathNodeCommand extends Command implements JUCMNavCommand {
+class MovePathNodeCommand extends Command implements JUCMNavCommand {
     private PathNode node;
 
     ComponentRef oldParent, newParent;
 
     int oldX, oldY, newX, newY;
 
+    /**
+     * 
+     * @param node
+     *            the pathnode to be moved
+     * @param x
+     *            the new x location
+     * @param y
+     *            the new y location
+     */
     public MovePathNodeCommand(PathNode node, int x, int y) {
         this.node = node;
         this.newX = x;
@@ -32,9 +43,7 @@ public class MovePathNodeCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -60,9 +69,7 @@ public class MovePathNodeCommand extends Command implements JUCMNavCommand {
         return newY;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -107,9 +114,7 @@ public class MovePathNodeCommand extends Command implements JUCMNavCommand {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -117,14 +122,12 @@ public class MovePathNodeCommand extends Command implements JUCMNavCommand {
         assert node.getX() == newX && node.getY() == newY : "post node position"; //$NON-NLS-1$
 
         if (newParent != null)
-            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight())).contains(new Point(node
-                    .getX(), node.getY())) : "post node in parent."; //$NON-NLS-1$
+            assert (new Rectangle(newParent.getX(), newParent.getY(), newParent.getWidth(), newParent.getHeight()))
+                    .contains(new Point(node.getX(), node.getY())) : "post node in parent."; //$NON-NLS-1$
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -138,9 +141,7 @@ public class MovePathNodeCommand extends Command implements JUCMNavCommand {
         // : "pre node in parent.";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
