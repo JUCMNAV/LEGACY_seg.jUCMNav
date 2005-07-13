@@ -95,6 +95,11 @@ public class CompositeListControl extends Composite implements ISelectionProvide
 		}
 		items.clear();
 	}
+	
+	public void remove(CompositeListItem item) {
+		items.remove(item);
+		item.dispose();
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
