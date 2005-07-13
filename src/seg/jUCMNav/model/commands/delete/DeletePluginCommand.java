@@ -13,8 +13,6 @@ import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-06-06
- * 
  * This command delete a PluginBinding from a Stub.
  * 
  * @author Etienne Tremblay

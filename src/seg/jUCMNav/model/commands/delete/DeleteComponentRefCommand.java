@@ -27,30 +27,28 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
 
     // its relationships with the rest of the metamodel
     private Vector compRefChildren;
-
     private Vector pathNodeChildren;
-
     private ComponentRef parent;
-
     private ComponentElement compDef;
 
+    /**
+     * 
+     * @param cr
+     *            the component reference to delete.
+     */
     public DeleteComponentRefCommand(ComponentRef cr) {
         setCompRef(cr);
         setLabel(DeleteCommand_Label);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
         return compRef != null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -74,9 +72,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         return compRef;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -100,9 +96,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         this.compRef = compRef;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -115,9 +109,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
         assert 0 == compRef.getChildren().size() && 0 == compRef.getPathNodes().size() : "post children size invalid"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -138,9 +130,7 @@ public class DeleteComponentRefCommand extends Command implements JUCMNavCommand
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {

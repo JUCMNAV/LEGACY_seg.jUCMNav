@@ -23,15 +23,10 @@ import ucm.map.StartPoint;
 public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavCommand {
 
     private boolean aborted = false;
-
     private EndPoint end;
-
     private NodeConnection nc;
-
     private PathGraph pg;
-
     private StartPoint start;
-
     private ComponentRef startParent, endParent;
 
     /**
@@ -52,9 +47,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         this.start = start;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
      */
     public boolean canExecute() {
@@ -64,9 +57,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             return super.canExecute();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canUndo()
      */
     public boolean canUndo() {
@@ -87,9 +78,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         end.setCompRef(null);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -139,9 +128,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -155,9 +142,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -167,9 +152,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         assert !pg.getNodeConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -179,9 +162,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         assert pg.getNodeConnections().contains(nc) : "pre connection in graph"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {

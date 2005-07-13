@@ -7,23 +7,30 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
+import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Created on 16-Jun-2005
+ * Given a PathNode connected to a Connect, remove the connect from the map and break the connections.
  * 
  * @author jkealey
  *  
  */
 public class DisconnectCommand extends Command implements JUCMNavCommand {
+    private Connect connect;
 
     private PathNode left, right;
     private NodeConnection ncLeft, ncRight;
-    private Connect connect;
     private URNspec urn;
 
+    /**
+     * 
+     * @param pn
+     *            PathNode that is either to the left or right of a connect.
+     */
     public DisconnectCommand(PathNode pn) {
         // pn to the left of a connect?
         for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
@@ -61,8 +68,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -70,44 +76,14 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         return left != null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
         redo();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void undo() {
-        if (connect.getPathGraph() != null)
-            return; // already re-connected
-
-        testPostConditions();
-
-        ncLeft.setSource(left);
-        ncRight.setTarget(right);
-
-        left.getPathGraph().getNodeConnections().add(ncLeft);
-        left.getPathGraph().getNodeConnections().add(ncRight);
-        right.getPathGraph().getPathNodes().add(connect);
-
-        left.setX(right.getX());
-        left.setY(right.getY());
-
-        left.setCompRef(right.getCompRef());
-
-        testPreConditions();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void redo() {
@@ -130,24 +106,63 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "post something is null";
 
+        if (left instanceof EndPoint)
+            assert left.getSucc().size() == 0 : "post left already connected";
+        else
+            assert left.getSucc().size() == 1 : "post left already connected";
+
+        if (right instanceof StartPoint)
+            assert right.getPred().size() == 0 : "post right already connected";
+        else
+            assert right.getPred().size() == 1 : "post right already connected";
+
+    }
+
+    /**
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "pre something is null";
+
+        if (left instanceof EndPoint)
+            assert left.getSucc().size() == 1 : "pre left not connected";
+        else
+            assert left.getSucc().size() == 2 : "pre left not connected";
+
+        if (right instanceof StartPoint)
+            assert right.getPred().size() == 1 : "pre right not connected";
+        else
+            assert right.getPred().size() == 2 : "pre right not connected";
+    }
+
+    /**
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void undo() {
+        if (connect.getPathGraph() != null)
+            return; // already re-connected
+
+        testPostConditions();
+
+        ncLeft.setSource(left);
+        ncRight.setTarget(right);
+
+        left.getPathGraph().getNodeConnections().add(ncLeft);
+        left.getPathGraph().getNodeConnections().add(ncRight);
+        right.getPathGraph().getPathNodes().add(connect);
+
+        left.setX(right.getX());
+        left.setY(right.getY());
+
+        left.setCompRef(right.getCompRef());
+
+        testPreConditions();
     }
 
 }

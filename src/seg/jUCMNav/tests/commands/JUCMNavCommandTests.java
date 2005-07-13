@@ -41,6 +41,7 @@ import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStartNCEndCommand;
+import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
@@ -74,7 +75,9 @@ import urncore.Responsibility;
 import urncore.UCMmodelElement;
 
 /**
- * Created on 15-Apr-2005
+ * Tests that run on seg.jUCMNav.model.commands. To be run as PDE JUnit tests. See CommandLinePDEJUnit and DevDocCommand
+ * 
+ * Uses interesting setUp()/tearDown();
  * 
  * @author jkealey
  *  
@@ -230,13 +233,13 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd = new AddBranchCommand(fork);
         assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
-        // test adding a timeout path. 
+
+        // test adding a timeout path.
         Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
         cmd = new SplitLinkCommand(pathgraph, timer, (NodeConnection) pathgraph.getNodeConnections().get(0), 149, 875);
         assertTrue("Can't execute SplitLinkCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        
+
         cmd = new AddBranchCommand(timer);
         assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -567,6 +570,14 @@ public class JUCMNavCommandTests extends TestCase {
      * 
      *  
      */
+    public void testDeleteInBindingCommand() {
+        assertTrue("ET: Do me", false);
+    }
+
+    /**
+     * 
+     *  
+     */
     public void testDeleteLabelCommand() {
         testCreateLabelCommand();
 
@@ -685,6 +696,14 @@ public class JUCMNavCommandTests extends TestCase {
      * 
      *  
      */
+    public void testDeleteOutBindingCommand() {
+        assertTrue("ET: Do me", false);
+    }
+
+    /**
+     * 
+     *  
+     */
     public void testDeletePathCommand() {
         testAddBranchCommand();
         StartPoint start;
@@ -755,6 +774,18 @@ public class JUCMNavCommandTests extends TestCase {
 
         Command cmd = new DeleteStartNCEndCommand(start);
         assertTrue("Can't execute DeleteStartNCEndCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
+
+    /**
+     * 
+     *  
+     */
+    public void testDisconnectCommand() {
+        testConnectCommand();
+
+        Command cmd = new DisconnectCommand(start);
+        assertTrue("Can't execute DisconnectCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 

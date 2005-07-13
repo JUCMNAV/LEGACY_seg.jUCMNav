@@ -7,14 +7,12 @@ import urn.URNspec;
 import urncore.ComponentElement;
 
 /**
- * Command to delete a ComponentElement. (Remove it from the model).
+ * Command to delete a ComponentElement. (Remove it from the model). Can only do it if it has no references.
  * 
  * @author jkealey
  *  
  */
 public class DeleteComponentElementCommand extends Command implements JUCMNavCommand {
-
-    private static final String DeleteCommand_Label = "DeleteComponentElementCommand"; //$NON-NLS-1$
 
     // the component definition to delete
     private ComponentElement compDef;
@@ -24,11 +22,11 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
 
     public DeleteComponentElementCommand(ComponentElement cd) {
         setCompDef(cd);
-        setLabel(DeleteCommand_Label);
+        setLabel("DeleteComponentElementCommand");//$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Only if not referenced.
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -36,9 +34,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
         return getCompDef() != null && getCompDef().getCompRefs().size() == 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -48,13 +44,14 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
         redo();
     }
 
+    /**
+     * @return the component definition to delete
+     */
     public ComponentElement getCompDef() {
         return compDef;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -66,13 +63,16 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
         testPostConditions();
     }
 
+    /**
+     * 
+     * @param compDef
+     *            the component definition to delete.
+     */
     public void setCompDef(ComponentElement compDef) {
         this.compDef = compDef;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -82,9 +82,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
         assert !urn.getUrndef().getComponents().contains(getCompDef()) : "post component element still in model"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -96,8 +94,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#undo()
      */

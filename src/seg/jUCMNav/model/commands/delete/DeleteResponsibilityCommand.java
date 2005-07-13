@@ -7,14 +7,12 @@ import urn.URNspec;
 import urncore.Responsibility;
 
 /**
- * Command to delete a Responsibility. (Remove it from the model).
+ * Command to delete a Responsibility. (Remove it from the model). Can only be done if the no references remain.
  * 
  * @author jkealey
  *  
  */
 public class DeleteResponsibilityCommand extends Command implements JUCMNavCommand {
-
-    private static final String DeleteCommand_Label = "DeleteResponsibilityCommand"; //$NON-NLS-1$
 
     // the responsibility definition to delete
     private Responsibility respDef;
@@ -24,11 +22,11 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
 
     public DeleteResponsibilityCommand(Responsibility resp) {
         setRespDef(resp);
-        setLabel(DeleteCommand_Label);
+        setLabel("DeleteResponsibilityCommand");//$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * If not referenced.
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -36,9 +34,7 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         return getRespDef() != null && getRespDef().getRespRefs().size() == 0;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -48,9 +44,15 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         redo();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
+     * @return the definition to delete.
+     */
+    public Responsibility getRespDef() {
+        return respDef;
+    }
+
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -62,9 +64,16 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
+     * @param respDef
+     *            the definition to delete.
+     */
+    public void setRespDef(Responsibility respDef) {
+        this.respDef = respDef;
+    }
+
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -74,9 +83,7 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         assert !urn.getUrndef().getResponsibilities().contains(getRespDef()) : "post responsibility still in model"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -88,9 +95,7 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -100,13 +105,5 @@ public class DeleteResponsibilityCommand extends Command implements JUCMNavComma
         urn.getUrndef().getResponsibilities().add(getRespDef());
 
         testPreConditions();
-    }
-
-    public Responsibility getRespDef() {
-        return respDef;
-    }
-
-    public void setRespDef(Responsibility respDef) {
-        this.respDef = respDef;
     }
 }

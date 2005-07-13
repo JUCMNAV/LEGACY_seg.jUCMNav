@@ -101,7 +101,11 @@ import urncore.ComponentKind;
 import urncore.UCMmodelElement;
 
 /**
- * Created 2005-04-25
+ * Tests that evaluate our project's progress by testing specific features. See JUnitTestPlan for more information.
+ * 
+ * Uses interesting setUp()/tearDown();
+ * 
+ * @author jkealey
  *  
  */
 public class ProgressTests extends TestCase {

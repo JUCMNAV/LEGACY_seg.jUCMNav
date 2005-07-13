@@ -6,19 +6,18 @@ import seg.jUCMNav.tests.commands.JUCMNavCommandTests;
 import seg.jUCMNav.tests.progress.ProgressTests;
 
 /**
- * Created on 16-Apr-2005
+ * Central location to test all of our test cases.
  * 
  * @author jkealey
- *
+ *  
  */
 public class TestAllTestSuite {
 
-	public static Test suite() {
+    public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(JUCMNavCommandTests.class);
         suite.addTestSuite(ProgressTests.class);
         return suite;
     }
-    
 
 }
