@@ -1,4 +1,4 @@
-package seg.jUCMNav.model.commands.transformations;
+package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
@@ -20,32 +20,33 @@ import urn.URNspec;
 import urncore.Condition;
 
 /**
- * Created on 30-May-2005
+ * This command adds a branch on a fork/join. Currently, the new branch is always positioned in the same location. This behaviour could be improved to place
+ * items in the direction of the path. When adding multiple branches, the distance from the PathNode increases so as to avoid cluttering the diagram.
+ * 
+ * Also supports timers that don't already have timeout paths.
  * 
  * @author jkealey
  *  
  */
 public class AddBranchCommand extends Command implements JUCMNavCommand {
 
+    // where to insert
     private PathNode insertionNode;
-
-    private EmptyPoint newEmpty;
-
-    private NodeConnection newConn, newConn2;
-
-    private PathNode newStartOrEnd;
-
-    private Condition newCondition;
-
     private PathGraph pg;
-
     private URNspec urn;
 
+    // new elements
+    private EmptyPoint newEmpty;
+    private NodeConnection newConn, newConn2;
+    private PathNode newStartOrEnd;
+    private Condition newCondition;
+
+    // if true, relax pre/post condition checking.
     private boolean inCompoundCommand = false;
 
     /**
      * @param insertionNode
-     *            the fork/join/stub on which to add a branch
+     *            the fork/join/timer on which to add a branch
      * @param inCompoundCommand
      *            if true, relax pre/post condition checking.
      */
@@ -75,7 +76,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        // generate new isntances. 
+        // generate new instances.
         pg = this.insertionNode.getPathGraph();
         urn = pg.getMap().getUcmspec().getUrnspec();
         newEmpty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
@@ -90,6 +91,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newStartOrEnd.setX(insertionNode.getX() - 100);
         }
 
+        // increase distance from insertionNode as number of branches increases.
         int i = insertionNode.getSucc().size() + insertionNode.getPred().size() - 1;
         newEmpty.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
         newStartOrEnd.setY(insertionNode.getY() - i * 30 * (Math.abs((i % 2) * 2 - 1) / ((i % 2) * 2 - 1)));
@@ -109,6 +111,10 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newConn2.setSource(newStartOrEnd);
         }
 
+        // branches following OrForks always have conditions.
+
+        // jkealey: Timeout paths don't have conditions, they are the negation of the straight path, for uniformity with WaitingPlaces. However, I will leave
+        // this code here as we will possibly want to compute the condition automatically later. We're not displaying it though
         if (insertionNode instanceof OrFork || insertionNode instanceof Timer) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             newConn.setCondition(newCondition);
@@ -170,9 +176,9 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null  : "pre something null"; //$NON-NLS-1$
+        assert insertionNode != null && newEmpty != null && newConn != null && newConn2 != null && newStartOrEnd != null : "pre something null"; //$NON-NLS-1$
         assert inCompoundCommand || (pg != null && urn != null);
-        
+
         assert inCompoundCommand || pg.getPathNodes().contains(insertionNode) : "pre node in model"; //$NON-NLS-1$
         assert !pg.getPathNodes().contains(newEmpty) && !pg.getPathNodes().contains(newStartOrEnd) : "pre nodes not in model"; //$NON-NLS-1$
         assert !pg.getNodeConnections().contains(newConn) && !pg.getNodeConnections().contains(newConn) : "pre connections not in model"; //$NON-NLS-1$

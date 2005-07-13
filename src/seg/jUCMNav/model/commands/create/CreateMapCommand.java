@@ -8,18 +8,14 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * Created on 21-May-2005
- * 
- * This command adds a new map to the urnspec.
+ * This command adds a new map to the URNspec.
  * 
  * @author jkealey
  *  
  */
 public class CreateMapCommand extends Command implements JUCMNavCommand {
     private Map map;
-
     private URNspec urn;
-
     private int oldCount;
 
     public CreateMapCommand(URNspec urn) {
@@ -30,18 +26,14 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
         return urn != null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -49,12 +41,14 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    /**
+     * @return the newly created map;
+     */
     public Map getMap() {
         return map;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -64,9 +58,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -76,9 +68,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -87,6 +77,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
         assert oldCount == urn.getUcmspec().getMaps().size() : "pre map count wrong"; //$NON-NLS-1$
     }
 
+    /**
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
         urn.getUcmspec().getMaps().remove(map);

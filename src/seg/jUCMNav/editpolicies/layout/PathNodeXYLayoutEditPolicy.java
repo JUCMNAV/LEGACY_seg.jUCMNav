@@ -13,9 +13,9 @@ import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
-import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;

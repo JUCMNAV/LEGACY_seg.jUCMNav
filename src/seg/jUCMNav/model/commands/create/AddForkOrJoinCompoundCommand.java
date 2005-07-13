@@ -3,7 +3,6 @@ package seg.jUCMNav.model.commands.create;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.NodeConnection;

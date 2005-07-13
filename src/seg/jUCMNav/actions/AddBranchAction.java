@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editparts.PathNodeEditPart;
-import seg.jUCMNav.model.commands.transformations.AddBranchCommand;
+import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import ucm.map.PathNode;
 
 /**

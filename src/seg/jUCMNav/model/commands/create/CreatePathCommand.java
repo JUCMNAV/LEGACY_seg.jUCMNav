@@ -15,10 +15,7 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * This command creates a simple path. Given a StartPoint, link it to a empty node and an end point. If you don't give us a StartPoint,
- * we'll create a new one.
- * 
- * Created 2005-02-21
+ * This command creates a simple path. Given a StartPoint, link it to a empty node and an end point. If you don't give us a StartPoint, we'll create a new one.
  * 
  * @author Etienne Tremblay, jkealey
  */
@@ -41,11 +38,27 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
 
     private NodeConnection link2;
 
+    /**
+     * Create a new path. Assume arguments will be passed later on.
+     *  
+     */
     public CreatePathCommand() {
         super();
         setLabel(Messages.getString("CreatePathCommand.createNewPath")); //$NON-NLS-1$
     }
 
+    /**
+     * Create a new path using this start point and position it at (x,y)
+     * 
+     * @param pg
+     *            the pathgraph in which it should be inserted
+     * @param sp
+     *            the start point of the new path
+     * @param x
+     *            the x coordinate of the start point
+     * @param y
+     *            the y coordinate of the start point
+     */
     public CreatePathCommand(PathGraph pg, StartPoint sp, int x, int y) {
         this.diagram = pg;
         this.start = sp;
@@ -54,6 +67,16 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("CreatePathCommand.createNewPath")); //$NON-NLS-1$
     }
 
+    /**
+     * Create a new path at position (x,y), create all elements including the StartPoint.
+     * 
+     * @param pg
+     *            the pathgraph in which it should be inserted
+     * @param x
+     *            the x coordinate of the start point
+     * @param y
+     *            the y coordinate of the start point
+     */
     public CreatePathCommand(PathGraph pg, int x, int y) {
         this.diagram = pg;
         this.x = x;
@@ -104,6 +127,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         diagram.getPathNodes().add(node);
         diagram.getPathNodes().add(end);
 
+        // we must bind our components with their container
         start.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
         node.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 100, y));
         end.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 200, y));

@@ -17,7 +17,7 @@ import ucm.map.WaitingPlace;
 import urn.URNspec;
 
 /**
- * Created on 16-Jun-2005
+ * Creates a synchronous connection (EndPoint with StartPoint/WaitingPlace/Timer) or asynchronous connection (EmptyPoint with StartPoint/WaitingPlace/Timer)
  * 
  * @author jkealey
  *  
@@ -32,6 +32,12 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
     private int oldLeftX, oldLeftY;
     private ComponentRef oldLeftParent;
 
+    /**
+     * Joins first with second by adding a Connect element in between.
+     * 
+     * @param first
+     * @param second
+     */
     public ConnectCommand(PathNode first, PathNode second) {
         if (first instanceof EmptyPoint || first instanceof EndPoint) {
             this.left = first;
@@ -46,8 +52,8 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates a synchronous connection (EndPoint with StartPoint/WaitingPlace/Timer) or asynchronous connection (EmptyPoint with StartPoint/WaitingPlace/Timer)
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -58,8 +64,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
             return false;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()
      */
@@ -81,8 +86,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -104,9 +108,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -127,23 +129,40 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "pre something is null";
+
+        if (left instanceof EndPoint)
+            assert left.getSucc().size() == 0 : "pre left already connected";
+        else
+            assert left.getSucc().size() == 1 : "pre left already connected";
+
+        if (right instanceof StartPoint)
+            assert right.getPred().size() == 0 : "pre right already connected";
+        else
+            assert right.getPred().size() == 1 : "pre right already connected";
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "post something is null";
+
+        if (left instanceof EndPoint)
+            assert left.getSucc().size() == 1 : "post left not connected";
+        else
+            assert left.getSucc().size() == 2 : "post left not connected";
+
+        if (right instanceof StartPoint)
+            assert right.getPred().size() == 1 : "post right not connected";
+        else
+            assert right.getPred().size() == 2 : "post right not connected";
 
     }
 
