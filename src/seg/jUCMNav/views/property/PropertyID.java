@@ -4,8 +4,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
- * Created on 2-Jun-2005
- * 
  * This class has been created to allow the PropertySheetViewer to detect changes properly (because the original implementation used an Object array, and
  * hashCode() wasn't computed appropriately)
  * 

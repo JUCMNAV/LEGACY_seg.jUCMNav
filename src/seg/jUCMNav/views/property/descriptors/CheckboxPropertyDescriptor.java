@@ -5,9 +5,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 
 /**
- * @author TremblaE
  * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
+ * Property descriptor that includes the CheckboxButtonCellEditor
+ * 
+ * @author TremblaE
+ *  
  */
 public class CheckboxPropertyDescriptor extends PropertyDescriptor {
     private CheckboxButtonCellEditor editor;
@@ -34,7 +36,7 @@ public class CheckboxPropertyDescriptor extends PropertyDescriptor {
         }
 
         editor.setReadOnly(readonly);
-        
+
         return editor;
     }
 

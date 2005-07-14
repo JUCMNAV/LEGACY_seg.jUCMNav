@@ -13,7 +13,7 @@ import seg.jUCMNav.views.property.descriptors.StubPluginsPropertyDescriptor;
 import ucm.map.Stub;
 
 /**
- * Created 2005-06-05
+ * Property source for stubs; adds a specific entry for stub bindings.
  * 
  * @author Etienne Tremblay
  */

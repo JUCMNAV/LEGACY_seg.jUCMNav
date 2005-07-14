@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import seg.jUCMNav.Messages;
 
 /**
- * Created on 9-May-2005
+ * Settings page for the autolayout wizard. 
  * 
  * @author jkealey
  *  

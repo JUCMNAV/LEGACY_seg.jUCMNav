@@ -10,9 +10,10 @@ import seg.jUCMNav.Messages;
 import ucm.map.Stub;
 
 /**
- * Created 2005-06-05
+ * A property descriptor that opens the StubPluginsCellEditor.
  * 
  * @author Etienne Tremblay
+ * @see seg.jUCMNav.views.property.descriptors.StubPluginsCellEditor
  */
 public class StubPluginsPropertyDescriptor extends PropertyDescriptor {
     private Stub stub;

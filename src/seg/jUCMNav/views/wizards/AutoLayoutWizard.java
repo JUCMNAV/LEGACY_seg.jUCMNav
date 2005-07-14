@@ -35,7 +35,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
- * Created on 9-May-2005
+ * The autolayout wizard. Uses graphviz dot. 
  * 
  * @author jkealey
  *  

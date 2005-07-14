@@ -33,6 +33,12 @@ import ucm.map.Map;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 
+/**
+ * The actual responsibility view. 
+ * 
+ * @author jkealey
+ *
+ */
 public class ResponsibilityView extends ViewPart implements IPartListener2, ISelectionChangedListener, IPageChangeListener, ISelectionProvider {
     private RespListViewer viewer;
     private Action action1;

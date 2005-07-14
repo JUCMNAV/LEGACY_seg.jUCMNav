@@ -13,8 +13,6 @@ import urncore.Condition;
 import urncore.NodeLabel;
 
 /**
- * Created on 31-May-2005
- * 
  * Property source for labels. Extends UCMElementPropertySource to obtain all necessary behaviour to list a label's properties. Includes an EPropertySource to
  * include all the properties of the labeled element.
  * 

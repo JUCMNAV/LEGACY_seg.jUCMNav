@@ -29,6 +29,8 @@ import ucm.map.RespRef;
 import urncore.Responsibility;
 
 /**
+ * A structured viewer for the responsibility reference list in the responsibility view.
+ * 
  * @author Etienne Tremblay
  *  
  */
@@ -162,37 +164,36 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
      * @see org.eclipse.jface.viewers.StructuredViewer#internalRefresh(java.lang.Object)
      */
     protected void internalRefresh(Object element) {
-//        list.removeAll();
+        //        list.removeAll();
 
         Object[] children = getSortedChildren(getRoot());
         Object[] items = list.getItems();
-        
+
         int min = Math.min(children.length, items.length);
-        
+
         for (int i = 0; i < children.length; i++) {
             RespRef resp = (RespRef) children[i];
-            
-            if(i < items.length) {
-            	RespListItem item = (RespListItem)items[i];
-	            if(equals(item.getData(), resp))
-	            	updateItem(item, resp);
-	            else {
-		            updateItem(item, resp);
-	            }
-            }
-            else {
-	            RespListItem newItem = new RespListItem(list, SWT.NONE);
-	            updateItem(newItem, resp);
+
+            if (i < items.length) {
+                RespListItem item = (RespListItem) items[i];
+                if (equals(item.getData(), resp))
+                    updateItem(item, resp);
+                else {
+                    updateItem(item, resp);
+                }
+            } else {
+                RespListItem newItem = new RespListItem(list, SWT.NONE);
+                updateItem(newItem, resp);
             }
         }
-        
-        if(min == children.length) {
-        	for (int i = children.length; i < items.length; i++) {
-				RespListItem item = (RespListItem)items[i];
-				list.remove(item);
-			}
+
+        if (min == children.length) {
+            for (int i = children.length; i < items.length; i++) {
+                RespListItem item = (RespListItem) items[i];
+                list.remove(item);
+            }
         }
-        
+
         list.layout();
     }
 
@@ -274,19 +275,19 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
                 }
             }
         }
-        
-        if(input != null) {
-        	List newList = (List)input;
-        	
-        	for (Iterator i = list.iterator(); i.hasNext();) {
-				PathNode node = (PathNode) i.next();
-				if (node instanceof RespRef) {
+
+        if (input != null) {
+            List newList = (List) input;
+
+            for (Iterator i = list.iterator(); i.hasNext();) {
+                PathNode node = (PathNode) i.next();
+                if (node instanceof RespRef) {
                     RespRef ref = (RespRef) node;
-                    
+
                     ref.eAdapters().add(this);
                     ref.getRespDef().eAdapters().add(this);
-				}
-			}
+                }
+            }
         }
 
         if (list.size() > 0) {
@@ -306,27 +307,27 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
 
         if (notifier instanceof RespRef) {
             RespRef resp = (RespRef) notifier;
-            
+
             int type = notification.getEventType();
             switch (type) {
             case Notification.SET:
                 if (notification.getNewValue() instanceof Responsibility) {
-                	if(notification.getOldValue() != null)
-                		((Responsibility)notification.getOldValue()).eAdapters().remove(this);
-                	
-                	((Responsibility)notification.getNewValue()).eAdapters().add(this);
+                    if (notification.getOldValue() != null)
+                        ((Responsibility) notification.getOldValue()).eAdapters().remove(this);
+
+                    ((Responsibility) notification.getNewValue()).eAdapters().add(this);
                 }
                 break;
             }
-            
-//            if (doFindItem(resp) != null) {
-//                RespListItem item = (RespListItem) doFindItem(resp);
-//                if (resp.getRespDef() != null) {
-//                    item.setRespName(resp.getRespDef().getName());
-//                if (resp.getDescription() != null)
-//                    item.setDescription(resp.getDescription());
-//                }
-//            }
+
+            //            if (doFindItem(resp) != null) {
+            //                RespListItem item = (RespListItem) doFindItem(resp);
+            //                if (resp.getRespDef() != null) {
+            //                    item.setRespName(resp.getRespDef().getName());
+            //                if (resp.getDescription() != null)
+            //                    item.setDescription(resp.getDescription());
+            //                }
+            //            }
         } else if (notifier instanceof Responsibility) {
             Responsibility resp = (Responsibility) notifier;
 

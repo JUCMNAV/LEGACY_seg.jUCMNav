@@ -71,7 +71,8 @@ import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-06-01
+ * The stub bindings dialog is the only way one can manage a stub's bindings: this stub can load which maps and how its in/out connections mapped to start/end
+ * points in the plugin map.
  * 
  * @author Etienne Tremblay
  */
@@ -213,20 +214,18 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     handlePluginChecked((TableItem) e.item);
             }
         });
-        
-        
 
         final Button btCreateMap = new Button(mapClient, SWT.PUSH);
         g = new GridData();
         btCreateMap.setLayoutData(g);
-        
+
         btCreateMap.setText("Create Map...");
         btCreateMap.addMouseListener(new MouseAdapter() {
-        	public void mouseDown(MouseEvent e) {
-        		handleCreateMap();
-        	}
+            public void mouseDown(MouseEvent e) {
+                handleCreateMap();
+            }
         });
-        
+
         mapSection.setClient(mapClient);
 
         // Plugin List section
@@ -343,7 +342,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        selectedPluginLabel = toolkit.createLabel(lb2, "[no Plugin selected]"); 
+        selectedPluginLabel = toolkit.createLabel(lb2, "[no Plugin selected]");
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = true;
         selectedPluginLabel.setLayoutData(t);
@@ -385,7 +384,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         f.grabExcessVerticalSpace = true;
         stubComp.setLayoutData(f);
 
-        lb = toolkit.createLabel(stubComp, "Stub"); 
+        lb = toolkit.createLabel(stubComp, "Stub");
 
         tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabStubIns.setLinesVisible(true);
@@ -440,7 +439,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g.grabExcessVerticalSpace = true;
         mapComp.setLayoutData(g);
 
-        lb = toolkit.createLabel(mapComp, "Map"); 
+        lb = toolkit.createLabel(mapComp, "Map");
 
         tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabMapIns.setLinesVisible(true);
@@ -556,16 +555,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-	 * 
-	 */
-	protected void handleCreateMap() {
-		CreateMapCommand cmd = new CreateMapCommand(urnSpec);
-		execute(cmd);
-		
-		tabMapList.layout(false);
-	}
+     *  
+     */
+    protected void handleCreateMap() {
+        CreateMapCommand cmd = new CreateMapCommand(urnSpec);
+        execute(cmd);
 
-	/**
+        tabMapList.layout(false);
+    }
+
+    /**
      * Delete the selected item in the tree view. This will delete it in the model too with a command.
      */
     protected void delete() {
@@ -1152,8 +1151,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-     * @param con the connection to check 
-     * @param plugin the binding in which to check
+     * @param con
+     *            the connection to check
+     * @param plugin
+     *            the binding in which to check
      * @return true if the connection is bound
      */
     private boolean isNodeConnectionOutBinded(NodeConnection con, PluginBinding plugin) {
@@ -1169,8 +1170,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
-     * @param end the point to check
-     * @param plugin the binding in which to check 
+     * @param end
+     *            the point to check
+     * @param plugin
+     *            the binding in which to check
      * @return true if the end point is bound
      */
     private boolean isEndPointOutBinded(EndPoint end, PluginBinding plugin) {

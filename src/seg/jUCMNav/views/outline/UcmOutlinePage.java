@@ -19,6 +19,8 @@ import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor.
+ * 
+ * @author jkealey, etremblay
  *  
  */
 public class UcmOutlinePage extends ContentOutlinePage {
@@ -69,20 +71,20 @@ public class UcmOutlinePage extends ContentOutlinePage {
         // show outline viewer
 
         Tree tree = (Tree) getControl();
-		if (tree.getTopItem() != null) {	//fix for crash on linux!
-			Object[] items = tree.getTopItem().getItems();
-			for (int i = 0; i < items.length; i++) {
-				((TreeItem) items[i]).setExpanded(true);
-			}
-			tree.getTopItem().setExpanded(true);
-		}
+        if (tree.getTopItem() != null) { //fix for crash on linux!
+            Object[] items = tree.getTopItem().getItems();
+            for (int i = 0; i < items.length; i++) {
+                ((TreeItem) items[i]).setExpanded(true);
+            }
+            tree.getTopItem().setExpanded(true);
+        }
     }
 
     /**
-	 * Removes listeners
-	 * 
-	 * @see org.eclipse.ui.part.IPage#dispose()
-	 */
+     * Removes listeners
+     * 
+     * @see org.eclipse.ui.part.IPage#dispose()
+     */
     public void dispose() {
         // unhook outline viewer
         multieditor.getSelectionSynchronizer().removeViewer(getViewer());

@@ -15,10 +15,11 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 
 /**
- * The "New" wizard page allows setting the container for the new file as well as the file name. The page will only accept file name without the extension OR
- * with the extension that matches the expected one (jucm).
+ * The settings page for the new wizard; name your file and select where you want to create it.
+ * 
+ * @author etremblay
+ *  
  */
-
 public class NewUcmFileWizardPage extends WizardPage {
     private Text containerText;
     private Text fileText;
@@ -107,7 +108,8 @@ public class NewUcmFileWizardPage extends WizardPage {
      */
 
     private void handleBrowse() {
-        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages.getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages
+                .getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
         if (dialog.open() == ContainerSelectionDialog.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {

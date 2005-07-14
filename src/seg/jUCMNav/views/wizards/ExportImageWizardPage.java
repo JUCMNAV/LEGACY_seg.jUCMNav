@@ -26,8 +26,6 @@ import seg.jUCMNav.Messages;
 import ucm.map.Map;
 
 /**
- * Created on 3-Jun-2005
- * 
  * Contains controls to set the export directory, export file type and selected maps.
  * 
  * @author jkealey

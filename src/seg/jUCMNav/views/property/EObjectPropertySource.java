@@ -27,8 +27,6 @@ import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import ucm.map.MapPackage;
 
 /**
- * Created on 2005-01-30
- * 
  * This class is intended to be a generic property source for all the objects in the application's model.
  * 
  * It currently supports int, double, String, boolean and Colors

@@ -46,8 +46,6 @@ import ucm.map.Map;
 import urn.URNspec;
 
 /**
- * Created on 3-Jun-2005
- * 
  * Assumption: the default editor for .jucm files is UCMNavMultiPageEditor. Otherwise, a bunch of stuff won't work properly.
  * 
  * Will look into its IStructuredSelection and find all applicable maps.

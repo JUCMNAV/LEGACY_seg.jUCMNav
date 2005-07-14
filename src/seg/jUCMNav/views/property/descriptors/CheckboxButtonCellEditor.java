@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import seg.jUCMNav.Messages;
 
 /**
- * Created 15-05-2005
+ * Cell editor that presents a checkbox and can be set to true/false. 
  * 
  * @author Etienne Tremblay
  */
