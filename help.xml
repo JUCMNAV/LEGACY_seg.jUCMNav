@@ -2,8 +2,7 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="jUCMNav Online Help" topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
-        <topic label="Table of Contents" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Table_of_Contents" />
-        <topic label="Part I – Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
+        <topic label="Part I - Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
             <topic label="The Use Case Maps (UCM) Notation" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#The_Use_Case_Maps_UCM_Notation">
                 <topic label="UCMs in a Nutshell" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#UCMs_in_a_Nutshell" />
                 <topic label="Why Use Case Maps?" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Why_Use_Case_Maps" />
@@ -20,7 +19,7 @@
                 <topic label="Views and Editor" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Views_and_Editor" />
             </topic>
         </topic>
-        <topic label="Part II – Basic Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_II_Basic_Editing">
+        <topic label="Part II - Basic Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_II_Basic_Editing">
             <topic label="Keyboard shortcuts" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Keyboard_shortcuts" />
             <topic label="Components" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Components" />
             <topic label="Creating Paths" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Creating_Paths" />
@@ -31,16 +30,15 @@
             <topic label="Deletion" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Deletion" />
             <topic label="Waiting places, timers and connects" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Waiting_places_timers_and_connec" />
         </topic>
-        <topic label="Part III – Advanced Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_III_Advanced_Editing">
+        <topic label="Part III - Advanced Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_III_Advanced_Editing">
             <topic label="Working with Multiple Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Working_with_Multiple_Maps" />
             <topic label="Zooming and view modes" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Zooming_and_view_modes" />
             <topic label="Auto-layout" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Auto_layout" />
             <topic label="Using Stubs" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Using_Stubs" />
             <topic label="Exporting Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Exporting_Maps" />
         </topic>
-        <topic label="Part IV – Developer Reference" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
+        <topic label="Part IV - Developer Reference" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
             <topic label="Javadoc" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Javadoc" />
             <topic label="Developer Site" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Developer_Site" />
         </topic>
-    </topic>
 </toc>
