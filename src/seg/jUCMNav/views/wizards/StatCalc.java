@@ -1,4 +1,4 @@
-﻿package seg.jUCMNav.views.wizards;
+package seg.jUCMNav.views.wizards;
 
 /**
  * This class act as a simplistic statistic calculator.
