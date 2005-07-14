@@ -52,6 +52,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
+import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.DeletePluginCommand;
@@ -179,7 +180,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         td.colspan = 2;
         ec.setLayoutData(td);
 
-        //		 Connect map section
+        // Connect map section
         mapSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
         mapSection.setText(Messages.getString("StubBindingsDialog.selectPluginMaps")); //$NON-NLS-1$
         td = new TableWrapData(TableWrapData.FILL);
@@ -200,6 +201,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         GridData g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
+        g.heightHint = 250;
         tabMapList.setLayoutData(g);
         tabMapListColumn = new TableColumn(tabMapList, SWT.NONE);
         tabMapListColumn.setWidth(150);
@@ -211,7 +213,20 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     handlePluginChecked((TableItem) e.item);
             }
         });
+        
+        
 
+        final Button btCreateMap = new Button(mapClient, SWT.PUSH);
+        g = new GridData();
+        btCreateMap.setLayoutData(g);
+        
+        btCreateMap.setText("Create Map...");
+        btCreateMap.addMouseListener(new MouseAdapter() {
+        	public void mouseDown(MouseEvent e) {
+        		handleCreateMap();
+        	}
+        });
+        
         mapSection.setClient(mapClient);
 
         // Plugin List section
@@ -541,6 +556,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
     }
 
     /**
+	 * 
+	 */
+	protected void handleCreateMap() {
+		CreateMapCommand cmd = new CreateMapCommand(urnSpec);
+		execute(cmd);
+		
+		tabMapList.layout(false);
+	}
+
+	/**
      * Delete the selected item in the tree view. This will delete it in the model too with a command.
      */
     protected void delete() {
