@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
@@ -41,6 +42,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -56,6 +58,7 @@ import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.DeletePluginCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
@@ -142,6 +145,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
     // The currently selected item in the tree view.
     private Object selectedItem;
+    
+//  The text field for the condition expression of a PluginBinding.
+	private Text txtExpCondition;
+	
+	// The text field for the label of a PluginBinding
+	private Text txtLabelCondition;
+	
+	// The text field for the description of a PluginBinding
+	private Text txtDescCondition;
+	private Hyperlink btUpdateLink;
 
     public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
         super(parentShell);
@@ -548,6 +561,74 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         mapOutsColumn.setWidth(50);
         mapOutsColumn.setText(Messages.getString("StubBindingsDialog.outMap")); //$NON-NLS-1$
 
+        Composite compCondition = toolkit.createComposite(addPluginClient, SWT.BORDER);
+        grid = new GridLayout();
+        grid.numColumns = 2;
+        compCondition.setLayout(grid);
+        
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalSpan = 3;
+        
+        compCondition.setLayoutData(g);
+//        compCondition.setBackground(new Color(null, 232, 247, 255));
+        
+        
+        Label lblLabelCondition = toolkit.createLabel(compCondition, "Label:");
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = false;
+        g.grabExcessVerticalSpace = true;
+        lblLabelCondition.setLayoutData(g);
+//        lblLabelCondition.setBackground(new Color(null, 232, 247, 255));
+        
+        txtLabelCondition = toolkit.createText(compCondition, "", SWT.BORDER);
+		g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        txtLabelCondition.setLayoutData(g);
+        
+        Label lblExpCondition = toolkit.createLabel(compCondition, "Expression:");
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = false;
+        g.grabExcessVerticalSpace = true;
+        lblExpCondition.setLayoutData(g);
+//        lblExpCondition.setBackground(new Color(null, 232, 247, 255));
+        
+        txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER);
+		g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        txtExpCondition.setLayoutData(g);
+        
+        Label lblDescCondition = toolkit.createLabel(compCondition, "Description:");
+        g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = false;
+        g.grabExcessVerticalSpace = true;
+        lblDescCondition.setLayoutData(g);
+//        lblDescCondition.setBackground(new Color(null, 232, 247, 255));
+        
+        txtDescCondition = toolkit.createText(compCondition, "", SWT.BORDER);
+		g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        txtDescCondition.setLayoutData(g);
+        
+        btUpdateLink = toolkit.createHyperlink(compCondition, "Update", SWT.NONE);
+		g = new GridData(GridData.FILL_BOTH);
+        g.grabExcessHorizontalSpace = true;
+        g.grabExcessVerticalSpace = true;
+        g.horizontalSpan = 2;
+        g.horizontalAlignment = GridData.END;
+        btUpdateLink.setLayoutData(g);
+//        btUpdateLink.setBackground(new Color(null, 232, 247, 255));
+        
+        btUpdateLink.addMouseListener(new MouseAdapter() {
+        	public void mouseDown(MouseEvent e) {
+        		handleUpdateLabels();
+        	}
+        });
+        
         mapSection.setExpanded(true);
         pluginListSection.setExpanded(true);
 
@@ -563,6 +644,36 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
         tabMapList.layout(false);
     }
+    
+    protected void handleUpdateLabels() {
+    	PluginBinding plug = (PluginBinding)selectedPluginLabel.getData();
+    	ChangeLabelNameCommand label = new ChangeLabelNameCommand(plug.getPrecondition(), txtLabelCondition.getText());
+    	label.setExpression(txtExpCondition.getText());
+    	label.setDescription(txtDescCondition.getText());
+    	execute(label);
+    	
+    	refreshCondition();
+	}
+
+	private void refreshCondition() {
+		PluginBinding plug = (PluginBinding)selectedPluginLabel.getData();
+		
+		if(plug.getPrecondition() != null) {
+			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel());
+			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression());
+			txtDescCondition.setText(plug.getPrecondition().getDescription() == null ? "" : plug.getPrecondition().getDescription());
+		}
+		else {
+			txtLabelCondition.setText("");
+			txtExpCondition.setText("");
+			txtDescCondition.setText("");
+			
+			txtLabelCondition.setEnabled(false);
+			txtExpCondition.setEnabled(false);
+			txtDescCondition.setEnabled(false);
+		}
+	}
+
 
     /**
      * Delete the selected item in the tree view. This will delete it in the model too with a command.
@@ -735,7 +846,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      * @see org.eclipse.jface.window.Window#getInitialSize()
      */
     protected Point getInitialSize() {
-        return new Point(900, 500);
+        return new Point(900, 600);
     }
 
     /**
@@ -1143,6 +1254,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                     }
                 }
             }
+            
+            refreshCondition();
         } else {
             selectedPluginLabel.setText(Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
             selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$

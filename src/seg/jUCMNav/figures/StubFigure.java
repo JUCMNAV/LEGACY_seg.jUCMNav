@@ -56,6 +56,7 @@ public class StubFigure extends PathNodeFigure {
         mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
         mainFigure.setBackgroundColor(new Color(null, 255, 255, 255));
+        mainFigure.setFill(true);
         add(mainFigure);
     }
 

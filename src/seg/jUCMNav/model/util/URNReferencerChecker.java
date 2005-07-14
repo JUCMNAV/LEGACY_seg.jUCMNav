@@ -6,11 +6,14 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.ComponentRef;
 import ucm.map.Map;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
+import ucm.map.Stub;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
+import urncore.Condition;
 import urncore.Responsibility;
 
 /**
@@ -23,6 +26,8 @@ public class URNReferencerChecker {
 
     /**
      * For each ComponentRef and RespRef in any of the maps, will verify if it has a definition. If not, creates one.
+     * 
+     * Check the PluginBinding too to see if it has a Condition.  If not, create a default one.
      * 
      * @param urn
      *            the URNspec to clean
@@ -49,6 +54,15 @@ public class URNReferencerChecker {
                     // not linked? create one.
                     ((RespRef) node).setRespDef((Responsibility) ModelCreationFactory.getNewObject(urn, Responsibility.class));
                     urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+                }
+                
+                if(node instanceof Stub) {
+                	Stub stub = (Stub)node;
+                	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+						PluginBinding plug = (PluginBinding) i.next();
+						if(plug.getPrecondition() == null)
+							plug.setPrecondition((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
+					}
                 }
             }
 

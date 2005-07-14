@@ -173,8 +173,6 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createWaitingPlace();
             } else if (targetClass.equals(Timer.class)) {
                 result = mapfactory.createTimer();
-            } else if (targetClass.equals(PluginBinding.class)) {
-                result = mapfactory.createPluginBinding();
             } else if (targetClass.equals(InBinding.class)) {
                 result = mapfactory.createInBinding();
             } else if (targetClass.equals(OutBinding.class)) {
@@ -248,6 +246,13 @@ public class ModelCreationFactory implements CreationFactory {
                     ep.getPostcondition().setDeltaX(-40);
                     ep.getPostcondition().setDeltaY(-20);
                     result = ep;
+                } else if (targetClass.equals(PluginBinding.class)) {
+                    PluginBinding plug = mapfactory.createPluginBinding();
+                    
+                    plug.setPrecondition((Condition) getNewObject(urn, Condition.class));
+                    plug.getPrecondition().setExpression("true");
+                    
+                    result = plug;
                 } else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }

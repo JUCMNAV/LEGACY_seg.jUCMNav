@@ -15,23 +15,19 @@ import urncore.NodeLabel;
 import urncore.UCMmodelElement;
 
 /**
- * Renames a label asociated with a PathNode, a ComponentRef or a NodeConnection. Will rename the definition if this is a reference.
+ * Renames a PathNode or ComponentRef. Will rename the definition if this is a reference.
  * 
  * @author jkealey
  */
 public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
-
     private EObject elem;
-    private String name, oldName;
 
-    /**
-     * Renames a label.
-     * 
-     * @param lbl
-     *            the urncore.Label to be renamed.
-     * @param name
-     *            the new name to give it.
-     */
+    private String name, oldName;
+    
+    // PluginBinding dependant.
+    private String description="", oldDesc="";
+    private String expression="", oldExp="";
+
     public ChangeLabelNameCommand(Label lbl, String name) {
         if (lbl instanceof ComponentLabel)
             this.elem = ((ComponentLabel) lbl).getCompRef();
@@ -55,12 +51,14 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             oldName = ((PathNode) elem).getName();
         } else if (elem instanceof Condition) {
             oldName = ((Condition) elem).getLabel();
+            oldDesc = ((Condition)elem).getDescription();
+        	oldExp = ((Condition)elem).getExpression();
         }
         redo();
     }
 
     /**
-     * @return whether we can apply changes; make sure we don't violate uniqueness constraints.
+     * @return whether we can apply changes
      */
     public boolean canExecute() {
         if (elem instanceof ComponentRef || elem instanceof PathNode || elem instanceof Condition) {
@@ -70,7 +68,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return is this name unique (or we don't care)?
+     * @return true or false - uniqueness of name
      */
     private boolean verifyUniqueness(String name) {
         if (elem instanceof UCMmodelElement) {
@@ -99,7 +97,9 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         oldName = string;
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -113,6 +113,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((PathNode) elem).setName(name);
         } else if (elem instanceof Condition) {
             ((Condition) elem).setLabel(name);
+            ((Condition) elem).setExpression(expression);
+            ((Condition) elem).setDescription(description);
         }
         testPostConditions();
     }
@@ -130,11 +132,31 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             ((PathNode) elem).setName(oldName);
         } else if (elem instanceof Condition) {
             ((Condition) elem).setLabel(oldName);
+            ((Condition) elem).setExpression(oldExp);
+            ((Condition) elem).setDescription(oldDesc);
         }
         testPreConditions();
     }
 
-    /**
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getExpression() {
+		return expression;
+	}
+
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
+
+	/*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -143,7 +165,9 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
