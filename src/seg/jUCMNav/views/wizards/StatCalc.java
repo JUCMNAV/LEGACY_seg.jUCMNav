@@ -1,51 +1,35 @@
-package seg.jUCMNav.views.wizards;
+﻿package seg.jUCMNav.views.wizards;
 
-/*
- * Taken from: http://www.faqs.org/docs/javap/c5/ex-5-2-answer.html
+/**
+ * This class act as a simplistic statistic calculator.
  * 
- * Introduction to Programming Using Java
- * 
- * Author:  David J. Eck  (eck@hws.edu)
- * 
- * An object of class StatCalc can be used to compute several simple statistics for a set of numbers. Numbers are entered into the dataset using the
- * enter(double) method. Methods are provided to return the following statistics for the set of numbers that have been entered: The number of items, the sum of
- * the items, the average, and the standard deviation.
+ * You enter numbers and you can get the sum, mean and standard deviation.
  */
-
 public class StatCalc {
-
-    private int count; // Number of numbers that have been entered.
-    private double sum; // The sum of all the items that have been entered.
-    private double squareSum; // The sum of the squares of all the items.
+    private int n = 0;
+    private double total = 0.0;
+    private double sqrTotal = 0.0;
 
     public void enter(double num) {
-        // Add the number to the dataset.
-        count++;
-        sum += num;
-        squareSum += num * num;
+        n++;
+        total += num;
+        sqrTotal += num * num;
     }
 
     public int getCount() {
-        // Return number of items that have been entered.
-        return count;
+        return n;
     }
 
     public double getSum() {
-        // Return the sum of all the items that have been entered.
-        return sum;
+        return total;
     }
 
     public double getMean() {
-        // Return average of all the items that have been entered.
-        // Value is Double.NaN if count == 0.
-        return sum / count;
+        return total / n;
     }
 
     public double getStandardDeviation() {
-        // Return standard deviation of all the items that have been entered.
-        // Value will be Double.NaN if count == 0.
-        double mean = getMean();
-        return Math.sqrt(squareSum / count - mean * mean);
+        double variance = (sqrTotal - ((total * total) / n)) / n;
+        return Math.sqrt(variance);
     }
-
 } // end of class StatCalc
