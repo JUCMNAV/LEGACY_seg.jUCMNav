@@ -7,6 +7,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
@@ -72,8 +73,8 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             return null;
     }
 
-    /** 
-     * Remove the bounding box and line. 
+    /**
+     * Remove the bounding box and line.
      */
     public void eraseTargetFeedback(Request request) {
         if (line != null) {
@@ -84,10 +85,16 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             getFeedbackLayer().remove(roundrect);
             roundrect = null;
         }
+
+        if (getHost().getViewer() != null) {
+            EditPart referencedEp = (EditPart) getHost().getViewer().getEditPartRegistry().get(getReference());
+            if (referencedEp!=null)
+                referencedEp.eraseTargetFeedback(request);
+        }
     }
 
-    /** 
-     * Add the bounding box and line. 
+    /**
+     * Add the bounding box and line.
      */
     public void showTargetFeedback(Request request) {
         if (line == null && roundrect == null) {
@@ -169,6 +176,13 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             // add feedback
             getFeedbackLayer().add(roundrect);
             getFeedbackLayer().add(line);
+
+            if (getHost().getViewer() != null) {
+                EditPart referencedEp = (EditPart) getHost().getViewer().getEditPartRegistry().get(getReference());
+                if (referencedEp!=null)
+                    referencedEp.showTargetFeedback(request);
+            }
+
         }
     }
 }

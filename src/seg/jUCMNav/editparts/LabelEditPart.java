@@ -11,6 +11,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
@@ -307,7 +308,7 @@ public class LabelEditPart extends ModelElementEditPart {
      */
     public void refreshVisuals() {
         if (modelElement != null) {
-            eraseTargetFeedback(null);
+            eraseTargetFeedback(new SelectionRequest());
             LabelFigure labelFigure = getLabelFigure();
             EditableLabel label = labelFigure.getLabel();
 

@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.commands.changeConstraints;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -7,11 +8,14 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.PathNode;
 import urncore.UCMmodelElement;
 
 /**
  * Binds a child/children (PathNode or ComponentRef) to a parent ComponentRef.
+ * 
+ * Doesn't bind Connects. See DevDocSpecialCaseConnects
  * 
  * @author jkealey
  *  
@@ -32,7 +36,13 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
     public ComponentRefBindChildCommand(ComponentRef parent, List children) {
         this.parent = parent;
         this.children = new Vector();
-        this.children.addAll(children);
+
+        // don't bind Connects
+        for (Iterator iter = children.iterator(); iter.hasNext();) {
+            Object o = iter.next();
+            if (!(o instanceof Connect))
+                this.children.add(o);
+        }
 
     }
 
@@ -46,7 +56,10 @@ public class ComponentRefBindChildCommand extends Command implements JUCMNavComm
     public ComponentRefBindChildCommand(ComponentRef parent, UCMmodelElement child) {
         this.parent = parent;
         this.children = new Vector();
-        this.children.add(child);
+
+        // don't bind Connects        
+        if (!(child instanceof Connect))
+            this.children.add(child);
 
     }
 
