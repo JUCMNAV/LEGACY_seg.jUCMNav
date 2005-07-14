@@ -40,8 +40,6 @@ import urn.URNspec;
 import urncore.Condition;
 
 /**
- * Created on 29-May-2005
- * 
  * This class implements the deletion for a PathNode that has multiple inputs or outputs.
  * 
  * We create new start and end points to truncate the paths that enter or exit this PathNode.
@@ -180,18 +178,14 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
         return toDelete != null && toDelete.getPathGraph() != null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canUndo()
      */
     public boolean canUndo() {
@@ -202,7 +196,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
     }
 
     /**
-     *  
+     * Performs the action work
      */
     private void doRedo() {
         if (shouldDeleteNode) {
@@ -242,9 +236,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -267,7 +259,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
     }
 
     /**
-     *  
+     * if we're downgrading to an empty point, create it.
      */
     private void initEmptyPoint() {
         // need to downgrade pathnode to empty point.
@@ -388,9 +380,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         shouldDeleteNode = true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -406,9 +396,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -447,8 +435,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
          */
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
@@ -512,9 +499,7 @@ public class DeleteMultiNodeCommand extends CompoundCommand implements JUCMNavCo
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {

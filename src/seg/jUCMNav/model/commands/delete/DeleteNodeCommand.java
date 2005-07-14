@@ -79,6 +79,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
         if (node.getPathGraph() == null || node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
+            
             if (node.getPred().size() == 1 && node.getSucc().size() == 1)
                 return true;
             else

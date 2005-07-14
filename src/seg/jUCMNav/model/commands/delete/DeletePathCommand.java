@@ -15,34 +15,60 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 
 /**
- * Created on 29-May-2005
+ * Command to delete a path, starting with a StartPoint or EndPoint.
+ * 
+ * General algorithm: Given a StartPoint, traverse path in the proper direction until you find a path node with something else than 1 in / 1 out. This new
+ * PathNode is either a EndPoint or a PathNode with multiple connections. If its not an EmptyPoint, disconnect yourself from it using DeleteMultiNodeCommand.
+ * You then have a path containing only simple nodes. Remove all of these nodes from the model using DeleteNodeCommand and end by removing the small
+ * start->nc->end path with DeleteStartNCEndCommand.
+ * 
+ * Algorithm can be done in inverse sense for EndPoint.
+ * 
+ * Special consideration has to be given to removing Connects and InBindings/OutBindings.
+ * 
+ * Should also get rid of deletion PluginBindings on StartPoints/EndPoints but is not done.
+ * 
+ * Note: This command should use DeletionPathFinder instead of its custom path traversal algorithm.
  * 
  * @author jkealey
  *  
  */
 public class DeletePathCommand extends CompoundCommand {
+
+    // we'll push our commands onto this stack to avoid traversing the path twice.
     private Stack commands;
-
     private Map editpartregistry;
-
     private EndPoint end;
-
     private PathGraph pg;
-
     private StartPoint start;
 
+    /**
+     * Delete the path ending at end.
+     * 
+     * @param end
+     *            delete the path ending here.
+     * @param editpartregistry
+     *            editpartregistry needed to be propagated to DeleteMultiNodeCommand.
+     */
     public DeletePathCommand(EndPoint end, Map editpartregistry) {
         this.end = end;
         this.editpartregistry = editpartregistry;
     }
 
+    /**
+     * 
+     * @param start
+     *            delete the path starting here.
+     * @param editpartregistry
+     *            editpartregistry needed to be propagated to DeleteMultiNodeCommand.
+     */
     public DeletePathCommand(StartPoint start, Map editpartregistry) {
         this.start = start;
         this.editpartregistry = editpartregistry;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Always execute; used because no commands are in the list when canExecute() is first called (as they are added in execute().
      * 
      * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
      */
@@ -50,8 +76,8 @@ public class DeletePathCommand extends CompoundCommand {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Always allow undo. Even if has already been deleted, so that this command can be located in a GEF compound command.
      * 
      * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
      */
@@ -162,8 +188,8 @@ public class DeletePathCommand extends CompoundCommand {
             add((Command) commands.pop());
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Adds commands and executes them.
      * 
      * @see org.eclipse.gef.commands.CompoundCommand#execute()
      */

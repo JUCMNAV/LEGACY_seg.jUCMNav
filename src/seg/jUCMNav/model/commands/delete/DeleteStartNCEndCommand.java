@@ -17,6 +17,8 @@ import ucm.map.StartPoint;
 /**
  * This command will remove a simple path from the map. A simple path is defined as a start point, node connection and end point.
  * 
+ * It will also get rid of bindings.
+ * 
  * @author jkealey
  *  
  */
@@ -68,7 +70,7 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
     }
 
     /**
-     *  
+     * Does the actual deletion work.
      */
     private void doRedo() {
         pg.getPathNodes().remove(start);
@@ -93,12 +95,6 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             nc = (NodeConnection) start.getSucc().get(0);
             end = (EndPoint) nc.getTarget();
 
-            List ins = start.getInBindings();
-            for (Iterator i = ins.iterator(); i.hasNext();) {
-                InBinding in = (InBinding) i.next();
-                DeleteInBindingCommand cmd = new DeleteInBindingCommand(in);
-                add(cmd);
-            }
         } else if (end != null) {
             // might have already been deleted.
             if (end.getPred().size() == 0 || !(((NodeConnection) end.getPred().get(0)).getSource() instanceof StartPoint)) {
@@ -107,13 +103,20 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             }
             nc = (NodeConnection) end.getPred().get(0);
             start = (StartPoint) nc.getSource();
+        }
 
-            List outs = end.getOutBindings();
-            for (Iterator i = outs.iterator(); i.hasNext();) {
-                OutBinding out = (OutBinding) i.next();
-                DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
-                add(cmd);
-            }
+        List ins = start.getInBindings();
+        for (Iterator i = ins.iterator(); i.hasNext();) {
+            InBinding in = (InBinding) i.next();
+            DeleteInBindingCommand cmd = new DeleteInBindingCommand(in);
+            add(cmd);
+        }
+
+        List outs = end.getOutBindings();
+        for (Iterator i = outs.iterator(); i.hasNext();) {
+            OutBinding out = (OutBinding) i.next();
+            DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
+            add(cmd);
         }
 
         pg = start.getPathGraph();
