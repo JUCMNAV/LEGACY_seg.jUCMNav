@@ -9,7 +9,7 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
 /**
- * CompoundCommand that replaces an unconnected emptypoint with another path node.
+ * CompoundCommand that replaces an unconnected EmptyPoint or DirectionArrow with another path node.
  * 
  * @author jkealey
  *  
@@ -17,7 +17,6 @@ import ucm.map.PathNode;
 public class ReplaceEmptyPointCommand extends CompoundCommand {
 
     /**
-     * 
      * @param empty
      *            the empty node or direction arrow to remove
      * @param newNode

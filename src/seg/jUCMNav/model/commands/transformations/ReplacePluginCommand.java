@@ -19,39 +19,30 @@ import ucm.map.Stub;
 import urn.URNspec;
 
 /**
- * Created 2005-06-06
+ * Command that removes a binding and replaces it with a new one, without any In/Out Bindings.
  * 
  * @author Etienne Tremblay
  */
 public class ReplacePluginCommand extends Command implements JUCMNavCommand {
 
     private Stub stub;
-
     private Map map;
-
     private Map oldMap;
-
     private PluginBinding oldPlugin;
-
     private PluginBinding newPlugin;
-
     private ArrayList inBindings = new ArrayList();
-
     private ArrayList outBindings = new ArrayList();
-
     private HashMap starts = new HashMap();
-
     private HashMap ends = new HashMap();
-
     private HashMap entry = new HashMap();
-
     private HashMap exit = new HashMap();
-
     private URNspec urnSpec;
 
     /**
      * @param oldPlugin
+     *            the plugin to replace
      * @param map
+     *            the concerned map
      */
     public ReplacePluginCommand(PluginBinding oldPlugin, Map map) {
         super();
@@ -59,6 +50,10 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         this.map = map;
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
         if (oldPlugin != null && map != null)
             return true;
@@ -66,6 +61,9 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
             return false;
     }
 
+    /**
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
@@ -91,6 +89,10 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         testPreConditions();
 
@@ -118,6 +120,10 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         testPostConditions();
 
@@ -145,9 +151,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -158,9 +162,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         //		assert !oldMap.getParentStub().contains(newPlugin) : "Pre newPlugin contained in the map parent stubs";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

@@ -23,29 +23,20 @@ import ucm.map.StartPoint;
 import urncore.Condition;
 
 /**
- * @author jpdaigle, jkealey
  * 
- *  
+ * Replaces an empty point with a fork and creates a new branch using the passed startpoint.
+ * 
+ * @author jpdaigle, jkealey
  */
 public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand {
 
     EmptyPoint _oldEmptyPoint;
-
     StartPoint _oldStartPoint;
-
     PathNode _newFork;
-
     int _x, _y;
-
     NodeConnection _ncOldStart, _ncA, _ncB;
-
     PathGraph _pg;
-
     Vector _newConditions;
-
-    public ForkPathsCommand() {
-        super();
-    }
 
     /**
      * Create a command to fork 2 paths, pass in an already created non-null Fork.
@@ -72,23 +63,31 @@ public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand 
         this.setLabel(Messages.getString("ForkPathsCommand.forkPaths")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
-    	// Make sure we can execute even if we don't have any added commands
-    	if(getCommands().size() == 0)
-			return true;
+        // Make sure we can execute even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
         return super.canExecute();
     }
-    
-    /* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
 
+    /**
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         _x = _oldEmptyPoint.getX();
         _y = _oldEmptyPoint.getY();
@@ -107,37 +106,41 @@ public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand 
             _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
             _newConditions.add((Condition) ModelCreationFactory.getNewObject(_pg.getMap().getUcmspec().getUrnspec(), Condition.class));
         }
-        
+
         List ins = _oldStartPoint.getInBindings();
         for (Iterator i = ins.iterator(); i.hasNext();) {
-			InBinding in = (InBinding) i.next();
-			Command cmd = new DeleteInBindingCommand(in);
-			add(cmd);
-		}
-        
+            InBinding in = (InBinding) i.next();
+            Command cmd = new DeleteInBindingCommand(in);
+            add(cmd);
+        }
+
         testPreConditions();
-        
+
         doRedo();
         super.execute();
-        
-        testPostConditions();
-    }
 
-    public void redo() {
-    	testPreConditions();
-    	
-        doRedo();
-        
-        super.redo();
-        
         testPostConditions();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		// Set the start of the link going to _oldStartPoint to point to the new fork.
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+
+        doRedo();
+
+        super.redo();
+
+        testPostConditions();
+    }
+
+    /**
+     * performs the actual work.
+     */
+    private void doRedo() {
+        // Set the start of the link going to _oldStartPoint to point to the new fork.
         _ncOldStart.setSource(_newFork);
 
         // Move the old empty point's connections to the new fork.
@@ -159,13 +162,17 @@ public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand 
             _ncOldStart.setCondition((Condition) _newConditions.get(0));
             _ncB.setCondition((Condition) _newConditions.get(1));
         }
-	}
+    }
 
-	public void undo() {
-		testPostConditions();
-		
-		super.undo();
-		
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
+
+        super.undo();
+
         _ncOldStart.setSource(_oldStartPoint);
 
         _ncA.setTarget(_oldEmptyPoint);
@@ -183,13 +190,11 @@ public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand 
             _ncOldStart.setCondition(null);
             _ncB.setCondition(null);
         }
-        
+
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -197,9 +202,7 @@ public class ForkPathsCommand extends CompoundCommand implements JUCMNavCommand 
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

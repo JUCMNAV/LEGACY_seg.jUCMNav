@@ -49,6 +49,7 @@ import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
 import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
+import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
@@ -68,6 +69,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Timer;
+import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Label;
@@ -818,7 +820,15 @@ public class JUCMNavCommandTests extends TestCase {
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
             cmd = new ExtendPathCommand(pathgraph, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
-            assertTrue("Can't execute ExtendPathCommand.", cmd.canExecute()); //$NON-NLS-1$
+            assertTrue("Can't execute ExtendPathCommand with end.", cmd.canExecute()); //$NON-NLS-1$
+            cs.execute(cmd);
+        }
+
+        // can extend the start point as well
+        for (int i = 0; i < 5; i++) {
+            // will have to remove randomness (by seeding) when we start serializing
+            cmd = new ExtendPathCommand(pathgraph, start, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+            assertTrue("Can't execute ExtendPathCommand with start.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
     }
@@ -870,7 +880,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testJoinEndToStubJoinCommand() {
         //TODO: implement test
-        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false); //$NON-NLS-1$
+        assertTrue("do me! (in the implementation sense); after bug 375", false); //$NON-NLS-1$
     }
 
     /**
@@ -910,7 +920,7 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testJoinStartToStubForkCommand() {
         //TODO: implement test
-        assertTrue("Etienne Tremblay, do me! (in the implementation sense)", false); //$NON-NLS-1$
+        assertTrue("do me! (in the implementation sense); after bug 375", false); //$NON-NLS-1$
     }
 
     /**
@@ -957,6 +967,27 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Should not be able to execute MergeStartEndCommand; will cause circular path.", !cmd.canExecute()); //$NON-NLS-1$
         //        cs.execute(cmd);
 
+    }
+
+    /**
+     * 
+     *  
+     */
+    public void testReplaceEmptyPointCommand() {
+        testCreatePathCommand();
+        WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
+        EmptyPoint empty = (EmptyPoint) ((NodeConnection) start.getSucc().get(0)).getTarget();
+        Command cmd = new ReplaceEmptyPointCommand(empty, wait);
+        assertTrue("Can't execute ReplaceEmptyPointCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
+
+    /**
+     * 
+     *  
+     */
+    public void testReplacePluginCommand() {
+        assertTrue("ET: Do me", false);
     }
 
     /**

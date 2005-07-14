@@ -19,8 +19,6 @@ import ucm.map.StartPoint;
 import urncore.Condition;
 
 /**
- * Created 27-05-2005
- * 
  * This command represents the action of a user dragging a StartPoint in a Stub/Fork. This action will erase the StartPoint and add the path as a successor of
  * the stub/fork.
  * 
@@ -82,9 +80,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
@@ -93,20 +89,18 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
         else
             return false;
     }
-    
-    /* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -123,58 +117,54 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
         }
 
         oldParent = oldStartPoint.getCompRef();
-        
+
         List ins = oldStartPoint.getInBindings();
         for (Iterator i = ins.iterator(); i.hasNext();) {
-			InBinding in = (InBinding) i.next();
-			Command cmd = new DeleteInBindingCommand(in);
-			add(cmd);
-		}
-        
+            InBinding in = (InBinding) i.next();
+            Command cmd = new DeleteInBindingCommand(in);
+            add(cmd);
+        }
+
         testPreConditions();
-        
+
         doRedo();
         super.execute();
-        
+
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
         testPreConditions();
 
         doRedo();
-        
+
         super.redo();
 
         testPostConditions();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		ncOldStart.setSource(stubOrFork);
+     * performs the actual work
+     */
+    private void doRedo() {
+        ncOldStart.setSource(stubOrFork);
         pg.getPathNodes().remove(oldStartPoint);
 
         if (newCondition != null)
             ncOldStart.setCondition(newCondition);
 
         oldStartPoint.setCompRef(null);
-	}
+    }
 
-	/*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
         testPostConditions();
-        
+
         super.undo();
 
         pg.getPathNodes().add(oldStartPoint);
@@ -187,13 +177,11 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
             ncOldStart.setCondition(null);
 
         oldStartPoint.setCompRef(oldParent);
-        
+
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -208,9 +196,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
         assert pg.getNodeConnections().contains(ncOldStart) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

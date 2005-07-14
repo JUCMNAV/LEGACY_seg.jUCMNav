@@ -15,28 +15,33 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * This command extends a Path by moving the end point.
+ * This command extends a Path by moving its end point or its startpoint. .
  * 
  * @author Etienne Tremblay, jkealey
  */
 public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     private PathGraph diagram; // The UCM diagram
-
     private EndPoint end; // The end node to be moved
-
     private NodeConnection lastLink; // The end node's predecessor
-
     private PathNode lastNode; // The last node before the end node
-
     private NodeConnection newLink; // The new link that has been created, linking the end point's old and new locations
-
     private PathNode newNode; // The new node located at the end point's old location
-
     private int oldX, oldY, newX, newY; // where to move the end point
-
     private StartPoint start; // or maybe it is the start point that is moved.
 
+    /**
+     * Extends a path.
+     * 
+     * @param pg
+     *            the pathgraph containing all the elements.
+     * @param end
+     *            the endpoint to be moved
+     * @param x
+     *            the endpoint's new x coordinate
+     * @param y
+     *            the endpoint's new y coordinate
+     */
     public ExtendPathCommand(PathGraph pg, EndPoint end, int x, int y) {
         this.diagram = pg;
         this.end = end;
@@ -47,6 +52,18 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     }
 
+    /**
+     * Extends a path.
+     * 
+     * @param pg
+     *            the pathgraph containing all the elements.
+     * @param start
+     *            the startpoint to be moved
+     * @param x
+     *            the startpoint's new x coordinate
+     * @param y
+     *            the startpoint's new y coordinate
+     */
     public ExtendPathCommand(PathGraph pg, StartPoint start, int x, int y) {
         this.diagram = pg;
         this.start = start;
@@ -57,9 +74,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -104,39 +119,42 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return Returns the diagram.
+     * @return the diagram.
      */
     public PathGraph getDiagram() {
         return diagram;
     }
 
     /**
-     * @return Returns the end.
+     * @return the end.
      */
     public EndPoint getEnd() {
         return end;
     }
 
     /**
-     * @return Returns the newX.
+     * @return the newX.
      */
     public int getNewX() {
         return newX;
     }
 
     /**
-     * @return Returns the newY.
+     * @return the newY.
      */
     public int getNewY() {
         return newY;
     }
 
+    /**
+     * 
+     * @return the start
+     */
     public StartPoint getStart() {
         return start;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -208,9 +226,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         this.start = start;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -258,8 +274,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
@@ -310,9 +325,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {

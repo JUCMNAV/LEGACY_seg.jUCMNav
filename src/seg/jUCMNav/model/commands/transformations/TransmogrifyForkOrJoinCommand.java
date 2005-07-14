@@ -1,6 +1,3 @@
-/*
- * Created on 26-May-2005
- */
 package seg.jUCMNav.model.commands.transformations;
 
 import java.util.Iterator;
@@ -24,32 +21,28 @@ import urncore.Condition;
 import urncore.NodeLabel;
 
 /**
- * @author jpdaigle
+ * 
+ * Command to transform AND to OR or vice-versa. (forks/joins)
+ * 
+ * @author jpdaigle, jkealey
  *  
  */
 public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCommand {
 
     PathNode _newNode, _oldNode;
-
     PathGraph _pg;
-
     int _x, _y;
-
     Vector _inConn, _outConn;
-
     Vector _outConditions;
-
     NodeLabel _oldLabel;
-
-    public TransmogrifyForkOrJoinCommand() {
-        super();
-    }
 
     /**
      * Create a command to transform AND to OR or vice-versa.
      * 
      * @param oldNode
      *            Old Fork or Join to transmogrify.
+     * @param pg
+     *            the pathgraph containing the elements
      */
     public TransmogrifyForkOrJoinCommand(PathNode oldNode, PathGraph pg) {
         _oldNode = oldNode;
@@ -64,10 +57,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         this.setLabel(Messages.getString("TransmogrifyForkOrJoinCommand.convert")); //$NON-NLS-1$
     }
 
-    public boolean canExecute() {
-        return super.canExecute();
-    }
-
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         _x = _oldNode.getX();
         _y = _oldNode.getY();
@@ -104,15 +97,19 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _oldLabel = _oldNode.getLabel();
 
         // transfer name/description
-        // don't transfer name if was default.
+        // don't transfer name if wasn't default.
         if (!_oldNode.getName().equals(URNNamingHelper.getPrefix(_oldNode.getClass())))
             _newNode.setName(_oldNode.getName());
 
         _newNode.setDescription(_oldNode.getDescription());
-        
+
         redo();
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
     public void redo() {
         // Transfer connections
         int i;
@@ -146,6 +143,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
     }
 
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
     public void undo() {
         // Transfer connections
         int i;
@@ -179,23 +180,20 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        // TODO Auto-generated method stub
-
+        assert _newNode != null && _oldNode != null && _pg != null : "pre something is null";
+        assert _pg.getPathNodes().contains(_oldNode) && !_pg.getPathNodes().contains(_newNode) : "pre node replacement problem";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        // TODO Auto-generated method stub
+        assert _newNode != null && _oldNode != null && _pg != null : "post something is null";
+        assert !_pg.getPathNodes().contains(_oldNode) && _pg.getPathNodes().contains(_newNode) : "post node replacement problem";
 
     }
 

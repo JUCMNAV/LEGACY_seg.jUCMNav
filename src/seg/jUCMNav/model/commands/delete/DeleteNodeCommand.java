@@ -58,6 +58,25 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
     /** our node's targets; right now only one */
     private Vector targets;
 
+    /** if we are in a compound command, relax requirements */
+    private boolean inCompoundCommand = false;
+
+    /**
+     * It is assumed that the PathNode is not a Stub.
+     * 
+     * @param node
+     *            the node to be deleted.
+     * @param inCompoundCommand
+     *            if we are in a compound command, relax execution requirements
+     *  
+     */
+    public DeleteNodeCommand(PathNode node, boolean inCompoundCommand) {
+        this.node = node;
+        this.inCompoundCommand = inCompoundCommand;
+
+        setLabel(DeleteCommand_Label);
+    }
+
     /**
      * It is assumed that the PathNode is not a Stub.
      * 
@@ -66,6 +85,7 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public DeleteNodeCommand(PathNode node) {
         this.node = node;
+
         setLabel(DeleteCommand_Label);
     }
 
@@ -76,10 +96,13 @@ public class DeleteNodeCommand extends Command implements JUCMNavCommand {
      */
     public boolean canExecute() {
 
+        if (inCompoundCommand)
+            return true;
+
         if (node.getPathGraph() == null || node instanceof StartPoint || node instanceof EndPoint)
             return false;
         else {
-            
+
             if (node.getPred().size() == 1 && node.getSucc().size() == 1)
                 return true;
             else

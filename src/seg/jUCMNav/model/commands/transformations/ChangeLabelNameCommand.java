@@ -15,15 +15,23 @@ import urncore.NodeLabel;
 import urncore.UCMmodelElement;
 
 /**
- * Renames a PathNode or ComponentRef. Will rename the definition if this is a reference.
+ * Renames a label asociated with a PathNode, a ComponentRef or a NodeConnection. Will rename the definition if this is a reference.
  * 
  * @author jkealey
  */
 public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
-    private EObject elem;
 
+    private EObject elem;
     private String name, oldName;
 
+    /**
+     * Renames a label.
+     * 
+     * @param lbl
+     *            the urncore.Label to be renamed.
+     * @param name
+     *            the new name to give it.
+     */
     public ChangeLabelNameCommand(Label lbl, String name) {
         if (lbl instanceof ComponentLabel)
             this.elem = ((ComponentLabel) lbl).getCompRef();
@@ -52,7 +60,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return whether we can apply changes
+     * @return whether we can apply changes; make sure we don't violate uniqueness constraints.
      */
     public boolean canExecute() {
         if (elem instanceof ComponentRef || elem instanceof PathNode || elem instanceof Condition) {
@@ -62,7 +70,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @return true or false - uniqueness of name
+     * @return is this name unique (or we don't care)?
      */
     private boolean verifyUniqueness(String name) {
         if (elem instanceof UCMmodelElement) {
@@ -91,9 +99,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         oldName = string;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -128,9 +134,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -139,9 +143,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

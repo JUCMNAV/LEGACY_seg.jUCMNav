@@ -12,9 +12,7 @@ import ucm.map.Map;
 import ucm.map.PathNode;
 
 /**
- * Created on 16-May-2005
- * 
- * This compound command deletes empty nodes that still have their original name and don't have a label.
+ * This compound command deletes empty nodes/directionarrows that still have their original name and don't have a label.
  * 
  * Used by the autolayout tool.
  * 
@@ -25,6 +23,11 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
 
     private Vector toRemove;
 
+    /**
+     * 
+     * @param map
+     *            the map to clean
+     */
     public TrimEmptyNodeCommand(Map map) {
         toRemove = new Vector();
 

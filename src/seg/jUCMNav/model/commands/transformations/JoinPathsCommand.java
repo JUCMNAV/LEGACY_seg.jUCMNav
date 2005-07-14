@@ -20,27 +20,19 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * @author jpdaigle
+ * Replaces an empty point with a fork join creates a new branch using the passed endpoint.
  * 
+ * @author jpdaigle
  *  
  */
 public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand {
 
     EmptyPoint _oldEmptyPoint;
-
     EndPoint _oldEndPoint;
-
     PathNode _newJoin;
-
     int _x, _y;
-
     NodeConnection _ncOldEnd, _ncA, _ncB;
-
     PathGraph _pg;
-
-    public JoinPathsCommand() {
-        super();
-    }
 
     /**
      * Create a command to join 2 paths, pass in an already created non-null Join.
@@ -67,23 +59,30 @@ public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand 
         this.setLabel(Messages.getString("JoinPathsCommand.joinPaths")); //$NON-NLS-1$
     }
 
+    /**
+     * @see org.eclipse.gef.commands.Command#canExecute()
+     */
     public boolean canExecute() {
-    	// Make sure we can execute even if we don't have any added commands
-    	if(getCommands().size() == 0)
-			return true;
+        // Make sure we can execute even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
         return super.canExecute();
     }
-    
-    /* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
 
+    /**
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
     public void execute() {
         _x = _oldEmptyPoint.getX();
         _y = _oldEmptyPoint.getY();
@@ -95,36 +94,40 @@ public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand 
         _ncOldEnd = (NodeConnection) _oldEndPoint.getPred().get(0);
         _ncA = (NodeConnection) _oldEmptyPoint.getPred().get(0);
         _ncB = (NodeConnection) _oldEmptyPoint.getSucc().get(0);
-        
+
         List outs = _oldEndPoint.getOutBindings();
         for (Iterator i = outs.iterator(); i.hasNext();) {
-			OutBinding out = (OutBinding) i.next();
-			Command cmd = new DeleteOutBindingCommand(out);
-			add(cmd);
-		}
+            OutBinding out = (OutBinding) i.next();
+            Command cmd = new DeleteOutBindingCommand(out);
+            add(cmd);
+        }
 
         testPreConditions();
-        
+
         doRedo();
         super.execute();
-        
-        testPostConditions();
-    }
 
-    public void redo() {
-    	testPreConditions();
-    	
-        doRedo();
-        super.redo();
-        
         testPostConditions();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		// Set the end of the link going to _oldEndPoint to point to the new join.
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+
+        doRedo();
+        super.redo();
+
+        testPostConditions();
+    }
+
+    /**
+     * performs the actual work.
+     */
+    private void doRedo() {
+        // Set the end of the link going to _oldEndPoint to point to the new join.
         _ncOldEnd.setTarget(_newJoin);
 
         // Move the old empty point's connections to the new join.
@@ -141,13 +144,17 @@ public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand 
         // Add new join PathNode to model
         _newJoin.setCompRef(ParentFinder.findParent(_pg.getMap(), _newJoin.getX(), _newJoin.getY()));
         _pg.getPathNodes().add(_newJoin);
-	}
+    }
 
-	public void undo() {
-		testPostConditions();
-		
-		super.undo();
-		
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
+
+        super.undo();
+
         _ncOldEnd.setTarget(_oldEndPoint);
 
         _ncA.setTarget(_oldEmptyPoint);
@@ -160,13 +167,11 @@ public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand 
 
         _newJoin.setCompRef(null);
         _pg.getPathNodes().remove(_newJoin);
-        
+
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -174,9 +179,7 @@ public class JoinPathsCommand extends CompoundCommand implements JUCMNavCommand 
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

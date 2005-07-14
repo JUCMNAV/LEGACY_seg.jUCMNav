@@ -14,9 +14,7 @@ import ucm.map.RespRef;
 import urn.URNspec;
 
 /**
- * This command splits a link and inserts a passed PathNode (EmptyPoint or Responsibility) on the target location.
- * 
- * Created 2005-02-25
+ * This command splits a link and inserts a passed PathNode on the target location.
  * 
  * @author Etienne Tremblay
  */
@@ -40,8 +38,21 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     //  The two new links for the new node
     private NodeConnection newLink;
 
+    // the location
     private int x, y;
 
+    /**
+     * @param pg
+     *            the pathgraph containing the elements
+     * @param pn
+     *            the pathnode to add
+     * @param link
+     *            the nodeconnection to split
+     * @param x
+     *            insertion location
+     * @param y
+     *            insetion location
+     */
     public SplitLinkCommand(PathGraph pg, PathNode pn, NodeConnection link, int x, int y) {
         this.diagram = pg;
         this.node = pn;
@@ -52,9 +63,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("SplitLinkCommand.insertNodeOnPath")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -70,17 +79,16 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         redo();
     }
 
-    
-    /* (non-Javadoc)
+    /**
+     * @return Link not connected to a Connect
+     * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
         return !(oldLink.getSource() instanceof Connect || oldLink.getTarget() instanceof Connect);
     }
-    
-    /*
-     * (non-Javadoc)
-     * 
+
+    /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
@@ -110,9 +118,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         testPostConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
@@ -212,9 +218,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         this.y = y;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -240,9 +244,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

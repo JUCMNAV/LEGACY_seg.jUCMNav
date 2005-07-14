@@ -16,10 +16,8 @@ import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
- * Created 27-05-2005
- * 
- * This command represents the action of a user dragging an EndPoint in a Stub/Join. This action will erase the EndPoint and add the path as
- * a predecessor of the Stub/Join.
+ * This command represents the action of a user dragging an EndPoint in a Stub/Join. This action will erase the EndPoint and add the path as a predecessor of
+ * the Stub/Join.
  * 
  * @author Etienne Tremblay
  */
@@ -41,10 +39,10 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
     private int oldX, oldY;
 
     /**
-     * end point's parent componentref. 
+     * end point's parent componentref.
      */
     private ComponentRef oldParent;
-    
+
     /**
      * <code>ncOldEnd</code>: The connection going from the end point initialy.
      */
@@ -74,9 +72,7 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
@@ -85,20 +81,18 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         else
             return false;
     }
-    
-    /* (non-Javadoc)
-	 * @see org.eclipse.gef.commands.Command#canUndo()
-	 */
-	public boolean canUndo() {
-		// Make sure we can undo even if we don't have any added commands
-		if(getCommands().size() == 0)
-			return true;
-		return super.canUndo();
-	}
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * @see org.eclipse.gef.commands.Command#canUndo()
+     */
+    public boolean canUndo() {
+        // Make sure we can undo even if we don't have any added commands
+        if (getCommands().size() == 0)
+            return true;
+        return super.canUndo();
+    }
+
+    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -108,56 +102,52 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         pg = oldEndPoint.getPathGraph();
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
         oldParent = oldEndPoint.getCompRef();
-        
+
         List outs = oldEndPoint.getOutBindings();
         for (Iterator i = outs.iterator(); i.hasNext();) {
-			OutBinding out = (OutBinding) i.next();
-			Command cmd = new DeleteOutBindingCommand(out);
-			add(cmd);
-		}
-        
+            OutBinding out = (OutBinding) i.next();
+            Command cmd = new DeleteOutBindingCommand(out);
+            add(cmd);
+        }
+
         testPreConditions();
-        
+
         doRedo();
         super.execute();
-        
-        testPostConditions();
-    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void redo() {
-    	testPreConditions();
-    	
-        doRedo();
-        
-        super.redo();
-        
         testPostConditions();
     }
 
     /**
-	 * 
-	 */
-	private void doRedo() {
-		ncOldEnd.setTarget(stubOrJoin);
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+
+        doRedo();
+
+        super.redo();
+
+        testPostConditions();
+    }
+
+    /**
+     * performs the actual work.
+     */
+    private void doRedo() {
+        ncOldEnd.setTarget(stubOrJoin);
         pg.getPathNodes().remove(oldEndPoint);
         oldEndPoint.setCompRef(null);
-	}
+    }
 
-	/*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-    	testPostConditions();
-    	
-    	super.undo();
-    	
+        testPostConditions();
+
+        super.undo();
+
         pg.getPathNodes().add(oldEndPoint);
 
         ncOldEnd.setTarget(oldEndPoint);
@@ -165,13 +155,11 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         oldEndPoint.setX(oldX);
         oldEndPoint.setY(oldY);
         oldEndPoint.setCompRef(oldParent);
-        
+
         testPreConditions();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -186,9 +174,7 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         assert pg.getNodeConnections().contains(ncOldEnd) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {

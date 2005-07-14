@@ -17,9 +17,9 @@ import urn.URNspec;
 
 /**
  * Given an empty node surrounded by empty nodes, cut the path by replacing the previous one with an end point and the next one by a start point. deletes the
- * current empty node and its surrounding connections or the passed connection . Created 2005-03-21
+ * current empty node and its surrounding connections.
  * 
- * pass either a node connection or an empty point, but not both.
+ * Alternate usage: Pass a NodeConnection to be cut; must still be surrounded by empty nodes.
  * 
  * @author Etienne Tremblay, jkealey
  */
@@ -30,41 +30,50 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
      */
     private PathGraph diagram;
-
     private EmptyPoint emptyPoint;
-
     private PathNode nextPoint;
-
     private PathNode previousPoint;
-
     private ComponentRef parentEmpty, parentPrevious, parentNext;
-
     private StartPoint newStart;
-
     private EndPoint newEnd;
-
     private NodeConnection connToPrev1;
-
     private NodeConnection connToNext1;
-
     private NodeConnection connToPrev2;
-
     private NodeConnection connToNext2;
-
     private NodeConnection targetConn;
 
+    /**
+     * 
+     * @param pg
+     *            the pathgraph containing ep
+     * @param ep
+     *            the emptypoint to split the connection on
+     */
     public CutPathCommand(PathGraph pg, EmptyPoint ep) {
         this.diagram = pg;
         this.emptyPoint = ep;
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * @param pg
+     *            the pathgraph containing nc
+     * 
+     * @param nc
+     *            the nodeconnection to split the connection on
+     */
     public CutPathCommand(PathGraph pg, NodeConnection nc) {
         this.diagram = pg;
         this.targetConn = nc;
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
     }
 
+    /**
+     * 
+     * Use this constructor to pass arguments in a delayed fashion.
+     *  
+     */
     public CutPathCommand() {
         super();
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
@@ -266,9 +275,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         this.diagram = diagram;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -320,9 +327,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -365,10 +370,17 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         }
     }
 
+    /**
+     * 
+     * @return the newly created end point
+     */
     public EndPoint getNewEnd() {
         return newEnd;
     }
 
+    /**
+     * @return the newly created start point. 
+     */
     public StartPoint getNewStart() {
         return newStart;
     }

@@ -15,7 +15,7 @@ import ucm.map.StartPoint;
 import urn.URNspec;
 
 /**
- * Created on 31-May-2005
+ * This command divides a NodeConnection by splicing it with a StartPoint or EndPoint. The end result is the creation of a new fork or join.
  * 
  * @author jkealey
  *  
@@ -23,6 +23,18 @@ import urn.URNspec;
 public class DividePathOnNodeConnectionCompoundCommand extends CompoundCommand {
 
     /**
+     * This command divides a NodeConnection by splicing it with a StartPoint or EndPoint. The end result is the creation of a new fork or join.
+     * 
+     * @param startOrEnd
+     *            the StartPoint or EndPoint to merge with ncTarget
+     * @param ncTarget
+     *            on which NodeConnection the fork/join should be added.
+     * @param x
+     *            where the fork/join should be added
+     * @param y
+     *            where the fork/join should be added
+     * @param isOrDivision
+     *            true for or fork/join, false for and fork/join.
      *  
      */
     public DividePathOnNodeConnectionCompoundCommand(PathNode startOrEnd, NodeConnection ncTarget, int x, int y, boolean isOrDivision) {
