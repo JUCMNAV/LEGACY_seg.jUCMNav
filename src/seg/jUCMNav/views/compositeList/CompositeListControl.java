@@ -199,7 +199,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
     }
 
     /**
-     * @see seg.jUCMNav.views.ISelectionInListListener#selectionChanged(Object)
+     * @see seg.jUCMNav.views.compositeList.ISelectionInListListener#selectionChanged(Object)
      */
     public void selectionChanged(Object selected) {
         setSelection(new StructuredSelection(selected));
