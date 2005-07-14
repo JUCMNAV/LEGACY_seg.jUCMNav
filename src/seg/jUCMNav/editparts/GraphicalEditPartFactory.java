@@ -56,7 +56,7 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new PathNodeEditPart((PathNode)model, root.getPathGraph());
 		else { 	
 		    System.out.println("Unknown class in GraphicalEditPartFactory.createEditPart();"); //$NON-NLS-1$
-		    assert false : "Unknown class in GraphicalEditPartFactory.createEditPart();";
+		    assert false : "Unknown class in GraphicalEditPartFactory.createEditPart();"; //$NON-NLS-1$
 			return null;
 		}
 	}

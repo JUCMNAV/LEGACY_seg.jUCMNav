@@ -37,6 +37,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import ucm.map.Map;
@@ -83,7 +84,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
                     toReturn = resp.getRespDef().getDescription();
             }
             if (toReturn == null)
-                return "";
+                return ""; //$NON-NLS-1$
             else
                 return toReturn;
         }
@@ -120,7 +121,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     }
 
     private void hookContextMenu() {
-        MenuManager menuMgr = new MenuManager("#PopupMenu");
+        MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
         menuMgr.setRemoveAllWhenShown(true);
         menuMgr.addMenuListener(new IMenuListener() {
             public void menuAboutToShow(IMenuManager manager) {
@@ -159,26 +160,26 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     private void makeActions() {
         action1 = new Action() {
             public void run() {
-                showMessage("Action 1 executed");
+                showMessage("Action 1 executed"); //$NON-NLS-1$
             }
         };
-        action1.setText("Action 1");
-        action1.setToolTipText("Action 1 tooltip");
+        action1.setText("Action 1"); //$NON-NLS-1$
+        action1.setToolTipText("Action 1 tooltip"); //$NON-NLS-1$
         action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
         action2 = new Action() {
             public void run() {
-                showMessage("Action 2 executed");
+                showMessage("Action 2 executed"); //$NON-NLS-1$
             }
         };
-        action2.setText("Action 2");
-        action2.setToolTipText("Action 2 tooltip");
+        action2.setText("Action 2"); //$NON-NLS-1$
+        action2.setToolTipText("Action 2 tooltip"); //$NON-NLS-1$
         action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
         doubleClickAction = new Action() {
             public void run() {
                 ISelection selection = viewer.getSelection();
                 Object obj = ((IStructuredSelection) selection).getFirstElement();
-                showMessage("Double-click detected on " + obj.toString());
+                showMessage("Double-click detected on " + obj.toString()); //$NON-NLS-1$
             }
         };
     }
@@ -188,7 +189,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     }
 
     private void showMessage(String message) {
-        MessageDialog.openInformation(viewer.getControl().getShell(), "Responsibilities", message);
+        MessageDialog.openInformation(viewer.getControl().getShell(), Messages.getString("ResponsibilityView.Responsibilities"), message); //$NON-NLS-1$
     }
 
     /**

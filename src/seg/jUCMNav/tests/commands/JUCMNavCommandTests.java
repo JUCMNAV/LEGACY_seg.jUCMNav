@@ -310,7 +310,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testAddInBindingCommand() {
-        assertTrue("ET: do me", false);
+        assertTrue("ET: do me", false); //$NON-NLS-1$
     }
 
     /**
@@ -364,11 +364,11 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testAddOutBindingCommand() {
-        assertTrue("ET: do me", false);
+        assertTrue("ET: do me", false); //$NON-NLS-1$
     }
 
     public void testAddPluginCommand() {
-        assertTrue("ET: do me", false);
+        assertTrue("ET: do me", false); //$NON-NLS-1$
     }
 
     /**
@@ -571,7 +571,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteInBindingCommand() {
-        assertTrue("ET: Do me", false);
+        assertTrue("ET: Do me", false); //$NON-NLS-1$
     }
 
     /**
@@ -697,7 +697,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteOutBindingCommand() {
-        assertTrue("ET: Do me", false);
+        assertTrue("ET: Do me", false); //$NON-NLS-1$
     }
 
     /**

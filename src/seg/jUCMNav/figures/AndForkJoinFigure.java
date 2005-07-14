@@ -154,7 +154,7 @@ public class AndForkJoinFigure extends PathNodeFigure implements Rotateable {
     public void setBranchCount(int branchCount) {
         if (branchCount == 0)
             return;
-        assert branchCount > 0 : "invalid branch count";
+        assert branchCount > 0 : "invalid branch count"; //$NON-NLS-1$
 
         if (this.branchCount != branchCount) {
 

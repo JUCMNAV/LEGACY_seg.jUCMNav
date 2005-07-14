@@ -45,8 +45,8 @@ public class RespListItem extends CompositeListItem {
 		data.verticalSpan = 2;
 		lblDesc = new Label(this, SWT.WRAP);
 		lblDesc.setLayoutData(data);
-		lblDesc.setText("");
-		lblDesc.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.ITALIC));
+		lblDesc.setText(""); //$NON-NLS-1$
+		lblDesc.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.ITALIC)); //$NON-NLS-1$
 		lblDesc.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
 		this.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
 		layout.marginWidth = 3;
@@ -116,11 +116,11 @@ public class RespListItem extends CompositeListItem {
 		lblIcon = new Label(composite, SWT.NONE);
 		lblName = new Label(composite, SWT.NONE);
 		lblName.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
-		lblIcon.setText("");
-		lblIcon.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif")));
-		lblName.setText("");
+		lblIcon.setText(""); //$NON-NLS-1$
+		lblIcon.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif"))); //$NON-NLS-1$
+		lblName.setText(""); //$NON-NLS-1$
 		lblName.setLayoutData(gridData3);
-		lblName.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.BOLD));
+		lblName.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.BOLD)); //$NON-NLS-1$
 		composite.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
 		composite.setLayoutData(gridData1);
 		composite.setLayout(gridLayout2);

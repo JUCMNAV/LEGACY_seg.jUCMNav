@@ -36,7 +36,7 @@ public class JUCMNavFigure {
             return PathNodeFigure.getDefaultDimension();
         }
 
-        System.out.println("Unknown dimension in JUCMNavFigure.getDimension() for " + modelElement);
+        System.out.println("Unknown dimension in JUCMNavFigure.getDimension() for " + modelElement); //$NON-NLS-1$
 
         return new Dimension(0, 0);
     }

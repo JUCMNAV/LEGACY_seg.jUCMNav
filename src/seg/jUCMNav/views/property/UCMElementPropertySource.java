@@ -248,14 +248,14 @@ public class UCMElementPropertySource extends EObjectPropertySource {
         Vector list = ParentFinder.getPossibleParents((UCMmodelElement) getEditableValue());
         Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size() + 1];
-        values[0] = "[unbound]"; //$NON-NLS-1$
+        values[0] = Messages.getString("UCMElementPropertySource.unbound"); //$NON-NLS-1$
         for (int i = 1; i < list.size() + 1; i++) {
             values[i] = EObjectClassNameComparator.getSortableElementName((ComponentRef) list.get(i - 1));
             if (values[i] == null)
-                values[i] = "[unnamed]"; //$NON-NLS-1$
+                values[i] = Messages.getString("UCMElementPropertySource.unnamed"); //$NON-NLS-1$
         }
 
-        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "parent", values);
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, Messages.getString("UCMElementPropertySource.parent"), values); //$NON-NLS-1$
         pd.setCategory(Messages.getString("EObjectPropertySource.info")); //$NON-NLS-1$
         descriptors.add(pd);
     }

@@ -100,7 +100,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
             EmptyPoint ep = ((EmptyPoint) ((EditPart) getHost()).getModel());
             CutPathCommand cp = new CutPathCommand(ep.getPathGraph(), ep);
             // LINE A
-            System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run.");
+            System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
             return cp;
         }
         if (request.getType() == REQ_CREATE) {
@@ -109,7 +109,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
                 newObjectType = ((CreateRequest) request).getNewObjectType();
             if (newObjectType instanceof EndPoint) {
                 // LINE B
-                System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE B to run.");
+                System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE B to run."); //$NON-NLS-1$
                 getHost().getViewer().setSelection(new StructuredSelection(getHost()));
             }
         } else if (request.getType() == REQ_RESIZE) {

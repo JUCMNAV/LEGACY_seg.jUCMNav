@@ -125,7 +125,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
 
-        assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()";
+        assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 
         return figure;
     }

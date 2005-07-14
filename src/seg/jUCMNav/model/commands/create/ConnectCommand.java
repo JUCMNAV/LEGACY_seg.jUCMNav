@@ -134,17 +134,17 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "pre something is null";
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "pre something is null"; //$NON-NLS-1$
 
         if (left instanceof EndPoint)
-            assert left.getSucc().size() == 0 : "pre left already connected";
+            assert left.getSucc().size() == 0 : "pre left already connected"; //$NON-NLS-1$
         else
-            assert left.getSucc().size() == 1 : "pre left already connected";
+            assert left.getSucc().size() == 1 : "pre left already connected"; //$NON-NLS-1$
 
         if (right instanceof StartPoint)
-            assert right.getPred().size() == 0 : "pre right already connected";
+            assert right.getPred().size() == 0 : "pre right already connected"; //$NON-NLS-1$
         else
-            assert right.getPred().size() == 1 : "pre right already connected";
+            assert right.getPred().size() == 1 : "pre right already connected"; //$NON-NLS-1$
 
     }
 
@@ -152,17 +152,17 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "post something is null";
+        assert left != null && right != null && ncLeft != null && ncRight != null && connect != null && urn != null : "post something is null"; //$NON-NLS-1$
 
         if (left instanceof EndPoint)
-            assert left.getSucc().size() == 1 : "post left not connected";
+            assert left.getSucc().size() == 1 : "post left not connected"; //$NON-NLS-1$
         else
-            assert left.getSucc().size() == 2 : "post left not connected";
+            assert left.getSucc().size() == 2 : "post left not connected"; //$NON-NLS-1$
 
         if (right instanceof StartPoint)
-            assert right.getPred().size() == 1 : "post right not connected";
+            assert right.getPred().size() == 1 : "post right not connected"; //$NON-NLS-1$
         else
-            assert right.getPred().size() == 2 : "post right not connected";
+            assert right.getPred().size() == 2 : "post right not connected"; //$NON-NLS-1$
 
     }
 

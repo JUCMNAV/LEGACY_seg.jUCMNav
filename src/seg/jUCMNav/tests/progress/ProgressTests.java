@@ -754,7 +754,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         // test to see if really disconnected.
-        assertTrue("items not disconnected", ep.getSucc().size() == 0 && sp.getPred().size() == 0);
+        assertTrue("items not disconnected", ep.getSucc().size() == 0 && sp.getPred().size() == 0); //$NON-NLS-1$
 
     }
 
@@ -783,7 +783,7 @@ public class ProgressTests extends TestCase {
         Command cmd = new SetConstraintCommand(sp, 85, 148);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
-        assertTrue("connected elements didn't move together", sp.getX() == ep.getX() && sp.getX() == 85 && sp.getY() == ep.getY() && sp.getY() == 148);
+        assertTrue("connected elements didn't move together", sp.getX() == ep.getX() && sp.getX() == 85 && sp.getY() == ep.getY() && sp.getY() == 148); //$NON-NLS-1$
     }
 
     /**
@@ -1818,8 +1818,8 @@ public class ProgressTests extends TestCase {
         // test if doesn't crash.
         action.run();
 
-        assertEquals("map not added", 2, editor.getPageCount());
-        assertEquals("new map not loaded", getMap(1), editor.getCurrentPage().getModel());
+        assertEquals("map not added", 2, editor.getPageCount()); //$NON-NLS-1$
+        assertEquals("new map not loaded", getMap(1), editor.getCurrentPage().getModel()); //$NON-NLS-1$
 
     }
 
@@ -1993,7 +1993,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqExportBitmap1() {
         ExportImageWizard wiz = new ExportImageWizard();
-        assertTrue("not an export wizard", wiz instanceof IExportWizard);
+        assertTrue("not an export wizard", wiz instanceof IExportWizard); //$NON-NLS-1$
     }
 
     /**
@@ -2039,7 +2039,7 @@ public class ProgressTests extends TestCase {
      * Author:jkealey
      */
     public void testReqBrowseModel1() {
-        assertNotNull("outline doesn't exist", editor.getAdapter(IContentOutlinePage.class));
+        assertNotNull("outline doesn't exist", editor.getAdapter(IContentOutlinePage.class)); //$NON-NLS-1$
     }
 
     /**
@@ -2057,7 +2057,7 @@ public class ProgressTests extends TestCase {
             if (str.equalsIgnoreCase("name")) //$NON-NLS-1$
                 name = true;
         }
-        assertTrue("can't rename map", name);
+        assertTrue("can't rename map", name); //$NON-NLS-1$
     }
 
     //  /**

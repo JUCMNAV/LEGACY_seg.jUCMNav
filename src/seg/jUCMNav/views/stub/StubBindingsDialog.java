@@ -328,7 +328,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        selectedPluginLabel = toolkit.createLabel(lb2, Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
+        selectedPluginLabel = toolkit.createLabel(lb2, "[no Plugin selected]"); 
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = true;
         selectedPluginLabel.setLayoutData(t);
@@ -370,7 +370,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         f.grabExcessVerticalSpace = true;
         stubComp.setLayoutData(f);
 
-        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
+        lb = toolkit.createLabel(stubComp, "Stub"); 
 
         tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabStubIns.setLinesVisible(true);
@@ -425,7 +425,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g.grabExcessVerticalSpace = true;
         mapComp.setLayoutData(g);
 
-        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.map")); //$NON-NLS-1$
+        lb = toolkit.createLabel(mapComp, "Map"); 
 
         tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabMapIns.setLinesVisible(true);
@@ -1053,7 +1053,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         if (selectedPlugin != null) {
             // Update the label
             selectedPluginLabel.setText(selectedPlugin.getStub().getName() + " <-> " + selectedPlugin.getPlugin().getName()); //$NON-NLS-1$
-            selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD)));
+            selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
             selectedPluginLabel.setData(selectedPlugin);
             addPluginClient.setVisible(true);
 

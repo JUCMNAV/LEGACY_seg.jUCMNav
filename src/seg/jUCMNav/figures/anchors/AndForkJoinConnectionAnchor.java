@@ -133,7 +133,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
             }
         }
 
-        assert minPoint != -1 : "problem finding closest point";
+        assert minPoint != -1 : "problem finding closest point"; //$NON-NLS-1$
 
         return minPoint;
     }
