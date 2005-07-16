@@ -28,6 +28,8 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCom
 import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
+import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
+import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
@@ -66,8 +68,10 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
@@ -100,6 +104,9 @@ public class JUCMNavCommandTests extends TestCase {
     private PathGraph pathgraph;
     private UCMmodelElement pathNodeWithLabel;
     private StartPoint start;
+    
+    private Stub stub;
+    private PluginBinding plugin;
 
     // during teardown, if testBindings==true, call verifyBindings()
     private boolean testBindings;
@@ -177,42 +184,46 @@ public class JUCMNavCommandTests extends TestCase {
             cs.execute(cmd);
         }
 
-        editor.doSave(null);
+        try {
+			editor.doSave(null);
 
-        // verify the bindings
-        if (testBindings)
-            verifyBindings();
+			// verify the bindings
+			if (testBindings)
+			    verifyBindings();
 
-        int i = cs.getCommands().length;
+			int i = cs.getCommands().length;
 
-        if (cs.getCommands().length > 0) {
-            assertTrue("Can't undo first command", cs.canUndo()); //$NON-NLS-1$
-            cs.undo();
-            editor.doSave(null);
-            assertTrue("Can't redo first command", cs.canRedo()); //$NON-NLS-1$
-            cs.redo();
-            editor.doSave(null);
-        }
+			if (cs.getCommands().length > 0) {
+			    assertTrue("Can't undo first command", cs.canUndo()); //$NON-NLS-1$
+			    cs.undo();
+			    editor.doSave(null);
+			    assertTrue("Can't redo first command", cs.canRedo()); //$NON-NLS-1$
+			    cs.redo();
+			    editor.doSave(null);
+			}
 
-        while (i-- > 0) {
-            assertTrue("Can't undo a certain command", cs.canUndo()); //$NON-NLS-1$
-            cs.undo();
-        }
+			while (i-- > 0) {
+			    assertTrue("Can't undo a certain command", cs.canUndo()); //$NON-NLS-1$
+			    cs.undo();
+			}
 
-        editor.doSave(null);
+			editor.doSave(null);
 
-        i = cs.getCommands().length;
-        while (i-- > 0) {
-            assertTrue("Can't redo a certain command", cs.canRedo()); //$NON-NLS-1$
-            cs.redo();
-        }
+			i = cs.getCommands().length;
+			while (i-- > 0) {
+			    assertTrue("Can't redo a certain command", cs.canRedo()); //$NON-NLS-1$
+			    cs.redo();
+			}
 
-        // verify the bindings
-        if (testBindings)
-            verifyBindings();
+			// verify the bindings
+			if (testBindings)
+			    verifyBindings();
 
-        editor.doSave(null);
-        // serialize using UrnModelManager && getName();
+			editor.doSave(null);
+			// serialize using UrnModelManager && getName();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
 
         editor.closeEditor(false);
     }
@@ -310,9 +321,34 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
+    
+    public void testAddStubCommand() {
+    	testExtendPathCommand();
+    	
+    	stub = (Stub) ModelCreationFactory.getNewObject(urnspec, Stub.class);
+    	
+    	Command cmd;
+    	
+    	NodeConnection nc = (NodeConnection)((PathNode)((NodeConnection) end.getPred().get(0)).getSource()).getPred().get(0);
+        cmd = new SplitLinkCommand(pathgraph, stub, nc, 55, 86);
+        assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
 
     public void testAddInBindingCommand() {
-        assertTrue("ET: do me", false); //$NON-NLS-1$
+//    	testAddPluginCommand();
+//    	
+//    	Command cmd;
+//    	
+//    	NodeConnection entry = (NodeConnection)stub.getPred().get(0);
+//    	
+//    	cmd = new AddInBindingCommand(plugin, start, entry);
+//    	assertTrue("Can't execute AddInBindingCommand with Plugin, StartPoint and entry NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
+//    	cs.execute(cmd);
+    	
+    	
+    	// Uncomment the preceding code if after this bug is fixed.
+    	assertTrue("Have to fix bug 378 before this test can run.", false);
     }
 
     /**
@@ -366,11 +402,31 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testAddOutBindingCommand() {
-        assertTrue("ET: do me", false); //$NON-NLS-1$
+    	testAddPluginCommand();
+    	
+    	Command cmd;
+    	
+    	NodeConnection exit = (NodeConnection)stub.getSucc().get(0);
+    	
+    	cmd = new AddOutBindingCommand(plugin, end, exit);
+    	assertTrue("Can't execute AddOutBindingCommand with Plugin, EndPoint and exit NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
     }
 
     public void testAddPluginCommand() {
-        assertTrue("ET: do me", false); //$NON-NLS-1$
+    	// Add a Stub in the current Path
+    	testAddStubCommand();
+    	// Then add a new map to plugin to
+    	testCreateMapCommand();
+    	// Then create a new path in this map to test adding an In/Out Binding.
+    	testCreatePathCommand();
+    	
+    	Command cmd;
+    	cmd = new AddPluginCommand(stub, map);
+    	assertTrue("Can't execute AddPluginCommand with Stub and Map.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
+    	
+    	plugin = (PluginBinding)stub.getBindings().get(0);
     }
 
     /**
@@ -511,6 +567,8 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testCreatePathCommand() {
+    	start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+    	
         Command cmd = new CreatePathCommand(pathgraph, start, 35, 67);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
