@@ -1,4 +1,4 @@
 #!/bin/sh
-wget -p -nd -E http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
-mv ./Help* ./helponline.html
-rm robot*
+rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm
+wget -p -k -nd -E -e "robots=off" http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
+mv ./Help*.html ./helponline.html
