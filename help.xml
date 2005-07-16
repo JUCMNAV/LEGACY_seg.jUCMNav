@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="jUCMNav Online Help" topic="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain">
-        <topic label="Part I - Introduction" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_I_Introduction">
-            <topic label="The Use Case Maps (UCM) Notation" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#The_Use_Case_Maps_UCM_Notation">
-                <topic label="UCMs in a Nutshell" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#UCMs_in_a_Nutshell" />
-                <topic label="Why Use Case Maps?" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Why_Use_Case_Maps" />
-                <topic label="Reference" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Reference" />
+<toc label="jUCMNav Online Help" topic="helpcontent/helponline.html">
+        <topic label="Part I - Introduction" href="helpcontent/helponline.html#Part_I_Introduction">
+            <topic label="The Use Case Maps (UCM) Notation" href="helpcontent/helponline.html#The_Use_Case_Maps_UCM_Notation">
+                <topic label="UCMs in a Nutshell" href="helpcontent/helponline.html#UCMs_in_a_Nutshell" />
+                <topic label="Why Use Case Maps?" href="helpcontent/helponline.html#Why_Use_Case_Maps" />
+                <topic label="Reference" href="helpcontent/helponline.html#Reference" />
             </topic>
-            <topic label="Setup and Installation" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Setup_and_Installation">
-                <topic label="Download All Prerequisites" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Download_All_Prerequisites" />
-                <topic label="Install the Applications" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Install_the_Applications" />
-                <topic label="Launch Eclipse" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Launch_Eclipse" />
+            <topic label="Setup and Installation" href="helpcontent/helponline.html#Setup_and_Installation">
+                <topic label="Download All Prerequisites" href="helpcontent/helponline.html#Download_All_Prerequisites" />
+                <topic label="Install the Applications" href="helpcontent/helponline.html#Install_the_Applications" />
+                <topic label="Launch Eclipse" href="helpcontent/helponline.html#Launch_Eclipse" />
             </topic>
-            <topic label="Quick Tour of Eclipse and jUCMNav" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Quick_Tour_of_Eclipse_and_jUCMNa">
-                <topic label="Creating Files" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Creating_Files" />
-                <topic label="Perspectives" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Perspectives" />
-                <topic label="Views and Editor" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Views_and_Editor" />
+            <topic label="Quick Tour of Eclipse and jUCMNav" href="helpcontent/helponline.html#Quick_Tour_of_Eclipse_and_jUCMNa">
+                <topic label="Creating Files" href="helpcontent/helponline.html#Creating_Files" />
+                <topic label="Perspectives" href="helpcontent/helponline.html#Perspectives" />
+                <topic label="Views and Editor" href="helpcontent/helponline.html#Views_and_Editor" />
             </topic>
         </topic>
-        <topic label="Part II - Basic Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_II_Basic_Editing">
-            <topic label="Keyboard shortcuts" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Keyboard_shortcuts" />
-            <topic label="Components" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Components" />
-            <topic label="Creating Paths" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Creating_Paths" />
-            <topic label="Elements bound to components" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Elements_bound_to_components" />
-            <topic label="Working with labels" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Working_with_labels" />
-            <topic label="Forks/Joins" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Forks_Joins" />
-            <topic label="Conditions" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Conditions" />
-            <topic label="Deletion" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Deletion" />
-            <topic label="Waiting places, timers and connects" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Waiting_places_timers_and_connec" />
+        <topic label="Part II - Basic Editing" href="helpcontent/helponline.html#Part_II_Basic_Editing">
+            <topic label="Keyboard shortcuts" href="helpcontent/helponline.html#Keyboard_shortcuts" />
+            <topic label="Components" href="helpcontent/helponline.html#Components" />
+            <topic label="Creating Paths" href="helpcontent/helponline.html#Creating_Paths" />
+            <topic label="Elements bound to components" href="helpcontent/helponline.html#Elements_bound_to_components" />
+            <topic label="Working with labels" href="helpcontent/helponline.html#Working_with_labels" />
+            <topic label="Forks/Joins" href="helpcontent/helponline.html#Forks_Joins" />
+            <topic label="Conditions" href="helpcontent/helponline.html#Conditions" />
+            <topic label="Deletion" href="helpcontent/helponline.html#Deletion" />
+            <topic label="Waiting places, timers and connects" href="helpcontent/helponline.html#Waiting_places_timers_and_connec" />
         </topic>
-        <topic label="Part III - Advanced Editing" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_III_Advanced_Editing">
-            <topic label="Working with Multiple Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Working_with_Multiple_Maps" />
-            <topic label="Zooming and view modes" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Zooming_and_view_modes" />
-            <topic label="Auto-layout" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Auto_layout" />
-            <topic label="Using Stubs" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Using_Stubs" />
-            <topic label="Exporting Maps" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Exporting_Maps" />
+        <topic label="Part III - Advanced Editing" href="helpcontent/helponline.html#Part_III_Advanced_Editing">
+            <topic label="Working with Multiple Maps" href="helpcontent/helponline.html#Working_with_Multiple_Maps" />
+            <topic label="Zooming and view modes" href="helpcontent/helponline.html#Zooming_and_view_modes" />
+            <topic label="Auto-layout" href="helpcontent/helponline.html#Auto_layout" />
+            <topic label="Using Stubs" href="helpcontent/helponline.html#Using_Stubs" />
+            <topic label="Exporting Maps" href="helpcontent/helponline.html#Exporting_Maps" />
         </topic>
-        <topic label="Part IV - Developer Reference" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Part_IV_Developer_Reference">
-            <topic label="Javadoc" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Javadoc" />
-            <topic label="Developer Site" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain#Developer_Site" />
+        <topic label="Part IV - Developer Reference" href="helpcontent/helponline.html#Part_IV_Developer_Reference">
+            <topic label="Javadoc" href="helpcontent/helponline.html#Javadoc" />
+            <topic label="Developer Site" href="helpcontent/helponline.html#Developer_Site" />
         </topic>
 </toc>

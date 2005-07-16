@@ -244,7 +244,12 @@
 			
 		<!-- Include help in the zip for integration with eclipse help-->
 		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
-
+		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" >
+			<fileset dir="./">
+				<include name="helpcontent/**/*.*"/>
+			</fileset>
+		</copy>
+		
 		<!-- Include plugin i18n strings for view names, etc -->
 		<copy file="plugin.properties" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
 		
