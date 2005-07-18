@@ -1,4 +1,16 @@
 #!/bin/sh
-rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm
+
+#clean up existing
+rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css
+
+#get page, prereqs, etc and convert links
 wget -p -k -nd -E -e "robots=off" http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
-mv ./Help*.html ./helponline.html
+
+#prepare temp file
+mv ./Help*.html ./helponline_TMP.html
+
+#remove <BASE> tags from file
+grep -iv "<base" ./helponline_TMP.html > ./helponline.html
+
+#cleanup
+rm *_TMP*
