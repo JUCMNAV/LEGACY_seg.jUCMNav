@@ -29,10 +29,28 @@
 		<include name="org.eclipse.swt*/**/*.jar" />
 		<include name="org.eclipse.ui*/**/*.jar" />
 		<include name="org.eclipse.update*/**/*.jar" />
+
+		<include name="org.apache.lucene*.jar" />
+		<include name="org.junit*.jar" />
+		<include name="org.eclipse.core*.jar" />
+		<include name="org.eclipse.draw*.jar" />
+		<include name="org.eclipse.emf*.jar" />
+		<include name="org.eclipse.gef*.jar" />
+		<include name="org.eclipse.help*.jar" />
+		<include name="org.eclipse.jface*.jar" />
+		<include name="org.eclipse.osgi*.jar" />
+		<include name="org.eclipse.swt*.jar" />
+		<include name="org.eclipse.ui*.jar" />
+		<include name="org.eclipse.update*.jar" />
 	</patternset>
 	
 	<target name="testenv" depends="init">
-		<echo>${eclipsehome}</echo>
+		<echo>Eclipse Home: ${eclipsehome}</echo>
+		<fileset id="test.classpath" dir="${eclipsehome}/plugins/">
+			<patternset refid="jucmnav.classpath" />
+		</fileset>
+		<property name="testcp" refid="test.classpath" />
+		<echo>Classpath: ${testcp}</echo>
 	</target>
 
 	<target name="init" depends="properties">
