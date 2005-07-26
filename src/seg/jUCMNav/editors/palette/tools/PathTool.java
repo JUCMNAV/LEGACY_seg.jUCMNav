@@ -11,6 +11,7 @@ import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
@@ -102,9 +103,8 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
         this.urn = urn;
     }
 
-
-    /***
-     * Saves the target request. 
+    /***********************************************************************************************************************************************************
+     * Saves the target request.
      */
     protected void setTargetRequest(Request req) {
         targetRequest = req;
@@ -139,19 +139,28 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
 
             return super.handleButtonUp(button);
         } else {
-            setUnloadWhenFinished(true);
+
             if (getTargetEditPart() != null)
                 getCurrentViewer().select(getTargetEditPart());
             else
                 getCurrentViewer().deselectAll();
-            getDomain().getPaletteViewer().setActiveTool(null);
+            
+            if (getTargetEditPart() != null && !(getTargetEditPart().getModel() instanceof StartPoint) && !(getTargetEditPart().getModel() instanceof EndPoint)) {
+                setUnloadWhenFinished(true);
+                getDomain().getPaletteViewer().setActiveTool(null);
+            } else if (getTargetEditPart() != null) {
+                StructuredSelection sel =  new StructuredSelection(getTargetEditPart());
+                setSelectionState(sel);
+                return super.handleButtonUp(button);
+            }
+            
             return true;
         }
     }
 
     /**
      * What happens when the mouse moves
-     *  
+     * 
      */
     protected boolean handleMove() {
         // Change the target under the mouse before updating the target request...
