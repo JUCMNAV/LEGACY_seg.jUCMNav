@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util.modelexplore.queries;
 
+import java.util.Set;
 import java.util.Vector;
 
 import seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor;
@@ -16,8 +17,8 @@ import ucm.map.PathNode;
  * 
  * If modifications are made here, might need to be made in StartPointFinder as well.
  * 
- * @author jpdaigle
- *  
+ * @author jpdaigle, jkealey
+ * 
  */
 public class EndPointFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
     public EndPointFinder() {
@@ -26,7 +27,10 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
 
     public QueryResponse runImpl(QueryRequest qr) {
         PathNode startNode = ((QFindReachableEndPoints) qr).getStartPathNode();
-        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode);
+        Set exclusions = ((QFindReachableEndPoints) qr).getExclusions();
+        int direction = ((QFindReachableEndPoints) qr).getDirection();
+
+        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode, exclusions, direction);
         ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
 
         // extract vector of all reachable nodes
@@ -49,14 +53,26 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
     public class QFindReachableEndPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
         PathNode _StartPathNode;
+        Set _exclusions;
+        int _direction;
 
-        public QFindReachableEndPoints(PathNode startPathNode) {
+        public QFindReachableEndPoints(PathNode startPathNode, Set exclusions, int direction) {
             this._queryType = QueryObject.FINDREACHABLEENDPOINTS;
             _StartPathNode = startPathNode;
+            _exclusions = exclusions;
+            _direction = direction;
         }
 
         public PathNode getStartPathNode() {
             return _StartPathNode;
+        }
+
+        public int getDirection() {
+            return _direction;
+        }
+
+        public Set getExclusions() {
+            return _exclusions;
         }
 
     }

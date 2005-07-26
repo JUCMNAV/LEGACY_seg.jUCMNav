@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util.modelexplore.queries;
 
+import java.util.Set;
 import java.util.Vector;
 
 import seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor;
@@ -15,10 +16,10 @@ import ucm.map.StartPoint;
  * Given a PathNode on a certain set of splines, find all reachable start points. Note that this returns StartPoints only, not Stubs that behave as start
  * points.
  * 
- * If modifications are made here, might need to be made in EndPointFinder as well. 
+ * If modifications are made here, might need to be made in EndPointFinder as well.
  * 
- * @author jpdaigle
- *  
+ * @author jpdaigle, jkealey
+ * 
  */
 public class StartPointFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
@@ -28,7 +29,10 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
 
     public QueryResponse runImpl(QueryRequest qr) {
         PathNode startNode = ((QFindReachableStartPoints) qr).getStartPathNode();
-        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode);
+        Set exclusions = ((QFindReachableStartPoints) qr).getExclusions();
+        int direction = ((QFindReachableStartPoints) qr).getDirection();
+
+        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode, exclusions, direction);
         ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
 
         // extract vector of all reachable nodes
@@ -51,14 +55,26 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
     public class QFindReachableStartPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
         PathNode _StartPathNode;
+        Set _exclusions;
+        int _direction;
 
-        public QFindReachableStartPoints(PathNode startPathNode) {
+        public QFindReachableStartPoints(PathNode startPathNode, Set exclusions, int direction) {
             this._queryType = QueryObject.FINDREACHABLESTARTPOINTS;
             _StartPathNode = startPathNode;
+            _exclusions = exclusions;
+            _direction = direction;
         }
 
         public PathNode getStartPathNode() {
             return _StartPathNode;
+        }
+
+        public int getDirection() {
+            return _direction;
+        }
+
+        public Set getExclusions() {
+            return _exclusions;
         }
 
     }

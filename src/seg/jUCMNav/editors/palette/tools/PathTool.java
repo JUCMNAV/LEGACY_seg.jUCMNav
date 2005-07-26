@@ -17,6 +17,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder.QFindReachableEndPoints;
+import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -324,7 +325,7 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
      * @return The endpoint of the path.
      */
     private PathNode findEndPoint(PathNode start) {
-        QFindReachableEndPoints qry = new EndPointFinder().new QFindReachableEndPoints(start);
+        QFindReachableEndPoints qry = new EndPointFinder().new QFindReachableEndPoints(start, null, QFindReachableNodes.DIRECTION_FORWARD);
         EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.getInstance().run(qry);
         Vector vEndPoints = resp.getNodes();
 
