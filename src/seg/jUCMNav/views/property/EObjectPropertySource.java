@@ -196,7 +196,6 @@ public class EObjectPropertySource implements IPropertySource2 {
         String name = attr.getName().toLowerCase();
         if (name.indexOf("color") >= 0) { //$NON-NLS-1$
             pd = new ColorPropertyDescriptor(propertyid, attr.getName());
-            descriptors.add(pd);
         } else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
             CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
             text.setReadOnly(true);
