@@ -1,0 +1,26 @@
+---+ HelpXMLPlugin
+
+This plugin allow you to create a help.xml file from a TWiki page. It create the help.xml page using the TOC tags in TWiki
+
+---++ Syntax Rules
+
+   * =%<nop>HELPXML{"HelpOnLine" url="helpcontent/helponline.html"}%=
+
+---++ Plugin Settings
+
+   * Set DEBUG = 0
+
+---++ Plugin Info
+
+|  Plugin Author: | Main.JeanFrancoisRoy |
+|  Plugin Version: | 1.00 |
+|  Change History: | 27 Jul 2005: Initial Version |
+|  27 Jul 2005: | Initial version |
+|  CPAN Dependencies: | none |
+|  Other Dependencies: | none |
+|  Perl Version: | 5.0 |
+|  Plugin Home: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC% |
+|  Feedback: | http://TWiki.org/cgi-bin/view/Plugins/%TOPIC%Dev |
+
+__Related Topics:__ %TWIKIWEB%.TWikiPreferences, %TWIKIWEB%.TWikiPlugins
+
