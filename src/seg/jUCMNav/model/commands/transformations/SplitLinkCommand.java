@@ -20,22 +20,26 @@ import urn.URNspec;
  */
 public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
-    //  The UCM diagram
+    // indicates whether or not the command is to be aborted because it is in a compound command
+
+    private boolean aborted = false;
+
+    // The UCM diagram
     private PathGraph diagram;
 
-    //  The old link where we are inserting
+    // The old link where we are inserting
     private NodeConnection oldLink;
 
-    //  The new node we are inserting
+    // The new node we are inserting
     private PathNode node;
 
-    //  The node before the new node
+    // The node before the new node
     private PathNode previousNode;
 
     // The node following the new node
     private PathNode nextNode;
 
-    //  The two new links for the new node
+    // The two new links for the new node
     private NodeConnection newLink;
 
     // the location
@@ -69,6 +73,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     public void execute() {
         previousNode = oldLink.getSource();
         nextNode = oldLink.getTarget();
+        if (previousNode == null || nextNode == null || previousNode.getPathGraph() == null || nextNode.getPathGraph() == null) {
+            aborted = true;
+            return;
+        }
         URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
         newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
@@ -92,6 +100,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+        if (aborted)
+            return;
         testPreConditions();
         /*
          * Before ... (previousNode)---[oldLink]---(nextNode)---...
@@ -115,6 +125,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         // bind to parent
         node.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
 
+
+        // transfer bindings from at the ending of the old link onto the new one. 
+        newLink.getInBindings().addAll(oldLink.getInBindings());
+        oldLink.getInBindings().clear();
+        
         testPostConditions();
     }
 
@@ -122,6 +137,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+        if (aborted)
+            return;
         testPostConditions();
 
         // unbind from parent
@@ -139,6 +156,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
             URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
             urn.getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
         }
+        
+        // transfer bindings from at the ending of the new link back onto the old one. 
+        oldLink.getInBindings().addAll(newLink.getInBindings());
+        newLink.getInBindings().clear();
+
 
         testPreConditions();
     }

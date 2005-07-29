@@ -15,6 +15,7 @@
 package seg.jUCMNav.editors;
 
 import java.util.EventObject;
+import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -33,7 +34,8 @@ import ucm.map.Map;
  * Event listeners registered to a <code>DelegatingCommandStack</code> will be informed whenever the underlying <code>CommandStack</code> changes. They will
  * not be registered to the underlying <code>CommandStack</code> but they will be informed about change events of them.
  * 
- * All ugly stkUrnSpec related code added by jkealey. This code is to allow DeleteMapCommands/CreateMapCommands to be undone because they can't be executed in one of the UcmEditor's command stacks. 
+ * All ugly stkUrnSpec related code added by jkealey. This code is to allow DeleteMapCommands/CreateMapCommands to be undone because they can't be executed in
+ * one of the UcmEditor's command stacks.
  * 
  * @author Gunnar Wagenknecht, jkealey
  */
@@ -49,7 +51,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     private boolean unsavedChanges = false;
 
     /**
-     *  Creates a stack that delegates to another stack. This stack can be registered once and have its behaviour change dynamically.   
+     * Creates a stack that delegates to another stack. This stack can be registered once and have its behaviour change dynamically.
      */
     public DelegatingCommandStack() {
         stkUrnSpec = new CommandStack();
@@ -115,15 +117,35 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * @see org.eclipse.gef.commands.CommandStack#execute(org.eclipse.gef.commands.Command)
      */
     public void execute(Command command) {
-        if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
-                && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
-            lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
-            stkUrnSpec.execute(command);
+        if (command instanceof CompoundCommand) {
+            boolean b = false;
+            for (Iterator iter = ((CompoundCommand) command).getCommands().iterator(); iter.hasNext();) {
+                Command internal = (Command) iter.next();
+
+                if (internal instanceof CompoundCommand) {
+                    for (Iterator iterator = ((CompoundCommand) internal).getCommands().iterator(); iterator.hasNext();) {
+                        Command internal2 = (Command) iterator.next();
+                        if (internal2 instanceof DeleteMapCommand) {
+                            lastAffectedMap = ((DeleteMapCommand) internal2).getMap();
+                            stkUrnSpec.execute(internal2);
+
+                            b = true;
+                        }
+
+                    }
+                }
+
+            }
+            if (b)
+                return;
+
         } else if (command instanceof CreateMapCommand) {
             lastAffectedMap = ((CreateMapCommand) command).getMap();
             stkUrnSpec.execute(command);
+            return;
+        }
 
-        } else if (null != currentCommandStack) {
+        if (null != currentCommandStack) {
             flushURNspecStack();
             currentCommandStack.execute(command);
         }
@@ -140,8 +162,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     }
 
     /**
-     * Clears the stack that is external to any of the individual editors. 
-     *
+     * Clears the stack that is external to any of the individual editors.
+     * 
      */
     public void flushURNspecStack() {
 
@@ -174,9 +196,9 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         return currentCommandStack;
     }
 
-    /** 
+    /**
      * 
-     * @return the map for which the command stack was last changed.  
+     * @return the map for which the command stack was last changed.
      */
     public Map getLastAffectedMap() {
         return lastAffectedMap;
@@ -227,8 +249,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         return currentCommandStack.getUndoLimit();
     }
 
-    /** 
-     * @return A stack that is external to any of the individual editors. 
+    /**
+     * @return A stack that is external to any of the individual editors.
      */
     public CommandStack getURNspecStack() {
         return stkUrnSpec;
@@ -273,9 +295,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         if (stkUrnSpec.getRedoCommand() != null) {
 
             Command command = stkUrnSpec.getRedoCommand();
-            if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
-                    && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
-                lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
+            if (command instanceof DeleteMapCommand) {
+                lastAffectedMap = ((DeleteMapCommand) command).getMap();
             } else if (command instanceof CreateMapCommand) {
                 lastAffectedMap = ((CreateMapCommand) command).getMap();
             }
@@ -338,9 +359,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     public void undo() {
         if (stkUrnSpec.getUndoCommand() != null) {
             Command command = stkUrnSpec.getUndoCommand();
-            if (command instanceof CompoundCommand && ((CompoundCommand) command).getCommands().size() == 1
-                    && ((CompoundCommand) command).getCommands().get(0) instanceof DeleteMapCommand) {
-                lastAffectedMap = ((DeleteMapCommand) ((CompoundCommand) command).getCommands().get(0)).getMap();
+            if (command instanceof DeleteMapCommand) {
+                lastAffectedMap = ((DeleteMapCommand) command).getMap();
             } else if (command instanceof CreateMapCommand) {
                 lastAffectedMap = ((CreateMapCommand) command).getMap();
             }

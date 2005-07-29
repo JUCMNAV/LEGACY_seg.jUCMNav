@@ -1,5 +1,6 @@
 package seg.jUCMNav.actions;
 
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
@@ -8,13 +9,13 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
+import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
 
 /**
  * Given a timer with a timeout path, disconnects it.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class DisconnectTimeoutPathAction extends UCMSelectionAction {
 
@@ -51,7 +52,10 @@ public class DisconnectTimeoutPathAction extends UCMSelectionAction {
         Vector out = new Vector();
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         out.add(sel.getTimer().getSucc().get(1));
-        return new DeleteMultiNodeCommand(sel.getTimer(), in, out, ((UCMNavMultiPageEditor)getWorkbenchPart()).getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        Map editpartregistry = ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage().getGraphicalViewer().getEditPartRegistry();
+        // don't pre-delete node connection because we pluginbindings don't need to get deleted.
+        return new PrePathManipulationCommand(sel.getTimer(), in, out, editpartregistry, false);
+
     }
 
 }

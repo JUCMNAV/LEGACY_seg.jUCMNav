@@ -10,6 +10,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.Stub;
+import ucm.map.Timer;
 
 /**
  * Special kind of ConnectionSplineFinder with more path stoppers. Used to determine deletion paths.
@@ -43,7 +44,7 @@ public class DeletionPathFinder extends ConnectionSplineFinder {
      * @return true if path traversal should be stopped when hitting one of this node.
      */
     public boolean isPathStopper(PathNode node) {
-        return super.isPathStopper(node) || (node instanceof OrFork) || (node instanceof OrJoin) || (node instanceof Stub);
+        return super.isPathStopper(node) || (node instanceof OrFork) || (node instanceof OrJoin) || (node instanceof Stub) || (node instanceof Timer && node.getSucc().size()>1);
     }
 
     /**

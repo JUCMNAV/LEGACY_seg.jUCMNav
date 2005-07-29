@@ -37,4 +37,11 @@ public class AddAndForkAction extends AddOrForkAction {
         return (AndFork) ModelCreationFactory.getNewObject(urn, AndFork.class);
     }
 
+    /**
+     * 
+     * @return true if or fork/join, false if and fork/join
+     */
+    protected boolean isOrElement() {
+        return false;
+    }
 }

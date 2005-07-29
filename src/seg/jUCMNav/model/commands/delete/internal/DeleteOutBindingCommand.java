@@ -1,4 +1,4 @@
-package seg.jUCMNav.model.commands.delete;
+package seg.jUCMNav.model.commands.delete.internal;
 
 import org.eclipse.gef.commands.Command;
 

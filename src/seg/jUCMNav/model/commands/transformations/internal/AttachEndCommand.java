@@ -1,17 +1,11 @@
-package seg.jUCMNav.model.commands.transformations;
-
-import java.util.Iterator;
-import java.util.List;
+package seg.jUCMNav.model.commands.transformations.internal;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.commands.delete.DeleteOutBindingCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
@@ -21,7 +15,7 @@ import ucm.map.PathNode;
  * 
  * @author Etienne Tremblay
  */
-public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNavCommand {
+public class AttachEndCommand extends Command implements JUCMNavCommand {
 
     /**
      * <code>oldEndPoint</code>: The end point beeing dragged to the stub.
@@ -59,7 +53,7 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
      * @param stubOrJoin
      *            The stub/join where the end point will get merged.
      */
-    public JoinEndToStubJoinCommand(EndPoint oldEndPoint, PathNode stubOrJoin) {
+    public AttachEndCommand(EndPoint oldEndPoint, PathNode stubOrJoin) {
         super();
         this.oldEndPoint = oldEndPoint;
         this.stubOrJoin = stubOrJoin;
@@ -68,7 +62,7 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
     /**
      * Disable the default constructor.
      */
-    private JoinEndToStubJoinCommand() {
+    private AttachEndCommand() {
         super();
     }
 
@@ -83,16 +77,6 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
     }
 
     /**
-     * @see org.eclipse.gef.commands.Command#canUndo()
-     */
-    public boolean canUndo() {
-        // Make sure we can undo even if we don't have any added commands
-        if (getCommands().size() == 0)
-            return true;
-        return super.canUndo();
-    }
-
-    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -103,19 +87,7 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
         oldParent = oldEndPoint.getCompRef();
 
-        List outs = oldEndPoint.getOutBindings();
-        for (Iterator i = outs.iterator(); i.hasNext();) {
-            OutBinding out = (OutBinding) i.next();
-            Command cmd = new DeleteOutBindingCommand(out);
-            add(cmd);
-        }
-
-        testPreConditions();
-
-        doRedo();
-        super.execute();
-
-        testPostConditions();
+        redo();
     }
 
     /**
@@ -124,20 +96,11 @@ public class JoinEndToStubJoinCommand extends CompoundCommand implements JUCMNav
     public void redo() {
         testPreConditions();
 
-        doRedo();
-
-        super.redo();
-
-        testPostConditions();
-    }
-
-    /**
-     * performs the actual work.
-     */
-    private void doRedo() {
         ncOldEnd.setTarget(stubOrJoin);
         pg.getPathNodes().remove(oldEndPoint);
         oldEndPoint.setCompRef(null);
+
+        testPostConditions();
     }
 
     /**

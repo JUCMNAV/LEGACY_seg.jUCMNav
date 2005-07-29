@@ -516,7 +516,6 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     protected void pageChange(int newPageIndex) {
         super.pageChange(newPageIndex);
-
         getMultiPageTabManager().pageChange(newPageIndex);
 
     }

@@ -20,9 +20,8 @@ import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
-import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.AndFork;
@@ -67,13 +66,13 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         case SelectionHelper.ENDPOINT_NODECONNECTION:
             if (!SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getNodeconnection()))
                 break;
-            return new DividePathOnNodeConnectionCompoundCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+            return new DividePathCommand(sel.getEndpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
                     .getNodeconnectionMiddle().y, true);
         case SelectionHelper.STARTPOINT_NODECONNECTION:
             if (!SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getNodeconnection()))
                 break;
 
-            return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
+            return new DividePathCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
                     .getNodeconnectionMiddle().y, true);
         }
 
@@ -119,7 +118,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
             PathNode newNode = (PathNode) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), (Class) newObjectType);
-            createCommand = new AddForkOrJoinCompoundCommand(newNode, getPathGraph(), oldLink, constraint.x, constraint.y);
+            createCommand = new DividePathCommand(newNode, oldLink, constraint.x, constraint.y);
 
         }
 

@@ -1,7 +1,5 @@
 package seg.jUCMNav.editpolicies.element;
 
-import java.util.ArrayList;
-
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
@@ -15,17 +13,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
-import seg.jUCMNav.model.commands.delete.DeleteMultiNodeCommand;
-import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
-import seg.jUCMNav.model.commands.delete.DeletePathCommand;
+import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
-import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
-import ucm.map.NodeConnection;
 import ucm.map.PathNode;
-import ucm.map.StartPoint;
-import ucm.map.Stub;
 
 /**
  * ComponentEditPolicy for UCM PathNodes. Returns delete commands.
@@ -35,7 +27,7 @@ import ucm.map.Stub;
 public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
 
     /**
-     * Returns either a DeletePathCommand, DeleteNodeCommand or DeleteMultiNodeCommand.
+     * Returns either a DeletePathNodeCommand
      * 
      * @see org.eclipse.gef.editpolicies.ComponentEditPolicy#getDeleteCommand(org.eclipse.gef.requests.GroupRequest)
      */
@@ -50,36 +42,8 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         } else
             registry = getHost().getViewer().getEditPartRegistry();
 
-        if (parent instanceof Map && node instanceof StartPoint) {
-            DeletePathCommand command = new DeletePathCommand((StartPoint) node, registry);
-            return command;
-        } else if (parent instanceof Map && node instanceof EndPoint) {
-            DeletePathCommand command = new DeletePathCommand((EndPoint) node, registry);
-            return command;
-        } else if (parent instanceof Map && node instanceof Stub) {
-            return new DeleteMultiNodeCommand((PathNode) node, registry);
-        } else if (parent instanceof Map && ((PathNode) node).getPred().size() == 1 && ((PathNode) node).getSucc().size() == 1) {
-            NodeConnection in = (NodeConnection) ((PathNode) node).getPred().get(0);
-            NodeConnection out = (NodeConnection) ((PathNode) node).getSucc().get(0);
-            if (!in.getSource().equals(out.getTarget())) {
-                Command command = new DeleteNodeCommand((PathNode) node);
-                return command;
-            } else {
-                // if deleting the last node on a loop leading to a stub, get it to be disconnected instead of deleted.
-                ArrayList lIn = new ArrayList();
-                ArrayList lOut = new ArrayList();
-                // inversed because out of this node is in of stub.
-                lOut.add(in);
-                lIn.add(out);
-
-                Command command = new DeleteMultiNodeCommand(in.getSource(), lIn, lOut, registry);
-                return command;
-            }
-
-        } else if (parent instanceof Map && ((PathNode) node).getPred().size() > 1 || ((PathNode) node).getSucc().size() > 1) {
-            return new DeleteMultiNodeCommand((PathNode) node, registry);
-        } else if (parent instanceof Map && node instanceof Stub && ((PathNode) node).getPred().size() <= 1 || ((PathNode) node).getSucc().size() <= 1) {
-            return new DeleteMultiNodeCommand((PathNode) node, registry);
+        if (parent instanceof Map && node instanceof PathNode) {
+            return new DeletePathNodeCommand((PathNode) node, registry);
         }
 
         return super.createDeleteCommand(request);
@@ -97,10 +61,11 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
      */
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
-            EmptyPoint ep = ((EmptyPoint) ((EditPart) getHost()).getModel());
+            PathNode ep = ((PathNode) ((EditPart) getHost()).getModel());
             CutPathCommand cp = new CutPathCommand(ep.getPathGraph(), ep);
             // LINE A
-            System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
+            // System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
+            // CutPathAction on PathNode.
             return cp;
         }
         if (request.getType() == REQ_CREATE) {

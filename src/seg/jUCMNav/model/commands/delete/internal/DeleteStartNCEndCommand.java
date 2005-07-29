@@ -1,28 +1,25 @@
-package seg.jUCMNav.model.commands.delete;
+package seg.jUCMNav.model.commands.delete.internal;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
-import ucm.map.InBinding;
 import ucm.map.NodeConnection;
-import ucm.map.OutBinding;
 import ucm.map.PathGraph;
 import ucm.map.StartPoint;
 
 /**
  * This command will remove a simple path from the map. A simple path is defined as a start point, node connection and end point.
  * 
- * It will also get rid of bindings.
+ * All other relationships must have been removed previously.
+ * 
+ * The real use of this command is removing a small path when one of its extremities has not been defined when the command is created, only when it is executed.
  * 
  * @author jkealey
- *  
+ * 
  */
-public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavCommand {
+public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
 
     private boolean aborted = false;
     private EndPoint end;
@@ -50,37 +47,6 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
     }
 
     /**
-     * @see org.eclipse.gef.commands.CompoundCommand#canExecute()
-     */
-    public boolean canExecute() {
-        if (getCommands().size() == 0)
-            return true;
-        else
-            return super.canExecute();
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#canUndo()
-     */
-    public boolean canUndo() {
-        // Make sure we can undo even if we don't have any added commands
-        if (getCommands().size() == 0)
-            return true;
-        return super.canUndo();
-    }
-
-    /**
-     * Does the actual deletion work.
-     */
-    private void doRedo() {
-        pg.getPathNodes().remove(start);
-        pg.getPathNodes().remove(end);
-        pg.getNodeConnections().remove(nc);
-        start.setCompRef(null);
-        end.setCompRef(null);
-    }
-
-    /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -105,30 +71,11 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             start = (StartPoint) nc.getSource();
         }
 
-        List ins = start.getInBindings();
-        for (Iterator i = ins.iterator(); i.hasNext();) {
-            InBinding in = (InBinding) i.next();
-            DeleteInBindingCommand cmd = new DeleteInBindingCommand(in);
-            add(cmd);
-        }
-
-        List outs = end.getOutBindings();
-        for (Iterator i = outs.iterator(); i.hasNext();) {
-            OutBinding out = (OutBinding) i.next();
-            DeleteOutBindingCommand cmd = new DeleteOutBindingCommand(out);
-            add(cmd);
-        }
-
         pg = start.getPathGraph();
         startParent = start.getCompRef();
         endParent = end.getCompRef();
 
-        testPreConditions();
-
-        doRedo();
-        super.execute();
-
-        testPostConditions();
+        redo();
     }
 
     /**
@@ -139,8 +86,11 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
             return;
         testPreConditions();
 
-        doRedo();
-        super.redo();
+        pg.getPathNodes().remove(start);
+        pg.getPathNodes().remove(end);
+        pg.getNodeConnections().remove(nc);
+        start.setCompRef(null);
+        end.setCompRef(null);
 
         testPostConditions();
     }
@@ -172,8 +122,6 @@ public class DeleteStartNCEndCommand extends CompoundCommand implements JUCMNavC
         if (aborted)
             return;
         testPostConditions();
-
-        super.undo();
 
         pg.getPathNodes().add(start);
         pg.getPathNodes().add(end);

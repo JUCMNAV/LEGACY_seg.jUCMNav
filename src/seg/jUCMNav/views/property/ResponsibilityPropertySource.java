@@ -108,6 +108,8 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        if (((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec()==null)
+            return;
         URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getResponsibilities());
         Collections.sort(list, new EObjectClassNameComparator());

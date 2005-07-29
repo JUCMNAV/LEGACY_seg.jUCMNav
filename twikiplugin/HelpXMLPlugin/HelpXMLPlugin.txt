@@ -1,6 +1,6 @@
 ---+ HelpXMLPlugin
 
-This plugin allow you to create a help.xml file from a TWiki page. It create the help.xml page using the TOC tags in TWiki
+This plugin allows you to create an Eclipse plugin help file (help.xml) file from a TWiki page. It creates the help.xml page using the TOC tags in TWiki
 
 ---++ Syntax Rules
 

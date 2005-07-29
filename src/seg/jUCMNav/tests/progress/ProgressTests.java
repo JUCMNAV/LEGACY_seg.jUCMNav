@@ -74,7 +74,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
-import seg.jUCMNav.model.commands.delete.DeleteNodeCommand;
+import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.views.outline.UcmOutlinePage;
 import seg.jUCMNav.views.property.ComponentPropertySource;
@@ -1001,7 +1001,7 @@ public class ProgressTests extends TestCase {
         PathNodeEditPart part = (PathNodeEditPart) getEditPart(pn);
 
         cmd = part.getCommand(new GroupRequest(RequestConstants.REQ_DELETE));
-        assertTrue("no/bad DeleteNodeCommand", cmd instanceof DeleteNodeCommand && cmd.canExecute()); //$NON-NLS-1$
+        assertTrue("no/bad DeletePathNodeCommand", cmd instanceof DeletePathNodeCommand && cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack

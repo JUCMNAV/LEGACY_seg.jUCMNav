@@ -36,4 +36,11 @@ public class AddAndJoinAction extends AddOrJoinAction {
         return (AndJoin) ModelCreationFactory.getNewObject(urn, AndJoin.class);
     }
 
+    /**
+     * 
+     * @return true if or fork/join, false if and fork/join
+     */
+    protected boolean isOrElement() {
+        return false;
+    }
 }

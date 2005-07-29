@@ -7,6 +7,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -30,7 +31,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
      */
     private PathGraph diagram;
-    private EmptyPoint emptyPoint;
+    private PathNode emptyPoint;
     private PathNode nextPoint;
     private PathNode previousPoint;
     private ComponentRef parentEmpty, parentPrevious, parentNext;
@@ -49,7 +50,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * @param ep
      *            the emptypoint to split the connection on
      */
-    public CutPathCommand(PathGraph pg, EmptyPoint ep) {
+    public CutPathCommand(PathGraph pg, PathNode ep) {
         this.diagram = pg;
         this.emptyPoint = ep;
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
@@ -89,17 +90,17 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      */
     public static boolean canExecute(Object p) {
         boolean b;
-        b = p != null && p instanceof EmptyPoint;
+        b = p != null && (p instanceof EmptyPoint || p instanceof DirectionArrow);
         if (b) {
-            EmptyPoint ep = (EmptyPoint) p;
+            PathNode ep = (PathNode) p;
             if (ep.getSucc().size() > 0 && ep.getPred().size() > 0) {
                 PathNode pn = ((NodeConnection) ep.getSucc().get(0)).getTarget();
-                b = pn instanceof EmptyPoint;
+                b = (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
 
                 pn = ((NodeConnection) ep.getPred().get(0)).getSource();
-                b = b && pn instanceof EmptyPoint;
+                b = b && (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
 
@@ -108,10 +109,10 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         }
         if (b == false && p instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) p;
-            b = nc.getTarget() instanceof EmptyPoint;
+            b = nc.getTarget() instanceof EmptyPoint ||  nc.getTarget() instanceof DirectionArrow;
             //check if no connects
             b = b && nc.getTarget().getSucc().size() == 1 && nc.getTarget().getPred().size() == 1;
-            b = b && nc.getSource() instanceof EmptyPoint;
+            b = b && (nc.getSource() instanceof EmptyPoint || nc.getSource() instanceof DirectionArrow);
             //check if no connects
             b = b && nc.getSource().getSucc().size() == 1 && nc.getSource().getPred().size() == 1;
         }
@@ -248,7 +249,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     /**
      * @return Returns the emptyPoint.
      */
-    public EmptyPoint getEmptyPoint() {
+    public PathNode getEmptyPoint() {
         return emptyPoint;
     }
 

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.gef.ui.actions.DirectEditAction;
 import org.eclipse.gef.ui.actions.EditorPartAction;
 import org.eclipse.gef.ui.actions.RedoAction;
@@ -157,7 +156,7 @@ public class ActionRegistryManager {
         // Notice the following are calls to addEditPartAction().
         // They need to know the current selection to work.
         // If you write addAction instead, you'll get empty selections
-        action = new DeleteAction((IWorkbenchPart) editor);
+        action = new seg.jUCMNav.actions.DeleteAction((IWorkbenchPart) editor);
         addEditPartAction((SelectionAction) action);
 
         action = new CutPathAction(editor);

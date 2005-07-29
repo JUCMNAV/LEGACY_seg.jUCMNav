@@ -1,4 +1,4 @@
-package seg.jUCMNav.model.commands.delete;
+package seg.jUCMNav.model.commands.delete.internal;
 
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import urncore.Responsibility;
  * @author jkealey
  *  
  */
-class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
+public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
 
     // its references to definitions.
     private Hashtable htReferences;
@@ -32,6 +32,9 @@ class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
 
     // the URNspec in which it is contained
     private URNspec urn;
+    
+    private int mapPosition;
+    
 
     /**
      * @param m
@@ -67,6 +70,7 @@ class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
                 htReferences.put(node, ((RespRef) node).getRespDef());
         }
         
+        mapPosition = getMap().getUcmspec().getMaps().indexOf(getMap());
         redo();
     }
 
@@ -154,7 +158,7 @@ class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
         super.undo();
 
         // re-add map
-        urn.getUcmspec().getMaps().add(getMap());
+        urn.getUcmspec().getMaps().add(mapPosition, getMap());
 
         // re-add references
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {

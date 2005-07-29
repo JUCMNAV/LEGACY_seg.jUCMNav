@@ -12,6 +12,7 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
+import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.Map;
@@ -36,7 +37,7 @@ import urncore.NodeLabel;
  * Created on 28-May-2005
  * 
  * @author jkealey
- *  
+ * 
  */
 public class SelectionHelper {
     // SelectionTypes
@@ -45,11 +46,13 @@ public class SelectionHelper {
     public static final int COMPONENTLABEL = 10;
     public static final int COMPONENTREF = 11;
     public static final int CONNECT = 18;
+    public static final int DIRECTIONARROW = 19;
     public static final int EMPTYPOINT = 1;
     public static final int EMPTYPOINT_TIMER = 116;
     public static final int EMPTYPOINT_WAITINGPLACE = 115;
     public static final int ENDPOINT = 2;
     public static final int ENDPOINT_ANDJOIN = 112;
+    public static final int ENDPOINT_DIRECTIONARROW = 117;
     public static final int ENDPOINT_EMPTYPOINT = 101;
     public static final int ENDPOINT_NODECONNECTION = 102;
     public static final int ENDPOINT_ORJOIN = 111;
@@ -65,6 +68,7 @@ public class SelectionHelper {
     public static final int RESPONSIBILITY = 4;
     public static final int STARTPOINT = 5;
     public static final int STARTPOINT_ANDFORK = 114;
+    public static final int STARTPOINT_DIRECTIONARROW = 118;
     public static final int STARTPOINT_EMPTYPOINT = 106;
     public static final int STARTPOINT_ENDPOINT = 107;
     public static final int STARTPOINT_NODECONNECTION = 108;
@@ -82,6 +86,7 @@ public class SelectionHelper {
     private ComponentLabel componentlabel;
     private ComponentRef componentref;
     private Connect connect;
+    private DirectionArrow directionarrow;
     private EmptyPoint emptypoint;
     private EndPoint endpoint;
     private Map map;
@@ -254,7 +259,9 @@ public class SelectionHelper {
             orjoin = (OrJoin) model;
         else if (model instanceof AndJoin)
             andjoin = (AndJoin) model;
-        else if (model instanceof Map && ((Map)model).getUcmspec()!=null) {
+        else if (model instanceof DirectionArrow)
+            directionarrow = (DirectionArrow) model;
+        else if (model instanceof Map && ((Map) model).getUcmspec() != null) {
             map = (Map) model;
             urnspec = map.getUcmspec().getUrnspec();
         } else if (model instanceof URNspec) {
@@ -273,7 +280,8 @@ public class SelectionHelper {
                 else
                     map = pathgraph.getMap();
 
-                urnspec = map.getUcmspec().getUrnspec();
+                if (map != null && map.getUcmspec()!=null)
+                    urnspec = map.getUcmspec().getUrnspec();
             }
         }
     }
@@ -308,13 +316,13 @@ public class SelectionHelper {
                     Object model = ((EditPart) element).getModel();
                     if (model instanceof URNspec)
                         urnspec = (URNspec) model;
-                    else if (model instanceof Map)
+                    else if (model instanceof Map && ((Map) model).getUcmspec() != null)
                         urnspec = ((Map) model).getUcmspec().getUrnspec();
-                    else if (model instanceof PathNode)
+                    else if (model instanceof PathNode && ((PathNode) model).getPathGraph() != null && ((PathNode) model).getPathGraph().getMap()!=null && ((PathNode) model).getPathGraph().getMap().getUcmspec()!=null)
                         urnspec = ((PathNode) model).getPathGraph().getMap().getUcmspec().getUrnspec();
-                    else if (model instanceof NodeConnection)
+                    else if (model instanceof NodeConnection && ((NodeConnection) model).getPathGraph() != null && ((NodeConnection) model).getPathGraph().getMap().getUcmspec()!=null)
                         urnspec = ((NodeConnection) model).getPathGraph().getMap().getUcmspec().getUrnspec();
-                    else if (model instanceof ComponentRef)
+                    else if (model instanceof ComponentRef && ((ComponentRef) model).getMap() != null && ((ComponentRef) model).getMap().getUcmspec()!=null)
                         urnspec = ((ComponentRef) model).getMap().getUcmspec().getUrnspec();
 
                 }
@@ -328,11 +336,13 @@ public class SelectionHelper {
 
     /**
      * Given the internal variable state, set the selection type.
-     *  
+     * 
      */
     private void setType() {
         if (connect != null)
             selectionType = CONNECT;
+        else if (startpoint != null && directionarrow != null)
+            selectionType = STARTPOINT_DIRECTIONARROW;
         else if (startpoint != null && emptypoint != null)
             selectionType = STARTPOINT_EMPTYPOINT;
         else if (startpoint != null && endpoint != null)
@@ -343,6 +353,8 @@ public class SelectionHelper {
             selectionType = STARTPOINT_STUB;
         else if (startpoint != null && timer != null)
             selectionType = STARTPOINT_TIMER;
+        else if (endpoint != null && directionarrow != null)
+            selectionType = ENDPOINT_DIRECTIONARROW;
         else if (endpoint != null && emptypoint != null)
             selectionType = ENDPOINT_EMPTYPOINT;
         else if (endpoint != null && nodeconnection != null)
@@ -367,6 +379,8 @@ public class SelectionHelper {
             selectionType = EMPTYPOINT_TIMER;
         else if (emptypoint != null)
             selectionType = EMPTYPOINT;
+        else if (directionarrow != null)
+            selectionType = DIRECTIONARROW;
         else if (endpoint != null)
             selectionType = ENDPOINT;
         else if (nodeconnection != null)
@@ -402,5 +416,9 @@ public class SelectionHelper {
         else
             selectionType = OTHER;
 
+    }
+
+    public DirectionArrow getDirectionarrow() {
+        return directionarrow;
     }
 }

@@ -31,11 +31,11 @@ import urncore.ComponentElement;
  * The colors shown are those of the linked component definition.
  * 
  * @author jkealey, etremblay
- *  
+ * 
  */
 public class ComponentPropertySource extends UCMElementPropertySource {
 
-    //	 if this is a reference to a component, we want it.
+    // if this is a reference to a component, we want it.
     private ComponentElement comp = null;
     int i;
 
@@ -109,6 +109,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        if (((ComponentRef) getEditableValue()).getMap().getUcmspec() == null)
+            return;
         URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getComponents());
         Collections.sort(list, new EObjectClassNameComparator());

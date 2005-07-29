@@ -1,16 +1,10 @@
-package seg.jUCMNav.model.commands.transformations;
-
-import java.util.Iterator;
-import java.util.List;
+package seg.jUCMNav.model.commands.transformations.internal;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.commands.delete.DeleteInBindingCommand;
 import ucm.map.ComponentRef;
-import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathGraph;
@@ -24,7 +18,7 @@ import urncore.Condition;
  * 
  * @author Etienne Tremblay
  */
-public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMNavCommand {
+public class AttachStartCommand extends Command implements JUCMNavCommand {
 
     /**
      * <code>oldStartPoint</code>: The start point beeing dragged to the stub.
@@ -67,7 +61,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
      * @param stubOrFork
      *            The stub/fork where the start point will get merged.
      */
-    public JoinStartToStubForkCommand(StartPoint oldStartPoint, PathNode stubOrFork) {
+    public AttachStartCommand(StartPoint oldStartPoint, PathNode stubOrFork) {
         super();
         this.oldStartPoint = oldStartPoint;
         this.stubOrFork = stubOrFork;
@@ -76,7 +70,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
     /**
      * Disable the default constructor.
      */
-    private JoinStartToStubForkCommand() {
+    private AttachStartCommand() {
         super();
     }
 
@@ -88,16 +82,6 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
             return true;
         else
             return false;
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#canUndo()
-     */
-    public boolean canUndo() {
-        // Make sure we can undo even if we don't have any added commands
-        if (getCommands().size() == 0)
-            return true;
-        return super.canUndo();
     }
 
     /**
@@ -118,19 +102,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
 
         oldParent = oldStartPoint.getCompRef();
 
-        List ins = oldStartPoint.getInBindings();
-        for (Iterator i = ins.iterator(); i.hasNext();) {
-            InBinding in = (InBinding) i.next();
-            Command cmd = new DeleteInBindingCommand(in);
-            add(cmd);
-        }
-
-        testPreConditions();
-
-        doRedo();
-        super.execute();
-
-        testPostConditions();
+        redo();
     }
 
     /**
@@ -138,18 +110,7 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
      */
     public void redo() {
         testPreConditions();
-
-        doRedo();
-
-        super.redo();
-
-        testPostConditions();
-    }
-
-    /**
-     * performs the actual work
-     */
-    private void doRedo() {
+        
         ncOldStart.setSource(stubOrFork);
         pg.getPathNodes().remove(oldStartPoint);
 
@@ -157,7 +118,10 @@ public class JoinStartToStubForkCommand extends CompoundCommand implements JUCMN
             ncOldStart.setCondition(newCondition);
 
         oldStartPoint.setCompRef(null);
+
+        testPostConditions();
     }
+
 
     /**
      * @see org.eclipse.gef.commands.Command#undo()

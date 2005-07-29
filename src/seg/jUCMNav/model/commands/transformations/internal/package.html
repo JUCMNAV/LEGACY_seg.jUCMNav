@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+Commands that transform the model.
+
+<h2>Package Specification</h2>
+<p>
+All commands transform the model but this package is contains commands that aren't covered by the other packages. 
+</p>
+<p>
+When creating new transformations, try to reuse existing code; make CompoundCommands that use others instead of recoding everything. You may not be aware of all the issues surrounding changing a certain PathNode type.
+</p>
+<p>
+Furthermore, don't look at commands that are a hybrid of CompoundCommand and Command as examples. Look for clean ones. Hybrid commands are ugly and hard to maintain; if you find one, make sure there's a bug to refactor it in BugZilla. 
+</p>
+<p>
+<b>This package contains commands used internally by the seg.jUCMNav.model.commands.transformation package; they should not be invoked directly.</b>
+</p>
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+</body>
+</html>

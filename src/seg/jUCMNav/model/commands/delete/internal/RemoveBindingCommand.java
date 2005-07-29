@@ -1,4 +1,4 @@
-package seg.jUCMNav.model.commands.delete;
+package seg.jUCMNav.model.commands.delete.internal;
 
 import org.eclipse.gef.commands.Command;
 
@@ -15,7 +15,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-class RemoveBindingCommand extends Command implements JUCMNavCommand {
+public class RemoveBindingCommand extends Command implements JUCMNavCommand {
 
     // The PluginBinding to delete.
     private PluginBinding oldPlugin;

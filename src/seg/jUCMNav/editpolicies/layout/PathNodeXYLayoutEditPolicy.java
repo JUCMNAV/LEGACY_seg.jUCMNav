@@ -12,14 +12,10 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.actions.SelectionHelper;
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddBranchCommand;
-import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
-import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
-import seg.jUCMNav.model.commands.transformations.JoinEndToStubJoinCommand;
-import seg.jUCMNav.model.commands.transformations.JoinPathsCommand;
-import seg.jUCMNav.model.commands.transformations.JoinStartToStubForkCommand;
+import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
@@ -38,7 +34,7 @@ import ucm.map.StartPoint;
  * drag&drop behaviour of PathNodes on each other.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -57,15 +53,24 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
         switch (sel.getSelectionType()) {
         case SelectionHelper.ENDPOINT_EMPTYPOINT:
             if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getEmptypoint())) {
-                OrJoin join = (OrJoin) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrJoin.class);
-                return new JoinPathsCommand(sel.getEmptypoint(), sel.getEndpoint(), join);
+                return new DividePathCommand(sel.getEndpoint(), sel.getEmptypoint(), true);
             }
             break;
 
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
             if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEmptypoint())) {
-                OrFork fork = (OrFork) ModelCreationFactory.getNewObject(sel.getUrnspec(), OrFork.class);
-                return new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), fork);
+                return new DividePathCommand(sel.getStartpoint(), sel.getEmptypoint(), true);
+            }
+            break;
+        case SelectionHelper.ENDPOINT_DIRECTIONARROW:
+            if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getDirectionarrow())) {
+                return new DividePathCommand(sel.getEndpoint(), sel.getDirectionarrow(), true);
+            }
+            break;
+
+        case SelectionHelper.STARTPOINT_DIRECTIONARROW:
+            if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getDirectionarrow())) {
+                return new DividePathCommand(sel.getStartpoint(), sel.getDirectionarrow(), true);
             }
             break;
 
@@ -78,37 +83,37 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
         case SelectionHelper.ENDPOINT_STUB:
             if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getStub())) {
-                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getStub());
+                return new AttachBranchCommand(sel.getEndpoint(), sel.getStub());
             }
             break;
 
         case SelectionHelper.ENDPOINT_ORJOIN:
             if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getOrjoin())) {
-                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getOrjoin());
+                return new AttachBranchCommand(sel.getEndpoint(), sel.getOrjoin());
             }
             break;
 
         case SelectionHelper.ENDPOINT_ANDJOIN:
             if (SafePathChecker.isSafeFusion(sel.getEndpoint(), sel.getAndjoin())) {
-                return new JoinEndToStubJoinCommand(sel.getEndpoint(), sel.getAndjoin());
+                return new AttachBranchCommand(sel.getEndpoint(), sel.getAndjoin());
             }
             break;
 
         case SelectionHelper.STARTPOINT_STUB:
             if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getStub())) {
-                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getStub());
+                return new AttachBranchCommand(sel.getStartpoint(), sel.getStub());
             }
             break;
 
         case SelectionHelper.STARTPOINT_ORFORK:
             if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getOrfork())) {
-                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getOrfork());
+                return new AttachBranchCommand(sel.getStartpoint(), sel.getOrfork());
             }
             break;
 
         case SelectionHelper.STARTPOINT_ANDFORK:
             if (SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getAndfork())) {
-                return new JoinStartToStubForkCommand(sel.getStartpoint(), sel.getAndfork());
+                return new AttachBranchCommand(sel.getStartpoint(), sel.getAndfork());
             }
             break;
 
@@ -156,9 +161,9 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
         // can replace with new object?
         if (isReplaceable(getHost().getModel()) && !(isPathTool(request) || isReplaceable(request.getNewObject()))) {
             // because we don't want forks/joins without only 1 in/out
-            if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork || request.getNewObject() instanceof AndJoin || request.getNewObject() instanceof OrJoin)
-                return new AddForkOrJoinCompoundCommand((PathNode) request.getNewObject(), ((PathNode) getHost().getModel()).getPathGraph(), (PathNode) getHost()
-                        .getModel());
+            if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork || request.getNewObject() instanceof AndJoin
+                    || request.getNewObject() instanceof OrJoin)
+                return new DividePathCommand((PathNode) request.getNewObject(), (PathNode) getHost().getModel());
             else
                 return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
         } else if (isForkOrJoin(getHost().getModel()) && (isForkOrJoin(request.getNewObject()) || isPathTool(request))) {

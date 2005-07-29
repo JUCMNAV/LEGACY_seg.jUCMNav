@@ -132,6 +132,15 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
         }
 
+        // we have inconsistencies between different path stoppers. we want to include the NC going into an AndFork or AndJoin but not a Connect. Get rid of any connect related elements.
+        nc = (NodeConnection) _splinePath.firstElement();
+        if (nc.getSource() instanceof Connect)
+            _splinePath.remove(nc);
+        
+        nc = (NodeConnection) _splinePath.lastElement();
+        if (nc.getTarget() instanceof Connect)
+            _splinePath.remove(nc);
+        
         // Debugging
         //        System.out.println("**");
         //        System.out.println("\t" + n.getSource() + "\n\t" + n.getTarget());

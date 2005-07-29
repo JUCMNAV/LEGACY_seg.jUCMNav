@@ -6,9 +6,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.create.AddForkOrJoinCompoundCommand;
-import seg.jUCMNav.model.commands.transformations.DividePathOnNodeConnectionCompoundCommand;
-import seg.jUCMNav.model.commands.transformations.ForkPathsCommand;
+import seg.jUCMNav.model.commands.transformations.DividePathCommand;
 import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -44,6 +42,8 @@ public class AddOrForkAction extends UCMSelectionAction {
             return true;
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
             return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getEmptypoint());
+        case SelectionHelper.STARTPOINT_DIRECTIONARROW:
+            return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getDirectionarrow());
         case SelectionHelper.STARTPOINT_NODECONNECTION:
             return SafePathChecker.isSafeFusion(sel.getStartpoint(), sel.getNodeconnection());
         default:
@@ -52,26 +52,28 @@ public class AddOrForkAction extends UCMSelectionAction {
     }
 
     /**
-     * Returns the appropriate fork creation command, given the current selection. 
+     * Returns the appropriate fork creation command, given the current selection.
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        PathNode newOrFork = getNewFork(sel.getUrnspec());
         Command comm;
+        PathNode newOrFork = getNewFork(sel.getUrnspec());
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.STARTPOINT_EMPTYPOINT:
-            comm = new ForkPathsCommand(sel.getEmptypoint(), sel.getStartpoint(), newOrFork);
+            comm = new DividePathCommand(sel.getStartpoint(), sel.getEmptypoint(), isOrElement());
+            return comm;
+        case SelectionHelper.STARTPOINT_DIRECTIONARROW:
+            comm = new DividePathCommand(sel.getStartpoint(), sel.getDirectionarrow(), isOrElement());
             return comm;
         case SelectionHelper.STARTPOINT_NODECONNECTION:
-            return new DividePathOnNodeConnectionCompoundCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y, true);
+            return new DividePathCommand(sel.getStartpoint(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y,
+                    isOrElement());
         case SelectionHelper.EMPTYPOINT:
-            comm = new AddForkOrJoinCompoundCommand(newOrFork, sel.getPathgraph(), sel.getEmptypoint());
+            comm = new DividePathCommand(newOrFork, sel.getEmptypoint());
             return comm;
         case SelectionHelper.NODECONNECTION:
-            comm = new AddForkOrJoinCompoundCommand(newOrFork, sel.getPathgraph(), sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel
-                    .getNodeconnectionMiddle().y);
+            comm = new DividePathCommand(newOrFork, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y);
             return comm;
         default:
             return null;
@@ -86,4 +88,11 @@ public class AddOrForkAction extends UCMSelectionAction {
         return (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
     }
 
+    /**
+     * 
+     * @return true if or fork/join, false if and fork/join
+     */
+    protected boolean isOrElement() {
+        return true;
+    }
 }
