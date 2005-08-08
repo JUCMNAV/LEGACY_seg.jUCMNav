@@ -28,11 +28,13 @@ import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
@@ -213,6 +215,11 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
             return getActionRegistry();
         else if (type == IContentOutlinePage.class)
             return getOutlinePage();
+        else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
+            PropertySheetPage page = new PropertySheetPage();
+            page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
+            return page;
+        }
 
         return super.getAdapter(type);
     }
@@ -328,7 +335,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     protected void initializeGraphicalViewer() {
         GraphicalViewer graphicalViewer = getGraphicalViewer();
         graphicalViewer.setContents(getModel()); // set the contents of this editor
-        //		 listen for dropped parts
+        // listen for dropped parts
         graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
     }
 
@@ -352,7 +359,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /**
      * Redo's the command at the top of the parent's redo stack.
-     *  
+     * 
      */
     public void redo() {
         parent.getDelegatingCommandStack().redo();
@@ -369,7 +376,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /**
      * Undo's the command at the top of the parent's undo stack.
-     *  
+     * 
      */
     public void undo() {
         parent.getDelegatingCommandStack().undo();
