@@ -7,6 +7,7 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 import ucm.map.Map;
 
@@ -46,13 +47,20 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
      */
     public void run(IAction action) {
         if (editor.getCurrentPage() != null) {
-            Map map = editor.getCurrentPage().getModel();
-
-            AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
-
-            WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
-
-            dialog.open();
+            if (editor.getCurrentPage() instanceof UcmEditor)
+            {
+                Map map = ((UcmEditor) editor.getCurrentPage()).getModel();
+    
+                AutoLayoutWizard wizard = new AutoLayoutWizard((UcmEditor)editor.getCurrentPage(), map);
+    
+                WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
+    
+                dialog.open();
+            }
+            else
+            {
+                System.out.println("Autolaout not available for this type of editor");
+            }
         }
     }
 

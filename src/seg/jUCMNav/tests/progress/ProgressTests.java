@@ -56,6 +56,7 @@ import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
@@ -239,7 +240,7 @@ public class ProgressTests extends TestCase {
     }
 
     public UcmPaletteRoot getPaletteRoot() {
-        return (UcmPaletteRoot) editor.getCurrentPage().getPaletteRoot();
+        return (UcmPaletteRoot) ((UcmEditor)editor.getCurrentPage()).getPaletteRoot();
     }
 
     /**
@@ -1819,7 +1820,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         assertEquals("map not added", 2, editor.getPageCount()); //$NON-NLS-1$
-        assertEquals("new map not loaded", getMap(1), editor.getCurrentPage().getModel()); //$NON-NLS-1$
+        assertEquals("new map not loaded", getMap(1), ((UcmEditor)editor.getCurrentPage()).getModel()); //$NON-NLS-1$
 
     }
 

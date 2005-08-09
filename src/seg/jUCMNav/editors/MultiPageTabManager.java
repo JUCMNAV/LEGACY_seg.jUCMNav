@@ -135,7 +135,7 @@ public class MultiPageTabManager {
     }
 
     /** Delegates to UCMNavMultiPageEditor */
-    private UcmEditor getCurrentPage() {
+    private UrnEditor getCurrentPage() {
         return editor.getCurrentPage();
     }
 
@@ -182,7 +182,7 @@ public class MultiPageTabManager {
     protected void pageChange(int newPageIndex) {
         // we want the outline to know that we've selected another map.
         MapAndPathGraphEditPart mappart = (MapAndPathGraphEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
-                editor.getCurrentPage().getModel());
+                ((UcmEditor)editor.getCurrentPage()).getModel());
 
         // I don't know why we flush() but etremblay did it in his code
         editor.getCurrentPage().getGraphicalViewer().flush();

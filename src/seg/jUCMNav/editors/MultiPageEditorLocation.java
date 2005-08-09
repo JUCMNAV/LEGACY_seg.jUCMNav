@@ -111,7 +111,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      */
     public void update() {
         if (editor.getCurrentPage() != null)
-            currentMapID = editor.getCurrentPage().getModel().getId();
+            currentMapID = ((UcmEditor)editor.getCurrentPage()).getModel().getId();
         else
             currentMapID = null;
     }

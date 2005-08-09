@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
@@ -19,6 +20,8 @@ import org.eclipse.ui.IEditorPart;
 import seg.jUCMNav.Messages;
 
 /**
+ * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
+ * 
  * @author Jean-François Roy
  *
  */
@@ -99,6 +102,11 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
         return parent.getActionRegistry();
     }
 
+    /**
+     * Overridden to change to public visibility.
+     */
+    public abstract CommandStack getCommandStack();
+    
     /**
      * Overriden to allow external access.
      * 

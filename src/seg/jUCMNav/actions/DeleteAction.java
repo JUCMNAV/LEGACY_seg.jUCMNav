@@ -42,7 +42,7 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
     }
 
     private Command createDeleteSmallPaths(int nextGlobalID) {
-        UcmEditor editor = ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
+        UcmEditor editor = (UcmEditor)((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
         if (editor == null)
             return null;
         Map map = editor.getModel();

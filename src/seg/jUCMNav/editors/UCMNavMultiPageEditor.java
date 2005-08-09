@@ -265,11 +265,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * 
      * @return the current active page or <code>null</code>
      */
-    public UcmEditor getCurrentPage() {
+    public UrnEditor getCurrentPage() {
         if (getActivePage() == -1)
             return null;
 
-        return (UcmEditor) getActiveEditor();
+        return (UrnEditor) getActiveEditor();
     }
 
     /**
