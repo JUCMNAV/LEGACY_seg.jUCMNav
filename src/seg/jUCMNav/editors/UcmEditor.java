@@ -1,20 +1,17 @@
 package seg.jUCMNav.editors;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
-import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.internal.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
@@ -23,20 +20,15 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
-import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
-import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
@@ -50,19 +42,13 @@ import ucm.map.Map;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
+public class UcmEditor extends UrnEditor {
 
     /** one editor per map. */
     private Map mapModel;
 
     /** The palette root used to display the palette. */
     private PaletteRoot paletteRoot;
-
-    /** the parent containing the action registry */
-    private UCMNavMultiPageEditor parent;
-
-    /** Cache save-request status. */
-    private boolean saveAlreadyRequested;
 
     /** KeyHandler with common bindings for both the Outline View and the Editor. */
     private KeyHandler sharedKeyHandler;
@@ -72,24 +58,7 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
-        this.parent = parent;
-        setEditDomain(new DefaultEditDomain(this));
-    }
-
-    /**
-     * Handle events to know when a command was executed. So we can know when we can or cannot save the file.
-     */
-    public void commandStackChanged(EventObject event) {
-        // Note: some actions go directly to this command stack and others go to our parents.
-
-        super.commandStackChanged(event);
-        if (isDirty() && !saveAlreadyRequested) {
-            saveAlreadyRequested = true;
-            firePropertyChange(IEditorPart.PROP_DIRTY);
-        } else {
-            saveAlreadyRequested = false;
-            firePropertyChange(IEditorPart.PROP_DIRTY);
-        }
+        super(parent);
     }
 
     /**
@@ -125,14 +94,17 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Create all the actions in the action registry.
+     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
+     * dragging from the palette.
      * 
-     * Now done in multipage.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditor#createActions()
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
      */
-    protected void createActions() {
-        // now done in MultiPage
+    private TransferDropTargetListener createTransferDropTargetListener() {
+        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
+            protected CreationFactory getFactory(Object template) {
+                return new SimpleFactory((Class) template);
+            }
+        };
     }
 
     /**
@@ -152,55 +124,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
                 viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
             }
         };
-    }
-
-    /**
-     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
-     * dragging from the palette.
-     * 
-     * @see #createPaletteViewerProvider()
-     */
-    private TransferDropTargetListener createTransferDropTargetListener() {
-        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
-            protected CreationFactory getFactory(Object template) {
-                return new SimpleFactory((Class) template);
-            }
-        };
-    }
-
-    /**
-     * Used when UcmEditor was the root model element.
-     * 
-     * @deprecated
-     */
-    public void doSave(IProgressMonitor monitor) {
-        System.out.println(Messages.getString("UcmEditor.oldSave")); //$NON-NLS-1$
-    }
-
-    /**
-     * Used when UcmEditor was the root model element.
-     * 
-     * @deprecated
-     */
-    public void doSaveAs() {
-        System.out.println(Messages.getString("UcmEditor.oldSaveAs")); //$NON-NLS-1$
-    }
-
-    /**
-     * Execute a command in the parent's command stack.
-     * 
-     * @param cmd
-     */
-    public void execute(Command cmd) {
-        parent.getDelegatingCommandStack().execute(cmd);
-    }
-
-    /**
-     * Returns a reference to the multi page action registry.
-     */
-    protected ActionRegistry getActionRegistry() {
-        // one action registry for all editors
-        return parent.getActionRegistry();
     }
 
     /**
@@ -263,22 +186,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Overriden to allow external access.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditor#getEditDomain()
-     */
-    public DefaultEditDomain getEditDomain() {
-        return super.getEditDomain();
-    }
-
-    /**
-     * Overriden to allow external access.
-     */
-    public GraphicalViewer getGraphicalViewer() {
-        return super.getGraphicalViewer();
-    }
-
-    /**
      * Return the root model of this editor.
      * 
      * @return The model we are editing.
@@ -309,23 +216,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         return paletteRoot;
     }
 
-    /**
-     * Returns this editor's container.
-     * 
-     * @return parent multi-page editor
-     */
-    public UCMNavMultiPageEditor getParent() {
-        return parent;
-    }
-
-    /**
-     * Returns the selection syncronizer object. The synchronizer can be used to sync the selection of 2 or more EditPartViewers.
-     * 
-     * @return the syncrhonizer
-     */
-    protected SelectionSynchronizer getSelectionSynchronizer() {
-        return parent.getSelectionSynchronizer();
-    }
 
     /**
      * Set up the editor's inital content (after creation).
@@ -340,32 +230,6 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
-     * Return true if the editor contains any changes.
-     * 
-     * @see org.eclipse.ui.ISaveablePart#isDirty()
-     */
-    public boolean isDirty() {
-        return getCommandStack().isDirty();
-    }
-
-    /**
-     * Save is always allowed, even though it won't happen here.
-     * 
-     * @see org.eclipse.ui.ISaveablePart#isSaveAsAllowed()
-     */
-    public boolean isSaveAsAllowed() {
-        return true;
-    }
-
-    /**
-     * Redo's the command at the top of the parent's redo stack.
-     * 
-     */
-    public void redo() {
-        parent.getDelegatingCommandStack().redo();
-    }
-
-    /**
      * Sets the map to be manipulated by this editor
      * 
      * @param m
@@ -374,11 +238,4 @@ public class UcmEditor extends GraphicalEditorWithFlyoutPalette {
         mapModel = m;
     }
 
-    /**
-     * Undo's the command at the top of the parent's undo stack.
-     * 
-     */
-    public void undo() {
-        parent.getDelegatingCommandStack().undo();
-    }
 }
