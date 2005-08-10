@@ -163,9 +163,11 @@ public class PathNodeXYLayoutEditPolicy extends XYLayoutEditPolicy {
             // because we don't want forks/joins without only 1 in/out
             if (request.getNewObject() instanceof AndFork || request.getNewObject() instanceof OrFork || request.getNewObject() instanceof AndJoin
                     || request.getNewObject() instanceof OrJoin)
-                return new DividePathCommand((PathNode) request.getNewObject(), (PathNode) getHost().getModel());
-            else
+                return new DividePathCommand((PathNode) request.getNewObject(), (PathNode) getHost().getModel());   
+            else if(request.getNewObject() instanceof PathNode)
                 return new ReplaceEmptyPointCommand((PathNode) getHost().getModel(), (PathNode) request.getNewObject());
+            else
+                return null;
         } else if (isForkOrJoin(getHost().getModel()) && (isForkOrJoin(request.getNewObject()) || isPathTool(request))) {
             return new AddBranchCommand((PathNode) getHost().getModel());
         } else
