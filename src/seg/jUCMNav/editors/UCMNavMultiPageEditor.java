@@ -170,6 +170,10 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // dispose the ActionRegistry (will dispose all actions)
         getActionRegistry().dispose();
 
+        // dispose the ResourceChangeListener
+        IFile file = ((FileEditorInput) getEditorInput()).getFile();
+        file.getWorkspace().removeResourceChangeListener(getResourceTracker());
+
         // stop listening to all maps for name changes
         for (int i = 0; i < model.getUcmspec().getMaps().size(); i++)
             ((Map) model.getUcmspec().getMaps().get(i)).eAdapters().remove(this);
@@ -451,7 +455,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         } catch (ClassCastException e) {
             throw new PartInitException(Messages.getString("UCMNavMultiPageEditor.inputNotValidURN"), e); //$NON-NLS-1$
         }
-
+        
         // URNspec is ok
         super.init(site, input);
 
@@ -552,7 +556,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
             firePropertyChange(IEditorPart.PROP_DIRTY);
         }
     }
-
+    
     /**
      * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
      */
@@ -566,7 +570,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         if (getEditorInput() != null) {
             IFile file = ((FileEditorInput) getEditorInput()).getFile();
-            file.getWorkspace().addResourceChangeListener(getResourceTracker());
+            //Set the listener to listen only for changes in the workspace
+            file.getWorkspace().addResourceChangeListener(getResourceTracker()); //, IResourceChangeEvent.POST_CHANGE);
             setPartName(file.getName());
         }
     }

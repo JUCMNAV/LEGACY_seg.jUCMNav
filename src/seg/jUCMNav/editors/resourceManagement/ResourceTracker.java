@@ -1,18 +1,21 @@
 package seg.jUCMNav.editors.resourceManagement;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -21,7 +24,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  * This class listens to changes to the file system in the workspace, and makes changes accordingly. 1) An open, saved file gets deleted -> close the editor 2)
  * An open file gets renamed or moved -> change the editor's input accordingly
  * 
- * @author Gunnar Wagenknecht
+ * @author Gunnar Wagenknecht, Jean-François Roy
  */
 public class ResourceTracker implements IResourceChangeListener, IResourceDeltaVisitor {
 
@@ -65,24 +68,66 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                     editor.closeEditor(false);
             } else {
                 // else if it was moved or renamed
-                final IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(delta.getMovedToPath());
+                final IFile newFile =
+                    ResourcesPlugin.getWorkspace().getRoot().getFile(
+                        delta.getMovedToPath());
                 Display display = editor.getSite().getShell().getDisplay();
-                display.asyncExec(new Runnable() {
-                    public void run() {
-
-                        // added for bug 303
-                        try {
-                            editor.closeEditor(true);
-                            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-
-                            IDE.openEditor(page, newFile, true);
-                        } catch (PartInitException e) {
-                        }
-                        // end of addition
-                        //editor.setInput(new FileEditorInput(newFile));
+                display.asyncExec(new Runnable()
+                {
+                    public void run()
+                    {
+                        //editor.doSave(null);
+                        editor.setInput(new FileEditorInput(newFile));
                     }
                 });
             }
+        }
+        else if ((delta.getKind() == IResourceDelta.CHANGED) && ((delta.getFlags() & IResourceDelta.CONTENT) != 0)){
+            //Content changed
+            QualifiedName timestamp = new QualifiedName(null,"ModificationDate");
+            try{ 
+                editor.setInput(editor.getEditorInput());
+                IResource res = delta.getResource();
+                Long modificationTime = (Long)res.getSessionProperty(timestamp);
+                //Verify that the refresh on the editor have not been done before
+                if ((modificationTime == null) || (res.getModificationStamp() != modificationTime.longValue())){
+                    IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+                    IEditorReference[] edref = page.getEditorReferences();
+                    String filename = delta.getResource().getName();
+        
+                    boolean useranswer = true;
+                    int numbereditor = 0;
+                    int i = 0;
+                    //Verify if there are more than 1 editor who edit the same file
+                    while ((i<edref.length) && (numbereditor<2)){
+                        if (filename.equals(edref[i].getName())){
+                            numbereditor++;
+                            if (numbereditor == 2)
+                            {
+                                if(MessageDialog.openQuestion(editor.getSite().getShell(),"Mulitple Editors for " + filename, 
+                                        "There are multiple editors open for " + filename + ". Do you want to load saved version in the other editors?")){                                                                                                                     
+                                    //For each editor bind to the changed file, refresh the model and recreates the pages
+                                    for (int j=0; j<edref.length; j++)
+                                    {
+                                        if (filename.equals(edref[j].getName())){
+                                            UCMNavMultiPageEditor multieditor = (UCMNavMultiPageEditor)edref[j].getEditor(false);
+                                            multieditor.setModel(multieditor.getFileManager().create(((FileEditorInput) multieditor.getEditorInput()).getFile()));
+                                            multieditor.recreatePages();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        i++;
+                    }
+                    
+                    res.setSessionProperty(timestamp,new Long(res.getModificationStamp()));
+                }
+            }catch (CoreException e){
+                JUCMNavPlugin.getDefault().getLog().log(e.getStatus());
+                e.printStackTrace();                
+            }
+
         }
         return false;
     }
