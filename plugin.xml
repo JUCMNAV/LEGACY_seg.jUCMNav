@@ -26,6 +26,7 @@
       <import plugin="org.junit"/>
       <import plugin="org.eclipse.ui.forms"/>
    </requires>
+   <extension-point id="UseCaseMapExport" name="Use Case Map Export" schema="schema/UseCaseMapExport.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -128,6 +129,45 @@
                class="org.eclipse.core.resources.IFile"
                name="*.jucm"/>
       </wizard>
+   </extension>
+   <extension
+         id="seg.jUCMNav.importexport.ExportImage"
+         name="%exportToImage"
+         point="seg.jUCMNav.UseCaseMapExport">
+      <exporter
+            class="seg.jUCMNav.importexport.ExportLayoutDOT"
+            extension="dot"
+            id="seg.jUCMNav.ExportDOT"
+            mode="model instance"
+            name="Graphviz DOT Layout Information (*.dot)"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportImageJPG"
+            extension="jpg"
+            id="seg.jUCMNav.ExportJPG"
+            mode="image"
+            name="JPEG Image (*.jpg)"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportImageBMP"
+            extension="bmp"
+            id="seg.jUCMNav.ExportBMP"
+            mode="image"
+            name="Bitmap Image (*.bmp)"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.AutoLayoutPreferencePage"
+            id="seg.jUCMNav.views.preferences.AutoLayoutPreferencePage"
+            name="AutoLayout Preferences"/>
+      <page
+            class="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            id="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            name="jUCMNav Preferences"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="seg.jUCMNav.views.preferences.PreferenceInitializer"/>
    </extension>
 
 </plugin>

@@ -14,10 +14,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
@@ -26,6 +29,7 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.UCMElementPropertySource;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
@@ -38,13 +42,13 @@ import ucm.map.Timer;
  * EditPart associated with NodeConnection.
  * 
  * @author Etienne Tremblay, jmcmanus, jkealey
- *  
+ * 
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     /**
      * Because GEF's AbstractConnectionEditPart has methods conflicting with EMF's Adapter, we needed an internal class to act as a listener.
-     *  
+     * 
      */
     private class NodeConnectionAdapter implements Adapter {
         private Notifier target;
@@ -148,7 +152,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
         endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
-        endLabel.setForegroundColor(new Color(null, 150, 0, 150));
+        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_STUBLABELCOLOR );
+        endLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
         endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(endLabel, targetEndpointLocator);
     }
@@ -166,7 +171,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(30);
         startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
-        startLabel.setForegroundColor(new Color(null, 150, 0, 150));
+        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_STUBLABELCOLOR );
+        startLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
         startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
         connection.add(startLabel, targetEndpointLocator);
     }
@@ -207,8 +213,8 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         SplineConnection connection = new SplineConnection(getLink());
         connection.setRoutingConstraint(getLink());
         connection.setLineWidth(3);
-        //		PolygonDecoration p = new PolygonDecoration();
-        //		connection.setTargetDecoration(p); // arrow at target endpoint
+        // PolygonDecoration p = new PolygonDecoration();
+        // connection.setTargetDecoration(p); // arrow at target endpoint
 
         if (getLink().getTarget() instanceof Stub) {
             addEndLabel(connection);
@@ -235,14 +241,14 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
         // jkealey: removed during cleanup; i think the figure tree will remove these automatically.
         // leaving in case testing needs to be done.
-        //        if (endLabel != null) {
-        //            ((SplineConnection) getFigure()).remove(endLabel);
-        //            endLabel = null;
-        //        }
-        //        if (startLabel != null) {
-        //            ((SplineConnection) getFigure()).remove(startLabel);
-        //            startLabel = null;
-        //        }
+        // if (endLabel != null) {
+        // ((SplineConnection) getFigure()).remove(endLabel);
+        // endLabel = null;
+        // }
+        // if (startLabel != null) {
+        // ((SplineConnection) getFigure()).remove(startLabel);
+        // startLabel = null;
+        // }
 
     }
 

@@ -14,19 +14,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.LayeredPane;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IExportWizard;
@@ -42,6 +35,8 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
+import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
+import seg.jUCMNav.importexport.ExportExtensionPointHelper;
 import ucm.map.Map;
 import urn.URNspec;
 
@@ -51,7 +46,7 @@ import urn.URNspec;
  * Will look into its IStructuredSelection and find all applicable maps.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ExportImageWizard extends Wizard implements IExportWizard {
     public final static int DEFAULTIMAGETYPE = 1;
@@ -91,7 +86,7 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     protected IStructuredSelection selection;
 
     /**
-     *  
+     * 
      */
     public ExportImageWizard() {
         createPreferences();
@@ -152,44 +147,33 @@ public class ExportImageWizard extends Wizard implements IExportWizard {
     private void ExportMap(Map map) {
         FileOutputStream fos = null;
         try {
-            // get the simple editor
-            UcmEditor editor = (UcmEditor) mapsToSpecificEditor.get(map);
 
-            // get the high level IFigure to be saved.
-            LayeredPane pane = ((ConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
-
-            // generate image
-            Image image = new Image(Display.getCurrent(), pane.getSize().width, pane.getSize().height);
-            GC gc = new GC(image);
-            SWTGraphics graphics = new SWTGraphics(gc);
-            // if the bounds are in the negative x/y, we don't see them without a translation
-            graphics.translate(-pane.getBounds().x, -pane.getBounds().y);
-            pane.paint(graphics);
+            // given the export type, get the exporter id
+            int type = ExportImageWizard.getPreferenceStore().getInt(ExportImageWizard.PREF_IMAGETYPE);
+            String id = ExportExtensionPointHelper.getExporterFromLabelIndex(type);
 
             // generate the path.
             Path genericPath = new Path(ExportImageWizard.getPreferenceStore().getString(ExportImageWizard.PREF_PATH));
             genericPath = (Path) genericPath.append("/" + getMapName(map)); //$NON-NLS-1$
-            int type = ExportImageWizard.getPreferenceStore().getInt(ExportImageWizard.PREF_IMAGETYPE);
-            switch (type) {
-            case 0:
-                genericPath = (Path) genericPath.addFileExtension("bmp"); //$NON-NLS-1$
-                break;
-            case 1:
-                genericPath = (Path) genericPath.addFileExtension("jpg"); //$NON-NLS-1$
-                break;
-            }
+            genericPath = (Path) genericPath.addFileExtension(ExportExtensionPointHelper.getFilenameExtension(id));
 
-            // save it.
+            // get the simple editor
+            UcmEditor editor = (UcmEditor) mapsToSpecificEditor.get(map);
+
+            // prepare file stream 
             fos = new FileOutputStream(genericPath.toOSString());
-            ImageLoader loader = new ImageLoader();
-            loader.data = new ImageData[] { image.getImageData() };
-            switch (type) {
-            case 0:
-                loader.save(fos, SWT.IMAGE_BMP_RLE);
-                break;
-            case 1:
-                loader.save(fos, SWT.IMAGE_JPEG);
-                break;
+
+            // get exporter
+            IUseCaseMapExport exporter = (IUseCaseMapExport) ExportExtensionPointHelper.getExporter(id);
+
+            // save it 
+            if (ExportExtensionPointHelper.getMode(id).equals("image")) {
+                // get the high level IFigure to be saved.
+                LayeredPane pane = ((ConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
+                exporter.export(pane, fos);
+            } else {
+                // model instance
+                exporter.export(editor.getModel(), fos);
             }
 
         } catch (IOException e) {

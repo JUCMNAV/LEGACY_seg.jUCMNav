@@ -23,13 +23,14 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.importexport.ExportExtensionPointHelper;
 import ucm.map.Map;
 
 /**
  * Contains controls to set the export directory, export file type and selected maps.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ExportImageWizardPage extends WizardPage {
 
@@ -90,7 +91,7 @@ public class ExportImageWizardPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
         data.horizontalSpan = 3;
-        //        data.grabExcessVerticalSpace = true;
+        // data.grabExcessVerticalSpace = true;
         txtExportPath.setLayoutData(data);
         txtExportPath.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
@@ -132,7 +133,7 @@ public class ExportImageWizardPage extends WizardPage {
 
         cboImageType = new Combo(composite, SWT.READ_ONLY);
 
-        //cboImageType.setItems(new String[] { "BMP", "GIF", "JPEG", "PNG", "TIFF" });
+        // cboImageType.setItems(new String[] { "BMP", "GIF", "JPEG", "PNG", "TIFF" });
 
         // others not yet implemented.
         // 
@@ -140,8 +141,11 @@ public class ExportImageWizardPage extends WizardPage {
         // https://bugs.eclipse.org/bugs/show_bug.cgi?id=24697
         //
 
-        cboImageType.setItems(new String[] { "BMP", "JPEG" }); //$NON-NLS-1$ //$NON-NLS-2$
+        cboImageType.setItems(ExportExtensionPointHelper.getExportLabels());
+
+//        cboImageType.setItems(new String[] { "BMP", "JPEG" }); //$NON-NLS-1$ //$NON-NLS-2$
         cboImageType.select(getImageType());
+        
 
         data = new GridData();
         data.horizontalSpan = 3;
@@ -180,6 +184,8 @@ public class ExportImageWizardPage extends WizardPage {
         setControl(composite);
     }
 
+
+
     /**
      * Updates passed Vector and preference store with the selection properties
      * 
@@ -209,7 +215,7 @@ public class ExportImageWizardPage extends WizardPage {
 
     /**
      * Saves the current state of the page so that another thread can run finish() and not worry about thread access exceptions.
-     *  
+     * 
      */
     public void preFinish() {
         sExportPath = txtExportPath.getText();
@@ -227,7 +233,7 @@ public class ExportImageWizardPage extends WizardPage {
 
     /**
      * Rebuilds mapToExport according to the current selection.
-     *  
+     * 
      */
     private void updateMapsToExport() {
         Vector toKeep = new Vector();

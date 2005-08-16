@@ -16,12 +16,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
 
 /**
- * Settings page for the autolayout wizard. 
+ * Settings page for the autolayout wizard.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class AutoLayoutDotSettingsWizardPage extends WizardPage {
     private Combo cboOrientation;
@@ -61,13 +62,13 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         lblPath.setLayoutData(data);
 
         txtDotPath = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
-        setDotPath(getDotPath());
+        setDotPath(AutoLayoutPreferences.getDotPath());
 
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
         data.horizontalSpan = 3;
-        //        data.grabExcessVerticalSpace = true;
+        // data.grabExcessVerticalSpace = true;
         txtDotPath.setLayoutData(data);
         txtDotPath.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -85,7 +86,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         b.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-                dialog.setFileName(getDotPath());
+                dialog.setFileName(AutoLayoutPreferences.getDotPath());
                 dialog.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.selectGraphvizDot")); //$NON-NLS-1$
                 String path = dialog.open();
 
@@ -112,7 +113,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         txtWidth.setLayoutData(data);
 
-        setWidth(getWidth());
+        setWidth(AutoLayoutPreferences.getWidth());
         txtWidth.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
             }
@@ -129,7 +130,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         txtHeight.setLayoutData(data);
 
-        setHeight(getHeight());
+        setHeight(AutoLayoutPreferences.getHeight());
         txtHeight.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
             }
@@ -141,8 +142,14 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         });
 
         cboOrientation = new Combo(composite, SWT.READ_ONLY);
-        cboOrientation.setItems(new String[] { Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), Messages.getString("AutoLayoutDotSettingsWizardPage.leftright") }); //$NON-NLS-1$ //$NON-NLS-2$
-        cboOrientation.select(getOrientation());
+        cboOrientation.setItems(new String[] {
+                Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), Messages.getString("AutoLayoutDotSettingsWizardPage.leftright") }); //$NON-NLS-1$ //$NON-NLS-2$
+
+        if (AutoLayoutPreferences.getOrientation().equalsIgnoreCase("TB"))
+            cboOrientation.select(0); // TB
+        else
+            cboOrientation.select(1); // LR
+
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
         cboOrientation.setLayoutData(data);
@@ -158,10 +165,10 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
         chkEmptyPoints = new Button(composite, SWT.CHECK);
         chkEmptyPoints.setText(Messages.getString("AutoLayoutDotSettingsWizardPage.manipulateEmptyPoints")); //$NON-NLS-1$
-        chkEmptyPoints.setSelection(getEmptyPoints());
+        chkEmptyPoints.setSelection(AutoLayoutPreferences.getEmptyPoints());
         data = new GridData();
         data.horizontalSpan = 3;
-        chkEmptyPoints.setLayoutData( data );
+        chkEmptyPoints.setLayoutData(data);
         chkEmptyPoints.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
             }
@@ -175,66 +182,33 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
 
     }
 
-    public String getDotPath() {
-        return AutoLayoutWizard.getPreferenceStore().getString(AutoLayoutWizard.PREF_DOTPATH);
-    }
-
-    public String getHeight() {
-        return AutoLayoutWizard.getPreferenceStore().getString(AutoLayoutWizard.PREF_HEIGHT);
-    }
-
-    public int getOrientation() {
-        return AutoLayoutWizard.getPreferenceStore().getInt(AutoLayoutWizard.PREF_ORIENTATION);
-    }
-
-    public String getWidth() {
-        return AutoLayoutWizard.getPreferenceStore().getString(AutoLayoutWizard.PREF_WIDTH);
-    }
-
-    public boolean getEmptyPoints() {
-        return AutoLayoutWizard.getPreferenceStore().getBoolean(AutoLayoutWizard.PREF_EMPTYPOINTS);
-    }
-
     public void setDotPath(String path) {
         txtDotPath.setText(path);
-        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_DOTPATH, path);
+        AutoLayoutPreferences.setDotPath(path);
     }
 
     public void setHeight(String height) {
-        String s;
-        // want to make sure it is convertible.
-        try {
-            double d = Double.parseDouble(height);
-            s = Double.toString(d);
-        } catch (Exception e) {
-            s = "0"; //$NON-NLS-1$
-        }
-        txtHeight.setText(s);
-
-        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_HEIGHT, s);
+        AutoLayoutPreferences.setHeight(height);
+        txtHeight.setText(AutoLayoutPreferences.getHeight());
     }
 
     public void setOrientation(int i) {
         cboOrientation.select(i);
-        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_ORIENTATION, i);
+        if (i==0)
+            AutoLayoutPreferences.setOrientation("TB");
+        else
+            AutoLayoutPreferences.setOrientation("LR");
+        
     }
 
     public void setWidth(String width) {
-        String s;
-        // want to make sure it is convertible.
-        try {
-            double d = Double.parseDouble(width);
-            s = Double.toString(d);
-        } catch (Exception e) {
-            s = "0"; //$NON-NLS-1$
-        }
-        txtWidth.setText(s);
+        AutoLayoutPreferences.setWidth(width);
+        txtWidth.setText(AutoLayoutPreferences.getWidth());
 
-        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_WIDTH, s);
     }
 
     public void setEmptyPoints(boolean b) {
-        AutoLayoutWizard.getPreferenceStore().setValue(AutoLayoutWizard.PREF_EMPTYPOINTS, b);
+        AutoLayoutPreferences.setEmptyPoints(b);
     }
 
 }
