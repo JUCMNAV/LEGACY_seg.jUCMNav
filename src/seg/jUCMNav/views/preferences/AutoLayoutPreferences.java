@@ -116,7 +116,7 @@ public class AutoLayoutPreferences {
 
     /**
      * 
-     * @param i
+     * @param str
      *            the orientation (TB, LR)
      */
     public static void setOrientation(String str) {
