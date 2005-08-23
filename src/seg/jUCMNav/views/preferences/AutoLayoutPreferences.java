@@ -5,7 +5,6 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import seg.jUCMNav.JUCMNavPlugin;
 
 /**
- * 
  * Encapsulates load/save of the autolayout preferences.
  * 
  * @author jkealey
