@@ -26,6 +26,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentR
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
 import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
 import seg.jUCMNav.model.commands.create.ConnectCommand;
@@ -324,19 +325,16 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     public void testAddInBindingCommand() {
-//    	testAddPluginCommand();
-//    	
-//    	Command cmd;
-//    	
-//    	NodeConnection entry = (NodeConnection)stub.getPred().get(0);
-//    	
-//    	cmd = new AddInBindingCommand(plugin, start, entry);
-//    	assertTrue("Can't execute AddInBindingCommand with Plugin, StartPoint and entry NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
-//    	cs.execute(cmd);
+    	testAddPluginCommand();
     	
+    	Command cmd;
     	
-    	// Uncomment the preceding code if after this bug is fixed.
-    	assertTrue("Have to fix bug 378 before this test can run.", false);
+    	NodeConnection entry = (NodeConnection)stub.getPred().get(0);
+    	
+    	cmd = new AddInBindingCommand(plugin, start, entry);
+    	assertTrue("Can't execute AddInBindingCommand with Plugin, StartPoint and entry NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
+    	
     }
 
 //    /**
@@ -619,7 +617,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteInBindingCommand() {
-        assertTrue("ET: Do me", false); //$NON-NLS-1$
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
     }
 
     /**
@@ -724,7 +722,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteOutBindingCommand() {
-        assertTrue("ET: Do me", false); //$NON-NLS-1$
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
     }
 
 //    /**
@@ -996,7 +994,7 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testReplacePluginCommand() {
-        assertTrue("ET: Do me", false);
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
     }
 
     /**
