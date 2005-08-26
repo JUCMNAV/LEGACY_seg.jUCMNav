@@ -87,9 +87,9 @@
 			<format property="buildtime" pattern="'5'MMdd.'v'HHmm"/>
 		</tstamp>
 		
-		<property name="jucmnav.version" value="1.0.${buildtime}" />
+		<!--<property name="jucmnav.version" value="1.0.${buildtime}" />-->
 		
-		<!--<property name="jucmnav.version" value="1.0.0" />-->
+		<property name="jucmnav.version" value="1.1.0" />
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
