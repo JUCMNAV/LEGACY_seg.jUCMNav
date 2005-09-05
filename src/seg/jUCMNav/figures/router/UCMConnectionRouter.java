@@ -39,7 +39,7 @@ import ucm.map.Timer;
  * Uses the ConnectionSplineFinder to find affected connections.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private HashMap connections;
@@ -81,13 +81,13 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
         SplineConnection conn = (SplineConnection) ((NodeConnectionEditPart) editpartregistry.get(nc)).getFigure();
         if (conn != null) {
 
-            //PointList pts = bspline.getPointsBetween(getLeftPoint(nc), getRightPoint(nc));
+            // PointList pts = bspline.getPointsBetween(getLeftPoint(nc), getRightPoint(nc));
             PointList pts = bspline.getPointBetween(iLeftPointIndex, iLeftPointIndex + 1);
             boolean hasMoved = !pts.getFirstPoint().equals(conn.getPoints().getFirstPoint());
             conn.setPoints(pts);
             connections.put(nc, Boolean.TRUE);
 
-            //refresh conditions.
+            // refresh conditions.
             if (nc.getCondition() != null) {
                 ConditionEditPart edit = (ConditionEditPart) editpartregistry.get(nc.getCondition());
                 if (edit != null) {
@@ -247,7 +247,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                 PathNode pn = (PathNode) notifier;
                 if (feature.getName().equals("x") || feature.getName().equals("y")) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (pn.getPathGraph() != null) {
-                        //System.out.println("moved pathnode");
+                        // System.out.println("moved pathnode");
                         refreshConnections(pn);
                     }
                 }
@@ -255,7 +255,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                 NodeConnection nc = (NodeConnection) notifier;
                 if (feature.getName().equals("source") || feature.getName().equals("target")) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (nc.getPathGraph() != null && nc.getSource() != null && nc.getTarget() != null) {
-                        //                        System.out.println("changed connections");
+                        // System.out.println("changed connections");
                         refreshConnections(nc);
                     }
                 }
@@ -394,6 +394,12 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      */
     public void route(Connection connection) {
         SplineConnection spline = (SplineConnection) connection;
+
+        if (connections == null || spline.getLink() == null || connections.get(spline.getLink()) == null) {
+            // Gunter once observed a NPE in the next if so we try to catch it before it causes a problem.
+            // We don't know why he obtained an error; might be something else that caused it.
+            return;
+        }
         if (connections.get(spline.getLink()).equals(Boolean.FALSE)) {
             drawSpline(spline);
         }
