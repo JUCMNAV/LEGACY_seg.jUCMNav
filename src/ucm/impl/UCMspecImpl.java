@@ -366,12 +366,12 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UcmPackage.UC_MSPEC__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__UCMSPEC, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__UCMSPEC, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

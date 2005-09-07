@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see urncore.UrncoreFactory
+ * @model kind="package"
  * @generated
  */
 public interface UrncorePackage extends EPackage{

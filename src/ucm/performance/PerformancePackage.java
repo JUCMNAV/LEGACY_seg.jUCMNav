@@ -28,6 +28,7 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.performance.PerformanceFactory
+ * @model kind="package"
  * @generated
  */
 public interface PerformancePackage extends EPackage{

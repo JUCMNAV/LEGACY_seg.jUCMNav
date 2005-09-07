@@ -23,7 +23,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see ucm.map.MapPackage#getStub()
- * @model 
+ * @model
  * @generated
  */
 public interface Stub extends PathNode{

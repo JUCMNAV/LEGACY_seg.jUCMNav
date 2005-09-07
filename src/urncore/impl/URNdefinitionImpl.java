@@ -224,12 +224,12 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.UR_NDEFINITION__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__URNDEF, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__URNDEF, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

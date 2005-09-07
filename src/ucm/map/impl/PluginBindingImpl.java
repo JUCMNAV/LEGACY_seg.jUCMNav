@@ -461,12 +461,12 @@ public class PluginBindingImpl extends EObjectImpl implements PluginBinding {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.PLUGIN_BINDING__STUB:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.STUB__BINDINGS, Stub.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.STUB__BINDINGS, Stub.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

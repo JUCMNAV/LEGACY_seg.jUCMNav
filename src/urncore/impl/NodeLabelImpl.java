@@ -133,12 +133,12 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.NODE_LABEL__PATH_NODE:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.PATH_NODE__LABEL, PathNode.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.PATH_NODE__LABEL, PathNode.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

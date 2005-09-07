@@ -100,6 +100,21 @@ public class UrncoreSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case UrncorePackage.COMPONENT_REGULAR: {
+                ComponentRegular componentRegular = (ComponentRegular)theEObject;
+                Object result = caseComponentRegular(componentRegular);
+                if (result == null) result = caseComponentElement(componentRegular);
+                if (result == null) result = caseUCMmodelElement(componentRegular);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.COMPONENT_ELEMENT: {
+                ComponentElement componentElement = (ComponentElement)theEObject;
+                Object result = caseComponentElement(componentElement);
+                if (result == null) result = caseUCMmodelElement(componentElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case UrncorePackage.POOL: {
                 Pool pool = (Pool)theEObject;
                 Object result = casePool(pool);
@@ -134,10 +149,28 @@ public class UrncoreSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case UrncorePackage.UC_MMODEL_ELEMENT: {
+                UCMmodelElement ucMmodelElement = (UCMmodelElement)theEObject;
+                Object result = caseUCMmodelElement(ucMmodelElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.GR_LMODEL_ELEMENT: {
+                GRLmodelElement grLmodelElement = (GRLmodelElement)theEObject;
+                Object result = caseGRLmodelElement(grLmodelElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case UrncorePackage.NODE_LABEL: {
                 NodeLabel nodeLabel = (NodeLabel)theEObject;
                 Object result = caseNodeLabel(nodeLabel);
                 if (result == null) result = caseLabel(nodeLabel);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.LABEL: {
+                Label label = (Label)theEObject;
+                Object result = caseLabel(label);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }

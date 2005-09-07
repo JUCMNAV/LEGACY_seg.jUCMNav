@@ -149,12 +149,12 @@ public class ExternalOperationImpl extends ActiveResourceImpl implements Externa
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.EXTERNAL_OPERATION__UCMSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

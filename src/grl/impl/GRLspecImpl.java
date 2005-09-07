@@ -134,12 +134,12 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case GrlPackage.GR_LSPEC__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__GRLSPEC, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__GRLSPEC, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

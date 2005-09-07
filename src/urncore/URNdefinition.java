@@ -28,7 +28,7 @@ import urn.URNspec;
  * </p>
  *
  * @see urncore.UrncorePackage#getURNdefinition()
- * @model 
+ * @model
  * @generated
  */
 public interface URNdefinition extends EObject{

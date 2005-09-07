@@ -21,7 +21,7 @@ import urncore.ComponentElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getPassiveResource()
- * @model 
+ * @model
  * @generated
  */
 public interface PassiveResource extends GeneralResource{

@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see urn.UrnFactory
+ * @model kind="package"
  * @generated
  */
 public interface UrnPackage extends EPackage{

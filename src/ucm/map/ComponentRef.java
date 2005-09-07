@@ -42,7 +42,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.map.MapPackage#getComponentRef()
- * @model 
+ * @model
  * @generated
  */
 public interface ComponentRef extends UCMmodelElement{
@@ -57,7 +57,7 @@ public interface ComponentRef extends UCMmodelElement{
      * @return the value of the '<em>Role</em>' attribute.
      * @see #setRole(String)
      * @see ucm.map.MapPackage#getComponentRef_Role()
-     * @model 
+     * @model
      * @generated
      */
 	String getRole();
@@ -164,7 +164,7 @@ public interface ComponentRef extends UCMmodelElement{
      * @return the value of the '<em>X</em>' attribute.
      * @see #setX(int)
      * @see ucm.map.MapPackage#getComponentRef_X()
-     * @model 
+     * @model
      * @generated
      */
 	int getX();
@@ -190,7 +190,7 @@ public interface ComponentRef extends UCMmodelElement{
      * @return the value of the '<em>Y</em>' attribute.
      * @see #setY(int)
      * @see ucm.map.MapPackage#getComponentRef_Y()
-     * @model 
+     * @model
      * @generated
      */
 	int getY();
@@ -216,7 +216,7 @@ public interface ComponentRef extends UCMmodelElement{
      * @return the value of the '<em>Width</em>' attribute.
      * @see #setWidth(int)
      * @see ucm.map.MapPackage#getComponentRef_Width()
-     * @model 
+     * @model
      * @generated
      */
 	int getWidth();
@@ -242,7 +242,7 @@ public interface ComponentRef extends UCMmodelElement{
      * @return the value of the '<em>Height</em>' attribute.
      * @see #setHeight(int)
      * @see ucm.map.MapPackage#getComponentRef_Height()
-     * @model 
+     * @model
      * @generated
      */
 	int getHeight();

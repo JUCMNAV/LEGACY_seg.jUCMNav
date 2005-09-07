@@ -24,7 +24,7 @@ package urncore;
  * </p>
  *
  * @see urncore.UrncorePackage#getComponent()
- * @model 
+ * @model
  * @generated
  */
 public interface Component extends ComponentRegular{

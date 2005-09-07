@@ -34,7 +34,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getWorkload()
- * @model 
+ * @model
  * @generated
  */
 public interface Workload extends UCMmodelElement{
@@ -78,7 +78,7 @@ public interface Workload extends UCMmodelElement{
      * @see ucm.performance.ArrivalProcess
      * @see #setArrivalPattern(ArrivalProcess)
      * @see ucm.performance.PerformancePackage#getWorkload_ArrivalPattern()
-     * @model 
+     * @model
      * @generated
      */
 	ArrivalProcess getArrivalPattern();
@@ -105,7 +105,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>Arrival Param1</em>' attribute.
      * @see #setArrivalParam1(double)
      * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam1()
-     * @model 
+     * @model
      * @generated
      */
 	double getArrivalParam1();
@@ -131,7 +131,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>Arrival Param2</em>' attribute.
      * @see #setArrivalParam2(double)
      * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam2()
-     * @model 
+     * @model
      * @generated
      */
 	double getArrivalParam2();
@@ -157,7 +157,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>External Delay</em>' attribute.
      * @see #setExternalDelay(double)
      * @see ucm.performance.PerformancePackage#getWorkload_ExternalDelay()
-     * @model 
+     * @model
      * @generated
      */
 	double getExternalDelay();
@@ -183,7 +183,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>Value</em>' attribute.
      * @see #setValue(double)
      * @see ucm.performance.PerformancePackage#getWorkload_Value()
-     * @model 
+     * @model
      * @generated
      */
 	double getValue();
@@ -209,7 +209,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>Coeff Var Seq</em>' attribute.
      * @see #setCoeffVarSeq(double)
      * @see ucm.performance.PerformancePackage#getWorkload_CoeffVarSeq()
-     * @model 
+     * @model
      * @generated
      */
 	double getCoeffVarSeq();
@@ -235,7 +235,7 @@ public interface Workload extends UCMmodelElement{
      * @return the value of the '<em>Population</em>' attribute.
      * @see #setPopulation(int)
      * @see ucm.performance.PerformancePackage#getWorkload_Population()
-     * @model 
+     * @model
      * @generated
      */
 	int getPopulation();

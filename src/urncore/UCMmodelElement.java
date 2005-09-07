@@ -59,7 +59,7 @@ public interface UCMmodelElement extends EObject{
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see urncore.UrncorePackage#getUCMmodelElement_Id()
-     * @model 
+     * @model
      * @generated
      */
 	String getId();
@@ -85,7 +85,7 @@ public interface UCMmodelElement extends EObject{
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urncore.UrncorePackage#getUCMmodelElement_Name()
-     * @model 
+     * @model
      * @generated
      */
 	String getName();
@@ -111,7 +111,7 @@ public interface UCMmodelElement extends EObject{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urncore.UrncorePackage#getUCMmodelElement_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();

@@ -171,12 +171,12 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case ScenarioPackage.SCENARIO_GROUP__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__SCENARIO_GROUPS, UCMspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__SCENARIO_GROUPS, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

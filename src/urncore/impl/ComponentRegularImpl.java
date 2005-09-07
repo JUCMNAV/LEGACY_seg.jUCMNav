@@ -360,12 +360,12 @@ public abstract class ComponentRegularImpl extends ComponentElementImpl implemen
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.COMPONENT_REGULAR__URNDEFINITION:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENTS, URNdefinition.class, msgs);
+                    return eContainer.eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENTS, URNdefinition.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

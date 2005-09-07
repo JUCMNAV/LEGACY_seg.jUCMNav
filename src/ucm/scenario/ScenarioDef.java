@@ -31,7 +31,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioDef()
- * @model 
+ * @model
  * @generated
  */
 public interface ScenarioDef extends UCMmodelElement{

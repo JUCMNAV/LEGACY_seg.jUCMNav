@@ -194,12 +194,12 @@ public class PathGraphImpl extends EObjectImpl implements PathGraph {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.PATH_GRAPH__MAP:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.MAP__PATH_GRAPH, Map.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.MAP__PATH_GRAPH, Map.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

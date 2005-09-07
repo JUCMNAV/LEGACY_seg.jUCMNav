@@ -217,12 +217,12 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case ScenarioPackage.VARIABLE__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

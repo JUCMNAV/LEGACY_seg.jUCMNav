@@ -133,12 +133,12 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.COMPONENT_REF__LABEL, ComponentRef.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.COMPONENT_REF__LABEL, ComponentRef.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

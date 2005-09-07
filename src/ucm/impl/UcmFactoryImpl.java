@@ -21,7 +21,7 @@ import ucm.*;
  */
 public class UcmFactoryImpl extends EFactoryImpl implements UcmFactory {
     /**
-     * Creates and instance of the factory.
+     * Creates an instance of the factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated

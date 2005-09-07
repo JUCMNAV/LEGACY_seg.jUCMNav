@@ -20,7 +20,7 @@ package ucm.map;
  * </p>
  *
  * @see ucm.map.MapPackage#getLoop()
- * @model 
+ * @model
  * @generated
  */
 public interface Loop extends PathNode{
@@ -35,7 +35,7 @@ public interface Loop extends PathNode{
      * @return the value of the '<em>Orientation</em>' attribute.
      * @see #setOrientation(String)
      * @see ucm.map.MapPackage#getLoop_Orientation()
-     * @model 
+     * @model
      * @generated
      */
 	String getOrientation();

@@ -48,7 +48,7 @@ public interface ComponentRegular extends ComponentElement{
      * @see urncore.ComponentKind
      * @see #setKind(ComponentKind)
      * @see urncore.UrncorePackage#getComponentRegular_Kind()
-     * @model 
+     * @model
      * @generated
      */
 	ComponentKind getKind();

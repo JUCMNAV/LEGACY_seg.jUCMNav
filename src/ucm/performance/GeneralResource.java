@@ -26,7 +26,7 @@ import ucm.UCMspec;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getGeneralResource()
- * @model 
+ * @model
  * @generated
  */
 public interface GeneralResource extends EObject{

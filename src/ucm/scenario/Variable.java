@@ -31,7 +31,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getVariable()
- * @model 
+ * @model
  * @generated
  */
 public interface Variable extends UCMmodelElement{

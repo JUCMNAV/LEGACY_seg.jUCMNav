@@ -27,7 +27,7 @@ package urncore;
  * </p>
  *
  * @see urncore.UrncorePackage#getDynamicResponsibility()
- * @model 
+ * @model
  * @generated
  */
 public interface DynamicResponsibility extends Responsibility{
@@ -44,7 +44,7 @@ public interface DynamicResponsibility extends Responsibility{
      * @see urncore.DynamicRespKind
      * @see #setKind(DynamicRespKind)
      * @see urncore.UrncorePackage#getDynamicResponsibility_Kind()
-     * @model 
+     * @model
      * @generated
      */
 	DynamicRespKind getKind();
@@ -71,7 +71,7 @@ public interface DynamicResponsibility extends Responsibility{
      * @return the value of the '<em>To Path</em>' attribute.
      * @see #setToPath(boolean)
      * @see urncore.UrncorePackage#getDynamicResponsibility_ToPath()
-     * @model 
+     * @model
      * @generated
      */
 	boolean isToPath();
@@ -97,7 +97,7 @@ public interface DynamicResponsibility extends Responsibility{
      * @return the value of the '<em>Arrow Length</em>' attribute.
      * @see #setArrowLength(int)
      * @see urncore.UrncorePackage#getDynamicResponsibility_ArrowLength()
-     * @model 
+     * @model
      * @generated
      */
 	int getArrowLength();

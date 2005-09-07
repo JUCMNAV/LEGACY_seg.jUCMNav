@@ -25,7 +25,7 @@ import urncore.Responsibility;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getDemand()
- * @model 
+ * @model
  * @generated
  */
 public interface Demand extends EObject{
@@ -40,7 +40,7 @@ public interface Demand extends EObject{
      * @return the value of the '<em>Quantity</em>' attribute.
      * @see #setQuantity(double)
      * @see ucm.performance.PerformancePackage#getDemand_Quantity()
-     * @model 
+     * @model
      * @generated
      */
 	double getQuantity();

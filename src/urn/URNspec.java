@@ -44,7 +44,7 @@ import urncore.URNdefinition;
  * </p>
  *
  * @see urn.UrnPackage#getURNspec()
- * @model 
+ * @model
  * @generated
  */
 public interface URNspec extends EObject{
@@ -59,7 +59,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urn.UrnPackage#getURNspec_Name()
-     * @model 
+     * @model
      * @generated
      */
 	String getName();
@@ -85,7 +85,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urn.UrnPackage#getURNspec_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();
@@ -111,7 +111,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Author</em>' attribute.
      * @see #setAuthor(String)
      * @see urn.UrnPackage#getURNspec_Author()
-     * @model 
+     * @model
      * @generated
      */
 	String getAuthor();
@@ -137,7 +137,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Created</em>' attribute.
      * @see #setCreated(String)
      * @see urn.UrnPackage#getURNspec_Created()
-     * @model 
+     * @model
      * @generated
      */
 	String getCreated();
@@ -163,7 +163,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Modified</em>' attribute.
      * @see #setModified(String)
      * @see urn.UrnPackage#getURNspec_Modified()
-     * @model 
+     * @model
      * @generated
      */
 	String getModified();
@@ -189,7 +189,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Spec Version</em>' attribute.
      * @see #setSpecVersion(String)
      * @see urn.UrnPackage#getURNspec_SpecVersion()
-     * @model 
+     * @model
      * @generated
      */
 	String getSpecVersion();
@@ -215,7 +215,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Urn Version</em>' attribute.
      * @see #setUrnVersion(String)
      * @see urn.UrnPackage#getURNspec_UrnVersion()
-     * @model 
+     * @model
      * @generated
      */
 	String getUrnVersion();
@@ -241,7 +241,7 @@ public interface URNspec extends EObject{
      * @return the value of the '<em>Next Global ID</em>' attribute.
      * @see #setNextGlobalID(String)
      * @see urn.UrnPackage#getURNspec_NextGlobalID()
-     * @model 
+     * @model
      * @generated
      */
 	String getNextGlobalID();

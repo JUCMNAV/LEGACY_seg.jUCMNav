@@ -20,7 +20,7 @@ package ucm.performance;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getExternalOperation()
- * @model 
+ * @model
  * @generated
  */
 public interface ExternalOperation extends ActiveResource{
@@ -35,7 +35,7 @@ public interface ExternalOperation extends ActiveResource{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see ucm.performance.PerformancePackage#getExternalOperation_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();

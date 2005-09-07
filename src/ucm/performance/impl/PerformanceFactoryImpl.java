@@ -22,7 +22,7 @@ import ucm.performance.*;
  */
 public class PerformanceFactoryImpl extends EFactoryImpl implements PerformanceFactory {
     /**
-     * Creates and instance of the factory.
+     * Creates an instance of the factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated

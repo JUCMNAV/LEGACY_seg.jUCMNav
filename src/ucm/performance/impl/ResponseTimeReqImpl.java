@@ -381,12 +381,12 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.RESPONSE_TIME_REQ__UCMSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__RESPTIMEREQ, UCMspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__RESPTIMEREQ, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

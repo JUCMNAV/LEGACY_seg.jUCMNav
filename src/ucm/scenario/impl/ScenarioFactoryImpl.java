@@ -21,7 +21,7 @@ import ucm.scenario.*;
  */
 public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory {
     /**
-     * Creates and instance of the factory.
+     * Creates an instance of the factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated

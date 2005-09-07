@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see grl.GrlFactory
+ * @model kind="package"
  * @generated
  */
 public interface GrlPackage extends EPackage{

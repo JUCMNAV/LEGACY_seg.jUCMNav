@@ -28,7 +28,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.map.MapPackage#getMap()
- * @model 
+ * @model
  * @generated
  */
 public interface Map extends UCMmodelElement{

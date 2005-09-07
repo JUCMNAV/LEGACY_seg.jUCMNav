@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see ucm.map.MapPackage#getPathGraph()
- * @model 
+ * @model
  * @generated
  */
 public interface PathGraph extends EObject{

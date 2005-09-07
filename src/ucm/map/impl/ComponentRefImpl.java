@@ -752,12 +752,12 @@ public class ComponentRefImpl extends UCMmodelElementImpl implements ComponentRe
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.COMPONENT_REF__MAP:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.MAP__COMP_REFS, Map.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.MAP__COMP_REFS, Map.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

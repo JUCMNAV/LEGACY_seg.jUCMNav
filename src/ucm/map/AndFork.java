@@ -20,7 +20,7 @@ package ucm.map;
  * </p>
  *
  * @see ucm.map.MapPackage#getAndFork()
- * @model 
+ * @model
  * @generated
  */
 public interface AndFork extends PathNode{
@@ -35,7 +35,7 @@ public interface AndFork extends PathNode{
      * @return the value of the '<em>Orientation</em>' attribute.
      * @see #setOrientation(String)
      * @see ucm.map.MapPackage#getAndFork_Orientation()
-     * @model 
+     * @model
      * @generated
      */
 	String getOrientation();

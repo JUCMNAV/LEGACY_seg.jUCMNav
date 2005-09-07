@@ -33,7 +33,7 @@ import ucm.map.StartPoint;
  * </p>
  *
  * @see urncore.UrncorePackage#getCondition()
- * @model 
+ * @model
  * @generated
  */
 public interface Condition extends Label{
@@ -48,7 +48,7 @@ public interface Condition extends Label{
      * @return the value of the '<em>Label</em>' attribute.
      * @see #setLabel(String)
      * @see urncore.UrncorePackage#getCondition_Label()
-     * @model 
+     * @model
      * @generated
      */
 	String getLabel();
@@ -74,7 +74,7 @@ public interface Condition extends Label{
      * @return the value of the '<em>Expression</em>' attribute.
      * @see #setExpression(String)
      * @see urncore.UrncorePackage#getCondition_Expression()
-     * @model 
+     * @model
      * @generated
      */
 	String getExpression();
@@ -100,7 +100,7 @@ public interface Condition extends Label{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urncore.UrncorePackage#getCondition_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();

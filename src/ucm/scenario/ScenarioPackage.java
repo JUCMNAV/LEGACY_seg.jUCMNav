@@ -25,6 +25,7 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.scenario.ScenarioFactory
+ * @model kind="package"
  * @generated
  */
 public interface ScenarioPackage extends EPackage{

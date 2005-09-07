@@ -170,12 +170,12 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.WAITING_PLACE__PATH_GRAPH:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.PATH_GRAPH__PATH_NODES, PathGraph.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.PATH_GRAPH__PATH_NODES, PathGraph.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

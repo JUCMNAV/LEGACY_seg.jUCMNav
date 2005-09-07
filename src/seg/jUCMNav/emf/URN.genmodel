@@ -4,8 +4,138 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src"
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
-    editorPluginClass="grl.presentation.URNEditorPlugin" runtimeCompatibility="false">
+    editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
   <foreignModel>C:\Documents and Settings\jkealey\Desktop\URN_07.mdl</foreignModel>
+  <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
+    <genClasses ecoreClass="urn.ecore#//URNspec">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/specVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/urnVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/nextGlobalID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/ucmspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/grlspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urndef"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
+    </genClasses>
+    <genClasses ecoreClass="urn.ecore#//URNlink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/kind"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/urnspec"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/grlElems"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/ucmElems"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Urncore" ecorePackage="urncore.ecore#/">
+    <genEnums ecoreEnum="urncore.ecore#//ComponentKind">
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Team"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Object"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Process"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Agent"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Actor"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Other"/>
+    </genEnums>
+    <genEnums ecoreEnum="urncore.ecore#//DynamicRespKind">
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Move"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/MoveStay"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Create"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Copy"/>
+      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Destroy"/>
+    </genEnums>
+    <genClasses ecoreClass="urncore.ecore#//URNdefinition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/urnspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/responsibilities"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/components"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/GRLelements"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Responsibility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/empty"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/urndefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/demands"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/respRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//ComponentRegular">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/protected"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/slot"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentRegular/includedComponent"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentRegular/host"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//ComponentElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/lineColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/fillColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/filled"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/urndefinition"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/includingComponent"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/resource"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/compRefs"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Pool">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Pool/ofComponents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Pool/content"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Pool/componentType"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Pool/dynResponsibilities"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Component">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Component/type"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//ComponentType">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/subType"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/superType"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/instances"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/pools"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//DynamicResponsibility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/toPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/arrowLength"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//DynamicResponsibility/pool"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//UCMmodelElement">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//UCMmodelElement/urnLinks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/description"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//GRLmodelElement">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//GRLmodelElement/urnLinks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/description"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//GRLmodelElement/urndefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//NodeLabel">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//NodeLabel/pathNode"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Label">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Label/deltaX"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Label/deltaY"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//ComponentLabel">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentLabel/compRef"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//NewClass"/>
+    <genClasses ecoreClass="urncore.ecore#//Condition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/description"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/startPoint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/endPoint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/pluginBinding"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/nodeConnection"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/variables"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Grl" ecorePackage="grl.ecore#/">
+    <genClasses ecoreClass="grl.ecore#//GRLspec">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/urnspec"/>
+    </genClasses>
+  </genPackages>
   <genPackages prefix="Ucm" ecorePackage="ucm.ecore#/">
     <genClasses ecoreClass="ucm.ecore#//UCMspec">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//UCMspec/urnspec"/>
@@ -245,135 +375,5 @@
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/usages"/>
       </genClasses>
     </nestedGenPackages>
-  </genPackages>
-  <genPackages prefix="Urncore" ecorePackage="urncore.ecore#/">
-    <genEnums ecoreEnum="urncore.ecore#//ComponentKind">
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Team"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Object"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Process"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Agent"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Actor"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//ComponentKind/Other"/>
-    </genEnums>
-    <genEnums ecoreEnum="urncore.ecore#//DynamicRespKind">
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Move"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/MoveStay"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Create"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Copy"/>
-      <genEnumLiterals ecoreEnumLiteral="urncore.ecore#//DynamicRespKind/Destroy"/>
-    </genEnums>
-    <genClasses ecoreClass="urncore.ecore#//URNdefinition">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/urnspec"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/responsibilities"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/components"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/GRLelements"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//Responsibility">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/empty"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/urndefinition"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/demands"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Responsibility/respRefs"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//ComponentRegular">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/kind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/protected"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentRegular/slot"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentRegular/includedComponent"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentRegular/host"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//ComponentElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/lineColor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/fillColor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//ComponentElement/filled"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/urndefinition"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/includingComponent"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/resource"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentElement/compRefs"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//Pool">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Pool/ofComponents"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Pool/content"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Pool/componentType"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Pool/dynResponsibilities"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//Component">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Component/type"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//ComponentType">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/subType"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/superType"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/instances"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentType/pools"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//DynamicResponsibility">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/kind"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/toPath"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/arrowLength"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//DynamicResponsibility/pool"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//UCMmodelElement">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//UCMmodelElement/urnLinks"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//UCMmodelElement/description"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//GRLmodelElement">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//GRLmodelElement/urnLinks"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//GRLmodelElement/description"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//GRLmodelElement/urndefinition"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//NodeLabel">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//NodeLabel/pathNode"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//Label">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Label/deltaX"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Label/deltaY"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//ComponentLabel">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//ComponentLabel/compRef"/>
-    </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//NewClass"/>
-    <genClasses ecoreClass="urncore.ecore#//Condition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/label"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/expression"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Condition/description"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/startPoint"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/endPoint"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/pluginBinding"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/nodeConnection"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Condition/variables"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
-    <genClasses ecoreClass="urn.ecore#//URNspec">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/author"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/created"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/modified"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/specVersion"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/urnVersion"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/nextGlobalID"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/ucmspec"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/grlspec"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urndef"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
-    </genClasses>
-    <genClasses ecoreClass="urn.ecore#//URNlink">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/kind"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/urnspec"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/grlElems"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/ucmElems"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="Grl" ecorePackage="grl.ecore#/">
-    <genClasses ecoreClass="grl.ecore#//GRLspec">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/urnspec"/>
-    </genClasses>
   </genPackages>
 </genmodel:GenModel>

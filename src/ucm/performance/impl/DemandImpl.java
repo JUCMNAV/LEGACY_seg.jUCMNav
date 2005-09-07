@@ -254,12 +254,12 @@ public class DemandImpl extends EObjectImpl implements Demand {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.DEMAND__RESPONSIBILITY:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.RESPONSIBILITY__DEMANDS, Responsibility.class, msgs);
+                    return eContainer.eInverseRemove(this, UrncorePackage.RESPONSIBILITY__DEMANDS, Responsibility.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

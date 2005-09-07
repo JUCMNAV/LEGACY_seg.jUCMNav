@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see urncore.UrncorePackage#getResponsibility()
- * @model 
+ * @model
  * @generated
  */
 public interface Responsibility extends UCMmodelElement{

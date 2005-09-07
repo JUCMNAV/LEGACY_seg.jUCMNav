@@ -171,6 +171,13 @@ public class MapSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case MapPackage.PATH_NODE: {
+                PathNode pathNode = (PathNode)theEObject;
+                Object result = casePathNode(pathNode);
+                if (result == null) result = caseUCMmodelElement(pathNode);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case MapPackage.END_POINT: {
                 EndPoint endPoint = (EndPoint)theEObject;
                 Object result = caseEndPoint(endPoint);

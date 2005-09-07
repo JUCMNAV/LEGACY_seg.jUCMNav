@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see ucm.map.MapPackage#getInBinding()
- * @model 
+ * @model
  * @generated
  */
 public interface InBinding extends EObject{

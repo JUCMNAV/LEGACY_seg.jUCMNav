@@ -20,7 +20,7 @@ package ucm.performance;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getActiveResource()
- * @model 
+ * @model
  * @generated
  */
 public interface ActiveResource extends GeneralResource{

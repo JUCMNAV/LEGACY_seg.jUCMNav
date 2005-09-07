@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see urn.UrnPackage#getURNlink()
- * @model 
+ * @model
  * @generated
  */
 public interface URNlink extends EObject{
@@ -44,7 +44,7 @@ public interface URNlink extends EObject{
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see urn.UrnPackage#getURNlink_Id()
-     * @model 
+     * @model
      * @generated
      */
 	String getId();
@@ -70,7 +70,7 @@ public interface URNlink extends EObject{
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urn.UrnPackage#getURNlink_Name()
-     * @model 
+     * @model
      * @generated
      */
 	String getName();
@@ -96,7 +96,7 @@ public interface URNlink extends EObject{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urn.UrnPackage#getURNlink_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();
@@ -122,7 +122,7 @@ public interface URNlink extends EObject{
      * @return the value of the '<em>Kind</em>' attribute.
      * @see #setKind(String)
      * @see urn.UrnPackage#getURNlink_Kind()
-     * @model 
+     * @model
      * @generated
      */
 	String getKind();

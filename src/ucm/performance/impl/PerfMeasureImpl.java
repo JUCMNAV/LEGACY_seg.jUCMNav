@@ -294,12 +294,12 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

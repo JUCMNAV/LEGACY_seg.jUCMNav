@@ -454,12 +454,12 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.NODE_CONNECTION__PATH_GRAPH:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.PATH_GRAPH__NODE_CONNECTIONS, PathGraph.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.PATH_GRAPH__NODE_CONNECTIONS, PathGraph.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

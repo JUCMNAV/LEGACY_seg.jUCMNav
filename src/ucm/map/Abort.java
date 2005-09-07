@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see ucm.map.MapPackage#getAbort()
- * @model 
+ * @model
  * @generated
  */
 public interface Abort extends PathNode{

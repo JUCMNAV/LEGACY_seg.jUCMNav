@@ -510,12 +510,12 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.WORKLOAD__START_POINT:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.START_POINT__WORKLOAD, StartPoint.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.START_POINT__WORKLOAD, StartPoint.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

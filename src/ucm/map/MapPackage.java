@@ -25,6 +25,7 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.map.MapFactory
+ * @model kind="package"
  * @generated
  */
 public interface MapPackage extends EPackage{

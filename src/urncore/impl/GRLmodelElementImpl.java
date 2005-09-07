@@ -294,12 +294,12 @@ public abstract class GRLmodelElementImpl extends EObjectImpl implements GRLmode
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.GR_LMODEL_ELEMENT__URNDEFINITION:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.UR_NDEFINITION__GR_LELEMENTS, URNdefinition.class, msgs);
+                    return eContainer.eInverseRemove(this, UrncorePackage.UR_NDEFINITION__GR_LELEMENTS, URNdefinition.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

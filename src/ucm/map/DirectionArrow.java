@@ -14,8 +14,8 @@ package ucm.map;
  *
  *
  * @see ucm.map.MapPackage#getDirectionArrow()
- * @model 
+ * @model
  * @generated
  */
-public interface DirectionArrow extends PathNode {
+public interface DirectionArrow extends PathNode{
 } // DirectionArrow

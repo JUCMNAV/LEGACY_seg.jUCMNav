@@ -288,12 +288,12 @@ public class InBindingImpl extends EObjectImpl implements InBinding {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case MapPackage.IN_BINDING__BINDING:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.PLUGIN_BINDING__IN, PluginBinding.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.PLUGIN_BINDING__IN, PluginBinding.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

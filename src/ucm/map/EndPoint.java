@@ -28,7 +28,7 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getEndPoint()
- * @model 
+ * @model
  * @generated
  */
 public interface EndPoint extends PathNode{

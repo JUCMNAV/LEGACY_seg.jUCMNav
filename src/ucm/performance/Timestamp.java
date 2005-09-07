@@ -25,7 +25,7 @@ import ucm.map.PathNode;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getTimestamp()
- * @model 
+ * @model
  * @generated
  */
 public interface Timestamp extends PathNode{
@@ -40,7 +40,7 @@ public interface Timestamp extends PathNode{
      * @return the value of the '<em>Orientation</em>' attribute.
      * @see #setOrientation(String)
      * @see ucm.performance.PerformancePackage#getTimestamp_Orientation()
-     * @model 
+     * @model
      * @generated
      */
 	String getOrientation();

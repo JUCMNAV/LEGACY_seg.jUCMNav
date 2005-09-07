@@ -23,7 +23,7 @@ import urn.URNspec;
  * </p>
  *
  * @see grl.GrlPackage#getGRLspec()
- * @model 
+ * @model
  * @generated
  */
 public interface GRLspec extends EObject{

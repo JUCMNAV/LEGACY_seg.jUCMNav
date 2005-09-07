@@ -48,7 +48,7 @@ public interface ComponentElement extends UCMmodelElement{
      * @return the value of the '<em>Line Color</em>' attribute.
      * @see #setLineColor(String)
      * @see urncore.UrncorePackage#getComponentElement_LineColor()
-     * @model 
+     * @model
      * @generated
      */
 	String getLineColor();
@@ -74,7 +74,7 @@ public interface ComponentElement extends UCMmodelElement{
      * @return the value of the '<em>Fill Color</em>' attribute.
      * @see #setFillColor(String)
      * @see urncore.UrncorePackage#getComponentElement_FillColor()
-     * @model 
+     * @model
      * @generated
      */
 	String getFillColor();

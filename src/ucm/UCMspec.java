@@ -33,7 +33,7 @@ import urn.URNspec;
  * </p>
  *
  * @see ucm.UcmPackage#getUCMspec()
- * @model 
+ * @model
  * @generated
  */
 public interface UCMspec extends EObject{

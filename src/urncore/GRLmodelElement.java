@@ -60,7 +60,7 @@ public interface GRLmodelElement extends EObject{
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see urncore.UrncorePackage#getGRLmodelElement_Id()
-     * @model 
+     * @model
      * @generated
      */
 	String getId();
@@ -86,7 +86,7 @@ public interface GRLmodelElement extends EObject{
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urncore.UrncorePackage#getGRLmodelElement_Name()
-     * @model 
+     * @model
      * @generated
      */
 	String getName();
@@ -112,7 +112,7 @@ public interface GRLmodelElement extends EObject{
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urncore.UrncorePackage#getGRLmodelElement_Description()
-     * @model 
+     * @model
      * @generated
      */
 	String getDescription();

@@ -28,7 +28,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getPerfMeasure()
- * @model 
+ * @model
  * @generated
  */
 public interface PerfMeasure extends UCMmodelElement{

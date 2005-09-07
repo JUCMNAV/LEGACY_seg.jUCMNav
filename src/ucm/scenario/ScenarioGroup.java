@@ -30,7 +30,7 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getScenarioGroup()
- * @model 
+ * @model
  * @generated
  */
 public interface ScenarioGroup extends UCMmodelElement{

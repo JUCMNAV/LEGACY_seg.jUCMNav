@@ -45,7 +45,7 @@ public interface PathNode extends UCMmodelElement{
      * @return the value of the '<em>X</em>' attribute.
      * @see #setX(int)
      * @see ucm.map.MapPackage#getPathNode_X()
-     * @model 
+     * @model
      * @generated
      */
 	int getX();
@@ -71,7 +71,7 @@ public interface PathNode extends UCMmodelElement{
      * @return the value of the '<em>Y</em>' attribute.
      * @see #setY(int)
      * @see ucm.map.MapPackage#getPathNode_Y()
-     * @model 
+     * @model
      * @generated
      */
 	int getY();

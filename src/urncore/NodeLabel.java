@@ -21,7 +21,7 @@ import ucm.map.PathNode;
  * </p>
  *
  * @see urncore.UrncorePackage#getNodeLabel()
- * @model 
+ * @model
  * @generated
  */
 public interface NodeLabel extends Label{

@@ -37,7 +37,7 @@ public interface Label extends EObject{
      * @return the value of the '<em>Delta X</em>' attribute.
      * @see #setDeltaX(int)
      * @see urncore.UrncorePackage#getLabel_DeltaX()
-     * @model 
+     * @model
      * @generated
      */
 	int getDeltaX();
@@ -63,7 +63,7 @@ public interface Label extends EObject{
      * @return the value of the '<em>Delta Y</em>' attribute.
      * @see #setDeltaY(int)
      * @see urncore.UrncorePackage#getLabel_DeltaY()
-     * @model 
+     * @model
      * @generated
      */
 	int getDeltaY();

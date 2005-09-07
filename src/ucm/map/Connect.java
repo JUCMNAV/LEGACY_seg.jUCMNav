@@ -14,8 +14,8 @@ package ucm.map;
  *
  *
  * @see ucm.map.MapPackage#getConnect()
- * @model 
+ * @model
  * @generated
  */
-public interface Connect extends PathNode {
+public interface Connect extends PathNode{
 } // Connect

@@ -28,7 +28,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see urncore.UrncorePackage#getComponentType()
- * @model 
+ * @model
  * @generated
  */
 public interface ComponentType extends ComponentRegular{

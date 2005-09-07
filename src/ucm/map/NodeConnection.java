@@ -31,7 +31,7 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getNodeConnection()
- * @model 
+ * @model
  * @generated
  */
 public interface NodeConnection extends EObject{

@@ -15,8 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see urncore.UrncorePackage#getNewClass()
- * @model 
+ * @model
  * @generated
  */
-public interface NewClass extends EObject {
+public interface NewClass extends EObject{
 } // NewClass

@@ -21,7 +21,7 @@ import ucm.map.ComponentRef;
  * </p>
  *
  * @see urncore.UrncorePackage#getComponentLabel()
- * @model 
+ * @model
  * @generated
  */
 public interface ComponentLabel extends Label{

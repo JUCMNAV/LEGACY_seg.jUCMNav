@@ -32,7 +32,7 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getStartPoint()
- * @model 
+ * @model
  * @generated
  */
 public interface StartPoint extends PathNode{
