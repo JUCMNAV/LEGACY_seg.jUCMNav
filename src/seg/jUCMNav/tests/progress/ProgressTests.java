@@ -77,7 +77,7 @@ import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
-import seg.jUCMNav.views.outline.UcmOutlinePage;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
 import seg.jUCMNav.views.wizards.ExportImageWizard;
@@ -214,7 +214,7 @@ public class ProgressTests extends TestCase {
 
         // if can't find in editor, look in outline.
         if (ep == null)
-            ep = (EditPart) (((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(o);
+            ep = (EditPart) (((UrnOutlinePage) editor.getAdapter(IContentOutlinePage.class))).getViewer().getEditPartRegistry().get(o);
 
         return ep;
     }
@@ -236,7 +236,7 @@ public class ProgressTests extends TestCase {
     }
 
     public EditPartViewer getOutlineGraphicalViewer() {
-        return ((UcmOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer();
+        return ((UrnOutlinePage) editor.getAdapter(IContentOutlinePage.class)).getViewer();
     }
 
     public UcmPaletteRoot getPaletteRoot() {

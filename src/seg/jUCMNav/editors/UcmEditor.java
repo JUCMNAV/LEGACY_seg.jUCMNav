@@ -34,7 +34,7 @@ import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
-import seg.jUCMNav.views.outline.UcmOutlinePage;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.map.Map;
 
 /**
@@ -54,7 +54,7 @@ public class UcmEditor extends UrnEditor {
     private KeyHandler sharedKeyHandler;
 
     // our outline page.
-    private UcmOutlinePage outline;
+    private UrnOutlinePage outline;
 
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
@@ -150,9 +150,9 @@ public class UcmEditor extends UrnEditor {
     /**
      * @return the outline associated with this editor
      */
-    private UcmOutlinePage getOutlinePage() {
+    private UrnOutlinePage getOutlinePage() {
         if (outline == null)
-            outline = new UcmOutlinePage(getParent(), new TreeViewer());
+            outline = new UrnOutlinePage(getParent(), new TreeViewer());
         return outline;
     }
 

@@ -34,7 +34,7 @@ import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.views.outline.UcmOutlinePage;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
 import ucm.map.Map;
 import ucm.map.MapPackage;
@@ -253,7 +253,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         else if (adapter == CommandStack.class)
             return getDelegatingCommandStack();
         else if (getPageCount() == 0 && adapter == IContentOutlinePage.class)
-            return new UcmOutlinePage(this, new TreeViewer());
+            return new UrnOutlinePage(this, new TreeViewer());
 
         // delegate to open editor if possible
         if (getPageCount() > 0) {
