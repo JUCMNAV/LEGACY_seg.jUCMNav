@@ -80,7 +80,7 @@ import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
-import seg.jUCMNav.views.wizards.ExportImageWizard;
+import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -1993,7 +1993,7 @@ public class ProgressTests extends TestCase {
      * Author: jkealey
      */
     public void testReqExportBitmap1() {
-        ExportImageWizard wiz = new ExportImageWizard();
+        ExportWizard wiz = new ExportWizard();
         assertTrue("not an export wizard", wiz instanceof IExportWizard); //$NON-NLS-1$
     }
 

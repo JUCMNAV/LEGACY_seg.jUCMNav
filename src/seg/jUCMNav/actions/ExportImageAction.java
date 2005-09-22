@@ -4,7 +4,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.views.wizards.ExportImageWizard;
+import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 
 /**
  * Opens the ExportImageWizard with the current selection (map or URNspec)
@@ -48,7 +48,7 @@ public class ExportImageAction extends UCMSelectionAction {
      */
     public void run() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        ExportImageWizard wiz = new ExportImageWizard();
+        ExportWizard wiz = new ExportWizard();
         StructuredSelection selection = null;
         switch (sel.getSelectionType()) {
         case SelectionHelper.MAP:
