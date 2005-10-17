@@ -1,9 +1,9 @@
 package seg.jUCMNav.actions;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
-import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import ucm.map.PathNode;
 
@@ -40,7 +40,7 @@ public class DisconnectAction extends UCMSelectionAction {
     }
 
     protected Command getCommand() {
-        return new DisconnectCommand((PathNode) ((PathNodeEditPart) getSelectedObjects().get(0)).getModel());
+        return new DisconnectCommand((PathNode) ((EditPart) getSelectedObjects().get(0)).getModel());
     }
 
 }

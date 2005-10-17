@@ -8,6 +8,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.PathNode;
 
 /**
@@ -16,7 +17,7 @@ import ucm.map.PathNode;
  * Package access because we don't want external classes using it directly. Use SetConstraintCommand instead.
  * 
  * @author Etienne Tremblay, jkealey
- *  
+ * 
  */
 class MovePathNodeCommand extends Command implements JUCMNavCommand {
     private PathNode node;
@@ -109,8 +110,10 @@ class MovePathNodeCommand extends Command implements JUCMNavCommand {
      */
     private void setParents() {
         oldParent = node.getCompRef();
-        if (node.getPathGraph() != null && node.getPathGraph().getMap() != null) {
-            newParent = ParentFinder.findParent(node.getPathGraph().getMap(), newX, newY);
+        if (!(node instanceof Connect)) {
+            if (node.getPathGraph() != null && node.getPathGraph().getMap() != null) {
+                newParent = ParentFinder.findParent(node.getPathGraph().getMap(), newX, newY);
+            }
         }
     }
 
@@ -135,8 +138,8 @@ class MovePathNodeCommand extends Command implements JUCMNavCommand {
         assert node.getX() == oldX && node.getY() == oldY : "pre node position"; //$NON-NLS-1$
 
         // this is not true because in our compound command the parent might already have been moved.
-        //        if (oldParent!=null)
-        //            assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new
+        // if (oldParent!=null)
+        // assert (new Rectangle(oldParent.getX(), oldParent.getY(), oldParent.getWidth(), oldParent.getHeight())).contains(new
         // Point(node.getX(), node.getY()))
         // : "pre node in parent.";
     }
