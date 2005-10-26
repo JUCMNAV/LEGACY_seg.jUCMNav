@@ -10,8 +10,8 @@
         eType="#//Responsibility" containment="true" eOpposite="#//Responsibility/urndefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
         eType="#//ComponentElement" containment="true" eOpposite="#//ComponentElement/urndefinition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="GRLelements" upperBound="-1"
-        eType="#//GRLmodelElement" containment="true" eOpposite="#//GRLmodelElement/urndefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagrams" upperBound="-1"
+        eType="#//SpecificationDiagram" containment="true" eOpposite="#//SpecificationDiagram/urndefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//UCMmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="empty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -48,22 +48,16 @@
     <eLiterals name="Actor" value="4"/>
     <eLiterals name="Other" value="5"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ComponentElement" abstract="true" eSuperTypes="#//UCMmodelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentElement" abstract="true" eSuperTypes="#//UCMmodelElement #//SpecificationComponent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Abstract class for ComponentType, Component (instances), and Pools."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
         eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/components"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="includingComponent" eType="#//ComponentRegular"
         eOpposite="#//ComponentRegular/includedComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="resource" eType="ecore:EClass ucm.ecore#//performance/PassiveResource"
         eOpposite="ucm.ecore#//performance/PassiveResource/component"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="compRefs" lowerBound="1"
-        upperBound="-1" eType="ecore:EClass ucm.ecore#//map/ComponentRef" eOpposite="ucm.ecore#//map/ComponentRef/compDef"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pool" eSuperTypes="#//ComponentElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -106,12 +100,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrowLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pool" eType="#//Pool" eOpposite="#//Pool/dynResponsibilities"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UCMmodelElement" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="UCMmodelElement" abstract="true" eSuperTypes="#//URNmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/ucmElems"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DynamicRespKind">
     <eLiterals name="Move"/>
@@ -120,28 +111,22 @@
     <eLiterals name="Copy" value="3"/>
     <eLiterals name="Destroy" value="4"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GRLmodelElement" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="GRLmodelElement" abstract="true" eSuperTypes="#//URNmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnLinks" upperBound="-1"
         eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/grlElems"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
-        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/GRLelements"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NodeLabel" eSuperTypes="#//Label">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pathNode" lowerBound="1"
-        eType="ecore:EClass ucm.ecore#//map/PathNode" transient="true" eOpposite="ucm.ecore#//map/PathNode/label"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//SpecificationNode"
+        transient="true" eOpposite="#//SpecificationNode/label"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Label" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="deltaX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="deltaY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentLabel" eSuperTypes="#//Label">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="compRef" eType="ecore:EClass ucm.ecore#//map/ComponentRef"
-        transient="true" eOpposite="ucm.ecore#//map/ComponentRef/label"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compRef" eType="#//SpecificationComponentRef"
+        transient="true" eOpposite="#//SpecificationComponentRef/label"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NewClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="Condition" eSuperTypes="#//Label">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="expression" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -156,5 +141,74 @@
         transient="true" eOpposite="ucm.ecore#//map/NodeConnection/condition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
         eType="ecore:EClass ucm.ecore#//scenario/Variable" eOpposite="ucm.ecore#//scenario/Variable/usages"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificationDiagram" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
+        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/specDiagrams"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//SpecificationNode" containment="true" eOpposite="#//SpecificationNode/specDiagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compRefs" upperBound="-1"
+        eType="#//SpecificationComponentRef" containment="true" eOpposite="#//SpecificationComponentRef/specDiagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
+        eType="#//SpecificationConnection" containment="true" eOpposite="#//SpecificationConnection/specDiagram"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificationNode" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagram" lowerBound="1"
+        eType="#//SpecificationDiagram" transient="true" eOpposite="#//SpecificationDiagram/nodes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compRef" eType="#//SpecificationComponentRef"
+        eOpposite="#//SpecificationComponentRef/nodes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="succ" upperBound="-1" eType="#//SpecificationConnection"
+        eOpposite="#//SpecificationConnection/source"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pred" upperBound="-1" eType="#//SpecificationConnection"
+        eOpposite="#//SpecificationConnection/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//NodeLabel"
+        containment="true" eOpposite="#//NodeLabel/node"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificationComponentRef" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagram" lowerBound="1"
+        eType="#//SpecificationDiagram" transient="true" eOpposite="#//SpecificationDiagram/compRefs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compDef" lowerBound="1"
+        eType="#//SpecificationComponent" eOpposite="#//SpecificationComponent/compRefs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//SpecificationNode" eOpposite="#//SpecificationNode/compRef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1" eType="#//ComponentLabel"
+        containment="true" eOpposite="#//ComponentLabel/compRef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//SpecificationComponentRef"
+        eOpposite="#//SpecificationComponentRef/children"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//SpecificationComponentRef" eOpposite="#//SpecificationComponentRef/parent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificationComponent" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compRefs" upperBound="-1"
+        eType="#//SpecificationComponentRef" eOpposite="#//SpecificationComponentRef/compDef"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpecificationConnection" abstract="true"
+      interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//SpecificationNode" eOpposite="#//SpecificationNode/succ"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//SpecificationNode" eOpposite="#//SpecificationNode/pred"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagram" lowerBound="1"
+        eType="#//SpecificationDiagram" transient="true" eOpposite="#//SpecificationDiagram/connections"/>
   </eClassifiers>
 </ecore:EPackage>

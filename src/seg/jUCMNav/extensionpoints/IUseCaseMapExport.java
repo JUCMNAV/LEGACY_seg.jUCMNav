@@ -4,7 +4,7 @@ import java.io.FileOutputStream;
 
 import org.eclipse.draw2d.IFigure;
 
-import ucm.map.Map;
+import ucm.map.UCMmap;
 
 /**
  * Interface used by the UseCaseMapExport extension point. Extension point used to convert instances of the ucm.map.Map and output them in a java.io.FileOutputStream, in the export wizard. 
@@ -20,7 +20,7 @@ public interface IUseCaseMapExport {
      * @param map the map to be converted
      * @param fos a file in which the conversion should be written
      */
-    public void export(Map map, FileOutputStream fos);
+    public void export(UCMmap map, FileOutputStream fos);
 
     /**
      * Export the graphical representation of a map instance to a file.

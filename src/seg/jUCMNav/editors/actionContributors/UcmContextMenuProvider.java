@@ -142,6 +142,11 @@ public class UcmContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+/* Modification for the merge in the main trunk (remove the possibility to create GRL diagram
+ *         action = getActionRegistry().getAction(AddGrlGraphAction.ADDGRLGRAPH);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+*/
         action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

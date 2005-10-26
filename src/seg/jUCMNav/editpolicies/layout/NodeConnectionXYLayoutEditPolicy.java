@@ -31,11 +31,11 @@ import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 
 /**
@@ -117,7 +117,7 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
         } else if (newObjectType == OrFork.class || newObjectType == AndFork.class || newObjectType == OrJoin.class || newObjectType == AndJoin.class) {
 
             NodeConnection oldLink = (NodeConnection) this.getHost().getModel();
-            PathNode newNode = (PathNode) ModelCreationFactory.getNewObject(getPathGraph().getMap().getUcmspec().getUrnspec(), (Class) newObjectType);
+            PathNode newNode = (PathNode) ModelCreationFactory.getNewObject(getPathGraph().getUrndefinition().getUrnspec(), (Class) newObjectType);
             createCommand = new DividePathCommand(newNode, oldLink, constraint.x, constraint.y);
 
         }
@@ -161,8 +161,8 @@ public class NodeConnectionXYLayoutEditPolicy extends XYLayoutEditPolicy {
      * 
      * @return The PathGraph this NodeConnection is associated with.
      */
-    private PathGraph getPathGraph() {
-        return ((NodeConnectionEditPart) getHost()).getPathGraph();
+    private UCMmap getPathGraph() {
+        return (UCMmap)((NodeConnectionEditPart) getHost()).getMap();
     }
 
     /**

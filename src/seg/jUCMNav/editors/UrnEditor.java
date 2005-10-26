@@ -18,12 +18,13 @@ import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.ui.IEditorPart;
 
 import seg.jUCMNav.Messages;
+import urncore.SpecificationDiagram;
 
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
  * 
  * @author Jean-François Roy
- *
+ *TODO Remove extends to GraphicalEditorWithFlyoutPalette and copy code in this class
  */
 public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
 
@@ -123,6 +124,20 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
         return super.getGraphicalViewer();
     }
 
+    /**
+     * Return the model of this editor
+     * 
+     * @return The model of this editor
+     */
+    public abstract SpecificationDiagram getModel();
+
+    /**
+     * Set the model of this editor
+     * 
+     */
+
+    public abstract void setModel(SpecificationDiagram m);
+    
     /* (non-Javadoc)
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()
      */

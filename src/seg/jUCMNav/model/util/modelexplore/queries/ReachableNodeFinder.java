@@ -75,7 +75,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             EList links = n.getPred();
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
-                PathNode node = ((NodeConnection) links.get(i)).getSource();
+                PathNode node = (PathNode)((NodeConnection) links.get(i)).getSource();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
                     toVisit.add(node);
             }
@@ -83,7 +83,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             links = n.getSucc();
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
-                PathNode node = ((NodeConnection) links.get(i)).getTarget();
+                PathNode node = (PathNode)((NodeConnection) links.get(i)).getTarget();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
                     toVisit.add(node);
             }

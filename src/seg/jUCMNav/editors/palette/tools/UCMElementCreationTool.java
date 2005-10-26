@@ -7,7 +7,7 @@ import org.eclipse.gef.tools.CreationTool;
  * Creation tool that doesn't get unloaded after creation, only after invalid mouse click. 
  * 
  * @author jkealey
- *  
+ *  TODO Modify this class for URNElementCreationTool
  */
 public class UCMElementCreationTool extends CreationTool {
 

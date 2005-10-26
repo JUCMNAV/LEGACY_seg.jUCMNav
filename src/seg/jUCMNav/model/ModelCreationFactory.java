@@ -1,5 +1,12 @@
 package seg.jUCMNav.model;
 
+import grl.GRLGraph;
+import grl.GRLspec;
+import grl.GrlFactory;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
+
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -16,19 +23,17 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.Map;
 import ucm.map.MapFactory;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
-import ucm.map.PathGraph;
-import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.Workload;
@@ -43,6 +48,7 @@ import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.NodeLabel;
 import urncore.Responsibility;
+import urncore.SpecificationNode;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 import urncore.UrncoreFactory;
@@ -65,8 +71,10 @@ public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
     private URNspec urn;
-    public static int DEFAULT_COMPONENT_HEIGHT=100;
-    public static int DEFAULT_COMPONENT_WIDTH=100;
+    public static int DEFAULT_UCM_COMPONENT_HEIGHT=100;
+    public static int DEFAULT_UCM_COMPONENT_WIDTH=100;
+    public static int DEFAULT_GRL_COMPONENT_HEIGHT=200;
+    public static int DEFAULT_GRL_COMPONENT_WIDTH=200;
 
     /**
      * @param urn
@@ -86,7 +94,7 @@ public class ModelCreationFactory implements CreationFactory {
      * @param targetClass
      *            The class we need to create from this factory.
      * @param type
-     *            If this is a ComponentRef, we can pass the ComponentKind.
+     *            If this is a ComponentRef or an IntentionalElementRef, we can pass the type.
      */
     public ModelCreationFactory(URNspec urn, Class targetClass, int type) {
         this.urn = urn;
@@ -135,7 +143,8 @@ public class ModelCreationFactory implements CreationFactory {
         UcmFactory ucmfactory = UcmFactory.eINSTANCE;
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
-
+        GrlFactory grlfactory = GrlFactory.eINSTANCE;
+        
         Object result = null;
 
         if (targetClass != null) {
@@ -145,10 +154,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = getNewURNspec();
             } else if (targetClass.equals(UCMspec.class)) {
                 result = ucmfactory.createUCMspec();
-            } else if (targetClass.equals(URNdefinition.class)) {
+            } else if (targetClass.equals(GRLspec.class)) {
+                result = grlfactory.createGRLspec();
+            }else if (targetClass.equals(URNdefinition.class)) {
                 result = urncorefactory.createURNdefinition();
-            } else if (targetClass.equals(PathGraph.class)) {
-                return mapfactory.createPathGraph();
             } else if (targetClass.equals(EmptyPoint.class)) {
                 result = mapfactory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
@@ -157,6 +166,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createDirectionArrow();
             } else if (targetClass.equals(Responsibility.class)) {
                 result = urncorefactory.createResponsibility();
+            } else if (targetClass.equals(IntentionalElement.class)) {
+                result = grlfactory.createIntentionalElement();
             } else if (targetClass.equals(NodeLabel.class)) {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
@@ -183,13 +194,11 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createConnect();
             } else {
                 // complex creations
-                if (targetClass.equals(Map.class)) {
+                if (targetClass.equals(UCMmap.class)) {
                     // create a map
-                    result = mapfactory.createMap();
-                    URNNamingHelper.setElementNameAndID(urn, (Map) result);
+                    result = mapfactory.createUCMmap();
+                    URNNamingHelper.setElementNameAndID(urn, (UCMmap) result);
 
-                    // add an empty pathgraph to this map
-                    ((Map) result).setPathGraph(mapfactory.createPathGraph());
                 } else if (targetClass.equals(ComponentRef.class)) {
                     // create the component ref
                     result = mapfactory.createComponentRef();
@@ -204,8 +213,8 @@ public class ModelCreationFactory implements CreationFactory {
                     URNNamingHelper.setElementNameAndID(urn, compdef);
                     URNNamingHelper.resolveNamingConflict(urn, compdef);
 
-                    ((ComponentRef) result).setHeight(DEFAULT_COMPONENT_HEIGHT);
-                    ((ComponentRef) result).setWidth(DEFAULT_COMPONENT_WIDTH);
+                    ((ComponentRef) result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
+                    ((ComponentRef) result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
 
                     ((ComponentRef) result).setLabel(urncorefactory.createComponentLabel());
                 } else if (targetClass.equals(Component.class)) {
@@ -253,7 +262,23 @@ public class ModelCreationFactory implements CreationFactory {
                     plug.getPrecondition().setExpression("true");
                     
                     result = plug;
-                } else {
+                } else if (targetClass.equals(GRLGraph.class)) {
+                    // create a map
+                    result = grlfactory.createGRLGraph();
+                    URNNamingHelper.setElementNameAndID(urn, (GRLGraph) result);
+                }else if (targetClass.equals(IntentionalElementRef.class)) {
+                    // create the intentional Element ref
+                    result = grlfactory.createIntentionalElementRef();
+                    
+                    IntentionalElement elementdef = grlfactory.createIntentionalElement();
+                    ((IntentionalElementRef) result).setDef(elementdef);
+
+                    elementdef.setType(IntentionalElementType.get(type));
+                    
+
+                    URNNamingHelper.setElementNameAndID(urn, elementdef);
+                    URNNamingHelper.resolveNamingConflict(urn, elementdef);
+                }else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }
             }
@@ -261,8 +286,8 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add labels automatically to the required pathnodes.
         if (result instanceof StartPoint || result instanceof EndPoint || result instanceof Stub || result instanceof RespRef || result instanceof WaitingPlace
-                || result instanceof Timer) {
-            ((PathNode) result).setLabel(urncorefactory.createNodeLabel());
+                || result instanceof Timer || result instanceof IntentionalElementRef){
+            ((SpecificationNode) result).setLabel(urncorefactory.createNodeLabel());
         }
 
         // set the name and id of model elements
@@ -312,8 +337,8 @@ public class ModelCreationFactory implements CreationFactory {
         // add its UCMspec
         urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
 
-        // add the new mapp to the UCMspec
-        urnspec.getUcmspec().getMaps().add((Map) getNewObject(urnspec, Map.class));
+        // add the new map to the UCMspec
+        urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
 
         result = urnspec;
         return result;

@@ -28,10 +28,10 @@ import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 
 /**
  * Connection router for a use case map. Builds BSplines and refreshes them only when necessary.
@@ -44,17 +44,17 @@ import ucm.map.Timer;
 public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private HashMap connections;
     private Map editpartregistry;
-    private PathGraph pathgraph;
+    private UCMmap pathgraph;
     private Notifier target;
 
     /**
      * 
      * @param editpartregistry
      *            the editpartregistry containing all our editparts.
-     * @param pathgraph
-     *            the PathGraph containing all the conections.
+     * @param ucmmap
+     *            the UCMmap containing all the conections.
      */
-    public UCMConnectionRouter(Map editpartregistry, PathGraph pathgraph) {
+    public UCMConnectionRouter(Map editpartregistry, UCMmap pathgraph) {
         assert pathgraph != null : "null path graph!"; //$NON-NLS-1$
 
         this.pathgraph = pathgraph;
@@ -198,7 +198,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * 
      * @return the pathgraph containing the connections
      */
-    public PathGraph getPathgraph() {
+    public UCMmap getPathgraph() {
         return pathgraph;
     }
 
@@ -230,7 +230,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
      */
     public boolean isAdapterForType(Object type) {
-        return type.equals(PathGraph.class) || type.equals(PathNode.class) || type.equals(NodeConnection.class);
+        return type.equals(UCMmap.class) || type.equals(PathNode.class) || type.equals(NodeConnection.class);
     }
 
     /**
@@ -246,7 +246,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             if (type == Notification.SET && notifier instanceof PathNode) {
                 PathNode pn = (PathNode) notifier;
                 if (feature.getName().equals("x") || feature.getName().equals("y")) { //$NON-NLS-1$ //$NON-NLS-2$
-                    if (pn.getPathGraph() != null) {
+                    if (pn.getSpecDiagram() != null) {
                         // System.out.println("moved pathnode");
                         refreshConnections(pn);
                     }
@@ -254,13 +254,13 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             } else if (type == Notification.SET && notifier instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) notifier;
                 if (feature.getName().equals("source") || feature.getName().equals("target")) { //$NON-NLS-1$ //$NON-NLS-2$
-                    if (nc.getPathGraph() != null && nc.getSource() != null && nc.getTarget() != null) {
+                    if (nc.getSpecDiagram() != null && nc.getSource() != null && nc.getTarget() != null) {
                         // System.out.println("changed connections");
                         refreshConnections(nc);
                     }
                 }
-            } else if (notifier instanceof PathGraph) {
-                PathGraph pg = (PathGraph) notifier;
+            } else if (notifier instanceof UCMmap) {
+                UCMmap pg = (UCMmap) notifier;
 
                 switch (type) {
                 case Notification.ADD:
@@ -284,8 +284,8 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * Refresh all the connections; simply marks them as dirty in the connections HashMap.
      */
     public void refreshConnections() {
-        connections = new HashMap(getPathgraph().getNodeConnections().size());
-        for (Iterator iter = getPathgraph().getNodeConnections().iterator(); iter.hasNext();) {
+        connections = new HashMap(getPathgraph().getNodes().size());
+        for (Iterator iter = getPathgraph().getConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
 
             // never want to refresh Connects
@@ -370,15 +370,15 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @param pathgraph
      *            the pathgraph containing all these elements.
      */
-    private void registerListeners(PathGraph pathgraph) {
+    private void registerListeners(UCMmap pathgraph) {
         if (!pathgraph.eAdapters().contains(this))
             pathgraph.eAdapters().add(this);
-        for (Iterator iter = pathgraph.getNodeConnections().iterator(); iter.hasNext();) {
+        for (Iterator iter = pathgraph.getConnections().iterator(); iter.hasNext();) {
             NodeConnection element = (NodeConnection) iter.next();
             if (!element.eAdapters().contains(this) && !(element.getSource() instanceof Connect) && !(element.getTarget() instanceof Connect))
                 element.eAdapters().add(this);
         }
-        for (Iterator iter = pathgraph.getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = pathgraph.getNodes().iterator(); iter.hasNext();) {
             EObject element = (EObject) iter.next();
             if (!element.eAdapters().contains(this) && !(element instanceof Connect))
                 element.eAdapters().add(this);
@@ -428,7 +428,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * @param pathgraph
      *            the pathgraph containing all the model elements relevant to this connection router.
      */
-    public void setPathgraph(PathGraph pathgraph) {
+    public void setPathgraph(UCMmap pathgraph) {
         this.pathgraph = pathgraph;
     }
 

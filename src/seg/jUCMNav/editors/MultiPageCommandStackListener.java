@@ -1,5 +1,7 @@
 package seg.jUCMNav.editors;
 
+import grl.GRLGraph;
+
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
@@ -11,8 +13,9 @@ import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.ui.PartInitException;
 
 import seg.jUCMNav.editors.actionContributors.ModeComboContributionItem;
-import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
-import ucm.map.Map;
+import seg.jUCMNav.editparts.URNRootEditPart;
+import ucm.map.UCMmap;
+import urncore.SpecificationDiagram;
 
 /**
  * This class listens for command stack changes of the pages contained in this editor. It decides if the editor is dirty or not and refreshes the pages if maps
@@ -74,20 +77,25 @@ public class MultiPageCommandStackListener implements CommandStackListener {
         commandStackVerifyPages(event);
     }
 
-    /**
+    /** 
      * @param event
      */
     private void commandStackVerifyPages(EventObject event) {
-        if (this.editor.getPageCount() != this.editor.getModel().getUcmspec().getMaps().size() && event.getSource() instanceof DelegatingCommandStack) {
-            Map mapChanged = ((DelegatingCommandStack) event.getSource()).getLastAffectedMap();
+        if (this.editor.getPageCount() != this.editor.getModel().getUrndef().getSpecDiagrams().size() && event.getSource() instanceof DelegatingCommandStack) {
+            SpecificationDiagram diagramChanged = ((DelegatingCommandStack) event.getSource()).getLastAffectedDiagram();
 
             // was added
-            if (this.editor.getModel().getUcmspec().getMaps().contains(mapChanged)) {
-                UcmEditor u = new UcmEditor(this.editor);
-                u.setModel(mapChanged);
+            if (this.editor.getModel().getUrndef().getSpecDiagrams().contains(diagramChanged)) {
+                UrnEditor u = null;
+                if (diagramChanged instanceof UCMmap){
+                    u = new UcmEditor(this.editor);
+                } else if(diagramChanged instanceof GRLGraph){
+                    u = new GrlEditor(this.editor);
+                } 
+                u.setModel(diagramChanged);
 
                 try {
-                    this.editor.addPage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged), u, this.editor.getEditorInput());
+                    this.editor.addPage(this.editor.getModel().getUrndef().getSpecDiagrams().indexOf(diagramChanged), u, this.editor.getEditorInput());
                 } catch (PartInitException e) {
                     e.printStackTrace();
                 }
@@ -95,33 +103,33 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 // add command stacks
                 this.editor.getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
 
-                mapChanged.eAdapters().add(this.editor);
+                diagramChanged.eAdapters().add(this.editor);
 
                 // set the mode to that already in use
                 if (!ModeComboContributionItem.isLocal() && this.editor.getPageCount() >= 1) {
-                    int mode = ((ConnectionOnBottomRootEditPart) ((UcmEditor) this.editor.getEditor(0)).getGraphicalViewer().getRootEditPart()).getMode();
-                    ((ConnectionOnBottomRootEditPart) u.getGraphicalViewer().getRootEditPart()).setMode(mode);
+                    int mode = ((URNRootEditPart) ((UrnEditor) this.editor.getEditor(0)).getGraphicalViewer().getRootEditPart()).getMode();
+                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setMode(mode);
                 }
 
                 this.editor.getMultiPageTabManager().refreshPageNames();
-                this.editor.setActivePage(this.editor.getModel().getUcmspec().getMaps().indexOf(mapChanged));
-                u.getGraphicalViewer().select((EditPart) u.getGraphicalViewer().getEditPartRegistry().get(mapChanged));
+                this.editor.setActivePage(this.editor.getModel().getUrndef().getSpecDiagrams().indexOf(diagramChanged));
+                u.getGraphicalViewer().select((EditPart) u.getGraphicalViewer().getEditPartRegistry().get(diagramChanged));
 
             } else // was deleted
             {
                 int i;
                 for (i = 0; i < this.editor.getPageCount(); i++) {
-                    if (((UcmEditor) this.editor.getEditor(i)).getModel().equals(mapChanged)) {
+                    if (((UrnEditor) this.editor.getEditor(i)).getModel().equals(diagramChanged)) {
                         // remove command stacks
-                        this.editor.getMultiPageCommandStackListener().removeCommandStack(((UcmEditor) this.editor.getEditor(i)).getCommandStack());
+                        this.editor.getMultiPageCommandStackListener().removeCommandStack(((UrnEditor) this.editor.getEditor(i)).getCommandStack());
                         this.editor.removePage(i);
 
                         break;
                     }
                 }
 
-                if (mapChanged != null)
-                    mapChanged.eAdapters().remove(this.editor);
+                if (diagramChanged != null)
+                    diagramChanged.eAdapters().remove(this.editor);
 
                 this.editor.getMultiPageTabManager().currentPageChanged();
             }

@@ -43,11 +43,11 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.UCMmap;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -63,7 +63,7 @@ import ucm.map.WaitingPlace;
 public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart {
 
     // the pathgraph contain our node.
-    private PathGraph diagram;
+    private UCMmap diagram;
 
     /**
      * 
@@ -72,7 +72,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @param diagram
      *            the pathgraph containing our element.
      */
-    public PathNodeEditPart(PathNode model, PathGraph diagram) {
+    public PathNodeEditPart(PathNode model, UCMmap diagram) {
         super();
         setModel(model);
         this.diagram = diagram;
@@ -145,7 +145,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     /**
      * @return Returns the diagram.
      */
-    public PathGraph getDiagram() {
+    public UCMmap getDiagram() {
         return diagram;
     }
 
@@ -256,18 +256,18 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         case MapPackage.PATH_NODE__PRED:
             refreshTargetConnections();
             if (getParent() != null)
-                ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         case MapPackage.PATH_NODE__SUCC:
             refreshSourceConnections();
             if (getParent() != null)
-                ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         case MapPackage.PATH_NODE__LABEL:
         case MapPackage.START_POINT__PRECONDITION:
         case MapPackage.END_POINT__POSTCONDITION:
             if (getParent() != null)
-                ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         default:
             //refreshVisuals();
@@ -437,7 +437,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
         // hide empty points when not in view all elements mode.
         if (getModel() instanceof EmptyPoint) {
-            ((IFigure) getFigure().getChildren().get(0)).setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
+            ((IFigure) getFigure().getChildren().get(0)).setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
         }
         // should we offset it so that it doesn't overlap another element?
         if (getModel() instanceof EndPoint) {
@@ -467,7 +467,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      * @param diagram
      *            The diagram to set.
      */
-    public void setDiagram(PathGraph diagram) {
+    public void setDiagram(UCMmap diagram) {
         this.diagram = diagram;
     }
 }

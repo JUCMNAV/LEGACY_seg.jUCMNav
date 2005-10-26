@@ -15,11 +15,11 @@ import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -62,7 +62,7 @@ public class DoesDisconnectImplyDelete {
     private Vector ncInToRemove, ncOutToRemove;
 
     // the pathgraph that contains the node.
-    private PathGraph pg;
+    private UCMmap pg;
 
     // if this is false, we're only removing branches.
     private boolean shouldDeleteNode = true;

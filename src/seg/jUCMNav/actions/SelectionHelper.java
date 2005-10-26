@@ -15,11 +15,10 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -89,13 +88,12 @@ public class SelectionHelper {
     private DirectionArrow directionarrow;
     private EmptyPoint emptypoint;
     private EndPoint endpoint;
-    private Map map;
+    private UCMmap map;
     private NodeConnection nodeconnection;
     private Point nodeconnectionmiddle;
     private NodeLabel nodelabel;
     private OrFork orfork;
     private OrJoin orjoin;
-    private PathGraph pathgraph;
     private RespRef respref;
     private List selection;
     private int selectionType;
@@ -137,7 +135,7 @@ public class SelectionHelper {
         return endpoint;
     }
 
-    public Map getMap() {
+    public UCMmap getMap() {
         return map;
     }
 
@@ -159,10 +157,6 @@ public class SelectionHelper {
 
     public OrJoin getOrjoin() {
         return orjoin;
-    }
-
-    public PathGraph getPathgraph() {
-        return pathgraph;
     }
 
     public RespRef getRespref() {
@@ -261,28 +255,21 @@ public class SelectionHelper {
             andjoin = (AndJoin) model;
         else if (model instanceof DirectionArrow)
             directionarrow = (DirectionArrow) model;
-        else if (model instanceof Map && ((Map) model).getUcmspec() != null) {
-            map = (Map) model;
-            urnspec = map.getUcmspec().getUrnspec();
+        else if (model instanceof UCMmap && ((UCMmap) model).getUrndefinition() != null) {
+            map = (UCMmap) model;
+            urnspec = map.getUrndefinition().getUrnspec();
         } else if (model instanceof URNspec) {
             urnspec = (URNspec) model;
         }
 
         if (model instanceof NodeConnection || model instanceof PathNode || model instanceof ComponentRef) {
             if (model instanceof NodeConnection)
-                pathgraph = nodeconnection.getPathGraph();
+                map = (UCMmap)nodeconnection.getSpecDiagram();
             else if (model instanceof PathNode)
-                pathgraph = ((PathNode) model).getPathGraph();
+                map = (UCMmap)((PathNode) model).getSpecDiagram();
 
-            if (componentref != null || pathgraph != null) {
-                if (model instanceof ComponentRef)
-                    map = componentref.getMap();
-                else
-                    map = pathgraph.getMap();
-
-                if (map != null && map.getUcmspec()!=null)
-                    urnspec = map.getUcmspec().getUrnspec();
-            }
+            if (map != null && map.getUrndefinition()!=null)
+                urnspec = map.getUrndefinition().getUrnspec();
         }
     }
 
@@ -316,14 +303,14 @@ public class SelectionHelper {
                     Object model = ((EditPart) element).getModel();
                     if (model instanceof URNspec)
                         urnspec = (URNspec) model;
-                    else if (model instanceof Map && ((Map) model).getUcmspec() != null)
-                        urnspec = ((Map) model).getUcmspec().getUrnspec();
-                    else if (model instanceof PathNode && ((PathNode) model).getPathGraph() != null && ((PathNode) model).getPathGraph().getMap()!=null && ((PathNode) model).getPathGraph().getMap().getUcmspec()!=null)
-                        urnspec = ((PathNode) model).getPathGraph().getMap().getUcmspec().getUrnspec();
-                    else if (model instanceof NodeConnection && ((NodeConnection) model).getPathGraph() != null && ((NodeConnection) model).getPathGraph().getMap().getUcmspec()!=null)
-                        urnspec = ((NodeConnection) model).getPathGraph().getMap().getUcmspec().getUrnspec();
-                    else if (model instanceof ComponentRef && ((ComponentRef) model).getMap() != null && ((ComponentRef) model).getMap().getUcmspec()!=null)
-                        urnspec = ((ComponentRef) model).getMap().getUcmspec().getUrnspec();
+                    else if (model instanceof UCMmap && ((UCMmap) model).getUrndefinition() != null)
+                        urnspec = ((UCMmap) model).getUrndefinition().getUrnspec();
+                    else if (model instanceof PathNode && ((PathNode) model).getSpecDiagram()!=null && ((PathNode) model).getSpecDiagram().getUrndefinition()!=null)
+                        urnspec = ((PathNode) model).getSpecDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof NodeConnection && ((NodeConnection) model).getSpecDiagram() != null && ((NodeConnection) model).getSpecDiagram().getUrndefinition()!=null)
+                        urnspec = ((NodeConnection) model).getSpecDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof ComponentRef && ((ComponentRef) model).getSpecDiagram() != null && ((ComponentRef) model).getSpecDiagram().getUrndefinition()!=null)
+                        urnspec = ((ComponentRef) model).getSpecDiagram().getUrndefinition().getUrnspec();
 
                 }
                 if (urnspec != null)

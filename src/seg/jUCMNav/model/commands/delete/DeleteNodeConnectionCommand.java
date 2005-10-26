@@ -19,6 +19,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 
 /**
  * Deletes a NodeConnection by disconnecting it from its extremities if they are join/stubs/forks/timer and if not, attempts a CutPathCommand.
@@ -32,8 +33,8 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
 
     public DeleteNodeConnectionCommand(NodeConnection nc, Map editpartregistry) {
         this.nc = nc;
-        PathNode source = nc.getSource();
-        PathNode target = nc.getTarget();
+        PathNode source = (PathNode)nc.getSource();
+        PathNode target = (PathNode)nc.getTarget();
 
         if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) == 1)) {
             Vector in = new Vector();
@@ -59,7 +60,7 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
         }
 
         if (getCommands().size() == 0) {
-            Command cmd = new CutPathCommand(nc.getPathGraph(), nc);
+            Command cmd = new CutPathCommand((UCMmap)nc.getSpecDiagram(), nc);
             if (cmd.canExecute()) {
                 add(cmd);
             }

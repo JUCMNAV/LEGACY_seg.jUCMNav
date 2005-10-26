@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import ucm.map.InBinding;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
@@ -25,7 +25,7 @@ public class DeletePluginCommand extends CompoundCommand {
     private Stub stub;
 
     // The map of the PluginBinding
-    private Map oldMap;
+    private UCMmap oldMap;
 
     // The URNspec of the file
     private URNspec urnSpec;
@@ -66,7 +66,7 @@ public class DeletePluginCommand extends CompoundCommand {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
         if (urnSpec == null)
-            urnSpec = oldMap.getUcmspec().getUrnspec();
+            urnSpec = oldMap.getUrndefinition().getUrnspec();
 
         for (Iterator i = oldPlugin.getIn().iterator(); i.hasNext();) {
             InBinding in = (InBinding) i.next();

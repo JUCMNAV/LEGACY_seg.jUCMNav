@@ -13,7 +13,7 @@ import seg.jUCMNav.model.util.SafePathChecker;
  * @author jkealey
  * @see SafePathChecker
  */
-public class MergeStartEndAction extends UCMSelectionAction {
+public class MergeStartEndAction extends URNSelectionAction {
 
     public static final String MERGESTARTEND = "seg.jUCMNav.MergeStartEnd"; //$NON-NLS-1$
 

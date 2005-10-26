@@ -11,7 +11,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
  * 
  * @author jkealey
  */
-public class SelectDefaultPaletteToolAction extends UCMSelectionAction {
+public class SelectDefaultPaletteToolAction extends URNSelectionAction {
 
     public static final String SETDEFAULTPALETTETOOL = "seg.jUCMNav.SelectDefaultPaletteTool"; //$NON-NLS-1$
 

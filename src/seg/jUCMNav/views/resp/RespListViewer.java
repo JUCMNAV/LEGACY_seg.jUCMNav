@@ -23,9 +23,9 @@ import org.eclipse.swt.widgets.Widget;
 import seg.jUCMNav.views.compositeList.CompositeListControl;
 import seg.jUCMNav.views.compositeList.CompositeListItem;
 import ucm.UcmPackage;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.UCMmap;
 import urncore.Responsibility;
 
 /**
@@ -260,7 +260,7 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
             List oldList = (List) oldInput;
             if (oldList.size() > 0) {
                 PathNode node = (PathNode) oldList.get(0);
-                node.getPathGraph().eAdapters().remove(this);
+                node.getSpecDiagram().eAdapters().remove(this);
             }
 
             for (Iterator i = oldList.iterator(); i.hasNext();) {
@@ -292,7 +292,7 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
 
         if (list.size() > 0) {
             PathNode node = (PathNode) list.get(0);
-            node.getPathGraph().eAdapters().add(this);
+            node.getSpecDiagram().eAdapters().add(this);
         }
         refresh();
     }
@@ -339,7 +339,7 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
                 if (resp.getDescription() != null)
                     item.setDescription(resp.getDescription());
             }
-        } else if (notifier instanceof PathGraph) {
+        } else if (notifier instanceof UCMmap) {
             int type = notification.getEventType();
             int featureId = notification.getFeatureID(UcmPackage.class);
             switch (type) {

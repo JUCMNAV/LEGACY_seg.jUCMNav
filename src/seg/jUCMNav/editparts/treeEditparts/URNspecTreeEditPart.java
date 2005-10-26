@@ -62,10 +62,11 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 
     /**
      * @return the sorted list of maps and the component and responsibility definition labels
+     * TODO Verify if we need to do something special for GRL with getModelChildren
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getURNspec().getUcmspec().getMaps());
+        list.addAll(getURNspec().getUrndef().getSpecDiagrams());
         Collections.sort(list, new EObjectClassNameComparator());
         list.add(Messages.getString("URNspecTreeEditPart.components")); //$NON-NLS-1$
         list.add(Messages.getString("URNspecTreeEditPart.responsibilities")); //$NON-NLS-1$

@@ -16,7 +16,7 @@ import urncore.UCMmodelElement;
  * 
  * @author Jordan
  */
-public class AddLabelAction extends UCMSelectionAction {
+public class AddLabelAction extends URNSelectionAction {
     public static final String ADDLABEL = "seg.jUCMNav.AddLabel"; //$NON-NLS-1$
 
     /**

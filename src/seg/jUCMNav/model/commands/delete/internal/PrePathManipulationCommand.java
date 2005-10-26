@@ -105,7 +105,7 @@ public class PrePathManipulationCommand extends CompoundCommand {
      * Builds the command at execution time, if it hasn't alreayd been deleted.
      */
     public void execute() {
-        if (pn.getPathGraph() != null) {
+        if (pn.getSpecDiagram() != null) {
             build();
             super.execute();
         }

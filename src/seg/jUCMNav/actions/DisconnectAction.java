@@ -13,7 +13,7 @@ import ucm.map.PathNode;
  * @author jkealey
  *  
  */
-public class DisconnectAction extends UCMSelectionAction {
+public class DisconnectAction extends URNSelectionAction {
 
     public static final String DISCONNECT = "seg.jUCMNav.Disconnect"; //$NON-NLS-1$
 

@@ -8,7 +8,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
@@ -29,7 +29,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      * @param map
      *            the Map to be cleaned.
      */
-    public CleanRelationshipsCommand(Map map) {
+    public CleanRelationshipsCommand(UCMmap map) {
         this.element = map;
     }
 
@@ -38,7 +38,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      * @param map
      *            the Map to be cleaned
      */
-    private void build(Map map) {
+    private void build(UCMmap map) {
         add(new RemoveLinkedInfoCommand(map));
         add(new DeleteBindingsCommand(map));
     }
@@ -85,7 +85,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             add(new RemoveLinkedInfoCommand(element));
         }
         if (pn.getCompRef() != null)
-            add(new ComponentRefUnbindChildCommand(pn.getCompRef(), pn));
+            add(new ComponentRefUnbindChildCommand((ComponentRef)pn.getCompRef(), pn));
         add(new DeleteBindingsCommand(pn));
     }
 
@@ -109,11 +109,11 @@ public class CleanRelationshipsCommand extends CompoundCommand {
         if (cr.getChildren().size() > 0)
             add(new ComponentRefUnbindChildCommand(cr, cr.getChildren()));
 
-        if (cr.getPathNodes().size() > 0)
-            add(new ComponentRefUnbindChildCommand(cr, cr.getPathNodes()));
+        if (cr.getNodes().size() > 0)
+            add(new ComponentRefUnbindChildCommand(cr, cr.getNodes()));
 
         if (cr.getParent() != null)
-            add(new ComponentRefUnbindChildCommand(cr.getParent(), cr));
+            add(new ComponentRefUnbindChildCommand((ComponentRef)cr.getParent(), cr));
     }
 
     /**
@@ -148,8 +148,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      * redirects to the appropriate build method.
      */
     private void build() {
-        if (element instanceof Map)
-            build((Map)element);
+        if (element instanceof UCMmap)
+            build((UCMmap)element);
         else if (element instanceof ComponentRef)
             build((ComponentRef)element);
         else if (element instanceof NodeConnection)

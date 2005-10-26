@@ -5,7 +5,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
 import urn.URNspec;
@@ -18,7 +18,7 @@ import urn.URNspec;
 public class AddPluginCommand extends Command implements JUCMNavCommand {
 
     private Stub stub;
-    private Map map;
+    private UCMmap map;
     private PluginBinding plugin;
     private URNspec urnSpec;
 
@@ -28,7 +28,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
      * @param map
      *            its new plugin
      */
-    public AddPluginCommand(Stub stub, Map map) {
+    public AddPluginCommand(Stub stub, UCMmap map) {
         super();
         this.stub = stub;
         this.map = map;
@@ -51,7 +51,7 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        urnSpec = map.getUcmspec().getUrnspec();
+        urnSpec = map.getUrndefinition().getUrnspec();
 
         plugin = (PluginBinding) ModelCreationFactory.getNewObject(urnSpec, PluginBinding.class);
 

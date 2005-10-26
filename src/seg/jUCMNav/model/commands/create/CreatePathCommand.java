@@ -9,9 +9,9 @@ import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -22,7 +22,7 @@ import urn.URNspec;
 public class CreatePathCommand extends Command implements JUCMNavCommand {
 
     // where to insert the new path
-    private PathGraph diagram;
+    private UCMmap diagram;
 
     // the position of the start point
     private int x, y;
@@ -51,7 +51,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * Create a new path using this start point and position it at (x,y)
      * 
      * @param pg
-     *            the pathgraph in which it should be inserted
+     *            the ucmmap in which it should be inserted
      * @param sp
      *            the start point of the new path
      * @param x
@@ -59,7 +59,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * @param y
      *            the y coordinate of the start point
      */
-    public CreatePathCommand(PathGraph pg, StartPoint sp, int x, int y) {
+    public CreatePathCommand(UCMmap pg, StartPoint sp, int x, int y) {
         this.diagram = pg;
         this.start = sp;
         this.x = x;
@@ -77,7 +77,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * @param y
      *            the y coordinate of the start point
      */
-    public CreatePathCommand(PathGraph pg, int x, int y) {
+    public CreatePathCommand(UCMmap pg, int x, int y) {
         this.diagram = pg;
         this.x = x;
         this.y = y;
@@ -88,7 +88,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * Creates all required elements and invokes redo()
      */
     public void execute() {
-        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+        URNspec urn = diagram.getUrndefinition().getUrnspec();
         if (start == null)
             start = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
 
@@ -120,17 +120,17 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        diagram.getNodeConnections().add(link1);
-        diagram.getNodeConnections().add(link2);
+        diagram.getConnections().add(link1);
+        diagram.getConnections().add(link2);
 
-        diagram.getPathNodes().add(start);
-        diagram.getPathNodes().add(node);
-        diagram.getPathNodes().add(end);
+        diagram.getNodes().add(start);
+        diagram.getNodes().add(node);
+        diagram.getNodes().add(end);
 
         // we must bind our components with their container
-        start.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
-        node.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 100, y));
-        end.setCompRef(ParentFinder.findParent(diagram.getMap(), x + 200, y));
+        start.setCompRef(ParentFinder.findParent(diagram, x, y));
+        node.setCompRef(ParentFinder.findParent(diagram, x + 100, y));
+        end.setCompRef(ParentFinder.findParent(diagram, x + 200, y));
 
         testPostConditions();
     }
@@ -144,12 +144,12 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         node.setCompRef(null);
         end.setCompRef(null);
 
-        diagram.getPathNodes().remove(start);
-        diagram.getPathNodes().remove(node);
-        diagram.getPathNodes().remove(end);
+        diagram.getNodes().remove(start);
+        diagram.getNodes().remove(node);
+        diagram.getNodes().remove(end);
 
-        diagram.getNodeConnections().remove(link2);
-        diagram.getNodeConnections().remove(link1);
+        diagram.getConnections().remove(link2);
+        diagram.getConnections().remove(link1);
 
         testPreConditions();
     }
@@ -157,7 +157,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
     /**
      * @return Returns the PathGraph
      */
-    public PathGraph getDiagram() {
+    public UCMmap getDiagram() {
         return diagram;
     }
 
@@ -166,7 +166,7 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * 
      * @param diagram
      */
-    public void setDiagram(PathGraph diagram) {
+    public void setDiagram(UCMmap diagram) {
         this.diagram = diagram;
     }
 
@@ -205,11 +205,11 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         assert link1 != null : "pre Link1"; //$NON-NLS-1$
         assert link2 != null : "pre Link1"; //$NON-NLS-1$
 
-        assert !diagram.getPathNodes().contains(start) : "pre pathgraph does not contain start"; //$NON-NLS-1$
-        assert !diagram.getPathNodes().contains(end) : "pre pathgraph does not contain end"; //$NON-NLS-1$
-        assert !diagram.getPathNodes().contains(node) : "pre pathgraph does not contain node"; //$NON-NLS-1$
-        assert !diagram.getNodeConnections().contains(link1) : "pre pathgraph does not contain link1"; //$NON-NLS-1$
-        assert !diagram.getNodeConnections().contains(link2) : "pre pathgraph does not contain link2"; //$NON-NLS-1$
+        assert !diagram.getNodes().contains(start) : "pre pathgraph does not contain start"; //$NON-NLS-1$
+        assert !diagram.getNodes().contains(end) : "pre pathgraph does not contain end"; //$NON-NLS-1$
+        assert !diagram.getNodes().contains(node) : "pre pathgraph does not contain node"; //$NON-NLS-1$
+        assert !diagram.getConnections().contains(link1) : "pre pathgraph does not contain link1"; //$NON-NLS-1$
+        assert !diagram.getConnections().contains(link2) : "pre pathgraph does not contain link2"; //$NON-NLS-1$
 
         assert start.getSucc().contains(link1) : "pre link1 not succ of start"; //$NON-NLS-1$
         assert link1.getTarget() == node : "pre node not target of link1"; //$NON-NLS-1$
@@ -234,11 +234,11 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         assert link1 != null : "post Link1"; //$NON-NLS-1$
         assert link2 != null : "post Link1"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(start) : "pre pathgraph contains start"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(end) : "pre pathgraph contains end"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(node) : "pre pathgraph contains node"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(link1) : "pre pathgraph contains link1"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(link2) : "pre pathgraph contains link2"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(start) : "pre pathgraph contains start"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(end) : "pre pathgraph contains end"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(node) : "pre pathgraph contains node"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(link1) : "pre pathgraph contains link1"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(link2) : "pre pathgraph contains link2"; //$NON-NLS-1$
 
         assert start.getSucc().contains(link1) : "post link1 not succ of start"; //$NON-NLS-1$
         assert link1.getTarget() == node : "post node not target of link1"; //$NON-NLS-1$

@@ -48,7 +48,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         }
 
         if (left != null) {
-            urn = left.getPathGraph().getMap().getUcmspec().getUrnspec();
+            urn = left.getSpecDiagram().getUrndefinition().getUrnspec();
         }
     }
 
@@ -76,7 +76,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
 
         oldLeftX = left.getX();
         oldLeftY = left.getY();
-        oldLeftParent = left.getCompRef();
+        oldLeftParent = (ComponentRef)left.getCompRef();
 
         connect.getPred().add(ncLeft);
         connect.getSucc().add(ncRight);
@@ -96,9 +96,9 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(left);
         ncRight.setTarget(right);
 
-        left.getPathGraph().getNodeConnections().add(ncLeft);
-        left.getPathGraph().getNodeConnections().add(ncRight);
-        left.getPathGraph().getPathNodes().add(connect);
+        left.getSpecDiagram().getConnections().add(ncLeft);
+        left.getSpecDiagram().getConnections().add(ncRight);
+        left.getSpecDiagram().getNodes().add(connect);
 
         left.setX(right.getX());
         left.setY(right.getY());
@@ -117,9 +117,9 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(null);
         ncRight.setTarget(null);
 
-        left.getPathGraph().getNodeConnections().remove(ncLeft);
-        left.getPathGraph().getNodeConnections().remove(ncRight);
-        left.getPathGraph().getPathNodes().remove(connect);
+        left.getSpecDiagram().getConnections().remove(ncLeft);
+        left.getSpecDiagram().getConnections().remove(ncRight);
+        left.getSpecDiagram().getNodes().remove(connect);
 
         left.setX(oldLeftX);
         left.setY(oldLeftY);

@@ -15,7 +15,7 @@ import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ComponentRefFigure;
 import seg.jUCMNav.views.property.ComponentPropertySource;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import urncore.Component;
 
 /**
@@ -30,7 +30,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @param model the component ref to draw
      * @param map the map in which it is contained. 
      */
-    public ComponentRefEditPart(ComponentRef model, Map map) {
+    public ComponentRefEditPart(ComponentRef model, UCMmap map) {
         super();
         setModel(model);
     }
@@ -40,7 +40,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
-    public void activate() {
+    public void activate() {       
         if (!isActive() && getComponentRef().getCompDef() != null)
             getComponentRef().getCompDef().eAdapters().add(this);
 
@@ -107,7 +107,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
-            ((MapAndPathGraphEditPart) getParent()).notifyChanged(notification);
+            ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
     /**
@@ -140,6 +140,6 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
         if (getParent() != null)
-            (getLayer(ConnectionOnBottomRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
+            (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
 }

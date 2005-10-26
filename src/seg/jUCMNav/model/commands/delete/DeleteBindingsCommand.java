@@ -10,7 +10,7 @@ import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
@@ -43,7 +43,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      * @param map
      *            the Map to be cleaned.
      */
-    public DeleteBindingsCommand(Map map) {
+    public DeleteBindingsCommand(UCMmap map) {
         this.element = map;
     }
 
@@ -129,9 +129,9 @@ public class DeleteBindingsCommand extends CompoundCommand {
                 add(new DeleteOutBindingCommand(binding));
             }
 
-        } else if (element instanceof Map) {
+        } else if (element instanceof UCMmap) {
 
-            Map map = (Map) element;
+            UCMmap map = (UCMmap) element;
 
             // break the links between this map and its containers
             for (Iterator iter = map.getParentStub().iterator(); iter.hasNext();) {
@@ -139,7 +139,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
                 add(new DeletePluginCommand(element));
             }
             // break the links between this map and any of its plugins
-            for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
                 PathNode element = (PathNode) iter.next();
                 if (element instanceof Stub) {
                     Stub stub = (Stub) element;

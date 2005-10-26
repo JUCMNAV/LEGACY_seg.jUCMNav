@@ -7,12 +7,12 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
-import urncore.UCMmodelElement;
+import urncore.SpecificationComponentRef;
+import urncore.SpecificationNode;
+import urncore.URNmodelElement;
 
 /**
- * Compound command that moves/resizes a ComponentRef and all of its children.
+ * Compound command that moves/resizes a SpecificationComponentRef and all of its children.
  * 
  * [class wins worst name ever award]
  * 
@@ -27,7 +27,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     private int oldX, oldY, oldWidth, oldHeight;
 
     // the parent and its children
-    private ComponentRef compRef;
+    private SpecificationComponentRef compRef;
 
     /**
      * @param cr
@@ -41,7 +41,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
      * @param height
      *            the target height
      */
-    public SetConstraintBoundComponentRefCompoundCommand(ComponentRef cr, int x, int y, int width, int height) {
+    public SetConstraintBoundComponentRefCompoundCommand(SpecificationComponentRef cr, int x, int y, int width, int height) {
         // must precede compRef because of factor calculation.
         setConstraints(x, y, width, height);
         setCompRef(cr);
@@ -69,7 +69,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     /**
      * @return Returns the compRef.
      */
-    public ComponentRef getCompRef() {
+    public SpecificationComponentRef getCompRef() {
         return compRef;
     }
 
@@ -80,7 +80,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
      * @param compRef
      *            The compRef to set.
      */
-    private void setCompRef(ComponentRef compRef) {
+    private void setCompRef(SpecificationComponentRef compRef) {
         this.compRef = compRef;
         oldX = compRef.getX();
         oldY = compRef.getY();
@@ -110,7 +110,7 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
     }
 
     /**
-     * Using the compRef's children (PathNodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note:
+     * Using the compRef's children (Nodes and ComponentRefs), build a set of commands to be executed to move/resize the children with the parent. Note:
      * when resizing the parent, children are moved inside the parent so they retain the same relative position inside the parent. if they kept the same
      * absolute position, they could potentially become outside the parent and they would thus no longer be children of the parnet.
      *  
@@ -131,16 +131,16 @@ public class SetConstraintBoundComponentRefCompoundCommand extends CompoundComma
 
         while (v.size() > 0) {
 
-            UCMmodelElement elem = (UCMmodelElement) v.get(0);
-            if (elem instanceof ComponentRef) {
-                ComponentRef child = (ComponentRef) elem;
+            URNmodelElement elem = (URNmodelElement) v.get(0);
+            if (elem instanceof SpecificationComponentRef) {
+                SpecificationComponentRef child = (SpecificationComponentRef) elem;
                 cmd = new SetConstraintComponentRefCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY
                         + (int) ((child.getY() - oldY) * factorH), (int) (child.getWidth() * factorW), (int) (child.getHeight() * factorH));
                 v.addAll(cmd.getOriginalChildren());
                 add(cmd);
 
-            } else if (elem instanceof PathNode) {
-                PathNode child = (PathNode) elem;
+            } else if (elem instanceof SpecificationNode) {
+                SpecificationNode child = (SpecificationNode) elem;
 
                 Command cmd2 = new SetConstraintCommand(child, newX + (int) ((child.getX() - oldX) * factorW), newY + (int) ((child.getY() - oldY) * factorH));
                 add(cmd2);

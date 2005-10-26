@@ -4,17 +4,18 @@ import java.util.Iterator;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.Responsibility;
+import urncore.SpecificationDiagram;
 
 /**
  * Verifies that references have definitions; if not, creates them. To be used on Component and Responsibility references.
@@ -35,37 +36,39 @@ public class URNReferencerChecker {
     public static void sanitizeReferences(URNspec urn) {
 
         // for each map
-        for (Iterator maps = urn.getUcmspec().getMaps().iterator(); maps.hasNext();) {
-            Map map = (Map) maps.next();
+        for (Iterator maps = urn.getUrndef().getSpecDiagrams().iterator(); maps.hasNext();) {
+            SpecificationDiagram g = (SpecificationDiagram) maps.next();
+            if (g instanceof UCMmap){
+                UCMmap map = (UCMmap) g;
 
-            // verify that all component refs have definitions
-            for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
-                ComponentRef compRef = (ComponentRef) iter.next();
-                if (compRef.getCompDef() == null)
-                    // not linked? create one.
-                    compRef.setCompDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
-                urn.getUrndef().getComponents().add(compRef.getCompDef());
-            }
-
-            // verify that all responsibility references have definitions
-            for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
-                PathNode node = (PathNode) iter.next();
-                if (node instanceof RespRef && ((RespRef) node).getRespDef() == null) {
-                    // not linked? create one.
-                    ((RespRef) node).setRespDef((Responsibility) ModelCreationFactory.getNewObject(urn, Responsibility.class));
-                    urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+                // verify that all component refs have definitions
+                for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+                    ComponentRef compRef = (ComponentRef) iter.next();
+                    if (compRef.getCompDef() == null)
+                        // not linked? create one.
+                        compRef.setCompDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
+                    urn.getUrndef().getComponents().add(compRef.getCompDef());
                 }
-                
-                if(node instanceof Stub) {
-                	Stub stub = (Stub)node;
-                	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
-						PluginBinding plug = (PluginBinding) i.next();
-						if(plug.getPrecondition() == null)
-							plug.setPrecondition((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
-					}
+    
+                // verify that all responsibility references have definitions
+                for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
+                    PathNode node = (PathNode) iter.next();
+                    if (node instanceof RespRef && ((RespRef) node).getRespDef() == null) {
+                        // not linked? create one.
+                        ((RespRef) node).setRespDef((Responsibility) ModelCreationFactory.getNewObject(urn, Responsibility.class));
+                        urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+                    }
+                    
+                    if(node instanceof Stub) {
+                    	Stub stub = (Stub)node;
+                    	for (Iterator i = stub.getBindings().iterator(); i.hasNext();) {
+    						PluginBinding plug = (PluginBinding) i.next();
+    						if(plug.getPrecondition() == null)
+    							plug.setPrecondition((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
+    					}
+                    }
                 }
             }
-
         }
 
         // uncomment the following to verify that components with colors are filled

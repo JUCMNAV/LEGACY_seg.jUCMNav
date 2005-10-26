@@ -1,5 +1,10 @@
 package seg.jUCMNav.model.util;
 
+import grl.Actor;
+import grl.GRLGraph;
+import grl.GRLspec;
+import grl.IntentionalElement;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,19 +20,21 @@ import org.eclipse.emf.ecore.EObject;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
-import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
-import ucm.map.Map;
-import ucm.map.PathGraph;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.GRLmodelElement;
 import urncore.Responsibility;
+import urncore.SpecificationComponent;
+import urncore.SpecificationComponentRef;
+import urncore.SpecificationDiagram;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
+import urncore.URNmodelElement;
 
 /**
  * This class provides functionality to name (and number using the ID) the meta model objects in jUCMNav. See setElementNameAndID() for this purpose.
@@ -213,10 +220,53 @@ public class URNNamingHelper {
         // make sure all componentrefs and pathnodes have unique ids.
         sanitizeUCMspec(urn, htIDs, IDConflicts);
 
+        // make sure all nodes and actorref have unique ids
+        sanitizeGRLspec(urn, htIDs, IDConflicts);
+
         // now that we have found our conflicts, clean them up.
         resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, IDConflicts, CompNameConflicts, RespNameConflicts);
     }
 
+    /**
+     * For each diagram in GRLspec, verify that all nodes and actorref have unique ids.
+     * 
+     * @param urn
+     *            Will check the GRLspec contained in this urn
+     * @param htIDs
+     *            The hash map of used ids
+     * @param IDConflicts
+     *            The vector of conflictual elements. Add problems here.
+     */
+    private static void sanitizeGRLspec(URNspec urn, HashMap htIDs, Vector IDConflicts) {
+        // we need a ucm specification
+        if (urn.getGrlspec() == null) {
+            // create a default one; no name required.
+            urn.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
+        }
+
+        //look at all diagram
+        for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+           SpecificationDiagram g = (SpecificationDiagram) iter.next();
+           if (g instanceof GRLGraph){
+                GRLGraph diagram = (GRLGraph) g;
+                if (!isNameAndIDSet(diagram)) {
+                    setElementNameAndID(urn, diagram);
+                }
+                findConflicts(htIDs, null, IDConflicts, null, diagram);
+    
+                // look at all actorref
+                for (Iterator iterator = diagram.getCompRefs().iterator(); iterator.hasNext();) {
+                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                }
+        
+                // look at all nodes
+                for (Iterator iterator = diagram.getNodes().iterator(); iterator.hasNext();) {
+                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                }
+           }
+        }
+    }
+    
     /**
      * For each map in the UCMspec, verify that all componentrefs and pathnodes have unique ids.
      * 
@@ -235,28 +285,25 @@ public class URNNamingHelper {
         }
 
         //look at all maps
-        for (Iterator iter = urn.getUcmspec().getMaps().iterator(); iter.hasNext();) {
-            Map map = (Map) iter.next();
-            if (!isNameAndIDSet(map)) {
-                setElementNameAndID(urn, map);
-            }
-            findConflicts(htIDs, null, IDConflicts, null, map);
-
-            // look at all componentrefs
-            for (Iterator iterator = map.getCompRefs().iterator(); iterator.hasNext();) {
-                findConflicts(htIDs, null, IDConflicts, null, (UCMmodelElement) iterator.next());
-            }
-
-            // make sure we have a pathgraph.
-            if (map.getPathGraph() == null) {
-                map.setPathGraph((PathGraph) ModelCreationFactory.getNewObject(null, PathGraph.class));
-            }
-
-            // look at all pathnodes
-            for (Iterator iterator = map.getPathGraph().getPathNodes().iterator(); iterator.hasNext();) {
-                findConflicts(htIDs, null, IDConflicts, null, (UCMmodelElement) iterator.next());
-            }
-
+        for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+           SpecificationDiagram g = (SpecificationDiagram) iter.next();
+           if (g instanceof UCMmap){
+                UCMmap map = (UCMmap) g;
+                if (!isNameAndIDSet(map)) {
+                    setElementNameAndID(urn, map);
+                }
+                findConflicts(htIDs, null, IDConflicts, null, map);
+    
+                // look at all componentrefs
+                for (Iterator iterator = map.getCompRefs().iterator(); iterator.hasNext();) {
+                    findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+                }
+        
+                // look at all pathnodes
+                for (Iterator iterator = map.getNodes().iterator(); iterator.hasNext();) {
+                    findConflicts(htIDs, null, IDConflicts, null, (UCMmodelElement) iterator.next());
+                }
+           }
         }
     }
 
@@ -353,7 +400,7 @@ public class URNNamingHelper {
     private static void resolveIDConflicts(URNspec urn, HashMap htIDs, Vector IDConflicts) {
         String proposedTopID;
         while (IDConflicts.size() > 0) {
-            UCMmodelElement elem = (UCMmodelElement) IDConflicts.get(0);
+            URNmodelElement elem = (URNmodelElement) IDConflicts.get(0);
 
             do {
                 // set it to nothing
@@ -399,7 +446,7 @@ public class URNNamingHelper {
     private static void resolveNamingConflicts(URNspec urn, HashMap htNames, Vector nameConflicts) {
         // resolve responsibility naming conflicts
         while (nameConflicts.size() > 0) {
-            UCMmodelElement elem = (UCMmodelElement) nameConflicts.get(0);
+            URNmodelElement elem = (URNmodelElement) nameConflicts.get(0);
             int i = 1;
 
             // it might be a custom name, try setting the default name (maybe we fixed the ID)
@@ -433,7 +480,7 @@ public class URNNamingHelper {
      * @param elem
      *            the element to check
      */
-    private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, UCMmodelElement elem) {
+    private static void findConflicts(HashMap htIDs, HashMap htNames, Vector idConflicts, Vector nameConflicts, URNmodelElement elem) {
 
         if (htIDs != null && idConflicts != null) {
             // do we have an id conflict or a non numeric one?
@@ -490,17 +537,17 @@ public class URNNamingHelper {
             if (resp.getName() == null || resp.getName().trim().length() == 0) {
                 resp.setName(getPrefix(o.getClass()) + resp.getId());
             }
-        } else if (o instanceof UCMmodelElement) {
-            UCMmodelElement model = (UCMmodelElement) o;
-            if (model.getId() == null || model.getId().trim().length() == 0) {
-                model.setId(getNewID(urn));
+        } else if (o instanceof IntentionalElement) {
+            IntentionalElement elem = (IntentionalElement) o;
+            if (elem.getId() == null || elem.getId().trim().length() == 0) {
+                elem.setId(getNewID(urn));
             }
 
-            if (model.getName() == null || model.getName().trim().length() == 0) {
-                model.setName(getPrefix(o.getClass()));
+            if (elem.getName() == null || elem.getName().trim().length() == 0) {
+                elem.setName(getPrefix(o.getClass()) + elem.getId());
             }
-        } else if (o instanceof GRLmodelElement) {
-            GRLmodelElement model = (GRLmodelElement) o;
+        } else if (o instanceof URNmodelElement) {
+            URNmodelElement model = (URNmodelElement) o;
             if (model.getId() == null || model.getId().trim().length() == 0) {
                 model.setId(getNewID(urn));
             }
@@ -548,7 +595,7 @@ public class URNNamingHelper {
      */
     public static boolean doesComponentNameExists(URNspec urn, String proposedName) {
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            UCMmodelElement element = (UCMmodelElement) iter.next();
+            URNmodelElement element = (URNmodelElement) iter.next();
             if (element.getName().equalsIgnoreCase(proposedName))
                 return true;
         }
@@ -584,20 +631,25 @@ public class URNNamingHelper {
      * @param elem
      *            the element with a naming conflict
      */
-    public static void resolveNamingConflict(URNspec urn, UCMmodelElement elem) {
+    public static void resolveNamingConflict(URNspec urn, URNmodelElement elem) {
         Collection c;
         if (elem instanceof Responsibility) {
             c = urn.getUrndef().getResponsibilities();
         } else if (elem instanceof ComponentElement) {
             c = urn.getUrndef().getComponents();
-        } else {
+        } else if (elem instanceof IntentionalElement){
+            c = urn.getGrlspec().getIntElements();
+        } else if (elem instanceof Actor){
+            c = urn.getGrlspec().getActors();
+        }
+        else {
             System.out.println(Messages.getString("URNNamingHelper.unableToResolve")); //$NON-NLS-1$
             return;
         }
 
         HashMap names = new HashMap();
         for (Iterator iter = c.iterator(); iter.hasNext();) {
-            UCMmodelElement element = (UCMmodelElement) iter.next();
+            URNmodelElement element = (URNmodelElement) iter.next();
             names.put(element.getName().toLowerCase(), null);
         }
 
@@ -611,7 +663,6 @@ public class URNNamingHelper {
 
     /**
      * Checks to see if the given name is valid, in the given context
-     * 
      * @param urn
      *            the urnspec containin all the names.
      * @param elem
@@ -620,15 +671,15 @@ public class URNNamingHelper {
      *            the proposed name.
      * @return true if unused
      */
-    public static String isNameValid(URNspec urn, UCMmodelElement elem, String name) {
+    public static String isNameValid(URNspec urn, URNmodelElement elem, String name) {
         String message = ""; //$NON-NLS-1$
 
-        if (elem instanceof ComponentRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof ComponentElement) {
+        if (elem instanceof SpecificationComponentRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof SpecificationComponent) {
             if (name.toString().trim().length() == 0) {
                 message = Messages.getString("URNNamingHelper.invalidName"); //$NON-NLS-1$
             }
         }
-        if (elem instanceof ComponentRef || elem instanceof ComponentElement) {
+        if (elem instanceof SpecificationComponentRef || elem instanceof SpecificationComponent) {
             if (URNNamingHelper.doesComponentNameExists(urn, name)) {
                 message = Messages.getString("URNNamingHelper.compNameExist"); //$NON-NLS-1$
             }
@@ -651,7 +702,7 @@ public class URNNamingHelper {
      *            the proposed name
      * @return true if unused
      */
-    public static String isNameValid(UCMmodelElement elem, String name) {
+    public static String isNameValid(URNmodelElement elem, String name) {
         EObject parent = elem;
 
         while (!(parent instanceof URNspec)) {

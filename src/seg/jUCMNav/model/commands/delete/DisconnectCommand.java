@@ -40,7 +40,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
                 this.ncLeft = nc;
                 this.connect = (Connect) nc.getTarget();
                 this.ncRight = (NodeConnection) this.connect.getSucc().get(0);
-                this.right = this.ncRight.getTarget();
+                this.right = (PathNode)this.ncRight.getTarget();
                 break;
             }
 
@@ -55,15 +55,15 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
                     this.ncRight = nc;
                     this.connect = (Connect) nc.getSource();
                     this.ncLeft = (NodeConnection) this.connect.getPred().get(0);
-                    this.left = this.ncLeft.getSource();
+                    this.left = (PathNode)this.ncLeft.getSource();
                     break;
                 }
 
             }
         }
 
-        if (left != null && left.getPathGraph() != null) {
-            this.urn = this.left.getPathGraph().getMap().getUcmspec().getUrnspec();
+        if (left != null && left.getSpecDiagram() != null) {
+            this.urn = this.left.getSpecDiagram().getUrndefinition().getUrnspec();
         }
 
     }
@@ -87,7 +87,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void redo() {
-        if (connect.getPathGraph() == null)
+        if (connect.getSpecDiagram() == null)
             return; // already disconnected
 
         testPreConditions();
@@ -95,9 +95,9 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(null);
         ncRight.setTarget(null);
 
-        left.getPathGraph().getNodeConnections().remove(ncLeft);
-        left.getPathGraph().getNodeConnections().remove(ncRight);
-        left.getPathGraph().getPathNodes().remove(connect);
+        left.getSpecDiagram().getConnections().remove(ncLeft);
+        left.getSpecDiagram().getConnections().remove(ncRight);
+        left.getSpecDiagram().getNodes().remove(connect);
 
         left.setX(right.getX());
         left.setY(right.getY() - 50);
@@ -145,7 +145,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void undo() {
-        if (connect.getPathGraph() != null)
+        if (connect.getSpecDiagram() != null)
             return; // already re-connected
 
         testPostConditions();
@@ -153,9 +153,9 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(left);
         ncRight.setTarget(right);
 
-        left.getPathGraph().getNodeConnections().add(ncLeft);
-        left.getPathGraph().getNodeConnections().add(ncRight);
-        right.getPathGraph().getPathNodes().add(connect);
+        left.getSpecDiagram().getConnections().add(ncLeft);
+        left.getSpecDiagram().getConnections().add(ncRight);
+        right.getSpecDiagram().getNodes().add(connect);
 
         left.setX(right.getX());
         left.setY(right.getY());

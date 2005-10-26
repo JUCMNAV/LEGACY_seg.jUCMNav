@@ -5,7 +5,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -22,7 +22,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
     private ComponentRef compRef;
 
     // the map it has to be added to.
-    private Map map;
+    private UCMmap map;
 
     /**
      * 
@@ -31,7 +31,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
      * @param cr
      *            The ComponentRef
      */
-    public AddComponentRefCommand(Map m, ComponentRef cr) {
+    public AddComponentRefCommand(UCMmap m, ComponentRef cr) {
         this.map = m;
         this.compRef = cr;
         setLabel(Messages.getString("AddComponentRefCommand.createComp")); //$NON-NLS-1$
@@ -55,7 +55,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
     /**
      * @return Returns the map.
      */
-    public Map getMap() {
+    public UCMmap getMap() {
         return map;
     }
 
@@ -67,7 +67,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         // add the component definition to the model
-        URNspec urnspec = map.getUcmspec().getUrnspec();
+        URNspec urnspec = map.getUrndefinition().getUrnspec();
         urnspec.getUrndef().getComponents().add(compRef.getCompDef());
 
         // add the component reference to the model
@@ -88,7 +88,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
      * @param map
      *            The map to set.
      */
-    public void setMap(Map map) {
+    public void setMap(UCMmap map) {
         this.map = map;
     }
 
@@ -102,7 +102,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         assert map != null : "post map"; //$NON-NLS-1$
 
         assert map.getCompRefs().contains(compRef) : "post compRef in map"; //$NON-NLS-1$
-        assert map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model"; //$NON-NLS-1$
+        assert map.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "post compDef in model"; //$NON-NLS-1$
     }
 
     /**
@@ -118,7 +118,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
 
         // make sure this is a new component definition.
         // if not, our undo() will remove it, breaking code.
-        assert !map.getUcmspec().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model"; //$NON-NLS-1$
+        assert !map.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getCompDef()) : "pre compDef not in model"; //$NON-NLS-1$
     }
 
     /**
@@ -132,7 +132,7 @@ public class AddComponentRefCommand extends Command implements JUCMNavCommand {
         map.getCompRefs().remove(compRef);
 
         // remove the component definition from the model
-        URNspec urnspec = map.getUcmspec().getUrnspec();
+        URNspec urnspec = map.getUrndefinition().getUrnspec();
         urnspec.getUrndef().getComponents().remove(compRef.getCompDef());
 
         testPreConditions();

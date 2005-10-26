@@ -12,9 +12,8 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 
@@ -48,8 +47,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        PathGraph pg = pn.getPathGraph();
-        Map map = pg.getMap();
+        UCMmap map = (UCMmap)pn.getSpecDiagram();
 
         if (pn instanceof StartPoint) {
             add(new DeletePathCommand((StartPoint) pn, editpartregistry));
@@ -67,19 +65,19 @@ public class DeletePathNodeCommand extends CompoundCommand {
                     && ((NodeConnection) pn.getSucc().get(0)).getTarget() == ((NodeConnection) pn.getPred().get(0)).getSource()) {
                 // deleting last pathnode on a stub's loop.
                 NodeConnection link = (NodeConnection) pn.getPred().get(0);
-                PathNode target = ((NodeConnection) pn.getSucc().get(0)).getTarget();
+                PathNode target = (PathNode)((NodeConnection) pn.getSucc().get(0)).getTarget();
 
                 // because of the lack of a better CutPathCommand, have to enter a bunch of empty points.
-                EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(pg, empty, link, (target.getX() - pn.getX()) / 2 - 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
+                EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
+                add(new SplitLinkCommand(map, empty, link, (target.getX() - pn.getX()) / 2 - 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
 
-                EmptyPoint middle = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(pg, middle, link, (target.getX() - pn.getX()) / 2 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
+                EmptyPoint middle = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
+                add(new SplitLinkCommand(map, middle, link, (target.getX() - pn.getX()) / 2 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
 
-                empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), EmptyPoint.class);
-                add(new SplitLinkCommand(pg, empty, link, (target.getX() - pn.getX()) / 2 + 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
+                empty = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
+                add(new SplitLinkCommand(map, empty, link, (target.getX() - pn.getX()) / 2 + 25 + pn.getX(), (target.getY() - pn.getY()) / 2 + pn.getY()));
                 // should be able to break the link.
-                add(new CutPathCommand(pg, middle));
+                add(new CutPathCommand(map, middle));
             }
         }
 
@@ -89,7 +87,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * Builds commands as late as possible
      */
     public void execute() {
-        if (pn.getPathGraph() != null) {
+        if (pn.getSpecDiagram() != null) {
             build();
             super.execute();
         }

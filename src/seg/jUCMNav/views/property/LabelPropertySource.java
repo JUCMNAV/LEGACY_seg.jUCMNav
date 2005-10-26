@@ -5,23 +5,23 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.NodeLabel;
+import urncore.SpecificationComponentRef;
+import urncore.SpecificationNode;
 
 /**
- * Property source for labels. Extends UCMElementPropertySource to obtain all necessary behaviour to list a label's properties. Includes an EPropertySource to
+ * Property source for labels. Extends URNElementPropertySource to obtain all necessary behaviour to list a label's properties. Includes an EPropertySource to
  * include all the properties of the labeled element.
  * 
  * @author jkealey
  *  
  */
-public class LabelPropertySource extends UCMElementPropertySource {
+public class LabelPropertySource extends URNElementPropertySource {
 
-    UCMElementPropertySource referencePS;
+    URNElementPropertySource referencePS;
 
     /**
      * @param obj
@@ -31,24 +31,24 @@ public class LabelPropertySource extends UCMElementPropertySource {
         super(obj);
         if (obj instanceof ComponentLabel) {
             ComponentLabel cl = (ComponentLabel) obj;
-            if (cl.getCompRef().getMap() != null)
+            if (cl.getCompRef().getSpecDiagram() != null)
                 referencePS = new ComponentPropertySource(cl.getCompRef());
         } else if (obj instanceof NodeLabel) {
             NodeLabel nl = (NodeLabel) obj;
-            PathNode pn = nl.getPathNode();
-            if (pn.getPathGraph() != null && pn.getPathGraph().getMap() != null) {
+            SpecificationNode pn = (SpecificationNode)nl.getNode();
+            if (pn.getSpecDiagram() != null) {
                 if (pn instanceof RespRef)
                     referencePS = new ResponsibilityPropertySource(pn);
                 else
-                    referencePS = new UCMElementPropertySource(pn);
+                    referencePS = new URNElementPropertySource(pn);
             }
         } else if (obj instanceof Condition) {
             if (((Condition) obj).getNodeConnection() != null)
-                referencePS = new UCMElementPropertySource(((Condition) obj).getNodeConnection());
+                referencePS = new URNElementPropertySource(((Condition) obj).getNodeConnection());
             else if (((Condition) obj).getStartPoint() != null)
-                referencePS = new UCMElementPropertySource(((Condition) obj).getStartPoint());
+                referencePS = new URNElementPropertySource(((Condition) obj).getStartPoint());
             else if (((Condition) obj).getEndPoint() != null)
-                referencePS = new UCMElementPropertySource(((Condition) obj).getEndPoint());
+                referencePS = new URNElementPropertySource(((Condition) obj).getEndPoint());
 
         }
     }
@@ -62,11 +62,11 @@ public class LabelPropertySource extends UCMElementPropertySource {
 
         if (referencePS != null) {
 
-            if (referencePS.getEditableValue() instanceof PathNode) {
-                if (((PathNode) referencePS.getEditableValue()).getPathGraph() == null)
+            if (referencePS.getEditableValue() instanceof SpecificationNode) {
+                if (((SpecificationNode) referencePS.getEditableValue()).getSpecDiagram() == null)
                     return v;
-            } else if (referencePS.getEditableValue() instanceof ComponentRef) {
-                if (((ComponentRef) referencePS.getEditableValue()).getMap() == null)
+            } else if (referencePS.getEditableValue() instanceof SpecificationComponentRef) {
+                if (((SpecificationComponentRef) referencePS.getEditableValue()).getSpecDiagram() == null)
                     return v;
             }
 

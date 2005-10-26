@@ -16,7 +16,7 @@ import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import ucm.map.EndPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
@@ -42,7 +42,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
         } else
             registry = getHost().getViewer().getEditPartRegistry();
 
-        if (parent instanceof Map && node instanceof PathNode) {
+        if (parent instanceof UCMmap && node instanceof PathNode) {
             return new DeletePathNodeCommand((PathNode) node, registry);
         }
 
@@ -62,7 +62,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             PathNode ep = ((PathNode) ((EditPart) getHost()).getModel());
-            CutPathCommand cp = new CutPathCommand(ep.getPathGraph(), ep);
+            CutPathCommand cp = new CutPathCommand((UCMmap)ep.getSpecDiagram(), ep);
             // LINE A
             // System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
             // CutPathAction on PathNode.

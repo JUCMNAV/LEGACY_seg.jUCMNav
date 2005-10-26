@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
-import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
+import seg.jUCMNav.editparts.URNRootEditPart;
 
 /**
  * Creates a combo box to be used in the toolbars to select a view mode for a use case map editor. Complete rip of ZoomComboContributionItem, with a few
@@ -44,7 +44,7 @@ public class ModeComboContributionItem extends ContributionItem {
     private static boolean local = false;
 
     // when local to editor
-    private ConnectionOnBottomRootEditPart part;
+    private URNRootEditPart part;
 
     // when global to all editors
     private UCMNavMultiPageEditor editor;
@@ -66,7 +66,7 @@ public class ModeComboContributionItem extends ContributionItem {
         partService.addSelectionListener(selectionListener = new ISelectionListener() {
             public void selectionChanged(IWorkbenchPart part, ISelection selection) {
                 if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
-                    ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
+                    ModeComboContributionItem.this.part = (URNRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
                             .getGraphicalViewer().getRootEditPart());
                     ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor(); 
 
@@ -78,7 +78,7 @@ public class ModeComboContributionItem extends ContributionItem {
         partService.addPartListener(partListener = new IPartListener() {
             public void partActivated(IWorkbenchPart part) {
                 if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
-                    ModeComboContributionItem.this.part = (ConnectionOnBottomRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
+                    ModeComboContributionItem.this.part = (URNRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage()
                             .getGraphicalViewer().getRootEditPart());
                     ModeComboContributionItem.this.editor = ModeComboContributionItem.this.part.getMultiPageEditor();
                     refresh(true);
@@ -268,7 +268,7 @@ public class ModeComboContributionItem extends ContributionItem {
                     // for all editors, 
                     for (int i=0; i<editor.getPageCount();i++) {
                         u = (UcmEditor) editor.getEditor(i);
-                        ((ConnectionOnBottomRootEditPart) u.getGraphicalViewer().getRootEditPart()).setMode(combo.getSelectionIndex());
+                        ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setMode(combo.getSelectionIndex());
                     }
                 }
             }

@@ -11,7 +11,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 
 /**
  * Abstract base class to export images using the save functions provided by SWT
@@ -26,7 +26,7 @@ public abstract class ExportImage implements IUseCaseMapExport {
      * 
      * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
      */
-    public void export(Map map, FileOutputStream fos) {
+    public void export(UCMmap map, FileOutputStream fos) {
         // not used.
     }
 

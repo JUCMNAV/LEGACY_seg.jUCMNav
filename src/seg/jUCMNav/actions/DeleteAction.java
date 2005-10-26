@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -45,7 +45,7 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
         UcmEditor editor = (UcmEditor)((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
         if (editor == null)
             return null;
-        Map map = editor.getModel();
+        UCMmap map = (UCMmap)editor.getModel();
         return new DeleteUselessStartNCEndCommand(map, editor.getGraphicalViewer().getEditPartRegistry());
     }
 }

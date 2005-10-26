@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import ucm.map.EndPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
@@ -21,13 +21,13 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
 
     private int nextGlobalID;
     private java.util.Map editpartregistry;
-    private Map map;
+    private UCMmap map;
 
-    public DeleteUselessStartNCEndCommand(Map map, java.util.Map editpartregistry) {
+    public DeleteUselessStartNCEndCommand(UCMmap map, java.util.Map editpartregistry) {
         this.map = map;
         this.editpartregistry = editpartregistry;
-        if (map.getUcmspec() != null) {
-            this.nextGlobalID = Integer.parseInt(map.getUcmspec().getUrnspec().getNextGlobalID());
+        if (map.getUrndefinition() != null) {
+            this.nextGlobalID = Integer.parseInt(map.getUrndefinition().getUrnspec().getNextGlobalID());
         }
 
     }
@@ -65,13 +65,13 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        if (map.getUcmspec() != null) {
+        if (map.getUrndefinition() != null) {
 
-            for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+            for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
                 PathNode pn = (PathNode) iter.next();
                 if (pn instanceof StartPoint && Integer.parseInt(pn.getId()) >= nextGlobalID && pn.getPred().size() == 0 && pn.getSucc().size() == 1) {
                     if (pn.getSucc().get(0) != null) {
-                        PathNode target = ((NodeConnection) pn.getSucc().get(0)).getTarget();
+                        PathNode target = (PathNode)((NodeConnection) pn.getSucc().get(0)).getTarget();
                         if (target instanceof EndPoint && target.getSucc().size() == 0 && Integer.parseInt(target.getId()) >= nextGlobalID) {
                             add(new DeletePathNodeCommand(pn, editpartregistry));
                         }

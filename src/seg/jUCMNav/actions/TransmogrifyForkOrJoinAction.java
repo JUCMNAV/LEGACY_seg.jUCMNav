@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
-import ucm.map.PathGraph;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
@@ -16,7 +16,7 @@ import ucm.map.PathNode;
  * 
  * @author jpdaigle
  */
-public abstract class TransmogrifyForkOrJoinAction extends UCMSelectionAction {
+public abstract class TransmogrifyForkOrJoinAction extends URNSelectionAction {
     /**
      * @param part
      */
@@ -27,7 +27,7 @@ public abstract class TransmogrifyForkOrJoinAction extends UCMSelectionAction {
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        PathGraph pg = ((PathNode) part.getModel()).getPathGraph();
+        UCMmap pg = (UCMmap)((PathNode) part.getModel()).getSpecDiagram();
         TransmogrifyForkOrJoinCommand comm = new TransmogrifyForkOrJoinCommand((PathNode) part.getModel(), pg);
         return comm;
     }

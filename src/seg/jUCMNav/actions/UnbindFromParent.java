@@ -19,7 +19,7 @@ import urncore.UCMmodelElement;
  * 
  * @author jkealey
  */
-public class UnbindFromParent extends UCMSelectionAction {
+public class UnbindFromParent extends URNSelectionAction {
 
     public static final String UNBINDFROMPARENT = "seg.jUCMNav.UnbindFromParent"; //$NON-NLS-1$
 
@@ -82,12 +82,12 @@ public class UnbindFromParent extends UCMSelectionAction {
             ComponentRef parent;
 
             child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = ParentFinder.getPossibleParent(child);
+            parent = (ComponentRef)ParentFinder.getPossibleParent(child);
             cmd = new ComponentRefUnbindChildCommand(parent, child);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = ParentFinder.getPossibleParent(child);
+                parent = (ComponentRef)ParentFinder.getPossibleParent(child);
                 cmd = cmd.chain(new ComponentRefUnbindChildCommand(parent, child));
             }
 

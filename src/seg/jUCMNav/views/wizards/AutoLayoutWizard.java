@@ -30,7 +30,7 @@ import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
@@ -44,10 +44,10 @@ public class AutoLayoutWizard extends Wizard {
 
 
 
-    private Map map;
+    private UCMmap map;
     private UcmEditor editor;
 
-    public AutoLayoutWizard(UcmEditor editor, Map map) {
+    public AutoLayoutWizard(UcmEditor editor, UCMmap map) {
         this.map = map;
         this.editor = editor;
         AutoLayoutPreferences.createPreferences();
@@ -167,7 +167,7 @@ public class AutoLayoutWizard extends Wizard {
         return true;
     }
 
-    private static CompoundCommand repositionLayout(Map usecasemap, String positioned) throws Exception {
+    private static CompoundCommand repositionLayout(UCMmap usecasemap, String positioned) throws Exception {
         positioned = positioned.replaceAll("\\\\n", ""); //$NON-NLS-1$ //$NON-NLS-2$
         BufferedReader reader = new BufferedReader(new StringReader(positioned));
         String line;
@@ -179,7 +179,7 @@ public class AutoLayoutWizard extends Wizard {
 
             // ex: graph [bb="0,0,192,212"]; (for the digraph)
             if (line.matches("\\s*digraph " + AutoLayoutPreferences.MAPPREFIX + "\\d+\\s*\\{")) { //$NON-NLS-1$ //$NON-NLS-2$
-                Map temp = URNElementFinder.findMap(usecasemap.getUcmspec().getUrnspec(), line.substring(line.indexOf(AutoLayoutPreferences.MAPPREFIX) + AutoLayoutPreferences.MAPPREFIX.length(),
+                UCMmap temp = (UCMmap) URNElementFinder.findMap(usecasemap.getUrndefinition().getUrnspec(), line.substring(line.indexOf(AutoLayoutPreferences.MAPPREFIX) + AutoLayoutPreferences.MAPPREFIX.length(),
                         line.lastIndexOf('{')).trim());
                 if (!usecasemap.equals(temp)) {
                     throw new Exception(Messages.getString("AutoLayoutWizard.invalidMap") //$NON-NLS-1$
@@ -274,8 +274,8 @@ public class AutoLayoutWizard extends Wizard {
                         //                        if (((i / 2) - 2) % 3 == 0) {
 
                         if (i == sCoords.length - 2 || (Math.abs(avg - distances[i / 2]) > 0.97 * stdDev && distances[i / 2] >= 30)) {
-                            PathNode empty = (PathNode) ModelCreationFactory.getNewObject(usecasemap.getUcmspec().getUrnspec(), EmptyPoint.class);
-                            Command addEmpty = new SplitLinkCommand(usecasemap.getPathGraph(), empty, link, Integer.parseInt(sCoords[i]), pageHeight
+                            PathNode empty = (PathNode) ModelCreationFactory.getNewObject(usecasemap.getUrndefinition().getUrnspec(), EmptyPoint.class);
+                            Command addEmpty = new SplitLinkCommand(usecasemap, empty, link, Integer.parseInt(sCoords[i]), pageHeight
                                     - Integer.parseInt(sCoords[i + 1]));
                             if (addEmpty.canExecute()) {
                                 cmd.add(addEmpty);

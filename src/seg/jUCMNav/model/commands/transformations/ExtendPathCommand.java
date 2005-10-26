@@ -9,9 +9,9 @@ import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -21,7 +21,7 @@ import urn.URNspec;
  */
 public class ExtendPathCommand extends Command implements JUCMNavCommand {
 
-    private PathGraph diagram; // The UCM diagram
+    private UCMmap diagram; // The UCM diagram
     private EndPoint end; // The end node to be moved
     private NodeConnection lastLink; // The end node's predecessor
     private PathNode lastNode; // The last node before the end node
@@ -42,7 +42,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
      * @param y
      *            the endpoint's new y coordinate
      */
-    public ExtendPathCommand(PathGraph pg, EndPoint end, int x, int y) {
+    public ExtendPathCommand(UCMmap pg, EndPoint end, int x, int y) {
         this.diagram = pg;
         this.end = end;
         this.newX = x;
@@ -64,7 +64,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
      * @param y
      *            the startpoint's new y coordinate
      */
-    public ExtendPathCommand(PathGraph pg, StartPoint start, int x, int y) {
+    public ExtendPathCommand(UCMmap pg, StartPoint start, int x, int y) {
         this.diagram = pg;
         this.start = start;
         this.newX = x;
@@ -80,7 +80,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
     public void execute() {
 
         // create new elements
-        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+        URNspec urn = diagram.getUrndefinition().getUrnspec();
         newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
         newNode = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
 
@@ -121,7 +121,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
     /**
      * @return the diagram.
      */
-    public PathGraph getDiagram() {
+    public UCMmap getDiagram() {
         return diagram;
     }
 
@@ -180,12 +180,12 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         }
 
         // add to model
-        diagram.getPathNodes().add(newNode);
-        diagram.getNodeConnections().add(newLink);
+        diagram.getNodes().add(newNode);
+        diagram.getConnections().add(newLink);
 
         // bind to parent
-        moved.setCompRef(ParentFinder.findParent(diagram.getMap(), newX, newY));
-        newNode.setCompRef(ParentFinder.findParent(diagram.getMap(), oldX, oldY));
+        moved.setCompRef(ParentFinder.findParent(diagram, newX, newY));
+        newNode.setCompRef(ParentFinder.findParent(diagram, oldX, oldY));
 
         testPostConditions();
     }
@@ -194,7 +194,7 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
      * @param diagram
      *            The diagram to set.
      */
-    public void setDiagram(PathGraph diagram) {
+    public void setDiagram(UCMmap diagram) {
         this.diagram = diagram;
     }
 
@@ -244,10 +244,10 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         assert newNode.getX() == oldX && newNode.getY() == oldY : "post new Node position"; //$NON-NLS-1$
         assert moved.getX() == newX && moved.getY() == newY : "post end position"; //$NON-NLS-1$
 
-        assert diagram.getNodeConnections().contains(lastLink) : "post graph contains lastLink"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(lastNode) : "post graph contains lastNode"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(newNode) : "post graph contains newNode"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(lastLink) : "post graph contains lastLink"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(lastNode) : "post graph contains lastNode"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(newNode) : "post graph contains newNode"; //$NON-NLS-1$
 
         if (end != null) {
             assert newLink.getSource() == newNode : "post link1"; //$NON-NLS-1$
@@ -293,10 +293,10 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         assert newNode.getX() == oldX && newNode.getY() == oldY : "pre new Node position"; //$NON-NLS-1$
         assert moved.getX() == oldX && moved.getY() == oldY : "pre end position"; //$NON-NLS-1$
 
-        assert diagram.getNodeConnections().contains(lastLink) : "pre graph contains lastLink"; //$NON-NLS-1$
-        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(lastNode) : "pre graph contains lastNode"; //$NON-NLS-1$
-        assert !diagram.getPathNodes().contains(newNode) : "pre graph doesn't contain newNode"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(lastLink) : "pre graph contains lastLink"; //$NON-NLS-1$
+        assert !diagram.getConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(lastNode) : "pre graph contains lastNode"; //$NON-NLS-1$
+        assert !diagram.getNodes().contains(newNode) : "pre graph doesn't contain newNode"; //$NON-NLS-1$
 
         if (end != null) {
             assert newLink.getSource() == newNode : "pre link1"; //$NON-NLS-1$
@@ -336,12 +336,12 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
             moved = start;
 
         // bind to parent
-        moved.setCompRef(ParentFinder.findParent(diagram.getMap(), oldX, oldY));
+        moved.setCompRef(ParentFinder.findParent(diagram, oldX, oldY));
         newNode.setCompRef(null);
 
         // remove from model
-        diagram.getPathNodes().remove(newNode);
-        diagram.getNodeConnections().remove(newLink);
+        diagram.getNodes().remove(newNode);
+        diagram.getConnections().remove(newLink);
 
         if (end != null) {
             // reposition links

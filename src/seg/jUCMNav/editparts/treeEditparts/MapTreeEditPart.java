@@ -14,8 +14,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.map.Connect;
-import ucm.map.Map;
-import ucm.map.PathGraph;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
@@ -29,24 +28,8 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
      * @param model
      *            the map
      */
-    public MapTreeEditPart(Map model) {
+    public MapTreeEditPart(UCMmap model) {
         super(model);
-    }
-
-    /**
-     * Listens to both Map and PathGraph
-     */
-    public void activate() {
-        super.activate();
-        getMap().getPathGraph().eAdapters().add(this);
-    }
-
-    /**
-     * Remove listeners.
-     */
-    public void deactivate() {
-        super.deactivate();
-        getMap().getPathGraph().eAdapters().remove(this);
     }
 
     /**
@@ -65,11 +48,10 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
      */
     public List getModelChildren() {
         ArrayList list = new ArrayList();
-        Map map = getMap();
-        PathGraph graph = map.getPathGraph();
+        UCMmap map = getMap();
         list.addAll(map.getCompRefs());
         Vector v = new Vector();
-        for (Iterator iter = graph.getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (!(element instanceof Connect))
                 v.add(element);
@@ -83,8 +65,8 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
     /**
      * @return the map being represented.
      */
-    private Map getMap() {
-        return ((Map) getModel());
+    private UCMmap getMap() {
+        return ((UCMmap) getModel());
     }
 
     /**

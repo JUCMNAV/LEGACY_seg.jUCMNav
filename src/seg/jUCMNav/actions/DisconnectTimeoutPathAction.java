@@ -17,7 +17,7 @@ import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
  * @author jkealey
  * 
  */
-public class DisconnectTimeoutPathAction extends UCMSelectionAction {
+public class DisconnectTimeoutPathAction extends URNSelectionAction {
 
     public static final String DISCONNECTTIMEOUTPATH = "seg.jUCMNav.DisconnectTimeoutPath"; //$NON-NLS-1$
 

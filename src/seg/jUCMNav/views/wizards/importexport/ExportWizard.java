@@ -31,12 +31,12 @@ import org.eclipse.ui.part.FileEditorInput;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
-import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
+import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
 import seg.jUCMNav.importexport.URNExportExtensionPointHelper;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -129,9 +129,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param editor
      * @param map
      */
-    private void defineMapping(UCMNavMultiPageEditor editor, Map map) {
+    private void defineMapping(UCMNavMultiPageEditor editor, UCMmap map) {
         mapsToEditor.put(map, editor);
-        mapsToSpecificEditor.put(map, editor.getEditor(editor.getModel().getUcmspec().getMaps().indexOf(map)));
+        mapsToSpecificEditor.put(map, editor.getEditor(editor.getModel().getUrndef().getSpecDiagrams().indexOf(map)));
     }
 
     /**
@@ -146,9 +146,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
                 if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM)
-                    ExportMap((Map) iter.next());
+                    ExportMap((UCMmap) iter.next());
                 else
-                    ExportURN((Map) iter.next(), v);
+                    ExportURN((UCMmap) iter.next(), v);
 
                 monitor.worked(1);
             }
@@ -161,7 +161,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * 
      * @param map
      */
-    private void ExportMap(Map map) {
+    private void ExportMap(UCMmap map) {
         FileOutputStream fos = null;
         try {
 
@@ -186,11 +186,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // save it
             if (UCMExportExtensionPointHelper.getMode(id).equals("image")) {
                 // get the high level IFigure to be saved.
-                LayeredPane pane = ((ConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
+                LayeredPane pane = ((UCMConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 exporter.export(pane, fos);
             } else {
                 // model instance
-                exporter.export(editor.getModel(), fos);
+                exporter.export((UCMmap)editor.getModel(), fos);
             }
 
         } catch (IOException e) {
@@ -216,11 +216,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param v
      */
 
-    private void ExportURN(Map map, Vector v) {
+    private void ExportURN(UCMmap map, Vector v) {
         // dont output same URN multiple times.
-        if (v.contains(map.getUcmspec().getUrnspec()))
+        if (v.contains(map.getUrndefinition().getUrnspec()))
             return; // we've already exported this URNSpec
-        v.add(map.getUcmspec().getUrnspec());
+        v.add(map.getUrndefinition().getUrnspec());
 
         FileOutputStream fos = null;
         try {
@@ -264,7 +264,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param map
      * @return the prefix of the file containing the map; assumes .jucm extension
      */
-    public String getFilePrefix(Map map) {
+    public String getFilePrefix(UCMmap map) {
         UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(map);
         String filename = ((FileEditorInput) editor.getEditorInput()).getName();
         // remove the .jucm extension
@@ -280,7 +280,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param map
      * @return map name
      */
-    public String getMapName(Map map) {
+    public String getMapName(UCMmap map) {
         String filename = getFilePrefix(map);
 
         String name = map.getName();
@@ -337,9 +337,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 }
 
                 // add all maps.
-                this.mapsToExport.addAll(editor.getModel().getUcmspec().getMaps());
-                for (Iterator iterator = editor.getModel().getUcmspec().getMaps().iterator(); iterator.hasNext();) {
-                    Map map = (Map) iterator.next();
+                this.mapsToExport.addAll(editor.getModel().getUrndef().getSpecDiagrams());
+                for (Iterator iterator = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
+                    UCMmap map = (UCMmap) iterator.next();
                     defineMapping(editor, map);
                 }
             } else {
@@ -347,14 +347,14 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 IEditorPart editorpart = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
                 if (editorpart instanceof UCMNavMultiPageEditor) {
                     UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorpart;
-                    if (obj instanceof Map) {
-                        Map map = (Map) obj;
+                    if (obj instanceof UCMmap) {
+                        UCMmap map = (UCMmap) obj;
                         this.mapsToExport.add(obj);
                         defineMapping(editor, map);
                     } else if (obj instanceof URNspec) {
-                        this.mapsToExport.addAll(((URNspec) obj).getUcmspec().getMaps());
-                        for (Iterator iterator = ((URNspec) obj).getUcmspec().getMaps().iterator(); iterator.hasNext();) {
-                            Map map = (Map) iterator.next();
+                        this.mapsToExport.addAll(((URNspec) obj).getUrndef().getSpecDiagrams());
+                        for (Iterator iterator = ((URNspec) obj).getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
+                            UCMmap map = (UCMmap) iterator.next();
                             defineMapping(editor, map);
                         }
                     }

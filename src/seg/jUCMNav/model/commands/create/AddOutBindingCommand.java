@@ -56,7 +56,7 @@ public class AddOutBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        urnSpec = plugin.getPlugin().getUcmspec().getUrnspec();
+        urnSpec = plugin.getPlugin().getUrndefinition().getUrnspec();
 
         out = (OutBinding) ModelCreationFactory.getNewObject(urnSpec, OutBinding.class);
 

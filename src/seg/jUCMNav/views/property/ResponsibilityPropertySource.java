@@ -31,7 +31,7 @@ import urncore.Responsibility;
  * @author jkealey, etremblay
  *  
  */
-public class ResponsibilityPropertySource extends UCMElementPropertySource {
+public class ResponsibilityPropertySource extends URNElementPropertySource {
 
     //	 if this is a reference to a component, we want it.
     private Responsibility resp = null;
@@ -108,9 +108,9 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec()==null)
+        if (((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition()==null)
             return;
-        URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+        URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getResponsibilities());
         Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size()];
@@ -134,7 +134,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Responsibility) {
-            URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+            URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
             Vector list = new Vector(urn.getUrndef().getResponsibilities());
             Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
@@ -174,7 +174,7 @@ public class ResponsibilityPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
-        URNspec urn = ((RespRef) getEditableValue()).getPathGraph().getMap().getUcmspec().getUrnspec();
+        URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
 
         if (feature.getEType().getInstanceClass() == Responsibility.class) {
 

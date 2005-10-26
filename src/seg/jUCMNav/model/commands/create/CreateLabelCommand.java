@@ -49,9 +49,9 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (modelElement instanceof PathNode) {
-            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getPathGraph().getMap().getUcmspec().getUrnspec(), NodeLabel.class);
+            label = (Label) ModelCreationFactory.getNewObject(((PathNode) modelElement).getSpecDiagram().getUrndefinition().getUrnspec(), NodeLabel.class);
         } else if (modelElement instanceof ComponentRef) {
-            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getMap().getUcmspec().getUrnspec(), ComponentLabel.class);
+            label = (Label) ModelCreationFactory.getNewObject(((ComponentRef) modelElement).getSpecDiagram().getUrndefinition().getUrnspec(), ComponentLabel.class);
         }
 
         label.setDeltaX(deltaX);

@@ -11,13 +11,14 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
+import ucm.map.UCMmap;
 
 /**
  * Binds the selected elements with their respective parents, if they are unbound. For more details see calculateEnabled.
  * 
  * @author jkealey
  */
-public class BindChildren extends UCMSelectionAction {
+public class BindChildren extends URNSelectionAction {
 
     public static final String BINDCHILDREN = "seg.jUCMNav.BindChildren"; //$NON-NLS-1$
 
@@ -57,9 +58,9 @@ public class BindChildren extends UCMSelectionAction {
                     } else {
                         // make sure they have children to add.
                         ComponentRef cr = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                        if (cr.getMap() == null)
+                        if (cr.getSpecDiagram() == null)
                             return false;
-                        else if (ParentFinder.findNewChildren(cr.getMap(), cr).size() == 0) {
+                        else if (ParentFinder.findNewChildren((UCMmap)cr.getSpecDiagram(), cr).size() == 0) {
                             return false; // #4 failed
                         }
                     }
@@ -84,13 +85,13 @@ public class BindChildren extends UCMSelectionAction {
 
             // get the selected parent, find its new children and create a command
             parent = (ComponentRef) ((EditPart) getSelectedObjects().get(0)).getModel();
-            children = ParentFinder.findNewChildren(parent.getMap(), parent);
+            children = ParentFinder.findNewChildren((UCMmap)parent.getSpecDiagram(), parent);
             cmd = new ComponentRefBindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 //get the selected parent, find its new children and create a command
                 parent = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                children = ParentFinder.findNewChildren(parent.getMap(), parent);
+                children = ParentFinder.findNewChildren((UCMmap)parent.getSpecDiagram(), parent);
                 cmd = cmd.chain(new ComponentRefBindChildCommand(parent, children));
             }
 

@@ -15,17 +15,18 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 
+import seg.jUCMNav.editparts.GrlNodeEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.figures.LabelFigure;
-import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
-import ucm.map.PathNode;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.Label;
 import urncore.NodeLabel;
+import urncore.SpecificationComponentRef;
+import urncore.SpecificationNode;
 
 /**
  * On mouse hover of labels, draw line from label to referenced part.
@@ -57,7 +58,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
     private EObject getReference() {
         Label lbl = (Label) ((LabelEditPart) this.getHost()).getModel();
         if (lbl instanceof NodeLabel)
-            return ((NodeLabel) lbl).getPathNode();
+            return ((NodeLabel) lbl).getNode();
         else if (lbl instanceof ComponentLabel)
             return ((ComponentLabel) lbl).getCompRef();
         else if (lbl instanceof Condition) {
@@ -112,16 +113,21 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             // get the pathnode/component ref's figure
             Point pt2 = null;
             Rectangle rect = null;
-            if (getReference() instanceof ComponentRef) {
-                ComponentRef cr = (ComponentRef) getReference();
+            if (getReference() instanceof SpecificationComponentRef) {
+                SpecificationComponentRef cr = (SpecificationComponentRef) getReference();
                 pt2 = new Point(cr.getX(), cr.getY());
-            } else if (getReference() instanceof PathNode) {
-                PathNode pn = (PathNode) getReference();
+            } else if (getReference() instanceof SpecificationNode) {
+                SpecificationNode pn = (SpecificationNode) getReference();
                 try {
                     // we're looking for the first child so that we don't point to the external bounding box; we want the real figure.
                     // TODO: adjust when there are no children.
-                    rect = ((IFigure) ((PathNodeEditPart) getHost().getViewer().getEditPartRegistry().get(pn)).getNodeFigure().getChildren().get(0))
+                    if (getHost().getViewer().getEditPartRegistry().get(pn) instanceof PathNodeEditPart){
+                        rect = ((IFigure) ((PathNodeEditPart) getHost().getViewer().getEditPartRegistry().get(pn)).getNodeFigure().getChildren().get(0))
                             .getBounds();
+                    }else if (getHost().getViewer().getEditPartRegistry().get(pn) instanceof GrlNodeEditPart){
+                        rect = ((IFigure) ((GrlNodeEditPart) getHost().getViewer().getEditPartRegistry().get(pn)).getNodeFigure().getChildren().get(0))
+                        .getBounds();
+                    }
                 } catch (Exception ex) {
                     rect = null;
                 }

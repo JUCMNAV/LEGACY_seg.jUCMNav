@@ -5,7 +5,8 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.INavigationLocation;
 import org.eclipse.ui.NavigationLocation;
 
-import ucm.map.Map;
+import urncore.URNmodelElement;
+
 
 /**
  * A NavigationLocation for jUCMNav. Memorizes the currently opened page.
@@ -17,7 +18,7 @@ import ucm.map.Map;
  */
 public class MultiPageEditorLocation extends NavigationLocation {
 
-    private String currentMapID;
+    private String currentGraphID;
     private UCMNavMultiPageEditor editor;
 
     /**
@@ -31,10 +32,10 @@ public class MultiPageEditorLocation extends NavigationLocation {
 
     /**
      * 
-     * @return returns the map ID for this location. (not relative position)
+     * @return returns the graph ID for this location. (not relative position)
      */
-    public String getCurrentMapID() {
-        return currentMapID;
+    public String getCurrentGraphID() {
+        return currentGraphID;
     }
 
     /**
@@ -50,7 +51,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      */
     public boolean mergeInto(INavigationLocation currentLocation) {
         if (currentLocation instanceof MultiPageEditorLocation) {
-            if (((MultiPageEditorLocation) currentLocation).getCurrentMapID() == currentMapID)
+            if (((MultiPageEditorLocation) currentLocation).getCurrentGraphID() == currentGraphID)
                 return true;
         }
         return false;
@@ -61,9 +62,9 @@ public class MultiPageEditorLocation extends NavigationLocation {
      */
     public void restoreLocation() {
 
-        for (int i = 0; i < editor.getModel().getUcmspec().getMaps().size(); i++) {
-            Map map = (Map) editor.getModel().getUcmspec().getMaps().get(i);
-            if (map.getId().equals(currentMapID)) {
+        for (int i = 0; i < editor.getModel().getUrndef().getSpecDiagrams().size(); i++) {
+            URNmodelElement graph = (URNmodelElement) editor.getModel().getUrndef().getSpecDiagrams().get(i);
+            if (graph.getId().equals(currentGraphID)) {
                 ((UCMNavMultiPageEditor) getEditorPart()).setActivePage(i);
                 break;
             }
@@ -86,7 +87,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
      */
     public void saveState(IMemento memento) {
         // can only save page because reference to editor is useless.
-        memento.putString("iCurrentPage", currentMapID); //$NON-NLS-1$
+        memento.putString("iCurrentPage", currentGraphID); //$NON-NLS-1$
 
     }
 
@@ -94,8 +95,8 @@ public class MultiPageEditorLocation extends NavigationLocation {
      * @param currentPage
      *            the page that is currently opened
      */
-    public void setCurrentMapID(String currentPage) {
-        currentMapID = currentPage;
+    public void setCurrentGraphID(String currentPage) {
+        currentGraphID = currentPage;
     }
 
     /**
@@ -111,8 +112,8 @@ public class MultiPageEditorLocation extends NavigationLocation {
      */
     public void update() {
         if (editor.getCurrentPage() != null)
-            currentMapID = ((UcmEditor)editor.getCurrentPage()).getModel().getId();
+            currentGraphID = ((URNmodelElement) editor.getCurrentPage().getModel()).getId();
         else
-            currentMapID = null;
+            currentGraphID = null;
     }
 }

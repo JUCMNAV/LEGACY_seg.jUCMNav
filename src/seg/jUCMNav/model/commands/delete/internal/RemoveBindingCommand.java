@@ -3,7 +3,7 @@ package seg.jUCMNav.model.commands.delete.internal;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
 import urn.URNspec;
@@ -24,7 +24,7 @@ public class RemoveBindingCommand extends Command implements JUCMNavCommand {
     private Stub stub;
 
     // The map of the PluginBinding
-    private Map oldMap;
+    private UCMmap oldMap;
 
     // The URNspec of the file
     private URNspec urnSpec;
@@ -77,7 +77,7 @@ public class RemoveBindingCommand extends Command implements JUCMNavCommand {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
         if (urnSpec == null)
-            urnSpec = oldMap.getUcmspec().getUrnspec();
+            urnSpec = oldMap.getUrndefinition().getUrnspec();
 
         redo();
     }

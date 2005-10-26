@@ -6,8 +6,8 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * This command represents the action of a user dragging an EndPoint in a Stub/Join. This action will erase the EndPoint and add the path as a predecessor of
@@ -45,7 +45,7 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
     /**
      * The pathgraph containing the nodes and connections
      */
-    private PathGraph pg;
+    private UCMmap pg;
 
     /**
      * @param oldEndPoint
@@ -83,9 +83,9 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
         oldX = oldEndPoint.getX();
         oldY = oldEndPoint.getY();
 
-        pg = oldEndPoint.getPathGraph();
+        pg = (UCMmap)oldEndPoint.getSpecDiagram();
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
-        oldParent = oldEndPoint.getCompRef();
+        oldParent = (ComponentRef)oldEndPoint.getCompRef();
 
         redo();
     }
@@ -97,7 +97,7 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         ncOldEnd.setTarget(stubOrJoin);
-        pg.getPathNodes().remove(oldEndPoint);
+        pg.getNodes().remove(oldEndPoint);
         oldEndPoint.setCompRef(null);
 
         testPostConditions();
@@ -111,7 +111,7 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
 
         super.undo();
 
-        pg.getPathNodes().add(oldEndPoint);
+        pg.getNodes().add(oldEndPoint);
 
         ncOldEnd.setTarget(oldEndPoint);
 
@@ -133,8 +133,8 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
 
         assert oldEndPoint.getX() == oldX && oldEndPoint.getY() == oldY : "pre old end position"; //$NON-NLS-1$
         assert ncOldEnd.getTarget() == oldEndPoint : "pre connection source is the end point"; //$NON-NLS-1$
-        assert pg.getPathNodes().contains(oldEndPoint) : "pre pathgraph contains the end point"; //$NON-NLS-1$
-        assert pg.getNodeConnections().contains(ncOldEnd) : "pre pathgraph contains the connection"; //$NON-NLS-1$
+        assert pg.getNodes().contains(oldEndPoint) : "pre pathgraph contains the end point"; //$NON-NLS-1$
+        assert pg.getConnections().contains(ncOldEnd) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
 
     /**
@@ -147,8 +147,8 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
         assert pg != null : "post pathgraph"; //$NON-NLS-1$
 
         assert ncOldEnd.getTarget() == stubOrJoin : "post connection source is the stub"; //$NON-NLS-1$
-        assert !pg.getPathNodes().contains(oldEndPoint) : "post pathgraph doesn't contain the end point"; //$NON-NLS-1$
-        assert pg.getNodeConnections().contains(ncOldEnd) : "post pathgraph contains the connection"; //$NON-NLS-1$
+        assert !pg.getNodes().contains(oldEndPoint) : "post pathgraph doesn't contain the end point"; //$NON-NLS-1$
+        assert pg.getConnections().contains(ncOldEnd) : "post pathgraph contains the connection"; //$NON-NLS-1$
     }
 
 }

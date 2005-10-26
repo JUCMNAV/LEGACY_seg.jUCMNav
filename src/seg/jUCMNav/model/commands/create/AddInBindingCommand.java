@@ -60,7 +60,7 @@ public class AddInBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        urnSpec = plugin.getPlugin().getUcmspec().getUrnspec();
+        urnSpec = plugin.getPlugin().getUrndefinition().getUrnspec();
 
         in = (InBinding) ModelCreationFactory.getNewObject(urnSpec, InBinding.class);
 

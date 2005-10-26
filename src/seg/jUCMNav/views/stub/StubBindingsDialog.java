@@ -63,7 +63,6 @@ import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.Map;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
@@ -71,7 +70,9 @@ import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.SpecificationDiagram;
 
 /**
  * The stub bindings dialog is the only way one can manage a stub's bindings: this stub can load which maps and how its in/out connections mapped to start/end
@@ -716,7 +717,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
      *            The checked/unchecked item in the map list table.
      */
     protected void handlePluginChecked(TableItem item) {
-        Map map = (Map) item.getData(); // Get the selected map
+        UCMmap map = (UCMmap) item.getData(); // Get the selected map
         PluginBinding selectedPlugin;
 
         // If the item is checked
@@ -989,7 +990,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 stub.eAdapters().add(this);
 
                 this.stub = stub;
-                urnSpec = stub.getPathGraph().getMap().getUcmspec().getUrnspec();
+                urnSpec = stub.getSpecDiagram().getUrndefinition().getUrnspec();
 
                 refreshDescription();
                 refreshBindingsTree();
@@ -1059,7 +1060,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         // Clear the list of maps
         tabMapList.removeAll();
         // Get the list of all maps in the .jucm.
-        List mapsList = stub.getPathGraph().getMap().getUcmspec().getMaps();
+        List mapsList = stub.getSpecDiagram().getUrndefinition().getSpecDiagrams();
 
         // Array wich will contain all binded maps to this stub
         ArrayList binded = new ArrayList();
@@ -1074,15 +1075,18 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         TableItem item;
         // For each map
         for (Iterator i = mapsList.iterator(); i.hasNext();) {
-            Map map = (Map) i.next();
-            // The map can't be the same as the one the stub in contained in.
-            if (map != stub.getPathGraph().getMap()) {
-                item = new TableItem(tabMapList, SWT.NONE);
-                item.setText(map.getName());
-                item.setData(map);
-                // If the map is binded to this stub, check the item.
-                if (binded.contains(map)) {
-                    item.setChecked(true);
+            SpecificationDiagram g = (SpecificationDiagram) i.next();
+            if (g instanceof UCMmap){               
+                UCMmap map = (UCMmap) g;
+                // The map can't be the same as the one the stub in contained in.
+                if (map != stub.getSpecDiagram()) {
+                    item = new TableItem(tabMapList, SWT.NONE);
+                    item.setText(map.getName());
+                    item.setData(map);
+                    // If the map is binded to this stub, check the item.
+                    if (binded.contains(map)) {
+                        item.setChecked(true);
+                    }
                 }
             }
         }
@@ -1232,7 +1236,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 j++;
             }
 
-            list = selectedPlugin.getPlugin().getPathGraph().getPathNodes();
+            list = selectedPlugin.getPlugin().getNodes();
             // Loop through all the nodes of the map and add the start and end points to the lists.
             for (Iterator i = list.iterator(); i.hasNext();) {
                 PathNode node = (PathNode) i.next();

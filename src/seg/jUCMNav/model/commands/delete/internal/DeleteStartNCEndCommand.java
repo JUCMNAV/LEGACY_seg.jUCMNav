@@ -6,8 +6,8 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 
 /**
  * This command will remove a simple path from the map. A simple path is defined as a start point, node connection and end point.
@@ -24,7 +24,7 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
     private boolean aborted = false;
     private EndPoint end;
     private NodeConnection nc;
-    private PathGraph pg;
+    private UCMmap pg;
     private StartPoint start;
     private ComponentRef startParent, endParent;
 
@@ -71,9 +71,9 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
             start = (StartPoint) nc.getSource();
         }
 
-        pg = start.getPathGraph();
-        startParent = start.getCompRef();
-        endParent = end.getCompRef();
+        pg = (UCMmap)start.getSpecDiagram();
+        startParent = (ComponentRef)start.getCompRef();
+        endParent = (ComponentRef)end.getCompRef();
 
         redo();
     }
@@ -86,9 +86,9 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
             return;
         testPreConditions();
 
-        pg.getPathNodes().remove(start);
-        pg.getPathNodes().remove(end);
-        pg.getNodeConnections().remove(nc);
+        pg.getNodes().remove(start);
+        pg.getNodes().remove(end);
+        pg.getConnections().remove(nc);
         start.setCompRef(null);
         end.setCompRef(null);
 
@@ -101,8 +101,8 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
     public void testPostConditions() {
         assert start != null && nc != null && end != null && pg != null : "post something is null"; //$NON-NLS-1$
         assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "post is simple path"; //$NON-NLS-1$
-        assert !pg.getPathNodes().contains(start) && !pg.getPathNodes().contains(end) : "post nodes not in graph"; //$NON-NLS-1$
-        assert !pg.getNodeConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
+        assert !pg.getNodes().contains(start) && !pg.getNodes().contains(end) : "post nodes not in graph"; //$NON-NLS-1$
+        assert !pg.getConnections().contains(nc) : "post connection not in graph"; //$NON-NLS-1$
     }
 
     /**
@@ -111,8 +111,8 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert start != null && nc != null && end != null && pg != null : "pre something is null"; //$NON-NLS-1$
         assert start.getSucc().size() == 1 && ((NodeConnection) start.getSucc().get(0)).getTarget() == end : "pre is simple path"; //$NON-NLS-1$
-        assert pg.getPathNodes().contains(start) && pg.getPathNodes().contains(end) : "pre nodes in graph"; //$NON-NLS-1$
-        assert pg.getNodeConnections().contains(nc) : "pre connection in graph"; //$NON-NLS-1$
+        assert pg.getNodes().contains(start) && pg.getNodes().contains(end) : "pre nodes in graph"; //$NON-NLS-1$
+        assert pg.getConnections().contains(nc) : "pre connection in graph"; //$NON-NLS-1$
     }
 
     /**
@@ -123,9 +123,9 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
             return;
         testPostConditions();
 
-        pg.getPathNodes().add(start);
-        pg.getPathNodes().add(end);
-        pg.getNodeConnections().add(nc);
+        pg.getNodes().add(start);
+        pg.getNodes().add(end);
+        pg.getConnections().add(nc);
         start.setCompRef(startParent);
         end.setCompRef(endParent);
 

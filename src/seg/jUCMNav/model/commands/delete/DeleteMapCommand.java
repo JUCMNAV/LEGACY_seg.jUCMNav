@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteMapRefDefLinksCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 
 /**
  * CompoundCommand to delete a Map. (Remove it from the model).
@@ -16,13 +16,13 @@ import ucm.map.Map;
  */
 public class DeleteMapCommand extends CompoundCommand {
 
-    private Map map;
+    private UCMmap map;
 
     /**
      * @param map
      *            the map to delete
      */
-    public DeleteMapCommand(Map map) {
+    public DeleteMapCommand(UCMmap map) {
         setLabel("DeleteMapCommand");//$NON-NLS-1$
 
         this.map = map;
@@ -35,7 +35,7 @@ public class DeleteMapCommand extends CompoundCommand {
      * 
      * @return the map being deleted.
      */
-    public Map getMap() {
+    public UCMmap getMap() {
         return map;
     }
 }

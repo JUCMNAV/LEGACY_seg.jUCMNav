@@ -15,10 +15,10 @@ import seg.jUCMNav.model.util.DoesDisconnectImplyDelete;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -58,7 +58,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
     private List newStart, newEnd;
 
     // the pathgraph that contains the node.
-    private PathGraph pg;
+    private UCMmap pg;
 
     // the pathnode to be deleted.
     private PathNode toDelete;
@@ -192,7 +192,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
      * save pathgraph/urn and refresh affected node connections.
      */
     private void initVariables() {
-        pg = toDelete.getPathGraph();
+        pg = (UCMmap)toDelete.getSpecDiagram();
         this.ncInBefore = new Vector(toDelete.getPred());
         this.ncOutBefore = new Vector(toDelete.getSucc());
 
@@ -206,10 +206,10 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncInToRemove);
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncOutToRemove);
 
-        if (pg == null ||  toDelete.getPathGraph().getMap().getUcmspec()==null) {
+        if (pg == null ||  toDelete.getSpecDiagram().getUrndefinition()==null) {
             aborted = true;
         } else
-            urn = toDelete.getPathGraph().getMap().getUcmspec().getUrnspec();
+            urn = toDelete.getSpecDiagram().getUrndefinition().getUrnspec();
 
     }
 
@@ -226,7 +226,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             NodeConnection nc = (NodeConnection) ncInToRemove.get(i);
             PathNode pn = (PathNode) newEnd.get(i);
             nc.setTarget(pn);
-            pg.getPathNodes().add(pn);
+            pg.getNodes().add(pn);
             pn.setCompRef(ParentFinder.getPossibleParent(pn));
         }
 
@@ -234,7 +234,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             NodeConnection nc = (NodeConnection) ncOutToRemove.get(i);
             PathNode pn = (PathNode) newStart.get(i);
             nc.setSource(pn);
-            pg.getPathNodes().add(pn);
+            pg.getNodes().add(pn);
             pn.setCompRef(ParentFinder.getPossibleParent(pn));
         }
 
@@ -250,11 +250,11 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
 
         for (int i = 0; i < ncInToRemove.size(); i++) {
             assert !toDelete.getPred().contains(ncInToRemove.get(i)) : "post pred nc not in pred " + i; //$NON-NLS-1$
-            assert pg.getPathNodes().contains(newEnd.get(i)) : "post new end not in graph " + i; //$NON-NLS-1$
+            assert pg.getNodes().contains(newEnd.get(i)) : "post new end not in graph " + i; //$NON-NLS-1$
         }
         for (int i = 0; i < ncOutToRemove.size(); i++) {
             assert !toDelete.getSucc().contains(ncOutToRemove.get(i)) : "post succ nc not in succ " + i; //$NON-NLS-1$
-            assert pg.getPathNodes().contains(newStart.get(i)) : "post new start not in graph " + i; //$NON-NLS-1$
+            assert pg.getNodes().contains(newStart.get(i)) : "post new start not in graph " + i; //$NON-NLS-1$
         }
 
         // if (shouldDeleteNode) {
@@ -279,11 +279,11 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
         assert urn != null && pg != null && toDelete != null && ncInBefore != null && ncOutBefore != null && ncInToRemove != null && ncOutToRemove != null : "pre something is null"; //$NON-NLS-1$
         for (int i = 0; i < ncInToRemove.size(); i++) {
             assert toDelete.getPred().contains(ncInToRemove.get(i)) : "pre pred nc not in pred " + i; //$NON-NLS-1$
-            assert !pg.getPathNodes().contains(newEnd.get(i)) : "pre new end not in graph " + i; //$NON-NLS-1$
+            assert !pg.getNodes().contains(newEnd.get(i)) : "pre new end not in graph " + i; //$NON-NLS-1$
         }
         for (int i = 0; i < ncOutToRemove.size(); i++) {
             assert toDelete.getSucc().contains(ncOutToRemove.get(i)) : "pre succ nc not in succ " + i; //$NON-NLS-1$
-            assert !pg.getPathNodes().contains(newStart.get(i)) : "pre new start not in graph " + i; //$NON-NLS-1$
+            assert !pg.getNodes().contains(newStart.get(i)) : "pre new start not in graph " + i; //$NON-NLS-1$
         }
 
         // if (shouldDeleteNode) {
@@ -318,7 +318,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
                 // preserve order
                 toDelete.getPred().add(i, nc);
                 PathNode pn = (PathNode) newEnd.get(ncInToRemove.indexOf(nc));
-                pg.getPathNodes().remove(pn);
+                pg.getNodes().remove(pn);
                 pn.setCompRef(null);
             }
         }
@@ -330,7 +330,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
                 // preserve order
                 toDelete.getSucc().add(i, nc);
                 PathNode pn = (PathNode) newStart.get(ncOutToRemove.indexOf(nc));
-                pg.getPathNodes().remove(pn);
+                pg.getNodes().remove(pn);
                 pn.setCompRef(null);
             }
         }

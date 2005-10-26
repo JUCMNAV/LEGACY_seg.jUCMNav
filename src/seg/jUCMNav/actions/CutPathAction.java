@@ -18,7 +18,7 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
  *  
  * @author Etienne Tremblay
  */
-public class CutPathAction extends UCMSelectionAction {
+public class CutPathAction extends URNSelectionAction {
 
     public static final String CUTPATH_REQUEST = "seg.jUCMNav.CutPathRequest"; //$NON-NLS-1$
 

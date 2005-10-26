@@ -12,6 +12,7 @@ import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 import urncore.UCMmodelElement;
 
 /**
@@ -19,7 +20,7 @@ import urncore.UCMmodelElement;
  * 
  * @author jkealey
  */
-public class BindWithParent extends UCMSelectionAction {
+public class BindWithParent extends URNSelectionAction {
 
     public static final String BINDWITHPARENT = "seg.jUCMNav.BindWithParent"; //$NON-NLS-1$
 
@@ -60,15 +61,15 @@ public class BindWithParent extends UCMSelectionAction {
                 else {
                     if (p.getModel() instanceof ComponentRef) {
                         ComponentRef child = (ComponentRef) p.getModel();
-                        if (child.getMap() == null)
+                        if (child.getSpecDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent(child.getMap(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
+                        else if (null == ParentFinder.findParent((UCMmap)child.getSpecDiagram(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
                             return false; // #4 failed for ComponentRefs
                     } else if (p.getModel() instanceof PathNode) {
                         PathNode child = (PathNode) p.getModel();
-                        if (child.getPathGraph() == null || child.getPathGraph().getMap() == null)
+                        if (child.getSpecDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent(child.getPathGraph().getMap(), child.getX(), child.getY()))
+                        else if (null == ParentFinder.findParent((UCMmap)child.getSpecDiagram(), child.getX(), child.getY()))
                             return false; // #4 failed for PathNodes
                     }
                 }
@@ -95,13 +96,13 @@ public class BindWithParent extends UCMSelectionAction {
 
             // find the child and parent and create a new command to bind them together
             child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = ParentFinder.getPossibleParent(child);
+            parent = (ComponentRef)ParentFinder.getPossibleParent(child);
             cmd = new ComponentRefBindChildCommand(parent, child);
 
             // do the same for all other model elements.
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 child = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = ParentFinder.getPossibleParent(child);
+                parent = (ComponentRef)ParentFinder.getPossibleParent(child);
                 cmd = cmd.chain(new ComponentRefBindChildCommand(parent, child));
             }
 

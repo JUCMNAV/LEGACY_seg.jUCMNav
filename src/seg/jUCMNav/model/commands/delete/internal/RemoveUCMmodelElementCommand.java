@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urncore.ComponentElement;
@@ -21,7 +21,7 @@ import urncore.UCMmodelElement;
 public class RemoveUCMmodelElementCommand extends Command implements JUCMNavCommand {
     private UCMmodelElement element;
     private ComponentRef parent;
-    private Map map;
+    private UCMmap map;
     private UCMmodelElement definition;
     private boolean aborted = false;
 
@@ -49,11 +49,11 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
     public void execute() {
         if (element instanceof PathNode) {
             PathNode node = (PathNode) element;
-            aborted = node.getPathGraph() == null;
+            aborted = node.getSpecDiagram() == null;
             if (aborted)
                 return;
-            map = node.getPathGraph().getMap();
-            parent = node.getCompRef();
+            map = (UCMmap)node.getSpecDiagram();
+            parent = (ComponentRef)node.getCompRef();
             if (node instanceof RespRef) {
                 RespRef ref = (RespRef) node;
                 definition = ref.getRespDef();
@@ -61,12 +61,12 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
 
         } else if (element instanceof ComponentRef) {
             ComponentRef ref = (ComponentRef) element;
-            map = ref.getMap();
+            map = (UCMmap)ref.getSpecDiagram();
             aborted = map == null;
             if (aborted)
                 return;
-            parent = ref.getParent();
-            definition = ref.getCompDef();
+            parent = (ComponentRef)ref.getParent();
+            definition = (ComponentElement)ref.getCompDef();
         }
         redo();
     }
@@ -82,7 +82,7 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
 
         if (element instanceof PathNode) {
             PathNode node = (PathNode) element;
-            map.getPathGraph().getPathNodes().remove(element);
+            map.getNodes().remove(element);
             node.setCompRef(null);
             if (node instanceof RespRef) {
                 RespRef ref = (RespRef) node;
@@ -111,7 +111,7 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
 
         if (element instanceof PathNode) {
             PathNode node = (PathNode) element;
-            map.getPathGraph().getPathNodes().add(element);
+            map.getNodes().add(element);
             node.setCompRef(parent);
             if (node instanceof RespRef) {
                 RespRef ref = (RespRef) node;
@@ -134,7 +134,7 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
     public void testPreConditions() {
         assert element != null && map != null : "pre something is null";
         if (element instanceof PathNode)
-            assert map.getPathGraph().getPathNodes().contains(element) : "pre pathgraph contains element";
+            assert map.getNodes().contains(element) : "pre pathgraph contains element";
         else if (element instanceof ComponentRef)
             assert map.getCompRefs().contains(element) : "pre pathgraph contains element";
 
@@ -168,7 +168,7 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
     public void testPostConditions() {
         assert element != null && map != null : "post something is null";
         if (element instanceof PathNode)
-            assert !map.getPathGraph().getPathNodes().contains(element) : "post pathgraph contains element";
+            assert !map.getNodes().contains(element) : "post pathgraph contains element";
         else if (element instanceof ComponentRef)
             assert !map.getCompRefs().contains(element) : "post pathgraph contains element";
         if (definition != null) {

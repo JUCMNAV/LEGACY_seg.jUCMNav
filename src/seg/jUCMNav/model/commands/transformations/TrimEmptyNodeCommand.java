@@ -8,7 +8,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.EmptyPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
@@ -28,10 +28,10 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
      * @param map
      *            the map to clean
      */
-    public TrimEmptyNodeCommand(Map map) {
+    public TrimEmptyNodeCommand(UCMmap map) {
         toRemove = new Vector();
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode pn = (PathNode) iter.next();
             if (pn instanceof EmptyPoint) {
                 deleteIfPossible(pn);

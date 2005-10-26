@@ -32,10 +32,11 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
-import seg.jUCMNav.editparts.ConnectionOnBottomRootEditPart;
+import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
-import ucm.map.Map;
+import ucm.map.UCMmap;
+import urncore.SpecificationDiagram;
 
 /**
  * This is the main class for editing a single Map in our model.
@@ -45,7 +46,7 @@ import ucm.map.Map;
 public class UcmEditor extends UrnEditor {
 
     /** one editor per map. */
-    private Map mapModel;
+    private UCMmap mapModel;
 
     /** The palette root used to display the palette. */
     private PaletteRoot paletteRoot;
@@ -74,7 +75,7 @@ public class UcmEditor extends UrnEditor {
         super.configureGraphicalViewer();
 
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
-        ConnectionOnBottomRootEditPart root = new ConnectionOnBottomRootEditPart(getParent());
+        UCMConnectionOnBottomRootEditPart root = new UCMConnectionOnBottomRootEditPart(getParent());
 
         // zoom management is delegated to us from our parent.
         List zoomLevels = new ArrayList(3);
@@ -89,7 +90,7 @@ public class UcmEditor extends UrnEditor {
         viewer.setContextMenu(provider);
         getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider", provider, viewer); //$NON-NLS-1$
 
-        viewer.setEditPartFactory(new GraphicalEditPartFactory(getModel()));
+        viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap)getModel()));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
     }
 
@@ -190,7 +191,7 @@ public class UcmEditor extends UrnEditor {
      * 
      * @return The model we are editing.
      */
-    public Map getModel() {
+    public SpecificationDiagram getModel() {
         return mapModel;
     }
 
@@ -234,8 +235,8 @@ public class UcmEditor extends UrnEditor {
      * 
      * @param m
      */
-    public void setModel(Map m) {
-        mapModel = m;
+    public void setModel(SpecificationDiagram m) {
+        mapModel = (UCMmap)m;
     }
 
 }

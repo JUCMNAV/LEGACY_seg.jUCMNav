@@ -62,10 +62,10 @@ import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
-import seg.jUCMNav.editparts.MapAndPathGraphEditPart;
+import seg.jUCMNav.editparts.SpecificationDiagramEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
-import seg.jUCMNav.editpolicies.layout.MapAndPathGraphXYLayoutEditPolicy;
+import seg.jUCMNav.editpolicies.layout.MapXYLayoutEditPolicy;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.Rotateable;
@@ -87,7 +87,6 @@ import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -96,8 +95,10 @@ import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
+import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.UCMmodelElement;
 
@@ -106,6 +107,7 @@ import urncore.UCMmodelElement;
  * 
  * Uses interesting setUp()/tearDown();
  * 
+ * TODO Modify tests to support GRLGraph
  * @author jkealey
  *  
  */
@@ -223,16 +225,16 @@ public class ProgressTests extends TestCase {
         return (ScrollingGraphicalViewer) editor.getCurrentPage().getGraphicalViewer();
     }
 
-    public Map getMap() {
-        return (Map) urn.getUcmspec().getMaps().get(0);
+    public UCMmap getMap() {
+        return (UCMmap) urn.getUrndef().getSpecDiagrams().get(0);
     }
 
-    public Map getMap(int i) {
-        return (Map) urn.getUcmspec().getMaps().get(i);
+    public UCMmap getMap(int i) {
+        return (UCMmap) urn.getUrndef().getSpecDiagrams().get(i);
     }
 
-    public MapAndPathGraphEditPart getMapEditPart(int i) {
-        return (MapAndPathGraphEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
+    public SpecificationDiagramEditPart getMapEditPart(int i) {
+        return (SpecificationDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
     }
 
     public EditPartViewer getOutlineGraphicalViewer() {
@@ -441,14 +443,14 @@ public class ProgressTests extends TestCase {
         // verify that we can move/resize components.
 
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
 
         // verify that we can't move/resize fixed components.
         cr.setFixed(true);
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && !cmd.canExecute());
@@ -462,8 +464,8 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompBind1() {
 
-        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", ModelCreationFactory.DEFAULT_COMPONENT_HEIGHT //$NON-NLS-1$
-                * ModelCreationFactory.DEFAULT_COMPONENT_WIDTH < 300 * 400);
+        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT //$NON-NLS-1$
+                * ModelCreationFactory.DEFAULT_UCM_COMPONENT_WIDTH < 300 * 400);
 
         // create the component ref that will be used for testing.
         ComponentRef parent = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, ComponentKind.TEAM);
@@ -483,7 +485,7 @@ public class ProgressTests extends TestCase {
 
         // set the parent somewhere.
         ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getEditPart(parent);
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(100, 200, 300, 400));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
@@ -498,7 +500,7 @@ public class ProgressTests extends TestCase {
         // explanation for get(3): we've made the parent larger. refreshChildren() will put it at position 0 so the child is at position 3
         // labels: 0&1
         ComponentRefEditPart childEditPart = (ComponentRefEditPart) getEditPart(child);
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(childEditPart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(childEditPart,
                 new Rectangle(150, 250, 50, 50));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
@@ -510,7 +512,7 @@ public class ProgressTests extends TestCase {
 
         assertEquals("Child not bound to parent", parent, child.getParent()); //$NON-NLS-1$
 
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(0, 0, 150, 200));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
@@ -531,7 +533,7 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompBind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
+        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the small component ref
         ComponentRef cr = (ComponentRef) getMap().getCompRefs().get(2);
@@ -557,7 +559,7 @@ public class ProgressTests extends TestCase {
 
         assertEquals("Invalid preconditions for testReqCompUnbind1", child.getParent(), parent); //$NON-NLS-1$
 
-        Command cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(
+        Command cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(
                 childEditPart, new Rectangle(200, 200, 300, 150));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
@@ -577,7 +579,7 @@ public class ProgressTests extends TestCase {
     public void testReqCompCompUnbind2() {
         testReqCompCompBind1();
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
+        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the large component ref
         Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
@@ -601,7 +603,7 @@ public class ProgressTests extends TestCase {
 
         // verify that we can move/resize components.
         ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
-        cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
+        cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(0, 0, 400, 400));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
                 cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
@@ -611,8 +613,8 @@ public class ProgressTests extends TestCase {
 
         testReqElemStartPoint1();
 
-        for (int i = 0; i < getMap().getPathGraph().getPathNodes().size(); i++) {
-            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getPathGraph().getPathNodes().get(i)).getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
+        for (int i = 0; i < getMap().getNodes().size(); i++) {
+            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getNodes().get(i)).getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -624,9 +626,9 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompPathBind2() {
         testReqCompPathBind1();
-        PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
+        PathNode node = (PathNode) getMap().getNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
+        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
@@ -642,11 +644,11 @@ public class ProgressTests extends TestCase {
         testReqCompPathBind1();
 
         // pick any path node
-        PathNode pn = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
+        PathNode pn = (PathNode) getMap().getNodes().get(1);
         PathNodeEditPart pnpart = (PathNodeEditPart) getEditPart(pn);
-        ComponentRef parent = pn.getCompRef();
+        ComponentRef parent = (ComponentRef)pn.getCompRef();
 
-        Command cmd = ((MapAndPathGraphXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(pnpart,
+        Command cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(pnpart,
                 new Rectangle(500, 500, 0, 0));
         assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintCommand ", cmd instanceof SetConstraintCommand && cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
@@ -664,9 +666,9 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompPathUnbind2() {
         testReqCompPathUnbind1();
-        PathNode node = (PathNode) getMap().getPathGraph().getPathNodes().get(1);
+        PathNode node = (PathNode) getMap().getNodes().get(1);
         ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        parent.getCompDef().setName("ParentTest"); //$NON-NLS-1$
+        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
@@ -680,17 +682,17 @@ public class ProgressTests extends TestCase {
      */
     public void testReqConnections1() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // and another.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        cmd = new CreatePathCommand(getMap(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get an emptypoint and a start point, from the other path.
         EndPoint ep = null;
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 ep = (EndPoint) element;
@@ -698,7 +700,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertNotNull("no end point found", ep); //$NON-NLS-1$
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) ((NodeConnection) element.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
@@ -728,7 +730,7 @@ public class ProgressTests extends TestCase {
         // get an endpoint connected to a start point.
         EndPoint ep = null;
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint && element.getSucc().size() > 0) {
                 ep = (EndPoint) element;
@@ -769,7 +771,7 @@ public class ProgressTests extends TestCase {
         // get an endpoint connected to a start point.
         EndPoint ep = null;
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint && element.getSucc().size() > 0) {
                 ep = (EndPoint) element;
@@ -805,12 +807,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemAndFork2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         EmptyPoint ep = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -839,17 +841,17 @@ public class ProgressTests extends TestCase {
     public void testReqElemAndFork3() {
 
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // and another.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        cmd = new CreatePathCommand(getMap(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get an emptypoint and a start point, from the other path.
         EmptyPoint ep = null;
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -857,7 +859,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertNotNull("no empty point found", ep); //$NON-NLS-1$
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
@@ -878,7 +880,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         int i = 0;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 i++;
@@ -906,12 +908,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemAndJoin2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         EmptyPoint ep = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -942,12 +944,12 @@ public class ProgressTests extends TestCase {
         EndPoint endpoint = null;
 
         // create a simple path
-        CreatePathCommand cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        CreatePathCommand cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         endpoint = cmd.getEnd();
 
         // and another.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        cmd = new CreatePathCommand(getMap(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         ep = (EmptyPoint) ((NodeConnection) cmd.getStart().getSucc().get(0)).getTarget();
 
@@ -966,7 +968,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         int i = 0;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 i++;
@@ -984,14 +986,14 @@ public class ProgressTests extends TestCase {
     public void testReqElemDelete1() {
         testReqElemStartPoint1();
         Command cmd;
-        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        NodeConnection nc = (NodeConnection) getMap().getConnections().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
-        cmd = new SplitLinkCommand(getMap().getPathGraph(), resp, nc, 100, 100);
+        cmd = new SplitLinkCommand(getMap(), resp, nc, 100, 100);
         assertTrue("Can't insert RespRef", cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         PathNode pn = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             pn = (PathNode) iter.next();
             if (pn instanceof RespRef) {
                 break;
@@ -1008,7 +1010,7 @@ public class ProgressTests extends TestCase {
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        for (Iterator iterator = getMap().getPathGraph().getPathNodes().iterator(); iterator.hasNext();) {
+        for (Iterator iterator = getMap().getNodes().iterator(); iterator.hasNext();) {
             PathNode pn2 = (PathNode) iterator.next();
             assertTrue("No respref should remain in model ", !(pn2 instanceof RespRef)); //$NON-NLS-1$
 
@@ -1024,7 +1026,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemDelete2() {
         testReqElemAndFork2();
         AndFork fork = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof AndFork) {
                 fork = (AndFork) element;
@@ -1041,7 +1043,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         int i = 0;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof AndFork) {
                 i++;
@@ -1082,7 +1084,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemDelete4() {
         testReqElemAndFork2();
         AndFork fork = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof AndFork) {
                 fork = (AndFork) element;
@@ -1098,7 +1100,7 @@ public class ProgressTests extends TestCase {
 
         int i = 0;
 
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 i++;
@@ -1112,7 +1114,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 i--;
@@ -1130,7 +1132,7 @@ public class ProgressTests extends TestCase {
     public void testReqElemDelete5() {
         testReqElemAndFork2();
         AndFork fork = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof AndFork) {
                 fork = (AndFork) element;
@@ -1157,7 +1159,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
-        assertEquals("no pathnodes should remain", 0, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
+        assertEquals("no pathnodes should remain", 0, getMap().getNodes().size()); //$NON-NLS-1$
     }
 
     /**
@@ -1204,12 +1206,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemDynamicStub2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+        Command cmd = new CreatePathCommand(getMap(), 0, 100);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 sp = (StartPoint) element;
@@ -1219,7 +1221,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // add second path.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         NodeConnection nc = (NodeConnection) ((CreatePathCommand) cmd).getStart().getSucc().get(0);
@@ -1227,7 +1229,7 @@ public class ProgressTests extends TestCase {
         // add a stub.
         Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
         stub.setDynamic(true);
-        cmd = new SplitLinkCommand(getMap().getPathGraph(), stub, nc, 125, 200);
+        cmd = new SplitLinkCommand(getMap(), stub, nc, 125, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // simulate moving first start onto stub.
@@ -1260,8 +1262,8 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
         PathNode pn = null;
 
-        assertTrue("no path node found", getMap().getPathGraph().getPathNodes().size() > 0); //$NON-NLS-1$
-        pn = (PathNode) getMap().getPathGraph().getPathNodes().get(0);
+        assertTrue("no path node found", getMap().getNodes().size() > 0); //$NON-NLS-1$
+        pn = (PathNode) getMap().getNodes().get(0);
 
         PathNodeEditPart part = (PathNodeEditPart) getGraphicalViewer().getEditPartRegistry().get(pn);
         assertNotNull("cannot find editpart", part); //$NON-NLS-1$
@@ -1306,14 +1308,14 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemEndPoint2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+        Command cmd = new CreatePathCommand(getMap(), 0, 100);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its startpoint.
         StartPoint sp = ((CreatePathCommand) cmd).getStart();
 
         // add second path.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         EndPoint ep = ((CreatePathCommand) cmd).getEnd();
@@ -1338,7 +1340,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         EndPoint end = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 end = (EndPoint) element;
@@ -1382,12 +1384,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemOrFork2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         EmptyPoint ep = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -1414,17 +1416,17 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemOrFork3() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // and another.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        cmd = new CreatePathCommand(getMap(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get an emptypoint and a start point, from the other path.
         EmptyPoint ep = null;
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -1432,7 +1434,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertNotNull("no empty point found", ep); //$NON-NLS-1$
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
                 sp = (StartPoint) element;
@@ -1453,7 +1455,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         int i = 0;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 i++;
@@ -1472,7 +1474,7 @@ public class ProgressTests extends TestCase {
         testReqElemOrFork3();
 
         OrFork fork = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof OrFork) {
                 fork = (OrFork) element;
@@ -1521,12 +1523,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemOrJoin2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         EmptyPoint ep = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -1553,17 +1555,17 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemOrJoin3() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // and another.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 200, 300);
+        cmd = new CreatePathCommand(getMap(), 200, 300);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get an emptypoint and an end point, from the other path.
         EmptyPoint ep = null;
         EndPoint endpoint = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EmptyPoint) {
                 ep = (EmptyPoint) element;
@@ -1571,7 +1573,7 @@ public class ProgressTests extends TestCase {
             }
         }
         assertNotNull("no empty point found", ep); //$NON-NLS-1$
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint && ((NodeConnection) element.getPred().get(0)).getSource() != ep) {
                 endpoint = (EndPoint) element;
@@ -1592,7 +1594,7 @@ public class ProgressTests extends TestCase {
         action.run();
 
         int i = 0;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 i++;
@@ -1621,9 +1623,9 @@ public class ProgressTests extends TestCase {
     public void testReqElemResponsibility2() {
         testReqElemStartPoint1();
         Command cmd;
-        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        NodeConnection nc = (NodeConnection) getMap().getConnections().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urn, RespRef.class);
-        cmd = new SplitLinkCommand(getMap().getPathGraph(), resp, nc, 100, 100);
+        cmd = new SplitLinkCommand(getMap(), resp, nc, 100, 100);
         assertTrue("Can't insert RespRef", cmd.canExecute()); //$NON-NLS-1$
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
@@ -1656,7 +1658,7 @@ public class ProgressTests extends TestCase {
         assertTrue("No palette entry creates StartPoint (No path tool)", isToolEntryPresent(PathToolEntry.class)); //$NON-NLS-1$
 
         // verify that the StartPoint is not in the model
-        assertEquals("Should be no PathNodes in model", 0, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
+        assertEquals("Should be no PathNodes in model", 0, getMap().getNodes().size()); //$NON-NLS-1$
 
         // simulate a CreateRequest that we would have liked to have obtained from the palette
         CreateRequest cr = getCreateRequest(new ModelCreationFactory(urn, StartPoint.class), new Point(50, 70));
@@ -1673,7 +1675,7 @@ public class ProgressTests extends TestCase {
         getMapEditPart(0).refreshChildren();
 
         // verify that the StartPoint is in the model
-        assertEquals("Simple path not added.", 3, getMap().getPathGraph().getPathNodes().size()); //$NON-NLS-1$
+        assertEquals("Simple path not added.", 3, getMap().getNodes().size()); //$NON-NLS-1$
 
         // verify that the edit part tree has changed.
         assertEquals("MapAndPathGraphEditPart should have exactly " + (childCount + 7) + " children", childCount + 7, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1689,7 +1691,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         StartPoint start = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 start = (StartPoint) element;
@@ -1724,7 +1726,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         StartPoint start = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 start = (StartPoint) element;
@@ -1769,12 +1771,12 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemStaticStub2() {
         // create a simple path
-        Command cmd = new CreatePathCommand(getMap().getPathGraph(), 0, 100);
+        Command cmd = new CreatePathCommand(getMap(), 0, 100);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // get its emptypoint.
         StartPoint sp = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 sp = (StartPoint) element;
@@ -1784,14 +1786,14 @@ public class ProgressTests extends TestCase {
         assertNotNull("no start point found", sp); //$NON-NLS-1$
 
         // add second path.
-        cmd = new CreatePathCommand(getMap().getPathGraph(), 100, 200);
+        cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         NodeConnection nc = (NodeConnection) ((CreatePathCommand) cmd).getStart().getSucc().get(0);
 
         // add a stub.
         Stub stub = (Stub) ModelCreationFactory.getNewObject(urn, Stub.class);
-        cmd = new SplitLinkCommand(getMap().getPathGraph(), stub, nc, 125, 200);
+        cmd = new SplitLinkCommand(getMap(), stub, nc, 125, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // simulate moving first start onto stub.
@@ -1901,13 +1903,13 @@ public class ProgressTests extends TestCase {
     public void testReqElemTimer2() {
         testReqElemStartPoint1();
 
-        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0); //$NON-NLS-1$
-        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        assertTrue("cannot find node connection", getMap().getConnections().size() > 0); //$NON-NLS-1$
+        NodeConnection nc = (NodeConnection) getMap().getConnections().get(0);
         Timer timer = (Timer) ModelCreationFactory.getNewObject(urn, Timer.class);
 
         assertNotNull("Model creation factory can't create timers!", timer); //$NON-NLS-1$
 
-        Command cmd = new SplitLinkCommand(getMap().getPathGraph(), timer, nc, 49, 75);
+        Command cmd = new SplitLinkCommand(getMap(), timer, nc, 49, 75);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         Vector v = new Vector();
@@ -1919,7 +1921,7 @@ public class ProgressTests extends TestCase {
         int i, j;
         i = j = 0;
 
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 i++;
@@ -1929,7 +1931,7 @@ public class ProgressTests extends TestCase {
         // run it to see if it doesn't crash the app!
         action.run();
 
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof EndPoint) {
                 j++;
@@ -1959,13 +1961,13 @@ public class ProgressTests extends TestCase {
     public void testReqElemWait2() {
         testReqElemStartPoint1();
 
-        assertTrue("cannot find node connection", getMap().getPathGraph().getNodeConnections().size() > 0); //$NON-NLS-1$
-        NodeConnection nc = (NodeConnection) getMap().getPathGraph().getNodeConnections().get(0);
+        assertTrue("cannot find node connection", getMap().getConnections().size() > 0); //$NON-NLS-1$
+        NodeConnection nc = (NodeConnection) getMap().getConnections().get(0);
         WaitingPlace waitingplace = (WaitingPlace) ModelCreationFactory.getNewObject(urn, WaitingPlace.class);
 
         assertNotNull("Model creation factory can't create waiting place!", waitingplace); //$NON-NLS-1$
 
-        Command cmd = new SplitLinkCommand(getMap().getPathGraph(), waitingplace, nc, 49, 75);
+        Command cmd = new SplitLinkCommand(getMap(), waitingplace, nc, 49, 75);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         EditPart part = getEditPart(waitingplace.getSucc().get(0));
@@ -2090,7 +2092,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         StartPoint start = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof StartPoint) {
                 start = (StartPoint) element;
@@ -2126,7 +2128,7 @@ public class ProgressTests extends TestCase {
         testReqElemResponsibility2();
 
         RespRef pn = null;
-        for (Iterator iter = getMap().getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
             if (element instanceof RespRef) {
                 pn = (RespRef) element;

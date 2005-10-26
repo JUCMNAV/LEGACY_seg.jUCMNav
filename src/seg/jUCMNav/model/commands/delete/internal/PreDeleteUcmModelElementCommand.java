@@ -5,7 +5,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 
@@ -25,7 +25,7 @@ public class PreDeleteUcmModelElementCommand extends CompoundCommand {
      * @param map
      *            the Map to be deleted.
      */
-    public PreDeleteUcmModelElementCommand(Map map) {
+    public PreDeleteUcmModelElementCommand(UCMmap map) {
         this.element = map;
         add(new CleanRelationshipsCommand(map));
     }

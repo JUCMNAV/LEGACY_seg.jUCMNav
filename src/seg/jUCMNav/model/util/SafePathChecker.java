@@ -48,7 +48,7 @@ public class SafePathChecker {
      * @return true if safe
      */
     public static boolean isSafeFusion(PathNode joinFromPathNode, NodeConnection joinToNodeConnection) {
-        PathNode toNode = joinToNodeConnection.getTarget();
+        PathNode toNode = (PathNode)joinToNodeConnection.getTarget();
         return isSafeFusion(joinFromPathNode, toNode);
     }
 

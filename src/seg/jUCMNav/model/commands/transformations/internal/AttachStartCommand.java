@@ -7,9 +7,9 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urncore.Condition;
 
 /**
@@ -53,7 +53,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
     /**
      * The pathgraph containing the nodes and connections
      */
-    private PathGraph pg;
+    private UCMmap pg;
 
     /**
      * @param oldStartPoint
@@ -92,15 +92,15 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
         oldX = oldStartPoint.getX();
         oldY = oldStartPoint.getY();
 
-        pg = oldStartPoint.getPathGraph();
+        pg = (UCMmap)oldStartPoint.getSpecDiagram();
 
         ncOldStart = (NodeConnection) oldStartPoint.getSucc().get(0);
 
         if (stubOrFork instanceof OrFork) {
-            newCondition = (Condition) ModelCreationFactory.getNewObject(pg.getMap().getUcmspec().getUrnspec(), Condition.class);
+            newCondition = (Condition) ModelCreationFactory.getNewObject(pg.getUrndefinition().getUrnspec(), Condition.class);
         }
 
-        oldParent = oldStartPoint.getCompRef();
+        oldParent = (ComponentRef)oldStartPoint.getCompRef();
 
         redo();
     }
@@ -112,7 +112,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
         testPreConditions();
         
         ncOldStart.setSource(stubOrFork);
-        pg.getPathNodes().remove(oldStartPoint);
+        pg.getNodes().remove(oldStartPoint);
 
         if (newCondition != null)
             ncOldStart.setCondition(newCondition);
@@ -131,7 +131,7 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
 
         super.undo();
 
-        pg.getPathNodes().add(oldStartPoint);
+        pg.getNodes().add(oldStartPoint);
         ncOldStart.setSource(oldStartPoint);
 
         oldStartPoint.setX(oldX);
@@ -156,8 +156,8 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
 
         assert oldStartPoint.getX() == oldX && oldStartPoint.getY() == oldY : "pre old start position"; //$NON-NLS-1$
         assert ncOldStart.getSource() == oldStartPoint : "pre connection source is the start point"; //$NON-NLS-1$
-        assert pg.getPathNodes().contains(oldStartPoint) : "pre pathgraph contains the start point"; //$NON-NLS-1$
-        assert pg.getNodeConnections().contains(ncOldStart) : "pre pathgraph contains the connection"; //$NON-NLS-1$
+        assert pg.getNodes().contains(oldStartPoint) : "pre pathgraph contains the start point"; //$NON-NLS-1$
+        assert pg.getConnections().contains(ncOldStart) : "pre pathgraph contains the connection"; //$NON-NLS-1$
     }
 
     /**
@@ -170,8 +170,8 @@ public class AttachStartCommand extends Command implements JUCMNavCommand {
         assert pg != null : "post pathgraph"; //$NON-NLS-1$
 
         assert ncOldStart.getSource() == stubOrFork : "post connection source is the stub"; //$NON-NLS-1$
-        assert !pg.getPathNodes().contains(oldStartPoint) : "post pathgraph doesn't contain the start point"; //$NON-NLS-1$
-        assert pg.getNodeConnections().contains(ncOldStart) : "post pathgraph contains the connection"; //$NON-NLS-1$
+        assert !pg.getNodes().contains(oldStartPoint) : "post pathgraph doesn't contain the start point"; //$NON-NLS-1$
+        assert pg.getConnections().contains(ncOldStart) : "post pathgraph contains the connection"; //$NON-NLS-1$
     }
 
 }

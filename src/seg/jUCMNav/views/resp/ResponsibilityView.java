@@ -30,7 +30,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 
@@ -45,7 +45,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     private Action action1;
     private Action action2;
     private Action doubleClickAction;
-    private Map input;
+    private UCMmap input;
     private UCMNavMultiPageEditor editor;
 
     class RespContentProvider implements IStructuredContentProvider {
@@ -106,7 +106,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
         viewer.setLabelProvider(new RespLabelProvider());
         
         if(input != null)
-        	viewer.setInput(input.getPathGraph().getPathNodes());
+        	viewer.setInput(input.getNodes());
 
         getSite().getPage().addPartListener(this);
     }
@@ -211,7 +211,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
     private void setEditor(IWorkbenchPartReference partRef) {
     	if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
             setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-            setInput(((UcmEditor)editor.getCurrentPage()).getModel());
+            setInput((UCMmap)((UcmEditor)editor.getCurrentPage()).getModel());
         }
     }
     
@@ -227,13 +227,13 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
         editor.addPageChangeListener(this);
     }
 
-    private void setInput(Map input) {
+    private void setInput(UCMmap input) {
         if (viewer != null) {
             if (input == null)
                 viewer.setInput(new ArrayList());
             else {
             	if(input != this.input)
-            		viewer.setInput(input.getPathGraph().getPathNodes());
+            		viewer.setInput(input.getNodes());
             }
         }
         this.input = input;
@@ -249,7 +249,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
 
         if (getSite().getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
             setEditor((UCMNavMultiPageEditor) getSite().getPage().getActiveEditor());
-            setInput(((UcmEditor)editor.getCurrentPage()).getModel());
+            setInput((UCMmap)((UcmEditor)editor.getCurrentPage()).getModel());
         }
     }
 
@@ -302,7 +302,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
      * @see seg.jUCMNav.editors.IPageChangeListener#pageChanged()
      */
     public void pageChanged() {
-        setInput(((UcmEditor)editor.getCurrentPage()).getModel());
+        setInput((UCMmap)((UcmEditor)editor.getCurrentPage()).getModel());
     }
 
 	/* (non-Javadoc)

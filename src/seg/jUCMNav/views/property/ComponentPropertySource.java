@@ -17,26 +17,27 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.SpecificationComponent;
+import urncore.SpecificationComponentRef;
+import urncore.SpecificationNode;
+import urncore.URNmodelElement;
 
 /**
- * This class is special cased for ComponentRef's so that we can replace our id/name/description with that of the ComponentElement and add the
- * ComponentElement's properties to ours.
+ * This class is special cased for SpecificationComponentRef's so that we can replace our id/name/description with that of the ComponentElement and add the
+ * SpecificationComponent's properties to ours.
  * 
- * ComponentElements are listed as a dropdown of all ComponentElements in the model.
+ * SpecificationComponent are listed as a dropdown of all SpecificationComponent in the model.
  * 
  * The colors shown are those of the linked component definition.
  * 
  * @author jkealey, etremblay
  * 
  */
-public class ComponentPropertySource extends UCMElementPropertySource {
+public class ComponentPropertySource extends URNElementPropertySource {
 
     // if this is a reference to a component, we want it.
-    private ComponentElement comp = null;
+    private SpecificationComponent comp = null;
     int i;
 
     /**
@@ -44,8 +45,8 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      */
     public ComponentPropertySource(EObject obj) {
         super(obj);
-        if ((object instanceof ComponentRef) && ((ComponentRef) object).getCompDef() != null) {
-            comp = ((ComponentRef) object).getCompDef();
+        if ((object instanceof SpecificationComponentRef) && ((SpecificationComponentRef) object).getCompDef() != null) {
+            comp = (SpecificationComponent)((SpecificationComponentRef) object).getCompDef();
         }
     }
 
@@ -97,7 +98,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
 
         PropertyID propertyid = new PropertyID(c, attr);
 
-        if (type.getInstanceClass() == ComponentElement.class) {
+        if (type.getInstanceClass() == SpecificationComponent.class) {
             componentElementDescriptor(descriptors, attr, propertyid);
         } else
             super.addPropertyToDescriptor(descriptors, attr, c);
@@ -109,16 +110,16 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((ComponentRef) getEditableValue()).getMap().getUcmspec() == null)
+        if (((SpecificationComponentRef) getEditableValue()).getSpecDiagram().getUrndefinition() == null)
             return;
-        URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
+        URNspec urn = ((SpecificationComponentRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getComponents());
         Collections.sort(list, new EObjectClassNameComparator());
 
         String[] values = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
 
-            values[i] = EObjectClassNameComparator.getSortableElementName((ComponentElement) list.get(i));
+            values[i] = EObjectClassNameComparator.getSortableElementName((SpecificationComponent) list.get(i));
             if (values[i] == null)
                 values[i] = "[unnamed]"; //$NON-NLS-1$
         }
@@ -135,15 +136,15 @@ public class ComponentPropertySource extends UCMElementPropertySource {
      * @see seg.jUCMNav.views.EObjectPropertySource#returnPropertyValue(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
-        if (result instanceof ComponentElement) {
+        if (result instanceof SpecificationComponent) {
             /*
              * if (((ComponentElement) result).getId() != null) result = new Integer(((ComponentElement) result).getId()); else result = new Integer(0);
              */
-            URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
+            URNspec urn = ((SpecificationComponentRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
             Vector list = new Vector(urn.getUrndef().getComponents());
             Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).equals(((ComponentRef) getEditableValue()).getCompDef()))
+                if (list.get(i).equals(((SpecificationComponentRef) getEditableValue()).getCompDef()))
                     result = new Integer(i);
             }
 
@@ -179,7 +180,7 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = propertyid.getFeature();
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
-                || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == ComponentRef.class && (getEditableValue() instanceof PathNode || getEditableValue() instanceof ComponentRef))) {
+                || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef))) {
             if (propertyid.getEClass() != object.eClass())
                 comp.eSet(feature, null);
             else
@@ -198,16 +199,16 @@ public class ComponentPropertySource extends UCMElementPropertySource {
         EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
-        URNspec urn = ((ComponentRef) getEditableValue()).getMap().getUcmspec().getUrnspec();
-        if (feature.getEType().getInstanceClass() == ComponentElement.class) {
+        URNspec urn = ((SpecificationComponentRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+        if (feature.getEType().getInstanceClass() == SpecificationComponent.class) {
 
             Vector list = new Vector(urn.getUrndef().getComponents());
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
-            comp = ((ComponentRef) object).getCompDef();
+            comp = (SpecificationComponent)((SpecificationComponentRef) object).getCompDef();
         } else if (feature.getName() == "name") { //$NON-NLS-1$
-            String message = URNNamingHelper.isNameValid(urn, (ComponentRef) object, value.toString());
+            String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 
             if (message.length() == 0) {
                 super.setPropertyValue(id, value);

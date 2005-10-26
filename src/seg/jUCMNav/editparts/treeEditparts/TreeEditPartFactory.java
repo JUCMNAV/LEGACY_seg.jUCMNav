@@ -1,11 +1,13 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
+import grl.GRLGraph;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
@@ -40,8 +42,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new OutlineRootEditPart((UCMNavMultiPageEditor) model);
         else if (model instanceof URNspec)
             return new URNspecTreeEditPart((URNspec)model);
-        else if (model instanceof Map)
-            return new MapTreeEditPart((Map) model);
+        else if (model instanceof UCMmap)
+            return new MapTreeEditPart((UCMmap) model);
         else if (model instanceof ComponentRef)
             return new ComponentRefTreeEditPart((ComponentRef) model);
         else if (model instanceof RespRef)
@@ -56,6 +58,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new ComponentTreeEditPart((ComponentElement) model);
         else if (model instanceof Responsibility)
             return new ResponsibilityTreeEditPart((Responsibility) model);
+        else if (model instanceof GRLGraph)
+            return new UcmModelElementTreeEditPart((GRLGraph)model);
         else
             return null;
     }

@@ -64,7 +64,7 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
      * Returns the icon appropriate for the definition's kind
      */
     protected Image getImage() {
-        ComponentElement comp = getCompRef().getCompDef();
+        ComponentElement comp = (ComponentElement)getCompRef().getCompDef();
         if (super.getImage() == null) {
             if (comp instanceof Component) {
                 setImage(ComponentTreeEditPart.getComponentImage(((Component) comp).getKind()));

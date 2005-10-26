@@ -5,7 +5,7 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 
 /**
  * ComponentEditPolicy for UCM Maps. Returns delete commands.
@@ -21,8 +21,8 @@ public class MapComponentEditPolicy extends ComponentEditPolicy {
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object elem = getHost().getModel();
-        if (elem instanceof Map)
-            return new DeleteMapCommand((Map) elem);
+        if (elem instanceof UCMmap)
+            return new DeleteMapCommand((UCMmap) elem);
         else
             return null;
     }

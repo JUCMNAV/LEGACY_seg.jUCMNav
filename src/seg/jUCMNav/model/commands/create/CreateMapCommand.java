@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -14,7 +14,7 @@ import urn.URNspec;
  *  
  */
 public class CreateMapCommand extends Command implements JUCMNavCommand {
-    private Map map;
+    private UCMmap map;
     private URNspec urn;
     private int oldCount;
 
@@ -22,7 +22,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
         this.urn = urn;
 
         // must be created here for getMap() to work properly.
-        map = (Map) ModelCreationFactory.getNewObject(urn, Map.class);
+        map = (UCMmap) ModelCreationFactory.getNewObject(urn, UCMmap.class);
 
     }
 
@@ -37,14 +37,14 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        oldCount = urn.getUcmspec().getMaps().size();
+        oldCount = urn.getUrndef().getSpecDiagrams().size();
         redo();
     }
 
     /**
      * @return the newly created map;
      */
-    public Map getMap() {
+    public UCMmap getMap() {
         return map;
     }
 
@@ -54,7 +54,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        urn.getUcmspec().getMaps().add(map);
+        urn.getUrndef().getSpecDiagrams().add(map);
         testPostConditions();
     }
 
@@ -62,9 +62,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && urn.getUcmspec() != null && map != null : "post not null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getMaps().contains(map) : "post map not in model"; //$NON-NLS-1$
-        assert oldCount + 1 == urn.getUcmspec().getMaps().size() : "post should have only one map added"; //$NON-NLS-1$
+        assert urn != null && urn.getUrndef() != null && map != null : "post not null"; //$NON-NLS-1$
+        assert urn.getUrndef().getSpecDiagrams().contains(map) : "post map not in model"; //$NON-NLS-1$
+        assert oldCount + 1 == urn.getUrndef().getSpecDiagrams().size() : "post should have only one map added"; //$NON-NLS-1$
 
     }
 
@@ -72,9 +72,9 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && urn.getUcmspec() != null && map != null : "pre not null"; //$NON-NLS-1$
-        assert !urn.getUcmspec().getMaps().contains(map) : "pre map not in model"; //$NON-NLS-1$
-        assert oldCount == urn.getUcmspec().getMaps().size() : "pre map count wrong"; //$NON-NLS-1$
+        assert urn != null && urn.getUrndef() != null && map != null : "pre not null"; //$NON-NLS-1$
+        assert !urn.getUrndef().getSpecDiagrams().contains(map) : "pre map not in model"; //$NON-NLS-1$
+        assert oldCount == urn.getUrndef().getSpecDiagrams().size() : "pre map count wrong"; //$NON-NLS-1$
     }
 
     /**
@@ -82,7 +82,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        urn.getUcmspec().getMaps().remove(map);
+        urn.getUrndef().getSpecDiagrams().remove(map);
         testPreConditions();
     }
 }

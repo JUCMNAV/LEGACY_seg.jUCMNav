@@ -7,6 +7,7 @@ import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * Intented to be used after the deletion of a PathNode which must be downgraded to an EmptyPoint. Will insert a new EmptyPoint on such a connection using
@@ -33,9 +34,9 @@ public class PostPathManipulationCommand extends CompoundCommand {
      *            where to insert a new EmptyPoint
      */
     public PostPathManipulationCommand(PathNode pn, NodeConnection link) {
-        if (pn.getPathGraph() != null && pn.getPathGraph().getMap().getUcmspec() != null) {
-            empty = (EmptyPoint) ModelCreationFactory.getNewObject(pn.getPathGraph().getMap().getUcmspec().getUrnspec(), EmptyPoint.class);
-            add(new SplitLinkCommand(pn.getPathGraph(), empty, link, pn.getX(), pn.getY()));
+        if (pn.getSpecDiagram() != null && pn.getSpecDiagram().getUrndefinition() != null) {
+            empty = (EmptyPoint) ModelCreationFactory.getNewObject(pn.getSpecDiagram().getUrndefinition().getUrnspec(), EmptyPoint.class);
+            add(new SplitLinkCommand((UCMmap)pn.getSpecDiagram(), empty, link, pn.getX(), pn.getY()));
         }
     }
 

@@ -26,6 +26,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
+import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
@@ -246,6 +247,10 @@ public class ActionRegistryManager {
         action = new EditStubPluginsAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
+        
+        action = new AddGrlGraphAction(editor);
+        action.setText("Add Grl Graph");
+        addEditPartAction((SelectionAction) action);
     }
 
     /**

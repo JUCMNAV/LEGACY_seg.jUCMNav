@@ -10,7 +10,9 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
+import urncore.GRLmodelElement;
+import urncore.SpecificationComponentRef;
+import urncore.UCMmodelElement;
 
 /**
  * This command is used to resize/move ComponentRefs. Doesn't move anything inside it although it remembers its children for undo/redo purposes.
@@ -26,16 +28,16 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     private Vector children;
 
     // the ComponentRef
-    private ComponentRef compRef;
+    private SpecificationComponentRef compRef;
 
-    private ComponentRef oldParent, newParent;
+    private SpecificationComponentRef oldParent, newParent;
 
     // constraints
     private int oldWidth, oldHeight, newWidth, newHeight;
 
     private int oldX, oldY, newX, newY;
 
-    public SetConstraintComponentRefCommand(ComponentRef cr, int x, int y, int width, int height) {
+    public SetConstraintComponentRefCommand(SpecificationComponentRef cr, int x, int y, int width, int height) {
         setCompRef(cr);
         setNewX(x);
         setNewY(y);
@@ -74,14 +76,14 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
      * Remembers the current and new parent, according to the destination location.
      */
     private void setParents() {
-        oldParent = compRef.getParent();
-        newParent = ParentFinder.findParent(compRef.getMap(), compRef, newX, newY, newWidth, newHeight);
+        oldParent = (SpecificationComponentRef)compRef.getParent();
+        newParent = ParentFinder.findParent(compRef.getSpecDiagram(), compRef, newX, newY, newWidth, newHeight);
     }
 
     /**
      * @return Returns the compRef.
      */
-    public ComponentRef getCompRef() {
+    public SpecificationComponentRef getCompRef() {
         return compRef;
     }
 
@@ -145,13 +147,13 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
      * @param compRef
      *            The compRef to set.
      */
-    public void setCompRef(ComponentRef compRef) {
+    public void setCompRef(SpecificationComponentRef compRef) {
         this.compRef = compRef;
         children = new Vector();
         for (int i = 0; i < compRef.getChildren().size(); i++)
             children.add(compRef.getChildren().get(i));
-        for (int i = 0; i < compRef.getPathNodes().size(); i++)
-            children.add(compRef.getPathNodes().get(i));
+        for (int i = 0; i < compRef.getNodes().size(); i++)
+            children.add(compRef.getNodes().get(i));
     }
 
     /**
@@ -160,8 +162,12 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
      */
     public void setNewHeight(int newHeight) {
         this.newHeight = newHeight;
-        if (newHeight <= 0)
-            this.newHeight = ModelCreationFactory.DEFAULT_COMPONENT_HEIGHT;
+        if (newHeight <= 0){
+            if (getCompRef() instanceof UCMmodelElement)
+                this.newHeight = ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT;
+            else if (getCompRef() instanceof GRLmodelElement)
+                this.newHeight = ModelCreationFactory.DEFAULT_GRL_COMPONENT_HEIGHT;
+        }
     }
 
     /**
@@ -171,8 +177,12 @@ public class SetConstraintComponentRefCommand extends Command implements JUCMNav
     public void setNewWidth(int newWidth) {
 
         this.newWidth = newWidth;
-        if (newWidth <= 0)
-            this.newWidth = ModelCreationFactory.DEFAULT_COMPONENT_WIDTH;
+        if (newWidth <= 0){
+            if (getCompRef() instanceof UCMmodelElement)
+                this.newWidth = ModelCreationFactory.DEFAULT_UCM_COMPONENT_WIDTH;
+            else if (getCompRef() instanceof GRLmodelElement)
+                this.newWidth = ModelCreationFactory.DEFAULT_GRL_COMPONENT_WIDTH;
+        }
     }
 
     /**

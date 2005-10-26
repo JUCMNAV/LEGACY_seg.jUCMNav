@@ -17,7 +17,7 @@ import ucm.map.ComponentRef;
  * 
  * @author jkealey
  */
-public class UnbindChildren extends UCMSelectionAction {
+public class UnbindChildren extends URNSelectionAction {
     public static final String UNBINDCHILDREN = "seg.jUCMNav.UnbindChildren"; //$NON-NLS-1$
 
     /**
@@ -53,7 +53,7 @@ public class UnbindChildren extends UCMSelectionAction {
                 EditPart p = (EditPart) parts.get(i);
 
                 if (p.getModel() instanceof ComponentRef) {
-                    if (((ComponentRef) p.getModel()).getChildren().size() == 0 && ((ComponentRef) p.getModel()).getPathNodes().size() == 0)
+                    if (((ComponentRef) p.getModel()).getChildren().size() == 0 && ((ComponentRef) p.getModel()).getNodes().size() == 0)
                         return false; // #4 failed.
                 } else
                     return false; // #3 failed.
@@ -79,14 +79,14 @@ public class UnbindChildren extends UCMSelectionAction {
 
             parent = (ComponentRef) ((EditPart) getSelectedObjects().get(0)).getModel();
             children.addAll(parent.getChildren());
-            children.addAll(parent.getPathNodes());
+            children.addAll(parent.getNodes());
             cmd = new ComponentRefUnbindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 parent = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
                 children = new Vector();
                 children.addAll(parent.getChildren());
-                children.addAll(parent.getPathNodes());
+                children.addAll(parent.getNodes());
                 cmd = cmd.chain(new ComponentRefUnbindChildCommand(parent, children));
             }
 

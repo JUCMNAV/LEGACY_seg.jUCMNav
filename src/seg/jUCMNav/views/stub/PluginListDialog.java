@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PluginBinding;
 
 /**
@@ -77,7 +77,7 @@ public class PluginListDialog extends ListDialog {
      */
     protected void okPressed() {
         IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
-        Map map = ((PluginBinding) selection.toList().get(0)).getPlugin();
+        UCMmap map = ((PluginBinding) selection.toList().get(0)).getPlugin();
         if (map != null)
             editor.setActivePage(map);
 

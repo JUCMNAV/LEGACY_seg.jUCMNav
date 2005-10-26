@@ -18,13 +18,12 @@ import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.stub.StubBindingsDialog;
 import ucm.UcmPackage;
-import ucm.map.Map;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 
 /**
  * Editpart for Stubs. Adds double-click behaviour and different figures for static/dynamic stubs.
@@ -41,7 +40,7 @@ public class StubEditPart extends PathNodeEditPart {
     /**
      * Creates a stub editpart.
      */
-    public StubEditPart(PathNode model, PathGraph diagram) {
+    public StubEditPart(PathNode model, UCMmap diagram) {
         super(model, diagram);
     }
 
@@ -96,15 +95,15 @@ public class StubEditPart extends PathNodeEditPart {
             Stub stub = (Stub) getModel();
             if (stub.getBindings().size() == 1) {
                 // if only one plugin, open it.
-                Map map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
+                UCMmap map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
                 if (map != null)
-                    ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+                    ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
             } else if (stub.getBindings().size() > 1) {
                 // if multiple plugins, bring up selection window
                 if (dlg != null) {
                     dlg.close();
                 }
-                dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((ConnectionOnBottomRootEditPart) getRoot())
+                dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((UCMConnectionOnBottomRootEditPart) getRoot())
                         .getMultiPageEditor());
                 dlg.setInput(stub.getBindings());
                 dlg.setMessage(Messages.getString("StubEditPart.selectPlugin")); //$NON-NLS-1$
@@ -112,7 +111,7 @@ public class StubEditPart extends PathNodeEditPart {
             } else {
                 // if none, bring up the bindings dialog.
                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                StubBindingsDialog d = new StubBindingsDialog(shell, ((ConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor()
+                StubBindingsDialog d = new StubBindingsDialog(shell, ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor()
                         .getDelegatingCommandStack());
                 d.open(stub);
             }

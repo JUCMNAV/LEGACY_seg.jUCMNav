@@ -10,7 +10,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
@@ -26,8 +26,8 @@ import urn.URNspec;
 public class ReplacePluginCommand extends Command implements JUCMNavCommand {
 
     private Stub stub;
-    private Map map;
-    private Map oldMap;
+    private UCMmap map;
+    private UCMmap oldMap;
     private PluginBinding oldPlugin;
     private PluginBinding newPlugin;
     private ArrayList inBindings = new ArrayList();
@@ -44,7 +44,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
      * @param map
      *            the concerned map
      */
-    public ReplacePluginCommand(PluginBinding oldPlugin, Map map) {
+    public ReplacePluginCommand(PluginBinding oldPlugin, UCMmap map) {
         super();
         this.oldPlugin = oldPlugin;
         this.map = map;
@@ -67,7 +67,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
     public void execute() {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
-        urnSpec = stub.getPathGraph().getMap().getUcmspec().getUrnspec();
+        urnSpec = stub.getSpecDiagram().getUrndefinition().getUrnspec();
 
         inBindings.addAll(oldPlugin.getIn());
         outBindings.addAll(oldPlugin.getOut());

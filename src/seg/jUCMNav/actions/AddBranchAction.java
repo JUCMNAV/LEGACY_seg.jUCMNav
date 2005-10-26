@@ -15,7 +15,7 @@ import ucm.map.PathNode;
  * @author jkealey
  *  
  */
-public class AddBranchAction extends UCMSelectionAction {
+public class AddBranchAction extends URNSelectionAction {
 
     public static final String ADDBRANCH = "seg.jUCMNav.AddBranch"; //$NON-NLS-1$
 

@@ -116,7 +116,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
      */
 
     private InputStream openContentStream() {
-        String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\">\n<ucmspec>\n<maps id=\"2\" name=\"Map\">\n<pathGraph/>\n</maps>\n</ucmspec>\n<urndef/>\n</urn:URNspec>"; //$NON-NLS-1$
+        String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\" xmlns:ucm.map=\"http:///ucm/map.ecore\" xmlns:urncore=\"http:///urncore.ecore\">\n<urndef>\n<specDiagrams xsi:type=\"ucm.map:UCMmap\" id=\"2\" name=\"Map\"/>\n</urndef>\n</urn:URNspec>"; //$NON-NLS-1$
         return new ByteArrayInputStream(contents.getBytes());
     }
 

@@ -14,7 +14,7 @@ import seg.jUCMNav.views.wizards.importexport.ExportWizard;
  * @author jkealey
  *  
  */
-public class ExportImageAction extends UCMSelectionAction {
+public class ExportImageAction extends URNSelectionAction {
 
     public static final String EXPORTBITMAP = "seg.jUCMNav.EXPORTBITMAP"; //$NON-NLS-1$
 

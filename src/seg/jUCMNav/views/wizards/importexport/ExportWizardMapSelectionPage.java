@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Text;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
 import seg.jUCMNav.importexport.URNExportExtensionPointHelper;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 
 /**
  * Contains controls to set the export directory, export file type and selected maps.
@@ -186,13 +186,13 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         Vector v = new Vector();
 
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
-            Map map = (Map) iter.next();
+            UCMmap map = (UCMmap) iter.next();
 
             if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM)
                 lstMaps.add(((ExportWizard) getWizard()).getMapName(map));
-            else if (!v.contains(map.getUcmspec().getUrnspec())) {
+            else if (!v.contains(map.getUrndefinition().getUrnspec())) {
                 lstMaps.add(((ExportWizard) getWizard()).getFilePrefix(map));
-                v.add(map.getUcmspec().getUrnspec());
+                v.add(map.getUrndefinition().getUrnspec());
             }
         }
         lstMaps.selectAll();
@@ -259,9 +259,9 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             Vector v = new Vector();
             int j = 0,k=0;
             for (int i = 0; i < mapsToExport.size(); i++) {
-                Map m = (Map) mapsToExport.get(i);
-                if (!v.contains(m.getUcmspec().getUrnspec())) {
-                    v.add(m.getUcmspec().getUrnspec());
+                UCMmap m = (UCMmap) mapsToExport.get(i);
+                if (!v.contains(m.getUrndefinition().getUrnspec())) {
+                    v.add(m.getUrndefinition().getUrnspec());
                     if (iMapSelectionIndices[j] == k) {
                         toKeep.add(m);
                         j++;

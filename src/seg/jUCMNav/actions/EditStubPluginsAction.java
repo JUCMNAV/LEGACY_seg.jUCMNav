@@ -14,7 +14,7 @@ import ucm.map.Stub;
  * 
  * @author Etienne Tremblay
  */
-public class EditStubPluginsAction extends UCMSelectionAction {
+public class EditStubPluginsAction extends URNSelectionAction {
 
     public static final String EDITSTUBPLUGINS = "seg.jUCMNav.EditStubPluginsAction"; //$NON-NLS-1$
 

@@ -11,10 +11,10 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import urn.URNspec;
 import urncore.Condition;
@@ -30,7 +30,7 @@ import urncore.NodeLabel;
 public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCommand {
 
     PathNode _newNode, _oldNode;
-    PathGraph _pg;
+    UCMmap _pg;
     int _x, _y;
     Vector _inConn, _outConn;
     Vector _outConditions;
@@ -44,7 +44,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
      * @param pg
      *            the pathgraph containing the elements
      */
-    public TransmogrifyForkOrJoinCommand(PathNode oldNode, PathGraph pg) {
+    public TransmogrifyForkOrJoinCommand(PathNode oldNode, UCMmap pg) {
         _oldNode = oldNode;
         _pg = pg;
         if (!(_oldNode instanceof OrFork || _oldNode instanceof AndFork || _oldNode instanceof OrJoin || _oldNode instanceof AndJoin)) {
@@ -64,7 +64,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
     public void execute() {
         _x = _oldNode.getX();
         _y = _oldNode.getY();
-        URNspec urn = _pg.getMap().getUcmspec().getUrnspec();
+        URNspec urn = _pg.getUrndefinition().getUrnspec();
 
         if (_oldNode instanceof AndFork) {
             _newNode = (OrFork) ModelCreationFactory.getNewObject(urn, OrFork.class);
@@ -129,10 +129,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         }
 
         // Remove old node
-        _pg.getPathNodes().remove(_oldNode);
+        _pg.getNodes().remove(_oldNode);
 
         // Add new node
-        _pg.getPathNodes().add(_newNode);
+        _pg.getNodes().add(_newNode);
 
         // reset parents
         _newNode.setCompRef(_oldNode.getCompRef());
@@ -166,10 +166,10 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         }
 
         // Remove old node
-        _pg.getPathNodes().remove(_newNode);
+        _pg.getNodes().remove(_newNode);
 
         // Add new node
-        _pg.getPathNodes().add(_oldNode);
+        _pg.getNodes().add(_oldNode);
 
         // reset parents
         _oldNode.setCompRef(_newNode.getCompRef());
@@ -185,7 +185,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
      */
     public void testPreConditions() {
         assert _newNode != null && _oldNode != null && _pg != null : "pre something is null";
-        assert _pg.getPathNodes().contains(_oldNode) && !_pg.getPathNodes().contains(_newNode) : "pre node replacement problem";
+        assert _pg.getNodes().contains(_oldNode) && !_pg.getNodes().contains(_newNode) : "pre node replacement problem";
     }
 
     /**
@@ -193,7 +193,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
      */
     public void testPostConditions() {
         assert _newNode != null && _oldNode != null && _pg != null : "post something is null";
-        assert !_pg.getPathNodes().contains(_oldNode) && _pg.getPathNodes().contains(_newNode) : "post node replacement problem";
+        assert !_pg.getNodes().contains(_oldNode) && _pg.getNodes().contains(_newNode) : "post node replacement problem";
 
     }
 

@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import urn.URNspec;
@@ -28,7 +28,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
     private Hashtable htReferences;
 
     // the map to delete
-    private Map map;
+    private UCMmap map;
 
     // the URNspec in which it is contained
     private URNspec urn;
@@ -40,7 +40,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
      * @param m
      *            the map to delete
      */
-    public DeleteMapRefDefLinksCommand(Map m) {
+    public DeleteMapRefDefLinksCommand(UCMmap m) {
         setMap(m);
         setLabel("DeleteRefDefLinks");//$NON-NLS-1$
     }
@@ -57,24 +57,24 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
      */
     public void execute() {
         // also set the relations
-        urn = getMap().getUcmspec().getUrnspec();
+        urn = getMap().getUrndefinition().getUrnspec();
         htReferences = new Hashtable();
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
             htReferences.put(comp, comp.getCompDef());
         }
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 htReferences.put(node, ((RespRef) node).getRespDef());
         }
         
-        mapPosition = getMap().getUcmspec().getMaps().indexOf(getMap());
+        mapPosition = getMap().getUrndefinition().getSpecDiagrams().indexOf(getMap());
         redo();
     }
 
-    public Map getMap() {
+    public UCMmap getMap() {
         return map;
     }
 
@@ -85,7 +85,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         testPreConditions();
         
         // remove map
-        urn.getUcmspec().getMaps().remove(getMap());
+        urn.getUrndef().getSpecDiagrams().remove(getMap());
 
         // break relations
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
@@ -93,7 +93,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             comp.setCompDef(null);
         }
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef(null);
@@ -102,7 +102,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         testPostConditions();
     }
 
-    public void setMap(Map map) {
+    public void setMap(UCMmap map) {
         this.map = map;
     }
 
@@ -112,7 +112,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
     public void testPostConditions() {
         // lists could be empty but not null
         assert getMap() != null && urn != null : "post something is null"; //$NON-NLS-1$
-        assert !urn.getUcmspec().getMaps().contains(getMap()) : "post map still in model"; //$NON-NLS-1$
+        assert !urn.getUrndef().getSpecDiagrams().contains(getMap()) : "post map still in model"; //$NON-NLS-1$
 
         // verify no more references
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
@@ -120,7 +120,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             assert comp.getCompDef() == null : "post compRef still references definition"; //$NON-NLS-1$
         }
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 assert ((RespRef) node).getRespDef() == null : "post respref still references definition"; //$NON-NLS-1$
@@ -135,14 +135,14 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
 
         // lists could be empty but not null
         assert getMap() != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert urn.getUcmspec().getMaps().contains(getMap()) : "pre map in model"; //$NON-NLS-1$
+        assert urn.getUrndef().getSpecDiagrams().contains(getMap()) : "pre map in model"; //$NON-NLS-1$
         // verify that all elements have references; (for legal ucm)
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
             assert comp.getCompDef() != null : "pre compRef doesn't reference definition"; //$NON-NLS-1$
         }
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 assert ((RespRef) node).getRespDef() != null : "post respref doesn't reference definition"; //$NON-NLS-1$
@@ -158,7 +158,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         super.undo();
 
         // re-add map
-        urn.getUcmspec().getMaps().add(mapPosition, getMap());
+        urn.getUrndef().getSpecDiagrams().add(mapPosition, getMap());
 
         // re-add references
         for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
@@ -166,7 +166,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             comp.setCompDef((ComponentElement) htReferences.get(comp));
         }
 
-        for (Iterator iter = map.getPathGraph().getPathNodes().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef((Responsibility) htReferences.get(node));

@@ -23,7 +23,7 @@ public class LabelComponentEditPolicy extends ComponentEditPolicy {
     protected Command getDeleteCommand(GroupRequest request) {
         DeleteLabelCommand deleteCommand = new DeleteLabelCommand();
         deleteCommand.setLabel((Label) getHost().getModel());
-        deleteCommand.setModelElement(((LabelEditPart) getHost()).getUCMmodelElement());
+        deleteCommand.setModelElement(((LabelEditPart) getHost()).getURNmodelElement());
         return deleteCommand;
     }
 

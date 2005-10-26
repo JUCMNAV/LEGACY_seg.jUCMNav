@@ -5,7 +5,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import urncore.Condition;
@@ -63,7 +63,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      * @param map
      *            the Map to be cleaned.
      */
-    public RemoveLinkedInfoCommand(Map map) {
+    public RemoveLinkedInfoCommand(UCMmap map) {
         this.element = map;
     }
 
@@ -106,7 +106,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert element != null : "pre something is null";
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof Map) : "pre invalid class";
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap) : "pre invalid class";
     }
 
     /**

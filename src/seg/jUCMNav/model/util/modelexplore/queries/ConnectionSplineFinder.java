@@ -68,8 +68,8 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
 
         if (n.getTarget() instanceof Connect || n.getSource() instanceof Connect)
             return;
-        PathNode source = n.getSource();
-        PathNode target = n.getTarget();
+        PathNode source = (PathNode)n.getSource();
+        PathNode target = (PathNode)n.getTarget();
         NodeConnection nc = n;
 
         if (source == null || target == null)
@@ -82,13 +82,13 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
             s.push(nc);
 
             // if we are adding a node connection connected to an and fork/join, stop processing further.
-            if (isPathStopper(n.getSource()))
+            if (isPathStopper((PathNode)n.getSource()))
                 break;
 
             // if we can continue further
             if (source.getSucc().indexOf(nc) == 0 && source.getPred().size() > 0) {
                 nc = (NodeConnection) source.getPred().get(0);
-                source = nc.getSource();
+                source = (PathNode)nc.getSource();
 
                 // prevent infinite loops
                 if (s.contains(nc) || isPathStopper(source)) {
@@ -119,7 +119,7 @@ public class ConnectionSplineFinder extends AbstractQueryProcessor implements IQ
             //if we can continue further
             if (target.getPred().indexOf(nc) == 0 && target.getSucc().size() > 0) {
                 nc = (NodeConnection) target.getSucc().get(0);
-                target = nc.getTarget();
+                target = (PathNode)nc.getTarget();
                 // prevent infinite loops
                 if (_splinePath.contains(nc) || isPathStopper(target)) {
                     // if we are adding a node connection connected to an and fork/join, stop processing further but save the connection.

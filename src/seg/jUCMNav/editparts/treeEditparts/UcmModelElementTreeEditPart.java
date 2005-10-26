@@ -10,9 +10,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
-import seg.jUCMNav.views.property.UCMElementPropertySource;
+import seg.jUCMNav.views.property.URNElementPropertySource;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
@@ -101,7 +101,7 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
-            propertySource = new UCMElementPropertySource((EObject) getModel());
+            propertySource = new URNElementPropertySource((EObject) getModel());
         }
         return propertySource;
 
@@ -150,13 +150,13 @@ public class UcmModelElementTreeEditPart extends AbstractTreeEditPart implements
      * 
      * @return the map containing this element. 
      */
-    public Map getContainingMap() {
+    public UCMmap getContainingMap() {
         if (getModel() instanceof PathNode) {
-            return (((PathNode) getModel()).getPathGraph().getMap());
+            return (UCMmap)(((PathNode) getModel()).getSpecDiagram());
         } else if (getModel() instanceof ComponentRef) {
-            return (((ComponentRef) getModel()).getMap());
-        } else if (getModel() instanceof Map) {
-            return (Map) getModel();
+            return (UCMmap)(((ComponentRef) getModel()).getSpecDiagram());
+        } else if (getModel() instanceof UCMmap) {
+            return (UCMmap) getModel();
         } else
             return null;
     }

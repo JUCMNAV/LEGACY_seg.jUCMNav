@@ -13,8 +13,8 @@ import org.eclipse.gef.LayerConstants;
 import seg.jUCMNav.figures.anchors.AndForkJoinConnectionAnchor;
 import seg.jUCMNav.figures.router.UCMConnectionRouter;
 import ucm.map.AndFork;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 
 /**
@@ -34,7 +34,7 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
      * @param model
      * @param diagram
      */
-    public AndForkJoinEditPart(PathNode model, PathGraph diagram) {
+    public AndForkJoinEditPart(PathNode model, UCMmap diagram) {
         super(model, diagram);
         extraAnchors = new HashMap();
         getNodeFigure().getSourceConnectionAnchor().addAnchorListener(this);

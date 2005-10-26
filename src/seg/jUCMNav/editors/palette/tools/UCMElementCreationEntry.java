@@ -9,7 +9,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
  * CreationEntry that loads UCMElementCreationTool
  * 
  * @author jkealey
- *  
+ *  TODO Modify this class for URNElementCreationEntry
  */
 public class UCMElementCreationEntry extends CombinedTemplateCreationEntry {
     public UCMElementCreationEntry(String label, String shortDesc, Object template, CreationFactory factory, ImageDescriptor iconSmall,

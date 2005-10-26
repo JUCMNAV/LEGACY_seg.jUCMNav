@@ -12,10 +12,6 @@
         eType="#//performance/PerfMeasure" containment="true" eOpposite="#//performance/PerfMeasure/ucmspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1"
         eType="#//performance/GeneralResource" containment="true" eOpposite="#//performance/GeneralResource/ucmspec"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="maps" lowerBound="1" upperBound="-1"
-        eType="#//map/Map" containment="true" eOpposite="#//map/Map/ucmspec"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="root" lowerBound="1" upperBound="-1"
-        eType="#//map/Map"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioGroups" upperBound="-1"
         eType="#//scenario/ScenarioGroup" containment="true" eOpposite="#//scenario/ScenarioGroup/urnspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
@@ -178,15 +174,9 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Connect" eSuperTypes="#//map/PathNode"/>
-    <eClassifiers xsi:type="ecore:EClass" name="NodeConnection">
+    <eClassifiers xsi:type="ecore:EClass" name="NodeConnection" eSuperTypes="urncore.ecore#//SpecificationConnection">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
           defaultValueLiteral="1.0"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pathGraph" lowerBound="1"
-          eType="#//map/PathGraph" transient="true" eOpposite="#//map/PathGraph/nodeConnections"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
-          eType="#//map/PathNode" eOpposite="#//map/PathNode/succ"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
-          eType="#//map/PathNode" eOpposite="#//map/PathNode/pred"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
           eType="#//map/InBinding" eOpposite="#//map/InBinding/stubEntry"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="outBindings" upperBound="-1"
@@ -208,20 +198,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
           eType="#//map/PluginBinding" containment="true" eOpposite="#//map/PluginBinding/stub"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PathNode" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pathGraph" lowerBound="1"
-          eType="#//map/PathGraph" transient="true" eOpposite="#//map/PathGraph/pathNodes"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="succ" upperBound="-1"
-          eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/source"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pred" upperBound="-1"
-          eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/target"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="compRef" eType="#//map/ComponentRef"
-          eOpposite="#//map/ComponentRef/pathNodes"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="ecore:EClass urncore.ecore#//NodeLabel"
-          containment="true" eOpposite="urncore.ecore#//NodeLabel/pathNode"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PathNode" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//SpecificationNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="EndPoint" eSuperTypes="#//map/PathNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="An end-point (or end bar, or result) has usually one  source hyperedge (and possibly a target hyperedge to a connect  for linking to starts or waiting places). The  resulting-event-list gives the set of events that occur once the  sequence of actions in a path are completed. The  postcondition-list must be satisfied once the sequence is  completed. "/>
@@ -242,26 +219,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/startPoint"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Map" eSuperTypes="urncore.ecore#//UCMmodelElement">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pathGraph" eType="#//map/PathGraph"
-          containment="true" eOpposite="#//map/PathGraph/map"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="compRefs" upperBound="-1"
-          eType="#//map/ComponentRef" containment="true" eOpposite="#//map/ComponentRef/map"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
-          eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/maps"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//SpecificationDiagram">
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"
           eType="#//map/PluginBinding" eOpposite="#//map/PluginBinding/plugin"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="PathGraph">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="The PathGraph specifies all the elements (PathNodes)  that make up the paths and their interconnections. "/>
-      </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pathNodes" upperBound="-1"
-          eType="#//map/PathNode" containment="true" eOpposite="#//map/PathNode/pathGraph"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="nodeConnections" upperBound="-1"
-          eType="#//map/NodeConnection" containment="true" eOpposite="#//map/NodeConnection/pathGraph"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="map" lowerBound="1" eType="#//map/Map"
-          transient="true" eOpposite="#//map/Map/pathGraph"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Abort" eSuperTypes="#//map/PathNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="Condition" upperBound="-1"
@@ -282,11 +242,11 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="stub" eType="#//map/Stub"
           transient="true" eOpposite="#//map/Stub/bindings"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="plugin" lowerBound="1"
-          eType="#//map/Map" eOpposite="#//map/Map/parentStub"/>
+          eType="#//map/UCMmap" eOpposite="#//map/UCMmap/parentStub"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/pluginBinding"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="urncore.ecore#//UCMmodelElement">
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentRef" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//SpecificationComponentRef">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="A reference to a component or pool in a particular map."/>
       </eAnnotations>
@@ -295,24 +255,6 @@
           defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="anchored" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-          defaultValueLiteral="false"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="width" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="height" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="map" lowerBound="1" eType="#//map/Map"
-          transient="true" eOpposite="#//map/Map/compRefs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="compDef" lowerBound="1"
-          eType="ecore:EClass urncore.ecore#//ComponentElement" eOpposite="urncore.ecore#//ComponentElement/compRefs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
-          eType="#//map/ComponentRef" eOpposite="#//map/ComponentRef/parent"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//map/ComponentRef"
-          eOpposite="#//map/ComponentRef/children"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="pathNodes" upperBound="-1"
-          eType="#//map/PathNode" eOpposite="#//map/PathNode/compRef"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="label" lowerBound="1"
-          eType="ecore:EClass urncore.ecore#//ComponentLabel" containment="true" eOpposite="urncore.ecore#//ComponentLabel/compRef"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Timer" eSuperTypes="#//map/WaitingPlace">
       <eStructuralFeatures xsi:type="ecore:EReference" name="timeoutPath" eType="#//map/NodeConnection"/>

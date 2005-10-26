@@ -54,25 +54,26 @@ import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Label;
 import urncore.Responsibility;
+import urncore.SpecificationDiagram;
 import urncore.UCMmodelElement;
 
 /**
  * Tests that run on seg.jUCMNav.model.commands. To be run as PDE JUnit tests. See CommandLinePDEJUnit and DevDocCommand
  * 
  * Uses interesting setUp()/tearDown();
+ * TODO Modify command test to support GRLGraph in the multipageeditor
  * 
  * @author jkealey
  *  
@@ -89,8 +90,7 @@ public class JUCMNavCommandTests extends TestCase {
     private UCMNavMultiPageEditor editor;
     private EndPoint end;
     private PathNode fork;
-    private Map map;
-    private PathGraph pathgraph;
+    private UCMmap map;
     private UCMmodelElement pathNodeWithLabel;
     private StartPoint start;
     
@@ -135,8 +135,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
         start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-        map = (Map) urnspec.getUcmspec().getMaps().get(0);
-        pathgraph = map.getPathGraph();
+        map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0);
 
         //cs = new CommandStack();
         cs = editor.getDelegatingCommandStack();
@@ -166,8 +165,8 @@ public class JUCMNavCommandTests extends TestCase {
 
         // Tests for the TrimpEmptyNodeCommand; should work with any model.
         Command cmd;
-        for (Iterator iter = urnspec.getUcmspec().getMaps().iterator(); iter.hasNext();) {
-            Map map = (Map) iter.next();
+        for (Iterator iter = urnspec.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+            UCMmap map = (UCMmap) iter.next();
             cmd = new TrimEmptyNodeCommand(map);
             assertTrue("Can't execute trim empty node command!", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
@@ -319,7 +318,7 @@ public class JUCMNavCommandTests extends TestCase {
     	Command cmd;
     	
     	NodeConnection nc = (NodeConnection)((PathNode)((NodeConnection) end.getPred().get(0)).getSource()).getPred().get(0);
-        cmd = new SplitLinkCommand(pathgraph, stub, nc, 55, 86);
+        cmd = new SplitLinkCommand(map, stub, nc, 55, 86);
         assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
@@ -424,11 +423,11 @@ public class JUCMNavCommandTests extends TestCase {
         StartPoint pt;
         int i = 0;
         // find empty point.
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof StartPoint)) {
             i++;
         }
-        assertTrue("No start points exist for ChangeLabelNameCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        pt = (StartPoint) pathgraph.getPathNodes().get(i);
+        assertTrue("No start points exist for ChangeLabelNameCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        pt = (StartPoint) map.getNodes().get(i);
 
         Command cmd = new ChangeLabelNameCommand(pt.getLabel(), "new start name"); //$NON-NLS-1$
         assertTrue("Can't execute ChangeLabelNameCommand", cmd.canExecute()); //$NON-NLS-1$
@@ -487,7 +486,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        Command cmd = new CreatePathCommand(map, newStart, 654, 17);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) newStart.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
@@ -536,12 +535,11 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute CreateMapCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        assertEquals("map was not added properly in model", urnspec.getUcmspec().getMaps().size(), 2); //$NON-NLS-1$
+        assertEquals("map was not added properly in model", urnspec.getUrndef().getSpecDiagrams().size(), 2); //$NON-NLS-1$
         assertEquals("map was not added properly in editor", editor.getPageCount(), 2); //$NON-NLS-1$
 
         // add bogus data to new map; set variables to help other commands access this new map
-        map = (Map) urnspec.getUcmspec().getMaps().get(1);
-        pathgraph = map.getPathGraph();
+        map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(1);
         testSetConstraintCommand();
         start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
         testExtendPathCommand();
@@ -555,7 +553,7 @@ public class JUCMNavCommandTests extends TestCase {
     public void testCreatePathCommand() {
     	start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
     	
-        Command cmd = new CreatePathCommand(pathgraph, start, 35, 67);
+        Command cmd = new CreatePathCommand(map, start, 35, 67);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -572,7 +570,7 @@ public class JUCMNavCommandTests extends TestCase {
         testExtendPathCommand();
 
         EmptyPoint empty = (EmptyPoint) ((NodeConnection) ((NodeConnection) end.getPred().get(0)).getSource().getPred().get(0)).getSource();
-        Command cmd = new CutPathCommand(pathgraph, empty);
+        Command cmd = new CutPathCommand(map, empty);
         assertTrue("Can't execute CutPathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -585,11 +583,11 @@ public class JUCMNavCommandTests extends TestCase {
     public void testDeleteComponentElementCommand() {
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new DeleteComponentElementCommand(compRef.getCompDef());
+        Command cmd = new DeleteComponentElementCommand((ComponentElement)compRef.getCompDef());
         assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ComponentElement compDef = compRef.getCompDef();
+        ComponentElement compDef = (ComponentElement)compRef.getCompDef();
         cmd = new DeleteComponentRefCommand(compRef);
         assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -669,11 +667,11 @@ public class JUCMNavCommandTests extends TestCase {
         PathNode pn;
         int i = 0;
         // find empty point.
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EmptyPoint)) {
             i++;
         }
-        assertTrue("No empty points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        pn = (EmptyPoint) pathgraph.getPathNodes().get(i);
+        assertTrue("No empty points exist for testDeleteNodeCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        pn = (EmptyPoint) map.getNodes().get(i);
 
         DeletePathNodeCommand cmd = new DeletePathNodeCommand(pn, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
         assertTrue("Can't execute DeletePathNodeCommand.", cmd.canExecute()); //$NON-NLS-1$
@@ -681,11 +679,11 @@ public class JUCMNavCommandTests extends TestCase {
 
         i = 0;
         // find start point.
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof StartPoint)) {
             i++;
         }
-        assertTrue("No start points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        pn = (StartPoint) pathgraph.getPathNodes().get(i);
+        assertTrue("No start points exist for testDeleteNodeCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        pn = (StartPoint) map.getNodes().get(i);
 
 //        cmd = new DeletePathNodeCommand(pn, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
 //        assertTrue("Should be able to delete start point DeletePathNodeCommand.", !cmd.canExecute()); //$NON-NLS-1$
@@ -693,11 +691,11 @@ public class JUCMNavCommandTests extends TestCase {
 
         i = 0;
         // find end point.
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EndPoint)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EndPoint)) {
             i++;
         }
-        assertTrue("No end points exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        pn = (EndPoint) pathgraph.getPathNodes().get(i);
+        assertTrue("No end points exist for testDeleteNodeCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        pn = (EndPoint) map.getNodes().get(i);
 
 //        cmd = new DeletePathNodeCommand(pn, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
 //        assertTrue("Should not be able to delete end point DeletePathNodeCommand.", !cmd.canExecute()); //$NON-NLS-1$
@@ -705,11 +703,11 @@ public class JUCMNavCommandTests extends TestCase {
 
         i = 0;
         // find respref .
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof RespRef)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof RespRef)) {
             i++;
         }
-        assertTrue("No RespRefs exist for testDeleteNodeCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        pn = (RespRef) pathgraph.getPathNodes().get(i);
+        assertTrue("No RespRefs exist for testDeleteNodeCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        pn = (RespRef) map.getNodes().get(i);
 
         cmd = new DeletePathNodeCommand(pn, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
         assertTrue("Can't execute DeletePathNodeCommand on RespRef.", cmd.canExecute()); //$NON-NLS-1$
@@ -769,11 +767,11 @@ public class JUCMNavCommandTests extends TestCase {
         RespRef rr;
         int i = 0;
         // find respref .
-        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof RespRef)) {
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof RespRef)) {
             i++;
         }
-        assertTrue("No RespRefs exist for testDeleteResponsibilityCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-        rr = (RespRef) pathgraph.getPathNodes().get(i);
+        assertTrue("No RespRefs exist for testDeleteResponsibilityCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        rr = (RespRef) map.getNodes().get(i);
         Responsibility resp = rr.getRespDef();
 
         Command cmd = new DeleteResponsibilityCommand(resp);
@@ -824,7 +822,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        Command cmd = new CreatePathCommand(map, newStart, 654, 17);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -843,7 +841,7 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd;
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
-            cmd = new ExtendPathCommand(pathgraph, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+            cmd = new ExtendPathCommand(map, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
             assertTrue("Can't execute ExtendPathCommand with end.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
@@ -851,7 +849,7 @@ public class JUCMNavCommandTests extends TestCase {
         // can extend the start point as well
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
-            cmd = new ExtendPathCommand(pathgraph, start, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+            cmd = new ExtendPathCommand(map, start, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
             assertTrue("Can't execute ExtendPathCommand with start.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
@@ -961,7 +959,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         // add a second path
         StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
+        Command cmd = new CreatePathCommand(map, newStart, 654, 17);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         EndPoint newEnd = (EndPoint) ((NodeConnection) ((NodeConnection) newStart.getSucc().get(0)).getTarget().getSucc().get(0)).getTarget();
@@ -1045,7 +1043,7 @@ public class JUCMNavCommandTests extends TestCase {
         testCutPathCommand();
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
         RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
-        Command cmd = new SplitLinkCommand(pathgraph, resp, nc, 55, 86);
+        Command cmd = new SplitLinkCommand(map, resp, nc, 55, 86);
         assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
@@ -1080,18 +1078,21 @@ public class JUCMNavCommandTests extends TestCase {
      * to see if commands that create new elements bind them to their parents.
      */
     public void verifyBindings() {
-        for (Iterator iter = urnspec.getUcmspec().getMaps().iterator(); iter.hasNext();) {
-            Map map = (Map) iter.next();
-
-            for (Iterator iter2 = map.getCompRefs().iterator(); iter2.hasNext();) {
-                ComponentRef comp = (ComponentRef) iter2.next();
-                assertEquals("Component " + comp.toString() + " is not properly bound.", ParentFinder.getPossibleParent(comp), comp.getParent()); //$NON-NLS-1$ //$NON-NLS-2$
-
-            }
-            for (Iterator iter2 = map.getPathGraph().getPathNodes().iterator(); iter2.hasNext();) {
-                PathNode pn = (PathNode) iter2.next();
-                if (!(pn instanceof Connect))
-                    assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
+        for (Iterator iter = urnspec.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+            SpecificationDiagram g = (SpecificationDiagram) iter.next();
+            if (g instanceof UCMmap){
+                UCMmap map = (UCMmap) g;
+    
+                for (Iterator iter2 = map.getCompRefs().iterator(); iter2.hasNext();) {
+                    ComponentRef comp = (ComponentRef) iter2.next();
+                    assertEquals("Component " + comp.toString() + " is not properly bound.", ParentFinder.getPossibleParent(comp), comp.getParent()); //$NON-NLS-1$ //$NON-NLS-2$
+    
+                }
+                for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
+                    PathNode pn = (PathNode) iter2.next();
+                    if (!(pn instanceof Connect))
+                        assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
+                }
             }
         }
     }

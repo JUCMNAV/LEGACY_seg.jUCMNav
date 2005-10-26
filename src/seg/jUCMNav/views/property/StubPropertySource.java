@@ -17,7 +17,7 @@ import ucm.map.Stub;
  * 
  * @author Etienne Tremblay
  */
-public class StubPropertySource extends UCMElementPropertySource {
+public class StubPropertySource extends URNElementPropertySource {
 
     private Stub stub;
     private CommandStack cmdStack;

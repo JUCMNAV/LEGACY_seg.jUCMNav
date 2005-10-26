@@ -13,6 +13,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -48,9 +49,9 @@ public class DividePathCommand extends CompoundCommand {
      * 
      */
     public DividePathCommand(PathNode startOrEnd, NodeConnection ncTarget, int x, int y, boolean isOrDivision) {
-        URNspec urn = startOrEnd.getPathGraph().getMap().getUcmspec().getUrnspec();
+        URNspec urn = startOrEnd.getSpecDiagram().getUrndefinition().getUrnspec();
         EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
-        add(new SplitLinkCommand(startOrEnd.getPathGraph(), empty, ncTarget, x, y));
+        add(new SplitLinkCommand((UCMmap)startOrEnd.getSpecDiagram(), empty, ncTarget, x, y));
 
         createAndInsert(startOrEnd, empty, isOrDivision);
     }
@@ -83,7 +84,7 @@ public class DividePathCommand extends CompoundCommand {
      *            its y coordinate
      */
     public DividePathCommand(PathNode newForkJoin, NodeConnection nc, int x, int y) {
-        add(new SplitLinkCommand(nc.getPathGraph(), newForkJoin, nc, x, y));
+        add(new SplitLinkCommand((UCMmap)nc.getSpecDiagram(), newForkJoin, nc, x, y));
         add(new AddBranchCommand(newForkJoin, true));
     }
 
@@ -112,7 +113,7 @@ public class DividePathCommand extends CompoundCommand {
      * 
      */
     private void createAndInsert(PathNode startOrEnd, PathNode empty, boolean isOrDivision) {
-        URNspec urn = startOrEnd.getPathGraph().getMap().getUcmspec().getUrnspec();
+        URNspec urn = startOrEnd.getSpecDiagram().getUrndefinition().getUrnspec();
         PathNode newNode=null;
 
         if (startOrEnd instanceof StartPoint) {

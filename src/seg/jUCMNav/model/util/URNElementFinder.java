@@ -4,13 +4,14 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import ucm.map.ComponentRef;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Responsibility;
-import urncore.UCMmodelElement;
+import urncore.SpecificationDiagram;
+import urncore.URNmodelElement;
 
 /**
  * This class is used to find an element in an instance of the meta model with a particular ID. This ID is supposed to be unique.
@@ -39,12 +40,15 @@ public class URNElementFinder {
         if ((o = findMap(urn, id)) != null)
             return o;
 
-        for (Iterator iter = urn.getUcmspec().getMaps().iterator(); iter.hasNext();) {
-            Map map = (Map) iter.next();
-            if ((o = findComponentRef(map, id)) != null)
-                return o;
-            if ((o = findPathNode(map, id)) != null)
-                return o;
+        for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+            SpecificationDiagram g = (SpecificationDiagram) iter.next();
+            if (g instanceof UCMmap){
+                UCMmap map = (UCMmap) g;
+                if ((o = findComponentRef(map, id)) != null)
+                    return o;
+                if ((o = findPathNode(map, id)) != null)
+                    return o;
+            }
         }
         return o;
     }
@@ -78,7 +82,7 @@ public class URNElementFinder {
      * @param id
      * @return matching ref
      */
-    public static ComponentRef findComponentRef(Map map, String id) {
+    public static ComponentRef findComponentRef(UCMmap map, String id) {
         return (ComponentRef) find(map.getCompRefs(), id);
     }
 
@@ -89,8 +93,8 @@ public class URNElementFinder {
      * @param id
      * @return matching pathnode
      */
-    public static PathNode findPathNode(Map map, String id) {
-        return (PathNode) find(map.getPathGraph().getPathNodes(), id);
+    public static PathNode findPathNode(UCMmap map, String id) {
+        return (PathNode) find(map.getNodes(), id);
     }
 
     /**
@@ -98,10 +102,10 @@ public class URNElementFinder {
      * 
      * @param urn
      * @param id
-     * @return matching map
+     * @return matching graph
      */
-    public static Map findMap(URNspec urn, String id) {
-        return (Map) find(urn.getUcmspec().getMaps(), id);
+    public static SpecificationDiagram findMap(URNspec urn, String id) {
+        return (SpecificationDiagram) find(urn.getUrndef().getSpecDiagrams(), id);
     }
 
     /**
@@ -114,7 +118,7 @@ public class URNElementFinder {
     private static Object find(Collection c, String id) {
 
         for (Iterator iter = c.iterator(); iter.hasNext();) {
-            UCMmodelElement element = (UCMmodelElement) iter.next();
+            URNmodelElement element = (URNmodelElement) iter.next();
 
             if (element.getId().equals(id))
                 return element;
@@ -133,11 +137,11 @@ public class URNElementFinder {
      *            the target PathNode
      * @return matching node connection
      */
-    public static NodeConnection findNodeConnection(Map map, String idSource, String idTarget) {
-        for (Iterator iter = map.getPathGraph().getNodeConnections().iterator(); iter.hasNext();) {
+    public static NodeConnection findNodeConnection(UCMmap map, String idSource, String idTarget) {
+        for (Iterator iter = map.getConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
 
-            if (nc.getSource().getId().equals(idSource) && nc.getTarget().getId().equals(idTarget)) {
+            if (((PathNode)nc.getSource()).getId().equals(idSource) && ((PathNode)nc.getTarget()).getId().equals(idTarget)) {
                 return nc;
             }
         }

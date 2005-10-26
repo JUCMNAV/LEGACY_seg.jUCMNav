@@ -7,9 +7,10 @@ import org.eclipse.draw2d.IFigure;
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.views.preferences.AutoLayoutPreferences;
 import ucm.map.ComponentRef;
-import ucm.map.Map;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
+import urncore.URNmodelElement;
 
 /**
  * Export the layout information in a DOT file.
@@ -24,7 +25,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
      * 
      * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
      */
-    public void export(Map map, FileOutputStream fos) {
+    public void export(UCMmap map, FileOutputStream fos) {
         String contents = convertUCMToDot(map);
         try {
             fos.write(contents.getBytes());
@@ -64,8 +65,8 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
             child = (ComponentRef) compRef.getChildren().get(i);
             buildCluster(child, dot);
         }
-        for (int i = 0; i < compRef.getPathNodes().size(); i++) {
-            PathNode node = (PathNode) compRef.getPathNodes().get(i);
+        for (int i = 0; i < compRef.getNodes().size(); i++) {
+            PathNode node = (PathNode) compRef.getNodes().get(i);
 
             dot.append(AutoLayoutPreferences.PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
         }
@@ -79,7 +80,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
      * @param map
      *            the map to be converted to Graphviz dot file format.
      */
-    public static String convertUCMToDot(Map map) {
+    public static String convertUCMToDot(UCMmap map) {
         int i;
         StringBuffer dot = new StringBuffer();
         String rankdir = AutoLayoutPreferences.getOrientation();
@@ -95,19 +96,19 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
             }
         }
 
-        for (i = 0; i < map.getPathGraph().getPathNodes().size(); i++) {
-            PathNode node = (PathNode) map.getPathGraph().getPathNodes().get(i);
+        for (i = 0; i < map.getNodes().size(); i++) {
+            PathNode node = (PathNode) map.getNodes().get(i);
             // we only want loose nodes components
             if (node.getCompRef() == null) {
                 dot.append(AutoLayoutPreferences.PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
             }
         }
 
-        for (i = 0; i < map.getPathGraph().getNodeConnections().size(); i++) {
-            NodeConnection conn = (NodeConnection) map.getPathGraph().getNodeConnections().get(i);
+        for (i = 0; i < map.getConnections().size(); i++) {
+            NodeConnection conn = (NodeConnection) map.getConnections().get(i);
 
-            dot.append(AutoLayoutPreferences.PATHNODEPREFIX + conn.getSource().getId()
-                    + "->" + AutoLayoutPreferences.PATHNODEPREFIX + conn.getTarget().getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement)conn.getSource()).getId()
+                    + "->" + AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement)conn.getTarget()).getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         dot.append("}\n"); //$NON-NLS-1$
         System.out.println(dot.toString());

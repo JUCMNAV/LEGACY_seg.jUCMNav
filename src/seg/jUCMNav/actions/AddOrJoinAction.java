@@ -18,7 +18,7 @@ import urn.URNspec;
  * @author jpdaigle, jkealey
  * @see SafePathChecker
  */
-public class AddOrJoinAction extends UCMSelectionAction {
+public class AddOrJoinAction extends URNSelectionAction {
     public static final String ADDORJOIN = "seg.jUCMNav.AddOrJoin"; //$NON-NLS-1$
 
     /**

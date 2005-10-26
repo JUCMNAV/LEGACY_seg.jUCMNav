@@ -5,8 +5,8 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * Given a PathNode with one input and output, removes the outgoing node connection and rewires the incoming node connection onto the successor.
@@ -25,7 +25,7 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
     private NodeConnection ncPred, ncSucc;
     private EList inBindings;
     private boolean aborted;
-    private PathGraph pg;
+    private UCMmap pg;
     private int iTargetPosition;
 
     /**
@@ -54,8 +54,8 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
             inBindings = ncSucc.getInBindings();
         }
 
-        pg = element.getPathGraph();
-        aborted = pg == null || element.getPathGraph().getMap().getUcmspec()==null;
+        pg = (UCMmap)element.getSpecDiagram();
+        aborted = pg == null || element.getSpecDiagram().getUrndefinition()==null;
         if (aborted)
             return;
         iTargetPosition = ncSucc.getTarget().getPred().indexOf(ncSucc);
@@ -75,7 +75,7 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
         ncSucc.setSource(null);
         ncPred.getInBindings().addAll(ncSucc.getInBindings());
         ncSucc.getInBindings().clear();
-        pg.getNodeConnections().remove(ncSucc);
+        pg.getConnections().remove(ncSucc);
 
         testPostConditions();
     }
@@ -95,7 +95,7 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
 
         ncSucc.getInBindings().addAll(ncPred.getInBindings());
         ncPred.getInBindings().clear();
-        pg.getNodeConnections().add(ncSucc);
+        pg.getConnections().add(ncSucc);
 
         testPreConditions();
     }
@@ -108,7 +108,7 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
         assert pg != null && element != null && ncPred != null && ncSucc != null : "pre something is null";
         assert element.getSucc().size() == 1 && element.getPred().size() == 1 : "pre something wrong with connections";
         assert aborted == false : "pre aborted";
-        assert pg.getPathNodes().contains(element) && pg.getNodeConnections().contains(ncPred) && pg.getNodeConnections().contains(ncSucc) : "pre pg problem";
+        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && pg.getConnections().contains(ncSucc) : "pre pg problem";
         assert ncSucc.getInBindings().containsAll(inBindings) && ncPred.getInBindings().size() == 0 : "pre inbinding problem";
 
     }
@@ -121,7 +121,7 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
         assert pg != null && element != null && ncPred != null && ncSucc != null : "post something is null";
         assert element.getSucc().size() == 0 && element.getPred().size() == 0 : "post something wrong with connections";
         assert aborted == false : "post aborted";
-        assert pg.getPathNodes().contains(element) && pg.getNodeConnections().contains(ncPred) && !pg.getNodeConnections().contains(ncSucc) : "post pg problem";
+        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && !pg.getConnections().contains(ncSucc) : "post pg problem";
         assert ncSucc.getInBindings().size() == 0 && ncPred.getInBindings().containsAll(inBindings) : "post inbinding problem";
 
     }

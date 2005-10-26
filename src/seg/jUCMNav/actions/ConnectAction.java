@@ -13,7 +13,7 @@ import ucm.map.PathNode;
  * @author jkealey
  *  
  */
-public class ConnectAction extends UCMSelectionAction {
+public class ConnectAction extends URNSelectionAction {
 
     public static final String CONNECT = "seg.jUCMNav.Connect"; //$NON-NLS-1$
 

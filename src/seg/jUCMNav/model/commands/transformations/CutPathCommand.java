@@ -11,9 +11,9 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -30,7 +30,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * 
      * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
      */
-    private PathGraph diagram;
+    private UCMmap diagram;
     private PathNode emptyPoint;
     private PathNode nextPoint;
     private PathNode previousPoint;
@@ -50,7 +50,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * @param ep
      *            the emptypoint to split the connection on
      */
-    public CutPathCommand(PathGraph pg, PathNode ep) {
+    public CutPathCommand(UCMmap pg, PathNode ep) {
         this.diagram = pg;
         this.emptyPoint = ep;
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
@@ -64,7 +64,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * @param nc
      *            the nodeconnection to split the connection on
      */
-    public CutPathCommand(PathGraph pg, NodeConnection nc) {
+    public CutPathCommand(UCMmap pg, NodeConnection nc) {
         this.diagram = pg;
         this.targetConn = nc;
         setLabel(Messages.getString("CutPathCommand.cutPath")); //$NON-NLS-1$
@@ -94,12 +94,12 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         if (b) {
             PathNode ep = (PathNode) p;
             if (ep.getSucc().size() > 0 && ep.getPred().size() > 0) {
-                PathNode pn = ((NodeConnection) ep.getSucc().get(0)).getTarget();
+                PathNode pn = (PathNode)((NodeConnection) ep.getSucc().get(0)).getTarget();
                 b = (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
 
-                pn = ((NodeConnection) ep.getPred().get(0)).getSource();
+                pn = (PathNode)((NodeConnection) ep.getPred().get(0)).getSource();
                 b = b && (pn instanceof EmptyPoint || pn instanceof DirectionArrow);
                 // check if no connects
                 b = b && pn.getPred().size() == 1 && pn.getSucc().size() == 1;
@@ -145,29 +145,29 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
          * 
          * After: ... ---[connToPrev2]---(newEnd) (newStart)---[connToNext2]--- ...
          */
-        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+        URNspec urn = diagram.getUrndefinition().getUrnspec();
         newStart = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
         newEnd = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
 
         if (targetConn == null) {
             connToNext1 = (NodeConnection) emptyPoint.getSucc().get(0);
-            nextPoint = connToNext1.getTarget();
+            nextPoint = (PathNode)connToNext1.getTarget();
 
             connToPrev1 = (NodeConnection) emptyPoint.getPred().get(0);
-            previousPoint = connToPrev1.getSource();
+            previousPoint = (PathNode)connToPrev1.getSource();
         } else {
-            nextPoint = targetConn.getTarget();
-            previousPoint = targetConn.getSource();
+            nextPoint = (PathNode)targetConn.getTarget();
+            previousPoint = (PathNode)targetConn.getSource();
         }
 
         connToPrev2 = (NodeConnection) previousPoint.getPred().get(0);
         connToNext2 = (NodeConnection) nextPoint.getSucc().get(0);
 
         if (emptyPoint != null) {
-            parentEmpty = emptyPoint.getCompRef();
+            parentEmpty = (ComponentRef)emptyPoint.getCompRef();
         }
-        parentPrevious = previousPoint.getCompRef();
-        parentNext = nextPoint.getCompRef();
+        parentPrevious = (ComponentRef)previousPoint.getCompRef();
+        parentNext = (ComponentRef)nextPoint.getCompRef();
 
         newStart.setX(nextPoint.getX());
         newStart.setY(nextPoint.getY());
@@ -183,22 +183,22 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     public void redo() {
         // lazily disconnect the branch
         testPreConditions();
-        diagram.getPathNodes().remove(previousPoint);
-        diagram.getPathNodes().remove(nextPoint);
+        diagram.getNodes().remove(previousPoint);
+        diagram.getNodes().remove(nextPoint);
 
         if (targetConn == null) {
-            diagram.getPathNodes().remove(emptyPoint);
-            diagram.getNodeConnections().remove(connToPrev1);
-            diagram.getNodeConnections().remove(connToNext1);
+            diagram.getNodes().remove(emptyPoint);
+            diagram.getConnections().remove(connToPrev1);
+            diagram.getConnections().remove(connToNext1);
         } else {
-            diagram.getNodeConnections().remove(targetConn);
+            diagram.getConnections().remove(targetConn);
         }
 
-        diagram.getPathNodes().add(newStart);
-        diagram.getPathNodes().add(newEnd);
+        diagram.getNodes().add(newStart);
+        diagram.getNodes().add(newEnd);
 
-        newStart.setCompRef(ParentFinder.findParent(diagram.getMap(), newStart.getX(), newStart.getY()));
-        newEnd.setCompRef(ParentFinder.findParent(diagram.getMap(), newEnd.getX(), newEnd.getY()));
+        newStart.setCompRef(ParentFinder.findParent(diagram, newStart.getX(), newStart.getY()));
+        newEnd.setCompRef(ParentFinder.findParent(diagram, newEnd.getX(), newEnd.getY()));
 
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);
@@ -221,18 +221,18 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         connToPrev2.setTarget(previousPoint);
         connToNext2.setSource(nextPoint);
 
-        diagram.getPathNodes().remove(newStart);
-        diagram.getPathNodes().remove(newEnd);
+        diagram.getNodes().remove(newStart);
+        diagram.getNodes().remove(newEnd);
 
         if (targetConn == null) {
-            diagram.getNodeConnections().add(connToPrev1);
-            diagram.getNodeConnections().add(connToNext1);
-            diagram.getPathNodes().add(emptyPoint);
+            diagram.getConnections().add(connToPrev1);
+            diagram.getConnections().add(connToNext1);
+            diagram.getNodes().add(emptyPoint);
         } else
-            diagram.getNodeConnections().add(targetConn);
+            diagram.getConnections().add(targetConn);
 
-        diagram.getPathNodes().add(previousPoint);
-        diagram.getPathNodes().add(nextPoint);
+        diagram.getNodes().add(previousPoint);
+        diagram.getNodes().add(nextPoint);
 
         newStart.setCompRef(null);
         newEnd.setCompRef(null);
@@ -264,7 +264,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
     /**
      * @return Returns the diagram.
      */
-    public PathGraph getDiagram() {
+    public UCMmap getDiagram() {
         return diagram;
     }
 
@@ -272,7 +272,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
      * @param diagram
      *            The diagram to set.
      */
-    public void setDiagram(PathGraph diagram) {
+    public void setDiagram(UCMmap diagram) {
         this.diagram = diagram;
     }
 
@@ -290,13 +290,13 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         assert diagram != null : "pre diagram"; //$NON-NLS-1$
         assert canExecute() : "pre canExecute (surrounded by empty nodes?)"; //$NON-NLS-1$
 
-        assert previousPoint != null && diagram.getPathNodes().contains(previousPoint) : "pre graph contains previousPoint"; //$NON-NLS-1$
-        assert nextPoint != null && diagram.getPathNodes().contains(nextPoint) : "pre graph contains nextPoint"; //$NON-NLS-1$
-        assert newStart != null && !diagram.getPathNodes().contains(newStart) : "pre graph doesn't contain newStart"; //$NON-NLS-1$
-        assert newEnd != null && !diagram.getPathNodes().contains(newEnd) : "pre graph doesn't contain newEnd"; //$NON-NLS-1$
+        assert previousPoint != null && diagram.getNodes().contains(previousPoint) : "pre graph contains previousPoint"; //$NON-NLS-1$
+        assert nextPoint != null && diagram.getNodes().contains(nextPoint) : "pre graph contains nextPoint"; //$NON-NLS-1$
+        assert newStart != null && !diagram.getNodes().contains(newStart) : "pre graph doesn't contain newStart"; //$NON-NLS-1$
+        assert newEnd != null && !diagram.getNodes().contains(newEnd) : "pre graph doesn't contain newEnd"; //$NON-NLS-1$
 
-        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "pre graph contains connToPrev2"; //$NON-NLS-1$
-        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "pre graph contains connToNext2"; //$NON-NLS-1$
+        assert connToPrev2 != null && diagram.getConnections().contains(connToPrev2) : "pre graph contains connToPrev2"; //$NON-NLS-1$
+        assert connToNext2 != null && diagram.getConnections().contains(connToNext2) : "pre graph contains connToNext2"; //$NON-NLS-1$
 
         assert previousPoint.getPred().size() == 1 && previousPoint.getSucc().size() == 1 : "pre previous point has 1 in, 1 out"; //$NON-NLS-1$
         assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 1 : "pre nextPoint has 1 in, 1 out"; //$NON-NLS-1$
@@ -312,9 +312,9 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         // if clicked on empty point
         if (targetConn == null) {
             assert emptyPoint != null : "pre emptyPoint"; //$NON-NLS-1$
-            assert diagram.getPathNodes().contains(emptyPoint) : "pre graph contains emptyPoint"; //$NON-NLS-1$
-            assert connToPrev1 != null && diagram.getNodeConnections().contains(connToPrev1) : "pre graph contains connToPrev1"; //$NON-NLS-1$
-            assert connToNext1 != null && diagram.getNodeConnections().contains(connToNext1) : "pre graph contains connToNext1"; //$NON-NLS-1$
+            assert diagram.getNodes().contains(emptyPoint) : "pre graph contains emptyPoint"; //$NON-NLS-1$
+            assert connToPrev1 != null && diagram.getConnections().contains(connToPrev1) : "pre graph contains connToPrev1"; //$NON-NLS-1$
+            assert connToNext1 != null && diagram.getConnections().contains(connToNext1) : "pre graph contains connToNext1"; //$NON-NLS-1$
             assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "pre empty point has 1 in, 1 out"; //$NON-NLS-1$
             assert previousPoint.getSucc().get(0) == connToPrev1 : "pre link2"; //$NON-NLS-1$
             assert connToPrev1.getTarget() == emptyPoint : "pre link3"; //$NON-NLS-1$
@@ -322,7 +322,7 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
             assert connToNext1.getTarget() == nextPoint : "pre link5"; //$NON-NLS-1$
 
         } else { // clicked on node connection
-            assert diagram.getNodeConnections().contains(targetConn) : "pre graph contains targetConn"; //$NON-NLS-1$
+            assert diagram.getConnections().contains(targetConn) : "pre graph contains targetConn"; //$NON-NLS-1$
             assert previousPoint.getSucc().get(0) == targetConn : "pre link 7"; //$NON-NLS-1$
             assert targetConn.getTarget() == nextPoint : "pre link 8"; //$NON-NLS-1$
         }
@@ -341,13 +341,13 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
          */
         assert diagram != null : "post diagram"; //$NON-NLS-1$
 
-        assert previousPoint != null && !diagram.getPathNodes().contains(previousPoint) : "post graph doesn't contain previousPoint"; //$NON-NLS-1$
-        assert nextPoint != null && !diagram.getPathNodes().contains(nextPoint) : "post graph doesn't contain nextPoint"; //$NON-NLS-1$
-        assert newStart != null && diagram.getPathNodes().contains(newStart) : "post graph contains newStart"; //$NON-NLS-1$
-        assert newEnd != null && diagram.getPathNodes().contains(newEnd) : "post graph contains newEnd"; //$NON-NLS-1$
+        assert previousPoint != null && !diagram.getNodes().contains(previousPoint) : "post graph doesn't contain previousPoint"; //$NON-NLS-1$
+        assert nextPoint != null && !diagram.getNodes().contains(nextPoint) : "post graph doesn't contain nextPoint"; //$NON-NLS-1$
+        assert newStart != null && diagram.getNodes().contains(newStart) : "post graph contains newStart"; //$NON-NLS-1$
+        assert newEnd != null && diagram.getNodes().contains(newEnd) : "post graph contains newEnd"; //$NON-NLS-1$
 
-        assert connToPrev2 != null && diagram.getNodeConnections().contains(connToPrev2) : "post graph contains connToPrev2"; //$NON-NLS-1$
-        assert connToNext2 != null && diagram.getNodeConnections().contains(connToNext2) : "post graph contains connToNext2"; //$NON-NLS-1$
+        assert connToPrev2 != null && diagram.getConnections().contains(connToPrev2) : "post graph contains connToPrev2"; //$NON-NLS-1$
+        assert connToNext2 != null && diagram.getConnections().contains(connToNext2) : "post graph contains connToNext2"; //$NON-NLS-1$
 
         assert previousPoint.getPred().size() == 0 && previousPoint.getSucc().size() == 1 : "post previous point has 0 in, 1 out"; //$NON-NLS-1$
         assert nextPoint.getPred().size() == 1 && nextPoint.getSucc().size() == 0 : "post nextPoint has 1 in, 0 out"; //$NON-NLS-1$
@@ -362,12 +362,12 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
 
         if (targetConn == null) {
             assert emptyPoint != null : "post emptyPoint"; //$NON-NLS-1$
-            assert !diagram.getPathNodes().contains(emptyPoint) : "post graph doesn't contain emptyPoint"; //$NON-NLS-1$
-            assert connToPrev1 != null && !diagram.getNodeConnections().contains(connToPrev1) : "post graph doesn't contain connToPrev1"; //$NON-NLS-1$
-            assert connToNext1 != null && !diagram.getNodeConnections().contains(connToNext1) : "post graph doesn't contain connToNext1"; //$NON-NLS-1$
+            assert !diagram.getNodes().contains(emptyPoint) : "post graph doesn't contain emptyPoint"; //$NON-NLS-1$
+            assert connToPrev1 != null && !diagram.getConnections().contains(connToPrev1) : "post graph doesn't contain connToPrev1"; //$NON-NLS-1$
+            assert connToNext1 != null && !diagram.getConnections().contains(connToNext1) : "post graph doesn't contain connToNext1"; //$NON-NLS-1$
             assert emptyPoint.getPred().size() == 1 && emptyPoint.getSucc().size() == 1 : "post empty point has 1 in, 1 out"; //$NON-NLS-1$
         } else {
-            assert !diagram.getNodeConnections().contains(targetConn) : "post graph doesn't contain targetConn"; //$NON-NLS-1$
+            assert !diagram.getConnections().contains(targetConn) : "post graph doesn't contain targetConn"; //$NON-NLS-1$
         }
     }
 

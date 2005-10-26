@@ -15,8 +15,8 @@ import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.map.EndPoint;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.StartPoint;
 import urncore.Condition;
 import urncore.Label;
@@ -28,7 +28,7 @@ import urncore.Label;
  */
 public class ConditionEditPart extends LabelEditPart {
 
-    public ConditionEditPart(Condition model, PathGraph diagram) {
+    public ConditionEditPart(Condition model, UCMmap diagram) {
         super(model);
 
         // conditions can be on these model elements. we don't know which until we check the references.
@@ -66,7 +66,7 @@ public class ConditionEditPart extends LabelEditPart {
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location = new Point(0, 0);
 
-        if (getUCMmodelElement() instanceof NodeConnection) {
+        if (getURNmodelElement() instanceof NodeConnection) {
             NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(getNodeConnection());
             if (nc != null) {
                 location = new Point(nc.getMiddlePoint().x - ((Condition) getModel()).getDeltaX(), nc.getMiddlePoint().y - ((Condition) getModel()).getDeltaY());
@@ -94,7 +94,7 @@ public class ConditionEditPart extends LabelEditPart {
      * @return the node connection on which the condition is located
      */
     public NodeConnection getNodeConnection() {
-        return (NodeConnection) getUCMmodelElement();
+        return (NodeConnection) getURNmodelElement();
     }
 
     /**
@@ -142,12 +142,12 @@ public class ConditionEditPart extends LabelEditPart {
         EditableLabel label = labelFigure.getLabel();
 
         Condition cond = null;
-        if (getUCMmodelElement() instanceof NodeConnection) {
+        if (getURNmodelElement() instanceof NodeConnection) {
             cond = getNodeConnection().getCondition();
-        } else if (getUCMmodelElement() instanceof StartPoint) {
-            cond = ((StartPoint) getUCMmodelElement()).getPrecondition();
-        } else if (getUCMmodelElement() instanceof EndPoint) {
-            cond = ((EndPoint) getUCMmodelElement()).getPostcondition();
+        } else if (getURNmodelElement() instanceof StartPoint) {
+            cond = ((StartPoint) getURNmodelElement()).getPrecondition();
+        } else if (getURNmodelElement() instanceof EndPoint) {
+            cond = ((EndPoint) getURNmodelElement()).getPostcondition();
         }
 
         if (cond != null) {

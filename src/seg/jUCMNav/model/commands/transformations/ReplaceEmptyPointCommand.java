@@ -7,6 +7,7 @@ import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * CompoundCommand that replaces an unconnected EmptyPoint or DirectionArrow with another path node.
@@ -51,7 +52,7 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
             NodeConnection previous = (NodeConnection) empty.getPred().get(0);
             // I know we won't be using the editpartregistry to replace the empty point or direction arrow.
             add(new DeletePathNodeCommand(empty, null));
-            add(new SplitLinkCommand(empty.getPathGraph(), newNode, previous, x, y));
+            add(new SplitLinkCommand((UCMmap)empty.getSpecDiagram(), newNode, previous, x, y));
         }
     }
 }

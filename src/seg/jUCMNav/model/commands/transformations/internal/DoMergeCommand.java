@@ -9,7 +9,7 @@ import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.Map;
+import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.StartPoint;
 
@@ -25,7 +25,7 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
     private EndPoint endPoint;
     private EmptyPoint newEmptyPoint;
     private ComponentRef parentStart, parentEnd;
-    private Map map;
+    private UCMmap map;
     private int x, y;
     private NodeConnection prevConn, nextConn;
 
@@ -42,7 +42,7 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      *            where the new empty point should be created
      * 
      */
-    public DoMergeCommand(Map map, StartPoint sp, EndPoint ep, int x, int y) {
+    public DoMergeCommand(UCMmap map, StartPoint sp, EndPoint ep, int x, int y) {
         this.startPoint = sp;
         this.endPoint = ep;
         this.x = x;
@@ -54,14 +54,14 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        this.newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUcmspec().getUrnspec(), EmptyPoint.class);
+        this.newEmptyPoint = (EmptyPoint) ModelCreationFactory.getNewObject(map.getUrndefinition().getUrnspec(), EmptyPoint.class);
         newEmptyPoint.setX(x);
         newEmptyPoint.setY(y);
         this.prevConn = (NodeConnection) endPoint.getPred().get(0);
         this.nextConn = (NodeConnection) startPoint.getSucc().get(0);
 
-        parentStart = startPoint.getCompRef();
-        parentEnd = endPoint.getCompRef();
+        parentStart = (ComponentRef)startPoint.getCompRef();
+        parentEnd = (ComponentRef)endPoint.getCompRef();
 
         redo();
     }
@@ -81,9 +81,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
 
         prevConn.setTarget(newEmptyPoint);
         nextConn.setSource(newEmptyPoint);
-        map.getPathGraph().getPathNodes().remove(startPoint);
-        map.getPathGraph().getPathNodes().remove(endPoint);
-        map.getPathGraph().getPathNodes().add(newEmptyPoint);
+        map.getNodes().remove(startPoint);
+        map.getNodes().remove(endPoint);
+        map.getNodes().add(newEmptyPoint);
 
         startPoint.setCompRef(null);
         endPoint.setCompRef(null);
@@ -102,9 +102,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
 
         prevConn.setTarget(endPoint);
         nextConn.setSource(startPoint);
-        map.getPathGraph().getPathNodes().add(startPoint);
-        map.getPathGraph().getPathNodes().add(endPoint);
-        map.getPathGraph().getPathNodes().remove(newEmptyPoint);
+        map.getNodes().add(startPoint);
+        map.getNodes().add(endPoint);
+        map.getNodes().remove(newEmptyPoint);
 
         startPoint.setCompRef(parentStart);
         endPoint.setCompRef(parentEnd);
@@ -118,9 +118,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "pre something is null";
-        assert map.getPathGraph().getPathNodes().contains(startPoint) && map.getPathGraph().getPathNodes().contains(endPoint)
-                && !map.getPathGraph().getPathNodes().contains(newEmptyPoint) : "pre pathnode problem ";
-        assert map.getPathGraph().getNodeConnections().contains(prevConn) && map.getPathGraph().getNodeConnections().contains(nextConn) : "pre connection problem ";
+        assert map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint)
+                && !map.getNodes().contains(newEmptyPoint) : "pre pathnode problem ";
+        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "pre connection problem ";
 
     }
 
@@ -129,9 +129,8 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      */
     public void testPostConditions() {
         assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "post something is null";
-        assert !(map.getPathGraph().getPathNodes().contains(startPoint) && map.getPathGraph().getPathNodes().contains(endPoint) && !map.getPathGraph()
-                .getPathNodes().contains(newEmptyPoint)) : "post pathnode problem ";
-        assert map.getPathGraph().getNodeConnections().contains(prevConn) && map.getPathGraph().getNodeConnections().contains(nextConn) : "post connection problem ";
+        assert !(map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint) && !map.getNodes().contains(newEmptyPoint)) : "post pathnode problem ";
+        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "post connection problem ";
 
     }
 

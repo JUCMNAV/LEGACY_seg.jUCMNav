@@ -12,7 +12,7 @@ import seg.jUCMNav.model.commands.create.CreateMapCommand;
  * 
  * @author jkealey
  */
-public class AddMapAction extends UCMSelectionAction {
+public class AddMapAction extends URNSelectionAction {
     public static final String ADDMAP = "seg.jUCMNav.AddMap"; //$NON-NLS-1$
 
     /**

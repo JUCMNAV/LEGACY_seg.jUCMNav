@@ -8,9 +8,9 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**
@@ -25,7 +25,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     private boolean aborted = false;
 
     // The UCM diagram
-    private PathGraph diagram;
+    private UCMmap diagram;
 
     // The old link where we are inserting
     private NodeConnection oldLink;
@@ -57,7 +57,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @param y
      *            insetion location
      */
-    public SplitLinkCommand(PathGraph pg, PathNode pn, NodeConnection link, int x, int y) {
+    public SplitLinkCommand(UCMmap pg, PathNode pn, NodeConnection link, int x, int y) {
         this.diagram = pg;
         this.node = pn;
         this.oldLink = link;
@@ -71,13 +71,13 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        previousNode = oldLink.getSource();
-        nextNode = oldLink.getTarget();
-        if (previousNode == null || nextNode == null || previousNode.getPathGraph() == null || nextNode.getPathGraph() == null) {
+        previousNode = (PathNode)oldLink.getSource();
+        nextNode = (PathNode)oldLink.getTarget();
+        if (previousNode == null || nextNode == null || previousNode.getSpecDiagram() == null || nextNode.getSpecDiagram() == null) {
             aborted = true;
             return;
         }
-        URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+        URNspec urn = diagram.getUrndefinition().getUrnspec();
         newLink = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
 
         node.getSucc().add(0, newLink);
@@ -114,16 +114,16 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         newLink.setTarget(nextNode);
 
         // add to model
-        diagram.getPathNodes().add(node);
-        diagram.getNodeConnections().add(newLink);
+        diagram.getNodes().add(node);
+        diagram.getConnections().add(newLink);
 
         if (node instanceof RespRef) {
-            URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+            URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
         }
 
         // bind to parent
-        node.setCompRef(ParentFinder.findParent(diagram.getMap(), x, y));
+        node.setCompRef(ParentFinder.findParent(diagram, x, y));
 
 
         // transfer bindings from at the ending of the old link onto the new one. 
@@ -145,15 +145,15 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         node.setCompRef(null);
 
         // remove from model
-        diagram.getNodeConnections().remove(newLink);
-        diagram.getPathNodes().remove(node);
+        diagram.getConnections().remove(newLink);
+        diagram.getNodes().remove(node);
 
         // unlink
         oldLink.setTarget(nextNode);
         newLink.setTarget(null);
 
         if (node instanceof RespRef) {
-            URNspec urn = diagram.getMap().getUcmspec().getUrnspec();
+            URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
         }
         
@@ -183,7 +183,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     /**
      * @return Returns the diagram.
      */
-    public PathGraph getDiagram() {
+    public UCMmap getDiagram() {
         return diagram;
     }
 
@@ -191,7 +191,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @param diagram
      *            The diagram to set.
      */
-    public void setDiagram(PathGraph diagram) {
+    public void setDiagram(UCMmap diagram) {
         this.diagram = diagram;
     }
 
@@ -253,11 +253,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
         assert node.getX() == x && node.getY() == y : "pre node position"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(previousNode) : "pre graph contains previousNode"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(nextNode) : "pre graph contains nextNode"; //$NON-NLS-1$
-        assert !diagram.getPathNodes().contains(node) : "pre graph doesn't contain node"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(oldLink) : "pre graph contains oldLink"; //$NON-NLS-1$
-        assert !diagram.getNodeConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(previousNode) : "pre graph contains previousNode"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(nextNode) : "pre graph contains nextNode"; //$NON-NLS-1$
+        assert !diagram.getNodes().contains(node) : "pre graph doesn't contain node"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(oldLink) : "pre graph contains oldLink"; //$NON-NLS-1$
+        assert !diagram.getConnections().contains(newLink) : "pre graph doesn't contain newLink"; //$NON-NLS-1$
 
         assert previousNode.getSucc().contains(oldLink) : "pre link1"; //$NON-NLS-1$
         assert oldLink.getTarget() == nextNode : "pre link2"; //$NON-NLS-1$
@@ -279,11 +279,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
         assert node.getX() == x && node.getY() == y : "post node position"; //$NON-NLS-1$
 
-        assert diagram.getPathNodes().contains(previousNode) : "post graph contains previousNode"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(nextNode) : "post graph contains nextNode"; //$NON-NLS-1$
-        assert diagram.getPathNodes().contains(node) : "post graph contains node"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(oldLink) : "post graph contains oldLink"; //$NON-NLS-1$
-        assert diagram.getNodeConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(previousNode) : "post graph contains previousNode"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(nextNode) : "post graph contains nextNode"; //$NON-NLS-1$
+        assert diagram.getNodes().contains(node) : "post graph contains node"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(oldLink) : "post graph contains oldLink"; //$NON-NLS-1$
+        assert diagram.getConnections().contains(newLink) : "post graph contains newLink"; //$NON-NLS-1$
 
         assert previousNode.getSucc().contains(oldLink) : "post link1"; //$NON-NLS-1$
         assert oldLink.getTarget() == node : "post link2"; //$NON-NLS-1$

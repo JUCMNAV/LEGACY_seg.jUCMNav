@@ -9,7 +9,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.views.property.ResponsibilityPropertySource;
-import seg.jUCMNav.views.property.UCMElementPropertySource;
+import seg.jUCMNav.views.property.URNElementPropertySource;
 import ucm.map.RespRef;
 
 /**
@@ -75,7 +75,7 @@ public abstract class ModelElementEditPart extends AbstractGraphicalEditPart imp
             if (getModel() instanceof RespRef)
                 propertySource = new ResponsibilityPropertySource((EObject) getModel());
             else
-                propertySource = new UCMElementPropertySource((EObject) getModel());
+                propertySource = new URNElementPropertySource((EObject) getModel());
         }
         return propertySource;
 

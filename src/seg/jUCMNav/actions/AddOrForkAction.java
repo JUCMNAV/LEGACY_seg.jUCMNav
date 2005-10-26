@@ -18,7 +18,7 @@ import urn.URNspec;
  * @see SafePathChecker
  * @author jpdaigle, jkealey
  */
-public class AddOrForkAction extends UCMSelectionAction {
+public class AddOrForkAction extends URNSelectionAction {
     public static final String ADDORFORK = "seg.jUCMNav.AddOrFork"; //$NON-NLS-1$
 
     /**

@@ -30,13 +30,13 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
-import seg.jUCMNav.views.property.UCMElementPropertySource;
+import seg.jUCMNav.views.property.URNElementPropertySource;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
-import ucm.map.PathGraph;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import urncore.SpecificationDiagram;
 
 /**
  * EditPart associated with NodeConnection.
@@ -85,7 +85,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
                     if (viewer != null) {
                         Map registry = viewer.getEditPartRegistry();
                         if (registry != null) {
-                            MapAndPathGraphEditPart part = (MapAndPathGraphEditPart) registry.get(getPathGraph().getMap());
+                            SpecificationDiagramEditPart part = (SpecificationDiagramEditPart) registry.get(getMap());
                             if (part != null) {
 
                                 part.notifyChanged(notification);
@@ -107,7 +107,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     NodeConnectionAdapter adapter;
 
-    private PathGraph diagram;
+    private SpecificationDiagram diagram;
     private Label endLabel, startLabel;
     protected IPropertySource propertySource = null;
     private TimeoutPathFigure timeout;
@@ -118,9 +118,9 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * @param link
      *            to be represented
      * @param diagram
-     *            the pathgraph which contains it.
+     *            the map which contains it.
      */
-    public NodeConnectionEditPart(NodeConnection link, PathGraph diagram) {
+    public NodeConnectionEditPart(NodeConnection link, SpecificationDiagram diagram) {
         super();
         setModel(link);
         this.diagram = diagram;
@@ -260,7 +260,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     public Object getAdapter(Class adapter) {
         if (IPropertySource.class == adapter) {
             if (propertySource == null) {
-                propertySource = new UCMElementPropertySource((EObject) getModel());
+                propertySource = new URNElementPropertySource((EObject) getModel());
             }
             return propertySource;
         }
@@ -295,7 +295,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * 
      * @return the pathgraph containing the connection.
      */
-    public PathGraph getPathGraph() {
+    public SpecificationDiagram getMap() {
         return diagram;
     }
 
@@ -330,12 +330,12 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
         // hide in print mode.
         if (startLabel != null) {
-            startLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            startLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
 
         // hide in print mode.
         if (endLabel != null) {
-            endLabel.setVisible(((ConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+            endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
         }
         super.refreshVisuals();
     }

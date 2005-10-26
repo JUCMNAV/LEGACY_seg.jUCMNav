@@ -36,9 +36,10 @@ import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
-import ucm.map.Map;
 import ucm.map.MapPackage;
 import urn.URNspec;
+import urncore.SpecificationDiagram;
+
 
 /**
  * This class is the central location for our editor. Its main responsibilities are as follows. 
@@ -175,9 +176,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         file.getWorkspace().removeResourceChangeListener(getResourceTracker());
 
         // stop listening to all maps for name changes
-        for (int i = 0; i < model.getUcmspec().getMaps().size(); i++)
-            ((Map) model.getUcmspec().getMaps().get(i)).eAdapters().remove(this);
-
+        for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
+            ((SpecificationDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
+        
         // important: always call super implementation of dispose
         super.dispose();
     }
@@ -494,7 +495,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         return true;
     }
 
-    /**
+    /**TODO Modify this method to refresh name related to GRLGraph name
      * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -504,7 +505,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         switch (type) {
         case Notification.SET:
             switch (featureId) {
-            case MapPackage.MAP__NAME:
+            case MapPackage.UC_MMAP__NAME:
                 getMultiPageTabManager().refreshPageNames();
                 break;
             }
@@ -584,16 +585,17 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
         // remove old listeners
         if (this.model != null) {
-            for (int i = 0; i < this.model.getUcmspec().getMaps().size(); i++)
-                ((Map) this.model.getUcmspec().getMaps().get(i)).eAdapters().remove(this);
+            for (int i = 0; i < this.model.getUrndef().getSpecDiagrams().size(); i++){
+                ((SpecificationDiagram) this.model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
+            }
         }
 
         this.model = model;
 
         // we must register ourselves to be able to change the tabs when the names change.
-        for (int i = 0; model != null && i < model.getUcmspec().getMaps().size(); i++)
-            ((Map) model.getUcmspec().getMaps().get(i)).eAdapters().add(this);
-
+        for (int i = 0; model != null && i < model.getUrndef().getSpecDiagrams().size(); i++){
+            ((SpecificationDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().add(this);
+        }    
     }
 
     /**
@@ -640,12 +642,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     }
 
     /**
-     * Change the active page in the editor from the Map object.
+     * Change the active page in the editor from the Graph object.
      * 
-     * @param map
+     * @param diagram
      */
-    public void setActivePage(Map map) {
-        int pageIndex = getModel().getUcmspec().getMaps().indexOf(map);
+    public void setActivePage(SpecificationDiagram diagram) {
+        int pageIndex = getModel().getUrndef().getSpecDiagrams().indexOf(diagram);
         setActivePage(pageIndex);
     }
 }

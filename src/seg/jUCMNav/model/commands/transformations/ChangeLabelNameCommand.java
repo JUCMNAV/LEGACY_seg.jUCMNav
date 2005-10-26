@@ -8,6 +8,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import urncore.ComponentElement;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.Label;
@@ -32,7 +33,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         if (lbl instanceof ComponentLabel)
             this.elem = ((ComponentLabel) lbl).getCompRef();
         else if (lbl instanceof NodeLabel)
-            this.elem = ((NodeLabel) lbl).getPathNode();
+            this.elem = ((NodeLabel) lbl).getNode();
         else if (lbl instanceof Condition) {
             this.elem = lbl;
         }
@@ -44,7 +45,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (elem instanceof ComponentRef) {
-            oldName = ((ComponentRef) elem).getCompDef().getName();
+            oldName = ((ComponentElement)((ComponentRef) elem).getCompDef()).getName();
         } else if (elem instanceof RespRef) {
             oldName = ((RespRef) elem).getRespDef().getName();
         } else if (elem instanceof PathNode) {
@@ -106,7 +107,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (elem instanceof ComponentRef) {
-            ((ComponentRef) elem).getCompDef().setName(name);
+            ((ComponentElement)((ComponentRef) elem).getCompDef()).setName(name);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(name);
         } else if (elem instanceof PathNode) {
@@ -125,7 +126,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
         if (elem instanceof ComponentRef) {
-            ((ComponentRef) elem).getCompDef().setName(oldName);
+            ((ComponentElement)((ComponentRef) elem).getCompDef()).setName(oldName);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(oldName);
         } else if (elem instanceof PathNode) {
