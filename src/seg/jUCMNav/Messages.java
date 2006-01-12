@@ -4,23 +4,17 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, Jason Kealey
  * 
  */
 public class Messages {
-    private static final String BUNDLE_NAME = "seg.jUCMNav.Messages";//$NON-NLS-1$
+    private static final String BUNDLE_NAME = "seg.jUCMNav.messages";//$NON-NLS-1$
 
-    private static final String BUNDLE_NAME_FALLBACK = "seg.jUCMNav.Messages_en";//$NON-NLS-1$
+    // private static final String BUNDLE_NAME_FALLBACK = "seg.jUCMNav.Messages_en";//$NON-NLS-1$
 
     private static ResourceBundle RESOURCE_BUNDLE;
     static {
-        try {
-            RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME) == null ? ResourceBundle.getBundle(BUNDLE_NAME_FALLBACK) : ResourceBundle
-                    .getBundle(BUNDLE_NAME);
-        } catch (Throwable t) {
-            RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_FALLBACK);
-
-        }
+        RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
     }
 
     private Messages() {
