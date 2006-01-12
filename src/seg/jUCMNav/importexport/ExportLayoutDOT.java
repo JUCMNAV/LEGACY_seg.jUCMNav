@@ -58,7 +58,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
         // ensure visibility
         // dot.append("cheaptrick[shape=\"none\",label=\"\"];\n");
 
-        dot.append("CheapTrick" + id++ + " [pos=\"\", width=\"0.50\", height=\"0.50\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
+        dot.append("CheapTrick" + id++ + " [pos=\"\", width=\"1\", height=\"1\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
         ComponentRef child;
         for (int i = 0; i < compRef.getChildren().size(); i++) {
@@ -111,7 +111,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
                     + "->" + AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement)conn.getTarget()).getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
         }
         dot.append("}\n"); //$NON-NLS-1$
-        System.out.println(dot.toString());
+        //System.out.println(dot.toString());
         return dot.toString();
     }
 }

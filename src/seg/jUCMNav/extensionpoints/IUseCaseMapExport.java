@@ -1,6 +1,7 @@
 package seg.jUCMNav.extensionpoints;
 
 import java.io.FileOutputStream;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.draw2d.IFigure;
 
@@ -20,7 +21,7 @@ public interface IUseCaseMapExport {
      * @param map the map to be converted
      * @param fos a file in which the conversion should be written
      */
-    public void export(UCMmap map, FileOutputStream fos);
+    public void export(UCMmap map, FileOutputStream fos) throws InvocationTargetException;
 
     /**
      * Export the graphical representation of a map instance to a file.
@@ -28,5 +29,5 @@ public interface IUseCaseMapExport {
      * @param map the map to be converted
      * @param fos a file in which the conversion should be written
      */
-    public void export(IFigure map, FileOutputStream fos);
+    public void export(IFigure map, FileOutputStream fos) throws InvocationTargetException;
 }

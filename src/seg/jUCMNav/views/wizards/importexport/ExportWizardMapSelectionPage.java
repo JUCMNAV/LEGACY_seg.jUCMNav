@@ -138,12 +138,12 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             }
         });
 
-        Label lblOrientation = new Label(composite, SWT.NONE);
-        lblOrientation.setText(Messages.getString("ExportImageWizardPage.fileType")); //$NON-NLS-1$
+        Label lblType = new Label(composite, SWT.NONE);
+        lblType.setText(Messages.getString("ExportImageWizardPage.fileType")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
-        lblOrientation.setLayoutData(data);
+        lblType.setLayoutData(data);
 
         cboImageType = new Combo(composite, SWT.READ_ONLY);
 

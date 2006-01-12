@@ -17,7 +17,7 @@ import urncore.URNmodelElement;
  * This class is used to find an element in an instance of the meta model with a particular ID. This ID is supposed to be unique.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class URNElementFinder {
 
@@ -42,7 +42,7 @@ public class URNElementFinder {
 
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
             SpecificationDiagram g = (SpecificationDiagram) iter.next();
-            if (g instanceof UCMmap){
+            if (g instanceof UCMmap) {
                 UCMmap map = (UCMmap) g;
                 if ((o = findComponentRef(map, id)) != null)
                     return o;
@@ -50,6 +50,31 @@ public class URNElementFinder {
                     return o;
             }
         }
+        return o;
+    }
+
+    /**
+     * Given a name, find what element it belongs to. Can only find responsibility and component definitions by name. Will return component if both component
+     * and responsibility exist.
+     * 
+     * Has been extended to also look for diagrams by name, even if they are not currently constrained to be unique.
+     * 
+     * If not found, returns null.
+     * 
+     * @param urn
+     * @param name
+     * @return element
+     */
+    public static Object findByName(URNspec urn, String name) {
+
+        Object o = null;
+        if ((o = findComponentElementByName(urn, name)) != null)
+            return o;
+        if ((o = findResponsibilityByName(urn, name)) != null)
+            return o;
+        if ((o = findMapByName(urn, name)) != null)
+            return o;
+
         return o;
     }
 
@@ -65,6 +90,17 @@ public class URNElementFinder {
     }
 
     /**
+     * Given a URN spec, find the component element having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching component element
+     */
+    public static ComponentElement findComponentElementByName(URNspec urn, String name) {
+        return (ComponentElement) findByName(urn.getUrndef().getComponents(), name);
+    }
+
+    /**
      * Given a URN spec, find the responsibility having the passed id or return null.
      * 
      * @param urn
@@ -73,6 +109,17 @@ public class URNElementFinder {
      */
     public static Responsibility findResponsibility(URNspec urn, String id) {
         return (Responsibility) find(urn.getUrndef().getResponsibilities(), id);
+    }
+
+    /**
+     * Given a URN spec, find the responsibility having the passed name or return null.
+     * 
+     * @param urn
+     * @param name
+     * @return matching resp
+     */
+    public static Responsibility findResponsibilityByName(URNspec urn, String name) {
+        return (Responsibility) findByName(urn.getUrndef().getResponsibilities(), name);
     }
 
     /**
@@ -109,6 +156,19 @@ public class URNElementFinder {
     }
 
     /**
+     * Given a URN spec, find the diagram having the passed name or return null.
+     * 
+     * Note that diagram names are not constrained to be unique. Will return the first occurence.
+     * 
+     * @param urn
+     * @param name
+     * @return matching diagram
+     */
+    public static SpecificationDiagram findMapByName(URNspec urn, String name) {
+        return (SpecificationDiagram) findByName(urn.getUrndef().getSpecDiagrams(), name);
+    }
+
+    /**
      * Given a collection of UCMmodelElements, return the oen having the passed id or return null.
      * 
      * @param c
@@ -121,6 +181,24 @@ public class URNElementFinder {
             URNmodelElement element = (URNmodelElement) iter.next();
 
             if (element.getId().equals(id))
+                return element;
+        }
+        return null;
+    }
+
+    /**
+     * Given a collection of UCMmodelElements, return the oen having the passed name or return null.
+     * 
+     * @param c
+     * @param name
+     * @return matching model elem
+     */
+    private static Object findByName(Collection c, String name) {
+
+        for (Iterator iter = c.iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+
+            if (element.getName().equalsIgnoreCase(name))
                 return element;
         }
         return null;
@@ -141,7 +219,7 @@ public class URNElementFinder {
         for (Iterator iter = map.getConnections().iterator(); iter.hasNext();) {
             NodeConnection nc = (NodeConnection) iter.next();
 
-            if (((PathNode)nc.getSource()).getId().equals(idSource) && ((PathNode)nc.getTarget()).getId().equals(idTarget)) {
+            if (((PathNode) nc.getSource()).getId().equals(idSource) && ((PathNode) nc.getTarget()).getId().equals(idTarget)) {
                 return nc;
             }
         }

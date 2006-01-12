@@ -15,10 +15,10 @@ import urncore.URNmodelElement;
 /**
  * When creating or moving a ComponentRef or a PathNode, one must set the parent so that bindings are preserved. Otherwise, weird things will happen.
  * 
- * See DevDocModelUtilities 
+ * See DevDocModelUtilities
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ParentFinder {
 
@@ -58,6 +58,46 @@ public class ParentFinder {
             parent = getPossibleParent((URNmodelElement) parent);
         }
         return parents;
+
+    }
+
+    /**
+     * Finds the most restrictive common parent.
+     * 
+     * @param ref1
+     *            a component reference
+     * @param ref2
+     *            another component reference
+     * @return their closet common parent
+     */
+    public static SpecificationComponentRef getCommonParent(SpecificationComponentRef ref1, SpecificationComponentRef ref2) {
+        Vector parents1 = new Vector();
+        Vector parents2 = new Vector();
+
+        if (ref1 == null || ref2 == null)
+            return null;
+        SpecificationComponentRef parent = ref1;
+        while (parent != null) {
+            parents1.add(0, parent);
+            parent = parent.getParent();
+        }
+
+        parent = ref2;
+        while (parent != null) {
+            parents2.add(0, parent);
+            parent = parent.getParent();
+        }
+
+        int i;
+        for (i = 0; i < Math.min(parents1.size(), parents2.size()); i++) {
+            if (parents1.get(i) != parents2.get(i))
+                break;
+        }
+        i = i - 1;
+        if (i >= 0)
+            return (SpecificationComponentRef) parents1.get(i);
+        else
+            return null;
 
     }
 
@@ -106,7 +146,8 @@ public class ParentFinder {
      * @param newHeight
      * @return a SpecificationComponentRef
      */
-    public static SpecificationComponentRef findParent(SpecificationDiagram diagram, SpecificationComponentRef compRef, int newX, int newY, int newWidth, int newHeight) {
+    public static SpecificationComponentRef findParent(SpecificationDiagram diagram, SpecificationComponentRef compRef, int newX, int newY, int newWidth,
+            int newHeight) {
         Rectangle rectMoved = new Rectangle(newX, newY, newWidth, newHeight);
 
         Vector v = new Vector();
@@ -131,7 +172,7 @@ public class ParentFinder {
             // 
             // furthermore, we'll break our component out of the binding chain so that it is not in an illegal state
             // 
-            //assert noCircularBindings((SpecificationComponentRef) v.get(0), compRef) : "ParentFinder: Circular Binding Found!";
+            // assert noCircularBindings((SpecificationComponentRef) v.get(0), compRef) : "ParentFinder: Circular Binding Found!";
             if (!noCircularBindings((SpecificationComponentRef) v.get(0), compRef)) {
                 compRef.setParent(null);
                 compRef.getChildren().clear();
@@ -187,14 +228,14 @@ public class ParentFinder {
      * @return a boolean = false if child is an ancestor parent
      */
     private static boolean noCircularBindings(SpecificationComponentRef parent, SpecificationComponentRef child) {
-        //If there already is a circular binding present, infinite loop will occur.
+        // If there already is a circular binding present, infinite loop will occur.
         while (parent.getParent() != null) {
             if (parent.getParent() == child) {
                 // circular binding found
                 System.out.println(Messages.getString("ParentFinder.circularBinding")); //$NON-NLS-1$
                 return false;
             } else
-                parent = (SpecificationComponentRef)parent.getParent();
+                parent = (SpecificationComponentRef) parent.getParent();
         }
         return true;
     }

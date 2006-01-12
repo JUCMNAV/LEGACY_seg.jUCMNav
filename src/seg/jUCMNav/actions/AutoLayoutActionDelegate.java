@@ -59,7 +59,7 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
             }
             else
             {
-                System.out.println("Autolaout not available for this type of editor");
+                System.out.println("Autolayout not available for this type of editor");
             }
         }
     }

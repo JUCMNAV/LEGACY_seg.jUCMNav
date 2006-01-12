@@ -6,7 +6,7 @@
          <meta.schema plugin="seg.jUCMNav" id="UseCaseMapExport" name="Use Case Map Export"/>
       </appInfo>
       <documentation>
-         Extension point used to convert instances of the ucm.map.Map and output them in a java.io.FileOutputStream, in the export wizard. 
+         Extension point used to convert instances of the ucm.map.Map and output them in a java.io.FileOutputStream, in the export wizard.
       </documentation>
    </annotation>
 
@@ -87,7 +87,13 @@
             <annotation>
                <documentation>
                   the filename extension to be used
-
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="useStream" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Should the export methods invoked use streams (true) or filenames (false).
                </documentation>
             </annotation>
          </attribute>

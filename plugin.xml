@@ -28,6 +28,7 @@
    </requires>
    <extension-point id="UseCaseMapExport" name="Use Case Map Export" schema="schema/UseCaseMapExport.exsd"/>
    <extension-point id="URNExport" name="URN Export" schema="schema/URNExport.exsd"/>
+   <extension-point id="URNImport" name="URN Import" schema="schema/URNImport.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -140,19 +141,22 @@
             extension="dot"
             id="seg.jUCMNav.ExportDOT"
             mode="model instance"
-            name="Graphviz DOT Layout Information (*.dot)"/>
+            name="Graphviz DOT Layout Information (*.dot)"
+            useStream="true"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportImageJPG"
             extension="jpg"
             id="seg.jUCMNav.ExportJPG"
             mode="image"
-            name="JPEG Image (*.jpg)"/>
+            name="JPEG Image (*.jpg)"
+            useStream="true"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportImageBMP"
             extension="bmp"
             id="seg.jUCMNav.ExportBMP"
             mode="image"
-            name="Bitmap Image (*.bmp)"/>
+            name="Bitmap Image (*.bmp)"
+            useStream="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -178,7 +182,21 @@
             class="seg.jUCMNav.importexport.ExportDXL"
             extension="dxl"
             id="seg.jUCMNav.ExportDXL"
-            name="Telelogic DOORS DXL (Not yet implemented) (*.dxl)"/>
+            name="Telelogic DOORS DXL (Not yet implemented) (*.dxl)"
+            useStream="true"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            class="seg.jUCMNav.views.wizards.importexport.ImportWizard"
+            icon="icons/perspectiveIcon.gif"
+            id="seg.jUCMNav.views.wizards.importexport.ImportWizard"
+            name="%import"/>
+   </extension>
+   <extension
+         id="seg.jUCMNav.importexport.ImportURN"
+         name="%import"
+         point="seg.jUCMNav.URNImport">
    </extension>
 
 </plugin>

@@ -23,4 +23,12 @@ public class ExportDXL implements IURNExport {
         }
     }
 
+    public void export(URNspec urn, String filename) {
+        // not used
+    }
+
+    public boolean useStream() {
+        return true;
+    }
+
 }

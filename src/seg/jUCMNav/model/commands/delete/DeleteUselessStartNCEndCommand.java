@@ -71,7 +71,7 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
                 PathNode pn = (PathNode) iter.next();
                 if (pn instanceof StartPoint && Integer.parseInt(pn.getId()) >= nextGlobalID && pn.getPred().size() == 0 && pn.getSucc().size() == 1) {
                     if (pn.getSucc().get(0) != null) {
-                        PathNode target = (PathNode)((NodeConnection) pn.getSucc().get(0)).getTarget();
+                        PathNode target = (PathNode) ((NodeConnection) pn.getSucc().get(0)).getTarget();
                         if (target instanceof EndPoint && target.getSucc().size() == 0 && Integer.parseInt(target.getId()) >= nextGlobalID) {
                             add(new DeletePathNodeCommand(pn, editpartregistry));
                         }
@@ -81,5 +81,22 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
             }
         }
 
+    }
+
+    /**
+     * 
+     * @return the next global id from which start-nc-end will be removed
+     */
+    public int getNextGlobalID() {
+        return nextGlobalID;
+    }
+
+    /**
+     * 
+     * @param nextGlobalID
+     *            the next global id from which start-nc-end will be removed
+     */
+    public void setNextGlobalID(int nextGlobalID) {
+        this.nextGlobalID = nextGlobalID;
     }
 }

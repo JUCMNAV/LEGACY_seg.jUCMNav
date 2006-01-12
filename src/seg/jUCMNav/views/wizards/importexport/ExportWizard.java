@@ -11,8 +11,11 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -28,6 +31,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
@@ -193,8 +197,15 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 exporter.export((UCMmap)editor.getModel(), fos);
             }
 
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch (InvocationTargetException e) {
+            Throwable realException = e.getTargetException();
+            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            return;
+        } catch (Exception e) {
+            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            return;
         } finally {
             // close the stream
             if (fos != null) {
@@ -245,8 +256,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // save it
             exporter.export(editor.getModel(), fos);
 
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch (InvocationTargetException e) {
+            Throwable realException = e.getTargetException();
+            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+        } catch (Exception e) {
+            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
         } finally {
             // close the stream
             if (fos != null) {

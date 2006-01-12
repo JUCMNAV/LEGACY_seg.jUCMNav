@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+The seg.jUCMNav.extensionpoints folder contains different interfaces,
+each of one being the interface that must be implemented when creating
+extensions to jUCMNav.
+
+<h2>Package Specification</h2>
+
+<p>Currently, only two types of extension points exist in jUCMNav:
+import and export. You can import or export a URN file (containing
+possibly multiple maps) via the IURNImport and IURNExport interfaces.
+Furthermore, the IUseCaseMapExport extension point has been created to
+allow the user to export files that are solely related to one particular
+map. For example, when exporting the visual representation (screenshot)
+of a UCM, use the IUseCaseMapExport.</p>
+
+
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation,
+please see: 
+@see seg.jUCMNav.extensionpoints.IURNExport 
+@see seg.jUCMNav.extensionpoints.IURNImport 
+@see seg.jUCMNav.extensionpoints.IUseCaseMapExport
+@see seg.jUCMNav.importexport
+@see seg.jUCMNav.views.wizards.importexport
+</body>
+</html>

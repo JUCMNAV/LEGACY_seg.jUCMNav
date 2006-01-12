@@ -6,14 +6,14 @@
          <meta.schema plugin="seg.jUCMNav" id="URNExport" name="URN Export"/>
       </appInfo>
       <documentation>
-         Exports URNspec instances to files.
+         Creates URNspec instances from files.
       </documentation>
    </annotation>
 
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="exporter" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="importer" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -42,7 +42,7 @@
       </complexType>
    </element>
 
-   <element name="exporter">
+   <element name="importer">
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>

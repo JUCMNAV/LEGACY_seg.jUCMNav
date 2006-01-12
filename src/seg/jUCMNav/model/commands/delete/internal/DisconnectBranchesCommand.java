@@ -129,7 +129,9 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             Point midPoint;
             EndPoint ep = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
 
-            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            NodeConnectionEditPart nodePart=null;
+            if (editpartregistry != null)
+                nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
             if (nodePart != null) {
                 midPoint = nodePart.getMiddlePoint();
             } else {
@@ -173,7 +175,9 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             Point midPoint;
             StartPoint sp = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
 
-            NodeConnectionEditPart nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
+            NodeConnectionEditPart nodePart = null;
+            if (editpartregistry != null)
+                nodePart = (NodeConnectionEditPart) editpartregistry.get(nc);
             if (nodePart != null) {
                 midPoint = nodePart.getMiddlePoint();
             } else {
@@ -192,7 +196,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
      * save pathgraph/urn and refresh affected node connections.
      */
     private void initVariables() {
-        pg = (UCMmap)toDelete.getSpecDiagram();
+        pg = (UCMmap) toDelete.getSpecDiagram();
         this.ncInBefore = new Vector(toDelete.getPred());
         this.ncOutBefore = new Vector(toDelete.getSucc());
 
@@ -206,7 +210,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncInToRemove);
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncOutToRemove);
 
-        if (pg == null ||  toDelete.getSpecDiagram().getUrndefinition()==null) {
+        if (pg == null || toDelete.getSpecDiagram().getUrndefinition() == null) {
             aborted = true;
         } else
             urn = toDelete.getSpecDiagram().getUrndefinition().getUrnspec();

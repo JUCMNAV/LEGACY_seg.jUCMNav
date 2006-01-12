@@ -33,6 +33,7 @@ import seg.jUCMNav.figures.util.JUCMNavFigure;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
+import ucm.map.NodeConnection;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
 import urncore.GRLmodelElement;
@@ -164,7 +165,7 @@ public class LabelEditPart extends ModelElementEditPart {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
         //LabelFeedbackPolicy only for UCMmodelElement
-        if (modelElement instanceof UCMmodelElement){
+        if (modelElement instanceof UCMmodelElement || modelElement instanceof NodeConnection){
             installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
         }
     }
