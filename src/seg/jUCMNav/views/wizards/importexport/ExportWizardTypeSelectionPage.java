@@ -110,7 +110,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
     /**
      * Builds the list of possible formats when exporting the Map
      * 
-     * @return
+     * @return a label to show the available formats
      */
     private String getUcmExportStrings() {
         String ucm = "";
@@ -127,7 +127,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
     /**
      * Builds the list of possible formats when exporting the URNspec
      * 
-     * @return
+     * @return a label to show the available formats
      */
     private String getUrnExportStrings() {
         String urn = "";

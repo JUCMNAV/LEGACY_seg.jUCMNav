@@ -68,7 +68,7 @@ public class jUCMNavLoader {
      *            the project in which the jucm file should be created
      * @param overwrite
      *            should we overwrite a file if it already exists?
-     * @return
+     * @return the full filename to be used as a target
      */
     public String getTargetFilename(String originalFileName, String newProject, boolean overwrite) {
         String base = newProject + "\\" + getBaseNameFromFilename(originalFileName);

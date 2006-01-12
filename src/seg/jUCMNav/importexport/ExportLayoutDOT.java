@@ -108,7 +108,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
     /**
      * Generate a DOT layout file with the given model instance.
      * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
+     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.UCMmap, java.io.FileOutputStream)
      */
     public void export(UCMmap map, FileOutputStream fos) {
         String contents = convertUCMToDot(map);

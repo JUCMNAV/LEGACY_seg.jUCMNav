@@ -51,7 +51,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      * 
      * @param editpartregistry
      *            the editpartregistry containing all our editparts.
-     * @param ucmmap
+     * @param pathgraph
      *            the UCMmap containing all the conections.
      */
     public UCMConnectionRouter(Map editpartregistry, UCMmap pathgraph) {
