@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 
-import seg.jUCMNav.extensionpoints.IURNExport;
+import seg.jUCMNav.extensionpoints.IURNImport;
 
 /**
  * Helps access information from the seg.jUCMNav.URNImport extension point.
@@ -50,16 +50,16 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
      *            the importer's unique id
      * @return an instance of the exporter defined in the class attribute
      */
-    public static IURNExport getImporter(String id) {
+    public static IURNImport getImporter(String id) {
         IConfigurationElement elem = getExportConfigurationElement(id);
-        IURNExport exporter = null;
+        IURNImport importer = null;
         try {
-            exporter = (IURNExport) elem.createExecutableExtension("class");
+            importer = (IURNImport) elem.createExecutableExtension("class");
         } catch (CoreException e) {
             // ignore
             e.printStackTrace();
         }
-        return exporter;
+        return importer;
     }
 
     /* Facade for ExportExtensionPointHelper */
