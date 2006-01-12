@@ -183,7 +183,7 @@
             extension="dxl"
             id="seg.jUCMNav.ExportDXL"
             name="Telelogic DOORS DXL (Not yet implemented) (*.dxl)"
-            useStream="true"/>
+            useStream="false"/>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">

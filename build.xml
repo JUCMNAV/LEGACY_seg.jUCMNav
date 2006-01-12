@@ -84,7 +84,7 @@
 			The date formatter also cannot truncate a year to a single character so we're hardcoding
 			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
 			-->
-			<format property="buildtime" pattern="'5'MMdd.'v'HHmm"/>
+			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
 		</tstamp>
 		
 		<property name="jucmnav.version" value="1.1.${buildtime}" />
