@@ -181,8 +181,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
             // get the simple editor
             UcmEditor editor = (UcmEditor) mapsToSpecificEditor.get(map);
 
-            // prepare file stream
-            fos = new FileOutputStream(genericPath.toOSString());
+            if (UCMExportExtensionPointHelper.isUseStream(id)) {
+                // prepare file stream
+                fos = new FileOutputStream(genericPath.toOSString());
+            }
 
             // get exporter
             IUseCaseMapExport exporter = (IUseCaseMapExport) UCMExportExtensionPointHelper.getExporter(id);
@@ -191,10 +193,19 @@ public class ExportWizard extends Wizard implements IExportWizard {
             if (UCMExportExtensionPointHelper.getMode(id).equals("image")) {
                 // get the high level IFigure to be saved.
                 LayeredPane pane = ((UCMConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
-                exporter.export(pane, fos);
+                if (UCMExportExtensionPointHelper.isUseStream(id)) {
+                    exporter.export(pane, fos);
+                } else {
+                    exporter.export(pane, genericPath.toOSString());
+                }
+
             } else {
                 // model instance
-                exporter.export((UCMmap)editor.getModel(), fos);
+                if (UCMExportExtensionPointHelper.isUseStream(id)) {
+                    exporter.export((UCMmap) editor.getModel(), fos);
+                } else {
+                    exporter.export((UCMmap) editor.getModel(), genericPath.toOSString());
+                }
             }
 
         } catch (InvocationTargetException e) {
@@ -247,14 +258,19 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(map);
 
-            // prepare file stream
-            fos = new FileOutputStream(genericPath.toOSString());
-
             // get exporter
             IURNExport exporter = (IURNExport) URNExportExtensionPointHelper.getExporter(id);
 
-            // save it
-            exporter.export(editor.getModel(), fos);
+            if (URNExportExtensionPointHelper.isUseStream(id)) {
+                // prepare file stream
+                fos = new FileOutputStream(genericPath.toOSString());
+
+                // save it
+                exporter.export(editor.getModel(), fos);
+            } else {
+                // save it
+                exporter.export(editor.getModel(), genericPath.toOSString());
+            }
 
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();

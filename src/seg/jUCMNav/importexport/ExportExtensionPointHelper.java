@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Platform;
  */
 
 public abstract class ExportExtensionPointHelper {
-   
+
     /**
      * 
      * @return an array of extensions for an extension point
@@ -27,6 +27,7 @@ public abstract class ExportExtensionPointHelper {
         IExtension[] extensions = ep.getExtensions();
         return extensions;
     }
+
     /**
      * 
      * @return an ArrayList of IConfigurationElements extracted from the extensions
@@ -34,14 +35,14 @@ public abstract class ExportExtensionPointHelper {
     protected static ArrayList getExportConfigurationElements(String sExtensionPoint) {
         IExtension[] extensions = getExportExtensions(sExtensionPoint);
         ArrayList confElems = new ArrayList();
-    
+
         for (int i = 0; i < extensions.length; i++) {
             IExtension ext = extensions[i];
             IConfigurationElement[] ce = ext.getConfigurationElements();
             for (int j = 0; j < ce.length; j++) {
                 confElems.add(ce[j]);
             }
-    
+
         }
         return confElems;
     }
@@ -79,7 +80,7 @@ public abstract class ExportExtensionPointHelper {
         String[] strings = new String[labels.size()];
         for (int i = 0; i < labels.size(); i++)
             strings[i] = labels.get(i).toString();
-    
+
         return strings;
     }
 
@@ -103,5 +104,19 @@ public abstract class ExportExtensionPointHelper {
         IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
         return elem.getAttribute("extension");
     }
-    
+
+    /**
+     * 
+     * @param id
+     *            the exporter's unique id
+     * @return true if a stream should be used, false if a filename should be used.
+     */
+    public static boolean isUseStream(String sExtensionPoint, String id) {
+        IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
+        try {
+            return Boolean.parseBoolean(elem.getAttribute("useStream"));
+        } catch (Exception ex) {
+            return true;
+        }
+    }
 }

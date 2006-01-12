@@ -1,6 +1,5 @@
 package seg.jUCMNav.importexport;
 
-
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
@@ -12,6 +11,8 @@ import seg.jUCMNav.extensionpoints.IURNExport;
 /**
  * Helps access information from the seg.jUCMNav.URNImport extension point.
  * 
+ * We chose to extend the existing export extension point infrastructure, even though the method names don't make much sense in the context of importing.
+ * 
  * @author jkealey
  */
 public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
@@ -19,35 +20,30 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
     protected static String sExtensionPoint = "seg.jUCMNav.URNImport";
 
     /* Facade for ExportExtensionPointHelper */
-    protected static IExtension[] getExportExtensions() {
-        return ExportExtensionPointHelper.getExportExtensions(sExtensionPoint);
+    protected static IConfigurationElement getExportConfigurationElement(String id) {
+        return ExportExtensionPointHelper.getExportConfigurationElement(sExtensionPoint, id);
     }
-    
+
     /* Facade for ExportExtensionPointHelper */
     protected static ArrayList getExportConfigurationElements() {
         return ExportExtensionPointHelper.getExportConfigurationElements(sExtensionPoint);
     }
-    
-    /* Facade for ExportExtensionPointHelper */
-    protected static IConfigurationElement getExportConfigurationElement(String id) {
-        return ExportExtensionPointHelper.getExportConfigurationElement(sExtensionPoint, id);
-    }
-    
-    /* Facade for ExportExtensionPointHelper */
-    public static String[] getImportLabels() {
-        return ExportExtensionPointHelper.getExportLabels(sExtensionPoint);
-    }
-    
+
     /* Facade for ExportExtensionPointHelper */
     public static String getExporterFromLabelIndex(int index) {
         return ExportExtensionPointHelper.getExporterFromLabelIndex(sExtensionPoint, index);
     }
-    
+
+    /* Facade for ExportExtensionPointHelper */
+    protected static IExtension[] getExportExtensions() {
+        return ExportExtensionPointHelper.getExportExtensions(sExtensionPoint);
+    }
+
     /* Facade for ExportExtensionPointHelper */
     public static String getFilenameExtension(String id) {
         return ExportExtensionPointHelper.getFilenameExtension(sExtensionPoint, id);
-    
     }
+
     /**
      * 
      * @param id
@@ -66,5 +62,14 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
         return exporter;
     }
 
+    /* Facade for ExportExtensionPointHelper */
+    public static String[] getImportLabels() {
+        return ExportExtensionPointHelper.getExportLabels(sExtensionPoint);
+    }
+
+    /* Facade for ExportExtensionPointHelper */
+    public static boolean isUseStream(String id) {
+        return ExportExtensionPointHelper.isUseStream(sExtensionPoint, id);
+    }
 
 }

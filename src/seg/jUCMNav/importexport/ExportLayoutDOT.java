@@ -21,29 +21,6 @@ import urncore.URNmodelElement;
 public class ExportLayoutDOT implements IUseCaseMapExport {
 
     /**
-     * Generate a DOT layout file with the given model instance.
-     * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
-     */
-    public void export(UCMmap map, FileOutputStream fos) {
-        String contents = convertUCMToDot(map);
-        try {
-            fos.write(contents.getBytes());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(org.eclipse.draw2d.IFigure, java.io.FileOutputStream)
-     */
-    public void export(IFigure map, FileOutputStream fos) {
-        // not used.
-    }
-
-    /**
      * Recursive method that builds a DOT cluster using the ComponentRef bindings.
      * 
      * @param compRef
@@ -113,5 +90,36 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
         dot.append("}\n"); //$NON-NLS-1$
         //System.out.println(dot.toString());
         return dot.toString();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(org.eclipse.draw2d.IFigure, java.io.FileOutputStream)
+     */
+    public void export(IFigure map, FileOutputStream fos) {
+        // not used.
+    }
+
+    public void export(IFigure map, String path) {
+        // not used.
+    }
+
+    /**
+     * Generate a DOT layout file with the given model instance.
+     * 
+     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
+     */
+    public void export(UCMmap map, FileOutputStream fos) {
+        String contents = convertUCMToDot(map);
+        try {
+            fos.write(contents.getBytes());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void export(UCMmap map, String path) {
+        // not used.
     }
 }

@@ -8,7 +8,8 @@ import org.eclipse.draw2d.IFigure;
 import ucm.map.UCMmap;
 
 /**
- * Interface used by the UseCaseMapExport extension point. Extension point used to convert instances of the ucm.map.Map and output them in a java.io.FileOutputStream, in the export wizard. 
+ * Interface used by the UseCaseMapExport extension point. Extension point used to convert instances of the ucm.map.Map and output them in a
+ * java.io.FileOutputStream, in the export wizard.
  * 
  * @author jkealey
  * 
@@ -16,18 +17,42 @@ import ucm.map.UCMmap;
 public interface IUseCaseMapExport {
 
     /**
-     * Export a map instance to a file. 
+     * Export a map instance to a file.
      * 
-     * @param map the map to be converted
-     * @param fos a file in which the conversion should be written
+     * @param map
+     *            the map to be converted
+     * @param fos
+     *            a file in which the conversion should be written
      */
     public void export(UCMmap map, FileOutputStream fos) throws InvocationTargetException;
 
     /**
      * Export the graphical representation of a map instance to a file.
      * 
-     * @param map the map to be converted
-     * @param fos a file in which the conversion should be written
+     * @param map
+     *            the map to be converted
+     * @param fos
+     *            a file in which the conversion should be written
      */
     public void export(IFigure map, FileOutputStream fos) throws InvocationTargetException;
+
+    /**
+     * Export a map instance to a file.
+     * 
+     * @param map
+     *            the map to be converted
+     * @param path
+     *            a file in which the conversion should be written
+     */
+    public void export(UCMmap map, String path) throws InvocationTargetException;
+
+    /**
+     * Export the graphical representation of a map instance to a file.
+     * 
+     * @param map
+     *            the map to be converted
+     * @param path
+     *            a file in which the conversion should be written
+     */
+    public void export(IFigure map, String path) throws InvocationTargetException;
 }

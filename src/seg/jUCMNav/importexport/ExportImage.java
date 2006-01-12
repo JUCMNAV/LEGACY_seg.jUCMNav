@@ -21,15 +21,6 @@ import ucm.map.UCMmap;
  */
 public abstract class ExportImage implements IUseCaseMapExport {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
-     */
-    public void export(UCMmap map, FileOutputStream fos) {
-        // not used.
-    }
-
     /**
      * Given the IFigure, save it to a file.
      * 
@@ -47,6 +38,23 @@ public abstract class ExportImage implements IUseCaseMapExport {
         ImageLoader loader = new ImageLoader();
         loader.data = new ImageData[] { image.getImageData() };
         loader.save(fos, getType());
+    }
+
+    public void export(IFigure pane, String path) {
+        // not used.
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
+     */
+    public void export(UCMmap map, FileOutputStream fos) {
+        // not used.
+    }
+
+    public void export(UCMmap map, String path) {
+        // not used.
     }
 
     /**

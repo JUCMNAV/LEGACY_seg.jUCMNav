@@ -1,5 +1,8 @@
 package seg.jUCMNav.views.wizards.importexport;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -14,7 +17,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.importexport.ImportUCEd;
+import seg.jUCMNav.extensionpoints.IURNImport;
+import seg.jUCMNav.importexport.URNImportExtensionPointHelper;
 import urn.URNspec;
 
 /**
@@ -60,7 +64,28 @@ public class ImportWizard extends Wizard implements IImportWizard {
         boolean b = ((ImportWizardFileSelectionPage) getPage(PAGE0)).finish();
 
         if (b) {
-            ImportUCEd importer = new ImportUCEd();
+            // given the import type, get the exporter id
+            int importtype = ImportPreferenceHelper.getType();
+            String id = URNImportExtensionPointHelper.getExporterFromLabelIndex(importtype);
+
+            // generate the path.
+            String path = ImportPreferenceHelper.getPath();
+
+            IURNImport importer = (IURNImport) URNImportExtensionPointHelper.getImporter(id);
+
+            if (URNImportExtensionPointHelper.isUseStream(id)) {
+                FileInputStream fis;
+                try {
+                    fis = new FileInputStream(new File(path));
+                    newurn = importer.importURN(fis);
+                } catch (FileNotFoundException e) {
+                    throw new InvocationTargetException(e, "Unable to find source file.");
+                }
+
+            } else {
+                newurn = importer.importURN(path);
+            }
+
             newurn = importer.importURN(ImportPreferenceHelper.getPath());
         }
         return b;

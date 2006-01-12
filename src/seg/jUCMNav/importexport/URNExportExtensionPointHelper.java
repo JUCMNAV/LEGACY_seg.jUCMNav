@@ -19,8 +19,8 @@ public class URNExportExtensionPointHelper extends ExportExtensionPointHelper {
     protected static String sExtensionPoint = "seg.jUCMNav.URNExport";
 
     /* Facade for ExportExtensionPointHelper */
-    protected static IExtension[] getExportExtensions() {
-        return ExportExtensionPointHelper.getExportExtensions(sExtensionPoint);
+    protected static IConfigurationElement getExportConfigurationElement(String id) {
+        return ExportExtensionPointHelper.getExportConfigurationElement(sExtensionPoint, id);
     }
     
     /* Facade for ExportExtensionPointHelper */
@@ -28,26 +28,6 @@ public class URNExportExtensionPointHelper extends ExportExtensionPointHelper {
         return ExportExtensionPointHelper.getExportConfigurationElements(sExtensionPoint);
     }
     
-    /* Facade for ExportExtensionPointHelper */
-    protected static IConfigurationElement getExportConfigurationElement(String id) {
-        return ExportExtensionPointHelper.getExportConfigurationElement(sExtensionPoint, id);
-    }
-    
-    /* Facade for ExportExtensionPointHelper */
-    public static String[] getExportLabels() {
-        return ExportExtensionPointHelper.getExportLabels(sExtensionPoint);
-    }
-    
-    /* Facade for ExportExtensionPointHelper */
-    public static String getExporterFromLabelIndex(int index) {
-        return ExportExtensionPointHelper.getExporterFromLabelIndex(sExtensionPoint, index);
-    }
-    
-    /* Facade for ExportExtensionPointHelper */
-    public static String getFilenameExtension(String id) {
-        return ExportExtensionPointHelper.getFilenameExtension(sExtensionPoint, id);
-    
-    }
     /**
      * 
      * @param id
@@ -64,6 +44,32 @@ public class URNExportExtensionPointHelper extends ExportExtensionPointHelper {
             e.printStackTrace();
         }
         return exporter;
+    }
+    
+    /* Facade for ExportExtensionPointHelper */
+    public static String getExporterFromLabelIndex(int index) {
+        return ExportExtensionPointHelper.getExporterFromLabelIndex(sExtensionPoint, index);
+    }
+    
+    /* Facade for ExportExtensionPointHelper */
+    protected static IExtension[] getExportExtensions() {
+        return ExportExtensionPointHelper.getExportExtensions(sExtensionPoint);
+    }
+    
+    /* Facade for ExportExtensionPointHelper */
+    public static String[] getExportLabels() {
+        return ExportExtensionPointHelper.getExportLabels(sExtensionPoint);
+    }
+    
+    /* Facade for ExportExtensionPointHelper */
+    public static String getFilenameExtension(String id) {
+        return ExportExtensionPointHelper.getFilenameExtension(sExtensionPoint, id);
+    
+    }
+
+    /* Facade for ExportExtensionPointHelper */
+    public static boolean isUseStream(String id) {
+        return ExportExtensionPointHelper.isUseStream(sExtensionPoint, id);
     }
 
 
