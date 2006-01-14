@@ -113,10 +113,7 @@ public abstract class ExportExtensionPointHelper {
      */
     public static boolean isUseStream(String sExtensionPoint, String id) {
         IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
-        try {
-            return Boolean.parseBoolean(elem.getAttribute("useStream"));
-        } catch (Exception ex) {
-            return true;
-        }
+        String attrib = elem.getAttribute("useStream");
+        return ((attrib != null) && attrib.equalsIgnoreCase("true"));
     }
 }
