@@ -57,7 +57,7 @@ public abstract class ExportExtensionPointHelper {
         ArrayList elements = getExportConfigurationElements(sExtensionPoint);
         for (Iterator iter = elements.iterator(); iter.hasNext();) {
             IConfigurationElement element = (IConfigurationElement) iter.next();
-            if (element.getAttribute("id").equalsIgnoreCase(id))
+            if (element.getAttribute("id").equalsIgnoreCase(id)) //$NON-NLS-1$
                 return element;
         }
         return null;
@@ -72,7 +72,7 @@ public abstract class ExportExtensionPointHelper {
         ArrayList labels = new ArrayList();
         for (Iterator iter = confElems.iterator(); iter.hasNext();) {
             IConfigurationElement element = (IConfigurationElement) iter.next();
-            labels.add(element.getAttribute("name"));
+            labels.add(element.getAttribute("name")); //$NON-NLS-1$
         }
         // we can't guarantee the uniqueness of the label so we wouldn't be able to return back to the unique ID if we sorted
         // we will have to rely on the UI to sort it if necessary.
@@ -91,7 +91,7 @@ public abstract class ExportExtensionPointHelper {
      * @return the exporter's unique id
      */
     public static String getExporterFromLabelIndex(String sExtensionPoint, int index) {
-        return ((IConfigurationElement) getExportConfigurationElements(sExtensionPoint).get(index)).getAttribute("id");
+        return ((IConfigurationElement) getExportConfigurationElements(sExtensionPoint).get(index)).getAttribute("id"); //$NON-NLS-1$
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class ExportExtensionPointHelper {
      */
     public static String getFilenameExtension(String sExtensionPoint, String id) {
         IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
-        return elem.getAttribute("extension");
+        return elem.getAttribute("extension"); //$NON-NLS-1$
     }
 
     /**
@@ -113,7 +113,8 @@ public abstract class ExportExtensionPointHelper {
      */
     public static boolean isUseStream(String sExtensionPoint, String id) {
         IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
-        String attrib = elem.getAttribute("useStream");
-        return ((attrib != null) && attrib.equalsIgnoreCase("true"));
+        String attrib = elem.getAttribute("useStream"); //$NON-NLS-1$
+        return ((attrib != null) && attrib.equalsIgnoreCase("true")); //$NON-NLS-1$
+
     }
 }

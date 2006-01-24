@@ -13,6 +13,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.tools.UCMElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -61,7 +62,7 @@ public class GrlPaletteRoot extends PaletteRoot {
      */
     private void buildPalette() {
         // a group of default control tools
-        PaletteGroup controls = new PaletteGroup("Controls"); 
+        PaletteGroup controls = new PaletteGroup(Messages.getString("GrlPaletteRoot.Controls"));  //$NON-NLS-1$
         add(controls);
 
         // the selection tool; default tool 
@@ -71,28 +72,28 @@ public class GrlPaletteRoot extends PaletteRoot {
 
         ToolEntry entry;
 
-        PaletteDrawer componentsDrawer = new PaletteDrawer("Elements"); 
+        PaletteDrawer componentsDrawer = new PaletteDrawer(Messages.getString("GrlPaletteRoot.Elements"));  //$NON-NLS-1$
 
         entry = new UCMElementCreationEntry(
-                "Softgoal", "Create a Softgoal", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                Messages.getString("GrlPaletteRoot.Softgoal"), Messages.getString("GrlPaletteRoot.CreateSoftgoal"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.SOFTGOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
         entry = new UCMElementCreationEntry(
-                "Goal", "Create a Goal", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                Messages.getString("GrlPaletteRoot.Goal"), Messages.getString("GrlPaletteRoot.CreateGoal"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.GOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Goal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Goal24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         
         entry = new UCMElementCreationEntry(
-                "Task", "Create a Task", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                Messages.getString("GrlPaletteRoot.Task"), Messages.getString("GrlPaletteRoot.CreateTask"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.TASK), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Task24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
         entry = new UCMElementCreationEntry(
-                "Ressource", "Create a Ressource", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                Messages.getString("GrlPaletteRoot.Resource"), Messages.getString("GrlPaletteRoot.CreateResource"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         IntentionalElementType.RESSOURCE), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Ressource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Ressource24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);

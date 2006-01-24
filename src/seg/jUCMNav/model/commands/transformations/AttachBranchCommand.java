@@ -33,15 +33,15 @@ public class AttachBranchCommand extends CompoundCommand {
         add(new PreDeleteUcmModelElementCommand(startEnd));
 
         if (startEnd instanceof StartPoint) {
-            assert stubJoinFork instanceof Stub || stubJoinFork instanceof AndFork || stubJoinFork instanceof OrFork : "not a stub/fork";
+            assert stubJoinFork instanceof Stub || stubJoinFork instanceof AndFork || stubJoinFork instanceof OrFork : "not a stub/fork"; //$NON-NLS-1$
             add(new AttachStartCommand((StartPoint) startEnd, stubJoinFork));
 
         } else if (startEnd instanceof EndPoint) {
-            assert stubJoinFork instanceof Stub || stubJoinFork instanceof AndJoin || stubJoinFork instanceof OrJoin : "not a stub/join";
+            assert stubJoinFork instanceof Stub || stubJoinFork instanceof AndJoin || stubJoinFork instanceof OrJoin : "not a stub/join"; //$NON-NLS-1$
             add(new AttachEndCommand((EndPoint) startEnd, stubJoinFork));
 
         } else {
-            assert false : "not a start or end point";
+            assert false : "not a start or end point"; //$NON-NLS-1$
         }
 
     }

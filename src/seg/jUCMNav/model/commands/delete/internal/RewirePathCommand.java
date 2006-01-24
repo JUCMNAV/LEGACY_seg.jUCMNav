@@ -105,11 +105,11 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert pg != null && element != null && ncPred != null && ncSucc != null : "pre something is null";
-        assert element.getSucc().size() == 1 && element.getPred().size() == 1 : "pre something wrong with connections";
-        assert aborted == false : "pre aborted";
-        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && pg.getConnections().contains(ncSucc) : "pre pg problem";
-        assert ncSucc.getInBindings().containsAll(inBindings) && ncPred.getInBindings().size() == 0 : "pre inbinding problem";
+        assert pg != null && element != null && ncPred != null && ncSucc != null : "pre something is null"; //$NON-NLS-1$
+        assert element.getSucc().size() == 1 && element.getPred().size() == 1 : "pre something wrong with connections"; //$NON-NLS-1$
+        assert aborted == false : "pre aborted"; //$NON-NLS-1$
+        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && pg.getConnections().contains(ncSucc) : "pre pg problem"; //$NON-NLS-1$
+        assert ncSucc.getInBindings().containsAll(inBindings) && ncPred.getInBindings().size() == 0 : "pre inbinding problem"; //$NON-NLS-1$
 
     }
 
@@ -118,11 +118,11 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert pg != null && element != null && ncPred != null && ncSucc != null : "post something is null";
-        assert element.getSucc().size() == 0 && element.getPred().size() == 0 : "post something wrong with connections";
-        assert aborted == false : "post aborted";
-        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && !pg.getConnections().contains(ncSucc) : "post pg problem";
-        assert ncSucc.getInBindings().size() == 0 && ncPred.getInBindings().containsAll(inBindings) : "post inbinding problem";
+        assert pg != null && element != null && ncPred != null && ncSucc != null : "post something is null"; //$NON-NLS-1$
+        assert element.getSucc().size() == 0 && element.getPred().size() == 0 : "post something wrong with connections"; //$NON-NLS-1$
+        assert aborted == false : "post aborted"; //$NON-NLS-1$
+        assert pg.getNodes().contains(element) && pg.getConnections().contains(ncPred) && !pg.getConnections().contains(ncSucc) : "post pg problem"; //$NON-NLS-1$
+        assert ncSucc.getInBindings().size() == 0 && ncPred.getInBindings().containsAll(inBindings) : "post inbinding problem"; //$NON-NLS-1$
 
     }
 

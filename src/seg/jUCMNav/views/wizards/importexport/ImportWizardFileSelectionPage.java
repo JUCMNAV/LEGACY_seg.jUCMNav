@@ -61,8 +61,8 @@ public class ImportWizardFileSelectionPage extends WizardPage {
      */
     protected ImportWizardFileSelectionPage(String pageName) {
         super(pageName);
-        setDescription("Please select the file to import.");
-        setTitle("Import File");
+        setDescription(Messages.getString("ImportWizardFileSelectionPage.SelectFileImport")); //$NON-NLS-1$
+        setTitle(Messages.getString("ImportWizardFileSelectionPage.ImportFile")); //$NON-NLS-1$
     }
 
     public void createControl(Composite parent) {
@@ -89,7 +89,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         cboFileTypes.setLayoutData(data);
 
         Label lblPath = new Label(composite, SWT.NONE);
-        lblPath.setText("File to import: ");
+        lblPath.setText(Messages.getString("ImportWizardFileSelectionPage.FileToImport")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         lblPath.setLayoutData(data);
@@ -113,16 +113,16 @@ public class ImportWizardFileSelectionPage extends WizardPage {
 
         Button b = new Button(getShell(), SWT.PUSH);
         b.setParent(composite);
-        b.setText("...");
+        b.setText("..."); //$NON-NLS-1$
         b.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
                 dialog.setFileName(ImportPreferenceHelper.getPath());
-                dialog.setText("Select file to import");
+                dialog.setText(Messages.getString("ImportWizardFileSelectionPage.SelectFileImport"));  //$NON-NLS-1$
                 if (cboFileTypes.getItemCount() > 0) {
                     String importer = URNImportExtensionPointHelper.getExporterFromLabelIndex(cboFileTypes.getSelectionIndex());
                     String extension = URNImportExtensionPointHelper.getFilenameExtension(importer);
-                    dialog.setFilterExtensions(new String[] { "*." + extension });
+                    dialog.setFilterExtensions(new String[] { "*." + extension }); //$NON-NLS-1$
                 }
                 String path = dialog.open();
 
@@ -136,7 +136,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         });
 
         Label label = new Label(composite, SWT.NULL);
-        label.setText("Into folder: ");
+        label.setText(Messages.getString("ImportWizardFileSelectionPage.IntoFolder")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
         label.setLayoutData(data);
@@ -160,7 +160,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         containerText.setLayoutData(data);
 
         Button button = new Button(composite, SWT.PUSH);
-        button.setText("...");
+        button.setText("..."); //$NON-NLS-1$
         button.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 handleBrowse();
@@ -168,7 +168,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         });
 
         chkAutolayout = new Button(composite, SWT.CHECK);
-        chkAutolayout.setText("Perform autolayout after import?");
+        chkAutolayout.setText(Messages.getString("ImportWizardFileSelectionPage.PerformAutolayoutAfter")); //$NON-NLS-1$
         chkAutolayout.setSelection(ImportPreferenceHelper.getAutoLayout());
         data = new GridData();
         data.horizontalSpan = 2;
@@ -176,13 +176,13 @@ public class ImportWizardFileSelectionPage extends WizardPage {
 
         b = new Button(getShell(), SWT.PUSH);
         b.setParent(composite);
-        b.setText("Autolayout preferences");
+        b.setText(Messages.getString("ImportWizardFileSelectionPage.AutolayoutPreferences")); //$NON-NLS-1$
         b.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 IPreferencePage page = new AutoLayoutPreferencePage();
-                page.setTitle("Autolayout preferences");
+                page.setTitle(Messages.getString("ImportWizardFileSelectionPage.AutolayoutPreferences")); //$NON-NLS-1$
                 PreferenceManager mgr = new PreferenceManager();
-                IPreferenceNode node = new PreferenceNode("1", page);
+                IPreferenceNode node = new PreferenceNode("1", page); //$NON-NLS-1$
                 
                 mgr.addToRoot(node);
                 PreferenceDialog dialog = new PreferenceDialog(getShell(), mgr);
@@ -215,7 +215,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
      */
 
     private void handleBrowse() {
-        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, "Select Project");
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages.getString("ImportWizardFileSelectionPage.SelectProject")); //$NON-NLS-1$
         if (dialog.open() == ContainerSelectionDialog.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {
@@ -235,24 +235,24 @@ public class ImportWizardFileSelectionPage extends WizardPage {
 
         File f = new File(fileName);
         if (fileName == null || fileName.length() == 0 || !f.isFile()) {
-            updateStatus("Invalid filename specified.");
+            updateStatus(Messages.getString("ImportWizardFileSelectionPage.InvalidFilename")); //$NON-NLS-1$
             return;
         }
 
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(container));
         if (resource == null || !resource.exists() || !(resource instanceof IContainer) || resource instanceof IWorkspaceRoot) {
-            updateStatus("No folder selected or folder doesn't exist.");
+            updateStatus(Messages.getString("ImportWizardFileSelectionPage.NoFolderSelected")); //$NON-NLS-1$
             return;
         }
 
         if ((resource instanceof IProject) && !((IProject) resource).isOpen()) {
-            updateStatus("This project is closed.");
+            updateStatus(Messages.getString("ImportWizardFileSelectionPage.ClosedProject")); //$NON-NLS-1$
             return;
         }
 
         if (cboFileTypes.getItemCount() == 0) {
-            updateStatus("No import modules available.");
+            updateStatus(Messages.getString("ImportWizardFileSelectionPage.NoImportModulesAvailable")); //$NON-NLS-1$
             return;
         }
         updateStatus(null);
@@ -315,8 +315,8 @@ public class ImportWizardFileSelectionPage extends WizardPage {
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
         if (resource != null) {
-            overwrite = MessageDialog.openQuestion(getShell(), "Target file already exists",
-                    "The import destination already exists. Do you wish to overwrite it?");
+            overwrite = MessageDialog.openQuestion(getShell(), Messages.getString("ImportWizardFileSelectionPage.TargetFileExists"), //$NON-NLS-1$
+                    Messages.getString("ImportWizardFileSelectionPage.ImportDestinationExists")); //$NON-NLS-1$
         }
     }
 

@@ -8,6 +8,7 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -34,7 +35,7 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
     public AddIntentionalElementRefCommand(GRLGraph graph, IntentionalElementRef ir) {
         this.graph = graph;
         this.elementRef = ir;
-        setLabel("Create Intentional Elements"); 
+        setLabel(Messages.getString("AddIntentionalElementRefCommand.CreateIntentionalElements"));  //$NON-NLS-1$
     }
 
     /**

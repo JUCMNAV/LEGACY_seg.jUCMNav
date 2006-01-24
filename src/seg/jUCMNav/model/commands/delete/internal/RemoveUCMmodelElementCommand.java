@@ -132,30 +132,30 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert element != null && map != null : "pre something is null";
+        assert element != null && map != null : "pre something is null"; //$NON-NLS-1$
         if (element instanceof PathNode)
-            assert map.getNodes().contains(element) : "pre pathgraph contains element";
+            assert map.getNodes().contains(element) : "pre pathgraph contains element"; //$NON-NLS-1$
         else if (element instanceof ComponentRef)
-            assert map.getCompRefs().contains(element) : "pre pathgraph contains element";
+            assert map.getCompRefs().contains(element) : "pre pathgraph contains element"; //$NON-NLS-1$
 
         if (definition != null) {
             if (element instanceof RespRef) {
                 RespRef ref = (RespRef) element;
-                assert definition == ref.getRespDef() : "pre resp def";
+                assert definition == ref.getRespDef() : "pre resp def"; //$NON-NLS-1$
             } else if (element instanceof ComponentRef) {
                 ComponentRef ref = (ComponentRef) element;
-                assert definition == ref.getCompDef() : "pre comp def";
+                assert definition == ref.getCompDef() : "pre comp def"; //$NON-NLS-1$
             }
         }
 
         if (parent != null) {
             if (element instanceof PathNode) {
                 PathNode node = (PathNode) element;
-                assert parent == node.getCompRef() : "pre pn parent";
+                assert parent == node.getCompRef() : "pre pn parent"; //$NON-NLS-1$
 
             } else if (element instanceof ComponentRef) {
                 ComponentRef ref = (ComponentRef) element;
-                assert parent == ref.getParent() : "pre cr parent";
+                assert parent == ref.getParent() : "pre cr parent"; //$NON-NLS-1$
             }
         }
 
@@ -166,29 +166,29 @@ public class RemoveUCMmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert element != null && map != null : "post something is null";
+        assert element != null && map != null : "post something is null"; //$NON-NLS-1$
         if (element instanceof PathNode)
-            assert !map.getNodes().contains(element) : "post pathgraph contains element";
+            assert !map.getNodes().contains(element) : "post pathgraph contains element"; //$NON-NLS-1$
         else if (element instanceof ComponentRef)
-            assert !map.getCompRefs().contains(element) : "post pathgraph contains element";
+            assert !map.getCompRefs().contains(element) : "post pathgraph contains element"; //$NON-NLS-1$
         if (definition != null) {
             if (element instanceof RespRef) {
                 RespRef ref = (RespRef) element;
-                assert null == ref.getRespDef() : "post resp def";
+                assert null == ref.getRespDef() : "post resp def"; //$NON-NLS-1$
             } else if (element instanceof ComponentRef) {
                 ComponentRef ref = (ComponentRef) element;
-                assert null == ref.getCompDef() : "post comp def";
+                assert null == ref.getCompDef() : "post comp def"; //$NON-NLS-1$
             }
         }
 
         if (parent != null) {
             if (element instanceof PathNode) {
                 PathNode node = (PathNode) element;
-                assert null == node.getCompRef() : "post pn parent";
+                assert null == node.getCompRef() : "post pn parent"; //$NON-NLS-1$
 
             } else if (element instanceof ComponentRef) {
                 ComponentRef ref = (ComponentRef) element;
-                assert null == ref.getParent() : "post cr parent";
+                assert null == ref.getParent() : "post cr parent"; //$NON-NLS-1$
             }
         }
     }

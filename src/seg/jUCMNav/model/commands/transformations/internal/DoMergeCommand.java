@@ -117,10 +117,10 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "pre something is null";
+        assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "pre something is null"; //$NON-NLS-1$
         assert map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint)
-                && !map.getNodes().contains(newEmptyPoint) : "pre pathnode problem ";
-        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "pre connection problem ";
+                && !map.getNodes().contains(newEmptyPoint) : "pre pathnode problem "; //$NON-NLS-1$
+        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "pre connection problem "; //$NON-NLS-1$
 
     }
 
@@ -128,9 +128,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "post something is null";
-        assert !(map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint) && !map.getNodes().contains(newEmptyPoint)) : "post pathnode problem ";
-        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "post connection problem ";
+        assert startPoint != null && endPoint != null && newEmptyPoint != null && map != null : "post something is null"; //$NON-NLS-1$
+        assert !(map.getNodes().contains(startPoint) && map.getNodes().contains(endPoint) && !map.getNodes().contains(newEmptyPoint)) : "post pathnode problem "; //$NON-NLS-1$
+        assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "post connection problem "; //$NON-NLS-1$
 
     }
 

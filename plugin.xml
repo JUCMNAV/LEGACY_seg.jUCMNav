@@ -49,7 +49,7 @@
                toolbarPath="jUCMNav"
                label="%autoLayout"
                class="seg.jUCMNav.actions.AutoLayoutActionDelegate"
-               tooltip="Auto Layout"
+               tooltip="%autoLayout"
                icon="icons/Node16.gif"
                style="push"
                menubarPath="seg.jUCMNav/ext"
@@ -62,14 +62,14 @@
             <separator name="ext"/>
          </menu>
          <action
-               label="&amp;Add Use Case Map"
+               actionID="seg.jUCMNav.actions.AddMapAction"
                class="seg.jUCMNav.actions.UCMActionDelegate"
                icon="icons/icon16.gif"
-               tooltip="Add Use Case Map"
-               style="push"
-               menubarPath="seg.jUCMnav/ext"
                id="seg.jUCMNav.AddMap"
-               actionID="seg.jUCMNav.actions.AddMapAction"/>
+               label="%AddUseCaseMap"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%AddUseCaseMap"/>
       </editorContribution>
    </extension>
    <extension
@@ -141,21 +141,21 @@
             extension="dot"
             id="seg.jUCMNav.ExportDOT"
             mode="model instance"
-            name="Graphviz DOT Layout Information (*.dot)"
+            name="%ExportDOT"
             useStream="true"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportImageJPG"
             extension="jpg"
             id="seg.jUCMNav.ExportJPG"
             mode="image"
-            name="JPEG Image (*.jpg)"
+            name="%ExportJPG"
             useStream="true"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportImageBMP"
             extension="bmp"
             id="seg.jUCMNav.ExportBMP"
             mode="image"
-            name="Bitmap Image (*.bmp)"
+            name="%ExportBMP"
             useStream="true"/>
    </extension>
    <extension
@@ -164,11 +164,11 @@
             category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
             class="seg.jUCMNav.views.preferences.AutoLayoutPreferencePage"
             id="seg.jUCMNav.views.preferences.AutoLayoutPreferencePage"
-            name="AutoLayout Preferences"/>
+            name="%AutolayoutPreferences"/>
       <page
             class="seg.jUCMNav.views.preferences.GeneralPreferencePage"
             id="seg.jUCMNav.views.preferences.GeneralPreferencePage"
-            name="jUCMNav Preferences"/>
+            name="%jUCMNavPreferences"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
@@ -182,7 +182,7 @@
             class="seg.jUCMNav.importexport.ExportDXL"
             extension="dxl"
             id="seg.jUCMNav.ExportDXL"
-            name="Telelogic DOORS DXL (Not yet implemented) (*.dxl)"
+            name="%ExportDXL"
             useStream="false"/>
    </extension>
    <extension

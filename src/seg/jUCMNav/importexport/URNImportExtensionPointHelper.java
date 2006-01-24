@@ -17,7 +17,7 @@ import seg.jUCMNav.extensionpoints.IURNImport;
  */
 public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
 
-    protected static String sExtensionPoint = "seg.jUCMNav.URNImport";
+    protected static String sExtensionPoint = "seg.jUCMNav.URNImport"; //$NON-NLS-1$
 
     /* Facade for ExportExtensionPointHelper */
     protected static IConfigurationElement getExportConfigurationElement(String id) {
@@ -54,7 +54,7 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
         IConfigurationElement elem = getExportConfigurationElement(id);
         IURNImport importer = null;
         try {
-            importer = (IURNImport) elem.createExecutableExtension("class");
+            importer = (IURNImport) elem.createExecutableExtension("class"); //$NON-NLS-1$
         } catch (CoreException e) {
             // ignore
             e.printStackTrace();

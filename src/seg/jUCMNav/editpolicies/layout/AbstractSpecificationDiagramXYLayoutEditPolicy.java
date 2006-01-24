@@ -43,7 +43,6 @@ public abstract class AbstractSpecificationDiagramXYLayoutEditPolicy extends XYL
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-        // TODO Auto-generated method stub
         return null;
     }
 

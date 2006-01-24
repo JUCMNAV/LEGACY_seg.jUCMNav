@@ -97,7 +97,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        assert this.element != null : "something is null";
+        assert this.element != null : "something is null"; //$NON-NLS-1$
 
         if (element instanceof StartPoint) {
             StartPoint point = (StartPoint) element;

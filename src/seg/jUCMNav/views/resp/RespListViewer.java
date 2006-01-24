@@ -203,7 +203,6 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
      * @see org.eclipse.jface.viewers.StructuredViewer#reveal(java.lang.Object)
      */
     public void reveal(Object element) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -382,7 +381,6 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
      * @see org.eclipse.emf.common.notify.Adapter#getTarget()
      */
     public Notifier getTarget() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -392,7 +390,6 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
      * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
      */
     public void setTarget(Notifier newTarget) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -402,7 +399,6 @@ public class RespListViewer extends StructuredViewer implements Adapter, ISelect
      * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
      */
     public boolean isAdapterForType(Object type) {
-        // TODO Auto-generated method stub
         return false;
     }
 }

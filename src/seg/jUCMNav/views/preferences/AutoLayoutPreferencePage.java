@@ -36,33 +36,32 @@ public class AutoLayoutPreferencePage extends FieldEditorPreferencePage implemen
      */
     protected void createFieldEditors() {
         // Initialize all field editors.
-        FileFieldEditor dotPath = new FileFieldEditor(AutoLayoutPreferences.PREF_DOTPATH, Messages.getString("AutoLayoutDotSettingsWizardPage.dotPath"),
+        FileFieldEditor dotPath = new FileFieldEditor(AutoLayoutPreferences.PREF_DOTPATH, Messages.getString("AutoLayoutDotSettingsWizardPage.dotPath"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(dotPath);
 
-        StringFieldEditor width = new StringFieldEditor(AutoLayoutPreferences.PREF_WIDTH, Messages.getString("AutoLayoutDotSettingsWizardPage.width"),
+        StringFieldEditor width = new StringFieldEditor(AutoLayoutPreferences.PREF_WIDTH, Messages.getString("AutoLayoutDotSettingsWizardPage.width"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(width);
 
-        StringFieldEditor height = new StringFieldEditor(AutoLayoutPreferences.PREF_HEIGHT, Messages.getString("AutoLayoutDotSettingsWizardPage.height"),
+        StringFieldEditor height = new StringFieldEditor(AutoLayoutPreferences.PREF_HEIGHT, Messages.getString("AutoLayoutDotSettingsWizardPage.height"), //$NON-NLS-1$
                 getFieldEditorParent());
         addField(height);
 
-        String[][] values = { { Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), "TB" },
-                { Messages.getString("AutoLayoutDotSettingsWizardPage.leftright"), "LR" } };
+        String[][] values = { { Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), "TB" }, //$NON-NLS-1$ //$NON-NLS-2$
+                { Messages.getString("AutoLayoutDotSettingsWizardPage.leftright"), "LR" } }; //$NON-NLS-1$ //$NON-NLS-2$
 
         RadioGroupFieldEditor orientation = new RadioGroupFieldEditor(AutoLayoutPreferences.PREF_ORIENTATION, Messages
-                .getString("AutoLayoutDotSettingsWizardPage.orientation"), 1, values, getFieldEditorParent());
+                .getString("AutoLayoutDotSettingsWizardPage.orientation"), 1, values, getFieldEditorParent()); //$NON-NLS-1$
         addField(orientation);
 
         BooleanFieldEditor empty = new BooleanFieldEditor(AutoLayoutPreferences.PREF_EMPTYPOINTS, Messages
-                .getString("AutoLayoutDotSettingsWizardPage.manipulateEmptyPoints"), getFieldEditorParent());
+                .getString("AutoLayoutDotSettingsWizardPage.manipulateEmptyPoints"), getFieldEditorParent()); //$NON-NLS-1$
         addField(empty);
         
     }
 
     public void init(IWorkbench workbench) {
-        // TODO Auto-generated method stub
 
     }
 

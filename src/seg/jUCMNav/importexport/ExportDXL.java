@@ -17,9 +17,8 @@ public class ExportDXL implements IURNExport {
 
     public void export(URNspec urn, FileOutputStream fos) {
         try {
-            fos.write("not yet implemented\nthis is a test".getBytes());
+            fos.write("not yet implemented\nthis is a test".getBytes()); //$NON-NLS-1$
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -33,7 +32,6 @@ public class ExportDXL implements IURNExport {
             fos = new FileOutputStream(filename);
             export(urn, fos);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
             // close the stream

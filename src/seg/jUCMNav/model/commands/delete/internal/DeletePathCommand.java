@@ -59,7 +59,7 @@ public class DeletePathCommand extends CompoundCommand {
         // the pathnodes are listed in the order of a normal path from StartPoint to EndPoint.
         DoesDisconnectImplyDelete verification = null;
         if (pnSeed instanceof StartPoint) {
-            assert nodes.firstElement() == pnSeed : "problem with query";
+            assert nodes.firstElement() == pnSeed : "problem with query"; //$NON-NLS-1$
             otherExtremity = (PathNode) nodes.lastElement();
             otherExtremityNC = (NodeConnection) connections.lastElement();
 
@@ -69,7 +69,7 @@ public class DeletePathCommand extends CompoundCommand {
                 verification = new DoesDisconnectImplyDelete(otherExtremity, v, new Vector());
             }
         } else {
-            assert nodes.lastElement() == pnSeed : "problem with query";
+            assert nodes.lastElement() == pnSeed : "problem with query"; //$NON-NLS-1$
             otherExtremity = (PathNode) nodes.firstElement();
             otherExtremityNC = (NodeConnection) connections.firstElement();
             if (!(otherExtremity instanceof StartPoint)) {
@@ -100,7 +100,7 @@ public class DeletePathCommand extends CompoundCommand {
         else
             add(new DeleteStartNCEndCommand((EndPoint) pnSeed));
 
-        assert canExecute() : "cannot execute??";
+        assert canExecute() : "cannot execute??"; //$NON-NLS-1$
     }
 
     /**

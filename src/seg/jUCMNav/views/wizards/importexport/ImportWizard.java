@@ -17,6 +17,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNImport;
 import seg.jUCMNav.importexport.URNImportExtensionPointHelper;
 import urn.URNspec;
@@ -29,7 +30,7 @@ import urn.URNspec;
  */
 public class ImportWizard extends Wizard implements IImportWizard {
 
-    protected static final String PAGE0 = "Import File";
+    protected static final String PAGE0 = Messages.getString("ImportWizard.ImportFile"); //$NON-NLS-1$
     protected URNspec newurn;
     /**
      * The workbench page in which we are working
@@ -79,7 +80,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
                     fis = new FileInputStream(new File(path));
                     newurn = importer.importURN(fis);
                 } catch (FileNotFoundException e) {
-                    throw new InvocationTargetException(e, "Unable to find source file.");
+                    throw new InvocationTargetException(e, Messages.getString("ImportWizard.UnableFindSource")); //$NON-NLS-1$
                 }
 
             } else {
@@ -105,7 +106,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
         this.page = workbench.getActiveWorkbenchWindow().getActivePage();
         // editor = (UCMNavMultiPageEditor) page.getActiveEditor();
-        setWindowTitle("Import File");
+        setWindowTitle(Messages.getString("ImportWizard.ImportFile")); //$NON-NLS-1$
     }
 
     /**
@@ -146,11 +147,11 @@ public class ImportWizard extends Wizard implements IImportWizard {
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ImportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return false;
         } catch (Exception e) {
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ImportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return false;
         }
         return success;

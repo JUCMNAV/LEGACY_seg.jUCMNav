@@ -18,6 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
@@ -84,7 +85,7 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
         }
         else if ((delta.getKind() == IResourceDelta.CHANGED) && ((delta.getFlags() & IResourceDelta.CONTENT) != 0)){
             //Content changed
-            QualifiedName timestamp = new QualifiedName(null,"ModificationDate");
+            QualifiedName timestamp = new QualifiedName(null,"ModificationDate"); //$NON-NLS-1$
             try{ 
                 editor.setInput(editor.getEditorInput());
                 IResource res = delta.getResource();
@@ -104,8 +105,8 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                             numbereditor++;
                             if (numbereditor == 2)
                             {
-                                if(MessageDialog.openQuestion(editor.getSite().getShell(),"Mulitple Editors for " + filename, 
-                                        "There are multiple editors open for " + filename + ". Do you want to load saved version in the other editors?")){                                                                                                                     
+                                if(MessageDialog.openQuestion(editor.getSite().getShell(),Messages.getString("ResourceTracker.MultipleEditorsTitle") + filename,  //$NON-NLS-1$
+                                        Messages.getString("ResourceTracker.MultipleEditorsText") + filename + Messages.getString("ResourceTracker.MultipleEditorsText2"))){                                                                                                                      //$NON-NLS-1$ //$NON-NLS-2$
                                     //For each editor bind to the changed file, refresh the model and recreates the pages
                                     for (int j=0; j<edref.length; j++)
                                     {

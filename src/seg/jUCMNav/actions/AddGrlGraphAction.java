@@ -16,7 +16,7 @@ import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
  */
 public class AddGrlGraphAction extends URNSelectionAction {
 
-    public static final String ADDGRLGRAPH = "Add GRL Graph";
+    public static final String ADDGRLGRAPH = "Add GRL Graph"; //$NON-NLS-1$
     
     public AddGrlGraphAction(IWorkbenchPart part){
         super(part);

@@ -36,6 +36,7 @@ import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
@@ -106,8 +107,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showOutlineAction.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outline16.gif")); //$NON-NLS-1$
-        showOutlineAction.setToolTipText("Hierarchical outline");
-        showOutlineAction.setText("Hierarchical outline");
+        showOutlineAction.setToolTipText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
+        showOutlineAction.setText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
         tbm.add(showOutlineAction);
         showOverviewAction = new Action() {
             public void run() {
@@ -116,8 +117,8 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
         };
         showOverviewAction.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
-        showOverviewAction.setToolTipText("Graphical overview");
-        showOverviewAction.setText("Graphical overview");
+        showOverviewAction.setToolTipText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
+        showOverviewAction.setText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         tbm.add(showOverviewAction);
 
         IMenuManager mm = getSite().getActionBars().getMenuManager();

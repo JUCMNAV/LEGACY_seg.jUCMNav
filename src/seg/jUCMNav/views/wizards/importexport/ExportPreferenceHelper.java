@@ -15,7 +15,7 @@ public class ExportPreferenceHelper {
     public final static int DEFAULTEXPORTTYPE = 0;
     public final static int DEFAULTIMAGETYPE = 1;
     public final static String DEFAULTPATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
-    public static final String PREF_EXPORTTYPE = "seg.jUCMNav.ExportImage.ExportType";
+    public static final String PREF_EXPORTTYPE = "seg.jUCMNav.ExportImage.ExportType"; //$NON-NLS-1$
     public final static String PREF_IMAGETYPE = "seg.jUCMNav.ExportImage.ImageType"; //$NON-NLS-1$
     public final static String PREF_PATH = "seg.jUCMNav.ExportImage.Path"; //$NON-NLS-1$
 

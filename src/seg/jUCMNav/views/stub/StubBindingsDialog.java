@@ -233,7 +233,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g = new GridData();
         btCreateMap.setLayoutData(g);
 
-        btCreateMap.setText("Create Map...");
+        btCreateMap.setText(Messages.getString("StubBindingsDialog.CreateMap")); //$NON-NLS-1$
         btCreateMap.addMouseListener(new MouseAdapter() {
             public void mouseDown(MouseEvent e) {
                 handleCreateMap();
@@ -356,7 +356,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = false;
         lb.setLayoutData(t);
-        selectedPluginLabel = toolkit.createLabel(lb2, "[no Plugin selected]");
+        selectedPluginLabel = toolkit.createLabel(lb2, Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
         t = new GridData(GridData.FILL_HORIZONTAL);
         t.grabExcessHorizontalSpace = true;
         selectedPluginLabel.setLayoutData(t);
@@ -398,7 +398,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         f.grabExcessVerticalSpace = true;
         stubComp.setLayoutData(f);
 
-        lb = toolkit.createLabel(stubComp, "Stub");
+        lb = toolkit.createLabel(stubComp, Messages.getString("StubBindingsDialog.stub")); //$NON-NLS-1$
 
         tabStubIns = toolkit.createTable(stubComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabStubIns.setLinesVisible(true);
@@ -453,7 +453,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         g.grabExcessVerticalSpace = true;
         mapComp.setLayoutData(g);
 
-        lb = toolkit.createLabel(mapComp, "Map");
+        lb = toolkit.createLabel(mapComp, Messages.getString("StubBindingsDialog.Map")); //$NON-NLS-1$
 
         tabMapIns = toolkit.createTable(mapComp, SWT.SINGLE | SWT.FULL_SELECTION);
         tabMapIns.setLinesVisible(true);
@@ -576,46 +576,46 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 //        compCondition.setBackground(new Color(null, 232, 247, 255));
         
         
-        Label lblLabelCondition = toolkit.createLabel(compCondition, "Label:");
+        Label lblLabelCondition = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.Label")); //$NON-NLS-1$
         g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = false;
         g.grabExcessVerticalSpace = true;
         lblLabelCondition.setLayoutData(g);
 //        lblLabelCondition.setBackground(new Color(null, 232, 247, 255));
         
-        txtLabelCondition = toolkit.createText(compCondition, "", SWT.BORDER);
+        txtLabelCondition = toolkit.createText(compCondition, "", SWT.BORDER); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
         txtLabelCondition.setLayoutData(g);
         
-        Label lblExpCondition = toolkit.createLabel(compCondition, "Expression:");
+        Label lblExpCondition = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.Expression")); //$NON-NLS-1$
         g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = false;
         g.grabExcessVerticalSpace = true;
         lblExpCondition.setLayoutData(g);
 //        lblExpCondition.setBackground(new Color(null, 232, 247, 255));
         
-        txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER);
+        txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
         txtExpCondition.setLayoutData(g);
         
-        Label lblDescCondition = toolkit.createLabel(compCondition, "Description:");
+        Label lblDescCondition = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.Description")); //$NON-NLS-1$
         g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = false;
         g.grabExcessVerticalSpace = true;
         lblDescCondition.setLayoutData(g);
 //        lblDescCondition.setBackground(new Color(null, 232, 247, 255));
         
-        txtDescCondition = toolkit.createText(compCondition, "", SWT.BORDER);
+        txtDescCondition = toolkit.createText(compCondition, "", SWT.BORDER); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
         txtDescCondition.setLayoutData(g);
         
-        btUpdateLink = toolkit.createHyperlink(compCondition, "Update", SWT.NONE);
+        btUpdateLink = toolkit.createHyperlink(compCondition, Messages.getString("StubBindingsDialog.Update"), SWT.NONE); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
         g.grabExcessHorizontalSpace = true;
         g.grabExcessVerticalSpace = true;
@@ -660,14 +660,14 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		PluginBinding plug = (PluginBinding)selectedPluginLabel.getData();
 		
 		if(plug.getPrecondition() != null) {
-			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel());
-			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression());
-			txtDescCondition.setText(plug.getPrecondition().getDescription() == null ? "" : plug.getPrecondition().getDescription());
+			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel()); //$NON-NLS-1$
+			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression()); //$NON-NLS-1$
+			txtDescCondition.setText(plug.getPrecondition().getDescription() == null ? "" : plug.getPrecondition().getDescription()); //$NON-NLS-1$
 		}
 		else {
-			txtLabelCondition.setText("");
-			txtExpCondition.setText("");
-			txtDescCondition.setText("");
+			txtLabelCondition.setText(""); //$NON-NLS-1$
+			txtExpCondition.setText(""); //$NON-NLS-1$
+			txtDescCondition.setText(""); //$NON-NLS-1$
 			
 			txtLabelCondition.setEnabled(false);
 			txtExpCondition.setEnabled(false);

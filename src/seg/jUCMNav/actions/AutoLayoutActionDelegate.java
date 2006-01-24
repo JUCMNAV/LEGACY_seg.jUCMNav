@@ -6,6 +6,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
@@ -59,7 +60,7 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
             }
             else
             {
-                System.out.println("Autolayout not available for this type of editor");
+                System.out.println(Messages.getString("AutoLayoutActionDelegate.AutolayoutNotAvailable")); //$NON-NLS-1$
             }
         }
     }

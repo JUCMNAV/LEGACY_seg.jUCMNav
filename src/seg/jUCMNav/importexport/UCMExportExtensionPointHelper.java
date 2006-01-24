@@ -15,7 +15,7 @@ import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
  */
 public class UCMExportExtensionPointHelper extends ExportExtensionPointHelper {
 
-    protected static String sExtensionPoint = "seg.jUCMNav.UseCaseMapExport";
+    protected static String sExtensionPoint = "seg.jUCMNav.UseCaseMapExport"; //$NON-NLS-1$
 
     /* Facade for ExportExtensionPointHelper */
     protected static IExtension[] getExportExtensions() {
@@ -58,7 +58,7 @@ public class UCMExportExtensionPointHelper extends ExportExtensionPointHelper {
         IConfigurationElement elem = getExportConfigurationElement(id);
         IUseCaseMapExport exporter = null;
         try {
-            exporter = (IUseCaseMapExport) elem.createExecutableExtension("class");
+            exporter = (IUseCaseMapExport) elem.createExecutableExtension("class"); //$NON-NLS-1$
         } catch (CoreException e) {
             // ignore
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class UCMExportExtensionPointHelper extends ExportExtensionPointHelper {
      */
     public static String getMode(String id) {
         IConfigurationElement elem = getExportConfigurationElement(id);
-        return elem.getAttribute("mode");
+        return elem.getAttribute("mode"); //$NON-NLS-1$
     }
 
     /* Facade for ExportExtensionPointHelper */

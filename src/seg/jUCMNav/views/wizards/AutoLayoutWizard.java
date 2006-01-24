@@ -79,7 +79,6 @@ public class AutoLayoutWizard extends Wizard {
                 while ((s = reader.readLine()) != null)
                     builder.append(s + "\n"); //$NON-NLS-1$
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

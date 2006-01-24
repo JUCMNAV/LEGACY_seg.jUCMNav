@@ -249,7 +249,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);  
         
         action = new AddGrlGraphAction(editor);
-        action.setText("Add Grl Graph");
+        action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
     }
 

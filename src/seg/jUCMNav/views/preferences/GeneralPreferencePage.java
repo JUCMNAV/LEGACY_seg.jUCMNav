@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * The root preference page for jUCMNav. Has preferences for label colors.
@@ -16,8 +17,8 @@ import seg.jUCMNav.JUCMNavPlugin;
  */
 public class GeneralPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-    public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR";
-    public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR";
+    public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR"; //$NON-NLS-1$
+    public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR"; //$NON-NLS-1$
 
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -31,9 +32,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
      */
     protected void createFieldEditors() {
-        ColorFieldEditor stubLabelColor = new ColorFieldEditor(PREF_STUBLABELCOLOR, "Stub Label Color", getFieldEditorParent());
+        ColorFieldEditor stubLabelColor = new ColorFieldEditor(PREF_STUBLABELCOLOR, Messages.getString("GeneralPreferencePage.StubLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(stubLabelColor);
-        ColorFieldEditor conditionLabelColor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, "Condition Label Color", getFieldEditorParent());
+        ColorFieldEditor conditionLabelColor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(conditionLabelColor);
 
     }

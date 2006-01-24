@@ -184,16 +184,16 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert _newNode != null && _oldNode != null && _pg != null : "pre something is null";
-        assert _pg.getNodes().contains(_oldNode) && !_pg.getNodes().contains(_newNode) : "pre node replacement problem";
+        assert _newNode != null && _oldNode != null && _pg != null : "pre something is null"; //$NON-NLS-1$
+        assert _pg.getNodes().contains(_oldNode) && !_pg.getNodes().contains(_newNode) : "pre node replacement problem"; //$NON-NLS-1$
     }
 
     /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert _newNode != null && _oldNode != null && _pg != null : "post something is null";
-        assert !_pg.getNodes().contains(_oldNode) && _pg.getNodes().contains(_newNode) : "post node replacement problem";
+        assert _newNode != null && _oldNode != null && _pg != null : "post something is null"; //$NON-NLS-1$
+        assert !_pg.getNodes().contains(_oldNode) && _pg.getNodes().contains(_newNode) : "post node replacement problem"; //$NON-NLS-1$
 
     }
 

@@ -309,7 +309,6 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#addSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -317,7 +316,6 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
 	 */
 	public ISelection getSelection() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -325,8 +323,7 @@ public class ResponsibilityView extends ViewPart implements IPartListener2, ISel
 	 * @see org.eclipse.jface.viewers.ISelectionProvider#removeSelectionChangedListener(org.eclipse.jface.viewers.ISelectionChangedListener)
 	 */
 	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	/* (non-Javadoc)

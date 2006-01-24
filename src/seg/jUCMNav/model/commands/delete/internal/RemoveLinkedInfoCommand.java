@@ -105,17 +105,17 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert element != null : "pre something is null";
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap) : "pre invalid class";
+        assert element != null : "pre something is null"; //$NON-NLS-1$
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap) : "pre invalid class"; //$NON-NLS-1$
     }
 
     /**
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert element != null : "post something is null";
+        assert element != null : "post something is null"; //$NON-NLS-1$
         if (condition != null && element instanceof NodeConnection)
-            assert ((NodeConnection) element).getCondition() == null : "post condition not removed";
+            assert ((NodeConnection) element).getCondition() == null : "post condition not removed"; //$NON-NLS-1$
     }
 
 }

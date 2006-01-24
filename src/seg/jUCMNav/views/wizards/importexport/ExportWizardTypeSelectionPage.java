@@ -51,7 +51,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
 
         radios[0] = new Button(composite, SWT.RADIO);
         radios[0].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM);
-        radios[0].setText("Export Use Case Maps (UCM): ");
+        radios[0].setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCM")); //$NON-NLS-1$
 
         radios[0].setBounds(10, 5, 75, 30);
         radios[0].addSelectionListener(new SelectionListener() {
@@ -70,7 +70,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
 
         radios[1] = new Button(composite, SWT.RADIO);
         radios[1].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN);
-        radios[1].setText("Export User Requirements Notation (URN): ");
+        radios[1].setText(Messages.getString("ExportWizardTypeSelectionPage.ExportURN")); //$NON-NLS-1$
         radios[1].setBounds(10, 30, 75, 30);
         radios[1].addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
@@ -94,7 +94,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
         String ucm = getUcmExportStrings();
         String urn = getUrnExportStrings();
 
-        lblInformation.setText("You can export UCMs to the following formats: \n  " + ucm + "\nYou can export URN to the following formats: \n  " + urn + "\n");
+        lblInformation.setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCMTo") + ucm + Messages.getString("ExportWizardTypeSelectionPage.ExportURNTo") + urn + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 
         // page can only be complete if we have a type to export to at the next step.
@@ -113,14 +113,14 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
      * @return a label to show the available formats
      */
     private String getUcmExportStrings() {
-        String ucm = "";
+        String ucm = ""; //$NON-NLS-1$
         if (iUCMCount > 0) {
             for (int i = 0; i < iUCMCount; i++) {
-                ucm = ucm + UCMExportExtensionPointHelper.getExportLabels()[i] + "\n  ";
+                ucm = ucm + UCMExportExtensionPointHelper.getExportLabels()[i] + "\n  "; //$NON-NLS-1$
             }
             ucm = ucm.substring(0, ucm.length() - 2);
         } else
-            ucm = "  (None currently available)";
+            ucm = Messages.getString("ExportWizardTypeSelectionPage.NoneAvailable"); //$NON-NLS-1$
         return ucm;
     }
 
@@ -130,14 +130,14 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
      * @return a label to show the available formats
      */
     private String getUrnExportStrings() {
-        String urn = "";
+        String urn = ""; //$NON-NLS-1$
         if (iURNCount > 0) {
             for (int i = 0; i < iURNCount; i++) {
-                urn = urn + URNExportExtensionPointHelper.getExportLabels()[i] + "\n  ";
+                urn = urn + URNExportExtensionPointHelper.getExportLabels()[i] + "\n  "; //$NON-NLS-1$
             }
             urn = urn.substring(0, urn.length() - 2);
         } else
-            urn = "  (None currently available)";
+            urn = Messages.getString("ExportWizardTypeSelectionPage.NoneAvailable"); //$NON-NLS-1$
         return urn;
     }
 }

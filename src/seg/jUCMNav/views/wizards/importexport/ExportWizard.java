@@ -53,7 +53,7 @@ import urn.URNspec;
  */
 public class ExportWizard extends Wizard implements IExportWizard {
 
-    protected static final String PAGE0 = "Export URN or UCM";
+    protected static final String PAGE0 = Messages.getString("ExportWizard.ExportURNorUCM"); //$NON-NLS-1$
     protected static final String PAGE1 = Messages.getString("ExportImageWizard.exportImage"); //$NON-NLS-1$
 
     /**
@@ -190,7 +190,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             IUseCaseMapExport exporter = (IUseCaseMapExport) UCMExportExtensionPointHelper.getExporter(id);
 
             // save it
-            if (UCMExportExtensionPointHelper.getMode(id).equals("image")) {
+            if (UCMExportExtensionPointHelper.getMode(id).equals("image")) { //$NON-NLS-1$
                 // get the high level IFigure to be saved.
                 LayeredPane pane = ((UCMConnectionOnBottomRootEditPart) (editor.getGraphicalViewer().getRootEditPart())).getScaledLayers();
                 if (UCMExportExtensionPointHelper.isUseStream(id)) {
@@ -211,11 +211,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return;
         } catch (Exception e) {
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
             return;
         } finally {
             // close the stream
@@ -275,10 +275,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
         } catch (Exception e) {
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), "An error has occurred", e.getMessage(), error);
+            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
         } finally {
             // close the stream
             if (fos != null) {

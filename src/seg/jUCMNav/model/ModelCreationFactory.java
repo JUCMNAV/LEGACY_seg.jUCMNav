@@ -259,7 +259,7 @@ public class ModelCreationFactory implements CreationFactory {
                     PluginBinding plug = mapfactory.createPluginBinding();
                     
                     plug.setPrecondition((Condition) getNewObject(urn, Condition.class));
-                    plug.getPrecondition().setExpression("true");
+                    plug.getPrecondition().setExpression("true"); //$NON-NLS-1$
                     
                     result = plug;
                 } else if (targetClass.equals(GRLGraph.class)) {

@@ -145,7 +145,7 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
         cboOrientation.setItems(new String[] {
                 Messages.getString("AutoLayoutDotSettingsWizardPage.topdown"), Messages.getString("AutoLayoutDotSettingsWizardPage.leftright") }); //$NON-NLS-1$ //$NON-NLS-2$
 
-        if (AutoLayoutPreferences.getOrientation().equalsIgnoreCase("TB"))
+        if (AutoLayoutPreferences.getOrientation().equalsIgnoreCase("TB")) //$NON-NLS-1$
             cboOrientation.select(0); // TB
         else
             cboOrientation.select(1); // LR
@@ -195,9 +195,9 @@ public class AutoLayoutDotSettingsWizardPage extends WizardPage {
     public void setOrientation(int i) {
         cboOrientation.select(i);
         if (i==0)
-            AutoLayoutPreferences.setOrientation("TB");
+            AutoLayoutPreferences.setOrientation("TB"); //$NON-NLS-1$
         else
-            AutoLayoutPreferences.setOrientation("LR");
+            AutoLayoutPreferences.setOrientation("LR"); //$NON-NLS-1$
         
     }
 

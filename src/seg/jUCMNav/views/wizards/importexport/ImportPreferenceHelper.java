@@ -13,7 +13,7 @@ import seg.jUCMNav.JUCMNavPlugin;
  */
 public class ImportPreferenceHelper {
     public final static String DEFAULTPATH = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString();
-    public final static String PREF_AUTOLAYOUT = "seg.jUCMNav.ImportUCM.AutoLayout"; // $NON-NLS-1$
+    public final static String PREF_AUTOLAYOUT = "seg.jUCMNav.ImportUCM.AutoLayout"; //$NON-NLS-1$
     public final static String PREF_PATH = "seg.jUCMNav.ImportUCM.Path"; //$NON-NLS-1$
     public final static String PREF_PROJECT = "seg.jUCMNav.ImportUCM.Project"; //$NON-NLS-1$
     public final static String PREF_TYPE = "seg.jUCMNav.ImportUCM.Type"; //$NON-NLS-1$

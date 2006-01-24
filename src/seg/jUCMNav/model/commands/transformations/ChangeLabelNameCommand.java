@@ -26,8 +26,8 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     private String name, oldName;
     
     // PluginBinding dependant.
-    private String description="", oldDesc="";
-    private String expression="", oldExp="";
+    private String description="", oldDesc=""; //$NON-NLS-1$ //$NON-NLS-2$
+    private String expression="", oldExp=""; //$NON-NLS-1$ //$NON-NLS-2$
 
     public ChangeLabelNameCommand(Label lbl, String name) {
         if (lbl instanceof ComponentLabel)
