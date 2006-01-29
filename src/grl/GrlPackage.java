@@ -26,9 +26,10 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see grl.GrlFactory
+ * @model kind="package"
  * @generated
  */
-public interface GrlPackage extends EPackage {
+public interface GrlPackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->
@@ -99,13 +100,149 @@ public interface GrlPackage extends EPackage {
     int GR_LSPEC__ACTORS = 2;
 
     /**
+     * The feature id for the '<em><b>Links</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LSPEC__LINKS = 3;
+
+    /**
      * The number of structural features of the the '<em>GR Lspec</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GR_LSPEC_FEATURE_COUNT = 3;
+    int GR_LSPEC_FEATURE_COUNT = 4;
+
+    /**
+     * The meta object id for the '{@link grl.impl.GRLNodeImpl <em>GRL Node</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see grl.impl.GRLNodeImpl
+     * @see grl.impl.GrlPackageImpl#getGRLNode()
+     * @generated
+     */
+    int GRL_NODE = 14;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>X</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__X = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Y</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__Y = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+    /**
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__DIAGRAM = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
+     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__CONT_REF = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+
+    /**
+     * The feature id for the '<em><b>Succ</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__SUCC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Pred</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__PRED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+    /**
+     * The feature id for the '<em><b>Label</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__LABEL = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+    /**
+     * The number of structural features of the the '<em>GRL Node</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The meta object id for the '{@link grl.impl.BeliefImpl <em>Belief</em>}' class.
@@ -118,13 +255,31 @@ public interface GrlPackage extends EPackage {
     int BELIEF = 1;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF__FROM_LINKS = GRL_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF__TO_LINKS = GRL_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BELIEF__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+    int BELIEF__ID = GRL_NODE__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -133,7 +288,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+    int BELIEF__NAME = GRL_NODE__NAME;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -142,16 +297,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BELIEF__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
+    int BELIEF__DESCRIPTION = GRL_NODE__DESCRIPTION;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -160,7 +306,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__X = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int BELIEF__X = GRL_NODE__X;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -169,25 +315,25 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__Y = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int BELIEF__Y = GRL_NODE__Y;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BELIEF__SPEC_DIAGRAM = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int BELIEF__DIAGRAM = GRL_NODE__DIAGRAM;
 
     /**
-     * The feature id for the '<em><b>Comp Ref</b></em>' reference.
+     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BELIEF__COMP_REF = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int BELIEF__CONT_REF = GRL_NODE__CONT_REF;
 
     /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
@@ -196,7 +342,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__SUCC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int BELIEF__SUCC = GRL_NODE__SUCC;
 
     /**
      * The feature id for the '<em><b>Pred</b></em>' reference list.
@@ -205,7 +351,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__PRED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int BELIEF__PRED = GRL_NODE__PRED;
 
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -214,16 +360,16 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF__LABEL = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int BELIEF__LABEL = GRL_NODE__LABEL;
 
     /**
-     * The feature id for the '<em><b>Connection</b></em>' reference.
+     * The feature id for the '<em><b>Author</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BELIEF__CONNECTION = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int BELIEF__AUTHOR = GRL_NODE_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the the '<em>Belief</em>' class.
@@ -232,7 +378,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int BELIEF_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
+    int BELIEF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link grl.impl.IntentionalElementImpl <em>Intentional Element</em>}' class.
@@ -243,6 +389,24 @@ public interface GrlPackage extends EPackage {
      * @generated
      */
     int INTENTIONAL_ELEMENT = 2;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -270,15 +434,6 @@ public interface GrlPackage extends EPackage {
      * @ordered
      */
     int INTENTIONAL_ELEMENT__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -317,13 +472,40 @@ public interface GrlPackage extends EPackage {
     int INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
+     * The feature id for the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__LINE_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+
+    /**
+     * The feature id for the '<em><b>Fill Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__FILL_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+    /**
+     * The feature id for the '<em><b>Filled</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__FILLED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+    /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int INTENTIONAL_ELEMENT__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -332,79 +514,25 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
-     * The feature id for the '<em><b>Is Depender</b></em>' reference list.
+     * The feature id for the '<em><b>Links Src</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__IS_DEPENDER = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
-     * The feature id for the '<em><b>Decomposition Src</b></em>' reference list.
+     * The feature id for the '<em><b>Links Dest</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__DECOMPOSITION_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
-
-    /**
-     * The feature id for the '<em><b>Decomposition Dest</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__DECOMPOSITION_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
-
-    /**
-     * The feature id for the '<em><b>Contribution Src</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__CONTRIBUTION_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
-
-    /**
-     * The feature id for the '<em><b>Contribution Dest</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__CONTRIBUTION_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
-
-    /**
-     * The feature id for the '<em><b>Is Dependum</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__IS_DEPENDUM = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
-
-    /**
-     * The feature id for the '<em><b>Is Dependee</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__IS_DEPENDEE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 12;
-
-    /**
-     * The feature id for the '<em><b>Evals</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__EVALS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 13;
+    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The number of structural features of the the '<em>Intentional Element</em>' class.
@@ -413,7 +541,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 14;
+    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
 
     /**
      * The meta object id for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
@@ -424,6 +552,24 @@ public interface GrlPackage extends EPackage {
      * @generated
      */
     int ACTOR = 3;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -453,15 +599,6 @@ public interface GrlPackage extends EPackage {
     int ACTOR__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACTOR__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
-
-    /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -489,13 +626,13 @@ public interface GrlPackage extends EPackage {
     int ACTOR__FILLED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACTOR__COMP_REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int ACTOR__CONT_REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -526,6 +663,24 @@ public interface GrlPackage extends EPackage {
     int GRL_GRAPH = 4;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_GRAPH__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_GRAPH__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -553,15 +708,6 @@ public interface GrlPackage extends EPackage {
     int GRL_GRAPH__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GRL_GRAPH__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
-
-    /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -580,13 +726,13 @@ public interface GrlPackage extends EPackage {
     int GRL_GRAPH__NODES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' containment reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GRL_GRAPH__COMP_REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int GRL_GRAPH__CONT_REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Connections</b></em>' containment reference list.
@@ -617,13 +763,58 @@ public interface GrlPackage extends EPackage {
     int ACTOR_REF = 5;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACTOR_REF__X = UrncorePackage.SPECIFICATION_COMPONENT_REF__X;
+    int ACTOR_REF__X = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -632,7 +823,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__Y = UrncorePackage.SPECIFICATION_COMPONENT_REF__Y;
+    int ACTOR_REF__Y = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -641,7 +832,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__WIDTH = UrncorePackage.SPECIFICATION_COMPONENT_REF__WIDTH;
+    int ACTOR_REF__WIDTH = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -650,7 +841,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__HEIGHT = UrncorePackage.SPECIFICATION_COMPONENT_REF__HEIGHT;
+    int ACTOR_REF__HEIGHT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Fixed</b></em>' attribute.
@@ -659,25 +850,25 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__FIXED = UrncorePackage.SPECIFICATION_COMPONENT_REF__FIXED;
+    int ACTOR_REF__FIXED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACTOR_REF__SPEC_DIAGRAM = UrncorePackage.SPECIFICATION_COMPONENT_REF__SPEC_DIAGRAM;
+    int ACTOR_REF__DIAGRAM = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
-     * The feature id for the '<em><b>Comp Def</b></em>' reference.
+     * The feature id for the '<em><b>Cont Def</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ACTOR_REF__COMP_DEF = UrncorePackage.SPECIFICATION_COMPONENT_REF__COMP_DEF;
+    int ACTOR_REF__CONT_DEF = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Nodes</b></em>' reference list.
@@ -686,7 +877,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__NODES = UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES;
+    int ACTOR_REF__NODES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -695,7 +886,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__LABEL = UrncorePackage.SPECIFICATION_COMPONENT_REF__LABEL;
+    int ACTOR_REF__LABEL = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Parent</b></em>' reference.
@@ -704,7 +895,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__PARENT = UrncorePackage.SPECIFICATION_COMPONENT_REF__PARENT;
+    int ACTOR_REF__PARENT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Children</b></em>' reference list.
@@ -713,7 +904,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF__CHILDREN = UrncorePackage.SPECIFICATION_COMPONENT_REF__CHILDREN;
+    int ACTOR_REF__CHILDREN = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The number of structural features of the the '<em>Actor Ref</em>' class.
@@ -722,7 +913,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ACTOR_REF_FEATURE_COUNT = UrncorePackage.SPECIFICATION_COMPONENT_REF_FEATURE_COUNT + 0;
+    int ACTOR_REF_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
 
     /**
      * The meta object id for the '{@link grl.impl.IntentionalElementRefImpl <em>Intentional Element Ref</em>}' class.
@@ -735,13 +926,31 @@ public interface GrlPackage extends EPackage {
     int INTENTIONAL_ELEMENT_REF = 6;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__FROM_LINKS = GRL_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__TO_LINKS = GRL_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+    int INTENTIONAL_ELEMENT_REF__ID = GRL_NODE__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -750,7 +959,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+    int INTENTIONAL_ELEMENT_REF__NAME = GRL_NODE__NAME;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -759,16 +968,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT_REF__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
+    int INTENTIONAL_ELEMENT_REF__DESCRIPTION = GRL_NODE__DESCRIPTION;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -777,7 +977,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__X = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int INTENTIONAL_ELEMENT_REF__X = GRL_NODE__X;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -786,25 +986,25 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__Y = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int INTENTIONAL_ELEMENT_REF__Y = GRL_NODE__Y;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__SPEC_DIAGRAM = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int INTENTIONAL_ELEMENT_REF__DIAGRAM = GRL_NODE__DIAGRAM;
 
     /**
-     * The feature id for the '<em><b>Comp Ref</b></em>' reference.
+     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__COMP_REF = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int INTENTIONAL_ELEMENT_REF__CONT_REF = GRL_NODE__CONT_REF;
 
     /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
@@ -813,7 +1013,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__SUCC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int INTENTIONAL_ELEMENT_REF__SUCC = GRL_NODE__SUCC;
 
     /**
      * The feature id for the '<em><b>Pred</b></em>' reference list.
@@ -822,7 +1022,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__PRED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int INTENTIONAL_ELEMENT_REF__PRED = GRL_NODE__PRED;
 
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -831,7 +1031,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__LABEL = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int INTENTIONAL_ELEMENT_REF__LABEL = GRL_NODE__LABEL;
 
     /**
      * The feature id for the '<em><b>Def</b></em>' reference.
@@ -840,7 +1040,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__DEF = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int INTENTIONAL_ELEMENT_REF__DEF = GRL_NODE_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the the '<em>Intentional Element Ref</em>' class.
@@ -849,7 +1049,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
+    int INTENTIONAL_ELEMENT_REF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link grl.impl.ElementLinkImpl <em>Element Link</em>}' class.
@@ -862,13 +1062,85 @@ public interface GrlPackage extends EPackage {
     int ELEMENT_LINK = 9;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int ELEMENT_LINK__REFS = 0;
+    int ELEMENT_LINK__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+    /**
+     * The feature id for the '<em><b>Src</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
+     * The feature id for the '<em><b>Dest</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the the '<em>Element Link</em>' class.
@@ -877,7 +1149,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int ELEMENT_LINK_FEATURE_COUNT = 1;
+    int ELEMENT_LINK_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link grl.impl.ContributionImpl <em>Contribution</em>}' class.
@@ -890,6 +1162,51 @@ public interface GrlPackage extends EPackage {
     int CONTRIBUTION = 7;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__TO_LINKS = ELEMENT_LINK__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__ID = ELEMENT_LINK__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__NAME = ELEMENT_LINK__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -899,13 +1216,40 @@ public interface GrlPackage extends EPackage {
     int CONTRIBUTION__REFS = ELEMENT_LINK__REFS;
 
     /**
-     * The feature id for the '<em><b>Contibution</b></em>' attribute.
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CONTRIBUTION__CONTIBUTION = ELEMENT_LINK_FEATURE_COUNT + 0;
+    int CONTRIBUTION__GRLSPEC = ELEMENT_LINK__GRLSPEC;
+
+    /**
+     * The feature id for the '<em><b>Src</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__SRC = ELEMENT_LINK__SRC;
+
+    /**
+     * The feature id for the '<em><b>Dest</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__DEST = ELEMENT_LINK__DEST;
+
+    /**
+     * The feature id for the '<em><b>Contribution</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__CONTRIBUTION = ELEMENT_LINK_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Correlation</b></em>' attribute.
@@ -917,31 +1261,13 @@ public interface GrlPackage extends EPackage {
     int CONTRIBUTION__CORRELATION = ELEMENT_LINK_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Src</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONTRIBUTION__SRC = ELEMENT_LINK_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Dest</b></em>' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONTRIBUTION__DEST = ELEMENT_LINK_FEATURE_COUNT + 3;
-
-    /**
      * The number of structural features of the the '<em>Contribution</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int CONTRIBUTION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 4;
+    int CONTRIBUTION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link grl.impl.LinkRefImpl <em>Link Ref</em>}' class.
@@ -960,7 +1286,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int LINK_REF__SOURCE = UrncorePackage.SPECIFICATION_CONNECTION__SOURCE;
+    int LINK_REF__SOURCE = UrncorePackage.IURN_CONNECTION__SOURCE;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -969,25 +1295,16 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int LINK_REF__TARGET = UrncorePackage.SPECIFICATION_CONNECTION__TARGET;
+    int LINK_REF__TARGET = UrncorePackage.IURN_CONNECTION__TARGET;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int LINK_REF__SPEC_DIAGRAM = UrncorePackage.SPECIFICATION_CONNECTION__SPEC_DIAGRAM;
-
-    /**
-     * The feature id for the '<em><b>Beliefs</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int LINK_REF__BELIEFS = UrncorePackage.SPECIFICATION_CONNECTION_FEATURE_COUNT + 0;
+    int LINK_REF__DIAGRAM = UrncorePackage.IURN_CONNECTION__DIAGRAM;
 
     /**
      * The feature id for the '<em><b>Link</b></em>' reference.
@@ -996,16 +1313,16 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int LINK_REF__LINK = UrncorePackage.SPECIFICATION_CONNECTION_FEATURE_COUNT + 1;
+    int LINK_REF__LINK = UrncorePackage.IURN_CONNECTION_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Dependency</b></em>' reference.
+     * The feature id for the '<em><b>Bendpoints</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int LINK_REF__DEPENDENCY = UrncorePackage.SPECIFICATION_CONNECTION_FEATURE_COUNT + 2;
+    int LINK_REF__BENDPOINTS = UrncorePackage.IURN_CONNECTION_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the the '<em>Link Ref</em>' class.
@@ -1014,7 +1331,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int LINK_REF_FEATURE_COUNT = UrncorePackage.SPECIFICATION_CONNECTION_FEATURE_COUNT + 3;
+    int LINK_REF_FEATURE_COUNT = UrncorePackage.IURN_CONNECTION_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link grl.impl.DecompositionImpl <em>Decomposition</em>}' class.
@@ -1027,6 +1344,51 @@ public interface GrlPackage extends EPackage {
     int DECOMPOSITION = 10;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__TO_LINKS = ELEMENT_LINK__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__ID = ELEMENT_LINK__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__NAME = ELEMENT_LINK__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1036,13 +1398,22 @@ public interface GrlPackage extends EPackage {
     int DECOMPOSITION__REFS = ELEMENT_LINK__REFS;
 
     /**
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__GRLSPEC = ELEMENT_LINK__GRLSPEC;
+
+    /**
      * The feature id for the '<em><b>Src</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DECOMPOSITION__SRC = ELEMENT_LINK_FEATURE_COUNT + 0;
+    int DECOMPOSITION__SRC = ELEMENT_LINK__SRC;
 
     /**
      * The feature id for the '<em><b>Dest</b></em>' reference.
@@ -1051,7 +1422,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DECOMPOSITION__DEST = ELEMENT_LINK_FEATURE_COUNT + 1;
+    int DECOMPOSITION__DEST = ELEMENT_LINK__DEST;
 
     /**
      * The number of structural features of the the '<em>Decomposition</em>' class.
@@ -1060,7 +1431,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DECOMPOSITION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 2;
+    int DECOMPOSITION_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link grl.impl.DependencyImpl <em>Dependency</em>}' class.
@@ -1073,6 +1444,51 @@ public interface GrlPackage extends EPackage {
     int DEPENDENCY = 11;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__TO_LINKS = ELEMENT_LINK__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__ID = ELEMENT_LINK__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__NAME = ELEMENT_LINK__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1082,40 +1498,31 @@ public interface GrlPackage extends EPackage {
     int DEPENDENCY__REFS = ELEMENT_LINK__REFS;
 
     /**
-     * The feature id for the '<em><b>Depender</b></em>' reference.
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DEPENDENCY__DEPENDER = ELEMENT_LINK_FEATURE_COUNT + 0;
+    int DEPENDENCY__GRLSPEC = ELEMENT_LINK__GRLSPEC;
 
     /**
-     * The feature id for the '<em><b>Dependum</b></em>' reference.
+     * The feature id for the '<em><b>Src</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DEPENDENCY__DEPENDUM = ELEMENT_LINK_FEATURE_COUNT + 1;
+    int DEPENDENCY__SRC = ELEMENT_LINK__SRC;
 
     /**
-     * The feature id for the '<em><b>Dependee</b></em>' reference.
+     * The feature id for the '<em><b>Dest</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DEPENDENCY__DEPENDEE = ELEMENT_LINK_FEATURE_COUNT + 2;
-
-    /**
-     * The feature id for the '<em><b>Second Refs</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DEPENDENCY__SECOND_REFS = ELEMENT_LINK_FEATURE_COUNT + 3;
+    int DEPENDENCY__DEST = ELEMENT_LINK__DEST;
 
     /**
      * The number of structural features of the the '<em>Dependency</em>' class.
@@ -1124,7 +1531,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DEPENDENCY_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 4;
+    int DEPENDENCY_FEATURE_COUNT = ELEMENT_LINK_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link grl.impl.EvaluationImpl <em>Evaluation</em>}' class.
@@ -1155,13 +1562,13 @@ public interface GrlPackage extends EPackage {
     int EVALUATION__INT_ELEMENT = 1;
 
     /**
-     * The feature id for the '<em><b>Set</b></em>' reference.
+     * The feature id for the '<em><b>Scenario</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION__SET = 2;
+    int EVALUATION__SCENARIO = 2;
 
     /**
      * The number of structural features of the the '<em>Evaluation</em>' class.
@@ -1173,14 +1580,32 @@ public interface GrlPackage extends EPackage {
     int EVALUATION_FEATURE_COUNT = 3;
 
     /**
-     * The meta object id for the '{@link grl.impl.EvaluationSetImpl <em>Evaluation Set</em>}' class.
+     * The meta object id for the '{@link grl.impl.EvaluationScenarioImpl <em>Evaluation Scenario</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see grl.impl.EvaluationSetImpl
-     * @see grl.impl.GrlPackageImpl#getEvaluationSet()
+     * @see grl.impl.EvaluationScenarioImpl
+     * @see grl.impl.GrlPackageImpl#getEvaluationScenario()
      * @generated
      */
-    int EVALUATION_SET = 13;
+    int EVALUATION_SCENARIO = 13;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_SCENARIO__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_SCENARIO__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1189,7 +1614,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int EVALUATION_SET__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+    int EVALUATION_SCENARIO__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1198,7 +1623,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int EVALUATION_SET__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+    int EVALUATION_SCENARIO__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1207,16 +1632,7 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int EVALUATION_SET__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EVALUATION_SET__URN_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__URN_LINKS;
+    int EVALUATION_SCENARIO__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
      * The feature id for the '<em><b>Evaluations</b></em>' reference list.
@@ -1225,26 +1641,190 @@ public interface GrlPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int EVALUATION_SET__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int EVALUATION_SCENARIO__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
-     * The number of structural features of the the '<em>Evaluation Set</em>' class.
+     * The feature id for the '<em><b>Groups</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_SET_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int EVALUATION_SCENARIO__GROUPS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
-     * The meta object id for the '{@link grl.EvaluationLevel <em>Evaluation Level</em>}' enum.
+     * The number of structural features of the the '<em>Evaluation Scenario</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see grl.EvaluationLevel
-     * @see grl.impl.GrlPackageImpl#getEvaluationLevel()
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_SCENARIO_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
+     * The meta object id for the '{@link grl.impl.LinkRefBendpointImpl <em>Link Ref Bendpoint</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see grl.impl.LinkRefBendpointImpl
+     * @see grl.impl.GrlPackageImpl#getLinkRefBendpoint()
      * @generated
      */
-    int EVALUATION_LEVEL = 14;
+    int LINK_REF_BENDPOINT = 15;
+
+    /**
+     * The feature id for the '<em><b>X</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINK_REF_BENDPOINT__X = 0;
+
+    /**
+     * The feature id for the '<em><b>Y</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINK_REF_BENDPOINT__Y = 1;
+
+    /**
+     * The feature id for the '<em><b>Linkref</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINK_REF_BENDPOINT__LINKREF = 2;
+
+    /**
+     * The number of structural features of the the '<em>Link Ref Bendpoint</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LINK_REF_BENDPOINT_FEATURE_COUNT = 3;
+
+    /**
+     * The meta object id for the '{@link grl.impl.BeliefLinkImpl <em>Belief Link</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see grl.impl.BeliefLinkImpl
+     * @see grl.impl.GrlPackageImpl#getBeliefLink()
+     * @generated
+     */
+    int BELIEF_LINK = 16;
+
+    /**
+     * The feature id for the '<em><b>Source</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF_LINK__SOURCE = UrncorePackage.IURN_CONNECTION__SOURCE;
+
+    /**
+     * The feature id for the '<em><b>Target</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF_LINK__TARGET = UrncorePackage.IURN_CONNECTION__TARGET;
+
+    /**
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF_LINK__DIAGRAM = UrncorePackage.IURN_CONNECTION__DIAGRAM;
+
+    /**
+     * The number of structural features of the the '<em>Belief Link</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF_LINK_FEATURE_COUNT = UrncorePackage.IURN_CONNECTION_FEATURE_COUNT + 0;
+
+    /**
+     * The meta object id for the '{@link grl.impl.EvaluationGroupImpl <em>Evaluation Group</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see grl.impl.EvaluationGroupImpl
+     * @see grl.impl.GrlPackageImpl#getEvaluationGroup()
+     * @generated
+     */
+    int EVALUATION_GROUP = 17;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Scenarios</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__SCENARIOS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The number of structural features of the the '<em>Evaluation Group</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
@@ -1254,7 +1834,7 @@ public interface GrlPackage extends EPackage {
      * @see grl.impl.GrlPackageImpl#getCriticality()
      * @generated
      */
-    int CRITICALITY = 15;
+    int CRITICALITY = 18;
 
     /**
      * The meta object id for the '{@link grl.IntentionalElementType <em>Intentional Element Type</em>}' enum.
@@ -1264,7 +1844,7 @@ public interface GrlPackage extends EPackage {
      * @see grl.impl.GrlPackageImpl#getIntentionalElementType()
      * @generated
      */
-    int INTENTIONAL_ELEMENT_TYPE = 16;
+    int INTENTIONAL_ELEMENT_TYPE = 19;
 
     /**
      * The meta object id for the '{@link grl.Priority <em>Priority</em>}' enum.
@@ -1274,7 +1854,7 @@ public interface GrlPackage extends EPackage {
      * @see grl.impl.GrlPackageImpl#getPriority()
      * @generated
      */
-    int PRIORITY = 17;
+    int PRIORITY = 20;
 
     /**
      * The meta object id for the '{@link grl.ContributionType <em>Contribution Type</em>}' enum.
@@ -1284,7 +1864,7 @@ public interface GrlPackage extends EPackage {
      * @see grl.impl.GrlPackageImpl#getContributionType()
      * @generated
      */
-    int CONTRIBUTION_TYPE = 18;
+    int CONTRIBUTION_TYPE = 21;
 
     /**
      * The meta object id for the '{@link grl.DecompositionType <em>Decomposition Type</em>}' enum.
@@ -1294,7 +1874,7 @@ public interface GrlPackage extends EPackage {
      * @see grl.impl.GrlPackageImpl#getDecompositionType()
      * @generated
      */
-    int DECOMPOSITION_TYPE = 19;
+    int DECOMPOSITION_TYPE = 22;
 
 
     /**
@@ -1341,6 +1921,17 @@ public interface GrlPackage extends EPackage {
     EReference getGRLspec_Actors();
 
     /**
+     * Returns the meta object for the containment reference list '{@link grl.GRLspec#getLinks <em>Links</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Links</em>'.
+     * @see grl.GRLspec#getLinks()
+     * @see #getGRLspec()
+     * @generated
+     */
+    EReference getGRLspec_Links();
+
+    /**
      * Returns the meta object for class '{@link grl.Belief <em>Belief</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1351,15 +1942,15 @@ public interface GrlPackage extends EPackage {
     EClass getBelief();
 
     /**
-     * Returns the meta object for the reference '{@link grl.Belief#getConnection <em>Connection</em>}'.
+     * Returns the meta object for the attribute '{@link grl.Belief#getAuthor <em>Author</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Connection</em>'.
-     * @see grl.Belief#getConnection()
+     * @return the meta object for the attribute '<em>Author</em>'.
+     * @see grl.Belief#getAuthor()
      * @see #getBelief()
      * @generated
      */
-    EReference getBelief_Connection();
+    EAttribute getBelief_Author();
 
     /**
      * Returns the meta object for class '{@link grl.IntentionalElement <em>Intentional Element</em>}'.
@@ -1416,6 +2007,39 @@ public interface GrlPackage extends EPackage {
     EAttribute getIntentionalElement_DecompositionType();
 
     /**
+     * Returns the meta object for the attribute '{@link grl.IntentionalElement#getLineColor <em>Line Color</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Line Color</em>'.
+     * @see grl.IntentionalElement#getLineColor()
+     * @see #getIntentionalElement()
+     * @generated
+     */
+    EAttribute getIntentionalElement_LineColor();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.IntentionalElement#getFillColor <em>Fill Color</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Fill Color</em>'.
+     * @see grl.IntentionalElement#getFillColor()
+     * @see #getIntentionalElement()
+     * @generated
+     */
+    EAttribute getIntentionalElement_FillColor();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.IntentionalElement#isFilled <em>Filled</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Filled</em>'.
+     * @see grl.IntentionalElement#isFilled()
+     * @see #getIntentionalElement()
+     * @generated
+     */
+    EAttribute getIntentionalElement_Filled();
+
+    /**
      * Returns the meta object for the container reference '{@link grl.IntentionalElement#getGrlspec <em>Grlspec</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1438,92 +2062,26 @@ public interface GrlPackage extends EPackage {
     EReference getIntentionalElement_Refs();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getIsDepender <em>Is Depender</em>}'.
+     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getLinksSrc <em>Links Src</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Is Depender</em>'.
-     * @see grl.IntentionalElement#getIsDepender()
+     * @return the meta object for the reference list '<em>Links Src</em>'.
+     * @see grl.IntentionalElement#getLinksSrc()
      * @see #getIntentionalElement()
      * @generated
      */
-    EReference getIntentionalElement_IsDepender();
+    EReference getIntentionalElement_LinksSrc();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getDecompositionSrc <em>Decomposition Src</em>}'.
+     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getLinksDest <em>Links Dest</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Decomposition Src</em>'.
-     * @see grl.IntentionalElement#getDecompositionSrc()
+     * @return the meta object for the reference list '<em>Links Dest</em>'.
+     * @see grl.IntentionalElement#getLinksDest()
      * @see #getIntentionalElement()
      * @generated
      */
-    EReference getIntentionalElement_DecompositionSrc();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getDecompositionDest <em>Decomposition Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Decomposition Dest</em>'.
-     * @see grl.IntentionalElement#getDecompositionDest()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_DecompositionDest();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getContributionSrc <em>Contribution Src</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Contribution Src</em>'.
-     * @see grl.IntentionalElement#getContributionSrc()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_ContributionSrc();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getContributionDest <em>Contribution Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Contribution Dest</em>'.
-     * @see grl.IntentionalElement#getContributionDest()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_ContributionDest();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getIsDependum <em>Is Dependum</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Is Dependum</em>'.
-     * @see grl.IntentionalElement#getIsDependum()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_IsDependum();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getIsDependee <em>Is Dependee</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Is Dependee</em>'.
-     * @see grl.IntentionalElement#getIsDependee()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_IsDependee();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Evals</em>'.
-     * @see grl.IntentionalElement#getEvals()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_Evals();
+    EReference getIntentionalElement_LinksDest();
 
     /**
      * Returns the meta object for class '{@link grl.Actor <em>Actor</em>}'.
@@ -1598,15 +2156,15 @@ public interface GrlPackage extends EPackage {
     EClass getContribution();
 
     /**
-     * Returns the meta object for the attribute '{@link grl.Contribution#getContibution <em>Contibution</em>}'.
+     * Returns the meta object for the attribute '{@link grl.Contribution#getContribution <em>Contribution</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Contibution</em>'.
-     * @see grl.Contribution#getContibution()
+     * @return the meta object for the attribute '<em>Contribution</em>'.
+     * @see grl.Contribution#getContribution()
      * @see #getContribution()
      * @generated
      */
-    EAttribute getContribution_Contibution();
+    EAttribute getContribution_Contribution();
 
     /**
      * Returns the meta object for the attribute '{@link grl.Contribution#isCorrelation <em>Correlation</em>}'.
@@ -1620,28 +2178,6 @@ public interface GrlPackage extends EPackage {
     EAttribute getContribution_Correlation();
 
     /**
-     * Returns the meta object for the reference '{@link grl.Contribution#getSrc <em>Src</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Src</em>'.
-     * @see grl.Contribution#getSrc()
-     * @see #getContribution()
-     * @generated
-     */
-    EReference getContribution_Src();
-
-    /**
-     * Returns the meta object for the reference '{@link grl.Contribution#getDest <em>Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Dest</em>'.
-     * @see grl.Contribution#getDest()
-     * @see #getContribution()
-     * @generated
-     */
-    EReference getContribution_Dest();
-
-    /**
      * Returns the meta object for class '{@link grl.LinkRef <em>Link Ref</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1650,17 +2186,6 @@ public interface GrlPackage extends EPackage {
      * @generated
      */
     EClass getLinkRef();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.LinkRef#getBeliefs <em>Beliefs</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Beliefs</em>'.
-     * @see grl.LinkRef#getBeliefs()
-     * @see #getLinkRef()
-     * @generated
-     */
-    EReference getLinkRef_Beliefs();
 
     /**
      * Returns the meta object for the reference '{@link grl.LinkRef#getLink <em>Link</em>}'.
@@ -1674,15 +2199,15 @@ public interface GrlPackage extends EPackage {
     EReference getLinkRef_Link();
 
     /**
-     * Returns the meta object for the reference '{@link grl.LinkRef#getDependency <em>Dependency</em>}'.
+     * Returns the meta object for the containment reference list '{@link grl.LinkRef#getBendpoints <em>Bendpoints</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Dependency</em>'.
-     * @see grl.LinkRef#getDependency()
+     * @return the meta object for the containment reference list '<em>Bendpoints</em>'.
+     * @see grl.LinkRef#getBendpoints()
      * @see #getLinkRef()
      * @generated
      */
-    EReference getLinkRef_Dependency();
+    EReference getLinkRef_Bendpoints();
 
     /**
      * Returns the meta object for class '{@link grl.ElementLink <em>Element Link</em>}'.
@@ -1706,6 +2231,39 @@ public interface GrlPackage extends EPackage {
     EReference getElementLink_Refs();
 
     /**
+     * Returns the meta object for the container reference '{@link grl.ElementLink#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the container reference '<em>Grlspec</em>'.
+     * @see grl.ElementLink#getGrlspec()
+     * @see #getElementLink()
+     * @generated
+     */
+    EReference getElementLink_Grlspec();
+
+    /**
+     * Returns the meta object for the reference '{@link grl.ElementLink#getSrc <em>Src</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Src</em>'.
+     * @see grl.ElementLink#getSrc()
+     * @see #getElementLink()
+     * @generated
+     */
+    EReference getElementLink_Src();
+
+    /**
+     * Returns the meta object for the reference '{@link grl.ElementLink#getDest <em>Dest</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference '<em>Dest</em>'.
+     * @see grl.ElementLink#getDest()
+     * @see #getElementLink()
+     * @generated
+     */
+    EReference getElementLink_Dest();
+
+    /**
      * Returns the meta object for class '{@link grl.Decomposition <em>Decomposition</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1716,28 +2274,6 @@ public interface GrlPackage extends EPackage {
     EClass getDecomposition();
 
     /**
-     * Returns the meta object for the reference '{@link grl.Decomposition#getSrc <em>Src</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Src</em>'.
-     * @see grl.Decomposition#getSrc()
-     * @see #getDecomposition()
-     * @generated
-     */
-    EReference getDecomposition_Src();
-
-    /**
-     * Returns the meta object for the reference '{@link grl.Decomposition#getDest <em>Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Dest</em>'.
-     * @see grl.Decomposition#getDest()
-     * @see #getDecomposition()
-     * @generated
-     */
-    EReference getDecomposition_Dest();
-
-    /**
      * Returns the meta object for class '{@link grl.Dependency <em>Dependency</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1746,50 +2282,6 @@ public interface GrlPackage extends EPackage {
      * @generated
      */
     EClass getDependency();
-
-    /**
-     * Returns the meta object for the reference '{@link grl.Dependency#getDepender <em>Depender</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Depender</em>'.
-     * @see grl.Dependency#getDepender()
-     * @see #getDependency()
-     * @generated
-     */
-    EReference getDependency_Depender();
-
-    /**
-     * Returns the meta object for the reference '{@link grl.Dependency#getDependum <em>Dependum</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Dependum</em>'.
-     * @see grl.Dependency#getDependum()
-     * @see #getDependency()
-     * @generated
-     */
-    EReference getDependency_Dependum();
-
-    /**
-     * Returns the meta object for the reference '{@link grl.Dependency#getDependee <em>Dependee</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Dependee</em>'.
-     * @see grl.Dependency#getDependee()
-     * @see #getDependency()
-     * @generated
-     */
-    EReference getDependency_Dependee();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.Dependency#getSecondRefs <em>Second Refs</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Second Refs</em>'.
-     * @see grl.Dependency#getSecondRefs()
-     * @see #getDependency()
-     * @generated
-     */
-    EReference getDependency_SecondRefs();
 
     /**
      * Returns the meta object for class '{@link grl.Evaluation <em>Evaluation</em>}'.
@@ -1824,46 +2316,131 @@ public interface GrlPackage extends EPackage {
     EReference getEvaluation_IntElement();
 
     /**
-     * Returns the meta object for the reference '{@link grl.Evaluation#getSet <em>Set</em>}'.
+     * Returns the meta object for the reference '{@link grl.Evaluation#getScenario <em>Scenario</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Set</em>'.
-     * @see grl.Evaluation#getSet()
+     * @return the meta object for the reference '<em>Scenario</em>'.
+     * @see grl.Evaluation#getScenario()
      * @see #getEvaluation()
      * @generated
      */
-    EReference getEvaluation_Set();
+    EReference getEvaluation_Scenario();
 
     /**
-     * Returns the meta object for class '{@link grl.EvaluationSet <em>Evaluation Set</em>}'.
+     * Returns the meta object for class '{@link grl.EvaluationScenario <em>Evaluation Scenario</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Evaluation Set</em>'.
-     * @see grl.EvaluationSet
+     * @return the meta object for class '<em>Evaluation Scenario</em>'.
+     * @see grl.EvaluationScenario
      * @generated
      */
-    EClass getEvaluationSet();
+    EClass getEvaluationScenario();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.EvaluationSet#getEvaluations <em>Evaluations</em>}'.
+     * Returns the meta object for the reference list '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Evaluations</em>'.
-     * @see grl.EvaluationSet#getEvaluations()
-     * @see #getEvaluationSet()
+     * @see grl.EvaluationScenario#getEvaluations()
+     * @see #getEvaluationScenario()
      * @generated
      */
-    EReference getEvaluationSet_Evaluations();
+    EReference getEvaluationScenario_Evaluations();
 
     /**
-     * Returns the meta object for enum '{@link grl.EvaluationLevel <em>Evaluation Level</em>}'.
+     * Returns the meta object for the reference list '{@link grl.EvaluationScenario#getGroups <em>Groups</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for enum '<em>Evaluation Level</em>'.
-     * @see grl.EvaluationLevel
+     * @return the meta object for the reference list '<em>Groups</em>'.
+     * @see grl.EvaluationScenario#getGroups()
+     * @see #getEvaluationScenario()
      * @generated
      */
-    EEnum getEvaluationLevel();
+    EReference getEvaluationScenario_Groups();
+
+    /**
+     * Returns the meta object for class '{@link grl.GRLNode <em>GRL Node</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>GRL Node</em>'.
+     * @see grl.GRLNode
+     * @generated
+     */
+    EClass getGRLNode();
+
+    /**
+     * Returns the meta object for class '{@link grl.LinkRefBendpoint <em>Link Ref Bendpoint</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Link Ref Bendpoint</em>'.
+     * @see grl.LinkRefBendpoint
+     * @generated
+     */
+    EClass getLinkRefBendpoint();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.LinkRefBendpoint#getX <em>X</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>X</em>'.
+     * @see grl.LinkRefBendpoint#getX()
+     * @see #getLinkRefBendpoint()
+     * @generated
+     */
+    EAttribute getLinkRefBendpoint_X();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.LinkRefBendpoint#getY <em>Y</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Y</em>'.
+     * @see grl.LinkRefBendpoint#getY()
+     * @see #getLinkRefBendpoint()
+     * @generated
+     */
+    EAttribute getLinkRefBendpoint_Y();
+
+    /**
+     * Returns the meta object for the container reference '{@link grl.LinkRefBendpoint#getLinkref <em>Linkref</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the container reference '<em>Linkref</em>'.
+     * @see grl.LinkRefBendpoint#getLinkref()
+     * @see #getLinkRefBendpoint()
+     * @generated
+     */
+    EReference getLinkRefBendpoint_Linkref();
+
+    /**
+     * Returns the meta object for class '{@link grl.BeliefLink <em>Belief Link</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Belief Link</em>'.
+     * @see grl.BeliefLink
+     * @generated
+     */
+    EClass getBeliefLink();
+
+    /**
+     * Returns the meta object for class '{@link grl.EvaluationGroup <em>Evaluation Group</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Evaluation Group</em>'.
+     * @see grl.EvaluationGroup
+     * @generated
+     */
+    EClass getEvaluationGroup();
+
+    /**
+     * Returns the meta object for the reference list '{@link grl.EvaluationGroup#getScenarios <em>Scenarios</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Scenarios</em>'.
+     * @see grl.EvaluationGroup#getScenarios()
+     * @see #getEvaluationGroup()
+     * @generated
+     */
+    EReference getEvaluationGroup_Scenarios();
 
     /**
      * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.

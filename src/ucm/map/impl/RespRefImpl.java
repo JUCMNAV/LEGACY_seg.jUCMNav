@@ -24,8 +24,8 @@ import ucm.map.RespRef;
 
 import urncore.NodeLabel;
 import urncore.Responsibility;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -180,16 +180,18 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.RESP_REF__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.RESP_REF__SPEC_DIAGRAM:
+                case MapPackage.RESP_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.RESP_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.RESP_REF__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.RESP_REF__SPEC_DIAGRAM, msgs);
-                case MapPackage.RESP_REF__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.RESP_REF__DIAGRAM, msgs);
+                case MapPackage.RESP_REF__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.RESP_REF__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.RESP_REF__PRED:
@@ -219,12 +221,14 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.RESP_REF__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.RESP_REF__SPEC_DIAGRAM, msgs);
-                case MapPackage.RESP_REF__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.RESP_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.RESP_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.RESP_REF__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.RESP_REF__DIAGRAM, msgs);
+                case MapPackage.RESP_REF__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.RESP_REF__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.RESP_REF__PRED:
@@ -248,13 +252,13 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.RESP_REF__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -264,23 +268,25 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.RESP_REF__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.RESP_REF__TO_LINKS:
+                return getToLinks();
             case MapPackage.RESP_REF__ID:
                 return getId();
             case MapPackage.RESP_REF__NAME:
                 return getName();
             case MapPackage.RESP_REF__DESCRIPTION:
                 return getDescription();
-            case MapPackage.RESP_REF__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.RESP_REF__X:
                 return new Integer(getX());
             case MapPackage.RESP_REF__Y:
                 return new Integer(getY());
-            case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.RESP_REF__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.RESP_REF__DIAGRAM:
+                return getDiagram();
+            case MapPackage.RESP_REF__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.RESP_REF__SUCC:
                 return getSucc();
             case MapPackage.RESP_REF__PRED:
@@ -303,6 +309,14 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.RESP_REF__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.RESP_REF__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.RESP_REF__ID:
                 setId((String)newValue);
                 return;
@@ -312,21 +326,17 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
             case MapPackage.RESP_REF__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.RESP_REF__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.RESP_REF__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.RESP_REF__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.RESP_REF__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.RESP_REF__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.RESP_REF__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.RESP_REF__SUCC:
                 getSucc().clear();
@@ -356,6 +366,12 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.RESP_REF__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.RESP_REF__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.RESP_REF__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -365,20 +381,17 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
             case MapPackage.RESP_REF__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.RESP_REF__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.RESP_REF__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.RESP_REF__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.RESP_REF__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.RESP_REF__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.RESP_REF__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.RESP_REF__SUCC:
                 getSucc().clear();
@@ -406,22 +419,24 @@ public class RespRefImpl extends PathNodeImpl implements RespRef {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.RESP_REF__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.RESP_REF__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.RESP_REF__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.RESP_REF__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.RESP_REF__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.RESP_REF__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.RESP_REF__X:
                 return x != X_EDEFAULT;
             case MapPackage.RESP_REF__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.RESP_REF__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.RESP_REF__COMP_REF:
-                return compRef != null;
+            case MapPackage.RESP_REF__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.RESP_REF__CONT_REF:
+                return contRef != null;
             case MapPackage.RESP_REF__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.RESP_REF__PRED:

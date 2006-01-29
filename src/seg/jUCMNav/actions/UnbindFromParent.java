@@ -8,11 +8,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
-import urncore.UCMmodelElement;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
+import urncore.URNmodelElement;
 
 /**
  * Unbinds the selected element with from its parent, if it is unbound. For more details, see calculateEnabled().
@@ -52,11 +52,11 @@ public class UnbindFromParent extends URNSelectionAction {
             if (parts.get(i) instanceof EditPart) {
                 EditPart p = (EditPart) parts.get(i);
 
-                if (p.getModel() instanceof ComponentRef) {
-                    if (((ComponentRef) p.getModel()).getParent() == null)
+                if (p.getModel() instanceof IURNContainerRef) {
+                    if (((IURNContainerRef) p.getModel()).getParent() == null)
                         return false; //#3 failed for ComponentRef
-                } else if (p.getModel() instanceof PathNode) {
-                    if (((PathNode) p.getModel()).getCompRef() == null)
+                } else if (p.getModel() instanceof IURNNode) {
+                    if (((IURNNode) p.getModel()).getContRef() == null)
                         return false; //#3 failed for PathNode
                 } else
                     return false; // #3 failed.
@@ -78,17 +78,17 @@ public class UnbindFromParent extends URNSelectionAction {
         if (getSelectedObjects().isEmpty()) {
             return null;
         } else {
-            UCMmodelElement child;
-            ComponentRef parent;
+            URNmodelElement child;
+            IURNContainerRef parent;
 
-            child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = (ComponentRef)ParentFinder.getPossibleParent(child);
-            cmd = new ComponentRefUnbindChildCommand(parent, child);
+            child = (URNmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
+            parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+            cmd = new ContainerRefUnbindChildCommand(parent, child);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
-                child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = (ComponentRef)ParentFinder.getPossibleParent(child);
-                cmd = cmd.chain(new ComponentRefUnbindChildCommand(parent, child));
+                child = (URNmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
+                parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+                cmd = cmd.chain(new ContainerRefUnbindChildCommand(parent, child));
             }
 
             return cmd;

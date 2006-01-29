@@ -28,10 +28,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see urncore.UrncorePackage#getComponentType()
- * @model 
+ * @model
  * @generated
  */
-public interface ComponentType extends ComponentRegular {
+public interface ComponentType extends ComponentRegular{
     /**
      * Returns the value of the '<em><b>Sub Type</b></em>' reference list.
      * The list contents are of type {@link urncore.ComponentType}.

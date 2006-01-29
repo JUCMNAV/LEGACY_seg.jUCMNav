@@ -83,9 +83,9 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
         oldX = oldEndPoint.getX();
         oldY = oldEndPoint.getY();
 
-        pg = (UCMmap)oldEndPoint.getSpecDiagram();
+        pg = (UCMmap)oldEndPoint.getDiagram();
         ncOldEnd = (NodeConnection) oldEndPoint.getPred().get(0);
-        oldParent = (ComponentRef)oldEndPoint.getCompRef();
+        oldParent = (ComponentRef)oldEndPoint.getContRef();
 
         redo();
     }
@@ -98,7 +98,7 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
 
         ncOldEnd.setTarget(stubOrJoin);
         pg.getNodes().remove(oldEndPoint);
-        oldEndPoint.setCompRef(null);
+        oldEndPoint.setContRef(null);
 
         testPostConditions();
     }
@@ -117,7 +117,7 @@ public class AttachEndCommand extends Command implements JUCMNavCommand {
 
         oldEndPoint.setX(oldX);
         oldEndPoint.setY(oldY);
-        oldEndPoint.setCompRef(oldParent);
+        oldEndPoint.setContRef(oldParent);
 
         testPreConditions();
     }

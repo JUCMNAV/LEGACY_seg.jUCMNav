@@ -23,30 +23,42 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  */
 public final class IntentionalElementType extends AbstractEnumerator {
     /**
-     * The '<em><b>Goal</b></em>' literal value.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #GOAL_LITERAL
-     * @model name="Goal"
-     * @generated
-     * @ordered
-     */
-    public static final int GOAL = 0;
-
-    /**
      * The '<em><b>Softgoal</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Softgoal</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #SOFTGOAL_LITERAL
      * @model name="Softgoal"
      * @generated
      * @ordered
      */
-    public static final int SOFTGOAL = 1;
+    public static final int SOFTGOAL = 0;
+
+    /**
+     * The '<em><b>Goal</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Goal</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #GOAL_LITERAL
+     * @model name="Goal"
+     * @generated
+     * @ordered
+     */
+    public static final int GOAL = 1;
 
     /**
      * The '<em><b>Task</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Task</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #TASK_LITERAL
      * @model name="Task"
@@ -58,6 +70,10 @@ public final class IntentionalElementType extends AbstractEnumerator {
     /**
      * The '<em><b>Ressource</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Ressource</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #RESSOURCE_LITERAL
      * @model name="Ressource"
@@ -67,26 +83,8 @@ public final class IntentionalElementType extends AbstractEnumerator {
     public static final int RESSOURCE = 3;
 
     /**
-     * The '<em><b>Goal</b></em>' literal object.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Goal</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @see #GOAL
-     * @generated
-     * @ordered
-     */
-    public static final IntentionalElementType GOAL_LITERAL = new IntentionalElementType(GOAL, "Goal");
-
-    /**
      * The '<em><b>Softgoal</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Softgoal</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #SOFTGOAL
      * @generated
@@ -95,12 +93,18 @@ public final class IntentionalElementType extends AbstractEnumerator {
     public static final IntentionalElementType SOFTGOAL_LITERAL = new IntentionalElementType(SOFTGOAL, "Softgoal");
 
     /**
+     * The '<em><b>Goal</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #GOAL
+     * @generated
+     * @ordered
+     */
+    public static final IntentionalElementType GOAL_LITERAL = new IntentionalElementType(GOAL, "Goal");
+
+    /**
      * The '<em><b>Task</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Task</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #TASK
      * @generated
@@ -111,10 +115,6 @@ public final class IntentionalElementType extends AbstractEnumerator {
     /**
      * The '<em><b>Ressource</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Ressource</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #RESSOURCE
      * @generated
@@ -130,8 +130,8 @@ public final class IntentionalElementType extends AbstractEnumerator {
      */
     private static final IntentionalElementType[] VALUES_ARRAY =
         new IntentionalElementType[] {
-            GOAL_LITERAL,
             SOFTGOAL_LITERAL,
+            GOAL_LITERAL,
             TASK_LITERAL,
             RESSOURCE_LITERAL,
         };
@@ -168,8 +168,8 @@ public final class IntentionalElementType extends AbstractEnumerator {
      */
     public static IntentionalElementType get(int value) {
         switch (value) {
-            case GOAL: return GOAL_LITERAL;
             case SOFTGOAL: return SOFTGOAL_LITERAL;
+            case GOAL: return GOAL_LITERAL;
             case TASK: return TASK_LITERAL;
             case RESSOURCE: return RESSOURCE_LITERAL;
         }

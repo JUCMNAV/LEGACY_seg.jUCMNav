@@ -25,8 +25,9 @@ import org.eclipse.gef.commands.UnexecutableCommand;
 
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
+import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * This is a delegating command stack, which delegates everything a defined the CommandStack except event listners.
@@ -44,7 +45,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
     private static final Object[] EMPTY_OBJECT_ARRAY = new Object[] {};
     /** the current command stack */
     private CommandStack currentCommandStack;
-    private SpecificationDiagram lastAffectedDiagram;
+    private IURNDiagram lastAffectedDiagram;
 
     // some of our commands add/delete map don't belong in any of the editor stacks.
     // this stack is only available if the last execute was a DeleteMapCommand or a CreateMapCommand. it is flushed after that.
@@ -124,15 +125,32 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 Command internal = (Command) iter.next();
 
                 if (internal instanceof CompoundCommand) {
-                    for (Iterator iterator = ((CompoundCommand) internal).getCommands().iterator(); iterator.hasNext();) {
-                        Command internal2 = (Command) iterator.next();
-                        if (internal2 instanceof DeleteMapCommand) {
-                            lastAffectedDiagram = ((DeleteMapCommand) internal2).getMap();
-                            stkUrnSpec.execute(internal2);
+                    if (internal instanceof DeleteGRLGraphCommand) {
+                        lastAffectedDiagram = ((DeleteGRLGraphCommand) internal).getDiagram();
+                        stkUrnSpec.execute(command);
 
-                            b = true;
+                        b = true;
+                    } else if (internal instanceof DeleteMapCommand) {
+                        lastAffectedDiagram = ((DeleteMapCommand) internal).getDiagram();
+                        stkUrnSpec.execute(command);
+
+                        b = true;
+                    } else{
+                        for (Iterator iterator = ((CompoundCommand) internal).getCommands().iterator(); iterator.hasNext();) {
+                            Command internal2 = (Command) iterator.next();
+                            if (internal2 instanceof DeleteMapCommand) {
+                                lastAffectedDiagram = ((DeleteMapCommand) internal2).getDiagram();
+                                stkUrnSpec.execute(internal2);
+    
+                                b = true;
+                            } 
+                            if (internal2 instanceof DeleteGRLGraphCommand) {
+                                lastAffectedDiagram = ((DeleteGRLGraphCommand) internal2).getDiagram();
+                                stkUrnSpec.execute(internal2);
+
+                                b = true;
+                            } 
                         }
-
                     }
                 }
 
@@ -205,7 +223,7 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
      * 
      * @return the map for which the command stack was last changed.
      */
-    public SpecificationDiagram getLastAffectedDiagram() {
+    public IURNDiagram getLastAffectedDiagram() {
         return lastAffectedDiagram;
     }
 
@@ -301,8 +319,10 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
 
             Command command = stkUrnSpec.getRedoCommand();
             if (command instanceof DeleteMapCommand) {
-                lastAffectedDiagram = ((DeleteMapCommand) command).getMap();
-            } else if (command instanceof CreateMapCommand) {
+                lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
+            }else if (command instanceof DeleteGRLGraphCommand) {
+                lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
+            }else if (command instanceof CreateMapCommand) {
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             }else if (command instanceof CreateGrlGraphCommand) {
                 lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
@@ -367,7 +387,9 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
         if (stkUrnSpec.getUndoCommand() != null) {
             Command command = stkUrnSpec.getUndoCommand();
             if (command instanceof DeleteMapCommand) {
-                lastAffectedDiagram = ((DeleteMapCommand) command).getMap();
+                lastAffectedDiagram = ((DeleteMapCommand) command).getDiagram();
+            } else if (command instanceof DeleteGRLGraphCommand) {
+                lastAffectedDiagram = ((DeleteGRLGraphCommand) command).getDiagram();
             } else if (command instanceof CreateMapCommand) {
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             } else if (command instanceof CreateGrlGraphCommand){

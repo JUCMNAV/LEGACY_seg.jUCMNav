@@ -24,10 +24,10 @@ package ucm.map;
  * </p>
  *
  * @see ucm.map.MapPackage#getWaitingPlace()
- * @model 
+ * @model
  * @generated
  */
-public interface WaitingPlace extends PathNode {
+public interface WaitingPlace extends PathNode{
     /**
      * Returns the value of the '<em><b>Wait Type</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -39,7 +39,7 @@ public interface WaitingPlace extends PathNode {
      * @return the value of the '<em>Wait Type</em>' attribute.
      * @see #setWaitType(String)
      * @see ucm.map.MapPackage#getWaitingPlace_WaitType()
-     * @model 
+     * @model
      * @generated
      */
     String getWaitType();

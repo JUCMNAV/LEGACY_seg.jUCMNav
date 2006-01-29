@@ -62,8 +62,8 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
             }
         }
 
-        if (left != null && left.getSpecDiagram() != null) {
-            this.urn = this.left.getSpecDiagram().getUrndefinition().getUrnspec();
+        if (left != null && left.getDiagram() != null) {
+            this.urn = this.left.getDiagram().getUrndefinition().getUrnspec();
         }
 
     }
@@ -87,7 +87,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void redo() {
-        if (connect.getSpecDiagram() == null)
+        if (connect.getDiagram() == null)
             return; // already disconnected
 
         testPreConditions();
@@ -95,13 +95,13 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(null);
         ncRight.setTarget(null);
 
-        left.getSpecDiagram().getConnections().remove(ncLeft);
-        left.getSpecDiagram().getConnections().remove(ncRight);
-        left.getSpecDiagram().getNodes().remove(connect);
+        left.getDiagram().getConnections().remove(ncLeft);
+        left.getDiagram().getConnections().remove(ncRight);
+        left.getDiagram().getNodes().remove(connect);
 
         left.setX(right.getX());
         left.setY(right.getY() - 50);
-        left.setCompRef(ParentFinder.getPossibleParent(left));
+        left.setContRef(ParentFinder.getPossibleParent(left));
 
         testPostConditions();
     }
@@ -145,7 +145,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void undo() {
-        if (connect.getSpecDiagram() != null)
+        if (connect.getDiagram() != null)
             return; // already re-connected
 
         testPostConditions();
@@ -153,14 +153,14 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(left);
         ncRight.setTarget(right);
 
-        left.getSpecDiagram().getConnections().add(ncLeft);
-        left.getSpecDiagram().getConnections().add(ncRight);
-        right.getSpecDiagram().getNodes().add(connect);
+        left.getDiagram().getConnections().add(ncLeft);
+        left.getDiagram().getConnections().add(ncRight);
+        right.getDiagram().getNodes().add(connect);
 
         left.setX(right.getX());
         left.setY(right.getY());
 
-        left.setCompRef(right.getCompRef());
+        left.setContRef(right.getContRef());
 
         testPreConditions();
     }

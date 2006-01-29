@@ -7,24 +7,16 @@
 package grl.impl;
 
 import grl.Dependency;
+import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
-import grl.LinkRef;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -32,58 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * An implementation of the model object '<em><b>Dependency</b></em>'.
  * <!-- end-user-doc -->
  * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link grl.impl.DependencyImpl#getDepender <em>Depender</em>}</li>
- *   <li>{@link grl.impl.DependencyImpl#getDependum <em>Dependum</em>}</li>
- *   <li>{@link grl.impl.DependencyImpl#getDependee <em>Dependee</em>}</li>
- *   <li>{@link grl.impl.DependencyImpl#getSecondRefs <em>Second Refs</em>}</li>
- * </ul>
  * </p>
  *
  * @generated
  */
 public class DependencyImpl extends ElementLinkImpl implements Dependency {
-    /**
-     * The cached value of the '{@link #getDepender() <em>Depender</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDepender()
-     * @generated
-     * @ordered
-     */
-    protected IntentionalElement depender = null;
-
-    /**
-     * The cached value of the '{@link #getDependum() <em>Dependum</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDependum()
-     * @generated
-     * @ordered
-     */
-    protected IntentionalElement dependum = null;
-
-    /**
-     * The cached value of the '{@link #getDependee() <em>Dependee</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDependee()
-     * @generated
-     * @ordered
-     */
-    protected IntentionalElement dependee = null;
-
-    /**
-     * The cached value of the '{@link #getSecondRefs() <em>Second Refs</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getSecondRefs()
-     * @generated
-     * @ordered
-     */
-    protected EList secondRefs = null;
-
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -107,217 +52,27 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
      * <!-- end-user-doc -->
      * @generated
      */
-    public IntentionalElement getDepender() {
-        if (depender != null && depender.eIsProxy()) {
-            IntentionalElement oldDepender = depender;
-            depender = (IntentionalElement)eResolveProxy((InternalEObject)depender);
-            if (depender != oldDepender) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.DEPENDENCY__DEPENDER, oldDepender, depender));
-            }
-        }
-        return depender;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement basicGetDepender() {
-        return depender;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetDepender(IntentionalElement newDepender, NotificationChain msgs) {
-        IntentionalElement oldDepender = depender;
-        depender = newDepender;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDER, oldDepender, newDepender);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setDepender(IntentionalElement newDepender) {
-        if (newDepender != depender) {
-            NotificationChain msgs = null;
-            if (depender != null)
-                msgs = ((InternalEObject)depender).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER, IntentionalElement.class, msgs);
-            if (newDepender != null)
-                msgs = ((InternalEObject)newDepender).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER, IntentionalElement.class, msgs);
-            msgs = basicSetDepender(newDepender, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDER, newDepender, newDepender));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement getDependum() {
-        if (dependum != null && dependum.eIsProxy()) {
-            IntentionalElement oldDependum = dependum;
-            dependum = (IntentionalElement)eResolveProxy((InternalEObject)dependum);
-            if (dependum != oldDependum) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.DEPENDENCY__DEPENDUM, oldDependum, dependum));
-            }
-        }
-        return dependum;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement basicGetDependum() {
-        return dependum;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetDependum(IntentionalElement newDependum, NotificationChain msgs) {
-        IntentionalElement oldDependum = dependum;
-        dependum = newDependum;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDUM, oldDependum, newDependum);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setDependum(IntentionalElement newDependum) {
-        if (newDependum != dependum) {
-            NotificationChain msgs = null;
-            if (dependum != null)
-                msgs = ((InternalEObject)dependum).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM, IntentionalElement.class, msgs);
-            if (newDependum != null)
-                msgs = ((InternalEObject)newDependum).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM, IntentionalElement.class, msgs);
-            msgs = basicSetDependum(newDependum, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDUM, newDependum, newDependum));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement getDependee() {
-        if (dependee != null && dependee.eIsProxy()) {
-            IntentionalElement oldDependee = dependee;
-            dependee = (IntentionalElement)eResolveProxy((InternalEObject)dependee);
-            if (dependee != oldDependee) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.DEPENDENCY__DEPENDEE, oldDependee, dependee));
-            }
-        }
-        return dependee;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement basicGetDependee() {
-        return dependee;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetDependee(IntentionalElement newDependee, NotificationChain msgs) {
-        IntentionalElement oldDependee = dependee;
-        dependee = newDependee;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDEE, oldDependee, newDependee);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setDependee(IntentionalElement newDependee) {
-        if (newDependee != dependee) {
-            NotificationChain msgs = null;
-            if (dependee != null)
-                msgs = ((InternalEObject)dependee).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE, IntentionalElement.class, msgs);
-            if (newDependee != null)
-                msgs = ((InternalEObject)newDependee).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE, IntentionalElement.class, msgs);
-            msgs = basicSetDependee(newDependee, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.DEPENDENCY__DEPENDEE, newDependee, newDependee));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getSecondRefs() {
-        if (secondRefs == null) {
-            secondRefs = new EObjectWithInverseResolvingEList(LinkRef.class, this, GrlPackage.DEPENDENCY__SECOND_REFS, GrlPackage.LINK_REF__DEPENDENCY);
-        }
-        return secondRefs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.DEPENDENCY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.DEPENDENCY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.DEPENDENCY__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDER:
-                    if (depender != null)
-                        msgs = ((InternalEObject)depender).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER, IntentionalElement.class, msgs);
-                    return basicSetDepender((IntentionalElement)otherEnd, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDUM:
-                    if (dependum != null)
-                        msgs = ((InternalEObject)dependum).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM, IntentionalElement.class, msgs);
-                    return basicSetDependum((IntentionalElement)otherEnd, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDEE:
-                    if (dependee != null)
-                        msgs = ((InternalEObject)dependee).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE, IntentionalElement.class, msgs);
-                    return basicSetDependee((IntentionalElement)otherEnd, msgs);
-                case GrlPackage.DEPENDENCY__SECOND_REFS:
-                    return ((InternalEList)getSecondRefs()).basicAdd(otherEnd, msgs);
+                case GrlPackage.DEPENDENCY__GRLSPEC:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, GrlPackage.DEPENDENCY__GRLSPEC, msgs);
+                case GrlPackage.DEPENDENCY__SRC:
+                    if (src != null)
+                        msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
+                    return basicSetSrc((IntentionalElement)otherEnd, msgs);
+                case GrlPackage.DEPENDENCY__DEST:
+                    if (dest != null)
+                        msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
+                    return basicSetDest((IntentionalElement)otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -335,16 +90,18 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.DEPENDENCY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.DEPENDENCY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.DEPENDENCY__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDER:
-                    return basicSetDepender(null, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDUM:
-                    return basicSetDependum(null, msgs);
-                case GrlPackage.DEPENDENCY__DEPENDEE:
-                    return basicSetDependee(null, msgs);
-                case GrlPackage.DEPENDENCY__SECOND_REFS:
-                    return ((InternalEList)getSecondRefs()).basicRemove(otherEnd, msgs);
+                case GrlPackage.DEPENDENCY__GRLSPEC:
+                    return eBasicSetContainer(null, GrlPackage.DEPENDENCY__GRLSPEC, msgs);
+                case GrlPackage.DEPENDENCY__SRC:
+                    return basicSetSrc(null, msgs);
+                case GrlPackage.DEPENDENCY__DEST:
+                    return basicSetDest(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -357,21 +114,45 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
      * <!-- end-user-doc -->
      * @generated
      */
+    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case GrlPackage.DEPENDENCY__GRLSPEC:
+                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DEPENDENCY__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.DEPENDENCY__TO_LINKS:
+                return getToLinks();
+            case GrlPackage.DEPENDENCY__ID:
+                return getId();
+            case GrlPackage.DEPENDENCY__NAME:
+                return getName();
+            case GrlPackage.DEPENDENCY__DESCRIPTION:
+                return getDescription();
             case GrlPackage.DEPENDENCY__REFS:
                 return getRefs();
-            case GrlPackage.DEPENDENCY__DEPENDER:
-                if (resolve) return getDepender();
-                return basicGetDepender();
-            case GrlPackage.DEPENDENCY__DEPENDUM:
-                if (resolve) return getDependum();
-                return basicGetDependum();
-            case GrlPackage.DEPENDENCY__DEPENDEE:
-                if (resolve) return getDependee();
-                return basicGetDependee();
-            case GrlPackage.DEPENDENCY__SECOND_REFS:
-                return getSecondRefs();
+            case GrlPackage.DEPENDENCY__GRLSPEC:
+                return getGrlspec();
+            case GrlPackage.DEPENDENCY__SRC:
+                if (resolve) return getSrc();
+                return basicGetSrc();
+            case GrlPackage.DEPENDENCY__DEST:
+                if (resolve) return getDest();
+                return basicGetDest();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -383,22 +164,35 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DEPENDENCY__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.DEPENDENCY__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.DEPENDENCY__ID:
+                setId((String)newValue);
+                return;
+            case GrlPackage.DEPENDENCY__NAME:
+                setName((String)newValue);
+                return;
+            case GrlPackage.DEPENDENCY__DESCRIPTION:
+                setDescription((String)newValue);
+                return;
             case GrlPackage.DEPENDENCY__REFS:
                 getRefs().clear();
                 getRefs().addAll((Collection)newValue);
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDER:
-                setDepender((IntentionalElement)newValue);
+            case GrlPackage.DEPENDENCY__GRLSPEC:
+                setGrlspec((GRLspec)newValue);
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDUM:
-                setDependum((IntentionalElement)newValue);
+            case GrlPackage.DEPENDENCY__SRC:
+                setSrc((IntentionalElement)newValue);
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDEE:
-                setDependee((IntentionalElement)newValue);
-                return;
-            case GrlPackage.DEPENDENCY__SECOND_REFS:
-                getSecondRefs().clear();
-                getSecondRefs().addAll((Collection)newValue);
+            case GrlPackage.DEPENDENCY__DEST:
+                setDest((IntentionalElement)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -411,20 +205,32 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DEPENDENCY__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.DEPENDENCY__TO_LINKS:
+                getToLinks().clear();
+                return;
+            case GrlPackage.DEPENDENCY__ID:
+                setId(ID_EDEFAULT);
+                return;
+            case GrlPackage.DEPENDENCY__NAME:
+                setName(NAME_EDEFAULT);
+                return;
+            case GrlPackage.DEPENDENCY__DESCRIPTION:
+                setDescription(DESCRIPTION_EDEFAULT);
+                return;
             case GrlPackage.DEPENDENCY__REFS:
                 getRefs().clear();
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDER:
-                setDepender((IntentionalElement)null);
+            case GrlPackage.DEPENDENCY__GRLSPEC:
+                setGrlspec((GRLspec)null);
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDUM:
-                setDependum((IntentionalElement)null);
+            case GrlPackage.DEPENDENCY__SRC:
+                setSrc((IntentionalElement)null);
                 return;
-            case GrlPackage.DEPENDENCY__DEPENDEE:
-                setDependee((IntentionalElement)null);
-                return;
-            case GrlPackage.DEPENDENCY__SECOND_REFS:
-                getSecondRefs().clear();
+            case GrlPackage.DEPENDENCY__DEST:
+                setDest((IntentionalElement)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -437,16 +243,24 @@ public class DependencyImpl extends ElementLinkImpl implements Dependency {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DEPENDENCY__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.DEPENDENCY__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
+            case GrlPackage.DEPENDENCY__ID:
+                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case GrlPackage.DEPENDENCY__NAME:
+                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case GrlPackage.DEPENDENCY__DESCRIPTION:
+                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
             case GrlPackage.DEPENDENCY__REFS:
                 return refs != null && !refs.isEmpty();
-            case GrlPackage.DEPENDENCY__DEPENDER:
-                return depender != null;
-            case GrlPackage.DEPENDENCY__DEPENDUM:
-                return dependum != null;
-            case GrlPackage.DEPENDENCY__DEPENDEE:
-                return dependee != null;
-            case GrlPackage.DEPENDENCY__SECOND_REFS:
-                return secondRefs != null && !secondRefs.isEmpty();
+            case GrlPackage.DEPENDENCY__GRLSPEC:
+                return getGrlspec() != null;
+            case GrlPackage.DEPENDENCY__SRC:
+                return src != null;
+            case GrlPackage.DEPENDENCY__DEST:
+                return dest != null;
         }
         return eDynamicIsSet(eFeature);
     }

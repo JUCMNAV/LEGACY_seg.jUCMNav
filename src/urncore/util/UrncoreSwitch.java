@@ -101,12 +101,31 @@ public class UrncoreSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case UrncorePackage.COMPONENT_REGULAR: {
+                ComponentRegular componentRegular = (ComponentRegular)theEObject;
+                Object result = caseComponentRegular(componentRegular);
+                if (result == null) result = caseComponentElement(componentRegular);
+                if (result == null) result = caseUCMmodelElement(componentRegular);
+                if (result == null) result = caseIURNContainer(componentRegular);
+                if (result == null) result = caseURNmodelElement(componentRegular);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.COMPONENT_ELEMENT: {
+                ComponentElement componentElement = (ComponentElement)theEObject;
+                Object result = caseComponentElement(componentElement);
+                if (result == null) result = caseUCMmodelElement(componentElement);
+                if (result == null) result = caseIURNContainer(componentElement);
+                if (result == null) result = caseURNmodelElement(componentElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case UrncorePackage.POOL: {
                 Pool pool = (Pool)theEObject;
                 Object result = casePool(pool);
                 if (result == null) result = caseComponentElement(pool);
                 if (result == null) result = caseUCMmodelElement(pool);
-                if (result == null) result = caseSpecificationComponent(pool);
+                if (result == null) result = caseIURNContainer(pool);
                 if (result == null) result = caseURNmodelElement(pool);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -117,7 +136,7 @@ public class UrncoreSwitch {
                 if (result == null) result = caseComponentRegular(component);
                 if (result == null) result = caseComponentElement(component);
                 if (result == null) result = caseUCMmodelElement(component);
-                if (result == null) result = caseSpecificationComponent(component);
+                if (result == null) result = caseIURNContainer(component);
                 if (result == null) result = caseURNmodelElement(component);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -128,7 +147,7 @@ public class UrncoreSwitch {
                 if (result == null) result = caseComponentRegular(componentType);
                 if (result == null) result = caseComponentElement(componentType);
                 if (result == null) result = caseUCMmodelElement(componentType);
-                if (result == null) result = caseSpecificationComponent(componentType);
+                if (result == null) result = caseIURNContainer(componentType);
                 if (result == null) result = caseURNmodelElement(componentType);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -142,10 +161,30 @@ public class UrncoreSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case UrncorePackage.UC_MMODEL_ELEMENT: {
+                UCMmodelElement ucMmodelElement = (UCMmodelElement)theEObject;
+                Object result = caseUCMmodelElement(ucMmodelElement);
+                if (result == null) result = caseURNmodelElement(ucMmodelElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.GR_LMODEL_ELEMENT: {
+                GRLmodelElement grLmodelElement = (GRLmodelElement)theEObject;
+                Object result = caseGRLmodelElement(grLmodelElement);
+                if (result == null) result = caseURNmodelElement(grLmodelElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case UrncorePackage.NODE_LABEL: {
                 NodeLabel nodeLabel = (NodeLabel)theEObject;
                 Object result = caseNodeLabel(nodeLabel);
                 if (result == null) result = caseLabel(nodeLabel);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.LABEL: {
+                Label label = (Label)theEObject;
+                Object result = caseLabel(label);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -160,6 +199,42 @@ public class UrncoreSwitch {
                 Condition condition = (Condition)theEObject;
                 Object result = caseCondition(condition);
                 if (result == null) result = caseLabel(condition);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.IURN_DIAGRAM: {
+                IURNDiagram iurnDiagram = (IURNDiagram)theEObject;
+                Object result = caseIURNDiagram(iurnDiagram);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.UR_NMODEL_ELEMENT: {
+                URNmodelElement urNmodelElement = (URNmodelElement)theEObject;
+                Object result = caseURNmodelElement(urNmodelElement);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.IURN_NODE: {
+                IURNNode iurnNode = (IURNNode)theEObject;
+                Object result = caseIURNNode(iurnNode);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.IURN_CONTAINER_REF: {
+                IURNContainerRef iurnContainerRef = (IURNContainerRef)theEObject;
+                Object result = caseIURNContainerRef(iurnContainerRef);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.IURN_CONTAINER: {
+                IURNContainer iurnContainer = (IURNContainer)theEObject;
+                Object result = caseIURNContainer(iurnContainer);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case UrncorePackage.IURN_CONNECTION: {
+                IURNConnection iurnConnection = (IURNConnection)theEObject;
+                Object result = caseIURNConnection(iurnConnection);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -378,17 +453,17 @@ public class UrncoreSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationDiagram(SpecificationDiagram object) {
+    public Object caseIURNDiagram(IURNDiagram object) {
         return null;
     }
 
@@ -408,62 +483,62 @@ public class UrncoreSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationNode(SpecificationNode object) {
+    public Object caseIURNNode(IURNNode object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationComponentRef(SpecificationComponentRef object) {
+    public Object caseIURNContainerRef(IURNContainerRef object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Component</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Container</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Component</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Container</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationComponent(SpecificationComponent object) {
+    public Object caseIURNContainer(IURNContainer object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationConnection(SpecificationConnection object) {
+    public Object caseIURNConnection(IURNConnection object) {
         return null;
     }
 

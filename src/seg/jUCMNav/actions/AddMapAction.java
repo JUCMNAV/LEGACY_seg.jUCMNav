@@ -21,7 +21,7 @@ public class AddMapAction extends URNSelectionAction {
     public AddMapAction(IWorkbenchPart part) {
         super(part);
         setId(ADDMAP);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
     }
 
     /**

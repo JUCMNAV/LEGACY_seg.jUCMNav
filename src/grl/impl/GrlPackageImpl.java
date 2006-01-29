@@ -9,6 +9,7 @@ package grl.impl;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.BeliefLink;
 import grl.Contribution;
 import grl.ContributionType;
 import grl.Criticality;
@@ -17,9 +18,10 @@ import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.EvaluationLevel;
-import grl.EvaluationSet;
+import grl.EvaluationGroup;
+import grl.EvaluationScenario;
 import grl.GRLGraph;
+import grl.GRLNode;
 import grl.GRLspec;
 import grl.GrlFactory;
 import grl.GrlPackage;
@@ -27,6 +29,7 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
+import grl.LinkRefBendpoint;
 import grl.Priority;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -34,31 +37,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ucm.UcmPackage;
-
 import ucm.impl.UcmPackageImpl;
-
 import ucm.map.MapPackage;
-
 import ucm.map.impl.MapPackageImpl;
-
 import ucm.performance.PerformancePackage;
-
 import ucm.performance.impl.PerformancePackageImpl;
-
 import ucm.scenario.ScenarioPackage;
-
 import ucm.scenario.impl.ScenarioPackageImpl;
-
 import urn.UrnPackage;
-
 import urn.impl.UrnPackageImpl;
-
 import urncore.UrncorePackage;
-
 import urncore.impl.UrncorePackageImpl;
 
 /**
@@ -164,14 +155,35 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass evaluationSetEClass = null;
+    private EClass evaluationScenarioEClass = null;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private EEnum evaluationLevelEEnum = null;
+    private EClass grlNodeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass linkRefBendpointEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass beliefLinkEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass evaluationGroupEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -265,12 +277,12 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         isInited = true;
 
         // Obtain or create and register interdependencies
-        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
-        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
-        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
-        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
-        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
-        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
+        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
+        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
+        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
+        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 
         // Create package meta-data objects
         theGrlPackage.createPackageContents();
@@ -337,6 +349,15 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getGRLspec_Links() {
+        return (EReference)grLspecEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getBelief() {
         return beliefEClass;
     }
@@ -346,8 +367,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getBelief_Connection() {
-        return (EReference)beliefEClass.getEStructuralFeatures().get(0);
+    public EAttribute getBelief_Author() {
+        return (EAttribute)beliefEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -400,34 +421,34 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getIntentionalElement_LineColor() {
+        return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(4);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIntentionalElement_FillColor() {
+        return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(5);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIntentionalElement_Filled() {
+        return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(6);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EReference getIntentionalElement_Grlspec() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(4);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_Refs() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(5);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_IsDepender() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(6);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_DecompositionSrc() {
         return (EReference)intentionalElementEClass.getEStructuralFeatures().get(7);
     }
 
@@ -436,7 +457,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getIntentionalElement_DecompositionDest() {
+    public EReference getIntentionalElement_Refs() {
         return (EReference)intentionalElementEClass.getEStructuralFeatures().get(8);
     }
 
@@ -445,7 +466,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getIntentionalElement_ContributionSrc() {
+    public EReference getIntentionalElement_LinksSrc() {
         return (EReference)intentionalElementEClass.getEStructuralFeatures().get(9);
     }
 
@@ -454,35 +475,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getIntentionalElement_ContributionDest() {
+    public EReference getIntentionalElement_LinksDest() {
         return (EReference)intentionalElementEClass.getEStructuralFeatures().get(10);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_IsDependum() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(11);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_IsDependee() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(12);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getIntentionalElement_Evals() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(13);
     }
 
     /**
@@ -553,7 +547,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getContribution_Contibution() {
+    public EAttribute getContribution_Contribution() {
         return (EAttribute)contributionEClass.getEStructuralFeatures().get(0);
     }
 
@@ -571,24 +565,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getContribution_Src() {
-        return (EReference)contributionEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getContribution_Dest() {
-        return (EReference)contributionEClass.getEStructuralFeatures().get(3);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getLinkRef() {
         return linkRefEClass;
     }
@@ -598,7 +574,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getLinkRef_Beliefs() {
+    public EReference getLinkRef_Link() {
         return (EReference)linkRefEClass.getEStructuralFeatures().get(0);
     }
 
@@ -607,17 +583,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getLinkRef_Link() {
+    public EReference getLinkRef_Bendpoints() {
         return (EReference)linkRefEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getLinkRef_Dependency() {
-        return (EReference)linkRefEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -643,6 +610,33 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getElementLink_Grlspec() {
+        return (EReference)elementLinkEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getElementLink_Src() {
+        return (EReference)elementLinkEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getElementLink_Dest() {
+        return (EReference)elementLinkEClass.getEStructuralFeatures().get(3);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getDecomposition() {
         return decompositionEClass;
     }
@@ -652,62 +646,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDecomposition_Src() {
-        return (EReference)decompositionEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDecomposition_Dest() {
-        return (EReference)decompositionEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getDependency() {
         return dependencyEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDependency_Depender() {
-        return (EReference)dependencyEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDependency_Dependum() {
-        return (EReference)dependencyEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDependency_Dependee() {
-        return (EReference)dependencyEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getDependency_SecondRefs() {
-        return (EReference)dependencyEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -742,7 +682,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluation_Set() {
+    public EReference getEvaluation_Scenario() {
         return (EReference)evaluationEClass.getEStructuralFeatures().get(2);
     }
 
@@ -751,8 +691,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getEvaluationSet() {
-        return evaluationSetEClass;
+    public EClass getEvaluationScenario() {
+        return evaluationScenarioEClass;
     }
 
     /**
@@ -760,8 +700,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationSet_Evaluations() {
-        return (EReference)evaluationSetEClass.getEStructuralFeatures().get(0);
+    public EReference getEvaluationScenario_Evaluations() {
+        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -769,8 +709,80 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EEnum getEvaluationLevel() {
-        return evaluationLevelEEnum;
+    public EReference getEvaluationScenario_Groups() {
+        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getGRLNode() {
+        return grlNodeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getLinkRefBendpoint() {
+        return linkRefBendpointEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getLinkRefBendpoint_X() {
+        return (EAttribute)linkRefBendpointEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getLinkRefBendpoint_Y() {
+        return (EAttribute)linkRefBendpointEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getLinkRefBendpoint_Linkref() {
+        return (EReference)linkRefBendpointEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getBeliefLink() {
+        return beliefLinkEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getEvaluationGroup() {
+        return evaluationGroupEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getEvaluationGroup_Scenarios() {
+        return (EReference)evaluationGroupEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -850,25 +862,23 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         createEReference(grLspecEClass, GR_LSPEC__URNSPEC);
         createEReference(grLspecEClass, GR_LSPEC__INT_ELEMENTS);
         createEReference(grLspecEClass, GR_LSPEC__ACTORS);
+        createEReference(grLspecEClass, GR_LSPEC__LINKS);
 
         beliefEClass = createEClass(BELIEF);
-        createEReference(beliefEClass, BELIEF__CONNECTION);
+        createEAttribute(beliefEClass, BELIEF__AUTHOR);
 
         intentionalElementEClass = createEClass(INTENTIONAL_ELEMENT);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__TYPE);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__CRITICALITY);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__PRIORITY);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE);
+        createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__LINE_COLOR);
+        createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__FILL_COLOR);
+        createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__FILLED);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__GRLSPEC);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__REFS);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__IS_DEPENDER);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__DECOMPOSITION_SRC);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__DECOMPOSITION_DEST);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__CONTRIBUTION_SRC);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__CONTRIBUTION_DEST);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__IS_DEPENDUM);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__IS_DEPENDEE);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__EVALS);
+        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__LINKS_SRC);
+        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__LINKS_DEST);
 
         actorEClass = createEClass(ACTOR);
         createEReference(actorEClass, ACTOR__GRLSPEC);
@@ -881,39 +891,45 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         createEReference(intentionalElementRefEClass, INTENTIONAL_ELEMENT_REF__DEF);
 
         contributionEClass = createEClass(CONTRIBUTION);
-        createEAttribute(contributionEClass, CONTRIBUTION__CONTIBUTION);
+        createEAttribute(contributionEClass, CONTRIBUTION__CONTRIBUTION);
         createEAttribute(contributionEClass, CONTRIBUTION__CORRELATION);
-        createEReference(contributionEClass, CONTRIBUTION__SRC);
-        createEReference(contributionEClass, CONTRIBUTION__DEST);
 
         linkRefEClass = createEClass(LINK_REF);
-        createEReference(linkRefEClass, LINK_REF__BELIEFS);
         createEReference(linkRefEClass, LINK_REF__LINK);
-        createEReference(linkRefEClass, LINK_REF__DEPENDENCY);
+        createEReference(linkRefEClass, LINK_REF__BENDPOINTS);
 
         elementLinkEClass = createEClass(ELEMENT_LINK);
         createEReference(elementLinkEClass, ELEMENT_LINK__REFS);
+        createEReference(elementLinkEClass, ELEMENT_LINK__GRLSPEC);
+        createEReference(elementLinkEClass, ELEMENT_LINK__SRC);
+        createEReference(elementLinkEClass, ELEMENT_LINK__DEST);
 
         decompositionEClass = createEClass(DECOMPOSITION);
-        createEReference(decompositionEClass, DECOMPOSITION__SRC);
-        createEReference(decompositionEClass, DECOMPOSITION__DEST);
 
         dependencyEClass = createEClass(DEPENDENCY);
-        createEReference(dependencyEClass, DEPENDENCY__DEPENDER);
-        createEReference(dependencyEClass, DEPENDENCY__DEPENDUM);
-        createEReference(dependencyEClass, DEPENDENCY__DEPENDEE);
-        createEReference(dependencyEClass, DEPENDENCY__SECOND_REFS);
 
         evaluationEClass = createEClass(EVALUATION);
         createEAttribute(evaluationEClass, EVALUATION__EVALUATION);
         createEReference(evaluationEClass, EVALUATION__INT_ELEMENT);
-        createEReference(evaluationEClass, EVALUATION__SET);
+        createEReference(evaluationEClass, EVALUATION__SCENARIO);
 
-        evaluationSetEClass = createEClass(EVALUATION_SET);
-        createEReference(evaluationSetEClass, EVALUATION_SET__EVALUATIONS);
+        evaluationScenarioEClass = createEClass(EVALUATION_SCENARIO);
+        createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__EVALUATIONS);
+        createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__GROUPS);
+
+        grlNodeEClass = createEClass(GRL_NODE);
+
+        linkRefBendpointEClass = createEClass(LINK_REF_BENDPOINT);
+        createEAttribute(linkRefBendpointEClass, LINK_REF_BENDPOINT__X);
+        createEAttribute(linkRefBendpointEClass, LINK_REF_BENDPOINT__Y);
+        createEReference(linkRefBendpointEClass, LINK_REF_BENDPOINT__LINKREF);
+
+        beliefLinkEClass = createEClass(BELIEF_LINK);
+
+        evaluationGroupEClass = createEClass(EVALUATION_GROUP);
+        createEReference(evaluationGroupEClass, EVALUATION_GROUP__SCENARIOS);
 
         // Create enums
-        evaluationLevelEEnum = createEEnum(EVALUATION_LEVEL);
         criticalityEEnum = createEEnum(CRITICALITY);
         intentionalElementTypeEEnum = createEEnum(INTENTIONAL_ELEMENT_TYPE);
         priorityEEnum = createEEnum(PRIORITY);
@@ -949,46 +965,48 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
 
         // Add supertypes to classes
-        beliefEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
-        beliefEClass.getESuperTypes().add(theUrncorePackage.getSpecificationNode());
+        beliefEClass.getESuperTypes().add(this.getGRLNode());
         intentionalElementEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
         actorEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
-        actorEClass.getESuperTypes().add(theUrncorePackage.getSpecificationComponent());
+        actorEClass.getESuperTypes().add(theUrncorePackage.getIURNContainer());
         grlGraphEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
-        grlGraphEClass.getESuperTypes().add(theUrncorePackage.getSpecificationDiagram());
-        actorRefEClass.getESuperTypes().add(theUrncorePackage.getSpecificationComponentRef());
-        intentionalElementRefEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
-        intentionalElementRefEClass.getESuperTypes().add(theUrncorePackage.getSpecificationNode());
+        grlGraphEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
+        actorRefEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+        actorRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
+        intentionalElementRefEClass.getESuperTypes().add(this.getGRLNode());
         contributionEClass.getESuperTypes().add(this.getElementLink());
-        linkRefEClass.getESuperTypes().add(theUrncorePackage.getSpecificationConnection());
+        linkRefEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
+        elementLinkEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
         decompositionEClass.getESuperTypes().add(this.getElementLink());
         dependencyEClass.getESuperTypes().add(this.getElementLink());
-        evaluationSetEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+        evaluationScenarioEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+        grlNodeEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+        grlNodeEClass.getESuperTypes().add(theUrncorePackage.getIURNNode());
+        beliefLinkEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
+        evaluationGroupEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
 
         // Initialize classes and features; add operations and parameters
         initEClass(grLspecEClass, GRLspec.class, "GRLspec", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getGRLspec_Urnspec(), theUrnPackage.getURNspec(), theUrnPackage.getURNspec_Grlspec(), "urnspec", null, 1, 1, GRLspec.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getGRLspec_IntElements(), this.getIntentionalElement(), this.getIntentionalElement_Grlspec(), "intElements", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getGRLspec_Actors(), this.getActor(), this.getActor_Grlspec(), "actors", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getGRLspec_Links(), this.getElementLink(), this.getElementLink_Grlspec(), "links", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(beliefEClass, Belief.class, "Belief", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getBelief_Connection(), this.getLinkRef(), this.getLinkRef_Beliefs(), "connection", null, 1, 1, Belief.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getBelief_Author(), ecorePackage.getEString(), "author", null, 0, 1, Belief.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(intentionalElementEClass, IntentionalElement.class, "IntentionalElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getIntentionalElement_Type(), this.getIntentionalElementType(), "type", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getIntentionalElement_Criticality(), this.getCriticality(), "criticality", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getIntentionalElement_Priority(), this.getPriority(), "priority", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getIntentionalElement_DecompositionType(), this.getDecompositionType(), "decompositionType", "AND", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_Criticality(), this.getCriticality(), "criticality", "Medium", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_Priority(), this.getPriority(), "priority", "Medium", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_DecompositionType(), this.getDecompositionType(), "decompositionType", "And", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_LineColor(), ecorePackage.getEString(), "lineColor", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElement_Filled(), ecorePackage.getEBoolean(), "filled", "false", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElement_Grlspec(), this.getGRLspec(), this.getGRLspec_IntElements(), "grlspec", null, 1, 1, IntentionalElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_Refs(), this.getIntentionalElementRef(), this.getIntentionalElementRef_Def(), "refs", null, 1, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_IsDepender(), this.getDependency(), this.getDependency_Depender(), "isDepender", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_DecompositionSrc(), this.getDecomposition(), this.getDecomposition_Src(), "decompositionSrc", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_DecompositionDest(), this.getDecomposition(), this.getDecomposition_Dest(), "decompositionDest", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_ContributionSrc(), this.getContribution(), this.getContribution_Src(), "contributionSrc", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_ContributionDest(), this.getContribution(), this.getContribution_Dest(), "contributionDest", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_IsDependum(), this.getDependency(), this.getDependency_Dependum(), "isDependum", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_IsDependee(), this.getDependency(), this.getDependency_Dependee(), "isDependee", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_Evals(), this.getEvaluation(), this.getEvaluation_IntElement(), "evals", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIntentionalElement_Refs(), this.getIntentionalElementRef(), this.getIntentionalElementRef_Def(), "refs", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIntentionalElement_LinksSrc(), this.getElementLink(), this.getElementLink_Src(), "linksSrc", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIntentionalElement_LinksDest(), this.getElementLink(), this.getElementLink_Dest(), "linksDest", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(actorEClass, Actor.class, "Actor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getActor_Grlspec(), this.getGRLspec(), this.getGRLspec_Actors(), "grlspec", null, 1, 1, Actor.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1001,54 +1019,53 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEReference(getIntentionalElementRef_Def(), this.getIntentionalElement(), this.getIntentionalElement_Refs(), "def", null, 1, 1, IntentionalElementRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(contributionEClass, Contribution.class, "Contribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getContribution_Contibution(), this.getContributionType(), "contibution", null, 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getContribution_Contribution(), this.getContributionType(), "contribution", "Unknown", 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getContribution_Correlation(), ecorePackage.getEBoolean(), "correlation", "false", 0, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getContribution_Src(), this.getIntentionalElement(), this.getIntentionalElement_ContributionSrc(), "src", null, 1, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getContribution_Dest(), this.getIntentionalElement(), this.getIntentionalElement_ContributionDest(), "dest", null, 1, 1, Contribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(linkRefEClass, LinkRef.class, "LinkRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getLinkRef_Beliefs(), this.getBelief(), this.getBelief_Connection(), "beliefs", null, 0, -1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getLinkRef_Link(), this.getElementLink(), this.getElementLink_Refs(), "link", null, 1, 1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getLinkRef_Dependency(), this.getDependency(), this.getDependency_SecondRefs(), "dependency", null, 1, 1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getLinkRef_Bendpoints(), this.getLinkRefBendpoint(), this.getLinkRefBendpoint_Linkref(), "bendpoints", null, 0, -1, LinkRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(elementLinkEClass, ElementLink.class, "ElementLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getElementLink_Refs(), this.getLinkRef(), this.getLinkRef_Link(), "refs", null, 1, -1, ElementLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getElementLink_Refs(), this.getLinkRef(), this.getLinkRef_Link(), "refs", null, 0, -1, ElementLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getElementLink_Grlspec(), this.getGRLspec(), this.getGRLspec_Links(), "grlspec", null, 1, 1, ElementLink.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getElementLink_Src(), this.getIntentionalElement(), this.getIntentionalElement_LinksSrc(), "src", null, 1, 1, ElementLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getElementLink_Dest(), this.getIntentionalElement(), this.getIntentionalElement_LinksDest(), "dest", null, 1, 1, ElementLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(decompositionEClass, Decomposition.class, "Decomposition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getDecomposition_Src(), this.getIntentionalElement(), this.getIntentionalElement_DecompositionSrc(), "src", null, 1, 1, Decomposition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getDecomposition_Dest(), this.getIntentionalElement(), this.getIntentionalElement_DecompositionDest(), "dest", null, 1, 1, Decomposition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(dependencyEClass, Dependency.class, "Dependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getDependency_Depender(), this.getIntentionalElement(), this.getIntentionalElement_IsDepender(), "depender", null, 1, 1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getDependency_Dependum(), this.getIntentionalElement(), this.getIntentionalElement_IsDependum(), "dependum", null, 1, 1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getDependency_Dependee(), this.getIntentionalElement(), this.getIntentionalElement_IsDependee(), "dependee", null, 1, 1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getDependency_SecondRefs(), this.getLinkRef(), this.getLinkRef_Dependency(), "secondRefs", null, 0, -1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(evaluationEClass, Evaluation.class, "Evaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getEvaluation_Evaluation(), this.getEvaluationLevel(), "evaluation", null, 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), this.getIntentionalElement_Evals(), "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluation_Set(), this.getEvaluationSet(), this.getEvaluationSet_Evaluations(), "set", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getEvaluation_Evaluation(), ecorePackage.getEInt(), "evaluation", null, 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), null, "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluation_Scenario(), this.getEvaluationScenario(), this.getEvaluationScenario_Evaluations(), "scenario", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(evaluationSetEClass, EvaluationSet.class, "EvaluationSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getEvaluationSet_Evaluations(), this.getEvaluation(), this.getEvaluation_Set(), "evaluations", null, 0, -1, EvaluationSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(evaluationScenarioEClass, EvaluationScenario.class, "EvaluationScenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getEvaluationScenario_Evaluations(), this.getEvaluation(), this.getEvaluation_Scenario(), "evaluations", null, 0, -1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluationScenario_Groups(), this.getEvaluationGroup(), this.getEvaluationGroup_Scenarios(), "groups", null, 1, -1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(grlNodeEClass, GRLNode.class, "GRLNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(linkRefBendpointEClass, LinkRefBendpoint.class, "LinkRefBendpoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getLinkRefBendpoint_X(), ecorePackage.getEInt(), "x", null, 0, 1, LinkRefBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getLinkRefBendpoint_Y(), ecorePackage.getEInt(), "y", null, 0, 1, LinkRefBendpoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getLinkRefBendpoint_Linkref(), this.getLinkRef(), this.getLinkRef_Bendpoints(), "linkref", null, 1, 1, LinkRefBendpoint.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(beliefLinkEClass, BeliefLink.class, "BeliefLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(evaluationGroupEClass, EvaluationGroup.class, "EvaluationGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getEvaluationGroup_Scenarios(), this.getEvaluationScenario(), this.getEvaluationScenario_Groups(), "scenarios", null, 0, -1, EvaluationGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
-        initEEnum(evaluationLevelEEnum, EvaluationLevel.class, "EvaluationLevel");
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.SATISFICED_LITERAL);
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.WEAKLY_SATISFICED_LITERAL);
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.UNDECIDED_LITERAL);
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.WEAKLY_DENIED_LITERAL);
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.DENIED_LITERAL);
-        addEEnumLiteral(evaluationLevelEEnum, EvaluationLevel.CONFLICT_LITERAL);
-
         initEEnum(criticalityEEnum, Criticality.class, "Criticality");
         addEEnumLiteral(criticalityEEnum, Criticality.HIGH_LITERAL);
         addEEnumLiteral(criticalityEEnum, Criticality.MEDIUM_LITERAL);
         addEEnumLiteral(criticalityEEnum, Criticality.LOW_LITERAL);
 
         initEEnum(intentionalElementTypeEEnum, IntentionalElementType.class, "IntentionalElementType");
-        addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.GOAL_LITERAL);
         addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.SOFTGOAL_LITERAL);
+        addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.GOAL_LITERAL);
         addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.TASK_LITERAL);
         addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.RESSOURCE_LITERAL);
 
@@ -1058,14 +1075,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         addEEnumLiteral(priorityEEnum, Priority.LOW_LITERAL);
 
         initEEnum(contributionTypeEEnum, ContributionType.class, "ContributionType");
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.BREAK_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.HURT_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.SOME_NEGATIVE_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.UNKNOWN_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.EQUAL_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.SOME_POSITIVE_LITERAL);
-        addEEnumLiteral(contributionTypeEEnum, ContributionType.HELP_LITERAL);
         addEEnumLiteral(contributionTypeEEnum, ContributionType.MAKE_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.HELP_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.SOME_POSITIVE_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.UNKNOWN_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.SOME_NEGATIVE_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.HURT_LITERAL);
+        addEEnumLiteral(contributionTypeEEnum, ContributionType.BREAK_LITERAL);
 
         initEEnum(decompositionTypeEEnum, DecompositionType.class, "DecompositionType");
         addEEnumLiteral(decompositionTypeEEnum, DecompositionType.AND_LITERAL);

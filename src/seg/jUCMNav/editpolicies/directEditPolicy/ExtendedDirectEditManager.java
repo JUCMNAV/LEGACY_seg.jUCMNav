@@ -1,7 +1,6 @@
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
@@ -18,6 +17,8 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.figures.LabelElementFigure;
+
 /**
  * 
  * A generic DirectEdit manager to be used for labels which includes validation functionality by adding the ICellEditorValidator on startup
@@ -25,12 +26,13 @@ import org.eclipse.swt.widgets.Text;
  * Class taken from some example with only a few lines modified.
  * 
  * @author Phil Zoio
+ * 
  */
 public class ExtendedDirectEditManager extends DirectEditManager {
 
     Font figureFont;
     protected VerifyListener verifyListener;
-    protected Label label;
+    protected LabelElementFigure label;
     protected String originalValue;
     private boolean committing = false;
     private ICellEditorValidator validator = null;
@@ -45,7 +47,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
      * @param locator
      *            the CellEditorLocator
      */
-    public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, Label label, ICellEditorValidator validator) {
+    public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, LabelElementFigure label, ICellEditorValidator validator) {
         super(source, editorType, locator);
         this.label = label;
         this.originalValue = label.getText();

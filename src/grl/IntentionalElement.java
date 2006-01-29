@@ -22,21 +22,18 @@ import urncore.GRLmodelElement;
  *   <li>{@link grl.IntentionalElement#getCriticality <em>Criticality</em>}</li>
  *   <li>{@link grl.IntentionalElement#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.IntentionalElement#getDecompositionType <em>Decomposition Type</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getLineColor <em>Line Color</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getFillColor <em>Fill Color</em>}</li>
+ *   <li>{@link grl.IntentionalElement#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.IntentionalElement#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.IntentionalElement#getRefs <em>Refs</em>}</li>
- *   <li>{@link grl.IntentionalElement#getIsDepender <em>Is Depender</em>}</li>
- *   <li>{@link grl.IntentionalElement#getDecompositionSrc <em>Decomposition Src</em>}</li>
- *   <li>{@link grl.IntentionalElement#getDecompositionDest <em>Decomposition Dest</em>}</li>
- *   <li>{@link grl.IntentionalElement#getContributionSrc <em>Contribution Src</em>}</li>
- *   <li>{@link grl.IntentionalElement#getContributionDest <em>Contribution Dest</em>}</li>
- *   <li>{@link grl.IntentionalElement#getIsDependum <em>Is Dependum</em>}</li>
- *   <li>{@link grl.IntentionalElement#getIsDependee <em>Is Dependee</em>}</li>
- *   <li>{@link grl.IntentionalElement#getEvals <em>Evals</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getLinksSrc <em>Links Src</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getLinksDest <em>Links Dest</em>}</li>
  * </ul>
  * </p>
  *
  * @see grl.GrlPackage#getIntentionalElement()
- * @model 
+ * @model
  * @generated
  */
 public interface IntentionalElement extends GRLmodelElement {
@@ -53,7 +50,7 @@ public interface IntentionalElement extends GRLmodelElement {
      * @see grl.IntentionalElementType
      * @see #setType(IntentionalElementType)
      * @see grl.GrlPackage#getIntentionalElement_Type()
-     * @model 
+     * @model
      * @generated
      */
     IntentionalElementType getType();
@@ -71,6 +68,7 @@ public interface IntentionalElement extends GRLmodelElement {
 
     /**
      * Returns the value of the '<em><b>Criticality</b></em>' attribute.
+     * The default value is <code>"Medium"</code>.
      * The literals are from the enumeration {@link grl.Criticality}.
      * <!-- begin-user-doc -->
      * <p>
@@ -82,7 +80,7 @@ public interface IntentionalElement extends GRLmodelElement {
      * @see grl.Criticality
      * @see #setCriticality(Criticality)
      * @see grl.GrlPackage#getIntentionalElement_Criticality()
-     * @model 
+     * @model default="Medium"
      * @generated
      */
     Criticality getCriticality();
@@ -100,6 +98,7 @@ public interface IntentionalElement extends GRLmodelElement {
 
     /**
      * Returns the value of the '<em><b>Priority</b></em>' attribute.
+     * The default value is <code>"Medium"</code>.
      * The literals are from the enumeration {@link grl.Priority}.
      * <!-- begin-user-doc -->
      * <p>
@@ -111,7 +110,7 @@ public interface IntentionalElement extends GRLmodelElement {
      * @see grl.Priority
      * @see #setPriority(Priority)
      * @see grl.GrlPackage#getIntentionalElement_Priority()
-     * @model 
+     * @model default="Medium"
      * @generated
      */
     Priority getPriority();
@@ -129,7 +128,7 @@ public interface IntentionalElement extends GRLmodelElement {
 
     /**
      * Returns the value of the '<em><b>Decomposition Type</b></em>' attribute.
-     * The default value is <code>"AND"</code>.
+     * The default value is <code>"And"</code>.
      * The literals are from the enumeration {@link grl.DecompositionType}.
      * <!-- begin-user-doc -->
      * <p>
@@ -141,7 +140,7 @@ public interface IntentionalElement extends GRLmodelElement {
      * @see grl.DecompositionType
      * @see #setDecompositionType(DecompositionType)
      * @see grl.GrlPackage#getIntentionalElement_DecompositionType()
-     * @model default="AND"
+     * @model default="And"
      * @generated
      */
     DecompositionType getDecompositionType();
@@ -156,6 +155,85 @@ public interface IntentionalElement extends GRLmodelElement {
      * @generated
      */
     void setDecompositionType(DecompositionType value);
+
+    /**
+     * Returns the value of the '<em><b>Line Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Line Color</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Line Color</em>' attribute.
+     * @see #setLineColor(String)
+     * @see grl.GrlPackage#getIntentionalElement_LineColor()
+     * @model
+     * @generated
+     */
+    String getLineColor();
+
+    /**
+     * Sets the value of the '{@link grl.IntentionalElement#getLineColor <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Line Color</em>' attribute.
+     * @see #getLineColor()
+     * @generated
+     */
+    void setLineColor(String value);
+
+    /**
+     * Returns the value of the '<em><b>Fill Color</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Fill Color</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Fill Color</em>' attribute.
+     * @see #setFillColor(String)
+     * @see grl.GrlPackage#getIntentionalElement_FillColor()
+     * @model
+     * @generated
+     */
+    String getFillColor();
+
+    /**
+     * Sets the value of the '{@link grl.IntentionalElement#getFillColor <em>Fill Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Fill Color</em>' attribute.
+     * @see #getFillColor()
+     * @generated
+     */
+    void setFillColor(String value);
+
+    /**
+     * Returns the value of the '<em><b>Filled</b></em>' attribute.
+     * The default value is <code>"false"</code>.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Filled</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Filled</em>' attribute.
+     * @see #setFilled(boolean)
+     * @see grl.GrlPackage#getIntentionalElement_Filled()
+     * @model default="false"
+     * @generated
+     */
+    boolean isFilled();
+
+    /**
+     * Sets the value of the '{@link grl.IntentionalElement#isFilled <em>Filled</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Filled</em>' attribute.
+     * @see #isFilled()
+     * @generated
+     */
+    void setFilled(boolean value);
 
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
@@ -198,153 +276,45 @@ public interface IntentionalElement extends GRLmodelElement {
      * @return the value of the '<em>Refs</em>' reference list.
      * @see grl.GrlPackage#getIntentionalElement_Refs()
      * @see grl.IntentionalElementRef#getDef
-     * @model type="grl.IntentionalElementRef" opposite="def" required="true"
+     * @model type="grl.IntentionalElementRef" opposite="def"
      * @generated
      */
     EList getRefs();
 
     /**
-     * Returns the value of the '<em><b>Is Depender</b></em>' reference list.
-     * The list contents are of type {@link grl.Dependency}.
-     * It is bidirectional and its opposite is '{@link grl.Dependency#getDepender <em>Depender</em>}'.
+     * Returns the value of the '<em><b>Links Src</b></em>' reference list.
+     * The list contents are of type {@link grl.ElementLink}.
+     * It is bidirectional and its opposite is '{@link grl.ElementLink#getSrc <em>Src</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Is Depender</em>' reference list isn't clear,
+     * If the meaning of the '<em>Links Src</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Is Depender</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_IsDepender()
-     * @see grl.Dependency#getDepender
-     * @model type="grl.Dependency" opposite="depender"
+     * @return the value of the '<em>Links Src</em>' reference list.
+     * @see grl.GrlPackage#getIntentionalElement_LinksSrc()
+     * @see grl.ElementLink#getSrc
+     * @model type="grl.ElementLink" opposite="src"
      * @generated
      */
-    EList getIsDepender();
+    EList getLinksSrc();
 
     /**
-     * Returns the value of the '<em><b>Decomposition Src</b></em>' reference list.
-     * The list contents are of type {@link grl.Decomposition}.
-     * It is bidirectional and its opposite is '{@link grl.Decomposition#getSrc <em>Src</em>}'.
+     * Returns the value of the '<em><b>Links Dest</b></em>' reference list.
+     * The list contents are of type {@link grl.ElementLink}.
+     * It is bidirectional and its opposite is '{@link grl.ElementLink#getDest <em>Dest</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Decomposition Src</em>' reference list isn't clear,
+     * If the meaning of the '<em>Links Dest</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Decomposition Src</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_DecompositionSrc()
-     * @see grl.Decomposition#getSrc
-     * @model type="grl.Decomposition" opposite="src"
+     * @return the value of the '<em>Links Dest</em>' reference list.
+     * @see grl.GrlPackage#getIntentionalElement_LinksDest()
+     * @see grl.ElementLink#getDest
+     * @model type="grl.ElementLink" opposite="dest"
      * @generated
      */
-    EList getDecompositionSrc();
-
-    /**
-     * Returns the value of the '<em><b>Decomposition Dest</b></em>' reference list.
-     * The list contents are of type {@link grl.Decomposition}.
-     * It is bidirectional and its opposite is '{@link grl.Decomposition#getDest <em>Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Decomposition Dest</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Decomposition Dest</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_DecompositionDest()
-     * @see grl.Decomposition#getDest
-     * @model type="grl.Decomposition" opposite="dest"
-     * @generated
-     */
-    EList getDecompositionDest();
-
-    /**
-     * Returns the value of the '<em><b>Contribution Src</b></em>' reference list.
-     * The list contents are of type {@link grl.Contribution}.
-     * It is bidirectional and its opposite is '{@link grl.Contribution#getSrc <em>Src</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Contribution Src</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Contribution Src</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_ContributionSrc()
-     * @see grl.Contribution#getSrc
-     * @model type="grl.Contribution" opposite="src"
-     * @generated
-     */
-    EList getContributionSrc();
-
-    /**
-     * Returns the value of the '<em><b>Contribution Dest</b></em>' reference list.
-     * The list contents are of type {@link grl.Contribution}.
-     * It is bidirectional and its opposite is '{@link grl.Contribution#getDest <em>Dest</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Contribution Dest</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Contribution Dest</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_ContributionDest()
-     * @see grl.Contribution#getDest
-     * @model type="grl.Contribution" opposite="dest"
-     * @generated
-     */
-    EList getContributionDest();
-
-    /**
-     * Returns the value of the '<em><b>Is Dependum</b></em>' reference list.
-     * The list contents are of type {@link grl.Dependency}.
-     * It is bidirectional and its opposite is '{@link grl.Dependency#getDependum <em>Dependum</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Is Dependum</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Is Dependum</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_IsDependum()
-     * @see grl.Dependency#getDependum
-     * @model type="grl.Dependency" opposite="dependum"
-     * @generated
-     */
-    EList getIsDependum();
-
-    /**
-     * Returns the value of the '<em><b>Is Dependee</b></em>' reference list.
-     * The list contents are of type {@link grl.Dependency}.
-     * It is bidirectional and its opposite is '{@link grl.Dependency#getDependee <em>Dependee</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Is Dependee</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Is Dependee</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_IsDependee()
-     * @see grl.Dependency#getDependee
-     * @model type="grl.Dependency" opposite="dependee"
-     * @generated
-     */
-    EList getIsDependee();
-
-    /**
-     * Returns the value of the '<em><b>Evals</b></em>' reference list.
-     * The list contents are of type {@link grl.Evaluation}.
-     * It is bidirectional and its opposite is '{@link grl.Evaluation#getIntElement <em>Int Element</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Evals</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Evals</em>' reference list.
-     * @see grl.GrlPackage#getIntentionalElement_Evals()
-     * @see grl.Evaluation#getIntElement
-     * @model type="grl.Evaluation" opposite="intElement"
-     * @generated
-     */
-    EList getEvals();
+    EList getLinksDest();
 
 } // IntentionalElement

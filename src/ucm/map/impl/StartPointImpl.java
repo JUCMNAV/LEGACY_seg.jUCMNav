@@ -31,8 +31,8 @@ import ucm.performance.Workload;
 
 import urncore.Condition;
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -205,16 +205,18 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.START_POINT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.START_POINT__SPEC_DIAGRAM:
+                case MapPackage.START_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.START_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.START_POINT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.START_POINT__SPEC_DIAGRAM, msgs);
-                case MapPackage.START_POINT__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.START_POINT__DIAGRAM, msgs);
+                case MapPackage.START_POINT__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.START_POINT__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.START_POINT__PRED:
@@ -250,12 +252,14 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.START_POINT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.START_POINT__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.START_POINT__SPEC_DIAGRAM, msgs);
-                case MapPackage.START_POINT__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.START_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.START_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.START_POINT__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.START_POINT__DIAGRAM, msgs);
+                case MapPackage.START_POINT__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.START_POINT__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.START_POINT__PRED:
@@ -283,13 +287,13 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.START_POINT__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.START_POINT__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -299,23 +303,25 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.START_POINT__TO_LINKS:
+                return getToLinks();
             case MapPackage.START_POINT__ID:
                 return getId();
             case MapPackage.START_POINT__NAME:
                 return getName();
             case MapPackage.START_POINT__DESCRIPTION:
                 return getDescription();
-            case MapPackage.START_POINT__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.START_POINT__X:
                 return new Integer(getX());
             case MapPackage.START_POINT__Y:
                 return new Integer(getY());
-            case MapPackage.START_POINT__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.START_POINT__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.START_POINT__DIAGRAM:
+                return getDiagram();
+            case MapPackage.START_POINT__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.START_POINT__SUCC:
                 return getSucc();
             case MapPackage.START_POINT__PRED:
@@ -339,6 +345,14 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.START_POINT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.START_POINT__ID:
                 setId((String)newValue);
                 return;
@@ -348,21 +362,17 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
             case MapPackage.START_POINT__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.START_POINT__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.START_POINT__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.START_POINT__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.START_POINT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.START_POINT__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.START_POINT__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.START_POINT__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.START_POINT__SUCC:
                 getSucc().clear();
@@ -396,6 +406,12 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.START_POINT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.START_POINT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -405,20 +421,17 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
             case MapPackage.START_POINT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.START_POINT__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.START_POINT__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.START_POINT__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.START_POINT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.START_POINT__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.START_POINT__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.START_POINT__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.START_POINT__SUCC:
                 getSucc().clear();
@@ -449,22 +462,24 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.START_POINT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.START_POINT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.START_POINT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.START_POINT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.START_POINT__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.START_POINT__X:
                 return x != X_EDEFAULT;
             case MapPackage.START_POINT__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.START_POINT__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.START_POINT__COMP_REF:
-                return compRef != null;
+            case MapPackage.START_POINT__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.START_POINT__CONT_REF:
+                return contRef != null;
             case MapPackage.START_POINT__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.START_POINT__PRED:

@@ -23,10 +23,10 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see ucm.map.MapPackage#getOutBinding()
- * @model 
+ * @model
  * @generated
  */
-public interface OutBinding extends EObject {
+public interface OutBinding extends EObject{
     /**
      * Returns the value of the '<em><b>Binding</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getOut <em>Out</em>}'.

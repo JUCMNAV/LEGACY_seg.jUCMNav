@@ -59,9 +59,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         // also set the relations
         urn = getMap().getUrndefinition().getUrnspec();
         htReferences = new Hashtable();
-        for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            htReferences.put(comp, comp.getCompDef());
+            htReferences.put(comp, comp.getContDef());
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
@@ -88,9 +88,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         urn.getUrndef().getSpecDiagrams().remove(getMap());
 
         // break relations
-        for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            comp.setCompDef(null);
+            comp.setContDef(null);
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
@@ -115,9 +115,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         assert !urn.getUrndef().getSpecDiagrams().contains(getMap()) : "post map still in model"; //$NON-NLS-1$
 
         // verify no more references
-        for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            assert comp.getCompDef() == null : "post compRef still references definition"; //$NON-NLS-1$
+            assert comp.getContDef() == null : "post compRef still references definition"; //$NON-NLS-1$
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
@@ -137,9 +137,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         assert getMap() != null && urn != null : "pre something is null"; //$NON-NLS-1$
         assert urn.getUrndef().getSpecDiagrams().contains(getMap()) : "pre map in model"; //$NON-NLS-1$
         // verify that all elements have references; (for legal ucm)
-        for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            assert comp.getCompDef() != null : "pre compRef doesn't reference definition"; //$NON-NLS-1$
+            assert comp.getContDef() != null : "pre compRef doesn't reference definition"; //$NON-NLS-1$
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
@@ -161,9 +161,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         urn.getUrndef().getSpecDiagrams().add(mapPosition, getMap());
 
         // re-add references
-        for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
             ComponentRef comp = (ComponentRef) iter.next();
-            comp.setCompDef((ComponentElement) htReferences.get(comp));
+            comp.setContDef((ComponentElement) htReferences.get(comp));
         }
 
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {

@@ -15,7 +15,7 @@ import ucm.map.PathNode;
 
 import ucm.performance.*;
 
-import urncore.SpecificationNode;
+import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -98,7 +98,7 @@ public class PerformanceSwitch {
                 Object result = caseTimestamp(timestamp);
                 if (result == null) result = casePathNode(timestamp);
                 if (result == null) result = caseUCMmodelElement(timestamp);
-                if (result == null) result = caseSpecificationNode(timestamp);
+                if (result == null) result = caseIURNNode(timestamp);
                 if (result == null) result = caseURNmodelElement(timestamp);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -375,17 +375,17 @@ public class PerformanceSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationNode(SpecificationNode object) {
+    public Object caseIURNNode(IURNNode object) {
         return null;
     }
 

@@ -57,12 +57,12 @@ import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
-import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
+import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
-import seg.jUCMNav.editparts.SpecificationDiagramEditPart;
+import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.editpolicies.layout.MapXYLayoutEditPolicy;
@@ -70,15 +70,15 @@ import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.Rotateable;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
-import seg.jUCMNav.views.property.ComponentPropertySource;
+import seg.jUCMNav.views.property.ContainerPropertySource;
 import seg.jUCMNav.views.property.EObjectPropertySource;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.AndFork;
@@ -136,8 +136,8 @@ public class ProgressTests extends TestCase {
             }
         } else
             getGraphicalViewer().deselectAll();
-        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
-        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
+        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        IContributionItem contrib = ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
         if (contrib instanceof ActionContributionItem) {
             return ((ActionContributionItem) contrib).getAction();
         } else
@@ -147,7 +147,7 @@ public class ProgressTests extends TestCase {
 
     private Vector getAttributeDescriptor(UCMmodelElement cr, String name) {
 
-        EObjectPropertySource eops = new ComponentPropertySource(cr);
+        EObjectPropertySource eops = new ContainerPropertySource(cr);
         EStructuralFeature attr;
         Vector v = new Vector();
         Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
@@ -233,8 +233,8 @@ public class ProgressTests extends TestCase {
         return (UCMmap) urn.getUrndef().getSpecDiagrams().get(i);
     }
 
-    public SpecificationDiagramEditPart getMapEditPart(int i) {
-        return (SpecificationDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
+    public URNDiagramEditPart getMapEditPart(int i) {
+        return (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getRootEditPart().getChildren().get(i);
     }
 
     public EditPartViewer getOutlineGraphicalViewer() {
@@ -338,11 +338,11 @@ public class ProgressTests extends TestCase {
 
         CommandStack cs = getGraphicalViewer().getEditDomain().getCommandStack();
         ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(editor.getModel(), ComponentRef.class);
-        Command cmd = new AddComponentRefCommand(getMap(), backgroundBindingChecker);
+        Command cmd = new AddContainerRefCommand(getMap(), backgroundBindingChecker);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintBoundComponentRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
+        assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -377,7 +377,7 @@ public class ProgressTests extends TestCase {
 
         // verify that both the componentref and component element are not in the model
         assertEquals("Should be only one component in model", 1, urn.getUrndef().getComponents().size()); //$NON-NLS-1$
-        assertEquals("Should be only one component reference in model", 1, getMap().getCompRefs().size()); //$NON-NLS-1$
+        assertEquals("Should be only one component reference in model", 1, getMap().getContRefs().size()); //$NON-NLS-1$
 
         // verify that the edit part tree is empty.
         assertEquals("MapAndPathGraphEditPart should have only two children", 2, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
@@ -399,7 +399,7 @@ public class ProgressTests extends TestCase {
 
         // verify that both the componentref and component element have been added in the model.
         assertEquals("No component added to model", 2, urn.getUrndef().getComponents().size()); //$NON-NLS-1$
-        assertEquals("No component ref added to model", 2, getMap().getCompRefs().size()); //$NON-NLS-1$
+        assertEquals("No component ref added to model", 2, getMap().getContRefs().size()); //$NON-NLS-1$
 
         // verify that the edit part tree has changed.
         assertEquals("MapAndPathGraphEditPart should have exactly four children (2*component+label)", 4, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
@@ -415,13 +415,13 @@ public class ProgressTests extends TestCase {
         // create the component ref that will be used for testing.
         ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, ComponentKind.TEAM);
         // to be able to build the property source for the compDef, our component ref must be inside a map.
-        Command cmd = new AddComponentRefCommand(getMap(), cr);
+        Command cmd = new AddContainerRefCommand(getMap(), cr);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
         // create a property source on the component ref
-        ComponentPropertySource eops = new ComponentPropertySource(cr);
+        ContainerPropertySource eops = new ContainerPropertySource(cr);
         EStructuralFeature attr;
         Vector v = new Vector();
         Iterator i = cr.eClass().getEAllStructuralFeatures().iterator();
@@ -442,18 +442,18 @@ public class ProgressTests extends TestCase {
 
         // verify that we can move/resize components.
 
-        ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
+        ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getContRefs().get(1));
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
 
         // verify that we can't move/resize fixed components.
         cr.setFixed(true);
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && !cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && !cmd.canExecute());
 
     }
 
@@ -464,7 +464,7 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompBind1() {
 
-        assertTrue("Test created for SetConstraintComponentRefCommand defaults that no longer hold.", ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT //$NON-NLS-1$
+        assertTrue("Test created for SetConstraintContainerRefCommand defaults that no longer hold.", ModelCreationFactory.DEFAULT_UCM_COMPONENT_HEIGHT //$NON-NLS-1$
                 * ModelCreationFactory.DEFAULT_UCM_COMPONENT_WIDTH < 300 * 400);
 
         // create the component ref that will be used for testing.
@@ -473,11 +473,11 @@ public class ProgressTests extends TestCase {
         ComponentRef child = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, ComponentKind.TEAM);
 
         // to be able to build the property source for the compDef, our component ref must be inside a map.
-        Command cmd = new AddComponentRefCommand(getMap(), parent);
+        Command cmd = new AddContainerRefCommand(getMap(), parent);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // to be able to build the property source for the compDef, our component ref must be inside a map.
-        cmd = new AddComponentRefCommand(getMap(), child);
+        cmd = new AddContainerRefCommand(getMap(), child);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack
@@ -487,8 +487,8 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart parentEditPart = (ComponentRefEditPart) getEditPart(parent);
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(100, 200, 300, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
 
         // refresh the edit part tree because we aren't hooked up to the command stack
@@ -502,8 +502,8 @@ public class ProgressTests extends TestCase {
         ComponentRefEditPart childEditPart = (ComponentRefEditPart) getEditPart(child);
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(childEditPart,
                 new Rectangle(150, 250, 50, 50));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
@@ -514,8 +514,8 @@ public class ProgressTests extends TestCase {
 
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(parentEditPart,
                 new Rectangle(0, 0, 150, 200));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
@@ -532,11 +532,11 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompBind2() {
         testReqCompCompBind1();
-        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
+        ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
+        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the small component ref
-        ComponentRef cr = (ComponentRef) getMap().getCompRefs().get(2);
+        ComponentRef cr = (ComponentRef) getMap().getContRefs().get(2);
 
         Vector v = getAttributeDescriptor(cr, "parent"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
@@ -561,8 +561,8 @@ public class ProgressTests extends TestCase {
 
         Command cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(
                 childEditPart, new Rectangle(200, 200, 300, 150));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
@@ -578,8 +578,8 @@ public class ProgressTests extends TestCase {
      */
     public void testReqCompCompUnbind2() {
         testReqCompCompBind1();
-        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
+        ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
+        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         // create a property source on the large component ref
         Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
@@ -596,17 +596,17 @@ public class ProgressTests extends TestCase {
         // create the component ref that will be used for testing.
         ComponentRef cr = (ComponentRef) ModelCreationFactory.getNewObject(urn, ComponentRef.class, ComponentKind.TEAM);
         // to be able to build the property source for the compDef, our component ref must be inside a map.
-        Command cmd = new AddComponentRefCommand(getMap(), cr);
+        Command cmd = new AddContainerRefCommand(getMap(), cr);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
         // verify that we can move/resize components.
-        ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getCompRefs().get(1));
+        ComponentRefEditPart creditpart = (ComponentRefEditPart) getEditPart(getMap().getContRefs().get(1));
         cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(creditpart,
                 new Rectangle(0, 0, 400, 400));
-        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundComponentRefCompoundCommand ", //$NON-NLS-1$
-                cmd instanceof SetConstraintBoundComponentRefCompoundCommand && cmd.canExecute());
+        assertTrue("MapAndPathGraphXYLayoutEditPolicy doesn't return a valid SetConstraintBoundContainerRefCompoundCommand ", //$NON-NLS-1$
+                cmd instanceof SetConstraintBoundContainerRefCompoundCommand && cmd.canExecute());
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
@@ -614,7 +614,7 @@ public class ProgressTests extends TestCase {
         testReqElemStartPoint1();
 
         for (int i = 0; i < getMap().getNodes().size(); i++) {
-            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getNodes().get(i)).getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
+            assertEquals("New node not bound to parent (" + i + ")", cr, ((PathNode) getMap().getNodes().get(i)).getContRef()); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
     }
@@ -627,10 +627,10 @@ public class ProgressTests extends TestCase {
     public void testReqCompPathBind2() {
         testReqCompPathBind1();
         PathNode node = (PathNode) getMap().getNodes().get(1);
-        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
+        ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
+        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
-        Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
+        Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("Parent not option in property values", "ParentTest (7)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
     }
@@ -646,7 +646,7 @@ public class ProgressTests extends TestCase {
         // pick any path node
         PathNode pn = (PathNode) getMap().getNodes().get(1);
         PathNodeEditPart pnpart = (PathNodeEditPart) getEditPart(pn);
-        ComponentRef parent = (ComponentRef)pn.getCompRef();
+        ComponentRef parent = (ComponentRef)pn.getContRef();
 
         Command cmd = ((MapXYLayoutEditPolicy) getMapEditPart(0).getEditPolicy(EditPolicy.LAYOUT_ROLE)).createChangeConstraintCommand(pnpart,
                 new Rectangle(500, 500, 0, 0));
@@ -655,7 +655,7 @@ public class ProgressTests extends TestCase {
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertTrue("Moved node should no longer have the same parent.", pn.getCompRef() != parent); //$NON-NLS-1$
+        assertTrue("Moved node should no longer have the same parent.", pn.getContRef() != parent); //$NON-NLS-1$
 
     }
 
@@ -667,10 +667,10 @@ public class ProgressTests extends TestCase {
     public void testReqCompPathUnbind2() {
         testReqCompPathUnbind1();
         PathNode node = (PathNode) getMap().getNodes().get(1);
-        ComponentRef parent = (ComponentRef) getMap().getCompRefs().get(1);
-        ((ComponentElement)parent.getCompDef()).setName("ParentTest"); //$NON-NLS-1$
+        ComponentRef parent = (ComponentRef) getMap().getContRefs().get(1);
+        ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
-        Vector v = getAttributeDescriptor(node, "compRef"); //$NON-NLS-1$
+        Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
@@ -1071,7 +1071,7 @@ public class ProgressTests extends TestCase {
         // refresh the edit part tree because we aren't hooked up to the command stack
         getMapEditPart(0).refreshChildren();
 
-        assertEquals("only one ComponentRef should remain in model ", 1, getMap().getCompRefs().size()); //$NON-NLS-1$
+        assertEquals("only one ComponentRef should remain in model ", 1, getMap().getContRefs().size()); //$NON-NLS-1$
         assertEquals("Only one ComponentRefEditPart should remain in editpart tree ", 2, getMapEditPart(0).getChildren().size()); //$NON-NLS-1$
 
     }
@@ -1150,8 +1150,8 @@ public class ProgressTests extends TestCase {
         assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
-        ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()));
-        IContributionItem contrib = ((UcmContextMenuProvider) getGraphicalViewer().getContextMenu()).find(ActionFactory.DELETE.getId());
+        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        IContributionItem contrib = ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).find(ActionFactory.DELETE.getId());
         if (contrib instanceof ActionContributionItem) {
             action = ((ActionContributionItem) contrib).getAction();
         } else

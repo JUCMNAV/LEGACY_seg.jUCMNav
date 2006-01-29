@@ -21,7 +21,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.importexport.ExportLayoutDOT;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
@@ -204,7 +204,7 @@ public class AutoLayoutWizard extends Wizard {
                     String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$
                     String[] coords = subline.split(","); //$NON-NLS-1$
                     // we've got lower left x, y, upper right x, y
-                    Command resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, Integer.parseInt(coords[0]), pageHeight
+                    Command resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, Integer.parseInt(coords[0]), pageHeight
                             - Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
                             - Integer.parseInt(coords[1]));
                     cmd.add(resize);
@@ -214,8 +214,8 @@ public class AutoLayoutWizard extends Wizard {
                     System.out.println("empty componentref. don't know what to do with it."); //$NON-NLS-1$
                     /*
                      * if (compRef.getParent() == ParentFinder.findParent((Map) compRef.eContainer(), compRef, compRef.getX(), height-compRef.getY()-36, 54,
-                     * 36)) { //Command resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, compRef.getX(), compRef.getY(), 108, 72); Command
-                     * resize = new SetConstraintBoundComponentRefCompoundCommand(compRef, compRef.getX(), height-compRef.getY()-36, 54, 36); cmd.add(resize); }
+                     * 36)) { //Command resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, compRef.getX(), compRef.getY(), 108, 72); Command
+                     * resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, compRef.getX(), height-compRef.getY()-36, 54, 36); cmd.add(resize); }
                      */
                 }
             } else if (line.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"\\d+,\\d+\", width=\".+\", height=\".+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$

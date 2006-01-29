@@ -21,10 +21,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see ucm.map.MapPackage#getAbort()
- * @model 
+ * @model
  * @generated
  */
-public interface Abort extends PathNode {
+public interface Abort extends PathNode{
     /**
      * Returns the value of the '<em><b>Condition</b></em>' reference list.
      * The list contents are of type {@link urncore.Condition}.

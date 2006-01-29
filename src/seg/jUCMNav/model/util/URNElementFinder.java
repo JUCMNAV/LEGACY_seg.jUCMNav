@@ -9,8 +9,9 @@ import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.ComponentElement;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.Responsibility;
-import urncore.SpecificationDiagram;
 import urncore.URNmodelElement;
 
 /**
@@ -41,7 +42,7 @@ public class URNElementFinder {
             return o;
 
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-            SpecificationDiagram g = (SpecificationDiagram) iter.next();
+            IURNDiagram g = (IURNDiagram) iter.next();
             if (g instanceof UCMmap) {
                 UCMmap map = (UCMmap) g;
                 if ((o = findComponentRef(map, id)) != null)
@@ -130,7 +131,7 @@ public class URNElementFinder {
      * @return matching ref
      */
     public static ComponentRef findComponentRef(UCMmap map, String id) {
-        return (ComponentRef) find(map.getCompRefs(), id);
+        return (ComponentRef) find(map.getContRefs(), id);
     }
 
     /**
@@ -151,8 +152,8 @@ public class URNElementFinder {
      * @param id
      * @return matching graph
      */
-    public static SpecificationDiagram findMap(URNspec urn, String id) {
-        return (SpecificationDiagram) find(urn.getUrndef().getSpecDiagrams(), id);
+    public static IURNDiagram findMap(URNspec urn, String id) {
+        return (IURNDiagram) find(urn.getUrndef().getSpecDiagrams(), id);
     }
 
     /**
@@ -164,8 +165,8 @@ public class URNElementFinder {
      * @param name
      * @return matching diagram
      */
-    public static SpecificationDiagram findMapByName(URNspec urn, String name) {
-        return (SpecificationDiagram) findByName(urn.getUrndef().getSpecDiagrams(), name);
+    public static IURNContainerRef findMapByName(URNspec urn, String name) {
+        return (IURNContainerRef) findByName(urn.getUrndef().getSpecDiagrams(), name);
     }
 
     /**

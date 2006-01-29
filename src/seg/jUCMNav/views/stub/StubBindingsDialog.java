@@ -72,7 +72,7 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * The stub bindings dialog is the only way one can manage a stub's bindings: this stub can load which maps and how its in/out connections mapped to start/end
@@ -990,7 +990,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
                 stub.eAdapters().add(this);
 
                 this.stub = stub;
-                urnSpec = stub.getSpecDiagram().getUrndefinition().getUrnspec();
+                urnSpec = stub.getDiagram().getUrndefinition().getUrnspec();
 
                 refreshDescription();
                 refreshBindingsTree();
@@ -1060,7 +1060,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         // Clear the list of maps
         tabMapList.removeAll();
         // Get the list of all maps in the .jucm.
-        List mapsList = stub.getSpecDiagram().getUrndefinition().getSpecDiagrams();
+        List mapsList = stub.getDiagram().getUrndefinition().getSpecDiagrams();
 
         // Array wich will contain all binded maps to this stub
         ArrayList binded = new ArrayList();
@@ -1075,11 +1075,11 @@ public class StubBindingsDialog extends Dialog implements Adapter {
         TableItem item;
         // For each map
         for (Iterator i = mapsList.iterator(); i.hasNext();) {
-            SpecificationDiagram g = (SpecificationDiagram) i.next();
+            IURNDiagram g = (IURNDiagram) i.next();
             if (g instanceof UCMmap){               
                 UCMmap map = (UCMmap) g;
                 // The map can't be the same as the one the stub in contained in.
-                if (map != stub.getSpecDiagram()) {
+                if (map != stub.getDiagram()) {
                     item = new TableItem(tabMapList, SWT.NONE);
                     item.setText(map.getName());
                     item.setData(map);

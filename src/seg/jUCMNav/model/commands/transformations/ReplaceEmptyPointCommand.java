@@ -52,7 +52,7 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
             NodeConnection previous = (NodeConnection) empty.getPred().get(0);
             // I know we won't be using the editpartregistry to replace the empty point or direction arrow.
             add(new DeletePathNodeCommand(empty, null));
-            add(new SplitLinkCommand((UCMmap)empty.getSpecDiagram(), newNode, previous, x, y));
+            add(new SplitLinkCommand((UCMmap)empty.getDiagram(), newNode, previous, x, y));
         }
     }
 }

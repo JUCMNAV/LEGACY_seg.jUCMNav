@@ -6,12 +6,9 @@
  */
 package grl.impl;
 
-import grl.Contribution;
 import grl.Criticality;
-import grl.Decomposition;
 import grl.DecompositionType;
-import grl.Dependency;
-import grl.Evaluation;
+import grl.ElementLink;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -23,15 +20,11 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -49,16 +42,13 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.IntentionalElementImpl#getCriticality <em>Criticality</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getDecompositionType <em>Decomposition Type</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getLineColor <em>Line Color</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getFillColor <em>Fill Color</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getRefs <em>Refs</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getIsDepender <em>Is Depender</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getDecompositionSrc <em>Decomposition Src</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getDecompositionDest <em>Decomposition Dest</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getContributionSrc <em>Contribution Src</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getContributionDest <em>Contribution Dest</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getIsDependum <em>Is Dependum</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getIsDependee <em>Is Dependee</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getEvals <em>Evals</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getLinksSrc <em>Links Src</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getLinksDest <em>Links Dest</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,7 +63,7 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * @generated
      * @ordered
      */
-    protected static final IntentionalElementType TYPE_EDEFAULT = IntentionalElementType.GOAL_LITERAL;
+    protected static final IntentionalElementType TYPE_EDEFAULT = IntentionalElementType.SOFTGOAL_LITERAL;
 
     /**
      * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
@@ -93,7 +83,7 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * @generated
      * @ordered
      */
-    protected static final Criticality CRITICALITY_EDEFAULT = Criticality.HIGH_LITERAL;
+    protected static final Criticality CRITICALITY_EDEFAULT = Criticality.MEDIUM_LITERAL;
 
     /**
      * The cached value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
@@ -113,7 +103,7 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * @generated
      * @ordered
      */
-    protected static final Priority PRIORITY_EDEFAULT = Priority.HIGH_LITERAL;
+    protected static final Priority PRIORITY_EDEFAULT = Priority.MEDIUM_LITERAL;
 
     /**
      * The cached value of the '{@link #getPriority() <em>Priority</em>}' attribute.
@@ -146,6 +136,66 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     protected DecompositionType decompositionType = DECOMPOSITION_TYPE_EDEFAULT;
 
     /**
+     * The default value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected static final String LINE_COLOR_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getLineColor() <em>Line Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLineColor()
+     * @generated
+     * @ordered
+     */
+    protected String lineColor = LINE_COLOR_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getFillColor() <em>Fill Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFillColor()
+     * @generated
+     * @ordered
+     */
+    protected static final String FILL_COLOR_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getFillColor() <em>Fill Color</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getFillColor()
+     * @generated
+     * @ordered
+     */
+    protected String fillColor = FILL_COLOR_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #isFilled() <em>Filled</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #isFilled()
+     * @generated
+     * @ordered
+     */
+    protected static final boolean FILLED_EDEFAULT = false;
+
+    /**
+     * The cached value of the '{@link #isFilled() <em>Filled</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #isFilled()
+     * @generated
+     * @ordered
+     */
+    protected boolean filled = FILLED_EDEFAULT;
+
+    /**
      * The cached value of the '{@link #getRefs() <em>Refs</em>}' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -156,84 +206,24 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     protected EList refs = null;
 
     /**
-     * The cached value of the '{@link #getIsDepender() <em>Is Depender</em>}' reference list.
+     * The cached value of the '{@link #getLinksSrc() <em>Links Src</em>}' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getIsDepender()
+     * @see #getLinksSrc()
      * @generated
      * @ordered
      */
-    protected EList isDepender = null;
+    protected EList linksSrc = null;
 
     /**
-     * The cached value of the '{@link #getDecompositionSrc() <em>Decomposition Src</em>}' reference list.
+     * The cached value of the '{@link #getLinksDest() <em>Links Dest</em>}' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDecompositionSrc()
+     * @see #getLinksDest()
      * @generated
      * @ordered
      */
-    protected EList decompositionSrc = null;
-
-    /**
-     * The cached value of the '{@link #getDecompositionDest() <em>Decomposition Dest</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDecompositionDest()
-     * @generated
-     * @ordered
-     */
-    protected EList decompositionDest = null;
-
-    /**
-     * The cached value of the '{@link #getContributionSrc() <em>Contribution Src</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getContributionSrc()
-     * @generated
-     * @ordered
-     */
-    protected EList contributionSrc = null;
-
-    /**
-     * The cached value of the '{@link #getContributionDest() <em>Contribution Dest</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getContributionDest()
-     * @generated
-     * @ordered
-     */
-    protected EList contributionDest = null;
-
-    /**
-     * The cached value of the '{@link #getIsDependum() <em>Is Dependum</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getIsDependum()
-     * @generated
-     * @ordered
-     */
-    protected EList isDependum = null;
-
-    /**
-     * The cached value of the '{@link #getIsDependee() <em>Is Dependee</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getIsDependee()
-     * @generated
-     * @ordered
-     */
-    protected EList isDependee = null;
-
-    /**
-     * The cached value of the '{@link #getEvals() <em>Evals</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getEvals()
-     * @generated
-     * @ordered
-     */
-    protected EList evals = null;
+    protected EList linksDest = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -342,6 +332,69 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getLineColor() {
+        return lineColor;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setLineColor(String newLineColor) {
+        String oldLineColor = lineColor;
+        lineColor = newLineColor;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR, oldLineColor, lineColor));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getFillColor() {
+        return fillColor;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFillColor(String newFillColor) {
+        String oldFillColor = fillColor;
+        fillColor = newFillColor;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR, oldFillColor, fillColor));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean isFilled() {
+        return filled;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setFilled(boolean newFilled) {
+        boolean oldFilled = filled;
+        filled = newFilled;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__FILLED, oldFilled, filled));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public GRLspec getGrlspec() {
         if (eContainerFeatureID != GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC) return null;
         return (GRLspec)eContainer;
@@ -385,11 +438,11 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getIsDepender() {
-        if (isDepender == null) {
-            isDepender = new EObjectWithInverseResolvingEList(Dependency.class, this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER, GrlPackage.DEPENDENCY__DEPENDER);
+    public EList getLinksSrc() {
+        if (linksSrc == null) {
+            linksSrc = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, GrlPackage.ELEMENT_LINK__SRC);
         }
-        return isDepender;
+        return linksSrc;
     }
 
     /**
@@ -397,83 +450,11 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getDecompositionSrc() {
-        if (decompositionSrc == null) {
-            decompositionSrc = new EObjectWithInverseResolvingEList(Decomposition.class, this, GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC, GrlPackage.DECOMPOSITION__SRC);
+    public EList getLinksDest() {
+        if (linksDest == null) {
+            linksDest = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, GrlPackage.ELEMENT_LINK__DEST);
         }
-        return decompositionSrc;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getDecompositionDest() {
-        if (decompositionDest == null) {
-            decompositionDest = new EObjectWithInverseResolvingEList(Decomposition.class, this, GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST, GrlPackage.DECOMPOSITION__DEST);
-        }
-        return decompositionDest;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getContributionSrc() {
-        if (contributionSrc == null) {
-            contributionSrc = new EObjectWithInverseResolvingEList(Contribution.class, this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC, GrlPackage.CONTRIBUTION__SRC);
-        }
-        return contributionSrc;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getContributionDest() {
-        if (contributionDest == null) {
-            contributionDest = new EObjectWithInverseResolvingEList(Contribution.class, this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST, GrlPackage.CONTRIBUTION__DEST);
-        }
-        return contributionDest;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getIsDependum() {
-        if (isDependum == null) {
-            isDependum = new EObjectWithInverseResolvingEList(Dependency.class, this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM, GrlPackage.DEPENDENCY__DEPENDUM);
-        }
-        return isDependum;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getIsDependee() {
-        if (isDependee == null) {
-            isDependee = new EObjectWithInverseResolvingEList(Dependency.class, this, GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE, GrlPackage.DEPENDENCY__DEPENDEE);
-        }
-        return isDependee;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getEvals() {
-        if (evals == null) {
-            evals = new EObjectWithInverseResolvingEList(Evaluation.class, this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, GrlPackage.EVALUATION__INT_ELEMENT);
-        }
-        return evals;
+        return linksDest;
     }
 
     /**
@@ -484,30 +465,20 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                    return ((InternalEList)getIsDepender()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                    return ((InternalEList)getDecompositionSrc()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                    return ((InternalEList)getDecompositionDest()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                    return ((InternalEList)getContributionSrc()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                    return ((InternalEList)getContributionDest()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                    return ((InternalEList)getIsDependum()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                    return ((InternalEList)getIsDependee()).basicAdd(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                    return ((InternalEList)getEvals()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                    return ((InternalEList)getLinksSrc()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                    return ((InternalEList)getLinksDest()).basicAdd(otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -525,28 +496,18 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                     return eBasicSetContainer(null, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                    return ((InternalEList)getIsDepender()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                    return ((InternalEList)getDecompositionSrc()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                    return ((InternalEList)getDecompositionDest()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                    return ((InternalEList)getContributionSrc()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                    return ((InternalEList)getContributionDest()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                    return ((InternalEList)getIsDependum()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                    return ((InternalEList)getIsDependee()).basicRemove(otherEnd, msgs);
-                case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                    return ((InternalEList)getEvals()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                    return ((InternalEList)getLinksSrc()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                    return ((InternalEList)getLinksDest()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -563,12 +524,12 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, GrlPackage.GR_LSPEC__INT_ELEMENTS, GRLspec.class, msgs);
+                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__INT_ELEMENTS, GRLspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -578,14 +539,16 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                return getToLinks();
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 return getId();
             case GrlPackage.INTENTIONAL_ELEMENT__NAME:
                 return getName();
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                return getUrnLinks();
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return getType();
             case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
@@ -594,26 +557,20 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return getPriority();
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 return getDecompositionType();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
+                return getLineColor();
+            case GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR:
+                return getFillColor();
+            case GrlPackage.INTENTIONAL_ELEMENT__FILLED:
+                return isFilled() ? Boolean.TRUE : Boolean.FALSE;
             case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                 return getGrlspec();
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 return getRefs();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                return getIsDepender();
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                return getDecompositionSrc();
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                return getDecompositionDest();
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                return getContributionSrc();
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                return getContributionDest();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                return getIsDependum();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                return getIsDependee();
-            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                return getEvals();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                return getLinksSrc();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                return getLinksDest();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -625,6 +582,14 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 setId((String)newValue);
                 return;
@@ -633,10 +598,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType((IntentionalElementType)newValue);
@@ -650,6 +611,15 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 setDecompositionType((DecompositionType)newValue);
                 return;
+            case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
+                setLineColor((String)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR:
+                setFillColor((String)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__FILLED:
+                setFilled(((Boolean)newValue).booleanValue());
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
                 return;
@@ -657,37 +627,13 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 getRefs().clear();
                 getRefs().addAll((Collection)newValue);
                 return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                getIsDepender().clear();
-                getIsDepender().addAll((Collection)newValue);
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                getLinksSrc().clear();
+                getLinksSrc().addAll((Collection)newValue);
                 return;
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                getDecompositionSrc().clear();
-                getDecompositionSrc().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                getDecompositionDest().clear();
-                getDecompositionDest().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                getContributionSrc().clear();
-                getContributionSrc().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                getContributionDest().clear();
-                getContributionDest().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                getIsDependum().clear();
-                getIsDependum().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                getIsDependee().clear();
-                getIsDependee().addAll((Collection)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                getEvals().clear();
-                getEvals().addAll((Collection)newValue);
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                getLinksDest().clear();
+                getLinksDest().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -700,6 +646,12 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -708,9 +660,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                getUrnLinks().clear();
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -724,35 +673,26 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 setDecompositionType(DECOMPOSITION_TYPE_EDEFAULT);
                 return;
+            case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
+                setLineColor(LINE_COLOR_EDEFAULT);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR:
+                setFillColor(FILL_COLOR_EDEFAULT);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__FILLED:
+                setFilled(FILLED_EDEFAULT);
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                 setGrlspec((GRLspec)null);
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 getRefs().clear();
                 return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                getIsDepender().clear();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                getLinksSrc().clear();
                 return;
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                getDecompositionSrc().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                getDecompositionDest().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                getContributionSrc().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                getContributionDest().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                getIsDependum().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                getIsDependee().clear();
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                getEvals().clear();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                getLinksDest().clear();
                 return;
         }
         eDynamicUnset(eFeature);
@@ -765,14 +705,16 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.INTENTIONAL_ELEMENT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.INTENTIONAL_ELEMENT__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return type != TYPE_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
@@ -781,26 +723,20 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return priority != PRIORITY_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 return decompositionType != DECOMPOSITION_TYPE_EDEFAULT;
+            case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
+                return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
+            case GrlPackage.INTENTIONAL_ELEMENT__FILL_COLOR:
+                return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
+            case GrlPackage.INTENTIONAL_ELEMENT__FILLED:
+                return filled != FILLED_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                 return getGrlspec() != null;
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 return refs != null && !refs.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDER:
-                return isDepender != null && !isDepender.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_SRC:
-                return decompositionSrc != null && !decompositionSrc.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_DEST:
-                return decompositionDest != null && !decompositionDest.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC:
-                return contributionSrc != null && !contributionSrc.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST:
-                return contributionDest != null && !contributionDest.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDUM:
-                return isDependum != null && !isDependum.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__IS_DEPENDEE:
-                return isDependee != null && !isDependee.isEmpty();
-            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
-                return evals != null && !evals.isEmpty();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
+                return linksSrc != null && !linksSrc.isEmpty();
+            case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
+                return linksDest != null && !linksDest.isEmpty();
         }
         return eDynamicIsSet(eFeature);
     }
@@ -822,6 +758,12 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
         result.append(priority);
         result.append(", decompositionType: ");
         result.append(decompositionType);
+        result.append(", lineColor: ");
+        result.append(lineColor);
+        result.append(", fillColor: ");
+        result.append(fillColor);
+        result.append(", filled: ");
+        result.append(filled);
         result.append(')');
         return result.toString();
     }

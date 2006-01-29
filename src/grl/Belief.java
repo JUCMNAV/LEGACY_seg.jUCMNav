@@ -6,8 +6,6 @@
  */
 package grl;
 
-import urncore.GRLmodelElement;
-import urncore.SpecificationNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,41 +15,39 @@ import urncore.SpecificationNode;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link grl.Belief#getConnection <em>Connection</em>}</li>
+ *   <li>{@link grl.Belief#getAuthor <em>Author</em>}</li>
  * </ul>
  * </p>
  *
  * @see grl.GrlPackage#getBelief()
- * @model 
+ * @model
  * @generated
  */
-public interface Belief extends GRLmodelElement, SpecificationNode {
+public interface Belief extends GRLNode {
     /**
-     * Returns the value of the '<em><b>Connection</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.LinkRef#getBeliefs <em>Beliefs</em>}'.
+     * Returns the value of the '<em><b>Author</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Connection</em>' reference isn't clear,
+     * If the meaning of the '<em>Author</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Connection</em>' reference.
-     * @see #setConnection(LinkRef)
-     * @see grl.GrlPackage#getBelief_Connection()
-     * @see grl.LinkRef#getBeliefs
-     * @model opposite="beliefs" required="true"
+     * @return the value of the '<em>Author</em>' attribute.
+     * @see #setAuthor(String)
+     * @see grl.GrlPackage#getBelief_Author()
+     * @model
      * @generated
      */
-    LinkRef getConnection();
+    String getAuthor();
 
     /**
-     * Sets the value of the '{@link grl.Belief#getConnection <em>Connection</em>}' reference.
+     * Sets the value of the '{@link grl.Belief#getAuthor <em>Author</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Connection</em>' reference.
-     * @see #getConnection()
+     * @param value the new value of the '<em>Author</em>' attribute.
+     * @see #getAuthor()
      * @generated
      */
-    void setConnection(LinkRef value);
+    void setAuthor(String value);
 
 } // Belief

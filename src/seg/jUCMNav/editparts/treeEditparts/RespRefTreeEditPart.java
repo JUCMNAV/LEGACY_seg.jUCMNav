@@ -61,7 +61,7 @@ public class RespRefTreeEditPart extends PathNodeTreeEditPart {
     /**
      * Returns a ResponsibilityPropertySource
      * 
-     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#getPropertySource()
+     * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#getPropertySource()
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null)

@@ -83,7 +83,7 @@ public class DeletePathCommand extends CompoundCommand {
             add(new DeleteBranchesCommand(otherExtremity, verification, editpartregistry));
         } else {
             // otherExtremity is an existing start/end point; clean it.
-            add(new PreDeleteUcmModelElementCommand(otherExtremity));
+            add(new PreDeleteUrnModelElementCommand(otherExtremity));
         }
 
         for (int i = 1; i < nodes.size() - 1; i++) {
@@ -92,7 +92,7 @@ public class DeletePathCommand extends CompoundCommand {
         }
 
         // clean the seed.
-        add(new PreDeleteUcmModelElementCommand(pnSeed));
+        add(new PreDeleteUrnModelElementCommand(pnSeed));
 
         // finish off with the cleaned start--nc--end
         if (pnSeed instanceof StartPoint)

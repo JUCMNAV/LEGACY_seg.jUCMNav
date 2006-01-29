@@ -30,7 +30,7 @@ import ucm.map.UCMmap;
  * @author Jean-François Roy
  *
  */
-public class UCMMapEditPart extends SpecificationDiagramEditPart {
+public class UCMMapEditPart extends URNDiagramEditPart {
 
     /**
      * Creates an editpart for the map
@@ -89,7 +89,7 @@ public class UCMMapEditPart extends SpecificationDiagramEditPart {
             }
         }
 
-        for (Iterator i = getDiagram().getCompRefs().iterator(); i.hasNext();) {
+        for (Iterator i = getDiagram().getContRefs().iterator(); i.hasNext();) {
             ComponentRef component = (ComponentRef) i.next();
             if (component.getLabel() != null) {
                 list.add(component.getLabel());

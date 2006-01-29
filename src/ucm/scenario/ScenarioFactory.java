@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see ucm.scenario.ScenarioPackage
  * @generated
  */
-public interface ScenarioFactory extends EFactory {
+public interface ScenarioFactory extends EFactory{
     /**
      * The singleton instance of the factory.
      * <!-- begin-user-doc -->
@@ -33,15 +33,6 @@ public interface ScenarioFactory extends EFactory {
      * @generated
      */
     ScenarioGroup createScenarioGroup();
-
-    /**
-     * Returns a new object of class '<em>Def</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Def</em>'.
-     * @generated
-     */
-    ScenarioDef createScenarioDef();
 
     /**
      * Returns a new object of class '<em>Variable</em>'.

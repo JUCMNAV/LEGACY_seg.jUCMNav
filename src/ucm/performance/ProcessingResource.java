@@ -22,10 +22,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getProcessingResource()
- * @model 
+ * @model
  * @generated
  */
-public interface ProcessingResource extends ActiveResource {
+public interface ProcessingResource extends ActiveResource{
     /**
      * Returns the value of the '<em><b>Kind</b></em>' attribute.
      * The literals are from the enumeration {@link ucm.performance.DeviceKind}.
@@ -39,7 +39,7 @@ public interface ProcessingResource extends ActiveResource {
      * @see ucm.performance.DeviceKind
      * @see #setKind(DeviceKind)
      * @see ucm.performance.PerformancePackage#getProcessingResource_Kind()
-     * @model 
+     * @model
      * @generated
      */
     DeviceKind getKind();

@@ -23,8 +23,8 @@ import ucm.map.MapPackage;
 import ucm.map.WaitingPlace;
 
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -108,16 +108,18 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.WAITING_PLACE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
+                case MapPackage.WAITING_PLACE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.WAITING_PLACE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.WAITING_PLACE__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.WAITING_PLACE__SPEC_DIAGRAM, msgs);
-                case MapPackage.WAITING_PLACE__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.WAITING_PLACE__DIAGRAM, msgs);
+                case MapPackage.WAITING_PLACE__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.WAITING_PLACE__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.WAITING_PLACE__PRED:
@@ -143,12 +145,14 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.WAITING_PLACE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.WAITING_PLACE__SPEC_DIAGRAM, msgs);
-                case MapPackage.WAITING_PLACE__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.WAITING_PLACE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.WAITING_PLACE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.WAITING_PLACE__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.WAITING_PLACE__DIAGRAM, msgs);
+                case MapPackage.WAITING_PLACE__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.WAITING_PLACE__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.WAITING_PLACE__PRED:
@@ -170,13 +174,13 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.WAITING_PLACE__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -186,23 +190,25 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.WAITING_PLACE__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.WAITING_PLACE__TO_LINKS:
+                return getToLinks();
             case MapPackage.WAITING_PLACE__ID:
                 return getId();
             case MapPackage.WAITING_PLACE__NAME:
                 return getName();
             case MapPackage.WAITING_PLACE__DESCRIPTION:
                 return getDescription();
-            case MapPackage.WAITING_PLACE__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.WAITING_PLACE__X:
                 return new Integer(getX());
             case MapPackage.WAITING_PLACE__Y:
                 return new Integer(getY());
-            case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.WAITING_PLACE__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.WAITING_PLACE__DIAGRAM:
+                return getDiagram();
+            case MapPackage.WAITING_PLACE__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.WAITING_PLACE__SUCC:
                 return getSucc();
             case MapPackage.WAITING_PLACE__PRED:
@@ -222,6 +228,14 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.WAITING_PLACE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.WAITING_PLACE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.WAITING_PLACE__ID:
                 setId((String)newValue);
                 return;
@@ -231,21 +245,17 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
             case MapPackage.WAITING_PLACE__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.WAITING_PLACE__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.WAITING_PLACE__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.WAITING_PLACE__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.WAITING_PLACE__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.WAITING_PLACE__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.WAITING_PLACE__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.WAITING_PLACE__SUCC:
                 getSucc().clear();
@@ -272,6 +282,12 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.WAITING_PLACE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.WAITING_PLACE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.WAITING_PLACE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -281,20 +297,17 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
             case MapPackage.WAITING_PLACE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.WAITING_PLACE__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.WAITING_PLACE__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.WAITING_PLACE__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.WAITING_PLACE__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.WAITING_PLACE__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.WAITING_PLACE__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.WAITING_PLACE__SUCC:
                 getSucc().clear();
@@ -319,22 +332,24 @@ public class WaitingPlaceImpl extends PathNodeImpl implements WaitingPlace {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.WAITING_PLACE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.WAITING_PLACE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.WAITING_PLACE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.WAITING_PLACE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.WAITING_PLACE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.WAITING_PLACE__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.WAITING_PLACE__X:
                 return x != X_EDEFAULT;
             case MapPackage.WAITING_PLACE__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.WAITING_PLACE__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.WAITING_PLACE__COMP_REF:
-                return compRef != null;
+            case MapPackage.WAITING_PLACE__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.WAITING_PLACE__CONT_REF:
+                return contRef != null;
             case MapPackage.WAITING_PLACE__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.WAITING_PLACE__PRED:

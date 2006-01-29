@@ -10,49 +10,36 @@
         eType="#//IntentionalElement" containment="true" eOpposite="#//IntentionalElement/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
         eType="#//Actor" containment="true" eOpposite="#//Actor/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
+        eType="#//ElementLink" containment="true" eOpposite="#//ElementLink/grlspec"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//SpecificationNode">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1"
-        eType="#//LinkRef" eOpposite="#//LinkRef/beliefs"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//GRLNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentionalElement" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IntentionalElementType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//Priority"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"
+        defaultValueLiteral="Medium"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//Priority"
+        defaultValueLiteral="Medium"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="decompositionType" eType="#//DecompositionType"
-        defaultValueLiteral="AND"/>
+        defaultValueLiteral="And"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fillColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="filled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/intElements"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" lowerBound="1" upperBound="-1"
-        eType="#//IntentionalElementRef" eOpposite="#//IntentionalElementRef/def"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="isDepender" upperBound="-1"
-        eType="#//Dependency" eOpposite="#//Dependency/depender"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="decompositionSrc" upperBound="-1"
-        eType="#//Decomposition" eOpposite="#//Decomposition/src"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="decompositionDest" upperBound="-1"
-        eType="#//Decomposition" eOpposite="#//Decomposition/dest"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="contributionSrc" upperBound="-1"
-        eType="#//Contribution" eOpposite="#//Contribution/src"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="contributionDest" upperBound="-1"
-        eType="#//Contribution" eOpposite="#//Contribution/dest"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="isDependum" upperBound="-1"
-        eType="#//Dependency" eOpposite="#//Dependency/dependum"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="isDependee" upperBound="-1"
-        eType="#//Dependency" eOpposite="#//Dependency/dependee"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="evals" upperBound="-1"
-        eType="#//Evaluation" eOpposite="#//Evaluation/intElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//IntentionalElementRef"
+        eOpposite="#//IntentionalElementRef/def"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
+        eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linksDest" upperBound="-1"
+        eType="#//ElementLink" eOpposite="#//ElementLink/dest"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//SpecificationComponent">
+  <eClassifiers xsi:type="ecore:EClass" name="Actor" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/actors"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="EvaluationLevel">
-    <eLiterals name="Satisficed"/>
-    <eLiterals name="WeaklySatisficed" value="1"/>
-    <eLiterals name="Undecided" value="2"/>
-    <eLiterals name="WeaklyDenied" value="3"/>
-    <eLiterals name="Denied" value="4"/>
-    <eLiterals name="Conflict" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Criticality">
     <eLiterals name="High"/>
@@ -60,8 +47,8 @@
     <eLiterals name="Low" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntentionalElementType">
-    <eLiterals name="Goal"/>
-    <eLiterals name="Softgoal" value="1"/>
+    <eLiterals name="Softgoal"/>
+    <eLiterals name="Goal" value="1"/>
     <eLiterals name="Task" value="2"/>
     <eLiterals name="Ressource" value="3"/>
   </eClassifiers>
@@ -70,72 +57,72 @@
     <eLiterals name="Medium" value="1"/>
     <eLiterals name="Low" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GRLGraph" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//SpecificationDiagram"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ActorRef" eSuperTypes="urncore.ecore#//SpecificationComponentRef"/>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentionalElementRef" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//SpecificationNode">
+  <eClassifiers xsi:type="ecore:EClass" name="GRLGraph" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNDiagram"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActorRef" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNContainerRef"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentionalElementRef" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EReference" name="def" lowerBound="1" eType="#//IntentionalElement"
         eOpposite="#//IntentionalElement/refs"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Contribution" eSuperTypes="#//ElementLink">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contibution" eType="#//ContributionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" eType="#//ContributionType"
+        defaultValueLiteral="Unknown"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="correlation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/contributionSrc"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/contributionDest"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ContributionType">
-    <eLiterals name="Break"/>
-    <eLiterals name="Hurt" value="1"/>
-    <eLiterals name="SomeNegative" value="2"/>
+    <eLiterals name="Make"/>
+    <eLiterals name="Help" value="1"/>
+    <eLiterals name="SomePositive" value="2"/>
     <eLiterals name="Unknown" value="3"/>
-    <eLiterals name="Equal" value="4"/>
-    <eLiterals name="SomePositive" value="5"/>
-    <eLiterals name="Help" value="6"/>
-    <eLiterals name="Make" value="7"/>
+    <eLiterals name="SomeNegative" value="4"/>
+    <eLiterals name="Hurt" value="5"/>
+    <eLiterals name="Break" value="6"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LinkRef" eSuperTypes="urncore.ecore#//SpecificationConnection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="beliefs" upperBound="-1"
-        eType="#//Belief" eOpposite="#//Belief/connection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkRef" eSuperTypes="urncore.ecore#//IURNConnection">
     <eStructuralFeatures xsi:type="ecore:EReference" name="link" lowerBound="1" eType="#//ElementLink"
         eOpposite="#//ElementLink/refs"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependency" lowerBound="1"
-        eType="#//Dependency" eOpposite="#//Dependency/secondRefs"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bendpoints" upperBound="-1"
+        eType="#//LinkRefBendpoint" containment="true" eOpposite="#//LinkRefBendpoint/linkref"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ElementLink">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" lowerBound="1" upperBound="-1"
-        eType="#//LinkRef" eOpposite="#//LinkRef/link"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Decomposition" eSuperTypes="#//ElementLink">
+  <eClassifiers xsi:type="ecore:EClass" name="ElementLink" eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//LinkRef"
+        eOpposite="#//LinkRef/link"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/links"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="src" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/decompositionSrc"/>
+        eOpposite="#//IntentionalElement/linksSrc"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dest" lowerBound="1" eType="#//IntentionalElement"
-        eOpposite="#//IntentionalElement/decompositionDest"/>
+        eOpposite="#//IntentionalElement/linksDest"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//ElementLink">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="depender" lowerBound="1"
-        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/isDepender"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependum" lowerBound="1"
-        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/isDependum"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependee" lowerBound="1"
-        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/isDependee"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="secondRefs" upperBound="-1"
-        eType="#//LinkRef" eOpposite="#//LinkRef/dependency"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Decomposition" eSuperTypes="#//ElementLink"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//ElementLink"/>
   <eClassifiers xsi:type="ecore:EEnum" name="DecompositionType">
-    <eLiterals name="AND"/>
-    <eLiterals name="OR" value="1"/>
+    <eLiterals name="And"/>
+    <eLiterals name="Or" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Evaluation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="#//EvaluationLevel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intElement" lowerBound="1"
-        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/evals"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="set" lowerBound="1" eType="#//EvaluationSet"
-        eOpposite="#//EvaluationSet/evaluations"/>
+        eType="#//IntentionalElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
+        eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/evaluations"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EvaluationSet" eSuperTypes="urncore.ecore#//GRLmodelElement">
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationScenario" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1"
-        eType="#//Evaluation" eOpposite="#//Evaluation/set"/>
+        eType="#//Evaluation" eOpposite="#//Evaluation/scenario"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" lowerBound="1"
+        upperBound="-1" eType="#//EvaluationGroup" eOpposite="#//EvaluationGroup/scenarios"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GRLNode" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LinkRefBendpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="linkref" lowerBound="1"
+        eType="#//LinkRef" transient="true" eOpposite="#//LinkRef/bendpoints"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BeliefLink" eSuperTypes="urncore.ecore#//IURNConnection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EvaluationGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
+        eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/groups"/>
   </eClassifiers>
 </ecore:EPackage>

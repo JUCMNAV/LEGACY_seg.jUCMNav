@@ -60,8 +60,8 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         this.prevConn = (NodeConnection) endPoint.getPred().get(0);
         this.nextConn = (NodeConnection) startPoint.getSucc().get(0);
 
-        parentStart = (ComponentRef)startPoint.getCompRef();
-        parentEnd = (ComponentRef)endPoint.getCompRef();
+        parentStart = (ComponentRef)startPoint.getContRef();
+        parentEnd = (ComponentRef)endPoint.getContRef();
 
         redo();
     }
@@ -85,9 +85,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         map.getNodes().remove(endPoint);
         map.getNodes().add(newEmptyPoint);
 
-        startPoint.setCompRef(null);
-        endPoint.setCompRef(null);
-        newEmptyPoint.setCompRef(ParentFinder.getPossibleParent(newEmptyPoint));
+        startPoint.setContRef(null);
+        endPoint.setContRef(null);
+        newEmptyPoint.setContRef(ParentFinder.getPossibleParent(newEmptyPoint));
 
         testPostConditions();
     }
@@ -106,9 +106,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         map.getNodes().add(endPoint);
         map.getNodes().remove(newEmptyPoint);
 
-        startPoint.setCompRef(parentStart);
-        endPoint.setCompRef(parentEnd);
-        newEmptyPoint.setCompRef(null);
+        startPoint.setContRef(parentStart);
+        endPoint.setContRef(parentEnd);
+        newEmptyPoint.setContRef(null);
 
         testPreConditions();
     }

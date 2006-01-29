@@ -62,7 +62,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
     public Command getCommand(Request request) {
         if (request.getType() == CutPathAction.CUTPATH_REQUEST) {
             PathNode ep = ((PathNode) ((EditPart) getHost()).getModel());
-            CutPathCommand cp = new CutPathCommand((UCMmap)ep.getSpecDiagram(), ep);
+            CutPathCommand cp = new CutPathCommand((UCMmap)ep.getDiagram(), ep);
             // LINE A
             // System.out.println("Please review PathNodeComponentEditPolicy.getCommand() and indicate how you managed to get LINE A to run."); //$NON-NLS-1$
             // CutPathAction on PathNode.

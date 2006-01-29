@@ -28,10 +28,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see urncore.UrncorePackage#getPool()
- * @model 
+ * @model
  * @generated
  */
-public interface Pool extends ComponentElement {
+public interface Pool extends ComponentElement{
     /**
      * Returns the value of the '<em><b>Of Components</b></em>' attribute.
      * The default value is <code>"false"</code>.
@@ -70,7 +70,7 @@ public interface Pool extends ComponentElement {
      * @return the value of the '<em>Content</em>' attribute.
      * @see #setContent(String)
      * @see urncore.UrncorePackage#getPool_Content()
-     * @model 
+     * @model
      * @generated
      */
     String getContent();

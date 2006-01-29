@@ -246,7 +246,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             if (type == Notification.SET && notifier instanceof PathNode) {
                 PathNode pn = (PathNode) notifier;
                 if (feature.getName().equals("x") || feature.getName().equals("y")) { //$NON-NLS-1$ //$NON-NLS-2$
-                    if (pn.getSpecDiagram() != null) {
+                    if (pn.getDiagram() != null) {
                         // System.out.println("moved pathnode");
                         refreshConnections(pn);
                     }
@@ -254,7 +254,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
             } else if (type == Notification.SET && notifier instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) notifier;
                 if (feature.getName().equals("source") || feature.getName().equals("target")) { //$NON-NLS-1$ //$NON-NLS-2$
-                    if (nc.getSpecDiagram() != null && nc.getSource() != null && nc.getTarget() != null) {
+                    if (nc.getDiagram() != null && nc.getSource() != null && nc.getTarget() != null) {
                         // System.out.println("changed connections");
                         refreshConnections(nc);
                     }

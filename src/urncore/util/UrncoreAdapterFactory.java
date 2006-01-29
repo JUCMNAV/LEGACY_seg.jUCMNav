@@ -112,23 +112,23 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
             public Object caseCondition(Condition object) {
                 return createConditionAdapter();
             }
-            public Object caseSpecificationDiagram(SpecificationDiagram object) {
-                return createSpecificationDiagramAdapter();
+            public Object caseIURNDiagram(IURNDiagram object) {
+                return createIURNDiagramAdapter();
             }
             public Object caseURNmodelElement(URNmodelElement object) {
                 return createURNmodelElementAdapter();
             }
-            public Object caseSpecificationNode(SpecificationNode object) {
-                return createSpecificationNodeAdapter();
+            public Object caseIURNNode(IURNNode object) {
+                return createIURNNodeAdapter();
             }
-            public Object caseSpecificationComponentRef(SpecificationComponentRef object) {
-                return createSpecificationComponentRefAdapter();
+            public Object caseIURNContainerRef(IURNContainerRef object) {
+                return createIURNContainerRefAdapter();
             }
-            public Object caseSpecificationComponent(SpecificationComponent object) {
-                return createSpecificationComponentAdapter();
+            public Object caseIURNContainer(IURNContainer object) {
+                return createIURNContainerAdapter();
             }
-            public Object caseSpecificationConnection(SpecificationConnection object) {
-                return createSpecificationConnectionAdapter();
+            public Object caseIURNConnection(IURNConnection object) {
+                return createIURNConnectionAdapter();
             }
             public Object defaultCase(EObject object) {
                 return createEObjectAdapter();
@@ -345,16 +345,16 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationDiagram <em>Specification Diagram</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNDiagram <em>IURN Diagram</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationDiagram
+     * @see urncore.IURNDiagram
      * @generated
      */
-    public Adapter createSpecificationDiagramAdapter() {
+    public Adapter createIURNDiagramAdapter() {
         return null;
     }
 
@@ -373,58 +373,58 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationNode <em>Specification Node</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationNode
+     * @see urncore.IURNNode
      * @generated
      */
-    public Adapter createSpecificationNodeAdapter() {
+    public Adapter createIURNNodeAdapter() {
         return null;
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationComponentRef <em>Specification Component Ref</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationComponentRef
+     * @see urncore.IURNContainerRef
      * @generated
      */
-    public Adapter createSpecificationComponentRefAdapter() {
+    public Adapter createIURNContainerRefAdapter() {
         return null;
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationComponent <em>Specification Component</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNContainer <em>IURN Container</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationComponent
+     * @see urncore.IURNContainer
      * @generated
      */
-    public Adapter createSpecificationComponentAdapter() {
+    public Adapter createIURNContainerAdapter() {
         return null;
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationConnection <em>Specification Connection</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNConnection <em>IURN Connection</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationConnection
+     * @see urncore.IURNConnection
      * @generated
      */
-    public Adapter createSpecificationConnectionAdapter() {
+    public Adapter createIURNConnectionAdapter() {
         return null;
     }
 

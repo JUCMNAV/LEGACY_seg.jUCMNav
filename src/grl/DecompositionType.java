@@ -23,54 +23,54 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  */
 public final class DecompositionType extends AbstractEnumerator {
     /**
-     * The '<em><b>AND</b></em>' literal value.
+     * The '<em><b>And</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>And</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #AND_LITERAL
-     * @model 
+     * @model name="And"
      * @generated
      * @ordered
      */
     public static final int AND = 0;
 
     /**
-     * The '<em><b>OR</b></em>' literal value.
+     * The '<em><b>Or</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Or</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #OR_LITERAL
-     * @model 
+     * @model name="Or"
      * @generated
      * @ordered
      */
     public static final int OR = 1;
 
     /**
-     * The '<em><b>AND</b></em>' literal object.
+     * The '<em><b>And</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>AND</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #AND
      * @generated
      * @ordered
      */
-    public static final DecompositionType AND_LITERAL = new DecompositionType(AND, "AND");
+    public static final DecompositionType AND_LITERAL = new DecompositionType(AND, "And");
 
     /**
-     * The '<em><b>OR</b></em>' literal object.
+     * The '<em><b>Or</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>OR</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #OR
      * @generated
      * @ordered
      */
-    public static final DecompositionType OR_LITERAL = new DecompositionType(OR, "OR");
+    public static final DecompositionType OR_LITERAL = new DecompositionType(OR, "Or");
 
     /**
      * An array of all the '<em><b>Decomposition Type</b></em>' enumerators.

@@ -22,10 +22,10 @@ import ucm.scenario.Variable;
  * </p>
  *
  * @see ucm.map.MapPackage#getTimer()
- * @model 
+ * @model
  * @generated
  */
-public interface Timer extends WaitingPlace {
+public interface Timer extends WaitingPlace{
     /**
      * Returns the value of the '<em><b>Timeout Path</b></em>' reference.
      * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ public interface Timer extends WaitingPlace {
      * @return the value of the '<em>Timeout Path</em>' reference.
      * @see #setTimeoutPath(NodeConnection)
      * @see ucm.map.MapPackage#getTimer_TimeoutPath()
-     * @model 
+     * @model
      * @generated
      */
     NodeConnection getTimeoutPath();

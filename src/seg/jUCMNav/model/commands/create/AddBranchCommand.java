@@ -69,7 +69,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     public boolean canExecute() {
         return (this.insertionNode instanceof OrFork || this.insertionNode instanceof OrJoin || this.insertionNode instanceof AndFork
                 || this.insertionNode instanceof AndJoin || (this.insertionNode instanceof Timer && this.insertionNode.getSucc().size() == 1))
-                && (this.insertionNode.getSpecDiagram() != null || inCompoundCommand);
+                && (this.insertionNode.getDiagram() != null || inCompoundCommand);
     }
 
     /**
@@ -77,7 +77,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         // generate new instances.
-        pg = (UCMmap)this.insertionNode.getSpecDiagram();
+        pg = (UCMmap)this.insertionNode.getDiagram();
         urn = pg.getUrndefinition().getUrnspec();
         newEmpty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
 
@@ -139,8 +139,8 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         else
             insertionNode.getPred().add(newConn);
 
-        newEmpty.setCompRef(ParentFinder.getPossibleParent(newEmpty));
-        newStartOrEnd.setCompRef(ParentFinder.getPossibleParent(newStartOrEnd));
+        newEmpty.setContRef(ParentFinder.getPossibleParent(newEmpty));
+        newStartOrEnd.setContRef(ParentFinder.getPossibleParent(newStartOrEnd));
 
         testPostConditions();
     }
@@ -165,8 +165,8 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
         else
             insertionNode.getPred().remove(newConn);
 
-        newEmpty.setCompRef(null);
-        newStartOrEnd.setCompRef(null);
+        newEmpty.setContRef(null);
+        newStartOrEnd.setContRef(null);
 
         testPreConditions();
 

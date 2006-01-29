@@ -31,7 +31,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
 
     public ChangeLabelNameCommand(Label lbl, String name) {
         if (lbl instanceof ComponentLabel)
-            this.elem = ((ComponentLabel) lbl).getCompRef();
+            this.elem = ((ComponentLabel) lbl).getContRef();
         else if (lbl instanceof NodeLabel)
             this.elem = ((NodeLabel) lbl).getNode();
         else if (lbl instanceof Condition) {
@@ -45,7 +45,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (elem instanceof ComponentRef) {
-            oldName = ((ComponentElement)((ComponentRef) elem).getCompDef()).getName();
+            oldName = ((ComponentElement)((ComponentRef) elem).getContDef()).getName();
         } else if (elem instanceof RespRef) {
             oldName = ((RespRef) elem).getRespDef().getName();
         } else if (elem instanceof PathNode) {
@@ -107,7 +107,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (elem instanceof ComponentRef) {
-            ((ComponentElement)((ComponentRef) elem).getCompDef()).setName(name);
+            ((ComponentElement)((ComponentRef) elem).getContDef()).setName(name);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(name);
         } else if (elem instanceof PathNode) {
@@ -126,7 +126,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
         if (elem instanceof ComponentRef) {
-            ((ComponentElement)((ComponentRef) elem).getCompDef()).setName(oldName);
+            ((ComponentElement)((ComponentRef) elem).getContDef()).setName(oldName);
         } else if (elem instanceof RespRef) {
             ((RespRef) elem).getRespDef().setName(oldName);
         } else if (elem instanceof PathNode) {

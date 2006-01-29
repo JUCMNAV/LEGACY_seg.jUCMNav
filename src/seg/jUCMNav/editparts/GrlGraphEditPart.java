@@ -9,20 +9,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.draw2d.BendpointConnectionRouter;
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 
 import seg.jUCMNav.editpolicies.layout.GrlGraphXYLayoutEditPolicy;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationNode;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 
 
 /**
  * @author Jean-François Roy
  *
  */
-public class GrlGraphEditPart extends SpecificationDiagramEditPart {
+public class GrlGraphEditPart extends URNDiagramEditPart {
 
     public GrlGraphEditPart(GRLGraph graph){
         super(graph);
@@ -45,14 +48,14 @@ public class GrlGraphEditPart extends SpecificationDiagramEditPart {
 
         // put the labels on top because they are always over components.
         for (Iterator i = getDiagram().getNodes().iterator(); i.hasNext();) {
-            SpecificationNode node = (SpecificationNode) i.next();
+            IURNNode node = (IURNNode) i.next();
             if (node.getLabel() != null) {
                 list.add(node.getLabel());
             }
         }
 
-        for (Iterator i = getDiagram().getCompRefs().iterator(); i.hasNext();) {
-            SpecificationComponentRef component = (SpecificationComponentRef) i.next();
+        for (Iterator i = getDiagram().getContRefs().iterator(); i.hasNext();) {
+            IURNContainerRef component = (IURNContainerRef) i.next();
             if (component.getLabel() != null) {
                 list.add(component.getLabel());
             }
@@ -91,19 +94,18 @@ public class GrlGraphEditPart extends SpecificationDiagramEditPart {
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
-        //TODO modify notifyChanged for better performance (need verification of NotificationType)
         refreshChildren();
 
     }
 
-    /** TODO create a GRLConnectioRouter and implement registerVisuals() method
+    /** 
      * (non-Javadoc)
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
      */
     protected void registerVisuals() {
-        //ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-        //cLayer.setConnectionRouter(new UCMConnectionRouter(getViewer().getEditPartRegistry(), (UCMmap)getDiagram()));
+        ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+        cLayer.setConnectionRouter(new BendpointConnectionRouter());
 
         super.registerVisuals();
     }

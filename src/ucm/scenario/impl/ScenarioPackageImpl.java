@@ -128,30 +128,30 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
         isInited = true;
 
         // Obtain or create and register interdependencies
-        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
-        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
-        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
-        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
-        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
-        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
+        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
+        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
+        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
 
         // Create package meta-data objects
         theScenarioPackage.createPackageContents();
         theUrnPackage.createPackageContents();
         theUrncorePackage.createPackageContents();
+        theGrlPackage.createPackageContents();
         theUcmPackage.createPackageContents();
         thePerformancePackage.createPackageContents();
         theMapPackage.createPackageContents();
-        theGrlPackage.createPackageContents();
 
         // Initialize created meta-data
         theScenarioPackage.initializePackageContents();
         theUrnPackage.initializePackageContents();
         theUrncorePackage.initializePackageContents();
+        theGrlPackage.initializePackageContents();
         theUcmPackage.initializePackageContents();
         thePerformancePackage.initializePackageContents();
         theMapPackage.initializePackageContents();
-        theGrlPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theScenarioPackage.freeze();
@@ -173,7 +173,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getScenarioGroup_Urnspec() {
+    public EReference getScenarioGroup_Ucmspec() {
         return (EReference)scenarioGroupEClass.getEStructuralFeatures().get(0);
     }
 
@@ -182,7 +182,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getScenarioGroup_ScenarioDef() {
+    public EReference getScenarioGroup_Scenarios() {
         return (EReference)scenarioGroupEClass.getEStructuralFeatures().get(1);
     }
 
@@ -209,8 +209,17 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getScenarioDef_Urnspec() {
+    public EReference getScenarioDef_Ucmspec() {
         return (EReference)scenarioDefEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getScenarioDef_Groups() {
+        return (EReference)scenarioDefEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -236,7 +245,7 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getVariable_Urnspec() {
+    public EReference getVariable_Ucmspec() {
         return (EReference)variableEClass.getEStructuralFeatures().get(1);
     }
 
@@ -277,18 +286,19 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
         isCreated = true;
 
         // Create classes and their features
-        scenarioGroupEClass = createEClass(SCENARIO_GROUP);
-        createEReference(scenarioGroupEClass, SCENARIO_GROUP__URNSPEC);
-        createEReference(scenarioGroupEClass, SCENARIO_GROUP__SCENARIO_DEF);
+        variableEClass = createEClass(VARIABLE);
+        createEAttribute(variableEClass, VARIABLE__TYPE);
+        createEReference(variableEClass, VARIABLE__UCMSPEC);
+        createEReference(variableEClass, VARIABLE__USAGES);
 
         scenarioDefEClass = createEClass(SCENARIO_DEF);
         createEReference(scenarioDefEClass, SCENARIO_DEF__START_POINTS);
-        createEReference(scenarioDefEClass, SCENARIO_DEF__URNSPEC);
+        createEReference(scenarioDefEClass, SCENARIO_DEF__UCMSPEC);
+        createEReference(scenarioDefEClass, SCENARIO_DEF__GROUPS);
 
-        variableEClass = createEClass(VARIABLE);
-        createEAttribute(variableEClass, VARIABLE__TYPE);
-        createEReference(variableEClass, VARIABLE__URNSPEC);
-        createEReference(variableEClass, VARIABLE__USAGES);
+        scenarioGroupEClass = createEClass(SCENARIO_GROUP);
+        createEReference(scenarioGroupEClass, SCENARIO_GROUP__UCMSPEC);
+        createEReference(scenarioGroupEClass, SCENARIO_GROUP__SCENARIOS);
     }
 
     /**
@@ -320,23 +330,24 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
         MapPackageImpl theMapPackage = (MapPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI);
 
         // Add supertypes to classes
-        scenarioGroupEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        scenarioDefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
         variableEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+        scenarioDefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
+        scenarioGroupEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
 
         // Initialize classes and features; add operations and parameters
-        initEClass(scenarioGroupEClass, ScenarioGroup.class, "ScenarioGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getScenarioGroup_Urnspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_ScenarioGroups(), "urnspec", null, 1, 1, ScenarioGroup.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getScenarioGroup_ScenarioDef(), this.getScenarioDef(), null, "ScenarioDef", null, 0, -1, ScenarioGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-        initEClass(scenarioDefEClass, ScenarioDef.class, "ScenarioDef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getScenarioDef_StartPoints(), theMapPackage.getStartPoint(), null, "startPoints", null, 1, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getScenarioDef_Urnspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_ScenarioDefs(), "urnspec", null, 1, 1, ScenarioDef.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
         initEClass(variableEClass, Variable.class, "Variable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getVariable_Type(), ecorePackage.getEString(), "type", "boolean", 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getVariable_Urnspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_Variables(), "urnspec", null, 1, 1, Variable.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getVariable_Ucmspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_Variables(), "ucmspec", null, 1, 1, Variable.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getVariable_Usages(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_Variables(), "usages", null, 0, -1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(scenarioDefEClass, ScenarioDef.class, "ScenarioDef", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getScenarioDef_StartPoints(), theMapPackage.getStartPoint(), null, "startPoints", null, 1, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getScenarioDef_Ucmspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_ScenarioDefs(), "ucmspec", null, 1, 1, ScenarioDef.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getScenarioDef_Groups(), this.getScenarioGroup(), this.getScenarioGroup_Scenarios(), "groups", null, 1, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(scenarioGroupEClass, ScenarioGroup.class, "ScenarioGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getScenarioGroup_Ucmspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_ScenarioGroups(), "ucmspec", null, 1, 1, ScenarioGroup.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getScenarioGroup_Scenarios(), this.getScenarioDef(), this.getScenarioDef_Groups(), "scenarios", null, 0, -1, ScenarioGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     }
 
 } //ScenarioPackageImpl

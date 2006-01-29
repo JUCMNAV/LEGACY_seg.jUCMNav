@@ -22,7 +22,7 @@ public class ComponentElementComponentEditPolicy extends ComponentEditPolicy {
         if (comp instanceof ComponentElement) {
 
             ComponentElement elem = (ComponentElement) comp;
-            if (elem.getCompRefs().size() == 0) {
+            if (elem.getContRefs().size() == 0) {
                 DeleteComponentElementCommand deleteCommand = new DeleteComponentElementCommand(elem);
                 return deleteCommand;
             } else

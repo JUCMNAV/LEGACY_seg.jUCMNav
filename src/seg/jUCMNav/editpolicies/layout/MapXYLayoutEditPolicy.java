@@ -15,9 +15,9 @@ import seg.jUCMNav.editparts.ConditionEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import ucm.map.ComponentRef;
@@ -35,7 +35,7 @@ import urncore.Label;
  * @author etremblay, jkealey
  *  
  */
-public class MapXYLayoutEditPolicy extends AbstractSpecificationDiagramXYLayoutEditPolicy {
+public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
 
     /**
      * Convenience method to prevent casting
@@ -83,8 +83,8 @@ public class MapXYLayoutEditPolicy extends AbstractSpecificationDiagramXYLayoutE
         Command createCommand;
         ComponentRef compRef = (ComponentRef) request.getNewObject();
 
-        AddComponentRefCommand create = new AddComponentRefCommand(getMap(), compRef);
-        SetConstraintBoundComponentRefCompoundCommand moveResize = new SetConstraintBoundComponentRefCompoundCommand(compRef, constraint.x, constraint.y, constraint.width,
+        AddContainerRefCommand create = new AddContainerRefCommand(getMap(), compRef);
+        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, constraint.x, constraint.y, constraint.width,
                 constraint.height);
 
         // after creation, move and resize the component;

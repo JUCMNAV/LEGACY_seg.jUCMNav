@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import urncore.ComponentLabel;
-import urncore.SpecificationComponentRef;
+import urncore.IURNContainerRef;
 import urncore.UrncorePackage;
 
 /**
@@ -28,7 +28,7 @@ import urncore.UrncorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link urncore.impl.ComponentLabelImpl#getCompRef <em>Comp Ref</em>}</li>
+ *   <li>{@link urncore.impl.ComponentLabelImpl#getContRef <em>Cont Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -58,9 +58,9 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponentRef getCompRef() {
-        if (eContainerFeatureID != UrncorePackage.COMPONENT_LABEL__COMP_REF) return null;
-        return (SpecificationComponentRef)eContainer;
+    public IURNContainerRef getContRef() {
+        if (eContainerFeatureID != UrncorePackage.COMPONENT_LABEL__CONT_REF) return null;
+        return (IURNContainerRef)eContainer;
     }
 
     /**
@@ -68,20 +68,20 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setCompRef(SpecificationComponentRef newCompRef) {
-        if (newCompRef != eContainer || (eContainerFeatureID != UrncorePackage.COMPONENT_LABEL__COMP_REF && newCompRef != null)) {
-            if (EcoreUtil.isAncestor(this, newCompRef))
+    public void setContRef(IURNContainerRef newContRef) {
+        if (newContRef != eContainer || (eContainerFeatureID != UrncorePackage.COMPONENT_LABEL__CONT_REF && newContRef != null)) {
+            if (EcoreUtil.isAncestor(this, newContRef))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
-            if (newCompRef != null)
-                msgs = ((InternalEObject)newCompRef).eInverseAdd(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__LABEL, SpecificationComponentRef.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newCompRef, UrncorePackage.COMPONENT_LABEL__COMP_REF, msgs);
+            if (newContRef != null)
+                msgs = ((InternalEObject)newContRef).eInverseAdd(this, UrncorePackage.IURN_CONTAINER_REF__LABEL, IURNContainerRef.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newContRef, UrncorePackage.COMPONENT_LABEL__CONT_REF, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_LABEL__COMP_REF, newCompRef, newCompRef));
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_LABEL__CONT_REF, newContRef, newContRef));
     }
 
     /**
@@ -92,10 +92,10 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.COMPONENT_LABEL__COMP_REF:
+                case UrncorePackage.COMPONENT_LABEL__CONT_REF:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, UrncorePackage.COMPONENT_LABEL__COMP_REF, msgs);
+                    return eBasicSetContainer(otherEnd, UrncorePackage.COMPONENT_LABEL__CONT_REF, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -113,8 +113,8 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                    return eBasicSetContainer(null, UrncorePackage.COMPONENT_LABEL__COMP_REF, msgs);
+                case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                    return eBasicSetContainer(null, UrncorePackage.COMPONENT_LABEL__CONT_REF, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -130,13 +130,13 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__LABEL, SpecificationComponentRef.class, msgs);
+                case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__LABEL, IURNContainerRef.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -150,8 +150,8 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
                 return new Integer(getDeltaX());
             case UrncorePackage.COMPONENT_LABEL__DELTA_Y:
                 return new Integer(getDeltaY());
-            case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                return getCompRef();
+            case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                return getContRef();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -169,8 +169,8 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
             case UrncorePackage.COMPONENT_LABEL__DELTA_Y:
                 setDeltaY(((Integer)newValue).intValue());
                 return;
-            case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -189,8 +189,8 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
             case UrncorePackage.COMPONENT_LABEL__DELTA_Y:
                 setDeltaY(DELTA_Y_EDEFAULT);
                 return;
-            case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -207,8 +207,8 @@ public class ComponentLabelImpl extends LabelImpl implements ComponentLabel {
                 return deltaX != DELTA_X_EDEFAULT;
             case UrncorePackage.COMPONENT_LABEL__DELTA_Y:
                 return deltaY != DELTA_Y_EDEFAULT;
-            case UrncorePackage.COMPONENT_LABEL__COMP_REF:
-                return getCompRef() != null;
+            case UrncorePackage.COMPONENT_LABEL__CONT_REF:
+                return getContRef() != null;
         }
         return eDynamicIsSet(eFeature);
     }

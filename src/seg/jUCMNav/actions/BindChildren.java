@@ -8,10 +8,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
-import ucm.map.UCMmap;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 
 /**
  * Binds the selected elements with their respective parents, if they are unbound. For more details see calculateEnabled.
@@ -53,14 +53,14 @@ public class BindChildren extends URNSelectionAction {
                 // make sure they are EditParts
                 if (getSelectedObjects().get(i) instanceof EditPart) {
                     // make sure they represent a ComponentRef
-                    if (!(((EditPart) getSelectedObjects().get(i)).getModel() instanceof ComponentRef)) {
+                    if (!(((EditPart) getSelectedObjects().get(i)).getModel() instanceof IURNContainerRef)) {
                         return false; // #3 failed
                     } else {
                         // make sure they have children to add.
-                        ComponentRef cr = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                        if (cr.getSpecDiagram() == null)
+                        IURNContainerRef cr = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
+                        if (cr.getDiagram() == null)
                             return false;
-                        else if (ParentFinder.findNewChildren((UCMmap)cr.getSpecDiagram(), cr).size() == 0) {
+                        else if (ParentFinder.findNewChildren((IURNDiagram)cr.getDiagram(), cr).size() == 0) {
                             return false; // #4 failed
                         }
                     }
@@ -80,19 +80,19 @@ public class BindChildren extends URNSelectionAction {
         if (getSelectedObjects().isEmpty()) {
             return null;
         } else {
-            ComponentRef parent;
+            IURNContainerRef parent;
             Vector children;
 
             // get the selected parent, find its new children and create a command
-            parent = (ComponentRef) ((EditPart) getSelectedObjects().get(0)).getModel();
-            children = ParentFinder.findNewChildren((UCMmap)parent.getSpecDiagram(), parent);
-            cmd = new ComponentRefBindChildCommand(parent, children);
+            parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(0)).getModel();
+            children = ParentFinder.findNewChildren((IURNDiagram)parent.getDiagram(), parent);
+            cmd = new ContainerRefBindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 //get the selected parent, find its new children and create a command
-                parent = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                children = ParentFinder.findNewChildren((UCMmap)parent.getSpecDiagram(), parent);
-                cmd = cmd.chain(new ComponentRefBindChildCommand(parent, children));
+                parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
+                children = ParentFinder.findNewChildren((IURNDiagram)parent.getDiagram(), parent);
+                cmd = cmd.chain(new ContainerRefBindChildCommand(parent, children));
             }
 
             return cmd;

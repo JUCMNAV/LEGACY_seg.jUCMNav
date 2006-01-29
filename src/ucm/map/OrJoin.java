@@ -20,10 +20,10 @@ package ucm.map;
  * </p>
  *
  * @see ucm.map.MapPackage#getOrJoin()
- * @model 
+ * @model
  * @generated
  */
-public interface OrJoin extends PathNode {
+public interface OrJoin extends PathNode{
     /**
      * Returns the value of the '<em><b>Orientation</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ public interface OrJoin extends PathNode {
      * @return the value of the '<em>Orientation</em>' attribute.
      * @see #setOrientation(String)
      * @see ucm.map.MapPackage#getOrJoin_Orientation()
-     * @model 
+     * @model
      * @generated
      */
     String getOrientation();

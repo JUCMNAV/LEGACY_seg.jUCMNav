@@ -256,18 +256,18 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         case MapPackage.PATH_NODE__PRED:
             refreshTargetConnections();
             if (getParent() != null)
-                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
+                ((URNDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         case MapPackage.PATH_NODE__SUCC:
             refreshSourceConnections();
             if (getParent() != null)
-                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
+                ((URNDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         case MapPackage.PATH_NODE__LABEL:
         case MapPackage.START_POINT__PRECONDITION:
         case MapPackage.END_POINT__POSTCONDITION:
             if (getParent() != null)
-                ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
+                ((URNDiagramEditPart) getParent()).notifyChanged(notification);
             break;
         default:
             //refreshVisuals();

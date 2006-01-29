@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
+import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -232,6 +233,10 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.bindAll")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new AddBeliefAction(editor);
+        action.setText("Add Belief"); 
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddMapAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addMap")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -251,6 +256,7 @@ public class ActionRegistryManager {
         action = new AddGrlGraphAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
+
     }
 
     /**

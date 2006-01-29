@@ -6,7 +6,25 @@
  */
 package grl.util;
 
-import grl.*;
+import grl.Actor;
+import grl.ActorRef;
+import grl.Belief;
+import grl.BeliefLink;
+import grl.Contribution;
+import grl.Decomposition;
+import grl.Dependency;
+import grl.ElementLink;
+import grl.Evaluation;
+import grl.EvaluationGroup;
+import grl.EvaluationScenario;
+import grl.GRLGraph;
+import grl.GRLNode;
+import grl.GRLspec;
+import grl.GrlPackage;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+import grl.LinkRef;
+import grl.LinkRefBendpoint;
 
 import java.util.List;
 
@@ -14,11 +32,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import urncore.GRLmodelElement;
-import urncore.SpecificationComponent;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationConnection;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNConnection;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.URNmodelElement;
 
 /**
@@ -104,8 +122,9 @@ public class GrlSwitch {
             case GrlPackage.BELIEF: {
                 Belief belief = (Belief)theEObject;
                 Object result = caseBelief(belief);
+                if (result == null) result = caseGRLNode(belief);
                 if (result == null) result = caseGRLmodelElement(belief);
-                if (result == null) result = caseSpecificationNode(belief);
+                if (result == null) result = caseIURNNode(belief);
                 if (result == null) result = caseURNmodelElement(belief);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -122,7 +141,7 @@ public class GrlSwitch {
                 Actor actor = (Actor)theEObject;
                 Object result = caseActor(actor);
                 if (result == null) result = caseGRLmodelElement(actor);
-                if (result == null) result = caseSpecificationComponent(actor);
+                if (result == null) result = caseIURNContainer(actor);
                 if (result == null) result = caseURNmodelElement(actor);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -131,7 +150,7 @@ public class GrlSwitch {
                 GRLGraph grlGraph = (GRLGraph)theEObject;
                 Object result = caseGRLGraph(grlGraph);
                 if (result == null) result = caseGRLmodelElement(grlGraph);
-                if (result == null) result = caseSpecificationDiagram(grlGraph);
+                if (result == null) result = caseIURNDiagram(grlGraph);
                 if (result == null) result = caseURNmodelElement(grlGraph);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -139,15 +158,18 @@ public class GrlSwitch {
             case GrlPackage.ACTOR_REF: {
                 ActorRef actorRef = (ActorRef)theEObject;
                 Object result = caseActorRef(actorRef);
-                if (result == null) result = caseSpecificationComponentRef(actorRef);
+                if (result == null) result = caseGRLmodelElement(actorRef);
+                if (result == null) result = caseIURNContainerRef(actorRef);
+                if (result == null) result = caseURNmodelElement(actorRef);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case GrlPackage.INTENTIONAL_ELEMENT_REF: {
                 IntentionalElementRef intentionalElementRef = (IntentionalElementRef)theEObject;
                 Object result = caseIntentionalElementRef(intentionalElementRef);
+                if (result == null) result = caseGRLNode(intentionalElementRef);
                 if (result == null) result = caseGRLmodelElement(intentionalElementRef);
-                if (result == null) result = caseSpecificationNode(intentionalElementRef);
+                if (result == null) result = caseIURNNode(intentionalElementRef);
                 if (result == null) result = caseURNmodelElement(intentionalElementRef);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -156,19 +178,23 @@ public class GrlSwitch {
                 Contribution contribution = (Contribution)theEObject;
                 Object result = caseContribution(contribution);
                 if (result == null) result = caseElementLink(contribution);
+                if (result == null) result = caseGRLmodelElement(contribution);
+                if (result == null) result = caseURNmodelElement(contribution);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case GrlPackage.LINK_REF: {
                 LinkRef linkRef = (LinkRef)theEObject;
                 Object result = caseLinkRef(linkRef);
-                if (result == null) result = caseSpecificationConnection(linkRef);
+                if (result == null) result = caseIURNConnection(linkRef);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
             case GrlPackage.ELEMENT_LINK: {
                 ElementLink elementLink = (ElementLink)theEObject;
                 Object result = caseElementLink(elementLink);
+                if (result == null) result = caseGRLmodelElement(elementLink);
+                if (result == null) result = caseURNmodelElement(elementLink);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -176,6 +202,8 @@ public class GrlSwitch {
                 Decomposition decomposition = (Decomposition)theEObject;
                 Object result = caseDecomposition(decomposition);
                 if (result == null) result = caseElementLink(decomposition);
+                if (result == null) result = caseGRLmodelElement(decomposition);
+                if (result == null) result = caseURNmodelElement(decomposition);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -183,6 +211,8 @@ public class GrlSwitch {
                 Dependency dependency = (Dependency)theEObject;
                 Object result = caseDependency(dependency);
                 if (result == null) result = caseElementLink(dependency);
+                if (result == null) result = caseGRLmodelElement(dependency);
+                if (result == null) result = caseURNmodelElement(dependency);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -192,11 +222,41 @@ public class GrlSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case GrlPackage.EVALUATION_SET: {
-                EvaluationSet evaluationSet = (EvaluationSet)theEObject;
-                Object result = caseEvaluationSet(evaluationSet);
-                if (result == null) result = caseGRLmodelElement(evaluationSet);
-                if (result == null) result = caseURNmodelElement(evaluationSet);
+            case GrlPackage.EVALUATION_SCENARIO: {
+                EvaluationScenario evaluationScenario = (EvaluationScenario)theEObject;
+                Object result = caseEvaluationScenario(evaluationScenario);
+                if (result == null) result = caseGRLmodelElement(evaluationScenario);
+                if (result == null) result = caseURNmodelElement(evaluationScenario);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case GrlPackage.GRL_NODE: {
+                GRLNode grlNode = (GRLNode)theEObject;
+                Object result = caseGRLNode(grlNode);
+                if (result == null) result = caseGRLmodelElement(grlNode);
+                if (result == null) result = caseIURNNode(grlNode);
+                if (result == null) result = caseURNmodelElement(grlNode);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case GrlPackage.LINK_REF_BENDPOINT: {
+                LinkRefBendpoint linkRefBendpoint = (LinkRefBendpoint)theEObject;
+                Object result = caseLinkRefBendpoint(linkRefBendpoint);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case GrlPackage.BELIEF_LINK: {
+                BeliefLink beliefLink = (BeliefLink)theEObject;
+                Object result = caseBeliefLink(beliefLink);
+                if (result == null) result = caseIURNConnection(beliefLink);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case GrlPackage.EVALUATION_GROUP: {
+                EvaluationGroup evaluationGroup = (EvaluationGroup)theEObject;
+                Object result = caseEvaluationGroup(evaluationGroup);
+                if (result == null) result = caseGRLmodelElement(evaluationGroup);
+                if (result == null) result = caseURNmodelElement(evaluationGroup);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -400,17 +460,77 @@ public class GrlSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Evaluation Set</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>Evaluation Scenario</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Evaluation Set</em>'.
+     * @return the result of interpretting the object as an instance of '<em>Evaluation Scenario</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseEvaluationSet(EvaluationSet object) {
+    public Object caseEvaluationScenario(EvaluationScenario object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpretting the object as an instance of '<em>GRL Node</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpretting the object as an instance of '<em>GRL Node</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public Object caseGRLNode(GRLNode object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpretting the object as an instance of '<em>Link Ref Bendpoint</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpretting the object as an instance of '<em>Link Ref Bendpoint</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public Object caseLinkRefBendpoint(LinkRefBendpoint object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpretting the object as an instance of '<em>Belief Link</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpretting the object as an instance of '<em>Belief Link</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public Object caseBeliefLink(BeliefLink object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpretting the object as an instance of '<em>Evaluation Group</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpretting the object as an instance of '<em>Evaluation Group</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public Object caseEvaluationGroup(EvaluationGroup object) {
         return null;
     }
 
@@ -445,77 +565,77 @@ public class GrlSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationNode(SpecificationNode object) {
+    public Object caseIURNNode(IURNNode object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Component</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Container</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Component</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Container</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationComponent(SpecificationComponent object) {
+    public Object caseIURNContainer(IURNContainer object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationDiagram(SpecificationDiagram object) {
+    public Object caseIURNDiagram(IURNDiagram object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationComponentRef(SpecificationComponentRef object) {
+    public Object caseIURNContainerRef(IURNContainerRef object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationConnection(SpecificationConnection object) {
+    public Object caseIURNConnection(IURNConnection object) {
         return null;
     }
 

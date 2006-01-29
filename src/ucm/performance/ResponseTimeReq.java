@@ -27,10 +27,10 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getResponseTimeReq()
- * @model 
+ * @model
  * @generated
  */
-public interface ResponseTimeReq extends UCMmodelElement {
+public interface ResponseTimeReq extends UCMmodelElement{
     /**
      * Returns the value of the '<em><b>Response Time</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -42,7 +42,7 @@ public interface ResponseTimeReq extends UCMmodelElement {
      * @return the value of the '<em>Response Time</em>' attribute.
      * @see #setResponseTime(String)
      * @see ucm.performance.PerformancePackage#getResponseTimeReq_ResponseTime()
-     * @model 
+     * @model
      * @generated
      */
     String getResponseTime();
@@ -68,7 +68,7 @@ public interface ResponseTimeReq extends UCMmodelElement {
      * @return the value of the '<em>Percentage</em>' attribute.
      * @see #setPercentage(String)
      * @see ucm.performance.PerformancePackage#getResponseTimeReq_Percentage()
-     * @model 
+     * @model
      * @generated
      */
     String getPercentage();

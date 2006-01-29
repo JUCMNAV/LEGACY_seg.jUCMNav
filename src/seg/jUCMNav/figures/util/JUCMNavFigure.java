@@ -13,7 +13,7 @@ import ucm.map.EndPoint;
 import ucm.map.PathNode;
 import ucm.map.Stub;
 import urncore.GRLmodelElement;
-import urncore.SpecificationNode;
+import urncore.IURNNode;
 
 /**
  * This is a utility class to obtain the default dimensions of model elements to position labels at creation. We must use this class because the editparts have
@@ -37,9 +37,11 @@ public class JUCMNavFigure {
             return AndForkJoinFigure.getDefaultDimension().getCopy().scale(((PathNode) modelElement).getSucc().size());
         } else if (modelElement instanceof PathNode) {
             return PathNodeFigure.getDefaultDimension();
-        } else if ((modelElement instanceof SpecificationNode) && (modelElement instanceof GRLmodelElement)){
+        } else if ((modelElement instanceof IURNNode) && (modelElement instanceof GRLmodelElement)){
             return GrlNodeFigure.getDefaultDimension();
         }
+            
+           
 
         System.out.println("Unknown dimension in JUCMNavFigure.getDimension() for " + modelElement); //$NON-NLS-1$
 

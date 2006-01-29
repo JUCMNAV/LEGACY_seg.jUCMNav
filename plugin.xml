@@ -101,7 +101,7 @@
                ratio="0.5"
                relationship="left"
                relative="org.eclipse.ui.views.TaskList"
-               id="seg.jUCMNav.views.ResponsibilityView"/>
+               id="seg.jUCMNav.views.ElementView"/>
       </perspectiveExtension>
    </extension>
    <extension
@@ -110,11 +110,11 @@
             name="jUCMNav"
             id="seg.jUCMNav"/>
       <view
-            class="seg.jUCMNav.views.resp.ResponsibilityView"
+            class="seg.jUCMNav.views.elements.ElementView"
             icon="icons/Resp16.gif"
             category="seg.jUCMNav"
-            name="%responsibility"
-            id="seg.jUCMNav.views.ResponsibilityView"/>
+            name="Elements"
+            id="seg.jUCMNav.views.ElementView"/>
    </extension>
    <extension
          point="org.eclipse.help.toc">

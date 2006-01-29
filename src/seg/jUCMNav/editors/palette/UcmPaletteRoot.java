@@ -13,7 +13,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
-import seg.jUCMNav.editors.palette.tools.UCMElementCreationEntry;
+import seg.jUCMNav.editors.palette.tools.URNElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -107,30 +107,30 @@ public class UcmPaletteRoot extends PaletteRoot {
 
         PaletteDrawer componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.components")); //$NON-NLS-1$
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.team"), Messages.getString("UcmPaletteRoot.createTeam"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         ComponentKind.TEAM), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.object"), Messages.getString("UcmPaletteRoot.createObject"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                         ComponentKind.OBJECT), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Object24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.process"), Messages.getString("UcmPaletteRoot.createProcess"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, ComponentKind.PROCESS), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
                                 JUCMNavPlugin.class, "icons/Process16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.agent"), Messages.getString("UcmPaletteRoot.createAgent"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, ComponentKind.AGENT), ImageDescriptor.createFromFile( //$NON-NLS-1$ //$NON-NLS-2$
                                 JUCMNavPlugin.class, "icons/Agent16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
-        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.actor"), Messages.getString("UcmPaletteRoot.createActor"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new URNElementCreationEntry(Messages.getString("UcmPaletteRoot.actor"), Messages.getString("UcmPaletteRoot.createActor"), ComponentRef.class, new ModelCreationFactory(getURNspec(), ComponentRef.class, //$NON-NLS-1$ //$NON-NLS-2$
                 ComponentKind.ACTOR), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                 JUCMNavPlugin.class, "icons/Actor24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
         
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.other"), Messages.getString("UcmPaletteRoot.createOther"), ComponentRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
                         ComponentRef.class, ComponentKind.OTHER), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif"), ImageDescriptor //$NON-NLS-1$
                         .createFromFile(JUCMNavPlugin.class, "icons/Component24.gif")); //$NON-NLS-1$
@@ -139,7 +139,7 @@ public class UcmPaletteRoot extends PaletteRoot {
 
         componentsDrawer = new PaletteDrawer(Messages.getString("UcmPaletteRoot.path")); //$NON-NLS-1$
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.responsibility"), Messages.getString("UcmPaletteRoot.createResponsibility"), RespRef.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
                         RespRef.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
@@ -147,27 +147,27 @@ public class UcmPaletteRoot extends PaletteRoot {
         entry.setId(Messages.getString("UcmPaletteRoot.responsibility")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.stub"), Messages.getString("UcmPaletteRoot.createStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
                         .createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.dynamicStub"), Messages.getString("UcmPaletteRoot.createDynamicStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 1), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/DynStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.timer"), Messages.getString("UcmPaletteRoot.createTimer"), Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new URNElementCreationEntry(Messages.getString("UcmPaletteRoot.timer"), Messages.getString("UcmPaletteRoot.createTimer"), Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
                 .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(Messages.getString("UcmPaletteRoot.waitingPlace"), Messages.getString("UcmPaletteRoot.createWaitingPlace"), WaitingPlace.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
+        entry = new URNElementCreationEntry(Messages.getString("UcmPaletteRoot.waitingPlace"), Messages.getString("UcmPaletteRoot.createWaitingPlace"), WaitingPlace.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
                 WaitingPlace.class), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Wait16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                 JUCMNavPlugin.class, "icons/Wait24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.directionArrow"), Messages.getString("UcmPaletteRoot.createArrow"), DirectionArrow.class, new ModelCreationFactory(getURNspec(), //$NON-NLS-1$ //$NON-NLS-2$
                         DirectionArrow.class),
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
@@ -175,25 +175,25 @@ public class UcmPaletteRoot extends PaletteRoot {
         entry.setId(Messages.getString("UcmPaletteRoot.directionArrowId")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.orFork"), Messages.getString("UcmPaletteRoot.createOrFork"), OrFork.class, new ModelCreationFactory(getURNspec(), OrFork.class), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/OrFork24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.andFork"), Messages.getString("UcmPaletteRoot.createAndFork"), AndFork.class, new ModelCreationFactory(getURNspec(), AndFork.class), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/AndFork24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.orJoin"), Messages.getString("UcmPaletteRoot.createOrJoin"), OrJoin.class, new ModelCreationFactory(getURNspec(), OrJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/OrJoin24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
+        entry = new URNElementCreationEntry(
                 Messages.getString("UcmPaletteRoot.andJoin"), Messages.getString("UcmPaletteRoot.createAndJoin"), AndJoin.class, new ModelCreationFactory(getURNspec(), AndJoin.class), //$NON-NLS-1$ //$NON-NLS-2$
                 ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
                         "icons/AndJoin24.gif")); //$NON-NLS-1$

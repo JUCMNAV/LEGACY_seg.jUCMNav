@@ -9,8 +9,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
-import ucm.map.ComponentRef;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
+import urncore.IURNContainerRef;
 
 /**
  * Unbinds the selected element with from its parent, if it is bound. For more detail, see calculatedEnabled().
@@ -52,8 +52,8 @@ public class UnbindChildren extends URNSelectionAction {
 
                 EditPart p = (EditPart) parts.get(i);
 
-                if (p.getModel() instanceof ComponentRef) {
-                    if (((ComponentRef) p.getModel()).getChildren().size() == 0 && ((ComponentRef) p.getModel()).getNodes().size() == 0)
+                if (p.getModel() instanceof IURNContainerRef) {
+                    if (((IURNContainerRef) p.getModel()).getChildren().size() == 0 && ((IURNContainerRef) p.getModel()).getNodes().size() == 0)
                         return false; // #4 failed.
                 } else
                     return false; // #3 failed.
@@ -75,19 +75,19 @@ public class UnbindChildren extends URNSelectionAction {
             return null;
         } else {
             Vector children = new Vector();
-            ComponentRef parent;
+            IURNContainerRef parent;
 
-            parent = (ComponentRef) ((EditPart) getSelectedObjects().get(0)).getModel();
+            parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(0)).getModel();
             children.addAll(parent.getChildren());
             children.addAll(parent.getNodes());
-            cmd = new ComponentRefUnbindChildCommand(parent, children);
+            cmd = new ContainerRefUnbindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
-                parent = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
+                parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
                 children = new Vector();
                 children.addAll(parent.getChildren());
                 children.addAll(parent.getNodes());
-                cmd = cmd.chain(new ComponentRefUnbindChildCommand(parent, children));
+                cmd = cmd.chain(new ContainerRefUnbindChildCommand(parent, children));
             }
 
             return cmd;

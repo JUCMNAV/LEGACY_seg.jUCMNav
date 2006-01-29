@@ -1,5 +1,9 @@
 package seg.jUCMNav.model.util;
 
+import grl.Actor;
+import grl.ActorRef;
+import grl.IntentionalElementRef;
+
 import java.util.Comparator;
 
 import org.eclipse.emf.ecore.EObject;
@@ -44,7 +48,7 @@ public class EObjectClassNameComparator implements Comparator {
     }
 
     /**
-     * Returns a name to be used in the sort procedure. ComponentRefs/RespRefs use definition name, others uses the "name" attribute if it exists and the class
+     * Returns a name to be used in the sort procedure. ComponentRefs/RespRefs/IntentionalElementRefs use definition name, others uses the "name" attribute if it exists and the class
      * name otherwise.
      * 
      * @param o
@@ -57,10 +61,14 @@ public class EObjectClassNameComparator implements Comparator {
         // want to build a string like so: Name (ID)
         // but have to deal with special cases
 
-        if (o instanceof ComponentRef && ((ComponentRef) o).getCompDef() != null) {
-            s = ((ComponentElement)((ComponentRef) o).getCompDef()).getName();
+        if (o instanceof ComponentRef && ((ComponentRef) o).getContDef() != null) {
+            s = ((ComponentElement)((ComponentRef) o).getContDef()).getName();
+        } else if (o instanceof ActorRef && ((ActorRef) o).getContDef() != null) {
+            s = ((Actor)((ActorRef) o).getContDef()).getName();
         } else if (o instanceof RespRef && ((RespRef) o).getRespDef() != null) {
             s = ((RespRef) o).getRespDef().getName();
+        } else if (o instanceof IntentionalElementRef && ((IntentionalElementRef) o).getDef() != null) {
+            s = ((IntentionalElementRef) o).getDef().getName();
         } else {
             try {
                 Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$
@@ -76,8 +84,9 @@ public class EObjectClassNameComparator implements Comparator {
 
         try {
             Object id = o.eGet(o.eClass().getEStructuralFeature("id")); //$NON-NLS-1$
-            if (id != null)
-                s += " (" + id.toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+            if (id != null){
+                s += " (" + id.toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ 
+            }
         } catch (IllegalArgumentException ex) {
         }
 

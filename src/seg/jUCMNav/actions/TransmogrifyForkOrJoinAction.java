@@ -27,7 +27,7 @@ public abstract class TransmogrifyForkOrJoinAction extends URNSelectionAction {
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);
-        UCMmap pg = (UCMmap)((PathNode) part.getModel()).getSpecDiagram();
+        UCMmap pg = (UCMmap)((PathNode) part.getModel()).getDiagram();
         TransmogrifyForkOrJoinCommand comm = new TransmogrifyForkOrJoinCommand((PathNode) part.getModel(), pg);
         return comm;
     }

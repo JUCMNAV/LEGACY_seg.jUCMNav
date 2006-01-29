@@ -24,9 +24,10 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see urncore.UrncoreFactory
+ * @model kind="package"
  * @generated
  */
-public interface UrncorePackage extends EPackage {
+public interface UrncorePackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->
@@ -125,13 +126,31 @@ public interface UrncorePackage extends EPackage {
     int UR_NMODEL_ELEMENT = 15;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UR_NMODEL_ELEMENT__FROM_LINKS = 0;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UR_NMODEL_ELEMENT__TO_LINKS = 1;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__ID = 0;
+    int UR_NMODEL_ELEMENT__ID = 2;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -140,7 +159,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__NAME = 1;
+    int UR_NMODEL_ELEMENT__NAME = 3;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -149,7 +168,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__DESCRIPTION = 2;
+    int UR_NMODEL_ELEMENT__DESCRIPTION = 4;
 
     /**
      * The number of structural features of the the '<em>UR Nmodel Element</em>' class.
@@ -158,7 +177,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 3;
+    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 5;
 
     /**
      * The meta object id for the '{@link urncore.impl.UCMmodelElementImpl <em>UC Mmodel Element</em>}' class.
@@ -169,6 +188,24 @@ public interface UrncorePackage extends EPackage {
      * @generated
      */
     int UC_MMODEL_ELEMENT = 8;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMODEL_ELEMENT__FROM_LINKS = UR_NMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMODEL_ELEMENT__TO_LINKS = UR_NMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -198,22 +235,13 @@ public interface UrncorePackage extends EPackage {
     int UC_MMODEL_ELEMENT__DESCRIPTION = UR_NMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UC_MMODEL_ELEMENT__URN_LINKS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
      * The number of structural features of the the '<em>UC Mmodel Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UC_MMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int UC_MMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link urncore.impl.ResponsibilityImpl <em>Responsibility</em>}' class.
@@ -224,6 +252,24 @@ public interface UrncorePackage extends EPackage {
      * @generated
      */
     int RESPONSIBILITY = 1;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY__FROM_LINKS = UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY__TO_LINKS = UC_MMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -251,15 +297,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int RESPONSIBILITY__DESCRIPTION = UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESPONSIBILITY__URN_LINKS = UC_MMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Empty</b></em>' attribute.
@@ -317,6 +354,24 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_ELEMENT = 3;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_ELEMENT__FROM_LINKS = UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_ELEMENT__TO_LINKS = UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -342,15 +397,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int COMPONENT_ELEMENT__DESCRIPTION = UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_ELEMENT__URN_LINKS = UC_MMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -380,13 +426,13 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_ELEMENT__FILLED = UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT_ELEMENT__COMP_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int COMPONENT_ELEMENT__CONT_REFS = UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -435,6 +481,24 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_REGULAR = 2;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REGULAR__FROM_LINKS = COMPONENT_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REGULAR__TO_LINKS = COMPONENT_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -460,15 +524,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int COMPONENT_REGULAR__DESCRIPTION = COMPONENT_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_REGULAR__URN_LINKS = COMPONENT_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -498,13 +553,13 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_REGULAR__FILLED = COMPONENT_ELEMENT__FILLED;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT_REGULAR__COMP_REFS = COMPONENT_ELEMENT__COMP_REFS;
+    int COMPONENT_REGULAR__CONT_REFS = COMPONENT_ELEMENT__CONT_REFS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -598,6 +653,24 @@ public interface UrncorePackage extends EPackage {
     int POOL = 4;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int POOL__FROM_LINKS = COMPONENT_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int POOL__TO_LINKS = COMPONENT_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -623,15 +696,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int POOL__DESCRIPTION = COMPONENT_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int POOL__URN_LINKS = COMPONENT_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -661,13 +725,13 @@ public interface UrncorePackage extends EPackage {
     int POOL__FILLED = COMPONENT_ELEMENT__FILLED;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int POOL__COMP_REFS = COMPONENT_ELEMENT__COMP_REFS;
+    int POOL__CONT_REFS = COMPONENT_ELEMENT__CONT_REFS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -752,6 +816,24 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT = 5;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT__FROM_LINKS = COMPONENT_REGULAR__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT__TO_LINKS = COMPONENT_REGULAR__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -777,15 +859,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int COMPONENT__DESCRIPTION = COMPONENT_REGULAR__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT__URN_LINKS = COMPONENT_REGULAR__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -815,13 +888,13 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT__FILLED = COMPONENT_REGULAR__FILLED;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT__COMP_REFS = COMPONENT_REGULAR__COMP_REFS;
+    int COMPONENT__CONT_REFS = COMPONENT_REGULAR__CONT_REFS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -924,6 +997,24 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_TYPE = 6;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_TYPE__FROM_LINKS = COMPONENT_REGULAR__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_TYPE__TO_LINKS = COMPONENT_REGULAR__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -949,15 +1040,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int COMPONENT_TYPE__DESCRIPTION = COMPONENT_REGULAR__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_TYPE__URN_LINKS = COMPONENT_REGULAR__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -987,13 +1069,13 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_TYPE__FILLED = COMPONENT_REGULAR__FILLED;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT_TYPE__COMP_REFS = COMPONENT_REGULAR__COMP_REFS;
+    int COMPONENT_TYPE__CONT_REFS = COMPONENT_REGULAR__CONT_REFS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -1123,6 +1205,24 @@ public interface UrncorePackage extends EPackage {
     int DYNAMIC_RESPONSIBILITY = 7;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DYNAMIC_RESPONSIBILITY__FROM_LINKS = RESPONSIBILITY__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DYNAMIC_RESPONSIBILITY__TO_LINKS = RESPONSIBILITY__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1148,15 +1248,6 @@ public interface UrncorePackage extends EPackage {
      * @ordered
      */
     int DYNAMIC_RESPONSIBILITY__DESCRIPTION = RESPONSIBILITY__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DYNAMIC_RESPONSIBILITY__URN_LINKS = RESPONSIBILITY__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Empty</b></em>' attribute.
@@ -1250,6 +1341,24 @@ public interface UrncorePackage extends EPackage {
     int GR_LMODEL_ELEMENT = 9;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LMODEL_ELEMENT__FROM_LINKS = UR_NMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LMODEL_ELEMENT__TO_LINKS = UR_NMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1277,22 +1386,13 @@ public interface UrncorePackage extends EPackage {
     int GR_LMODEL_ELEMENT__DESCRIPTION = UR_NMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GR_LMODEL_ELEMENT__URN_LINKS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
      * The number of structural features of the the '<em>GR Lmodel Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GR_LMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int GR_LMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The meta object id for the '{@link urncore.impl.LabelImpl <em>Label</em>}' class.
@@ -1406,13 +1506,13 @@ public interface UrncorePackage extends EPackage {
     int COMPONENT_LABEL__DELTA_Y = LABEL__DELTA_Y;
 
     /**
-     * The feature id for the '<em><b>Comp Ref</b></em>' container reference.
+     * The feature id for the '<em><b>Cont Ref</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int COMPONENT_LABEL__COMP_REF = LABEL_FEATURE_COUNT + 0;
+    int COMPONENT_LABEL__CONT_REF = LABEL_FEATURE_COUNT + 0;
 
     /**
      * The number of structural features of the the '<em>Component Label</em>' class.
@@ -1533,14 +1633,14 @@ public interface UrncorePackage extends EPackage {
     int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 8;
 
     /**
-     * The meta object id for the '{@link urncore.SpecificationDiagram <em>Specification Diagram</em>}' class.
+     * The meta object id for the '{@link urncore.IURNDiagram <em>IURN Diagram</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see urncore.SpecificationDiagram
-     * @see urncore.impl.UrncorePackageImpl#getSpecificationDiagram()
+     * @see urncore.IURNDiagram
+     * @see urncore.impl.UrncorePackageImpl#getIURNDiagram()
      * @generated
      */
-    int SPECIFICATION_DIAGRAM = 14;
+    int IURN_DIAGRAM = 14;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -1549,7 +1649,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_DIAGRAM__URNDEFINITION = 0;
+    int IURN_DIAGRAM__URNDEFINITION = 0;
 
     /**
      * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -1558,16 +1658,16 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_DIAGRAM__NODES = 1;
+    int IURN_DIAGRAM__NODES = 1;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' containment reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_DIAGRAM__COMP_REFS = 2;
+    int IURN_DIAGRAM__CONT_REFS = 2;
 
     /**
      * The feature id for the '<em><b>Connections</b></em>' containment reference list.
@@ -1576,26 +1676,26 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_DIAGRAM__CONNECTIONS = 3;
+    int IURN_DIAGRAM__CONNECTIONS = 3;
 
     /**
-     * The number of structural features of the the '<em>Specification Diagram</em>' class.
+     * The number of structural features of the the '<em>IURN Diagram</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_DIAGRAM_FEATURE_COUNT = 4;
+    int IURN_DIAGRAM_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '{@link urncore.SpecificationNode <em>Specification Node</em>}' class.
+     * The meta object id for the '{@link urncore.IURNNode <em>IURN Node</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see urncore.SpecificationNode
-     * @see urncore.impl.UrncorePackageImpl#getSpecificationNode()
+     * @see urncore.IURNNode
+     * @see urncore.impl.UrncorePackageImpl#getIURNNode()
      * @generated
      */
-    int SPECIFICATION_NODE = 16;
+    int IURN_NODE = 16;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1604,7 +1704,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__X = 0;
+    int IURN_NODE__X = 0;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -1613,25 +1713,25 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__Y = 1;
+    int IURN_NODE__Y = 1;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__SPEC_DIAGRAM = 2;
+    int IURN_NODE__DIAGRAM = 2;
 
     /**
-     * The feature id for the '<em><b>Comp Ref</b></em>' reference.
+     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__COMP_REF = 3;
+    int IURN_NODE__CONT_REF = 3;
 
     /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
@@ -1640,7 +1740,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__SUCC = 4;
+    int IURN_NODE__SUCC = 4;
 
     /**
      * The feature id for the '<em><b>Pred</b></em>' reference list.
@@ -1649,7 +1749,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__PRED = 5;
+    int IURN_NODE__PRED = 5;
 
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1658,26 +1758,26 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE__LABEL = 6;
+    int IURN_NODE__LABEL = 6;
 
     /**
-     * The number of structural features of the the '<em>Specification Node</em>' class.
+     * The number of structural features of the the '<em>IURN Node</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_NODE_FEATURE_COUNT = 7;
+    int IURN_NODE_FEATURE_COUNT = 7;
 
     /**
-     * The meta object id for the '{@link urncore.SpecificationComponentRef <em>Specification Component Ref</em>}' class.
+     * The meta object id for the '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see urncore.SpecificationComponentRef
-     * @see urncore.impl.UrncorePackageImpl#getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef
+     * @see urncore.impl.UrncorePackageImpl#getIURNContainerRef()
      * @generated
      */
-    int SPECIFICATION_COMPONENT_REF = 17;
+    int IURN_CONTAINER_REF = 17;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1686,7 +1786,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__X = 0;
+    int IURN_CONTAINER_REF__X = 0;
 
     /**
      * The feature id for the '<em><b>Y</b></em>' attribute.
@@ -1695,7 +1795,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__Y = 1;
+    int IURN_CONTAINER_REF__Y = 1;
 
     /**
      * The feature id for the '<em><b>Width</b></em>' attribute.
@@ -1704,7 +1804,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__WIDTH = 2;
+    int IURN_CONTAINER_REF__WIDTH = 2;
 
     /**
      * The feature id for the '<em><b>Height</b></em>' attribute.
@@ -1713,7 +1813,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__HEIGHT = 3;
+    int IURN_CONTAINER_REF__HEIGHT = 3;
 
     /**
      * The feature id for the '<em><b>Fixed</b></em>' attribute.
@@ -1722,25 +1822,25 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__FIXED = 4;
+    int IURN_CONTAINER_REF__FIXED = 4;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__SPEC_DIAGRAM = 5;
+    int IURN_CONTAINER_REF__DIAGRAM = 5;
 
     /**
-     * The feature id for the '<em><b>Comp Def</b></em>' reference.
+     * The feature id for the '<em><b>Cont Def</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__COMP_DEF = 6;
+    int IURN_CONTAINER_REF__CONT_DEF = 6;
 
     /**
      * The feature id for the '<em><b>Nodes</b></em>' reference list.
@@ -1749,7 +1849,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__NODES = 7;
+    int IURN_CONTAINER_REF__NODES = 7;
 
     /**
      * The feature id for the '<em><b>Label</b></em>' containment reference.
@@ -1758,7 +1858,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__LABEL = 8;
+    int IURN_CONTAINER_REF__LABEL = 8;
 
     /**
      * The feature id for the '<em><b>Parent</b></em>' reference.
@@ -1767,7 +1867,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__PARENT = 9;
+    int IURN_CONTAINER_REF__PARENT = 9;
 
     /**
      * The feature id for the '<em><b>Children</b></em>' reference list.
@@ -1776,26 +1876,26 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF__CHILDREN = 10;
+    int IURN_CONTAINER_REF__CHILDREN = 10;
 
     /**
-     * The number of structural features of the the '<em>Specification Component Ref</em>' class.
+     * The number of structural features of the the '<em>IURN Container Ref</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_REF_FEATURE_COUNT = 11;
+    int IURN_CONTAINER_REF_FEATURE_COUNT = 11;
 
     /**
-     * The meta object id for the '{@link urncore.SpecificationComponent <em>Specification Component</em>}' class.
+     * The meta object id for the '{@link urncore.IURNContainer <em>IURN Container</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see urncore.SpecificationComponent
-     * @see urncore.impl.UrncorePackageImpl#getSpecificationComponent()
+     * @see urncore.IURNContainer
+     * @see urncore.impl.UrncorePackageImpl#getIURNContainer()
      * @generated
      */
-    int SPECIFICATION_COMPONENT = 18;
+    int IURN_CONTAINER = 18;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -1804,7 +1904,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT__LINE_COLOR = 0;
+    int IURN_CONTAINER__LINE_COLOR = 0;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -1813,7 +1913,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT__FILL_COLOR = 1;
+    int IURN_CONTAINER__FILL_COLOR = 1;
 
     /**
      * The feature id for the '<em><b>Filled</b></em>' attribute.
@@ -1822,35 +1922,35 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT__FILLED = 2;
+    int IURN_CONTAINER__FILLED = 2;
 
     /**
-     * The feature id for the '<em><b>Comp Refs</b></em>' reference list.
+     * The feature id for the '<em><b>Cont Refs</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT__COMP_REFS = 3;
+    int IURN_CONTAINER__CONT_REFS = 3;
 
     /**
-     * The number of structural features of the the '<em>Specification Component</em>' class.
+     * The number of structural features of the the '<em>IURN Container</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_COMPONENT_FEATURE_COUNT = 4;
+    int IURN_CONTAINER_FEATURE_COUNT = 4;
 
     /**
-     * The meta object id for the '{@link urncore.SpecificationConnection <em>Specification Connection</em>}' class.
+     * The meta object id for the '{@link urncore.IURNConnection <em>IURN Connection</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see urncore.SpecificationConnection
-     * @see urncore.impl.UrncorePackageImpl#getSpecificationConnection()
+     * @see urncore.IURNConnection
+     * @see urncore.impl.UrncorePackageImpl#getIURNConnection()
      * @generated
      */
-    int SPECIFICATION_CONNECTION = 19;
+    int IURN_CONNECTION = 19;
 
     /**
      * The feature id for the '<em><b>Source</b></em>' reference.
@@ -1859,7 +1959,7 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_CONNECTION__SOURCE = 0;
+    int IURN_CONNECTION__SOURCE = 0;
 
     /**
      * The feature id for the '<em><b>Target</b></em>' reference.
@@ -1868,25 +1968,25 @@ public interface UrncorePackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SPECIFICATION_CONNECTION__TARGET = 1;
+    int IURN_CONNECTION__TARGET = 1;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_CONNECTION__SPEC_DIAGRAM = 2;
+    int IURN_CONNECTION__DIAGRAM = 2;
 
     /**
-     * The number of structural features of the the '<em>Specification Connection</em>' class.
+     * The number of structural features of the the '<em>IURN Connection</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SPECIFICATION_CONNECTION_FEATURE_COUNT = 3;
+    int IURN_CONNECTION_FEATURE_COUNT = 3;
 
     /**
      * The meta object id for the '{@link urncore.ComponentKind <em>Component Kind</em>}' enum.
@@ -2319,17 +2419,6 @@ public interface UrncorePackage extends EPackage {
     EClass getUCMmodelElement();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.UCMmodelElement#getUrnLinks <em>Urn Links</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Urn Links</em>'.
-     * @see urncore.UCMmodelElement#getUrnLinks()
-     * @see #getUCMmodelElement()
-     * @generated
-     */
-    EReference getUCMmodelElement_UrnLinks();
-
-    /**
      * Returns the meta object for class '{@link urncore.GRLmodelElement <em>GR Lmodel Element</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2338,17 +2427,6 @@ public interface UrncorePackage extends EPackage {
      * @generated
      */
     EClass getGRLmodelElement();
-
-    /**
-     * Returns the meta object for the reference list '{@link urncore.GRLmodelElement#getUrnLinks <em>Urn Links</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Urn Links</em>'.
-     * @see urncore.GRLmodelElement#getUrnLinks()
-     * @see #getGRLmodelElement()
-     * @generated
-     */
-    EReference getGRLmodelElement_UrnLinks();
 
     /**
      * Returns the meta object for class '{@link urncore.NodeLabel <em>Node Label</em>}'.
@@ -2414,15 +2492,15 @@ public interface UrncorePackage extends EPackage {
     EClass getComponentLabel();
 
     /**
-     * Returns the meta object for the container reference '{@link urncore.ComponentLabel#getCompRef <em>Comp Ref</em>}'.
+     * Returns the meta object for the container reference '{@link urncore.ComponentLabel#getContRef <em>Cont Ref</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Comp Ref</em>'.
-     * @see urncore.ComponentLabel#getCompRef()
+     * @return the meta object for the container reference '<em>Cont Ref</em>'.
+     * @see urncore.ComponentLabel#getContRef()
      * @see #getComponentLabel()
      * @generated
      */
-    EReference getComponentLabel_CompRef();
+    EReference getComponentLabel_ContRef();
 
     /**
      * Returns the meta object for class '{@link urncore.Condition <em>Condition</em>}'.
@@ -2523,58 +2601,58 @@ public interface UrncorePackage extends EPackage {
     EReference getCondition_Variables();
 
     /**
-     * Returns the meta object for class '{@link urncore.SpecificationDiagram <em>Specification Diagram</em>}'.
+     * Returns the meta object for class '{@link urncore.IURNDiagram <em>IURN Diagram</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specification Diagram</em>'.
-     * @see urncore.SpecificationDiagram
+     * @return the meta object for class '<em>IURN Diagram</em>'.
+     * @see urncore.IURNDiagram
      * @generated
      */
-    EClass getSpecificationDiagram();
+    EClass getIURNDiagram();
 
     /**
-     * Returns the meta object for the container reference '{@link urncore.SpecificationDiagram#getUrndefinition <em>Urndefinition</em>}'.
+     * Returns the meta object for the container reference '{@link urncore.IURNDiagram#getUrndefinition <em>Urndefinition</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the container reference '<em>Urndefinition</em>'.
-     * @see urncore.SpecificationDiagram#getUrndefinition()
-     * @see #getSpecificationDiagram()
+     * @see urncore.IURNDiagram#getUrndefinition()
+     * @see #getIURNDiagram()
      * @generated
      */
-    EReference getSpecificationDiagram_Urndefinition();
+    EReference getIURNDiagram_Urndefinition();
 
     /**
-     * Returns the meta object for the containment reference list '{@link urncore.SpecificationDiagram#getNodes <em>Nodes</em>}'.
+     * Returns the meta object for the containment reference list '{@link urncore.IURNDiagram#getNodes <em>Nodes</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference list '<em>Nodes</em>'.
-     * @see urncore.SpecificationDiagram#getNodes()
-     * @see #getSpecificationDiagram()
+     * @see urncore.IURNDiagram#getNodes()
+     * @see #getIURNDiagram()
      * @generated
      */
-    EReference getSpecificationDiagram_Nodes();
+    EReference getIURNDiagram_Nodes();
 
     /**
-     * Returns the meta object for the containment reference list '{@link urncore.SpecificationDiagram#getCompRefs <em>Comp Refs</em>}'.
+     * Returns the meta object for the containment reference list '{@link urncore.IURNDiagram#getContRefs <em>Cont Refs</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Comp Refs</em>'.
-     * @see urncore.SpecificationDiagram#getCompRefs()
-     * @see #getSpecificationDiagram()
+     * @return the meta object for the containment reference list '<em>Cont Refs</em>'.
+     * @see urncore.IURNDiagram#getContRefs()
+     * @see #getIURNDiagram()
      * @generated
      */
-    EReference getSpecificationDiagram_CompRefs();
+    EReference getIURNDiagram_ContRefs();
 
     /**
-     * Returns the meta object for the containment reference list '{@link urncore.SpecificationDiagram#getConnections <em>Connections</em>}'.
+     * Returns the meta object for the containment reference list '{@link urncore.IURNDiagram#getConnections <em>Connections</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference list '<em>Connections</em>'.
-     * @see urncore.SpecificationDiagram#getConnections()
-     * @see #getSpecificationDiagram()
+     * @see urncore.IURNDiagram#getConnections()
+     * @see #getIURNDiagram()
      * @generated
      */
-    EReference getSpecificationDiagram_Connections();
+    EReference getIURNDiagram_Connections();
 
     /**
      * Returns the meta object for class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
@@ -2585,6 +2663,28 @@ public interface UrncorePackage extends EPackage {
      * @generated
      */
     EClass getURNmodelElement();
+
+    /**
+     * Returns the meta object for the reference list '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>From Links</em>'.
+     * @see urncore.URNmodelElement#getFromLinks()
+     * @see #getURNmodelElement()
+     * @generated
+     */
+    EReference getURNmodelElement_FromLinks();
+
+    /**
+     * Returns the meta object for the reference list '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>To Links</em>'.
+     * @see urncore.URNmodelElement#getToLinks()
+     * @see #getURNmodelElement()
+     * @generated
+     */
+    EReference getURNmodelElement_ToLinks();
 
     /**
      * Returns the meta object for the attribute '{@link urncore.URNmodelElement#getId <em>Id</em>}'.
@@ -2620,319 +2720,319 @@ public interface UrncorePackage extends EPackage {
     EAttribute getURNmodelElement_Description();
 
     /**
-     * Returns the meta object for class '{@link urncore.SpecificationNode <em>Specification Node</em>}'.
+     * Returns the meta object for class '{@link urncore.IURNNode <em>IURN Node</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specification Node</em>'.
-     * @see urncore.SpecificationNode
+     * @return the meta object for class '<em>IURN Node</em>'.
+     * @see urncore.IURNNode
      * @generated
      */
-    EClass getSpecificationNode();
+    EClass getIURNNode();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationNode#getX <em>X</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNNode#getX <em>X</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>X</em>'.
-     * @see urncore.SpecificationNode#getX()
-     * @see #getSpecificationNode()
+     * @see urncore.IURNNode#getX()
+     * @see #getIURNNode()
      * @generated
      */
-    EAttribute getSpecificationNode_X();
+    EAttribute getIURNNode_X();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationNode#getY <em>Y</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNNode#getY <em>Y</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Y</em>'.
-     * @see urncore.SpecificationNode#getY()
-     * @see #getSpecificationNode()
+     * @see urncore.IURNNode#getY()
+     * @see #getIURNNode()
      * @generated
      */
-    EAttribute getSpecificationNode_Y();
+    EAttribute getIURNNode_Y();
 
     /**
-     * Returns the meta object for the container reference '{@link urncore.SpecificationNode#getSpecDiagram <em>Spec Diagram</em>}'.
+     * Returns the meta object for the container reference '{@link urncore.IURNNode#getDiagram <em>Diagram</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Spec Diagram</em>'.
-     * @see urncore.SpecificationNode#getSpecDiagram()
-     * @see #getSpecificationNode()
+     * @return the meta object for the container reference '<em>Diagram</em>'.
+     * @see urncore.IURNNode#getDiagram()
+     * @see #getIURNNode()
      * @generated
      */
-    EReference getSpecificationNode_SpecDiagram();
+    EReference getIURNNode_Diagram();
 
     /**
-     * Returns the meta object for the reference '{@link urncore.SpecificationNode#getCompRef <em>Comp Ref</em>}'.
+     * Returns the meta object for the reference '{@link urncore.IURNNode#getContRef <em>Cont Ref</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Comp Ref</em>'.
-     * @see urncore.SpecificationNode#getCompRef()
-     * @see #getSpecificationNode()
+     * @return the meta object for the reference '<em>Cont Ref</em>'.
+     * @see urncore.IURNNode#getContRef()
+     * @see #getIURNNode()
      * @generated
      */
-    EReference getSpecificationNode_CompRef();
+    EReference getIURNNode_ContRef();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.SpecificationNode#getSucc <em>Succ</em>}'.
+     * Returns the meta object for the reference list '{@link urncore.IURNNode#getSucc <em>Succ</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Succ</em>'.
-     * @see urncore.SpecificationNode#getSucc()
-     * @see #getSpecificationNode()
+     * @see urncore.IURNNode#getSucc()
+     * @see #getIURNNode()
      * @generated
      */
-    EReference getSpecificationNode_Succ();
+    EReference getIURNNode_Succ();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.SpecificationNode#getPred <em>Pred</em>}'.
+     * Returns the meta object for the reference list '{@link urncore.IURNNode#getPred <em>Pred</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Pred</em>'.
-     * @see urncore.SpecificationNode#getPred()
-     * @see #getSpecificationNode()
+     * @see urncore.IURNNode#getPred()
+     * @see #getIURNNode()
      * @generated
      */
-    EReference getSpecificationNode_Pred();
+    EReference getIURNNode_Pred();
 
     /**
-     * Returns the meta object for the containment reference '{@link urncore.SpecificationNode#getLabel <em>Label</em>}'.
+     * Returns the meta object for the containment reference '{@link urncore.IURNNode#getLabel <em>Label</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference '<em>Label</em>'.
-     * @see urncore.SpecificationNode#getLabel()
-     * @see #getSpecificationNode()
+     * @see urncore.IURNNode#getLabel()
+     * @see #getIURNNode()
      * @generated
      */
-    EReference getSpecificationNode_Label();
+    EReference getIURNNode_Label();
 
     /**
-     * Returns the meta object for class '{@link urncore.SpecificationComponentRef <em>Specification Component Ref</em>}'.
+     * Returns the meta object for class '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specification Component Ref</em>'.
-     * @see urncore.SpecificationComponentRef
+     * @return the meta object for class '<em>IURN Container Ref</em>'.
+     * @see urncore.IURNContainerRef
      * @generated
      */
-    EClass getSpecificationComponentRef();
+    EClass getIURNContainerRef();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponentRef#getX <em>X</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainerRef#getX <em>X</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>X</em>'.
-     * @see urncore.SpecificationComponentRef#getX()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getX()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EAttribute getSpecificationComponentRef_X();
+    EAttribute getIURNContainerRef_X();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponentRef#getY <em>Y</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainerRef#getY <em>Y</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Y</em>'.
-     * @see urncore.SpecificationComponentRef#getY()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getY()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EAttribute getSpecificationComponentRef_Y();
+    EAttribute getIURNContainerRef_Y();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponentRef#getWidth <em>Width</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainerRef#getWidth <em>Width</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Width</em>'.
-     * @see urncore.SpecificationComponentRef#getWidth()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getWidth()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EAttribute getSpecificationComponentRef_Width();
+    EAttribute getIURNContainerRef_Width();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponentRef#getHeight <em>Height</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainerRef#getHeight <em>Height</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Height</em>'.
-     * @see urncore.SpecificationComponentRef#getHeight()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getHeight()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EAttribute getSpecificationComponentRef_Height();
+    EAttribute getIURNContainerRef_Height();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponentRef#isFixed <em>Fixed</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainerRef#isFixed <em>Fixed</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Fixed</em>'.
-     * @see urncore.SpecificationComponentRef#isFixed()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#isFixed()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EAttribute getSpecificationComponentRef_Fixed();
+    EAttribute getIURNContainerRef_Fixed();
 
     /**
-     * Returns the meta object for the container reference '{@link urncore.SpecificationComponentRef#getSpecDiagram <em>Spec Diagram</em>}'.
+     * Returns the meta object for the container reference '{@link urncore.IURNContainerRef#getDiagram <em>Diagram</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Spec Diagram</em>'.
-     * @see urncore.SpecificationComponentRef#getSpecDiagram()
-     * @see #getSpecificationComponentRef()
+     * @return the meta object for the container reference '<em>Diagram</em>'.
+     * @see urncore.IURNContainerRef#getDiagram()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_SpecDiagram();
+    EReference getIURNContainerRef_Diagram();
 
     /**
-     * Returns the meta object for the reference '{@link urncore.SpecificationComponentRef#getCompDef <em>Comp Def</em>}'.
+     * Returns the meta object for the reference '{@link urncore.IURNContainerRef#getContDef <em>Cont Def</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Comp Def</em>'.
-     * @see urncore.SpecificationComponentRef#getCompDef()
-     * @see #getSpecificationComponentRef()
+     * @return the meta object for the reference '<em>Cont Def</em>'.
+     * @see urncore.IURNContainerRef#getContDef()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_CompDef();
+    EReference getIURNContainerRef_ContDef();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.SpecificationComponentRef#getNodes <em>Nodes</em>}'.
+     * Returns the meta object for the reference list '{@link urncore.IURNContainerRef#getNodes <em>Nodes</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Nodes</em>'.
-     * @see urncore.SpecificationComponentRef#getNodes()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getNodes()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_Nodes();
+    EReference getIURNContainerRef_Nodes();
 
     /**
-     * Returns the meta object for the containment reference '{@link urncore.SpecificationComponentRef#getLabel <em>Label</em>}'.
+     * Returns the meta object for the containment reference '{@link urncore.IURNContainerRef#getLabel <em>Label</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the containment reference '<em>Label</em>'.
-     * @see urncore.SpecificationComponentRef#getLabel()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getLabel()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_Label();
+    EReference getIURNContainerRef_Label();
 
     /**
-     * Returns the meta object for the reference '{@link urncore.SpecificationComponentRef#getParent <em>Parent</em>}'.
+     * Returns the meta object for the reference '{@link urncore.IURNContainerRef#getParent <em>Parent</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Parent</em>'.
-     * @see urncore.SpecificationComponentRef#getParent()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getParent()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_Parent();
+    EReference getIURNContainerRef_Parent();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.SpecificationComponentRef#getChildren <em>Children</em>}'.
+     * Returns the meta object for the reference list '{@link urncore.IURNContainerRef#getChildren <em>Children</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Children</em>'.
-     * @see urncore.SpecificationComponentRef#getChildren()
-     * @see #getSpecificationComponentRef()
+     * @see urncore.IURNContainerRef#getChildren()
+     * @see #getIURNContainerRef()
      * @generated
      */
-    EReference getSpecificationComponentRef_Children();
+    EReference getIURNContainerRef_Children();
 
     /**
-     * Returns the meta object for class '{@link urncore.SpecificationComponent <em>Specification Component</em>}'.
+     * Returns the meta object for class '{@link urncore.IURNContainer <em>IURN Container</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specification Component</em>'.
-     * @see urncore.SpecificationComponent
+     * @return the meta object for class '<em>IURN Container</em>'.
+     * @see urncore.IURNContainer
      * @generated
      */
-    EClass getSpecificationComponent();
+    EClass getIURNContainer();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponent#getLineColor <em>Line Color</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainer#getLineColor <em>Line Color</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Line Color</em>'.
-     * @see urncore.SpecificationComponent#getLineColor()
-     * @see #getSpecificationComponent()
+     * @see urncore.IURNContainer#getLineColor()
+     * @see #getIURNContainer()
      * @generated
      */
-    EAttribute getSpecificationComponent_LineColor();
+    EAttribute getIURNContainer_LineColor();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponent#getFillColor <em>Fill Color</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainer#getFillColor <em>Fill Color</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Fill Color</em>'.
-     * @see urncore.SpecificationComponent#getFillColor()
-     * @see #getSpecificationComponent()
+     * @see urncore.IURNContainer#getFillColor()
+     * @see #getIURNContainer()
      * @generated
      */
-    EAttribute getSpecificationComponent_FillColor();
+    EAttribute getIURNContainer_FillColor();
 
     /**
-     * Returns the meta object for the attribute '{@link urncore.SpecificationComponent#isFilled <em>Filled</em>}'.
+     * Returns the meta object for the attribute '{@link urncore.IURNContainer#isFilled <em>Filled</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Filled</em>'.
-     * @see urncore.SpecificationComponent#isFilled()
-     * @see #getSpecificationComponent()
+     * @see urncore.IURNContainer#isFilled()
+     * @see #getIURNContainer()
      * @generated
      */
-    EAttribute getSpecificationComponent_Filled();
+    EAttribute getIURNContainer_Filled();
 
     /**
-     * Returns the meta object for the reference list '{@link urncore.SpecificationComponent#getCompRefs <em>Comp Refs</em>}'.
+     * Returns the meta object for the reference list '{@link urncore.IURNContainer#getContRefs <em>Cont Refs</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Comp Refs</em>'.
-     * @see urncore.SpecificationComponent#getCompRefs()
-     * @see #getSpecificationComponent()
+     * @return the meta object for the reference list '<em>Cont Refs</em>'.
+     * @see urncore.IURNContainer#getContRefs()
+     * @see #getIURNContainer()
      * @generated
      */
-    EReference getSpecificationComponent_CompRefs();
+    EReference getIURNContainer_ContRefs();
 
     /**
-     * Returns the meta object for class '{@link urncore.SpecificationConnection <em>Specification Connection</em>}'.
+     * Returns the meta object for class '{@link urncore.IURNConnection <em>IURN Connection</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Specification Connection</em>'.
-     * @see urncore.SpecificationConnection
+     * @return the meta object for class '<em>IURN Connection</em>'.
+     * @see urncore.IURNConnection
      * @generated
      */
-    EClass getSpecificationConnection();
+    EClass getIURNConnection();
 
     /**
-     * Returns the meta object for the reference '{@link urncore.SpecificationConnection#getSource <em>Source</em>}'.
+     * Returns the meta object for the reference '{@link urncore.IURNConnection#getSource <em>Source</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Source</em>'.
-     * @see urncore.SpecificationConnection#getSource()
-     * @see #getSpecificationConnection()
+     * @see urncore.IURNConnection#getSource()
+     * @see #getIURNConnection()
      * @generated
      */
-    EReference getSpecificationConnection_Source();
+    EReference getIURNConnection_Source();
 
     /**
-     * Returns the meta object for the reference '{@link urncore.SpecificationConnection#getTarget <em>Target</em>}'.
+     * Returns the meta object for the reference '{@link urncore.IURNConnection#getTarget <em>Target</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference '<em>Target</em>'.
-     * @see urncore.SpecificationConnection#getTarget()
-     * @see #getSpecificationConnection()
+     * @see urncore.IURNConnection#getTarget()
+     * @see #getIURNConnection()
      * @generated
      */
-    EReference getSpecificationConnection_Target();
+    EReference getIURNConnection_Target();
 
     /**
-     * Returns the meta object for the container reference '{@link urncore.SpecificationConnection#getSpecDiagram <em>Spec Diagram</em>}'.
+     * Returns the meta object for the container reference '{@link urncore.IURNConnection#getDiagram <em>Diagram</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Spec Diagram</em>'.
-     * @see urncore.SpecificationConnection#getSpecDiagram()
-     * @see #getSpecificationConnection()
+     * @return the meta object for the container reference '<em>Diagram</em>'.
+     * @see urncore.IURNConnection#getDiagram()
+     * @see #getIURNConnection()
      * @generated
      */
-    EReference getSpecificationConnection_SpecDiagram();
+    EReference getIURNConnection_Diagram();
 
     /**
      * Returns the meta object for enum '{@link urncore.ComponentKind <em>Component Kind</em>}'.

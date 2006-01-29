@@ -108,9 +108,9 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void responsibilityDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition()==null)
+        if (((RespRef) getEditableValue()).getDiagram().getUrndefinition()==null)
             return;
-        URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+        URNspec urn = ((RespRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list = new Vector(urn.getUrndef().getResponsibilities());
         Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size()];
@@ -134,7 +134,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
      */
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (result instanceof Responsibility) {
-            URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+            URNspec urn = ((RespRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
             Vector list = new Vector(urn.getUrndef().getResponsibilities());
             Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
@@ -174,7 +174,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
         EStructuralFeature feature = propertyid.getFeature();
 
         Object result = getPropertyValue(id);
-        URNspec urn = ((RespRef) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+        URNspec urn = ((RespRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
         if (feature.getEType().getInstanceClass() == Responsibility.class) {
 

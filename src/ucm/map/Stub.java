@@ -23,10 +23,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see ucm.map.MapPackage#getStub()
- * @model 
+ * @model
  * @generated
  */
-public interface Stub extends PathNode {
+public interface Stub extends PathNode{
     /**
      * Returns the value of the '<em><b>Dynamic</b></em>' attribute.
      * The default value is <code>"false"</code>.

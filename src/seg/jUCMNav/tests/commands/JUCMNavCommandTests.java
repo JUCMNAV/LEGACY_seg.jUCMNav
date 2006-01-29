@@ -19,13 +19,13 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundComponentRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
-import seg.jUCMNav.model.commands.changeConstraints.SetConstraintComponentRefCommand;
-import seg.jUCMNav.model.commands.create.AddComponentRefCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
@@ -66,7 +66,7 @@ import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Label;
 import urncore.Responsibility;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 import urncore.UCMmodelElement;
 
 /**
@@ -141,11 +141,11 @@ public class JUCMNavCommandTests extends TestCase {
         cs = editor.getDelegatingCommandStack();
 
         ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
-        Command cmd = new AddComponentRefCommand(map, backgroundBindingChecker);
+        Command cmd = new AddContainerRefCommand(map, backgroundBindingChecker);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintBoundComponentRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
-        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
+        assertTrue("Can't execute SetConstraintBoundContainerRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         testBindings = true;
@@ -254,7 +254,7 @@ public class JUCMNavCommandTests extends TestCase {
 
         // This command should not be called directly by anything else that testSetConstraintComponentRefCommand.
 
-        Command cmd = new AddComponentRefCommand(map, compRef);
+        Command cmd = new AddContainerRefCommand(map, compRef);
         assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         testBindings = false;
@@ -449,13 +449,13 @@ public class JUCMNavCommandTests extends TestCase {
         compRef = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new SetConstraintBoundComponentRefCompoundCommand(compRef, 0, 0, 1000, 1000);
-        assertTrue("Can't execute SetConstraintComponentRefCommand in testComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
+        Command cmd = new SetConstraintBoundContainerRefCompoundCommand(compRef, 0, 0, 1000, 1000);
+        assertTrue("Can't execute SetConstraintContainerRefCommand in testComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         // the current compRef is now behind the original one.
 
-        cmd = new ComponentRefBindChildCommand(compRef, child);
-        assertTrue("Can't execute ComponentRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new ContainerRefBindChildCommand(compRef, child);
+        assertTrue("Can't execute ContainerRefBindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -468,8 +468,8 @@ public class JUCMNavCommandTests extends TestCase {
         ComponentRef parent = compRef;
         ComponentRef child = (ComponentRef) compRef.getChildren().get(0);
 
-        Command cmd = new ComponentRefUnbindChildCommand(parent, child);
-        assertTrue("Can't execute ComponentRefUnbindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
+        Command cmd = new ContainerRefUnbindChildCommand(parent, child);
+        assertTrue("Can't execute ContainerRefUnbindChildCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         // we don't want to test the bindings as we have explicitely changed them.
@@ -583,11 +583,11 @@ public class JUCMNavCommandTests extends TestCase {
     public void testDeleteComponentElementCommand() {
         testSetConstraintComponentRefCommand();
 
-        Command cmd = new DeleteComponentElementCommand((ComponentElement)compRef.getCompDef());
+        Command cmd = new DeleteComponentElementCommand((ComponentElement)compRef.getContDef());
         assertTrue("Should not be able to execute DeleteComponentElementCommand.", !cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ComponentElement compDef = (ComponentElement)compRef.getCompDef();
+        ComponentElement compDef = (ComponentElement)compRef.getContDef();
         cmd = new DeleteComponentRefCommand(compRef);
         assertTrue("Can't execute DeleteComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -1003,8 +1003,8 @@ public class JUCMNavCommandTests extends TestCase {
         testComponentRefBindChildCommand();
 
         ComponentRef parent = compRef;
-        Command cmd = new SetConstraintBoundComponentRefCompoundCommand(parent, 150, 300, 453, 148);
-        assertTrue("Can't execute SetConstraintBoundComponentRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
+        Command cmd = new SetConstraintBoundContainerRefCompoundCommand(parent, 150, 300, 453, 148);
+        assertTrue("Can't execute SetConstraintBoundContainerRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
@@ -1026,11 +1026,11 @@ public class JUCMNavCommandTests extends TestCase {
     public void testSetConstraintComponentRefCommand() {
 
         testAddComponentRefCommand();
-        Command cmd = new SetConstraintComponentRefCommand(compRef, 100, 200, 300, 400);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        Command cmd = new SetConstraintContainerRefCommand(compRef, 100, 200, 300, 400);
+        assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
-        cmd = new SetConstraintComponentRefCommand(compRef, 69, 69, 69, 69);
-        assertTrue("Can't execute SetConstraintComponentRefCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cmd = new SetConstraintContainerRefCommand(compRef, 69, 69, 69, 69);
+        assertTrue("Can't execute SetConstraintContainerRefCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         testBindings = true;
     }
@@ -1079,11 +1079,11 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void verifyBindings() {
         for (Iterator iter = urnspec.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-            SpecificationDiagram g = (SpecificationDiagram) iter.next();
+            IURNDiagram g = (IURNDiagram) iter.next();
             if (g instanceof UCMmap){
                 UCMmap map = (UCMmap) g;
     
-                for (Iterator iter2 = map.getCompRefs().iterator(); iter2.hasNext();) {
+                for (Iterator iter2 = map.getContRefs().iterator(); iter2.hasNext();) {
                     ComponentRef comp = (ComponentRef) iter2.next();
                     assertEquals("Component " + comp.toString() + " is not properly bound.", ParentFinder.getPossibleParent(comp), comp.getParent()); //$NON-NLS-1$ //$NON-NLS-2$
     
@@ -1091,7 +1091,7 @@ public class JUCMNavCommandTests extends TestCase {
                 for (Iterator iter2 = map.getNodes().iterator(); iter2.hasNext();) {
                     PathNode pn = (PathNode) iter2.next();
                     if (!(pn instanceof Connect))
-                        assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getCompRef()); //$NON-NLS-1$ //$NON-NLS-2$
+                        assertEquals("PathNode " + pn.toString() + " is not properly bound.", ParentFinder.getPossibleParent(pn), pn.getContRef()); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
         }

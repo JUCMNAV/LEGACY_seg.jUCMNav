@@ -18,7 +18,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import seg.jUCMNav.views.resp.RespListItem;
+import seg.jUCMNav.views.elements.ElementListItem;
 
 /**
  * A composite which is a list of CompositeListItems.
@@ -109,7 +109,7 @@ public class CompositeListControl extends Composite implements ISelectionProvide
      */
     public void removeAll() {
         for (Iterator i = items.iterator(); i.hasNext();) {
-            RespListItem item = (RespListItem) i.next();
+            ElementListItem item = (ElementListItem) i.next();
             item.dispose();
         }
         items.clear();

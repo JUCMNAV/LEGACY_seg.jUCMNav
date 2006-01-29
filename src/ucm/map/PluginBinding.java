@@ -36,10 +36,10 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getPluginBinding()
- * @model 
+ * @model
  * @generated
  */
-public interface PluginBinding extends EObject {
+public interface PluginBinding extends EObject{
     /**
      * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -51,7 +51,7 @@ public interface PluginBinding extends EObject {
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see ucm.map.MapPackage#getPluginBinding_Id()
-     * @model 
+     * @model
      * @generated
      */
     String getId();
@@ -77,7 +77,7 @@ public interface PluginBinding extends EObject {
      * @return the value of the '<em>Repetition Count</em>' attribute.
      * @see #setRepetitionCount(int)
      * @see ucm.map.MapPackage#getPluginBinding_RepetitionCount()
-     * @model 
+     * @model
      * @generated
      */
     int getRepetitionCount();

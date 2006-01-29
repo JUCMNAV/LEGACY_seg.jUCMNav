@@ -7,7 +7,7 @@
 package grl;
 
 import urncore.GRLmodelElement;
-import urncore.SpecificationComponent;
+import urncore.IURNContainer;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,10 +22,10 @@ import urncore.SpecificationComponent;
  * </p>
  *
  * @see grl.GrlPackage#getActor()
- * @model 
+ * @model
  * @generated
  */
-public interface Actor extends GRLmodelElement, SpecificationComponent {
+public interface Actor extends GRLmodelElement, IURNContainer {
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link grl.GRLspec#getActors <em>Actors</em>}'.

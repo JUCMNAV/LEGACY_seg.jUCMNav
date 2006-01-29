@@ -6,7 +6,8 @@
  */
 package grl;
 
-import urncore.SpecificationComponentRef;
+import urncore.GRLmodelElement;
+import urncore.IURNContainerRef;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,8 +16,8 @@ import urncore.SpecificationComponentRef;
  *
  *
  * @see grl.GrlPackage#getActorRef()
- * @model 
+ * @model
  * @generated
  */
-public interface ActorRef extends SpecificationComponentRef {
+public interface ActorRef extends GRLmodelElement, IURNContainerRef {
 } // ActorRef

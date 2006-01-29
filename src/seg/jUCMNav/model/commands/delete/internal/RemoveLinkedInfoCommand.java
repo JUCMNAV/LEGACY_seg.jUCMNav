@@ -1,13 +1,15 @@
 package seg.jUCMNav.model.commands.delete.internal;
 
+import grl.GRLGraph;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 import urncore.Condition;
 
 /**
@@ -67,6 +69,15 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         this.element = map;
     }
 
+    /**
+     * 
+     * @param graph
+     *            the GRLGraph to be cleaned.
+     */
+    public RemoveLinkedInfoCommand(GRLGraph graph) {
+        this.element = graph;
+    }
+    
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()

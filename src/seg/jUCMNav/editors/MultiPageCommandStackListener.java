@@ -15,7 +15,7 @@ import org.eclipse.ui.PartInitException;
 import seg.jUCMNav.editors.actionContributors.ModeComboContributionItem;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import ucm.map.UCMmap;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * This class listens for command stack changes of the pages contained in this editor. It decides if the editor is dirty or not and refreshes the pages if maps
@@ -82,7 +82,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
      */
     private void commandStackVerifyPages(EventObject event) {
         if (this.editor.getPageCount() != this.editor.getModel().getUrndef().getSpecDiagrams().size() && event.getSource() instanceof DelegatingCommandStack) {
-            SpecificationDiagram diagramChanged = ((DelegatingCommandStack) event.getSource()).getLastAffectedDiagram();
+            IURNDiagram diagramChanged = ((DelegatingCommandStack) event.getSource()).getLastAffectedDiagram();
 
             // was added
             if (this.editor.getModel().getUrndef().getSpecDiagrams().contains(diagramChanged)) {

@@ -29,7 +29,7 @@ import urn.UrnPackage;
 
 import urncore.ComponentElement;
 import urncore.Responsibility;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 import urncore.URNdefinition;
 import urncore.UrncorePackage;
 
@@ -160,7 +160,7 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
      */
     public EList getSpecDiagrams() {
         if (specDiagrams == null) {
-            specDiagrams = new EObjectContainmentWithInverseEList(SpecificationDiagram.class, this, UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS, UrncorePackage.SPECIFICATION_DIAGRAM__URNDEFINITION);
+            specDiagrams = new EObjectContainmentWithInverseEList(IURNDiagram.class, this, UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS, UrncorePackage.IURN_DIAGRAM__URNDEFINITION);
         }
         return specDiagrams;
     }
@@ -224,12 +224,12 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.UR_NDEFINITION__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__URNDEF, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__URNDEF, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

@@ -25,16 +25,16 @@ import urncore.UCMmodelElement;
  * The following features are supported:
  * <ul>
  *   <li>{@link ucm.scenario.Variable#getType <em>Type</em>}</li>
- *   <li>{@link ucm.scenario.Variable#getUrnspec <em>Urnspec</em>}</li>
+ *   <li>{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.Variable#getUsages <em>Usages</em>}</li>
  * </ul>
  * </p>
  *
  * @see ucm.scenario.ScenarioPackage#getVariable()
- * @model 
+ * @model
  * @generated
  */
-public interface Variable extends UCMmodelElement {
+public interface Variable extends UCMmodelElement{
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute.
      * The default value is <code>"boolean"</code>.
@@ -63,32 +63,32 @@ public interface Variable extends UCMmodelElement {
     void setType(String value);
 
     /**
-     * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
+     * Returns the value of the '<em><b>Ucmspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.UCMspec#getVariables <em>Variables</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Urnspec</em>' container reference isn't clear,
+     * If the meaning of the '<em>Ucmspec</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Urnspec</em>' container reference.
-     * @see #setUrnspec(UCMspec)
-     * @see ucm.scenario.ScenarioPackage#getVariable_Urnspec()
+     * @return the value of the '<em>Ucmspec</em>' container reference.
+     * @see #setUcmspec(UCMspec)
+     * @see ucm.scenario.ScenarioPackage#getVariable_Ucmspec()
      * @see ucm.UCMspec#getVariables
      * @model opposite="variables" required="true"
      * @generated
      */
-    UCMspec getUrnspec();
+    UCMspec getUcmspec();
 
     /**
-     * Sets the value of the '{@link ucm.scenario.Variable#getUrnspec <em>Urnspec</em>}' container reference.
+     * Sets the value of the '{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Urnspec</em>' container reference.
-     * @see #getUrnspec()
+     * @param value the new value of the '<em>Ucmspec</em>' container reference.
+     * @see #getUcmspec()
      * @generated
      */
-    void setUrnspec(UCMspec value);
+    void setUcmspec(UCMspec value);
 
     /**
      * Returns the value of the '<em><b>Usages</b></em>' reference list.

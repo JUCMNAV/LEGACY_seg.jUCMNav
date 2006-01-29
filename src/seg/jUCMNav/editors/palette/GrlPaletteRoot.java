@@ -1,8 +1,15 @@
 package seg.jUCMNav.editors.palette;
 
+import grl.ActorRef;
+import grl.Belief;
+import grl.BeliefLink;
+import grl.Contribution;
+import grl.Decomposition;
+import grl.Dependency;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 
+import org.eclipse.gef.palette.ConnectionCreationToolEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
@@ -13,9 +20,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.palette.tools.UCMElementCreationEntry;
+import seg.jUCMNav.editors.palette.tools.URNElementCreationEntry;
 import seg.jUCMNav.model.ModelCreationFactory;
 import urn.URNspec;
 
@@ -62,7 +68,7 @@ public class GrlPaletteRoot extends PaletteRoot {
      */
     private void buildPalette() {
         // a group of default control tools
-        PaletteGroup controls = new PaletteGroup(Messages.getString("GrlPaletteRoot.Controls"));  //$NON-NLS-1$
+        PaletteGroup controls = new PaletteGroup("Controls"); 
         add(controls);
 
         // the selection tool; default tool 
@@ -72,33 +78,81 @@ public class GrlPaletteRoot extends PaletteRoot {
 
         ToolEntry entry;
 
-        PaletteDrawer componentsDrawer = new PaletteDrawer(Messages.getString("GrlPaletteRoot.Elements"));  //$NON-NLS-1$
+        PaletteDrawer linksDrawer = new PaletteDrawer("Links"); 
 
-        entry = new UCMElementCreationEntry(
-                Messages.getString("GrlPaletteRoot.Softgoal"), Messages.getString("GrlPaletteRoot.CreateSoftgoal"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                        IntentionalElementType.SOFTGOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+        // Add a decomposition
+        entry = new ConnectionCreationToolEntry(
+                "Decomposition", "Create decomposition", new ModelCreationFactory(getURNspec(), Decomposition.class), 
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Decomposition16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Decomposition24.gif")); //$NON-NLS-1$
+        linksDrawer.add(entry);
+
+        // Add a contribution
+        entry = new ConnectionCreationToolEntry(
+                "Contribution", "Create contribution", new ModelCreationFactory(getURNspec(), Contribution.class), 
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Contribution16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
                         JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
+        linksDrawer.add(entry);
 
-        entry = new UCMElementCreationEntry(
-                Messages.getString("GrlPaletteRoot.Goal"), Messages.getString("GrlPaletteRoot.CreateGoal"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                        IntentionalElementType.GOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Goal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                        JUCMNavPlugin.class, "icons/Goal24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
+        // Add a dependency
+        entry = new ConnectionCreationToolEntry(
+                "Dependency", "Create dependency", new ModelCreationFactory(getURNspec(), Dependency.class), 
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Dependency16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Dependency24.gif")); //$NON-NLS-1$
+        linksDrawer.add(entry);
+
+        // Add belief link
+        entry = new ConnectionCreationToolEntry(
+                "Belief Link", "Create belief link", new ModelCreationFactory(getURNspec(), BeliefLink.class), 
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/BeliefLink16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/BeliefLink24.gif")); //$NON-NLS-1$
+        linksDrawer.add(entry);
+
+        add(linksDrawer);
         
-        entry = new UCMElementCreationEntry(
-                Messages.getString("GrlPaletteRoot.Task"), Messages.getString("GrlPaletteRoot.CreateTask"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                        IntentionalElementType.TASK), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                        JUCMNavPlugin.class, "icons/Task24.gif")); //$NON-NLS-1$
-        componentsDrawer.add(entry);
+        PaletteDrawer componentsDrawer = new PaletteDrawer("Components"); 
 
-        entry = new UCMElementCreationEntry(
-                Messages.getString("GrlPaletteRoot.Resource"), Messages.getString("GrlPaletteRoot.CreateResource"), IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, //$NON-NLS-1$ //$NON-NLS-2$
-                        IntentionalElementType.RESSOURCE), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Ressource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                        JUCMNavPlugin.class, "icons/Ressource24.gif")); //$NON-NLS-1$
+        entry = new URNElementCreationEntry(
+                "Actor", "Create an Actor", ActorRef.class, new ModelCreationFactory(getURNspec(), ActorRef.class),
+                        ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/GRLActor24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
         add(componentsDrawer);
+        
+        PaletteDrawer elementsDrawer = new PaletteDrawer("Elements"); 
+
+        entry = new URNElementCreationEntry(
+                "Softgoal", "Create a Softgoal", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                        IntentionalElementType.SOFTGOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Softgoal24.gif")); //$NON-NLS-1$
+        elementsDrawer.add(entry);
+
+        entry = new URNElementCreationEntry(
+                "Goal", "Create a Goal", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                        IntentionalElementType.GOAL), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Goal16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Goal24.gif")); //$NON-NLS-1$
+        elementsDrawer.add(entry);
+        
+        entry = new URNElementCreationEntry(
+                "Task", "Create a Task", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class,
+                        IntentionalElementType.TASK), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Task24.gif")); //$NON-NLS-1$
+        elementsDrawer.add(entry);
+
+        entry = new URNElementCreationEntry(
+                "Ressource", "Create a Ressource", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, 
+                        IntentionalElementType.RESSOURCE), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Ressource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Ressource24.gif")); //$NON-NLS-1$
+        elementsDrawer.add(entry);
+
+        entry = new URNElementCreationEntry(
+                "Belief", "Create a Belief", Belief.class, new ModelCreationFactory(getURNspec(), Belief.class),
+                        ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Belief16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Belief24.gif")); //$NON-NLS-1$
+        elementsDrawer.add(entry);
+        
+        add(elementsDrawer);
         
         
 

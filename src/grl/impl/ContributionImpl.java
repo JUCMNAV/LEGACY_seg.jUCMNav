@@ -8,6 +8,7 @@ package grl.impl;
 
 import grl.Contribution;
 import grl.ContributionType;
+import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 
@@ -31,10 +32,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link grl.impl.ContributionImpl#getContibution <em>Contibution</em>}</li>
+ *   <li>{@link grl.impl.ContributionImpl#getContribution <em>Contribution</em>}</li>
  *   <li>{@link grl.impl.ContributionImpl#isCorrelation <em>Correlation</em>}</li>
- *   <li>{@link grl.impl.ContributionImpl#getSrc <em>Src</em>}</li>
- *   <li>{@link grl.impl.ContributionImpl#getDest <em>Dest</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,24 +41,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class ContributionImpl extends ElementLinkImpl implements Contribution {
     /**
-     * The default value of the '{@link #getContibution() <em>Contibution</em>}' attribute.
+     * The default value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getContibution()
+     * @see #getContribution()
      * @generated
      * @ordered
      */
-    protected static final ContributionType CONTIBUTION_EDEFAULT = ContributionType.BREAK_LITERAL;
+    protected static final ContributionType CONTRIBUTION_EDEFAULT = ContributionType.UNKNOWN_LITERAL;
 
     /**
-     * The cached value of the '{@link #getContibution() <em>Contibution</em>}' attribute.
+     * The cached value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getContibution()
+     * @see #getContribution()
      * @generated
      * @ordered
      */
-    protected ContributionType contibution = CONTIBUTION_EDEFAULT;
+    protected ContributionType contribution = CONTRIBUTION_EDEFAULT;
 
     /**
      * The default value of the '{@link #isCorrelation() <em>Correlation</em>}' attribute.
@@ -80,26 +79,6 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      * @ordered
      */
     protected boolean correlation = CORRELATION_EDEFAULT;
-
-    /**
-     * The cached value of the '{@link #getSrc() <em>Src</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getSrc()
-     * @generated
-     * @ordered
-     */
-    protected IntentionalElement src = null;
-
-    /**
-     * The cached value of the '{@link #getDest() <em>Dest</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDest()
-     * @generated
-     * @ordered
-     */
-    protected IntentionalElement dest = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -124,8 +103,8 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      * <!-- end-user-doc -->
      * @generated
      */
-    public ContributionType getContibution() {
-        return contibution;
+    public ContributionType getContribution() {
+        return contribution;
     }
 
     /**
@@ -133,11 +112,11 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setContibution(ContributionType newContibution) {
-        ContributionType oldContibution = contibution;
-        contibution = newContibution == null ? CONTIBUTION_EDEFAULT : newContibution;
+    public void setContribution(ContributionType newContribution) {
+        ContributionType oldContribution = contribution;
+        contribution = newContribution == null ? CONTRIBUTION_EDEFAULT : newContribution;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__CONTIBUTION, oldContibution, contibution));
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__CONTRIBUTION, oldContribution, contribution));
     }
 
     /**
@@ -166,138 +145,26 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      * <!-- end-user-doc -->
      * @generated
      */
-    public IntentionalElement getSrc() {
-        if (src != null && src.eIsProxy()) {
-            IntentionalElement oldSrc = src;
-            src = (IntentionalElement)eResolveProxy((InternalEObject)src);
-            if (src != oldSrc) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.CONTRIBUTION__SRC, oldSrc, src));
-            }
-        }
-        return src;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement basicGetSrc() {
-        return src;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetSrc(IntentionalElement newSrc, NotificationChain msgs) {
-        IntentionalElement oldSrc = src;
-        src = newSrc;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__SRC, oldSrc, newSrc);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setSrc(IntentionalElement newSrc) {
-        if (newSrc != src) {
-            NotificationChain msgs = null;
-            if (src != null)
-                msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC, IntentionalElement.class, msgs);
-            if (newSrc != null)
-                msgs = ((InternalEObject)newSrc).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC, IntentionalElement.class, msgs);
-            msgs = basicSetSrc(newSrc, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__SRC, newSrc, newSrc));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement getDest() {
-        if (dest != null && dest.eIsProxy()) {
-            IntentionalElement oldDest = dest;
-            dest = (IntentionalElement)eResolveProxy((InternalEObject)dest);
-            if (dest != oldDest) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.CONTRIBUTION__DEST, oldDest, dest));
-            }
-        }
-        return dest;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public IntentionalElement basicGetDest() {
-        return dest;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetDest(IntentionalElement newDest, NotificationChain msgs) {
-        IntentionalElement oldDest = dest;
-        dest = newDest;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__DEST, oldDest, newDest);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setDest(IntentionalElement newDest) {
-        if (newDest != dest) {
-            NotificationChain msgs = null;
-            if (dest != null)
-                msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST, IntentionalElement.class, msgs);
-            if (newDest != null)
-                msgs = ((InternalEObject)newDest).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST, IntentionalElement.class, msgs);
-            msgs = basicSetDest(newDest, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.CONTRIBUTION__DEST, newDest, newDest));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__GRLSPEC:
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, GrlPackage.CONTRIBUTION__GRLSPEC, msgs);
                 case GrlPackage.CONTRIBUTION__SRC:
                     if (src != null)
-                        msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_SRC, IntentionalElement.class, msgs);
+                        msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
                     return basicSetSrc((IntentionalElement)otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__DEST:
                     if (dest != null)
-                        msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__CONTRIBUTION_DEST, IntentionalElement.class, msgs);
+                        msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
                     return basicSetDest((IntentionalElement)otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
@@ -316,8 +183,14 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__GRLSPEC:
+                    return eBasicSetContainer(null, GrlPackage.CONTRIBUTION__GRLSPEC, msgs);
                 case GrlPackage.CONTRIBUTION__SRC:
                     return basicSetSrc(null, msgs);
                 case GrlPackage.CONTRIBUTION__DEST:
@@ -334,20 +207,49 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      * <!-- end-user-doc -->
      * @generated
      */
+    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case GrlPackage.CONTRIBUTION__GRLSPEC:
+                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.CONTRIBUTION__TO_LINKS:
+                return getToLinks();
+            case GrlPackage.CONTRIBUTION__ID:
+                return getId();
+            case GrlPackage.CONTRIBUTION__NAME:
+                return getName();
+            case GrlPackage.CONTRIBUTION__DESCRIPTION:
+                return getDescription();
             case GrlPackage.CONTRIBUTION__REFS:
                 return getRefs();
-            case GrlPackage.CONTRIBUTION__CONTIBUTION:
-                return getContibution();
-            case GrlPackage.CONTRIBUTION__CORRELATION:
-                return isCorrelation() ? Boolean.TRUE : Boolean.FALSE;
+            case GrlPackage.CONTRIBUTION__GRLSPEC:
+                return getGrlspec();
             case GrlPackage.CONTRIBUTION__SRC:
                 if (resolve) return getSrc();
                 return basicGetSrc();
             case GrlPackage.CONTRIBUTION__DEST:
                 if (resolve) return getDest();
                 return basicGetDest();
+            case GrlPackage.CONTRIBUTION__CONTRIBUTION:
+                return getContribution();
+            case GrlPackage.CONTRIBUTION__CORRELATION:
+                return isCorrelation() ? Boolean.TRUE : Boolean.FALSE;
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -359,21 +261,41 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__ID:
+                setId((String)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__NAME:
+                setName((String)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__DESCRIPTION:
+                setDescription((String)newValue);
+                return;
             case GrlPackage.CONTRIBUTION__REFS:
                 getRefs().clear();
                 getRefs().addAll((Collection)newValue);
                 return;
-            case GrlPackage.CONTRIBUTION__CONTIBUTION:
-                setContibution((ContributionType)newValue);
-                return;
-            case GrlPackage.CONTRIBUTION__CORRELATION:
-                setCorrelation(((Boolean)newValue).booleanValue());
+            case GrlPackage.CONTRIBUTION__GRLSPEC:
+                setGrlspec((GRLspec)newValue);
                 return;
             case GrlPackage.CONTRIBUTION__SRC:
                 setSrc((IntentionalElement)newValue);
                 return;
             case GrlPackage.CONTRIBUTION__DEST:
                 setDest((IntentionalElement)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__CONTRIBUTION:
+                setContribution((ContributionType)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__CORRELATION:
+                setCorrelation(((Boolean)newValue).booleanValue());
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -386,20 +308,38 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.CONTRIBUTION__TO_LINKS:
+                getToLinks().clear();
+                return;
+            case GrlPackage.CONTRIBUTION__ID:
+                setId(ID_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION__NAME:
+                setName(NAME_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION__DESCRIPTION:
+                setDescription(DESCRIPTION_EDEFAULT);
+                return;
             case GrlPackage.CONTRIBUTION__REFS:
                 getRefs().clear();
                 return;
-            case GrlPackage.CONTRIBUTION__CONTIBUTION:
-                setContibution(CONTIBUTION_EDEFAULT);
-                return;
-            case GrlPackage.CONTRIBUTION__CORRELATION:
-                setCorrelation(CORRELATION_EDEFAULT);
+            case GrlPackage.CONTRIBUTION__GRLSPEC:
+                setGrlspec((GRLspec)null);
                 return;
             case GrlPackage.CONTRIBUTION__SRC:
                 setSrc((IntentionalElement)null);
                 return;
             case GrlPackage.CONTRIBUTION__DEST:
                 setDest((IntentionalElement)null);
+                return;
+            case GrlPackage.CONTRIBUTION__CONTRIBUTION:
+                setContribution(CONTRIBUTION_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION__CORRELATION:
+                setCorrelation(CORRELATION_EDEFAULT);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -412,16 +352,28 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.CONTRIBUTION__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.CONTRIBUTION__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
+            case GrlPackage.CONTRIBUTION__ID:
+                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case GrlPackage.CONTRIBUTION__NAME:
+                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case GrlPackage.CONTRIBUTION__DESCRIPTION:
+                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
             case GrlPackage.CONTRIBUTION__REFS:
                 return refs != null && !refs.isEmpty();
-            case GrlPackage.CONTRIBUTION__CONTIBUTION:
-                return contibution != CONTIBUTION_EDEFAULT;
-            case GrlPackage.CONTRIBUTION__CORRELATION:
-                return correlation != CORRELATION_EDEFAULT;
+            case GrlPackage.CONTRIBUTION__GRLSPEC:
+                return getGrlspec() != null;
             case GrlPackage.CONTRIBUTION__SRC:
                 return src != null;
             case GrlPackage.CONTRIBUTION__DEST:
                 return dest != null;
+            case GrlPackage.CONTRIBUTION__CONTRIBUTION:
+                return contribution != CONTRIBUTION_EDEFAULT;
+            case GrlPackage.CONTRIBUTION__CORRELATION:
+                return correlation != CORRELATION_EDEFAULT;
         }
         return eDynamicIsSet(eFeature);
     }
@@ -435,8 +387,8 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
         if (eIsProxy()) return super.toString();
 
         StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (contibution: ");
-        result.append(contibution);
+        result.append(" (contribution: ");
+        result.append(contribution);
         result.append(", correlation: ");
         result.append(correlation);
         result.append(')');

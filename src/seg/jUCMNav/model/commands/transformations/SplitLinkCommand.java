@@ -73,7 +73,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     public void execute() {
         previousNode = (PathNode)oldLink.getSource();
         nextNode = (PathNode)oldLink.getTarget();
-        if (previousNode == null || nextNode == null || previousNode.getSpecDiagram() == null || nextNode.getSpecDiagram() == null) {
+        if (previousNode == null || nextNode == null || previousNode.getDiagram() == null || nextNode.getDiagram() == null) {
             aborted = true;
             return;
         }
@@ -123,7 +123,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         }
 
         // bind to parent
-        node.setCompRef(ParentFinder.findParent(diagram, x, y));
+        node.setContRef(ParentFinder.findParent(diagram, x, y));
 
 
         // transfer bindings from at the ending of the old link onto the new one. 
@@ -142,7 +142,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         // unbind from parent
-        node.setCompRef(null);
+        node.setContRef(null);
 
         // remove from model
         diagram.getConnections().remove(newLink);

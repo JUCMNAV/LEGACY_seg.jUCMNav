@@ -42,7 +42,7 @@ import urncore.impl.UCMmodelElementImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getType <em>Type</em>}</li>
- *   <li>{@link ucm.scenario.impl.VariableImpl#getUrnspec <em>Urnspec</em>}</li>
+ *   <li>{@link ucm.scenario.impl.VariableImpl#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getUsages <em>Usages</em>}</li>
  * </ul>
  * </p>
@@ -124,8 +124,8 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      * <!-- end-user-doc -->
      * @generated
      */
-    public UCMspec getUrnspec() {
-        if (eContainerFeatureID != ScenarioPackage.VARIABLE__URNSPEC) return null;
+    public UCMspec getUcmspec() {
+        if (eContainerFeatureID != ScenarioPackage.VARIABLE__UCMSPEC) return null;
         return (UCMspec)eContainer;
     }
 
@@ -134,20 +134,20 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setUrnspec(UCMspec newUrnspec) {
-        if (newUrnspec != eContainer || (eContainerFeatureID != ScenarioPackage.VARIABLE__URNSPEC && newUrnspec != null)) {
-            if (EcoreUtil.isAncestor(this, newUrnspec))
+    public void setUcmspec(UCMspec newUcmspec) {
+        if (newUcmspec != eContainer || (eContainerFeatureID != ScenarioPackage.VARIABLE__UCMSPEC && newUcmspec != null)) {
+            if (EcoreUtil.isAncestor(this, newUcmspec))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
-            if (newUrnspec != null)
-                msgs = ((InternalEObject)newUrnspec).eInverseAdd(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newUrnspec, ScenarioPackage.VARIABLE__URNSPEC, msgs);
+            if (newUcmspec != null)
+                msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newUcmspec, ScenarioPackage.VARIABLE__UCMSPEC, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.VARIABLE__URNSPEC, newUrnspec, newUrnspec));
+            eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.VARIABLE__UCMSPEC, newUcmspec, newUcmspec));
     }
 
     /**
@@ -170,12 +170,14 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.VARIABLE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case ScenarioPackage.VARIABLE__URNSPEC:
+                case ScenarioPackage.VARIABLE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case ScenarioPackage.VARIABLE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case ScenarioPackage.VARIABLE__UCMSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, ScenarioPackage.VARIABLE__URNSPEC, msgs);
+                    return eBasicSetContainer(otherEnd, ScenarioPackage.VARIABLE__UCMSPEC, msgs);
                 case ScenarioPackage.VARIABLE__USAGES:
                     return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
                 default:
@@ -195,10 +197,12 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.VARIABLE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case ScenarioPackage.VARIABLE__URNSPEC:
-                    return eBasicSetContainer(null, ScenarioPackage.VARIABLE__URNSPEC, msgs);
+                case ScenarioPackage.VARIABLE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case ScenarioPackage.VARIABLE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case ScenarioPackage.VARIABLE__UCMSPEC:
+                    return eBasicSetContainer(null, ScenarioPackage.VARIABLE__UCMSPEC, msgs);
                 case ScenarioPackage.VARIABLE__USAGES:
                     return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
                 default:
@@ -216,13 +220,13 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case ScenarioPackage.VARIABLE__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
+                case ScenarioPackage.VARIABLE__UCMSPEC:
+                    return eContainer.eInverseRemove(this, UcmPackage.UC_MSPEC__VARIABLES, UCMspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -232,18 +236,20 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case ScenarioPackage.VARIABLE__FROM_LINKS:
+                return getFromLinks();
+            case ScenarioPackage.VARIABLE__TO_LINKS:
+                return getToLinks();
             case ScenarioPackage.VARIABLE__ID:
                 return getId();
             case ScenarioPackage.VARIABLE__NAME:
                 return getName();
             case ScenarioPackage.VARIABLE__DESCRIPTION:
                 return getDescription();
-            case ScenarioPackage.VARIABLE__URN_LINKS:
-                return getUrnLinks();
             case ScenarioPackage.VARIABLE__TYPE:
                 return getType();
-            case ScenarioPackage.VARIABLE__URNSPEC:
-                return getUrnspec();
+            case ScenarioPackage.VARIABLE__UCMSPEC:
+                return getUcmspec();
             case ScenarioPackage.VARIABLE__USAGES:
                 return getUsages();
         }
@@ -257,6 +263,14 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case ScenarioPackage.VARIABLE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case ScenarioPackage.VARIABLE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case ScenarioPackage.VARIABLE__ID:
                 setId((String)newValue);
                 return;
@@ -266,15 +280,11 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
             case ScenarioPackage.VARIABLE__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case ScenarioPackage.VARIABLE__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case ScenarioPackage.VARIABLE__TYPE:
                 setType((String)newValue);
                 return;
-            case ScenarioPackage.VARIABLE__URNSPEC:
-                setUrnspec((UCMspec)newValue);
+            case ScenarioPackage.VARIABLE__UCMSPEC:
+                setUcmspec((UCMspec)newValue);
                 return;
             case ScenarioPackage.VARIABLE__USAGES:
                 getUsages().clear();
@@ -291,6 +301,12 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case ScenarioPackage.VARIABLE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case ScenarioPackage.VARIABLE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case ScenarioPackage.VARIABLE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -300,14 +316,11 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
             case ScenarioPackage.VARIABLE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case ScenarioPackage.VARIABLE__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case ScenarioPackage.VARIABLE__TYPE:
                 setType(TYPE_EDEFAULT);
                 return;
-            case ScenarioPackage.VARIABLE__URNSPEC:
-                setUrnspec((UCMspec)null);
+            case ScenarioPackage.VARIABLE__UCMSPEC:
+                setUcmspec((UCMspec)null);
                 return;
             case ScenarioPackage.VARIABLE__USAGES:
                 getUsages().clear();
@@ -323,18 +336,20 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case ScenarioPackage.VARIABLE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case ScenarioPackage.VARIABLE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case ScenarioPackage.VARIABLE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case ScenarioPackage.VARIABLE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case ScenarioPackage.VARIABLE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case ScenarioPackage.VARIABLE__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case ScenarioPackage.VARIABLE__TYPE:
                 return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-            case ScenarioPackage.VARIABLE__URNSPEC:
-                return getUrnspec() != null;
+            case ScenarioPackage.VARIABLE__UCMSPEC:
+                return getUcmspec() != null;
             case ScenarioPackage.VARIABLE__USAGES:
                 return usages != null && !usages.isEmpty();
         }

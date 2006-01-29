@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EFactory;
  * @see grl.GrlPackage
  * @generated
  */
-public interface GrlFactory extends EFactory {
+public interface GrlFactory extends EFactory{
     /**
      * The singleton instance of the factory.
      * <!-- begin-user-doc -->
@@ -143,13 +143,49 @@ public interface GrlFactory extends EFactory {
     Evaluation createEvaluation();
 
     /**
-     * Returns a new object of class '<em>Evaluation Set</em>'.
+     * Returns a new object of class '<em>Evaluation Scenario</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return a new object of class '<em>Evaluation Set</em>'.
+     * @return a new object of class '<em>Evaluation Scenario</em>'.
      * @generated
      */
-    EvaluationSet createEvaluationSet();
+    EvaluationScenario createEvaluationScenario();
+
+    /**
+     * Returns a new object of class '<em>GRL Node</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>GRL Node</em>'.
+     * @generated
+     */
+    GRLNode createGRLNode();
+
+    /**
+     * Returns a new object of class '<em>Link Ref Bendpoint</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Link Ref Bendpoint</em>'.
+     * @generated
+     */
+    LinkRefBendpoint createLinkRefBendpoint();
+
+    /**
+     * Returns a new object of class '<em>Belief Link</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Belief Link</em>'.
+     * @generated
+     */
+    BeliefLink createBeliefLink();
+
+    /**
+     * Returns a new object of class '<em>Evaluation Group</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Evaluation Group</em>'.
+     * @generated
+     */
+    EvaluationGroup createEvaluationGroup();
 
     /**
      * Returns the package supported by this factory.

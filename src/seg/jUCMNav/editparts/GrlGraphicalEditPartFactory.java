@@ -3,8 +3,12 @@
  */
 package seg.jUCMNav.editparts;
 
+import grl.ActorRef;
+import grl.Belief;
+import grl.BeliefLink;
 import grl.GRLGraph;
 import grl.IntentionalElementRef;
+import grl.LinkRef;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -37,10 +41,22 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
             return new GrlGraphEditPart((GRLGraph)model);
         }
         else if(model instanceof IntentionalElementRef){
-            return new GrlNodeEditPart((IntentionalElementRef)model, graph);
+            return new IntentionalElementEditPart((IntentionalElementRef)model, graph);
+        }
+        else if (model instanceof Belief){
+            return new BeliefEditPart((Belief)model,graph);
+        }
+        else if (model instanceof ActorRef){
+            return new ActorRefEditPart((ActorRef)model,graph);
         }
         else if(model instanceof Label){
             return new LabelEditPart((Label)model);
+        } 
+        else if (model instanceof LinkRef) {
+            return new LinkRefEditPart((LinkRef)model, graph);
+        }
+        else if (model instanceof BeliefLink) {
+            return new BeliefLinkEditPart((BeliefLink)model, graph);
         }
         else {  
             System.out.println("Unknown class in GrlGraphicalEditPartFactory.createEditPart();"); //$NON-NLS-1$

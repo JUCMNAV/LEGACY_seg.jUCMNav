@@ -3,13 +3,13 @@ package seg.jUCMNav.model.commands.delete;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
-import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.IURNContainerRef;
 import urncore.Label;
 import urncore.NodeLabel;
 
@@ -86,8 +86,8 @@ public class DeleteLabelCommand extends Command {
         } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             node.setLabel(null);
-        } else if (modelElement instanceof ComponentRef) {
-            ComponentRef component = (ComponentRef) modelElement;
+        } else if (modelElement instanceof IURNContainerRef) {
+            IURNContainerRef component = (IURNContainerRef) modelElement;
             component.setLabel(null);
         }
 
@@ -111,8 +111,8 @@ public class DeleteLabelCommand extends Command {
         } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             return label != null && node.getLabel() == null;
-        } else if (modelElement instanceof ComponentRef) {
-            ComponentRef component = (ComponentRef) modelElement;
+        } else if (modelElement instanceof IURNContainerRef) {
+            IURNContainerRef component = (IURNContainerRef) modelElement;
             return label != null && component.getLabel() == null;
         } else if (modelElement instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) modelElement;
@@ -141,8 +141,8 @@ public class DeleteLabelCommand extends Command {
         } else if (modelElement instanceof PathNode) {
             PathNode node = (PathNode) modelElement;
             node.setLabel((NodeLabel) label);
-        } else if (modelElement instanceof ComponentRef) {
-            ComponentRef component = (ComponentRef) modelElement;
+        } else if (modelElement instanceof IURNContainerRef) {
+            IURNContainerRef component = (IURNContainerRef) modelElement;
             component.setLabel((ComponentLabel) label);
         } else if (modelElement instanceof NodeConnection) {
             NodeConnection nc = (NodeConnection) modelElement;

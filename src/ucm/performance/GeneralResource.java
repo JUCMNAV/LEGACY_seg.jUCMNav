@@ -26,10 +26,10 @@ import ucm.UCMspec;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getGeneralResource()
- * @model 
+ * @model
  * @generated
  */
-public interface GeneralResource extends EObject {
+public interface GeneralResource extends EObject{
     /**
      * Returns the value of the '<em><b>Ucmspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link ucm.UCMspec#getResources <em>Resources</em>}'.

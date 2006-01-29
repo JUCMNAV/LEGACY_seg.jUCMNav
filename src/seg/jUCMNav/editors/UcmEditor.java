@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.KeyHandler;
-import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
@@ -14,29 +12,19 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
-import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.gef.ui.parts.TreeViewer;
-import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.jface.util.TransferDropTargetListener;
-import org.eclipse.swt.SWT;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.PropertySheetPage;
 
-import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
-import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
+import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
-import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
-import seg.jUCMNav.views.outline.UrnOutlinePage;
+import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
 import ucm.map.UCMmap;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * This is the main class for editing a single Map in our model.
@@ -50,13 +38,7 @@ public class UcmEditor extends UrnEditor {
 
     /** The palette root used to display the palette. */
     private PaletteRoot paletteRoot;
-
-    /** KeyHandler with common bindings for both the Outline View and the Editor. */
-    private KeyHandler sharedKeyHandler;
-
-    // our outline page.
-    private UrnOutlinePage outline;
-
+    
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
         super(parent);
@@ -86,9 +68,9 @@ public class UcmEditor extends UrnEditor {
 
         viewer.setRootEditPart(root);
 
-        ContextMenuProvider provider = new UcmContextMenuProvider(viewer, getActionRegistry());
+        ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider", provider, viewer); //$NON-NLS-1$
+        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
 
         viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap)getModel()));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
@@ -128,36 +110,6 @@ public class UcmEditor extends UrnEditor {
     }
 
     /**
-     * Returns the adapter for the specified key. Such as the property sheet, the outline view etc.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class type) {
-        if (type == ZoomManager.class)
-            return getGraphicalViewer().getProperty(ZoomManager.class.toString());
-        else if (type == ActionRegistry.class)
-            return getActionRegistry();
-        else if (type == IContentOutlinePage.class)
-            return getOutlinePage();
-        else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
-            PropertySheetPage page = new PropertySheetPage();
-            page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
-            return page;
-        }
-
-        return super.getAdapter(type);
-    }
-
-    /**
-     * @return the outline associated with this editor
-     */
-    private UrnOutlinePage getOutlinePage() {
-        if (outline == null)
-            outline = new UrnOutlinePage(getParent(), new TreeViewer());
-        return outline;
-    }
-
-    /**
      * Overridden to change to public visibility.
      */
     public CommandStack getCommandStack() {
@@ -166,32 +118,11 @@ public class UcmEditor extends UrnEditor {
     }
 
     /**
-     * Returns the KeyHandler with common bindings for both the Outline and Graphical Views. For example, delete is a common action.
-     */
-    KeyHandler getCommonKeyHandler() {
-        if (sharedKeyHandler == null) {
-            sharedKeyHandler = new KeyHandler();
-
-            // Add key and action pairs to sharedKeyHandler
-            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
-
-            sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
-
-            sharedKeyHandler.put(KeyStroke.getPressed((char) 1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
-
-            sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
-                    .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
-
-        }
-        return sharedKeyHandler;
-    }
-
-    /**
      * Return the root model of this editor.
      * 
      * @return The model we are editing.
      */
-    public SpecificationDiagram getModel() {
+    public IURNDiagram getModel() {
         return mapModel;
     }
 
@@ -235,7 +166,7 @@ public class UcmEditor extends UrnEditor {
      * 
      * @param m
      */
-    public void setModel(SpecificationDiagram m) {
+    public void setModel(IURNDiagram m) {
         mapModel = (UCMmap)m;
     }
 

@@ -5,6 +5,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteMapRefDefLinksCommand;
 import ucm.map.UCMmap;
+import urncore.IURNDiagram;
 
 /**
  * CompoundCommand to delete a Map. (Remove it from the model).
@@ -16,8 +17,7 @@ import ucm.map.UCMmap;
  */
 public class DeleteMapCommand extends CompoundCommand {
 
-    private UCMmap map;
-
+    private IURNDiagram diagram;
     /**
      * @param map
      *            the map to delete
@@ -25,17 +25,19 @@ public class DeleteMapCommand extends CompoundCommand {
     public DeleteMapCommand(UCMmap map) {
         setLabel("DeleteMapCommand");//$NON-NLS-1$
 
-        this.map = map;
+        setDiagram(map);
         add(new CleanRelationshipsCommand(map));
         // remove the map itself.
         add(new DeleteMapRefDefLinksCommand(map));
     }
 
-    /**
-     * 
-     * @return the map being deleted.
-     */
-    public UCMmap getMap() {
-        return map;
+    public IURNDiagram getDiagram() {
+        return diagram;
     }
+
+    public void setDiagram(IURNDiagram diagram) {
+        this.diagram = diagram;
+    }
+    
+    
 }

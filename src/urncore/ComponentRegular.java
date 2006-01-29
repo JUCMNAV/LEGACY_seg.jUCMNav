@@ -34,7 +34,7 @@ import ucm.performance.ProcessingResource;
  * @model abstract="true"
  * @generated
  */
-public interface ComponentRegular extends ComponentElement {
+public interface ComponentRegular extends ComponentElement{
     /**
      * Returns the value of the '<em><b>Kind</b></em>' attribute.
      * The literals are from the enumeration {@link urncore.ComponentKind}.
@@ -48,7 +48,7 @@ public interface ComponentRegular extends ComponentElement {
      * @see urncore.ComponentKind
      * @see #setKind(ComponentKind)
      * @see urncore.UrncorePackage#getComponentRegular_Kind()
-     * @model 
+     * @model
      * @generated
      */
     ComponentKind getKind();

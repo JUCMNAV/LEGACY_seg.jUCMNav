@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  */
 public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
     /**
-     * Creates and instance of the factory.
+     * Creates an instance of the factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -51,7 +51,11 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
             case GrlPackage.DECOMPOSITION: return createDecomposition();
             case GrlPackage.DEPENDENCY: return createDependency();
             case GrlPackage.EVALUATION: return createEvaluation();
-            case GrlPackage.EVALUATION_SET: return createEvaluationSet();
+            case GrlPackage.EVALUATION_SCENARIO: return createEvaluationScenario();
+            case GrlPackage.GRL_NODE: return createGRLNode();
+            case GrlPackage.LINK_REF_BENDPOINT: return createLinkRefBendpoint();
+            case GrlPackage.BELIEF_LINK: return createBeliefLink();
+            case GrlPackage.EVALUATION_GROUP: return createEvaluationGroup();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -64,11 +68,6 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
      */
     public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
-            case GrlPackage.EVALUATION_LEVEL: {
-                EvaluationLevel result = EvaluationLevel.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
             case GrlPackage.CRITICALITY: {
                 Criticality result = Criticality.get(initialValue);
                 if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -106,8 +105,6 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
      */
     public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
-            case GrlPackage.EVALUATION_LEVEL:
-                return instanceValue == null ? null : instanceValue.toString();
             case GrlPackage.CRITICALITY:
                 return instanceValue == null ? null : instanceValue.toString();
             case GrlPackage.INTENTIONAL_ELEMENT_TYPE:
@@ -258,9 +255,49 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EvaluationSet createEvaluationSet() {
-        EvaluationSetImpl evaluationSet = new EvaluationSetImpl();
-        return evaluationSet;
+    public EvaluationScenario createEvaluationScenario() {
+        EvaluationScenarioImpl evaluationScenario = new EvaluationScenarioImpl();
+        return evaluationScenario;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public GRLNode createGRLNode() {
+        GRLNodeImpl grlNode = new GRLNodeImpl();
+        return grlNode;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public LinkRefBendpoint createLinkRefBendpoint() {
+        LinkRefBendpointImpl linkRefBendpoint = new LinkRefBendpointImpl();
+        return linkRefBendpoint;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BeliefLink createBeliefLink() {
+        BeliefLinkImpl beliefLink = new BeliefLinkImpl();
+        return beliefLink;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EvaluationGroup createEvaluationGroup() {
+        EvaluationGroupImpl evaluationGroup = new EvaluationGroupImpl();
+        return evaluationGroup;
     }
 
     /**

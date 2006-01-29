@@ -6,7 +6,7 @@
  */
 package ucm.map;
 
-import urncore.SpecificationComponentRef;
+import urncore.IURNContainerRef;
 import urncore.UCMmodelElement;
 
 /**
@@ -28,10 +28,10 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.map.MapPackage#getComponentRef()
- * @model 
+ * @model
  * @generated
  */
-public interface ComponentRef extends UCMmodelElement, SpecificationComponentRef {
+public interface ComponentRef extends UCMmodelElement, IURNContainerRef{
     /**
      * Returns the value of the '<em><b>Role</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -43,7 +43,7 @@ public interface ComponentRef extends UCMmodelElement, SpecificationComponentRef
      * @return the value of the '<em>Role</em>' attribute.
      * @see #setRole(String)
      * @see ucm.map.MapPackage#getComponentRef_Role()
-     * @model 
+     * @model
      * @generated
      */
     String getRole();

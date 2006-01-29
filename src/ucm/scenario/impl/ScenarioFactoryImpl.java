@@ -21,7 +21,7 @@ import ucm.scenario.*;
  */
 public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory {
     /**
-     * Creates and instance of the factory.
+     * Creates an instance of the factory.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -37,9 +37,8 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
      */
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
-            case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
-            case ScenarioPackage.SCENARIO_DEF: return createScenarioDef();
             case ScenarioPackage.VARIABLE: return createVariable();
+            case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -53,16 +52,6 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
     public ScenarioGroup createScenarioGroup() {
         ScenarioGroupImpl scenarioGroup = new ScenarioGroupImpl();
         return scenarioGroup;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ScenarioDef createScenarioDef() {
-        ScenarioDefImpl scenarioDef = new ScenarioDefImpl();
-        return scenarioDef;
     }
 
     /**

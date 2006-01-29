@@ -18,11 +18,11 @@ import ucm.map.UCMmap;
 import ucm.map.PathNode;
 
 /**
- * TreeEditPart for the Map and PathGraph.
+ * TreeEditPart for the Map.
  * 
  * @author TremblaE
  */
-public class MapTreeEditPart extends UcmModelElementTreeEditPart {
+public class MapTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
@@ -49,7 +49,7 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
     public List getModelChildren() {
         ArrayList list = new ArrayList();
         UCMmap map = getMap();
-        list.addAll(map.getCompRefs());
+        list.addAll(map.getContRefs());
         Vector v = new Vector();
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode element = (PathNode) iter.next();
@@ -74,7 +74,7 @@ public class MapTreeEditPart extends UcmModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage()); //$NON-NLS-1$
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
         return super.getImage();
     }
 

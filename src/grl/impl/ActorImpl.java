@@ -27,8 +27,8 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import urncore.SpecificationComponent;
-import urncore.SpecificationComponentRef;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
 import urncore.UrncorePackage;
 
 import urncore.impl.GRLmodelElementImpl;
@@ -43,7 +43,7 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.ActorImpl#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getFillColor <em>Fill Color</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#isFilled <em>Filled</em>}</li>
- *   <li>{@link grl.impl.ActorImpl#getCompRefs <em>Comp Refs</em>}</li>
+ *   <li>{@link grl.impl.ActorImpl#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link grl.impl.ActorImpl#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
@@ -112,14 +112,14 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
     protected boolean filled = FILLED_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getCompRefs() <em>Comp Refs</em>}' reference list.
+     * The cached value of the '{@link #getContRefs() <em>Cont Refs</em>}' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCompRefs()
+     * @see #getContRefs()
      * @generated
      * @ordered
      */
-    protected EList compRefs = null;
+    protected EList contRefs = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -207,11 +207,11 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getCompRefs() {
-        if (compRefs == null) {
-            compRefs = new EObjectWithInverseResolvingEList(SpecificationComponentRef.class, this, GrlPackage.ACTOR__COMP_REFS, UrncorePackage.SPECIFICATION_COMPONENT_REF__COMP_DEF);
+    public EList getContRefs() {
+        if (contRefs == null) {
+            contRefs = new EObjectWithInverseResolvingEList(IURNContainerRef.class, this, GrlPackage.ACTOR__CONT_REFS, UrncorePackage.IURN_CONTAINER_REF__CONT_DEF);
         }
-        return compRefs;
+        return contRefs;
     }
 
     /**
@@ -253,10 +253,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.ACTOR__COMP_REFS:
-                    return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR__CONT_REFS:
+                    return ((InternalEList)getContRefs()).basicAdd(otherEnd, msgs);
                 case GrlPackage.ACTOR__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -278,10 +280,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.ACTOR__COMP_REFS:
-                    return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR__CONT_REFS:
+                    return ((InternalEList)getContRefs()).basicRemove(otherEnd, msgs);
                 case GrlPackage.ACTOR__GRLSPEC:
                     return eBasicSetContainer(null, GrlPackage.ACTOR__GRLSPEC, msgs);
                 default:
@@ -300,12 +304,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case GrlPackage.ACTOR__GRLSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, GrlPackage.GR_LSPEC__ACTORS, GRLspec.class, msgs);
+                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__ACTORS, GRLspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -315,22 +319,24 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.ACTOR__TO_LINKS:
+                return getToLinks();
             case GrlPackage.ACTOR__ID:
                 return getId();
             case GrlPackage.ACTOR__NAME:
                 return getName();
             case GrlPackage.ACTOR__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.ACTOR__URN_LINKS:
-                return getUrnLinks();
             case GrlPackage.ACTOR__LINE_COLOR:
                 return getLineColor();
             case GrlPackage.ACTOR__FILL_COLOR:
                 return getFillColor();
             case GrlPackage.ACTOR__FILLED:
                 return isFilled() ? Boolean.TRUE : Boolean.FALSE;
-            case GrlPackage.ACTOR__COMP_REFS:
-                return getCompRefs();
+            case GrlPackage.ACTOR__CONT_REFS:
+                return getContRefs();
             case GrlPackage.ACTOR__GRLSPEC:
                 return getGrlspec();
         }
@@ -344,6 +350,14 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.ACTOR__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.ACTOR__ID:
                 setId((String)newValue);
                 return;
@@ -352,10 +366,6 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
                 return;
             case GrlPackage.ACTOR__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.ACTOR__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.ACTOR__LINE_COLOR:
                 setLineColor((String)newValue);
@@ -366,9 +376,9 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
             case GrlPackage.ACTOR__FILLED:
                 setFilled(((Boolean)newValue).booleanValue());
                 return;
-            case GrlPackage.ACTOR__COMP_REFS:
-                getCompRefs().clear();
-                getCompRefs().addAll((Collection)newValue);
+            case GrlPackage.ACTOR__CONT_REFS:
+                getContRefs().clear();
+                getContRefs().addAll((Collection)newValue);
                 return;
             case GrlPackage.ACTOR__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
@@ -384,6 +394,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.ACTOR__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.ACTOR__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -392,9 +408,6 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
                 return;
             case GrlPackage.ACTOR__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.ACTOR__URN_LINKS:
-                getUrnLinks().clear();
                 return;
             case GrlPackage.ACTOR__LINE_COLOR:
                 setLineColor(LINE_COLOR_EDEFAULT);
@@ -405,8 +418,8 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
             case GrlPackage.ACTOR__FILLED:
                 setFilled(FILLED_EDEFAULT);
                 return;
-            case GrlPackage.ACTOR__COMP_REFS:
-                getCompRefs().clear();
+            case GrlPackage.ACTOR__CONT_REFS:
+                getContRefs().clear();
                 return;
             case GrlPackage.ACTOR__GRLSPEC:
                 setGrlspec((GRLspec)null);
@@ -422,22 +435,24 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.ACTOR__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.ACTOR__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.ACTOR__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.ACTOR__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.ACTOR__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case GrlPackage.ACTOR__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case GrlPackage.ACTOR__FILL_COLOR:
                 return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
             case GrlPackage.ACTOR__FILLED:
                 return filled != FILLED_EDEFAULT;
-            case GrlPackage.ACTOR__COMP_REFS:
-                return compRefs != null && !compRefs.isEmpty();
+            case GrlPackage.ACTOR__CONT_REFS:
+                return contRefs != null && !contRefs.isEmpty();
             case GrlPackage.ACTOR__GRLSPEC:
                 return getGrlspec() != null;
         }
@@ -450,12 +465,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      * @generated
      */
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
-        if (baseClass == SpecificationComponent.class) {
+        if (baseClass == IURNContainer.class) {
             switch (derivedFeatureID) {
-                case GrlPackage.ACTOR__LINE_COLOR: return UrncorePackage.SPECIFICATION_COMPONENT__LINE_COLOR;
-                case GrlPackage.ACTOR__FILL_COLOR: return UrncorePackage.SPECIFICATION_COMPONENT__FILL_COLOR;
-                case GrlPackage.ACTOR__FILLED: return UrncorePackage.SPECIFICATION_COMPONENT__FILLED;
-                case GrlPackage.ACTOR__COMP_REFS: return UrncorePackage.SPECIFICATION_COMPONENT__COMP_REFS;
+                case GrlPackage.ACTOR__LINE_COLOR: return UrncorePackage.IURN_CONTAINER__LINE_COLOR;
+                case GrlPackage.ACTOR__FILL_COLOR: return UrncorePackage.IURN_CONTAINER__FILL_COLOR;
+                case GrlPackage.ACTOR__FILLED: return UrncorePackage.IURN_CONTAINER__FILLED;
+                case GrlPackage.ACTOR__CONT_REFS: return UrncorePackage.IURN_CONTAINER__CONT_REFS;
                 default: return -1;
             }
         }
@@ -468,12 +483,12 @@ public class ActorImpl extends GRLmodelElementImpl implements Actor {
      * @generated
      */
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
-        if (baseClass == SpecificationComponent.class) {
+        if (baseClass == IURNContainer.class) {
             switch (baseFeatureID) {
-                case UrncorePackage.SPECIFICATION_COMPONENT__LINE_COLOR: return GrlPackage.ACTOR__LINE_COLOR;
-                case UrncorePackage.SPECIFICATION_COMPONENT__FILL_COLOR: return GrlPackage.ACTOR__FILL_COLOR;
-                case UrncorePackage.SPECIFICATION_COMPONENT__FILLED: return GrlPackage.ACTOR__FILLED;
-                case UrncorePackage.SPECIFICATION_COMPONENT__COMP_REFS: return GrlPackage.ACTOR__COMP_REFS;
+                case UrncorePackage.IURN_CONTAINER__LINE_COLOR: return GrlPackage.ACTOR__LINE_COLOR;
+                case UrncorePackage.IURN_CONTAINER__FILL_COLOR: return GrlPackage.ACTOR__FILL_COLOR;
+                case UrncorePackage.IURN_CONTAINER__FILLED: return GrlPackage.ACTOR__FILLED;
+                case UrncorePackage.IURN_CONTAINER__CONT_REFS: return GrlPackage.ACTOR__CONT_REFS;
                 default: return -1;
             }
         }

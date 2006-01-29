@@ -7,6 +7,7 @@
 package grl.impl;
 
 import grl.Actor;
+import grl.ElementLink;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -42,6 +43,7 @@ import urn.UrnPackage;
  *   <li>{@link grl.impl.GRLspecImpl#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getIntElements <em>Int Elements</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getActors <em>Actors</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +69,16 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
      * @ordered
      */
     protected EList actors = null;
+
+    /**
+     * The cached value of the '{@link #getLinks() <em>Links</em>}' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getLinks()
+     * @generated
+     * @ordered
+     */
+    protected EList links = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -146,6 +158,18 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList getLinks() {
+        if (links == null) {
+            links = new EObjectContainmentWithInverseEList(ElementLink.class, this, GrlPackage.GR_LSPEC__LINKS, GrlPackage.ELEMENT_LINK__GRLSPEC);
+        }
+        return links;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
@@ -157,6 +181,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getIntElements()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__ACTORS:
                     return ((InternalEList)getActors()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__LINKS:
+                    return ((InternalEList)getLinks()).basicAdd(otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -180,6 +206,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getIntElements()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__ACTORS:
                     return ((InternalEList)getActors()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__LINKS:
+                    return ((InternalEList)getLinks()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -196,12 +224,12 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case GrlPackage.GR_LSPEC__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__GRLSPEC, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__GRLSPEC, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -217,6 +245,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return getIntElements();
             case GrlPackage.GR_LSPEC__ACTORS:
                 return getActors();
+            case GrlPackage.GR_LSPEC__LINKS:
+                return getLinks();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -239,6 +269,10 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 getActors().clear();
                 getActors().addAll((Collection)newValue);
                 return;
+            case GrlPackage.GR_LSPEC__LINKS:
+                getLinks().clear();
+                getLinks().addAll((Collection)newValue);
+                return;
         }
         eDynamicSet(eFeature, newValue);
     }
@@ -259,6 +293,9 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
             case GrlPackage.GR_LSPEC__ACTORS:
                 getActors().clear();
                 return;
+            case GrlPackage.GR_LSPEC__LINKS:
+                getLinks().clear();
+                return;
         }
         eDynamicUnset(eFeature);
     }
@@ -276,6 +313,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return intElements != null && !intElements.isEmpty();
             case GrlPackage.GR_LSPEC__ACTORS:
                 return actors != null && !actors.isEmpty();
+            case GrlPackage.GR_LSPEC__LINKS:
+                return links != null && !links.isEmpty();
         }
         return eDynamicIsSet(eFeature);
     }

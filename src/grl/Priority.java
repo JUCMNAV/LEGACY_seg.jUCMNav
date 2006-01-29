@@ -25,6 +25,10 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>High</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>High</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #HIGH_LITERAL
      * @model name="High"
@@ -36,6 +40,10 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>Medium</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Medium</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #MEDIUM_LITERAL
      * @model name="Medium"
@@ -47,6 +55,10 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>Low</b></em>' literal value.
      * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>Low</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
      * <!-- end-user-doc -->
      * @see #LOW_LITERAL
      * @model name="Low"
@@ -58,10 +70,6 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>High</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>High</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #HIGH
      * @generated
@@ -72,10 +80,6 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>Medium</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Medium</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #MEDIUM
      * @generated
@@ -86,10 +90,6 @@ public final class Priority extends AbstractEnumerator {
     /**
      * The '<em><b>Low</b></em>' literal object.
      * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of '<em><b>Low</b></em>' literal object isn't clear,
-     * there really should be more of a description here...
-     * </p>
      * <!-- end-user-doc -->
      * @see #LOW
      * @generated

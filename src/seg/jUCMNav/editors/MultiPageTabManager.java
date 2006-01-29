@@ -13,14 +13,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 
-import seg.jUCMNav.editparts.GrlGraphEditPart;
-import seg.jUCMNav.editparts.SpecificationDiagramEditPart;
 import seg.jUCMNav.editparts.ModelElementEditPart;
+import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.treeEditparts.URNspecTreeEditPart;
-import seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart;
+import seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart;
 import ucm.map.UCMmap;
 import urn.URNspec;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
 /**
@@ -59,14 +58,14 @@ public class MultiPageTabManager {
     /** the selection listener */
     private ISelectionListener selectionListener = new ISelectionListener() {
         public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-//TODO verify if we need a new edit part for GRL
+
             if (selection instanceof StructuredSelection) {
                 // a selection has been made in the outline, ensure that the containing page is visible
-                if (((StructuredSelection) selection).getFirstElement() instanceof UcmModelElementTreeEditPart) {
-                    UcmModelElementTreeEditPart selectedPart = (UcmModelElementTreeEditPart) ((StructuredSelection) selection).getFirstElement();
+                if (((StructuredSelection) selection).getFirstElement() instanceof UrnModelElementTreeEditPart) {
+                    UrnModelElementTreeEditPart selectedPart = (UrnModelElementTreeEditPart) ((StructuredSelection) selection).getFirstElement();
 
                     if (!(selectedPart instanceof URNspecTreeEditPart)) {
-                        UCMmap selectedMap = selectedPart.getContainingMap();
+                        IURNDiagram selectedMap = selectedPart.getContainingMap();
                         if (getActivePage() != getDiagrams().indexOf(selectedMap) && getDiagrams().indexOf(selectedMap) >= 0) {
                             setActivePage(getDiagrams().indexOf(selectedMap));
                         }
@@ -94,13 +93,12 @@ public class MultiPageTabManager {
 
     /**
      * Called when the editor is opened or when a save as is performed.
-     * TODO include GRLGraph in the creation of the editor
      * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
      */
     protected void createPages() {
 
         for (int i = 0; i < getDiagrams().size(); i++) {
-            SpecificationDiagram g = getDiagram(i);
+            IURNDiagram g = getDiagram(i);
             if (g instanceof UCMmap){
                 UcmEditor u = new UcmEditor(getEditor());
                 u.setModel((UCMmap)getDiagram(i));
@@ -155,8 +153,8 @@ public class MultiPageTabManager {
     }
 
     /** Delegates to UCMNavMultiPageEditor */
-    private SpecificationDiagram getDiagram(int i) {
-        return (SpecificationDiagram) getDiagrams().get(i);
+    private IURNDiagram getDiagram(int i) {
+        return (IURNDiagram) getDiagrams().get(i);
     }
 
     /** Delegates to UCMNavMultiPageEditor */
@@ -186,7 +184,6 @@ public class MultiPageTabManager {
      * This method is called when the user clicks on a tab.
      * 
      * If we have selected another map, select it so that the outline view is refreshed.
-     * TODO Modify to include GrlGraphEditPart
      * 
      * @see org.eclipse.ui.part.MultiPageEditorPart#pageChange(int)
      */
@@ -194,11 +191,11 @@ public class MultiPageTabManager {
         ModelElementEditPart e;
         if (editor.getCurrentPage().getModel() instanceof UCMmap){            
             // we want the outline to know that we've selected another map.
-            e = (SpecificationDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
+            e = (URNDiagramEditPart) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
                     ((UcmEditor)editor.getCurrentPage()).getModel());
         }
         else {
-            e = (GrlGraphEditPart)editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
+            e = (URNDiagramEditPart)editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry().get(
                     ((GrlEditor)editor.getCurrentPage()).getModel());
         }
         // I don't know why we flush() but etremblay did it in his code

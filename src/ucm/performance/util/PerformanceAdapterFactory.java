@@ -17,7 +17,7 @@ import ucm.map.PathNode;
 
 import ucm.performance.*;
 
-import urncore.SpecificationNode;
+import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -115,8 +115,8 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
             public Object caseUCMmodelElement(UCMmodelElement object) {
                 return createUCMmodelElementAdapter();
             }
-            public Object caseSpecificationNode(SpecificationNode object) {
-                return createSpecificationNodeAdapter();
+            public Object caseIURNNode(IURNNode object) {
+                return createIURNNodeAdapter();
             }
             public Object casePathNode(PathNode object) {
                 return createPathNodeAdapter();
@@ -322,16 +322,16 @@ public class PerformanceAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link urncore.SpecificationNode <em>Specification Node</em>}'.
+     * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see urncore.SpecificationNode
+     * @see urncore.IURNNode
      * @generated
      */
-    public Adapter createSpecificationNodeAdapter() {
+    public Adapter createIURNNodeAdapter() {
         return null;
     }
 

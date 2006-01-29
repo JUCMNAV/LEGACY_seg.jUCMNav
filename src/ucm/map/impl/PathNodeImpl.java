@@ -27,10 +27,10 @@ import ucm.map.MapPackage;
 import ucm.map.PathNode;
 
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationConnection;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNContainerRef;
+import urncore.IURNConnection;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.UrncorePackage;
 
 import urncore.impl.UCMmodelElementImpl;
@@ -44,8 +44,8 @@ import urncore.impl.UCMmodelElementImpl;
  * <ul>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getX <em>X</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getY <em>Y</em>}</li>
- *   <li>{@link ucm.map.impl.PathNodeImpl#getSpecDiagram <em>Spec Diagram</em>}</li>
- *   <li>{@link ucm.map.impl.PathNodeImpl#getCompRef <em>Comp Ref</em>}</li>
+ *   <li>{@link ucm.map.impl.PathNodeImpl#getDiagram <em>Diagram</em>}</li>
+ *   <li>{@link ucm.map.impl.PathNodeImpl#getContRef <em>Cont Ref</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getSucc <em>Succ</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getPred <em>Pred</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getLabel <em>Label</em>}</li>
@@ -96,14 +96,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     protected int y = Y_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getCompRef() <em>Comp Ref</em>}' reference.
+     * The cached value of the '{@link #getContRef() <em>Cont Ref</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCompRef()
+     * @see #getContRef()
      * @generated
      * @ordered
      */
-    protected SpecificationComponentRef compRef = null;
+    protected IURNContainerRef contRef = null;
 
     /**
      * The cached value of the '{@link #getSucc() <em>Succ</em>}' reference list.
@@ -200,9 +200,9 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationDiagram getSpecDiagram() {
-        if (eContainerFeatureID != MapPackage.PATH_NODE__SPEC_DIAGRAM) return null;
-        return (SpecificationDiagram)eContainer;
+    public IURNDiagram getDiagram() {
+        if (eContainerFeatureID != MapPackage.PATH_NODE__DIAGRAM) return null;
+        return (IURNDiagram)eContainer;
     }
 
     /**
@@ -210,20 +210,20 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setSpecDiagram(SpecificationDiagram newSpecDiagram) {
-        if (newSpecDiagram != eContainer || (eContainerFeatureID != MapPackage.PATH_NODE__SPEC_DIAGRAM && newSpecDiagram != null)) {
-            if (EcoreUtil.isAncestor(this, newSpecDiagram))
+    public void setDiagram(IURNDiagram newDiagram) {
+        if (newDiagram != eContainer || (eContainerFeatureID != MapPackage.PATH_NODE__DIAGRAM && newDiagram != null)) {
+            if (EcoreUtil.isAncestor(this, newDiagram))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
-            if (newSpecDiagram != null)
-                msgs = ((InternalEObject)newSpecDiagram).eInverseAdd(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newSpecDiagram, MapPackage.PATH_NODE__SPEC_DIAGRAM, msgs);
+            if (newDiagram != null)
+                msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newDiagram, MapPackage.PATH_NODE__DIAGRAM, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__SPEC_DIAGRAM, newSpecDiagram, newSpecDiagram));
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__DIAGRAM, newDiagram, newDiagram));
     }
 
     /**
@@ -231,16 +231,16 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponentRef getCompRef() {
-        if (compRef != null && compRef.eIsProxy()) {
-            SpecificationComponentRef oldCompRef = compRef;
-            compRef = (SpecificationComponentRef)eResolveProxy((InternalEObject)compRef);
-            if (compRef != oldCompRef) {
+    public IURNContainerRef getContRef() {
+        if (contRef != null && contRef.eIsProxy()) {
+            IURNContainerRef oldContRef = contRef;
+            contRef = (IURNContainerRef)eResolveProxy((InternalEObject)contRef);
+            if (contRef != oldContRef) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.PATH_NODE__COMP_REF, oldCompRef, compRef));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.PATH_NODE__CONT_REF, oldContRef, contRef));
             }
         }
-        return compRef;
+        return contRef;
     }
 
     /**
@@ -248,8 +248,8 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponentRef basicGetCompRef() {
-        return compRef;
+    public IURNContainerRef basicGetContRef() {
+        return contRef;
     }
 
     /**
@@ -257,11 +257,11 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetCompRef(SpecificationComponentRef newCompRef, NotificationChain msgs) {
-        SpecificationComponentRef oldCompRef = compRef;
-        compRef = newCompRef;
+    public NotificationChain basicSetContRef(IURNContainerRef newContRef, NotificationChain msgs) {
+        IURNContainerRef oldContRef = contRef;
+        contRef = newContRef;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__COMP_REF, oldCompRef, newCompRef);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__CONT_REF, oldContRef, newContRef);
             if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
@@ -272,18 +272,18 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setCompRef(SpecificationComponentRef newCompRef) {
-        if (newCompRef != compRef) {
+    public void setContRef(IURNContainerRef newContRef) {
+        if (newContRef != contRef) {
             NotificationChain msgs = null;
-            if (compRef != null)
-                msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-            if (newCompRef != null)
-                msgs = ((InternalEObject)newCompRef).eInverseAdd(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-            msgs = basicSetCompRef(newCompRef, msgs);
+            if (contRef != null)
+                msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+            if (newContRef != null)
+                msgs = ((InternalEObject)newContRef).eInverseAdd(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+            msgs = basicSetContRef(newContRef, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__COMP_REF, newCompRef, newCompRef));
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.PATH_NODE__CONT_REF, newContRef, newContRef));
     }
 
     /**
@@ -293,7 +293,7 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public EList getSucc() {
         if (succ == null) {
-            succ = new EObjectWithInverseResolvingEList(SpecificationConnection.class, this, MapPackage.PATH_NODE__SUCC, UrncorePackage.SPECIFICATION_CONNECTION__SOURCE);
+            succ = new EObjectWithInverseResolvingEList(IURNConnection.class, this, MapPackage.PATH_NODE__SUCC, UrncorePackage.IURN_CONNECTION__SOURCE);
         }
         return succ;
     }
@@ -305,7 +305,7 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public EList getPred() {
         if (pred == null) {
-            pred = new EObjectWithInverseResolvingEList(SpecificationConnection.class, this, MapPackage.PATH_NODE__PRED, UrncorePackage.SPECIFICATION_CONNECTION__TARGET);
+            pred = new EObjectWithInverseResolvingEList(IURNConnection.class, this, MapPackage.PATH_NODE__PRED, UrncorePackage.IURN_CONNECTION__TARGET);
         }
         return pred;
     }
@@ -361,16 +361,18 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.PATH_NODE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.PATH_NODE__SPEC_DIAGRAM:
+                case MapPackage.PATH_NODE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.PATH_NODE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.PATH_NODE__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.PATH_NODE__SPEC_DIAGRAM, msgs);
-                case MapPackage.PATH_NODE__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.PATH_NODE__DIAGRAM, msgs);
+                case MapPackage.PATH_NODE__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.PATH_NODE__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.PATH_NODE__PRED:
@@ -396,12 +398,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.PATH_NODE__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.PATH_NODE__SPEC_DIAGRAM, msgs);
-                case MapPackage.PATH_NODE__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.PATH_NODE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.PATH_NODE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.PATH_NODE__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.PATH_NODE__DIAGRAM, msgs);
+                case MapPackage.PATH_NODE__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.PATH_NODE__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.PATH_NODE__PRED:
@@ -423,13 +427,13 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.PATH_NODE__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -439,23 +443,25 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.PATH_NODE__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.PATH_NODE__TO_LINKS:
+                return getToLinks();
             case MapPackage.PATH_NODE__ID:
                 return getId();
             case MapPackage.PATH_NODE__NAME:
                 return getName();
             case MapPackage.PATH_NODE__DESCRIPTION:
                 return getDescription();
-            case MapPackage.PATH_NODE__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.PATH_NODE__X:
                 return new Integer(getX());
             case MapPackage.PATH_NODE__Y:
                 return new Integer(getY());
-            case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.PATH_NODE__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.PATH_NODE__DIAGRAM:
+                return getDiagram();
+            case MapPackage.PATH_NODE__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.PATH_NODE__SUCC:
                 return getSucc();
             case MapPackage.PATH_NODE__PRED:
@@ -473,6 +479,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.PATH_NODE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.PATH_NODE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.PATH_NODE__ID:
                 setId((String)newValue);
                 return;
@@ -482,21 +496,17 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
             case MapPackage.PATH_NODE__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.PATH_NODE__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.PATH_NODE__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.PATH_NODE__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.PATH_NODE__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.PATH_NODE__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.PATH_NODE__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.PATH_NODE__SUCC:
                 getSucc().clear();
@@ -520,6 +530,12 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.PATH_NODE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.PATH_NODE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.PATH_NODE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -529,20 +545,17 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
             case MapPackage.PATH_NODE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.PATH_NODE__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.PATH_NODE__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.PATH_NODE__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.PATH_NODE__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.PATH_NODE__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.PATH_NODE__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.PATH_NODE__SUCC:
                 getSucc().clear();
@@ -564,22 +577,24 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.PATH_NODE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.PATH_NODE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.PATH_NODE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.PATH_NODE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.PATH_NODE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.PATH_NODE__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.PATH_NODE__X:
                 return x != X_EDEFAULT;
             case MapPackage.PATH_NODE__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.PATH_NODE__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.PATH_NODE__COMP_REF:
-                return compRef != null;
+            case MapPackage.PATH_NODE__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.PATH_NODE__CONT_REF:
+                return contRef != null;
             case MapPackage.PATH_NODE__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.PATH_NODE__PRED:
@@ -596,15 +611,15 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * @generated
      */
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
-        if (baseClass == SpecificationNode.class) {
+        if (baseClass == IURNNode.class) {
             switch (derivedFeatureID) {
-                case MapPackage.PATH_NODE__X: return UrncorePackage.SPECIFICATION_NODE__X;
-                case MapPackage.PATH_NODE__Y: return UrncorePackage.SPECIFICATION_NODE__Y;
-                case MapPackage.PATH_NODE__SPEC_DIAGRAM: return UrncorePackage.SPECIFICATION_NODE__SPEC_DIAGRAM;
-                case MapPackage.PATH_NODE__COMP_REF: return UrncorePackage.SPECIFICATION_NODE__COMP_REF;
-                case MapPackage.PATH_NODE__SUCC: return UrncorePackage.SPECIFICATION_NODE__SUCC;
-                case MapPackage.PATH_NODE__PRED: return UrncorePackage.SPECIFICATION_NODE__PRED;
-                case MapPackage.PATH_NODE__LABEL: return UrncorePackage.SPECIFICATION_NODE__LABEL;
+                case MapPackage.PATH_NODE__X: return UrncorePackage.IURN_NODE__X;
+                case MapPackage.PATH_NODE__Y: return UrncorePackage.IURN_NODE__Y;
+                case MapPackage.PATH_NODE__DIAGRAM: return UrncorePackage.IURN_NODE__DIAGRAM;
+                case MapPackage.PATH_NODE__CONT_REF: return UrncorePackage.IURN_NODE__CONT_REF;
+                case MapPackage.PATH_NODE__SUCC: return UrncorePackage.IURN_NODE__SUCC;
+                case MapPackage.PATH_NODE__PRED: return UrncorePackage.IURN_NODE__PRED;
+                case MapPackage.PATH_NODE__LABEL: return UrncorePackage.IURN_NODE__LABEL;
                 default: return -1;
             }
         }
@@ -617,15 +632,15 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      * @generated
      */
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
-        if (baseClass == SpecificationNode.class) {
+        if (baseClass == IURNNode.class) {
             switch (baseFeatureID) {
-                case UrncorePackage.SPECIFICATION_NODE__X: return MapPackage.PATH_NODE__X;
-                case UrncorePackage.SPECIFICATION_NODE__Y: return MapPackage.PATH_NODE__Y;
-                case UrncorePackage.SPECIFICATION_NODE__SPEC_DIAGRAM: return MapPackage.PATH_NODE__SPEC_DIAGRAM;
-                case UrncorePackage.SPECIFICATION_NODE__COMP_REF: return MapPackage.PATH_NODE__COMP_REF;
-                case UrncorePackage.SPECIFICATION_NODE__SUCC: return MapPackage.PATH_NODE__SUCC;
-                case UrncorePackage.SPECIFICATION_NODE__PRED: return MapPackage.PATH_NODE__PRED;
-                case UrncorePackage.SPECIFICATION_NODE__LABEL: return MapPackage.PATH_NODE__LABEL;
+                case UrncorePackage.IURN_NODE__X: return MapPackage.PATH_NODE__X;
+                case UrncorePackage.IURN_NODE__Y: return MapPackage.PATH_NODE__Y;
+                case UrncorePackage.IURN_NODE__DIAGRAM: return MapPackage.PATH_NODE__DIAGRAM;
+                case UrncorePackage.IURN_NODE__CONT_REF: return MapPackage.PATH_NODE__CONT_REF;
+                case UrncorePackage.IURN_NODE__SUCC: return MapPackage.PATH_NODE__SUCC;
+                case UrncorePackage.IURN_NODE__PRED: return MapPackage.PATH_NODE__PRED;
+                case UrncorePackage.IURN_NODE__LABEL: return MapPackage.PATH_NODE__LABEL;
                 default: return -1;
             }
         }

@@ -49,7 +49,7 @@ public final class DeviceKind extends AbstractEnumerator {
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @see #DSP_LITERAL
-     * @model 
+     * @model
      * @generated
      * @ordered
      */

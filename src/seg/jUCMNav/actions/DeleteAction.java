@@ -4,7 +4,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.model.commands.delete.DeleteUselessStartNCEndCommand;
 import ucm.map.UCMmap;
 import urn.URNspec;
@@ -42,8 +42,8 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
     }
 
     private Command createDeleteSmallPaths(int nextGlobalID) {
-        UcmEditor editor = (UcmEditor)((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
-        if (editor == null)
+        UrnEditor editor = (UrnEditor)((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
+        if (editor == null || !(editor.getModel() instanceof UCMmap))
             return null;
         UCMmap map = (UCMmap)editor.getModel();
         return new DeleteUselessStartNCEndCommand(map, editor.getGraphicalViewer().getEditPartRegistry());

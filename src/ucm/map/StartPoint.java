@@ -32,10 +32,10 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getStartPoint()
- * @model 
+ * @model
  * @generated
  */
-public interface StartPoint extends PathNode {
+public interface StartPoint extends PathNode{
     /**
      * Returns the value of the '<em><b>Workload</b></em>' containment reference.
      * It is bidirectional and its opposite is '{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}'.

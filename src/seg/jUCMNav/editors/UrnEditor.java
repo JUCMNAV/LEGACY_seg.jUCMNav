@@ -8,17 +8,29 @@ import java.util.EventObject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
+import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import seg.jUCMNav.Messages;
-import urncore.SpecificationDiagram;
+import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.views.outline.UrnOutlinePage;
+import urncore.IURNDiagram;
 
 /**
  * This is an abstract class for any urn editor used in UCMNavMultiPageEditor
@@ -33,6 +45,12 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
 
     /** Cache save-request status. */
     private boolean saveAlreadyRequested;
+
+    /** KeyHandler with common bindings for both the Outline View and the Editor. */
+    private KeyHandler sharedKeyHandler;
+   
+    // our outline page.
+    private UrnOutlinePage outline;
 
     /** Create a new UrnEditor instance. */
     public UrnEditor(UCMNavMultiPageEditor parent) {
@@ -104,6 +122,48 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
     /**
+     * Returns the adapter for the specified key. Such as the property sheet, the outline view etc.
+     * 
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getAdapter(java.lang.Class)
+     */
+    public Object getAdapter(Class type) {
+        if (type == ZoomManager.class)
+            return getGraphicalViewer().getProperty(ZoomManager.class.toString());
+        else if (type == ActionRegistry.class)
+            return getActionRegistry();
+        else if (type == IContentOutlinePage.class)
+            return getOutlinePage();
+        else if (type == org.eclipse.ui.views.properties.IPropertySheetPage.class) {
+            PropertySheetPage page = new PropertySheetPage();
+            page.setRootEntry(new UndoablePropertySheetEntry(getParent().getDelegatingCommandStack()));
+            return page;
+        }
+
+        return super.getAdapter(type);
+    }
+
+    /**
+     * Returns the KeyHandler with common bindings for both the Outline and Graphical Views. For example, delete is a common action.
+     */
+    KeyHandler getCommonKeyHandler() {
+        if (sharedKeyHandler == null) {
+            sharedKeyHandler = new KeyHandler();
+
+            // Add key and action pairs to sharedKeyHandler
+            sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
+
+            sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
+
+            sharedKeyHandler.put(KeyStroke.getPressed((char) 1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
+
+            sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
+                    .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
+
+        }
+        return sharedKeyHandler;
+    }
+    
+    /**
      * Overridden to change to public visibility.
      */
     public abstract CommandStack getCommandStack();
@@ -129,14 +189,23 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
      * 
      * @return The model of this editor
      */
-    public abstract SpecificationDiagram getModel();
+    public abstract IURNDiagram getModel();
 
     /**
      * Set the model of this editor
      * 
      */
 
-    public abstract void setModel(SpecificationDiagram m);
+    /**
+     * @return the outline associated with this editor
+     */
+    private UrnOutlinePage getOutlinePage() {
+        if (outline == null)
+            outline = new UrnOutlinePage(getParent(), new TreeViewer());
+        return outline;
+    }
+    
+    public abstract void setModel(IURNDiagram m);
     
     /* (non-Javadoc)
      * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#getPalettePreferences()

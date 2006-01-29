@@ -24,10 +24,10 @@ package urncore;
  * </p>
  *
  * @see urncore.UrncorePackage#getComponent()
- * @model 
+ * @model
  * @generated
  */
-public interface Component extends ComponentRegular {
+public interface Component extends ComponentRegular{
     /**
      * Returns the value of the '<em><b>Type</b></em>' reference.
      * It is bidirectional and its opposite is '{@link urncore.ComponentType#getInstances <em>Instances</em>}'.

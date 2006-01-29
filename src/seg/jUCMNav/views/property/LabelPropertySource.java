@@ -1,16 +1,20 @@
 package seg.jUCMNav.views.property;
 
+import grl.IntentionalElementRef;
+
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.GRLmodelElement;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationNode;
 
 /**
  * Property source for labels. Extends URNElementPropertySource to obtain all necessary behaviour to list a label's properties. Includes an EPropertySource to
@@ -22,7 +26,7 @@ import urncore.SpecificationNode;
 public class LabelPropertySource extends URNElementPropertySource {
 
     URNElementPropertySource referencePS;
-
+    
     /**
      * @param obj
      *            Must be a ComponentLabel or a NodeLabel.
@@ -31,14 +35,16 @@ public class LabelPropertySource extends URNElementPropertySource {
         super(obj);
         if (obj instanceof ComponentLabel) {
             ComponentLabel cl = (ComponentLabel) obj;
-            if (cl.getCompRef().getSpecDiagram() != null)
-                referencePS = new ComponentPropertySource(cl.getCompRef());
+            if (cl.getContRef().getDiagram() != null)
+                referencePS = new ContainerPropertySource(cl.getContRef());
         } else if (obj instanceof NodeLabel) {
             NodeLabel nl = (NodeLabel) obj;
-            SpecificationNode pn = (SpecificationNode)nl.getNode();
-            if (pn.getSpecDiagram() != null) {
+            IURNNode pn = (IURNNode)nl.getNode();
+            if (pn.getDiagram() != null) {
                 if (pn instanceof RespRef)
                     referencePS = new ResponsibilityPropertySource(pn);
+                else if (pn instanceof IntentionalElementRef)
+                    referencePS = new IntentionalElementPropertySource(pn);
                 else
                     referencePS = new URNElementPropertySource(pn);
             }
@@ -62,11 +68,11 @@ public class LabelPropertySource extends URNElementPropertySource {
 
         if (referencePS != null) {
 
-            if (referencePS.getEditableValue() instanceof SpecificationNode) {
-                if (((SpecificationNode) referencePS.getEditableValue()).getSpecDiagram() == null)
+            if (referencePS.getEditableValue() instanceof IURNNode) {
+                if (((IURNNode) referencePS.getEditableValue()).getDiagram() == null)
                     return v;
-            } else if (referencePS.getEditableValue() instanceof SpecificationComponentRef) {
-                if (((SpecificationComponentRef) referencePS.getEditableValue()).getSpecDiagram() == null)
+            } else if (referencePS.getEditableValue() instanceof IURNContainerRef) {
+                if (((IURNContainerRef) referencePS.getEditableValue()).getDiagram() == null)
                     return v;
             }
 
@@ -77,6 +83,28 @@ public class LabelPropertySource extends URNElementPropertySource {
             }
         }
         return v;
+    }
+  
+    /**
+     * Delta feature should not be added to the properties list if the label is 
+     * associate with a GRL element
+     * features from the list
+     * 
+     * @param attr
+     */
+    protected boolean canAddFeature(EStructuralFeature attr) {
+        if (object instanceof NodeLabel){
+            if ((((NodeLabel)object).getNode() instanceof GRLmodelElement) && ((attr.getName() == "deltaX") 
+                    || (attr.getName() == "deltaY"))){
+                return false;
+            }
+        } else if (object instanceof ComponentLabel){
+            if ((((ComponentLabel)object).getContRef() instanceof GRLmodelElement) && ((attr.getName() == "deltaX") 
+                    || (attr.getName() == "deltaY"))){
+                return false;
+            }            
+        }
+        return true;
     }
 
     /**

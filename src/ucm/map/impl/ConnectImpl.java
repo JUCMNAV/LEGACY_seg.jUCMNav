@@ -20,8 +20,8 @@ import ucm.map.Connect;
 import ucm.map.MapPackage;
 
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -60,16 +60,18 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.CONNECT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.CONNECT__SPEC_DIAGRAM:
+                case MapPackage.CONNECT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.CONNECT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.CONNECT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.CONNECT__SPEC_DIAGRAM, msgs);
-                case MapPackage.CONNECT__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.CONNECT__DIAGRAM, msgs);
+                case MapPackage.CONNECT__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.CONNECT__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.CONNECT__PRED:
@@ -95,12 +97,14 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.CONNECT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.CONNECT__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.CONNECT__SPEC_DIAGRAM, msgs);
-                case MapPackage.CONNECT__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.CONNECT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.CONNECT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.CONNECT__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.CONNECT__DIAGRAM, msgs);
+                case MapPackage.CONNECT__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.CONNECT__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.CONNECT__PRED:
@@ -122,13 +126,13 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.CONNECT__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.CONNECT__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -138,23 +142,25 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.CONNECT__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.CONNECT__TO_LINKS:
+                return getToLinks();
             case MapPackage.CONNECT__ID:
                 return getId();
             case MapPackage.CONNECT__NAME:
                 return getName();
             case MapPackage.CONNECT__DESCRIPTION:
                 return getDescription();
-            case MapPackage.CONNECT__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.CONNECT__X:
                 return new Integer(getX());
             case MapPackage.CONNECT__Y:
                 return new Integer(getY());
-            case MapPackage.CONNECT__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.CONNECT__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.CONNECT__DIAGRAM:
+                return getDiagram();
+            case MapPackage.CONNECT__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.CONNECT__SUCC:
                 return getSucc();
             case MapPackage.CONNECT__PRED:
@@ -172,6 +178,14 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.CONNECT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.CONNECT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.CONNECT__ID:
                 setId((String)newValue);
                 return;
@@ -181,21 +195,17 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
             case MapPackage.CONNECT__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.CONNECT__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.CONNECT__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.CONNECT__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.CONNECT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.CONNECT__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.CONNECT__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.CONNECT__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.CONNECT__SUCC:
                 getSucc().clear();
@@ -219,6 +229,12 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.CONNECT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.CONNECT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.CONNECT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -228,20 +244,17 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
             case MapPackage.CONNECT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.CONNECT__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.CONNECT__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.CONNECT__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.CONNECT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.CONNECT__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.CONNECT__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.CONNECT__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.CONNECT__SUCC:
                 getSucc().clear();
@@ -263,22 +276,24 @@ public class ConnectImpl extends PathNodeImpl implements Connect {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.CONNECT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.CONNECT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.CONNECT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.CONNECT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.CONNECT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.CONNECT__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.CONNECT__X:
                 return x != X_EDEFAULT;
             case MapPackage.CONNECT__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.CONNECT__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.CONNECT__COMP_REF:
-                return compRef != null;
+            case MapPackage.CONNECT__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.CONNECT__CONT_REF:
+                return contRef != null;
             case MapPackage.CONNECT__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.CONNECT__PRED:

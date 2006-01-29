@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getPerfValue()
- * @model 
+ * @model
  * @generated
  */
-public interface PerfValue extends EObject {
+public interface PerfValue extends EObject{
     /**
      * Returns the value of the '<em><b>Value</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -41,7 +41,7 @@ public interface PerfValue extends EObject {
      * @return the value of the '<em>Value</em>' attribute.
      * @see #setValue(String)
      * @see ucm.performance.PerformancePackage#getPerfValue_Value()
-     * @model 
+     * @model
      * @generated
      */
     String getValue();
@@ -127,7 +127,7 @@ public interface PerfValue extends EObject {
      * @return the value of the '<em>Percentile</em>' attribute.
      * @see #setPercentile(String)
      * @see ucm.performance.PerformancePackage#getPerfValue_Percentile()
-     * @model 
+     * @model
      * @generated
      */
     String getPercentile();
@@ -153,7 +153,7 @@ public interface PerfValue extends EObject {
      * @return the value of the '<em>Kth Moment</em>' attribute.
      * @see #setKthMoment(String)
      * @see ucm.performance.PerformancePackage#getPerfValue_KthMoment()
-     * @model 
+     * @model
      * @generated
      */
     String getKthMoment();

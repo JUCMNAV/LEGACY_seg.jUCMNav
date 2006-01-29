@@ -39,7 +39,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider;
+import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
 
 /**
@@ -83,9 +83,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         getViewer().setEditPartFactory(new TreeEditPartFactory(multieditor.getModel()));
 
         // configure & add context menu to viewer
-        ContextMenuProvider cmProvider = new UcmContextMenuProvider(getViewer(), multieditor.getActionRegistry());
+        ContextMenuProvider cmProvider = new UrnContextMenuProvider(getViewer(), multieditor.getActionRegistry());
         getViewer().setContextMenu(cmProvider);
-        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UcmContextMenuProvider", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
+        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
 
         // hook outline viewer
         multieditor.getSelectionSynchronizer().addViewer(getViewer());

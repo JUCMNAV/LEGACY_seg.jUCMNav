@@ -2,8 +2,8 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUcmModelElementCommand;
-import seg.jUCMNav.model.commands.delete.internal.RemoveUCMmodelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import ucm.map.ComponentRef;
 
 /**
@@ -20,7 +20,7 @@ public class DeleteComponentRefCommand extends CompoundCommand {
      *            the component reference to delete.
      */
     public DeleteComponentRefCommand(ComponentRef cr) {
-        add(new PreDeleteUcmModelElementCommand(cr));
-        add(new RemoveUCMmodelElementCommand(cr));
+        add(new PreDeleteUrnModelElementCommand(cr));
+        add(new RemoveURNmodelElementCommand(cr));
     }
 }

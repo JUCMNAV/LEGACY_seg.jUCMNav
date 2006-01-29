@@ -14,8 +14,8 @@ package ucm.map;
  *
  *
  * @see ucm.map.MapPackage#getEmptyPoint()
- * @model 
+ * @model
  * @generated
  */
-public interface EmptyPoint extends PathNode {
+public interface EmptyPoint extends PathNode{
 } // EmptyPoint

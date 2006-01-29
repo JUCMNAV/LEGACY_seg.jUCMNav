@@ -164,10 +164,10 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         connToNext2 = (NodeConnection) nextPoint.getSucc().get(0);
 
         if (emptyPoint != null) {
-            parentEmpty = (ComponentRef)emptyPoint.getCompRef();
+            parentEmpty = (ComponentRef)emptyPoint.getContRef();
         }
-        parentPrevious = (ComponentRef)previousPoint.getCompRef();
-        parentNext = (ComponentRef)nextPoint.getCompRef();
+        parentPrevious = (ComponentRef)previousPoint.getContRef();
+        parentNext = (ComponentRef)nextPoint.getContRef();
 
         newStart.setX(nextPoint.getX());
         newStart.setY(nextPoint.getY());
@@ -197,17 +197,17 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         diagram.getNodes().add(newStart);
         diagram.getNodes().add(newEnd);
 
-        newStart.setCompRef(ParentFinder.findParent(diagram, newStart.getX(), newStart.getY()));
-        newEnd.setCompRef(ParentFinder.findParent(diagram, newEnd.getX(), newEnd.getY()));
+        newStart.setContRef(ParentFinder.findParent(diagram, newStart.getX(), newStart.getY()));
+        newEnd.setContRef(ParentFinder.findParent(diagram, newEnd.getX(), newEnd.getY()));
 
         connToPrev2.setTarget(newEnd);
         connToNext2.setSource(newStart);
 
         if (emptyPoint != null) {
-            emptyPoint.setCompRef(null);
+            emptyPoint.setContRef(null);
         }
-        previousPoint.setCompRef(null);
-        nextPoint.setCompRef(null);
+        previousPoint.setContRef(null);
+        nextPoint.setContRef(null);
 
         testPostConditions();
     }
@@ -234,14 +234,14 @@ public class CutPathCommand extends Command implements JUCMNavCommand {
         diagram.getNodes().add(previousPoint);
         diagram.getNodes().add(nextPoint);
 
-        newStart.setCompRef(null);
-        newEnd.setCompRef(null);
+        newStart.setContRef(null);
+        newEnd.setContRef(null);
 
         if (emptyPoint != null) {
-            emptyPoint.setCompRef(parentEmpty);
+            emptyPoint.setContRef(parentEmpty);
         }
-        previousPoint.setCompRef(parentPrevious);
-        nextPoint.setCompRef(parentNext);
+        previousPoint.setContRef(parentPrevious);
+        nextPoint.setContRef(parentNext);
 
         testPreConditions();
     }

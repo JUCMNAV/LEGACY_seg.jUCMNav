@@ -8,12 +8,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.changeConstraints.ComponentRefBindChildCommand;
+import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
-import ucm.map.ComponentRef;
-import ucm.map.PathNode;
-import ucm.map.UCMmap;
-import urncore.UCMmodelElement;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
+import urncore.URNmodelElement;
 
 /**
  * Binds the selected elements with their respective parents, if they are unbound. For more details, see calculateEnabled()
@@ -55,21 +55,21 @@ public class BindWithParent extends URNSelectionAction {
 
                 EditPart p = (EditPart) parts.get(i);
 
-                if ((!(p.getModel() instanceof ComponentRef) || !(((ComponentRef) p.getModel()).getParent() == null))
-                        && (!(p.getModel() instanceof PathNode) || !(((PathNode) p.getModel()).getCompRef() == null)))
+                if ((!(p.getModel() instanceof IURNContainerRef) || !(((IURNContainerRef) p.getModel()).getParent() == null))
+                        && (!(p.getModel() instanceof IURNNode) || !(((IURNNode) p.getModel()).getContRef() == null)))
                     return false; // #3 failed
                 else {
-                    if (p.getModel() instanceof ComponentRef) {
-                        ComponentRef child = (ComponentRef) p.getModel();
-                        if (child.getSpecDiagram() == null)
+                    if (p.getModel() instanceof IURNContainerRef) {
+                        IURNContainerRef child = (IURNContainerRef) p.getModel();
+                        if (child.getDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent((UCMmap)child.getSpecDiagram(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
+                        else if (null == ParentFinder.findParent((IURNDiagram)child.getDiagram(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
                             return false; // #4 failed for ComponentRefs
-                    } else if (p.getModel() instanceof PathNode) {
-                        PathNode child = (PathNode) p.getModel();
-                        if (child.getSpecDiagram() == null)
+                    } else if (p.getModel() instanceof IURNNode) {
+                        IURNNode child = (IURNNode) p.getModel();
+                        if (child.getDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent((UCMmap)child.getSpecDiagram(), child.getX(), child.getY()))
+                        else if (null == ParentFinder.findParent((IURNDiagram)child.getDiagram(), child.getX(), child.getY()))
                             return false; // #4 failed for PathNodes
                     }
                 }
@@ -91,19 +91,20 @@ public class BindWithParent extends URNSelectionAction {
         if (getSelectedObjects().isEmpty()) {
             return null;
         } else {
-            UCMmodelElement child;
-            ComponentRef parent;
+            URNmodelElement child;
+            IURNContainerRef parent;
 
             // find the child and parent and create a new command to bind them together
-            child = (UCMmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = (ComponentRef)ParentFinder.getPossibleParent(child);
-            cmd = new ComponentRefBindChildCommand(parent, child);
+            child = (URNmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
+            parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+            cmd = new ContainerRefBindChildCommand(parent, child);
 
             // do the same for all other model elements.
             for (int i = 1; i < getSelectedObjects().size(); i++) {
-                child = (ComponentRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = (ComponentRef)ParentFinder.getPossibleParent(child);
-                cmd = cmd.chain(new ComponentRefBindChildCommand(parent, child));
+                child = (URNmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
+                parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+
+                cmd = cmd.chain(new ContainerRefBindChildCommand(parent, child));
             }
 
             return cmd;

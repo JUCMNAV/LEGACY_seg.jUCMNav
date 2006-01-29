@@ -135,8 +135,8 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _pg.getNodes().add(_newNode);
 
         // reset parents
-        _newNode.setCompRef(_oldNode.getCompRef());
-        _oldNode.setCompRef(null);
+        _newNode.setContRef(_oldNode.getContRef());
+        _oldNode.setContRef(null);
 
         // transfer label
         _newNode.setLabel(_oldLabel);
@@ -172,8 +172,8 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
         _pg.getNodes().add(_oldNode);
 
         // reset parents
-        _oldNode.setCompRef(_newNode.getCompRef());
-        _newNode.setCompRef(null);
+        _oldNode.setContRef(_newNode.getContRef());
+        _newNode.setContRef(null);
 
         // transfer label
         _oldNode.setLabel(_oldLabel);

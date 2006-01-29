@@ -30,7 +30,7 @@ import ucm.performance.PassiveResource;
  * @model abstract="true"
  * @generated
  */
-public interface ComponentElement extends UCMmodelElement, SpecificationComponent {
+public interface ComponentElement extends UCMmodelElement, IURNContainer {
     /**
      * Returns the value of the '<em><b>Urndefinition</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urncore.URNdefinition#getComponents <em>Components</em>}'.

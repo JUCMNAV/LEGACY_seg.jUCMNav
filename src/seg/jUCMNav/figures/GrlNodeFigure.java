@@ -1,26 +1,46 @@
+/**
+ * 
+ */
 package seg.jUCMNav.figures;
 
+import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.text.FlowPage;
+import org.eclipse.draw2d.text.ParagraphTextLayout;
+import org.eclipse.draw2d.text.TextFlow;
+import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
-
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 /**
- * The figure for a GrlNode (could not use PathNodeFigure because it is a RectangleFigure). 
- * 
+ * This is a figure representing a GRL node. Extend this class to create GrlNode
  * @author Jean-François Roy
  *
  */
-public abstract class GrlNodeFigure extends Figure {
+public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
+
+    //for grl multiline label, space between start of the figure and start of the label
+    protected static final int LABEL_PADDING_X = 20;
+    protected static final int LABEL_PADDING_Y = 10;
 
     // default sizes
     protected static int DEFAULT_HEIGHT = 50;
     protected static int DEFAULT_WIDTH = 100;
 
+    /** The inner TextFlow **/
+    protected TextFlow textFlow;
+    protected FlowPage flowPage;
+
+    protected ConnectionAnchor anchor;
+    
     /**
-     * Override this method if you your figure is not of the default size. This method is invoked to know where to insert labels by default.
+     * Override this method if your figure is not of the default size.
      * 
      * @return Returns the default dimension.
      * @see seg.jUCMNav.figures.util.JUCMNavFigure
@@ -28,128 +48,115 @@ public abstract class GrlNodeFigure extends Figure {
     public static Dimension getDefaultDimension() {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
-    
+
     // is the figure in hover state
     protected boolean hover;
-
-    protected ConnectionAnchor incomingAnchor;
-    protected ConnectionAnchor outgoingAnchor;
-    protected Dimension preferredSize = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
+    
     // is the figure in selected state
     protected boolean selected;
+    
     protected XYLayout xylayout;
     
     /**
-     * Creates the figure and initializes anchors.
-     *  
+     * Constructor of the node figure. Set the layout manager and the line width
      */
     public GrlNodeFigure() {
         super();
         xylayout = new XYLayout();
         this.setLayoutManager(xylayout);
-
-        createFigure();
-
+        setLineWidth(3);
+        
         initAnchor();
+        
+        flowPage = new FlowPage();
+
+        textFlow = new TextFlow();
+        
+        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
+                ParagraphTextLayout.WORD_WRAP_SOFT));
+
+        flowPage.add(textFlow);
+        add(flowPage);
     }
     
-    /**
-     * Initialize all the figures composing this figure.
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.Shape#outlineShape(org.eclipse.draw2d.Graphics)
      */
-    protected abstract void createFigure();
+    protected abstract void outlineShape(Graphics graphics);
 
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.Shape#fillShape(org.eclipse.draw2d.Graphics)
+     */
+    protected abstract void fillShape(Graphics graphics);
+
+    /**
+     * This return the connection anchor.
+     * 
+     * @return The connecction anchor
+     */
+    public ConnectionAnchor getConnectionAnchor() {
+        return anchor;
+    }
+    
     /**
      * @return this figure
      */
-    public Figure getFigure() {
+    public Figure getNodeFigure() {
         return this;
     }
     
-    /**
-     * 
-     * @see org.eclipse.draw2d.IFigure#getMinimumSize(int, int)
-     */
-    public Dimension getMinimumSize(int wHint, int hHint) {
-        return getPreferredSize();
-    }
-
-    /**
+    /* (non-Javadoc)
      * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
      */
     public Dimension getPreferredSize(int wHint, int hHint) {
-        return preferredSize;
+        return textFlow.getPreferredSize().getCopy();
     }
 
-    /**
-     * This return the connection anchor for an incoming connection.
-     * 
-     * @return The connecction anchor
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.figures.LabelElementFigure#getText()
      */
-    public ConnectionAnchor getSourceConnectionAnchor() {
-        return outgoingAnchor;
-    }
-
-    /**
-     * This return the connection anchor for an outgoing connection.
-     * 
-     * @return The connecction anchor
-     */
-    public ConnectionAnchor getTargetConnectionAnchor() {
-        return incomingAnchor;
-    }
-
-    /**
-     * Initialize the anchors to this figure.
-     */
-    protected abstract void initAnchor();
-
-    /**
-     * @return Returns the selected.
-     */
-    public boolean isSelected() {
-        return selected;
-    }
-    /**
-     * Set this figure's background color.
-     * 
-     * @param bg
-     *            the background color.
-     */
-    public void setColor(Color bg) {
-        getFigure().setBackgroundColor(bg);
-    }
-
-    /**
-     * What to do when the Node is hovered over. Default implementation makes background color gray instead of white.
-     * 
-     * @param hover
-     *            is being hovered?
-     */
-    public void setHover(boolean hover) {
-        this.hover = hover;
-
-        if (selected == false) {
-            if (hover)
-                setColor(new Color(null, 230, 230, 230));
-            else
-                setColor(new Color(null, 255, 255, 255));
-        }
-    }
-
-    /**
-     * What to do when the Node is selected. Default implementation makes the background color blue instead of white.
-     * 
-     * @param selected
-     *            The selected to set.
-     */
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-
-        if (selected == true)
-            setColor(new Color(null, 0, 102, 204));
-        else
-            setColor(new Color(null, 255, 255, 255));
+    public String getText() {
+        return textFlow.getText();
     }
     
+    /**
+     * @see seg.jUCMNav.figures.PathNodeFigure#initAnchor()
+     */
+    protected void initAnchor() {
+        anchor = new ChopboxAnchor(this);
+    }
+    
+    /**
+     * Sets the figure's colors. The default line color is black, the default fill color is white.
+     * 
+     * @param lineColor
+     *            outline color
+     * @param fillColor
+     *            inside color
+     * @param filled
+     *            should it be filled?
+     */
+    public void setColors(String lineColor, String fillColor, boolean filled) {
+        RGB color;
+        setFill(filled);
+
+        if (fillColor == null || fillColor.length() == 0) {
+            fillColor = StringConverter.asString(new RGB(255, 255, 255));
+        }
+        color = StringConverter.asRGB(fillColor);
+        setBackgroundColor(new Color(Display.getCurrent(), color));
+
+        if (lineColor == null || lineColor.length() == 0) {
+            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        }
+
+        color = StringConverter.asRGB(lineColor);
+        setForegroundColor(new Color(Display.getCurrent(), color));
+    }
+    /**
+     * 
+     * @param newText the new text value.
+     */
+    public void setText(String newText) {
+    }
 }

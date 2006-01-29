@@ -1,15 +1,12 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
@@ -17,7 +14,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
+public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
@@ -35,6 +32,8 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
     public void activate() {
         if (!isActive()) {
             getURNspec().getUcmspec().eAdapters().add(this);
+            getURNspec().getGrlspec().eAdapters().add(this);
+            getURNspec().getUrndef().eAdapters().add(this);
         }
         super.activate();
     }
@@ -47,6 +46,8 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
     public void deactivate() {
         if (isActive()) {
             getURNspec().getUcmspec().eAdapters().remove(this);
+            getURNspec().getGrlspec().eAdapters().remove(this);
+            getURNspec().getUrndef().eAdapters().remove(this);
         }
         super.deactivate();
     }
@@ -62,14 +63,16 @@ public class URNspecTreeEditPart extends UcmModelElementTreeEditPart {
 
     /**
      * @return the sorted list of maps and the component and responsibility definition labels
-     * TODO Verify if we need to do something special for GRL with getModelChildren
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.addAll(getURNspec().getUrndef().getSpecDiagrams());
-        Collections.sort(list, new EObjectClassNameComparator());
-        list.add(Messages.getString("URNspecTreeEditPart.components")); //$NON-NLS-1$
-        list.add(Messages.getString("URNspecTreeEditPart.responsibilities")); //$NON-NLS-1$
+        //We want to keep the spec diagram in the order of the tabs
+        //Collections.sort(list, new EObjectClassNameComparator());
+        //Instead of having all type of definition in the main category, we divided defs in grl and ucm
+        list.add("UCM Definitions");
+        list.add("GRL Definitions");
+        
         return list;
 
     }

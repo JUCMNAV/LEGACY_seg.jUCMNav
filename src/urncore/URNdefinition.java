@@ -28,10 +28,10 @@ import urn.URNspec;
  * </p>
  *
  * @see urncore.UrncorePackage#getURNdefinition()
- * @model 
+ * @model
  * @generated
  */
-public interface URNdefinition extends EObject {
+public interface URNdefinition extends EObject{
     /**
      * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urn.URNspec#getUrndef <em>Urndef</em>}'.
@@ -98,8 +98,8 @@ public interface URNdefinition extends EObject {
 
     /**
      * Returns the value of the '<em><b>Spec Diagrams</b></em>' containment reference list.
-     * The list contents are of type {@link urncore.SpecificationDiagram}.
-     * It is bidirectional and its opposite is '{@link urncore.SpecificationDiagram#getUrndefinition <em>Urndefinition</em>}'.
+     * The list contents are of type {@link urncore.IURNDiagram}.
+     * It is bidirectional and its opposite is '{@link urncore.IURNDiagram#getUrndefinition <em>Urndefinition</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Spec Diagrams</em>' containment reference list isn't clear,
@@ -108,8 +108,8 @@ public interface URNdefinition extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Spec Diagrams</em>' containment reference list.
      * @see urncore.UrncorePackage#getURNdefinition_SpecDiagrams()
-     * @see urncore.SpecificationDiagram#getUrndefinition
-     * @model type="urncore.SpecificationDiagram" opposite="urndefinition" containment="true"
+     * @see urncore.IURNDiagram#getUrndefinition
+     * @model type="urncore.IURNDiagram" opposite="urndefinition" containment="true"
      * @generated
      */
     EList getSpecDiagrams();

@@ -1,12 +1,13 @@
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Text;
+
+import seg.jUCMNav.figures.LabelElementFigure;
 
 /**
  * A CellEditorLocator for a specified label
@@ -16,7 +17,7 @@ import org.eclipse.swt.widgets.Text;
 public class LabelCellEditorLocator implements CellEditorLocator
 {
 
-	private Label label;
+	private LabelElementFigure label;
 
 	/**
 	 * Creates a new CellEditorLocator for the given Label
@@ -24,7 +25,7 @@ public class LabelCellEditorLocator implements CellEditorLocator
 	 * @param label
 	 *            the Label
 	 */
-	public LabelCellEditorLocator(Label label)
+	public LabelCellEditorLocator(LabelElementFigure label)
 	{
 		setLabel(label);
 	}
@@ -37,7 +38,7 @@ public class LabelCellEditorLocator implements CellEditorLocator
 		Text text = (Text) celleditor.getControl();
 
 		Point pref = text.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		Rectangle rect = label.getTextBounds().getCopy();
+		Rectangle rect = label.getBounds().getCopy();
 		label.translateToAbsolute(rect);
 		if (text.getCharCount() > 1)
 			text.setBounds(rect.x - 1, rect.y - 1, pref.x + 1, pref.y + 1);
@@ -51,7 +52,7 @@ public class LabelCellEditorLocator implements CellEditorLocator
 	 * 
 	 * @return the Label
 	 */
-	protected Label getLabel()
+	protected LabelElementFigure getLabel()
 	{
 		return label;
 	}
@@ -62,7 +63,7 @@ public class LabelCellEditorLocator implements CellEditorLocator
 	 * @param label
 	 *            The label to set
 	 */
-	protected void setLabel(Label label)
+	protected void setLabel(LabelElementFigure label)
 	{
 		this.label = label;
 	}

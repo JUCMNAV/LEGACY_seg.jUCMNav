@@ -7,7 +7,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
-import seg.jUCMNav.views.property.ComponentPropertySource;
+import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
 import urncore.Component;
 import urncore.ComponentElement;
@@ -18,7 +18,7 @@ import urncore.ComponentKind;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
+public class ComponentRefTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
@@ -33,8 +33,8 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
      */
     public void activate() {
         super.activate();
-        if (getCompRef().getCompDef() != null)
-            getCompRef().getCompDef().eAdapters().add(this);
+        if (getCompRef().getContDef() != null)
+            getCompRef().getContDef().eAdapters().add(this);
     }
 
     /**
@@ -42,8 +42,8 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
      */
     public void deactivate() {
         super.deactivate();
-        if (getCompRef().getCompDef() != null)
-            getCompRef().getCompDef().eAdapters().remove(this);
+        if (getCompRef().getContDef() != null)
+            getCompRef().getContDef().eAdapters().remove(this);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
      * Returns the icon appropriate for the definition's kind
      */
     protected Image getImage() {
-        ComponentElement comp = (ComponentElement)getCompRef().getCompDef();
+        ComponentElement comp = (ComponentElement)getCompRef().getContDef();
         if (super.getImage() == null) {
             if (comp instanceof Component) {
                 setImage(ComponentTreeEditPart.getComponentImage(((Component) comp).getKind()));
@@ -78,7 +78,7 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
     /**
      * Change image if kind changes.
      * 
-     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
+     * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
         if (notification.getFeature() instanceof EStructuralFeature) {
@@ -95,13 +95,13 @@ public class ComponentRefTreeEditPart extends UcmModelElementTreeEditPart {
     }
 
     /**
-     * Returns a ComponentPropertySource
+     * Returns a ContainerPropertySource
      * 
-     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#getPropertySource()
+     * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#getPropertySource()
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null)
-            propertySource = new ComponentPropertySource(getCompRef());
+            propertySource = new ContainerPropertySource(getCompRef());
 
         return propertySource;
     }

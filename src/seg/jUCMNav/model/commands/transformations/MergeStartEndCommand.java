@@ -2,7 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUcmModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.transformations.internal.DoMergeCommand;
 import ucm.map.EndPoint;
 import ucm.map.UCMmap;
@@ -32,8 +32,8 @@ public class MergeStartEndCommand extends CompoundCommand {
      *  
      */
     public MergeStartEndCommand(UCMmap map, StartPoint sp, EndPoint ep, int x, int y) {
-        add(new PreDeleteUcmModelElementCommand(sp));
-        add(new PreDeleteUcmModelElementCommand(ep));
+        add(new PreDeleteUrnModelElementCommand(sp));
+        add(new PreDeleteUrnModelElementCommand(ep));
         add(new DoMergeCommand(map, sp, ep, x, y));
     }
 }

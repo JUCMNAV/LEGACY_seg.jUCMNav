@@ -31,10 +31,10 @@ import urn.URNspec;
  * </p>
  *
  * @see ucm.UcmPackage#getUCMspec()
- * @model 
+ * @model
  * @generated
  */
-public interface UCMspec extends EObject {
+public interface UCMspec extends EObject{
     /**
      * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urn.URNspec#getUcmspec <em>Ucmspec</em>}'.
@@ -120,7 +120,7 @@ public interface UCMspec extends EObject {
     /**
      * Returns the value of the '<em><b>Scenario Groups</b></em>' containment reference list.
      * The list contents are of type {@link ucm.scenario.ScenarioGroup}.
-     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioGroup#getUrnspec <em>Urnspec</em>}'.
+     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioGroup#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Scenario Groups</em>' containment reference list isn't clear,
@@ -129,8 +129,8 @@ public interface UCMspec extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Scenario Groups</em>' containment reference list.
      * @see ucm.UcmPackage#getUCMspec_ScenarioGroups()
-     * @see ucm.scenario.ScenarioGroup#getUrnspec
-     * @model type="ucm.scenario.ScenarioGroup" opposite="urnspec" containment="true"
+     * @see ucm.scenario.ScenarioGroup#getUcmspec
+     * @model type="ucm.scenario.ScenarioGroup" opposite="ucmspec" containment="true"
      * @generated
      */
     EList getScenarioGroups();
@@ -138,7 +138,7 @@ public interface UCMspec extends EObject {
     /**
      * Returns the value of the '<em><b>Variables</b></em>' containment reference list.
      * The list contents are of type {@link ucm.scenario.Variable}.
-     * It is bidirectional and its opposite is '{@link ucm.scenario.Variable#getUrnspec <em>Urnspec</em>}'.
+     * It is bidirectional and its opposite is '{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Variables</em>' containment reference list isn't clear,
@@ -147,8 +147,8 @@ public interface UCMspec extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Variables</em>' containment reference list.
      * @see ucm.UcmPackage#getUCMspec_Variables()
-     * @see ucm.scenario.Variable#getUrnspec
-     * @model type="ucm.scenario.Variable" opposite="urnspec" containment="true"
+     * @see ucm.scenario.Variable#getUcmspec
+     * @model type="ucm.scenario.Variable" opposite="ucmspec" containment="true"
      * @generated
      */
     EList getVariables();
@@ -156,7 +156,7 @@ public interface UCMspec extends EObject {
     /**
      * Returns the value of the '<em><b>Scenario Defs</b></em>' containment reference list.
      * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getUrnspec <em>Urnspec</em>}'.
+     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Scenario Defs</em>' containment reference list isn't clear,
@@ -165,8 +165,8 @@ public interface UCMspec extends EObject {
      * <!-- end-user-doc -->
      * @return the value of the '<em>Scenario Defs</em>' containment reference list.
      * @see ucm.UcmPackage#getUCMspec_ScenarioDefs()
-     * @see ucm.scenario.ScenarioDef#getUrnspec
-     * @model type="ucm.scenario.ScenarioDef" opposite="urnspec" containment="true"
+     * @see ucm.scenario.ScenarioDef#getUcmspec
+     * @model type="ucm.scenario.ScenarioDef" opposite="ucmspec" containment="true"
      * @generated
      */
     EList getScenarioDefs();

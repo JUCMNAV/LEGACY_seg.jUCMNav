@@ -71,9 +71,9 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
             start = (StartPoint) nc.getSource();
         }
 
-        pg = (UCMmap)start.getSpecDiagram();
-        startParent = (ComponentRef)start.getCompRef();
-        endParent = (ComponentRef)end.getCompRef();
+        pg = (UCMmap)start.getDiagram();
+        startParent = (ComponentRef)start.getContRef();
+        endParent = (ComponentRef)end.getContRef();
 
         redo();
     }
@@ -89,8 +89,8 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
         pg.getNodes().remove(start);
         pg.getNodes().remove(end);
         pg.getConnections().remove(nc);
-        start.setCompRef(null);
-        end.setCompRef(null);
+        start.setContRef(null);
+        end.setContRef(null);
 
         testPostConditions();
     }
@@ -126,8 +126,8 @@ public class DeleteStartNCEndCommand extends Command implements JUCMNavCommand {
         pg.getNodes().add(start);
         pg.getNodes().add(end);
         pg.getConnections().add(nc);
-        start.setCompRef(startParent);
-        end.setCompRef(endParent);
+        start.setContRef(startParent);
+        end.setContRef(endParent);
 
         testPreConditions();
     }

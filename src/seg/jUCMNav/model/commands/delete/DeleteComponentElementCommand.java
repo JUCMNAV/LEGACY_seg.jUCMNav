@@ -31,7 +31,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return getCompDef() != null && getCompDef().getCompRefs().size() == 0;
+        return getCompDef() != null && getCompDef().getContRefs().size() == 0;
     }
 
     /**
@@ -78,7 +78,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
     public void testPostConditions() {
         // lists could be empty but not null
         assert getCompDef() != null && urn != null : "post something is null"; //$NON-NLS-1$
-        assert getCompDef().getCompRefs().size() == 0 : "post there are still children"; //$NON-NLS-1$
+        assert getCompDef().getContRefs().size() == 0 : "post there are still children"; //$NON-NLS-1$
         assert !urn.getUrndef().getComponents().contains(getCompDef()) : "post component element still in model"; //$NON-NLS-1$
     }
 
@@ -89,7 +89,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
 
         // lists could be empty but not null
         assert getCompDef() != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert getCompDef().getCompRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
+        assert getCompDef().getContRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
         assert urn.getUrndef().getComponents().contains(getCompDef()) : "pre component element in model"; //$NON-NLS-1$
 
     }

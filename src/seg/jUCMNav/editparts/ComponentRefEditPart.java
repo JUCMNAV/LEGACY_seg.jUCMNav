@@ -13,7 +13,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.editpolicies.element.ComponentRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ComponentRefFigure;
-import seg.jUCMNav.views.property.ComponentPropertySource;
+import seg.jUCMNav.views.property.ContainerPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.UCMmap;
 import urncore.Component;
@@ -41,8 +41,8 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {       
-        if (!isActive() && getComponentRef().getCompDef() != null)
-            getComponentRef().getCompDef().eAdapters().add(this);
+        if (!isActive() && getComponentRef().getContDef() != null)
+            getComponentRef().getContDef().eAdapters().add(this);
 
         // listen to reference
         super.activate();
@@ -71,8 +71,8 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive() && getComponentRef().getCompDef() != null)
-            getComponentRef().getCompDef().eAdapters().remove(this);
+        if (isActive() && getComponentRef().getContDef() != null)
+            getComponentRef().getContDef().eAdapters().remove(this);
          
         //stop listenening to reference
         super.deactivate();
@@ -88,11 +88,11 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
     }
 
 	/**
-	 * @return a ComponentPropertySource 
+	 * @return a ContainerPropertySource 
 	 */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
-            propertySource = new ComponentPropertySource((EObject) getModel());
+            propertySource = new ContainerPropertySource((EObject) getModel());
         }
         return propertySource;
     }
@@ -107,7 +107,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
 
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
-            ((SpecificationDiagramEditPart) getParent()).notifyChanged(notification);
+            ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
     /**
@@ -126,8 +126,8 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         figure.setLocation(location);
 
         // set information for specific drawing
-        if (getComponentRef().getCompDef() instanceof Component) {
-            Component comp = (Component) getComponentRef().getCompDef();
+        if (getComponentRef().getContDef() instanceof Component) {
+            Component comp = (Component) getComponentRef().getContDef();
             ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
             ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
         }

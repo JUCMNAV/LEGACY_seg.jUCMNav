@@ -30,8 +30,8 @@ import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 
 import urncore.Condition;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.UrncorePackage;
 
 /**
@@ -43,7 +43,7 @@ import urncore.UrncorePackage;
  * <ul>
  *   <li>{@link ucm.map.impl.NodeConnectionImpl#getSource <em>Source</em>}</li>
  *   <li>{@link ucm.map.impl.NodeConnectionImpl#getTarget <em>Target</em>}</li>
- *   <li>{@link ucm.map.impl.NodeConnectionImpl#getSpecDiagram <em>Spec Diagram</em>}</li>
+ *   <li>{@link ucm.map.impl.NodeConnectionImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link ucm.map.impl.NodeConnectionImpl#getProbability <em>Probability</em>}</li>
  *   <li>{@link ucm.map.impl.NodeConnectionImpl#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.NodeConnectionImpl#getOutBindings <em>Out Bindings</em>}</li>
@@ -62,7 +62,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * @generated
      * @ordered
      */
-    protected SpecificationNode source = null;
+    protected IURNNode source = null;
 
     /**
      * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -72,7 +72,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * @generated
      * @ordered
      */
-    protected SpecificationNode target = null;
+    protected IURNNode target = null;
 
     /**
      * The default value of the '{@link #getProbability() <em>Probability</em>}' attribute.
@@ -147,10 +147,10 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationNode getSource() {
+    public IURNNode getSource() {
         if (source != null && source.eIsProxy()) {
-            SpecificationNode oldSource = source;
-            source = (SpecificationNode)eResolveProxy((InternalEObject)source);
+            IURNNode oldSource = source;
+            source = (IURNNode)eResolveProxy((InternalEObject)source);
             if (source != oldSource) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.NODE_CONNECTION__SOURCE, oldSource, source));
@@ -164,7 +164,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationNode basicGetSource() {
+    public IURNNode basicGetSource() {
         return source;
     }
 
@@ -173,8 +173,8 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetSource(SpecificationNode newSource, NotificationChain msgs) {
-        SpecificationNode oldSource = source;
+    public NotificationChain basicSetSource(IURNNode newSource, NotificationChain msgs) {
+        IURNNode oldSource = source;
         source = newSource;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.NODE_CONNECTION__SOURCE, oldSource, newSource);
@@ -188,13 +188,13 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setSource(SpecificationNode newSource) {
+    public void setSource(IURNNode newSource) {
         if (newSource != source) {
             NotificationChain msgs = null;
             if (source != null)
-                msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.SPECIFICATION_NODE__SUCC, SpecificationNode.class, msgs);
+                msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
             if (newSource != null)
-                msgs = ((InternalEObject)newSource).eInverseAdd(this, UrncorePackage.SPECIFICATION_NODE__SUCC, SpecificationNode.class, msgs);
+                msgs = ((InternalEObject)newSource).eInverseAdd(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
             msgs = basicSetSource(newSource, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -207,10 +207,10 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationNode getTarget() {
+    public IURNNode getTarget() {
         if (target != null && target.eIsProxy()) {
-            SpecificationNode oldTarget = target;
-            target = (SpecificationNode)eResolveProxy((InternalEObject)target);
+            IURNNode oldTarget = target;
+            target = (IURNNode)eResolveProxy((InternalEObject)target);
             if (target != oldTarget) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.NODE_CONNECTION__TARGET, oldTarget, target));
@@ -224,7 +224,7 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationNode basicGetTarget() {
+    public IURNNode basicGetTarget() {
         return target;
     }
 
@@ -233,8 +233,8 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetTarget(SpecificationNode newTarget, NotificationChain msgs) {
-        SpecificationNode oldTarget = target;
+    public NotificationChain basicSetTarget(IURNNode newTarget, NotificationChain msgs) {
+        IURNNode oldTarget = target;
         target = newTarget;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.NODE_CONNECTION__TARGET, oldTarget, newTarget);
@@ -248,13 +248,13 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setTarget(SpecificationNode newTarget) {
+    public void setTarget(IURNNode newTarget) {
         if (newTarget != target) {
             NotificationChain msgs = null;
             if (target != null)
-                msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.SPECIFICATION_NODE__PRED, SpecificationNode.class, msgs);
+                msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
             if (newTarget != null)
-                msgs = ((InternalEObject)newTarget).eInverseAdd(this, UrncorePackage.SPECIFICATION_NODE__PRED, SpecificationNode.class, msgs);
+                msgs = ((InternalEObject)newTarget).eInverseAdd(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
             msgs = basicSetTarget(newTarget, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -267,9 +267,9 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationDiagram getSpecDiagram() {
-        if (eContainerFeatureID != MapPackage.NODE_CONNECTION__SPEC_DIAGRAM) return null;
-        return (SpecificationDiagram)eContainer;
+    public IURNDiagram getDiagram() {
+        if (eContainerFeatureID != MapPackage.NODE_CONNECTION__DIAGRAM) return null;
+        return (IURNDiagram)eContainer;
     }
 
     /**
@@ -277,20 +277,20 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setSpecDiagram(SpecificationDiagram newSpecDiagram) {
-        if (newSpecDiagram != eContainer || (eContainerFeatureID != MapPackage.NODE_CONNECTION__SPEC_DIAGRAM && newSpecDiagram != null)) {
-            if (EcoreUtil.isAncestor(this, newSpecDiagram))
+    public void setDiagram(IURNDiagram newDiagram) {
+        if (newDiagram != eContainer || (eContainerFeatureID != MapPackage.NODE_CONNECTION__DIAGRAM && newDiagram != null)) {
+            if (EcoreUtil.isAncestor(this, newDiagram))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
-            if (newSpecDiagram != null)
-                msgs = ((InternalEObject)newSpecDiagram).eInverseAdd(this, UrncorePackage.SPECIFICATION_DIAGRAM__CONNECTIONS, SpecificationDiagram.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newSpecDiagram, MapPackage.NODE_CONNECTION__SPEC_DIAGRAM, msgs);
+            if (newDiagram != null)
+                msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newDiagram, MapPackage.NODE_CONNECTION__DIAGRAM, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.NODE_CONNECTION__SPEC_DIAGRAM, newSpecDiagram, newSpecDiagram));
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.NODE_CONNECTION__DIAGRAM, newDiagram, newDiagram));
     }
 
     /**
@@ -391,16 +391,16 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case MapPackage.NODE_CONNECTION__SOURCE:
                     if (source != null)
-                        msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.SPECIFICATION_NODE__SUCC, SpecificationNode.class, msgs);
-                    return basicSetSource((SpecificationNode)otherEnd, msgs);
+                        msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
+                    return basicSetSource((IURNNode)otherEnd, msgs);
                 case MapPackage.NODE_CONNECTION__TARGET:
                     if (target != null)
-                        msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.SPECIFICATION_NODE__PRED, SpecificationNode.class, msgs);
-                    return basicSetTarget((SpecificationNode)otherEnd, msgs);
-                case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
+                        msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
+                    return basicSetTarget((IURNNode)otherEnd, msgs);
+                case MapPackage.NODE_CONNECTION__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.NODE_CONNECTION__SPEC_DIAGRAM, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.NODE_CONNECTION__DIAGRAM, msgs);
                 case MapPackage.NODE_CONNECTION__IN_BINDINGS:
                     return ((InternalEList)getInBindings()).basicAdd(otherEnd, msgs);
                 case MapPackage.NODE_CONNECTION__OUT_BINDINGS:
@@ -430,8 +430,8 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
                     return basicSetSource(null, msgs);
                 case MapPackage.NODE_CONNECTION__TARGET:
                     return basicSetTarget(null, msgs);
-                case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.NODE_CONNECTION__SPEC_DIAGRAM, msgs);
+                case MapPackage.NODE_CONNECTION__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.NODE_CONNECTION__DIAGRAM, msgs);
                 case MapPackage.NODE_CONNECTION__IN_BINDINGS:
                     return ((InternalEList)getInBindings()).basicRemove(otherEnd, msgs);
                 case MapPackage.NODE_CONNECTION__OUT_BINDINGS:
@@ -453,13 +453,13 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__CONNECTIONS, SpecificationDiagram.class, msgs);
+                case MapPackage.NODE_CONNECTION__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -475,8 +475,8 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
             case MapPackage.NODE_CONNECTION__TARGET:
                 if (resolve) return getTarget();
                 return basicGetTarget();
-            case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                return getSpecDiagram();
+            case MapPackage.NODE_CONNECTION__DIAGRAM:
+                return getDiagram();
             case MapPackage.NODE_CONNECTION__PROBABILITY:
                 return new Double(getProbability());
             case MapPackage.NODE_CONNECTION__IN_BINDINGS:
@@ -497,13 +497,13 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
             case MapPackage.NODE_CONNECTION__SOURCE:
-                setSource((SpecificationNode)newValue);
+                setSource((IURNNode)newValue);
                 return;
             case MapPackage.NODE_CONNECTION__TARGET:
-                setTarget((SpecificationNode)newValue);
+                setTarget((IURNNode)newValue);
                 return;
-            case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.NODE_CONNECTION__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
             case MapPackage.NODE_CONNECTION__PROBABILITY:
                 setProbability(((Double)newValue).doubleValue());
@@ -531,13 +531,13 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
             case MapPackage.NODE_CONNECTION__SOURCE:
-                setSource((SpecificationNode)null);
+                setSource((IURNNode)null);
                 return;
             case MapPackage.NODE_CONNECTION__TARGET:
-                setTarget((SpecificationNode)null);
+                setTarget((IURNNode)null);
                 return;
-            case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.NODE_CONNECTION__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
             case MapPackage.NODE_CONNECTION__PROBABILITY:
                 setProbability(PROBABILITY_EDEFAULT);
@@ -566,8 +566,8 @@ public class NodeConnectionImpl extends EObjectImpl implements NodeConnection {
                 return source != null;
             case MapPackage.NODE_CONNECTION__TARGET:
                 return target != null;
-            case MapPackage.NODE_CONNECTION__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
+            case MapPackage.NODE_CONNECTION__DIAGRAM:
+                return getDiagram() != null;
             case MapPackage.NODE_CONNECTION__PROBABILITY:
                 return probability != PROBABILITY_EDEFAULT;
             case MapPackage.NODE_CONNECTION__IN_BINDINGS:

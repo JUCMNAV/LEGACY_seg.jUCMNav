@@ -67,7 +67,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
     public void execute() {
         stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
-        urnSpec = stub.getSpecDiagram().getUrndefinition().getUrnspec();
+        urnSpec = stub.getDiagram().getUrndefinition().getUrnspec();
 
         inBindings.addAll(oldPlugin.getIn());
         outBindings.addAll(oldPlugin.getOut());

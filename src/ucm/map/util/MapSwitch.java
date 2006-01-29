@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
 
 import ucm.map.*;
 
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationConnection;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNContainerRef;
+import urncore.IURNConnection;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -99,7 +99,7 @@ public class MapSwitch {
                 Object result = caseAndJoin(andJoin);
                 if (result == null) result = casePathNode(andJoin);
                 if (result == null) result = caseUCMmodelElement(andJoin);
-                if (result == null) result = caseSpecificationNode(andJoin);
+                if (result == null) result = caseIURNNode(andJoin);
                 if (result == null) result = caseURNmodelElement(andJoin);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -121,7 +121,7 @@ public class MapSwitch {
                 Object result = caseRespRef(respRef);
                 if (result == null) result = casePathNode(respRef);
                 if (result == null) result = caseUCMmodelElement(respRef);
-                if (result == null) result = caseSpecificationNode(respRef);
+                if (result == null) result = caseIURNNode(respRef);
                 if (result == null) result = caseURNmodelElement(respRef);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -131,7 +131,7 @@ public class MapSwitch {
                 Object result = caseLoop(loop);
                 if (result == null) result = casePathNode(loop);
                 if (result == null) result = caseUCMmodelElement(loop);
-                if (result == null) result = caseSpecificationNode(loop);
+                if (result == null) result = caseIURNNode(loop);
                 if (result == null) result = caseURNmodelElement(loop);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -141,7 +141,7 @@ public class MapSwitch {
                 Object result = caseOrJoin(orJoin);
                 if (result == null) result = casePathNode(orJoin);
                 if (result == null) result = caseUCMmodelElement(orJoin);
-                if (result == null) result = caseSpecificationNode(orJoin);
+                if (result == null) result = caseIURNNode(orJoin);
                 if (result == null) result = caseURNmodelElement(orJoin);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -151,7 +151,7 @@ public class MapSwitch {
                 Object result = caseOrFork(orFork);
                 if (result == null) result = casePathNode(orFork);
                 if (result == null) result = caseUCMmodelElement(orFork);
-                if (result == null) result = caseSpecificationNode(orFork);
+                if (result == null) result = caseIURNNode(orFork);
                 if (result == null) result = caseURNmodelElement(orFork);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -161,7 +161,7 @@ public class MapSwitch {
                 Object result = caseConnect(connect);
                 if (result == null) result = casePathNode(connect);
                 if (result == null) result = caseUCMmodelElement(connect);
-                if (result == null) result = caseSpecificationNode(connect);
+                if (result == null) result = caseIURNNode(connect);
                 if (result == null) result = caseURNmodelElement(connect);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -169,7 +169,7 @@ public class MapSwitch {
             case MapPackage.NODE_CONNECTION: {
                 NodeConnection nodeConnection = (NodeConnection)theEObject;
                 Object result = caseNodeConnection(nodeConnection);
-                if (result == null) result = caseSpecificationConnection(nodeConnection);
+                if (result == null) result = caseIURNConnection(nodeConnection);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -178,7 +178,7 @@ public class MapSwitch {
                 Object result = caseWaitingPlace(waitingPlace);
                 if (result == null) result = casePathNode(waitingPlace);
                 if (result == null) result = caseUCMmodelElement(waitingPlace);
-                if (result == null) result = caseSpecificationNode(waitingPlace);
+                if (result == null) result = caseIURNNode(waitingPlace);
                 if (result == null) result = caseURNmodelElement(waitingPlace);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -188,8 +188,17 @@ public class MapSwitch {
                 Object result = caseStub(stub);
                 if (result == null) result = casePathNode(stub);
                 if (result == null) result = caseUCMmodelElement(stub);
-                if (result == null) result = caseSpecificationNode(stub);
+                if (result == null) result = caseIURNNode(stub);
                 if (result == null) result = caseURNmodelElement(stub);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case MapPackage.PATH_NODE: {
+                PathNode pathNode = (PathNode)theEObject;
+                Object result = casePathNode(pathNode);
+                if (result == null) result = caseUCMmodelElement(pathNode);
+                if (result == null) result = caseIURNNode(pathNode);
+                if (result == null) result = caseURNmodelElement(pathNode);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -198,7 +207,7 @@ public class MapSwitch {
                 Object result = caseEndPoint(endPoint);
                 if (result == null) result = casePathNode(endPoint);
                 if (result == null) result = caseUCMmodelElement(endPoint);
-                if (result == null) result = caseSpecificationNode(endPoint);
+                if (result == null) result = caseIURNNode(endPoint);
                 if (result == null) result = caseURNmodelElement(endPoint);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -208,7 +217,7 @@ public class MapSwitch {
                 Object result = caseStartPoint(startPoint);
                 if (result == null) result = casePathNode(startPoint);
                 if (result == null) result = caseUCMmodelElement(startPoint);
-                if (result == null) result = caseSpecificationNode(startPoint);
+                if (result == null) result = caseIURNNode(startPoint);
                 if (result == null) result = caseURNmodelElement(startPoint);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -217,7 +226,7 @@ public class MapSwitch {
                 UCMmap ucMmap = (UCMmap)theEObject;
                 Object result = caseUCMmap(ucMmap);
                 if (result == null) result = caseUCMmodelElement(ucMmap);
-                if (result == null) result = caseSpecificationDiagram(ucMmap);
+                if (result == null) result = caseIURNDiagram(ucMmap);
                 if (result == null) result = caseURNmodelElement(ucMmap);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -227,7 +236,7 @@ public class MapSwitch {
                 Object result = caseAbort(abort);
                 if (result == null) result = casePathNode(abort);
                 if (result == null) result = caseUCMmodelElement(abort);
-                if (result == null) result = caseSpecificationNode(abort);
+                if (result == null) result = caseIURNNode(abort);
                 if (result == null) result = caseURNmodelElement(abort);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -242,7 +251,7 @@ public class MapSwitch {
                 ComponentRef componentRef = (ComponentRef)theEObject;
                 Object result = caseComponentRef(componentRef);
                 if (result == null) result = caseUCMmodelElement(componentRef);
-                if (result == null) result = caseSpecificationComponentRef(componentRef);
+                if (result == null) result = caseIURNContainerRef(componentRef);
                 if (result == null) result = caseURNmodelElement(componentRef);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -253,7 +262,7 @@ public class MapSwitch {
                 if (result == null) result = caseWaitingPlace(timer);
                 if (result == null) result = casePathNode(timer);
                 if (result == null) result = caseUCMmodelElement(timer);
-                if (result == null) result = caseSpecificationNode(timer);
+                if (result == null) result = caseIURNNode(timer);
                 if (result == null) result = caseURNmodelElement(timer);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -263,7 +272,7 @@ public class MapSwitch {
                 Object result = caseAndFork(andFork);
                 if (result == null) result = casePathNode(andFork);
                 if (result == null) result = caseUCMmodelElement(andFork);
-                if (result == null) result = caseSpecificationNode(andFork);
+                if (result == null) result = caseIURNNode(andFork);
                 if (result == null) result = caseURNmodelElement(andFork);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -273,7 +282,7 @@ public class MapSwitch {
                 Object result = caseEmptyPoint(emptyPoint);
                 if (result == null) result = casePathNode(emptyPoint);
                 if (result == null) result = caseUCMmodelElement(emptyPoint);
-                if (result == null) result = caseSpecificationNode(emptyPoint);
+                if (result == null) result = caseIURNNode(emptyPoint);
                 if (result == null) result = caseURNmodelElement(emptyPoint);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -283,7 +292,7 @@ public class MapSwitch {
                 Object result = caseFailurePoint(failurePoint);
                 if (result == null) result = casePathNode(failurePoint);
                 if (result == null) result = caseUCMmodelElement(failurePoint);
-                if (result == null) result = caseSpecificationNode(failurePoint);
+                if (result == null) result = caseIURNNode(failurePoint);
                 if (result == null) result = caseURNmodelElement(failurePoint);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -293,7 +302,7 @@ public class MapSwitch {
                 Object result = caseDirectionArrow(directionArrow);
                 if (result == null) result = casePathNode(directionArrow);
                 if (result == null) result = caseUCMmodelElement(directionArrow);
-                if (result == null) result = caseSpecificationNode(directionArrow);
+                if (result == null) result = caseIURNNode(directionArrow);
                 if (result == null) result = caseURNmodelElement(directionArrow);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
@@ -678,62 +687,62 @@ public class MapSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Node</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Node</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationNode(SpecificationNode object) {
+    public Object caseIURNNode(IURNNode object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Connection</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Connection</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationConnection(SpecificationConnection object) {
+    public Object caseIURNConnection(IURNConnection object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Diagram</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Diagram</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationDiagram(SpecificationDiagram object) {
+    public Object caseIURNDiagram(IURNDiagram object) {
         return null;
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Specification Component Ref</em>'.
+     * @return the result of interpretting the object as an instance of '<em>IURN Container Ref</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseSpecificationComponentRef(SpecificationComponentRef object) {
+    public Object caseIURNContainerRef(IURNContainerRef object) {
         return null;
     }
 

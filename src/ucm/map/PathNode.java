@@ -6,7 +6,7 @@
  */
 package ucm.map;
 
-import urncore.SpecificationNode;
+import urncore.IURNNode;
 import urncore.UCMmodelElement;
 
 /**
@@ -19,5 +19,5 @@ import urncore.UCMmodelElement;
  * @model abstract="true"
  * @generated
  */
-public interface PathNode extends UCMmodelElement, SpecificationNode {
+public interface PathNode extends UCMmodelElement, IURNNode {
 } // PathNode

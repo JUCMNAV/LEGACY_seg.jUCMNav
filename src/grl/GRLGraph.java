@@ -7,7 +7,7 @@
 package grl;
 
 import urncore.GRLmodelElement;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,8 +16,8 @@ import urncore.SpecificationDiagram;
  *
  *
  * @see grl.GrlPackage#getGRLGraph()
- * @model 
+ * @model
  * @generated
  */
-public interface GRLGraph extends GRLmodelElement, SpecificationDiagram {
+public interface GRLGraph extends GRLmodelElement, IURNDiagram {
 } // GRLGraph

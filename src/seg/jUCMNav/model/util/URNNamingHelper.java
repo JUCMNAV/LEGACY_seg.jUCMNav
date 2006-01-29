@@ -1,9 +1,11 @@
 package seg.jUCMNav.model.util;
 
 import grl.Actor;
+import grl.ActorRef;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
+import grl.IntentionalElementRef;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -20,18 +22,20 @@ import org.eclipse.emf.ecore.EObject;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
+import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
+import urncore.Component;
 import urncore.ComponentElement;
 import urncore.GRLmodelElement;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.Responsibility;
-import urncore.SpecificationComponent;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 import urncore.URNmodelElement;
@@ -246,7 +250,7 @@ public class URNNamingHelper {
 
         //look at all diagram
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-           SpecificationDiagram g = (SpecificationDiagram) iter.next();
+           IURNDiagram g = (IURNDiagram) iter.next();
            if (g instanceof GRLGraph){
                 GRLGraph diagram = (GRLGraph) g;
                 if (!isNameAndIDSet(diagram)) {
@@ -255,7 +259,7 @@ public class URNNamingHelper {
                 findConflicts(htIDs, null, IDConflicts, null, diagram);
     
                 // look at all actorref
-                for (Iterator iterator = diagram.getCompRefs().iterator(); iterator.hasNext();) {
+                for (Iterator iterator = diagram.getContRefs().iterator(); iterator.hasNext();) {
                     findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
                 }
         
@@ -286,7 +290,7 @@ public class URNNamingHelper {
 
         //look at all maps
         for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-           SpecificationDiagram g = (SpecificationDiagram) iter.next();
+           IURNDiagram g = (IURNDiagram) iter.next();
            if (g instanceof UCMmap){
                 UCMmap map = (UCMmap) g;
                 if (!isNameAndIDSet(map)) {
@@ -295,7 +299,7 @@ public class URNNamingHelper {
                 findConflicts(htIDs, null, IDConflicts, null, map);
     
                 // look at all componentrefs
-                for (Iterator iterator = map.getCompRefs().iterator(); iterator.hasNext();) {
+                for (Iterator iterator = map.getContRefs().iterator(); iterator.hasNext();) {
                     findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
                 }
         
@@ -516,7 +520,7 @@ public class URNNamingHelper {
      */
     public static void setElementNameAndID(URNspec urn, Object o) {
 
-        // ComponentElement and Responsibilty are two special cases; they must have unique names.
+        // ComponentElement, Actors and Responsibilty are two special cases; they must have unique names.
         // Generics would help minimize the code for the rest; we could use EMF to determine of the name and id attributes exist but decided to go for
         // legibility
         if (o instanceof ComponentElement) {
@@ -537,6 +541,15 @@ public class URNNamingHelper {
             if (resp.getName() == null || resp.getName().trim().length() == 0) {
                 resp.setName(getPrefix(o.getClass()) + resp.getId());
             }
+        } else if (o instanceof Actor) {
+            Actor actor = (Actor) o;
+            if (actor.getId() == null || actor.getId().trim().length() == 0) {
+                actor.setId(getNewID(urn));
+            }
+
+            if (actor.getName() == null || actor.getName().trim().length() == 0) {
+                actor.setName(getPrefix(o.getClass()) + actor.getId());
+            }
         } else if (o instanceof IntentionalElement) {
             IntentionalElement elem = (IntentionalElement) o;
             if (elem.getId() == null || elem.getId().trim().length() == 0) {
@@ -544,7 +557,7 @@ public class URNNamingHelper {
             }
 
             if (elem.getName() == null || elem.getName().trim().length() == 0) {
-                elem.setName(getPrefix(o.getClass()) + elem.getId());
+                elem.setName("Intentional Element" + elem.getId());
             }
         } else if (o instanceof URNmodelElement) {
             URNmodelElement model = (URNmodelElement) o;
@@ -584,6 +597,25 @@ public class URNNamingHelper {
     }
 
     /**
+     * Verifies in the urnspec to see if a actor exists with the proposed name.If you plan on calling resolveNamingConflict after this call, call it
+     * directly; this method will only add overhead.
+     * 
+     * @param urn
+     *            the urnspec containg all actors
+     * @param proposedName
+     *            the proposed name
+     * @return true if name exists
+     */
+    public static boolean doesActorNameExists(URNspec urn, String proposedName) {
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            if (element.getName().equalsIgnoreCase(proposedName))
+                return true;
+        }
+        return proposedName.length() == 0;
+    }
+
+    /**
      * Verifies in the urnspec to see if a component exists with the proposed name.If you plan on calling resolveNamingConflict after this call, call it
      * directly; this method will only add overhead.
      * 
@@ -602,6 +634,25 @@ public class URNNamingHelper {
         return proposedName.length() == 0;
     }
 
+    /**
+     * Verifies in the urnspec to see if a intentionalElement exists with the proposed name.If you plan on calling resolveNamingConflict after this call, call it
+     * directly; this method will only add overhead.
+     * 
+     * @param urn
+     *            the urnspec containg all components
+     * @param proposedName
+     *            the proposed name
+     * @return true if name exists
+     */
+    public static boolean doesIntentionalElementNameExists(URNspec urn, String proposedName) {
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            URNmodelElement element = (URNmodelElement) iter.next();
+            if (element.getName().equalsIgnoreCase(proposedName))
+                return true;
+        }
+        return proposedName.length() == 0;
+    }
+    
     /**
      * Verifies in the urnspec to see if a responsibility exists with the proposed name. If you plan on calling resolveNamingConflict after this call, call it
      * directly; this method will only add overhead.
@@ -674,20 +725,29 @@ public class URNNamingHelper {
     public static String isNameValid(URNspec urn, URNmodelElement elem, String name) {
         String message = ""; //$NON-NLS-1$
 
-        if (elem instanceof SpecificationComponentRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof SpecificationComponent) {
+        if (elem instanceof IURNContainerRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof IntentionalElementRef || 
+               elem instanceof IntentionalElement || elem instanceof IURNContainer) {
             if (name.toString().trim().length() == 0) {
                 message = Messages.getString("URNNamingHelper.invalidName"); //$NON-NLS-1$
             }
         }
-        if (elem instanceof SpecificationComponentRef || elem instanceof SpecificationComponent) {
+        if (elem instanceof ComponentRef || elem instanceof Component) {
             if (URNNamingHelper.doesComponentNameExists(urn, name)) {
                 message = Messages.getString("URNNamingHelper.compNameExist"); //$NON-NLS-1$
+            }
+        } else if (elem instanceof ActorRef || elem instanceof Actor) {
+            if (URNNamingHelper.doesActorNameExists(urn, name)) {
+                message = "Actor name already exists"; 
             }
         } else if (elem instanceof RespRef || elem instanceof Responsibility) {
             if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
                 message = Messages.getString("URNNamingHelper.respNameExist"); //$NON-NLS-1$
             }
-        }
+        } else if (elem instanceof IntentionalElementRef || elem instanceof IntentionalElement) {
+            if (URNNamingHelper.doesIntentionalElementNameExists(urn, name)) {
+                message = "Intentional Element name already exists"; 
+            }
+        } 
 
         return message;
     }

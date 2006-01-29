@@ -6,8 +6,6 @@
  */
 package grl;
 
-import urncore.GRLmodelElement;
-import urncore.SpecificationNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,10 +20,10 @@ import urncore.SpecificationNode;
  * </p>
  *
  * @see grl.GrlPackage#getIntentionalElementRef()
- * @model 
+ * @model
  * @generated
  */
-public interface IntentionalElementRef extends GRLmodelElement, SpecificationNode {
+public interface IntentionalElementRef extends GRLNode {
     /**
      * Returns the value of the '<em><b>Def</b></em>' reference.
      * It is bidirectional and its opposite is '{@link grl.IntentionalElement#getRefs <em>Refs</em>}'.

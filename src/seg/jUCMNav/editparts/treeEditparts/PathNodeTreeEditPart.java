@@ -28,7 +28,7 @@ import ucm.map.WaitingPlace;
  * @author TremblaE
  *  
  */
-public class PathNodeTreeEditPart extends UcmModelElementTreeEditPart {
+public class PathNodeTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model

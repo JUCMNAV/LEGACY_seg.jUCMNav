@@ -28,9 +28,10 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.performance.PerformanceFactory
+ * @model kind="package"
  * @generated
  */
-public interface PerformancePackage extends EPackage {
+public interface PerformancePackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->
@@ -74,6 +75,24 @@ public interface PerformancePackage extends EPackage {
     int TIMESTAMP = 0;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TIMESTAMP__FROM_LINKS = MapPackage.PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TIMESTAMP__TO_LINKS = MapPackage.PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -101,15 +120,6 @@ public interface PerformancePackage extends EPackage {
     int TIMESTAMP__DESCRIPTION = MapPackage.PATH_NODE__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TIMESTAMP__URN_LINKS = MapPackage.PATH_NODE__URN_LINKS;
-
-    /**
      * The feature id for the '<em><b>X</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -128,22 +138,22 @@ public interface PerformancePackage extends EPackage {
     int TIMESTAMP__Y = MapPackage.PATH_NODE__Y;
 
     /**
-     * The feature id for the '<em><b>Spec Diagram</b></em>' container reference.
+     * The feature id for the '<em><b>Diagram</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TIMESTAMP__SPEC_DIAGRAM = MapPackage.PATH_NODE__SPEC_DIAGRAM;
+    int TIMESTAMP__DIAGRAM = MapPackage.PATH_NODE__DIAGRAM;
 
     /**
-     * The feature id for the '<em><b>Comp Ref</b></em>' reference.
+     * The feature id for the '<em><b>Cont Ref</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int TIMESTAMP__COMP_REF = MapPackage.PATH_NODE__COMP_REF;
+    int TIMESTAMP__CONT_REF = MapPackage.PATH_NODE__CONT_REF;
 
     /**
      * The feature id for the '<em><b>Succ</b></em>' reference list.
@@ -219,6 +229,24 @@ public interface PerformancePackage extends EPackage {
     int RESPONSE_TIME_REQ = 1;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSE_TIME_REQ__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSE_TIME_REQ__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -244,15 +272,6 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int RESPONSE_TIME_REQ__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESPONSE_TIME_REQ__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Response Time</b></em>' attribute.
@@ -319,6 +338,24 @@ public interface PerformancePackage extends EPackage {
     int WORKLOAD = 2;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORKLOAD__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WORKLOAD__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -344,15 +381,6 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int WORKLOAD__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int WORKLOAD__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Closed</b></em>' attribute.
@@ -501,6 +529,24 @@ public interface PerformancePackage extends EPackage {
     int PERF_MEASURE = 4;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PERF_MEASURE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PERF_MEASURE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -526,15 +572,6 @@ public interface PerformancePackage extends EPackage {
      * @ordered
      */
     int PERF_MEASURE__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PERF_MEASURE__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
 
     /**
      * The feature id for the '<em><b>Measure</b></em>' attribute.

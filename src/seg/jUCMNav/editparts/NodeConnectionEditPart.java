@@ -23,7 +23,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
-import seg.jUCMNav.editpolicies.feedback.NodeConnectionFeedbackEditPolicy;
+import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
@@ -36,7 +36,7 @@ import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.Stub;
 import ucm.map.Timer;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * EditPart associated with NodeConnection.
@@ -85,7 +85,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
                     if (viewer != null) {
                         Map registry = viewer.getEditPartRegistry();
                         if (registry != null) {
-                            SpecificationDiagramEditPart part = (SpecificationDiagramEditPart) registry.get(getMap());
+                            URNDiagramEditPart part = (URNDiagramEditPart) registry.get(getMap());
                             if (part != null) {
 
                                 part.notifyChanged(notification);
@@ -107,7 +107,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
     NodeConnectionAdapter adapter;
 
-    private SpecificationDiagram diagram;
+    private IURNDiagram diagram;
     private Label endLabel, startLabel;
     protected IPropertySource propertySource = null;
     private TimeoutPathFigure timeout;
@@ -120,7 +120,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * @param diagram
      *            the map which contains it.
      */
-    public NodeConnectionEditPart(NodeConnection link, SpecificationDiagram diagram) {
+    public NodeConnectionEditPart(NodeConnection link, IURNDiagram diagram) {
         super();
         setModel(link);
         this.diagram = diagram;
@@ -200,7 +200,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      */
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
-        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new NodeConnectionFeedbackEditPolicy());
+        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ConnectionFeedbackEditPolicy());
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
     }
 
@@ -253,7 +253,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
     }
 
     /**
-     * Returns a UCMElementPropertySource
+     * Returns a URNElementPropertySource
      * 
      * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
      */
@@ -295,7 +295,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
      * 
      * @return the pathgraph containing the connection.
      */
-    public SpecificationDiagram getMap() {
+    public IURNDiagram getMap() {
         return diagram;
     }
 

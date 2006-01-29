@@ -128,9 +128,9 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
         diagram.getNodes().add(end);
 
         // we must bind our components with their container
-        start.setCompRef(ParentFinder.findParent(diagram, x, y));
-        node.setCompRef(ParentFinder.findParent(diagram, x + 100, y));
-        end.setCompRef(ParentFinder.findParent(diagram, x + 200, y));
+        start.setContRef(ParentFinder.findParent(diagram, x, y));
+        node.setContRef(ParentFinder.findParent(diagram, x + 100, y));
+        end.setContRef(ParentFinder.findParent(diagram, x + 200, y));
 
         testPostConditions();
     }
@@ -140,9 +140,9 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        start.setCompRef(null);
-        node.setCompRef(null);
-        end.setCompRef(null);
+        start.setContRef(null);
+        node.setContRef(null);
+        end.setContRef(null);
 
         diagram.getNodes().remove(start);
         diagram.getNodes().remove(node);

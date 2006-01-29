@@ -2,7 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUcmModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.transformations.internal.AttachEndCommand;
 import seg.jUCMNav.model.commands.transformations.internal.AttachStartCommand;
 import ucm.map.AndFork;
@@ -30,7 +30,7 @@ public class AttachBranchCommand extends CompoundCommand {
      *            The stub/join/fork where startEnd will get merged.
      */
     public AttachBranchCommand(PathNode startEnd, PathNode stubJoinFork) {
-        add(new PreDeleteUcmModelElementCommand(startEnd));
+        add(new PreDeleteUrnModelElementCommand(startEnd));
 
         if (startEnd instanceof StartPoint) {
             assert stubJoinFork instanceof Stub || stubJoinFork instanceof AndFork || stubJoinFork instanceof OrFork : "not a stub/fork"; //$NON-NLS-1$

@@ -11,7 +11,6 @@ import org.eclipse.swt.graphics.RGB;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
-import seg.jUCMNav.figures.EditableLabel;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.map.EndPoint;
@@ -103,10 +102,9 @@ public class ConditionEditPart extends LabelEditPart {
      */
     protected void performDirectEdit() {
         LabelFigure figure = (LabelFigure) getFigure();
-        EditableLabel nameLabel = figure.getLabel();
 
         // remove surrounding []
-        nameLabel.setText(nameLabel.getText().substring(1, nameLabel.getText().length() - 1));
+        figure.setText(figure.getText().substring(1, figure.getText().length() - 1));
 
         if (manager == null) {
 
@@ -116,7 +114,7 @@ public class ConditionEditPart extends LabelEditPart {
                 }
             };
 
-            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(nameLabel), nameLabel, validator);
+            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
         }
         manager.show();
     }
@@ -126,10 +124,9 @@ public class ConditionEditPart extends LabelEditPart {
      */
     public void revertNameChange() {
         LabelFigure tableFigure = (LabelFigure) getFigure();
-        EditableLabel label = tableFigure.getLabel();
-        label.setVisible(true);
+        tableFigure.setVisible(true);
         // remove surrounding []
-        label.setText(label.getText().substring(1, label.getText().length() - 1));
+        tableFigure.setText(tableFigure.getText().substring(1, tableFigure.getText().length() - 1));
 
         refreshVisuals();
     }
@@ -139,7 +136,6 @@ public class ConditionEditPart extends LabelEditPart {
      */
     protected void setLabelText() {
         LabelFigure labelFigure = getLabelFigure();
-        EditableLabel label = labelFigure.getLabel();
 
         Condition cond = null;
         if (getURNmodelElement() instanceof NodeConnection) {
@@ -152,7 +148,7 @@ public class ConditionEditPart extends LabelEditPart {
 
         if (cond != null) {
             if (cond.getLabel() != null && !cond.getLabel().equals("")) { //$NON-NLS-1$
-                label.setText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                labelFigure.setText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 labelFigure.setVisible(true);
             } else {
                 labelFigure.setVisible(false);
@@ -161,7 +157,7 @@ public class ConditionEditPart extends LabelEditPart {
 
             // get color from preferences
             RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_CONDITIONLABELCOLOR );
-            label.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+            labelFigure.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
         }
     }
 

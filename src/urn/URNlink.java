@@ -23,16 +23,16 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urn.URNlink#getDescription <em>Description</em>}</li>
  *   <li>{@link urn.URNlink#getKind <em>Kind</em>}</li>
  *   <li>{@link urn.URNlink#getUrnspec <em>Urnspec</em>}</li>
- *   <li>{@link urn.URNlink#getGrlElems <em>Grl Elems</em>}</li>
- *   <li>{@link urn.URNlink#getUcmElems <em>Ucm Elems</em>}</li>
+ *   <li>{@link urn.URNlink#getFromElems <em>From Elems</em>}</li>
+ *   <li>{@link urn.URNlink#getToElems <em>To Elems</em>}</li>
  * </ul>
  * </p>
  *
  * @see urn.UrnPackage#getURNlink()
- * @model 
+ * @model
  * @generated
  */
-public interface URNlink extends EObject {
+public interface URNlink extends EObject{
     /**
      * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public interface URNlink extends EObject {
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see urn.UrnPackage#getURNlink_Id()
-     * @model 
+     * @model
      * @generated
      */
     String getId();
@@ -70,7 +70,7 @@ public interface URNlink extends EObject {
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urn.UrnPackage#getURNlink_Name()
-     * @model 
+     * @model
      * @generated
      */
     String getName();
@@ -96,7 +96,7 @@ public interface URNlink extends EObject {
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urn.UrnPackage#getURNlink_Description()
-     * @model 
+     * @model
      * @generated
      */
     String getDescription();
@@ -122,7 +122,7 @@ public interface URNlink extends EObject {
      * @return the value of the '<em>Kind</em>' attribute.
      * @see #setKind(String)
      * @see urn.UrnPackage#getURNlink_Kind()
-     * @model 
+     * @model
      * @generated
      */
     String getKind();
@@ -166,39 +166,39 @@ public interface URNlink extends EObject {
     void setUrnspec(URNspec value);
 
     /**
-     * Returns the value of the '<em><b>Grl Elems</b></em>' reference list.
-     * The list contents are of type {@link urncore.GRLmodelElement}.
-     * It is bidirectional and its opposite is '{@link urncore.GRLmodelElement#getUrnLinks <em>Urn Links</em>}'.
+     * Returns the value of the '<em><b>From Elems</b></em>' reference list.
+     * The list contents are of type {@link urncore.URNmodelElement}.
+     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Grl Elems</em>' reference list isn't clear,
+     * If the meaning of the '<em>From Elems</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Grl Elems</em>' reference list.
-     * @see urn.UrnPackage#getURNlink_GrlElems()
-     * @see urncore.GRLmodelElement#getUrnLinks
-     * @model type="urncore.GRLmodelElement" opposite="urnLinks"
+     * @return the value of the '<em>From Elems</em>' reference list.
+     * @see urn.UrnPackage#getURNlink_FromElems()
+     * @see urncore.URNmodelElement#getFromLinks
+     * @model type="urncore.URNmodelElement" opposite="fromLinks"
      * @generated
      */
-    EList getGrlElems();
+    EList getFromElems();
 
     /**
-     * Returns the value of the '<em><b>Ucm Elems</b></em>' reference list.
-     * The list contents are of type {@link urncore.UCMmodelElement}.
-     * It is bidirectional and its opposite is '{@link urncore.UCMmodelElement#getUrnLinks <em>Urn Links</em>}'.
+     * Returns the value of the '<em><b>To Elems</b></em>' reference list.
+     * The list contents are of type {@link urncore.URNmodelElement}.
+     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Ucm Elems</em>' reference list isn't clear,
+     * If the meaning of the '<em>To Elems</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Ucm Elems</em>' reference list.
-     * @see urn.UrnPackage#getURNlink_UcmElems()
-     * @see urncore.UCMmodelElement#getUrnLinks
-     * @model type="urncore.UCMmodelElement" opposite="urnLinks"
+     * @return the value of the '<em>To Elems</em>' reference list.
+     * @see urn.UrnPackage#getURNlink_ToElems()
+     * @see urncore.URNmodelElement#getToLinks
+     * @model type="urncore.URNmodelElement" opposite="toLinks"
      * @generated
      */
-    EList getUcmElems();
+    EList getToElems();
 
 } // URNlink

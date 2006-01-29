@@ -14,8 +14,8 @@ package ucm.map;
  *
  *
  * @see ucm.map.MapPackage#getFailurePoint()
- * @model 
+ * @model
  * @generated
  */
-public interface FailurePoint extends PathNode {
+public interface FailurePoint extends PathNode{
 } // FailurePoint

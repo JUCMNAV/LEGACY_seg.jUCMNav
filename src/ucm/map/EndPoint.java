@@ -28,10 +28,10 @@ import urncore.Condition;
  * </p>
  *
  * @see ucm.map.MapPackage#getEndPoint()
- * @model 
+ * @model
  * @generated
  */
-public interface EndPoint extends PathNode {
+public interface EndPoint extends PathNode{
     /**
      * Returns the value of the '<em><b>Out Bindings</b></em>' reference list.
      * The list contents are of type {@link ucm.map.OutBinding}.

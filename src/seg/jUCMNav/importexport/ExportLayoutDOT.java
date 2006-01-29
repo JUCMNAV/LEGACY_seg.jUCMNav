@@ -65,8 +65,8 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 
         dot.append("digraph " + AutoLayoutPreferences.MAPPREFIX + map.getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-        for (i = 0; i < map.getCompRefs().size(); i++) {
-            ComponentRef compRef = (ComponentRef) map.getCompRefs().get(i);
+        for (i = 0; i < map.getContRefs().size(); i++) {
+            ComponentRef compRef = (ComponentRef) map.getContRefs().get(i);
             // we only want root components
             if (compRef.getParent() == null) {
                 buildCluster(compRef, dot);
@@ -76,7 +76,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
         for (i = 0; i < map.getNodes().size(); i++) {
             PathNode node = (PathNode) map.getNodes().get(i);
             // we only want loose nodes components
-            if (node.getCompRef() == null) {
+            if (node.getContRef() == null) {
                 dot.append(AutoLayoutPreferences.PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
             }
         }

@@ -18,18 +18,17 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link grl.Evaluation#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.Evaluation#getIntElement <em>Int Element</em>}</li>
- *   <li>{@link grl.Evaluation#getSet <em>Set</em>}</li>
+ *   <li>{@link grl.Evaluation#getScenario <em>Scenario</em>}</li>
  * </ul>
  * </p>
  *
  * @see grl.GrlPackage#getEvaluation()
- * @model 
+ * @model
  * @generated
  */
 public interface Evaluation extends EObject {
     /**
      * Returns the value of the '<em><b>Evaluation</b></em>' attribute.
-     * The literals are from the enumeration {@link grl.EvaluationLevel}.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Evaluation</em>' attribute isn't clear,
@@ -37,28 +36,25 @@ public interface Evaluation extends EObject {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Evaluation</em>' attribute.
-     * @see grl.EvaluationLevel
-     * @see #setEvaluation(EvaluationLevel)
+     * @see #setEvaluation(int)
      * @see grl.GrlPackage#getEvaluation_Evaluation()
-     * @model 
+     * @model
      * @generated
      */
-    EvaluationLevel getEvaluation();
+    int getEvaluation();
 
     /**
      * Sets the value of the '{@link grl.Evaluation#getEvaluation <em>Evaluation</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Evaluation</em>' attribute.
-     * @see grl.EvaluationLevel
      * @see #getEvaluation()
      * @generated
      */
-    void setEvaluation(EvaluationLevel value);
+    void setEvaluation(int value);
 
     /**
      * Returns the value of the '<em><b>Int Element</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Int Element</em>' reference isn't clear,
@@ -68,8 +64,7 @@ public interface Evaluation extends EObject {
      * @return the value of the '<em>Int Element</em>' reference.
      * @see #setIntElement(IntentionalElement)
      * @see grl.GrlPackage#getEvaluation_IntElement()
-     * @see grl.IntentionalElement#getEvals
-     * @model opposite="evals" required="true"
+     * @model required="true"
      * @generated
      */
     IntentionalElement getIntElement();
@@ -85,31 +80,31 @@ public interface Evaluation extends EObject {
     void setIntElement(IntentionalElement value);
 
     /**
-     * Returns the value of the '<em><b>Set</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationSet#getEvaluations <em>Evaluations</em>}'.
+     * Returns the value of the '<em><b>Scenario</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Set</em>' reference isn't clear,
+     * If the meaning of the '<em>Scenario</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Set</em>' reference.
-     * @see #setSet(EvaluationSet)
-     * @see grl.GrlPackage#getEvaluation_Set()
-     * @see grl.EvaluationSet#getEvaluations
+     * @return the value of the '<em>Scenario</em>' reference.
+     * @see #setScenario(EvaluationScenario)
+     * @see grl.GrlPackage#getEvaluation_Scenario()
+     * @see grl.EvaluationScenario#getEvaluations
      * @model opposite="evaluations" required="true"
      * @generated
      */
-    EvaluationSet getSet();
+    EvaluationScenario getScenario();
 
     /**
-     * Sets the value of the '{@link grl.Evaluation#getSet <em>Set</em>}' reference.
+     * Sets the value of the '{@link grl.Evaluation#getScenario <em>Scenario</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Set</em>' reference.
-     * @see #getSet()
+     * @param value the new value of the '<em>Scenario</em>' reference.
+     * @see #getScenario()
      * @generated
      */
-    void setSet(EvaluationSet value);
+    void setScenario(EvaluationScenario value);
 
 } // Evaluation

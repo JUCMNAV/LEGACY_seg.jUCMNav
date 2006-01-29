@@ -59,7 +59,7 @@ public class UCMConnectionOnBottomRootEditPart extends URNRootEditPart {
     public void setMode(int mode) {
         this.mode = mode;
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
-            SpecificationDiagramEditPart element = (SpecificationDiagramEditPart) iter.next();
+            URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
             element.refreshVisuals();
         }
     }

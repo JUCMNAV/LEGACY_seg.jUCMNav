@@ -184,8 +184,8 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
         diagram.getConnections().add(newLink);
 
         // bind to parent
-        moved.setCompRef(ParentFinder.findParent(diagram, newX, newY));
-        newNode.setCompRef(ParentFinder.findParent(diagram, oldX, oldY));
+        moved.setContRef(ParentFinder.findParent(diagram, newX, newY));
+        newNode.setContRef(ParentFinder.findParent(diagram, oldX, oldY));
 
         testPostConditions();
     }
@@ -336,8 +336,8 @@ public class ExtendPathCommand extends Command implements JUCMNavCommand {
             moved = start;
 
         // bind to parent
-        moved.setCompRef(ParentFinder.findParent(diagram, oldX, oldY));
-        newNode.setCompRef(null);
+        moved.setContRef(ParentFinder.findParent(diagram, oldX, oldY));
+        newNode.setContRef(null);
 
         // remove from model
         diagram.getNodes().remove(newNode);

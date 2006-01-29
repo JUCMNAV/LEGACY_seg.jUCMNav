@@ -1,9 +1,10 @@
 package seg.jUCMNav.editpolicies.feedback;
 
+import org.eclipse.draw2d.Shape;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 
-import seg.jUCMNav.editparts.ComponentRefEditPart;
+import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.figures.ComponentRefFigure;
 import urncore.ComponentKind;
 
@@ -21,27 +22,37 @@ public class ComponentFeedbackEditPolicy extends GraphicalEditPolicy {
      * 
      * @return the associated ComponentRefFigure
      */
-    private ComponentRefFigure getFigure() {
-        return (ComponentRefFigure) ((ComponentRefEditPart) this.getHost()).getFigure();
+    private Shape getFigure() {
+        return (Shape) ((ModelElementEditPart) this.getHost()).getFigure();
     }
 
     /**
      * Return to smaller line widths.
      */
     public void eraseTargetFeedback(Request request) {
-        if (getFigure().getKind() == ComponentKind.AGENT)
-            getFigure().setLineWidth(6);
-        else
+        if (getFigure() instanceof ComponentRefFigure){
+            ComponentRefFigure fig = (ComponentRefFigure) getFigure();
+            if (fig.getKind() == ComponentKind.AGENT){
+                fig.setLineWidth(6);
+            }else{
+                fig.setLineWidth(3);
+            }
+        } else { //If it is a GRL Component (actors)
             getFigure().setLineWidth(3);
+        }
     }
-
     /**
      * Put larger line widths,.
      */
     public void showTargetFeedback(Request request) {
-        if (getFigure().getKind() == ComponentKind.AGENT)
-            getFigure().setLineWidth(9);
-        else
+        if (getFigure() instanceof ComponentRefFigure){
+            ComponentRefFigure fig = (ComponentRefFigure) getFigure();    
+            if (fig.getKind() == ComponentKind.AGENT)
+                fig.setLineWidth(9);
+            else
+                fig.setLineWidth(6);
+        } else { //If it is a GRL Component (actors)
             getFigure().setLineWidth(6);
+        }
     }
 }

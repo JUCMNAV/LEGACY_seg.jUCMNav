@@ -288,30 +288,30 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         isInited = true;
 
         // Obtain or create and register interdependencies
-        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
-        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackageImpl.eINSTANCE);
-        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
-        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
-        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+        UrncorePackageImpl theUrncorePackage = (UrncorePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) instanceof UrncorePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI) : UrncorePackage.eINSTANCE);
+        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
+        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
+        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
+        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 
         // Create package meta-data objects
         theMapPackage.createPackageContents();
         theUrnPackage.createPackageContents();
         theUrncorePackage.createPackageContents();
+        theGrlPackage.createPackageContents();
         theUcmPackage.createPackageContents();
         thePerformancePackage.createPackageContents();
         theScenarioPackage.createPackageContents();
-        theGrlPackage.createPackageContents();
 
         // Initialize created meta-data
         theMapPackage.initializePackageContents();
         theUrnPackage.initializePackageContents();
         theUrncorePackage.initializePackageContents();
+        theGrlPackage.initializePackageContents();
         theUcmPackage.initializePackageContents();
         thePerformancePackage.initializePackageContents();
         theScenarioPackage.initializePackageContents();
-        theGrlPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theMapPackage.freeze();
@@ -1046,18 +1046,18 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
         orJoinEClass.getESuperTypes().add(this.getPathNode());
         orForkEClass.getESuperTypes().add(this.getPathNode());
         connectEClass.getESuperTypes().add(this.getPathNode());
-        nodeConnectionEClass.getESuperTypes().add(theUrncorePackage.getSpecificationConnection());
+        nodeConnectionEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
         waitingPlaceEClass.getESuperTypes().add(this.getPathNode());
         stubEClass.getESuperTypes().add(this.getPathNode());
         pathNodeEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        pathNodeEClass.getESuperTypes().add(theUrncorePackage.getSpecificationNode());
+        pathNodeEClass.getESuperTypes().add(theUrncorePackage.getIURNNode());
         endPointEClass.getESuperTypes().add(this.getPathNode());
         startPointEClass.getESuperTypes().add(this.getPathNode());
         ucMmapEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        ucMmapEClass.getESuperTypes().add(theUrncorePackage.getSpecificationDiagram());
+        ucMmapEClass.getESuperTypes().add(theUrncorePackage.getIURNDiagram());
         abortEClass.getESuperTypes().add(this.getPathNode());
         componentRefEClass.getESuperTypes().add(theUrncorePackage.getUCMmodelElement());
-        componentRefEClass.getESuperTypes().add(theUrncorePackage.getSpecificationComponentRef());
+        componentRefEClass.getESuperTypes().add(theUrncorePackage.getIURNContainerRef());
         timerEClass.getESuperTypes().add(this.getWaitingPlace());
         andForkEClass.getESuperTypes().add(this.getPathNode());
         emptyPointEClass.getESuperTypes().add(this.getPathNode());

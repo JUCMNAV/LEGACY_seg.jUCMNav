@@ -53,7 +53,7 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
     /**
      * Deactivates and disposes stub images.
      * 
-     * @see seg.jUCMNav.editparts.treeEditparts.UcmModelElementTreeEditPart#deactivate()
+     * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#deactivate()
      */
     public void deactivate() {
         if (imStaticStub != null) {

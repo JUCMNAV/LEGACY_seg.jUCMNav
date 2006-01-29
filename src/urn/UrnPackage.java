@@ -23,9 +23,10 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see urn.UrnFactory
+ * @model kind="package"
  * @generated
  */
-public interface UrnPackage extends EPackage {
+public interface UrnPackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->
@@ -241,22 +242,22 @@ public interface UrnPackage extends EPackage {
     int UR_NLINK__URNSPEC = 4;
 
     /**
-     * The feature id for the '<em><b>Grl Elems</b></em>' reference list.
+     * The feature id for the '<em><b>From Elems</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NLINK__GRL_ELEMS = 5;
+    int UR_NLINK__FROM_ELEMS = 5;
 
     /**
-     * The feature id for the '<em><b>Ucm Elems</b></em>' reference list.
+     * The feature id for the '<em><b>To Elems</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NLINK__UCM_ELEMS = 6;
+    int UR_NLINK__TO_ELEMS = 6;
 
     /**
      * The number of structural features of the the '<em>UR Nlink</em>' class.
@@ -476,26 +477,26 @@ public interface UrnPackage extends EPackage {
     EReference getURNlink_Urnspec();
 
     /**
-     * Returns the meta object for the reference list '{@link urn.URNlink#getGrlElems <em>Grl Elems</em>}'.
+     * Returns the meta object for the reference list '{@link urn.URNlink#getFromElems <em>From Elems</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Grl Elems</em>'.
-     * @see urn.URNlink#getGrlElems()
+     * @return the meta object for the reference list '<em>From Elems</em>'.
+     * @see urn.URNlink#getFromElems()
      * @see #getURNlink()
      * @generated
      */
-    EReference getURNlink_GrlElems();
+    EReference getURNlink_FromElems();
 
     /**
-     * Returns the meta object for the reference list '{@link urn.URNlink#getUcmElems <em>Ucm Elems</em>}'.
+     * Returns the meta object for the reference list '{@link urn.URNlink#getToElems <em>To Elems</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Ucm Elems</em>'.
-     * @see urn.URNlink#getUcmElems()
+     * @return the meta object for the reference list '<em>To Elems</em>'.
+     * @see urn.URNlink#getToElems()
      * @see #getURNlink()
      * @generated
      */
-    EReference getURNlink_UcmElems();
+    EReference getURNlink_ToElems();
 
     /**
      * Returns the factory that creates the instances of the model.

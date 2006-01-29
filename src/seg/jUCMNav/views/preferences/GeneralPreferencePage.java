@@ -3,6 +3,7 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -19,7 +20,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
     public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR"; //$NON-NLS-1$
+    public static final String PREF_LINKREFLABELCOLOR = "PREF_LINKREFLABELCOLOR";
+    public static final String PREF_AUTHOR = "PREF_AUTHOR";
 
+    
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
 
@@ -36,7 +40,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         addField(stubLabelColor);
         ColorFieldEditor conditionLabelColor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(conditionLabelColor);
-
+        ColorFieldEditor decompositionLabelColor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, "GRL Link Label Color", getFieldEditorParent());
+        addField(decompositionLabelColor);
+        
+        StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, "Author Name", getFieldEditorParent());
+        addField(author);
     }
 
     /**
@@ -46,4 +54,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         // nothing to do
     }
 
+    /**
+     * 
+     * @return the Author
+     */
+    public static String getAuthor() {
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getString("PREF_AUTHOR");
+    }
 }

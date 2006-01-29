@@ -21,7 +21,7 @@ public class AddGrlGraphAction extends URNSelectionAction {
     public AddGrlGraphAction(IWorkbenchPart part){
         super(part);
         setId(ADDGRLGRAPH);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")); //$NON-NLS-1$
     }
     
     /**

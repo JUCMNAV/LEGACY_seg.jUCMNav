@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import urncore.NodeLabel;
-import urncore.SpecificationNode;
+import urncore.IURNNode;
 import urncore.UrncorePackage;
 
 /**
@@ -58,9 +58,9 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationNode getNode() {
+    public IURNNode getNode() {
         if (eContainerFeatureID != UrncorePackage.NODE_LABEL__NODE) return null;
-        return (SpecificationNode)eContainer;
+        return (IURNNode)eContainer;
     }
 
     /**
@@ -68,7 +68,7 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setNode(SpecificationNode newNode) {
+    public void setNode(IURNNode newNode) {
         if (newNode != eContainer || (eContainerFeatureID != UrncorePackage.NODE_LABEL__NODE && newNode != null)) {
             if (EcoreUtil.isAncestor(this, newNode))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
@@ -76,7 +76,7 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newNode != null)
-                msgs = ((InternalEObject)newNode).eInverseAdd(this, UrncorePackage.SPECIFICATION_NODE__LABEL, SpecificationNode.class, msgs);
+                msgs = ((InternalEObject)newNode).eInverseAdd(this, UrncorePackage.IURN_NODE__LABEL, IURNNode.class, msgs);
             msgs = eBasicSetContainer((InternalEObject)newNode, UrncorePackage.NODE_LABEL__NODE, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -131,12 +131,12 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.NODE_LABEL__NODE:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_NODE__LABEL, SpecificationNode.class, msgs);
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_NODE__LABEL, IURNNode.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -170,7 +170,7 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
                 setDeltaY(((Integer)newValue).intValue());
                 return;
             case UrncorePackage.NODE_LABEL__NODE:
-                setNode((SpecificationNode)newValue);
+                setNode((IURNNode)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -190,7 +190,7 @@ public class NodeLabelImpl extends LabelImpl implements NodeLabel {
                 setDeltaY(DELTA_Y_EDEFAULT);
                 return;
             case UrncorePackage.NODE_LABEL__NODE:
-                setNode((SpecificationNode)null);
+                setNode((IURNNode)null);
                 return;
         }
         eDynamicUnset(eFeature);

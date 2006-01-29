@@ -121,6 +121,7 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                         }
                         i++;
                     }
+
                     
                     res.setSessionProperty(timestamp,new Long(res.getModificationStamp()));
                 }

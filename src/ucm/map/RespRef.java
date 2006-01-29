@@ -22,10 +22,10 @@ import urncore.Responsibility;
  * </p>
  *
  * @see ucm.map.MapPackage#getRespRef()
- * @model 
+ * @model
  * @generated
  */
-public interface RespRef extends PathNode {
+public interface RespRef extends PathNode{
     /**
      * Returns the value of the '<em><b>Repetition Count</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ public interface RespRef extends PathNode {
      * @return the value of the '<em>Repetition Count</em>' attribute.
      * @see #setRepetitionCount(int)
      * @see ucm.map.MapPackage#getRespRef_RepetitionCount()
-     * @model 
+     * @model
      * @generated
      */
     int getRepetitionCount();

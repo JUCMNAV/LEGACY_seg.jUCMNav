@@ -20,7 +20,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
+public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
     private URNspec root;
 
@@ -38,6 +38,7 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
     public void activate() {
         if (!isActive()) {
             ((EObject) root.getUrndef()).eAdapters().add(this);
+            ((EObject) root.getGrlspec()).eAdapters().add(this);
         }
 
         setFlag(FLAG_ACTIVE, true);
@@ -58,6 +59,7 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
     public void deactivate() {
         if (isActive()) {
             ((EObject) root.getUrndef()).eAdapters().remove(this);
+            ((EObject) root.getGrlspec()).eAdapters().remove(this);
         }
         List c = getChildren();
         for (int i = 0; i < c.size(); i++) {
@@ -87,7 +89,17 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
             list.addAll(root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getResponsibilities());
-
+        else if (getLabel().equals("Intentional Element Definitions"))
+            list.addAll(root.getGrlspec().getIntElements());
+        else if (getLabel().equals("Actor Definitions"))
+            list.addAll(root.getGrlspec().getActors());
+        else if (getLabel().equals("UCM Definitions")){
+            list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
+            list.add(Messages.getString("LabelTreeEditPart.responsibilities"));
+        } else if (getLabel().equals("GRL Definitions")){
+            list.add("Actor Definitions");
+            list.add("Intentional Element Definitions"); 
+        }
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -109,7 +121,16 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
             return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.responsibilityDef"); //$NON-NLS-1$
-        } else
+        } else if (getLabel().equals("Intentional Element Definitions")){
+            return "Intentional Element Definitions";
+        } else if (getLabel().equals("Actor Definitions")){
+            return "Actors Definitions";
+        } else if (getLabel().equals("UCM Definitions")){
+            return "UCM Definitions";
+        } else if (getLabel().equals("GRL Definitions")){
+            return "GRL Definitions";
+        }
+        else
             return null;
 
     }
@@ -122,6 +143,14 @@ public class LabelTreeEditPart extends UcmModelElementTreeEditPart {
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals("GRL Definitions"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals("UCM Definitions"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals("Actor Definitions"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals("Intentional Element Definitions"))
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
 
         return super.getImage();
     }

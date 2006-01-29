@@ -249,10 +249,12 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.POOL__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case UrncorePackage.POOL__COMP_REFS:
-                    return ((InternalEList)getCompRefs()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.POOL__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.POOL__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.POOL__CONT_REFS:
+                    return ((InternalEList)getContRefs()).basicAdd(otherEnd, msgs);
                 case UrncorePackage.POOL__URNDEFINITION:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -288,10 +290,12 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.POOL__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case UrncorePackage.POOL__COMP_REFS:
-                    return ((InternalEList)getCompRefs()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.POOL__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.POOL__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.POOL__CONT_REFS:
+                    return ((InternalEList)getContRefs()).basicRemove(otherEnd, msgs);
                 case UrncorePackage.POOL__URNDEFINITION:
                     return eBasicSetContainer(null, UrncorePackage.POOL__URNDEFINITION, msgs);
                 case UrncorePackage.POOL__INCLUDING_COMPONENT:
@@ -318,12 +322,12 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.POOL__URNDEFINITION:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENTS, URNdefinition.class, msgs);
+                    return eContainer.eInverseRemove(this, UrncorePackage.UR_NDEFINITION__COMPONENTS, URNdefinition.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -333,22 +337,24 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.POOL__FROM_LINKS:
+                return getFromLinks();
+            case UrncorePackage.POOL__TO_LINKS:
+                return getToLinks();
             case UrncorePackage.POOL__ID:
                 return getId();
             case UrncorePackage.POOL__NAME:
                 return getName();
             case UrncorePackage.POOL__DESCRIPTION:
                 return getDescription();
-            case UrncorePackage.POOL__URN_LINKS:
-                return getUrnLinks();
             case UrncorePackage.POOL__LINE_COLOR:
                 return getLineColor();
             case UrncorePackage.POOL__FILL_COLOR:
                 return getFillColor();
             case UrncorePackage.POOL__FILLED:
                 return isFilled() ? Boolean.TRUE : Boolean.FALSE;
-            case UrncorePackage.POOL__COMP_REFS:
-                return getCompRefs();
+            case UrncorePackage.POOL__CONT_REFS:
+                return getContRefs();
             case UrncorePackage.POOL__URNDEFINITION:
                 return getUrndefinition();
             case UrncorePackage.POOL__INCLUDING_COMPONENT:
@@ -377,6 +383,14 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.POOL__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.POOL__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case UrncorePackage.POOL__ID:
                 setId((String)newValue);
                 return;
@@ -385,10 +399,6 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
                 return;
             case UrncorePackage.POOL__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case UrncorePackage.POOL__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
                 return;
             case UrncorePackage.POOL__LINE_COLOR:
                 setLineColor((String)newValue);
@@ -399,9 +409,9 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
             case UrncorePackage.POOL__FILLED:
                 setFilled(((Boolean)newValue).booleanValue());
                 return;
-            case UrncorePackage.POOL__COMP_REFS:
-                getCompRefs().clear();
-                getCompRefs().addAll((Collection)newValue);
+            case UrncorePackage.POOL__CONT_REFS:
+                getContRefs().clear();
+                getContRefs().addAll((Collection)newValue);
                 return;
             case UrncorePackage.POOL__URNDEFINITION:
                 setUrndefinition((URNdefinition)newValue);
@@ -436,6 +446,12 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.POOL__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case UrncorePackage.POOL__TO_LINKS:
+                getToLinks().clear();
+                return;
             case UrncorePackage.POOL__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -444,9 +460,6 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
                 return;
             case UrncorePackage.POOL__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case UrncorePackage.POOL__URN_LINKS:
-                getUrnLinks().clear();
                 return;
             case UrncorePackage.POOL__LINE_COLOR:
                 setLineColor(LINE_COLOR_EDEFAULT);
@@ -457,8 +470,8 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
             case UrncorePackage.POOL__FILLED:
                 setFilled(FILLED_EDEFAULT);
                 return;
-            case UrncorePackage.POOL__COMP_REFS:
-                getCompRefs().clear();
+            case UrncorePackage.POOL__CONT_REFS:
+                getContRefs().clear();
                 return;
             case UrncorePackage.POOL__URNDEFINITION:
                 setUrndefinition((URNdefinition)null);
@@ -492,22 +505,24 @@ public class PoolImpl extends ComponentElementImpl implements Pool {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.POOL__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case UrncorePackage.POOL__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case UrncorePackage.POOL__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case UrncorePackage.POOL__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case UrncorePackage.POOL__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case UrncorePackage.POOL__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case UrncorePackage.POOL__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case UrncorePackage.POOL__FILL_COLOR:
                 return FILL_COLOR_EDEFAULT == null ? fillColor != null : !FILL_COLOR_EDEFAULT.equals(fillColor);
             case UrncorePackage.POOL__FILLED:
                 return filled != FILLED_EDEFAULT;
-            case UrncorePackage.POOL__COMP_REFS:
-                return compRefs != null && !compRefs.isEmpty();
+            case UrncorePackage.POOL__CONT_REFS:
+                return contRefs != null && !contRefs.isEmpty();
             case UrncorePackage.POOL__URNDEFINITION:
                 return getUrndefinition() != null;
             case UrncorePackage.POOL__INCLUDING_COMPONENT:

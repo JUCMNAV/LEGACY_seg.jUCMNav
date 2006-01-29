@@ -90,11 +90,11 @@ public class ScenarioSwitch {
      */
     protected Object doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
-            case ScenarioPackage.SCENARIO_GROUP: {
-                ScenarioGroup scenarioGroup = (ScenarioGroup)theEObject;
-                Object result = caseScenarioGroup(scenarioGroup);
-                if (result == null) result = caseUCMmodelElement(scenarioGroup);
-                if (result == null) result = caseURNmodelElement(scenarioGroup);
+            case ScenarioPackage.VARIABLE: {
+                Variable variable = (Variable)theEObject;
+                Object result = caseVariable(variable);
+                if (result == null) result = caseUCMmodelElement(variable);
+                if (result == null) result = caseURNmodelElement(variable);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -106,11 +106,11 @@ public class ScenarioSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case ScenarioPackage.VARIABLE: {
-                Variable variable = (Variable)theEObject;
-                Object result = caseVariable(variable);
-                if (result == null) result = caseUCMmodelElement(variable);
-                if (result == null) result = caseURNmodelElement(variable);
+            case ScenarioPackage.SCENARIO_GROUP: {
+                ScenarioGroup scenarioGroup = (ScenarioGroup)theEObject;
+                Object result = caseScenarioGroup(scenarioGroup);
+                if (result == null) result = caseUCMmodelElement(scenarioGroup);
+                if (result == null) result = caseURNmodelElement(scenarioGroup);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }

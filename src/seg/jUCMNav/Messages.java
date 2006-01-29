@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
  * 
  */
 public class Messages {
-    private static final String BUNDLE_NAME = "seg.jUCMNav.messages";//$NON-NLS-1$
+    private static final String BUNDLE_NAME = "seg.jUCMNav.Messages";//$NON-NLS-1$
 
     // private static final String BUNDLE_NAME_FALLBACK = "seg.jUCMNav.Messages_en";//$NON-NLS-1$
 

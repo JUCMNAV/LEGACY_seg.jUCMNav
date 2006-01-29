@@ -6,6 +6,8 @@
  */
 package urncore;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -16,6 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}</li>
+ *   <li>{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getId <em>Id</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getName <em>Name</em>}</li>
  *   <li>{@link urncore.URNmodelElement#getDescription <em>Description</em>}</li>
@@ -26,7 +30,43 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface URNmodelElement extends EObject {
+public interface URNmodelElement extends EObject{
+    /**
+     * Returns the value of the '<em><b>From Links</b></em>' reference list.
+     * The list contents are of type {@link urn.URNlink}.
+     * It is bidirectional and its opposite is '{@link urn.URNlink#getFromElems <em>From Elems</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>From Links</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>From Links</em>' reference list.
+     * @see urncore.UrncorePackage#getURNmodelElement_FromLinks()
+     * @see urn.URNlink#getFromElems
+     * @model type="urn.URNlink" opposite="fromElems"
+     * @generated
+     */
+    EList getFromLinks();
+
+    /**
+     * Returns the value of the '<em><b>To Links</b></em>' reference list.
+     * The list contents are of type {@link urn.URNlink}.
+     * It is bidirectional and its opposite is '{@link urn.URNlink#getToElems <em>To Elems</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>To Links</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>To Links</em>' reference list.
+     * @see urncore.UrncorePackage#getURNmodelElement_ToLinks()
+     * @see urn.URNlink#getToElems
+     * @model type="urn.URNlink" opposite="toElems"
+     * @generated
+     */
+    EList getToLinks();
+
     /**
      * Returns the value of the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -38,7 +78,7 @@ public interface URNmodelElement extends EObject {
      * @return the value of the '<em>Id</em>' attribute.
      * @see #setId(String)
      * @see urncore.UrncorePackage#getURNmodelElement_Id()
-     * @model 
+     * @model
      * @generated
      */
     String getId();
@@ -64,7 +104,7 @@ public interface URNmodelElement extends EObject {
      * @return the value of the '<em>Name</em>' attribute.
      * @see #setName(String)
      * @see urncore.UrncorePackage#getURNmodelElement_Name()
-     * @model 
+     * @model
      * @generated
      */
     String getName();
@@ -90,7 +130,7 @@ public interface URNmodelElement extends EObject {
      * @return the value of the '<em>Description</em>' attribute.
      * @see #setDescription(String)
      * @see urncore.UrncorePackage#getURNmodelElement_Description()
-     * @model 
+     * @model
      * @generated
      */
     String getDescription();

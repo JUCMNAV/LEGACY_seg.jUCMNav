@@ -22,9 +22,10 @@ import org.eclipse.emf.ecore.EReference;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.UcmFactory
+ * @model kind="package"
  * @generated
  */
-public interface UcmPackage extends EPackage {
+public interface UcmPackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->

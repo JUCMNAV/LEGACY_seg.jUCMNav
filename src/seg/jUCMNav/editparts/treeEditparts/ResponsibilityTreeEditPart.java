@@ -15,7 +15,7 @@ import urncore.Responsibility;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class ResponsibilityTreeEditPart extends UcmModelElementTreeEditPart {
+public class ResponsibilityTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model

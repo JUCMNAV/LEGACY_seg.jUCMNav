@@ -28,10 +28,10 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getPerfMeasure()
- * @model 
+ * @model
  * @generated
  */
-public interface PerfMeasure extends UCMmodelElement {
+public interface PerfMeasure extends UCMmodelElement{
     /**
      * Returns the value of the '<em><b>Measure</b></em>' attribute.
      * The default value is <code>"Delay"</code>.

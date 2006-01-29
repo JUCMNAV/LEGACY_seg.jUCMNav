@@ -60,7 +60,7 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
         }
 
         if (getCommands().size() == 0) {
-            Command cmd = new CutPathCommand((UCMmap)nc.getSpecDiagram(), nc);
+            Command cmd = new CutPathCommand((UCMmap)nc.getDiagram(), nc);
             if (cmd.canExecute()) {
                 add(cmd);
             }

@@ -13,26 +13,22 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import urncore.ComponentLabel;
-import urncore.SpecificationComponent;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.UrncorePackage;
+import urncore.impl.GRLmodelElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,8 +42,8 @@ import urncore.UrncorePackage;
  *   <li>{@link grl.impl.ActorRefImpl#getWidth <em>Width</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getHeight <em>Height</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#isFixed <em>Fixed</em>}</li>
- *   <li>{@link grl.impl.ActorRefImpl#getSpecDiagram <em>Spec Diagram</em>}</li>
- *   <li>{@link grl.impl.ActorRefImpl#getCompDef <em>Comp Def</em>}</li>
+ *   <li>{@link grl.impl.ActorRefImpl#getDiagram <em>Diagram</em>}</li>
+ *   <li>{@link grl.impl.ActorRefImpl#getContDef <em>Cont Def</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getLabel <em>Label</em>}</li>
  *   <li>{@link grl.impl.ActorRefImpl#getParent <em>Parent</em>}</li>
@@ -57,7 +53,7 @@ import urncore.UrncorePackage;
  *
  * @generated
  */
-public class ActorRefImpl extends EObjectImpl implements ActorRef {
+public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
     /**
      * The default value of the '{@link #getX() <em>X</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -159,14 +155,14 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
     protected boolean fixed = FIXED_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getCompDef() <em>Comp Def</em>}' reference.
+     * The cached value of the '{@link #getContDef() <em>Cont Def</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCompDef()
+     * @see #getContDef()
      * @generated
      * @ordered
      */
-    protected SpecificationComponent compDef = null;
+    protected IURNContainer contDef = null;
 
     /**
      * The cached value of the '{@link #getNodes() <em>Nodes</em>}' reference list.
@@ -196,7 +192,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * @generated
      * @ordered
      */
-    protected SpecificationComponentRef parent = null;
+    protected IURNContainerRef parent = null;
 
     /**
      * The cached value of the '{@link #getChildren() <em>Children</em>}' reference list.
@@ -336,9 +332,9 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationDiagram getSpecDiagram() {
-        if (eContainerFeatureID != GrlPackage.ACTOR_REF__SPEC_DIAGRAM) return null;
-        return (SpecificationDiagram)eContainer;
+    public IURNDiagram getDiagram() {
+        if (eContainerFeatureID != GrlPackage.ACTOR_REF__DIAGRAM) return null;
+        return (IURNDiagram)eContainer;
     }
 
     /**
@@ -346,20 +342,20 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setSpecDiagram(SpecificationDiagram newSpecDiagram) {
-        if (newSpecDiagram != eContainer || (eContainerFeatureID != GrlPackage.ACTOR_REF__SPEC_DIAGRAM && newSpecDiagram != null)) {
-            if (EcoreUtil.isAncestor(this, newSpecDiagram))
+    public void setDiagram(IURNDiagram newDiagram) {
+        if (newDiagram != eContainer || (eContainerFeatureID != GrlPackage.ACTOR_REF__DIAGRAM && newDiagram != null)) {
+            if (EcoreUtil.isAncestor(this, newDiagram))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
-            if (newSpecDiagram != null)
-                msgs = ((InternalEObject)newSpecDiagram).eInverseAdd(this, UrncorePackage.SPECIFICATION_DIAGRAM__COMP_REFS, SpecificationDiagram.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newSpecDiagram, GrlPackage.ACTOR_REF__SPEC_DIAGRAM, msgs);
+            if (newDiagram != null)
+                msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__CONT_REFS, IURNDiagram.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newDiagram, GrlPackage.ACTOR_REF__DIAGRAM, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__SPEC_DIAGRAM, newSpecDiagram, newSpecDiagram));
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__DIAGRAM, newDiagram, newDiagram));
     }
 
     /**
@@ -367,16 +363,16 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponent getCompDef() {
-        if (compDef != null && compDef.eIsProxy()) {
-            SpecificationComponent oldCompDef = compDef;
-            compDef = (SpecificationComponent)eResolveProxy((InternalEObject)compDef);
-            if (compDef != oldCompDef) {
+    public IURNContainer getContDef() {
+        if (contDef != null && contDef.eIsProxy()) {
+            IURNContainer oldContDef = contDef;
+            contDef = (IURNContainer)eResolveProxy((InternalEObject)contDef);
+            if (contDef != oldContDef) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ACTOR_REF__COMP_DEF, oldCompDef, compDef));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ACTOR_REF__CONT_DEF, oldContDef, contDef));
             }
         }
-        return compDef;
+        return contDef;
     }
 
     /**
@@ -384,8 +380,8 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponent basicGetCompDef() {
-        return compDef;
+    public IURNContainer basicGetContDef() {
+        return contDef;
     }
 
     /**
@@ -393,11 +389,11 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetCompDef(SpecificationComponent newCompDef, NotificationChain msgs) {
-        SpecificationComponent oldCompDef = compDef;
-        compDef = newCompDef;
+    public NotificationChain basicSetContDef(IURNContainer newContDef, NotificationChain msgs) {
+        IURNContainer oldContDef = contDef;
+        contDef = newContDef;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__COMP_DEF, oldCompDef, newCompDef);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__CONT_DEF, oldContDef, newContDef);
             if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
@@ -408,18 +404,18 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setCompDef(SpecificationComponent newCompDef) {
-        if (newCompDef != compDef) {
+    public void setContDef(IURNContainer newContDef) {
+        if (newContDef != contDef) {
             NotificationChain msgs = null;
-            if (compDef != null)
-                msgs = ((InternalEObject)compDef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT__COMP_REFS, SpecificationComponent.class, msgs);
-            if (newCompDef != null)
-                msgs = ((InternalEObject)newCompDef).eInverseAdd(this, UrncorePackage.SPECIFICATION_COMPONENT__COMP_REFS, SpecificationComponent.class, msgs);
-            msgs = basicSetCompDef(newCompDef, msgs);
+            if (contDef != null)
+                msgs = ((InternalEObject)contDef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER__CONT_REFS, IURNContainer.class, msgs);
+            if (newContDef != null)
+                msgs = ((InternalEObject)newContDef).eInverseAdd(this, UrncorePackage.IURN_CONTAINER__CONT_REFS, IURNContainer.class, msgs);
+            msgs = basicSetContDef(newContDef, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__COMP_DEF, newCompDef, newCompDef));
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__CONT_DEF, newContDef, newContDef));
     }
 
     /**
@@ -429,7 +425,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public EList getNodes() {
         if (nodes == null) {
-            nodes = new EObjectWithInverseResolvingEList(SpecificationNode.class, this, GrlPackage.ACTOR_REF__NODES, UrncorePackage.SPECIFICATION_NODE__COMP_REF);
+            nodes = new EObjectWithInverseResolvingEList(IURNNode.class, this, GrlPackage.ACTOR_REF__NODES, UrncorePackage.IURN_NODE__CONT_REF);
         }
         return nodes;
     }
@@ -467,9 +463,9 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
         if (newLabel != label) {
             NotificationChain msgs = null;
             if (label != null)
-                msgs = ((InternalEObject)label).eInverseRemove(this, UrncorePackage.COMPONENT_LABEL__COMP_REF, ComponentLabel.class, msgs);
+                msgs = ((InternalEObject)label).eInverseRemove(this, UrncorePackage.COMPONENT_LABEL__CONT_REF, ComponentLabel.class, msgs);
             if (newLabel != null)
-                msgs = ((InternalEObject)newLabel).eInverseAdd(this, UrncorePackage.COMPONENT_LABEL__COMP_REF, ComponentLabel.class, msgs);
+                msgs = ((InternalEObject)newLabel).eInverseAdd(this, UrncorePackage.COMPONENT_LABEL__CONT_REF, ComponentLabel.class, msgs);
             msgs = basicSetLabel(newLabel, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -482,10 +478,10 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponentRef getParent() {
+    public IURNContainerRef getParent() {
         if (parent != null && parent.eIsProxy()) {
-            SpecificationComponentRef oldParent = parent;
-            parent = (SpecificationComponentRef)eResolveProxy((InternalEObject)parent);
+            IURNContainerRef oldParent = parent;
+            parent = (IURNContainerRef)eResolveProxy((InternalEObject)parent);
             if (parent != oldParent) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ACTOR_REF__PARENT, oldParent, parent));
@@ -499,7 +495,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public SpecificationComponentRef basicGetParent() {
+    public IURNContainerRef basicGetParent() {
         return parent;
     }
 
@@ -508,8 +504,8 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetParent(SpecificationComponentRef newParent, NotificationChain msgs) {
-        SpecificationComponentRef oldParent = parent;
+    public NotificationChain basicSetParent(IURNContainerRef newParent, NotificationChain msgs) {
+        IURNContainerRef oldParent = parent;
         parent = newParent;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ACTOR_REF__PARENT, oldParent, newParent);
@@ -523,13 +519,13 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setParent(SpecificationComponentRef newParent) {
+    public void setParent(IURNContainerRef newParent) {
         if (newParent != parent) {
             NotificationChain msgs = null;
             if (parent != null)
-                msgs = ((InternalEObject)parent).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__CHILDREN, SpecificationComponentRef.class, msgs);
+                msgs = ((InternalEObject)parent).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__CHILDREN, IURNContainerRef.class, msgs);
             if (newParent != null)
-                msgs = ((InternalEObject)newParent).eInverseAdd(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__CHILDREN, SpecificationComponentRef.class, msgs);
+                msgs = ((InternalEObject)newParent).eInverseAdd(this, UrncorePackage.IURN_CONTAINER_REF__CHILDREN, IURNContainerRef.class, msgs);
             msgs = basicSetParent(newParent, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -544,7 +540,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public EList getChildren() {
         if (children == null) {
-            children = new EObjectWithInverseResolvingEList(SpecificationComponentRef.class, this, GrlPackage.ACTOR_REF__CHILDREN, UrncorePackage.SPECIFICATION_COMPONENT_REF__PARENT);
+            children = new EObjectWithInverseResolvingEList(IURNContainerRef.class, this, GrlPackage.ACTOR_REF__CHILDREN, UrncorePackage.IURN_CONTAINER_REF__PARENT);
         }
         return children;
     }
@@ -557,14 +553,18 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
+                case GrlPackage.ACTOR_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, GrlPackage.ACTOR_REF__SPEC_DIAGRAM, msgs);
-                case GrlPackage.ACTOR_REF__COMP_DEF:
-                    if (compDef != null)
-                        msgs = ((InternalEObject)compDef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT__COMP_REFS, SpecificationComponent.class, msgs);
-                    return basicSetCompDef((SpecificationComponent)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, GrlPackage.ACTOR_REF__DIAGRAM, msgs);
+                case GrlPackage.ACTOR_REF__CONT_DEF:
+                    if (contDef != null)
+                        msgs = ((InternalEObject)contDef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER__CONT_REFS, IURNContainer.class, msgs);
+                    return basicSetContDef((IURNContainer)otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__NODES:
                     return ((InternalEList)getNodes()).basicAdd(otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__LABEL:
@@ -573,8 +573,8 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                     return basicSetLabel((ComponentLabel)otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__PARENT:
                     if (parent != null)
-                        msgs = ((InternalEObject)parent).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__CHILDREN, SpecificationComponentRef.class, msgs);
-                    return basicSetParent((SpecificationComponentRef)otherEnd, msgs);
+                        msgs = ((InternalEObject)parent).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__CHILDREN, IURNContainerRef.class, msgs);
+                    return basicSetParent((IURNContainerRef)otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__CHILDREN:
                     return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
                 default:
@@ -594,10 +594,14 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, GrlPackage.ACTOR_REF__SPEC_DIAGRAM, msgs);
-                case GrlPackage.ACTOR_REF__COMP_DEF:
-                    return basicSetCompDef(null, msgs);
+                case GrlPackage.ACTOR_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__DIAGRAM:
+                    return eBasicSetContainer(null, GrlPackage.ACTOR_REF__DIAGRAM, msgs);
+                case GrlPackage.ACTOR_REF__CONT_DEF:
+                    return basicSetContDef(null, msgs);
                 case GrlPackage.ACTOR_REF__NODES:
                     return ((InternalEList)getNodes()).basicRemove(otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__LABEL:
@@ -621,13 +625,13 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__COMP_REFS, SpecificationDiagram.class, msgs);
+                case GrlPackage.ACTOR_REF__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__CONT_REFS, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -637,6 +641,16 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                return getToLinks();
+            case GrlPackage.ACTOR_REF__ID:
+                return getId();
+            case GrlPackage.ACTOR_REF__NAME:
+                return getName();
+            case GrlPackage.ACTOR_REF__DESCRIPTION:
+                return getDescription();
             case GrlPackage.ACTOR_REF__X:
                 return new Integer(getX());
             case GrlPackage.ACTOR_REF__Y:
@@ -647,11 +661,11 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                 return new Integer(getHeight());
             case GrlPackage.ACTOR_REF__FIXED:
                 return isFixed() ? Boolean.TRUE : Boolean.FALSE;
-            case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case GrlPackage.ACTOR_REF__COMP_DEF:
-                if (resolve) return getCompDef();
-                return basicGetCompDef();
+            case GrlPackage.ACTOR_REF__DIAGRAM:
+                return getDiagram();
+            case GrlPackage.ACTOR_REF__CONT_DEF:
+                if (resolve) return getContDef();
+                return basicGetContDef();
             case GrlPackage.ACTOR_REF__NODES:
                 return getNodes();
             case GrlPackage.ACTOR_REF__LABEL:
@@ -672,6 +686,23 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.ACTOR_REF__ID:
+                setId((String)newValue);
+                return;
+            case GrlPackage.ACTOR_REF__NAME:
+                setName((String)newValue);
+                return;
+            case GrlPackage.ACTOR_REF__DESCRIPTION:
+                setDescription((String)newValue);
+                return;
             case GrlPackage.ACTOR_REF__X:
                 setX(((Integer)newValue).intValue());
                 return;
@@ -687,11 +718,11 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
             case GrlPackage.ACTOR_REF__FIXED:
                 setFixed(((Boolean)newValue).booleanValue());
                 return;
-            case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case GrlPackage.ACTOR_REF__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case GrlPackage.ACTOR_REF__COMP_DEF:
-                setCompDef((SpecificationComponent)newValue);
+            case GrlPackage.ACTOR_REF__CONT_DEF:
+                setContDef((IURNContainer)newValue);
                 return;
             case GrlPackage.ACTOR_REF__NODES:
                 getNodes().clear();
@@ -701,7 +732,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                 setLabel((ComponentLabel)newValue);
                 return;
             case GrlPackage.ACTOR_REF__PARENT:
-                setParent((SpecificationComponentRef)newValue);
+                setParent((IURNContainerRef)newValue);
                 return;
             case GrlPackage.ACTOR_REF__CHILDREN:
                 getChildren().clear();
@@ -718,6 +749,21 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                getToLinks().clear();
+                return;
+            case GrlPackage.ACTOR_REF__ID:
+                setId(ID_EDEFAULT);
+                return;
+            case GrlPackage.ACTOR_REF__NAME:
+                setName(NAME_EDEFAULT);
+                return;
+            case GrlPackage.ACTOR_REF__DESCRIPTION:
+                setDescription(DESCRIPTION_EDEFAULT);
+                return;
             case GrlPackage.ACTOR_REF__X:
                 setX(X_EDEFAULT);
                 return;
@@ -733,11 +779,11 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
             case GrlPackage.ACTOR_REF__FIXED:
                 setFixed(FIXED_EDEFAULT);
                 return;
-            case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case GrlPackage.ACTOR_REF__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case GrlPackage.ACTOR_REF__COMP_DEF:
-                setCompDef((SpecificationComponent)null);
+            case GrlPackage.ACTOR_REF__CONT_DEF:
+                setContDef((IURNContainer)null);
                 return;
             case GrlPackage.ACTOR_REF__NODES:
                 getNodes().clear();
@@ -746,7 +792,7 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                 setLabel((ComponentLabel)null);
                 return;
             case GrlPackage.ACTOR_REF__PARENT:
-                setParent((SpecificationComponentRef)null);
+                setParent((IURNContainerRef)null);
                 return;
             case GrlPackage.ACTOR_REF__CHILDREN:
                 getChildren().clear();
@@ -762,6 +808,16 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
+            case GrlPackage.ACTOR_REF__ID:
+                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+            case GrlPackage.ACTOR_REF__NAME:
+                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+            case GrlPackage.ACTOR_REF__DESCRIPTION:
+                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
             case GrlPackage.ACTOR_REF__X:
                 return x != X_EDEFAULT;
             case GrlPackage.ACTOR_REF__Y:
@@ -772,10 +828,10 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                 return height != HEIGHT_EDEFAULT;
             case GrlPackage.ACTOR_REF__FIXED:
                 return fixed != FIXED_EDEFAULT;
-            case GrlPackage.ACTOR_REF__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case GrlPackage.ACTOR_REF__COMP_DEF:
-                return compDef != null;
+            case GrlPackage.ACTOR_REF__DIAGRAM:
+                return getDiagram() != null;
+            case GrlPackage.ACTOR_REF__CONT_DEF:
+                return contDef != null;
             case GrlPackage.ACTOR_REF__NODES:
                 return nodes != null && !nodes.isEmpty();
             case GrlPackage.ACTOR_REF__LABEL:
@@ -786,6 +842,56 @@ public class ActorRefImpl extends EObjectImpl implements ActorRef {
                 return children != null && !children.isEmpty();
         }
         return eDynamicIsSet(eFeature);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
+        if (baseClass == IURNContainerRef.class) {
+            switch (derivedFeatureID) {
+                case GrlPackage.ACTOR_REF__X: return UrncorePackage.IURN_CONTAINER_REF__X;
+                case GrlPackage.ACTOR_REF__Y: return UrncorePackage.IURN_CONTAINER_REF__Y;
+                case GrlPackage.ACTOR_REF__WIDTH: return UrncorePackage.IURN_CONTAINER_REF__WIDTH;
+                case GrlPackage.ACTOR_REF__HEIGHT: return UrncorePackage.IURN_CONTAINER_REF__HEIGHT;
+                case GrlPackage.ACTOR_REF__FIXED: return UrncorePackage.IURN_CONTAINER_REF__FIXED;
+                case GrlPackage.ACTOR_REF__DIAGRAM: return UrncorePackage.IURN_CONTAINER_REF__DIAGRAM;
+                case GrlPackage.ACTOR_REF__CONT_DEF: return UrncorePackage.IURN_CONTAINER_REF__CONT_DEF;
+                case GrlPackage.ACTOR_REF__NODES: return UrncorePackage.IURN_CONTAINER_REF__NODES;
+                case GrlPackage.ACTOR_REF__LABEL: return UrncorePackage.IURN_CONTAINER_REF__LABEL;
+                case GrlPackage.ACTOR_REF__PARENT: return UrncorePackage.IURN_CONTAINER_REF__PARENT;
+                case GrlPackage.ACTOR_REF__CHILDREN: return UrncorePackage.IURN_CONTAINER_REF__CHILDREN;
+                default: return -1;
+            }
+        }
+        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
+        if (baseClass == IURNContainerRef.class) {
+            switch (baseFeatureID) {
+                case UrncorePackage.IURN_CONTAINER_REF__X: return GrlPackage.ACTOR_REF__X;
+                case UrncorePackage.IURN_CONTAINER_REF__Y: return GrlPackage.ACTOR_REF__Y;
+                case UrncorePackage.IURN_CONTAINER_REF__WIDTH: return GrlPackage.ACTOR_REF__WIDTH;
+                case UrncorePackage.IURN_CONTAINER_REF__HEIGHT: return GrlPackage.ACTOR_REF__HEIGHT;
+                case UrncorePackage.IURN_CONTAINER_REF__FIXED: return GrlPackage.ACTOR_REF__FIXED;
+                case UrncorePackage.IURN_CONTAINER_REF__DIAGRAM: return GrlPackage.ACTOR_REF__DIAGRAM;
+                case UrncorePackage.IURN_CONTAINER_REF__CONT_DEF: return GrlPackage.ACTOR_REF__CONT_DEF;
+                case UrncorePackage.IURN_CONTAINER_REF__NODES: return GrlPackage.ACTOR_REF__NODES;
+                case UrncorePackage.IURN_CONTAINER_REF__LABEL: return GrlPackage.ACTOR_REF__LABEL;
+                case UrncorePackage.IURN_CONTAINER_REF__PARENT: return GrlPackage.ACTOR_REF__PARENT;
+                case UrncorePackage.IURN_CONTAINER_REF__CHILDREN: return GrlPackage.ACTOR_REF__CHILDREN;
+                default: return -1;
+            }
+        }
+        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
     }
 
     /**

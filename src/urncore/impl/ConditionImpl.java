@@ -412,18 +412,18 @@ public class ConditionImpl extends LabelImpl implements Condition {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UrncorePackage.CONDITION__START_POINT:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.START_POINT__PRECONDITION, StartPoint.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.START_POINT__PRECONDITION, StartPoint.class, msgs);
                 case UrncorePackage.CONDITION__END_POINT:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.END_POINT__POSTCONDITION, EndPoint.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.END_POINT__POSTCONDITION, EndPoint.class, msgs);
                 case UrncorePackage.CONDITION__PLUGIN_BINDING:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.PLUGIN_BINDING__PRECONDITION, PluginBinding.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.PLUGIN_BINDING__PRECONDITION, PluginBinding.class, msgs);
                 case UrncorePackage.CONDITION__NODE_CONNECTION:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, MapPackage.NODE_CONNECTION__CONDITION, NodeConnection.class, msgs);
+                    return eContainer.eInverseRemove(this, MapPackage.NODE_CONNECTION__CONDITION, NodeConnection.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

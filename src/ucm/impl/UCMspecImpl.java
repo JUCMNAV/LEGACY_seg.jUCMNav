@@ -212,7 +212,7 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
      */
     public EList getScenarioGroups() {
         if (scenarioGroups == null) {
-            scenarioGroups = new EObjectContainmentWithInverseEList(ScenarioGroup.class, this, UcmPackage.UC_MSPEC__SCENARIO_GROUPS, ScenarioPackage.SCENARIO_GROUP__URNSPEC);
+            scenarioGroups = new EObjectContainmentWithInverseEList(ScenarioGroup.class, this, UcmPackage.UC_MSPEC__SCENARIO_GROUPS, ScenarioPackage.SCENARIO_GROUP__UCMSPEC);
         }
         return scenarioGroups;
     }
@@ -224,7 +224,7 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
      */
     public EList getVariables() {
         if (variables == null) {
-            variables = new EObjectContainmentWithInverseEList(Variable.class, this, UcmPackage.UC_MSPEC__VARIABLES, ScenarioPackage.VARIABLE__URNSPEC);
+            variables = new EObjectContainmentWithInverseEList(Variable.class, this, UcmPackage.UC_MSPEC__VARIABLES, ScenarioPackage.VARIABLE__UCMSPEC);
         }
         return variables;
     }
@@ -236,7 +236,7 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
      */
     public EList getScenarioDefs() {
         if (scenarioDefs == null) {
-            scenarioDefs = new EObjectContainmentWithInverseEList(ScenarioDef.class, this, UcmPackage.UC_MSPEC__SCENARIO_DEFS, ScenarioPackage.SCENARIO_DEF__URNSPEC);
+            scenarioDefs = new EObjectContainmentWithInverseEList(ScenarioDef.class, this, UcmPackage.UC_MSPEC__SCENARIO_DEFS, ScenarioPackage.SCENARIO_DEF__UCMSPEC);
         }
         return scenarioDefs;
     }
@@ -312,12 +312,12 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case UcmPackage.UC_MSPEC__URNSPEC:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrnPackage.UR_NSPEC__UCMSPEC, URNspec.class, msgs);
+                    return eContainer.eInverseRemove(this, UrnPackage.UR_NSPEC__UCMSPEC, URNspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

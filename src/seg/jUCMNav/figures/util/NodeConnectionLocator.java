@@ -3,10 +3,13 @@ package seg.jUCMNav.figures.util;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
 
+import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 
 /**
@@ -32,10 +35,11 @@ public class NodeConnectionLocator extends ConnectionLocator {
      *            The figure to relocate
      */
     public void relocate(IFigure target) {
-        Dimension prefSize = target.getPreferredSize();
-        Point center = getReferencePoint();
-        target.translateToRelative(center);
         if (target instanceof TimeoutPathFigure) {
+            Dimension prefSize = target.getPreferredSize();
+            Point center = getReferencePoint();
+            target.translateToRelative(center);
+            
             TimeoutPathFigure fig = (TimeoutPathFigure) target;
 
             Polyline child = (Polyline) fig.getChildren().get(0);
@@ -44,9 +48,24 @@ public class NodeConnectionLocator extends ConnectionLocator {
 
             // force refresh bounds
             child.setPoints(child.getPoints());
+            target.setBounds(getNewBounds(prefSize, center));
+        } else if (target instanceof PolygonDecoration && getConnection() instanceof LinkRefConnection){ 
+            Dimension prefSize = target.getPreferredSize();
+            PointList points = getConnection().getPoints();
+            
+            PolygonDecoration depend = (PolygonDecoration)target;
+            int index = points.size()/2;
+            
+            PointList center = new PointList();
+            center.addPoint(points.getPoint(index-1));
+            center.addPoint(points.getPoint(index));
+            //Set the decoration to the middle point
+            depend.setLocation(center.getMidpoint());
+            depend.setReferencePoint(points.getPoint(index));
+            
         }
 
-        target.setBounds(getNewBounds(prefSize, center));
+
     }
 
 }

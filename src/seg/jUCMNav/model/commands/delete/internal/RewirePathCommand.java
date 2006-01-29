@@ -54,8 +54,8 @@ public class RewirePathCommand extends Command implements JUCMNavCommand {
             inBindings = ncSucc.getInBindings();
         }
 
-        pg = (UCMmap)element.getSpecDiagram();
-        aborted = pg == null || element.getSpecDiagram().getUrndefinition()==null;
+        pg = (UCMmap)element.getDiagram();
+        aborted = pg == null || element.getDiagram().getUrndefinition()==null;
         if (aborted)
             return;
         iTargetPosition = ncSucc.getTarget().getPred().indexOf(ncSucc);

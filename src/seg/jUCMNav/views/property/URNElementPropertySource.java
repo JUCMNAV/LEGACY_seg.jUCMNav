@@ -1,6 +1,5 @@
 package seg.jUCMNav.views.property;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -28,9 +27,9 @@ import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
 import urn.URNspec;
 import urncore.Condition;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 import urncore.Label;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationNode;
 import urncore.URNmodelElement;
 
 /**
@@ -54,7 +53,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         EClassifier type = getFeatureType(attr);
         PropertyID propertyid = new PropertyID(c, attr);
 
-        if (type.getInstanceClass() == SpecificationComponentRef.class && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef)
+        if (type.getInstanceClass() == IURNContainerRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)
                 && attr.getUpperBound() == 1) {
             componentRefDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == Workload.class) {
@@ -108,7 +107,6 @@ public class URNElementPropertySource extends EObjectPropertySource {
             for (int i = 0; i < VALUES.size(); i++)
                 values[i] = ((AbstractEnumerator) (VALUES.get(i))).getName();
 
-            Arrays.sort(values);
             return values;
 
         } catch (Exception e) {
@@ -153,18 +151,18 @@ public class URNElementPropertySource extends EObjectPropertySource {
     }
 
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
-        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class
-                && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef)) {
+        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
+                && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)) {
             //&& feature.getName().toLowerCase().indexOf("parent") >= 0) {
             Vector list = ParentFinder.getPossibleParents((URNmodelElement) getEditableValue());
             Collections.sort(list, new EObjectClassNameComparator());
 
             for (int i = 0; i < list.size(); i++) {
-                SpecificationComponentRef parent;
-                if (getEditableValue() instanceof SpecificationComponentRef)
-                    parent = (SpecificationComponentRef)((SpecificationComponentRef) getEditableValue()).getParent();
+                IURNContainerRef parent;
+                if (getEditableValue() instanceof IURNContainerRef)
+                    parent = (IURNContainerRef)((IURNContainerRef) getEditableValue()).getParent();
                 else
-                    parent = (SpecificationComponentRef)((SpecificationNode) getEditableValue()).getCompRef();
+                    parent = (IURNContainerRef)((IURNNode) getEditableValue()).getContRef();
                 if (list.get(i).equals(parent))
                     result = new Integer(i + 1);
             }
@@ -173,7 +171,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         } else if (getFeatureType(feature).getInstanceClass() == Workload.class) {
             if (result == null) {
-                URNspec urn = ((StartPoint) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+                URNspec urn = ((StartPoint) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
                 result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
             }
             result = new URNElementPropertySource((EObject) result);
@@ -181,9 +179,9 @@ public class URNElementPropertySource extends EObjectPropertySource {
             if (result == null) {
                 URNspec urn;
                 if (getEditableValue() instanceof NodeConnection)
-                    urn = ((NodeConnection) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+                    urn = ((NodeConnection) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
                 else
-                    urn = ((PathNode) getEditableValue()).getSpecDiagram().getUrndefinition().getUrnspec();
+                    urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             }
@@ -218,8 +216,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         Object result = getPropertyValue(id);
 
-        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class
-                && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef)) {
+        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
+                && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)) {
             Vector list = ParentFinder.getPossibleParents((URNmodelElement) getEditableValue());
             Collections.sort(list, new EObjectClassNameComparator());
             if (((Integer) value).equals(new Integer(0)))
@@ -251,7 +249,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         String[] values = new String[list.size() + 1];
         values[0] = Messages.getString("UCMElementPropertySource.unbound"); //$NON-NLS-1$
         for (int i = 1; i < list.size() + 1; i++) {
-            values[i] = EObjectClassNameComparator.getSortableElementName((SpecificationComponentRef) list.get(i - 1));
+            values[i] = EObjectClassNameComparator.getSortableElementName((IURNContainerRef) list.get(i - 1));
             if (values[i] == null)
                 values[i] = Messages.getString("UCMElementPropertySource.unnamed"); //$NON-NLS-1$
         }
@@ -270,8 +268,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class
-                && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef)) {
+        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
+                && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)) {
             return ((Integer) getPropertyValue(id)).intValue() > 0;
         } else
             return super.isPropertySet(id);
@@ -286,8 +284,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class
-                && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef)) {
+        if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
+                && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)) {
             return true;
         } else
             return super.isPropertyResettable(id);
@@ -303,7 +301,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         EStructuralFeature feature = propertyid.getFeature();
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
-                || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == SpecificationComponentRef.class && (getEditableValue() instanceof SpecificationNode || getEditableValue() instanceof SpecificationComponentRef))) {
+                || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef))) {
             object.eSet(feature, null);
         } else
             super.resetPropertyValue(id);

@@ -7,9 +7,9 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 import seg.jUCMNav.Messages;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.URNmodelElement;
 
 /**
@@ -28,17 +28,17 @@ public class ParentFinder {
      * @param child
      * @return possible parent
      */
-    public static SpecificationComponentRef getPossibleParent(URNmodelElement child) {
+    public static IURNContainerRef getPossibleParent(URNmodelElement child) {
 
-        SpecificationComponentRef parent;
-        if (child instanceof SpecificationComponentRef) {
-            SpecificationComponentRef cr = (SpecificationComponentRef) child;
-            assert cr.getSpecDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
-            parent = ParentFinder.findParent(cr.getSpecDiagram(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
+        IURNContainerRef parent;
+        if (child instanceof IURNContainerRef) {
+            IURNContainerRef cr = (IURNContainerRef) child;
+            assert cr.getDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
+            parent = ParentFinder.findParent(cr.getDiagram(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
         } else {
-            SpecificationNode p = (SpecificationNode) child;
-            assert p.getSpecDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
-            parent = ParentFinder.findParent(p.getSpecDiagram(), p.getX(), p.getY());
+            IURNNode p = (IURNNode) child;
+            assert p.getDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
+            parent = ParentFinder.findParent(p.getDiagram(), p.getX(), p.getY());
         }
         return parent;
     }
@@ -52,7 +52,7 @@ public class ParentFinder {
     public static Vector getPossibleParents(URNmodelElement child) {
 
         Vector parents = new Vector();
-        SpecificationComponentRef parent = getPossibleParent(child);
+        IURNContainerRef parent = getPossibleParent(child);
         while (parent != null) {
             parents.add(parent);
             parent = getPossibleParent((URNmodelElement) parent);
@@ -70,13 +70,13 @@ public class ParentFinder {
      *            another component reference
      * @return their closet common parent
      */
-    public static SpecificationComponentRef getCommonParent(SpecificationComponentRef ref1, SpecificationComponentRef ref2) {
+    public static IURNContainerRef getCommonParent(IURNContainerRef ref1, IURNContainerRef ref2) {
         Vector parents1 = new Vector();
         Vector parents2 = new Vector();
 
         if (ref1 == null || ref2 == null)
             return null;
-        SpecificationComponentRef parent = ref1;
+        IURNContainerRef parent = ref1;
         while (parent != null) {
             parents1.add(0, parent);
             parent = parent.getParent();
@@ -95,7 +95,7 @@ public class ParentFinder {
         }
         i = i - 1;
         if (i >= 0)
-            return (SpecificationComponentRef) parents1.get(i);
+            return (IURNContainerRef) parents1.get(i);
         else
             return null;
 
@@ -110,14 +110,14 @@ public class ParentFinder {
      * @param newY
      * @return a SpecificationComponentRef
      */
-    public static SpecificationComponentRef findParent(SpecificationDiagram diagram, int newX, int newY) {
+    public static IURNContainerRef findParent(IURNDiagram diagram, int newX, int newY) {
         Vector v = new Vector();
         Point p = new Point(newX, newY);
 
         // get the components that contain the moved object.
         // this is a cheap O(number of components in map) trick to avoid having to use the edit parts
-        for (int i = 0; i < diagram.getCompRefs().size(); i++) {
-            SpecificationComponentRef cr = (SpecificationComponentRef) diagram.getCompRefs().get(i);
+        for (int i = 0; i < diagram.getContRefs().size(); i++) {
+            IURNContainerRef cr = (IURNContainerRef) diagram.getContRefs().get(i);
             if ((new Rectangle(cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight())).contains(p)) {
                 v.add(cr);
             }
@@ -129,7 +129,7 @@ public class ParentFinder {
             // sort them by ascending order
             Collections.sort(v, new SpecificationComponentRefAreaComparator());
             // pick the smallest container
-            return (SpecificationComponentRef) v.get(0);
+            return (IURNContainerRef) v.get(0);
         }
     }
 
@@ -146,14 +146,13 @@ public class ParentFinder {
      * @param newHeight
      * @return a SpecificationComponentRef
      */
-    public static SpecificationComponentRef findParent(SpecificationDiagram diagram, SpecificationComponentRef compRef, int newX, int newY, int newWidth,
-            int newHeight) {
+    public static IURNContainerRef findParent(IURNDiagram diagram, IURNContainerRef compRef, int newX, int newY, int newWidth, int newHeight) {
         Rectangle rectMoved = new Rectangle(newX, newY, newWidth, newHeight);
 
         Vector v = new Vector();
         // get the components that contain the moved object.
-        for (int i = 0; i < diagram.getCompRefs().size(); i++) {
-            SpecificationComponentRef cr = (SpecificationComponentRef) diagram.getCompRefs().get(i);
+        for (int i = 0; i < diagram.getContRefs().size(); i++) {
+            IURNContainerRef cr = (IURNContainerRef) diagram.getContRefs().get(i);
             if ((new Rectangle(cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight())).contains(rectMoved) && !compRef.equals(cr)) {
                 v.add(cr);
             }
@@ -173,14 +172,14 @@ public class ParentFinder {
             // furthermore, we'll break our component out of the binding chain so that it is not in an illegal state
             // 
             // assert noCircularBindings((SpecificationComponentRef) v.get(0), compRef) : "ParentFinder: Circular Binding Found!";
-            if (!noCircularBindings((SpecificationComponentRef) v.get(0), compRef)) {
+            if (!noCircularBindings((IURNContainerRef) v.get(0), compRef)) {
                 compRef.setParent(null);
                 compRef.getChildren().clear();
                 return null;
             }
 
             // pick the smallest container
-            return (SpecificationComponentRef) v.get(0);
+            return (IURNContainerRef) v.get(0);
         }
 
     }
@@ -194,23 +193,23 @@ public class ParentFinder {
      *            The parent for which we find the children.
      * @return vector with new children of the compRef
      */
-    public static Vector findNewChildren(SpecificationDiagram diagram, SpecificationComponentRef compRef) {
+    public static Vector findNewChildren(IURNDiagram diagram, IURNContainerRef compRef) {
         Rectangle rectMoved = new Rectangle(compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight());
 
         Vector v = new Vector();
-        v.addAll(diagram.getCompRefs());
+        v.addAll(diagram.getContRefs());
         v.addAll(diagram.getNodes());
 
         for (int i = v.size() - 1; i >= 0; i--) {
 
-            if (v.get(i) instanceof SpecificationComponentRef) {
-                SpecificationComponentRef cr = (SpecificationComponentRef) v.get(i);
+            if (v.get(i) instanceof IURNContainerRef) {
+                IURNContainerRef cr = (IURNContainerRef) v.get(i);
                 if (compRef == cr.getParent() || compRef != findParent(diagram, cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight())) {
                     v.remove(i);
                 }
-            } else if (v.get(i) instanceof SpecificationNode) {
-                SpecificationNode pn = (SpecificationNode) v.get(i);
-                if (compRef == pn.getCompRef() || compRef != findParent(diagram, pn.getX(), pn.getY())) {
+            } else if (v.get(i) instanceof IURNNode) {
+                IURNNode pn = (IURNNode) v.get(i);
+                if (compRef == pn.getContRef() || compRef != findParent(diagram, pn.getX(), pn.getY())) {
                     v.remove(i);
                 }
             }
@@ -227,7 +226,7 @@ public class ParentFinder {
      * @param child
      * @return a boolean = false if child is an ancestor parent
      */
-    private static boolean noCircularBindings(SpecificationComponentRef parent, SpecificationComponentRef child) {
+    private static boolean noCircularBindings(IURNContainerRef parent, IURNContainerRef child) {
         // If there already is a circular binding present, infinite loop will occur.
         while (parent.getParent() != null) {
             if (parent.getParent() == child) {
@@ -235,7 +234,7 @@ public class ParentFinder {
                 System.out.println(Messages.getString("ParentFinder.circularBinding")); //$NON-NLS-1$
                 return false;
             } else
-                parent = (SpecificationComponentRef) parent.getParent();
+                parent = (IURNContainerRef) parent.getParent();
         }
         return true;
     }

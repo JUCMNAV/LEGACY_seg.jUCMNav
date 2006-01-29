@@ -5,9 +5,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.delete.internal.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.internal.PostPathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUcmModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.RemoveUCMmodelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
@@ -47,7 +47,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * 
      */
     private void build() {
-        UCMmap map = (UCMmap)pn.getSpecDiagram();
+        UCMmap map = (UCMmap)pn.getDiagram();
 
         if (pn instanceof StartPoint) {
             add(new DeletePathCommand((StartPoint) pn, editpartregistry));
@@ -56,9 +56,9 @@ public class DeletePathNodeCommand extends CompoundCommand {
         } else {
             // when deleting a regular pathnode, assuming never has to be replaced by empty point
             // stubs must not be replaced with empty points even if have 1in/1out because could cause illegal loops.
-            add(new PreDeleteUcmModelElementCommand(pn));
+            add(new PreDeleteUrnModelElementCommand(pn));
             add(new PrePathManipulationCommand(pn, editpartregistry));
-            add(new RemoveUCMmodelElementCommand(pn));
+            add(new RemoveURNmodelElementCommand(pn));
             add(new PostPathManipulationCommand(pn));
 
             if (pn.getSucc().size() == 1 && pn.getPred().size() == 1
@@ -87,7 +87,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
      * Builds commands as late as possible
      */
     public void execute() {
-        if (pn.getSpecDiagram() != null) {
+        if (pn.getDiagram() != null) {
             build();
             super.execute();
         }

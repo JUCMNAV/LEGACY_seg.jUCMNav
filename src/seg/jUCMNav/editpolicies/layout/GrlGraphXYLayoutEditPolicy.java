@@ -3,7 +3,10 @@
  */
 package seg.jUCMNav.editpolicies.layout;
 
+import grl.ActorRef;
+import grl.Belief;
 import grl.GRLGraph;
+import grl.GRLNode;
 import grl.IntentionalElementRef;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -14,10 +17,14 @@ import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
+import seg.jUCMNav.model.commands.create.AddBeliefCommand;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
-import seg.jUCMNav.model.commands.changeConstraints.MoveSpecificationNodeCommand;
+import urncore.IURNContainerRef;
+import urncore.IURNNode;
 import urncore.Label;
-import urncore.SpecificationNode;
 
 /**
  * XYLayoutEditPolicy for the GrlGraphEditPart. Handles creation of new elements and moving/resizing of existing ones.
@@ -47,8 +54,10 @@ public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         Rectangle constraint = (Rectangle) getConstraintFor(request);
         Command createCommand = null;
 
-        if (newObjectType == IntentionalElementRef.class) {
-            createCommand = handleCreateIntentionalElementRef(request, constraint);
+        if ((newObjectType == IntentionalElementRef.class) || (newObjectType == Belief.class)) {
+            createCommand = handleCreateGrlNode(request, constraint);
+        }else if (newObjectType == ActorRef.class) {
+            createCommand = handleCreateActorRef(request, constraint);
         }
         return createCommand;
     }
@@ -70,16 +79,18 @@ public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
     }
   
     /**
-     * Handles moving/resizing of MapAndPathGraphEditPart's children.
+     * Handles moving/resizing of Graph children.
      * 
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     public Command createChangeConstraintCommand(EditPart child, Object constraint) {
-        if (child.getModel() instanceof SpecificationNode) {
-            return handleMoveSpecificationNode(child, constraint);
+        if (child.getModel() instanceof IURNNode) {
+            return handleMoveGRLNode(child, constraint);
         } else if (child.getModel() instanceof Label) {
             //Moving label is not allow in GRL
             return null;
+        }else if (child.getModel() instanceof IURNContainerRef){
+            return handleMoveResizeActorRef(child, constraint);
         }else {
             System.out.println(Messages.getString("GrlGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
             return null;
@@ -89,40 +100,85 @@ public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     /**
      * @param request
+     *            the CreateRequest containing the new ActorRef
+     * @param constraint
+     *            where the new object should be created
+     * @return a command that adds a new ActorRef on the Map and moves/resizes it into place.
+     */
+    private Command handleCreateActorRef(CreateRequest request, Rectangle constraint) {
+        Command createCommand;
+        ActorRef actorRef = (ActorRef) request.getNewObject();
+
+        AddContainerRefCommand create = new AddContainerRefCommand(getGraph(), actorRef);
+        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(actorRef, constraint.x, constraint.y, constraint.width,
+                constraint.height);
+
+        // after creation, move and resize the component;
+        createCommand = create.chain(moveResize);
+        return createCommand;
+    }
+    
+    /**
+     * @param request
      *            the CreateRequest containing the new ComponentRef
      * @param constraint
      *            where the new object should be created
      * @return a command that adds a new IntentionalElementRef on the Graph and moves/resizes it into place.
      */ 
-    private Command handleCreateIntentionalElementRef(CreateRequest request, Rectangle constraint) {
+    private Command handleCreateGrlNode(CreateRequest request, Rectangle constraint) {
         Command createCommand;
-        IntentionalElementRef elementRef = (IntentionalElementRef) request.getNewObject();
+        Command create = null;
+        GRLNode node = null;
+        if (request.getNewObject() instanceof IntentionalElementRef){
+            node = (IntentionalElementRef) request.getNewObject();
+            create = new AddIntentionalElementRefCommand(getGraph(), (IntentionalElementRef)node);
+        }else if (request.getNewObject() instanceof Belief){   
+            node = (Belief) request.getNewObject();
+            create = new AddBeliefCommand(getGraph(), (Belief)node);
+        }
+        SetConstraintCommand move  = new SetConstraintCommand(node, constraint.x, constraint.y);
 
-        AddIntentionalElementRefCommand create = new AddIntentionalElementRefCommand(getGraph(), elementRef);
-        MoveSpecificationNodeCommand move  = new MoveSpecificationNodeCommand(elementRef, constraint.x, constraint.y);
-
-        // after creation, move and resize the component;
+        // after creation, move and resize the node;
         createCommand = create.chain(move);
 
         return createCommand;
     }
     
     /**
-     * Handles moving an IntentionalElementRef.
+     * Handles moving an GRLNode.
      * 
      * @param child
-     *            the IntentionalElementRefEditPart
+     *            the IntentionalElementRefEditPart or BeliefEditPart
      * @param constraint
-     *            where it should be moved.
+     *            where it should be moved and resize.
      * @return a SetConstraintIntentionalElementRefCommand
      */
-    private Command handleMoveSpecificationNode(EditPart child, Object constraint) {
+    private Command handleMoveGRLNode(EditPart child, Object constraint) {
         Rectangle rect = (Rectangle) constraint;
-        IntentionalElementRef intRef = (IntentionalElementRef) child.getModel();
+        GRLNode node = (GRLNode) child.getModel();
 
-        MoveSpecificationNodeCommand move = new MoveSpecificationNodeCommand(intRef, rect.getLocation().x, rect
+        return new SetConstraintCommand(node, rect.getLocation().x, rect
                 .getLocation().y);
 
-        return move;
     }
+    
+    /**
+     * Handles moving/resizing a ActorRef.
+     * 
+     * @param child
+     *            the ActorRefEditPart
+     * @param constraint
+     *            where it should be moved and its new dimensions.
+     * @return a SetConstraintBoundContainerRefCompoundCommand
+     */
+    protected Command handleMoveResizeActorRef(EditPart child, Object constraint) {
+        Rectangle rect = (Rectangle) constraint;
+        IURNContainerRef compRef = (IURNContainerRef) child.getModel();
+
+        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, rect.getLocation().x, rect
+                .getLocation().y, rect.width, rect.height);
+
+        return moveResize;
+    }
+    
 }

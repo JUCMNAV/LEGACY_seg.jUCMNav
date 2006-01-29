@@ -20,8 +20,8 @@ import ucm.map.DirectionArrow;
 import ucm.map.MapPackage;
 
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -60,16 +60,18 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
+                case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.DIRECTION_ARROW__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM, msgs);
-                case MapPackage.DIRECTION_ARROW__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.DIRECTION_ARROW__DIAGRAM, msgs);
+                case MapPackage.DIRECTION_ARROW__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.DIRECTION_ARROW__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.DIRECTION_ARROW__PRED:
@@ -95,12 +97,14 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM, msgs);
-                case MapPackage.DIRECTION_ARROW__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.DIRECTION_ARROW__DIAGRAM, msgs);
+                case MapPackage.DIRECTION_ARROW__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.DIRECTION_ARROW__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.DIRECTION_ARROW__PRED:
@@ -122,13 +126,13 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -138,23 +142,25 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                return getToLinks();
             case MapPackage.DIRECTION_ARROW__ID:
                 return getId();
             case MapPackage.DIRECTION_ARROW__NAME:
                 return getName();
             case MapPackage.DIRECTION_ARROW__DESCRIPTION:
                 return getDescription();
-            case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.DIRECTION_ARROW__X:
                 return new Integer(getX());
             case MapPackage.DIRECTION_ARROW__Y:
                 return new Integer(getY());
-            case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.DIRECTION_ARROW__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                return getDiagram();
+            case MapPackage.DIRECTION_ARROW__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.DIRECTION_ARROW__SUCC:
                 return getSucc();
             case MapPackage.DIRECTION_ARROW__PRED:
@@ -172,6 +178,14 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.DIRECTION_ARROW__ID:
                 setId((String)newValue);
                 return;
@@ -181,21 +195,17 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
             case MapPackage.DIRECTION_ARROW__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.DIRECTION_ARROW__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.DIRECTION_ARROW__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.DIRECTION_ARROW__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.DIRECTION_ARROW__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.DIRECTION_ARROW__SUCC:
                 getSucc().clear();
@@ -219,6 +229,12 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.DIRECTION_ARROW__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -228,20 +244,17 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
             case MapPackage.DIRECTION_ARROW__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.DIRECTION_ARROW__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.DIRECTION_ARROW__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.DIRECTION_ARROW__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.DIRECTION_ARROW__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.DIRECTION_ARROW__SUCC:
                 getSucc().clear();
@@ -263,22 +276,24 @@ public class DirectionArrowImpl extends PathNodeImpl implements DirectionArrow {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.DIRECTION_ARROW__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.DIRECTION_ARROW__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.DIRECTION_ARROW__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.DIRECTION_ARROW__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.DIRECTION_ARROW__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.DIRECTION_ARROW__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.DIRECTION_ARROW__X:
                 return x != X_EDEFAULT;
             case MapPackage.DIRECTION_ARROW__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.DIRECTION_ARROW__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.DIRECTION_ARROW__COMP_REF:
-                return compRef != null;
+            case MapPackage.DIRECTION_ARROW__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.DIRECTION_ARROW__CONT_REF:
+                return contRef != null;
             case MapPackage.DIRECTION_ARROW__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.DIRECTION_ARROW__PRED:

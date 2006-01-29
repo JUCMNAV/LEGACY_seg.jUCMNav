@@ -8,7 +8,7 @@ package grl;
 
 import org.eclipse.emf.common.util.EList;
 
-import urncore.SpecificationConnection;
+import urncore.IURNConnection;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,35 +18,16 @@ import urncore.SpecificationConnection;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link grl.LinkRef#getBeliefs <em>Beliefs</em>}</li>
  *   <li>{@link grl.LinkRef#getLink <em>Link</em>}</li>
- *   <li>{@link grl.LinkRef#getDependency <em>Dependency</em>}</li>
+ *   <li>{@link grl.LinkRef#getBendpoints <em>Bendpoints</em>}</li>
  * </ul>
  * </p>
  *
  * @see grl.GrlPackage#getLinkRef()
- * @model 
+ * @model
  * @generated
  */
-public interface LinkRef extends SpecificationConnection {
-    /**
-     * Returns the value of the '<em><b>Beliefs</b></em>' reference list.
-     * The list contents are of type {@link grl.Belief}.
-     * It is bidirectional and its opposite is '{@link grl.Belief#getConnection <em>Connection</em>}'.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Beliefs</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Beliefs</em>' reference list.
-     * @see grl.GrlPackage#getLinkRef_Beliefs()
-     * @see grl.Belief#getConnection
-     * @model type="grl.Belief" opposite="connection"
-     * @generated
-     */
-    EList getBeliefs();
-
+public interface LinkRef extends IURNConnection {
     /**
      * Returns the value of the '<em><b>Link</b></em>' reference.
      * It is bidirectional and its opposite is '{@link grl.ElementLink#getRefs <em>Refs</em>}'.
@@ -76,31 +57,21 @@ public interface LinkRef extends SpecificationConnection {
     void setLink(ElementLink value);
 
     /**
-     * Returns the value of the '<em><b>Dependency</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.Dependency#getSecondRefs <em>Second Refs</em>}'.
+     * Returns the value of the '<em><b>Bendpoints</b></em>' containment reference list.
+     * The list contents are of type {@link grl.LinkRefBendpoint}.
+     * It is bidirectional and its opposite is '{@link grl.LinkRefBendpoint#getLinkref <em>Linkref</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Dependency</em>' reference isn't clear,
+     * If the meaning of the '<em>Bendpoints</em>' containment reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Dependency</em>' reference.
-     * @see #setDependency(Dependency)
-     * @see grl.GrlPackage#getLinkRef_Dependency()
-     * @see grl.Dependency#getSecondRefs
-     * @model opposite="secondRefs" required="true"
+     * @return the value of the '<em>Bendpoints</em>' containment reference list.
+     * @see grl.GrlPackage#getLinkRef_Bendpoints()
+     * @see grl.LinkRefBendpoint#getLinkref
+     * @model type="grl.LinkRefBendpoint" opposite="linkref" containment="true"
      * @generated
      */
-    Dependency getDependency();
-
-    /**
-     * Sets the value of the '{@link grl.LinkRef#getDependency <em>Dependency</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Dependency</em>' reference.
-     * @see #getDependency()
-     * @generated
-     */
-    void setDependency(Dependency value);
+    EList getBendpoints();
 
 } // LinkRef

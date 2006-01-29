@@ -73,14 +73,14 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
      */
     protected ScenarioSwitch modelSwitch =
         new ScenarioSwitch() {
-            public Object caseScenarioGroup(ScenarioGroup object) {
-                return createScenarioGroupAdapter();
+            public Object caseVariable(Variable object) {
+                return createVariableAdapter();
             }
             public Object caseScenarioDef(ScenarioDef object) {
                 return createScenarioDefAdapter();
             }
-            public Object caseVariable(Variable object) {
-                return createVariableAdapter();
+            public Object caseScenarioGroup(ScenarioGroup object) {
+                return createScenarioGroupAdapter();
             }
             public Object caseURNmodelElement(URNmodelElement object) {
                 return createURNmodelElementAdapter();

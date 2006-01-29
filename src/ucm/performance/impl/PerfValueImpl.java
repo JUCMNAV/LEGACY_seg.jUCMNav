@@ -344,12 +344,12 @@ public class PerfValueImpl extends EObjectImpl implements PerfValue {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
                 case PerformancePackage.PERF_VALUE__PERF_MEASURE:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, PerformancePackage.PERF_MEASURE__PERF_VALUES, PerfMeasure.class, msgs);
+                    return eContainer.eInverseRemove(this, PerformancePackage.PERF_MEASURE__PERF_VALUES, PerfMeasure.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**

@@ -34,9 +34,9 @@ public class PostPathManipulationCommand extends CompoundCommand {
      *            where to insert a new EmptyPoint
      */
     public PostPathManipulationCommand(PathNode pn, NodeConnection link) {
-        if (pn.getSpecDiagram() != null && pn.getSpecDiagram().getUrndefinition() != null) {
-            empty = (EmptyPoint) ModelCreationFactory.getNewObject(pn.getSpecDiagram().getUrndefinition().getUrnspec(), EmptyPoint.class);
-            add(new SplitLinkCommand((UCMmap)pn.getSpecDiagram(), empty, link, pn.getX(), pn.getY()));
+        if (pn.getDiagram() != null && pn.getDiagram().getUrndefinition() != null) {
+            empty = (EmptyPoint) ModelCreationFactory.getNewObject(pn.getDiagram().getUrndefinition().getUrnspec(), EmptyPoint.class);
+            add(new SplitLinkCommand((UCMmap)pn.getDiagram(), empty, link, pn.getX(), pn.getY()));
         }
     }
 

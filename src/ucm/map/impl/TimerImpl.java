@@ -26,8 +26,8 @@ import ucm.map.Timer;
 import ucm.scenario.Variable;
 
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -167,16 +167,18 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.TIMER__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.TIMER__SPEC_DIAGRAM:
+                case MapPackage.TIMER__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.TIMER__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.TIMER__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.TIMER__SPEC_DIAGRAM, msgs);
-                case MapPackage.TIMER__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.TIMER__DIAGRAM, msgs);
+                case MapPackage.TIMER__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.TIMER__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.TIMER__PRED:
@@ -202,12 +204,14 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.TIMER__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.TIMER__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.TIMER__SPEC_DIAGRAM, msgs);
-                case MapPackage.TIMER__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.TIMER__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.TIMER__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.TIMER__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.TIMER__DIAGRAM, msgs);
+                case MapPackage.TIMER__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.TIMER__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.TIMER__PRED:
@@ -229,13 +233,13 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.TIMER__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.TIMER__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -245,23 +249,25 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.TIMER__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.TIMER__TO_LINKS:
+                return getToLinks();
             case MapPackage.TIMER__ID:
                 return getId();
             case MapPackage.TIMER__NAME:
                 return getName();
             case MapPackage.TIMER__DESCRIPTION:
                 return getDescription();
-            case MapPackage.TIMER__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.TIMER__X:
                 return new Integer(getX());
             case MapPackage.TIMER__Y:
                 return new Integer(getY());
-            case MapPackage.TIMER__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.TIMER__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.TIMER__DIAGRAM:
+                return getDiagram();
+            case MapPackage.TIMER__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.TIMER__SUCC:
                 return getSucc();
             case MapPackage.TIMER__PRED:
@@ -287,6 +293,14 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.TIMER__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.TIMER__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.TIMER__ID:
                 setId((String)newValue);
                 return;
@@ -296,21 +310,17 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
             case MapPackage.TIMER__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.TIMER__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.TIMER__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.TIMER__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.TIMER__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.TIMER__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.TIMER__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.TIMER__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.TIMER__SUCC:
                 getSucc().clear();
@@ -343,6 +353,12 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.TIMER__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.TIMER__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.TIMER__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -352,20 +368,17 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
             case MapPackage.TIMER__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.TIMER__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.TIMER__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.TIMER__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.TIMER__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.TIMER__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.TIMER__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.TIMER__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.TIMER__SUCC:
                 getSucc().clear();
@@ -396,22 +409,24 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.TIMER__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.TIMER__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.TIMER__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.TIMER__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.TIMER__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.TIMER__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.TIMER__X:
                 return x != X_EDEFAULT;
             case MapPackage.TIMER__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.TIMER__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.TIMER__COMP_REF:
-                return compRef != null;
+            case MapPackage.TIMER__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.TIMER__CONT_REF:
+                return contRef != null;
             case MapPackage.TIMER__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.TIMER__PRED:

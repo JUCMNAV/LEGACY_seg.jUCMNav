@@ -8,7 +8,7 @@ package ucm.map;
 
 import org.eclipse.emf.common.util.EList;
 
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 import urncore.UCMmodelElement;
 
 /**
@@ -24,10 +24,10 @@ import urncore.UCMmodelElement;
  * </p>
  *
  * @see ucm.map.MapPackage#getUCMmap()
- * @model 
+ * @model
  * @generated
  */
-public interface UCMmap extends UCMmodelElement, SpecificationDiagram {
+public interface UCMmap extends UCMmodelElement, IURNDiagram{
     /**
      * Returns the value of the '<em><b>Parent Stub</b></em>' reference list.
      * The list contents are of type {@link ucm.map.PluginBinding}.

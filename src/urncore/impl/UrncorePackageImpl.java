@@ -52,11 +52,11 @@ import urncore.Label;
 import urncore.NodeLabel;
 import urncore.Pool;
 import urncore.Responsibility;
-import urncore.SpecificationComponent;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationConnection;
-import urncore.SpecificationDiagram;
-import urncore.SpecificationNode;
+import urncore.IURNContainer;
+import urncore.IURNContainerRef;
+import urncore.IURNConnection;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 import urncore.URNmodelElement;
@@ -173,7 +173,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass specificationDiagramEClass = null;
+    private EClass iurnDiagramEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -187,28 +187,28 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass specificationNodeEClass = null;
+    private EClass iurnNodeEClass = null;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass specificationComponentRefEClass = null;
+    private EClass iurnContainerRefEClass = null;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass specificationComponentEClass = null;
+    private EClass iurnContainerEClass = null;
 
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass specificationConnectionEClass = null;
+    private EClass iurnConnectionEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -281,30 +281,30 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         isInited = true;
 
         // Obtain or create and register interdependencies
-        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackageImpl.eINSTANCE);
-        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackageImpl.eINSTANCE);
-        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackageImpl.eINSTANCE);
-        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackageImpl.eINSTANCE);
-        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackageImpl.eINSTANCE);
-        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackageImpl.eINSTANCE);
+        UrnPackageImpl theUrnPackage = (UrnPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) instanceof UrnPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UrnPackage.eNS_URI) : UrnPackage.eINSTANCE);
+        GrlPackageImpl theGrlPackage = (GrlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) instanceof GrlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(GrlPackage.eNS_URI) : GrlPackage.eINSTANCE);
+        UcmPackageImpl theUcmPackage = (UcmPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) instanceof UcmPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UcmPackage.eNS_URI) : UcmPackage.eINSTANCE);
+        PerformancePackageImpl thePerformancePackage = (PerformancePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) instanceof PerformancePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI) : PerformancePackage.eINSTANCE);
+        MapPackageImpl theMapPackage = (MapPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) instanceof MapPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MapPackage.eNS_URI) : MapPackage.eINSTANCE);
+        ScenarioPackageImpl theScenarioPackage = (ScenarioPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) instanceof ScenarioPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI) : ScenarioPackage.eINSTANCE);
 
         // Create package meta-data objects
         theUrncorePackage.createPackageContents();
         theUrnPackage.createPackageContents();
+        theGrlPackage.createPackageContents();
         theUcmPackage.createPackageContents();
         thePerformancePackage.createPackageContents();
         theMapPackage.createPackageContents();
         theScenarioPackage.createPackageContents();
-        theGrlPackage.createPackageContents();
 
         // Initialize created meta-data
         theUrncorePackage.initializePackageContents();
         theUrnPackage.initializePackageContents();
+        theGrlPackage.initializePackageContents();
         theUcmPackage.initializePackageContents();
         thePerformancePackage.initializePackageContents();
         theMapPackage.initializePackageContents();
         theScenarioPackage.initializePackageContents();
-        theGrlPackage.initializePackageContents();
 
         // Mark meta-data to indicate it can't be changed
         theUrncorePackage.freeze();
@@ -659,26 +659,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getUCMmodelElement_UrnLinks() {
-        return (EReference)ucMmodelElementEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getGRLmodelElement() {
         return grLmodelElementEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getGRLmodelElement_UrnLinks() {
-        return (EReference)grLmodelElementEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -740,7 +722,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getComponentLabel_CompRef() {
+    public EReference getComponentLabel_ContRef() {
         return (EReference)componentLabelEClass.getEStructuralFeatures().get(0);
     }
 
@@ -830,8 +812,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getSpecificationDiagram() {
-        return specificationDiagramEClass;
+    public EClass getIURNDiagram() {
+        return iurnDiagramEClass;
     }
 
     /**
@@ -839,8 +821,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationDiagram_Urndefinition() {
-        return (EReference)specificationDiagramEClass.getEStructuralFeatures().get(0);
+    public EReference getIURNDiagram_Urndefinition() {
+        return (EReference)iurnDiagramEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -848,8 +830,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationDiagram_Nodes() {
-        return (EReference)specificationDiagramEClass.getEStructuralFeatures().get(1);
+    public EReference getIURNDiagram_Nodes() {
+        return (EReference)iurnDiagramEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -857,8 +839,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationDiagram_CompRefs() {
-        return (EReference)specificationDiagramEClass.getEStructuralFeatures().get(2);
+    public EReference getIURNDiagram_ContRefs() {
+        return (EReference)iurnDiagramEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -866,8 +848,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationDiagram_Connections() {
-        return (EReference)specificationDiagramEClass.getEStructuralFeatures().get(3);
+    public EReference getIURNDiagram_Connections() {
+        return (EReference)iurnDiagramEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -884,25 +866,25 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getURNmodelElement_FromLinks() {
+        return (EReference)urNmodelElementEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getURNmodelElement_ToLinks() {
+        return (EReference)urNmodelElementEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EAttribute getURNmodelElement_Id() {
-        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getURNmodelElement_Name() {
-        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getURNmodelElement_Description() {
         return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(2);
     }
 
@@ -911,8 +893,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getSpecificationNode() {
-        return specificationNodeEClass;
+    public EAttribute getURNmodelElement_Name() {
+        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -920,8 +902,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationNode_X() {
-        return (EAttribute)specificationNodeEClass.getEStructuralFeatures().get(0);
+    public EAttribute getURNmodelElement_Description() {
+        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -929,8 +911,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationNode_Y() {
-        return (EAttribute)specificationNodeEClass.getEStructuralFeatures().get(1);
+    public EClass getIURNNode() {
+        return iurnNodeEClass;
     }
 
     /**
@@ -938,8 +920,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationNode_SpecDiagram() {
-        return (EReference)specificationNodeEClass.getEStructuralFeatures().get(2);
+    public EAttribute getIURNNode_X() {
+        return (EAttribute)iurnNodeEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -947,8 +929,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationNode_CompRef() {
-        return (EReference)specificationNodeEClass.getEStructuralFeatures().get(3);
+    public EAttribute getIURNNode_Y() {
+        return (EAttribute)iurnNodeEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -956,8 +938,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationNode_Succ() {
-        return (EReference)specificationNodeEClass.getEStructuralFeatures().get(4);
+    public EReference getIURNNode_Diagram() {
+        return (EReference)iurnNodeEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -965,8 +947,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationNode_Pred() {
-        return (EReference)specificationNodeEClass.getEStructuralFeatures().get(5);
+    public EReference getIURNNode_ContRef() {
+        return (EReference)iurnNodeEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -974,8 +956,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationNode_Label() {
-        return (EReference)specificationNodeEClass.getEStructuralFeatures().get(6);
+    public EReference getIURNNode_Succ() {
+        return (EReference)iurnNodeEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -983,8 +965,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getSpecificationComponentRef() {
-        return specificationComponentRefEClass;
+    public EReference getIURNNode_Pred() {
+        return (EReference)iurnNodeEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -992,8 +974,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponentRef_X() {
-        return (EAttribute)specificationComponentRefEClass.getEStructuralFeatures().get(0);
+    public EReference getIURNNode_Label() {
+        return (EReference)iurnNodeEClass.getEStructuralFeatures().get(6);
     }
 
     /**
@@ -1001,8 +983,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponentRef_Y() {
-        return (EAttribute)specificationComponentRefEClass.getEStructuralFeatures().get(1);
+    public EClass getIURNContainerRef() {
+        return iurnContainerRefEClass;
     }
 
     /**
@@ -1010,8 +992,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponentRef_Width() {
-        return (EAttribute)specificationComponentRefEClass.getEStructuralFeatures().get(2);
+    public EAttribute getIURNContainerRef_X() {
+        return (EAttribute)iurnContainerRefEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -1019,8 +1001,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponentRef_Height() {
-        return (EAttribute)specificationComponentRefEClass.getEStructuralFeatures().get(3);
+    public EAttribute getIURNContainerRef_Y() {
+        return (EAttribute)iurnContainerRefEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1028,8 +1010,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponentRef_Fixed() {
-        return (EAttribute)specificationComponentRefEClass.getEStructuralFeatures().get(4);
+    public EAttribute getIURNContainerRef_Width() {
+        return (EAttribute)iurnContainerRefEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1037,8 +1019,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_SpecDiagram() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(5);
+    public EAttribute getIURNContainerRef_Height() {
+        return (EAttribute)iurnContainerRefEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -1046,8 +1028,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_CompDef() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(6);
+    public EAttribute getIURNContainerRef_Fixed() {
+        return (EAttribute)iurnContainerRefEClass.getEStructuralFeatures().get(4);
     }
 
     /**
@@ -1055,8 +1037,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_Nodes() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(7);
+    public EReference getIURNContainerRef_Diagram() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -1064,8 +1046,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_Label() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(8);
+    public EReference getIURNContainerRef_ContDef() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(6);
     }
 
     /**
@@ -1073,8 +1055,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_Parent() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(9);
+    public EReference getIURNContainerRef_Nodes() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -1082,8 +1064,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponentRef_Children() {
-        return (EReference)specificationComponentRefEClass.getEStructuralFeatures().get(10);
+    public EReference getIURNContainerRef_Label() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(8);
     }
 
     /**
@@ -1091,8 +1073,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getSpecificationComponent() {
-        return specificationComponentEClass;
+    public EReference getIURNContainerRef_Parent() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -1100,8 +1082,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponent_LineColor() {
-        return (EAttribute)specificationComponentEClass.getEStructuralFeatures().get(0);
+    public EReference getIURNContainerRef_Children() {
+        return (EReference)iurnContainerRefEClass.getEStructuralFeatures().get(10);
     }
 
     /**
@@ -1109,8 +1091,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponent_FillColor() {
-        return (EAttribute)specificationComponentEClass.getEStructuralFeatures().get(1);
+    public EClass getIURNContainer() {
+        return iurnContainerEClass;
     }
 
     /**
@@ -1118,8 +1100,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getSpecificationComponent_Filled() {
-        return (EAttribute)specificationComponentEClass.getEStructuralFeatures().get(2);
+    public EAttribute getIURNContainer_LineColor() {
+        return (EAttribute)iurnContainerEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -1127,8 +1109,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationComponent_CompRefs() {
-        return (EReference)specificationComponentEClass.getEStructuralFeatures().get(3);
+    public EAttribute getIURNContainer_FillColor() {
+        return (EAttribute)iurnContainerEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1136,8 +1118,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getSpecificationConnection() {
-        return specificationConnectionEClass;
+    public EAttribute getIURNContainer_Filled() {
+        return (EAttribute)iurnContainerEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1145,8 +1127,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationConnection_Source() {
-        return (EReference)specificationConnectionEClass.getEStructuralFeatures().get(0);
+    public EReference getIURNContainer_ContRefs() {
+        return (EReference)iurnContainerEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -1154,8 +1136,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationConnection_Target() {
-        return (EReference)specificationConnectionEClass.getEStructuralFeatures().get(1);
+    public EClass getIURNConnection() {
+        return iurnConnectionEClass;
     }
 
     /**
@@ -1163,8 +1145,26 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getSpecificationConnection_SpecDiagram() {
-        return (EReference)specificationConnectionEClass.getEStructuralFeatures().get(2);
+    public EReference getIURNConnection_Source() {
+        return (EReference)iurnConnectionEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getIURNConnection_Target() {
+        return (EReference)iurnConnectionEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getIURNConnection_Diagram() {
+        return (EReference)iurnConnectionEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1259,10 +1259,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(dynamicResponsibilityEClass, DYNAMIC_RESPONSIBILITY__POOL);
 
         ucMmodelElementEClass = createEClass(UC_MMODEL_ELEMENT);
-        createEReference(ucMmodelElementEClass, UC_MMODEL_ELEMENT__URN_LINKS);
 
         grLmodelElementEClass = createEClass(GR_LMODEL_ELEMENT);
-        createEReference(grLmodelElementEClass, GR_LMODEL_ELEMENT__URN_LINKS);
 
         nodeLabelEClass = createEClass(NODE_LABEL);
         createEReference(nodeLabelEClass, NODE_LABEL__NODE);
@@ -1272,7 +1270,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEAttribute(labelEClass, LABEL__DELTA_Y);
 
         componentLabelEClass = createEClass(COMPONENT_LABEL);
-        createEReference(componentLabelEClass, COMPONENT_LABEL__COMP_REF);
+        createEReference(componentLabelEClass, COMPONENT_LABEL__CONT_REF);
 
         conditionEClass = createEClass(CONDITION);
         createEAttribute(conditionEClass, CONDITION__LABEL);
@@ -1284,49 +1282,51 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(conditionEClass, CONDITION__NODE_CONNECTION);
         createEReference(conditionEClass, CONDITION__VARIABLES);
 
-        specificationDiagramEClass = createEClass(SPECIFICATION_DIAGRAM);
-        createEReference(specificationDiagramEClass, SPECIFICATION_DIAGRAM__URNDEFINITION);
-        createEReference(specificationDiagramEClass, SPECIFICATION_DIAGRAM__NODES);
-        createEReference(specificationDiagramEClass, SPECIFICATION_DIAGRAM__COMP_REFS);
-        createEReference(specificationDiagramEClass, SPECIFICATION_DIAGRAM__CONNECTIONS);
+        iurnDiagramEClass = createEClass(IURN_DIAGRAM);
+        createEReference(iurnDiagramEClass, IURN_DIAGRAM__URNDEFINITION);
+        createEReference(iurnDiagramEClass, IURN_DIAGRAM__NODES);
+        createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONT_REFS);
+        createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONNECTIONS);
 
         urNmodelElementEClass = createEClass(UR_NMODEL_ELEMENT);
+        createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__FROM_LINKS);
+        createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__TO_LINKS);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__ID);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__NAME);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__DESCRIPTION);
 
-        specificationNodeEClass = createEClass(SPECIFICATION_NODE);
-        createEAttribute(specificationNodeEClass, SPECIFICATION_NODE__X);
-        createEAttribute(specificationNodeEClass, SPECIFICATION_NODE__Y);
-        createEReference(specificationNodeEClass, SPECIFICATION_NODE__SPEC_DIAGRAM);
-        createEReference(specificationNodeEClass, SPECIFICATION_NODE__COMP_REF);
-        createEReference(specificationNodeEClass, SPECIFICATION_NODE__SUCC);
-        createEReference(specificationNodeEClass, SPECIFICATION_NODE__PRED);
-        createEReference(specificationNodeEClass, SPECIFICATION_NODE__LABEL);
+        iurnNodeEClass = createEClass(IURN_NODE);
+        createEAttribute(iurnNodeEClass, IURN_NODE__X);
+        createEAttribute(iurnNodeEClass, IURN_NODE__Y);
+        createEReference(iurnNodeEClass, IURN_NODE__DIAGRAM);
+        createEReference(iurnNodeEClass, IURN_NODE__CONT_REF);
+        createEReference(iurnNodeEClass, IURN_NODE__SUCC);
+        createEReference(iurnNodeEClass, IURN_NODE__PRED);
+        createEReference(iurnNodeEClass, IURN_NODE__LABEL);
 
-        specificationComponentRefEClass = createEClass(SPECIFICATION_COMPONENT_REF);
-        createEAttribute(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__X);
-        createEAttribute(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__Y);
-        createEAttribute(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__WIDTH);
-        createEAttribute(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__HEIGHT);
-        createEAttribute(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__FIXED);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__SPEC_DIAGRAM);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__COMP_DEF);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__NODES);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__LABEL);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__PARENT);
-        createEReference(specificationComponentRefEClass, SPECIFICATION_COMPONENT_REF__CHILDREN);
+        iurnContainerRefEClass = createEClass(IURN_CONTAINER_REF);
+        createEAttribute(iurnContainerRefEClass, IURN_CONTAINER_REF__X);
+        createEAttribute(iurnContainerRefEClass, IURN_CONTAINER_REF__Y);
+        createEAttribute(iurnContainerRefEClass, IURN_CONTAINER_REF__WIDTH);
+        createEAttribute(iurnContainerRefEClass, IURN_CONTAINER_REF__HEIGHT);
+        createEAttribute(iurnContainerRefEClass, IURN_CONTAINER_REF__FIXED);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__DIAGRAM);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__CONT_DEF);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__NODES);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__LABEL);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__PARENT);
+        createEReference(iurnContainerRefEClass, IURN_CONTAINER_REF__CHILDREN);
 
-        specificationComponentEClass = createEClass(SPECIFICATION_COMPONENT);
-        createEAttribute(specificationComponentEClass, SPECIFICATION_COMPONENT__LINE_COLOR);
-        createEAttribute(specificationComponentEClass, SPECIFICATION_COMPONENT__FILL_COLOR);
-        createEAttribute(specificationComponentEClass, SPECIFICATION_COMPONENT__FILLED);
-        createEReference(specificationComponentEClass, SPECIFICATION_COMPONENT__COMP_REFS);
+        iurnContainerEClass = createEClass(IURN_CONTAINER);
+        createEAttribute(iurnContainerEClass, IURN_CONTAINER__LINE_COLOR);
+        createEAttribute(iurnContainerEClass, IURN_CONTAINER__FILL_COLOR);
+        createEAttribute(iurnContainerEClass, IURN_CONTAINER__FILLED);
+        createEReference(iurnContainerEClass, IURN_CONTAINER__CONT_REFS);
 
-        specificationConnectionEClass = createEClass(SPECIFICATION_CONNECTION);
-        createEReference(specificationConnectionEClass, SPECIFICATION_CONNECTION__SOURCE);
-        createEReference(specificationConnectionEClass, SPECIFICATION_CONNECTION__TARGET);
-        createEReference(specificationConnectionEClass, SPECIFICATION_CONNECTION__SPEC_DIAGRAM);
+        iurnConnectionEClass = createEClass(IURN_CONNECTION);
+        createEReference(iurnConnectionEClass, IURN_CONNECTION__SOURCE);
+        createEReference(iurnConnectionEClass, IURN_CONNECTION__TARGET);
+        createEReference(iurnConnectionEClass, IURN_CONNECTION__DIAGRAM);
 
         // Create enums
         componentKindEEnum = createEEnum(COMPONENT_KIND);
@@ -1366,7 +1366,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         responsibilityEClass.getESuperTypes().add(this.getUCMmodelElement());
         componentRegularEClass.getESuperTypes().add(this.getComponentElement());
         componentElementEClass.getESuperTypes().add(this.getUCMmodelElement());
-        componentElementEClass.getESuperTypes().add(this.getSpecificationComponent());
+        componentElementEClass.getESuperTypes().add(this.getIURNContainer());
         poolEClass.getESuperTypes().add(this.getComponentElement());
         componentEClass.getESuperTypes().add(this.getComponentRegular());
         componentTypeEClass.getESuperTypes().add(this.getComponentRegular());
@@ -1382,7 +1382,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getURNdefinition_Urnspec(), theUrnPackage.getURNspec(), theUrnPackage.getURNspec_Urndef(), "urnspec", null, 1, 1, URNdefinition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getURNdefinition_Responsibilities(), this.getResponsibility(), this.getResponsibility_Urndefinition(), "responsibilities", null, 0, -1, URNdefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getURNdefinition_Components(), this.getComponentElement(), this.getComponentElement_Urndefinition(), "components", null, 0, -1, URNdefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getURNdefinition_SpecDiagrams(), this.getSpecificationDiagram(), this.getSpecificationDiagram_Urndefinition(), "specDiagrams", null, 0, -1, URNdefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getURNdefinition_SpecDiagrams(), this.getIURNDiagram(), this.getIURNDiagram_Urndefinition(), "specDiagrams", null, 0, -1, URNdefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(responsibilityEClass, Responsibility.class, "Responsibility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getResponsibility_Empty(), ecorePackage.getEBoolean(), "empty", "false", 0, 1, Responsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1424,20 +1424,18 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getDynamicResponsibility_Pool(), this.getPool(), this.getPool_DynResponsibilities(), "pool", null, 0, 1, DynamicResponsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(ucMmodelElementEClass, UCMmodelElement.class, "UCMmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getUCMmodelElement_UrnLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_UcmElems(), "urnLinks", null, 0, -1, UCMmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(grLmodelElementEClass, GRLmodelElement.class, "GRLmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getGRLmodelElement_UrnLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_GrlElems(), "urnLinks", null, 0, -1, GRLmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(nodeLabelEClass, NodeLabel.class, "NodeLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getNodeLabel_Node(), this.getSpecificationNode(), this.getSpecificationNode_Label(), "node", null, 1, 1, NodeLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getNodeLabel_Node(), this.getIURNNode(), this.getIURNNode_Label(), "node", null, 1, 1, NodeLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(labelEClass, Label.class, "Label", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getLabel_DeltaX(), ecorePackage.getEInt(), "deltaX", null, 0, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getLabel_DeltaY(), ecorePackage.getEInt(), "deltaY", null, 0, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(componentLabelEClass, ComponentLabel.class, "ComponentLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getComponentLabel_CompRef(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_Label(), "compRef", null, 0, 1, ComponentLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getComponentLabel_ContRef(), this.getIURNContainerRef(), this.getIURNContainerRef_Label(), "contRef", null, 0, 1, ComponentLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getCondition_Label(), ecorePackage.getEString(), "label", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1449,49 +1447,51 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getCondition_NodeConnection(), theMapPackage.getNodeConnection(), theMapPackage.getNodeConnection_Condition(), "nodeConnection", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCondition_Variables(), theScenarioPackage.getVariable(), theScenarioPackage.getVariable_Usages(), "variables", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(specificationDiagramEClass, SpecificationDiagram.class, "SpecificationDiagram", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getSpecificationDiagram_Urndefinition(), this.getURNdefinition(), this.getURNdefinition_SpecDiagrams(), "urndefinition", null, 1, 1, SpecificationDiagram.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationDiagram_Nodes(), this.getSpecificationNode(), this.getSpecificationNode_SpecDiagram(), "nodes", null, 0, -1, SpecificationDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationDiagram_CompRefs(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_SpecDiagram(), "compRefs", null, 0, -1, SpecificationDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationDiagram_Connections(), this.getSpecificationConnection(), this.getSpecificationConnection_SpecDiagram(), "connections", null, 0, -1, SpecificationDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(iurnDiagramEClass, IURNDiagram.class, "IURNDiagram", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getIURNDiagram_Urndefinition(), this.getURNdefinition(), this.getURNdefinition_SpecDiagrams(), "urndefinition", null, 1, 1, IURNDiagram.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNDiagram_Nodes(), this.getIURNNode(), this.getIURNNode_Diagram(), "nodes", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNDiagram_ContRefs(), this.getIURNContainerRef(), this.getIURNContainerRef_Diagram(), "contRefs", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNDiagram_Connections(), this.getIURNConnection(), this.getIURNConnection_Diagram(), "connections", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(urNmodelElementEClass, URNmodelElement.class, "URNmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getURNmodelElement_FromLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_FromElems(), "fromLinks", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getURNmodelElement_ToLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_ToElems(), "toLinks", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Id(), ecorePackage.getEString(), "id", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(specificationNodeEClass, SpecificationNode.class, "SpecificationNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSpecificationNode_X(), ecorePackage.getEInt(), "x", null, 0, 1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationNode_Y(), ecorePackage.getEInt(), "y", null, 0, 1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationNode_SpecDiagram(), this.getSpecificationDiagram(), this.getSpecificationDiagram_Nodes(), "specDiagram", null, 1, 1, SpecificationNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationNode_CompRef(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_Nodes(), "compRef", null, 0, 1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationNode_Succ(), this.getSpecificationConnection(), this.getSpecificationConnection_Source(), "succ", null, 0, -1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationNode_Pred(), this.getSpecificationConnection(), this.getSpecificationConnection_Target(), "pred", null, 0, -1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationNode_Label(), this.getNodeLabel(), this.getNodeLabel_Node(), "label", null, 0, 1, SpecificationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(iurnNodeEClass, IURNNode.class, "IURNNode", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIURNNode_X(), ecorePackage.getEInt(), "x", null, 0, 1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNNode_Y(), ecorePackage.getEInt(), "y", null, 0, 1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNNode_Diagram(), this.getIURNDiagram(), this.getIURNDiagram_Nodes(), "diagram", null, 1, 1, IURNNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNNode_ContRef(), this.getIURNContainerRef(), this.getIURNContainerRef_Nodes(), "contRef", null, 0, 1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNNode_Succ(), this.getIURNConnection(), this.getIURNConnection_Source(), "succ", null, 0, -1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNNode_Pred(), this.getIURNConnection(), this.getIURNConnection_Target(), "pred", null, 0, -1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNNode_Label(), this.getNodeLabel(), this.getNodeLabel_Node(), "label", null, 0, 1, IURNNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(specificationComponentRefEClass, SpecificationComponentRef.class, "SpecificationComponentRef", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSpecificationComponentRef_X(), ecorePackage.getEInt(), "x", null, 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponentRef_Y(), ecorePackage.getEInt(), "y", null, 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponentRef_Width(), ecorePackage.getEInt(), "width", null, 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponentRef_Height(), ecorePackage.getEInt(), "height", null, 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponentRef_Fixed(), ecorePackage.getEBoolean(), "fixed", "false", 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_SpecDiagram(), this.getSpecificationDiagram(), this.getSpecificationDiagram_CompRefs(), "specDiagram", null, 1, 1, SpecificationComponentRef.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_CompDef(), this.getSpecificationComponent(), this.getSpecificationComponent_CompRefs(), "compDef", null, 1, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_Nodes(), this.getSpecificationNode(), this.getSpecificationNode_CompRef(), "nodes", null, 0, -1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_Label(), this.getComponentLabel(), this.getComponentLabel_CompRef(), "label", null, 1, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_Parent(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_Children(), "parent", null, 0, 1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponentRef_Children(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_Parent(), "children", null, 0, -1, SpecificationComponentRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(iurnContainerRefEClass, IURNContainerRef.class, "IURNContainerRef", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIURNContainerRef_X(), ecorePackage.getEInt(), "x", null, 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainerRef_Y(), ecorePackage.getEInt(), "y", null, 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainerRef_Width(), ecorePackage.getEInt(), "width", null, 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainerRef_Height(), ecorePackage.getEInt(), "height", null, 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainerRef_Fixed(), ecorePackage.getEBoolean(), "fixed", "false", 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_Diagram(), this.getIURNDiagram(), this.getIURNDiagram_ContRefs(), "diagram", null, 1, 1, IURNContainerRef.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_ContDef(), this.getIURNContainer(), this.getIURNContainer_ContRefs(), "contDef", null, 1, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_Nodes(), this.getIURNNode(), this.getIURNNode_ContRef(), "nodes", null, 0, -1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_Label(), this.getComponentLabel(), this.getComponentLabel_ContRef(), "label", null, 1, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_Parent(), this.getIURNContainerRef(), this.getIURNContainerRef_Children(), "parent", null, 0, 1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainerRef_Children(), this.getIURNContainerRef(), this.getIURNContainerRef_Parent(), "children", null, 0, -1, IURNContainerRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(specificationComponentEClass, SpecificationComponent.class, "SpecificationComponent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getSpecificationComponent_LineColor(), ecorePackage.getEString(), "lineColor", null, 0, 1, SpecificationComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponent_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, SpecificationComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getSpecificationComponent_Filled(), ecorePackage.getEBoolean(), "filled", "false", 0, 1, SpecificationComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationComponent_CompRefs(), this.getSpecificationComponentRef(), this.getSpecificationComponentRef_CompDef(), "compRefs", null, 0, -1, SpecificationComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(iurnContainerEClass, IURNContainer.class, "IURNContainer", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIURNContainer_LineColor(), ecorePackage.getEString(), "lineColor", null, 0, 1, IURNContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainer_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, IURNContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIURNContainer_Filled(), ecorePackage.getEBoolean(), "filled", "false", 0, 1, IURNContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNContainer_ContRefs(), this.getIURNContainerRef(), this.getIURNContainerRef_ContDef(), "contRefs", null, 0, -1, IURNContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(specificationConnectionEClass, SpecificationConnection.class, "SpecificationConnection", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getSpecificationConnection_Source(), this.getSpecificationNode(), this.getSpecificationNode_Succ(), "source", null, 1, 1, SpecificationConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationConnection_Target(), this.getSpecificationNode(), this.getSpecificationNode_Pred(), "target", null, 1, 1, SpecificationConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getSpecificationConnection_SpecDiagram(), this.getSpecificationDiagram(), this.getSpecificationDiagram_Connections(), "specDiagram", null, 1, 1, SpecificationConnection.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(iurnConnectionEClass, IURNConnection.class, "IURNConnection", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getIURNConnection_Source(), this.getIURNNode(), this.getIURNNode_Succ(), "source", null, 1, 1, IURNConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNConnection_Target(), this.getIURNNode(), this.getIURNNode_Pred(), "target", null, 1, 1, IURNConnection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getIURNConnection_Diagram(), this.getIURNDiagram(), this.getIURNDiagram_Connections(), "diagram", null, 1, 1, IURNConnection.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
         initEEnum(componentKindEEnum, ComponentKind.class, "ComponentKind");

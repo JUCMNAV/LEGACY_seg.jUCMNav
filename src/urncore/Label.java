@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface Label extends EObject {
+public interface Label extends EObject{
     /**
      * Returns the value of the '<em><b>Delta X</b></em>' attribute.
      * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ public interface Label extends EObject {
      * @return the value of the '<em>Delta X</em>' attribute.
      * @see #setDeltaX(int)
      * @see urncore.UrncorePackage#getLabel_DeltaX()
-     * @model 
+     * @model
      * @generated
      */
     int getDeltaX();
@@ -63,7 +63,7 @@ public interface Label extends EObject {
      * @return the value of the '<em>Delta Y</em>' attribute.
      * @see #setDeltaY(int)
      * @see urncore.UrncorePackage#getLabel_DeltaY()
-     * @model 
+     * @model
      * @generated
      */
     int getDeltaY();

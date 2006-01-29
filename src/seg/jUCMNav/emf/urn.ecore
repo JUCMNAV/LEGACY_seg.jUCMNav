@@ -31,9 +31,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="#//URNspec" transient="true" eOpposite="#//URNspec/urnLinks"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="grlElems" upperBound="-1"
-        eType="ecore:EClass urncore.ecore#//GRLmodelElement" eOpposite="urncore.ecore#//GRLmodelElement/urnLinks"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ucmElems" upperBound="-1"
-        eType="ecore:EClass urncore.ecore#//UCMmodelElement" eOpposite="urncore.ecore#//UCMmodelElement/urnLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElems" upperBound="-1"
+        eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/fromLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toElems" upperBound="-1"
+        eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/toLinks"/>
   </eClassifiers>
 </ecore:EPackage>

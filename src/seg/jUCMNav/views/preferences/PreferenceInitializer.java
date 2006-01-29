@@ -21,6 +21,9 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_STUBLABELCOLOR, new RGB(150, 0, 150));
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_CONDITIONLABELCOLOR, new RGB(100, 100, 100));
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINKREFLABELCOLOR, new RGB(150,150,150));
+
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name"));
 
         // done elsewhere
         AutoLayoutPreferences.createPreferences();

@@ -24,10 +24,10 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see urncore.UrncorePackage#getResponsibility()
- * @model 
+ * @model
  * @generated
  */
-public interface Responsibility extends UCMmodelElement {
+public interface Responsibility extends UCMmodelElement{
     /**
      * Returns the value of the '<em><b>Empty</b></em>' attribute.
      * The default value is <code>"false"</code>.

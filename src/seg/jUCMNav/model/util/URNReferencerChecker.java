@@ -15,7 +15,7 @@ import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.Responsibility;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
 /**
  * Verifies that references have definitions; if not, creates them. To be used on Component and Responsibility references.
@@ -37,17 +37,17 @@ public class URNReferencerChecker {
 
         // for each map
         for (Iterator maps = urn.getUrndef().getSpecDiagrams().iterator(); maps.hasNext();) {
-            SpecificationDiagram g = (SpecificationDiagram) maps.next();
+            IURNDiagram g = (IURNDiagram) maps.next();
             if (g instanceof UCMmap){
                 UCMmap map = (UCMmap) g;
 
                 // verify that all component refs have definitions
-                for (Iterator iter = map.getCompRefs().iterator(); iter.hasNext();) {
+                for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
                     ComponentRef compRef = (ComponentRef) iter.next();
-                    if (compRef.getCompDef() == null)
+                    if (compRef.getContDef() == null)
                         // not linked? create one.
-                        compRef.setCompDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
-                    urn.getUrndef().getComponents().add(compRef.getCompDef());
+                        compRef.setContDef((ComponentElement) ModelCreationFactory.getNewObject(urn, Component.class, ComponentKind.TEAM));
+                    urn.getUrndef().getComponents().add(compRef.getContDef());
                 }
     
                 // verify that all responsibility references have definitions

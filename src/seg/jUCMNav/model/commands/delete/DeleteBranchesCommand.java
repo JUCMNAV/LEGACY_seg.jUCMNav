@@ -6,9 +6,9 @@ import java.util.Map;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.internal.PostPathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.PreDeleteUcmModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
-import seg.jUCMNav.model.commands.delete.internal.RemoveUCMmodelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import seg.jUCMNav.model.util.DoesDisconnectImplyDelete;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -24,9 +24,9 @@ public class DeleteBranchesCommand extends CompoundCommand {
 
     public DeleteBranchesCommand(PathNode pn, DoesDisconnectImplyDelete verification, Map editpartregistry) {
         if (verification.shouldDeleteNode() || verification.shouldReplaceWithEmpty()) {
-            add(new PreDeleteUcmModelElementCommand(pn));
+            add(new PreDeleteUrnModelElementCommand(pn));
             add(new PrePathManipulationCommand(pn, verification.getNcInToRemove(), verification.getNcOutToRemove(), editpartregistry, true));
-            add(new RemoveUCMmodelElementCommand(pn));
+            add(new RemoveURNmodelElementCommand(pn));
             if (verification.shouldReplaceWithEmpty())
                 add(new PostPathManipulationCommand(pn, verification.getInsertionConnection()));
             else
@@ -38,11 +38,11 @@ public class DeleteBranchesCommand extends CompoundCommand {
 
             for (Iterator iter = verification.getNcInToRemove().iterator(); iter.hasNext();) {
                 NodeConnection element = (NodeConnection) iter.next();
-                add(new PreDeleteUcmModelElementCommand(element));
+                add(new PreDeleteUrnModelElementCommand(element));
             }
             for (Iterator iter = verification.getNcOutToRemove().iterator(); iter.hasNext();) {
                 NodeConnection element = (NodeConnection) iter.next();
-                add(new PreDeleteUcmModelElementCommand(element));
+                add(new PreDeleteUrnModelElementCommand(element));
             }
 
             add(new PrePathManipulationCommand(pn, verification.getNcInToRemove(), verification.getNcOutToRemove(), editpartregistry, rewire));

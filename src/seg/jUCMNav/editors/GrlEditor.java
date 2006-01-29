@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.KeyHandler;
-import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
@@ -16,23 +14,20 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.util.TransferDropTargetListener;
-import org.eclipse.swt.SWT;
 
-import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
-import seg.jUCMNav.editors.actionContributors.GrlContextMenuProvider;
+import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
-import seg.jUCMNav.editparts.GRLConnectionOnBottomRootEditPart;
+import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GrlGraphicalEditPartFactory;
-import urncore.SpecificationDiagram;
+import urncore.IURNDiagram;
 
-/**
+/** 
  * This is the main class for editing a single GRLGraph in our model.
  * 
  * @author Jean-François Roy
@@ -43,10 +38,7 @@ public class GrlEditor extends UrnEditor {
     private GRLGraph graphModel;
     
     private PaletteRoot paletteRoot;
-    
-    /** KeyHandler with common bindings for both the Outline View and the Editor. */
-    private KeyHandler sharedKeyHandler;
-    
+   
     /** Create a new GrlEditor instance. This is called by the Workspace. 
      * 
     */
@@ -68,7 +60,7 @@ public class GrlEditor extends UrnEditor {
 
         ScrollingGraphicalViewer viewer = (ScrollingGraphicalViewer) getGraphicalViewer();
         //Root editpart that include a zoom manager
-        GRLConnectionOnBottomRootEditPart root = new GRLConnectionOnBottomRootEditPart(getParent());
+        GrlConnectionOnBottomRootEditPart root = new GrlConnectionOnBottomRootEditPart(getParent());
 
         // zoom management is delegated to us from our parent.
         List zoomLevels = new ArrayList(3);
@@ -79,7 +71,7 @@ public class GrlEditor extends UrnEditor {
 
         viewer.setRootEditPart(root);
         
-        ContextMenuProvider provider = new GrlContextMenuProvider(viewer, getActionRegistry());
+        ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
         getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.GrlContextMenuProvider", provider, viewer); //$NON-NLS-1$
         
@@ -119,27 +111,6 @@ public class GrlEditor extends UrnEditor {
             }
         };
     }
-
-    /**
-     * Returns the KeyHandler with common bindings for both the Outline and Graphical Views. For example, delete is a common action.
-     */
-    KeyHandler getCommonKeyHandler() {
-        if (sharedKeyHandler == null) {
-            sharedKeyHandler = new KeyHandler();
-
-            // Add key and action pairs to sharedKeyHandler
-            //sharedKeyHandler.put(KeyStroke.getPressed(SWT.DEL, 127, 0), getActionRegistry().getAction(ActionFactory.DELETE.getId()));
-
-            sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
-
-            //sharedKeyHandler.put(KeyStroke.getPressed((char) 1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
-
-            sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
-                    .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));
-
-        }
-        return sharedKeyHandler;
-    }
     
     /**
      * Overiden to change the visibility
@@ -153,7 +124,7 @@ public class GrlEditor extends UrnEditor {
      * 
      * @return The model of this editor
      */
-    public SpecificationDiagram getModel(){
+    public IURNDiagram getModel(){
         return graphModel;
     }
 
@@ -196,7 +167,7 @@ public class GrlEditor extends UrnEditor {
      * 
      * @param model
      */
-    public void setModel(SpecificationDiagram model){
+    public void setModel(IURNDiagram model){
         graphModel = (GRLGraph)model;
     }
 }

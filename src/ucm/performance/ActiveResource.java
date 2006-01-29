@@ -20,10 +20,10 @@ package ucm.performance;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getActiveResource()
- * @model 
+ * @model
  * @generated
  */
-public interface ActiveResource extends GeneralResource {
+public interface ActiveResource extends GeneralResource{
     /**
      * Returns the value of the '<em><b>Op Time</b></em>' attribute.
      * The default value is <code>"0.0"</code>.

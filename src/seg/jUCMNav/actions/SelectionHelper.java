@@ -1,5 +1,12 @@
 package seg.jUCMNav.actions;
 
+import grl.ActorRef;
+import grl.Belief;
+import grl.GRLGraph;
+import grl.GRLNode;
+import grl.IntentionalElementRef;
+import grl.LinkRef;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,7 +22,6 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
@@ -24,9 +30,14 @@ import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentLabel;
+import urncore.IURNConnection;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
+import urncore.IURNNode;
 import urncore.NodeLabel;
 
 /**
@@ -79,6 +90,14 @@ public class SelectionHelper {
     public static final int URNSPEC = 17;
     public static final int WAITINGPLACE = 8;
 
+    //GRL constant
+    public static final int GRLGRAPH = 200;
+    public static final int ACTORREF = 201;
+    public static final int BELIEF = 202;
+    public static final int INTENTIONALELEMENTREF = 203;
+    public static final int LINKREF = 204;
+    
+    
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
@@ -103,6 +122,14 @@ public class SelectionHelper {
     private URNspec urnspec;
     private WaitingPlace waitingplace;
 
+    //internal variable for GRL
+    private ActorRef actorref;
+    private Belief belief;
+    private GRLGraph grlgraph;
+    private IntentionalElementRef intentionalelementref;
+    private LinkRef linkref;
+    
+      
     public SelectionHelper(List selection) {
         setSelection(selection);
     }
@@ -214,18 +241,24 @@ public class SelectionHelper {
         } else if (model instanceof NodeConnection) {
             nodeconnection = (NodeConnection) model;
             nodeconnectionmiddle = ((NodeConnectionEditPart) part).getMiddlePoint();
-        } else if (model instanceof RespRef)
+        } else if (model instanceof RespRef) {
             respref = (RespRef) model;
-        else if (model instanceof StartPoint) {
+        } else if (model instanceof IntentionalElementRef) {
+            intentionalelementref = (IntentionalElementRef) model;
+        } else if (model instanceof Belief) {
+            belief = (Belief) model;
+        } else if (model instanceof LinkRef) {
+            linkref = (LinkRef) model;
+        } else if (model instanceof StartPoint) {
             startpoint = (StartPoint) model;
             if (startpoint.getPred().size() == 1) {
                 // if this throws an exception, a previous command broke the link order.
                 // don't try-catch this
                 connect = (Connect) ((NodeConnection) startpoint.getPred().get(0)).getSource();
             }
-        } else if (model instanceof Stub)
+        } else if (model instanceof Stub) {
             stub = (Stub) model;
-        else if (model instanceof Timer) {
+        } else if (model instanceof Timer) {
             timer = (Timer) model;
             if (timer.getPred().size() == 2) {
                 // if this throws an exception, a previous command broke the link order.
@@ -245,6 +278,8 @@ public class SelectionHelper {
             componentlabel = (ComponentLabel) model;
         else if (model instanceof ComponentRef)
             componentref = (ComponentRef) model;
+        else if (model instanceof ActorRef)
+            actorref = (ActorRef) model;
         else if (model instanceof OrFork)
             orfork = (OrFork) model;
         else if (model instanceof AndFork)
@@ -258,18 +293,32 @@ public class SelectionHelper {
         else if (model instanceof UCMmap && ((UCMmap) model).getUrndefinition() != null) {
             map = (UCMmap) model;
             urnspec = map.getUrndefinition().getUrnspec();
+        } else if (model instanceof GRLGraph && ((GRLGraph) model).getUrndefinition() != null) {
+            grlgraph = (GRLGraph) model;
+            urnspec = grlgraph.getUrndefinition().getUrnspec();
         } else if (model instanceof URNspec) {
             urnspec = (URNspec) model;
         }
 
         if (model instanceof NodeConnection || model instanceof PathNode || model instanceof ComponentRef) {
             if (model instanceof NodeConnection)
-                map = (UCMmap)nodeconnection.getSpecDiagram();
+                map = (UCMmap)nodeconnection.getDiagram();
             else if (model instanceof PathNode)
-                map = (UCMmap)((PathNode) model).getSpecDiagram();
+                map = (UCMmap)((PathNode) model).getDiagram();
 
             if (map != null && map.getUrndefinition()!=null)
                 urnspec = map.getUrndefinition().getUrnspec();
+        } else if (model instanceof LinkRef || model instanceof GRLNode || model instanceof ActorRef) {
+            if (model instanceof LinkRef){
+                grlgraph = (GRLGraph) ((LinkRef)model).getDiagram();
+            } else if (model instanceof GRLNode){
+                grlgraph = (GRLGraph) ((GRLNode)model).getDiagram();
+            } else if (model instanceof ActorRef){
+                grlgraph = (GRLGraph) ((ActorRef)model).getDiagram();
+            }
+            
+            if (grlgraph != null && grlgraph.getUrndefinition()!=null)
+                urnspec = grlgraph.getUrndefinition().getUrnspec();
         }
     }
 
@@ -303,14 +352,14 @@ public class SelectionHelper {
                     Object model = ((EditPart) element).getModel();
                     if (model instanceof URNspec)
                         urnspec = (URNspec) model;
-                    else if (model instanceof UCMmap && ((UCMmap) model).getUrndefinition() != null)
-                        urnspec = ((UCMmap) model).getUrndefinition().getUrnspec();
-                    else if (model instanceof PathNode && ((PathNode) model).getSpecDiagram()!=null && ((PathNode) model).getSpecDiagram().getUrndefinition()!=null)
-                        urnspec = ((PathNode) model).getSpecDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof NodeConnection && ((NodeConnection) model).getSpecDiagram() != null && ((NodeConnection) model).getSpecDiagram().getUrndefinition()!=null)
-                        urnspec = ((NodeConnection) model).getSpecDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof ComponentRef && ((ComponentRef) model).getSpecDiagram() != null && ((ComponentRef) model).getSpecDiagram().getUrndefinition()!=null)
-                        urnspec = ((ComponentRef) model).getSpecDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof IURNDiagram && ((IURNDiagram) model).getUrndefinition() != null)
+                        urnspec = ((IURNDiagram) model).getUrndefinition().getUrnspec();
+                    else if (model instanceof IURNNode && ((IURNNode) model).getDiagram()!=null && ((IURNNode) model).getDiagram().getUrndefinition()!=null)
+                        urnspec = ((IURNNode) model).getDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof IURNConnection && ((IURNConnection) model).getDiagram() != null && ((IURNConnection) model).getDiagram().getUrndefinition()!=null)
+                        urnspec = ((IURNConnection) model).getDiagram().getUrndefinition().getUrnspec();
+                    else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null && ((IURNContainerRef) model).getDiagram().getUrndefinition()!=null)
+                        urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
 
                 }
                 if (urnspec != null)
@@ -398,6 +447,16 @@ public class SelectionHelper {
             selectionType = ANDJOIN;
         else if (map != null)
             selectionType = MAP;
+        else if (intentionalelementref != null)
+            selectionType = INTENTIONALELEMENTREF;
+        else if (belief != null)
+            selectionType = BELIEF;
+        else if (actorref != null)
+            selectionType = ACTORREF;
+        else if (linkref != null)
+            selectionType = LINKREF;
+        else if (grlgraph != null)
+            selectionType = GRLGRAPH;        
         else if (urnspec != null)
             selectionType = URNSPEC;
         else
@@ -407,5 +466,25 @@ public class SelectionHelper {
 
     public DirectionArrow getDirectionarrow() {
         return directionarrow;
+    }
+
+    public ActorRef getActorref() {
+        return actorref;
+    }
+
+    public Belief getBelief() {
+        return belief;
+    }
+
+    public GRLGraph getGrlgraph() {
+        return grlgraph;
+    }
+
+    public IntentionalElementRef getIntentionalelementref() {
+        return intentionalelementref;
+    }
+
+    public LinkRef getLinkref() {
+        return linkref;
     }
 }

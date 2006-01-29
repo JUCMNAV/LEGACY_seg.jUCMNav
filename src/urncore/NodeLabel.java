@@ -20,13 +20,13 @@ package urncore;
  * </p>
  *
  * @see urncore.UrncorePackage#getNodeLabel()
- * @model 
+ * @model
  * @generated
  */
-public interface NodeLabel extends Label {
+public interface NodeLabel extends Label{
     /**
      * Returns the value of the '<em><b>Node</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link urncore.SpecificationNode#getLabel <em>Label</em>}'.
+     * It is bidirectional and its opposite is '{@link urncore.IURNNode#getLabel <em>Label</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Node</em>' container reference isn't clear,
@@ -34,13 +34,13 @@ public interface NodeLabel extends Label {
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Node</em>' container reference.
-     * @see #setNode(SpecificationNode)
+     * @see #setNode(IURNNode)
      * @see urncore.UrncorePackage#getNodeLabel_Node()
-     * @see urncore.SpecificationNode#getLabel
+     * @see urncore.IURNNode#getLabel
      * @model opposite="label" required="true"
      * @generated
      */
-    SpecificationNode getNode();
+    IURNNode getNode();
 
     /**
      * Sets the value of the '{@link urncore.NodeLabel#getNode <em>Node</em>}' container reference.
@@ -50,6 +50,6 @@ public interface NodeLabel extends Label {
      * @see #getNode()
      * @generated
      */
-    void setNode(SpecificationNode value);
+    void setNode(IURNNode value);
 
 } // NodeLabel

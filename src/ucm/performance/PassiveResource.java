@@ -21,10 +21,10 @@ import urncore.ComponentElement;
  * </p>
  *
  * @see ucm.performance.PerformancePackage#getPassiveResource()
- * @model 
+ * @model
  * @generated
  */
-public interface PassiveResource extends GeneralResource {
+public interface PassiveResource extends GeneralResource{
     /**
      * Returns the value of the '<em><b>Component</b></em>' reference.
      * It is bidirectional and its opposite is '{@link urncore.ComponentElement#getResource <em>Resource</em>}'.

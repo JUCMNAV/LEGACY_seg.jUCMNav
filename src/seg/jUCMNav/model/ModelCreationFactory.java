@@ -1,11 +1,20 @@
 package seg.jUCMNav.model;
 
+import grl.Actor;
+import grl.ActorRef;
+import grl.Belief;
+import grl.BeliefLink;
+import grl.Contribution;
+import grl.Decomposition;
+import grl.Dependency;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.GrlFactory;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
+import grl.LinkRef;
+import grl.LinkRefBendpoint;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -13,6 +22,7 @@ import java.util.Date;
 import org.eclipse.gef.requests.CreationFactory;
 
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.UCMspec;
 import ucm.UcmFactory;
 import ucm.map.AndFork;
@@ -46,9 +56,9 @@ import urncore.ComponentKind;
 import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.GRLmodelElement;
+import urncore.IURNNode;
 import urncore.NodeLabel;
 import urncore.Responsibility;
-import urncore.SpecificationNode;
 import urncore.UCMmodelElement;
 import urncore.URNdefinition;
 import urncore.UrncoreFactory;
@@ -67,6 +77,7 @@ import urncore.UrncoreFactory;
  * @author jkealey
  *  
  */
+
 public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
@@ -192,6 +203,18 @@ public class ModelCreationFactory implements CreationFactory {
                 result = performancefactory.createWorkload();
             } else if (targetClass.equals(Connect.class)) {
                 result = mapfactory.createConnect();
+            } else if (targetClass.equals(Decomposition.class)) {
+                result = grlfactory.createDecomposition();
+            } else if (targetClass.equals(Contribution.class)) {
+                result = grlfactory.createContribution();
+            } else if (targetClass.equals(Dependency.class)) {
+                result = grlfactory.createDependency();
+            } else if (targetClass.equals(LinkRef.class)){
+                result = grlfactory.createLinkRef();  
+            } else if (targetClass.equals(BeliefLink.class)){
+                result = grlfactory.createBeliefLink();  
+            } else if (targetClass.equals(LinkRefBendpoint.class)){
+                result = grlfactory.createLinkRefBendpoint();  
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {
@@ -205,7 +228,7 @@ public class ModelCreationFactory implements CreationFactory {
 
                     // new component refs must have a component definition
                     Component compdef = urncorefactory.createComponent();
-                    ((ComponentRef) result).setCompDef(compdef);
+                    ((ComponentRef) result).setContDef(compdef);
 
                     // define the ComponentKind according to what was set in the construction
                     compdef.setKind(ComponentKind.get(type));
@@ -274,11 +297,36 @@ public class ModelCreationFactory implements CreationFactory {
                     ((IntentionalElementRef) result).setDef(elementdef);
 
                     elementdef.setType(IntentionalElementType.get(type));
-                    
 
                     URNNamingHelper.setElementNameAndID(urn, elementdef);
                     URNNamingHelper.resolveNamingConflict(urn, elementdef);
-                }else {
+                } else if (targetClass.equals(ActorRef.class)){
+                    //Create the actor
+                    result = grlfactory.createActorRef();
+                    
+                    Actor actor = grlfactory.createActor();
+                    ((ActorRef)result).setContDef(actor);
+                    
+                    URNNamingHelper.setElementNameAndID(urn, actor);
+                    URNNamingHelper.resolveNamingConflict(urn, actor);
+                    
+                    ((ActorRef) result).setHeight(DEFAULT_GRL_COMPONENT_HEIGHT);
+                    ((ActorRef) result).setWidth(DEFAULT_GRL_COMPONENT_WIDTH);
+                    
+                    ((ActorRef) result).setLabel(urncorefactory.createComponentLabel());
+                } else if (targetClass.equals(Actor.class)) {
+                    result = grlfactory.createActor();
+                } else if (targetClass.equals(Belief.class)){
+                    //Create the belief
+                    result = grlfactory.createBelief();
+                    URNNamingHelper.setElementNameAndID(urn, result);
+                    
+                    //Set the author to the author specify in the preferences
+                    ((Belief)result).setAuthor(GeneralPreferencePage.getAuthor());
+                    //New belief description should be set to "" by default (because we use it in the description
+                    ((Belief) result).setDescription("");
+                }
+                else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }
             }
@@ -286,8 +334,8 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add labels automatically to the required pathnodes.
         if (result instanceof StartPoint || result instanceof EndPoint || result instanceof Stub || result instanceof RespRef || result instanceof WaitingPlace
-                || result instanceof Timer || result instanceof IntentionalElementRef){
-            ((SpecificationNode) result).setLabel(urncorefactory.createNodeLabel());
+                || result instanceof Timer){
+            ((IURNNode) result).setLabel(urncorefactory.createNodeLabel());
         }
 
         // set the name and id of model elements
@@ -330,6 +378,9 @@ public class ModelCreationFactory implements CreationFactory {
 
         urnspec.setUrnVersion("0.9"); //$NON-NLS-1$
         urnspec.setSpecVersion("0"); //$NON-NLS-1$
+
+        //Set the author to the current user
+        urnspec.setAuthor(GeneralPreferencePage.getAuthor());
 
         // add its URN definition
         urnspec.setUrndef(UrncoreFactory.eINSTANCE.createURNdefinition());

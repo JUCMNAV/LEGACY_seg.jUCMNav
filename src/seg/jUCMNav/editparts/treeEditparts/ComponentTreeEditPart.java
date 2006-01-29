@@ -17,7 +17,7 @@ import urncore.ComponentKind;
  * 
  * @author Etienne Tremblay, jkealey
  */
-public class ComponentTreeEditPart extends UcmModelElementTreeEditPart {
+public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
@@ -84,7 +84,7 @@ public class ComponentTreeEditPart extends UcmModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getComp().getCompRefs().size() == 0)
+        if (getComp().getContRefs().size() == 0)
             ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
         else
             ((TreeItem) widget).setForeground(new Color(null, 0, 0, 0));

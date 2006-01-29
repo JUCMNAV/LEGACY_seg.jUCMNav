@@ -25,9 +25,10 @@ import urncore.UrncorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see ucm.scenario.ScenarioFactory
+ * @model kind="package"
  * @generated
  */
-public interface ScenarioPackage extends EPackage {
+public interface ScenarioPackage extends EPackage{
     /**
      * The package name.
      * <!-- begin-user-doc -->
@@ -68,70 +69,7 @@ public interface ScenarioPackage extends EPackage {
      * @see ucm.scenario.impl.ScenarioPackageImpl#getScenarioGroup()
      * @generated
      */
-    int SCENARIO_GROUP = 0;
-
-    /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
-
-    /**
-     * The feature id for the '<em><b>Description</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
-
-    /**
-     * The feature id for the '<em><b>Urnspec</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__URNSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Scenario Def</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP__SCENARIO_DEF = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
-
-    /**
-     * The number of structural features of the the '<em>Group</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_GROUP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int SCENARIO_GROUP = 2;
 
     /**
      * The meta object id for the '{@link ucm.scenario.impl.ScenarioDefImpl <em>Def</em>}' class.
@@ -144,69 +82,6 @@ public interface ScenarioPackage extends EPackage {
     int SCENARIO_DEF = 1;
 
     /**
-     * The feature id for the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
-
-    /**
-     * The feature id for the '<em><b>Description</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
-
-    /**
-     * The feature id for the '<em><b>Start Points</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__START_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Urnspec</b></em>' container reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF__URNSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
-
-    /**
-     * The number of structural features of the the '<em>Def</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
-
-    /**
      * The meta object id for the '{@link ucm.scenario.impl.VariableImpl <em>Variable</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -214,7 +89,25 @@ public interface ScenarioPackage extends EPackage {
      * @see ucm.scenario.impl.ScenarioPackageImpl#getVariable()
      * @generated
      */
-    int VARIABLE = 2;
+    int VARIABLE = 0;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIABLE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int VARIABLE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -244,15 +137,6 @@ public interface ScenarioPackage extends EPackage {
     int VARIABLE__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Urn Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int VARIABLE__URN_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__URN_LINKS;
-
-    /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -262,13 +146,13 @@ public interface ScenarioPackage extends EPackage {
     int VARIABLE__TYPE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Urnspec</b></em>' container reference.
+     * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int VARIABLE__URNSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int VARIABLE__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Usages</b></em>' reference list.
@@ -290,6 +174,159 @@ public interface ScenarioPackage extends EPackage {
 
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Start Points</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__START_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+    /**
+     * The feature id for the '<em><b>Groups</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF__GROUPS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
+     * The number of structural features of the the '<em>Def</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+
+    /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
+     * The feature id for the '<em><b>Id</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__ID = UrncorePackage.UC_MMODEL_ELEMENT__ID;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__NAME = UrncorePackage.UC_MMODEL_ELEMENT__NAME;
+
+    /**
+     * The feature id for the '<em><b>Description</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Scenarios</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP__SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+    /**
+     * The number of structural features of the the '<em>Group</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SCENARIO_GROUP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
      * Returns the meta object for class '{@link ucm.scenario.ScenarioGroup <em>Group</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -300,26 +337,26 @@ public interface ScenarioPackage extends EPackage {
     EClass getScenarioGroup();
 
     /**
-     * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioGroup#getUrnspec <em>Urnspec</em>}'.
+     * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioGroup#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Urnspec</em>'.
-     * @see ucm.scenario.ScenarioGroup#getUrnspec()
+     * @return the meta object for the container reference '<em>Ucmspec</em>'.
+     * @see ucm.scenario.ScenarioGroup#getUcmspec()
      * @see #getScenarioGroup()
      * @generated
      */
-    EReference getScenarioGroup_Urnspec();
+    EReference getScenarioGroup_Ucmspec();
 
     /**
-     * Returns the meta object for the containment reference list '{@link ucm.scenario.ScenarioGroup#getScenarioDef <em>Scenario Def</em>}'.
+     * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioGroup#getScenarios <em>Scenarios</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Scenario Def</em>'.
-     * @see ucm.scenario.ScenarioGroup#getScenarioDef()
+     * @return the meta object for the reference list '<em>Scenarios</em>'.
+     * @see ucm.scenario.ScenarioGroup#getScenarios()
      * @see #getScenarioGroup()
      * @generated
      */
-    EReference getScenarioGroup_ScenarioDef();
+    EReference getScenarioGroup_Scenarios();
 
     /**
      * Returns the meta object for class '{@link ucm.scenario.ScenarioDef <em>Def</em>}'.
@@ -343,15 +380,26 @@ public interface ScenarioPackage extends EPackage {
     EReference getScenarioDef_StartPoints();
 
     /**
-     * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioDef#getUrnspec <em>Urnspec</em>}'.
+     * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioDef#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Urnspec</em>'.
-     * @see ucm.scenario.ScenarioDef#getUrnspec()
+     * @return the meta object for the container reference '<em>Ucmspec</em>'.
+     * @see ucm.scenario.ScenarioDef#getUcmspec()
      * @see #getScenarioDef()
      * @generated
      */
-    EReference getScenarioDef_Urnspec();
+    EReference getScenarioDef_Ucmspec();
+
+    /**
+     * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioDef#getGroups <em>Groups</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Groups</em>'.
+     * @see ucm.scenario.ScenarioDef#getGroups()
+     * @see #getScenarioDef()
+     * @generated
+     */
+    EReference getScenarioDef_Groups();
 
     /**
      * Returns the meta object for class '{@link ucm.scenario.Variable <em>Variable</em>}'.
@@ -375,15 +423,15 @@ public interface ScenarioPackage extends EPackage {
     EAttribute getVariable_Type();
 
     /**
-     * Returns the meta object for the container reference '{@link ucm.scenario.Variable#getUrnspec <em>Urnspec</em>}'.
+     * Returns the meta object for the container reference '{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the container reference '<em>Urnspec</em>'.
-     * @see ucm.scenario.Variable#getUrnspec()
+     * @return the meta object for the container reference '<em>Ucmspec</em>'.
+     * @see ucm.scenario.Variable#getUcmspec()
      * @see #getVariable()
      * @generated
      */
-    EReference getVariable_Urnspec();
+    EReference getVariable_Ucmspec();
 
     /**
      * Returns the meta object for the reference list '{@link ucm.scenario.Variable#getUsages <em>Usages</em>}'.

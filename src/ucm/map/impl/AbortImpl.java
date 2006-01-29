@@ -24,8 +24,8 @@ import ucm.map.MapPackage;
 
 import urncore.Condition;
 import urncore.NodeLabel;
-import urncore.SpecificationComponentRef;
-import urncore.SpecificationDiagram;
+import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 import urncore.UrncorePackage;
 
 /**
@@ -90,16 +90,18 @@ public class AbortImpl extends PathNodeImpl implements Abort {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.ABORT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.ABORT__SPEC_DIAGRAM:
+                case MapPackage.ABORT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.ABORT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.ABORT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.ABORT__SPEC_DIAGRAM, msgs);
-                case MapPackage.ABORT__COMP_REF:
-                    if (compRef != null)
-                        msgs = ((InternalEObject)compRef).eInverseRemove(this, UrncorePackage.SPECIFICATION_COMPONENT_REF__NODES, SpecificationComponentRef.class, msgs);
-                    return basicSetCompRef((SpecificationComponentRef)otherEnd, msgs);
+                    return eBasicSetContainer(otherEnd, MapPackage.ABORT__DIAGRAM, msgs);
+                case MapPackage.ABORT__CONT_REF:
+                    if (contRef != null)
+                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
                 case MapPackage.ABORT__SUCC:
                     return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
                 case MapPackage.ABORT__PRED:
@@ -125,12 +127,14 @@ public class AbortImpl extends PathNodeImpl implements Abort {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.ABORT__URN_LINKS:
-                    return ((InternalEList)getUrnLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.ABORT__SPEC_DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.ABORT__SPEC_DIAGRAM, msgs);
-                case MapPackage.ABORT__COMP_REF:
-                    return basicSetCompRef(null, msgs);
+                case MapPackage.ABORT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.ABORT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.ABORT__DIAGRAM:
+                    return eBasicSetContainer(null, MapPackage.ABORT__DIAGRAM, msgs);
+                case MapPackage.ABORT__CONT_REF:
+                    return basicSetContRef(null, msgs);
                 case MapPackage.ABORT__SUCC:
                     return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
                 case MapPackage.ABORT__PRED:
@@ -152,13 +156,13 @@ public class AbortImpl extends PathNodeImpl implements Abort {
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case MapPackage.ABORT__SPEC_DIAGRAM:
-                    return ((InternalEObject)eContainer).eInverseRemove(this, UrncorePackage.SPECIFICATION_DIAGRAM__NODES, SpecificationDiagram.class, msgs);
+                case MapPackage.ABORT__DIAGRAM:
+                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
         }
-        return ((InternalEObject)eContainer).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -168,23 +172,25 @@ public class AbortImpl extends PathNodeImpl implements Abort {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.ABORT__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.ABORT__TO_LINKS:
+                return getToLinks();
             case MapPackage.ABORT__ID:
                 return getId();
             case MapPackage.ABORT__NAME:
                 return getName();
             case MapPackage.ABORT__DESCRIPTION:
                 return getDescription();
-            case MapPackage.ABORT__URN_LINKS:
-                return getUrnLinks();
             case MapPackage.ABORT__X:
                 return new Integer(getX());
             case MapPackage.ABORT__Y:
                 return new Integer(getY());
-            case MapPackage.ABORT__SPEC_DIAGRAM:
-                return getSpecDiagram();
-            case MapPackage.ABORT__COMP_REF:
-                if (resolve) return getCompRef();
-                return basicGetCompRef();
+            case MapPackage.ABORT__DIAGRAM:
+                return getDiagram();
+            case MapPackage.ABORT__CONT_REF:
+                if (resolve) return getContRef();
+                return basicGetContRef();
             case MapPackage.ABORT__SUCC:
                 return getSucc();
             case MapPackage.ABORT__PRED:
@@ -204,6 +210,14 @@ public class AbortImpl extends PathNodeImpl implements Abort {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.ABORT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.ABORT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.ABORT__ID:
                 setId((String)newValue);
                 return;
@@ -213,21 +227,17 @@ public class AbortImpl extends PathNodeImpl implements Abort {
             case MapPackage.ABORT__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case MapPackage.ABORT__URN_LINKS:
-                getUrnLinks().clear();
-                getUrnLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.ABORT__X:
                 setX(((Integer)newValue).intValue());
                 return;
             case MapPackage.ABORT__Y:
                 setY(((Integer)newValue).intValue());
                 return;
-            case MapPackage.ABORT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)newValue);
+            case MapPackage.ABORT__DIAGRAM:
+                setDiagram((IURNDiagram)newValue);
                 return;
-            case MapPackage.ABORT__COMP_REF:
-                setCompRef((SpecificationComponentRef)newValue);
+            case MapPackage.ABORT__CONT_REF:
+                setContRef((IURNContainerRef)newValue);
                 return;
             case MapPackage.ABORT__SUCC:
                 getSucc().clear();
@@ -255,6 +265,12 @@ public class AbortImpl extends PathNodeImpl implements Abort {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.ABORT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.ABORT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.ABORT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -264,20 +280,17 @@ public class AbortImpl extends PathNodeImpl implements Abort {
             case MapPackage.ABORT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case MapPackage.ABORT__URN_LINKS:
-                getUrnLinks().clear();
-                return;
             case MapPackage.ABORT__X:
                 setX(X_EDEFAULT);
                 return;
             case MapPackage.ABORT__Y:
                 setY(Y_EDEFAULT);
                 return;
-            case MapPackage.ABORT__SPEC_DIAGRAM:
-                setSpecDiagram((SpecificationDiagram)null);
+            case MapPackage.ABORT__DIAGRAM:
+                setDiagram((IURNDiagram)null);
                 return;
-            case MapPackage.ABORT__COMP_REF:
-                setCompRef((SpecificationComponentRef)null);
+            case MapPackage.ABORT__CONT_REF:
+                setContRef((IURNContainerRef)null);
                 return;
             case MapPackage.ABORT__SUCC:
                 getSucc().clear();
@@ -302,22 +315,24 @@ public class AbortImpl extends PathNodeImpl implements Abort {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.ABORT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.ABORT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.ABORT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.ABORT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.ABORT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.ABORT__URN_LINKS:
-                return urnLinks != null && !urnLinks.isEmpty();
             case MapPackage.ABORT__X:
                 return x != X_EDEFAULT;
             case MapPackage.ABORT__Y:
                 return y != Y_EDEFAULT;
-            case MapPackage.ABORT__SPEC_DIAGRAM:
-                return getSpecDiagram() != null;
-            case MapPackage.ABORT__COMP_REF:
-                return compRef != null;
+            case MapPackage.ABORT__DIAGRAM:
+                return getDiagram() != null;
+            case MapPackage.ABORT__CONT_REF:
+                return contRef != null;
             case MapPackage.ABORT__SUCC:
                 return succ != null && !succ.isEmpty();
             case MapPackage.ABORT__PRED:

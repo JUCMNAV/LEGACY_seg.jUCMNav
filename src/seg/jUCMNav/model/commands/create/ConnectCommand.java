@@ -48,7 +48,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         }
 
         if (left != null) {
-            urn = left.getSpecDiagram().getUrndefinition().getUrnspec();
+            urn = left.getDiagram().getUrndefinition().getUrnspec();
         }
     }
 
@@ -76,7 +76,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
 
         oldLeftX = left.getX();
         oldLeftY = left.getY();
-        oldLeftParent = (ComponentRef)left.getCompRef();
+        oldLeftParent = (ComponentRef)left.getContRef();
 
         connect.getPred().add(ncLeft);
         connect.getSucc().add(ncRight);
@@ -96,14 +96,14 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(left);
         ncRight.setTarget(right);
 
-        left.getSpecDiagram().getConnections().add(ncLeft);
-        left.getSpecDiagram().getConnections().add(ncRight);
-        left.getSpecDiagram().getNodes().add(connect);
+        left.getDiagram().getConnections().add(ncLeft);
+        left.getDiagram().getConnections().add(ncRight);
+        left.getDiagram().getNodes().add(connect);
 
         left.setX(right.getX());
         left.setY(right.getY());
 
-        left.setCompRef(ParentFinder.getPossibleParent(left));
+        left.setContRef(ParentFinder.getPossibleParent(left));
 
         testPostConditions();
     }
@@ -117,14 +117,14 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         ncLeft.setSource(null);
         ncRight.setTarget(null);
 
-        left.getSpecDiagram().getConnections().remove(ncLeft);
-        left.getSpecDiagram().getConnections().remove(ncRight);
-        left.getSpecDiagram().getNodes().remove(connect);
+        left.getDiagram().getConnections().remove(ncLeft);
+        left.getDiagram().getConnections().remove(ncRight);
+        left.getDiagram().getNodes().remove(connect);
 
         left.setX(oldLeftX);
         left.setY(oldLeftY);
 
-        left.setCompRef(oldLeftParent);
+        left.setContRef(oldLeftParent);
 
         testPreConditions();
     }

@@ -196,7 +196,8 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
      * save pathgraph/urn and refresh affected node connections.
      */
     private void initVariables() {
-        pg = (UCMmap) toDelete.getSpecDiagram();
+        pg = (UCMmap)toDelete.getDiagram();
+
         this.ncInBefore = new Vector(toDelete.getPred());
         this.ncOutBefore = new Vector(toDelete.getSucc());
 
@@ -210,10 +211,11 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncInToRemove);
         DoesDisconnectImplyDelete.trimConnectNodeConnections(this.ncOutToRemove);
 
-        if (pg == null || toDelete.getSpecDiagram().getUrndefinition() == null) {
+
+        if (pg == null ||  toDelete.getDiagram().getUrndefinition()==null) {
             aborted = true;
         } else
-            urn = toDelete.getSpecDiagram().getUrndefinition().getUrnspec();
+            urn = toDelete.getDiagram().getUrndefinition().getUrnspec();
 
     }
 
@@ -231,7 +233,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             PathNode pn = (PathNode) newEnd.get(i);
             nc.setTarget(pn);
             pg.getNodes().add(pn);
-            pn.setCompRef(ParentFinder.getPossibleParent(pn));
+            pn.setContRef(ParentFinder.getPossibleParent(pn));
         }
 
         for (int i = 0; i < ncOutToRemove.size(); i++) {
@@ -239,7 +241,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
             PathNode pn = (PathNode) newStart.get(i);
             nc.setSource(pn);
             pg.getNodes().add(pn);
-            pn.setCompRef(ParentFinder.getPossibleParent(pn));
+            pn.setContRef(ParentFinder.getPossibleParent(pn));
         }
 
         testPostConditions();
@@ -323,7 +325,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
                 toDelete.getPred().add(i, nc);
                 PathNode pn = (PathNode) newEnd.get(ncInToRemove.indexOf(nc));
                 pg.getNodes().remove(pn);
-                pn.setCompRef(null);
+                pn.setContRef(null);
             }
         }
 
@@ -335,7 +337,7 @@ public class DisconnectBranchesCommand extends Command implements JUCMNavCommand
                 toDelete.getSucc().add(i, nc);
                 PathNode pn = (PathNode) newStart.get(ncOutToRemove.indexOf(nc));
                 pg.getNodes().remove(pn);
-                pn.setCompRef(null);
+                pn.setContRef(null);
             }
         }
 

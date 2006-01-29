@@ -23,11 +23,12 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getUrnspec <em>Urnspec</em>}</li>
  *   <li>{@link grl.GRLspec#getIntElements <em>Int Elements</em>}</li>
  *   <li>{@link grl.GRLspec#getActors <em>Actors</em>}</li>
+ *   <li>{@link grl.GRLspec#getLinks <em>Links</em>}</li>
  * </ul>
  * </p>
  *
  * @see grl.GrlPackage#getGRLspec()
- * @model 
+ * @model
  * @generated
  */
 public interface GRLspec extends EObject {
@@ -94,5 +95,23 @@ public interface GRLspec extends EObject {
      * @generated
      */
     EList getActors();
+
+    /**
+     * Returns the value of the '<em><b>Links</b></em>' containment reference list.
+     * The list contents are of type {@link grl.ElementLink}.
+     * It is bidirectional and its opposite is '{@link grl.ElementLink#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Links</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Links</em>' containment reference list.
+     * @see grl.GrlPackage#getGRLspec_Links()
+     * @see grl.ElementLink#getGrlspec
+     * @model type="grl.ElementLink" opposite="grlspec" containment="true"
+     * @generated
+     */
+    EList getLinks();
 
 } // GRLspec

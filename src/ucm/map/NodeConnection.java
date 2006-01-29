@@ -9,7 +9,7 @@ package ucm.map;
 import org.eclipse.emf.common.util.EList;
 
 import urncore.Condition;
-import urncore.SpecificationConnection;
+import urncore.IURNConnection;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,10 +27,10 @@ import urncore.SpecificationConnection;
  * </p>
  *
  * @see ucm.map.MapPackage#getNodeConnection()
- * @model 
+ * @model
  * @generated
  */
-public interface NodeConnection extends SpecificationConnection {
+public interface NodeConnection extends IURNConnection{
     /**
      * Returns the value of the '<em><b>Probability</b></em>' attribute.
      * The default value is <code>"1.0"</code>.
