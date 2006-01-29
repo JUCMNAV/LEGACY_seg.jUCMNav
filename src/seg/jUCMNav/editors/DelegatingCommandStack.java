@@ -38,7 +38,7 @@ import urncore.IURNDiagram;
  * 
  * All ugly stkUrnSpec related code added by jkealey. This code is to allow DeleteMapCommands/CreateMapCommands to be undone because they can't be executed in
  * one of the UcmEditor's command stacks.
- * 
+ *  
  * @author Gunnar Wagenknecht, jkealey
  */
 public class DelegatingCommandStack extends CommandStack implements CommandStackListener {
