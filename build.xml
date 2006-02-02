@@ -69,8 +69,13 @@
 		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
 
 		<condition property="env.ECLIPSE_HOME" value="c:/eclipse/">
-			<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
-			<os family="windows" />
+			<and>
+				<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
+				<os family="windows" />
+				<not>
+					<isset property="env.ECLIPSE_HOME"/>
+				</not>
+			</and>
 		</condition>
 		<property name="env.ECLIPSE_HOME" value="/opt/eclipse/" />
 		<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
@@ -109,11 +114,19 @@
 		<!-- <antcall target="runtests"/> -->
 	</target>
 	
-	<target name="build.fullzip.exactversion" depends="init, clean">
-		<property name="jucmnav.version" value="2.0.alpha" />		
-		<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
-		<antcall target="clean"/>
-		<antcall target="zip.plugin"/>
+	<target name="build.fullzip.exactversion">
+		<antcall target="init">
+			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+		</antcall>
+		<antcall target="clean">
+			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+		</antcall>
+		<antcall target="zip.plugin">
+			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
+		</antcall>
 	</target>
 			
 	<target name="properties" if="eclipse.running">
