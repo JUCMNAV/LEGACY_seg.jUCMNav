@@ -87,7 +87,12 @@
 			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
 		</tstamp>
 		
-		<property name="jucmnav.version" value="2.0.${buildtime}" />
+		<condition property="jucmnav.version" value="2.0.${buildtime}">
+			<not>
+				<isset property="jucmnav.version"/>
+			</not>
+		</condition>
+		<!--<property name="jucmnav.version" value="2.0.${buildtime}" />-->
 		
 		<!--<property name="jucmnav.version" value="2.0.0" />-->
 		<echo>Building version: ${jucmnav.version}</echo>
@@ -99,11 +104,18 @@
 	</target>
 
 	<target name="build.fullzip" depends="init, clean">
+		<property name="jucmnav.version" value="2.0.alpha" />
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
 		<!-- <antcall target="runtests"/> -->
 	</target>
 	
+	<target name="build.fullzip.exactversion" depends="init, clean">
+		
+		<antcall target="clean"/>
+		<antcall target="zip.plugin"/>
+	</target>
+			
 	<target name="properties" if="eclipse.running">
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
 	</target>
