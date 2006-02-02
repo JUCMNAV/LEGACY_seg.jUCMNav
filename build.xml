@@ -111,6 +111,7 @@
 	
 	<target name="build.fullzip.exactversion" depends="init, clean">
 		<property name="jucmnav.version" value="2.0.alpha" />		
+		<property name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
 	</target>
