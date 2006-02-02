@@ -104,14 +104,13 @@
 	</target>
 
 	<target name="build.fullzip" depends="init, clean">
-		<property name="jucmnav.version" value="2.0.alpha" />
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
 		<!-- <antcall target="runtests"/> -->
 	</target>
 	
 	<target name="build.fullzip.exactversion" depends="init, clean">
-		
+		<property name="jucmnav.version" value="2.0.alpha" />		
 		<antcall target="clean"/>
 		<antcall target="zip.plugin"/>
 	</target>
