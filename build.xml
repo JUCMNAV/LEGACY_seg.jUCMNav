@@ -170,7 +170,7 @@
 		<mkdir dir="${build.result.folder}"/>
 		<zip zipfile="${build.result.folder}/jUCMNavsrc.zip" filesonly="false" whenempty="skip" update="false">
 			<!-- want to add xml files too	<fileset dir="src/" includes="**/*.java"			/> -->
-			<fileset dir="" includes="**/*.*" />
+			<fileset dir="" includes="**/*.*" excludes="bin/**/*.*" />
 		</zip>
 	</target>
 
