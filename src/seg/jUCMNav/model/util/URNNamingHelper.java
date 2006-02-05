@@ -557,7 +557,7 @@ public class URNNamingHelper {
             }
 
             if (elem.getName() == null || elem.getName().trim().length() == 0) {
-                elem.setName("Intentional Element" + elem.getId());
+                elem.setName(elem.getType().getName() + " " + elem.getId());
             }
         } else if (o instanceof URNmodelElement) {
             URNmodelElement model = (URNmodelElement) o;

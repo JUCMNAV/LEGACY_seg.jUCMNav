@@ -108,7 +108,7 @@ public class DeleteActorCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         // re-add actor
-        urn.getUrndef().getComponents().add(getActorDef());
+        urn.getGrlspec().getActors().add(getActorDef());
 
         testPreConditions();
     }

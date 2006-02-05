@@ -10,6 +10,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import urncore.IURNDiagram;
 import urncore.URNmodelElement;
 
 /**
@@ -108,18 +109,20 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
     /**
      * Generate a DOT layout file with the given model instance.
      * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.UCMmap, java.io.FileOutputStream)
+     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(IURNDiagram, java.io.FileOutputStream)
      */
-    public void export(UCMmap map, FileOutputStream fos) {
-        String contents = convertUCMToDot(map);
-        try {
-            fos.write(contents.getBytes());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public void export(IURNDiagram diagram, FileOutputStream fos) {
+        if (diagram instanceof UCMmap){
+            String contents = convertUCMToDot((UCMmap)diagram);
+            try {
+                fos.write(contents.getBytes());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
-    public void export(UCMmap map, String path) {
+    public void export(IURNDiagram diagram, String path) {
         // not used.
     }
 }

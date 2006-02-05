@@ -40,13 +40,6 @@ public class UCMConnectionOnBottomRootEditPart extends URNRootEditPart {
         return layeredPane;
     }
 
-	/**
-	 * Overridden to allow access from export image wizard. 
-	 */
-    public LayeredPane getScaledLayers() {
-        return super.getScaledLayers();
-    }
-
     /**
      * @param mode the new mode to be used; refreshes the editor. 
      * 0: normal show everything mode

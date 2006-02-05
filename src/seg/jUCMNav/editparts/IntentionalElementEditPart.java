@@ -239,9 +239,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 (((IntentionalElementRef)getNode()).getDef() instanceof IntentionalElement)) {
             IntentionalElement elem = ((IntentionalElementRef)getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
+            ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
         }
 
-        ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
+        
         
         //   Make the label recenter itself.
         figure.validate(); 

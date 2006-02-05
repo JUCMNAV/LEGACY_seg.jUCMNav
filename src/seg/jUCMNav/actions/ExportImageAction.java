@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 
 /**
- * Opens the ExportImageWizard with the current selection (map or URNspec)
+ * Opens the ExportImageWizard with the current selection (diagram or URNspec)
  * 
  * jkealey: could be modified to allow exporting when anything in a map is selected, not just the background.
  * 
@@ -33,6 +33,7 @@ public class ExportImageAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.MAP:
+        case SelectionHelper.GRLGRAPH:
         case SelectionHelper.URNSPEC:
             return true;
         default:
@@ -53,6 +54,9 @@ public class ExportImageAction extends URNSelectionAction {
         switch (sel.getSelectionType()) {
         case SelectionHelper.MAP:
             selection = new StructuredSelection(sel.getMap());
+            break;
+        case SelectionHelper.GRLGRAPH:
+            selection = new StructuredSelection(sel.getGrlgraph());
             break;
         case SelectionHelper.URNSPEC:
             selection = new StructuredSelection(sel.getUrnspec());

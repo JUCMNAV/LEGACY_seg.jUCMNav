@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Text;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
 import seg.jUCMNav.importexport.URNExportExtensionPointHelper;
-import ucm.map.UCMmap;
+import urncore.IURNDiagram;
 
 /**
  * Contains controls to set the export directory, export file type and selected maps.
@@ -186,13 +186,13 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         Vector v = new Vector();
 
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
-            UCMmap map = (UCMmap) iter.next();
+            IURNDiagram diagram = (IURNDiagram) iter.next();
 
-            if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM)
-                lstMaps.add(((ExportWizard) getWizard()).getMapName(map));
-            else if (!v.contains(map.getUrndefinition().getUrnspec())) {
-                lstMaps.add(((ExportWizard) getWizard()).getFilePrefix(map));
-                v.add(map.getUrndefinition().getUrnspec());
+            if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM)
+                lstMaps.add(((ExportWizard) getWizard()).getDiagramName(diagram));
+            else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
+                lstMaps.add(((ExportWizard) getWizard()).getFilePrefix(diagram));
+                v.add(diagram.getUrndefinition().getUrnspec());
             }
         }
         lstMaps.selectAll();
@@ -203,7 +203,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * 
      */
     void fillTypeDropDown() {
-        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM)
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM)
             cboImageType.setItems(UCMExportExtensionPointHelper.getExportLabels());
         else
             cboImageType.setItems(URNExportExtensionPointHelper.getExportLabels());
@@ -259,7 +259,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             Vector v = new Vector();
             int j = 0,k=0;
             for (int i = 0; i < mapsToExport.size(); i++) {
-                UCMmap m = (UCMmap) mapsToExport.get(i);
+                IURNDiagram m = (IURNDiagram) mapsToExport.get(i);
                 if (!v.contains(m.getUrndefinition().getUrnspec())) {
                     v.add(m.getUrndefinition().getUrnspec());
                     if (iMapSelectionIndices[j] == k) {

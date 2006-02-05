@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.draw2d.IFigure;
 
-import ucm.map.UCMmap;
+import urncore.IURNDiagram;
 
 /**
  * Interface used by the UseCaseMapExport extension point. Extension point used to convert instances of the ucm.map.Map and output them in a
@@ -17,20 +17,20 @@ import ucm.map.UCMmap;
 public interface IUseCaseMapExport {
 
     /**
-     * Export a map instance to a file.
+     * Export a diagram instance to a file.
      * 
-     * @param map
-     *            the map to be converted
+     * @param diagram
+     *            the diagram to be converted
      * @param fos
      *            a file in which the conversion should be written
      */
-    public void export(UCMmap map, FileOutputStream fos) throws InvocationTargetException;
+    public void export(IURNDiagram diagram, FileOutputStream fos) throws InvocationTargetException;
 
     /**
-     * Export the graphical representation of a map instance to a file.
+     * Export the graphical representation of a diagram instance to a file.
      * 
      * @param map
-     *            the map to be converted
+     *            the diagram to be converted
      * @param fos
      *            a file in which the conversion should be written
      */
@@ -39,12 +39,12 @@ public interface IUseCaseMapExport {
     /**
      * Export a map instance to a file.
      * 
-     * @param map
-     *            the map to be converted
+     * @param diagram
+     *            the diagram to be converted
      * @param path
      *            a file in which the conversion should be written
      */
-    public void export(UCMmap map, String path) throws InvocationTargetException;
+    public void export(IURNDiagram diagram, String path) throws InvocationTargetException;
 
     /**
      * Export the graphical representation of a map instance to a file.

@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.editparts;
 
+import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -41,6 +42,13 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
         return this.mode;
     }
 
+    /**
+     * Overridden to allow access from export image wizard. 
+     */
+    public LayeredPane getScaledLayers() {
+        return super.getScaledLayers();
+    }
+    
     /**
      * @return Returns the MultiPageEditor. This is bad design but used to simplify some stub binding code. 
      */

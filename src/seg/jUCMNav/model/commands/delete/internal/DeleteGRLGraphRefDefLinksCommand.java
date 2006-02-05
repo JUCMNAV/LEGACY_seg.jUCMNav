@@ -19,6 +19,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
+import urncore.IURNConnection;
 
 /**
  * This class unlink reference and definition of IntentionalElements, Actors and Links. 
@@ -76,8 +77,10 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
         }
         //Set the references of the Links
         for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            LinkRef linkref = (LinkRef) iter.next();
-            htReferences.put(linkref, ((LinkRef) linkref).getLink());
+            IURNConnection link = (IURNConnection) iter.next();
+            if (link instanceof LinkRef){
+                htReferences.put((LinkRef)link, ((LinkRef) link).getLink());
+            }
         }
         
         position = getGraph().getUrndefinition().getSpecDiagrams().indexOf(getGraph());
@@ -110,8 +113,10 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
         }
 
         for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            LinkRef linkref = (LinkRef) iter.next();
-            linkref.setLink(null);
+            IURNConnection link = (IURNConnection) iter.next();
+            if (link instanceof LinkRef){
+                ((LinkRef)link).setLink(null);
+            }
         }        
         testPostConditions();
     }
@@ -141,8 +146,10 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
         }
         
         for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            LinkRef linkref = (LinkRef) iter.next();
-            assert linkref.getLink() != null : "pre link still references definition"; //$NON-NLS-1$
+            IURNConnection link = (IURNConnection) iter.next();
+            if (link instanceof LinkRef){
+                assert ((LinkRef)link).getLink() != null : "pre link still references definition"; //$NON-NLS-1$
+            }
         }
     }
 
@@ -167,8 +174,10 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
         }
         
         for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            LinkRef linkref = (LinkRef) iter.next();
-            assert linkref.getLink() == null : "post link still references definition"; //$NON-NLS-1$
+            IURNConnection link = (IURNConnection) iter.next();
+            if (link instanceof LinkRef){
+                assert ((LinkRef)link).getLink() == null : "post link still references definition"; //$NON-NLS-1$
+            }
         }
     }
 
@@ -195,8 +204,10 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
                 ((IntentionalElementRef) node).setDef((IntentionalElement) htReferences.get(node));
         }
         for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            LinkRef linkref = (LinkRef) iter.next();
-            linkref.setLink((ElementLink) htReferences.get(linkref));
+            IURNConnection link = (IURNConnection) iter.next();
+            if (link instanceof LinkRef){
+                ((LinkRef)link).setLink((ElementLink) htReferences.get(link));
+            }
         }  
         testPreConditions();
     }

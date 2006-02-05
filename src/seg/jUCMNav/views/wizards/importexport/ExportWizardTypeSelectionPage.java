@@ -50,19 +50,19 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
         lblPath.setText("Please select an option: "); //$NON-NLS-1$
 
         radios[0] = new Button(composite, SWT.RADIO);
-        radios[0].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM);
+        radios[0].setSelection(ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM);
         radios[0].setText(Messages.getString("ExportWizardTypeSelectionPage.ExportUCM")); //$NON-NLS-1$
 
         radios[0].setBounds(10, 5, 75, 30);
         radios[0].addSelectionListener(new SelectionListener() {
             public void widgetDefaultSelected(SelectionEvent e) {
-                ExportPreferenceHelper.setExportType(ExportPreferenceHelper.UCM);
+                ExportPreferenceHelper.setExportType(ExportPreferenceHelper.URN_DIAGRAM);
                 setPageComplete(iUCMCount != 0);
                 ((ExportWizard) getWizard()).refreshPages();
             }
 
             public void widgetSelected(SelectionEvent e) {
-                ExportPreferenceHelper.setExportType(ExportPreferenceHelper.UCM);
+                ExportPreferenceHelper.setExportType(ExportPreferenceHelper.URN_DIAGRAM);
                 setPageComplete(iUCMCount != 0);
                 ((ExportWizard) getWizard()).refreshPages();
             }
@@ -98,7 +98,7 @@ public class ExportWizardTypeSelectionPage extends WizardPage {
 
 
         // page can only be complete if we have a type to export to at the next step.
-        if ((ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.UCM && iUCMCount == 0)
+        if ((ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && iUCMCount == 0)
                 || (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN && iURNCount == 0))
             setPageComplete(false);
         else

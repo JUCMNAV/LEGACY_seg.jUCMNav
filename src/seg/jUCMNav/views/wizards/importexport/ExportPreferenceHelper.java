@@ -20,7 +20,7 @@ public class ExportPreferenceHelper {
     public final static String PREF_PATH = "seg.jUCMNav.ExportImage.Path"; //$NON-NLS-1$
 
     // values of PREF_EXPORTTYPE
-    public static final int UCM = 0;
+    public static final int URN_DIAGRAM = 0;
     public static final int URN = 1;
 
     /**
