@@ -12,7 +12,7 @@ import seg.jUCMNav.views.wizards.importexport.ExportWizard;
  * jkealey: could be modified to allow exporting when anything in a map is selected, not just the background.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class ExportImageAction extends URNSelectionAction {
 
@@ -48,6 +48,8 @@ public class ExportImageAction extends URNSelectionAction {
      * @see org.eclipse.jface.action.Action#run()
      */
     public void run() {
+        // using the selection helper will filter out the selection
+        // if many maps are selected in the outline, for example.
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         ExportWizard wiz = new ExportWizard();
         StructuredSelection selection = null;

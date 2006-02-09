@@ -184,18 +184,35 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         lstMaps.setItems(new String[] {});
         Vector v = new Vector();
-
+        Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
+        Vector vIndices = new Vector();
+        int i=0;
         for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
             IURNDiagram diagram = (IURNDiagram) iter.next();
 
-            if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM)
+            if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
+                // peek to see if this is one of the maps that should be selected by default
+                if (selected.indexOf(diagram)>=0) {
+                    vIndices.add(new Integer(i));
+                }
                 lstMaps.add(((ExportWizard) getWizard()).getDiagramName(diagram));
+            }
             else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
                 lstMaps.add(((ExportWizard) getWizard()).getFilePrefix(diagram));
                 v.add(diagram.getUrndefinition().getUrnspec());
             }
+            i++;
         }
-        lstMaps.selectAll();
+
+        // build the int array from the vector of Integers
+        int[] indices = new int[vIndices.size()];
+        for (i=0;i<vIndices.size();i++)
+            indices[i]=((Integer)vIndices.get(i)).intValue();
+
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM && vIndices.size()>0) {
+            lstMaps.select(indices);
+        } else
+            lstMaps.selectAll();
     }
 
     /**
@@ -257,7 +274,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             // a selected index references to the first occurence of a URNspec
             // in the list of maps to export.
             Vector v = new Vector();
-            int j = 0,k=0;
+            int j = 0, k = 0;
             for (int i = 0; i < mapsToExport.size(); i++) {
                 IURNDiagram m = (IURNDiagram) mapsToExport.get(i);
                 if (!v.contains(m.getUrndefinition().getUrnspec())) {

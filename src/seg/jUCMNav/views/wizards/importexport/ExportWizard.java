@@ -107,6 +107,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
     protected IStructuredSelection selection;
 
     /**
+     * The diagrams that should be selected by default.
+     */
+    protected Vector selectedDiagrams;
+
+    /**
      * Initialize preferences.
      */
     public ExportWizard() {
@@ -415,8 +420,15 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorpart;
                     if (obj instanceof IURNDiagram) {
                         IURNDiagram diagram = (IURNDiagram) obj;
-                        this.mapsToExport.add(obj);
-                        defineMapping(editor, diagram);
+                        addSelectedDiagram(diagram);
+                        // this.mapsToExport.add(obj);
+                        // defineMapping(editor, diagram);
+                        // define all mappings because they are used by some exports
+                        for (Iterator iterator = diagram.getUrndefinition().getSpecDiagrams().iterator(); iterator.hasNext();) {
+                            IURNDiagram diagram2 = (IURNDiagram) iterator.next();
+                            this.mapsToExport.add(diagram2);
+                            defineMapping(editor, diagram2);
+                        }
                     } else if (obj instanceof URNspec) {
                         this.mapsToExport.addAll(((URNspec) obj).getUrndef().getSpecDiagrams());
                         for (Iterator iterator = ((URNspec) obj).getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
@@ -475,4 +487,25 @@ public class ExportWizard extends Wizard implements IExportWizard {
         ((ExportWizardMapSelectionPage) getPage(PAGE1)).fillSelectionList();
         ((ExportWizardMapSelectionPage) getPage(PAGE1)).fillTypeDropDown();
     }
+
+    /**
+     * 
+     * @return the list of selected diagrams
+     */
+    public Vector getSelectedDiagrams() {
+        if (selectedDiagrams == null)
+            selectedDiagrams = new Vector();
+        return selectedDiagrams;
+    }
+
+    /**
+     * Add a diagram to the list of selected diagrams
+     * 
+     * @param d
+     *            the diagram to add.
+     */
+    public void addSelectedDiagram(IURNDiagram d) {
+        getSelectedDiagrams().add(d);
+    }
+
 }
