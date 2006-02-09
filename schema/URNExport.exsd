@@ -56,6 +56,9 @@
                <documentation>
                   A translatable name that will be used for presenting this exporter in the UI.
                </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
@@ -79,6 +82,13 @@
             <annotation>
                <documentation>
                   Should the export methods invoked use streams (true) or filenames (false).
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="postExporter" type="string">
+            <annotation>
+               <documentation>
+                  Enter the UseCaseMapExport id to be run on all diagrams AFTER the URN export. Intended to be used to export all bitmaps with the DXL export, but available to others. 
                </documentation>
             </annotation>
          </attribute>

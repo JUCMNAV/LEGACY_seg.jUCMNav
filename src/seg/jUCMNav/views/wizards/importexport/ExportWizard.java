@@ -276,6 +276,29 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 exporter.export(editor.getModel(), genericPath.toOSString());
             }
 
+            // export individual maps if desired
+            if (URNExportExtensionPointHelper.getPostExporter(id).length() > 0) {
+                int oldSelection = ExportPreferenceHelper.getImageType();
+
+                // go through the individual diagram exporters; find the index of the required one
+                for (int i = 0; i < UCMExportExtensionPointHelper.getExportLabels().length; i++) {
+                    if (UCMExportExtensionPointHelper.getExporterFromLabelIndex(i).equals(URNExportExtensionPointHelper.getPostExporter(id))) {
+                        // set it in our preferences.
+                        ExportPreferenceHelper.setImageType(i);
+                        break;
+                    }
+                }
+                // export the individual diagrams
+                for (Iterator iter = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+                    IURNDiagram element = (IURNDiagram) iter.next();
+                    ExportDiagram(element);
+                }
+
+                // set back the original preference so that the URN export is the same next time.
+                ExportPreferenceHelper.setImageType(oldSelection);
+
+            }
+
         } catch (InvocationTargetException e) {
             Throwable realException = e.getTargetException();
             IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
@@ -319,14 +342,14 @@ public class ExportWizard extends Wizard implements IExportWizard {
     public String getDiagramName(IURNDiagram diagram) {
         String filename = getFilePrefix(diagram);
 
-        String name = ((URNmodelElement)diagram).getName();
+        String name = ((URNmodelElement) diagram).getName();
         name = cleanFileName(name);
-        
-        String result = "";
-        if (diagram instanceof UCMmap){
-            result = filename + "-" + "Map" + ((UCMmap)diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        } else if (diagram instanceof GRLGraph){
-            result = filename + "-" + "GRLGraph" + ((GRLGraph)diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+        String result = ""; //$NON-NLS-1$
+        if (diagram instanceof UCMmap) {
+            result = filename + "-" + "Map" + ((UCMmap) diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        } else if (diagram instanceof GRLGraph) {
+            result = filename + "-" + "GRLGraph" + ((GRLGraph) diagram).getId() + "-" + name; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         }
         return result;
     }
@@ -391,13 +414,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 if (editorpart instanceof UCMNavMultiPageEditor) {
                     UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorpart;
                     if (obj instanceof IURNDiagram) {
-                        IURNDiagram diagram= (IURNDiagram) obj;
+                        IURNDiagram diagram = (IURNDiagram) obj;
                         this.mapsToExport.add(obj);
                         defineMapping(editor, diagram);
                     } else if (obj instanceof URNspec) {
                         this.mapsToExport.addAll(((URNspec) obj).getUrndef().getSpecDiagrams());
                         for (Iterator iterator = ((URNspec) obj).getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {
-                            IURNDiagram diagram= (IURNDiagram) iterator.next();
+                            IURNDiagram diagram = (IURNDiagram) iterator.next();
                             defineMapping(editor, diagram);
                         }
                     }
