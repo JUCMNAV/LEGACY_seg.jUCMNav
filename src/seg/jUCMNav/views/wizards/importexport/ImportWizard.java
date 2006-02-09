@@ -124,6 +124,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException {
                 try {
+                    monitor.beginTask(Messages.getString("ImportWizard.Importing"), IProgressMonitor.UNKNOWN); //$NON-NLS-1$
                     success = false;
                     success = doFinish(monitor);
                 } finally {

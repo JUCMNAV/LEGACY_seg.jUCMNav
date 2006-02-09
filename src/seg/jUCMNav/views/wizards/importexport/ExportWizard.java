@@ -445,6 +445,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
         IRunnableWithProgress op = new IRunnableWithProgress() {
             public void run(IProgressMonitor monitor) throws InvocationTargetException {
                 try {
+                    monitor.beginTask(Messages.getString("ExportWizard.Exporting"), IProgressMonitor.UNKNOWN); //$NON-NLS-1$
                     doFinish(monitor);
                 } finally {
                     monitor.done();

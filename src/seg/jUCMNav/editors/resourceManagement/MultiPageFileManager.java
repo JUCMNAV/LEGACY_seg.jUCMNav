@@ -39,7 +39,7 @@ import urn.URNspec;
  * UCMNavMultiPageEditor delegates file management operations to this class. Saving / creating is handled here.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class MultiPageFileManager {
     /** the managed editor */
@@ -69,7 +69,7 @@ public class MultiPageFileManager {
         if (file.exists()) {
             try {
                 modelManager.load(file.getFullPath());
-            } catch (Exception e) {//SAXParseException
+            } catch (Exception e) {// SAXParseException
                 if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException)
                         || ((SAXParseException) ((WrappedException) e).exception()).getLineNumber() >= 0) {
                     // dont pop error if file is empty (not created by wizard).
@@ -162,7 +162,7 @@ public class MultiPageFileManager {
             sDate = df.format(new Date());
             editor.getModel().setCreated(sDate);
             editor.getModel().setModified(sDate);
-            
+
             setVersions();
 
             // save the new file
@@ -234,7 +234,6 @@ public class MultiPageFileManager {
             modelManager.save(file.getFullPath());
             progressMonitor.worked(1);
             file.refreshLocal(IResource.DEPTH_ZERO, new SubProgressMonitor(progressMonitor, 1));
-            progressMonitor.done();
         } catch (FileNotFoundException e) {
             IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorWritingFile"), e); //$NON-NLS-1$
             throw new CoreException(status);
@@ -243,6 +242,9 @@ public class MultiPageFileManager {
             e.printStackTrace();
             IStatus status = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorWritingFile"), e); //$NON-NLS-1$
             throw new CoreException(status);
+        } finally {
+            progressMonitor.done();
         }
+
     }
 }
