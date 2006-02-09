@@ -157,6 +157,13 @@
             mode="image"
             name="%ExportBMP"
             useStream="true"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportImageGIF"
+            extension="gif"
+            id="seg.jUCMNav.ExportGIF"
+            mode="image"
+            name="%ExportGIF"
+            useStream="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
