@@ -3,6 +3,8 @@
  */
 package seg.jUCMNav.editparts;
 
+import java.util.Iterator;
+
 import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
@@ -20,11 +22,13 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     // Used to simplify some stub binding code. 
     private UCMNavMultiPageEditor multiPageEditor;
     
-
+    protected boolean scenarioView = false;
+    
     public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 
     // what is the current view mode for this editor. 
     protected int mode = 0;
+    
 
     /**
      * 
@@ -57,4 +61,17 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     }
     
     public abstract void setMode(int mode);
+
+
+    public boolean isScenarioView() {
+        return scenarioView;
+    }
+
+    public void setScenarioView(boolean view) {
+        scenarioView = view;
+        for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+            URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
+            element.refreshVisuals();
+        }
+    }
 }

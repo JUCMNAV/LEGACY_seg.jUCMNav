@@ -26,9 +26,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Evaluation extends EObject {
+public interface Evaluation extends EObject{
     /**
      * Returns the value of the '<em><b>Evaluation</b></em>' attribute.
+     * The default value is <code>"0"</code>.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Evaluation</em>' attribute isn't clear,
@@ -38,7 +39,7 @@ public interface Evaluation extends EObject {
      * @return the value of the '<em>Evaluation</em>' attribute.
      * @see #setEvaluation(int)
      * @see grl.GrlPackage#getEvaluation_Evaluation()
-     * @model
+     * @model default="0"
      * @generated
      */
     int getEvaluation();
@@ -55,6 +56,7 @@ public interface Evaluation extends EObject {
 
     /**
      * Returns the value of the '<em><b>Int Element</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Int Element</em>' reference isn't clear,
@@ -64,7 +66,8 @@ public interface Evaluation extends EObject {
      * @return the value of the '<em>Int Element</em>' reference.
      * @see #setIntElement(IntentionalElement)
      * @see grl.GrlPackage#getEvaluation_IntElement()
-     * @model required="true"
+     * @see grl.IntentionalElement#getEvals
+     * @model opposite="evals" required="true"
      * @generated
      */
     IntentionalElement getIntElement();
@@ -80,7 +83,7 @@ public interface Evaluation extends EObject {
     void setIntElement(IntentionalElement value);
 
     /**
-     * Returns the value of the '<em><b>Scenario</b></em>' reference.
+     * Returns the value of the '<em><b>Scenario</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
      * <!-- begin-user-doc -->
      * <p>
@@ -88,7 +91,7 @@ public interface Evaluation extends EObject {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Scenario</em>' reference.
+     * @return the value of the '<em>Scenario</em>' container reference.
      * @see #setScenario(EvaluationScenario)
      * @see grl.GrlPackage#getEvaluation_Scenario()
      * @see grl.EvaluationScenario#getEvaluations
@@ -98,10 +101,10 @@ public interface Evaluation extends EObject {
     EvaluationScenario getScenario();
 
     /**
-     * Sets the value of the '{@link grl.Evaluation#getScenario <em>Scenario</em>}' reference.
+     * Sets the value of the '{@link grl.Evaluation#getScenario <em>Scenario</em>}' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Scenario</em>' reference.
+     * @param value the new value of the '<em>Scenario</em>' container reference.
      * @see #getScenario()
      * @generated
      */

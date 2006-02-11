@@ -308,5 +308,6 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
         }
+        
     }
 }

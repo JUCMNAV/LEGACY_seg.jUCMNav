@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Evaluation</b></em>'.
@@ -64,16 +66,6 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * @ordered
      */
     protected IntentionalElement intElement = null;
-
-    /**
-     * The cached value of the '{@link #getScenario() <em>Scenario</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getScenario()
-     * @generated
-     * @ordered
-     */
-    protected EvaluationScenario scenario = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -145,49 +137,11 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setIntElement(IntentionalElement newIntElement) {
+    public NotificationChain basicSetIntElement(IntentionalElement newIntElement, NotificationChain msgs) {
         IntentionalElement oldIntElement = intElement;
         intElement = newIntElement;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, oldIntElement, intElement));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EvaluationScenario getScenario() {
-        if (scenario != null && scenario.eIsProxy()) {
-            EvaluationScenario oldScenario = scenario;
-            scenario = (EvaluationScenario)eResolveProxy((InternalEObject)scenario);
-            if (scenario != oldScenario) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.EVALUATION__SCENARIO, oldScenario, scenario));
-            }
-        }
-        return scenario;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EvaluationScenario basicGetScenario() {
-        return scenario;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetScenario(EvaluationScenario newScenario, NotificationChain msgs) {
-        EvaluationScenario oldScenario = scenario;
-        scenario = newScenario;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__SCENARIO, oldScenario, newScenario);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, oldIntElement, newIntElement);
             if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
@@ -198,14 +152,45 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setScenario(EvaluationScenario newScenario) {
-        if (newScenario != scenario) {
+    public void setIntElement(IntentionalElement newIntElement) {
+        if (newIntElement != intElement) {
             NotificationChain msgs = null;
-            if (scenario != null)
-                msgs = ((InternalEObject)scenario).eInverseRemove(this, GrlPackage.EVALUATION_SCENARIO__EVALUATIONS, EvaluationScenario.class, msgs);
+            if (intElement != null)
+                msgs = ((InternalEObject)intElement).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
+            if (newIntElement != null)
+                msgs = ((InternalEObject)newIntElement).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
+            msgs = basicSetIntElement(newIntElement, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, newIntElement, newIntElement));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EvaluationScenario getScenario() {
+        if (eContainerFeatureID != GrlPackage.EVALUATION__SCENARIO) return null;
+        return (EvaluationScenario)eContainer;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setScenario(EvaluationScenario newScenario) {
+        if (newScenario != eContainer || (eContainerFeatureID != GrlPackage.EVALUATION__SCENARIO && newScenario != null)) {
+            if (EcoreUtil.isAncestor(this, newScenario))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eContainer != null)
+                msgs = eBasicRemoveFromContainer(msgs);
             if (newScenario != null)
                 msgs = ((InternalEObject)newScenario).eInverseAdd(this, GrlPackage.EVALUATION_SCENARIO__EVALUATIONS, EvaluationScenario.class, msgs);
-            msgs = basicSetScenario(newScenario, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newScenario, GrlPackage.EVALUATION__SCENARIO, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
@@ -220,10 +205,14 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.EVALUATION__INT_ELEMENT:
+                    if (intElement != null)
+                        msgs = ((InternalEObject)intElement).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
+                    return basicSetIntElement((IntentionalElement)otherEnd, msgs);
                 case GrlPackage.EVALUATION__SCENARIO:
-                    if (scenario != null)
-                        msgs = ((InternalEObject)scenario).eInverseRemove(this, GrlPackage.EVALUATION_SCENARIO__EVALUATIONS, EvaluationScenario.class, msgs);
-                    return basicSetScenario((EvaluationScenario)otherEnd, msgs);
+                    if (eContainer != null)
+                        msgs = eBasicRemoveFromContainer(msgs);
+                    return eBasicSetContainer(otherEnd, GrlPackage.EVALUATION__SCENARIO, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -241,13 +230,32 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
+                case GrlPackage.EVALUATION__INT_ELEMENT:
+                    return basicSetIntElement(null, msgs);
                 case GrlPackage.EVALUATION__SCENARIO:
-                    return basicSetScenario(null, msgs);
+                    return eBasicSetContainer(null, GrlPackage.EVALUATION__SCENARIO, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
         }
         return eBasicSetContainer(null, featureID, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
+        if (eContainerFeatureID >= 0) {
+            switch (eContainerFeatureID) {
+                case GrlPackage.EVALUATION__SCENARIO:
+                    return eContainer.eInverseRemove(this, GrlPackage.EVALUATION_SCENARIO__EVALUATIONS, EvaluationScenario.class, msgs);
+                default:
+                    return eDynamicBasicRemoveFromContainer(msgs);
+            }
+        }
+        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
 
     /**
@@ -263,8 +271,7 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
                 if (resolve) return getIntElement();
                 return basicGetIntElement();
             case GrlPackage.EVALUATION__SCENARIO:
-                if (resolve) return getScenario();
-                return basicGetScenario();
+                return getScenario();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -321,7 +328,7 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
             case GrlPackage.EVALUATION__INT_ELEMENT:
                 return intElement != null;
             case GrlPackage.EVALUATION__SCENARIO:
-                return scenario != null;
+                return getScenario() != null;
         }
         return eDynamicIsSet(eFeature);
     }

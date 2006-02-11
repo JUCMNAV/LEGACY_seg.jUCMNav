@@ -12,6 +12,10 @@
         eType="#//Actor" containment="true" eOpposite="#//Actor/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
         eType="#//ElementLink" containment="true" eOpposite="#//ElementLink/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evaluationGroups" upperBound="-1"
+        eType="#//EvaluationGroup" containment="true" eOpposite="#//EvaluationGroup/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
+        eType="#//EvaluationScenario" containment="true" eOpposite="#//EvaluationScenario/grlspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -32,6 +36,8 @@
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/intElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//IntentionalElementRef"
         eOpposite="#//IntentionalElementRef/def"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="evals" upperBound="-1"
+        eType="#//Evaluation" eOpposite="#//Evaluation/intElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
         eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="linksDest" upperBound="-1"
@@ -101,17 +107,20 @@
     <eLiterals name="Or" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Evaluation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intElement" lowerBound="1"
-        eType="#//IntentionalElement"/>
+        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/evals"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenario" lowerBound="1"
-        eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/evaluations"/>
+        eType="#//EvaluationScenario" transient="true" eOpposite="#//EvaluationScenario/evaluations"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationScenario" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1"
-        eType="#//Evaluation" eOpposite="#//Evaluation/scenario"/>
+        eType="#//Evaluation" containment="true" eOpposite="#//Evaluation/scenario"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="groups" lowerBound="1"
         upperBound="-1" eType="#//EvaluationGroup" eOpposite="#//EvaluationGroup/scenarios"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/scenarios"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GRLNode" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="LinkRefBendpoint">
@@ -124,5 +133,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
         eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/groups"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+        eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/evaluationGroups"/>
   </eClassifiers>
 </ecore:EPackage>

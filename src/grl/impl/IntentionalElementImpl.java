@@ -9,6 +9,7 @@ package grl.impl;
 import grl.Criticality;
 import grl.DecompositionType;
 import grl.ElementLink;
+import grl.Evaluation;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -47,6 +48,7 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.IntentionalElementImpl#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getRefs <em>Refs</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementImpl#getEvals <em>Evals</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getLinksSrc <em>Links Src</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getLinksDest <em>Links Dest</em>}</li>
  * </ul>
@@ -204,6 +206,16 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * @ordered
      */
     protected EList refs = null;
+
+    /**
+     * The cached value of the '{@link #getEvals() <em>Evals</em>}' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getEvals()
+     * @generated
+     * @ordered
+     */
+    protected EList evals = null;
 
     /**
      * The cached value of the '{@link #getLinksSrc() <em>Links Src</em>}' reference list.
@@ -438,6 +450,18 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * <!-- end-user-doc -->
      * @generated
      */
+    public EList getEvals() {
+        if (evals == null) {
+            evals = new EObjectWithInverseResolvingEList(Evaluation.class, this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, GrlPackage.EVALUATION__INT_ELEMENT);
+        }
+        return evals;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EList getLinksSrc() {
         if (linksSrc == null) {
             linksSrc = new EObjectWithInverseResolvingEList(ElementLink.class, this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, GrlPackage.ELEMENT_LINK__SRC);
@@ -475,6 +499,8 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                     return eBasicSetContainer(otherEnd, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                    return ((InternalEList)getEvals()).basicAdd(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                     return ((InternalEList)getLinksSrc()).basicAdd(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
@@ -504,6 +530,8 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                     return eBasicSetContainer(null, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                    return ((InternalEList)getEvals()).basicRemove(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                     return ((InternalEList)getLinksSrc()).basicRemove(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
@@ -567,6 +595,8 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return getGrlspec();
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 return getRefs();
+            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                return getEvals();
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                 return getLinksSrc();
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:
@@ -626,6 +656,10 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 getRefs().clear();
                 getRefs().addAll((Collection)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                getEvals().clear();
+                getEvals().addAll((Collection)newValue);
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                 getLinksSrc().clear();
@@ -688,6 +722,9 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 getRefs().clear();
                 return;
+            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                getEvals().clear();
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                 getLinksSrc().clear();
                 return;
@@ -733,6 +770,8 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return getGrlspec() != null;
             case GrlPackage.INTENTIONAL_ELEMENT__REFS:
                 return refs != null && !refs.isEmpty();
+            case GrlPackage.INTENTIONAL_ELEMENT__EVALS:
+                return evals != null && !evals.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC:
                 return linksSrc != null && !linksSrc.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST:

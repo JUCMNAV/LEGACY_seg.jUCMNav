@@ -165,7 +165,11 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         figure.setLocation(location);
  
         setText();
-        
+
+        if (((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+            ((BeliefFigure) figure).setColors("75,75,75", "0,0,0", false);
+        } 
+
         // set information for specific drawing
         //Line color for belief is gray
         //((BeliefFigure) figure).setColors("165,165,165", "0,0,0", true);

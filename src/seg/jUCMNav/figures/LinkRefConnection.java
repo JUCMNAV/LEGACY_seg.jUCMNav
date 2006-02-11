@@ -11,8 +11,11 @@ import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 
@@ -44,19 +47,34 @@ public class LinkRefConnection extends PolylineConnection {
     public static final PointList LINE = new PointList();
     
     static {
-        DEPENDENCY_FIG.addPoint(0, 0);
-        DEPENDENCY_FIG.addPoint(1, -2);
-        DEPENDENCY_FIG.addPoint(5, -4);
-        DEPENDENCY_FIG.addPoint(10, -5);
-        
-        DEPENDENCY_FIG.addPoint(9, -3);
-        DEPENDENCY_FIG.addPoint(8, 0);
-        DEPENDENCY_FIG.addPoint(9, 3);
-        
-        DEPENDENCY_FIG.addPoint(10, 5);
+        //The dependency figure is the inverse of the other type of link
+        DEPENDENCY_FIG.addPoint(10,0);
+        DEPENDENCY_FIG.addPoint(9,-2);
+        DEPENDENCY_FIG.addPoint(5,-4);
+        DEPENDENCY_FIG.addPoint(0,-5);
+
+          DEPENDENCY_FIG.addPoint(1, -3);
+          DEPENDENCY_FIG.addPoint(2, 0);
+          DEPENDENCY_FIG.addPoint(1, 3);
+
+        DEPENDENCY_FIG.addPoint(0, 5);
         DEPENDENCY_FIG.addPoint(5, 4);
-        DEPENDENCY_FIG.addPoint(1, 2);
-        DEPENDENCY_FIG.addPoint(0,0);
+        DEPENDENCY_FIG.addPoint(9, 2);
+        DEPENDENCY_FIG.addPoint(10,0);
+        
+//        DEPENDENCY_FIG.addPoint(0, 0);
+//        DEPENDENCY_FIG.addPoint(1, -2);
+//        DEPENDENCY_FIG.addPoint(5, -4);
+//        DEPENDENCY_FIG.addPoint(10, -5);
+//        
+//        DEPENDENCY_FIG.addPoint(9, -3);
+//        DEPENDENCY_FIG.addPoint(8, 0);
+//        DEPENDENCY_FIG.addPoint(9, 3);
+//        
+//        DEPENDENCY_FIG.addPoint(10, 5);
+//        DEPENDENCY_FIG.addPoint(5, 4);
+//        DEPENDENCY_FIG.addPoint(1, 2);
+//        DEPENDENCY_FIG.addPoint(0,0);
         
         LINE.addPoint(-1,1);
         LINE.addPoint(-1,-1);
@@ -145,6 +163,23 @@ public class LinkRefConnection extends PolylineConnection {
     public void setForegroundColor(Color fg) {
         super.setForegroundColor(fg);
         depend.setForegroundColor(fg);
+    }
+
+    /**
+     * Sets the figure's colors. The default line color is black
+     * 
+     * @param lineColor
+     *            outline color
+     */
+    public void setColors(String lineColor) {
+        RGB color;
+
+        if (lineColor == null || lineColor.length() == 0) {
+            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        }
+
+        color = StringConverter.asRGB(lineColor);
+        setForegroundColor(new Color(Display.getCurrent(), color));
     }
     
     /**

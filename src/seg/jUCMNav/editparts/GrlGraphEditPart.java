@@ -90,14 +90,28 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
         return list;
     }
 
+    /**
+     * @return the IURNConnections
+     */
+    private List getConnections() {
+        List list = new ArrayList();
+
+        for (Iterator i = getDiagram().getConnections().iterator(); i.hasNext();) {
+            list.add(i.next());
+        }
+
+        return list;
+    }
+
     /* (non-Javadoc)
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
         refreshChildren();
 
-    }
 
+    }
+    
     /** 
      * (non-Javadoc)
      * 

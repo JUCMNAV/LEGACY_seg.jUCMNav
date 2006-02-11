@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -26,6 +27,7 @@ import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
@@ -33,7 +35,9 @@ import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolic
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.IntentionalElementFigure;
+import seg.jUCMNav.model.util.EvaluationScenarioManager;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
+import urncore.IURNConnection;
 import urncore.IURNNode;
 
 /**
@@ -46,6 +50,8 @@ import urncore.IURNNode;
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart{
 
     private GRLGraph diagram;
+    
+    private Label evaluationLabel;
     
     /**
      * 
@@ -89,6 +95,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     protected IFigure createFigure() {
         IntentionalElementFigure fig = new IntentionalElementFigure();
+        
+//        //Create the contribution label
+//        RelativeLocator reLocator = new RelativeLocator(fig,0);
+//
+//        evaluationLabel = new Label();
+//        //evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+//        fig.add(evaluationLabel, reLocator);
+//        evaluationLabel.setVisible(false);
         return fig;
     }
 
@@ -214,6 +228,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 }
             }
         }
+        
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
@@ -239,7 +254,34 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 (((IntentionalElementRef)getNode()).getDef() instanceof IntentionalElement)) {
             IntentionalElement elem = ((IntentionalElementRef)getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
-            ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
+            //Set the line color and fill color. Option only available in design view
+            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+                ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
+                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(false);
+//                evaluationLabel.setVisible(false);
+            } else { 
+                //Set scenario view to true
+                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(true);
+                //Get the evaluation value
+                int evaluation = EvaluationScenarioManager.getInstance().getEvaluation(getNode().getDef());
+//                evaluationLabel.setText(Integer.toString(evaluation));
+//                evaluationLabel.setVisible(true);
+                
+                String color;
+                if (evaluation == 0){
+                    color = "255,255,0";
+                } else {
+                    int partial = (Math.abs((Math.abs(evaluation)-100))*255/100);
+                    if (evaluation < 0){
+                        color = "255," + partial + ",0";
+                    } else{
+                        color = partial + ",255,0";
+                    }
+                }
+                ((IntentionalElementFigure) figure).setColors("75,75,75", color, true);
+                refreshConnections();
+            }
+            
         }
 
         
@@ -255,7 +297,16 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 //            (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
     
-        
+    private void refreshConnections(){
+        for (Iterator iter = getNode().getSucc().iterator(); iter.hasNext();) {
+            IURNConnection connect = (IURNConnection) iter.next();
+            AbstractConnectionEditPart refEditPart = (AbstractConnectionEditPart) getViewer().getEditPartRegistry().get(connect);
+            if (refEditPart != null) {
+                refEditPart.refresh();
+            }
+        }
+    }
+    
     public void setDiagram(GRLGraph graph){
         diagram = graph;
     }

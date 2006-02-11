@@ -15,6 +15,9 @@ import seg.jUCMNav.editparts.BeliefLinkEditPart;
  */
 public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
 
+    
+    private Color previousColor = new Color(null, 0, 0, 0);
+    
     /**
      * Convenience method to avoid casting.
      * 
@@ -52,7 +55,8 @@ public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
      * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
      */
     protected void hideSelection() {
-        getFigure().setForegroundColor(new Color(null, 0, 0, 0));
+        //Using previousColor to return to the previous color of the figure
+        getFigure().setForegroundColor(previousColor);
 
     }
 
@@ -61,6 +65,7 @@ public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
      *  
      */
     protected void showSelection() {
+        previousColor = getFigure().getForegroundColor();
         getFigure().setForegroundColor(new Color(null, 0, 102, 204));
     }
 }

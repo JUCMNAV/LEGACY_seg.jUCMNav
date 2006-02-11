@@ -109,13 +109,31 @@ public interface GrlPackage extends EPackage{
     int GR_LSPEC__LINKS = 3;
 
     /**
+     * The feature id for the '<em><b>Evaluation Groups</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LSPEC__EVALUATION_GROUPS = 4;
+
+    /**
+     * The feature id for the '<em><b>Scenarios</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LSPEC__SCENARIOS = 5;
+
+    /**
      * The number of structural features of the the '<em>GR Lspec</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GR_LSPEC_FEATURE_COUNT = 4;
+    int GR_LSPEC_FEATURE_COUNT = 6;
 
     /**
      * The meta object id for the '{@link grl.impl.GRLNodeImpl <em>GRL Node</em>}' class.
@@ -517,13 +535,22 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
+     * The feature id for the '<em><b>Evals</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__EVALS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
+
+    /**
      * The feature id for the '<em><b>Links Src</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
@@ -532,7 +559,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
+    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
 
     /**
      * The number of structural features of the the '<em>Intentional Element</em>' class.
@@ -541,7 +568,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
+    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 12;
 
     /**
      * The meta object id for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
@@ -1562,7 +1589,7 @@ public interface GrlPackage extends EPackage{
     int EVALUATION__INT_ELEMENT = 1;
 
     /**
-     * The feature id for the '<em><b>Scenario</b></em>' reference.
+     * The feature id for the '<em><b>Scenario</b></em>' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1635,7 +1662,7 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_SCENARIO__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
-     * The feature id for the '<em><b>Evaluations</b></em>' reference list.
+     * The feature id for the '<em><b>Evaluations</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -1653,13 +1680,22 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_SCENARIO__GROUPS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_SCENARIO__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+    /**
      * The number of structural features of the the '<em>Evaluation Scenario</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int EVALUATION_SCENARIO_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The meta object id for the '{@link grl.impl.LinkRefBendpointImpl <em>Link Ref Bendpoint</em>}' class.
@@ -1818,13 +1854,22 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_GROUP__SCENARIOS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
+     * The feature id for the '<em><b>Grlspec</b></em>' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_GROUP__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+    /**
      * The number of structural features of the the '<em>Evaluation Group</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int EVALUATION_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
@@ -1930,6 +1975,28 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EReference getGRLspec_Links();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link grl.GRLspec#getEvaluationGroups <em>Evaluation Groups</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Evaluation Groups</em>'.
+     * @see grl.GRLspec#getEvaluationGroups()
+     * @see #getGRLspec()
+     * @generated
+     */
+    EReference getGRLspec_EvaluationGroups();
+
+    /**
+     * Returns the meta object for the containment reference list '{@link grl.GRLspec#getScenarios <em>Scenarios</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference list '<em>Scenarios</em>'.
+     * @see grl.GRLspec#getScenarios()
+     * @see #getGRLspec()
+     * @generated
+     */
+    EReference getGRLspec_Scenarios();
 
     /**
      * Returns the meta object for class '{@link grl.Belief <em>Belief</em>}'.
@@ -2060,6 +2127,17 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EReference getIntentionalElement_Refs();
+
+    /**
+     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Evals</em>'.
+     * @see grl.IntentionalElement#getEvals()
+     * @see #getIntentionalElement()
+     * @generated
+     */
+    EReference getIntentionalElement_Evals();
 
     /**
      * Returns the meta object for the reference list '{@link grl.IntentionalElement#getLinksSrc <em>Links Src</em>}'.
@@ -2316,10 +2394,10 @@ public interface GrlPackage extends EPackage{
     EReference getEvaluation_IntElement();
 
     /**
-     * Returns the meta object for the reference '{@link grl.Evaluation#getScenario <em>Scenario</em>}'.
+     * Returns the meta object for the container reference '{@link grl.Evaluation#getScenario <em>Scenario</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Scenario</em>'.
+     * @return the meta object for the container reference '<em>Scenario</em>'.
      * @see grl.Evaluation#getScenario()
      * @see #getEvaluation()
      * @generated
@@ -2337,10 +2415,10 @@ public interface GrlPackage extends EPackage{
     EClass getEvaluationScenario();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
+     * Returns the meta object for the containment reference list '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Evaluations</em>'.
+     * @return the meta object for the containment reference list '<em>Evaluations</em>'.
      * @see grl.EvaluationScenario#getEvaluations()
      * @see #getEvaluationScenario()
      * @generated
@@ -2357,6 +2435,17 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EReference getEvaluationScenario_Groups();
+
+    /**
+     * Returns the meta object for the container reference '{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the container reference '<em>Grlspec</em>'.
+     * @see grl.EvaluationScenario#getGrlspec()
+     * @see #getEvaluationScenario()
+     * @generated
+     */
+    EReference getEvaluationScenario_Grlspec();
 
     /**
      * Returns the meta object for class '{@link grl.GRLNode <em>GRL Node</em>}'.
@@ -2441,6 +2530,17 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EReference getEvaluationGroup_Scenarios();
+
+    /**
+     * Returns the meta object for the container reference '{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the container reference '<em>Grlspec</em>'.
+     * @see grl.EvaluationGroup#getGrlspec()
+     * @see #getEvaluationGroup()
+     * @generated
+     */
+    EReference getEvaluationGroup_Grlspec();
 
     /**
      * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.

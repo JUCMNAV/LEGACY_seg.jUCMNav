@@ -7,6 +7,9 @@ import grl.BeliefLink;
 import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
+import grl.Evaluation;
+import grl.EvaluationGroup;
+import grl.EvaluationScenario;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.GrlFactory;
@@ -215,6 +218,12 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createBeliefLink();  
             } else if (targetClass.equals(LinkRefBendpoint.class)){
                 result = grlfactory.createLinkRefBendpoint();  
+            } else if (targetClass.equals(EvaluationGroup.class)){
+                result = grlfactory.createEvaluationGroup();  
+            } else if (targetClass.equals(EvaluationScenario.class)){
+                result = grlfactory.createEvaluationScenario();  
+            } else if (targetClass.equals(Evaluation.class)){
+                result = grlfactory.createEvaluation();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

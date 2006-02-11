@@ -2,6 +2,8 @@ package seg.jUCMNav.model.util;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.EvaluationGroup;
+import grl.EvaluationScenario;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
@@ -559,6 +561,22 @@ public class URNNamingHelper {
             if (elem.getName() == null || elem.getName().trim().length() == 0) {
                 elem.setName(elem.getType().getName() + " " + elem.getId());
             }
+        } else if (o instanceof EvaluationGroup) {
+            EvaluationGroup group = (EvaluationGroup) o;
+            if (group.getId() == null || group.getId().trim().length() == 0) {
+                group.setId(getNewID(urn));
+            }
+
+            if (group.getName() == null || group.getName().trim().length() == 0) {
+                group.setName(getPrefix(o.getClass()) + group.getId());
+            }
+        } else if (o instanceof EvaluationScenario) {
+            EvaluationScenario scenario = (EvaluationScenario) o;
+            if (scenario.getId() == null || scenario.getId().trim().length() == 0) {
+                scenario.setId(getNewID(urn));
+            }
+
+            scenario.setName("Scenario" + scenario.getId());
         } else if (o instanceof URNmodelElement) {
             URNmodelElement model = (URNmodelElement) o;
             if (model.getId() == null || model.getId().trim().length() == 0) {

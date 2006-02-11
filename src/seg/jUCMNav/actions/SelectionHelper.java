@@ -2,8 +2,11 @@ package seg.jUCMNav.actions;
 
 import grl.ActorRef;
 import grl.Belief;
+import grl.EvaluationGroup;
+import grl.EvaluationScenario;
 import grl.GRLGraph;
 import grl.GRLNode;
+import grl.GRLspec;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 
@@ -96,7 +99,8 @@ public class SelectionHelper {
     public static final int BELIEF = 202;
     public static final int INTENTIONALELEMENTREF = 203;
     public static final int LINKREF = 204;
-    
+    public static final int EVALUATIONGROUP = 205;
+    public static final int EVALUATIONSCENARIO = 206;
     
     // internal variables; for quick reference.
     private AndFork andfork;
@@ -128,8 +132,9 @@ public class SelectionHelper {
     private GRLGraph grlgraph;
     private IntentionalElementRef intentionalelementref;
     private LinkRef linkref;
+    private EvaluationGroup group;
+    private EvaluationScenario scenario;
     
-      
     public SelectionHelper(List selection) {
         setSelection(selection);
     }
@@ -296,6 +301,11 @@ public class SelectionHelper {
         } else if (model instanceof GRLGraph && ((GRLGraph) model).getUrndefinition() != null) {
             grlgraph = (GRLGraph) model;
             urnspec = grlgraph.getUrndefinition().getUrnspec();
+        } else if (model instanceof EvaluationGroup) {
+            group = (EvaluationGroup)model;
+            urnspec = group.getGrlspec().getUrnspec();
+        } else if (model instanceof GRLspec) {
+            urnspec = ((GRLspec)model).getUrnspec();
         } else if (model instanceof URNspec) {
             urnspec = (URNspec) model;
         }
@@ -455,6 +465,10 @@ public class SelectionHelper {
             selectionType = ACTORREF;
         else if (linkref != null)
             selectionType = LINKREF;
+        else if (group != null)
+            selectionType = EVALUATIONGROUP;
+        else if (scenario != null)
+            selectionType = EVALUATIONSCENARIO;
         else if (grlgraph != null)
             selectionType = GRLGRAPH;        
         else if (urnspec != null)
@@ -486,5 +500,13 @@ public class SelectionHelper {
 
     public LinkRef getLinkref() {
         return linkref;
+    }
+    
+    public EvaluationGroup getEvaluationGroup(){
+        return group;
+    }
+    
+    public EvaluationScenario getEvaluationScenario(){
+        return scenario;
     }
 }

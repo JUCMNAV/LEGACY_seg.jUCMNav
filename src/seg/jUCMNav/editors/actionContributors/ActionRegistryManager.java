@@ -27,6 +27,8 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
+import seg.jUCMNav.actions.AddEvaluationGroupAction;
+import seg.jUCMNav.actions.AddEvaluationScenarioAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -257,6 +259,13 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new AddEvaluationGroupAction((IWorkbenchPart)editor);
+        action.setText("Add Evaluation Group"); 
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddEvaluationScenarioAction((IWorkbenchPart)editor);
+        action.setText("Add Evaluation Scenario"); 
+        addEditPartAction((SelectionAction) action);
     }
 
     /**

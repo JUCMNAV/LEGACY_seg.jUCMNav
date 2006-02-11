@@ -20,6 +20,7 @@ import urncore.GRLmodelElement;
  * <ul>
  *   <li>{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getGroups <em>Groups</em>}</li>
+ *   <li>{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,9 +28,9 @@ import urncore.GRLmodelElement;
  * @model
  * @generated
  */
-public interface EvaluationScenario extends GRLmodelElement {
+public interface EvaluationScenario extends GRLmodelElement{
     /**
-     * Returns the value of the '<em><b>Evaluations</b></em>' reference list.
+     * Returns the value of the '<em><b>Evaluations</b></em>' containment reference list.
      * The list contents are of type {@link grl.Evaluation}.
      * It is bidirectional and its opposite is '{@link grl.Evaluation#getScenario <em>Scenario</em>}'.
      * <!-- begin-user-doc -->
@@ -38,10 +39,10 @@ public interface EvaluationScenario extends GRLmodelElement {
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Evaluations</em>' reference list.
+     * @return the value of the '<em>Evaluations</em>' containment reference list.
      * @see grl.GrlPackage#getEvaluationScenario_Evaluations()
      * @see grl.Evaluation#getScenario
-     * @model type="grl.Evaluation" opposite="scenario"
+     * @model type="grl.Evaluation" opposite="scenario" containment="true"
      * @generated
      */
     EList getEvaluations();
@@ -63,5 +64,33 @@ public interface EvaluationScenario extends GRLmodelElement {
      * @generated
      */
     EList getGroups();
+
+    /**
+     * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
+     * It is bidirectional and its opposite is '{@link grl.GRLspec#getScenarios <em>Scenarios</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Grlspec</em>' container reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Grlspec</em>' container reference.
+     * @see #setGrlspec(GRLspec)
+     * @see grl.GrlPackage#getEvaluationScenario_Grlspec()
+     * @see grl.GRLspec#getScenarios
+     * @model opposite="scenarios" required="true"
+     * @generated
+     */
+    GRLspec getGrlspec();
+
+    /**
+     * Sets the value of the '{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}' container reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Grlspec</em>' container reference.
+     * @see #getGrlspec()
+     * @generated
+     */
+    void setGrlspec(GRLspec value);
 
 } // EvaluationScenario

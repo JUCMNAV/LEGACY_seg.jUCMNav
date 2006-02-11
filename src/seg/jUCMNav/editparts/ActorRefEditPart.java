@@ -125,7 +125,12 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         // set information for specific drawing
         if (getActorRef().getContDef() instanceof Actor) {
             Actor actor = (Actor) getActorRef().getContDef();
-            ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
+            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+                ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
+            } else { 
+                ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled());
+            }
+            
         }
 
         //   Make the label recenter itself.

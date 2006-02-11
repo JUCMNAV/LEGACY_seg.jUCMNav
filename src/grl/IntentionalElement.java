@@ -27,6 +27,7 @@ import urncore.GRLmodelElement;
  *   <li>{@link grl.IntentionalElement#isFilled <em>Filled</em>}</li>
  *   <li>{@link grl.IntentionalElement#getGrlspec <em>Grlspec</em>}</li>
  *   <li>{@link grl.IntentionalElement#getRefs <em>Refs</em>}</li>
+ *   <li>{@link grl.IntentionalElement#getEvals <em>Evals</em>}</li>
  *   <li>{@link grl.IntentionalElement#getLinksSrc <em>Links Src</em>}</li>
  *   <li>{@link grl.IntentionalElement#getLinksDest <em>Links Dest</em>}</li>
  * </ul>
@@ -36,7 +37,7 @@ import urncore.GRLmodelElement;
  * @model
  * @generated
  */
-public interface IntentionalElement extends GRLmodelElement {
+public interface IntentionalElement extends GRLmodelElement{
     /**
      * Returns the value of the '<em><b>Type</b></em>' attribute.
      * The literals are from the enumeration {@link grl.IntentionalElementType}.
@@ -280,6 +281,24 @@ public interface IntentionalElement extends GRLmodelElement {
      * @generated
      */
     EList getRefs();
+
+    /**
+     * Returns the value of the '<em><b>Evals</b></em>' reference list.
+     * The list contents are of type {@link grl.Evaluation}.
+     * It is bidirectional and its opposite is '{@link grl.Evaluation#getIntElement <em>Int Element</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Evals</em>' reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Evals</em>' reference list.
+     * @see grl.GrlPackage#getIntentionalElement_Evals()
+     * @see grl.Evaluation#getIntElement
+     * @model type="grl.Evaluation" opposite="intElement"
+     * @generated
+     */
+    EList getEvals();
 
     /**
      * Returns the value of the '<em><b>Links Src</b></em>' reference list.

@@ -24,6 +24,8 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getIntElements <em>Int Elements</em>}</li>
  *   <li>{@link grl.GRLspec#getActors <em>Actors</em>}</li>
  *   <li>{@link grl.GRLspec#getLinks <em>Links</em>}</li>
+ *   <li>{@link grl.GRLspec#getEvaluationGroups <em>Evaluation Groups</em>}</li>
+ *   <li>{@link grl.GRLspec#getScenarios <em>Scenarios</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,7 +33,7 @@ import urn.URNspec;
  * @model
  * @generated
  */
-public interface GRLspec extends EObject {
+public interface GRLspec extends EObject{
     /**
      * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urn.URNspec#getGrlspec <em>Grlspec</em>}'.
@@ -113,5 +115,41 @@ public interface GRLspec extends EObject {
      * @generated
      */
     EList getLinks();
+
+    /**
+     * Returns the value of the '<em><b>Evaluation Groups</b></em>' containment reference list.
+     * The list contents are of type {@link grl.EvaluationGroup}.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Evaluation Groups</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Evaluation Groups</em>' containment reference list.
+     * @see grl.GrlPackage#getGRLspec_EvaluationGroups()
+     * @see grl.EvaluationGroup#getGrlspec
+     * @model type="grl.EvaluationGroup" opposite="grlspec" containment="true"
+     * @generated
+     */
+    EList getEvaluationGroups();
+
+    /**
+     * Returns the value of the '<em><b>Scenarios</b></em>' containment reference list.
+     * The list contents are of type {@link grl.EvaluationScenario}.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}'.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Scenarios</em>' containment reference list isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Scenarios</em>' containment reference list.
+     * @see grl.GrlPackage#getGRLspec_Scenarios()
+     * @see grl.EvaluationScenario#getGrlspec
+     * @model type="grl.EvaluationScenario" opposite="grlspec" containment="true"
+     * @generated
+     */
+    EList getScenarios();
 
 } // GRLspec

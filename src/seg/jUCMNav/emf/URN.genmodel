@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>E:\Jean-Francois\Universite\EclipseProject\URN_12.mdl</foreignModel>
+  <foreignModel>E:\Jean-Francois\Universite\EclipseProject\URN_10.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -196,6 +196,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/intElements"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/actors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/links"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/evaluationGroups"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/scenarios"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Belief">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Belief/author"/>
@@ -210,6 +212,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/filled"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/grlspec"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/refs"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/evals"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/linksSrc"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElement/linksDest"/>
     </genClasses>
@@ -245,6 +248,7 @@
     <genClasses ecoreClass="grl.ecore#//EvaluationScenario">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/evaluations"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/groups"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/grlspec"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//GRLNode"/>
     <genClasses ecoreClass="grl.ecore#//LinkRefBendpoint">
@@ -255,6 +259,7 @@
     <genClasses ecoreClass="grl.ecore#//BeliefLink"/>
     <genClasses ecoreClass="grl.ecore#//EvaluationGroup">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationGroup/scenarios"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationGroup/grlspec"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Ucm" ecorePackage="ucm.ecore#/">
