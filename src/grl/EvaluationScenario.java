@@ -18,6 +18,7 @@ import urncore.GRLmodelElement;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link grl.EvaluationScenario#getAuthor <em>Author</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getGroups <em>Groups</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}</li>
@@ -29,6 +30,32 @@ import urncore.GRLmodelElement;
  * @generated
  */
 public interface EvaluationScenario extends GRLmodelElement{
+    /**
+     * Returns the value of the '<em><b>Author</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Author</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Author</em>' attribute.
+     * @see #setAuthor(String)
+     * @see grl.GrlPackage#getEvaluationScenario_Author()
+     * @model
+     * @generated
+     */
+    String getAuthor();
+
+    /**
+     * Sets the value of the '{@link grl.EvaluationScenario#getAuthor <em>Author</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Author</em>' attribute.
+     * @see #getAuthor()
+     * @generated
+     */
+    void setAuthor(String value);
+
     /**
      * Returns the value of the '<em><b>Evaluations</b></em>' containment reference list.
      * The list contents are of type {@link grl.Evaluation}.

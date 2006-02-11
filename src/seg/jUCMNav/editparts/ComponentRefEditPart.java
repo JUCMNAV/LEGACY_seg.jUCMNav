@@ -129,7 +129,12 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         if (getComponentRef().getContDef() instanceof Component) {
             Component comp = (Component) getComponentRef().getContDef();
             ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
-            ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
+            if (!((UCMConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+                ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
+            } else { 
+                ((ComponentRefFigure) figure).setColors("75,75,75", comp.getFillColor(), comp.isFilled());
+            }
+            
         }
 
         //   Make the label recenter itself.

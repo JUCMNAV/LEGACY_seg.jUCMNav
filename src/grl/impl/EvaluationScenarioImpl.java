@@ -39,6 +39,7 @@ import urncore.impl.GRLmodelElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link grl.impl.EvaluationScenarioImpl#getAuthor <em>Author</em>}</li>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getEvaluations <em>Evaluations</em>}</li>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getGroups <em>Groups</em>}</li>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getGrlspec <em>Grlspec</em>}</li>
@@ -48,6 +49,26 @@ import urncore.impl.GRLmodelElementImpl;
  * @generated
  */
 public class EvaluationScenarioImpl extends GRLmodelElementImpl implements EvaluationScenario {
+    /**
+     * The default value of the '{@link #getAuthor() <em>Author</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getAuthor()
+     * @generated
+     * @ordered
+     */
+    protected static final String AUTHOR_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getAuthor() <em>Author</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getAuthor()
+     * @generated
+     * @ordered
+     */
+    protected String author = AUTHOR_EDEFAULT;
+
     /**
      * The cached value of the '{@link #getEvaluations() <em>Evaluations</em>}' containment reference list.
      * <!-- begin-user-doc -->
@@ -84,6 +105,27 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
      */
     protected EClass eStaticClass() {
         return GrlPackage.eINSTANCE.getEvaluationScenario();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getAuthor() {
+        return author;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setAuthor(String newAuthor) {
+        String oldAuthor = author;
+        author = newAuthor;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_SCENARIO__AUTHOR, oldAuthor, author));
     }
 
     /**
@@ -229,6 +271,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return getName();
             case GrlPackage.EVALUATION_SCENARIO__DESCRIPTION:
                 return getDescription();
+            case GrlPackage.EVALUATION_SCENARIO__AUTHOR:
+                return getAuthor();
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 return getEvaluations();
             case GrlPackage.EVALUATION_SCENARIO__GROUPS:
@@ -262,6 +306,9 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return;
             case GrlPackage.EVALUATION_SCENARIO__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case GrlPackage.EVALUATION_SCENARIO__AUTHOR:
+                setAuthor((String)newValue);
                 return;
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 getEvaluations().clear();
@@ -300,6 +347,9 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
             case GrlPackage.EVALUATION_SCENARIO__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
+            case GrlPackage.EVALUATION_SCENARIO__AUTHOR:
+                setAuthor(AUTHOR_EDEFAULT);
+                return;
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 getEvaluations().clear();
                 return;
@@ -330,6 +380,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.EVALUATION_SCENARIO__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case GrlPackage.EVALUATION_SCENARIO__AUTHOR:
+                return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 return evaluations != null && !evaluations.isEmpty();
             case GrlPackage.EVALUATION_SCENARIO__GROUPS:
@@ -338,6 +390,21 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return getGrlspec() != null;
         }
         return eDynamicIsSet(eFeature);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String toString() {
+        if (eIsProxy()) return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (author: ");
+        result.append(author);
+        result.append(')');
+        return result.toString();
     }
 
 } //EvaluationScenarioImpl

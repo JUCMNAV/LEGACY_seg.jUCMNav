@@ -222,6 +222,7 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createEvaluationGroup();  
             } else if (targetClass.equals(EvaluationScenario.class)){
                 result = grlfactory.createEvaluationScenario();  
+                ((EvaluationScenario)result).setAuthor(GeneralPreferencePage.getAuthor());
             } else if (targetClass.equals(Evaluation.class)){
                 result = grlfactory.createEvaluation();
             } else {

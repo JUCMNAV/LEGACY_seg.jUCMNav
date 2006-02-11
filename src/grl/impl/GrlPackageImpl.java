@@ -727,8 +727,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Evaluations() {
-        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(0);
+    public EAttribute getEvaluationScenario_Author() {
+        return (EAttribute)evaluationScenarioEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -736,7 +736,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Groups() {
+    public EReference getEvaluationScenario_Evaluations() {
         return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(1);
     }
 
@@ -745,8 +745,17 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Grlspec() {
+    public EReference getEvaluationScenario_Groups() {
         return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getEvaluationScenario_Grlspec() {
+        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -962,6 +971,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         createEReference(evaluationEClass, EVALUATION__SCENARIO);
 
         evaluationScenarioEClass = createEClass(EVALUATION_SCENARIO);
+        createEAttribute(evaluationScenarioEClass, EVALUATION_SCENARIO__AUTHOR);
         createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__EVALUATIONS);
         createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__GROUPS);
         createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__GRLSPEC);
@@ -1095,6 +1105,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEReference(getEvaluation_Scenario(), this.getEvaluationScenario(), this.getEvaluationScenario_Evaluations(), "scenario", null, 1, 1, Evaluation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(evaluationScenarioEClass, EvaluationScenario.class, "EvaluationScenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getEvaluationScenario_Author(), ecorePackage.getEString(), "author", null, 0, 1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluationScenario_Evaluations(), this.getEvaluation(), this.getEvaluation_Scenario(), "evaluations", null, 0, -1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluationScenario_Groups(), this.getEvaluationGroup(), this.getEvaluationGroup_Scenarios(), "groups", null, 1, -1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluationScenario_Grlspec(), this.getGRLspec(), this.getGRLspec_Scenarios(), "grlspec", null, 1, 1, EvaluationScenario.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

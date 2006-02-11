@@ -139,6 +139,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
         if (partRef.getPart(false) instanceof UCMNavMultiPageEditor && partRef.getPage().getActiveEditor() == null) {
             viewer.setContents(null);
         }
+        currentScenario = null;
     }
 
     /*
@@ -277,7 +278,8 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             showScenarioView.setChecked(false);
             
             currentView = ID_DESIGN;
-            if ((EvaluationScenarioManager.getInstance()).getEvaluationScenario() != null){
+            if (currentScenario != null){
+                EvaluationScenarioManager.getInstance().setEvaluationScenario(null);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
@@ -288,7 +290,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             showScenarioView.setChecked(true);
             
             currentView = ID_SCENARIO;
-            if ((EvaluationScenarioManager.getInstance()).getEvaluationScenario() != null){
+            if (currentScenario != null){
                 EvaluationScenarioManager.getInstance().setEvaluationScenario(currentScenario);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);

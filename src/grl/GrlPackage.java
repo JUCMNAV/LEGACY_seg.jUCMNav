@@ -1662,13 +1662,22 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_SCENARIO__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
+     * The feature id for the '<em><b>Author</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_SCENARIO__AUTHOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Evaluations</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int EVALUATION_SCENARIO__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Groups</b></em>' reference list.
@@ -1677,7 +1686,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO__GROUPS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int EVALUATION_SCENARIO__GROUPS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -1686,7 +1695,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int EVALUATION_SCENARIO__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The number of structural features of the the '<em>Evaluation Scenario</em>' class.
@@ -1695,7 +1704,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int EVALUATION_SCENARIO_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The meta object id for the '{@link grl.impl.LinkRefBendpointImpl <em>Link Ref Bendpoint</em>}' class.
@@ -2413,6 +2422,17 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EClass getEvaluationScenario();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.EvaluationScenario#getAuthor <em>Author</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Author</em>'.
+     * @see grl.EvaluationScenario#getAuthor()
+     * @see #getEvaluationScenario()
+     * @generated
+     */
+    EAttribute getEvaluationScenario_Author();
 
     /**
      * Returns the meta object for the containment reference list '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.

@@ -28,14 +28,19 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -97,12 +102,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         IntentionalElementFigure fig = new IntentionalElementFigure();
         
 //        //Create the contribution label
-//        RelativeLocator reLocator = new RelativeLocator(fig,0);
+//        RelativeLocator reLocator = new RelativeLocator();
 //
-//        evaluationLabel = new Label();
-//        //evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
-//        fig.add(evaluationLabel, reLocator);
-//        evaluationLabel.setVisible(false);
+        evaluationLabel = new Label();
+        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_LINKREFLABELCOLOR );
+        evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+        evaluationLabel.setOpaque(true);
+        //fig.add(evaluationLabel, reLocator);
+        evaluationLabel.setVisible(false);
         return fig;
     }
 
@@ -264,8 +271,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(true);
                 //Get the evaluation value
                 int evaluation = EvaluationScenarioManager.getInstance().getEvaluation(getNode().getDef());
-//                evaluationLabel.setText(Integer.toString(evaluation));
-//                evaluationLabel.setVisible(true);
+                evaluationLabel.setText("HAHAHAHA");
+                evaluationLabel.setVisible(true);
                 
                 String color;
                 if (evaluation == 0){

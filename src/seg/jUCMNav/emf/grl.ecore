@@ -115,6 +115,7 @@
         eType="#//EvaluationScenario" transient="true" eOpposite="#//EvaluationScenario/evaluations"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationScenario" eSuperTypes="urncore.ecore#//GRLmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1"
         eType="#//Evaluation" containment="true" eOpposite="#//Evaluation/scenario"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="groups" lowerBound="1"

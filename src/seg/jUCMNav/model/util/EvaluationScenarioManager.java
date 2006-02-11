@@ -67,29 +67,31 @@ public class EvaluationScenarioManager {
     
     public void setEvaluationScenario(EvaluationScenario scen){
         scenario = scen;
-        
+
         //Create a new hash map for this scenario
         evaluations = new HashMap();
+        if (scenario != null){
         //Go through all the intentionalElement and create a new Evaluation object if no one exist for this scenario
-        GRLspec grl = scenario.getGrlspec();
-        Iterator it = grl.getIntElements().iterator();
-        while (it.hasNext()){
-            IntentionalElement elem = (IntentionalElement)it.next();
-            //Verify if an evaluation exist for this scenario. This could create performance problem!!!!
-            Iterator sc = scenario.getEvaluations().iterator();
-            Evaluation eval = null;
-            while(sc.hasNext() && eval == null){
-                Evaluation temp = (Evaluation)sc.next();
-                if (temp.getIntElement() == elem){
-                    eval = temp;
+            GRLspec grl = scenario.getGrlspec();
+            Iterator it = grl.getIntElements().iterator();
+            while (it.hasNext()){
+                IntentionalElement elem = (IntentionalElement)it.next();
+                //Verify if an evaluation exist for this scenario. This could create performance problem!!!!
+                Iterator sc = scenario.getEvaluations().iterator();
+                Evaluation eval = null;
+                while(sc.hasNext() && eval == null){
+                    Evaluation temp = (Evaluation)sc.next();
+                    if (temp.getIntElement() == elem){
+                        eval = temp;
+                    }
                 }
+                if (eval == null){
+                    eval = (Evaluation)ModelCreationFactory.getNewObject(grl.getUrnspec(), Evaluation.class);
+                }
+                evaluations.put(elem,eval);
             }
-            if (eval == null){
-                eval = (Evaluation)ModelCreationFactory.getNewObject(grl.getUrnspec(), Evaluation.class);
-            }
-            evaluations.put(elem,eval);
+            calculateEvaluation();
         }
-        calculateEvaluation();
     }
     
     public Evaluation getEvaluationObject(IntentionalElement elem){

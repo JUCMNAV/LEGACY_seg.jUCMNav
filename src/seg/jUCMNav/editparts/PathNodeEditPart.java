@@ -20,6 +20,9 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
@@ -43,7 +46,6 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -52,6 +54,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Timer;
+import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 
 /**
@@ -449,6 +452,14 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // and will not draw it correctly.
         ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
+        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+            
+            nodeFigure.setForegroundColor(
+                    new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));
+        } else{
+            nodeFigure.setForegroundColor(
+                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0")));
+        }
     }
 
     /**
