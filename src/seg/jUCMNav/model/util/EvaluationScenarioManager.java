@@ -3,6 +3,8 @@
  */
 package seg.jUCMNav.model.util;
 
+import grl.Contribution;
+import grl.ContributionType;
 import grl.Decomposition;
 import grl.DecompositionType;
 import grl.Dependency;
@@ -164,6 +166,8 @@ public class EvaluationScenarioManager {
         int result = eval.getEvaluation();
         int decompositionValue = -10000;
         int dependencyValue = -10000;
+        int [] contributionValues = new int[100];
+        int contribArrayIt = 0;
         
         Iterator it = element.getLinksDest().iterator(); //Return the list of elementlink
         while (it.hasNext()){
@@ -184,10 +188,74 @@ public class EvaluationScenarioManager {
                 if (dependencyValue < ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
                     dependencyValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                 }
+            } else if (link instanceof Contribution){
+                Contribution contrib = (Contribution)link;
+                if (contrib.getContribution().getValue() != ContributionType.UNKNOWN){
+                    int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                    //The source node value is between -100 and 100. For the contribution calculation, 
+                    //denied value correspond to 0. The value should be between 0 and 100.
+                    srcNode = 50 + srcNode/2;
+                    
+                    double resultContrib;
+                    switch (contrib.getContribution().getValue()){
+                        case ContributionType.MAKE:
+                            resultContrib = srcNode;
+                            break;
+                        case ContributionType.HELP:
+                            resultContrib = srcNode * 0.5;
+                            break;
+                        case ContributionType.SOME_POSITIVE:
+                            resultContrib = srcNode * 0.25;
+                            break;
+                        case ContributionType.SOME_NEGATIVE:
+                            resultContrib = srcNode * -0.25;
+                            break;
+                        case ContributionType.HURT:
+                            resultContrib = srcNode * -0.5;
+                            break;
+                        case ContributionType.BREAK:
+                            resultContrib = srcNode * -1;
+                            break;
+                        default:
+                            resultContrib = 0;
+                            break;
+                    }
+                    if (resultContrib != 0){
+                        contributionValues[contribArrayIt] = 
+                            (new Double(Math.round(resultContrib))).intValue();
+                        contribArrayIt++;
+                    }
+                }
             }
         }
         if (decompositionValue >=-100){
             result = decompositionValue;
+        }
+        if (contributionValues.length > 0){
+            int numDenied = 0;
+            int numSatisfied = 0;
+            int contribValue = 0;
+            
+            for (int i=0;i<contribArrayIt;i++){
+                if (contributionValues[i] == 100){
+                    numSatisfied++;
+                } else if(contributionValues[i] == -100){
+                    numDenied++;
+                }
+                contribValue += contributionValues[i];
+            }
+            
+            if (contribValue > 90 && numSatisfied == 0){
+                contribValue = 90;
+            } else if (contribValue < -90 && numDenied == 0){
+                contribValue = -90;
+            }
+            result = result + contribValue;
+            
+            if (result > 100 || result<-100){
+                result = (result/Math.abs(result))*100;
+            }
+            
         }
         if ((dependencyValue >= -100) && (result > dependencyValue)){
             result = dependencyValue;
