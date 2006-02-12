@@ -8,6 +8,7 @@ import grl.IntentionalElementType;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -213,7 +214,10 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         r.width = width;
         r.height = height;
         setConstraint(flowPage,r);
+        Point p = new Point(0,0);
         
+
+       
         setSize(width + 2*LABEL_PADDING_X, height + 2*LABEL_PADDING_Y);
 
     }

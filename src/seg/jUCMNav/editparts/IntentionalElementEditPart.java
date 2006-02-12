@@ -5,6 +5,7 @@ package seg.jUCMNav.editparts;
 
 import grl.Decomposition;
 import grl.ElementLink;
+import grl.Evaluation;
 import grl.GRLGraph;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -29,6 +30,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -101,15 +103,13 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     protected IFigure createFigure() {
         IntentionalElementFigure fig = new IntentionalElementFigure();
         
-//        //Create the contribution label
-//        RelativeLocator reLocator = new RelativeLocator();
-//
         evaluationLabel = new Label();
         RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_LINKREFLABELCOLOR );
         evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
-        evaluationLabel.setOpaque(true);
-        //fig.add(evaluationLabel, reLocator);
         evaluationLabel.setVisible(false);
+
+        evaluationLabel.setSize(50,16);
+        ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
         return fig;
     }
 
@@ -265,27 +265,47 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(false);
-//                evaluationLabel.setVisible(false);
+                evaluationLabel.setVisible(false);
             } else { 
                 //Set scenario view to true
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(true);
                 //Get the evaluation value
-                int evaluation = EvaluationScenarioManager.getInstance().getEvaluation(getNode().getDef());
-                evaluationLabel.setText("HAHAHAHA");
-                evaluationLabel.setVisible(true);
+                Evaluation evaluation = EvaluationScenarioManager.getInstance().getEvaluationObject(getNode().getDef());
                 
                 String color;
-                if (evaluation == 0){
+                if (evaluation.getEvaluation() == 0){
                     color = "255,255,0";
                 } else {
-                    int partial = (Math.abs((Math.abs(evaluation)-100))*255/100);
-                    if (evaluation < 0){
+                    int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
+                    if (evaluation.getEvaluation() < 0){
                         color = "255," + partial + ",0";
                     } else{
                         color = partial + ",255,0";
                     }
                 }
                 ((IntentionalElementFigure) figure).setColors("75,75,75", color, true);
+                String text = String.valueOf(evaluation.getEvaluation());
+                if (evaluation.getScenario() != null){
+                    text = text + "*";
+                }
+                evaluationLabel.setText(text);
+                Point position = getNodeFigure().getLocation();
+                position.y = position.y -16;
+                //position.x = position.x + getNodeFigure().getBounds().width;
+                evaluationLabel.setLocation(position);
+                evaluationLabel.setVisible(true);
+                //Set the label icon
+                if (evaluation.getEvaluation() == -100){
+                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage());    
+                } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
+                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage());
+                } else if (evaluation.getEvaluation() == 0){
+                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage());
+                } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
+                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage());
+                } else if (evaluation.getEvaluation() == 100){
+                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage());
+                } 
                 refreshConnections();
             }
             

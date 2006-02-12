@@ -162,7 +162,7 @@ public class EvaluationScenarioManager {
     
     private void calculateElementEvaluation(IntentionalElement element){
         Evaluation eval = (Evaluation)evaluations.get(element);
-        if (element.getLinksDest().size() == 0){
+        if ((element.getLinksDest().size() == 0) || (eval.getScenario() != null)){
             return;
         }
         int result = eval.getEvaluation();
