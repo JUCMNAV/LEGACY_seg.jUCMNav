@@ -33,6 +33,7 @@ import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -55,7 +56,7 @@ public class LabelEditPart extends ModelElementEditPart {
     // label padding
     protected static final int LABEL_PADDING_X = 6;
     protected static final int LABEL_PADDING_Y = 4;
-    
+
     // when referencing comprefs, the label's text is contained in the definition.
     private IURNContainer comp = null;
 
@@ -104,12 +105,12 @@ public class LabelEditPart extends ModelElementEditPart {
         if (!isActive()) {
             modelElement.eAdapters().add(this);
             if (modelElement instanceof IURNContainerRef && ((IURNContainerRef) modelElement).getContDef() != null) {
-                comp = (IURNContainer)((IURNContainerRef) modelElement).getContDef();
+                comp = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
                 comp.eAdapters().add(this);
             } else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
                 resp = ((RespRef) modelElement).getRespDef();
                 resp.eAdapters().add(this);
-            } 
+            }
         }
         super.activate();
     }
@@ -123,7 +124,7 @@ public class LabelEditPart extends ModelElementEditPart {
      *            the urncore.Label to be drawn.
      * @param labelDimension
      *            its dimensions.
-     * @return the point where the label should be located. 
+     * @return the point where the label should be located.
      */
     protected Point calculateModelElementPosition(Label label, Dimension labelDimension) {
         Point location = null;
@@ -134,9 +135,10 @@ public class LabelEditPart extends ModelElementEditPart {
                     - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
         } else if (modelElement instanceof IURNContainerRef) {
             IURNContainerRef component = (IURNContainerRef) modelElement;
-            if (modelElement instanceof ActorRef){
-                location = new Point(component.getX() + component.getWidth()/2 - label.getDeltaX() - labelDimension.width/2,component.getY() - label.getDeltaY() - labelDimension.height);
-            } else{
+            if (modelElement instanceof ActorRef) {
+                location = new Point(component.getX() + component.getWidth() / 2 - label.getDeltaX() - labelDimension.width / 2, component.getY()
+                        - label.getDeltaY() - labelDimension.height);
+            } else {
                 location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
             }
         } else {
@@ -154,9 +156,9 @@ public class LabelEditPart extends ModelElementEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-        if ((getModelObj() instanceof NodeLabel && 
-                ((NodeLabel)getModelObj()).getNode() instanceof UCMmodelElement) || (getModelObj() instanceof ComponentLabel && 
-                        ((ComponentLabel)getModelObj()).getContRef() instanceof UCMmodelElement)){
+        if ((getModelObj() instanceof NodeLabel && ((NodeLabel) getModelObj()).getNode() instanceof UCMmodelElement)
+                || (getModelObj() instanceof ComponentLabel && ((ComponentLabel) getModelObj()).getContRef() instanceof UCMmodelElement)
+                || (getModelObj() instanceof Condition)) {
             installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
         }
     }
@@ -247,7 +249,7 @@ public class LabelEditPart extends ModelElementEditPart {
 
     /**
      * When the label's model element definition changes, we must change our references.
-     *  
+     * 
      */
     public void notifyChanged(Notification notification) {
         int type = notification.getEventType();
@@ -261,11 +263,11 @@ public class LabelEditPart extends ModelElementEditPart {
                 if (modelElement instanceof IURNContainerRef) {
                     if (comp != null)
                         comp.eAdapters().remove(this);
-                    comp = (IURNContainer)((IURNContainerRef) modelElement).getContDef();
+                    comp = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
                     if (comp != null)
                         comp.eAdapters().add(this);
                 }
-            } else if (featureIdUcm == MapPackage.RESP_REF__RESP_DEF){ // if changing responsibility definitions
+            } else if (featureIdUcm == MapPackage.RESP_REF__RESP_DEF) { // if changing responsibility definitions
                 if (modelElement instanceof RespRef) {
                     if (resp != null)
                         resp.eAdapters().remove(this);
@@ -273,7 +275,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     if (resp != null)
                         resp.eAdapters().add(this);
                 }
-            } 
+            }
 
             // something changed; inform parent. not sure how useful this is anymore
             if (getParent() != null) {
@@ -286,7 +288,7 @@ public class LabelEditPart extends ModelElementEditPart {
 
     /**
      * Opens the direct edit manager.
-     *  
+     * 
      */
     protected void performDirectEdit() {
         if (manager == null) {
@@ -311,7 +313,7 @@ public class LabelEditPart extends ModelElementEditPart {
             if (request instanceof DirectEditRequest && !directEditHitTest(((DirectEditRequest) request).getLocation().getCopy()))
                 return;
             performDirectEdit();
-        } 
+        }
     }
 
     /**
@@ -325,43 +327,33 @@ public class LabelEditPart extends ModelElementEditPart {
             // set the label's text
             setLabelText();
 
-            //The position of the new figure
+            // The position of the new figure
             Point location;
             Dimension newLabelDimension;
             if (getParent() != null) {
                 Dimension dimEditableLabel = labelFigure.getPreferredSize().getCopy();
-                
-                //If the associate element is a GRL node, we want to fix size of this element based on 
-                //the size of the label text
-/*                if (modelElement instanceof GRLNode){
-                    GRLNode grlnode = (GRLNode)modelElement;
-                    
-                    //Set the size of the elements based on the size of the text
-                    
-                    //Max size available for the label
-                    int width = ModelCreationFactory.DEFAULT_GRL_NODE_WIDTH - LABEL_GRL_PADDING_X - LABEL_PADDING_X;
-                    int height = ModelCreationFactory.DEFAULT_GRL_NODE_HEIGHT - LABEL_GRL_PADDING_Y - LABEL_PADDING_Y;
-                    
-                    //Loop until we have good dimension for the labels to fit in the node
-                    while (dimEditableLabel.width > (width* Math.floor(height/dimEditableLabel.height))){
-                        height = height + 10;
-                        width = width + 20;
-                    }
-                    newLabelDimension = new Dimension(width + LABEL_PADDING_X, height + LABEL_PADDING_Y);
 
-                    //Define size of the node to have the label
-                    int nodewidth = newLabelDimension.width + LABEL_GRL_PADDING_X;
-                    int nodeheight = newLabelDimension.height + LABEL_GRL_PADDING_Y;
-                    
-                    if(grlnode.getWidth() != nodewidth){
-                        grlnode.setWidth(nodewidth);                       
-                    }
-                    if (grlnode.getHeight() != nodeheight){
-                        grlnode.setHeight(nodeheight);
-                    }
-                } else{
-*/
-                newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y); 
+                // If the associate element is a GRL node, we want to fix size of this element based on
+                // the size of the label text
+                /*
+                 * if (modelElement instanceof GRLNode){ GRLNode grlnode = (GRLNode)modelElement;
+                 * 
+                 * //Set the size of the elements based on the size of the text
+                 * 
+                 * //Max size available for the label int width = ModelCreationFactory.DEFAULT_GRL_NODE_WIDTH - LABEL_GRL_PADDING_X - LABEL_PADDING_X; int
+                 * height = ModelCreationFactory.DEFAULT_GRL_NODE_HEIGHT - LABEL_GRL_PADDING_Y - LABEL_PADDING_Y;
+                 * 
+                 * //Loop until we have good dimension for the labels to fit in the node while (dimEditableLabel.width > (width*
+                 * Math.floor(height/dimEditableLabel.height))){ height = height + 10; width = width + 20; } newLabelDimension = new Dimension(width +
+                 * LABEL_PADDING_X, height + LABEL_PADDING_Y);
+                 * 
+                 * //Define size of the node to have the label int nodewidth = newLabelDimension.width + LABEL_GRL_PADDING_X; int nodeheight =
+                 * newLabelDimension.height + LABEL_GRL_PADDING_Y;
+                 * 
+                 * if(grlnode.getWidth() != nodewidth){ grlnode.setWidth(nodewidth); } if (grlnode.getHeight() != nodeheight){ grlnode.setHeight(nodeheight); } }
+                 * else{
+                 */
+                newLabelDimension = new Dimension(dimEditableLabel.width + LABEL_PADDING_X, dimEditableLabel.height + LABEL_PADDING_Y);
                 location = calculateModelElementPosition(getModelObj(), newLabelDimension);
             } else {
                 // happens in mass deletions; random unimportant location.
@@ -406,9 +398,9 @@ public class LabelEditPart extends ModelElementEditPart {
         LabelFigure labelFigure = getLabelFigure();
 
         if (modelElement instanceof IURNContainerRef) { // use definition
-            IURNContainer componentElement = (IURNContainer)((IURNContainerRef) modelElement).getContDef();
+            IURNContainer componentElement = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
             if (componentElement != null)
-                labelFigure.setText(((URNmodelElement)componentElement).getName());
+                labelFigure.setText(((URNmodelElement) componentElement).getName());
             // componentref labels are in bold.
             labelFigure.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
         } else if (modelElement instanceof RespRef) { // use definition
