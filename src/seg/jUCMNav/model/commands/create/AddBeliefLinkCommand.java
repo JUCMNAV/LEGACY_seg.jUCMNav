@@ -10,6 +10,8 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.model.commands.JUCMNavCommand;
+
 /**
  * This command create a link between a belief and an intentionalElementRef or
  * between a belief and an LinkRef
@@ -17,7 +19,7 @@ import org.eclipse.gef.commands.Command;
  * @author Jean-François Roy
  *
  */
-public class AddBeliefLinkCommand extends Command {
+public class AddBeliefLinkCommand extends Command implements JUCMNavCommand{
 
     GRLGraph graph;
     BeliefLink link;
