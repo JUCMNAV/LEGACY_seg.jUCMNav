@@ -80,7 +80,7 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public EList getScenarios() {
         if (scenarios == null) {
-            scenarios = new EObjectWithInverseResolvingEList.ManyInverse(EvaluationScenario.class, this, GrlPackage.EVALUATION_GROUP__SCENARIOS, GrlPackage.EVALUATION_SCENARIO__GROUPS);
+            scenarios = new EObjectWithInverseResolvingEList(EvaluationScenario.class, this, GrlPackage.EVALUATION_GROUP__SCENARIOS, GrlPackage.EVALUATION_SCENARIO__GROUP);
         }
         return scenarios;
     }

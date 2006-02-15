@@ -9,6 +9,7 @@ import grl.IntentionalElement;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.EvaluationScenarioManager;
 import urn.URNspec;
 
 /**
@@ -66,6 +67,8 @@ public class AddElementLinkCommand extends Command implements JUCMNavCommand{
         
         urnspec.getGrlspec().getLinks().add(link);
         
+        EvaluationScenarioManager.getInstance().calculateEvaluation();
+        
         testPostConditions();
     }
 
@@ -119,6 +122,8 @@ public class AddElementLinkCommand extends Command implements JUCMNavCommand{
         dest.getLinksDest().remove(link); 
 
         urnspec.getGrlspec().getLinks().remove(link);
+        
+        EvaluationScenarioManager.getInstance().calculateEvaluation();
         
         testPreConditions();
     }

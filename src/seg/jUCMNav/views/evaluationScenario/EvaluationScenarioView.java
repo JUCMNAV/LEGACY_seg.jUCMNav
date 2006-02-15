@@ -91,7 +91,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
         manager.add(new Separator());
         manager.add(showDesignView);
         
-        showPage(ID_SCENARIO);
+        showPage(ID_DESIGN);
 	}
 
     /**
@@ -139,7 +139,9 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
         if (partRef.getPart(false) instanceof UCMNavMultiPageEditor && partRef.getPage().getActiveEditor() == null) {
             viewer.setContents(null);
         }
+        showPage(ID_DESIGN);
         currentScenario = null;
+        
     }
 
     /*
@@ -200,7 +202,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
     private void setEditor(UCMNavMultiPageEditor editor) {
         if (multieditor != editor){
             multieditor = editor;
-            
+            EvaluationScenarioManager.getInstance().setMultieditor(editor);
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
 
             
@@ -253,7 +255,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
                 Object obj = (Object) j.next();
                 if (obj instanceof EvaluationScenarioTreeEditPart){
                     EvaluationScenario scen = ((EvaluationScenarioTreeEditPart)obj).getEvaluationScenario();
-                    (EvaluationScenarioManager.getInstance()).setEvaluationScenario(scen);
+                    (EvaluationScenarioManager.getInstance()).setScenario(scen);
                     currentScenario = scen;
                     if (currentView == ID_SCENARIO){
                         for (int i=0; i< multieditor.getPageCount(); i++){
@@ -279,7 +281,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             
             currentView = ID_DESIGN;
             if (currentScenario != null){
-                EvaluationScenarioManager.getInstance().setEvaluationScenario(null);
+                EvaluationScenarioManager.getInstance().setScenario(null);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
@@ -291,7 +293,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             
             currentView = ID_SCENARIO;
             if (currentScenario != null){
-                EvaluationScenarioManager.getInstance().setEvaluationScenario(currentScenario);
+                EvaluationScenarioManager.getInstance().setScenario(currentScenario);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         

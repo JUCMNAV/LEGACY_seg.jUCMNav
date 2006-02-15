@@ -32,6 +32,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -59,6 +60,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     private GRLGraph diagram;
     
     private Label evaluationLabel;
+    
+    private Image evaluationImg;
     
     /**
      * 
@@ -120,8 +123,14 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive() && getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null)
-            ((IntentionalElementRef) getNode()).getDef().eAdapters().remove(this);
+        if (isActive()){
+            if (evaluationImg != null) {
+                evaluationImg.dispose();
+                evaluationImg = null;
+            }
+            if (getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null)
+                ((IntentionalElementRef) getNode()).getDef().eAdapters().remove(this);
+        }
         super.deactivate();
 
     }
@@ -234,8 +243,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     }
                 }
             }
+        } else if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE){
+            EvaluationScenarioManager.getInstance().calculateEvaluation();
         }
-        
+
+
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
         if (notification.getEventType() == Notification.SET && getParent() != null)
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
@@ -294,18 +306,27 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 //position.x = position.x + getNodeFigure().getBounds().width;
                 evaluationLabel.setLocation(position);
                 evaluationLabel.setVisible(true);
+                
+                //TODO Add image management in JUCMNavPlugin class
+                if (evaluationImg != null) {
+                    evaluationImg.dispose();
+                    evaluationImg = null;
+                }
                 //Set the label icon
                 if (evaluation.getEvaluation() == -100){
-                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage());    
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();    
                 } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
-                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage());
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage();
                 } else if (evaluation.getEvaluation() == 0){
-                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage());
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage();
                 } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
-                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage());
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage();
                 } else if (evaluation.getEvaluation() == 100){
-                    evaluationLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage());
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage();
                 } 
+                if (evaluationLabel != null){
+                    evaluationLabel.setIcon(evaluationImg);
+                }
                 refreshConnections();
             }
             

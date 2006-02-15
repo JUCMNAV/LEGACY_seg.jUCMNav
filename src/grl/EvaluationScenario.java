@@ -20,7 +20,7 @@ import urncore.GRLmodelElement;
  * <ul>
  *   <li>{@link grl.EvaluationScenario#getAuthor <em>Author</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}</li>
- *   <li>{@link grl.EvaluationScenario#getGroups <em>Groups</em>}</li>
+ *   <li>{@link grl.EvaluationScenario#getGroup <em>Group</em>}</li>
  *   <li>{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
@@ -75,22 +75,32 @@ public interface EvaluationScenario extends GRLmodelElement{
     EList getEvaluations();
 
     /**
-     * Returns the value of the '<em><b>Groups</b></em>' reference list.
-     * The list contents are of type {@link grl.EvaluationGroup}.
+     * Returns the value of the '<em><b>Group</b></em>' reference.
      * It is bidirectional and its opposite is '{@link grl.EvaluationGroup#getScenarios <em>Scenarios</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Groups</em>' reference list isn't clear,
+     * If the meaning of the '<em>Group</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Groups</em>' reference list.
-     * @see grl.GrlPackage#getEvaluationScenario_Groups()
+     * @return the value of the '<em>Group</em>' reference.
+     * @see #setGroup(EvaluationGroup)
+     * @see grl.GrlPackage#getEvaluationScenario_Group()
      * @see grl.EvaluationGroup#getScenarios
-     * @model type="grl.EvaluationGroup" opposite="scenarios" required="true"
+     * @model opposite="scenarios" required="true"
      * @generated
      */
-    EList getGroups();
+    EvaluationGroup getGroup();
+
+    /**
+     * Sets the value of the '{@link grl.EvaluationScenario#getGroup <em>Group</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Group</em>' reference.
+     * @see #getGroup()
+     * @generated
+     */
+    void setGroup(EvaluationGroup value);
 
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.

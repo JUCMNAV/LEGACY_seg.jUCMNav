@@ -118,8 +118,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1"
         eType="#//Evaluation" containment="true" eOpposite="#//Evaluation/scenario"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="groups" lowerBound="1"
-        upperBound="-1" eType="#//EvaluationGroup" eOpposite="#//EvaluationGroup/scenarios"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1" eType="#//EvaluationGroup"
+        eOpposite="#//EvaluationGroup/scenarios"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/scenarios"/>
   </eClassifiers>
@@ -133,7 +133,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="BeliefLink" eSuperTypes="urncore.ecore#//IURNConnection"/>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
-        eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/groups"/>
+        eType="#//EvaluationScenario" eOpposite="#//EvaluationScenario/group"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/evaluationGroups"/>
   </eClassifiers>

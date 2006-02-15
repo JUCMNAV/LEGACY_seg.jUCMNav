@@ -31,7 +31,7 @@ public interface EvaluationGroup extends GRLmodelElement{
     /**
      * Returns the value of the '<em><b>Scenarios</b></em>' reference list.
      * The list contents are of type {@link grl.EvaluationScenario}.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getGroups <em>Groups</em>}'.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getGroup <em>Group</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Scenarios</em>' reference list isn't clear,
@@ -40,8 +40,8 @@ public interface EvaluationGroup extends GRLmodelElement{
      * <!-- end-user-doc -->
      * @return the value of the '<em>Scenarios</em>' reference list.
      * @see grl.GrlPackage#getEvaluationGroup_Scenarios()
-     * @see grl.EvaluationScenario#getGroups
-     * @model type="grl.EvaluationScenario" opposite="groups"
+     * @see grl.EvaluationScenario#getGroup
+     * @model type="grl.EvaluationScenario" opposite="group"
      * @generated
      */
     EList getScenarios();

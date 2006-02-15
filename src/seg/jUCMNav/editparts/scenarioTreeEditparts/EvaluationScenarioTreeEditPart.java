@@ -3,11 +3,14 @@
  */
 package seg.jUCMNav.editparts.scenarioTreeEditparts;
 
+import grl.EvaluationScenario;
+
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import grl.EvaluationScenario;
+import seg.jUCMNav.editpolicies.element.EvaluationScenarioComponentEditPolicy;
 
 /**
  * TreeEditPart for Scenario in the scenario view
@@ -28,6 +31,7 @@ public class EvaluationScenarioTreeEditPart extends ScenarioUrnModelElementTreeE
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationScenarioComponentEditPolicy());
     }
     
     public EvaluationScenario getEvaluationScenario(){

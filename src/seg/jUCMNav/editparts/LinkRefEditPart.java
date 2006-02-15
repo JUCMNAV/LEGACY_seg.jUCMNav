@@ -28,6 +28,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -36,6 +37,7 @@ import seg.jUCMNav.editpolicies.element.LinkRefBendpointEditPolicy;
 import seg.jUCMNav.editpolicies.element.LinkRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.figures.LinkRefConnection;
+import seg.jUCMNav.model.util.EvaluationScenarioManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
@@ -84,7 +86,13 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                 if (featureId == GrlPackage.LINK_REF__BENDPOINTS) {
                     refreshVisuals();
                 }
+                if (featureId == GrlPackage.ELEMENT_LINK){
+                    EvaluationScenarioManager.getInstance().calculateEvaluation();
+                }
             } else if (type == Notification.SET){ //If a modification to the properties have been done
+                if (featureId == GrlPackage.ELEMENT_LINK){
+                    EvaluationScenarioManager.getInstance().calculateEvaluation();
+                }
                 refreshVisuals();
             }
         }
@@ -101,7 +109,8 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
     private IURNDiagram diagram;
     protected IPropertySource propertySource = null;
 
-    Label decompLabel, contributionLabel;
+    private Image img;
+    private Label decompLabel, contributionLabel;
     
     /**
      * 
@@ -181,6 +190,11 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
      */
     public void deactivate() {
         if (isActive()){
+            
+            if (img != null) {
+                img.dispose();
+                img = null;
+            }
             ((EObject) getModel()).eAdapters().remove(adapter);
             if(getModel() instanceof LinkRef && ((LinkRef) getModel()).getLink() != null){
                 ((LinkRef)getModel()).getLink().eAdapters().remove(adapter);
@@ -238,6 +252,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
      */
     public void notifyChanged(Notification notification) {
         refreshVisuals();
+        
     }
     
     /**
@@ -286,19 +301,26 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             if (!type.equals("Unknown")){
                 contributionLabel.setText(type);
                 
+                if (img != null) {
+                    img.dispose();
+                    img = null;
+                }
                 //Set the icon
                 if (type.equals("Make")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Make.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Make.gif")).createImage();
                 } else if (type.equals("Help")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Help.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Help.gif")).createImage();
                 } else if (type.equals("SomePositive")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomePositive.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomePositive.gif")).createImage();
                 } else if (type.equals("SomeNegative")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomeNegative.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomeNegative.gif")).createImage();
                 } else if (type.equals("Hurt")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Hurt.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Hurt.gif")).createImage();
                 } else if (type.equals("Break")){
-                    contributionLabel.setIcon((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage());
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage();
+                }
+                if (img != null){
+                    contributionLabel.setIcon(img);
                 }
                 contributionLabel.setVisible(true);                
             } else {

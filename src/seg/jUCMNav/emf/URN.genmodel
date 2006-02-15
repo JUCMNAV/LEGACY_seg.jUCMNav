@@ -248,7 +248,7 @@
     <genClasses ecoreClass="grl.ecore#//EvaluationScenario">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationScenario/author"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/evaluations"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/groups"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/group"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationScenario/grlspec"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//GRLNode"/>

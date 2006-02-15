@@ -16,17 +16,12 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -41,7 +36,7 @@ import urncore.impl.GRLmodelElementImpl;
  * <ul>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getAuthor <em>Author</em>}</li>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getEvaluations <em>Evaluations</em>}</li>
- *   <li>{@link grl.impl.EvaluationScenarioImpl#getGroups <em>Groups</em>}</li>
+ *   <li>{@link grl.impl.EvaluationScenarioImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link grl.impl.EvaluationScenarioImpl#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
@@ -80,14 +75,14 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
     protected EList evaluations = null;
 
     /**
-     * The cached value of the '{@link #getGroups() <em>Groups</em>}' reference list.
+     * The cached value of the '{@link #getGroup() <em>Group</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getGroups()
+     * @see #getGroup()
      * @generated
      * @ordered
      */
-    protected EList groups = null;
+    protected EvaluationGroup group = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -145,11 +140,59 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getGroups() {
-        if (groups == null) {
-            groups = new EObjectWithInverseResolvingEList.ManyInverse(EvaluationGroup.class, this, GrlPackage.EVALUATION_SCENARIO__GROUPS, GrlPackage.EVALUATION_GROUP__SCENARIOS);
+    public EvaluationGroup getGroup() {
+        if (group != null && group.eIsProxy()) {
+            EvaluationGroup oldGroup = group;
+            group = (EvaluationGroup)eResolveProxy((InternalEObject)group);
+            if (group != oldGroup) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.EVALUATION_SCENARIO__GROUP, oldGroup, group));
+            }
         }
-        return groups;
+        return group;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EvaluationGroup basicGetGroup() {
+        return group;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetGroup(EvaluationGroup newGroup, NotificationChain msgs) {
+        EvaluationGroup oldGroup = group;
+        group = newGroup;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_SCENARIO__GROUP, oldGroup, newGroup);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setGroup(EvaluationGroup newGroup) {
+        if (newGroup != group) {
+            NotificationChain msgs = null;
+            if (group != null)
+                msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.EVALUATION_GROUP__SCENARIOS, EvaluationGroup.class, msgs);
+            if (newGroup != null)
+                msgs = ((InternalEObject)newGroup).eInverseAdd(this, GrlPackage.EVALUATION_GROUP__SCENARIOS, EvaluationGroup.class, msgs);
+            msgs = basicSetGroup(newGroup, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_SCENARIO__GROUP, newGroup, newGroup));
     }
 
     /**
@@ -197,8 +240,10 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                     return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                     return ((InternalEList)getEvaluations()).basicAdd(otherEnd, msgs);
-                case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                    return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
+                case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                    if (group != null)
+                        msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.EVALUATION_GROUP__SCENARIOS, EvaluationGroup.class, msgs);
+                    return basicSetGroup((EvaluationGroup)otherEnd, msgs);
                 case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -226,8 +271,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                     return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                     return ((InternalEList)getEvaluations()).basicRemove(otherEnd, msgs);
-                case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                    return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
+                case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                    return basicSetGroup(null, msgs);
                 case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                     return eBasicSetContainer(null, GrlPackage.EVALUATION_SCENARIO__GRLSPEC, msgs);
                 default:
@@ -275,8 +320,9 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return getAuthor();
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 return getEvaluations();
-            case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                return getGroups();
+            case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                if (resolve) return getGroup();
+                return basicGetGroup();
             case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                 return getGrlspec();
         }
@@ -314,9 +360,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 getEvaluations().clear();
                 getEvaluations().addAll((Collection)newValue);
                 return;
-            case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                getGroups().clear();
-                getGroups().addAll((Collection)newValue);
+            case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                setGroup((EvaluationGroup)newValue);
                 return;
             case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
@@ -353,8 +398,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 getEvaluations().clear();
                 return;
-            case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                getGroups().clear();
+            case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                setGroup((EvaluationGroup)null);
                 return;
             case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                 setGrlspec((GRLspec)null);
@@ -384,8 +429,8 @@ public class EvaluationScenarioImpl extends GRLmodelElementImpl implements Evalu
                 return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
             case GrlPackage.EVALUATION_SCENARIO__EVALUATIONS:
                 return evaluations != null && !evaluations.isEmpty();
-            case GrlPackage.EVALUATION_SCENARIO__GROUPS:
-                return groups != null && !groups.isEmpty();
+            case GrlPackage.EVALUATION_SCENARIO__GROUP:
+                return group != null;
             case GrlPackage.EVALUATION_SCENARIO__GRLSPEC:
                 return getGrlspec() != null;
         }

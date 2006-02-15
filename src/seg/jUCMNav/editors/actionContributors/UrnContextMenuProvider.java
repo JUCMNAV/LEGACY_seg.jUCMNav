@@ -22,6 +22,7 @@ import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.DeleteEvaluationAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
@@ -65,6 +66,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         manager.appendToGroup(GEFActionConstants.GROUP_COPY, action);
 
         action = getActionRegistry().getAction(ActionFactory.DELETE.getId());
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
+
+        action = getActionRegistry().getAction(DeleteEvaluationAction.DELETEEVALUATION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 

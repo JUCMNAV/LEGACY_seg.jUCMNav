@@ -39,6 +39,7 @@ import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
+import seg.jUCMNav.actions.DeleteEvaluationAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
@@ -163,6 +164,10 @@ public class ActionRegistryManager {
         action = new seg.jUCMNav.actions.DeleteAction((IWorkbenchPart) editor);
         addEditPartAction((SelectionAction) action);
 
+        action = new DeleteEvaluationAction(editor);
+        action.setText("Delete User Evaluation"); 
+        addEditPartAction((SelectionAction) action);
+        
         action = new CutPathAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.cutPath")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

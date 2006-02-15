@@ -1680,13 +1680,13 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_SCENARIO__EVALUATIONS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Groups</b></em>' reference list.
+     * The feature id for the '<em><b>Group</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_SCENARIO__GROUPS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int EVALUATION_SCENARIO__GROUP = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -2446,15 +2446,15 @@ public interface GrlPackage extends EPackage{
     EReference getEvaluationScenario_Evaluations();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.EvaluationScenario#getGroups <em>Groups</em>}'.
+     * Returns the meta object for the reference '{@link grl.EvaluationScenario#getGroup <em>Group</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Groups</em>'.
-     * @see grl.EvaluationScenario#getGroups()
+     * @return the meta object for the reference '<em>Group</em>'.
+     * @see grl.EvaluationScenario#getGroup()
      * @see #getEvaluationScenario()
      * @generated
      */
-    EReference getEvaluationScenario_Groups();
+    EReference getEvaluationScenario_Group();
 
     /**
      * Returns the meta object for the container reference '{@link grl.EvaluationScenario#getGrlspec <em>Grlspec</em>}'.
