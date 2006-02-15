@@ -401,9 +401,9 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
             case Notification.SET:
                 if (notification.getNewValue() instanceof IntentionalElement) {
                     if (notification.getOldValue() != null)
-                        ((Responsibility) notification.getOldValue()).eAdapters().remove(this);
+                        ((IntentionalElement) notification.getOldValue()).eAdapters().remove(this);
 
-                    ((Responsibility) notification.getNewValue()).eAdapters().add(this);
+                    ((IntentionalElement) notification.getNewValue()).eAdapters().add(this);
                 }
                 break;
             }

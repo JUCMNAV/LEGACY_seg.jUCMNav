@@ -5,13 +5,11 @@ import grl.IntentionalElementRef;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import ucm.map.RespRef;
 import urncore.ComponentLabel;
 import urncore.Condition;
-import urncore.GRLmodelElement;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.NodeLabel;
@@ -83,28 +81,6 @@ public class LabelPropertySource extends URNElementPropertySource {
             }
         }
         return v;
-    }
-  
-    /**
-     * Delta feature should not be added to the properties list if the label is 
-     * associate with a GRL element
-     * features from the list
-     * 
-     * @param attr
-     */
-    protected boolean canAddFeature(EStructuralFeature attr) {
-        if (object instanceof NodeLabel){
-            if ((((NodeLabel)object).getNode() instanceof GRLmodelElement) && ((attr.getName() == "deltaX") 
-                    || (attr.getName() == "deltaY"))){
-                return false;
-            }
-        } else if (object instanceof ComponentLabel){
-            if ((((ComponentLabel)object).getContRef() instanceof GRLmodelElement) && ((attr.getName() == "deltaX") 
-                    || (attr.getName() == "deltaY"))){
-                return false;
-            }            
-        }
-        return true;
     }
 
     /**
