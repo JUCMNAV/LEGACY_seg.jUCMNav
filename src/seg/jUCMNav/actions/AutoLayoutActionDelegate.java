@@ -8,9 +8,9 @@ import org.eclipse.ui.IEditorPart;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
-import ucm.map.UCMmap;
+import urncore.IURNDiagram;
 
 /**
  * Opens the AutoLayout Wizard.
@@ -48,11 +48,11 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
      */
     public void run(IAction action) {
         if (editor.getCurrentPage() != null) {
-            if (editor.getCurrentPage() instanceof UcmEditor)
+            if (editor.getCurrentPage() instanceof UrnEditor)
             {
-                UCMmap map = ((UCMmap)((UcmEditor) editor.getCurrentPage()).getModel());
+                IURNDiagram map = ((IURNDiagram)((UrnEditor) editor.getCurrentPage()).getModel());
     
-                AutoLayoutWizard wizard = new AutoLayoutWizard((UcmEditor)editor.getCurrentPage(), map);
+                AutoLayoutWizard wizard = new AutoLayoutWizard((UrnEditor)editor.getCurrentPage(), map);
     
                 WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
     
