@@ -9,10 +9,12 @@ import grl.LinkRefBendpoint;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
 
 /**
- * Delete a LinkRef and all the LinkRefBendpoint associate to it.
+ * Delete a LinkRef and all the LinkRefBendpoint associate to it. If it is the 
+ * last linkref in the GRLGraphs, delete also the definition.
  * 
  * @author Jean-François Roy
  *
@@ -55,7 +57,11 @@ public class DeleteLinkRefCommand extends CompoundCommand {
             LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(i);
             add(new DeleteLinkRefBendpointCommand(bendpoint));
         }
+        ElementLink link= linkref.getLink();
         add(new RemoveLinkRefCommand(linkref));
+        if (link.getRefs().size() <= 1){
+            add(new RemoveElementLinkCommand(link));
+        }
     }
     
     public void setElementLink(ElementLink link){
