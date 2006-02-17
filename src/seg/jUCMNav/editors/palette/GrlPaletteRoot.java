@@ -141,9 +141,9 @@ public class GrlPaletteRoot extends PaletteRoot {
         elementsDrawer.add(entry);
 
         entry = new URNElementCreationEntry(
-                "Ressource", "Create a Ressource", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, 
-                        IntentionalElementType.RESSOURCE), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Ressource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
-                        JUCMNavPlugin.class, "icons/Ressource24.gif")); //$NON-NLS-1$
+                "Resource", "Create a Resource", IntentionalElementRef.class, new ModelCreationFactory(getURNspec(), IntentionalElementRef.class, 
+                        IntentionalElementType.RESSOURCE), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resource16.gif"), ImageDescriptor.createFromFile( //$NON-NLS-1$
+                        JUCMNavPlugin.class, "icons/Resource24.gif")); //$NON-NLS-1$
         elementsDrawer.add(entry);
 
         entry = new URNElementCreationEntry(

@@ -68,6 +68,21 @@ public final class Priority extends AbstractEnumerator {
     public static final int LOW = 2;
 
     /**
+     * The '<em><b>None</b></em>' literal value.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @see #NONE_LITERAL
+     * @model name="None"
+     * @generated
+     * @ordered
+     */
+    public static final int NONE = 3;
+
+    /**
      * The '<em><b>High</b></em>' literal object.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -98,6 +113,16 @@ public final class Priority extends AbstractEnumerator {
     public static final Priority LOW_LITERAL = new Priority(LOW, "Low");
 
     /**
+     * The '<em><b>None</b></em>' literal object.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #NONE
+     * @generated
+     * @ordered
+     */
+    public static final Priority NONE_LITERAL = new Priority(NONE, "None");
+
+    /**
      * An array of all the '<em><b>Priority</b></em>' enumerators.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -108,6 +133,7 @@ public final class Priority extends AbstractEnumerator {
             HIGH_LITERAL,
             MEDIUM_LITERAL,
             LOW_LITERAL,
+            NONE_LITERAL,
         };
 
     /**
@@ -145,6 +171,7 @@ public final class Priority extends AbstractEnumerator {
             case HIGH: return HIGH_LITERAL;
             case MEDIUM: return MEDIUM_LITERAL;
             case LOW: return LOW_LITERAL;
+            case NONE: return NONE_LITERAL;
         }
         return null;	
     }

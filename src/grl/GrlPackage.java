@@ -463,31 +463,13 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT__TYPE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
-     * The feature id for the '<em><b>Criticality</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__CRITICALITY = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
-
-    /**
-     * The feature id for the '<em><b>Priority</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__PRIORITY = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
-
-    /**
      * The feature id for the '<em><b>Decomposition Type</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -496,7 +478,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINE_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int INTENTIONAL_ELEMENT__LINE_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Fill Color</b></em>' attribute.
@@ -505,7 +487,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__FILL_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int INTENTIONAL_ELEMENT__FILL_COLOR = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 3;
 
     /**
      * The feature id for the '<em><b>Filled</b></em>' attribute.
@@ -514,7 +496,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__FILLED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
+    int INTENTIONAL_ELEMENT__FILLED = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 4;
 
     /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -523,7 +505,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int INTENTIONAL_ELEMENT__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 5;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -532,7 +514,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
+    int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
      * The feature id for the '<em><b>Evals</b></em>' reference list.
@@ -541,7 +523,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__EVALS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int INTENTIONAL_ELEMENT__EVALS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Links Src</b></em>' reference list.
@@ -550,7 +532,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
+    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
@@ -559,7 +541,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 11;
+    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
      * The number of structural features of the the '<em>Intentional Element</em>' class.
@@ -568,7 +550,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 12;
+    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
 
     /**
      * The meta object id for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
@@ -1061,13 +1043,31 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT_REF__LABEL = GRL_NODE__LABEL;
 
     /**
+     * The feature id for the '<em><b>Criticality</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__CRITICALITY = GRL_NODE_FEATURE_COUNT + 0;
+
+    /**
+     * The feature id for the '<em><b>Priority</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__PRIORITY = GRL_NODE_FEATURE_COUNT + 1;
+
+    /**
      * The feature id for the '<em><b>Def</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF__DEF = GRL_NODE_FEATURE_COUNT + 0;
+    int INTENTIONAL_ELEMENT_REF__DEF = GRL_NODE_FEATURE_COUNT + 2;
 
     /**
      * The number of structural features of the the '<em>Intentional Element Ref</em>' class.
@@ -1076,7 +1076,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_REF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 1;
+    int INTENTIONAL_ELEMENT_REF_FEATURE_COUNT = GRL_NODE_FEATURE_COUNT + 3;
 
     /**
      * The meta object id for the '{@link grl.impl.ElementLinkImpl <em>Element Link</em>}' class.
@@ -2050,28 +2050,6 @@ public interface GrlPackage extends EPackage{
     EAttribute getIntentionalElement_Type();
 
     /**
-     * Returns the meta object for the attribute '{@link grl.IntentionalElement#getCriticality <em>Criticality</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Criticality</em>'.
-     * @see grl.IntentionalElement#getCriticality()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EAttribute getIntentionalElement_Criticality();
-
-    /**
-     * Returns the meta object for the attribute '{@link grl.IntentionalElement#getPriority <em>Priority</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Priority</em>'.
-     * @see grl.IntentionalElement#getPriority()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EAttribute getIntentionalElement_Priority();
-
-    /**
      * Returns the meta object for the attribute '{@link grl.IntentionalElement#getDecompositionType <em>Decomposition Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2220,6 +2198,28 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EClass getIntentionalElementRef();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.IntentionalElementRef#getCriticality <em>Criticality</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Criticality</em>'.
+     * @see grl.IntentionalElementRef#getCriticality()
+     * @see #getIntentionalElementRef()
+     * @generated
+     */
+    EAttribute getIntentionalElementRef_Criticality();
+
+    /**
+     * Returns the meta object for the attribute '{@link grl.IntentionalElementRef#getPriority <em>Priority</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Priority</em>'.
+     * @see grl.IntentionalElementRef#getPriority()
+     * @see #getIntentionalElementRef()
+     * @generated
+     */
+    EAttribute getIntentionalElementRef_Priority();
 
     /**
      * Returns the meta object for the reference '{@link grl.IntentionalElementRef#getDef <em>Def</em>}'.

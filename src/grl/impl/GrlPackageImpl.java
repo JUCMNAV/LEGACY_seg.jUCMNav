@@ -412,7 +412,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntentionalElement_Criticality() {
+    public EAttribute getIntentionalElement_DecompositionType() {
         return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(1);
     }
 
@@ -421,7 +421,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntentionalElement_Priority() {
+    public EAttribute getIntentionalElement_LineColor() {
         return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(2);
     }
 
@@ -430,7 +430,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntentionalElement_DecompositionType() {
+    public EAttribute getIntentionalElement_FillColor() {
         return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(3);
     }
 
@@ -439,7 +439,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntentionalElement_LineColor() {
+    public EAttribute getIntentionalElement_Filled() {
         return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(4);
     }
 
@@ -448,26 +448,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getIntentionalElement_FillColor() {
-        return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(5);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getIntentionalElement_Filled() {
-        return (EAttribute)intentionalElementEClass.getEStructuralFeatures().get(6);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EReference getIntentionalElement_Grlspec() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(7);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(5);
     }
 
     /**
@@ -476,7 +458,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * @generated
      */
     public EReference getIntentionalElement_Refs() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(8);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(6);
     }
 
     /**
@@ -485,7 +467,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * @generated
      */
     public EReference getIntentionalElement_Evals() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(9);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(7);
     }
 
     /**
@@ -494,7 +476,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * @generated
      */
     public EReference getIntentionalElement_LinksSrc() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(10);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(8);
     }
 
     /**
@@ -503,7 +485,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * @generated
      */
     public EReference getIntentionalElement_LinksDest() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(11);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(9);
     }
 
     /**
@@ -556,8 +538,26 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getIntentionalElementRef_Criticality() {
+        return (EAttribute)intentionalElementRefEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIntentionalElementRef_Priority() {
+        return (EAttribute)intentionalElementRefEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EReference getIntentionalElementRef_Def() {
-        return (EReference)intentionalElementRefEClass.getEStructuralFeatures().get(0);
+        return (EReference)intentionalElementRefEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -925,8 +925,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
         intentionalElementEClass = createEClass(INTENTIONAL_ELEMENT);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__TYPE);
-        createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__CRITICALITY);
-        createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__PRIORITY);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__LINE_COLOR);
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__FILL_COLOR);
@@ -945,6 +943,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         actorRefEClass = createEClass(ACTOR_REF);
 
         intentionalElementRefEClass = createEClass(INTENTIONAL_ELEMENT_REF);
+        createEAttribute(intentionalElementRefEClass, INTENTIONAL_ELEMENT_REF__CRITICALITY);
+        createEAttribute(intentionalElementRefEClass, INTENTIONAL_ELEMENT_REF__PRIORITY);
         createEReference(intentionalElementRefEClass, INTENTIONAL_ELEMENT_REF__DEF);
 
         contributionEClass = createEClass(CONTRIBUTION);
@@ -1059,8 +1059,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
         initEClass(intentionalElementEClass, IntentionalElement.class, "IntentionalElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getIntentionalElement_Type(), this.getIntentionalElementType(), "type", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getIntentionalElement_Criticality(), this.getCriticality(), "criticality", "Medium", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getIntentionalElement_Priority(), this.getPriority(), "priority", "Medium", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getIntentionalElement_DecompositionType(), this.getDecompositionType(), "decompositionType", "And", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getIntentionalElement_LineColor(), ecorePackage.getEString(), "lineColor", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getIntentionalElement_FillColor(), ecorePackage.getEString(), "fillColor", null, 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1079,6 +1077,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEClass(actorRefEClass, ActorRef.class, "ActorRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(intentionalElementRefEClass, IntentionalElementRef.class, "IntentionalElementRef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIntentionalElementRef_Criticality(), this.getCriticality(), "criticality", "None", 0, 1, IntentionalElementRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIntentionalElementRef_Priority(), this.getPriority(), "priority", "None", 0, 1, IntentionalElementRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElementRef_Def(), this.getIntentionalElement(), this.getIntentionalElement_Refs(), "def", null, 1, 1, IntentionalElementRef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(contributionEClass, Contribution.class, "Contribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1128,6 +1128,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         addEEnumLiteral(criticalityEEnum, Criticality.HIGH_LITERAL);
         addEEnumLiteral(criticalityEEnum, Criticality.MEDIUM_LITERAL);
         addEEnumLiteral(criticalityEEnum, Criticality.LOW_LITERAL);
+        addEEnumLiteral(criticalityEEnum, Criticality.NONE_LITERAL);
 
         initEEnum(intentionalElementTypeEEnum, IntentionalElementType.class, "IntentionalElementType");
         addEEnumLiteral(intentionalElementTypeEEnum, IntentionalElementType.SOFTGOAL_LITERAL);
@@ -1139,6 +1140,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         addEEnumLiteral(priorityEEnum, Priority.HIGH_LITERAL);
         addEEnumLiteral(priorityEEnum, Priority.MEDIUM_LITERAL);
         addEEnumLiteral(priorityEEnum, Priority.LOW_LITERAL);
+        addEEnumLiteral(priorityEEnum, Priority.NONE_LITERAL);
 
         initEEnum(contributionTypeEEnum, ContributionType.class, "ContributionType");
         addEEnumLiteral(contributionTypeEEnum, ContributionType.MAKE_LITERAL);

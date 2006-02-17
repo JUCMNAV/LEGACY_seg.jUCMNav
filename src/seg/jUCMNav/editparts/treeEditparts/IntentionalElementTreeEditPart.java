@@ -60,7 +60,7 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
             else if (getElement().getType().getValue() == IntentionalElementType.TASK)
                 setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task16.gif")).createImage()); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.RESSOURCE)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Ressource16.gif")).createImage()); //$NON-NLS-1$
+                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resource16.gif")).createImage()); //$NON-NLS-1$
         }
 
         return super.getImage();

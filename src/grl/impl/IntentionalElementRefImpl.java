@@ -6,9 +6,12 @@
  */
 package grl.impl;
 
+import grl.Criticality;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+
+import grl.Priority;
 
 import java.util.Collection;
 
@@ -32,6 +35,8 @@ import urncore.UrncorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link grl.impl.IntentionalElementRefImpl#getCriticality <em>Criticality</em>}</li>
+ *   <li>{@link grl.impl.IntentionalElementRefImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementRefImpl#getDef <em>Def</em>}</li>
  * </ul>
  * </p>
@@ -39,6 +44,46 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class IntentionalElementRefImpl extends GRLNodeImpl implements IntentionalElementRef {
+    /**
+     * The default value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getCriticality()
+     * @generated
+     * @ordered
+     */
+    protected static final Criticality CRITICALITY_EDEFAULT = Criticality.NONE_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getCriticality()
+     * @generated
+     * @ordered
+     */
+    protected Criticality criticality = CRITICALITY_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getPriority() <em>Priority</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getPriority()
+     * @generated
+     * @ordered
+     */
+    protected static final Priority PRIORITY_EDEFAULT = Priority.NONE_LITERAL;
+
+    /**
+     * The cached value of the '{@link #getPriority() <em>Priority</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getPriority()
+     * @generated
+     * @ordered
+     */
+    protected Priority priority = PRIORITY_EDEFAULT;
+
     /**
      * The cached value of the '{@link #getDef() <em>Def</em>}' reference.
      * <!-- begin-user-doc -->
@@ -65,6 +110,48 @@ public class IntentionalElementRefImpl extends GRLNodeImpl implements Intentiona
      */
     protected EClass eStaticClass() {
         return GrlPackage.eINSTANCE.getIntentionalElementRef();
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Criticality getCriticality() {
+        return criticality;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setCriticality(Criticality newCriticality) {
+        Criticality oldCriticality = criticality;
+        criticality = newCriticality == null ? CRITICALITY_EDEFAULT : newCriticality;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY, oldCriticality, criticality));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public Priority getPriority() {
+        return priority;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setPriority(Priority newPriority) {
+        Priority oldPriority = priority;
+        priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY, oldPriority, priority));
     }
 
     /**
@@ -248,6 +335,10 @@ public class IntentionalElementRefImpl extends GRLNodeImpl implements Intentiona
                 return getPred();
             case GrlPackage.INTENTIONAL_ELEMENT_REF__LABEL:
                 return getLabel();
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+                return getCriticality();
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+                return getPriority();
             case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
                 if (resolve) return getDef();
                 return basicGetDef();
@@ -302,6 +393,12 @@ public class IntentionalElementRefImpl extends GRLNodeImpl implements Intentiona
             case GrlPackage.INTENTIONAL_ELEMENT_REF__LABEL:
                 setLabel((NodeLabel)newValue);
                 return;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+                setCriticality((Criticality)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+                setPriority((Priority)newValue);
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
                 setDef((IntentionalElement)newValue);
                 return;
@@ -352,6 +449,12 @@ public class IntentionalElementRefImpl extends GRLNodeImpl implements Intentiona
             case GrlPackage.INTENTIONAL_ELEMENT_REF__LABEL:
                 setLabel((NodeLabel)null);
                 return;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+                setCriticality(CRITICALITY_EDEFAULT);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+                setPriority(PRIORITY_EDEFAULT);
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
                 setDef((IntentionalElement)null);
                 return;
@@ -390,10 +493,31 @@ public class IntentionalElementRefImpl extends GRLNodeImpl implements Intentiona
                 return pred != null && !pred.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT_REF__LABEL:
                 return label != null;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+                return criticality != CRITICALITY_EDEFAULT;
+            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+                return priority != PRIORITY_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
                 return def != null;
         }
         return eDynamicIsSet(eFeature);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String toString() {
+        if (eIsProxy()) return super.toString();
+
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (criticality: ");
+        result.append(criticality);
+        result.append(", priority: ");
+        result.append(priority);
+        result.append(')');
+        return result.toString();
     }
 
 } //IntentionalElementRefImpl

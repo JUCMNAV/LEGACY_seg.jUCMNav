@@ -166,6 +166,7 @@
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Criticality/High"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Criticality/Medium"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Criticality/Low"/>
+      <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Criticality/None"/>
     </genEnums>
     <genEnums ecoreEnum="grl.ecore#//IntentionalElementType">
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//IntentionalElementType/Softgoal"/>
@@ -177,6 +178,7 @@
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Priority/High"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Priority/Medium"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Priority/Low"/>
+      <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Priority/None"/>
     </genEnums>
     <genEnums ecoreEnum="grl.ecore#//ContributionType">
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//ContributionType/Make"/>
@@ -204,8 +206,6 @@
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//IntentionalElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/criticality"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/priority"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/decompositionType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/lineColor"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElement/fillColor"/>
@@ -222,6 +222,8 @@
     <genClasses ecoreClass="grl.ecore#//GRLGraph"/>
     <genClasses ecoreClass="grl.ecore#//ActorRef"/>
     <genClasses ecoreClass="grl.ecore#//IntentionalElementRef">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElementRef/criticality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//IntentionalElementRef/priority"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//IntentionalElementRef/def"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Contribution">

@@ -22,10 +22,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentionalElement" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IntentionalElementType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"
-        defaultValueLiteral="Medium"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//Priority"
-        defaultValueLiteral="Medium"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="decompositionType" eType="#//DecompositionType"
         defaultValueLiteral="And"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineColor" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -51,6 +47,7 @@
     <eLiterals name="High"/>
     <eLiterals name="Medium" value="1"/>
     <eLiterals name="Low" value="2"/>
+    <eLiterals name="None" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntentionalElementType">
     <eLiterals name="Softgoal"/>
@@ -62,10 +59,15 @@
     <eLiterals name="High"/>
     <eLiterals name="Medium" value="1"/>
     <eLiterals name="Low" value="2"/>
+    <eLiterals name="None" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GRLGraph" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNDiagram"/>
   <eClassifiers xsi:type="ecore:EClass" name="ActorRef" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNContainerRef"/>
   <eClassifiers xsi:type="ecore:EClass" name="IntentionalElementRef" eSuperTypes="#//GRLNode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criticality" eType="#//Criticality"
+        defaultValueLiteral="None"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="#//Priority"
+        defaultValueLiteral="None"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="def" lowerBound="1" eType="#//IntentionalElement"
         eOpposite="#//IntentionalElement/refs"/>
   </eClassifiers>

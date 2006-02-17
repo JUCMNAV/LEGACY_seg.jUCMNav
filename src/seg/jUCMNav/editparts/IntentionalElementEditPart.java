@@ -128,6 +128,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 evaluationImg.dispose();
                 evaluationImg = null;
             }
+            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             if (getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null)
                 ((IntentionalElementRef) getNode()).getDef().eAdapters().remove(this);
         }
@@ -230,7 +231,11 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         refreshVisuals();
         
         int featureId = notification.getFeatureID(GrlPackage.class);
-        if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE){
+        if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || 
+                featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY || 
+                featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY){
+            EvaluationScenarioManager.getInstance().calculateEvaluation();
+            
             for (Iterator iter = getNode().getDef().getLinksDest().iterator(); iter.hasNext();) {
                 ElementLink decomp = (ElementLink) iter.next();
                 if (decomp instanceof Decomposition){
@@ -243,9 +248,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                     }
                 }
             }
-        } else if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE){
-            EvaluationScenarioManager.getInstance().calculateEvaluation();
-        }
+        } 
 
 
         // we want the top level editpart to refresh its children so that the largest components are always in the back.
@@ -307,7 +310,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 evaluationLabel.setLocation(position);
                 evaluationLabel.setVisible(true);
                 
-                //TODO Add image management in JUCMNavPlugin class
                 if (evaluationImg != null) {
                     evaluationImg.dispose();
                     evaluationImg = null;

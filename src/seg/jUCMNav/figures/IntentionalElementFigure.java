@@ -20,7 +20,7 @@ import seg.jUCMNav.figures.anchors.DecompositionAnchor;
  * Rectangle figure that represent intentional elements:
  * - Softgoal = Cloud
  * - Goal = Ellipse
- * - Ressource = Rectangle
+ * - Resource = Rectangle
  * - Task = Triangular Rectangle
  * 
  * @author Jean-François Roy

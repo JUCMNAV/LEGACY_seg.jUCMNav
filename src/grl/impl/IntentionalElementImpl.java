@@ -6,7 +6,6 @@
  */
 package grl.impl;
 
-import grl.Criticality;
 import grl.DecompositionType;
 import grl.ElementLink;
 import grl.Evaluation;
@@ -15,7 +14,6 @@ import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
-import grl.Priority;
 
 import java.util.Collection;
 
@@ -40,8 +38,6 @@ import urncore.impl.GRLmodelElementImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link grl.impl.IntentionalElementImpl#getType <em>Type</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getCriticality <em>Criticality</em>}</li>
- *   <li>{@link grl.impl.IntentionalElementImpl#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getDecompositionType <em>Decomposition Type</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link grl.impl.IntentionalElementImpl#getFillColor <em>Fill Color</em>}</li>
@@ -76,46 +72,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      * @ordered
      */
     protected IntentionalElementType type = TYPE_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getCriticality()
-     * @generated
-     * @ordered
-     */
-    protected static final Criticality CRITICALITY_EDEFAULT = Criticality.MEDIUM_LITERAL;
-
-    /**
-     * The cached value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getCriticality()
-     * @generated
-     * @ordered
-     */
-    protected Criticality criticality = CRITICALITY_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getPriority() <em>Priority</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getPriority()
-     * @generated
-     * @ordered
-     */
-    protected static final Priority PRIORITY_EDEFAULT = Priority.MEDIUM_LITERAL;
-
-    /**
-     * The cached value of the '{@link #getPriority() <em>Priority</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getPriority()
-     * @generated
-     * @ordered
-     */
-    protected Priority priority = PRIORITY_EDEFAULT;
 
     /**
      * The default value of the '{@link #getDecompositionType() <em>Decomposition Type</em>}' attribute.
@@ -274,48 +230,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
         type = newType == null ? TYPE_EDEFAULT : newType;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__TYPE, oldType, type));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Criticality getCriticality() {
-        return criticality;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setCriticality(Criticality newCriticality) {
-        Criticality oldCriticality = criticality;
-        criticality = newCriticality == null ? CRITICALITY_EDEFAULT : newCriticality;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY, oldCriticality, criticality));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Priority getPriority() {
-        return priority;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setPriority(Priority newPriority) {
-        Priority oldPriority = priority;
-        priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT__PRIORITY, oldPriority, priority));
     }
 
     /**
@@ -579,10 +493,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return getDescription();
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return getType();
-            case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
-                return getCriticality();
-            case GrlPackage.INTENTIONAL_ELEMENT__PRIORITY:
-                return getPriority();
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 return getDecompositionType();
             case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
@@ -631,12 +541,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType((IntentionalElementType)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
-                setCriticality((Criticality)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__PRIORITY:
-                setPriority((Priority)newValue);
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 setDecompositionType((DecompositionType)newValue);
@@ -698,12 +602,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType(TYPE_EDEFAULT);
                 return;
-            case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
-                setCriticality(CRITICALITY_EDEFAULT);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__PRIORITY:
-                setPriority(PRIORITY_EDEFAULT);
-                return;
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 setDecompositionType(DECOMPOSITION_TYPE_EDEFAULT);
                 return;
@@ -754,10 +652,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return type != TYPE_EDEFAULT;
-            case GrlPackage.INTENTIONAL_ELEMENT__CRITICALITY:
-                return criticality != CRITICALITY_EDEFAULT;
-            case GrlPackage.INTENTIONAL_ELEMENT__PRIORITY:
-                return priority != PRIORITY_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
                 return decompositionType != DECOMPOSITION_TYPE_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__LINE_COLOR:
@@ -791,10 +685,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (type: ");
         result.append(type);
-        result.append(", criticality: ");
-        result.append(criticality);
-        result.append(", priority: ");
-        result.append(priority);
         result.append(", decompositionType: ");
         result.append(decompositionType);
         result.append(", lineColor: ");

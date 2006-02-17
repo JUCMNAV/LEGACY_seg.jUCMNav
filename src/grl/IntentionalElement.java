@@ -19,8 +19,6 @@ import urncore.GRLmodelElement;
  * The following features are supported:
  * <ul>
  *   <li>{@link grl.IntentionalElement#getType <em>Type</em>}</li>
- *   <li>{@link grl.IntentionalElement#getCriticality <em>Criticality</em>}</li>
- *   <li>{@link grl.IntentionalElement#getPriority <em>Priority</em>}</li>
  *   <li>{@link grl.IntentionalElement#getDecompositionType <em>Decomposition Type</em>}</li>
  *   <li>{@link grl.IntentionalElement#getLineColor <em>Line Color</em>}</li>
  *   <li>{@link grl.IntentionalElement#getFillColor <em>Fill Color</em>}</li>
@@ -66,66 +64,6 @@ public interface IntentionalElement extends GRLmodelElement{
      * @generated
      */
     void setType(IntentionalElementType value);
-
-    /**
-     * Returns the value of the '<em><b>Criticality</b></em>' attribute.
-     * The default value is <code>"Medium"</code>.
-     * The literals are from the enumeration {@link grl.Criticality}.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Criticality</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Criticality</em>' attribute.
-     * @see grl.Criticality
-     * @see #setCriticality(Criticality)
-     * @see grl.GrlPackage#getIntentionalElement_Criticality()
-     * @model default="Medium"
-     * @generated
-     */
-    Criticality getCriticality();
-
-    /**
-     * Sets the value of the '{@link grl.IntentionalElement#getCriticality <em>Criticality</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Criticality</em>' attribute.
-     * @see grl.Criticality
-     * @see #getCriticality()
-     * @generated
-     */
-    void setCriticality(Criticality value);
-
-    /**
-     * Returns the value of the '<em><b>Priority</b></em>' attribute.
-     * The default value is <code>"Medium"</code>.
-     * The literals are from the enumeration {@link grl.Priority}.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Priority</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Priority</em>' attribute.
-     * @see grl.Priority
-     * @see #setPriority(Priority)
-     * @see grl.GrlPackage#getIntentionalElement_Priority()
-     * @model default="Medium"
-     * @generated
-     */
-    Priority getPriority();
-
-    /**
-     * Sets the value of the '{@link grl.IntentionalElement#getPriority <em>Priority</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Priority</em>' attribute.
-     * @see grl.Priority
-     * @see #getPriority()
-     * @generated
-     */
-    void setPriority(Priority value);
 
     /**
      * Returns the value of the '<em><b>Decomposition Type</b></em>' attribute.

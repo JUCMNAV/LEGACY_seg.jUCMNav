@@ -20,8 +20,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
+import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
@@ -192,6 +194,18 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         if (attr.getName() == "evaluation"){
             TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "evaluationLevel (100 to -100)");
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    int intValue = -1;
+                    try {
+                        intValue = Integer.parseInt((String) value);
+                        return null;
+                    } catch (NumberFormatException exc) {
+                        return "Not Number"; 
+                    }
+                }
+            });
             pd.setCategory("Scenario"); //$NON-NLS-1$
             descriptors.add(pd);   
         }
