@@ -101,37 +101,39 @@ public class EvaluationScenarioManager {
                 if (contrib.getContribution().getValue() != ContributionType.UNKNOWN){
                     int srcNode = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                     //The source node value is between -100 and 100. For the contribution calculation, 
-                    //denied value correspond to 0. The value should be between 0 and 100.
-                    srcNode = 50 + srcNode/2;
-                    
-                    double resultContrib;
-                    switch (contrib.getContribution().getValue()){
-                        case ContributionType.MAKE:
-                            resultContrib = srcNode;
-                            break;
-                        case ContributionType.HELP:
-                            resultContrib = srcNode * 0.5;
-                            break;
-                        case ContributionType.SOME_POSITIVE:
-                            resultContrib = srcNode * 0.25;
-                            break;
-                        case ContributionType.SOME_NEGATIVE:
-                            resultContrib = srcNode * -0.25;
-                            break;
-                        case ContributionType.HURT:
-                            resultContrib = srcNode * -0.5;
-                            break;
-                        case ContributionType.BREAK:
-                            resultContrib = srcNode * -1;
-                            break;
-                        default:
-                            resultContrib = 0;
-                            break;
-                    }
-                    if (resultContrib != 0){
-                        contributionValues[contribArrayIt] = 
-                            (new Double(Math.round(resultContrib))).intValue();
-                        contribArrayIt++;
+                    //denied value correspond to 0. The value should be between 0 and 100 and the source evaluation should not be 0.
+                    if (srcNode != 0){
+                        srcNode = 50 + srcNode/2;
+                        
+                        double resultContrib;
+                        switch (contrib.getContribution().getValue()){
+                            case ContributionType.MAKE:
+                                resultContrib = srcNode;
+                                break;
+                            case ContributionType.HELP:
+                                resultContrib = srcNode * 0.5;
+                                break;
+                            case ContributionType.SOME_POSITIVE:
+                                resultContrib = srcNode * 0.25;
+                                break;
+                            case ContributionType.SOME_NEGATIVE:
+                                resultContrib = srcNode * -0.25;
+                                break;
+                            case ContributionType.HURT:
+                                resultContrib = srcNode * -0.5;
+                                break;
+                            case ContributionType.BREAK:
+                                resultContrib = srcNode * -1;
+                                break;
+                            default:
+                                resultContrib = 0;
+                                break;
+                        }
+                        if (resultContrib != 0){
+                            contributionValues[contribArrayIt] = 
+                                (new Double(Math.round(resultContrib))).intValue();
+                            contribArrayIt++;
+                        }
                     }
                 }
             }
