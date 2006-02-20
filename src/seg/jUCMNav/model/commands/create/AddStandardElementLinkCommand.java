@@ -17,7 +17,7 @@ import urn.URNspec;
  * @author Jean-François Roy
  *
  */
-public class AddElementLinkCommand extends Command implements JUCMNavCommand{
+public class AddStandardElementLinkCommand extends Command implements JUCMNavCommand{
 
     private IntentionalElement src, dest;
     private URNspec urnspec;
@@ -26,7 +26,7 @@ public class AddElementLinkCommand extends Command implements JUCMNavCommand{
     /**
      * 
      */
-    public AddElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
+    public AddStandardElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
         
         this.urnspec = urn;
         this.link = link;

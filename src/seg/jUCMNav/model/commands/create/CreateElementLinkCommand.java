@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import grl.Dependency;
 import grl.ElementLink;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -36,7 +37,11 @@ public class CreateElementLinkCommand extends CompoundCommand {
         this.urn = urn;
         this.link = link;
         
-        add(new AddElementLinkCommand(urn, source, link));
+        if (link instanceof Dependency){
+            add(new AddDependencyElementLinkCommand(urn, source, (Dependency)link));
+        } else{
+            add(new AddStandardElementLinkCommand(urn, source, link));
+        }
     }
 
     /* (non-Javadoc)
@@ -91,8 +96,10 @@ public class CreateElementLinkCommand extends CompoundCommand {
        this.dest = target;
         for (Iterator iter = getCommands().iterator(); iter.hasNext();){
            Command cmd = (Command)iter.next();
-           if (cmd instanceof AddElementLinkCommand){
-               ((AddElementLinkCommand)cmd).setTarget(target);
+           if (cmd instanceof AddStandardElementLinkCommand){
+               ((AddStandardElementLinkCommand)cmd).setTarget(target);
+           } else if (cmd instanceof AddDependencyElementLinkCommand){
+               ((AddDependencyElementLinkCommand)cmd).setTarget(target);
            }
         }
     }
