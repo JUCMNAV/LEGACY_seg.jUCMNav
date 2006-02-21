@@ -1,0 +1,53 @@
+<!--
+**********************************************************************
+* XML DTD for GRL Catalog
+**********************************************************************
+# Authors: Jean-François Roy
+# Version: 0.1
+# Date: 2006/02/20
+# Root Element: grl-catalog
+-->
+
+<!-- ************** ROOT ELEMENT ************** -->
+<!ELEMENT grl-catalog (element-def?, link-def?)>
+<!ATTLIST grl-catalog  
+                    catalog-name CDATA  #REQUIRED
+                    description CDATA #IMPLIED
+                    author CDATA #IMPLIED>
+
+
+<!-- ************** OTHER ELEMENTS ************** -->
+<!ELEMENT element-def(intentional-elements?)>
+
+<!ElEMENT intentional-element EMPTY>
+<!ATTLIST intentional-element
+					id ID #REQUIRED
+					name CDATA #REQUIRED
+					description CDATA #IMPLIED
+					type CDATA #REQUIRED 
+					decompositiontype CDATA #REQUIRED>
+
+<!ELEMENT link-def(dependency?, decomposition?, contribution?)>
+
+<!ELEMENT dependency EMPTY>
+<!ATTLIST dependency
+					name CDATA #REQUIRED
+					description CDATA #REQUIRED
+					dependeeid IDREF #REQUIRED
+					dependerid IDREF #REQUIRED >
+						
+<!ELEMENT decomposition EMPTY>
+<!ATTLIST decomposition
+					name CDATA #REQUIRED
+					description CDATA #REQUIRED
+					srcid IDREF #REQUIRED
+					destid IDREF #REQUIRED >	
+						
+<!ELEMENT contribution EMPTY>
+<!ATTLIST contribution
+					name CDATA #REQUIRED
+					description CDATA #REQUIRED
+					srcid IDREF #REQUIRED
+					destid IDREF #REQUIRED
+					contributiontype CDATA #REQUIRED 
+					correlation CDATA #REQUIRED >		

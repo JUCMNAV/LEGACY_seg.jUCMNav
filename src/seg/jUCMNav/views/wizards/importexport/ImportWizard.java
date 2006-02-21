@@ -87,7 +87,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
                 newurn = importer.importURN(path);
             }
 
-            newurn = importer.importURN(ImportPreferenceHelper.getPath());
+            //newurn = importer.importURN(ImportPreferenceHelper.getPath());
         }
         return b;
     }

@@ -205,6 +205,12 @@
             name="%ExportDXL"
             postExporter="seg.jUCMNav.ExportBMP"
             useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportGRLCatalog"
+            extension="xml"
+            id="seg.jUCMNav.ExportGRLCatalog"
+            name="GRL Catalog (*.xml)"
+            useStream="false"/>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">
@@ -218,6 +224,12 @@
          id="seg.jUCMNav.importexport.ImportURN"
          name="%import"
          point="seg.jUCMNav.URNImport">
+      <importer
+            class="seg.jUCMNav.importexport.ImportGRLCatalog"
+            extension="xml"
+            id="seg.jUCMNav.ImportGRLCatalog"
+            name="GRL Catalog (*.xml)"
+            useStream="true"/>
    </extension>
 
 </plugin>

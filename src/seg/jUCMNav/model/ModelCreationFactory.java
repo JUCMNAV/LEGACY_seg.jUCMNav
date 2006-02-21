@@ -398,6 +398,9 @@ public class ModelCreationFactory implements CreationFactory {
         // add its UCMspec
         urnspec.setUcmspec(UcmFactory.eINSTANCE.createUCMspec());
 
+        // add its GRLspec
+        urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
+        
         // add the new map to the UCMspec
         urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
 
