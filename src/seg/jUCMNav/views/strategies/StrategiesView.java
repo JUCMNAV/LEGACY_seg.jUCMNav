@@ -28,8 +28,8 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editparts.URNRootEditPart;
-import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationScenarioTreeEditPart;
-import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioTreeEditPartFactory;
+import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
@@ -208,7 +208,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
     
             viewer.setEditDomain(new DefaultEditDomain(multieditor));
-            viewer.setEditPartFactory(new ScenarioTreeEditPartFactory(multieditor.getModel()));
+            viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
     
            
             //Hook context menu
@@ -252,8 +252,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         if ((event.getSource() instanceof TreeViewer) && (multieditor != null)){
             for (Iterator j = sel.iterator(); j.hasNext();) {
                 Object obj = (Object) j.next();
-                if (obj instanceof EvaluationScenarioTreeEditPart){
-                    EvaluationStrategy scen = ((EvaluationScenarioTreeEditPart)obj).getEvaluationScenario();
+                if (obj instanceof EvaluationStategyTreeEditPart){
+                    EvaluationStrategy scen = ((EvaluationStategyTreeEditPart)obj).getEvaluationStrategy();
                     (EvaluationStrategyManager.getInstance()).setStrategy(scen);
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY){

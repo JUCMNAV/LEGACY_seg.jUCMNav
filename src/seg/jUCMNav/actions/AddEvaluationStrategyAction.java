@@ -33,7 +33,7 @@ public class AddEvaluationStrategyAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getEvaluationGroup() != null;
+        return sel.getUrnspec() != null && sel.getStrategiesGroup() != null;
     }
 
     /**
@@ -42,7 +42,7 @@ public class AddEvaluationStrategyAction extends URNSelectionAction {
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         
-        CreateStrategyCommand create = new CreateStrategyCommand(sel.getUrnspec(), sel.getEvaluationGroup());
+        CreateStrategyCommand create = new CreateStrategyCommand(sel.getUrnspec(), sel.getStrategiesGroup());
 
         return create;
     }

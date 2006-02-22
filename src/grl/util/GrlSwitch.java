@@ -15,7 +15,6 @@ import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
@@ -25,6 +24,7 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
+import grl.StrategiesGroup;
 
 import java.util.List;
 
@@ -252,11 +252,11 @@ public class GrlSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case GrlPackage.EVALUATION_GROUP: {
-                EvaluationGroup evaluationGroup = (EvaluationGroup)theEObject;
-                Object result = caseEvaluationGroup(evaluationGroup);
-                if (result == null) result = caseGRLmodelElement(evaluationGroup);
-                if (result == null) result = caseURNmodelElement(evaluationGroup);
+            case GrlPackage.STRATEGIES_GROUP: {
+                StrategiesGroup strategiesGroup = (StrategiesGroup)theEObject;
+                Object result = caseStrategiesGroup(strategiesGroup);
+                if (result == null) result = caseGRLmodelElement(strategiesGroup);
+                if (result == null) result = caseURNmodelElement(strategiesGroup);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -520,17 +520,17 @@ public class GrlSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Evaluation Group</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>Strategies Group</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Evaluation Group</em>'.
+     * @return the result of interpretting the object as an instance of '<em>Strategies Group</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseEvaluationGroup(EvaluationGroup object) {
+    public Object caseStrategiesGroup(StrategiesGroup object) {
         return null;
     }
 

@@ -6,10 +6,10 @@
  */
 package grl.impl;
 
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
+import grl.StrategiesGroup;
 
 import java.util.Collection;
 
@@ -32,19 +32,19 @@ import urncore.impl.GRLmodelElementImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Evaluation Group</b></em>'.
+ * An implementation of the model object '<em><b>Strategies Group</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link grl.impl.EvaluationGroupImpl#getStrategies <em>Strategies</em>}</li>
- *   <li>{@link grl.impl.EvaluationGroupImpl#getGrlspec <em>Grlspec</em>}</li>
+ *   <li>{@link grl.impl.StrategiesGroupImpl#getStrategies <em>Strategies</em>}</li>
+ *   <li>{@link grl.impl.StrategiesGroupImpl#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class EvaluationGroupImpl extends GRLmodelElementImpl implements EvaluationGroup {
+public class StrategiesGroupImpl extends GRLmodelElementImpl implements StrategiesGroup {
     /**
      * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' reference list.
      * <!-- begin-user-doc -->
@@ -60,7 +60,7 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      * <!-- end-user-doc -->
      * @generated
      */
-    protected EvaluationGroupImpl() {
+    protected StrategiesGroupImpl() {
         super();
     }
 
@@ -70,7 +70,7 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      * @generated
      */
     protected EClass eStaticClass() {
-        return GrlPackage.eINSTANCE.getEvaluationGroup();
+        return GrlPackage.eINSTANCE.getStrategiesGroup();
     }
 
     /**
@@ -80,7 +80,7 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public EList getStrategies() {
         if (strategies == null) {
-            strategies = new EObjectWithInverseResolvingEList(EvaluationStrategy.class, this, GrlPackage.EVALUATION_GROUP__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GROUP);
+            strategies = new EObjectWithInverseResolvingEList(EvaluationStrategy.class, this, GrlPackage.STRATEGIES_GROUP__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GROUP);
         }
         return strategies;
     }
@@ -91,7 +91,7 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      * @generated
      */
     public GRLspec getGrlspec() {
-        if (eContainerFeatureID != GrlPackage.EVALUATION_GROUP__GRLSPEC) return null;
+        if (eContainerFeatureID != GrlPackage.STRATEGIES_GROUP__GRLSPEC) return null;
         return (GRLspec)eContainer;
     }
 
@@ -101,19 +101,19 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      * @generated
      */
     public void setGrlspec(GRLspec newGrlspec) {
-        if (newGrlspec != eContainer || (eContainerFeatureID != GrlPackage.EVALUATION_GROUP__GRLSPEC && newGrlspec != null)) {
+        if (newGrlspec != eContainer || (eContainerFeatureID != GrlPackage.STRATEGIES_GROUP__GRLSPEC && newGrlspec != null)) {
             if (EcoreUtil.isAncestor(this, newGrlspec))
                 throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
             NotificationChain msgs = null;
             if (eContainer != null)
                 msgs = eBasicRemoveFromContainer(msgs);
             if (newGrlspec != null)
-                msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__EVALUATION_GROUPS, GRLspec.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.EVALUATION_GROUP__GRLSPEC, msgs);
+                msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__GROUPS, GRLspec.class, msgs);
+            msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.STRATEGIES_GROUP__GRLSPEC, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_GROUP__GRLSPEC, newGrlspec, newGrlspec));
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.STRATEGIES_GROUP__GRLSPEC, newGrlspec, newGrlspec));
     }
 
     /**
@@ -124,16 +124,16 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+                case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                     return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+                case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                     return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicAdd(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__GRLSPEC:
+                case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, GrlPackage.EVALUATION_GROUP__GRLSPEC, msgs);
+                    return eBasicSetContainer(otherEnd, GrlPackage.STRATEGIES_GROUP__GRLSPEC, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -151,14 +151,14 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+                case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                     return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+                case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                     return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__GRLSPEC:
-                    return eBasicSetContainer(null, GrlPackage.EVALUATION_GROUP__GRLSPEC, msgs);
+                case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
+                    return eBasicSetContainer(null, GrlPackage.STRATEGIES_GROUP__GRLSPEC, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -174,8 +174,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
     public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
         if (eContainerFeatureID >= 0) {
             switch (eContainerFeatureID) {
-                case GrlPackage.EVALUATION_GROUP__GRLSPEC:
-                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__EVALUATION_GROUPS, GRLspec.class, msgs);
+                case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
+                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__GROUPS, GRLspec.class, msgs);
                 default:
                     return eDynamicBasicRemoveFromContainer(msgs);
             }
@@ -190,19 +190,19 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                 return getFromLinks();
-            case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                 return getToLinks();
-            case GrlPackage.EVALUATION_GROUP__ID:
+            case GrlPackage.STRATEGIES_GROUP__ID:
                 return getId();
-            case GrlPackage.EVALUATION_GROUP__NAME:
+            case GrlPackage.STRATEGIES_GROUP__NAME:
                 return getName();
-            case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
+            case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+            case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 return getStrategies();
-            case GrlPackage.EVALUATION_GROUP__GRLSPEC:
+            case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
                 return getGrlspec();
         }
         return eDynamicGet(eFeature, resolve);
@@ -215,28 +215,28 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                 getFromLinks().clear();
                 getFromLinks().addAll((Collection)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                 getToLinks().clear();
                 getToLinks().addAll((Collection)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__ID:
+            case GrlPackage.STRATEGIES_GROUP__ID:
                 setId((String)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__NAME:
+            case GrlPackage.STRATEGIES_GROUP__NAME:
                 setName((String)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
+            case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+            case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 getStrategies().clear();
                 getStrategies().addAll((Collection)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__GRLSPEC:
+            case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
                 return;
         }
@@ -250,25 +250,25 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                 getFromLinks().clear();
                 return;
-            case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                 getToLinks().clear();
                 return;
-            case GrlPackage.EVALUATION_GROUP__ID:
+            case GrlPackage.STRATEGIES_GROUP__ID:
                 setId(ID_EDEFAULT);
                 return;
-            case GrlPackage.EVALUATION_GROUP__NAME:
+            case GrlPackage.STRATEGIES_GROUP__NAME:
                 setName(NAME_EDEFAULT);
                 return;
-            case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
+            case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+            case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 getStrategies().clear();
                 return;
-            case GrlPackage.EVALUATION_GROUP__GRLSPEC:
+            case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
                 setGrlspec((GRLspec)null);
                 return;
         }
@@ -282,22 +282,22 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.EVALUATION_GROUP__FROM_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
                 return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.EVALUATION_GROUP__TO_LINKS:
+            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
                 return toLinks != null && !toLinks.isEmpty();
-            case GrlPackage.EVALUATION_GROUP__ID:
+            case GrlPackage.STRATEGIES_GROUP__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case GrlPackage.EVALUATION_GROUP__NAME:
+            case GrlPackage.STRATEGIES_GROUP__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
+            case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+            case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 return strategies != null && !strategies.isEmpty();
-            case GrlPackage.EVALUATION_GROUP__GRLSPEC:
+            case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
                 return getGrlspec() != null;
         }
         return eDynamicIsSet(eFeature);
     }
 
-} //EvaluationGroupImpl
+} //StrategiesGroupImpl

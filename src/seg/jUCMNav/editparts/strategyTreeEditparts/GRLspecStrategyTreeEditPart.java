@@ -16,18 +16,18 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 
 /**
- * This class is the root edit part for the Scenario view. 
+ * This class is the root edit part for the stategies view. 
  * 
  * @author Jean-François Roy
  *
  */
-public class GRLspecScenarioTreeEditPart extends ScenarioUrnModelElementTreeEditPart {
+public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     
     /**
      * @param editor
      *          The UCMNavMultiPageEditor
      */
-    public GRLspecScenarioTreeEditPart(GRLspec model) {
+    public GRLspecStrategyTreeEditPart(GRLspec model) {
         super(model);
     }
 
@@ -65,11 +65,11 @@ public class GRLspecScenarioTreeEditPart extends ScenarioUrnModelElementTreeEdit
     }
     
     /**
-     * @return the sorted list of Scenario Group
+     * @return the sorted list of Strategy Group
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getGRLspec().getEvaluationGroups());
+        list.addAll(getGRLspec().getGroups());
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -82,6 +82,6 @@ public class GRLspecScenarioTreeEditPart extends ScenarioUrnModelElementTreeEdit
      * @return the URNspec name.
      */
     protected String getText() {
-        return "GRL Scenarios";
+        return "GRL Evaluation Strategies";
     }
 }

@@ -3,7 +3,7 @@
  */
 package seg.jUCMNav.model.commands.delete;
 
-import grl.EvaluationGroup;
+import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
@@ -16,18 +16,18 @@ import urn.URNspec;
  * @author Jean-François Roy
  *
  */
-public class DeleteEvaluationGroupCommand extends Command implements JUCMNavCommand {
+public class DeleteStrategiesGroupCommand extends Command implements JUCMNavCommand {
 
-    private EvaluationGroup group;
+    private StrategiesGroup group;
     
     // the URNspec in which it is contained
     private URNspec urn;
     /**
      * 
      */
-    public DeleteEvaluationGroupCommand(EvaluationGroup group) {
+    public DeleteStrategiesGroupCommand(StrategiesGroup group) {
         this.group = group;
-        setLabel("DeleteEvaluationGroup");
+        setLabel("DeleteStrategiesGroup");
     }
 
     /**
@@ -54,7 +54,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
     public void redo() {
         testPreConditions();
 
-        urn.getGrlspec().getEvaluationGroups().remove(group);
+        urn.getGrlspec().getGroups().remove(group);
 
         testPostConditions();
     }
@@ -65,7 +65,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
     public void testPreConditions() {
         assert group != null && urn != null : "pre something is null"; //$NON-NLS-1$
         assert group.getStrategies().size() == 0 : "pre can't delete if still strategies."; //$NON-NLS-1$
-        assert urn.getGrlspec().getEvaluationGroups().contains(group) : "pre group in model"; //$NON-NLS-1$
+        assert urn.getGrlspec().getGroups().contains(group) : "pre group in model"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -74,7 +74,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
     public void testPostConditions() {
         assert group != null && urn != null : "post something is null"; //$NON-NLS-1$
         assert group.getStrategies().size() == 0 : "post can't delete if still strategies."; //$NON-NLS-1$
-        assert !urn.getGrlspec().getEvaluationGroups().contains(group) : "post group in model"; //$NON-NLS-1$
+        assert !urn.getGrlspec().getGroups().contains(group) : "post group in model"; //$NON-NLS-1$
     }
 
     /**
@@ -85,7 +85,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
         testPostConditions();
 
         // re-add group
-        urn.getGrlspec().getEvaluationGroups().add(group);
+        urn.getGrlspec().getGroups().add(group);
 
         testPreConditions();
     }

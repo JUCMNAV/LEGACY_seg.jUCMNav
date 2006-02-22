@@ -19,7 +19,7 @@ import seg.jUCMNav.views.property.URNElementPropertySource;
  * 
  * @author Jean-François Roy
  */
-public class ScenarioUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
+public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
@@ -34,7 +34,7 @@ public class ScenarioUrnModelElementTreeEditPart extends AbstractTreeEditPart im
      * @param model
      *            the model element being edited.
      */
-    public ScenarioUrnModelElementTreeEditPart(Object model) {
+    public StrategyUrnModelElementTreeEditPart(Object model) {
         super(model);
     }
 

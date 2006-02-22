@@ -3,7 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
-import grl.EvaluationGroup;
+import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
@@ -12,24 +12,24 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
- * This command add an Evaluation Group to the model (for Evaluation Strategies)
+ * This command add an Strategies Group to the model (for Evaluation Strategies)
  * 
  * @author Jean-François Roy
  *
  */
-public class CreateEvaluationGroupCommand extends Command implements JUCMNavCommand {
+public class CreateStrategiesGroupCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
-    private EvaluationGroup group;
+    private StrategiesGroup group;
     
     /**
      * 
      */
-    public CreateEvaluationGroupCommand(URNspec urn) {
+    public CreateStrategiesGroupCommand(URNspec urn) {
         this.urn = urn;
         
-        group = (EvaluationGroup) ModelCreationFactory.getNewObject(urn, EvaluationGroup.class);
-        setLabel("CreateEvaluationGroupCommand");
+        group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
+        setLabel("CreateStrategiesGroupCommand");
     }
 
     /**
@@ -52,7 +52,7 @@ public class CreateEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void redo() {
         testPreConditions();
-        urn.getGrlspec().getEvaluationGroups().add(group);
+        urn.getGrlspec().getGroups().add(group);
         testPostConditions();
     }
     
@@ -61,7 +61,7 @@ public class CreateEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void testPostConditions() {
         assert urn != null && urn.getGrlspec() != null && group != null : "post not null"; //$NON-NLS-1$
-        assert urn.getGrlspec().getEvaluationGroups().contains(group) : "post group not in model"; //$NON-NLS-1$
+        assert urn.getGrlspec().getGroups().contains(group) : "post group not in model"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -69,7 +69,7 @@ public class CreateEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void testPreConditions() {
         assert urn != null && urn.getGrlspec() != null && group != null : "pre not null"; //$NON-NLS-1$
-        assert !urn.getGrlspec().getEvaluationGroups().contains(group) : "pre groups not in model"; //$NON-NLS-1$
+        assert !urn.getGrlspec().getGroups().contains(group) : "pre groups not in model"; //$NON-NLS-1$
     }
 
 
@@ -78,7 +78,7 @@ public class CreateEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void undo() {
         testPostConditions();
-        urn.getGrlspec().getEvaluationGroups().remove(group);
+        urn.getGrlspec().getGroups().remove(group);
         testPreConditions();
     }
 }

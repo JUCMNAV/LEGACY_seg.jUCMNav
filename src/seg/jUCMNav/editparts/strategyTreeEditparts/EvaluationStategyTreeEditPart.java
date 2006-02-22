@@ -13,17 +13,17 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 
 /**
- * TreeEditPart for Scenario in the scenario view
+ * TreeEditPart for Strategy in the strategies view
  * 
  * @author Jean-François Roy
  *
  */
-public class EvaluationScenarioTreeEditPart extends ScenarioUrnModelElementTreeEditPart {
+public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
      * @param model
      */
-    public EvaluationScenarioTreeEditPart(EvaluationStrategy model) {
+    public EvaluationStategyTreeEditPart(EvaluationStrategy model) {
         super(model);
     }
 
@@ -34,7 +34,7 @@ public class EvaluationScenarioTreeEditPart extends ScenarioUrnModelElementTreeE
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
     }
     
-    public EvaluationStrategy getEvaluationScenario(){
+    public EvaluationStrategy getEvaluationStrategy(){
         return (EvaluationStrategy)getModel();
     }
     

@@ -7,24 +7,20 @@
 package grl.impl;
 
 import grl.Evaluation;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
+import grl.StrategiesGroup;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -86,7 +82,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      * @generated
      * @ordered
      */
-    protected EvaluationGroup group = null;
+    protected StrategiesGroup group = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -144,10 +140,10 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      * <!-- end-user-doc -->
      * @generated
      */
-    public EvaluationGroup getGroup() {
+    public StrategiesGroup getGroup() {
         if (group != null && group.eIsProxy()) {
-            EvaluationGroup oldGroup = group;
-            group = (EvaluationGroup)eResolveProxy((InternalEObject)group);
+            StrategiesGroup oldGroup = group;
+            group = (StrategiesGroup)eResolveProxy((InternalEObject)group);
             if (group != oldGroup) {
                 if (eNotificationRequired())
                     eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.EVALUATION_STRATEGY__GROUP, oldGroup, group));
@@ -161,7 +157,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      * <!-- end-user-doc -->
      * @generated
      */
-    public EvaluationGroup basicGetGroup() {
+    public StrategiesGroup basicGetGroup() {
         return group;
     }
 
@@ -170,8 +166,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetGroup(EvaluationGroup newGroup, NotificationChain msgs) {
-        EvaluationGroup oldGroup = group;
+    public NotificationChain basicSetGroup(StrategiesGroup newGroup, NotificationChain msgs) {
+        StrategiesGroup oldGroup = group;
         group = newGroup;
         if (eNotificationRequired()) {
             ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION_STRATEGY__GROUP, oldGroup, newGroup);
@@ -185,13 +181,13 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setGroup(EvaluationGroup newGroup) {
+    public void setGroup(StrategiesGroup newGroup) {
         if (newGroup != group) {
             NotificationChain msgs = null;
             if (group != null)
-                msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.EVALUATION_GROUP__STRATEGIES, EvaluationGroup.class, msgs);
+                msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.STRATEGIES_GROUP__STRATEGIES, StrategiesGroup.class, msgs);
             if (newGroup != null)
-                msgs = ((InternalEObject)newGroup).eInverseAdd(this, GrlPackage.EVALUATION_GROUP__STRATEGIES, EvaluationGroup.class, msgs);
+                msgs = ((InternalEObject)newGroup).eInverseAdd(this, GrlPackage.STRATEGIES_GROUP__STRATEGIES, StrategiesGroup.class, msgs);
             msgs = basicSetGroup(newGroup, msgs);
             if (msgs != null) msgs.dispatch();
         }
@@ -246,8 +242,8 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
                     return ((InternalEList)getEvaluations()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__GROUP:
                     if (group != null)
-                        msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.EVALUATION_GROUP__STRATEGIES, EvaluationGroup.class, msgs);
-                    return basicSetGroup((EvaluationGroup)otherEnd, msgs);
+                        msgs = ((InternalEObject)group).eInverseRemove(this, GrlPackage.STRATEGIES_GROUP__STRATEGIES, StrategiesGroup.class, msgs);
+                    return basicSetGroup((StrategiesGroup)otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -365,7 +361,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
                 getEvaluations().addAll((Collection)newValue);
                 return;
             case GrlPackage.EVALUATION_STRATEGY__GROUP:
-                setGroup((EvaluationGroup)newValue);
+                setGroup((StrategiesGroup)newValue);
                 return;
             case GrlPackage.EVALUATION_STRATEGY__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
@@ -403,7 +399,7 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
                 getEvaluations().clear();
                 return;
             case GrlPackage.EVALUATION_STRATEGY__GROUP:
-                setGroup((EvaluationGroup)null);
+                setGroup((StrategiesGroup)null);
                 return;
             case GrlPackage.EVALUATION_STRATEGY__GRLSPEC:
                 setGrlspec((GRLspec)null);

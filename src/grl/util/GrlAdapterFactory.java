@@ -15,7 +15,6 @@ import grl.Decomposition;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
@@ -25,6 +24,7 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
+import grl.StrategiesGroup;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -145,8 +145,8 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
             public Object caseBeliefLink(BeliefLink object) {
                 return createBeliefLinkAdapter();
             }
-            public Object caseEvaluationGroup(EvaluationGroup object) {
-                return createEvaluationGroupAdapter();
+            public Object caseStrategiesGroup(StrategiesGroup object) {
+                return createStrategiesGroupAdapter();
             }
             public Object caseURNmodelElement(URNmodelElement object) {
                 return createURNmodelElementAdapter();
@@ -426,16 +426,16 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link grl.EvaluationGroup <em>Evaluation Group</em>}'.
+     * Creates a new adapter for an object of class '{@link grl.StrategiesGroup <em>Strategies Group</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see grl.EvaluationGroup
+     * @see grl.StrategiesGroup
      * @generated
      */
-    public Adapter createEvaluationGroupAdapter() {
+    public Adapter createStrategiesGroupAdapter() {
         return null;
     }
 

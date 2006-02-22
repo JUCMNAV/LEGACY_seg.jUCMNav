@@ -2,12 +2,12 @@ package seg.jUCMNav.model.util;
 
 import grl.Actor;
 import grl.ActorRef;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.StrategiesGroup;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -561,8 +561,8 @@ public class URNNamingHelper {
             if (elem.getName() == null || elem.getName().trim().length() == 0) {
                 elem.setName(elem.getType().getName() + " " + elem.getId());
             }
-        } else if (o instanceof EvaluationGroup) {
-            EvaluationGroup group = (EvaluationGroup) o;
+        } else if (o instanceof StrategiesGroup) {
+            StrategiesGroup group = (StrategiesGroup) o;
             if (group.getId() == null || group.getId().trim().length() == 0) {
                 group.setId(getNewID(urn));
             }

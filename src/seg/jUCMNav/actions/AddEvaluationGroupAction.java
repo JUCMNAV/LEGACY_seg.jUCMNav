@@ -8,7 +8,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.model.commands.create.CreateEvaluationGroupCommand;
+import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 
 /**
  * @author Jean-François Roy
@@ -41,7 +41,7 @@ public class AddEvaluationGroupAction extends URNSelectionAction {
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         
-        CreateEvaluationGroupCommand create = new CreateEvaluationGroupCommand(sel.getUrnspec());
+        CreateStrategiesGroupCommand create = new CreateStrategiesGroupCommand(sel.getUrnspec());
 
         return create;
     }

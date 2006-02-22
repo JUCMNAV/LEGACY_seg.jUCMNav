@@ -8,7 +8,6 @@ import grl.Contribution;
 import grl.Decomposition;
 import grl.Dependency;
 import grl.Evaluation;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
@@ -18,6 +17,7 @@ import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
+import grl.StrategiesGroup;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -218,8 +218,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createBeliefLink();  
             } else if (targetClass.equals(LinkRefBendpoint.class)){
                 result = grlfactory.createLinkRefBendpoint();  
-            } else if (targetClass.equals(EvaluationGroup.class)){
-                result = grlfactory.createEvaluationGroup();  
+            } else if (targetClass.equals(StrategiesGroup.class)){
+                result = grlfactory.createStrategiesGroup();  
             } else if (targetClass.equals(EvaluationStrategy.class)){
                 result = grlfactory.createEvaluationStrategy();  
                 ((EvaluationStrategy)result).setAuthor(GeneralPreferencePage.getAuthor());
@@ -400,7 +400,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add its GRLspec
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
-        
+     
         // add the new map to the UCMspec
         urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
 

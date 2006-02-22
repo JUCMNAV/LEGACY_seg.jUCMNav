@@ -3,9 +3,9 @@
  */
 package seg.jUCMNav.model.commands.delete.internal;
 
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
+import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
@@ -18,7 +18,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 public class RemoveEvaluationStrategyCommand extends Command implements JUCMNavCommand {
 
     private EvaluationStrategy strategy;
-    private EvaluationGroup group;
+    private StrategiesGroup group;
     private GRLspec grl;
     
     /**
@@ -43,7 +43,6 @@ public class RemoveEvaluationStrategyCommand extends Command implements JUCMNavC
      */
     public void redo() {
         testPreConditions();
-        EvaluationGroup element;
         
         group.getStrategies().remove(strategy);
         

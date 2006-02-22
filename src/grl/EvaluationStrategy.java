@@ -76,7 +76,7 @@ public interface EvaluationStrategy extends GRLmodelElement{
 
     /**
      * Returns the value of the '<em><b>Group</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationGroup#getStrategies <em>Strategies</em>}'.
+     * It is bidirectional and its opposite is '{@link grl.StrategiesGroup#getStrategies <em>Strategies</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Group</em>' reference isn't clear,
@@ -84,13 +84,13 @@ public interface EvaluationStrategy extends GRLmodelElement{
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Group</em>' reference.
-     * @see #setGroup(EvaluationGroup)
+     * @see #setGroup(StrategiesGroup)
      * @see grl.GrlPackage#getEvaluationStrategy_Group()
-     * @see grl.EvaluationGroup#getStrategies
+     * @see grl.StrategiesGroup#getStrategies
      * @model opposite="strategies" required="true"
      * @generated
      */
-    EvaluationGroup getGroup();
+    StrategiesGroup getGroup();
 
     /**
      * Sets the value of the '{@link grl.EvaluationStrategy#getGroup <em>Group</em>}' reference.
@@ -100,7 +100,7 @@ public interface EvaluationStrategy extends GRLmodelElement{
      * @see #getGroup()
      * @generated
      */
-    void setGroup(EvaluationGroup value);
+    void setGroup(StrategiesGroup value);
 
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.

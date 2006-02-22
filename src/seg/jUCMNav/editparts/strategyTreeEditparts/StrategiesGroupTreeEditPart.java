@@ -3,7 +3,7 @@
  */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
-import grl.EvaluationGroup;
+import grl.StrategiesGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,21 +16,21 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editpolicies.element.EvaluationGroupComponentEditPolicy;
+import seg.jUCMNav.editpolicies.element.StrategiesGroupComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 
 /**
- * TreeEditPart for Evaluation Group
+ * TreeEditPart for Strategies Group
  * 
  * @author Jean-François Roy
  *
  */
-public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEditPart {
+public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
      * @param model
      */
-    public EvaluationGroupTreeEditPart(EvaluationGroup model) {
+    public StrategiesGroupTreeEditPart(StrategiesGroup model) {
         super(model);
     }
 
@@ -38,11 +38,11 @@ public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEdit
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationGroupComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
     }
     
-    public EvaluationGroup getEvaluationGroup(){
-        return (EvaluationGroup)getModel();
+    public StrategiesGroup getStrategiesGroup(){
+        return (StrategiesGroup)getModel();
     }
     
     /**
@@ -56,11 +56,11 @@ public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEdit
     }
     
     /**
-     * @return the sorted list of Scenario Group
+     * @return the sorted list of Strategy Group
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getEvaluationGroup().getStrategies());
+        list.addAll(getStrategiesGroup().getStrategies());
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -71,7 +71,7 @@ public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEdit
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getEvaluationGroup().getStrategies().size() == 0)
+        if (getStrategiesGroup().getStrategies().size() == 0)
             ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
         else
             ((TreeItem) widget).setForeground(new Color(null, 0, 0, 0));

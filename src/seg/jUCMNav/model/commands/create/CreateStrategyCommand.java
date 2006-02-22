@@ -3,8 +3,8 @@
  */
 package seg.jUCMNav.model.commands.create;
 
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
+import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
@@ -19,13 +19,13 @@ import urn.URNspec;
 public class CreateStrategyCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
-    private EvaluationGroup group;
+    private StrategiesGroup group;
     private EvaluationStrategy strategy;
     
     /**
      * 
      */
-    public CreateStrategyCommand(URNspec urn, EvaluationGroup group) {
+    public CreateStrategyCommand(URNspec urn, StrategiesGroup group) {
         this.urn = urn;
         this.group = group;
         strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urn, EvaluationStrategy.class);

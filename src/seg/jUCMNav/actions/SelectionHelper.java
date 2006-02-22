@@ -2,13 +2,13 @@ package seg.jUCMNav.actions;
 
 import grl.ActorRef;
 import grl.Belief;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
+import grl.StrategiesGroup;
 
 import java.util.Iterator;
 import java.util.List;
@@ -132,7 +132,7 @@ public class SelectionHelper {
     private GRLGraph grlgraph;
     private IntentionalElementRef intentionalelementref;
     private LinkRef linkref;
-    private EvaluationGroup group;
+    private StrategiesGroup group;
     private EvaluationStrategy strategy;
     
     public SelectionHelper(List selection) {
@@ -301,8 +301,8 @@ public class SelectionHelper {
         } else if (model instanceof GRLGraph && ((GRLGraph) model).getUrndefinition() != null) {
             grlgraph = (GRLGraph) model;
             urnspec = grlgraph.getUrndefinition().getUrnspec();
-        } else if (model instanceof EvaluationGroup) {
-            group = (EvaluationGroup)model;
+        } else if (model instanceof StrategiesGroup) {
+            group = (StrategiesGroup)model;
             urnspec = group.getGrlspec().getUrnspec();
         } else if (model instanceof GRLspec) {
             urnspec = ((GRLspec)model).getUrnspec();
@@ -502,7 +502,7 @@ public class SelectionHelper {
         return linkref;
     }
     
-    public EvaluationGroup getEvaluationGroup(){
+    public StrategiesGroup getStrategiesGroup(){
         return group;
     }
     

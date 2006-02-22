@@ -12,22 +12,22 @@ import urncore.GRLmodelElement;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Evaluation Group</b></em>'.
+ * A representation of the model object '<em><b>Strategies Group</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link grl.EvaluationGroup#getStrategies <em>Strategies</em>}</li>
- *   <li>{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}</li>
+ *   <li>{@link grl.StrategiesGroup#getStrategies <em>Strategies</em>}</li>
+ *   <li>{@link grl.StrategiesGroup#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
  *
- * @see grl.GrlPackage#getEvaluationGroup()
+ * @see grl.GrlPackage#getStrategiesGroup()
  * @model
  * @generated
  */
-public interface EvaluationGroup extends GRLmodelElement{
+public interface StrategiesGroup extends GRLmodelElement {
     /**
      * Returns the value of the '<em><b>Strategies</b></em>' reference list.
      * The list contents are of type {@link grl.EvaluationStrategy}.
@@ -39,7 +39,7 @@ public interface EvaluationGroup extends GRLmodelElement{
      * </p>
      * <!-- end-user-doc -->
      * @return the value of the '<em>Strategies</em>' reference list.
-     * @see grl.GrlPackage#getEvaluationGroup_Strategies()
+     * @see grl.GrlPackage#getStrategiesGroup_Strategies()
      * @see grl.EvaluationStrategy#getGroup
      * @model type="grl.EvaluationStrategy" opposite="group"
      * @generated
@@ -48,7 +48,7 @@ public interface EvaluationGroup extends GRLmodelElement{
 
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link grl.GRLspec#getEvaluationGroups <em>Evaluation Groups</em>}'.
+     * It is bidirectional and its opposite is '{@link grl.GRLspec#getGroups <em>Groups</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Grlspec</em>' container reference isn't clear,
@@ -57,15 +57,15 @@ public interface EvaluationGroup extends GRLmodelElement{
      * <!-- end-user-doc -->
      * @return the value of the '<em>Grlspec</em>' container reference.
      * @see #setGrlspec(GRLspec)
-     * @see grl.GrlPackage#getEvaluationGroup_Grlspec()
-     * @see grl.GRLspec#getEvaluationGroups
-     * @model opposite="evaluationGroups" required="true"
+     * @see grl.GrlPackage#getStrategiesGroup_Grlspec()
+     * @see grl.GRLspec#getGroups
+     * @model opposite="groups" required="true"
      * @generated
      */
     GRLspec getGrlspec();
 
     /**
-     * Sets the value of the '{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}' container reference.
+     * Sets the value of the '{@link grl.StrategiesGroup#getGrlspec <em>Grlspec</em>}' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @param value the new value of the '<em>Grlspec</em>' container reference.
@@ -74,4 +74,4 @@ public interface EvaluationGroup extends GRLmodelElement{
      */
     void setGrlspec(GRLspec value);
 
-} // EvaluationGroup
+} // StrategiesGroup

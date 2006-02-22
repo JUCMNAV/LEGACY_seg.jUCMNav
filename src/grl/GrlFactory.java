@@ -179,13 +179,13 @@ public interface GrlFactory extends EFactory{
     BeliefLink createBeliefLink();
 
     /**
-     * Returns a new object of class '<em>Evaluation Group</em>'.
+     * Returns a new object of class '<em>Strategies Group</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return a new object of class '<em>Evaluation Group</em>'.
+     * @return a new object of class '<em>Strategies Group</em>'.
      * @generated
      */
-    EvaluationGroup createEvaluationGroup();
+    StrategiesGroup createStrategiesGroup();
 
     /**
      * Returns the package supported by this factory.

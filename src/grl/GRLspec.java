@@ -24,7 +24,7 @@ import urn.URNspec;
  *   <li>{@link grl.GRLspec#getIntElements <em>Int Elements</em>}</li>
  *   <li>{@link grl.GRLspec#getActors <em>Actors</em>}</li>
  *   <li>{@link grl.GRLspec#getLinks <em>Links</em>}</li>
- *   <li>{@link grl.GRLspec#getEvaluationGroups <em>Evaluation Groups</em>}</li>
+ *   <li>{@link grl.GRLspec#getGroups <em>Groups</em>}</li>
  *   <li>{@link grl.GRLspec#getStrategies <em>Strategies</em>}</li>
  * </ul>
  * </p>
@@ -117,22 +117,22 @@ public interface GRLspec extends EObject{
     EList getLinks();
 
     /**
-     * Returns the value of the '<em><b>Evaluation Groups</b></em>' containment reference list.
-     * The list contents are of type {@link grl.EvaluationGroup}.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}'.
+     * Returns the value of the '<em><b>Groups</b></em>' containment reference list.
+     * The list contents are of type {@link grl.StrategiesGroup}.
+     * It is bidirectional and its opposite is '{@link grl.StrategiesGroup#getGrlspec <em>Grlspec</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Evaluation Groups</em>' containment reference list isn't clear,
+     * If the meaning of the '<em>Groups</em>' containment reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Evaluation Groups</em>' containment reference list.
-     * @see grl.GrlPackage#getGRLspec_EvaluationGroups()
-     * @see grl.EvaluationGroup#getGrlspec
-     * @model type="grl.EvaluationGroup" opposite="grlspec" containment="true"
+     * @return the value of the '<em>Groups</em>' containment reference list.
+     * @see grl.GrlPackage#getGRLspec_Groups()
+     * @see grl.StrategiesGroup#getGrlspec
+     * @model type="grl.StrategiesGroup" opposite="grlspec" containment="true"
      * @generated
      */
-    EList getEvaluationGroups();
+    EList getGroups();
 
     /**
      * Returns the value of the '<em><b>Strategies</b></em>' containment reference list.

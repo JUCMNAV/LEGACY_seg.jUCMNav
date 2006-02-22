@@ -3,13 +3,13 @@
  */
 package seg.jUCMNav.editpolicies.element;
 
-import grl.EvaluationGroup;
+import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import seg.jUCMNav.model.commands.delete.DeleteEvaluationGroupCommand;
+import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 
 /**
  * ComponentEditPolicy for EvaluationGroup. Return the delete command
@@ -17,18 +17,18 @@ import seg.jUCMNav.model.commands.delete.DeleteEvaluationGroupCommand;
  * @author Jean-François Roy
  *
  */
-public class EvaluationGroupComponentEditPolicy extends ComponentEditPolicy {
+public class StrategiesGroupComponentEditPolicy extends ComponentEditPolicy {
 
     /**
-     * Return a DeleteEvaluationGroupCommand
+     * Return a DeleteStrategiesGroupCommand
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object obj = getHost().getModel();
-        if (obj instanceof EvaluationGroup) {
+        if (obj instanceof StrategiesGroup) {
 
-            EvaluationGroup group = (EvaluationGroup) obj;
+            StrategiesGroup group = (StrategiesGroup) obj;
             if (group.getStrategies().size() == 0) {
-                DeleteEvaluationGroupCommand deleteCommand = new DeleteEvaluationGroupCommand(group);
+                DeleteStrategiesGroupCommand deleteCommand = new DeleteStrategiesGroupCommand(group);
                 return deleteCommand;
             } else
                 return null;

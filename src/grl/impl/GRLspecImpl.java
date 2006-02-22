@@ -8,26 +8,22 @@ package grl.impl;
 
 import grl.Actor;
 import grl.ElementLink;
-import grl.EvaluationGroup;
 import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
+import grl.StrategiesGroup;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -46,7 +42,7 @@ import urn.UrnPackage;
  *   <li>{@link grl.impl.GRLspecImpl#getIntElements <em>Int Elements</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getActors <em>Actors</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getLinks <em>Links</em>}</li>
- *   <li>{@link grl.impl.GRLspecImpl#getEvaluationGroups <em>Evaluation Groups</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getGroups <em>Groups</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getStrategies <em>Strategies</em>}</li>
  * </ul>
  * </p>
@@ -85,14 +81,14 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
     protected EList links = null;
 
     /**
-     * The cached value of the '{@link #getEvaluationGroups() <em>Evaluation Groups</em>}' containment reference list.
+     * The cached value of the '{@link #getGroups() <em>Groups</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getEvaluationGroups()
+     * @see #getGroups()
      * @generated
      * @ordered
      */
-    protected EList evaluationGroups = null;
+    protected EList groups = null;
 
     /**
      * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
@@ -194,11 +190,11 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getEvaluationGroups() {
-        if (evaluationGroups == null) {
-            evaluationGroups = new EObjectContainmentWithInverseEList(EvaluationGroup.class, this, GrlPackage.GR_LSPEC__EVALUATION_GROUPS, GrlPackage.EVALUATION_GROUP__GRLSPEC);
+    public EList getGroups() {
+        if (groups == null) {
+            groups = new EObjectContainmentWithInverseEList(StrategiesGroup.class, this, GrlPackage.GR_LSPEC__GROUPS, GrlPackage.STRATEGIES_GROUP__GRLSPEC);
         }
-        return evaluationGroups;
+        return groups;
     }
 
     /**
@@ -231,8 +227,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getActors()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__LINKS:
                     return ((InternalEList)getLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                    return ((InternalEList)getEvaluationGroups()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__GROUPS:
+                    return ((InternalEList)getGroups()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicAdd(otherEnd, msgs);
                 default:
@@ -260,8 +256,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getActors()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__LINKS:
                     return ((InternalEList)getLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                    return ((InternalEList)getEvaluationGroups()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__GROUPS:
+                    return ((InternalEList)getGroups()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
                 default:
@@ -303,8 +299,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return getActors();
             case GrlPackage.GR_LSPEC__LINKS:
                 return getLinks();
-            case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                return getEvaluationGroups();
+            case GrlPackage.GR_LSPEC__GROUPS:
+                return getGroups();
             case GrlPackage.GR_LSPEC__STRATEGIES:
                 return getStrategies();
         }
@@ -333,9 +329,9 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 getLinks().clear();
                 getLinks().addAll((Collection)newValue);
                 return;
-            case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                getEvaluationGroups().clear();
-                getEvaluationGroups().addAll((Collection)newValue);
+            case GrlPackage.GR_LSPEC__GROUPS:
+                getGroups().clear();
+                getGroups().addAll((Collection)newValue);
                 return;
             case GrlPackage.GR_LSPEC__STRATEGIES:
                 getStrategies().clear();
@@ -364,8 +360,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
             case GrlPackage.GR_LSPEC__LINKS:
                 getLinks().clear();
                 return;
-            case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                getEvaluationGroups().clear();
+            case GrlPackage.GR_LSPEC__GROUPS:
+                getGroups().clear();
                 return;
             case GrlPackage.GR_LSPEC__STRATEGIES:
                 getStrategies().clear();
@@ -389,8 +385,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return actors != null && !actors.isEmpty();
             case GrlPackage.GR_LSPEC__LINKS:
                 return links != null && !links.isEmpty();
-            case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
-                return evaluationGroups != null && !evaluationGroups.isEmpty();
+            case GrlPackage.GR_LSPEC__GROUPS:
+                return groups != null && !groups.isEmpty();
             case GrlPackage.GR_LSPEC__STRATEGIES:
                 return strategies != null && !strategies.isEmpty();
         }

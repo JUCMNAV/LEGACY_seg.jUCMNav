@@ -8,14 +8,14 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
- * This class is simply here because the root of our scenario (GRLspec)
+ * This class is simply here because the root of our strategy (GRLspec)
  * 
  * @author jfroy
  *  
  */
-public class ScenarioRootEditPart extends AbstractTreeEditPart {
+public class StrategyRootEditPart extends AbstractTreeEditPart {
 
-    public ScenarioRootEditPart(UCMNavMultiPageEditor editor) {
+    public StrategyRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
     }
 

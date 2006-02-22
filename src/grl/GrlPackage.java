@@ -109,13 +109,13 @@ public interface GrlPackage extends EPackage{
     int GR_LSPEC__LINKS = 3;
 
     /**
-     * The feature id for the '<em><b>Evaluation Groups</b></em>' containment reference list.
+     * The feature id for the '<em><b>Groups</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GR_LSPEC__EVALUATION_GROUPS = 4;
+    int GR_LSPEC__GROUPS = 4;
 
     /**
      * The feature id for the '<em><b>Strategies</b></em>' containment reference list.
@@ -1799,14 +1799,14 @@ public interface GrlPackage extends EPackage{
     int BELIEF_LINK_FEATURE_COUNT = UrncorePackage.IURN_CONNECTION_FEATURE_COUNT + 0;
 
     /**
-     * The meta object id for the '{@link grl.impl.EvaluationGroupImpl <em>Evaluation Group</em>}' class.
+     * The meta object id for the '{@link grl.impl.StrategiesGroupImpl <em>Strategies Group</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see grl.impl.EvaluationGroupImpl
-     * @see grl.impl.GrlPackageImpl#getEvaluationGroup()
+     * @see grl.impl.StrategiesGroupImpl
+     * @see grl.impl.GrlPackageImpl#getStrategiesGroup()
      * @generated
      */
-    int EVALUATION_GROUP = 17;
+    int STRATEGIES_GROUP = 17;
 
     /**
      * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -1815,7 +1815,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
+    int STRATEGIES_GROUP__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
 
     /**
      * The feature id for the '<em><b>To Links</b></em>' reference list.
@@ -1824,7 +1824,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
+    int STRATEGIES_GROUP__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -1833,7 +1833,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
+    int STRATEGIES_GROUP__ID = UrncorePackage.GR_LMODEL_ELEMENT__ID;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1842,7 +1842,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
+    int STRATEGIES_GROUP__NAME = UrncorePackage.GR_LMODEL_ELEMENT__NAME;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1851,7 +1851,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+    int STRATEGIES_GROUP__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
 
     /**
      * The feature id for the '<em><b>Strategies</b></em>' reference list.
@@ -1860,7 +1860,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int STRATEGIES_GROUP__STRATEGIES = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Grlspec</b></em>' container reference.
@@ -1869,16 +1869,16 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
+    int STRATEGIES_GROUP__GRLSPEC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
-     * The number of structural features of the the '<em>Evaluation Group</em>' class.
+     * The number of structural features of the the '<em>Strategies Group</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int EVALUATION_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int STRATEGIES_GROUP_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link grl.Criticality <em>Criticality</em>}' enum.
@@ -1986,15 +1986,15 @@ public interface GrlPackage extends EPackage{
     EReference getGRLspec_Links();
 
     /**
-     * Returns the meta object for the containment reference list '{@link grl.GRLspec#getEvaluationGroups <em>Evaluation Groups</em>}'.
+     * Returns the meta object for the containment reference list '{@link grl.GRLspec#getGroups <em>Groups</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Evaluation Groups</em>'.
-     * @see grl.GRLspec#getEvaluationGroups()
+     * @return the meta object for the containment reference list '<em>Groups</em>'.
+     * @see grl.GRLspec#getGroups()
      * @see #getGRLspec()
      * @generated
      */
-    EReference getGRLspec_EvaluationGroups();
+    EReference getGRLspec_Groups();
 
     /**
      * Returns the meta object for the containment reference list '{@link grl.GRLspec#getStrategies <em>Strategies</em>}'.
@@ -2531,36 +2531,36 @@ public interface GrlPackage extends EPackage{
     EClass getBeliefLink();
 
     /**
-     * Returns the meta object for class '{@link grl.EvaluationGroup <em>Evaluation Group</em>}'.
+     * Returns the meta object for class '{@link grl.StrategiesGroup <em>Strategies Group</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Evaluation Group</em>'.
-     * @see grl.EvaluationGroup
+     * @return the meta object for class '<em>Strategies Group</em>'.
+     * @see grl.StrategiesGroup
      * @generated
      */
-    EClass getEvaluationGroup();
+    EClass getStrategiesGroup();
 
     /**
-     * Returns the meta object for the reference list '{@link grl.EvaluationGroup#getStrategies <em>Strategies</em>}'.
+     * Returns the meta object for the reference list '{@link grl.StrategiesGroup#getStrategies <em>Strategies</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the reference list '<em>Strategies</em>'.
-     * @see grl.EvaluationGroup#getStrategies()
-     * @see #getEvaluationGroup()
+     * @see grl.StrategiesGroup#getStrategies()
+     * @see #getStrategiesGroup()
      * @generated
      */
-    EReference getEvaluationGroup_Strategies();
+    EReference getStrategiesGroup_Strategies();
 
     /**
-     * Returns the meta object for the container reference '{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}'.
+     * Returns the meta object for the container reference '{@link grl.StrategiesGroup#getGrlspec <em>Grlspec</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the container reference '<em>Grlspec</em>'.
-     * @see grl.EvaluationGroup#getGrlspec()
-     * @see #getEvaluationGroup()
+     * @see grl.StrategiesGroup#getGrlspec()
+     * @see #getStrategiesGroup()
      * @generated
      */
-    EReference getEvaluationGroup_Grlspec();
+    EReference getStrategiesGroup_Grlspec();
 
     /**
      * Returns the meta object for enum '{@link grl.Criticality <em>Criticality</em>}'.

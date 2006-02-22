@@ -55,7 +55,7 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
             case GrlPackage.GRL_NODE: return createGRLNode();
             case GrlPackage.LINK_REF_BENDPOINT: return createLinkRefBendpoint();
             case GrlPackage.BELIEF_LINK: return createBeliefLink();
-            case GrlPackage.EVALUATION_GROUP: return createEvaluationGroup();
+            case GrlPackage.STRATEGIES_GROUP: return createStrategiesGroup();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -295,9 +295,9 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EvaluationGroup createEvaluationGroup() {
-        EvaluationGroupImpl evaluationGroup = new EvaluationGroupImpl();
-        return evaluationGroup;
+    public StrategiesGroup createStrategiesGroup() {
+        StrategiesGroupImpl strategiesGroup = new StrategiesGroupImpl();
+        return strategiesGroup;
     }
 
     /**
