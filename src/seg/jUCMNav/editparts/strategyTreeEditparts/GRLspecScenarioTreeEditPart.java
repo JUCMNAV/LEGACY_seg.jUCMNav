@@ -1,7 +1,7 @@
 /**
  * 
  */
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import grl.GRLspec;
 

@@ -143,13 +143,13 @@ public interface GrlFactory extends EFactory{
     Evaluation createEvaluation();
 
     /**
-     * Returns a new object of class '<em>Evaluation Scenario</em>'.
+     * Returns a new object of class '<em>Evaluation Strategy</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return a new object of class '<em>Evaluation Scenario</em>'.
+     * @return a new object of class '<em>Evaluation Strategy</em>'.
      * @generated
      */
-    EvaluationScenario createEvaluationScenario();
+    EvaluationStrategy createEvaluationStrategy();
 
     /**
      * Returns a new object of class '<em>GRL Node</em>'.

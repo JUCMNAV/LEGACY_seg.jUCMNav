@@ -37,7 +37,7 @@ import seg.jUCMNav.editpolicies.element.LinkRefBendpointEditPolicy;
 import seg.jUCMNav.editpolicies.element.LinkRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.figures.LinkRefConnection;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
@@ -87,11 +87,11 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                     refreshVisuals();
                 }
                 if (featureId == GrlPackage.ELEMENT_LINK){
-                    EvaluationScenarioManager.getInstance().calculateEvaluation();
+                    EvaluationStrategyManager.getInstance().calculateEvaluation();
                 }
             } else if (type == Notification.SET){ //If a modification to the properties have been done
                 if (featureId == GrlPackage.ELEMENT_LINK){
-                    EvaluationScenarioManager.getInstance().calculateEvaluation();
+                    EvaluationStrategyManager.getInstance().calculateEvaluation();
                 }
                 refreshVisuals();
             }

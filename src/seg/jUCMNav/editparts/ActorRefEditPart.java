@@ -32,7 +32,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ActorRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ActorFigure;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 import urncore.IURNNode;
@@ -171,14 +171,14 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             // set information for specific drawing
             if (getActorRef().getContDef() instanceof Actor) {
                 Actor actor = (Actor) getActorRef().getContDef();
-                if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+                if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                     ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
                 } else { 
                     ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled());
                 }
                 
             }
-            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 evaluationLabel.setVisible(false);
             } else {
                 //Calculate the actor evaluation
@@ -211,7 +211,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             IURNNode node = (IURNNode)iter.next();
             if (node instanceof IntentionalElementRef){
                 IntentionalElementRef element = (IntentionalElementRef)node;
-                int evaluation = EvaluationScenarioManager.getInstance().getEvaluation(element.getDef());
+                int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element.getDef());
                 switch (element.getCriticality().getValue()){
                 case Criticality.HIGH:
                     if (evaluation > 0){

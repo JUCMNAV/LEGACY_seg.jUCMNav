@@ -3,7 +3,7 @@ package seg.jUCMNav.model.util;
 import grl.Actor;
 import grl.ActorRef;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.IntentionalElement;
@@ -570,13 +570,13 @@ public class URNNamingHelper {
             if (group.getName() == null || group.getName().trim().length() == 0) {
                 group.setName(getPrefix(o.getClass()) + group.getId());
             }
-        } else if (o instanceof EvaluationScenario) {
-            EvaluationScenario scenario = (EvaluationScenario) o;
-            if (scenario.getId() == null || scenario.getId().trim().length() == 0) {
-                scenario.setId(getNewID(urn));
+        } else if (o instanceof EvaluationStrategy) {
+            EvaluationStrategy strategy = (EvaluationStrategy) o;
+            if (strategy.getId() == null || strategy.getId().trim().length() == 0) {
+                strategy.setId(getNewID(urn));
             }
 
-            scenario.setName("Scenario" + scenario.getId());
+            strategy.setName("Strategy" + strategy.getId());
         } else if (o instanceof URNmodelElement) {
             URNmodelElement model = (URNmodelElement) o;
             if (model.getId() == null || model.getId().trim().length() == 0) {

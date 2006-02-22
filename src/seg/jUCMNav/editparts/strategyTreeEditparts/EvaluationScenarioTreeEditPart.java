@@ -1,16 +1,16 @@
 /**
  * 
  */
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editpolicies.element.EvaluationScenarioComponentEditPolicy;
+import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 
 /**
  * TreeEditPart for Scenario in the scenario view
@@ -23,7 +23,7 @@ public class EvaluationScenarioTreeEditPart extends ScenarioUrnModelElementTreeE
     /**
      * @param model
      */
-    public EvaluationScenarioTreeEditPart(EvaluationScenario model) {
+    public EvaluationScenarioTreeEditPart(EvaluationStrategy model) {
         super(model);
     }
 
@@ -31,11 +31,11 @@ public class EvaluationScenarioTreeEditPart extends ScenarioUrnModelElementTreeE
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationScenarioComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
     }
     
-    public EvaluationScenario getEvaluationScenario(){
-        return (EvaluationScenario)getModel();
+    public EvaluationStrategy getEvaluationScenario(){
+        return (EvaluationStrategy)getModel();
     }
     
     /**

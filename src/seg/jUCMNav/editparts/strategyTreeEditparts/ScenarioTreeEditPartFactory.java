@@ -1,10 +1,10 @@
 /**
  * 
  */
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLspec;
 
 import org.eclipse.gef.EditPart;
@@ -42,8 +42,8 @@ public class ScenarioTreeEditPartFactory implements EditPartFactory {
             return new GRLspecScenarioTreeEditPart((GRLspec) model);
         } else if (model instanceof EvaluationGroup){
             return new EvaluationGroupTreeEditPart((EvaluationGroup) model);
-        } else if (model instanceof EvaluationScenario){
-            return new EvaluationScenarioTreeEditPart((EvaluationScenario) model);
+        } else if (model instanceof EvaluationStrategy){
+            return new EvaluationScenarioTreeEditPart((EvaluationStrategy) model);
         } else {
             return null;
         }

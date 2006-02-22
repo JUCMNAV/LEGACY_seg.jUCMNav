@@ -4,14 +4,14 @@
 package seg.jUCMNav.model.commands.delete;
 
 import grl.Evaluation;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
 /**
  * This command delete an GRL evaluation
@@ -22,7 +22,7 @@ import seg.jUCMNav.model.util.EvaluationScenarioManager;
 public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
 
     private Evaluation evaluation;
-    private EvaluationScenario scenario;
+    private EvaluationStrategy strategy;
     private IntentionalElement intentional;
     
     /**
@@ -37,7 +37,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        scenario = evaluation.getScenario();
+        strategy = evaluation.getStrategies();
         intentional = evaluation.getIntElement();
         redo();
     }
@@ -49,10 +49,10 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         //Remove the evaluation object from the EvaluationManager to calculate the new value
-        EvaluationScenarioManager.getInstance().setEvaluationForElement(intentional,
-                (Evaluation)ModelCreationFactory.getNewObject(scenario.getGrlspec().getUrnspec(), Evaluation.class));
+        EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional,
+                (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class));
 
-        evaluation.setScenario(null);
+        evaluation.setStrategies(null);
         evaluation.setIntElement(null);
 
         testPostConditions();
@@ -62,8 +62,8 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert evaluation != null && scenario != null && intentional != null: "pre something is null"; //$NON-NLS-1$
-        assert scenario.getEvaluations().contains(evaluation) : "pre evaluation in scenario"; //$NON-NLS-1$
+        assert evaluation != null && strategy != null && intentional != null: "pre something is null"; //$NON-NLS-1$
+        assert strategy.getEvaluations().contains(evaluation) : "pre evaluation in strategy"; //$NON-NLS-1$
         assert intentional.getEvals().contains(evaluation): "pre evaluation in intentional element"; //$NON-NLS-1$
     }
 
@@ -71,8 +71,8 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert evaluation != null && scenario != null && intentional != null: "post something is null"; //$NON-NLS-1$
-        assert !scenario.getEvaluations().contains(evaluation) : "post evaluation in scenario"; //$NON-NLS-1$
+        assert evaluation != null && strategy != null && intentional != null: "post something is null"; //$NON-NLS-1$
+        assert !strategy.getEvaluations().contains(evaluation) : "post evaluation in strategy"; //$NON-NLS-1$
         assert !intentional.getEvals().contains(evaluation): "post evaluation in intentional element"; //$NON-NLS-1$
     }
 
@@ -83,9 +83,9 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         //Set the evaluation object from the EvaluationManager
-        EvaluationScenarioManager.getInstance().setEvaluationForElement(intentional, evaluation);
+        EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional, evaluation);
 
-        evaluation.setScenario(scenario);
+        evaluation.setStrategies(strategy);
         evaluation.setIntElement(intentional);
 
         testPreConditions();

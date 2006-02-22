@@ -51,7 +51,7 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
             case GrlPackage.DECOMPOSITION: return createDecomposition();
             case GrlPackage.DEPENDENCY: return createDependency();
             case GrlPackage.EVALUATION: return createEvaluation();
-            case GrlPackage.EVALUATION_SCENARIO: return createEvaluationScenario();
+            case GrlPackage.EVALUATION_STRATEGY: return createEvaluationStrategy();
             case GrlPackage.GRL_NODE: return createGRLNode();
             case GrlPackage.LINK_REF_BENDPOINT: return createLinkRefBendpoint();
             case GrlPackage.BELIEF_LINK: return createBeliefLink();
@@ -255,9 +255,9 @@ public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EvaluationScenario createEvaluationScenario() {
-        EvaluationScenarioImpl evaluationScenario = new EvaluationScenarioImpl();
-        return evaluationScenario;
+    public EvaluationStrategy createEvaluationStrategy() {
+        EvaluationStrategyImpl evaluationStrategy = new EvaluationStrategyImpl();
+        return evaluationStrategy;
     }
 
     /**

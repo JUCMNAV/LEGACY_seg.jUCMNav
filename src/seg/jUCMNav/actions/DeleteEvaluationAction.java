@@ -4,7 +4,7 @@
 package seg.jUCMNav.actions;
 
 import grl.Evaluation;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
@@ -13,7 +13,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
 /**
  * @author Jean-François Roy
@@ -29,7 +29,7 @@ public class DeleteEvaluationAction extends URNSelectionAction {
     public DeleteEvaluationAction(IWorkbenchPart part) {
         super(part);
         setId(DELETEEVALUATION);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ScenarioView16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyView16.gif")); //$NON-NLS-1$
     }
 
     /**
@@ -39,10 +39,10 @@ public class DeleteEvaluationAction extends URNSelectionAction {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
             IntentionalElementRef selection = sel.getIntentionalelementref();
-            EvaluationScenario scenario = EvaluationScenarioManager.getInstance().getEvaluationScenario();
-            if (scenario != null){
-                evaluation = EvaluationScenarioManager.getInstance().getEvaluationObject(selection.getDef());
-                if (evaluation.getScenario() == scenario){
+            EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
+            if (strategy != null){
+                evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(selection.getDef());
+                if (evaluation.getStrategies() == strategy){
                     return true;
                 }
             }

@@ -166,7 +166,7 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
  
         setText();
 
-        if (((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+        if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
             ((BeliefFigure) figure).setColors("75,75,75", "0,0,0", false);
         } else{
             ((BeliefFigure) figure).setColors("0,0,0", "0,0,0", false);

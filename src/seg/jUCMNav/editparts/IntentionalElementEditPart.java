@@ -42,7 +42,7 @@ import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolic
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.IntentionalElementFigure;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urncore.IURNConnection;
@@ -234,7 +234,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         if (featureId == GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE || 
                 featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY || 
                 featureId == GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY){
-            EvaluationScenarioManager.getInstance().calculateEvaluation();
+            EvaluationStrategyManager.getInstance().calculateEvaluation();
             
             for (Iterator iter = getNode().getDef().getLinksDest().iterator(); iter.hasNext();) {
                 ElementLink decomp = (ElementLink) iter.next();
@@ -277,15 +277,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             IntentionalElement elem = ((IntentionalElementRef)getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
             //Set the line color and fill color. Option only available in design view
-            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
-                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(false);
+                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 evaluationLabel.setVisible(false);
             } else { 
-                //Set scenario view to true
-                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationScenarioView(true);
+                //Set strategy view to true
+                ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(true);
                 //Get the evaluation value
-                Evaluation evaluation = EvaluationScenarioManager.getInstance().getEvaluationObject(getNode().getDef());
+                Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
                 
                 String color;
                 if (evaluation.getEvaluation() == 0){
@@ -300,7 +300,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 }
                 ((IntentionalElementFigure) figure).setColors("75,75,75", color, true);
                 String text = String.valueOf(evaluation.getEvaluation());
-                if (evaluation.getScenario() != null){
+                if (evaluation.getStrategies() != null){
                     text = text + "*";
                 }
                 evaluationLabel.setText(text);

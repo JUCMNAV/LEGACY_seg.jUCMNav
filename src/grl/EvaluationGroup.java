@@ -18,7 +18,7 @@ import urncore.GRLmodelElement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link grl.EvaluationGroup#getScenarios <em>Scenarios</em>}</li>
+ *   <li>{@link grl.EvaluationGroup#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.EvaluationGroup#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
@@ -29,22 +29,22 @@ import urncore.GRLmodelElement;
  */
 public interface EvaluationGroup extends GRLmodelElement{
     /**
-     * Returns the value of the '<em><b>Scenarios</b></em>' reference list.
-     * The list contents are of type {@link grl.EvaluationScenario}.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getGroup <em>Group</em>}'.
+     * Returns the value of the '<em><b>Strategies</b></em>' reference list.
+     * The list contents are of type {@link grl.EvaluationStrategy}.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationStrategy#getGroup <em>Group</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Scenarios</em>' reference list isn't clear,
+     * If the meaning of the '<em>Strategies</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Scenarios</em>' reference list.
-     * @see grl.GrlPackage#getEvaluationGroup_Scenarios()
-     * @see grl.EvaluationScenario#getGroup
-     * @model type="grl.EvaluationScenario" opposite="group"
+     * @return the value of the '<em>Strategies</em>' reference list.
+     * @see grl.GrlPackage#getEvaluationGroup_Strategies()
+     * @see grl.EvaluationStrategy#getGroup
+     * @model type="grl.EvaluationStrategy" opposite="group"
      * @generated
      */
-    EList getScenarios();
+    EList getStrategies();
 
     /**
      * Returns the value of the '<em><b>Grlspec</b></em>' container reference.

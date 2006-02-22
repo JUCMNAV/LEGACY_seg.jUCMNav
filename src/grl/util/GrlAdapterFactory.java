@@ -16,7 +16,7 @@ import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
@@ -133,8 +133,8 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
             public Object caseEvaluation(Evaluation object) {
                 return createEvaluationAdapter();
             }
-            public Object caseEvaluationScenario(EvaluationScenario object) {
-                return createEvaluationScenarioAdapter();
+            public Object caseEvaluationStrategy(EvaluationStrategy object) {
+                return createEvaluationStrategyAdapter();
             }
             public Object caseGRLNode(GRLNode object) {
                 return createGRLNodeAdapter();
@@ -370,16 +370,16 @@ public class GrlAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link grl.EvaluationScenario <em>Evaluation Scenario</em>}'.
+     * Creates a new adapter for an object of class '{@link grl.EvaluationStrategy <em>Evaluation Strategy</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see grl.EvaluationScenario
+     * @see grl.EvaluationStrategy
      * @generated
      */
-    public Adapter createEvaluationScenarioAdapter() {
+    public Adapter createEvaluationStrategyAdapter() {
         return null;
     }
 

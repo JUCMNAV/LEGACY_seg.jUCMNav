@@ -10,7 +10,7 @@ import grl.DecompositionType;
 import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.IntentionalElement;
 
@@ -25,14 +25,14 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
 
 /**
- * This class is a singleton responsible to manage the current scenario. 
+ * This class is a singleton responsible to manage the current strategy. 
  * It does the evaluation calculation for IntentionalElement, create the Evaluation
- * and return the value of the evaluation given an IntentionalElement for the current scenario.
+ * and return the value of the evaluation given an IntentionalElement for the current strategy.
  * 
  * @author Jean-François Roy
  *
  */
-public class EvaluationScenarioManager {
+public class EvaluationStrategyManager {
     
     private class EvaluationCalculation{
         public IntentionalElement element;
@@ -47,22 +47,22 @@ public class EvaluationScenarioManager {
     }
     private UCMNavMultiPageEditor multieditor;
     
-    private static EvaluationScenarioManager instance;
-    public static synchronized EvaluationScenarioManager getInstance()
+    private static EvaluationStrategyManager instance;
+    public static synchronized EvaluationStrategyManager getInstance()
     {
         if (instance == null){
-            instance = new EvaluationScenarioManager();
+            instance = new EvaluationStrategyManager();
         }
         return instance;
     }
     
-    private HashMap evaluations; //HashMap to keep link between intentionalElement and the evaluation for a particular scenario
-    private EvaluationScenario scenario;
+    private HashMap evaluations; //HashMap to keep link between intentionalElement and the evaluation for a particular strategy
+    private EvaluationStrategy strategy;
 
     /**
      * 
      */
-    private EvaluationScenarioManager() {
+    private EvaluationStrategyManager() {
         
     }
     
@@ -174,7 +174,7 @@ public class EvaluationScenarioManager {
     }
     
     public void calculateEvaluation(){
-        if (scenario == null){
+        if (strategy == null){
             return;
         }
         Vector evalReady = new Vector();
@@ -183,10 +183,10 @@ public class EvaluationScenarioManager {
         //We need to go through the list of IntentionalElement. If it is a leaf node, or if it has a Evaluation 
         //link, it is ready to be calculate.
         
-        Iterator it = scenario.getGrlspec().getIntElements().iterator();
+        Iterator it = strategy.getGrlspec().getIntElements().iterator();
         while (it.hasNext()){
             IntentionalElement element = (IntentionalElement)it.next();
-            if (element.getLinksDest().size() == 0 || ((Evaluation)evaluations.get(element)).getScenario() != null){
+            if (element.getLinksDest().size() == 0 || ((Evaluation)evaluations.get(element)).getStrategies() != null){
                 evalReady.add(element);
             } else{
                 EvaluationCalculation calculation = new EvaluationCalculation(element, element.getLinksDest().size());
@@ -220,7 +220,7 @@ public class EvaluationScenarioManager {
     public int getEvaluation(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
         if (temp == null){
-            temp = (Evaluation)ModelCreationFactory.getNewObject(scenario.getGrlspec().getUrnspec(), Evaluation.class);
+            temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
         }
         return temp.getEvaluation();
@@ -230,14 +230,14 @@ public class EvaluationScenarioManager {
         Evaluation temp = (Evaluation)evaluations.get(elem);
         //if the evaluation is null, it is a new element and we need to create a new evaluation
         if (temp == null){
-            temp = (Evaluation)ModelCreationFactory.getNewObject(scenario.getGrlspec().getUrnspec(), Evaluation.class);
+            temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
         }
         return temp;
     }
     
-    public EvaluationScenario getEvaluationScenario(){
-        return scenario;
+    public EvaluationStrategy getEvaluationStrategy(){
+        return strategy;
     }
     
     public void setEvaluationForElement(IntentionalElement element, Evaluation eval){
@@ -248,19 +248,19 @@ public class EvaluationScenarioManager {
         }
         
     }
-    public void setScenario(EvaluationScenario scen){
-        scenario = scen;
+    public void setStrategy(EvaluationStrategy strategy){
+        this.strategy = strategy;
 
-        //Create a new hash map for this scenario
+        //Create a new hash map for this strategy
         evaluations = new HashMap();
-        if (scenario != null){
-        //Go through all the intentionalElement and create a new Evaluation object if no one exist for this scenario
-            GRLspec grl = scenario.getGrlspec();
+        if (strategy != null){
+        //Go through all the intentionalElement and create a new Evaluation object if no one exist for this strategy
+            GRLspec grl = strategy.getGrlspec();
             Iterator it = grl.getIntElements().iterator();
             while (it.hasNext()){
                 IntentionalElement elem = (IntentionalElement)it.next();
-                //Verify if an evaluation exist for this scenario. This could create performance problem!!!!
-                Iterator sc = scenario.getEvaluations().iterator();
+                //Verify if an evaluation exist for this strategy. This could create performance problem!!!!
+                Iterator sc = strategy.getEvaluations().iterator();
                 Evaluation eval = null;
                 while(sc.hasNext() && eval == null){
                     Evaluation temp = (Evaluation)sc.next();
@@ -285,8 +285,8 @@ public class EvaluationScenarioManager {
             if (value != eval.getEvaluation()){
                 eval.setEvaluation(value);
             }
-            //If it is a new Evaluation enter by the user, link it with the scenario and intentionalElement
-            AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, scenario);
+            //If it is a new Evaluation enter by the user, link it with the strategy and intentionalElement
+            AddEvaluationCommand cmd = new AddEvaluationCommand(eval, element, strategy);
             if (cmd.canExecute()){
                 cmd.execute();
             }

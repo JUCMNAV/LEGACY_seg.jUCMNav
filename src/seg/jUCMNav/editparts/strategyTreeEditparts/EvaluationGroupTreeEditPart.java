@@ -1,7 +1,7 @@
 /**
  * 
  */
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import grl.EvaluationGroup;
 
@@ -60,7 +60,7 @@ public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEdit
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getEvaluationGroup().getScenarios());
+        list.addAll(getEvaluationGroup().getStrategies());
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -71,7 +71,7 @@ public class EvaluationGroupTreeEditPart extends ScenarioUrnModelElementTreeEdit
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getEvaluationGroup().getScenarios().size() == 0)
+        if (getEvaluationGroup().getStrategies().size() == 0)
             ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
         else
             ((TreeItem) widget).setForeground(new Color(null, 0, 0, 0));

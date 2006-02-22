@@ -27,7 +27,7 @@ public class EvaluationGroupComponentEditPolicy extends ComponentEditPolicy {
         if (obj instanceof EvaluationGroup) {
 
             EvaluationGroup group = (EvaluationGroup) obj;
-            if (group.getScenarios().size() == 0) {
+            if (group.getStrategies().size() == 0) {
                 DeleteEvaluationGroupCommand deleteCommand = new DeleteEvaluationGroupCommand(group);
                 return deleteCommand;
             } else

@@ -28,7 +28,7 @@ import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddEvaluationGroupAction;
-import seg.jUCMNav.actions.AddEvaluationScenarioAction;
+import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -268,8 +268,8 @@ public class ActionRegistryManager {
         action.setText("Add Evaluation Group"); 
         addEditPartAction((SelectionAction) action);
         
-        action = new AddEvaluationScenarioAction((IWorkbenchPart)editor);
-        action.setText("Add Evaluation Scenario"); 
+        action = new AddEvaluationStrategyAction((IWorkbenchPart)editor);
+        action.setText("Add Evaluation Strategy"); 
         addEditPartAction((SelectionAction) action);
     }
 

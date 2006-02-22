@@ -7,7 +7,7 @@
 package grl.impl;
 
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
 
@@ -37,7 +37,7 @@ import urncore.impl.GRLmodelElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link grl.impl.EvaluationGroupImpl#getScenarios <em>Scenarios</em>}</li>
+ *   <li>{@link grl.impl.EvaluationGroupImpl#getStrategies <em>Strategies</em>}</li>
  *   <li>{@link grl.impl.EvaluationGroupImpl#getGrlspec <em>Grlspec</em>}</li>
  * </ul>
  * </p>
@@ -46,14 +46,14 @@ import urncore.impl.GRLmodelElementImpl;
  */
 public class EvaluationGroupImpl extends GRLmodelElementImpl implements EvaluationGroup {
     /**
-     * The cached value of the '{@link #getScenarios() <em>Scenarios</em>}' reference list.
+     * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getScenarios()
+     * @see #getStrategies()
      * @generated
      * @ordered
      */
-    protected EList scenarios = null;
+    protected EList strategies = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -78,11 +78,11 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getScenarios() {
-        if (scenarios == null) {
-            scenarios = new EObjectWithInverseResolvingEList(EvaluationScenario.class, this, GrlPackage.EVALUATION_GROUP__SCENARIOS, GrlPackage.EVALUATION_SCENARIO__GROUP);
+    public EList getStrategies() {
+        if (strategies == null) {
+            strategies = new EObjectWithInverseResolvingEList(EvaluationStrategy.class, this, GrlPackage.EVALUATION_GROUP__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GROUP);
         }
-        return scenarios;
+        return strategies;
     }
 
     /**
@@ -128,8 +128,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
                     return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_GROUP__TO_LINKS:
                     return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                    return ((InternalEList)getScenarios()).basicAdd(otherEnd, msgs);
+                case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                    return ((InternalEList)getStrategies()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -155,8 +155,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
                     return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.EVALUATION_GROUP__TO_LINKS:
                     return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                    return ((InternalEList)getScenarios()).basicRemove(otherEnd, msgs);
+                case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                    return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
                 case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                     return eBasicSetContainer(null, GrlPackage.EVALUATION_GROUP__GRLSPEC, msgs);
                 default:
@@ -200,8 +200,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
                 return getName();
             case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                return getScenarios();
+            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                return getStrategies();
             case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                 return getGrlspec();
         }
@@ -232,9 +232,9 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
             case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
                 setDescription((String)newValue);
                 return;
-            case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                getScenarios().clear();
-                getScenarios().addAll((Collection)newValue);
+            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                getStrategies().clear();
+                getStrategies().addAll((Collection)newValue);
                 return;
             case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                 setGrlspec((GRLspec)newValue);
@@ -265,8 +265,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
             case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
                 return;
-            case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                getScenarios().clear();
+            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                getStrategies().clear();
                 return;
             case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                 setGrlspec((GRLspec)null);
@@ -292,8 +292,8 @@ public class EvaluationGroupImpl extends GRLmodelElementImpl implements Evaluati
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.EVALUATION_GROUP__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.EVALUATION_GROUP__SCENARIOS:
-                return scenarios != null && !scenarios.isEmpty();
+            case GrlPackage.EVALUATION_GROUP__STRATEGIES:
+                return strategies != null && !strategies.isEmpty();
             case GrlPackage.EVALUATION_GROUP__GRLSPEC:
                 return getGrlspec() != null;
         }

@@ -12,7 +12,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
- * This command add an Evaluation Group to the model (for GRL scenario)
+ * This command add an Evaluation Group to the model (for Evaluation Strategies)
  * 
  * @author Jean-François Roy
  *

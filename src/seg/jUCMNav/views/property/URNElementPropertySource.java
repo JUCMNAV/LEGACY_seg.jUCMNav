@@ -120,8 +120,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void workloadDescriptor(Collection descriptors, PropertyID propertyid) {
-        PropertyDescriptor pd = new PropertyDescriptor(propertyid, Messages.getString("UCMElementPropertySource.workload")); //$NON-NLS-1$
-        pd.setCategory(Messages.getString("UCMElementPropertySource.performance")); //$NON-NLS-1$
+        PropertyDescriptor pd = new PropertyDescriptor(propertyid, Messages.getString("URNElementPropertySource.workload")); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.performance")); //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return ""; //$NON-NLS-1$
@@ -140,7 +140,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
 
-        pd.setCategory(Messages.getString("UCMElementPropertySource.scenario")); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.strategy")); //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return ""; //$NON-NLS-1$
@@ -247,14 +247,14 @@ public class URNElementPropertySource extends EObjectPropertySource {
         Vector list = ParentFinder.getPossibleParents((URNmodelElement) getEditableValue());
         Collections.sort(list, new EObjectClassNameComparator());
         String[] values = new String[list.size() + 1];
-        values[0] = Messages.getString("UCMElementPropertySource.unbound"); //$NON-NLS-1$
+        values[0] = Messages.getString("URNElementPropertySource.unbound"); //$NON-NLS-1$
         for (int i = 1; i < list.size() + 1; i++) {
             values[i] = EObjectClassNameComparator.getSortableElementName((IURNContainerRef) list.get(i - 1));
             if (values[i] == null)
-                values[i] = Messages.getString("UCMElementPropertySource.unnamed"); //$NON-NLS-1$
+                values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
         }
 
-        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, Messages.getString("UCMElementPropertySource.parent"), values); //$NON-NLS-1$
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, Messages.getString("URNElementPropertySource.parent"), values); //$NON-NLS-1$
         pd.setCategory(Messages.getString("EObjectPropertySource.info")); //$NON-NLS-1$
         descriptors.add(pd);
     }

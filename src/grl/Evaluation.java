@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link grl.Evaluation#getEvaluation <em>Evaluation</em>}</li>
  *   <li>{@link grl.Evaluation#getIntElement <em>Int Element</em>}</li>
- *   <li>{@link grl.Evaluation#getScenario <em>Scenario</em>}</li>
+ *   <li>{@link grl.Evaluation#getStrategies <em>Strategies</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,31 +83,31 @@ public interface Evaluation extends EObject{
     void setIntElement(IntentionalElement value);
 
     /**
-     * Returns the value of the '<em><b>Scenario</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link grl.EvaluationScenario#getEvaluations <em>Evaluations</em>}'.
+     * Returns the value of the '<em><b>Strategies</b></em>' container reference.
+     * It is bidirectional and its opposite is '{@link grl.EvaluationStrategy#getEvaluations <em>Evaluations</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Scenario</em>' reference isn't clear,
+     * If the meaning of the '<em>Strategies</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Scenario</em>' container reference.
-     * @see #setScenario(EvaluationScenario)
-     * @see grl.GrlPackage#getEvaluation_Scenario()
-     * @see grl.EvaluationScenario#getEvaluations
+     * @return the value of the '<em>Strategies</em>' container reference.
+     * @see #setStrategies(EvaluationStrategy)
+     * @see grl.GrlPackage#getEvaluation_Strategies()
+     * @see grl.EvaluationStrategy#getEvaluations
      * @model opposite="evaluations" required="true"
      * @generated
      */
-    EvaluationScenario getScenario();
+    EvaluationStrategy getStrategies();
 
     /**
-     * Sets the value of the '{@link grl.Evaluation#getScenario <em>Scenario</em>}' container reference.
+     * Sets the value of the '{@link grl.Evaluation#getStrategies <em>Strategies</em>}' container reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Scenario</em>' container reference.
-     * @see #getScenario()
+     * @param value the new value of the '<em>Strategies</em>' container reference.
+     * @see #getStrategies()
      * @generated
      */
-    void setScenario(EvaluationScenario value);
+    void setStrategies(EvaluationStrategy value);
 
 } // Evaluation

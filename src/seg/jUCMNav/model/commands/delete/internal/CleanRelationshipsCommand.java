@@ -20,7 +20,7 @@ import ucm.map.UCMmap;
 /**
  * Removes all invisible relationships related to a Connection, Node or ContainerRef, .
  * 
- * Performance information, Scenario information, Plugin-Binding information, ContainerRef Binding information.
+ * Performance information, Strategy information, Plugin-Binding information, ContainerRef Binding information.
  * 
  * @author jkealey
  * 

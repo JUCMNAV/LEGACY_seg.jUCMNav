@@ -11,7 +11,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
- * Delete a scenario group. It should have no scenario in it.
+ * Delete a strategy group. It should have no strategy in it.
  * 
  * @author Jean-François Roy
  *
@@ -31,12 +31,12 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
     }
 
     /**
-     * Only if no scenario in it
+     * Only if no strategy in it
      * 
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return group != null && group.getScenarios().size() == 0;
+        return group != null && group.getStrategies().size() == 0;
     }
 
     /**
@@ -64,7 +64,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void testPreConditions() {
         assert group != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert group.getScenarios().size() == 0 : "pre can't delete if still scenarios."; //$NON-NLS-1$
+        assert group.getStrategies().size() == 0 : "pre can't delete if still strategies."; //$NON-NLS-1$
         assert urn.getGrlspec().getEvaluationGroups().contains(group) : "pre group in model"; //$NON-NLS-1$
     }
 
@@ -73,7 +73,7 @@ public class DeleteEvaluationGroupCommand extends Command implements JUCMNavComm
      */
     public void testPostConditions() {
         assert group != null && urn != null : "post something is null"; //$NON-NLS-1$
-        assert group.getScenarios().size() == 0 : "post can't delete if still scenarios."; //$NON-NLS-1$
+        assert group.getStrategies().size() == 0 : "post can't delete if still strategies."; //$NON-NLS-1$
         assert !urn.getGrlspec().getEvaluationGroups().contains(group) : "post group in model"; //$NON-NLS-1$
     }
 

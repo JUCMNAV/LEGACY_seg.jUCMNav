@@ -1,4 +1,4 @@
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
 import java.util.List;

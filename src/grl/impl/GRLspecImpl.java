@@ -9,7 +9,7 @@ package grl.impl;
 import grl.Actor;
 import grl.ElementLink;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLspec;
 import grl.GrlPackage;
 import grl.IntentionalElement;
@@ -47,7 +47,7 @@ import urn.UrnPackage;
  *   <li>{@link grl.impl.GRLspecImpl#getActors <em>Actors</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getLinks <em>Links</em>}</li>
  *   <li>{@link grl.impl.GRLspecImpl#getEvaluationGroups <em>Evaluation Groups</em>}</li>
- *   <li>{@link grl.impl.GRLspecImpl#getScenarios <em>Scenarios</em>}</li>
+ *   <li>{@link grl.impl.GRLspecImpl#getStrategies <em>Strategies</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,14 +95,14 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
     protected EList evaluationGroups = null;
 
     /**
-     * The cached value of the '{@link #getScenarios() <em>Scenarios</em>}' containment reference list.
+     * The cached value of the '{@link #getStrategies() <em>Strategies</em>}' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getScenarios()
+     * @see #getStrategies()
      * @generated
      * @ordered
      */
-    protected EList scenarios = null;
+    protected EList strategies = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -206,11 +206,11 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getScenarios() {
-        if (scenarios == null) {
-            scenarios = new EObjectContainmentWithInverseEList(EvaluationScenario.class, this, GrlPackage.GR_LSPEC__SCENARIOS, GrlPackage.EVALUATION_SCENARIO__GRLSPEC);
+    public EList getStrategies() {
+        if (strategies == null) {
+            strategies = new EObjectContainmentWithInverseEList(EvaluationStrategy.class, this, GrlPackage.GR_LSPEC__STRATEGIES, GrlPackage.EVALUATION_STRATEGY__GRLSPEC);
         }
-        return scenarios;
+        return strategies;
     }
 
     /**
@@ -233,8 +233,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
                     return ((InternalEList)getEvaluationGroups()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GR_LSPEC__SCENARIOS:
-                    return ((InternalEList)getScenarios()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__STRATEGIES:
+                    return ((InternalEList)getStrategies()).basicAdd(otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -262,8 +262,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                     return ((InternalEList)getLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
                     return ((InternalEList)getEvaluationGroups()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GR_LSPEC__SCENARIOS:
-                    return ((InternalEList)getScenarios()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GR_LSPEC__STRATEGIES:
+                    return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -305,8 +305,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return getLinks();
             case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
                 return getEvaluationGroups();
-            case GrlPackage.GR_LSPEC__SCENARIOS:
-                return getScenarios();
+            case GrlPackage.GR_LSPEC__STRATEGIES:
+                return getStrategies();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -337,9 +337,9 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 getEvaluationGroups().clear();
                 getEvaluationGroups().addAll((Collection)newValue);
                 return;
-            case GrlPackage.GR_LSPEC__SCENARIOS:
-                getScenarios().clear();
-                getScenarios().addAll((Collection)newValue);
+            case GrlPackage.GR_LSPEC__STRATEGIES:
+                getStrategies().clear();
+                getStrategies().addAll((Collection)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -367,8 +367,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
             case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
                 getEvaluationGroups().clear();
                 return;
-            case GrlPackage.GR_LSPEC__SCENARIOS:
-                getScenarios().clear();
+            case GrlPackage.GR_LSPEC__STRATEGIES:
+                getStrategies().clear();
                 return;
         }
         eDynamicUnset(eFeature);
@@ -391,8 +391,8 @@ public class GRLspecImpl extends EObjectImpl implements GRLspec {
                 return links != null && !links.isEmpty();
             case GrlPackage.GR_LSPEC__EVALUATION_GROUPS:
                 return evaluationGroups != null && !evaluationGroups.isEmpty();
-            case GrlPackage.GR_LSPEC__SCENARIOS:
-                return scenarios != null && !scenarios.isEmpty();
+            case GrlPackage.GR_LSPEC__STRATEGIES:
+                return strategies != null && !strategies.isEmpty();
         }
         return eDynamicIsSet(eFeature);
     }

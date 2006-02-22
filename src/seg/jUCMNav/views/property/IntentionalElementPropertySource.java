@@ -4,7 +4,7 @@
 package seg.jUCMNav.views.property;
 
 import grl.Evaluation;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
@@ -29,7 +29,7 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
 import urn.URNspec;
@@ -47,7 +47,7 @@ import urncore.URNmodelElement;
 public class IntentionalElementPropertySource extends URNElementPropertySource {
 
     private IntentionalElement def = null;
-    private boolean scenarioView;
+    private boolean strategyView;
     
     private int i;
     /**
@@ -59,11 +59,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         if ((obj instanceof IntentionalElementRef) && ((IntentionalElementRef)obj).getDef() != null){
             def = ((IntentionalElementRef)obj).getDef();
         }
-        scenarioView =false;
+        strategyView =false;
     }
     
-    public void setEvaluationScenarioView(boolean view){
-        scenarioView = view;
+    public void setEvaluationStrategyView(boolean view){
+        strategyView = view;
     }
     
     /*
@@ -100,19 +100,19 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 addPropertyToDescriptor(descriptors, attr, def.eClass());
             }
         }
-        if (scenarioView){
-            // get the scenario attribute
-            EvaluationScenario scenario = EvaluationScenarioManager.getInstance().getEvaluationScenario();
-            it = scenario.eClass().getEAllAttributes().iterator();
+        if (strategyView){
+            // get the strategy attribute
+            EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
+            it = strategy.eClass().getEAllAttributes().iterator();
 
             // add the new properties
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
-                addPropertyToDescriptor(descriptors, attr, scenario.eClass());
+                addPropertyToDescriptor(descriptors, attr, strategy.eClass());
             }       
             
             //Add the evaluation
-            Evaluation temp = EvaluationScenarioManager.getInstance().getEvaluationObject(def);
+            Evaluation temp = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
             it = temp.eClass().getEAllAttributes().iterator();
             // add the new properties
             while (it.hasNext()) {
@@ -136,8 +136,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
         if (type.getInstanceClass() == IntentionalElement.class) {
             intentionalElementDescriptor(descriptors, attr, propertyid);
-        } else if (c.getInstanceClass() == EvaluationScenario.class){
-            scenarioDescriptor(descriptors, attr, propertyid);
+        } else if (c.getInstanceClass() == EvaluationStrategy.class){
+            strategyDescriptor(descriptors, attr, propertyid);
         } else if (c.getInstanceClass() == Evaluation.class){
             evaluationDescriptor(descriptors, attr, propertyid);
         } else {
@@ -176,12 +176,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param attr
      * @param propertyid
      */
-    private void scenarioDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        //We add only the scenario name
+    private void strategyDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        //We add only the strategy name
         if (attr.getName() == "name"){
-            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "scenarioName");
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "strategyName");
             pd.setReadOnly(true);
-            pd.setCategory("Scenario"); //$NON-NLS-1$
+            pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);            
         }
     }
@@ -206,7 +206,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                     }
                 }
             });
-            pd.setCategory("Scenario"); //$NON-NLS-1$
+            pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);   
         }
     }
@@ -243,11 +243,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         // if this attribute comes from the referenced object
         if (propertyid.getEClass().getName() == "IntentionalElement")
             result = def.eGet(feature);
-        else if (propertyid.getEClass().getName() == "EvaluationScenario"){
-            result = EvaluationScenarioManager.getInstance().getEvaluationScenario()
+        else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+            result = EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                             .eGet(feature);
         } else if (propertyid.getEClass().getName() == "Evaluation"){
-            result = EvaluationScenarioManager.getInstance().getEvaluationObject(def).eGet(feature);
+            result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
         }else
             result = object.eGet(feature);
         return result;
@@ -266,12 +266,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IntentionalElementRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IntentionalElementRef))) {
             if (propertyid.getEClass().getName() == "IntentionalElement")
                 def.eSet(feature, null);
-            else if (propertyid.getEClass().getName() == "EvaluationScenario"){
-                EvaluationScenarioManager.getInstance().getEvaluationScenario()
+            else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+                EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                         .eSet(feature,null);
             } else if (propertyid.getEClass().getName() == "Evaluation"){
                 //The default value for an Evaluation is 0
-                EvaluationScenarioManager.getInstance().setIntentionalElementEvaluation(def,0);
+                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def,0);
             }
             else
                 object.eSet(feature, null);
@@ -306,7 +306,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             //The feature should be a int
             if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
-                EvaluationScenarioManager.getInstance().setIntentionalElementEvaluation(def,temp.intValue());
+                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def,temp.intValue());
             } 
             
             
@@ -331,8 +331,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
     protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
         if (propertyid.getEClass().getName() == "IntentionalElement"){
             def.eSet(feature, result);
-        } else if (propertyid.getEClass().getName() == "EvaluationScenario"){
-            EvaluationScenarioManager.getInstance().getEvaluationScenario()
+        } else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+            EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                     .eSet(feature,result);
         } else {
             object.eSet(feature, result);

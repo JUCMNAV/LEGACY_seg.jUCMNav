@@ -452,7 +452,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // and will not draw it correctly.
         ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
-        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
             
             nodeFigure.setForegroundColor(
                     new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));

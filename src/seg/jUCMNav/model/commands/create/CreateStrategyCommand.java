@@ -4,7 +4,7 @@
 package seg.jUCMNav.model.commands.create;
 
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 
 import org.eclipse.gef.commands.Command;
 
@@ -16,19 +16,19 @@ import urn.URNspec;
  * @author Jean-François Roy
  *
  */
-public class CreateScenarioCommand extends Command implements JUCMNavCommand {
+public class CreateStrategyCommand extends Command implements JUCMNavCommand {
 
     private URNspec urn;
     private EvaluationGroup group;
-    private EvaluationScenario scenario;
+    private EvaluationStrategy strategy;
     
     /**
      * 
      */
-    public CreateScenarioCommand(URNspec urn, EvaluationGroup group) {
+    public CreateStrategyCommand(URNspec urn, EvaluationGroup group) {
         this.urn = urn;
         this.group = group;
-        scenario = (EvaluationScenario)ModelCreationFactory.getNewObject(urn, EvaluationScenario.class);
+        strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urn, EvaluationStrategy.class);
     }
 
     /**
@@ -51,8 +51,8 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-        urn.getGrlspec().getScenarios().add(scenario);
-        group.getScenarios().add(scenario);
+        urn.getGrlspec().getStrategies().add(strategy);
+        group.getStrategies().add(strategy);
         testPostConditions();
     }
     
@@ -60,16 +60,16 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && scenario != null && group != null : "pre not null"; //$NON-NLS-1$
-        assert !group.getScenarios().contains(scenario) : "pre scenario not in model"; //$NON-NLS-1$
+        assert urn != null && strategy != null && group != null : "pre not null"; //$NON-NLS-1$
+        assert !group.getStrategies().contains(strategy) : "pre strategy not in model"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && scenario != null && group != null : "post not null"; //$NON-NLS-1$
-        assert group.getScenarios().contains(scenario) : "post scenario not in model"; //$NON-NLS-1$
+        assert urn != null && strategy != null && group != null : "post not null"; //$NON-NLS-1$
+        assert group.getStrategies().contains(strategy) : "post strategy not in model"; //$NON-NLS-1$
     }
 
     /**
@@ -77,8 +77,8 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-        urn.getGrlspec().getScenarios().remove(scenario);
-        group.getScenarios().remove(scenario);
+        urn.getGrlspec().getStrategies().remove(strategy);
+        group.getStrategies().remove(strategy);
         testPreConditions();
     }
 }

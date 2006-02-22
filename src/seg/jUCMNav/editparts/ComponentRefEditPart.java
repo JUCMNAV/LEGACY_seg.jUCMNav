@@ -129,7 +129,7 @@ public class ComponentRefEditPart extends ModelElementEditPart implements Adapte
         if (getComponentRef().getContDef() instanceof Component) {
             Component comp = (Component) getComponentRef().getContDef();
             ((ComponentRefFigure) figure).setKind(comp.getKind().getValue());
-            if (!((UCMConnectionOnBottomRootEditPart) getRoot()).isScenarioView()){
+            if (!((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((ComponentRefFigure) figure).setColors(comp.getLineColor(), comp.getFillColor(), comp.isFilled());
             } else { 
                 ((ComponentRefFigure) figure).setColors("75,75,75", comp.getFillColor(), comp.isFilled());

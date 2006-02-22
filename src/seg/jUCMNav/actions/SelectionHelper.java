@@ -3,7 +3,7 @@ package seg.jUCMNav.actions;
 import grl.ActorRef;
 import grl.Belief;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
@@ -100,7 +100,7 @@ public class SelectionHelper {
     public static final int INTENTIONALELEMENTREF = 203;
     public static final int LINKREF = 204;
     public static final int EVALUATIONGROUP = 205;
-    public static final int EVALUATIONSCENARIO = 206;
+    public static final int EVALUATIONSTRATEGY = 206;
     
     // internal variables; for quick reference.
     private AndFork andfork;
@@ -133,7 +133,7 @@ public class SelectionHelper {
     private IntentionalElementRef intentionalelementref;
     private LinkRef linkref;
     private EvaluationGroup group;
-    private EvaluationScenario scenario;
+    private EvaluationStrategy strategy;
     
     public SelectionHelper(List selection) {
         setSelection(selection);
@@ -467,8 +467,8 @@ public class SelectionHelper {
             selectionType = LINKREF;
         else if (group != null)
             selectionType = EVALUATIONGROUP;
-        else if (scenario != null)
-            selectionType = EVALUATIONSCENARIO;
+        else if (strategy != null)
+            selectionType = EVALUATIONSTRATEGY;
         else if (grlgraph != null)
             selectionType = GRLGRAPH;        
         else if (urnspec != null)
@@ -506,7 +506,7 @@ public class SelectionHelper {
         return group;
     }
     
-    public EvaluationScenario getEvaluationScenario(){
-        return scenario;
+    public EvaluationStrategy getEvaluationStrategy(){
+        return strategy;
     }
 }

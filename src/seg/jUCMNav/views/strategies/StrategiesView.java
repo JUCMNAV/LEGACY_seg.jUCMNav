@@ -1,6 +1,6 @@
-package seg.jUCMNav.views.evaluationScenario;
+package seg.jUCMNav.views.strategies;
 
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 
 import java.util.Iterator;
 
@@ -24,30 +24,29 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
-import seg.jUCMNav.editors.actionContributors.ScenarioContextMenuProvider;
+import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editparts.URNRootEditPart;
-import seg.jUCMNav.editparts.scenarioTreeEditparts.EvaluationScenarioTreeEditPart;
-import seg.jUCMNav.editparts.scenarioTreeEditparts.ScenarioTreeEditPartFactory;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationScenarioTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioTreeEditPartFactory;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
-public class EvaluationScenarioView extends ViewPart implements IPartListener2, ISelectionChangedListener{
+public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
 	private TreeViewer viewer;
 
     static final int ID_DESIGN = 0;
-    static final int ID_SCENARIO = 1;
+    static final int ID_STRATEGY = 1;
 
 	private UCMNavMultiPageEditor multieditor;
-	private EvaluationScenario currentScenario;
-    private IAction showDesignView, showScenarioView;
+	private EvaluationStrategy currentStrategy;
+    private IAction showDesignView, showStrategiesView;
 
     private int currentView;
 	/**
 	 * The constructor.
 	 */
-	public EvaluationScenarioView() {
+	public StrategiesView() {
 	}
 
 	/**
@@ -72,22 +71,22 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
         showDesignView.setToolTipText("Switch to Design View"); 
         showDesignView.setText("Switch to Design View"); 
 
-        showScenarioView = new Action() {
+        showStrategiesView = new Action() {
             public void run() {
                 // tree view
-                showPage(ID_SCENARIO);
+                showPage(ID_STRATEGY);
             }
         };
-        showScenarioView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ScenarioView16.gif")); //$NON-NLS-1$
-        showScenarioView.setToolTipText("Switch to Scenario View"); 
-        showScenarioView.setText(Messages.getString("Switch to Scenario View")); 
+        showStrategiesView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyView16.gif")); //$NON-NLS-1$
+        showStrategiesView.setToolTipText("Switch to Strategies View"); 
+        showStrategiesView.setText("Switch to Strategies View"); 
 
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
-        tbm.add(showScenarioView);
+        tbm.add(showStrategiesView);
         tbm.add(showDesignView);
 
         IMenuManager manager= getViewSite().getActionBars().getMenuManager();
-        manager.add(showScenarioView);
+        manager.add(showStrategiesView);
         manager.add(new Separator());
         manager.add(showDesignView);
         
@@ -140,7 +139,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             viewer.setContents(null);
         }
         showPage(ID_DESIGN);
-        currentScenario = null;
+        currentStrategy = null;
         
     }
 
@@ -202,7 +201,7 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
     private void setEditor(UCMNavMultiPageEditor editor) {
         if (multieditor != editor){
             multieditor = editor;
-            EvaluationScenarioManager.getInstance().setMultieditor(editor);
+            EvaluationStrategyManager.getInstance().setMultieditor(editor);
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
 
             
@@ -214,9 +213,9 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
            
             //Hook context menu
 
-            ContextMenuProvider cmProvider = new ScenarioContextMenuProvider(viewer, multieditor.getActionRegistry());
+            ContextMenuProvider cmProvider = new StrategyContextMenuProvider(viewer, multieditor.getActionRegistry());
             viewer.setContextMenu(cmProvider);
-            getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.ScenarioContextMenuProvider", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
+            getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
  
 
             // hook outline viewer
@@ -254,13 +253,13 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
             for (Iterator j = sel.iterator(); j.hasNext();) {
                 Object obj = (Object) j.next();
                 if (obj instanceof EvaluationScenarioTreeEditPart){
-                    EvaluationScenario scen = ((EvaluationScenarioTreeEditPart)obj).getEvaluationScenario();
-                    (EvaluationScenarioManager.getInstance()).setScenario(scen);
-                    currentScenario = scen;
-                    if (currentView == ID_SCENARIO){
+                    EvaluationStrategy scen = ((EvaluationScenarioTreeEditPart)obj).getEvaluationScenario();
+                    (EvaluationStrategyManager.getInstance()).setStrategy(scen);
+                    currentStrategy = scen;
+                    if (currentView == ID_STRATEGY){
                         for (int i=0; i< multieditor.getPageCount(); i++){
                             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
+                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
                         }
                     }
                 }
@@ -277,26 +276,26 @@ public class EvaluationScenarioView extends ViewPart implements IPartListener2, 
     protected void showPage(int id) {
         if (id == ID_DESIGN) {
             showDesignView.setChecked(true);
-            showScenarioView.setChecked(false);
+            showStrategiesView.setChecked(false);
             
             currentView = ID_DESIGN;
-            if (currentScenario != null){
-                EvaluationScenarioManager.getInstance().setScenario(null);
+            if (currentStrategy != null){
+                EvaluationStrategyManager.getInstance().setStrategy(null);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
+                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);         
                 }
             }
-        } else if (id == ID_SCENARIO) {
+        } else if (id == ID_STRATEGY) {
             showDesignView.setChecked(false);
-            showScenarioView.setChecked(true);
+            showStrategiesView.setChecked(true);
             
-            currentView = ID_SCENARIO;
-            if (currentScenario != null){
-                EvaluationScenarioManager.getInstance().setScenario(currentScenario);
+            currentView = ID_STRATEGY;
+            if (currentStrategy != null){
+                EvaluationStrategyManager.getInstance().setStrategy(currentStrategy);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
+                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
                 }         
             }
         }

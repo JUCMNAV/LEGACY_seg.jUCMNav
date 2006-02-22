@@ -9,7 +9,7 @@ import grl.Decomposition;
 import grl.Dependency;
 import grl.Evaluation;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
 import grl.GrlFactory;
@@ -220,9 +220,9 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createLinkRefBendpoint();  
             } else if (targetClass.equals(EvaluationGroup.class)){
                 result = grlfactory.createEvaluationGroup();  
-            } else if (targetClass.equals(EvaluationScenario.class)){
-                result = grlfactory.createEvaluationScenario();  
-                ((EvaluationScenario)result).setAuthor(GeneralPreferencePage.getAuthor());
+            } else if (targetClass.equals(EvaluationStrategy.class)){
+                result = grlfactory.createEvaluationStrategy();  
+                ((EvaluationStrategy)result).setAuthor(GeneralPreferencePage.getAuthor());
             } else if (targetClass.equals(Evaluation.class)){
                 result = grlfactory.createEvaluation();
             } else {

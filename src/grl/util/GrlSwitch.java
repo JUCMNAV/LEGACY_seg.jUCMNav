@@ -16,7 +16,7 @@ import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
@@ -222,11 +222,11 @@ public class GrlSwitch {
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
-            case GrlPackage.EVALUATION_SCENARIO: {
-                EvaluationScenario evaluationScenario = (EvaluationScenario)theEObject;
-                Object result = caseEvaluationScenario(evaluationScenario);
-                if (result == null) result = caseGRLmodelElement(evaluationScenario);
-                if (result == null) result = caseURNmodelElement(evaluationScenario);
+            case GrlPackage.EVALUATION_STRATEGY: {
+                EvaluationStrategy evaluationStrategy = (EvaluationStrategy)theEObject;
+                Object result = caseEvaluationStrategy(evaluationStrategy);
+                if (result == null) result = caseGRLmodelElement(evaluationStrategy);
+                if (result == null) result = caseURNmodelElement(evaluationStrategy);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -460,17 +460,17 @@ public class GrlSwitch {
     }
 
     /**
-     * Returns the result of interpretting the object as an instance of '<em>Evaluation Scenario</em>'.
+     * Returns the result of interpretting the object as an instance of '<em>Evaluation Strategy</em>'.
      * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
      * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Evaluation Scenario</em>'.
+     * @return the result of interpretting the object as an instance of '<em>Evaluation Strategy</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
-    public Object caseEvaluationScenario(EvaluationScenario object) {
+    public Object caseEvaluationStrategy(EvaluationStrategy object) {
         return null;
     }
 

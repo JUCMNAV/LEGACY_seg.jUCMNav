@@ -1,4 +1,4 @@
-package seg.jUCMNav.editparts.scenarioTreeEditparts;
+package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -17,7 +17,7 @@ import seg.jUCMNav.views.property.URNElementPropertySource;
  * 
  * Handles disposal of image.
  * 
- * @author TremblaE
+ * @author Jean-François Roy
  */
 public class ScenarioUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 

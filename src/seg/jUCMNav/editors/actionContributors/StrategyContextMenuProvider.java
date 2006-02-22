@@ -12,15 +12,15 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.AddEvaluationGroupAction;
-import seg.jUCMNav.actions.AddEvaluationScenarioAction;
+import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 
 /**
- * This class build the context menu for the Scenario view
+ * This class build the context menu for the Strategy view
  * 
  * @author Jean-François Roy
  *
  */
-public class ScenarioContextMenuProvider extends ContextMenuProvider {
+public class StrategyContextMenuProvider extends ContextMenuProvider {
 
     private ActionRegistry actionRegistry;
     
@@ -29,7 +29,7 @@ public class ScenarioContextMenuProvider extends ContextMenuProvider {
      * @param registry
      *            has to be passed
      */
-    public ScenarioContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
+    public StrategyContextMenuProvider(EditPartViewer viewer, ActionRegistry registry) {
         super(viewer);
         setActionRegistry(registry);
     }
@@ -56,7 +56,7 @@ public class ScenarioContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(AddEvaluationScenarioAction.ADDEVALUATIONSCENARIO);
+        action = getActionRegistry().getAction(AddEvaluationStrategyAction.ADDEVALUATIONSTRATEGY);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

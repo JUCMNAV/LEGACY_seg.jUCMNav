@@ -9,7 +9,7 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.model.util.EvaluationScenarioManager;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
 /**
  * Root edit part of any jUCMNav editor.
@@ -23,7 +23,7 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     // Used to simplify some stub binding code. 
     private UCMNavMultiPageEditor multiPageEditor;
     
-    protected boolean scenarioView;
+    protected boolean strategyView;
     
     public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 
@@ -38,10 +38,10 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     public URNRootEditPart(UCMNavMultiPageEditor editor) {
         super();
         multiPageEditor = editor;
-        if (EvaluationScenarioManager.getInstance().getEvaluationScenario() != null){
-            scenarioView = true;
+        if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
+            strategyView = true;
         } else{
-            scenarioView = false;
+            strategyView = false;
         }
     }
 
@@ -69,12 +69,12 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     public abstract void setMode(int mode);
 
 
-    public boolean isScenarioView() {
-        return scenarioView;
+    public boolean isStrategyView() {
+        return strategyView;
     }
 
-    public void setScenarioView(boolean view) {
-        scenarioView = view;
+    public void setStrategyView(boolean view) {
+        strategyView = view;
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
             URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
             element.refreshVisuals();

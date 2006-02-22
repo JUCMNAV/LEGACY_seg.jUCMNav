@@ -19,7 +19,7 @@ import grl.Dependency;
 import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationGroup;
-import grl.EvaluationScenario;
+import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
@@ -155,7 +155,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    private EClass evaluationScenarioEClass = null;
+    private EClass evaluationStrategyEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -367,7 +367,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getGRLspec_Scenarios() {
+    public EReference getGRLspec_Strategies() {
         return (EReference)grLspecEClass.getEStructuralFeatures().get(5);
     }
 
@@ -709,7 +709,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluation_Scenario() {
+    public EReference getEvaluation_Strategies() {
         return (EReference)evaluationEClass.getEStructuralFeatures().get(2);
     }
 
@@ -718,8 +718,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getEvaluationScenario() {
-        return evaluationScenarioEClass;
+    public EClass getEvaluationStrategy() {
+        return evaluationStrategyEClass;
     }
 
     /**
@@ -727,8 +727,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getEvaluationScenario_Author() {
-        return (EAttribute)evaluationScenarioEClass.getEStructuralFeatures().get(0);
+    public EAttribute getEvaluationStrategy_Author() {
+        return (EAttribute)evaluationStrategyEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -736,8 +736,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Evaluations() {
-        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(1);
+    public EReference getEvaluationStrategy_Evaluations() {
+        return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -745,8 +745,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Group() {
-        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(2);
+    public EReference getEvaluationStrategy_Group() {
+        return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -754,8 +754,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationScenario_Grlspec() {
-        return (EReference)evaluationScenarioEClass.getEStructuralFeatures().get(3);
+    public EReference getEvaluationStrategy_Grlspec() {
+        return (EReference)evaluationStrategyEClass.getEStructuralFeatures().get(3);
     }
 
     /**
@@ -826,7 +826,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getEvaluationGroup_Scenarios() {
+    public EReference getEvaluationGroup_Strategies() {
         return (EReference)evaluationGroupEClass.getEStructuralFeatures().get(0);
     }
 
@@ -918,7 +918,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         createEReference(grLspecEClass, GR_LSPEC__ACTORS);
         createEReference(grLspecEClass, GR_LSPEC__LINKS);
         createEReference(grLspecEClass, GR_LSPEC__EVALUATION_GROUPS);
-        createEReference(grLspecEClass, GR_LSPEC__SCENARIOS);
+        createEReference(grLspecEClass, GR_LSPEC__STRATEGIES);
 
         beliefEClass = createEClass(BELIEF);
         createEAttribute(beliefEClass, BELIEF__AUTHOR);
@@ -968,13 +968,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         evaluationEClass = createEClass(EVALUATION);
         createEAttribute(evaluationEClass, EVALUATION__EVALUATION);
         createEReference(evaluationEClass, EVALUATION__INT_ELEMENT);
-        createEReference(evaluationEClass, EVALUATION__SCENARIO);
+        createEReference(evaluationEClass, EVALUATION__STRATEGIES);
 
-        evaluationScenarioEClass = createEClass(EVALUATION_SCENARIO);
-        createEAttribute(evaluationScenarioEClass, EVALUATION_SCENARIO__AUTHOR);
-        createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__EVALUATIONS);
-        createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__GROUP);
-        createEReference(evaluationScenarioEClass, EVALUATION_SCENARIO__GRLSPEC);
+        evaluationStrategyEClass = createEClass(EVALUATION_STRATEGY);
+        createEAttribute(evaluationStrategyEClass, EVALUATION_STRATEGY__AUTHOR);
+        createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__EVALUATIONS);
+        createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__GROUP);
+        createEReference(evaluationStrategyEClass, EVALUATION_STRATEGY__GRLSPEC);
 
         grlNodeEClass = createEClass(GRL_NODE);
 
@@ -986,7 +986,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         beliefLinkEClass = createEClass(BELIEF_LINK);
 
         evaluationGroupEClass = createEClass(EVALUATION_GROUP);
-        createEReference(evaluationGroupEClass, EVALUATION_GROUP__SCENARIOS);
+        createEReference(evaluationGroupEClass, EVALUATION_GROUP__STRATEGIES);
         createEReference(evaluationGroupEClass, EVALUATION_GROUP__GRLSPEC);
 
         // Create enums
@@ -1039,7 +1039,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         elementLinkEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
         decompositionEClass.getESuperTypes().add(this.getElementLink());
         dependencyEClass.getESuperTypes().add(this.getElementLink());
-        evaluationScenarioEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
+        evaluationStrategyEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
         grlNodeEClass.getESuperTypes().add(theUrncorePackage.getGRLmodelElement());
         grlNodeEClass.getESuperTypes().add(theUrncorePackage.getIURNNode());
         beliefLinkEClass.getESuperTypes().add(theUrncorePackage.getIURNConnection());
@@ -1052,7 +1052,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEReference(getGRLspec_Actors(), this.getActor(), this.getActor_Grlspec(), "actors", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getGRLspec_Links(), this.getElementLink(), this.getElementLink_Grlspec(), "links", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getGRLspec_EvaluationGroups(), this.getEvaluationGroup(), this.getEvaluationGroup_Grlspec(), "evaluationGroups", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getGRLspec_Scenarios(), this.getEvaluationScenario(), this.getEvaluationScenario_Grlspec(), "scenarios", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getGRLspec_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Grlspec(), "strategies", null, 0, -1, GRLspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(beliefEClass, Belief.class, "Belief", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getBelief_Author(), ecorePackage.getEString(), "author", null, 0, 1, Belief.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1102,13 +1102,13 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEClass(evaluationEClass, Evaluation.class, "Evaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getEvaluation_Evaluation(), ecorePackage.getEInt(), "evaluation", "0", 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), this.getIntentionalElement_Evals(), "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluation_Scenario(), this.getEvaluationScenario(), this.getEvaluationScenario_Evaluations(), "scenario", null, 1, 1, Evaluation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluation_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Evaluations(), "strategies", null, 1, 1, Evaluation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(evaluationScenarioEClass, EvaluationScenario.class, "EvaluationScenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getEvaluationScenario_Author(), ecorePackage.getEString(), "author", null, 0, 1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluationScenario_Evaluations(), this.getEvaluation(), this.getEvaluation_Scenario(), "evaluations", null, 0, -1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluationScenario_Group(), this.getEvaluationGroup(), this.getEvaluationGroup_Scenarios(), "group", null, 1, 1, EvaluationScenario.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluationScenario_Grlspec(), this.getGRLspec(), this.getGRLspec_Scenarios(), "grlspec", null, 1, 1, EvaluationScenario.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEClass(evaluationStrategyEClass, EvaluationStrategy.class, "EvaluationStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getEvaluationStrategy_Author(), ecorePackage.getEString(), "author", null, 0, 1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluationStrategy_Evaluations(), this.getEvaluation(), this.getEvaluation_Strategies(), "evaluations", null, 0, -1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluationStrategy_Group(), this.getEvaluationGroup(), this.getEvaluationGroup_Strategies(), "group", null, 1, 1, EvaluationStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluationStrategy_Grlspec(), this.getGRLspec(), this.getGRLspec_Strategies(), "grlspec", null, 1, 1, EvaluationStrategy.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(grlNodeEClass, GRLNode.class, "GRLNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1120,7 +1120,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEClass(beliefLinkEClass, BeliefLink.class, "BeliefLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(evaluationGroupEClass, EvaluationGroup.class, "EvaluationGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getEvaluationGroup_Scenarios(), this.getEvaluationScenario(), this.getEvaluationScenario_Group(), "scenarios", null, 0, -1, EvaluationGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluationGroup_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Group(), "strategies", null, 0, -1, EvaluationGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluationGroup_Grlspec(), this.getGRLspec(), this.getGRLspec_EvaluationGroups(), "grlspec", null, 1, 1, EvaluationGroup.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Initialize enums and add enum literals
