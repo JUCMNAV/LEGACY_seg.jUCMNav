@@ -132,8 +132,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 
     /**
      * 
-     * @param map
-     *            the Map to be cleaned
+     * @param graph
+     *            the diagram to be cleaned
      */
     private void build(GRLGraph graph) {
         add(new RemoveLinkedInfoCommand(graph));

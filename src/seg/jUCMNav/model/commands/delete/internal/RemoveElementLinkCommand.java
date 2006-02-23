@@ -78,7 +78,10 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
      */
     public void undo() {
         testPostConditions();
+        urn.getGrlspec().getLinks().add(link);
+        
         link.setDest(dest);
         link.setSrc(src);
+        testPreConditions();
     }
 }

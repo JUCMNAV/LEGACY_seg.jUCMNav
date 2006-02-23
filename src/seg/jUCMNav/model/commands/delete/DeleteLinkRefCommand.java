@@ -22,12 +22,14 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
 public class DeleteLinkRefCommand extends CompoundCommand {
 
     LinkRef linkref;
+    ElementLink link;
     /**
      * @param ref The LinkRef to delete
      *     
      */
     public DeleteLinkRefCommand(LinkRef ref) {
         this.linkref = ref;
+        this.link = linkref.getLink();
         setLabel("Delete LinkRef");
     }
     
@@ -58,9 +60,9 @@ public class DeleteLinkRefCommand extends CompoundCommand {
             LinkRefBendpoint bendpoint = (LinkRefBendpoint) linkref.getBendpoints().get(i);
             add(new DeleteLinkRefBendpointCommand(bendpoint));
         }
-        ElementLink link= linkref.getLink();
+        
         add(new RemoveLinkRefCommand(linkref));
-        if (link.getRefs().size() <= 1){
+        if (link != null && link.getRefs().size() <= 1){
             add(new RemoveElementLinkCommand(link));
         }
     }

@@ -3,23 +3,17 @@
  */
 package seg.jUCMNav.model.commands.delete.internal;
 
-import grl.Actor;
 import grl.ActorRef;
-import grl.ElementLink;
 import grl.GRLGraph;
 import grl.GRLNode;
-import grl.IntentionalElement;
-import grl.IntentionalElementRef;
-import grl.LinkRef;
 
-import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CompoundCommand;
 
-import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.commands.delete.DeleteActorRefCommand;
+import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 import urn.URNspec;
-import urncore.IURNConnection;
 
 /**
  * This class unlink reference and definition of IntentionalElements, Actors and Links. 
@@ -28,11 +22,8 @@ import urncore.IURNConnection;
  * @author Jean-François Roy
  *
  */
-public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNavCommand {
+public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
     
-    // its references to definitions.
-    private Hashtable htReferences;
-
     // the graph to delete
     private GRLGraph graph;
 
@@ -46,169 +37,43 @@ public class DeleteGRLGraphRefDefLinksCommand extends Command implements JUCMNav
      *            the graph to delete
      */
     public DeleteGRLGraphRefDefLinksCommand(GRLGraph diagram) {
-        setGraph(diagram);
+        this.graph = diagram;
         setLabel("DeleteGRLGraphRefDefLinksCommand");
     }
 
     /**
-     * @see org.eclipse.gef.commands.Command#canExecute()
+     * Returns true even if no commands exist.
      */
     public boolean canExecute() {
-        return getGraph() != null;
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canExecute();
     }
     
     /**
-     * @see org.eclipse.gef.commands.Command#execute()
+     * Builds command as late as possible.
      */
     public void execute() {
-        urn = getGraph().getUrndefinition().getUrnspec();
-        htReferences = new Hashtable();
-        //Set the references of the Actors
-        for (Iterator iter = graph.getContRefs().iterator(); iter.hasNext();) {
-            ActorRef actor = (ActorRef) iter.next();
-            htReferences.put(actor, actor.getContDef());
-        }
-
-        //Set the references of the IntentionalElements
-        for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
-            GRLNode node = (GRLNode) iter.next();
-            if (node instanceof IntentionalElementRef)
-                htReferences.put(node, ((IntentionalElementRef) node).getDef());
-        }
-        //Set the references of the Links
-        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection link = (IURNConnection) iter.next();
-            if (link instanceof LinkRef){
-                htReferences.put((LinkRef)link, ((LinkRef) link).getLink());
-            }
-        }
-        
-        position = getGraph().getUrndefinition().getSpecDiagrams().indexOf(getGraph());
-        redo();
+        build();
+        super.execute();
     }
     
-    public GRLGraph getGraph() {
-        return graph;
-    }
-
     /**
-     * @see org.eclipse.gef.commands.Command#redo()
+     * Create the command to delete a GRLGraph
      */
-    public void redo() {
-        testPreConditions();
-        
-        // remove graph
-        urn.getUrndef().getSpecDiagrams().remove(getGraph());
-
-        // break relations
+    private void build() {
         for (Iterator iter = graph.getContRefs().iterator(); iter.hasNext();) {
             ActorRef actor = (ActorRef) iter.next();
-            actor.setContDef(null);
+            add(new DeleteActorRefCommand(actor));
         }
 
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
             GRLNode node = (GRLNode) iter.next();
-            if (node instanceof IntentionalElementRef)
-                ((IntentionalElementRef) node).setDef(null);
+            add(new DeleteGRLNodeCommand(node));
         }
-
-        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection link = (IURNConnection) iter.next();
-            if (link instanceof LinkRef){
-                ((LinkRef)link).setLink(null);
-            }
-        }        
-        testPostConditions();
+        
+        add(new RemoveGRLGraphCommand(graph));
     }
     
-    public void setGraph(GRLGraph graph) {
-        this.graph = graph;
-    }
-    
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-        // lists could be empty but not null
-        assert getGraph() != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert urn.getUrndef().getSpecDiagrams().contains(getGraph()) : "pre graph still in model"; //$NON-NLS-1$
-
-        // verify references
-        for (Iterator iter = graph.getContRefs().iterator(); iter.hasNext();) {
-            ActorRef actor = (ActorRef) iter.next();
-            assert actor.getContDef() != null : "pre actor still references definition"; //$NON-NLS-1$
-        }
-
-        for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
-            GRLNode node = (GRLNode) iter.next();
-            if (node instanceof IntentionalElementRef)
-                assert ((IntentionalElementRef) node).getDef() != null : "pre node still references definition"; //$NON-NLS-1$
-        }
-        
-        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection link = (IURNConnection) iter.next();
-            if (link instanceof LinkRef){
-                assert ((LinkRef)link).getLink() != null : "pre link still references definition"; //$NON-NLS-1$
-            }
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-     */
-    public void testPostConditions() {
-        // lists could be empty but not null
-        assert getGraph() != null && urn != null : "post something is null"; //$NON-NLS-1$
-        assert !urn.getUrndef().getSpecDiagrams().contains(getGraph()) : "post graph still in model"; //$NON-NLS-1$
-
-        // verify no more references
-        for (Iterator iter = graph.getContRefs().iterator(); iter.hasNext();) {
-            ActorRef actor = (ActorRef) iter.next();
-            assert actor.getContDef() == null : "post actor still references definition"; //$NON-NLS-1$
-        }
-
-        for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
-            GRLNode node = (GRLNode) iter.next();
-            if (node instanceof IntentionalElementRef)
-                assert ((IntentionalElementRef) node).getDef() == null : "post node still references definition"; //$NON-NLS-1$
-        }
-        
-        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection link = (IURNConnection) iter.next();
-            if (link instanceof LinkRef){
-                assert ((LinkRef)link).getLink() == null : "post link still references definition"; //$NON-NLS-1$
-            }
-        }
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    public void undo() {
-        testPostConditions();
-
-        super.undo();
-
-        // re-add map
-        urn.getUrndef().getSpecDiagrams().add(position, getGraph());
-
-        // re-add references
-        for (Iterator iter = graph.getContRefs().iterator(); iter.hasNext();) {
-            ActorRef actor = (ActorRef) iter.next();
-            actor.setContDef((Actor) htReferences.get(actor));
-        }
-
-        for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();) {
-            GRLNode node = (GRLNode) iter.next();
-            if (node instanceof IntentionalElementRef)
-                ((IntentionalElementRef) node).setDef((IntentionalElement) htReferences.get(node));
-        }
-        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
-            IURNConnection link = (IURNConnection) iter.next();
-            if (link instanceof LinkRef){
-                ((LinkRef)link).setLink((ElementLink) htReferences.get(link));
-            }
-        }  
-        testPreConditions();
-    }
 }
