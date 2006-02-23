@@ -262,7 +262,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + getFilePrefix(diagram)); //$NON-NLS-1$
+            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.FILENAME)); 
             genericPath = (Path) genericPath.addFileExtension(URNExportExtensionPointHelper.getFilenameExtension(id));
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
@@ -484,8 +484,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * When the export type changes, one should refresh page 1 as its contents must change.
      */
     public void refreshPages() {
-        ((ExportWizardMapSelectionPage) getPage(PAGE1)).fillSelectionList();
-        ((ExportWizardMapSelectionPage) getPage(PAGE1)).fillTypeDropDown();
+        ((ExportWizardMapSelectionPage) getPage(PAGE1)).refresh();
     }
 
     /**

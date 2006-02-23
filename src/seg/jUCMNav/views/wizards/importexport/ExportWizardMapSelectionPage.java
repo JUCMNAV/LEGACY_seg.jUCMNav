@@ -58,8 +58,16 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     // the folder in which to save the files.
     private String sExportPath;
 
+    // the filename for URN export
+    private String sFilename;
+
     // the textbox containing sExportPath
     private Text txtExportPath;
+    private Label lblMaps;
+    
+    // component for the filename
+    private Label lblFilename;
+    private Text txtFilename;
 
     /**
      * @param pageName
@@ -152,7 +160,28 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         cboImageType.setLayoutData(data);
 
-        Label lblMaps = new Label(composite, SWT.NONE);
+        lblFilename = new Label(composite, SWT.NONE);
+        lblFilename.setText("Filename:"); 
+        data = new GridData();
+        data.horizontalSpan = 1;
+        data.horizontalAlignment = GridData.FILL;
+        lblFilename.setLayoutData(data);
+        
+        txtFilename = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
+        txtFilename.setText(ExportPreferenceHelper.getPath());
+
+        data = new GridData();
+        data.horizontalAlignment = GridData.FILL;
+        data.grabExcessHorizontalSpace = true;
+        data.horizontalSpan = 3;
+        txtFilename.setLayoutData(data);
+        txtFilename.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                verifyPage();
+            }
+        });
+        
+        lblMaps = new Label(composite, SWT.NONE);
         lblMaps.setText(Messages.getString("ExportImageWizardPage.mapsToBeExported")); //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 4;
@@ -171,8 +200,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         setControl(composite);
 
-        fillSelectionList();
-        fillTypeDropDown();
+        refresh();
         verifyPage();
     }
 
@@ -180,7 +208,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * Refresh lstMaps to list all Maps (if ExportPreferenceHelper.UCM) or all URNspecs otherwise
      * 
      */
-    void fillSelectionList() {
+    private void fillSelectionList() {
 
         lstMaps.setItems(new String[] {});
         Vector v = new Vector();
@@ -219,7 +247,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      * Refresh cboImageType to present the choices offered by the extensions.
      * 
      */
-    void fillTypeDropDown() {
+    private void fillTypeDropDown() {
         if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM)
             cboImageType.setItems(UCMExportExtensionPointHelper.getExportLabels());
         else
@@ -234,6 +262,31 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     }
 
     /**
+     * Refresh the page based on the selection from ExportWizard
+     * 
+     */
+    void refresh() {
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
+            lblMaps.setVisible(true);
+            lstMaps.setVisible(true);
+            fillSelectionList();
+            lblFilename.setVisible(false);
+            txtFilename.setVisible(false);
+        } else{
+            lblMaps.setVisible(false);
+            lstMaps.setVisible(false);
+            lblFilename.setVisible(true);
+            txtFilename.setVisible(true);
+            //Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
+            //Used any of the selected diagrams because we just need the file prefix
+            if (mapsToExport.size()>0){
+                txtFilename.setText(((ExportWizard) getWizard()).getFilePrefix((IURNDiagram)mapsToExport.get(0)));
+            }
+        }
+        fillTypeDropDown();
+
+    }
+    /**
      * Updates passed Vector and preference store with the selection properties
      * 
      * @return success
@@ -246,8 +299,11 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         }
 
         ExportPreferenceHelper.setPath(sExportPath);
+        ExportPreferenceHelper.setFilename(sFilename);
         ExportPreferenceHelper.setImageType(iTypeSelectionIndex);
-        updateMapsToExport();
+        if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
+            updateMapsToExport();
+        }
 
         return true;
     }
@@ -258,6 +314,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      */
     public void preFinish() {
         sExportPath = txtExportPath.getText();
+        sFilename = txtFilename.getText();
         iTypeSelectionIndex = cboImageType.getSelectionIndex();
         iMapSelectionIndices = lstMaps.getSelectionIndices();
     }
@@ -311,11 +368,15 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             setErrorMessage(null);
         }
 
-        if (mapsToExport.size() == 0) {
+        if (mapsToExport.size() == 0 && ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
+        } else if (txtFilename.getText() == ""){
+            setErrorMessage("Invalid filename");
         }
 
-        setPageComplete(getErrorMessage() == null && lstMaps.getSelectionCount() > 0 && cboImageType.getSelectionIndex() >= 0);
+        setPageComplete(getErrorMessage() == null && 
+                (lstMaps.getSelectionCount() > 0 || ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN)
+                && cboImageType.getSelectionIndex() >= 0);
     }
 
 }

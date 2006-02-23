@@ -207,9 +207,9 @@
             useStream="false"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportGRLCatalog"
-            extension="xml"
+            extension="grl"
             id="seg.jUCMNav.ExportGRLCatalog"
-            name="GRL Catalog (*.xml)"
+            name="%GRLCatalog"
             useStream="false"/>
    </extension>
    <extension
@@ -226,9 +226,9 @@
          point="seg.jUCMNav.URNImport">
       <importer
             class="seg.jUCMNav.importexport.ImportGRLCatalog"
-            extension="xml"
+            extension="grl"
             id="seg.jUCMNav.ImportGRLCatalog"
-            name="GRL Catalog (*.xml)"
+            name="%GRLCatalog"
             useStream="true"/>
    </extension>
 
