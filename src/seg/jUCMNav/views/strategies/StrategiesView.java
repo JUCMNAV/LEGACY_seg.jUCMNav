@@ -109,6 +109,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             // unhook outline viewer
             multieditor.getSelectionSynchronizer().removeViewer(viewer);
         }
+        getSite().getPage().removePartListener(this);
+        
         // dispose
         super.dispose();
     }
