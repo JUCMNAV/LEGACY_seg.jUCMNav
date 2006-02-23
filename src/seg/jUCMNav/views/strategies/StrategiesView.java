@@ -40,8 +40,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
 	private UCMNavMultiPageEditor multieditor;
 	private EvaluationStrategy currentStrategy;
-    private IAction showDesignView, showStrategiesView;
-
+    private IAction showDesignView, showStrategiesView; 
+    
     private int currentView;
 	/**
 	 * The constructor.
@@ -57,7 +57,13 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         viewer = new TreeViewer();
         viewer.addSelectionChangedListener(this);
         
+        //viewer.setContents(null);
+        //viewer.setEditPartFactory(new StrategyTreeEditPartFactory(null));
+        
+        viewer.setEditDomain(new DefaultEditDomain(null));
+        
         getSite().getPage().addPartListener(this);
+        
         viewer.createControl(parent);
         getSite().setSelectionProvider(viewer); 
         
@@ -99,8 +105,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      * @see org.eclipse.ui.part.IPage#dispose()
      */
     public void dispose() {
-        // unhook outline viewer
-        multieditor.getSelectionSynchronizer().removeViewer(viewer);
+        if (multieditor != null){
+            // unhook outline viewer
+            multieditor.getSelectionSynchronizer().removeViewer(viewer);
+        }
         // dispose
         super.dispose();
     }
@@ -167,7 +175,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
      * @see org.eclipse.ui.IPartListener2#partHidden(org.eclipse.ui.IWorkbenchPartReference)
      */
     public void partHidden(IWorkbenchPartReference partRef) {
-        viewer.setContents(null);
+        //viewer.setContents(null);
     }
 
     /*
@@ -203,10 +211,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             multieditor = editor;
             EvaluationStrategyManager.getInstance().setMultieditor(editor);
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
-
             
             multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
-    
+            
             viewer.setEditDomain(new DefaultEditDomain(multieditor));
             viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
     
@@ -218,27 +225,28 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider", cmProvider, getSite().getSelectionProvider()); //$NON-NLS-1$
  
 
-            // hook outline viewer
-            multieditor.getSelectionSynchronizer().addViewer(viewer);    
-        } 
-        viewer.setContents(multieditor);
-        
-        Tree tree = (Tree) viewer.getControl();
-        if (tree.getTopItem() != null) { //fix for crash on linux!
-            Object[] items = tree.getTopItem().getItems();
-            for (int i = 0; i < items.length; i++) {
-                ((TreeItem) items[i]).setExpanded(true);
+            // hook viewer
+            multieditor.getSelectionSynchronizer().addViewer(viewer);
+            viewer.setContents(multieditor);
+                        
+            Tree tree = (Tree) viewer.getControl();
+            if (tree.getTopItem() != null) { //fix for crash on linux!
+                Object[] items = tree.getTopItem().getItems();
+                for (int i = 0; i < items.length; i++) {
+                    ((TreeItem) items[i]).setExpanded(true);
+                }
+                tree.getTopItem().setExpanded(true);
             }
-            tree.getTopItem().setExpanded(true);
-        }
-        
+        } 
     }
     
     /**
      * Passing the focus request to the viewer's control.
      */
     public void setFocus() {
-        viewer.getControl().setFocus();
+        if (viewer.getContents() != null){
+            viewer.getControl().setFocus();
+        }
     }
     
     /*
