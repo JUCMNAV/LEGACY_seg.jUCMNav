@@ -40,6 +40,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 
 	private UCMNavMultiPageEditor multieditor;
 	private EvaluationStrategy currentStrategy;
+    private EvaluationStategyTreeEditPart currentSelection;
+    
     private IAction showDesignView, showStrategiesView; 
     
     private int currentView;
@@ -150,6 +152,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         }
         showPage(ID_DESIGN);
         currentStrategy = null;
+        currentSelection = null;
         
     }
 
@@ -263,7 +266,14 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             for (Iterator j = sel.iterator(); j.hasNext();) {
                 Object obj = (Object) j.next();
                 if (obj instanceof EvaluationStategyTreeEditPart){
-                    EvaluationStrategy scen = ((EvaluationStategyTreeEditPart)obj).getEvaluationStrategy();
+                    if (currentSelection != null){
+                        currentSelection.setSelected(false);
+                    }
+                    currentSelection = (EvaluationStategyTreeEditPart)obj;
+                    if (currentView == ID_STRATEGY){
+                        currentSelection.setSelected(true);
+                    }
+                    EvaluationStrategy scen = ((EvaluationStategyTreeEditPart)obj).getEvaluationStrategy();                    
                     (EvaluationStrategyManager.getInstance()).setStrategy(scen);
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY){
@@ -288,6 +298,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             showDesignView.setChecked(true);
             showStrategiesView.setChecked(false);
             
+            if (currentSelection != null){
+                currentSelection.setSelected(false);
+            }
+            
             currentView = ID_DESIGN;
             if (currentStrategy != null){
                 EvaluationStrategyManager.getInstance().setStrategy(null);
@@ -299,6 +313,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         } else if (id == ID_STRATEGY) {
             showDesignView.setChecked(false);
             showStrategiesView.setChecked(true);
+            
+            if (currentSelection != null){
+                currentSelection.setSelected(true);
+            }
             
             currentView = ID_STRATEGY;
             if (currentStrategy != null){
