@@ -50,6 +50,8 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
         if (left != null) {
             urn = left.getDiagram().getUrndefinition().getUrnspec();
         }
+        
+        setLabel("Connect");
     }
 
     /**

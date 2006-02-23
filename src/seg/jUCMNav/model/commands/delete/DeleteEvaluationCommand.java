@@ -30,7 +30,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
      */
     public DeleteEvaluationCommand(Evaluation eval) {
         this.evaluation = eval;
-        setLabel("DeleteEvaluationCommand");
+        setLabel("Delete Evaluation");
     }
     
     /**

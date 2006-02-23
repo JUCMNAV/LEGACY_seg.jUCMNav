@@ -23,7 +23,7 @@ public class DeleteActorRefCommand extends CompoundCommand {
      *          the ActorRef to delete
      */
     public DeleteActorRefCommand(ActorRef ar) {
-        setLabel("DeleteActorRefCommand");
+        setLabel("Delete ActorRef");
         add(new PreDeleteUrnModelElementCommand(ar));
         add(new RemoveURNmodelElementCommand(ar));
     }

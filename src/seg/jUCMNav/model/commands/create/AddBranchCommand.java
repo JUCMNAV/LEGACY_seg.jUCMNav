@@ -53,6 +53,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     public AddBranchCommand(PathNode insertionNode, boolean inCompoundCommand) {
         this.insertionNode = insertionNode;
         this.inCompoundCommand = inCompoundCommand;
+        setLabel("Add Branch");
     }
 
     /**
@@ -61,6 +62,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public AddBranchCommand(PathNode insertionNode) {
         this.insertionNode = insertionNode;
+        setLabel("Add Branch");
     }
 
     /**

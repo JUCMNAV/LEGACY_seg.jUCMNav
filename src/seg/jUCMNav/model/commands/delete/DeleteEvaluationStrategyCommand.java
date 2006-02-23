@@ -22,7 +22,7 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveEvaluationStrategyComman
 public class DeleteEvaluationStrategyCommand extends CompoundCommand {
 
     public DeleteEvaluationStrategyCommand(EvaluationStrategy strategy) {
-        setLabel("DeleteEvaluationStrategyCommand"); 
+        setLabel("Delete EvaluationStrategy"); 
         
         for (Iterator iter = strategy.getEvaluations().iterator(); iter.hasNext();){
             Evaluation eval = (Evaluation)iter.next();

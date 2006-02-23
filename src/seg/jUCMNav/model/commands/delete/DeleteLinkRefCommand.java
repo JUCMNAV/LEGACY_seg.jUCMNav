@@ -28,6 +28,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
      */
     public DeleteLinkRefCommand(LinkRef ref) {
         this.linkref = ref;
+        setLabel("Delete LinkRef");
     }
     
     /**

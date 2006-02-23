@@ -29,6 +29,7 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
         this.urn = urn;
         this.group = group;
         strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urn, EvaluationStrategy.class);
+        setLabel("Create Strategy");
     }
 
     /**

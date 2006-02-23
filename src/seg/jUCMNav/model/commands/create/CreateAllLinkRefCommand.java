@@ -29,7 +29,7 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
      *      The IntentionalElementReference
      */
     public CreateAllLinkRefCommand(IntentionalElementRef element) {
-        setLabel("CreateAllLinkRefCommand");
+        setLabel("Create All LinkRefs");
         
         GRLGraph graph = (GRLGraph)element.getDiagram();
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();){

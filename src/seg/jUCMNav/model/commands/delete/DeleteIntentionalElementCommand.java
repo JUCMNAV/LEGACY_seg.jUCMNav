@@ -23,6 +23,7 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
      *          The intentionalElement to delete
      */
     public DeleteIntentionalElementCommand(IntentionalElement element) {
+        setLabel("Delete IntentionalElement");
         this.element = element;
     }
 

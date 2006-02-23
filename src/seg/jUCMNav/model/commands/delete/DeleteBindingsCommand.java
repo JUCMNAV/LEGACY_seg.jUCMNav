@@ -36,6 +36,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(InBinding binding) {
         this.element = binding;
+        setLabel("Delete Binding");
     }
 
     /**
@@ -45,6 +46,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(UCMmap map) {
         this.element = map;
+        setLabel("Delete Binding");
     }
 
     /**
@@ -54,6 +56,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(NodeConnection nc) {
         this.element = nc;
+        setLabel("Delete Binding");
     }
 
     /**
@@ -63,6 +66,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(OutBinding binding) {
         this.element = binding;
+        setLabel("Delete Binding");
     }
 
     /**
@@ -72,6 +76,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(PathNode pn) {
         this.element = pn;
+        setLabel("Delete Binding");
     }
 
     /**
@@ -81,6 +86,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(PluginBinding binding) {
         this.element = binding;
+        setLabel("Delete Binding");
     }
 
     /**

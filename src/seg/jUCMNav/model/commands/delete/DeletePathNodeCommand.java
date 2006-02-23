@@ -39,7 +39,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
     public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
         this.pn = pn;
         this.editpartregistry = editpartregistry;
-
+        setLabel("Delete PathNode");
     }
 
     /**

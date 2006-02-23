@@ -22,7 +22,7 @@ public class DeleteGRLNodeCommand extends CompoundCommand {
      * 
      */
     public DeleteGRLNodeCommand(GRLNode ref) {
-        setLabel("DeleteGrlNodeCommand"); //$NON-NLS-1$
+        setLabel("Delete GrlNode"); 
         add(new PreDeleteUrnModelElementCommand(ref));
         add(new RemoveURNmodelElementCommand(ref));
     }

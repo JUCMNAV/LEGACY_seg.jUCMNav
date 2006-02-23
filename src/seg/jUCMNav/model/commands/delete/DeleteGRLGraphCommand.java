@@ -25,7 +25,7 @@ public class DeleteGRLGraphCommand extends CompoundCommand {
      * 
      */
     public DeleteGRLGraphCommand(GRLGraph diagram) {
-        setLabel("DeleteGRLGraphCommand");
+        setLabel("Delete GRLGraph");
         setDiagram(diagram);
         
         add(new CleanRelationshipsCommand(diagram));

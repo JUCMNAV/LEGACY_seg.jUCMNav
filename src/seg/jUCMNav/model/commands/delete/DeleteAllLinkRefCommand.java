@@ -22,7 +22,7 @@ public class DeleteAllLinkRefCommand extends CompoundCommand {
      * 
      */
     public DeleteAllLinkRefCommand(IntentionalElementRef element) {
-        setLabel("DeleteAllLinkRefCommand"); //$NON-NLS-1$
+        setLabel("Delete All LinkRefs"); 
         for (Iterator iter = element.getPred().iterator(); iter.hasNext();){
             LinkRef linkref = (LinkRef)iter.next();
             add(new DeleteLinkRefCommand(linkref));

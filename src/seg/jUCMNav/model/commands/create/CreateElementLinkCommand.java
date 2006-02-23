@@ -42,6 +42,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
         } else{
             add(new AddStandardElementLinkCommand(urn, source, link));
         }
+        setLabel("Create ElementLink");
     }
 
     /* (non-Javadoc)

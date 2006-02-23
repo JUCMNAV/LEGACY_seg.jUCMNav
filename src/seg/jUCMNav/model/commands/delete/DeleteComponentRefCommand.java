@@ -20,6 +20,7 @@ public class DeleteComponentRefCommand extends CompoundCommand {
      *            the component reference to delete.
      */
     public DeleteComponentRefCommand(ComponentRef cr) {
+        setLabel("Delete ComponentRef");
         add(new PreDeleteUrnModelElementCommand(cr));
         add(new RemoveURNmodelElementCommand(cr));
     }

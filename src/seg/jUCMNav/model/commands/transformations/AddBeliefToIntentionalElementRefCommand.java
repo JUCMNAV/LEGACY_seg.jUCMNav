@@ -34,6 +34,7 @@ public class AddBeliefToIntentionalElementRefCommand extends CompoundCommand {
     public AddBeliefToIntentionalElementRefCommand(IntentionalElementRef ref) {
         this.ref = ref;
         urn = ref.getDiagram().getUrndefinition().getUrnspec();
+        setLabel("Add Belief");
     }
 
     public boolean canExecute() {

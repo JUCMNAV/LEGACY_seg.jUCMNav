@@ -28,6 +28,7 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
 
         // must be created here for getMap() to work properly.
         graph = (GRLGraph) ModelCreationFactory.getNewObject(urn, GRLGraph.class);
+        setLabel("Create GRLGraph");
     }
     
     /**

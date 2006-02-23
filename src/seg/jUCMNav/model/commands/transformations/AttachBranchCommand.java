@@ -43,6 +43,6 @@ public class AttachBranchCommand extends CompoundCommand {
         } else {
             assert false : "not a start or end point"; //$NON-NLS-1$
         }
-
+        setLabel("Attach Branch");
     }
 }

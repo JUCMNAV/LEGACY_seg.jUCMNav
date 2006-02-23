@@ -29,7 +29,7 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
         this.urn = urn;
         
         group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
-        setLabel("CreateStrategiesGroupCommand");
+        setLabel("Create StrategiesGroup");
     }
 
     /**

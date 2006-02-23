@@ -27,7 +27,7 @@ public class DeleteStrategiesGroupCommand extends Command implements JUCMNavComm
      */
     public DeleteStrategiesGroupCommand(StrategiesGroup group) {
         this.group = group;
-        setLabel("DeleteStrategiesGroup");
+        setLabel("Delete StrategiesGroup");
     }
 
     /**

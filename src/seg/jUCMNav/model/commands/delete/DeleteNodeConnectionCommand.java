@@ -35,7 +35,9 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
         this.nc = nc;
         PathNode source = (PathNode)nc.getSource();
         PathNode target = (PathNode)nc.getTarget();
-
+        
+        setLabel("Delete NodeConnection");
+        
         if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) == 1)) {
             Vector in = new Vector();
             Vector out = new Vector();

@@ -35,5 +35,6 @@ public class MergeStartEndCommand extends CompoundCommand {
         add(new PreDeleteUrnModelElementCommand(sp));
         add(new PreDeleteUrnModelElementCommand(ep));
         add(new DoMergeCommand(map, sp, ep, x, y));
+        setLabel("Merge Start and End");
     }
 }

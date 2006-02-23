@@ -23,7 +23,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
 
         // must be created here for getMap() to work properly.
         map = (UCMmap) ModelCreationFactory.getNewObject(urn, UCMmap.class);
-
+        setLabel("Create UCMMap");
     }
 
     /**

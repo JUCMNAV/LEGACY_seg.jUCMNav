@@ -29,6 +29,8 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
         this.evaluation = evaluation;
         this.element = elem;
         this.strategy = strategy;
+        
+        setLabel("Add Evaluation");
     }
 
     /**

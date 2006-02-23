@@ -30,6 +30,7 @@ public class SetConstraintCommand extends CompoundCommand {
      *            the new Y
      */
     public SetConstraintCommand(IURNNode node, int x, int y) {
+        setLabel("Set Node Constraints");
         add(new MoveNodeCommand(node, x, y));
 
         if (node.getPred().size() > 0) {
@@ -66,6 +67,7 @@ public class SetConstraintCommand extends CompoundCommand {
      *            the new height           
      */
     public SetConstraintCommand(GRLNode node, int x, int y) {
+        setLabel("Set Node Constraints");
         add(new MoveResizeGrlNodeCommand(node, x, y));
 
         if (node.getPred().size() > 0) {

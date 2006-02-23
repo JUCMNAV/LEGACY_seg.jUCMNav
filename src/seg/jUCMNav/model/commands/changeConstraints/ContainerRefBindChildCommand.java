@@ -43,6 +43,7 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
             if (!(o instanceof Connect))
                 this.children.add(o);
         }
+        setLabel("Bind Container Reference");
 
     }
 

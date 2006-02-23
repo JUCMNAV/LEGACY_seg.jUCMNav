@@ -33,6 +33,7 @@ public class ContainerRefUnbindChildCommand extends Command implements JUCMNavCo
         this.parent = parent;
         this.children = new Vector();
         this.children.add(child);
+        setLabel("Unbind Container Reference");
     }
 
     /**

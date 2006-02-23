@@ -25,6 +25,7 @@ public class DeleteElementLinkCommand extends CompoundCommand {
      *          the elementLink to delete
      */
     public DeleteElementLinkCommand(ElementLink link) {
+        setLabel("Delete ElementLink");
         this.link = link;
     }
 

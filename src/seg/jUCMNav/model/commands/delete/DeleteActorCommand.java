@@ -29,7 +29,7 @@ public class DeleteActorCommand extends Command implements JUCMNavCommand {
      */
     public DeleteActorCommand(Actor actor) {
         setActorDef(actor);
-        setLabel("DeleteActorCommand");//$NON-NLS-1$
+        setLabel("Delete Actor");
     }
 
     /**

@@ -33,6 +33,7 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      */
     public CreateLabelCommand(UCMmodelElement elem) {
         modelElement = elem;
+        setLabel("Create Label");
     }
 
     /**

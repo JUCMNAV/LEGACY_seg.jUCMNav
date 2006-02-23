@@ -23,6 +23,7 @@ import ucm.map.Stub;
 public class DeleteBranchesCommand extends CompoundCommand {
 
     public DeleteBranchesCommand(PathNode pn, DoesDisconnectImplyDelete verification, Map editpartregistry) {
+        setLabel("Delete Branches");
         if (verification.shouldDeleteNode() || verification.shouldReplaceWithEmpty()) {
             add(new PreDeleteUrnModelElementCommand(pn));
             add(new PrePathManipulationCommand(pn, verification.getNcInToRemove(), verification.getNcOutToRemove(), editpartregistry, true));

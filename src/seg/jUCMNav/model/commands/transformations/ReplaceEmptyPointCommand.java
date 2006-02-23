@@ -29,6 +29,7 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
     public ReplaceEmptyPointCommand(PathNode empty, PathNode newNode) {
         this.empty = empty;
         this.newNode = newNode;
+        setLabel("Replace Empty Point");
     }
 
     public boolean canExecute() {

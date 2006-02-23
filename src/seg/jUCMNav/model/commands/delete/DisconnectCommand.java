@@ -65,7 +65,8 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         if (left != null && left.getDiagram() != null) {
             this.urn = this.left.getDiagram().getUrndefinition().getUrnspec();
         }
-
+        
+        setLabel("DisconnectCommand");
     }
 
     /**

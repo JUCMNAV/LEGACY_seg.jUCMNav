@@ -32,6 +32,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     public ChangeGrlNodeNameCommand(GRLNode node, String name) {
         this.elem = node;
         this.name = name;
+        setLabel("Change GRLNode Name");
     }
 
     /**

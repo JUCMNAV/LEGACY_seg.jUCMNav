@@ -22,7 +22,7 @@ public class DeleteComponentElementCommand extends Command implements JUCMNavCom
 
     public DeleteComponentElementCommand(ComponentElement cd) {
         setCompDef(cd);
-        setLabel("DeleteComponentElementCommand");//$NON-NLS-1$
+        setLabel("Delete ComponentElement");
     }
 
     /**

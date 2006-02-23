@@ -54,6 +54,7 @@ public class DividePathCommand extends CompoundCommand {
         add(new SplitLinkCommand((UCMmap)startOrEnd.getDiagram(), empty, ncTarget, x, y));
 
         createAndInsert(startOrEnd, empty, isOrDivision);
+        setLabel("Divide Path");
     }
 
     /**

@@ -37,6 +37,7 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
                 deleteIfPossible(pn);
             }
         }
+        setLabel("Trim Empty Node");
 
     }
 

@@ -29,7 +29,7 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
         if (map.getUrndefinition() != null) {
             this.nextGlobalID = Integer.parseInt(map.getUrndefinition().getUrnspec().getNextGlobalID());
         }
-
+        setLabel("Delete Useless Start/End Points");
     }
 
     /**

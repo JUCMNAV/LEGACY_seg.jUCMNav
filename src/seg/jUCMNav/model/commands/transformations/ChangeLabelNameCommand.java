@@ -37,6 +37,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             this.elem = lbl;
         }
         this.name = name;
+        setLabel("Change Label Name");
     }
 
     /**
