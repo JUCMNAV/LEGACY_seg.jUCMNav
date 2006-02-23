@@ -73,11 +73,11 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
         this.map = new HashMap();
         // Use the default parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
-        //TODO Create an XSL file instead of a DTD file to validate the XML
-        //factory.setValidating(true);
+        factory.setValidating(true);
         try {
             // Parse the input
             SAXParser saxParser = factory.newSAXParser();
+
             saxParser.parse(fis, this);
             
             //Sanitize urnspec to resolve naming conflict
