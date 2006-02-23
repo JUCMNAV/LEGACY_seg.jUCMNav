@@ -1,5 +1,9 @@
 package seg.jUCMNav.importexport;
 
+import grl.BeliefLink;
+import grl.GRLGraph;
+import grl.LinkRef;
+
 import java.io.FileOutputStream;
 
 import org.eclipse.draw2d.IFigure;
@@ -65,10 +69,14 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 		StringBuffer dot = new StringBuffer();
 		String rankdir = AutoLayoutPreferences.getOrientation();
 		String size = AutoLayoutPreferences.getWidth() + "," + AutoLayoutPreferences.getHeight(); //$NON-NLS-1$
-
-		dot
-				.append("digraph " + AutoLayoutPreferences.MAPPREFIX + ((URNmodelElement) map).getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-
+		
+        if (map instanceof GRLGraph){
+    		dot
+    				.append("digraph " + AutoLayoutPreferences.MAPPREFIX + ((URNmodelElement) map).getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\nranksep=\"1.0\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        } else {
+            dot
+            .append("digraph " + AutoLayoutPreferences.MAPPREFIX + ((URNmodelElement) map).getId() + " {\nrankdir=\"" + rankdir + "\";\nsize=\"" + size + "\";\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$            
+        }
 		for (i = 0; i < map.getContRefs().size(); i++) {
 			IURNContainerRef compRef = (IURNContainerRef) map.getContRefs().get(i);
 			// we only want root components
@@ -87,9 +95,13 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 
 		for (i = 0; i < map.getConnections().size(); i++) {
 			IURNConnection conn = (IURNConnection) map.getConnections().get(i);
-
-			dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getSource()).getId()
-					+ "->" + AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getTarget()).getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			if (conn instanceof LinkRef || conn instanceof BeliefLink){
+			    dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getTarget()).getId()
+			            + "->" + AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getSource()).getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            } else {
+                dot.append(AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getSource()).getId()
+                        + "->" + AutoLayoutPreferences.PATHNODEPREFIX + ((URNmodelElement) conn.getTarget()).getId() + ";\n"); //$NON-NLS-1$ //$NON-NLS-2$
+            }
 		}
 		dot.append("}\n"); //$NON-NLS-1$
 		// System.out.println(dot.toString());
