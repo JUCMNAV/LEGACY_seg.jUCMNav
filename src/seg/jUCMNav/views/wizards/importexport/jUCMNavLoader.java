@@ -18,17 +18,17 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.UcmEditor;
+import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
-import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.IURNDiagram;
 
 /**
  * This class is intended to be used to create new .jucm files and open them. If
  * necessary, perform autolayout on them.
  * 
- * @author jkealey
+ * @author jkealey, Jean-François Roy
  * 
  */
 public class jUCMNavLoader {
@@ -110,7 +110,7 @@ public class jUCMNavLoader {
 	 * @throws InvocationTargetException
 	 */
 	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn) throws InvocationTargetException {
-		createAndOpenFile(originalFileName, newProject, newurn, false, false);
+		createAndOpenFile(originalFileName, newProject, newurn, false, false, false);
 	}
 
 	/**
@@ -130,14 +130,18 @@ public class jUCMNavLoader {
 	 * @param doAutoLayout
 	 *            should the maps be layed out automatically on load? useful
 	 *            with reverse engineering
+     * @param onlyLastEditor
+     *            for the autolayout. If it is true, will autolayout the last editor in the list
 	 * @param overwrite
 	 *            should we overwrite a file if it already exists?
 	 * @throws InvocationTargetException
 	 */
-	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn, boolean doAutoLayout, boolean overwrite)
+	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn, boolean doAutoLayout, boolean onlyLastEditor, boolean overwrite)
 			throws InvocationTargetException {
 		// final for asynch thread.
 		final boolean autolayout = doAutoLayout;
+        
+        final boolean lastEditor = onlyLastEditor;
 
 		String filename = getTargetFilename(originalFileName, newProject, overwrite);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -164,26 +168,17 @@ public class jUCMNavLoader {
 					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().findEditor("seg.jUCMNav.MainEditor"); //$NON-NLS-1$
 
 					// open the newfile using jucmnav.
-					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(new FileEditorInput((IFile) resource2), desc.getId());
-
+					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(new FileEditorInput((IFile) resource2), desc.getId());                    
+                             
 					// autolayout
 					if (autolayout) {
-						for (int i = 0; i < editor.getPageCount(); i++) {
-							UcmEditor ucmeditor = (UcmEditor) editor.getEditor(i);
-							AutoLayoutWizard wizard = new AutoLayoutWizard(ucmeditor, (UCMmap) ucmeditor.getModel());
-
-							// use settings saved in preferences.
-							if (wizard.canFinish()) {
-								try {
-									wizard.performFinish();
-								} catch (Exception ex) {
-									throw new InvocationTargetException(ex, Messages.getString("jUCMNavLoader.UnablePerformAutolayout")); //$NON-NLS-1$
-								}
-							} else {
-								throw new InvocationTargetException(new Exception(Messages.getString("jUCMNavLoader.UnablePerformAutolayout"))); //$NON-NLS-1$
-							}
-
-						}
+                        if (lastEditor){
+                            doAutolayout(editor, editor.getPageCount()-1);
+                        } else{
+    						for (int i = 0; i < editor.getPageCount(); i++) {
+    							doAutolayout(editor, i);
+    						}
+                        }
 
 						// save the file after autolayout.
 						editor.getFileManager().doSave(new NullProgressMonitor());
@@ -195,6 +190,27 @@ public class jUCMNavLoader {
 					// file.");
 				}
 			}
+
+            /**
+             * @param editor
+             * @param i
+             * @throws InvocationTargetException
+             */
+            private void doAutolayout(UCMNavMultiPageEditor editor, int i) throws InvocationTargetException {
+                UrnEditor urneditor = (UrnEditor) editor.getEditor(i);
+                AutoLayoutWizard wizard = new AutoLayoutWizard(urneditor, (IURNDiagram) urneditor.getModel());
+
+                // use settings saved in preferences.
+                if (wizard.canFinish()) {
+                	try {
+                		wizard.performFinish();
+                	} catch (Exception ex) {
+                		throw new InvocationTargetException(ex, Messages.getString("jUCMNavLoader.UnablePerformAutolayout")); //$NON-NLS-1$
+                	}
+                } else {
+                	throw new InvocationTargetException(new Exception(Messages.getString("jUCMNavLoader.UnablePerformAutolayout"))); //$NON-NLS-1$
+                }
+            }
 		});
 
 	}

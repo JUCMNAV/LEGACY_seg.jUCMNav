@@ -291,7 +291,6 @@ public class ImportWizardFileSelectionPage extends WizardPage {
      * @return success
      */
     public boolean finish() {
-
         ImportPreferenceHelper.setPath(sFileName);
         ImportPreferenceHelper.setProject(sContainer);
         ImportPreferenceHelper.setType(iTypeSelectionIndex);
@@ -314,7 +313,7 @@ public class ImportWizardFileSelectionPage extends WizardPage {
 
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
-        if (resource != null) {
+        if (resource != null && (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_NEWFILE)) {
             overwrite = MessageDialog.openQuestion(getShell(), Messages.getString("ImportWizardFileSelectionPage.TargetFileExists"), //$NON-NLS-1$
                     Messages.getString("ImportWizardFileSelectionPage.ImportDestinationExists")); //$NON-NLS-1$
         }

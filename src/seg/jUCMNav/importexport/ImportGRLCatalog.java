@@ -20,6 +20,7 @@ import java.util.HashMap;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -53,8 +54,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
         //Remove ucm diagram (only one diagram is insert by default).
         urn.getUrndef().getSpecDiagrams().remove(0);
         
-        importURN(fis, urn);
-        return urn;
+        return importURN(fis, urn);
     }
 
     /* (non-Javadoc)
@@ -68,8 +68,8 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.io.FileInputStream, urn.URNspec)
      */
-    public void importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
-        this.urn = urn;
+    public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
+        this.urn = (URNspec)EcoreUtil.copy(urn);
         this.map = new HashMap();
         // Use the default parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -86,13 +86,15 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
         } catch (Exception e) {
             throw new InvocationTargetException(e);
         }
+        return this.urn;
     }
 
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.lang.String, urn.URNspec)
      */
-    public void importURN(String filename, URNspec urn) throws InvocationTargetException {
+    public URNspec importURN(String filename, URNspec urn) throws InvocationTargetException {
         //not used 
+        return null;
     }
 
     //SAXParser function
@@ -106,7 +108,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 graph = graphCmd.getDiagram();
                 graphCmd.execute();
                 graph.setDescription(attrs.getValue("description"));
-                graph.setName(attrs.getValue("name"));
+                if (attrs.getValue("name") != null){
+                    graph.setName(attrs.getValue("name"));
+                }
+                
             } else{
                 throw new SAXException("Could not create a GrlGraph");
             }

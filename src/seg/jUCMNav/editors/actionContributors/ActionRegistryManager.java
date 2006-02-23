@@ -44,6 +44,7 @@ import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
+import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -254,6 +255,10 @@ public class ActionRegistryManager {
         
         action = new ExportImageAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.exportImage")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new ImportAction((IWorkbenchPart) editor);
+        action.setText(Messages.getString("ActionRegistryManager.import")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditStubPluginsAction((IWorkbenchPart) editor);

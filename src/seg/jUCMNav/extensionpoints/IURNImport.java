@@ -38,8 +38,9 @@ public interface IURNImport {
      *            a file from which the model is to be loaded.
      * @param urn
      *            the URNspec to modify
+     * @return the URNspec that was loaded
      */
-    public void importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException;
+    public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException;
 
     /**
      * Import a URNspec instance from a file and update the URNspec to include these elements.
@@ -48,7 +49,8 @@ public interface IURNImport {
      *            a file from which the model is to be loaded.
      * @param urn
      *            the URNspec to modify
+     * @return the URNspec that was loaded
      */
-    public void importURN(String filename, URNspec urn) throws InvocationTargetException;
+    public URNspec importURN(String filename, URNspec urn) throws InvocationTargetException;
 
 }

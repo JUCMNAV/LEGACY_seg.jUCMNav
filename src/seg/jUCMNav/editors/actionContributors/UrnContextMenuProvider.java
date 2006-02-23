@@ -27,6 +27,7 @@ import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.ExportImageAction;
+import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
@@ -158,6 +159,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
