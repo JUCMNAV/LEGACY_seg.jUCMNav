@@ -32,6 +32,9 @@ public class EObjectClassNameComparator implements Comparator {
     public int compare(Object arg0, Object arg1) {
 
         try {
+        	if (arg0 instanceof String && arg1 instanceof String)
+        		return ((String)arg0).compareTo((String)arg1);
+        	
             // sort by classes first
             int i = compareClass((EObject) arg0, (EObject) arg1);
 

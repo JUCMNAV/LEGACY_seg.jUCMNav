@@ -32,13 +32,13 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            icon="icons/icon16.gif"
             class="seg.jUCMNav.editors.UCMNavMultiPageEditor"
-            default="false"
-            name="seg.jUCMNav.MainEditor"
             contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"
+            default="true"
+            extensions="jucm"
+            icon="icons/icon16.gif"
             id="seg.jUCMNav.MainEditor"
-            extensions="jucm"/>
+            name="seg.jUCMNav.MainEditor"/>
    </extension>
    <extension
          point="org.eclipse.ui.editorActions">
@@ -77,8 +77,8 @@
       <perspective
             class="seg.jUCMNav.views.UCMPerspectiveFactory"
             icon="icons/icon16.gif"
-            name="jUCMNav"
-            id="seg.jUCMNav.UCMEditor"/>
+            id="seg.jUCMNav.UCMEditor"
+            name="jUCMNav"/>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
@@ -86,29 +86,25 @@
             name="jUCMNav"
             id="seg.jUCMNav"/>
       <wizard
-            finalPerspective="seg.jUCMNav.UCMEditor"
-            class="seg.jUCMNav.views.wizards.NewUcmFileWizard"
-            icon="icons/icon16.gif"
-            descriptionImage="icons/perspectiveIcon.gif"
             category="seg.jUCMNav"
+            class="seg.jUCMNav.views.wizards.NewUcmFileWizard"
+            descriptionImage="icons/perspectiveIcon.gif"
+            finalPerspective="seg.jUCMNav.UCMEditor"
+            icon="icons/icon16.gif"
+            id="seg.jUCMNav.views.wizards.NewUcmFileWizard"
             name="Use Case Map"
-            id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
+            preferredPerspectives="seg.jUCMNav.UCMEditor"
+            project="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-         <view
-               ratio="0.5"
-               relationship="left"
-               relative="org.eclipse.ui.views.TaskList"
-               id="seg.jUCMNav.views.ElementView"/>
-      </perspectiveExtension>
-      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-         <view
-               id="seg.jUCMNav.views.StrategiesView"
-               ratio="0.5"
-               relationship="right"
-               relative="org.eclipse.ui.views.TaskList"/>
+      <perspectiveExtension targetID="seg.jUCMNav.UCMEditor">
+         <viewShortcut id="seg.jUCMNav.views.ElementView"/>
+         <viewShortcut id="seg.jUCMNav.views.StrategiesView"/>
+         <newWizardShortcut id="seg.jUCMNav.views.wizards.NewUcmFileWizard"/>
+         <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
+         <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
+         <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
       </perspectiveExtension>
    </extension>
    <extension
