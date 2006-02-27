@@ -18,7 +18,7 @@ public class ExportPreferenceHelper {
     public static final String PREF_EXPORTTYPE = "seg.jUCMNav.ExportImage.ExportType"; //$NON-NLS-1$
     public final static String PREF_IMAGETYPE = "seg.jUCMNav.ExportImage.ImageType"; //$NON-NLS-1$
     public final static String PREF_PATH = "seg.jUCMNav.ExportImage.Path"; //$NON-NLS-1$
-    public final static String PREF_FILENAME = "seg.jUCMNav.ExportImage.Filename";
+    public final static String PREF_FILENAMEPREFIX = "seg.jUCMNav.ExportImage.Filename";
     
     // values of PREF_EXPORTTYPE
     public static final int URN_DIAGRAM = 0;
@@ -57,6 +57,14 @@ public class ExportPreferenceHelper {
     }
 
     /**
+     * 
+     * @return the filename prefix in which to save the files.
+     */
+    public static String getFilenamePrefix() {
+        return getPreferenceStore().getString(PREF_FILENAMEPREFIX);
+    }
+    
+    /**
      * @return a reference to the preference store.
      */
     public static IPreferenceStore getPreferenceStore() {
@@ -94,7 +102,7 @@ public class ExportPreferenceHelper {
      * @param filename
      *            the filename to save URN model
      */
-    public static void setFilename(String filename) {
-        getPreferenceStore().setValue(PREF_FILENAME, filename);
+    public static void setFilenamePrefix(String filename) {
+        getPreferenceStore().setValue(PREF_FILENAMEPREFIX, filename);
     }
 }

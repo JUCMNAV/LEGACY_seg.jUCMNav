@@ -262,7 +262,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_FILENAME)); 
+            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getFilenamePrefix()); 
             genericPath = (Path) genericPath.addFileExtension(URNExportExtensionPointHelper.getFilenameExtension(id));
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
@@ -329,10 +329,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @return the prefix of the file containing the diagram; assumes .jucm extension
      */
     public String getFilePrefix(IURNDiagram diagram) {
-        UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
-        String filename = ((FileEditorInput) editor.getEditorInput()).getName();
+        
+        String filename = ExportPreferenceHelper.getFilenamePrefix();
+        //((FileEditorInput) editor.getEditorInput()).getName();
         // remove the .jucm extension
-        filename = filename.substring(0, filename.length() - 5);
+        if (filename.substring(filename.length() - 5).equals(".jucm")){
+            filename = filename.substring(0, filename.length() - 5);
+        }
         return filename;
     }
 
@@ -400,6 +403,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
                         // to be able to close them later.
                         openedEditors.add(editor);
                     }
+                    //Set the filename prefix
+                    ExportPreferenceHelper.setFilenamePrefix(editor.getEditorInput().getName());
                 } catch (ClassCastException e) {
                     // if default editor isn't UCMNavMultiPageEditor
                     e.printStackTrace();
@@ -418,6 +423,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 IEditorPart editorpart = workbench.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
                 if (editorpart instanceof UCMNavMultiPageEditor) {
                     UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) editorpart;
+                    // Set the filename prefix
+                    ExportPreferenceHelper.setFilenamePrefix(editor.getEditorInput().getName());
+                    
                     if (obj instanceof IURNDiagram) {
                         IURNDiagram diagram = (IURNDiagram) obj;
                         addSelectedDiagram(diagram);
@@ -438,7 +446,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     }
                 }
             }
-        }
+          }
 
     }
 

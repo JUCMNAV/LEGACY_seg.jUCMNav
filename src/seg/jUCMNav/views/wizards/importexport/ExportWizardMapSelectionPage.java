@@ -66,8 +66,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
     private Label lblMaps;
     
     // component for the filename
-    private Label lblFilename;
-    private Text txtFilename;
+    private Label lblFilenamePrefix;
+    private Text txtFilenamePrefix;
 
     /**
      * @param pageName
@@ -160,22 +160,23 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         data.horizontalAlignment = GridData.FILL;
         cboImageType.setLayoutData(data);
 
-        lblFilename = new Label(composite, SWT.NONE);
-        lblFilename.setText("Filename:"); 
+        lblFilenamePrefix = new Label(composite, SWT.NONE);
+        lblFilenamePrefix.setText("Filename Prefix:"); 
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
-        lblFilename.setLayoutData(data);
+        lblFilenamePrefix.setLayoutData(data);
         
-        txtFilename = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
-        txtFilename.setText(ExportPreferenceHelper.getPath());
+        txtFilenamePrefix = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
+        txtFilenamePrefix.setText("");
+        //txtFilenamePrefix.setText(ExportPreferenceHelper.getPath());
 
         data = new GridData();
         data.horizontalAlignment = GridData.FILL;
         data.grabExcessHorizontalSpace = true;
         data.horizontalSpan = 3;
-        txtFilename.setLayoutData(data);
-        txtFilename.addModifyListener(new ModifyListener() {
+        txtFilenamePrefix.setLayoutData(data);
+        txtFilenamePrefix.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 verifyPage();
             }
@@ -270,17 +271,17 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             lblMaps.setVisible(true);
             lstMaps.setVisible(true);
             fillSelectionList();
-            lblFilename.setVisible(false);
-            txtFilename.setVisible(false);
+            lblFilenamePrefix.setVisible(false);
+            txtFilenamePrefix.setVisible(false);
         } else{
             lblMaps.setVisible(false);
             lstMaps.setVisible(false);
-            lblFilename.setVisible(true);
-            txtFilename.setVisible(true);
+            lblFilenamePrefix.setVisible(true);
+            txtFilenamePrefix.setVisible(true);
             //Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
             //Used any of the selected diagrams because we just need the file prefix
             if (mapsToExport.size()>0){
-                txtFilename.setText(((ExportWizard) getWizard()).getFilePrefix((IURNDiagram)mapsToExport.get(0)));
+                txtFilenamePrefix.setText(((ExportWizard) getWizard()).getFilePrefix((IURNDiagram)mapsToExport.get(0)));
             }
         }
         fillTypeDropDown();
@@ -299,7 +300,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         }
 
         ExportPreferenceHelper.setPath(sExportPath);
-        ExportPreferenceHelper.setFilename(sFilename);
+        ExportPreferenceHelper.setFilenamePrefix(sFilename);
         ExportPreferenceHelper.setImageType(iTypeSelectionIndex);
         if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
             updateMapsToExport();
@@ -314,7 +315,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
      */
     public void preFinish() {
         sExportPath = txtExportPath.getText();
-        sFilename = txtFilename.getText();
+        sFilename = txtFilenamePrefix.getText();
         iTypeSelectionIndex = cboImageType.getSelectionIndex();
         iMapSelectionIndices = lstMaps.getSelectionIndices();
     }
@@ -370,7 +371,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         if (mapsToExport.size() == 0 && ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
-        } else if (txtFilename.getText() == ""){
+        } else if (txtFilenamePrefix.getText() == ""){
             setErrorMessage("Invalid filename");
         }
 
