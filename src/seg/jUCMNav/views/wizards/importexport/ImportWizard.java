@@ -259,7 +259,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
             if ((success) && urn != null && ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN){
                 loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, ImportPreferenceHelper.getAutoLayout(),
                         true, true);                
-            } if ((success)) {
+            } else if ((success)) {
                 loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, ImportPreferenceHelper.getAutoLayout(),
                         true,((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite);
             } 

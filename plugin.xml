@@ -12,7 +12,7 @@
          <export name="*"/>
       </library>
    </runtime>
-
+ 
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -224,6 +224,7 @@
             class="seg.jUCMNav.importexport.ImportGRLCatalog"
             extension="grl"
             id="seg.jUCMNav.ImportGRLCatalog"
+            importInSelectedFile="true"
             name="%GRLCatalog"
             useStream="true"/>
    </extension>
