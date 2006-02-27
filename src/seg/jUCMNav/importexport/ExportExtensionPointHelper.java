@@ -109,6 +109,19 @@ public abstract class ExportExtensionPointHelper {
      * 
      * @param id
      *            the exporter's unique id
+     * @return true if import should be done in selected file, false if not
+     */
+    public static boolean isImportInSelectedFile(String sExtensionPoint, String id) {
+        IConfigurationElement elem = getExportConfigurationElement(sExtensionPoint, id);
+        String attrib = elem.getAttribute("importInSelectedFile"); //$NON-NLS-1$
+        return ((attrib != null) && attrib.equalsIgnoreCase("true")); //$NON-NLS-1$
+
+    }
+    
+    /**
+     * 
+     * @param id
+     *            the exporter's unique id
      * @return true if a stream should be used, false if a filename should be used.
      */
     public static boolean isUseStream(String sExtensionPoint, String id) {

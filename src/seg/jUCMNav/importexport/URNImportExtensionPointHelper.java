@@ -44,6 +44,7 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
         return ExportExtensionPointHelper.getFilenameExtension(sExtensionPoint, id);
     }
 
+    
     /**
      * 
      * @param id
@@ -72,4 +73,8 @@ public class URNImportExtensionPointHelper extends ExportExtensionPointHelper {
         return ExportExtensionPointHelper.isUseStream(sExtensionPoint, id);
     }
 
+    /* Facade for ExportExtensionPointHelper */
+    public static boolean isImportInSelectedFile(String id) {
+        return ExportExtensionPointHelper.isImportInSelectedFile(sExtensionPoint, id);
+    }
 }

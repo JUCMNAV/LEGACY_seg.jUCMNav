@@ -262,7 +262,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.FILENAME)); 
+            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_FILENAME)); 
             genericPath = (Path) genericPath.addFileExtension(URNExportExtensionPointHelper.getFilenameExtension(id));
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
