@@ -35,454 +35,460 @@ import urncore.IURNNode;
 import urncore.Responsibility;
 
 /**
- * A structured viewer for the responsibility reference and intentional element reference list in the element view.
+ * A structured viewer for the responsibility reference and intentional element
+ * reference list in the element view.
  * 
  * @author Etienne Tremblay
- *  
+ * 
  */
 public class ElementListViewer extends StructuredViewer implements Adapter, ISelectionChangedListener {
 
-    private CompositeListControl list;
+	private CompositeListControl list;
 
-    public ElementListViewer(Composite parent, int style) {
-        super();
-        list = new CompositeListControl(parent, style);
-        list.addSelectionChangedListener(this);
-    }
+	public ElementListViewer(Composite parent, int style) {
+		super();
+		list = new CompositeListControl(parent, style);
+		list.addSelectionChangedListener(this);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.Viewer#getControl()
-     */
-    public Control getControl() {
-        return list;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#getControl()
+	 */
+	public Control getControl() {
+		return list;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
-     */
-    public ISelection getSelection() {
-        return new StructuredSelection(new Object());
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ISelectionProvider#getSelection()
+	 */
+	public ISelection getSelection() {
+		return new StructuredSelection(new Object());
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection, boolean)
-     */
-    public void setSelection(ISelection selection, boolean reveal) {
-        StructuredSelection sel = (StructuredSelection) selection;
-        ArrayList items = new ArrayList();
-        for (Iterator i = sel.iterator(); i.hasNext();) {
-            IURNNode node = (IURNNode) i.next();
-            if ((node instanceof RespRef) || (node instanceof IntentionalElementRef)){
-                CompositeListItem item = (CompositeListItem) doFindItem(node);
-                items.add(item);
-            } 
-        }
-        sel = new StructuredSelection(items);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#setSelection(org.eclipse.jface.viewers.ISelection,
+	 *      boolean)
+	 */
+	public void setSelection(ISelection selection, boolean reveal) {
+		StructuredSelection sel = (StructuredSelection) selection;
+		ArrayList items = new ArrayList();
+		for (Iterator i = sel.iterator(); i.hasNext();) {
+			IURNNode node = (IURNNode) i.next();
+			if ((node instanceof RespRef) || (node instanceof IntentionalElementRef)) {
+				CompositeListItem item = (CompositeListItem) doFindItem(node);
+				items.add(item);
+			}
+		}
+		sel = new StructuredSelection(items);
 
-        list.setSelection(sel);
-    }
+		list.setSelection(sel);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#doFindInputItem(java.lang.Object)
-     */
-    protected Widget doFindInputItem(Object element) {
-        if (equals(element, getRoot()))
-            return list;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#doFindInputItem(java.lang.Object)
+	 */
+	protected Widget doFindInputItem(Object element) {
+		if (equals(element, getRoot()))
+			return list;
 
-        return null;
-    }
+		return null;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#doFindItem(java.lang.Object)
-     */
-    protected Widget doFindItem(Object element) {
-        Object[] children = list.getItems();
-        for (int i = 0; i < children.length; i++) {
-            ElementListItem item = (ElementListItem) children[i];
-            Object data = item.getData();
-            if (data != null && equals(data, element))
-                return item;
-        }
-        return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#doFindItem(java.lang.Object)
+	 */
+	protected Widget doFindItem(Object element) {
+		Object[] children = list.getItems();
+		for (int i = 0; i < children.length; i++) {
+			ElementListItem item = (ElementListItem) children[i];
+			Object data = item.getData();
+			if (data != null && equals(data, element))
+				return item;
+		}
+		return null;
+	}
 
-    protected ArrayList doFindItems(Object element) {
-        Object[] children = list.getItems();
-        ArrayList items = new ArrayList();
-        for (int i = 0; i < children.length; i++) {
-            ElementListItem item = (ElementListItem) children[i];
-            IURNNode data = (IURNNode) item.getData();
-            if (data != null){
-                if (data instanceof RespRef && equals(((RespRef)data).getRespDef(), element)){
-                    items.add(item);                
-                } else if (data instanceof IntentionalElementRef && 
-                        equals(((IntentionalElementRef)data).getDef(), element)){
-                    items.add(item);
-                }
-            }
+	protected ArrayList doFindItems(Object element) {
+		Object[] children = list.getItems();
+		ArrayList items = new ArrayList();
+		for (int i = 0; i < children.length; i++) {
+			ElementListItem item = (ElementListItem) children[i];
+			IURNNode data = (IURNNode) item.getData();
+			if (data != null) {
+				if (data instanceof RespRef && equals(((RespRef) data).getRespDef(), element)) {
+					items.add(item);
+				} else if (data instanceof IntentionalElementRef && equals(((IntentionalElementRef) data).getDef(), element)) {
+					items.add(item);
+				}
+			}
 
-        }
-        return items;
-    }
+		}
+		return items;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget, java.lang.Object, boolean)
-     */
-    protected void doUpdateItem(Widget item, Object element, boolean fullMap) {
-        //		 remember element we are showing
-        if (fullMap) {
-            associate(element, item);
-        } else {
-            item.setData(element);
-            mapElement(element, item);
-        }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#doUpdateItem(org.eclipse.swt.widgets.Widget,
+	 *      java.lang.Object, boolean)
+	 */
+	protected void doUpdateItem(Widget item, Object element, boolean fullMap) {
+		// remember element we are showing
+		if (fullMap) {
+			associate(element, item);
+		} else {
+			item.setData(element);
+			mapElement(element, item);
+		}
 
-        ElementListItem respItem = (ElementListItem) item;
+		ElementListItem respItem = (ElementListItem) item;
 
-        ITableLabelProvider provider = (ITableLabelProvider) getLabelProvider();
+		ITableLabelProvider provider = (ITableLabelProvider) getLabelProvider();
 
-        respItem.setElementName(provider.getColumnText(element, 0));
-        respItem.setDescription(provider.getColumnText(element, 1));
-        
-        //Set the icon figure
-        if (element instanceof IntentionalElementRef){
-            IntentionalElementRef intentional = (IntentionalElementRef)element;
-            if (intentional.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL){
-                respItem.setElementImg("/seg/jUCMNav/icons/Softgoal16.gif");
-            } else if (intentional.getDef().getType().getValue() == IntentionalElementType.GOAL){
-                respItem.setElementImg("/seg/jUCMNav/icons/Goal16.gif");
-            } else if (intentional.getDef().getType().getValue() == IntentionalElementType.RESSOURCE){
-                respItem.setElementImg("/seg/jUCMNav/icons/Resource16.gif");
-            } else if (intentional.getDef().getType().getValue() == IntentionalElementType.TASK){
-                respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif");
-            }
-        } else if (element instanceof RespRef){
-            respItem.setElementImg("/seg/jUCMNav/icons/Resp16.gif");
-        }
-    }
+		respItem.setElementName(provider.getColumnText(element, 0));
+		respItem.setDescription(provider.getColumnText(element, 1));
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#getSelectionFromWidget()
-     */
-    protected List getSelectionFromWidget() {
-        StructuredSelection sel = (StructuredSelection) list.getSelection();
-        ArrayList li = new ArrayList();
-        //		for (Iterator i = sel.iterator(); i.hasNext();) {
-        //			Widget item = (Widget) i.next();
-        //		}
-        return li;
-    }
+		// Set the icon figure
+		if (element instanceof IntentionalElementRef) {
+			IntentionalElementRef intentional = (IntentionalElementRef) element;
+			if (intentional.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL) {
+				respItem.setElementImg("/seg/jUCMNav/icons/Softgoal16.gif");
+			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.GOAL) {
+				respItem.setElementImg("/seg/jUCMNav/icons/Goal16.gif");
+			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.RESSOURCE) {
+				respItem.setElementImg("/seg/jUCMNav/icons/Resource16.gif");
+			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.TASK) {
+				respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif");
+			}
+		} else if (element instanceof RespRef) {
+			respItem.setElementImg("/seg/jUCMNav/icons/Resp16.gif");
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#internalRefresh(java.lang.Object)
-     */
-    protected void internalRefresh(Object element) {
-        //        list.removeAll();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#getSelectionFromWidget()
+	 */
+	protected List getSelectionFromWidget() {
+		StructuredSelection sel = (StructuredSelection) list.getSelection();
+		ArrayList li = new ArrayList();
+		// for (Iterator i = sel.iterator(); i.hasNext();) {
+		// Widget item = (Widget) i.next();
+		// }
+		return li;
+	}
 
-        Object[] children = getSortedChildren(getRoot());
-        Object[] items = list.getItems();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#internalRefresh(java.lang.Object)
+	 */
+	protected void internalRefresh(Object element) {
+		// bug 405
+		if (list == null || list.isDisposed())
+			return;
 
-        int min = Math.min(children.length, items.length);
+		Object[] children = getSortedChildren(getRoot());
+		Object[] items = list.getItems();
 
-        for (int i = 0; i < children.length; i++) {
-            IURNNode resp = (IURNNode) children[i];
+		int min = Math.min(children.length, items.length);
 
-            if (i < items.length) {
-                ElementListItem item = (ElementListItem) items[i];
-                if (equals(item.getData(), resp))
-                    updateItem(item, resp);
-                else {
-                    updateItem(item, resp);
-                }
-            } else {
-                ElementListItem newItem = new ElementListItem(list, SWT.NONE);
-                updateItem(newItem, resp);
-            }
-        }
+		for (int i = 0; i < children.length; i++) {
+			IURNNode resp = (IURNNode) children[i];
 
-        if (min == children.length) {
-            for (int i = children.length; i < items.length; i++) {
-                ElementListItem item = (ElementListItem) items[i];
-                list.remove(item);
-            }
-        }
+			if (i < items.length) {
+				ElementListItem item = (ElementListItem) items[i];
+				if (equals(item.getData(), resp))
+					updateItem(item, resp);
+				else {
+					updateItem(item, resp);
+				}
+			} else {
+				ElementListItem newItem = new ElementListItem(list, SWT.NONE);
+				updateItem(newItem, resp);
+			}
+		}
 
-        list.layout();
-    }
+		if (min == children.length) {
+			for (int i = children.length; i < items.length; i++) {
+				ElementListItem item = (ElementListItem) items[i];
+				list.remove(item);
+			}
+		}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#reveal(java.lang.Object)
-     */
-    public void reveal(Object element) {
-        // TODO Auto-generated method stub
+		list.layout();
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#reveal(java.lang.Object)
+	 */
+	public void reveal(Object element) {
+		// TODO Auto-generated method stub
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.StructuredViewer#setSelectionToWidget(java.util.List, boolean)
-     */
-    protected void setSelectionToWidget(List l, boolean reveal) {
-        if (list == null) {
-            list.deselectAll();
-            return;
-        }
+	}
 
-        ArrayList items = new ArrayList();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.StructuredViewer#setSelectionToWidget(java.util.List,
+	 *      boolean)
+	 */
+	protected void setSelectionToWidget(List l, boolean reveal) {
+		if (list == null) {
+			list.deselectAll();
+			return;
+		}
 
-        for (Iterator i = l.iterator(); i.hasNext();) {
-            Object ref = (Object) i.next();
-            ElementListItem item = (ElementListItem) findItem(ref);
-            items.add(item);
-        }
+		ArrayList items = new ArrayList();
 
-        StructuredSelection sel = new StructuredSelection(items);
-        list.setSelection(sel);
-    }
+		for (Iterator i = l.iterator(); i.hasNext();) {
+			Object ref = (Object) i.next();
+			ElementListItem item = (ElementListItem) findItem(ref);
+			items.add(item);
+		}
 
-    protected void associate(Object element, Widget item) {
-        Object data = item.getData();
-        if (data != element) {
-            if (data != null)
-                disassociate(item);
-            item.setData(element);
-        }
-        mapElement(element, item);
-    }
+		StructuredSelection sel = new StructuredSelection(items);
+		list.setSelection(sel);
+	}
 
-    protected void disassociate(Widget item) {
-        Object element = item.getData();
-        Assert.isNotNull(element);
-        //Clear the map before we clear the data
-        unmapElement(element, item);
-        item.setData(null);
-    }
+	protected void associate(Object element, Widget item) {
+		Object data = item.getData();
+		if (data != element) {
+			if (data != null)
+				disassociate(item);
+			item.setData(element);
+		}
+		mapElement(element, item);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object, java.lang.Object)
-     */
-    protected void inputChanged(Object input, Object oldInput) {
-        List list = (List) input;
+	protected void disassociate(Widget item) {
+		Object element = item.getData();
+		Assert.isNotNull(element);
+		// Clear the map before we clear the data
+		unmapElement(element, item);
+		item.setData(null);
+	}
 
-        if (oldInput != null) {
-            List oldList = (List) oldInput;
-            if (oldList.size() > 0) {
-                IURNNode node = (IURNNode) oldList.get(0);
-                node.getDiagram().eAdapters().remove(this);
-            }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.Viewer#inputChanged(java.lang.Object,
+	 *      java.lang.Object)
+	 */
+	protected void inputChanged(Object input, Object oldInput) {
+		List list = (List) input;
 
-            for (Iterator i = oldList.iterator(); i.hasNext();) {
-                IURNNode node = (IURNNode) i.next();
-                if (node instanceof RespRef) {
-                    RespRef ref = (RespRef) node;
-                    if (!list.contains(node)) {
-                        ref.eAdapters().remove(this);
-                        if (ref.getRespDef() != null)
-                            ref.getRespDef().eAdapters().remove(this);
-                    }
-                } else if (node instanceof IntentionalElementRef) {
-                    IntentionalElementRef ref = (IntentionalElementRef) node;
-                    if (!list.contains(node)) {
-                        ref.eAdapters().remove(this);
-                        if (ref.getDef() != null)
-                            ref.getDef().eAdapters().remove(this);
-                    }                
-                }
-            }
-        }
+		if (oldInput != null) {
+			List oldList = (List) oldInput;
+			if (oldList.size() > 0) {
+				IURNNode node = (IURNNode) oldList.get(0);
+				node.getDiagram().eAdapters().remove(this);
+			}
 
-        if (input != null) {
-            List newList = (List) input;
+			for (Iterator i = oldList.iterator(); i.hasNext();) {
+				IURNNode node = (IURNNode) i.next();
+				if (node instanceof RespRef) {
+					RespRef ref = (RespRef) node;
+					if (!list.contains(node)) {
+						ref.eAdapters().remove(this);
+						if (ref.getRespDef() != null)
+							ref.getRespDef().eAdapters().remove(this);
+					}
+				} else if (node instanceof IntentionalElementRef) {
+					IntentionalElementRef ref = (IntentionalElementRef) node;
+					if (!list.contains(node)) {
+						ref.eAdapters().remove(this);
+						if (ref.getDef() != null)
+							ref.getDef().eAdapters().remove(this);
+					}
+				}
+			}
+		}
 
-            for (Iterator i = list.iterator(); i.hasNext();) {
-                IURNNode node = (IURNNode) i.next();
-                if (node instanceof RespRef) {
-                    RespRef ref = (RespRef) node;
+		if (input != null) {
+			List newList = (List) input;
 
-                    ref.eAdapters().add(this);
-                    ref.getRespDef().eAdapters().add(this);
-                } else if (node instanceof IntentionalElementRef) {
-                    IntentionalElementRef ref = (IntentionalElementRef) node;
+			for (Iterator i = list.iterator(); i.hasNext();) {
+				IURNNode node = (IURNNode) i.next();
+				if (node instanceof RespRef) {
+					RespRef ref = (RespRef) node;
 
-                    ref.eAdapters().add(this);
-                    ref.getDef().eAdapters().add(this);
-                }
-            }
-        }
+					ref.eAdapters().add(this);
+					ref.getRespDef().eAdapters().add(this);
+				} else if (node instanceof IntentionalElementRef) {
+					IntentionalElementRef ref = (IntentionalElementRef) node;
 
-        if (list.size() > 0) {
-            IURNNode node = (IURNNode) list.get(0);
-            node.getDiagram().eAdapters().add(this);
-        }
-        refresh();
-    }
+					ref.eAdapters().add(this);
+					ref.getDef().eAdapters().add(this);
+				}
+			}
+		}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
-     */
-    public void notifyChanged(Notification notification) {
-        EObject notifier = (EObject) notification.getNotifier();
+		if (list.size() > 0) {
+			IURNNode node = (IURNNode) list.get(0);
+			node.getDiagram().eAdapters().add(this);
+		}
+		refresh();
+	}
 
-        if (notifier instanceof RespRef) {
-            RespRef resp = (RespRef) notifier;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#notifyChanged(org.eclipse.emf.common.notify.Notification)
+	 */
+	public void notifyChanged(Notification notification) {
+		EObject notifier = (EObject) notification.getNotifier();
 
-            int type = notification.getEventType();
-            switch (type) {
-            case Notification.SET:
-                if (notification.getNewValue() instanceof Responsibility) {
-                    if (notification.getOldValue() != null)
-                        ((Responsibility) notification.getOldValue()).eAdapters().remove(this);
+		if (notifier instanceof RespRef) {
+			RespRef resp = (RespRef) notifier;
 
-                    ((Responsibility) notification.getNewValue()).eAdapters().add(this);
-                }
-                break;
-            }
+			int type = notification.getEventType();
+			switch (type) {
+			case Notification.SET:
+				if (notification.getNewValue() instanceof Responsibility) {
+					if (notification.getOldValue() != null)
+						((Responsibility) notification.getOldValue()).eAdapters().remove(this);
 
-            //            if (doFindItem(resp) != null) {
-            //                ElementListItem item = (ElementListItem) doFindItem(resp);
-            //                if (resp.getRespDef() != null) {
-            //                    item.setRespName(resp.getRespDef().getName());
-            //                if (resp.getDescription() != null)
-            //                    item.setDescription(resp.getDescription());
-            //                }
-            //            }
-        } else if (notifier instanceof Responsibility) {
-            Responsibility resp = (Responsibility) notifier;
+					((Responsibility) notification.getNewValue()).eAdapters().add(this);
+				}
+				break;
+			}
 
-            ArrayList items = doFindItems(resp);
+			// if (doFindItem(resp) != null) {
+			// ElementListItem item = (ElementListItem) doFindItem(resp);
+			// if (resp.getRespDef() != null) {
+			// item.setRespName(resp.getRespDef().getName());
+			// if (resp.getDescription() != null)
+			// item.setDescription(resp.getDescription());
+			// }
+			// }
+		} else if (notifier instanceof Responsibility) {
+			Responsibility resp = (Responsibility) notifier;
 
-            for (Iterator i = items.iterator(); i.hasNext();) {
-                ElementListItem item = (ElementListItem) i.next();
-                item.setElementName(resp.getName());
-                if (resp.getDescription() != null)
-                    item.setDescription(resp.getDescription());
-            }
-        } else if (notifier instanceof UCMmap) {
-            int type = notification.getEventType();
-            int featureId = notification.getFeatureID(UcmPackage.class);
-            switch (type) {
-            case Notification.ADD:
-            case Notification.ADD_MANY:
-                if (notification.getNewValue() instanceof RespRef)
-                    refresh();
-                break;
-            case Notification.REMOVE:
-            case Notification.REMOVE_MANY:
-                if (notification.getOldValue() instanceof RespRef)
-                    refresh();
-                break;
-            }
-        } else if (notifier instanceof IntentionalElementRef) {
-            int type = notification.getEventType();
-            switch (type) {
-            case Notification.SET:
-                if (notification.getNewValue() instanceof IntentionalElement) {
-                    if (notification.getOldValue() != null)
-                        ((IntentionalElement) notification.getOldValue()).eAdapters().remove(this);
+			ArrayList items = doFindItems(resp);
 
-                    ((IntentionalElement) notification.getNewValue()).eAdapters().add(this);
-                }
-                break;
-            }
-        } else if (notifier instanceof IntentionalElement) {
-            IntentionalElement intentional = (IntentionalElement) notifier;
+			for (Iterator i = items.iterator(); i.hasNext();) {
+				ElementListItem item = (ElementListItem) i.next();
+				item.setElementName(resp.getName());
+				if (resp.getDescription() != null)
+					item.setDescription(resp.getDescription());
+			}
+		} else if (notifier instanceof UCMmap) {
+			int type = notification.getEventType();
+			int featureId = notification.getFeatureID(UcmPackage.class);
+			switch (type) {
+			case Notification.ADD:
+			case Notification.ADD_MANY:
+				if (notification.getNewValue() instanceof RespRef)
+					refresh();
+				break;
+			case Notification.REMOVE:
+			case Notification.REMOVE_MANY:
+				if (notification.getOldValue() instanceof RespRef)
+					refresh();
+				break;
+			}
+		} else if (notifier instanceof IntentionalElementRef) {
+			int type = notification.getEventType();
+			switch (type) {
+			case Notification.SET:
+				if (notification.getNewValue() instanceof IntentionalElement) {
+					if (notification.getOldValue() != null)
+						((IntentionalElement) notification.getOldValue()).eAdapters().remove(this);
 
-            ArrayList items = doFindItems(intentional);
+					((IntentionalElement) notification.getNewValue()).eAdapters().add(this);
+				}
+				break;
+			}
+		} else if (notifier instanceof IntentionalElement) {
+			IntentionalElement intentional = (IntentionalElement) notifier;
 
-            for (Iterator i = items.iterator(); i.hasNext();) {
-                ElementListItem item = (ElementListItem) i.next();
-                item.setElementName(intentional.getName());
-                if (intentional.getDescription() != null) {
-                    item.setDescription(intentional.getDescription());
-                }
-            }
-        } else if (notifier instanceof GRLGraph) {
-            int type = notification.getEventType();
-            int featureId = notification.getFeatureID(GrlPackage.class);
-            switch (type) {
-            case Notification.ADD:
-            case Notification.ADD_MANY:
-                if (notification.getNewValue() instanceof IntentionalElementRef)
-                    refresh();
-                break;
-            case Notification.REMOVE:
-            case Notification.REMOVE_MANY:
-                if (notification.getOldValue() instanceof IntentionalElementRef)
-                    refresh();
-                break;
-            }
-        } 
-    }
+			ArrayList items = doFindItems(intentional);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
-     */
-    public void selectionChanged(SelectionChangedEvent event) {
-        StructuredSelection sel = (StructuredSelection) event.getSelection();
+			for (Iterator i = items.iterator(); i.hasNext();) {
+				ElementListItem item = (ElementListItem) i.next();
+				item.setElementName(intentional.getName());
+				if (intentional.getDescription() != null) {
+					item.setDescription(intentional.getDescription());
+				}
+			}
+		} else if (notifier instanceof GRLGraph) {
+			int type = notification.getEventType();
+			int featureId = notification.getFeatureID(GrlPackage.class);
+			switch (type) {
+			case Notification.ADD:
+			case Notification.ADD_MANY:
+				if (notification.getNewValue() instanceof IntentionalElementRef)
+					refresh();
+				break;
+			case Notification.REMOVE:
+			case Notification.REMOVE_MANY:
+				if (notification.getOldValue() instanceof IntentionalElementRef)
+					refresh();
+				break;
+			}
+		}
+	}
 
-        ArrayList items = new ArrayList();
-        for (Iterator i = sel.iterator(); i.hasNext();) {
-            CompositeListItem item = (CompositeListItem) i.next();
-            IURNNode ref = (IURNNode) item.getData();
-            items.add(ref);
-        }
-        sel = new StructuredSelection(items);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 */
+	public void selectionChanged(SelectionChangedEvent event) {
+		StructuredSelection sel = (StructuredSelection) event.getSelection();
 
-        fireSelectionChanged(new SelectionChangedEvent(this, sel));
-    }
+		ArrayList items = new ArrayList();
+		for (Iterator i = sel.iterator(); i.hasNext();) {
+			CompositeListItem item = (CompositeListItem) i.next();
+			IURNNode ref = (IURNNode) item.getData();
+			items.add(ref);
+		}
+		sel = new StructuredSelection(items);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-     */
-    public Notifier getTarget() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+		fireSelectionChanged(new SelectionChangedEvent(this, sel));
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-     */
-    public void setTarget(Notifier newTarget) {
-        // TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+	 */
+	public Notifier getTarget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+	 */
+	public void setTarget(Notifier newTarget) {
+		// TODO Auto-generated method stub
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-     */
-    public boolean isAdapterForType(Object type) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+	 */
+	public boolean isAdapterForType(Object type) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
