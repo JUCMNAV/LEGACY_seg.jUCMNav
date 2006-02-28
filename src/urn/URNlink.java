@@ -6,9 +6,10 @@
  */
 package urn;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
+
+import urncore.GRLmodelElement;
+import urncore.UCMmodelElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,13 +19,9 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link urn.URNlink#getId <em>Id</em>}</li>
- *   <li>{@link urn.URNlink#getName <em>Name</em>}</li>
- *   <li>{@link urn.URNlink#getDescription <em>Description</em>}</li>
- *   <li>{@link urn.URNlink#getKind <em>Kind</em>}</li>
  *   <li>{@link urn.URNlink#getUrnspec <em>Urnspec</em>}</li>
- *   <li>{@link urn.URNlink#getFromElems <em>From Elems</em>}</li>
- *   <li>{@link urn.URNlink#getToElems <em>To Elems</em>}</li>
+ *   <li>{@link urn.URNlink#getGrlModelElements <em>Grl Model Elements</em>}</li>
+ *   <li>{@link urn.URNlink#getUcmModelElements <em>Ucm Model Elements</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,110 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface URNlink extends EObject{
-    /**
-     * Returns the value of the '<em><b>Id</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Id</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Id</em>' attribute.
-     * @see #setId(String)
-     * @see urn.UrnPackage#getURNlink_Id()
-     * @model
-     * @generated
-     */
-    String getId();
-
-    /**
-     * Sets the value of the '{@link urn.URNlink#getId <em>Id</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Id</em>' attribute.
-     * @see #getId()
-     * @generated
-     */
-    void setId(String value);
-
-    /**
-     * Returns the value of the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Name</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Name</em>' attribute.
-     * @see #setName(String)
-     * @see urn.UrnPackage#getURNlink_Name()
-     * @model
-     * @generated
-     */
-    String getName();
-
-    /**
-     * Sets the value of the '{@link urn.URNlink#getName <em>Name</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Name</em>' attribute.
-     * @see #getName()
-     * @generated
-     */
-    void setName(String value);
-
-    /**
-     * Returns the value of the '<em><b>Description</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Description</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Description</em>' attribute.
-     * @see #setDescription(String)
-     * @see urn.UrnPackage#getURNlink_Description()
-     * @model
-     * @generated
-     */
-    String getDescription();
-
-    /**
-     * Sets the value of the '{@link urn.URNlink#getDescription <em>Description</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Description</em>' attribute.
-     * @see #getDescription()
-     * @generated
-     */
-    void setDescription(String value);
-
-    /**
-     * Returns the value of the '<em><b>Kind</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Kind</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Kind</em>' attribute.
-     * @see #setKind(String)
-     * @see urn.UrnPackage#getURNlink_Kind()
-     * @model
-     * @generated
-     */
-    String getKind();
-
-    /**
-     * Sets the value of the '{@link urn.URNlink#getKind <em>Kind</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Kind</em>' attribute.
-     * @see #getKind()
-     * @generated
-     */
-    void setKind(String value);
-
     /**
      * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
      * It is bidirectional and its opposite is '{@link urn.URNspec#getUrnLinks <em>Urn Links</em>}'.
@@ -166,39 +59,59 @@ public interface URNlink extends EObject{
     void setUrnspec(URNspec value);
 
     /**
-     * Returns the value of the '<em><b>From Elems</b></em>' reference list.
-     * The list contents are of type {@link urncore.URNmodelElement}.
-     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
+     * Returns the value of the '<em><b>Grl Model Elements</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link urncore.GRLmodelElement#getUrnlinks <em>Urnlinks</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>From Elems</em>' reference list isn't clear,
+     * If the meaning of the '<em>Grl Model Elements</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>From Elems</em>' reference list.
-     * @see urn.UrnPackage#getURNlink_FromElems()
-     * @see urncore.URNmodelElement#getFromLinks
-     * @model type="urncore.URNmodelElement" opposite="fromLinks"
+     * @return the value of the '<em>Grl Model Elements</em>' reference.
+     * @see #setGrlModelElements(GRLmodelElement)
+     * @see urn.UrnPackage#getURNlink_GrlModelElements()
+     * @see urncore.GRLmodelElement#getUrnlinks
+     * @model opposite="urnlinks" required="true"
      * @generated
      */
-    EList getFromElems();
+    GRLmodelElement getGrlModelElements();
 
     /**
-     * Returns the value of the '<em><b>To Elems</b></em>' reference list.
-     * The list contents are of type {@link urncore.URNmodelElement}.
-     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
+     * Sets the value of the '{@link urn.URNlink#getGrlModelElements <em>Grl Model Elements</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Grl Model Elements</em>' reference.
+     * @see #getGrlModelElements()
+     * @generated
+     */
+    void setGrlModelElements(GRLmodelElement value);
+
+    /**
+     * Returns the value of the '<em><b>Ucm Model Elements</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link urncore.UCMmodelElement#getUrnlinks <em>Urnlinks</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>To Elems</em>' reference list isn't clear,
+     * If the meaning of the '<em>Ucm Model Elements</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>To Elems</em>' reference list.
-     * @see urn.UrnPackage#getURNlink_ToElems()
-     * @see urncore.URNmodelElement#getToLinks
-     * @model type="urncore.URNmodelElement" opposite="toLinks"
+     * @return the value of the '<em>Ucm Model Elements</em>' reference.
+     * @see #setUcmModelElements(UCMmodelElement)
+     * @see urn.UrnPackage#getURNlink_UcmModelElements()
+     * @see urncore.UCMmodelElement#getUrnlinks
+     * @model opposite="urnlinks" required="true"
      * @generated
      */
-    EList getToElems();
+    UCMmodelElement getUcmModelElements();
+
+    /**
+     * Sets the value of the '{@link urn.URNlink#getUcmModelElements <em>Ucm Model Elements</em>}' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Ucm Model Elements</em>' reference.
+     * @see #getUcmModelElements()
+     * @generated
+     */
+    void setUcmModelElements(UCMmodelElement value);
 
 } // URNlink

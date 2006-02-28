@@ -6,27 +6,11 @@
  */
 package urncore.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import urn.URNlink;
-import urn.UrnPackage;
 
 import urncore.URNmodelElement;
 import urncore.UrncorePackage;
@@ -38,8 +22,6 @@ import urncore.UrncorePackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link urncore.impl.URNmodelElementImpl#getFromLinks <em>From Links</em>}</li>
- *   <li>{@link urncore.impl.URNmodelElementImpl#getToLinks <em>To Links</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getId <em>Id</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getName <em>Name</em>}</li>
  *   <li>{@link urncore.impl.URNmodelElementImpl#getDescription <em>Description</em>}</li>
@@ -49,26 +31,6 @@ import urncore.UrncorePackage;
  * @generated
  */
 public abstract class URNmodelElementImpl extends EObjectImpl implements URNmodelElement {
-    /**
-     * The cached value of the '{@link #getFromLinks() <em>From Links</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getFromLinks()
-     * @generated
-     * @ordered
-     */
-    protected EList fromLinks = null;
-
-    /**
-     * The cached value of the '{@link #getToLinks() <em>To Links</em>}' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getToLinks()
-     * @generated
-     * @ordered
-     */
-    protected EList toLinks = null;
-
     /**
      * The default value of the '{@link #getId() <em>Id</em>}' attribute.
      * <!-- begin-user-doc -->
@@ -152,30 +114,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList getFromLinks() {
-        if (fromLinks == null) {
-            fromLinks = new EObjectWithInverseResolvingEList.ManyInverse(URNlink.class, this, UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS, UrnPackage.UR_NLINK__FROM_ELEMS);
-        }
-        return fromLinks;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EList getToLinks() {
-        if (toLinks == null) {
-            toLinks = new EObjectWithInverseResolvingEList.ManyInverse(URNlink.class, this, UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS, UrnPackage.UR_NLINK__TO_ELEMS);
-        }
-        return toLinks;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public String getId() {
         return id;
     }
@@ -239,52 +177,8 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                return getFromLinks();
-            case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                return getToLinks();
             case UrncorePackage.UR_NMODEL_ELEMENT__ID:
                 return getId();
             case UrncorePackage.UR_NMODEL_ELEMENT__NAME:
@@ -302,14 +196,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case UrncorePackage.UR_NMODEL_ELEMENT__ID:
                 setId((String)newValue);
                 return;
@@ -330,12 +216,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                getToLinks().clear();
-                return;
             case UrncorePackage.UR_NMODEL_ELEMENT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -356,10 +236,6 @@ public abstract class URNmodelElementImpl extends EObjectImpl implements URNmode
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case UrncorePackage.UR_NMODEL_ELEMENT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case UrncorePackage.UR_NMODEL_ELEMENT__NAME:

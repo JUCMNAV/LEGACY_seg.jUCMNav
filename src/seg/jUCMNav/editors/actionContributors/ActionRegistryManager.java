@@ -43,6 +43,7 @@ import seg.jUCMNav.actions.DeleteEvaluationAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
+import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportImageAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
@@ -263,6 +264,10 @@ public class ActionRegistryManager {
         
         action = new EditStubPluginsAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);  
+
+        action = new EditURNLinksAction((IWorkbenchPart) editor);
+        action.setText("Edit URN Links"); 
         addEditPartAction((SelectionAction) action);  
         
         action = new AddGrlGraphAction(editor);

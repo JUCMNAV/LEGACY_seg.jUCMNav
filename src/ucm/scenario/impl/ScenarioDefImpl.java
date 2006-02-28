@@ -152,10 +152,8 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -179,10 +177,8 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
                     return eBasicSetContainer(null, ScenarioPackage.SCENARIO_DEF__UCMSPEC, msgs);
                 case ScenarioPackage.SCENARIO_DEF__GROUPS:
@@ -218,16 +214,14 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                return getFromLinks();
-            case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                return getToLinks();
             case ScenarioPackage.SCENARIO_DEF__ID:
                 return getId();
             case ScenarioPackage.SCENARIO_DEF__NAME:
                 return getName();
             case ScenarioPackage.SCENARIO_DEF__DESCRIPTION:
                 return getDescription();
+            case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                return getUrnlinks();
             case ScenarioPackage.SCENARIO_DEF__START_POINTS:
                 return getStartPoints();
             case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
@@ -245,14 +239,6 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case ScenarioPackage.SCENARIO_DEF__ID:
                 setId((String)newValue);
                 return;
@@ -261,6 +247,10 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
                 return;
             case ScenarioPackage.SCENARIO_DEF__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case ScenarioPackage.SCENARIO_DEF__START_POINTS:
                 getStartPoints().clear();
@@ -284,12 +274,6 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                getToLinks().clear();
-                return;
             case ScenarioPackage.SCENARIO_DEF__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -298,6 +282,9 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
                 return;
             case ScenarioPackage.SCENARIO_DEF__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case ScenarioPackage.SCENARIO_DEF__START_POINTS:
                 getStartPoints().clear();
@@ -319,16 +306,14 @@ public abstract class ScenarioDefImpl extends UCMmodelElementImpl implements Sce
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_DEF__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case ScenarioPackage.SCENARIO_DEF__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case ScenarioPackage.SCENARIO_DEF__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case ScenarioPackage.SCENARIO_DEF__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case ScenarioPackage.SCENARIO_DEF__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case ScenarioPackage.SCENARIO_DEF__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case ScenarioPackage.SCENARIO_DEF__START_POINTS:
                 return startPoints != null && !startPoints.isEmpty();
             case ScenarioPackage.SCENARIO_DEF__UCMSPEC:

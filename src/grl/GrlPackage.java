@@ -146,24 +146,6 @@ public interface GrlPackage extends EPackage{
     int GRL_NODE = 14;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GRL_NODE__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GRL_NODE__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -189,6 +171,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int GRL_NODE__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_NODE__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -273,24 +264,6 @@ public interface GrlPackage extends EPackage{
     int BELIEF = 1;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BELIEF__FROM_LINKS = GRL_NODE__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BELIEF__TO_LINKS = GRL_NODE__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -316,6 +289,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int BELIEF__DESCRIPTION = GRL_NODE__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BELIEF__URNLINKS = GRL_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -409,24 +391,6 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT = 2;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -452,6 +416,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int INTENTIONAL_ELEMENT__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -563,24 +536,6 @@ public interface GrlPackage extends EPackage{
     int ACTOR = 3;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACTOR__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACTOR__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -606,6 +561,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int ACTOR__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -672,24 +636,6 @@ public interface GrlPackage extends EPackage{
     int GRL_GRAPH = 4;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GRL_GRAPH__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GRL_GRAPH__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -715,6 +661,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int GRL_GRAPH__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GRL_GRAPH__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -772,24 +727,6 @@ public interface GrlPackage extends EPackage{
     int ACTOR_REF = 5;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACTOR_REF__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ACTOR_REF__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -815,6 +752,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int ACTOR_REF__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ACTOR_REF__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -935,24 +881,6 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT_REF = 6;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT_REF__FROM_LINKS = GRL_NODE__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT_REF__TO_LINKS = GRL_NODE__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -978,6 +906,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int INTENTIONAL_ELEMENT_REF__DESCRIPTION = GRL_NODE__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int INTENTIONAL_ELEMENT_REF__URNLINKS = GRL_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1089,24 +1026,6 @@ public interface GrlPackage extends EPackage{
     int ELEMENT_LINK = 9;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ELEMENT_LINK__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ELEMENT_LINK__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1132,6 +1051,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int ELEMENT_LINK__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ELEMENT_LINK__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -1189,24 +1117,6 @@ public interface GrlPackage extends EPackage{
     int CONTRIBUTION = 7;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONTRIBUTION__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONTRIBUTION__TO_LINKS = ELEMENT_LINK__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1232,6 +1142,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int CONTRIBUTION__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONTRIBUTION__URNLINKS = ELEMENT_LINK__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -1371,24 +1290,6 @@ public interface GrlPackage extends EPackage{
     int DECOMPOSITION = 10;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DECOMPOSITION__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DECOMPOSITION__TO_LINKS = ELEMENT_LINK__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1414,6 +1315,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int DECOMPOSITION__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DECOMPOSITION__URNLINKS = ELEMENT_LINK__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -1471,24 +1381,6 @@ public interface GrlPackage extends EPackage{
     int DEPENDENCY = 11;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DEPENDENCY__FROM_LINKS = ELEMENT_LINK__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DEPENDENCY__TO_LINKS = ELEMENT_LINK__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1514,6 +1406,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int DEPENDENCY__DESCRIPTION = ELEMENT_LINK__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DEPENDENCY__URNLINKS = ELEMENT_LINK__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Refs</b></em>' reference list.
@@ -1617,24 +1518,6 @@ public interface GrlPackage extends EPackage{
     int EVALUATION_STRATEGY = 13;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EVALUATION_STRATEGY__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EVALUATION_STRATEGY__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1660,6 +1543,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int EVALUATION_STRATEGY__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EVALUATION_STRATEGY__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Author</b></em>' attribute.
@@ -1809,24 +1701,6 @@ public interface GrlPackage extends EPackage{
     int STRATEGIES_GROUP = 17;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STRATEGIES_GROUP__FROM_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STRATEGIES_GROUP__TO_LINKS = UrncorePackage.GR_LMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1852,6 +1726,15 @@ public interface GrlPackage extends EPackage{
      * @ordered
      */
     int STRATEGIES_GROUP__DESCRIPTION = UrncorePackage.GR_LMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STRATEGIES_GROUP__URNLINKS = UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Strategies</b></em>' reference list.

@@ -126,31 +126,13 @@ public interface UrncorePackage extends EPackage{
     int UR_NMODEL_ELEMENT = 15;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UR_NMODEL_ELEMENT__FROM_LINKS = 0;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UR_NMODEL_ELEMENT__TO_LINKS = 1;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__ID = 2;
+    int UR_NMODEL_ELEMENT__ID = 0;
 
     /**
      * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -159,7 +141,7 @@ public interface UrncorePackage extends EPackage{
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__NAME = 3;
+    int UR_NMODEL_ELEMENT__NAME = 1;
 
     /**
      * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -168,7 +150,7 @@ public interface UrncorePackage extends EPackage{
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT__DESCRIPTION = 4;
+    int UR_NMODEL_ELEMENT__DESCRIPTION = 2;
 
     /**
      * The number of structural features of the the '<em>UR Nmodel Element</em>' class.
@@ -177,7 +159,7 @@ public interface UrncorePackage extends EPackage{
      * @generated
      * @ordered
      */
-    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 5;
+    int UR_NMODEL_ELEMENT_FEATURE_COUNT = 3;
 
     /**
      * The meta object id for the '{@link urncore.impl.UCMmodelElementImpl <em>UC Mmodel Element</em>}' class.
@@ -188,24 +170,6 @@ public interface UrncorePackage extends EPackage{
      * @generated
      */
     int UC_MMODEL_ELEMENT = 8;
-
-    /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UC_MMODEL_ELEMENT__FROM_LINKS = UR_NMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UC_MMODEL_ELEMENT__TO_LINKS = UR_NMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -235,13 +199,22 @@ public interface UrncorePackage extends EPackage{
     int UC_MMODEL_ELEMENT__DESCRIPTION = UR_NMODEL_ELEMENT__DESCRIPTION;
 
     /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMODEL_ELEMENT__URNLINKS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the the '<em>UC Mmodel Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UC_MMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int UC_MMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link urncore.impl.ResponsibilityImpl <em>Responsibility</em>}' class.
@@ -252,24 +225,6 @@ public interface UrncorePackage extends EPackage{
      * @generated
      */
     int RESPONSIBILITY = 1;
-
-    /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESPONSIBILITY__FROM_LINKS = UC_MMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESPONSIBILITY__TO_LINKS = UC_MMODEL_ELEMENT__TO_LINKS;
 
     /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -297,6 +252,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int RESPONSIBILITY__DESCRIPTION = UC_MMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESPONSIBILITY__URNLINKS = UC_MMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Empty</b></em>' attribute.
@@ -354,24 +318,6 @@ public interface UrncorePackage extends EPackage{
     int COMPONENT_ELEMENT = 3;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_ELEMENT__FROM_LINKS = UC_MMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_ELEMENT__TO_LINKS = UC_MMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -397,6 +343,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int COMPONENT_ELEMENT__DESCRIPTION = UC_MMODEL_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_ELEMENT__URNLINKS = UC_MMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -481,24 +436,6 @@ public interface UrncorePackage extends EPackage{
     int COMPONENT_REGULAR = 2;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_REGULAR__FROM_LINKS = COMPONENT_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_REGULAR__TO_LINKS = COMPONENT_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -524,6 +461,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int COMPONENT_REGULAR__DESCRIPTION = COMPONENT_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REGULAR__URNLINKS = COMPONENT_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -653,24 +599,6 @@ public interface UrncorePackage extends EPackage{
     int POOL = 4;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int POOL__FROM_LINKS = COMPONENT_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int POOL__TO_LINKS = COMPONENT_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -696,6 +624,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int POOL__DESCRIPTION = COMPONENT_ELEMENT__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int POOL__URNLINKS = COMPONENT_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -816,24 +753,6 @@ public interface UrncorePackage extends EPackage{
     int COMPONENT = 5;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT__FROM_LINKS = COMPONENT_REGULAR__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT__TO_LINKS = COMPONENT_REGULAR__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -859,6 +778,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int COMPONENT__DESCRIPTION = COMPONENT_REGULAR__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT__URNLINKS = COMPONENT_REGULAR__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -997,24 +925,6 @@ public interface UrncorePackage extends EPackage{
     int COMPONENT_TYPE = 6;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_TYPE__FROM_LINKS = COMPONENT_REGULAR__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_TYPE__TO_LINKS = COMPONENT_REGULAR__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1040,6 +950,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int COMPONENT_TYPE__DESCRIPTION = COMPONENT_REGULAR__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_TYPE__URNLINKS = COMPONENT_REGULAR__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Line Color</b></em>' attribute.
@@ -1205,24 +1124,6 @@ public interface UrncorePackage extends EPackage{
     int DYNAMIC_RESPONSIBILITY = 7;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DYNAMIC_RESPONSIBILITY__FROM_LINKS = RESPONSIBILITY__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DYNAMIC_RESPONSIBILITY__TO_LINKS = RESPONSIBILITY__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1248,6 +1149,15 @@ public interface UrncorePackage extends EPackage{
      * @ordered
      */
     int DYNAMIC_RESPONSIBILITY__DESCRIPTION = RESPONSIBILITY__DESCRIPTION;
+
+    /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DYNAMIC_RESPONSIBILITY__URNLINKS = RESPONSIBILITY__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Empty</b></em>' attribute.
@@ -1341,24 +1251,6 @@ public interface UrncorePackage extends EPackage{
     int GR_LMODEL_ELEMENT = 9;
 
     /**
-     * The feature id for the '<em><b>From Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GR_LMODEL_ELEMENT__FROM_LINKS = UR_NMODEL_ELEMENT__FROM_LINKS;
-
-    /**
-     * The feature id for the '<em><b>To Links</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int GR_LMODEL_ELEMENT__TO_LINKS = UR_NMODEL_ELEMENT__TO_LINKS;
-
-    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1386,13 +1278,22 @@ public interface UrncorePackage extends EPackage{
     int GR_LMODEL_ELEMENT__DESCRIPTION = UR_NMODEL_ELEMENT__DESCRIPTION;
 
     /**
+     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int GR_LMODEL_ELEMENT__URNLINKS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the the '<em>GR Lmodel Element</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int GR_LMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int GR_LMODEL_ELEMENT_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
 
     /**
      * The meta object id for the '{@link urncore.impl.LabelImpl <em>Label</em>}' class.
@@ -2419,6 +2320,17 @@ public interface UrncorePackage extends EPackage{
     EClass getUCMmodelElement();
 
     /**
+     * Returns the meta object for the reference list '{@link urncore.UCMmodelElement#getUrnlinks <em>Urnlinks</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Urnlinks</em>'.
+     * @see urncore.UCMmodelElement#getUrnlinks()
+     * @see #getUCMmodelElement()
+     * @generated
+     */
+    EReference getUCMmodelElement_Urnlinks();
+
+    /**
      * Returns the meta object for class '{@link urncore.GRLmodelElement <em>GR Lmodel Element</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2427,6 +2339,17 @@ public interface UrncorePackage extends EPackage{
      * @generated
      */
     EClass getGRLmodelElement();
+
+    /**
+     * Returns the meta object for the reference list '{@link urncore.GRLmodelElement#getUrnlinks <em>Urnlinks</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the reference list '<em>Urnlinks</em>'.
+     * @see urncore.GRLmodelElement#getUrnlinks()
+     * @see #getGRLmodelElement()
+     * @generated
+     */
+    EReference getGRLmodelElement_Urnlinks();
 
     /**
      * Returns the meta object for class '{@link urncore.NodeLabel <em>Node Label</em>}'.
@@ -2663,28 +2586,6 @@ public interface UrncorePackage extends EPackage{
      * @generated
      */
     EClass getURNmodelElement();
-
-    /**
-     * Returns the meta object for the reference list '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>From Links</em>'.
-     * @see urncore.URNmodelElement#getFromLinks()
-     * @see #getURNmodelElement()
-     * @generated
-     */
-    EReference getURNmodelElement_FromLinks();
-
-    /**
-     * Returns the meta object for the reference list '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>To Links</em>'.
-     * @see urncore.URNmodelElement#getToLinks()
-     * @see #getURNmodelElement()
-     * @generated
-     */
-    EReference getURNmodelElement_ToLinks();
 
     /**
      * Returns the meta object for the attribute '{@link urncore.URNmodelElement#getId <em>Id</em>}'.

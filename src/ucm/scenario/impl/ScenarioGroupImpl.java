@@ -120,10 +120,8 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -147,10 +145,8 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                     return eBasicSetContainer(null, ScenarioPackage.SCENARIO_GROUP__UCMSPEC, msgs);
                 case ScenarioPackage.SCENARIO_GROUP__SCENARIOS:
@@ -186,16 +182,14 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                return getFromLinks();
-            case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                return getToLinks();
             case ScenarioPackage.SCENARIO_GROUP__ID:
                 return getId();
             case ScenarioPackage.SCENARIO_GROUP__NAME:
                 return getName();
             case ScenarioPackage.SCENARIO_GROUP__DESCRIPTION:
                 return getDescription();
+            case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                return getUrnlinks();
             case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                 return getUcmspec();
             case ScenarioPackage.SCENARIO_GROUP__SCENARIOS:
@@ -211,14 +205,6 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case ScenarioPackage.SCENARIO_GROUP__ID:
                 setId((String)newValue);
                 return;
@@ -227,6 +213,10 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
                 return;
             case ScenarioPackage.SCENARIO_GROUP__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                 setUcmspec((UCMspec)newValue);
@@ -246,12 +236,6 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                getToLinks().clear();
-                return;
             case ScenarioPackage.SCENARIO_GROUP__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -260,6 +244,9 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
                 return;
             case ScenarioPackage.SCENARIO_GROUP__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                 setUcmspec((UCMspec)null);
@@ -278,16 +265,14 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case ScenarioPackage.SCENARIO_GROUP__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case ScenarioPackage.SCENARIO_GROUP__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case ScenarioPackage.SCENARIO_GROUP__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case ScenarioPackage.SCENARIO_GROUP__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case ScenarioPackage.SCENARIO_GROUP__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case ScenarioPackage.SCENARIO_GROUP__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case ScenarioPackage.SCENARIO_GROUP__UCMSPEC:
                 return getUcmspec() != null;
             case ScenarioPackage.SCENARIO_GROUP__SCENARIOS:

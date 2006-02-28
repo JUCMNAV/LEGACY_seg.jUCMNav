@@ -1,109 +1,30 @@
 package seg.jUCMNav.model.commands.delete;
 
-import org.eclipse.gef.commands.Command;
+import java.util.Iterator;
 
-import seg.jUCMNav.model.commands.JUCMNavCommand;
-import urn.URNspec;
+import org.eclipse.gef.commands.CompoundCommand;
+
+import seg.jUCMNav.model.commands.delete.internal.RemoveResponsibilityCommand;
+import urn.URNlink;
 import urncore.Responsibility;
 
 /**
- * Command to delete a Responsibility. (Remove it from the model). Can only be done if the no references remain.
+ * Command to delete a Responsibility and delete URNlink associate to it.
  * 
- * @author jkealey
+ * @author jkealey, Jean-Francois Roy
  *  
  */
-public class DeleteResponsibilityCommand extends Command implements JUCMNavCommand {
-
-    // the responsibility definition to delete
-    private Responsibility respDef;
-
-    // the URNspec in which it is contained
-    private URNspec urn;
+public class DeleteResponsibilityCommand extends CompoundCommand {
 
     public DeleteResponsibilityCommand(Responsibility resp) {
-        setRespDef(resp);
-        setLabel("DeleteResponsibilityCommand");//$NON-NLS-1$
-    }
+        setLabel("DeleteResponsibilityCommand");
+        
+        //Remove the URNlinks
+        for (Iterator it = resp.getUrnlinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        add(new RemoveResponsibilityCommand(resp));
 
-    /**
-     * If not referenced.
-     * 
-     * @see org.eclipse.gef.commands.Command#canExecute()
-     */
-    public boolean canExecute() {
-        return getRespDef() != null && getRespDef().getRespRefs().size() == 0;
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#execute()
-     */
-    public void execute() {
-        // also set the relations
-        urn = getRespDef().getUrndefinition().getUrnspec();
-
-        redo();
-    }
-
-    /**
-     * 
-     * @return the definition to delete.
-     */
-    public Responsibility getRespDef() {
-        return respDef;
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#redo()
-     */
-    public void redo() {
-        testPreConditions();
-
-        // break relations and remove respDef
-        urn.getUrndef().getResponsibilities().remove(getRespDef());
-
-        testPostConditions();
-    }
-
-    /**
-     * 
-     * @param respDef
-     *            the definition to delete.
-     */
-    public void setRespDef(Responsibility respDef) {
-        this.respDef = respDef;
-    }
-
-    /**
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
-     */
-    public void testPostConditions() {
-        // lists could be empty but not null
-        assert getRespDef() != null && urn != null : "post something is null"; //$NON-NLS-1$
-        assert getRespDef().getRespRefs().size() == 0 : "post there are still children"; //$NON-NLS-1$
-        assert !urn.getUrndef().getResponsibilities().contains(getRespDef()) : "post responsibility still in model"; //$NON-NLS-1$
-    }
-
-    /**
-     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
-     */
-    public void testPreConditions() {
-
-        // lists could be empty but not null
-        assert getRespDef() != null && urn != null : "pre something is null"; //$NON-NLS-1$
-        assert getRespDef().getRespRefs().size() == 0 : "pre can't delete if still referenced."; //$NON-NLS-1$
-        assert urn.getUrndef().getResponsibilities().contains(getRespDef()) : "pre responsibility in model"; //$NON-NLS-1$
-
-    }
-
-    /**
-     * @see org.eclipse.gef.commands.Command#undo()
-     */
-    public void undo() {
-        testPostConditions();
-
-        // re-add compDef
-        urn.getUrndef().getResponsibilities().add(getRespDef());
-
-        testPreConditions();
     }
 }

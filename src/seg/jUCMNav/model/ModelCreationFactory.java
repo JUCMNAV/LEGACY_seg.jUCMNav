@@ -158,6 +158,7 @@ public class ModelCreationFactory implements CreationFactory {
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
+        UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
         
         Object result = null;
 
@@ -170,8 +171,10 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmfactory.createUCMspec();
             } else if (targetClass.equals(GRLspec.class)) {
                 result = grlfactory.createGRLspec();
-            }else if (targetClass.equals(URNdefinition.class)) {
+            } else if (targetClass.equals(URNdefinition.class)) {
                 result = urncorefactory.createURNdefinition();
+            } else if (targetClass.equals(URNlink.class)) {
+                result = urnmainfactory.createURNlink();
             } else if (targetClass.equals(EmptyPoint.class)) {
                 result = mapfactory.createEmptyPoint();
             } else if (targetClass.equals(NodeConnection.class)) {
@@ -350,7 +353,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // set the name and id of model elements
         // doesn't verify unique names.
-        if (result instanceof UCMmodelElement || result instanceof GRLmodelElement || result instanceof URNlink) {
+        if (result instanceof UCMmodelElement || result instanceof GRLmodelElement) {
             URNNamingHelper.setElementNameAndID(urn, result);
         }
 

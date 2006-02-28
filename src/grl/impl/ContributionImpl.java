@@ -148,10 +148,8 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.CONTRIBUTION__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__GRLSPEC:
@@ -183,10 +181,8 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.CONTRIBUTION__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.CONTRIBUTION__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
                 case GrlPackage.CONTRIBUTION__GRLSPEC:
@@ -226,16 +222,14 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.CONTRIBUTION__TO_LINKS:
-                return getToLinks();
             case GrlPackage.CONTRIBUTION__ID:
                 return getId();
             case GrlPackage.CONTRIBUTION__NAME:
                 return getName();
             case GrlPackage.CONTRIBUTION__DESCRIPTION:
                 return getDescription();
+            case GrlPackage.CONTRIBUTION__URNLINKS:
+                return getUrnlinks();
             case GrlPackage.CONTRIBUTION__REFS:
                 return getRefs();
             case GrlPackage.CONTRIBUTION__GRLSPEC:
@@ -261,14 +255,6 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.CONTRIBUTION__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case GrlPackage.CONTRIBUTION__ID:
                 setId((String)newValue);
                 return;
@@ -277,6 +263,10 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
                 return;
             case GrlPackage.CONTRIBUTION__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case GrlPackage.CONTRIBUTION__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.CONTRIBUTION__REFS:
                 getRefs().clear();
@@ -308,12 +298,6 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.CONTRIBUTION__TO_LINKS:
-                getToLinks().clear();
-                return;
             case GrlPackage.CONTRIBUTION__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -322,6 +306,9 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
                 return;
             case GrlPackage.CONTRIBUTION__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case GrlPackage.CONTRIBUTION__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case GrlPackage.CONTRIBUTION__REFS:
                 getRefs().clear();
@@ -352,16 +339,14 @@ public class ContributionImpl extends ElementLinkImpl implements Contribution {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.CONTRIBUTION__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.CONTRIBUTION__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.CONTRIBUTION__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.CONTRIBUTION__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.CONTRIBUTION__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case GrlPackage.CONTRIBUTION__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.CONTRIBUTION__REFS:
                 return refs != null && !refs.isEmpty();
             case GrlPackage.CONTRIBUTION__GRLSPEC:

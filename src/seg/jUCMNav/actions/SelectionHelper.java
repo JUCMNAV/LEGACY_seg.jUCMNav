@@ -1,11 +1,13 @@
 package seg.jUCMNav.actions;
 
+import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.GRLspec;
+import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 import grl.StrategiesGroup;
@@ -101,6 +103,8 @@ public class SelectionHelper {
     public static final int LINKREF = 204;
     public static final int EVALUATIONGROUP = 205;
     public static final int EVALUATIONSTRATEGY = 206;
+    public static final int ACTOR = 207;
+    public static final int INTENTIONALELEMENT = 208;
     
     // internal variables; for quick reference.
     private AndFork andfork;
@@ -128,9 +132,11 @@ public class SelectionHelper {
 
     //internal variable for GRL
     private ActorRef actorref;
+    private Actor actor;
     private Belief belief;
     private GRLGraph grlgraph;
     private IntentionalElementRef intentionalelementref;
+    private IntentionalElement intentionalelement;
     private LinkRef linkref;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
@@ -248,6 +254,8 @@ public class SelectionHelper {
             nodeconnectionmiddle = ((NodeConnectionEditPart) part).getMiddlePoint();
         } else if (model instanceof RespRef) {
             respref = (RespRef) model;
+        } else if (model instanceof IntentionalElement) {
+            intentionalelement = (IntentionalElement) model;
         } else if (model instanceof IntentionalElementRef) {
             intentionalelementref = (IntentionalElementRef) model;
         } else if (model instanceof Belief) {
@@ -283,6 +291,8 @@ public class SelectionHelper {
             componentlabel = (ComponentLabel) model;
         else if (model instanceof ComponentRef)
             componentref = (ComponentRef) model;
+        else if (model instanceof Actor)
+            actor = (Actor) model;
         else if (model instanceof ActorRef)
             actorref = (ActorRef) model;
         else if (model instanceof OrFork)
@@ -457,10 +467,14 @@ public class SelectionHelper {
             selectionType = ANDJOIN;
         else if (map != null)
             selectionType = MAP;
+        else if (intentionalelement != null)
+            selectionType = INTENTIONALELEMENT;
         else if (intentionalelementref != null)
             selectionType = INTENTIONALELEMENTREF;
         else if (belief != null)
             selectionType = BELIEF;
+        else if (actor != null)
+            selectionType = ACTOR;
         else if (actorref != null)
             selectionType = ACTORREF;
         else if (linkref != null)
@@ -482,6 +496,10 @@ public class SelectionHelper {
         return directionarrow;
     }
 
+    public Actor getActor() {
+        return actor;
+    }
+    
     public ActorRef getActorref() {
         return actorref;
     }
@@ -494,6 +512,10 @@ public class SelectionHelper {
         return grlgraph;
     }
 
+    public IntentionalElement getIntentionalElement() {
+        return intentionalelement;
+    }
+    
     public IntentionalElementRef getIntentionalelementref() {
         return intentionalelementref;
     }

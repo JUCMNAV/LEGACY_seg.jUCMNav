@@ -659,8 +659,26 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EReference getUCMmodelElement_Urnlinks() {
+        return (EReference)ucMmodelElementEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getGRLmodelElement() {
         return grLmodelElementEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getGRLmodelElement_Urnlinks() {
+        return (EReference)grLmodelElementEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -866,26 +884,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getURNmodelElement_FromLinks() {
-        return (EReference)urNmodelElementEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EReference getURNmodelElement_ToLinks() {
-        return (EReference)urNmodelElementEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EAttribute getURNmodelElement_Id() {
-        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(2);
+        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -894,7 +894,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * @generated
      */
     public EAttribute getURNmodelElement_Name() {
-        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(3);
+        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -903,7 +903,7 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
      * @generated
      */
     public EAttribute getURNmodelElement_Description() {
-        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(4);
+        return (EAttribute)urNmodelElementEClass.getEStructuralFeatures().get(2);
     }
 
     /**
@@ -1259,8 +1259,10 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(dynamicResponsibilityEClass, DYNAMIC_RESPONSIBILITY__POOL);
 
         ucMmodelElementEClass = createEClass(UC_MMODEL_ELEMENT);
+        createEReference(ucMmodelElementEClass, UC_MMODEL_ELEMENT__URNLINKS);
 
         grLmodelElementEClass = createEClass(GR_LMODEL_ELEMENT);
+        createEReference(grLmodelElementEClass, GR_LMODEL_ELEMENT__URNLINKS);
 
         nodeLabelEClass = createEClass(NODE_LABEL);
         createEReference(nodeLabelEClass, NODE_LABEL__NODE);
@@ -1289,8 +1291,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         createEReference(iurnDiagramEClass, IURN_DIAGRAM__CONNECTIONS);
 
         urNmodelElementEClass = createEClass(UR_NMODEL_ELEMENT);
-        createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__FROM_LINKS);
-        createEReference(urNmodelElementEClass, UR_NMODEL_ELEMENT__TO_LINKS);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__ID);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__NAME);
         createEAttribute(urNmodelElementEClass, UR_NMODEL_ELEMENT__DESCRIPTION);
@@ -1424,8 +1424,10 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getDynamicResponsibility_Pool(), this.getPool(), this.getPool_DynResponsibilities(), "pool", null, 0, 1, DynamicResponsibility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(ucMmodelElementEClass, UCMmodelElement.class, "UCMmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getUCMmodelElement_Urnlinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_UcmModelElements(), "urnlinks", null, 0, -1, UCMmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(grLmodelElementEClass, GRLmodelElement.class, "GRLmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getGRLmodelElement_Urnlinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_GrlModelElements(), "urnlinks", null, 0, -1, GRLmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(nodeLabelEClass, NodeLabel.class, "NodeLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getNodeLabel_Node(), this.getIURNNode(), this.getIURNNode_Label(), "node", null, 1, 1, NodeLabel.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1454,8 +1456,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
         initEReference(getIURNDiagram_Connections(), this.getIURNConnection(), this.getIURNConnection_Diagram(), "connections", null, 0, -1, IURNDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(urNmodelElementEClass, URNmodelElement.class, "URNmodelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getURNmodelElement_FromLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_FromElems(), "fromLinks", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getURNmodelElement_ToLinks(), theUrnPackage.getURNlink(), theUrnPackage.getURNlink_ToElems(), "toLinks", null, 0, -1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Id(), ecorePackage.getEString(), "id", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getURNmodelElement_Description(), ecorePackage.getEString(), "description", null, 0, 1, URNmodelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

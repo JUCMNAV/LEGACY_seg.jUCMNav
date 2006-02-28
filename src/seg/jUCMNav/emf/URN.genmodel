@@ -7,6 +7,13 @@
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
   <foreignModel>E:\Jean-Francois\Universite\EclipseProject\URN_10.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
+    <genEnums ecoreEnum="urn.ecore#//URNLinkType">
+      <genEnumLiterals ecoreEnumLiteral="urn.ecore#//URNLinkType/StrategyScenario"/>
+      <genEnumLiterals ecoreEnumLiteral="urn.ecore#//URNLinkType/AuthorComponent"/>
+      <genEnumLiterals ecoreEnumLiteral="urn.ecore#//URNLinkType/ElementVariable"/>
+      <genEnumLiterals ecoreEnumLiteral="urn.ecore#//URNLinkType/ElementStub"/>
+      <genEnumLiterals ecoreEnumLiteral="urn.ecore#//URNLinkType/ElementResponsibility"/>
+    </genEnums>
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/description"/>
@@ -22,13 +29,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
     </genClasses>
     <genClasses ecoreClass="urn.ecore#//URNlink">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/kind"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/urnspec"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/fromElems"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/toElems"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/grlModelElements"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/ucmModelElements"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Urncore" ecorePackage="urncore.ecore#/">
@@ -92,8 +95,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//DynamicResponsibility/arrowLength"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//DynamicResponsibility/pool"/>
     </genClasses>
-    <genClasses ecoreClass="urncore.ecore#//UCMmodelElement"/>
-    <genClasses ecoreClass="urncore.ecore#//GRLmodelElement"/>
+    <genClasses ecoreClass="urncore.ecore#//UCMmodelElement">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//UCMmodelElement/urnlinks"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//GRLmodelElement">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//GRLmodelElement/urnlinks"/>
+    </genClasses>
     <genClasses ecoreClass="urncore.ecore#//NodeLabel">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//NodeLabel/node"/>
     </genClasses>
@@ -121,8 +128,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/connections"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//URNmodelElement">
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/fromLinks"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/toLinks"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//URNmodelElement/description"/>

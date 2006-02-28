@@ -452,14 +452,14 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // and will not draw it correctly.
         ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
-        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
-            
-            nodeFigure.setForegroundColor(
-                    new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));
-        } else{
+//        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
+//            
+//            nodeFigure.setForegroundColor(
+//                    new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));
+//        } else{
             nodeFigure.setForegroundColor(
                     new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0")));
-        }
+//        }
     }
 
     /**

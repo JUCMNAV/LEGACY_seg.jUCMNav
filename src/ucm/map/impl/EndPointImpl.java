@@ -148,10 +148,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.END_POINT__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.END_POINT__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.END_POINT__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.END_POINT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -191,10 +189,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.END_POINT__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.END_POINT__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.END_POINT__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.END_POINT__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.END_POINT__DIAGRAM, msgs);
                 case MapPackage.END_POINT__CONT_REF:
@@ -240,16 +236,14 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.END_POINT__FROM_LINKS:
-                return getFromLinks();
-            case MapPackage.END_POINT__TO_LINKS:
-                return getToLinks();
             case MapPackage.END_POINT__ID:
                 return getId();
             case MapPackage.END_POINT__NAME:
                 return getName();
             case MapPackage.END_POINT__DESCRIPTION:
                 return getDescription();
+            case MapPackage.END_POINT__URNLINKS:
+                return getUrnlinks();
             case MapPackage.END_POINT__X:
                 return new Integer(getX());
             case MapPackage.END_POINT__Y:
@@ -280,14 +274,6 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.END_POINT__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.END_POINT__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.END_POINT__ID:
                 setId((String)newValue);
                 return;
@@ -296,6 +282,10 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
                 return;
             case MapPackage.END_POINT__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case MapPackage.END_POINT__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.END_POINT__X:
                 setX(((Integer)newValue).intValue());
@@ -338,12 +328,6 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.END_POINT__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case MapPackage.END_POINT__TO_LINKS:
-                getToLinks().clear();
-                return;
             case MapPackage.END_POINT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -352,6 +336,9 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
                 return;
             case MapPackage.END_POINT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case MapPackage.END_POINT__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case MapPackage.END_POINT__X:
                 setX(X_EDEFAULT);
@@ -391,16 +378,14 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.END_POINT__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case MapPackage.END_POINT__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.END_POINT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.END_POINT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.END_POINT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case MapPackage.END_POINT__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.END_POINT__X:
                 return x != X_EDEFAULT;
             case MapPackage.END_POINT__Y:

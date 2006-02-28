@@ -105,10 +105,8 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.BELIEF__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.BELIEF__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.BELIEF__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.BELIEF__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -142,10 +140,8 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.BELIEF__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.BELIEF__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.BELIEF__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.BELIEF__DIAGRAM:
                     return eBasicSetContainer(null, GrlPackage.BELIEF__DIAGRAM, msgs);
                 case GrlPackage.BELIEF__CONT_REF:
@@ -187,16 +183,14 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.BELIEF__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.BELIEF__TO_LINKS:
-                return getToLinks();
             case GrlPackage.BELIEF__ID:
                 return getId();
             case GrlPackage.BELIEF__NAME:
                 return getName();
             case GrlPackage.BELIEF__DESCRIPTION:
                 return getDescription();
+            case GrlPackage.BELIEF__URNLINKS:
+                return getUrnlinks();
             case GrlPackage.BELIEF__X:
                 return new Integer(getX());
             case GrlPackage.BELIEF__Y:
@@ -225,14 +219,6 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.BELIEF__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.BELIEF__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case GrlPackage.BELIEF__ID:
                 setId((String)newValue);
                 return;
@@ -241,6 +227,10 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
                 return;
             case GrlPackage.BELIEF__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case GrlPackage.BELIEF__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.BELIEF__X:
                 setX(((Integer)newValue).intValue());
@@ -279,12 +269,6 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.BELIEF__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.BELIEF__TO_LINKS:
-                getToLinks().clear();
-                return;
             case GrlPackage.BELIEF__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -293,6 +277,9 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
                 return;
             case GrlPackage.BELIEF__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case GrlPackage.BELIEF__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case GrlPackage.BELIEF__X:
                 setX(X_EDEFAULT);
@@ -329,16 +316,14 @@ public class BeliefImpl extends GRLNodeImpl implements Belief {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.BELIEF__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.BELIEF__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.BELIEF__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.BELIEF__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.BELIEF__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case GrlPackage.BELIEF__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.BELIEF__X:
                 return x != X_EDEFAULT;
             case GrlPackage.BELIEF__Y:

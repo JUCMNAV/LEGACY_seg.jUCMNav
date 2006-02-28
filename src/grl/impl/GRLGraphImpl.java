@@ -170,10 +170,8 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GRL_GRAPH__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GRL_GRAPH__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GRL_GRAPH__URNDEFINITION:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -201,10 +199,8 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GRL_GRAPH__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GRL_GRAPH__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GRL_GRAPH__URNDEFINITION:
                     return eBasicSetContainer(null, GrlPackage.GRL_GRAPH__URNDEFINITION, msgs);
                 case GrlPackage.GRL_GRAPH__NODES:
@@ -244,16 +240,14 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.GRL_GRAPH__TO_LINKS:
-                return getToLinks();
             case GrlPackage.GRL_GRAPH__ID:
                 return getId();
             case GrlPackage.GRL_GRAPH__NAME:
                 return getName();
             case GrlPackage.GRL_GRAPH__DESCRIPTION:
                 return getDescription();
+            case GrlPackage.GRL_GRAPH__URNLINKS:
+                return getUrnlinks();
             case GrlPackage.GRL_GRAPH__URNDEFINITION:
                 return getUrndefinition();
             case GrlPackage.GRL_GRAPH__NODES:
@@ -273,14 +267,6 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.GRL_GRAPH__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case GrlPackage.GRL_GRAPH__ID:
                 setId((String)newValue);
                 return;
@@ -289,6 +275,10 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
                 return;
             case GrlPackage.GRL_GRAPH__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case GrlPackage.GRL_GRAPH__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.GRL_GRAPH__URNDEFINITION:
                 setUrndefinition((URNdefinition)newValue);
@@ -316,12 +306,6 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.GRL_GRAPH__TO_LINKS:
-                getToLinks().clear();
-                return;
             case GrlPackage.GRL_GRAPH__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -330,6 +314,9 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
                 return;
             case GrlPackage.GRL_GRAPH__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case GrlPackage.GRL_GRAPH__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case GrlPackage.GRL_GRAPH__URNDEFINITION:
                 setUrndefinition((URNdefinition)null);
@@ -354,16 +341,14 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_GRAPH__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.GRL_GRAPH__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.GRL_GRAPH__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.GRL_GRAPH__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.GRL_GRAPH__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case GrlPackage.GRL_GRAPH__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.GRL_GRAPH__URNDEFINITION:
                 return getUrndefinition() != null;
             case GrlPackage.GRL_GRAPH__NODES:

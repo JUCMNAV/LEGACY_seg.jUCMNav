@@ -12,10 +12,12 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
+import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import urn.URNlink;
 
 /**
  * Removes all invisible relationships related to a Connection, Node or ContainerRef, .
@@ -46,6 +48,11 @@ public class CleanRelationshipsCommand extends CompoundCommand {
     private void build(UCMmap map) {
         add(new RemoveLinkedInfoCommand(map));
         add(new DeleteBindingsCommand(map));
+        //Delete URNLinks
+        for (Iterator it = map.getUrnlinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
     }
 
     /**

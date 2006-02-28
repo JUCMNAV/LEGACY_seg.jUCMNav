@@ -1,0 +1,103 @@
+/**
+ * 
+ */
+package seg.jUCMNav.model.commands.create;
+
+import org.eclipse.gef.commands.Command;
+
+import seg.jUCMNav.model.commands.JUCMNavCommand;
+import urn.URNlink;
+import urn.URNspec;
+import urncore.GRLmodelElement;
+import urncore.UCMmodelElement;
+
+/**
+ * This class create a URNLink between a GRL element and a UCM element
+ * 
+ * @author Jean-François Roy
+ *
+ */
+public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
+
+    private URNlink link;
+    private GRLmodelElement grl;
+    private UCMmodelElement ucm;
+    private URNspec urn;
+    
+    /**
+     * @param urn the URNspec
+     * @param link the URNlink to add
+     * @param grl the GRLmodelElement in the link
+     * @param ucm the UCMmodelElement in the link
+     */
+    public AddUrnLinkCommand(URNspec urn, URNlink link, GRLmodelElement grl, UCMmodelElement ucm) {
+        this.link = link;
+        this.ucm = ucm;
+        this.grl = grl;
+        this.urn = urn;
+        setLabel("Add a URN Link");
+    }
+
+    /**
+     * @return whether we can apply changes
+     */
+    public boolean canExecute() {
+        
+        if ((urn != null && link != null && ucm != null && grl != null) && 
+                (ucm.getUrnlinks().size() == 0)){ //We only support 1 link from the ucm element
+            return true;
+        } 
+        return false;
+    }
+    
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#execute()
+     */
+    public void execute() {
+        redo();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.gef.commands.Command#redo()
+     */
+    public void redo() {
+        testPreConditions();
+        link.setGrlModelElements(grl);
+        link.setUcmModelElements(ucm);
+        urn.getUrnLinks().add(link);
+        testPostConditions();
+    }
+    
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
+     */
+    public void testPreConditions() {
+        assert urn != null && link != null && grl != null && ucm != null: "pre null"; //$NON-NLS-1$
+        assert !urn.getUrnLinks().contains(link) : "pre urn contain link!"; //$NON-NLS-1$
+        assert !grl.getUrnlinks().contains(link) && !ucm.getUrnlinks().contains(link): "pre element contain link"; //$NON-NLS-1$
+    }
+
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
+     */
+    public void testPostConditions() {
+        assert urn != null && link != null && grl != null && ucm != null: "pre null"; //$NON-NLS-1$
+        assert urn.getUrnLinks().contains(link) : "pre urn contain link!"; //$NON-NLS-1$
+        assert grl.getUrnlinks().contains(link) && ucm.getUrnlinks().contains(link): "pre element contain link"; //$NON-NLS-1$
+    }
+
+    /**
+     * 
+     * @see org.eclipse.gef.commands.Command#undo()
+     */
+    public void undo() {
+        testPostConditions();
+        urn.getUrnLinks().remove(link);
+        link.setGrlModelElements(null);
+        link.setUcmModelElements(null);
+        testPreConditions();
+    }
+}

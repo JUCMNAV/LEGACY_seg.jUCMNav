@@ -361,10 +361,8 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.PATH_NODE__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.PATH_NODE__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.PATH_NODE__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.PATH_NODE__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -398,10 +396,8 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.PATH_NODE__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.PATH_NODE__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.PATH_NODE__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.PATH_NODE__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.PATH_NODE__DIAGRAM, msgs);
                 case MapPackage.PATH_NODE__CONT_REF:
@@ -443,16 +439,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.PATH_NODE__FROM_LINKS:
-                return getFromLinks();
-            case MapPackage.PATH_NODE__TO_LINKS:
-                return getToLinks();
             case MapPackage.PATH_NODE__ID:
                 return getId();
             case MapPackage.PATH_NODE__NAME:
                 return getName();
             case MapPackage.PATH_NODE__DESCRIPTION:
                 return getDescription();
+            case MapPackage.PATH_NODE__URNLINKS:
+                return getUrnlinks();
             case MapPackage.PATH_NODE__X:
                 return new Integer(getX());
             case MapPackage.PATH_NODE__Y:
@@ -479,14 +473,6 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.PATH_NODE__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.PATH_NODE__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.PATH_NODE__ID:
                 setId((String)newValue);
                 return;
@@ -495,6 +481,10 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
                 return;
             case MapPackage.PATH_NODE__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case MapPackage.PATH_NODE__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.PATH_NODE__X:
                 setX(((Integer)newValue).intValue());
@@ -530,12 +520,6 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.PATH_NODE__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case MapPackage.PATH_NODE__TO_LINKS:
-                getToLinks().clear();
-                return;
             case MapPackage.PATH_NODE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -544,6 +528,9 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
                 return;
             case MapPackage.PATH_NODE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case MapPackage.PATH_NODE__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case MapPackage.PATH_NODE__X:
                 setX(X_EDEFAULT);
@@ -577,16 +564,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.PATH_NODE__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case MapPackage.PATH_NODE__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.PATH_NODE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.PATH_NODE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.PATH_NODE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case MapPackage.PATH_NODE__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.PATH_NODE__X:
                 return x != X_EDEFAULT;
             case MapPackage.PATH_NODE__Y:

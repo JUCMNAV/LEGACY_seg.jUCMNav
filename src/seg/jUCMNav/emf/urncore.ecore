@@ -100,7 +100,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrowLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pool" eType="#//Pool" eOpposite="#//Pool/dynResponsibilities"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UCMmodelElement" abstract="true" eSuperTypes="#//URNmodelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UCMmodelElement" abstract="true" eSuperTypes="#//URNmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urnlinks" upperBound="-1"
+        eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/ucmModelElements"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DynamicRespKind">
     <eLiterals name="Move"/>
     <eLiterals name="MoveStay" value="1"/>
@@ -108,7 +111,10 @@
     <eLiterals name="Copy" value="3"/>
     <eLiterals name="Destroy" value="4"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GRLmodelElement" abstract="true" eSuperTypes="#//URNmodelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GRLmodelElement" abstract="true" eSuperTypes="#//URNmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urnlinks" upperBound="-1"
+        eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/grlModelElements"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NodeLabel" eSuperTypes="#//Label">
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" lowerBound="1" eType="#//IURNNode"
         transient="true" eOpposite="#//IURNNode/label"/>
@@ -147,10 +153,6 @@
         eType="#//IURNConnection" containment="true" eOpposite="#//IURNConnection/diagram"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
-        eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/fromElems"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="toLinks" upperBound="-1"
-        eType="ecore:EClass urn.ecore#//URNlink" eOpposite="urn.ecore#//URNlink/toElems"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

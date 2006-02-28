@@ -6,9 +6,12 @@ package seg.jUCMNav.model.commands.delete;
 import grl.ElementLink;
 import grl.IntentionalElement;
 
+import java.util.Iterator;
+
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.internal.RemoveIntentionalElementCommand;
+import urn.URNlink;
 
 /**
  * Delete an IntentionalElement (including all the ElementLink associate to it)
@@ -66,6 +69,11 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
      * 
      */
     private void build() {
+        //Delete all the URNlink
+        for (Iterator it = element.getUrnlinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
         //Delete all the ElementLink associate with the IntentionalElement
         deleteElementLink();
         add(new RemoveIntentionalElementCommand(element));

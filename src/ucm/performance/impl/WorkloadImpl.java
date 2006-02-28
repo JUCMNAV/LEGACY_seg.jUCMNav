@@ -463,10 +463,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.WORKLOAD__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.WORKLOAD__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case PerformancePackage.WORKLOAD__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case PerformancePackage.WORKLOAD__START_POINT:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -490,10 +488,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.WORKLOAD__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.WORKLOAD__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case PerformancePackage.WORKLOAD__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case PerformancePackage.WORKLOAD__START_POINT:
                     return eBasicSetContainer(null, PerformancePackage.WORKLOAD__START_POINT, msgs);
                 case PerformancePackage.WORKLOAD__RESP_TIME:
@@ -529,16 +525,14 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.WORKLOAD__FROM_LINKS:
-                return getFromLinks();
-            case PerformancePackage.WORKLOAD__TO_LINKS:
-                return getToLinks();
             case PerformancePackage.WORKLOAD__ID:
                 return getId();
             case PerformancePackage.WORKLOAD__NAME:
                 return getName();
             case PerformancePackage.WORKLOAD__DESCRIPTION:
                 return getDescription();
+            case PerformancePackage.WORKLOAD__URNLINKS:
+                return getUrnlinks();
             case PerformancePackage.WORKLOAD__CLOSED:
                 return isClosed() ? Boolean.TRUE : Boolean.FALSE;
             case PerformancePackage.WORKLOAD__ARRIVAL_PATTERN:
@@ -570,14 +564,6 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.WORKLOAD__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.WORKLOAD__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case PerformancePackage.WORKLOAD__ID:
                 setId((String)newValue);
                 return;
@@ -586,6 +572,10 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
                 return;
             case PerformancePackage.WORKLOAD__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case PerformancePackage.WORKLOAD__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case PerformancePackage.WORKLOAD__CLOSED:
                 setClosed(((Boolean)newValue).booleanValue());
@@ -629,12 +619,6 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.WORKLOAD__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case PerformancePackage.WORKLOAD__TO_LINKS:
-                getToLinks().clear();
-                return;
             case PerformancePackage.WORKLOAD__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -643,6 +627,9 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
                 return;
             case PerformancePackage.WORKLOAD__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case PerformancePackage.WORKLOAD__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case PerformancePackage.WORKLOAD__CLOSED:
                 setClosed(CLOSED_EDEFAULT);
@@ -685,16 +672,14 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.WORKLOAD__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case PerformancePackage.WORKLOAD__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case PerformancePackage.WORKLOAD__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case PerformancePackage.WORKLOAD__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case PerformancePackage.WORKLOAD__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case PerformancePackage.WORKLOAD__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case PerformancePackage.WORKLOAD__CLOSED:
                 return closed != CLOSED_EDEFAULT;
             case PerformancePackage.WORKLOAD__ARRIVAL_PATTERN:

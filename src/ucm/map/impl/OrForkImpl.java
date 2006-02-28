@@ -108,10 +108,8 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.OR_FORK__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.OR_FORK__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.OR_FORK__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.OR_FORK__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -145,10 +143,8 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.OR_FORK__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.OR_FORK__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.OR_FORK__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.OR_FORK__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.OR_FORK__DIAGRAM, msgs);
                 case MapPackage.OR_FORK__CONT_REF:
@@ -190,16 +186,14 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_FORK__FROM_LINKS:
-                return getFromLinks();
-            case MapPackage.OR_FORK__TO_LINKS:
-                return getToLinks();
             case MapPackage.OR_FORK__ID:
                 return getId();
             case MapPackage.OR_FORK__NAME:
                 return getName();
             case MapPackage.OR_FORK__DESCRIPTION:
                 return getDescription();
+            case MapPackage.OR_FORK__URNLINKS:
+                return getUrnlinks();
             case MapPackage.OR_FORK__X:
                 return new Integer(getX());
             case MapPackage.OR_FORK__Y:
@@ -228,14 +222,6 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_FORK__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.OR_FORK__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case MapPackage.OR_FORK__ID:
                 setId((String)newValue);
                 return;
@@ -244,6 +230,10 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
                 return;
             case MapPackage.OR_FORK__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case MapPackage.OR_FORK__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.OR_FORK__X:
                 setX(((Integer)newValue).intValue());
@@ -282,12 +272,6 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_FORK__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case MapPackage.OR_FORK__TO_LINKS:
-                getToLinks().clear();
-                return;
             case MapPackage.OR_FORK__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -296,6 +280,9 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
                 return;
             case MapPackage.OR_FORK__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case MapPackage.OR_FORK__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case MapPackage.OR_FORK__X:
                 setX(X_EDEFAULT);
@@ -332,16 +319,14 @@ public class OrForkImpl extends PathNodeImpl implements OrFork {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_FORK__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case MapPackage.OR_FORK__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.OR_FORK__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.OR_FORK__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.OR_FORK__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case MapPackage.OR_FORK__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.OR_FORK__X:
                 return x != X_EDEFAULT;
             case MapPackage.OR_FORK__Y:

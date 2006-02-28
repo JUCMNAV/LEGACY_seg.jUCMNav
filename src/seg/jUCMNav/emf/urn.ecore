@@ -25,15 +25,18 @@
         eType="#//URNlink" containment="true" eOpposite="#//URNlink/urnspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNlink">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="#//URNspec" transient="true" eOpposite="#//URNspec/urnLinks"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fromElems" upperBound="-1"
-        eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/fromLinks"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="toElems" upperBound="-1"
-        eType="ecore:EClass urncore.ecore#//URNmodelElement" eOpposite="urncore.ecore#//URNmodelElement/toLinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="grlModelElements" lowerBound="1"
+        eType="ecore:EClass urncore.ecore#//GRLmodelElement" eOpposite="urncore.ecore#//GRLmodelElement/urnlinks"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ucmModelElements" lowerBound="1"
+        eType="ecore:EClass urncore.ecore#//UCMmodelElement" eOpposite="urncore.ecore#//UCMmodelElement/urnlinks"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="URNLinkType">
+    <eLiterals name="StrategyScenario"/>
+    <eLiterals name="AuthorComponent" value="1"/>
+    <eLiterals name="ElementVariable" value="2"/>
+    <eLiterals name="ElementStub" value="3"/>
+    <eLiterals name="ElementResponsibility" value="4"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -29,7 +29,6 @@ import ucm.map.EndPoint;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
-import urn.URNlink;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentElement;
@@ -136,9 +135,9 @@ public class URNNamingHelper {
         } else if (o instanceof GRLmodelElement) {
             GRLmodelElement elem = ((GRLmodelElement) o);
             return elem.getName() != null && elem.getName().length() > 0 && elem.getId() != null && elem.getId().length() > 0;
-        } else if (o instanceof URNlink) {
-            URNlink elem = ((URNlink) o);
-            return elem.getName() != null && elem.getName().length() > 0 && elem.getId() != null && elem.getId().length() > 0;
+//        } else if (o instanceof URNlink) {
+//            URNlink elem = ((URNlink) o);
+//            return elem.getName() != null && elem.getName().length() > 0 && elem.getId() != null && elem.getId().length() > 0;
         } else if (o instanceof URNspec) {
             URNspec elem = ((URNspec) o);
             return elem.getName() != null && elem.getName().length() > 0;
@@ -586,15 +585,15 @@ public class URNNamingHelper {
             if (model.getName() == null || model.getName().trim().length() == 0) {
                 model.setName(getPrefix(o.getClass()));
             }
-        } else if (o instanceof URNlink) {
-            URNlink model = (URNlink) o;
-            if (model.getId() == null || model.getId().trim().length() == 0) {
-                model.setId(getNewID(urn));
-            }
-
-            if (model.getName() == null || model.getName().trim().length() == 0) {
-                model.setName(getPrefix(o.getClass()));
-            }
+//        } else if (o instanceof URNlink) {
+//            URNlink model = (URNlink) o;
+//            if (model.getId() == null || model.getId().trim().length() == 0) {
+//                model.setId(getNewID(urn));
+//            }
+//
+//            if (model.getName() == null || model.getName().trim().length() == 0) {
+//                model.setName(getPrefix(o.getClass()));
+//            }
         } else {
             System.out.println(Messages.getString("URNNamingHelper.unknownClass")); //$NON-NLS-1$
         }

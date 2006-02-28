@@ -124,10 +124,8 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicAdd(otherEnd, msgs);
                 case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
@@ -151,10 +149,8 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                     return ((InternalEList)getStrategies()).basicRemove(otherEnd, msgs);
                 case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
@@ -190,16 +186,14 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                return getToLinks();
             case GrlPackage.STRATEGIES_GROUP__ID:
                 return getId();
             case GrlPackage.STRATEGIES_GROUP__NAME:
                 return getName();
             case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 return getDescription();
+            case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                return getUrnlinks();
             case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 return getStrategies();
             case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
@@ -215,14 +209,6 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
             case GrlPackage.STRATEGIES_GROUP__ID:
                 setId((String)newValue);
                 return;
@@ -231,6 +217,10 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
                 return;
             case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 setDescription((String)newValue);
+                return;
+            case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                getUrnlinks().clear();
+                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 getStrategies().clear();
@@ -250,12 +240,6 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                getToLinks().clear();
-                return;
             case GrlPackage.STRATEGIES_GROUP__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -264,6 +248,9 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
                 return;
             case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
+                return;
+            case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                getUrnlinks().clear();
                 return;
             case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 getStrategies().clear();
@@ -282,16 +269,14 @@ public class StrategiesGroupImpl extends GRLmodelElementImpl implements Strategi
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.STRATEGIES_GROUP__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.STRATEGIES_GROUP__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.STRATEGIES_GROUP__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.STRATEGIES_GROUP__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.STRATEGIES_GROUP__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+            case GrlPackage.STRATEGIES_GROUP__URNLINKS:
+                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.STRATEGIES_GROUP__STRATEGIES:
                 return strategies != null && !strategies.isEmpty();
             case GrlPackage.STRATEGIES_GROUP__GRLSPEC:
