@@ -455,13 +455,17 @@ public class URNNamingHelper {
             int i = 1;
 
             // it might be a custom name, try setting the default name (maybe we fixed the ID)
-            elem.setName(""); //$NON-NLS-1$
-            setElementNameAndID(urn, elem);
-
+//            elem.setName(""); //$NON-NLS-1$
+//            setElementNameAndID(urn, elem);
+            String initialName = elem.getName();
+            if (initialName.equals("")){
+                setElementNameAndID(urn, elem);
+                initialName = elem.getName();
+            }
             // if that didn't work, try adding -1, -2, -3 ... until it works.
             while (htNames.containsKey(elem.getName().toLowerCase())) {
-                elem.setName(""); //$NON-NLS-1$
-                setElementNameAndID(urn, elem);
+                elem.setName(initialName); //$NON-NLS-1$
+                //setElementNameAndID(urn, elem);
                 elem.setName(elem.getName() + "-" + (i++)); //$NON-NLS-1$
             }
             htNames.put(elem.getName().toLowerCase(), null);

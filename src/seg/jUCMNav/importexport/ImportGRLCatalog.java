@@ -128,6 +128,9 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 ref.getDef().setName(attrs.getValue("name"));
                 ref.getDef().setDescription(attrs.getValue("description"));
                 
+                //Verify for name conflict
+                URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
+                
                 //Add the new element in the hashmap for reference from links
                 map.put(attrs.getValue("id"),ref.getDef());
             }else{
