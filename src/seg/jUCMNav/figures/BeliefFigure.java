@@ -66,36 +66,4 @@ public class BeliefFigure extends GrlNodeFigure {
         graphics.fillOval(r);
 
     }
-
-    /**
-     * Sets the text of the TextFlow to the given value and set the size of the label.
-     * 
-     * @param newText the new text value.
-     */
-    public void setText(String newText) {
-        textFlow.setText(newText);
-        
-        //Calculate the size of the label and of the figure
-        //Max size available for the label
-        int width = getDefaultDimension().width - 2*LABEL_PADDING_X;
-        int height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
-        
-        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
-
-        //Loop until we have good dimension for the labels to fit in the node
-        while (dimEditableLabel.width > (width* Math.floor(height/dimEditableLabel.height))){
-            height = height + 10;
-            width = width + 20;
-        }
-        
-        Rectangle r = new Rectangle();
-        r.x = LABEL_PADDING_X;
-        r.y = LABEL_PADDING_Y;
-        r.width = width;
-        r.height = height;
-        setConstraint(flowPage,r);
-        
-        setSize(width + 2*LABEL_PADDING_X, height + 2*LABEL_PADDING_Y);
-
-    }
 }

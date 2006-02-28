@@ -10,6 +10,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
@@ -73,7 +74,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
         textFlow = new TextFlow();
         
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
-                ParagraphTextLayout.WORD_WRAP_SOFT));
+                ParagraphTextLayout.WORD_WRAP_HARD));
 
         flowPage.add(textFlow);
         add(flowPage);
@@ -153,10 +154,39 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
         color = StringConverter.asRGB(lineColor);
         setForegroundColor(new Color(Display.getCurrent(), color));
     }
+    
     /**
+     * Sets the text of the TextFlow to the given value and set the size of the label.
      * 
      * @param newText the new text value.
      */
     public void setText(String newText) {
-    }
+        textFlow.setText(newText);
+        
+        //Calculate the size of the label and of the figure
+        //Max size available for the label
+        int width = getDefaultDimension().width - 2*LABEL_PADDING_X;
+        int height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
+        
+        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
+        
+        int minWidth = flowPage.getPreferredSize(width,1).width;
+        
+        //Loop until we have good dimension for the labels to fit in the node
+        while ((dimEditableLabel.width > (width* Math.floor(height/dimEditableLabel.height)))
+                || width < minWidth){
+            height = height + 13;
+            width = width + 20;
+        }
+        
+        Rectangle r = new Rectangle();
+        r.x = LABEL_PADDING_X;
+        r.y = LABEL_PADDING_Y;
+        r.width = width;
+        r.height = height;
+        setConstraint(flowPage,r);
+        
+        setSize(width + 2*LABEL_PADDING_X, height + 2*LABEL_PADDING_Y);
+
+    }    
 }
