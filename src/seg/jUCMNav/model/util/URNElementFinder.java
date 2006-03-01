@@ -200,8 +200,8 @@ public class URNElementFinder {
 	 * @param name
 	 * @return matching diagram
 	 */
-	public static IURNContainerRef findMapByName(URNspec urn, String name) {
-		return (IURNContainerRef) findByName(urn.getUrndef().getSpecDiagrams(), name);
+	public static IURNDiagram findMapByName(URNspec urn, String name) {
+		return (IURNDiagram) findByName(urn.getUrndef().getSpecDiagrams(), name);
 	}
 
 	/**
