@@ -5,12 +5,17 @@ package seg.jUCMNav.actions;
 
 import grl.Actor;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
+import urn.URNlink;
+import urncore.ComponentElement;
 import urncore.GRLmodelElement;
+import urncore.Responsibility;
 
 /**
  * This action open the URNLink dialog for the selected element
@@ -30,6 +35,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     public EditURNLinksAction(IWorkbenchPart part) {
         super(part);
         setId(EDITURNLINKS);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")); //$NON-NLS-1$
     }
     
     /**
@@ -49,6 +55,22 @@ public class EditURNLinksAction extends URNSelectionAction {
         } else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT){
             element = sel.getIntentionalElement();
             return true;
+        } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITY){
+            Responsibility resp = sel.getRespref().getRespDef();
+            if (resp.getUrnlinks().size() > 0){
+                element = ((URNlink)resp.getUrnlinks().get(0)).getGrlModelElements();
+                return true;
+            } else{
+                return false;
+            }
+        } else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF){
+            ComponentElement comp = (ComponentElement)sel.getComponentref().getContDef();
+            if (comp.getUrnlinks().size() > 0){
+                element = ((URNlink)comp.getUrnlinks().get(0)).getGrlModelElements();
+                return true;
+            } else{
+                return false;
+            }
         }
         return false;
     }

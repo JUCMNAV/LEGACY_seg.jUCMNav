@@ -2,6 +2,7 @@ package seg.jUCMNav.editparts;
 
 import grl.ActorRef;
 import grl.GrlPackage;
+import grl.IntentionalElement;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -28,12 +29,16 @@ import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.LabelFeedbackEditPolicy;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
+import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LabelPropertySource;
+import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.MapPackage;
 import ucm.map.RespRef;
+import urn.URNlink;
 import urncore.ComponentLabel;
 import urncore.Condition;
+import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -184,6 +189,7 @@ public class LabelEditPart extends ModelElementEditPart {
                 resp = null;
             }
         }
+        getLabelFigure().dispose();
         super.deactivate();
     }
 
@@ -282,6 +288,8 @@ public class LabelEditPart extends ModelElementEditPart {
                 ((URNDiagramEditPart) getParent()).notifyChanged(notification);
                 refreshVisuals();
             }
+        } else if (type == Notification.ADD || type == Notification.ADD_MANY || type == Notification.REMOVE || type == Notification.REMOVE_MANY){
+            refreshVisuals();
         }
 
     }
@@ -327,6 +335,42 @@ public class LabelEditPart extends ModelElementEditPart {
             // set the label's text
             setLabelText();
 
+            //If the element is a Responsability or a Component and has a URNlink associate, set the background gray
+            if (modelElement instanceof UCMmodelElement){
+                UCMmodelElement ucmElem;
+                if (modelElement instanceof RespRef){
+                    ucmElem = ((RespRef)modelElement).getRespDef();
+                } else if (modelElement instanceof ComponentRef){
+                    ucmElem = (UCMmodelElement)((ComponentRef)modelElement).getContDef();
+                } else {
+                    ucmElem = (UCMmodelElement)modelElement;
+                }
+                
+                if (ucmElem.getUrnlinks().size() > 0){
+                    //Verify if there is an evaluation level if it is an IntentionalElement
+                    //We only support 1 link from UCM element
+                    GRLmodelElement grlElem = ((URNlink)ucmElem.getUrnlinks().get(0)).getGrlModelElements();
+                    if ( grlElem instanceof IntentionalElement && EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
+                        int eval = EvaluationStrategyManager.getInstance().getEvaluation((IntentionalElement)grlElem);
+                        if (eval <= EvaluationStrategyManager.DENIED){
+                            labelFigure.setMode(LabelFigure.LINK_DENIED);
+                        } else if (eval <= EvaluationStrategyManager.WDENIED){
+                            labelFigure.setMode(LabelFigure.LINK_WEAKDENIED);
+                        } else if (eval < EvaluationStrategyManager.WSATISFICED){
+                            labelFigure.setMode(LabelFigure.LINK_UNKNOWN);
+                        } else if (eval >= EvaluationStrategyManager.WSATISFICED){
+                            labelFigure.setMode(LabelFigure.LINK_WEAKSATISFICED);
+                        } else if (eval >= EvaluationStrategyManager.SATISFICED){
+                            labelFigure.setMode(LabelFigure.LINK_SATISFICED);
+                        }
+                    } else {
+                        labelFigure.setMode(LabelFigure.LINK_UNKNOWN);
+                    }
+                } else {
+                    labelFigure.setMode(LabelFigure.LINK_NOLINK);
+                }
+            } 
+            
             // The position of the new figure
             Point location;
             Dimension newLabelDimension;
@@ -370,7 +414,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     labelFigure.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() == 0);
                 }
             }
-
+            
             // notify parent container of changed position & location
             // if this line is removed, the XYLayoutManager used by the parent container
             // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure

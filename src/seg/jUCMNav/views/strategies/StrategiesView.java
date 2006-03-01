@@ -274,9 +274,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                         currentSelection.setSelected(true);
                     }
                     EvaluationStrategy scen = ((EvaluationStategyTreeEditPart)obj).getEvaluationStrategy();                    
-                    (EvaluationStrategyManager.getInstance()).setStrategy(scen);
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY){
+                        (EvaluationStrategyManager.getInstance()).setStrategy(scen);
                         for (int i=0; i< multieditor.getPageCount(); i++){
                             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         

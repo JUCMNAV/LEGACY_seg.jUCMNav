@@ -34,6 +34,13 @@ import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
  */
 public class EvaluationStrategyManager {
     
+    //Values for minimal value for denied, weakly denied, unknown, weakly satisficed and satisficed
+    public final static int DENIED = -100;
+    public final static int WDENIED = -1;
+    public final static int WSATISFICED = 1;
+    public final static int SATISFICED = 100;
+    
+    
     private class EvaluationCalculation{
         public IntentionalElement element;
         public int linkCalc;
