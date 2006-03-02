@@ -300,10 +300,11 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         }
 
         ExportPreferenceHelper.setPath(sExportPath);
-        ExportPreferenceHelper.setFilenamePrefix(sFilename);
         ExportPreferenceHelper.setImageType(iTypeSelectionIndex);
         if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM){
             updateMapsToExport();
+        } else{
+            ExportPreferenceHelper.setFilenamePrefix(sFilename);
         }
 
         return true;
@@ -371,7 +372,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
 
         if (mapsToExport.size() == 0 && ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
-        } else if (txtFilenamePrefix.getText() == ""){
+        } else if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN && 
+                txtFilenamePrefix.getText() == ""){ //txtFilenamePrefix is used only in export URN
             setErrorMessage("Invalid filename");
         }
 
