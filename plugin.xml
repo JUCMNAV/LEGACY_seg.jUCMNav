@@ -70,6 +70,15 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%AddUseCaseMap"/>
+         <action
+               actionID="seg.jUCMNav.actions.AddGrlGraphAction"
+               class="seg.jUCMNav.actions.UCMActionDelegate"
+               icon="icons/icon16.gif"
+               id="seg.jUCMNav.AddGrlGraph"
+               label="%AddGrlDiagram"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="%AddGrlDiagram"/>
       </editorContribution>
    </extension>
    <extension
