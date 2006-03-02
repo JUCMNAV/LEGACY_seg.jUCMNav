@@ -234,8 +234,10 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
                     return ((InternalEList)getEvaluations()).basicAdd(otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__GROUP:
@@ -263,8 +265,10 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
                     return ((InternalEList)getEvaluations()).basicRemove(otherEnd, msgs);
                 case GrlPackage.EVALUATION_STRATEGY__GROUP:
@@ -302,14 +306,16 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                return getToLinks();
             case GrlPackage.EVALUATION_STRATEGY__ID:
                 return getId();
             case GrlPackage.EVALUATION_STRATEGY__NAME:
                 return getName();
             case GrlPackage.EVALUATION_STRATEGY__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                return getUrnlinks();
             case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
                 return getAuthor();
             case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:
@@ -330,6 +336,14 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.EVALUATION_STRATEGY__ID:
                 setId((String)newValue);
                 return;
@@ -338,10 +352,6 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
                 return;
             case GrlPackage.EVALUATION_STRATEGY__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
                 setAuthor((String)newValue);
@@ -367,6 +377,12 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.EVALUATION_STRATEGY__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -375,9 +391,6 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
                 return;
             case GrlPackage.EVALUATION_STRATEGY__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
                 setAuthor(AUTHOR_EDEFAULT);
@@ -402,14 +415,16 @@ public class EvaluationStrategyImpl extends GRLmodelElementImpl implements Evalu
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.EVALUATION_STRATEGY__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.EVALUATION_STRATEGY__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.EVALUATION_STRATEGY__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.EVALUATION_STRATEGY__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.EVALUATION_STRATEGY__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.EVALUATION_STRATEGY__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.EVALUATION_STRATEGY__AUTHOR:
                 return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
             case GrlPackage.EVALUATION_STRATEGY__EVALUATIONS:

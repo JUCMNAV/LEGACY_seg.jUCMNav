@@ -356,8 +356,10 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_NODE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GRL_NODE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.GRL_NODE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.GRL_NODE__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -391,8 +393,10 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_NODE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GRL_NODE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.GRL_NODE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.GRL_NODE__DIAGRAM:
                     return eBasicSetContainer(null, GrlPackage.GRL_NODE__DIAGRAM, msgs);
                 case GrlPackage.GRL_NODE__CONT_REF:
@@ -434,14 +438,16 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.GRL_NODE__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.GRL_NODE__TO_LINKS:
+                return getToLinks();
             case GrlPackage.GRL_NODE__ID:
                 return getId();
             case GrlPackage.GRL_NODE__NAME:
                 return getName();
             case GrlPackage.GRL_NODE__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.GRL_NODE__URNLINKS:
-                return getUrnlinks();
             case GrlPackage.GRL_NODE__X:
                 return new Integer(getX());
             case GrlPackage.GRL_NODE__Y:
@@ -468,6 +474,14 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.GRL_NODE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.GRL_NODE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.GRL_NODE__ID:
                 setId((String)newValue);
                 return;
@@ -476,10 +490,6 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
                 return;
             case GrlPackage.GRL_NODE__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.GRL_NODE__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.GRL_NODE__X:
                 setX(((Integer)newValue).intValue());
@@ -515,6 +525,12 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.GRL_NODE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.GRL_NODE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.GRL_NODE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -523,9 +539,6 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
                 return;
             case GrlPackage.GRL_NODE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case GrlPackage.GRL_NODE__X:
                 setX(X_EDEFAULT);
@@ -559,14 +572,16 @@ public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.GRL_NODE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.GRL_NODE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.GRL_NODE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.GRL_NODE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.GRL_NODE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.GRL_NODE__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.GRL_NODE__X:
                 return x != X_EDEFAULT;
             case GrlPackage.GRL_NODE__Y:

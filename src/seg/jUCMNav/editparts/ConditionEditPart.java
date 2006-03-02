@@ -104,7 +104,7 @@ public class ConditionEditPart extends LabelEditPart {
         LabelFigure figure = (LabelFigure) getFigure();
 
         // remove surrounding []
-        figure.setText(figure.getText().substring(1, figure.getText().length() - 1));
+        figure.setEditableText(figure.getEditableText().substring(1, figure.getEditableText().length() - 1));
 
         if (manager == null) {
 
@@ -126,7 +126,7 @@ public class ConditionEditPart extends LabelEditPart {
         LabelFigure tableFigure = (LabelFigure) getFigure();
         tableFigure.setVisible(true);
         // remove surrounding []
-        tableFigure.setText(tableFigure.getText().substring(1, tableFigure.getText().length() - 1));
+        tableFigure.setEditableText(tableFigure.getEditableText().substring(1, tableFigure.getEditableText().length() - 1));
 
         refreshVisuals();
     }
@@ -148,7 +148,7 @@ public class ConditionEditPart extends LabelEditPart {
 
         if (cond != null) {
             if (cond.getLabel() != null && !cond.getLabel().equals("")) { //$NON-NLS-1$
-                labelFigure.setText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+                labelFigure.setEditableText("[" + cond.getLabel() + "]"); //$NON-NLS-1$ //$NON-NLS-2$
                 labelFigure.setVisible(true);
             } else {
                 labelFigure.setVisible(false);

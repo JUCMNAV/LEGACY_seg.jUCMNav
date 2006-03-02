@@ -205,8 +205,10 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.START_POINT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.START_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.START_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.START_POINT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -250,8 +252,10 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.START_POINT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.START_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.START_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.START_POINT__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.START_POINT__DIAGRAM, msgs);
                 case MapPackage.START_POINT__CONT_REF:
@@ -299,14 +303,16 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.START_POINT__TO_LINKS:
+                return getToLinks();
             case MapPackage.START_POINT__ID:
                 return getId();
             case MapPackage.START_POINT__NAME:
                 return getName();
             case MapPackage.START_POINT__DESCRIPTION:
                 return getDescription();
-            case MapPackage.START_POINT__URNLINKS:
-                return getUrnlinks();
             case MapPackage.START_POINT__X:
                 return new Integer(getX());
             case MapPackage.START_POINT__Y:
@@ -339,6 +345,14 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.START_POINT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.START_POINT__ID:
                 setId((String)newValue);
                 return;
@@ -347,10 +361,6 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
                 return;
             case MapPackage.START_POINT__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case MapPackage.START_POINT__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.START_POINT__X:
                 setX(((Integer)newValue).intValue());
@@ -396,6 +406,12 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.START_POINT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.START_POINT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -404,9 +420,6 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
                 return;
             case MapPackage.START_POINT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case MapPackage.START_POINT__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case MapPackage.START_POINT__X:
                 setX(X_EDEFAULT);
@@ -449,14 +462,16 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.START_POINT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.START_POINT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.START_POINT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.START_POINT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.START_POINT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.START_POINT__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.START_POINT__X:
                 return x != X_EDEFAULT;
             case MapPackage.START_POINT__Y:

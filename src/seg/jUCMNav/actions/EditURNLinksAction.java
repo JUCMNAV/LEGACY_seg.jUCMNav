@@ -14,8 +14,8 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
 import urn.URNlink;
 import urncore.ComponentElement;
-import urncore.GRLmodelElement;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * This action open the URNLink dialog for the selected element
@@ -27,7 +27,7 @@ public class EditURNLinksAction extends URNSelectionAction {
 
     public static final String EDITURNLINKS = "seg.jUCMNav.EditURNLinksAction"; //$NON-NLS-1$
 
-    private GRLmodelElement element;
+    private URNmodelElement element;
     
     /**
      * @param part
@@ -57,16 +57,16 @@ public class EditURNLinksAction extends URNSelectionAction {
             return true;
         } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITY){
             Responsibility resp = sel.getRespref().getRespDef();
-            if (resp.getUrnlinks().size() > 0){
-                element = ((URNlink)resp.getUrnlinks().get(0)).getGrlModelElements();
+            if (resp.getToLinks().size() > 0){
+                element = ((URNlink)resp.getToLinks().get(0)).getFromElem();
                 return true;
             } else{
                 return false;
             }
         } else if (sel.getSelectionType() == SelectionHelper.COMPONENTREF){
             ComponentElement comp = (ComponentElement)sel.getComponentref().getContDef();
-            if (comp.getUrnlinks().size() > 0){
-                element = ((URNlink)comp.getUrnlinks().get(0)).getGrlModelElements();
+            if (comp.getFromLinks().size() > 0){
+                element = ((URNlink)comp.getFromLinks().get(0)).getToElem();
                 return true;
             } else{
                 return false;

@@ -55,8 +55,10 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.DECOMPOSITION__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.DECOMPOSITION__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.DECOMPOSITION__REFS:
                     return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
                 case GrlPackage.DECOMPOSITION__GRLSPEC:
@@ -88,8 +90,10 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.DECOMPOSITION__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.DECOMPOSITION__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.DECOMPOSITION__REFS:
                     return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
                 case GrlPackage.DECOMPOSITION__GRLSPEC:
@@ -129,14 +133,16 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.DECOMPOSITION__TO_LINKS:
+                return getToLinks();
             case GrlPackage.DECOMPOSITION__ID:
                 return getId();
             case GrlPackage.DECOMPOSITION__NAME:
                 return getName();
             case GrlPackage.DECOMPOSITION__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.DECOMPOSITION__URNLINKS:
-                return getUrnlinks();
             case GrlPackage.DECOMPOSITION__REFS:
                 return getRefs();
             case GrlPackage.DECOMPOSITION__GRLSPEC:
@@ -158,6 +164,14 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.DECOMPOSITION__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.DECOMPOSITION__ID:
                 setId((String)newValue);
                 return;
@@ -166,10 +180,6 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
                 return;
             case GrlPackage.DECOMPOSITION__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.DECOMPOSITION__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.DECOMPOSITION__REFS:
                 getRefs().clear();
@@ -195,6 +205,12 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.DECOMPOSITION__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.DECOMPOSITION__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -203,9 +219,6 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
                 return;
             case GrlPackage.DECOMPOSITION__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.DECOMPOSITION__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case GrlPackage.DECOMPOSITION__REFS:
                 getRefs().clear();
@@ -230,14 +243,16 @@ public class DecompositionImpl extends ElementLinkImpl implements Decomposition 
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.DECOMPOSITION__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.DECOMPOSITION__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.DECOMPOSITION__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.DECOMPOSITION__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.DECOMPOSITION__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.DECOMPOSITION__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.DECOMPOSITION__REFS:
                 return refs != null && !refs.isEmpty();
             case GrlPackage.DECOMPOSITION__GRLSPEC:

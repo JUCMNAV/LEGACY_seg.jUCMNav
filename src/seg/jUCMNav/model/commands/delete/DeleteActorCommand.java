@@ -28,7 +28,11 @@ public class DeleteActorCommand extends CompoundCommand{
         setLabel("Delete Actor");
         
         //Remove the URNlinks
-        for (Iterator it = actor.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = actor.getFromLinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = actor.getToLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }

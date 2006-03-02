@@ -49,7 +49,11 @@ public class CleanRelationshipsCommand extends CompoundCommand {
         add(new RemoveLinkedInfoCommand(map));
         add(new DeleteBindingsCommand(map));
         //Delete URNLinks
-        for (Iterator it = map.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = map.getToLinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = map.getFromLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }

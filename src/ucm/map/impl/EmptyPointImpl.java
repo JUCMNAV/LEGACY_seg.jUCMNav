@@ -60,8 +60,10 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.EMPTY_POINT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.EMPTY_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.EMPTY_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.EMPTY_POINT__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -95,8 +97,10 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.EMPTY_POINT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.EMPTY_POINT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.EMPTY_POINT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.EMPTY_POINT__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.EMPTY_POINT__DIAGRAM, msgs);
                 case MapPackage.EMPTY_POINT__CONT_REF:
@@ -138,14 +142,16 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.EMPTY_POINT__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.EMPTY_POINT__TO_LINKS:
+                return getToLinks();
             case MapPackage.EMPTY_POINT__ID:
                 return getId();
             case MapPackage.EMPTY_POINT__NAME:
                 return getName();
             case MapPackage.EMPTY_POINT__DESCRIPTION:
                 return getDescription();
-            case MapPackage.EMPTY_POINT__URNLINKS:
-                return getUrnlinks();
             case MapPackage.EMPTY_POINT__X:
                 return new Integer(getX());
             case MapPackage.EMPTY_POINT__Y:
@@ -172,6 +178,14 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.EMPTY_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.EMPTY_POINT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.EMPTY_POINT__ID:
                 setId((String)newValue);
                 return;
@@ -180,10 +194,6 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
                 return;
             case MapPackage.EMPTY_POINT__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case MapPackage.EMPTY_POINT__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.EMPTY_POINT__X:
                 setX(((Integer)newValue).intValue());
@@ -219,6 +229,12 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.EMPTY_POINT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.EMPTY_POINT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.EMPTY_POINT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -227,9 +243,6 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
                 return;
             case MapPackage.EMPTY_POINT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case MapPackage.EMPTY_POINT__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case MapPackage.EMPTY_POINT__X:
                 setX(X_EDEFAULT);
@@ -263,14 +276,16 @@ public class EmptyPointImpl extends PathNodeImpl implements EmptyPoint {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.EMPTY_POINT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.EMPTY_POINT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.EMPTY_POINT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.EMPTY_POINT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.EMPTY_POINT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.EMPTY_POINT__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.EMPTY_POINT__X:
                 return x != X_EDEFAULT;
             case MapPackage.EMPTY_POINT__Y:

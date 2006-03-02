@@ -28,10 +28,10 @@ import ucm.map.UCMmap;
 import urn.URNlink;
 import urn.URNspec;
 import urncore.ComponentElement;
-import urncore.GRLmodelElement;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
+import urncore.URNmodelElement;
 
 /**
  * @author Jean-François Roy
@@ -67,32 +67,32 @@ public class URNLinksDialog {
     private CommandStack cmdStack;
 
     // The GRLmodelElement used to create the links 
-    private GRLmodelElement grlElement;
+    private URNmodelElement fromElement;
     //The urnspec of the current model
     private URNspec urn;
     
     //Vector used to keep current element in the UCMElement combo box
     private Vector ucmelements;
     private String currentElementType;
-    private UCMmodelElement modelElement;
+    private URNmodelElement toElement;
     
     private Vector urnlinks;
     
     private URNlink linktoremove;
     
-    public URNLinksDialog(CommandStack cmdStack, GRLmodelElement grl) {
+    public URNLinksDialog(CommandStack cmdStack, URNmodelElement from) {
         this.cmdStack = cmdStack;
-        init(grl);
+        init(from);
     }
     
     /**
      * This method initialize the Window
      *
      */
-    private void init(GRLmodelElement element){
+    private void init(URNmodelElement element){
         createSShell();
         sURNLinks.setVisible(true);
-        setGrlElement(element);
+        setFromElement(element);
         refresh();
     }
     
@@ -235,7 +235,7 @@ public class URNLinksDialog {
         comboUcmElement.addModifyListener(new org.eclipse.swt.events.ModifyListener() {
             public void modifyText(org.eclipse.swt.events.ModifyEvent e) {
                buttonAddLink.setEnabled(false);
-               modelElement = null;
+               toElement = null;
                 if (comboUcmElement.getSelectionIndex() >= 0){
                     setUcmElement(comboUcmElement.getSelectionIndex());
                 }            
@@ -248,10 +248,10 @@ public class URNLinksDialog {
      * the selected ucm element
      */
     private void createLink(){
-        if (modelElement != null){
+        if (toElement != null){
             AddUrnLinkCommand cmd = new AddUrnLinkCommand(urn, 
                     (URNlink)ModelCreationFactory.getNewObject(urn, URNlink.class),
-                    grlElement, modelElement);
+                    fromElement, toElement);
             if (cmd.canExecute()){
                 execute(cmd);
             }
@@ -268,19 +268,19 @@ public class URNLinksDialog {
         }
     }
     /**
-     * Set the GRLmodelElement associate with the instance
+     * Set the URNmodelElement associate with the instance
      * @param element
      */
-    private void setGrlElement(GRLmodelElement element){
-        this.grlElement = element;
-        cLabelGrlName.setText(grlElement.getName());
-        cLabelGrlDescription.setText(grlElement.getDescription());
-        if (grlElement instanceof IntentionalElement){
-            cLabelGrlType.setText(((IntentionalElement)grlElement).getType().getName());
-            urn = ((IntentionalElement)grlElement).getGrlspec().getUrnspec();
-        } else if (grlElement instanceof Actor){
+    private void setFromElement(URNmodelElement element){
+        this.fromElement = element;
+        cLabelGrlName.setText(fromElement.getName());
+        cLabelGrlDescription.setText(fromElement.getDescription());
+        if (fromElement instanceof IntentionalElement){
+            cLabelGrlType.setText(((IntentionalElement)fromElement).getType().getName());
+            urn = ((IntentionalElement)fromElement).getGrlspec().getUrnspec();
+        } else if (fromElement instanceof Actor){
             cLabelGrlType.setText("Actor");
-            urn = ((Actor)grlElement).getGrlspec().getUrnspec();
+            urn = ((Actor)fromElement).getGrlspec().getUrnspec();
         } 
     }
     
@@ -294,7 +294,7 @@ public class URNLinksDialog {
         if (type.equals(COMPONENT)){
             for (Iterator it = urn.getUrndef().getComponents().iterator(); it.hasNext();){
                 ComponentElement comp = (ComponentElement)it.next();
-                if (comp.getUrnlinks().size() == 0){
+                if (comp.getToLinks().size() == 0){
                     comboUcmElement.add(comp.getName() + " (" + comp.getId() + ")");
                     ucmelements.add(comp);
                 }
@@ -303,7 +303,7 @@ public class URNLinksDialog {
         } else if (type.equals(RESPONSIBILITY)){
             for (Iterator it = urn.getUrndef().getResponsibilities().iterator(); it.hasNext();){
                 Responsibility resp = (Responsibility)it.next();
-                if (resp.getUrnlinks().size() == 0){
+                if (resp.getToLinks().size() == 0){
                     comboUcmElement.add(resp.getName() + " (" + resp.getId() + ")");
                     ucmelements.add(resp);
                 }
@@ -311,7 +311,7 @@ public class URNLinksDialog {
         } else if (type.equals(MAP)){
             for (Iterator it = urn.getUrndef().getSpecDiagrams().iterator(); it.hasNext();){
                 IURNDiagram map = (IURNDiagram)it.next();
-                if (map instanceof UCMmap && (((UCMmap)map).getUrnlinks().size() == 0)){
+                if (map instanceof UCMmap && (((UCMmap)map).getToLinks().size() == 0)){
                     comboUcmElement.add(((UCMmap)map).getName()  + " (" + ((UCMmap)map).getId() + ")");
                     ucmelements.add(map);
                 }
@@ -325,7 +325,7 @@ public class URNLinksDialog {
      * @param index of the element to add a link
      */
     private void setUcmElement(int index){
-        modelElement = (UCMmodelElement)ucmelements.get(index);
+        toElement = (UCMmodelElement)ucmelements.get(index);
         buttonAddLink.setEnabled(true);
     }
     
@@ -378,10 +378,10 @@ public class URNLinksDialog {
         listLinks.removeAll();
         urnlinks = new Vector();
         //Set the URNLink associate with the grl element
-        for (Iterator it = grlElement.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = fromElement.getFromLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
-            listLinks.add(link.getUcmModelElements().getName() + 
-                    " (" + link.getUcmModelElements().getId() + ")");
+            listLinks.add(link.getToElem().getName() + 
+                    " (" + link.getToElem().getId() + ")");
             urnlinks.add(link);
         }
         buttonDeleteLink.setEnabled(false);

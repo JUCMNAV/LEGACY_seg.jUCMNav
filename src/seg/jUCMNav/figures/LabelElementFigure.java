@@ -14,15 +14,17 @@ public interface LabelElementFigure extends IFigure{
     /**
      * Returns the text inside the TextFlow.
      * 
-     * @return the text flow inside the text.
+     * Use this method instead of getText()
+     * 
+     * @return the text inside the label
      */
-    public String getText();
+    public String getEditableText();
 
     /**
      * Sets the text of the TextFlow to the given value.
      * 
      * @param newText the new text value.
      */
-    public void setText(String newText);
+    public void setEditableText(String newText);
 
 }

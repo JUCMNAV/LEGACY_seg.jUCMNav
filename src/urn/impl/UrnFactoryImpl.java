@@ -7,12 +7,13 @@
 package urn.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
-import urn.*;
+import urn.URNlink;
+import urn.URNspec;
+import urn.UrnFactory;
+import urn.UrnPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,37 +43,6 @@ public class UrnFactoryImpl extends EFactoryImpl implements UrnFactory {
             case UrnPackage.UR_NLINK: return createURNlink();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object createFromString(EDataType eDataType, String initialValue) {
-        switch (eDataType.getClassifierID()) {
-            case UrnPackage.URN_LINK_TYPE: {
-                URNLinkType result = URNLinkType.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-        }
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public String convertToString(EDataType eDataType, Object instanceValue) {
-        switch (eDataType.getClassifierID()) {
-            case UrnPackage.URN_LINK_TYPE:
-                return instanceValue == null ? null : instanceValue.toString();
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
     }
 

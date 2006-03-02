@@ -17,11 +17,14 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.editpolicies.directEditPolicy.LabelDirectEditPolicy;
@@ -38,7 +41,6 @@ import ucm.map.RespRef;
 import urn.URNlink;
 import urncore.ComponentLabel;
 import urncore.Condition;
-import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -73,7 +75,9 @@ public class LabelEditPart extends ModelElementEditPart {
 
     // when referencing resprefs, the label's text is contained in the definition.
     private Responsibility resp = null;
-
+    
+    //Image
+    private Image iconImg;
     /**
      * Constructor infers the referenced model element for NodeLabels and ComponentLabels.
      * 
@@ -189,7 +193,10 @@ public class LabelEditPart extends ModelElementEditPart {
                 resp = null;
             }
         }
-        getLabelFigure().dispose();
+        if (iconImg != null) {
+            iconImg.dispose();
+            iconImg = null;
+        }
         super.deactivate();
     }
 
@@ -346,28 +353,35 @@ public class LabelEditPart extends ModelElementEditPart {
                     ucmElem = (UCMmodelElement)modelElement;
                 }
                 
-                if (ucmElem.getUrnlinks().size() > 0){
+                if (ucmElem.getToLinks().size() > 0){
+                    //If there is a link, add the icon if not already added
+                    if (iconImg == null) {
+                        iconImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage();
+                        labelFigure.setIcon(iconImg);
+                    }
                     //Verify if there is an evaluation level if it is an IntentionalElement
                     //We only support 1 link from UCM element
-                    GRLmodelElement grlElem = ((URNlink)ucmElem.getUrnlinks().get(0)).getGrlModelElements();
-                    if ( grlElem instanceof IntentionalElement && EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
-                        int eval = EvaluationStrategyManager.getInstance().getEvaluation((IntentionalElement)grlElem);
-                        if (eval <= EvaluationStrategyManager.DENIED){
-                            labelFigure.setMode(LabelFigure.LINK_DENIED);
-                        } else if (eval <= EvaluationStrategyManager.WDENIED){
-                            labelFigure.setMode(LabelFigure.LINK_WEAKDENIED);
-                        } else if (eval < EvaluationStrategyManager.WSATISFICED){
-                            labelFigure.setMode(LabelFigure.LINK_UNKNOWN);
-                        } else if (eval >= EvaluationStrategyManager.WSATISFICED){
-                            labelFigure.setMode(LabelFigure.LINK_WEAKSATISFICED);
-                        } else if (eval >= EvaluationStrategyManager.SATISFICED){
-                            labelFigure.setMode(LabelFigure.LINK_SATISFICED);
+                    
+                    URNmodelElement grlElem = ((URNlink)ucmElem.getToLinks().get(0)).getFromElem();
+                    
+                    if ( grlElem instanceof IntentionalElement){
+                        if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
+                            int eval = EvaluationStrategyManager.getInstance().getEvaluation((IntentionalElement)grlElem);
+                            labelFigure.setAdditionalText(String.valueOf(eval));
+                        } else {
+                            labelFigure.setAdditionalText("");
                         }
                     } else {
-                        labelFigure.setMode(LabelFigure.LINK_UNKNOWN);
+                        labelFigure.setAdditionalText("");
                     }
                 } else {
-                    labelFigure.setMode(LabelFigure.LINK_NOLINK);
+                    //Remove the icon and remove the additional text
+                    if (iconImg != null) {
+                        iconImg.dispose();
+                        iconImg = null; 
+                        labelFigure.setAdditionalText("");
+                    }
+                    
                 }
             } 
             
@@ -444,15 +458,15 @@ public class LabelEditPart extends ModelElementEditPart {
         if (modelElement instanceof IURNContainerRef) { // use definition
             IURNContainer componentElement = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
             if (componentElement != null)
-                labelFigure.setText(((URNmodelElement) componentElement).getName());
+                labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
             // componentref labels are in bold.
             labelFigure.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
         } else if (modelElement instanceof RespRef) { // use definition
             Responsibility responsibility = ((RespRef) modelElement).getRespDef();
             if (responsibility != null)
-                labelFigure.setText(responsibility.getName());
+                labelFigure.setEditableText(responsibility.getName());
         } else if (modelElement instanceof URNmodelElement) { // use element's name directly.
-            labelFigure.setText(((URNmodelElement) modelElement).getName());
+            labelFigure.setEditableText(((URNmodelElement) modelElement).getName());
         }
 
     }

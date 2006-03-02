@@ -403,8 +403,10 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -434,8 +436,10 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC:
                     return eBasicSetContainer(null, GrlPackage.INTENTIONAL_ELEMENT__GRLSPEC, msgs);
                 case GrlPackage.INTENTIONAL_ELEMENT__REFS:
@@ -477,14 +481,16 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                return getToLinks();
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 return getId();
             case GrlPackage.INTENTIONAL_ELEMENT__NAME:
                 return getName();
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                return getUrnlinks();
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return getType();
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:
@@ -516,6 +522,14 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 setId((String)newValue);
                 return;
@@ -524,10 +538,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType((IntentionalElementType)newValue);
@@ -574,6 +584,12 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -582,9 +598,6 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 setType(TYPE_EDEFAULT);
@@ -627,14 +640,16 @@ public class IntentionalElementImpl extends GRLmodelElementImpl implements Inten
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.INTENTIONAL_ELEMENT__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.INTENTIONAL_ELEMENT__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.INTENTIONAL_ELEMENT__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.INTENTIONAL_ELEMENT__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.INTENTIONAL_ELEMENT__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.INTENTIONAL_ELEMENT__TYPE:
                 return type != TYPE_EDEFAULT;
             case GrlPackage.INTENTIONAL_ELEMENT__DECOMPOSITION_TYPE:

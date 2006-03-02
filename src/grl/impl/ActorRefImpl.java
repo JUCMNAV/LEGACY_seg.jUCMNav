@@ -553,8 +553,10 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR_REF__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -592,8 +594,10 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ACTOR_REF__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case GrlPackage.ACTOR_REF__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case GrlPackage.ACTOR_REF__DIAGRAM:
                     return eBasicSetContainer(null, GrlPackage.ACTOR_REF__DIAGRAM, msgs);
                 case GrlPackage.ACTOR_REF__CONT_DEF:
@@ -637,14 +641,16 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                return getFromLinks();
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                return getToLinks();
             case GrlPackage.ACTOR_REF__ID:
                 return getId();
             case GrlPackage.ACTOR_REF__NAME:
                 return getName();
             case GrlPackage.ACTOR_REF__DESCRIPTION:
                 return getDescription();
-            case GrlPackage.ACTOR_REF__URNLINKS:
-                return getUrnlinks();
             case GrlPackage.ACTOR_REF__X:
                 return new Integer(getX());
             case GrlPackage.ACTOR_REF__Y:
@@ -680,6 +686,14 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case GrlPackage.ACTOR_REF__ID:
                 setId((String)newValue);
                 return;
@@ -688,10 +702,6 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
                 return;
             case GrlPackage.ACTOR_REF__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case GrlPackage.ACTOR_REF__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case GrlPackage.ACTOR_REF__X:
                 setX(((Integer)newValue).intValue());
@@ -739,6 +749,12 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                getToLinks().clear();
+                return;
             case GrlPackage.ACTOR_REF__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -747,9 +763,6 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
                 return;
             case GrlPackage.ACTOR_REF__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.ACTOR_REF__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case GrlPackage.ACTOR_REF__X:
                 setX(X_EDEFAULT);
@@ -795,14 +808,16 @@ public class ActorRefImpl extends GRLmodelElementImpl implements ActorRef {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case GrlPackage.ACTOR_REF__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case GrlPackage.ACTOR_REF__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case GrlPackage.ACTOR_REF__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case GrlPackage.ACTOR_REF__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case GrlPackage.ACTOR_REF__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.ACTOR_REF__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case GrlPackage.ACTOR_REF__X:
                 return x != X_EDEFAULT;
             case GrlPackage.ACTOR_REF__Y:

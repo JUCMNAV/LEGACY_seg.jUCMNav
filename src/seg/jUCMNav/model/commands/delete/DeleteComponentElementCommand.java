@@ -21,7 +21,11 @@ public class DeleteComponentElementCommand extends CompoundCommand {
         setLabel("Delete ComponentElement");
         
         //Remove the URNlinks
-        for (Iterator it = cd.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = cd.getFromLinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = cd.getToLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }

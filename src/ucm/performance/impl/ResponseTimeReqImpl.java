@@ -326,8 +326,10 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case PerformancePackage.RESPONSE_TIME_REQ__UCMSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -357,8 +359,10 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case PerformancePackage.RESPONSE_TIME_REQ__UCMSPEC:
                     return eBasicSetContainer(null, PerformancePackage.RESPONSE_TIME_REQ__UCMSPEC, msgs);
                 case PerformancePackage.RESPONSE_TIME_REQ__TS1:
@@ -396,14 +400,16 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                return getFromLinks();
+            case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                return getToLinks();
             case PerformancePackage.RESPONSE_TIME_REQ__ID:
                 return getId();
             case PerformancePackage.RESPONSE_TIME_REQ__NAME:
                 return getName();
             case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
                 return getDescription();
-            case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                return getUrnlinks();
             case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
                 return getResponseTime();
             case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:
@@ -427,6 +433,14 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case PerformancePackage.RESPONSE_TIME_REQ__ID:
                 setId((String)newValue);
                 return;
@@ -435,10 +449,6 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
                 return;
             case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
                 setResponseTime((String)newValue);
@@ -466,6 +476,12 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                getToLinks().clear();
+                return;
             case PerformancePackage.RESPONSE_TIME_REQ__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -474,9 +490,6 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
                 return;
             case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
                 setResponseTime(RESPONSE_TIME_EDEFAULT);
@@ -504,14 +517,16 @@ public class ResponseTimeReqImpl extends UCMmodelElementImpl implements Response
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.RESPONSE_TIME_REQ__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case PerformancePackage.RESPONSE_TIME_REQ__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case PerformancePackage.RESPONSE_TIME_REQ__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case PerformancePackage.RESPONSE_TIME_REQ__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case PerformancePackage.RESPONSE_TIME_REQ__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case PerformancePackage.RESPONSE_TIME_REQ__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case PerformancePackage.RESPONSE_TIME_REQ__RESPONSE_TIME:
                 return RESPONSE_TIME_EDEFAULT == null ? responseTime != null : !RESPONSE_TIME_EDEFAULT.equals(responseTime);
             case PerformancePackage.RESPONSE_TIME_REQ__PERCENTAGE:

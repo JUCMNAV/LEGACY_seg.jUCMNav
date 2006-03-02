@@ -5,10 +5,6 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Image;
-
-import seg.jUCMNav.JUCMNavPlugin;
 
 /**
  * Figure for UCM Labels; uses an EditableLabel.
@@ -16,17 +12,7 @@ import seg.jUCMNav.JUCMNavPlugin;
  * @author Jordan, Jean-François Roy
  */
 public class LabelFigure extends Label implements LabelElementFigure {
-    //Mode of the label
-    public final static int LINK_NOLINK = 0;
-    public final static int LINK_UNKNOWN = 1;
-    public final static int LINK_SATISFICED = 2;
-    public final static int LINK_WEAKSATISFICED = 3;
-    public final static int LINK_DENIED = 4;
-    public final static int LINK_WEAKDENIED = 5;
-    
-    public int currentMode;
-    
-    private Image modeImg;
+    public String additionalText = "";
     
     private boolean selected;
     
@@ -34,7 +20,6 @@ public class LabelFigure extends Label implements LabelElementFigure {
    // protected TextFlow textFlow;
     
     public LabelFigure() {
-        currentMode = LINK_NOLINK;
 //        FlowPage flowPage = new FlowPage();
 //
 //        textFlow = new TextFlow();
@@ -46,13 +31,6 @@ public class LabelFigure extends Label implements LabelElementFigure {
 //        setLayoutManager(new StackLayout());
 //        add(flowPage);
     }
-
-    public void dispose(){
-        if (modeImg != null) {
-            modeImg.dispose();
-            modeImg = null;
-        }
-    }
     
     private Rectangle getSelectionRectangle() {
         Rectangle bounds = getBounds().getCopy();//textFlow.getBounds().getCopy();
@@ -62,12 +40,16 @@ public class LabelFigure extends Label implements LabelElementFigure {
         return bounds;
     }
     
-//    /* (non-Javadoc)
-//     * @see seg.jUCMNav.figures.LabelElementFigure#getText()
-//     */
-//    public String getText() {
-//        return textFlow.getText();
-//    }
+    /** 
+     * Use this method instead of getText for LabelFigure
+     */
+    public String getEditableText() {
+        if (!additionalText.equals("")){
+            int sub = super.getText().lastIndexOf("{");
+            return super.getText().substring(0,sub);
+        }
+        return super.getText();
+    }
     
     /**
      * paints figure differently depends on the whether the figure has focus or is selected
@@ -86,30 +68,13 @@ public class LabelFigure extends Label implements LabelElementFigure {
         super.paintFigure(graphics);
     }
 
-    public void setMode(int mode){
-        if (currentMode != mode){
-            currentMode = mode;
-            //Set the icon
-            if (modeImg != null) {
-                modeImg.dispose();
-                modeImg = null;
-            }
-
-            if (currentMode == LINK_UNKNOWN){
-                modeImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage();    
-            } else if (currentMode == LINK_SATISFICED){
-                modeImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficedUCM.gif")).createImage();    
-            } else if (currentMode == LINK_WEAKSATISFICED){
-                modeImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficedUCM.gif")).createImage();    
-            } else if (currentMode == LINK_DENIED){
-                modeImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/deniedUCM.gif")).createImage();    
-            } else if (currentMode == LINK_WEAKDENIED){
-                modeImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdeniedUCM.gif")).createImage();    
-            } 
-            this.setIcon(modeImg);
-
-            repaint();
+    public void setAdditionalText(String text){
+        String previousText = getEditableText();
+        if (additionalText.equals(text)){
+            return;
         }
+        additionalText = text;
+        setEditableText(previousText);
     }
     /**
      * Sets the selection state of this SimpleActivityLabel
@@ -121,11 +86,16 @@ public class LabelFigure extends Label implements LabelElementFigure {
         selected = b;
         repaint();
     }
-//    /* (non-Javadoc)
-//     * @see seg.jUCMNav.figures.LabelElementFigure#setText(java.lang.String)
-//     */
-//    public void setText(String newText) {
-//        textFlow.setText(newText);
-//    }
+
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.figures.LabelElementFigure#setText(java.lang.String)
+     */
+    public void setEditableText(String newText) {
+        if (! additionalText.equals("")){
+            super.setText(newText + "{" + additionalText + "}");
+        } else{
+            super.setText(newText);
+        }
+    }
 
 }

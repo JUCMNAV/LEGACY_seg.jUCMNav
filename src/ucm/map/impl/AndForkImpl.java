@@ -108,8 +108,10 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.AND_FORK__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.AND_FORK__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case MapPackage.AND_FORK__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case MapPackage.AND_FORK__DIAGRAM:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -143,8 +145,10 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.AND_FORK__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.AND_FORK__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case MapPackage.AND_FORK__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case MapPackage.AND_FORK__DIAGRAM:
                     return eBasicSetContainer(null, MapPackage.AND_FORK__DIAGRAM, msgs);
                 case MapPackage.AND_FORK__CONT_REF:
@@ -186,14 +190,16 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.AND_FORK__FROM_LINKS:
+                return getFromLinks();
+            case MapPackage.AND_FORK__TO_LINKS:
+                return getToLinks();
             case MapPackage.AND_FORK__ID:
                 return getId();
             case MapPackage.AND_FORK__NAME:
                 return getName();
             case MapPackage.AND_FORK__DESCRIPTION:
                 return getDescription();
-            case MapPackage.AND_FORK__URNLINKS:
-                return getUrnlinks();
             case MapPackage.AND_FORK__X:
                 return new Integer(getX());
             case MapPackage.AND_FORK__Y:
@@ -222,6 +228,14 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.AND_FORK__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case MapPackage.AND_FORK__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case MapPackage.AND_FORK__ID:
                 setId((String)newValue);
                 return;
@@ -230,10 +244,6 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
                 return;
             case MapPackage.AND_FORK__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case MapPackage.AND_FORK__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case MapPackage.AND_FORK__X:
                 setX(((Integer)newValue).intValue());
@@ -272,6 +282,12 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.AND_FORK__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case MapPackage.AND_FORK__TO_LINKS:
+                getToLinks().clear();
+                return;
             case MapPackage.AND_FORK__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -280,9 +296,6 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
                 return;
             case MapPackage.AND_FORK__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case MapPackage.AND_FORK__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case MapPackage.AND_FORK__X:
                 setX(X_EDEFAULT);
@@ -319,14 +332,16 @@ public class AndForkImpl extends PathNodeImpl implements AndFork {
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case MapPackage.AND_FORK__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case MapPackage.AND_FORK__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case MapPackage.AND_FORK__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case MapPackage.AND_FORK__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case MapPackage.AND_FORK__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.AND_FORK__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case MapPackage.AND_FORK__X:
                 return x != X_EDEFAULT;
             case MapPackage.AND_FORK__Y:

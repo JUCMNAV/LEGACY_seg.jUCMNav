@@ -241,8 +241,10 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.PERF_MEASURE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case PerformancePackage.PERF_MEASURE__UCMSPEC:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -270,8 +272,10 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.PERF_MEASURE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case PerformancePackage.PERF_MEASURE__UCMSPEC:
                     return eBasicSetContainer(null, PerformancePackage.PERF_MEASURE__UCMSPEC, msgs);
                 case PerformancePackage.PERF_MEASURE__PERF_VALUES:
@@ -309,14 +313,16 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                return getFromLinks();
+            case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                return getToLinks();
             case PerformancePackage.PERF_MEASURE__ID:
                 return getId();
             case PerformancePackage.PERF_MEASURE__NAME:
                 return getName();
             case PerformancePackage.PERF_MEASURE__DESCRIPTION:
                 return getDescription();
-            case PerformancePackage.PERF_MEASURE__URNLINKS:
-                return getUrnlinks();
             case PerformancePackage.PERF_MEASURE__MEASURE:
                 return getMeasure();
             case PerformancePackage.PERF_MEASURE__UCMSPEC:
@@ -337,6 +343,14 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case PerformancePackage.PERF_MEASURE__ID:
                 setId((String)newValue);
                 return;
@@ -345,10 +359,6 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
                 return;
             case PerformancePackage.PERF_MEASURE__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case PerformancePackage.PERF_MEASURE__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case PerformancePackage.PERF_MEASURE__MEASURE:
                 setMeasure((PerfAttribute)newValue);
@@ -374,6 +384,12 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case PerformancePackage.PERF_MEASURE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -382,9 +398,6 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
                 return;
             case PerformancePackage.PERF_MEASURE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case PerformancePackage.PERF_MEASURE__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case PerformancePackage.PERF_MEASURE__MEASURE:
                 setMeasure(MEASURE_EDEFAULT);
@@ -409,14 +422,16 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case PerformancePackage.PERF_MEASURE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case PerformancePackage.PERF_MEASURE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case PerformancePackage.PERF_MEASURE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case PerformancePackage.PERF_MEASURE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case PerformancePackage.PERF_MEASURE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case PerformancePackage.PERF_MEASURE__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case PerformancePackage.PERF_MEASURE__MEASURE:
                 return measure != MEASURE_EDEFAULT;
             case PerformancePackage.PERF_MEASURE__UCMSPEC:

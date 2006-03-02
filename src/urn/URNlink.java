@@ -8,8 +8,7 @@ package urn;
 
 import org.eclipse.emf.ecore.EObject;
 
-import urncore.GRLmodelElement;
-import urncore.UCMmodelElement;
+import urncore.URNmodelElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,8 +19,8 @@ import urncore.UCMmodelElement;
  * The following features are supported:
  * <ul>
  *   <li>{@link urn.URNlink#getUrnspec <em>Urnspec</em>}</li>
- *   <li>{@link urn.URNlink#getGrlModelElements <em>Grl Model Elements</em>}</li>
- *   <li>{@link urn.URNlink#getUcmModelElements <em>Ucm Model Elements</em>}</li>
+ *   <li>{@link urn.URNlink#getFromElem <em>From Elem</em>}</li>
+ *   <li>{@link urn.URNlink#getToElem <em>To Elem</em>}</li>
  * </ul>
  * </p>
  *
@@ -59,59 +58,59 @@ public interface URNlink extends EObject{
     void setUrnspec(URNspec value);
 
     /**
-     * Returns the value of the '<em><b>Grl Model Elements</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link urncore.GRLmodelElement#getUrnlinks <em>Urnlinks</em>}'.
+     * Returns the value of the '<em><b>From Elem</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Grl Model Elements</em>' reference isn't clear,
+     * If the meaning of the '<em>From Elem</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Grl Model Elements</em>' reference.
-     * @see #setGrlModelElements(GRLmodelElement)
-     * @see urn.UrnPackage#getURNlink_GrlModelElements()
-     * @see urncore.GRLmodelElement#getUrnlinks
-     * @model opposite="urnlinks" required="true"
+     * @return the value of the '<em>From Elem</em>' reference.
+     * @see #setFromElem(URNmodelElement)
+     * @see urn.UrnPackage#getURNlink_FromElem()
+     * @see urncore.URNmodelElement#getFromLinks
+     * @model opposite="fromLinks" required="true"
      * @generated
      */
-    GRLmodelElement getGrlModelElements();
+    URNmodelElement getFromElem();
 
     /**
-     * Sets the value of the '{@link urn.URNlink#getGrlModelElements <em>Grl Model Elements</em>}' reference.
+     * Sets the value of the '{@link urn.URNlink#getFromElem <em>From Elem</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Grl Model Elements</em>' reference.
-     * @see #getGrlModelElements()
+     * @param value the new value of the '<em>From Elem</em>' reference.
+     * @see #getFromElem()
      * @generated
      */
-    void setGrlModelElements(GRLmodelElement value);
+    void setFromElem(URNmodelElement value);
 
     /**
-     * Returns the value of the '<em><b>Ucm Model Elements</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link urncore.UCMmodelElement#getUrnlinks <em>Urnlinks</em>}'.
+     * Returns the value of the '<em><b>To Elem</b></em>' reference.
+     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
      * <!-- begin-user-doc -->
      * <p>
-     * If the meaning of the '<em>Ucm Model Elements</em>' reference isn't clear,
+     * If the meaning of the '<em>To Elem</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Ucm Model Elements</em>' reference.
-     * @see #setUcmModelElements(UCMmodelElement)
-     * @see urn.UrnPackage#getURNlink_UcmModelElements()
-     * @see urncore.UCMmodelElement#getUrnlinks
-     * @model opposite="urnlinks" required="true"
+     * @return the value of the '<em>To Elem</em>' reference.
+     * @see #setToElem(URNmodelElement)
+     * @see urn.UrnPackage#getURNlink_ToElem()
+     * @see urncore.URNmodelElement#getToLinks
+     * @model opposite="toLinks" required="true"
      * @generated
      */
-    UCMmodelElement getUcmModelElements();
+    URNmodelElement getToElem();
 
     /**
-     * Sets the value of the '{@link urn.URNlink#getUcmModelElements <em>Ucm Model Elements</em>}' reference.
+     * Sets the value of the '{@link urn.URNlink#getToElem <em>To Elem</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Ucm Model Elements</em>' reference.
-     * @see #getUcmModelElements()
+     * @param value the new value of the '<em>To Elem</em>' reference.
+     * @see #getToElem()
      * @generated
      */
-    void setUcmModelElements(UCMmodelElement value);
+    void setToElem(URNmodelElement value);
 
 } // URNlink

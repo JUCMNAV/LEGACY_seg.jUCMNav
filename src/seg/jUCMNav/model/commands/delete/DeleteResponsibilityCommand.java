@@ -20,7 +20,11 @@ public class DeleteResponsibilityCommand extends CompoundCommand {
         setLabel("DeleteResponsibilityCommand");
         
         //Remove the URNlinks
-        for (Iterator it = resp.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = resp.getFromLinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = resp.getToLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }

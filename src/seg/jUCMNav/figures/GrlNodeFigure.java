@@ -116,7 +116,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     /* (non-Javadoc)
      * @see seg.jUCMNav.figures.LabelElementFigure#getText()
      */
-    public String getText() {
+    public String getEditableText() {
         return textFlow.getText();
     }
     
@@ -160,7 +160,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      * 
      * @param newText the new text value.
      */
-    public void setText(String newText) {
+    public void setEditableText(String newText) {
         textFlow.setText(newText);
         
         //Calculate the size of the label and of the figure

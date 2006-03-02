@@ -18,8 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnPackage;
-import urncore.GRLmodelElement;
-import urncore.UCMmodelElement;
+import urncore.URNmodelElement;
 import urncore.UrncorePackage;
 
 /**
@@ -30,8 +29,8 @@ import urncore.UrncorePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link urn.impl.URNlinkImpl#getUrnspec <em>Urnspec</em>}</li>
- *   <li>{@link urn.impl.URNlinkImpl#getGrlModelElements <em>Grl Model Elements</em>}</li>
- *   <li>{@link urn.impl.URNlinkImpl#getUcmModelElements <em>Ucm Model Elements</em>}</li>
+ *   <li>{@link urn.impl.URNlinkImpl#getFromElem <em>From Elem</em>}</li>
+ *   <li>{@link urn.impl.URNlinkImpl#getToElem <em>To Elem</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,24 +38,24 @@ import urncore.UrncorePackage;
  */
 public class URNlinkImpl extends EObjectImpl implements URNlink {
     /**
-     * The cached value of the '{@link #getGrlModelElements() <em>Grl Model Elements</em>}' reference.
+     * The cached value of the '{@link #getFromElem() <em>From Elem</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getGrlModelElements()
+     * @see #getFromElem()
      * @generated
      * @ordered
      */
-    protected GRLmodelElement grlModelElements = null;
+    protected URNmodelElement fromElem = null;
 
     /**
-     * The cached value of the '{@link #getUcmModelElements() <em>Ucm Model Elements</em>}' reference.
+     * The cached value of the '{@link #getToElem() <em>To Elem</em>}' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getUcmModelElements()
+     * @see #getToElem()
      * @generated
      * @ordered
      */
-    protected UCMmodelElement ucmModelElements = null;
+    protected URNmodelElement toElem = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -112,16 +111,16 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public GRLmodelElement getGrlModelElements() {
-        if (grlModelElements != null && grlModelElements.eIsProxy()) {
-            GRLmodelElement oldGrlModelElements = grlModelElements;
-            grlModelElements = (GRLmodelElement)eResolveProxy((InternalEObject)grlModelElements);
-            if (grlModelElements != oldGrlModelElements) {
+    public URNmodelElement getFromElem() {
+        if (fromElem != null && fromElem.eIsProxy()) {
+            URNmodelElement oldFromElem = fromElem;
+            fromElem = (URNmodelElement)eResolveProxy((InternalEObject)fromElem);
+            if (fromElem != oldFromElem) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS, oldGrlModelElements, grlModelElements));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrnPackage.UR_NLINK__FROM_ELEM, oldFromElem, fromElem));
             }
         }
-        return grlModelElements;
+        return fromElem;
     }
 
     /**
@@ -129,8 +128,8 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public GRLmodelElement basicGetGrlModelElements() {
-        return grlModelElements;
+    public URNmodelElement basicGetFromElem() {
+        return fromElem;
     }
 
     /**
@@ -138,11 +137,11 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetGrlModelElements(GRLmodelElement newGrlModelElements, NotificationChain msgs) {
-        GRLmodelElement oldGrlModelElements = grlModelElements;
-        grlModelElements = newGrlModelElements;
+    public NotificationChain basicSetFromElem(URNmodelElement newFromElem, NotificationChain msgs) {
+        URNmodelElement oldFromElem = fromElem;
+        fromElem = newFromElem;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS, oldGrlModelElements, newGrlModelElements);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__FROM_ELEM, oldFromElem, newFromElem);
             if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
@@ -153,18 +152,18 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setGrlModelElements(GRLmodelElement newGrlModelElements) {
-        if (newGrlModelElements != grlModelElements) {
+    public void setFromElem(URNmodelElement newFromElem) {
+        if (newFromElem != fromElem) {
             NotificationChain msgs = null;
-            if (grlModelElements != null)
-                msgs = ((InternalEObject)grlModelElements).eInverseRemove(this, UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS, GRLmodelElement.class, msgs);
-            if (newGrlModelElements != null)
-                msgs = ((InternalEObject)newGrlModelElements).eInverseAdd(this, UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS, GRLmodelElement.class, msgs);
-            msgs = basicSetGrlModelElements(newGrlModelElements, msgs);
+            if (fromElem != null)
+                msgs = ((InternalEObject)fromElem).eInverseRemove(this, UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS, URNmodelElement.class, msgs);
+            if (newFromElem != null)
+                msgs = ((InternalEObject)newFromElem).eInverseAdd(this, UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS, URNmodelElement.class, msgs);
+            msgs = basicSetFromElem(newFromElem, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS, newGrlModelElements, newGrlModelElements));
+            eNotify(new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__FROM_ELEM, newFromElem, newFromElem));
     }
 
     /**
@@ -172,16 +171,16 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public UCMmodelElement getUcmModelElements() {
-        if (ucmModelElements != null && ucmModelElements.eIsProxy()) {
-            UCMmodelElement oldUcmModelElements = ucmModelElements;
-            ucmModelElements = (UCMmodelElement)eResolveProxy((InternalEObject)ucmModelElements);
-            if (ucmModelElements != oldUcmModelElements) {
+    public URNmodelElement getToElem() {
+        if (toElem != null && toElem.eIsProxy()) {
+            URNmodelElement oldToElem = toElem;
+            toElem = (URNmodelElement)eResolveProxy((InternalEObject)toElem);
+            if (toElem != oldToElem) {
                 if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS, oldUcmModelElements, ucmModelElements));
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrnPackage.UR_NLINK__TO_ELEM, oldToElem, toElem));
             }
         }
-        return ucmModelElements;
+        return toElem;
     }
 
     /**
@@ -189,8 +188,8 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public UCMmodelElement basicGetUcmModelElements() {
-        return ucmModelElements;
+    public URNmodelElement basicGetToElem() {
+        return toElem;
     }
 
     /**
@@ -198,11 +197,11 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetUcmModelElements(UCMmodelElement newUcmModelElements, NotificationChain msgs) {
-        UCMmodelElement oldUcmModelElements = ucmModelElements;
-        ucmModelElements = newUcmModelElements;
+    public NotificationChain basicSetToElem(URNmodelElement newToElem, NotificationChain msgs) {
+        URNmodelElement oldToElem = toElem;
+        toElem = newToElem;
         if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS, oldUcmModelElements, newUcmModelElements);
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__TO_ELEM, oldToElem, newToElem);
             if (msgs == null) msgs = notification; else msgs.add(notification);
         }
         return msgs;
@@ -213,18 +212,18 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setUcmModelElements(UCMmodelElement newUcmModelElements) {
-        if (newUcmModelElements != ucmModelElements) {
+    public void setToElem(URNmodelElement newToElem) {
+        if (newToElem != toElem) {
             NotificationChain msgs = null;
-            if (ucmModelElements != null)
-                msgs = ((InternalEObject)ucmModelElements).eInverseRemove(this, UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS, UCMmodelElement.class, msgs);
-            if (newUcmModelElements != null)
-                msgs = ((InternalEObject)newUcmModelElements).eInverseAdd(this, UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS, UCMmodelElement.class, msgs);
-            msgs = basicSetUcmModelElements(newUcmModelElements, msgs);
+            if (toElem != null)
+                msgs = ((InternalEObject)toElem).eInverseRemove(this, UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS, URNmodelElement.class, msgs);
+            if (newToElem != null)
+                msgs = ((InternalEObject)newToElem).eInverseAdd(this, UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS, URNmodelElement.class, msgs);
+            msgs = basicSetToElem(newToElem, msgs);
             if (msgs != null) msgs.dispatch();
         }
         else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS, newUcmModelElements, newUcmModelElements));
+            eNotify(new ENotificationImpl(this, Notification.SET, UrnPackage.UR_NLINK__TO_ELEM, newToElem, newToElem));
     }
 
     /**
@@ -239,14 +238,14 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
                     return eBasicSetContainer(otherEnd, UrnPackage.UR_NLINK__URNSPEC, msgs);
-                case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                    if (grlModelElements != null)
-                        msgs = ((InternalEObject)grlModelElements).eInverseRemove(this, UrncorePackage.GR_LMODEL_ELEMENT__URNLINKS, GRLmodelElement.class, msgs);
-                    return basicSetGrlModelElements((GRLmodelElement)otherEnd, msgs);
-                case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                    if (ucmModelElements != null)
-                        msgs = ((InternalEObject)ucmModelElements).eInverseRemove(this, UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS, UCMmodelElement.class, msgs);
-                    return basicSetUcmModelElements((UCMmodelElement)otherEnd, msgs);
+                case UrnPackage.UR_NLINK__FROM_ELEM:
+                    if (fromElem != null)
+                        msgs = ((InternalEObject)fromElem).eInverseRemove(this, UrncorePackage.UR_NMODEL_ELEMENT__FROM_LINKS, URNmodelElement.class, msgs);
+                    return basicSetFromElem((URNmodelElement)otherEnd, msgs);
+                case UrnPackage.UR_NLINK__TO_ELEM:
+                    if (toElem != null)
+                        msgs = ((InternalEObject)toElem).eInverseRemove(this, UrncorePackage.UR_NMODEL_ELEMENT__TO_LINKS, URNmodelElement.class, msgs);
+                    return basicSetToElem((URNmodelElement)otherEnd, msgs);
                 default:
                     return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
             }
@@ -266,10 +265,10 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
                 case UrnPackage.UR_NLINK__URNSPEC:
                     return eBasicSetContainer(null, UrnPackage.UR_NLINK__URNSPEC, msgs);
-                case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                    return basicSetGrlModelElements(null, msgs);
-                case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                    return basicSetUcmModelElements(null, msgs);
+                case UrnPackage.UR_NLINK__FROM_ELEM:
+                    return basicSetFromElem(null, msgs);
+                case UrnPackage.UR_NLINK__TO_ELEM:
+                    return basicSetToElem(null, msgs);
                 default:
                     return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
             }
@@ -303,12 +302,12 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
         switch (eDerivedStructuralFeatureID(eFeature)) {
             case UrnPackage.UR_NLINK__URNSPEC:
                 return getUrnspec();
-            case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                if (resolve) return getGrlModelElements();
-                return basicGetGrlModelElements();
-            case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                if (resolve) return getUcmModelElements();
-                return basicGetUcmModelElements();
+            case UrnPackage.UR_NLINK__FROM_ELEM:
+                if (resolve) return getFromElem();
+                return basicGetFromElem();
+            case UrnPackage.UR_NLINK__TO_ELEM:
+                if (resolve) return getToElem();
+                return basicGetToElem();
         }
         return eDynamicGet(eFeature, resolve);
     }
@@ -323,11 +322,11 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
             case UrnPackage.UR_NLINK__URNSPEC:
                 setUrnspec((URNspec)newValue);
                 return;
-            case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                setGrlModelElements((GRLmodelElement)newValue);
+            case UrnPackage.UR_NLINK__FROM_ELEM:
+                setFromElem((URNmodelElement)newValue);
                 return;
-            case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                setUcmModelElements((UCMmodelElement)newValue);
+            case UrnPackage.UR_NLINK__TO_ELEM:
+                setToElem((URNmodelElement)newValue);
                 return;
         }
         eDynamicSet(eFeature, newValue);
@@ -343,11 +342,11 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
             case UrnPackage.UR_NLINK__URNSPEC:
                 setUrnspec((URNspec)null);
                 return;
-            case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                setGrlModelElements((GRLmodelElement)null);
+            case UrnPackage.UR_NLINK__FROM_ELEM:
+                setFromElem((URNmodelElement)null);
                 return;
-            case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                setUcmModelElements((UCMmodelElement)null);
+            case UrnPackage.UR_NLINK__TO_ELEM:
+                setToElem((URNmodelElement)null);
                 return;
         }
         eDynamicUnset(eFeature);
@@ -362,10 +361,10 @@ public class URNlinkImpl extends EObjectImpl implements URNlink {
         switch (eDerivedStructuralFeatureID(eFeature)) {
             case UrnPackage.UR_NLINK__URNSPEC:
                 return getUrnspec() != null;
-            case UrnPackage.UR_NLINK__GRL_MODEL_ELEMENTS:
-                return grlModelElements != null;
-            case UrnPackage.UR_NLINK__UCM_MODEL_ELEMENTS:
-                return ucmModelElements != null;
+            case UrnPackage.UR_NLINK__FROM_ELEM:
+                return fromElem != null;
+            case UrnPackage.UR_NLINK__TO_ELEM:
+                return toElem != null;
         }
         return eDynamicIsSet(eFeature);
     }

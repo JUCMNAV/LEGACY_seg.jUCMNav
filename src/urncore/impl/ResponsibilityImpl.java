@@ -193,8 +193,10 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case UrncorePackage.RESPONSIBILITY__URNDEFINITION:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -220,8 +222,10 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case UrncorePackage.RESPONSIBILITY__URNDEFINITION:
                     return eBasicSetContainer(null, UrncorePackage.RESPONSIBILITY__URNDEFINITION, msgs);
                 case UrncorePackage.RESPONSIBILITY__DEMANDS:
@@ -259,14 +263,16 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                return getFromLinks();
+            case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                return getToLinks();
             case UrncorePackage.RESPONSIBILITY__ID:
                 return getId();
             case UrncorePackage.RESPONSIBILITY__NAME:
                 return getName();
             case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
                 return getDescription();
-            case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                return getUrnlinks();
             case UrncorePackage.RESPONSIBILITY__EMPTY:
                 return isEmpty() ? Boolean.TRUE : Boolean.FALSE;
             case UrncorePackage.RESPONSIBILITY__URNDEFINITION:
@@ -286,6 +292,14 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case UrncorePackage.RESPONSIBILITY__ID:
                 setId((String)newValue);
                 return;
@@ -294,10 +308,6 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return;
             case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case UrncorePackage.RESPONSIBILITY__EMPTY:
                 setEmpty(((Boolean)newValue).booleanValue());
@@ -324,6 +334,12 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                getToLinks().clear();
+                return;
             case UrncorePackage.RESPONSIBILITY__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -332,9 +348,6 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
                 return;
             case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case UrncorePackage.RESPONSIBILITY__EMPTY:
                 setEmpty(EMPTY_EDEFAULT);
@@ -359,14 +372,16 @@ public class ResponsibilityImpl extends UCMmodelElementImpl implements Responsib
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.RESPONSIBILITY__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case UrncorePackage.RESPONSIBILITY__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case UrncorePackage.RESPONSIBILITY__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case UrncorePackage.RESPONSIBILITY__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case UrncorePackage.RESPONSIBILITY__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case UrncorePackage.RESPONSIBILITY__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case UrncorePackage.RESPONSIBILITY__EMPTY:
                 return empty != EMPTY_EDEFAULT;
             case UrncorePackage.RESPONSIBILITY__URNDEFINITION:

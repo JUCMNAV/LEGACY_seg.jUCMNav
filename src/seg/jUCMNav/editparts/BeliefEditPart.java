@@ -185,6 +185,6 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
      * Sets the label's text, given its referenced model element.
      */
     private void setText() {
-        getNodeFigure().setText(getBelief().getDescription());
+        getNodeFigure().setEditableText(getBelief().getDescription());
     }
 }

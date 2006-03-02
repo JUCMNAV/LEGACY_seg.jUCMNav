@@ -7,41 +7,27 @@
 package urn.impl;
 
 import grl.GrlPackage;
-
 import grl.impl.GrlPackageImpl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ucm.UcmPackage;
-
 import ucm.impl.UcmPackageImpl;
-
 import ucm.map.MapPackage;
-
 import ucm.map.impl.MapPackageImpl;
-
 import ucm.performance.PerformancePackage;
-
 import ucm.performance.impl.PerformancePackageImpl;
-
 import ucm.scenario.ScenarioPackage;
-
 import ucm.scenario.impl.ScenarioPackageImpl;
-
-import urn.URNLinkType;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
 import urn.UrnPackage;
-
 import urncore.UrncorePackage;
-
 import urncore.impl.UrncorePackageImpl;
 
 /**
@@ -64,13 +50,6 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
      * @generated
      */
     private EClass urNlinkEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EEnum urnLinkTypeEEnum = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -300,7 +279,7 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getURNlink_GrlModelElements() {
+    public EReference getURNlink_FromElem() {
         return (EReference)urNlinkEClass.getEStructuralFeatures().get(1);
     }
 
@@ -309,17 +288,8 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getURNlink_UcmModelElements() {
+    public EReference getURNlink_ToElem() {
         return (EReference)urNlinkEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EEnum getURNLinkType() {
-        return urnLinkTypeEEnum;
     }
 
     /**
@@ -366,11 +336,8 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 
         urNlinkEClass = createEClass(UR_NLINK);
         createEReference(urNlinkEClass, UR_NLINK__URNSPEC);
-        createEReference(urNlinkEClass, UR_NLINK__GRL_MODEL_ELEMENTS);
-        createEReference(urNlinkEClass, UR_NLINK__UCM_MODEL_ELEMENTS);
-
-        // Create enums
-        urnLinkTypeEEnum = createEEnum(URN_LINK_TYPE);
+        createEReference(urNlinkEClass, UR_NLINK__FROM_ELEM);
+        createEReference(urNlinkEClass, UR_NLINK__TO_ELEM);
     }
 
     /**
@@ -420,16 +387,8 @@ public class UrnPackageImpl extends EPackageImpl implements UrnPackage {
 
         initEClass(urNlinkEClass, URNlink.class, "URNlink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getURNlink_Urnspec(), this.getURNspec(), this.getURNspec_UrnLinks(), "urnspec", null, 1, 1, URNlink.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getURNlink_GrlModelElements(), theUrncorePackage.getGRLmodelElement(), theUrncorePackage.getGRLmodelElement_Urnlinks(), "grlModelElements", null, 1, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getURNlink_UcmModelElements(), theUrncorePackage.getUCMmodelElement(), theUrncorePackage.getUCMmodelElement_Urnlinks(), "ucmModelElements", null, 1, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-        // Initialize enums and add enum literals
-        initEEnum(urnLinkTypeEEnum, URNLinkType.class, "URNLinkType");
-        addEEnumLiteral(urnLinkTypeEEnum, URNLinkType.STRATEGY_SCENARIO_LITERAL);
-        addEEnumLiteral(urnLinkTypeEEnum, URNLinkType.AUTHOR_COMPONENT_LITERAL);
-        addEEnumLiteral(urnLinkTypeEEnum, URNLinkType.ELEMENT_VARIABLE_LITERAL);
-        addEEnumLiteral(urnLinkTypeEEnum, URNLinkType.ELEMENT_STUB_LITERAL);
-        addEEnumLiteral(urnLinkTypeEEnum, URNLinkType.ELEMENT_RESPONSIBILITY_LITERAL);
+        initEReference(getURNlink_FromElem(), theUrncorePackage.getURNmodelElement(), theUrncorePackage.getURNmodelElement_FromLinks(), "fromElem", null, 1, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getURNlink_ToElem(), theUrncorePackage.getURNmodelElement(), theUrncorePackage.getURNmodelElement_ToLinks(), "toElem", null, 1, 1, URNlink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);

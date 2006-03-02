@@ -213,8 +213,10 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
+                case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
                 case UrncorePackage.COMPONENT_TYPE__CONT_REFS:
                     return ((InternalEList)getContRefs()).basicAdd(otherEnd, msgs);
                 case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
@@ -262,8 +264,10 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                    return ((InternalEList)getUrnlinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
+                case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
                 case UrncorePackage.COMPONENT_TYPE__CONT_REFS:
                     return ((InternalEList)getContRefs()).basicRemove(otherEnd, msgs);
                 case UrncorePackage.COMPONENT_TYPE__URNDEFINITION:
@@ -315,14 +319,16 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
      */
     public Object eGet(EStructuralFeature eFeature, boolean resolve) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                return getFromLinks();
+            case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                return getToLinks();
             case UrncorePackage.COMPONENT_TYPE__ID:
                 return getId();
             case UrncorePackage.COMPONENT_TYPE__NAME:
                 return getName();
             case UrncorePackage.COMPONENT_TYPE__DESCRIPTION:
                 return getDescription();
-            case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                return getUrnlinks();
             case UrncorePackage.COMPONENT_TYPE__LINE_COLOR:
                 return getLineColor();
             case UrncorePackage.COMPONENT_TYPE__FILL_COLOR:
@@ -370,6 +376,14 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
      */
     public void eSet(EStructuralFeature eFeature, Object newValue) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                getFromLinks().clear();
+                getFromLinks().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                getToLinks().clear();
+                getToLinks().addAll((Collection)newValue);
+                return;
             case UrncorePackage.COMPONENT_TYPE__ID:
                 setId((String)newValue);
                 return;
@@ -378,10 +392,6 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
                 return;
             case UrncorePackage.COMPONENT_TYPE__DESCRIPTION:
                 setDescription((String)newValue);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                getUrnlinks().clear();
-                getUrnlinks().addAll((Collection)newValue);
                 return;
             case UrncorePackage.COMPONENT_TYPE__LINE_COLOR:
                 setLineColor((String)newValue);
@@ -447,6 +457,12 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
      */
     public void eUnset(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                getFromLinks().clear();
+                return;
+            case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                getToLinks().clear();
+                return;
             case UrncorePackage.COMPONENT_TYPE__ID:
                 setId(ID_EDEFAULT);
                 return;
@@ -455,9 +471,6 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
                 return;
             case UrncorePackage.COMPONENT_TYPE__DESCRIPTION:
                 setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                getUrnlinks().clear();
                 return;
             case UrncorePackage.COMPONENT_TYPE__LINE_COLOR:
                 setLineColor(LINE_COLOR_EDEFAULT);
@@ -518,14 +531,16 @@ public class ComponentTypeImpl extends ComponentRegularImpl implements Component
      */
     public boolean eIsSet(EStructuralFeature eFeature) {
         switch (eDerivedStructuralFeatureID(eFeature)) {
+            case UrncorePackage.COMPONENT_TYPE__FROM_LINKS:
+                return fromLinks != null && !fromLinks.isEmpty();
+            case UrncorePackage.COMPONENT_TYPE__TO_LINKS:
+                return toLinks != null && !toLinks.isEmpty();
             case UrncorePackage.COMPONENT_TYPE__ID:
                 return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
             case UrncorePackage.COMPONENT_TYPE__NAME:
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case UrncorePackage.COMPONENT_TYPE__DESCRIPTION:
                 return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case UrncorePackage.COMPONENT_TYPE__URNLINKS:
-                return urnlinks != null && !urnlinks.isEmpty();
             case UrncorePackage.COMPONENT_TYPE__LINE_COLOR:
                 return LINE_COLOR_EDEFAULT == null ? lineColor != null : !LINE_COLOR_EDEFAULT.equals(lineColor);
             case UrncorePackage.COMPONENT_TYPE__FILL_COLOR:

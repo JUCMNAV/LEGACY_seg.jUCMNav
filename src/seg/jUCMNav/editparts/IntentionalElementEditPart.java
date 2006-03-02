@@ -366,7 +366,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     private void setText() {
         if (getNode().getDef() != null){
-            getNodeFigure().setText(getNode().getDef().getName());
+            getNodeFigure().setEditableText(getNode().getDef().getName());
         }
     }
 }

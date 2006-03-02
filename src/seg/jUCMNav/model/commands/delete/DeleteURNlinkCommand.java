@@ -8,8 +8,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNlink;
 import urn.URNspec;
-import urncore.GRLmodelElement;
-import urncore.UCMmodelElement;
+import urncore.URNmodelElement;
 
 /**
  * Delete a URNlink from the model
@@ -24,8 +23,8 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
     // the URNspec in which it is contained
     private URNspec urn;
     
-    private GRLmodelElement grl;
-    private UCMmodelElement ucm;
+    private URNmodelElement from;
+    private URNmodelElement to;
     
     /**
      * 
@@ -40,8 +39,8 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         urn = link.getUrnspec();
-        grl = link.getGrlModelElements();
-        ucm = link.getUcmModelElements();
+        from = link.getFromElem();
+        to = link.getToElem();
         redo();
     }
 
@@ -51,8 +50,8 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
         
-        link.setGrlModelElements(null);
-        link.setUcmModelElements(null);
+        link.setFromElem(null);
+        link.setToElem(null);
         urn.getUrnLinks().remove(link);
         
         testPostConditions();
@@ -62,18 +61,18 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert urn != null && link != null && ucm != null && grl != null: "pre something is null"; //$NON-NLS-1$
+        assert urn != null && link != null && to != null && from != null: "pre something is null"; //$NON-NLS-1$
         assert urn.getUrnLinks().contains(link) : "pre urn contains link."; //$NON-NLS-1$
-        assert grl.getUrnlinks().contains(link) && ucm.getUrnlinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
+        assert from.getFromLinks().contains(link) && to.getToLinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert urn != null && link != null && ucm != null && grl != null: "pre something is null"; //$NON-NLS-1$
+        assert urn != null && link != null && to != null && from != null: "pre something is null"; //$NON-NLS-1$
         assert !urn.getUrnLinks().contains(link) : "pre urn contains link."; //$NON-NLS-1$
-        assert !grl.getUrnlinks().contains(link) && !ucm.getUrnlinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
+        assert !from.getFromLinks().contains(link) && !to.getToLinks().contains(link) : "pre element contains link"; //$NON-NLS-1$
     }
 
     /**
@@ -84,8 +83,8 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         urn.getUrnLinks().add(link);
-        link.setGrlModelElements(grl);
-        link.setUcmModelElements(ucm);
+        link.setFromElem(from);
+        link.setToElem(to);
         
         testPreConditions();
     }

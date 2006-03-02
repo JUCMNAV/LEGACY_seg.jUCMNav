@@ -70,7 +70,11 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
      */
     private void build() {
         //Delete all the URNlink
-        for (Iterator it = element.getUrnlinks().iterator(); it.hasNext();){
+        for (Iterator it = element.getFromLinks().iterator(); it.hasNext();){
+            URNlink link = (URNlink)it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = element.getToLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }

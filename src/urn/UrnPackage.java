@@ -8,7 +8,6 @@ package urn;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -207,22 +206,22 @@ public interface UrnPackage extends EPackage{
     int UR_NLINK__URNSPEC = 0;
 
     /**
-     * The feature id for the '<em><b>Grl Model Elements</b></em>' reference.
+     * The feature id for the '<em><b>From Elem</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NLINK__GRL_MODEL_ELEMENTS = 1;
+    int UR_NLINK__FROM_ELEM = 1;
 
     /**
-     * The feature id for the '<em><b>Ucm Model Elements</b></em>' reference.
+     * The feature id for the '<em><b>To Elem</b></em>' reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int UR_NLINK__UCM_MODEL_ELEMENTS = 2;
+    int UR_NLINK__TO_ELEM = 2;
 
     /**
      * The number of structural features of the the '<em>UR Nlink</em>' class.
@@ -232,17 +231,6 @@ public interface UrnPackage extends EPackage{
      * @ordered
      */
     int UR_NLINK_FEATURE_COUNT = 3;
-
-
-    /**
-     * The meta object id for the '{@link urn.URNLinkType <em>URN Link Type</em>}' enum.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see urn.URNLinkType
-     * @see urn.impl.UrnPackageImpl#getURNLinkType()
-     * @generated
-     */
-    int URN_LINK_TYPE = 2;
 
 
     /**
@@ -409,36 +397,26 @@ public interface UrnPackage extends EPackage{
     EReference getURNlink_Urnspec();
 
     /**
-     * Returns the meta object for the reference '{@link urn.URNlink#getGrlModelElements <em>Grl Model Elements</em>}'.
+     * Returns the meta object for the reference '{@link urn.URNlink#getFromElem <em>From Elem</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Grl Model Elements</em>'.
-     * @see urn.URNlink#getGrlModelElements()
+     * @return the meta object for the reference '<em>From Elem</em>'.
+     * @see urn.URNlink#getFromElem()
      * @see #getURNlink()
      * @generated
      */
-    EReference getURNlink_GrlModelElements();
+    EReference getURNlink_FromElem();
 
     /**
-     * Returns the meta object for the reference '{@link urn.URNlink#getUcmModelElements <em>Ucm Model Elements</em>}'.
+     * Returns the meta object for the reference '{@link urn.URNlink#getToElem <em>To Elem</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Ucm Model Elements</em>'.
-     * @see urn.URNlink#getUcmModelElements()
+     * @return the meta object for the reference '<em>To Elem</em>'.
+     * @see urn.URNlink#getToElem()
      * @see #getURNlink()
      * @generated
      */
-    EReference getURNlink_UcmModelElements();
-
-    /**
-     * Returns the meta object for enum '{@link urn.URNLinkType <em>URN Link Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for enum '<em>URN Link Type</em>'.
-     * @see urn.URNLinkType
-     * @generated
-     */
-    EEnum getURNLinkType();
+    EReference getURNlink_ToElem();
 
     /**
      * Returns the factory that creates the instances of the model.

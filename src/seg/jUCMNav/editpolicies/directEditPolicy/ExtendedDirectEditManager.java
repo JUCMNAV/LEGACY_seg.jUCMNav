@@ -50,7 +50,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
     public ExtendedDirectEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator, LabelElementFigure label, ICellEditorValidator validator) {
         super(source, editorType, locator);
         this.label = label;
-        this.originalValue = label.getText();
+        this.originalValue = label.getEditableText();
         this.validator = validator;
     }
 
@@ -105,7 +105,7 @@ public class ExtendedDirectEditManager extends DirectEditManager {
         text.addVerifyListener(verifyListener);
 
         //set the initial value of the
-        originalValue = this.label.getText();
+        originalValue = this.label.getEditableText();
         getCellEditor().setValue(originalValue);
 
         //calculate the font size of the underlying

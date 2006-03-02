@@ -72,6 +72,24 @@ public interface MapPackage extends EPackage{
     int PATH_NODE = 11;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATH_NODE__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int PATH_NODE__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -97,15 +115,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int PATH_NODE__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PATH_NODE__URNLINKS = UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -190,6 +199,24 @@ public interface MapPackage extends EPackage{
     int AND_JOIN = 0;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_JOIN__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_JOIN__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -215,15 +242,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int AND_JOIN__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int AND_JOIN__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -409,6 +427,24 @@ public interface MapPackage extends EPackage{
     int RESP_REF = 3;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESP_REF__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int RESP_REF__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -434,15 +470,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int RESP_REF__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESP_REF__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -545,6 +572,24 @@ public interface MapPackage extends EPackage{
     int LOOP = 4;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOOP__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int LOOP__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -570,15 +615,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int LOOP__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int LOOP__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -672,6 +708,24 @@ public interface MapPackage extends EPackage{
     int OR_JOIN = 5;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_JOIN__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_JOIN__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -697,15 +751,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int OR_JOIN__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int OR_JOIN__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -799,6 +844,24 @@ public interface MapPackage extends EPackage{
     int OR_FORK = 6;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_FORK__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OR_FORK__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -824,15 +887,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int OR_FORK__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int OR_FORK__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -926,6 +980,24 @@ public interface MapPackage extends EPackage{
     int CONNECT = 7;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CONNECT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -951,15 +1023,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int CONNECT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CONNECT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1126,6 +1189,24 @@ public interface MapPackage extends EPackage{
     int WAITING_PLACE = 9;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WAITING_PLACE__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int WAITING_PLACE__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1151,15 +1232,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int WAITING_PLACE__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int WAITING_PLACE__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1253,6 +1325,24 @@ public interface MapPackage extends EPackage{
     int STUB = 10;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STUB__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int STUB__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1278,15 +1368,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int STUB__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int STUB__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1398,6 +1479,24 @@ public interface MapPackage extends EPackage{
     int END_POINT = 12;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int END_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int END_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1423,15 +1522,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int END_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int END_POINT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1534,6 +1624,24 @@ public interface MapPackage extends EPackage{
     int START_POINT = 13;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int START_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int START_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1559,15 +1667,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int START_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int START_POINT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1679,6 +1778,24 @@ public interface MapPackage extends EPackage{
     int UC_MMAP = 14;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMAP__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int UC_MMAP__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1704,15 +1821,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int UC_MMAP__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int UC_MMAP__URNLINKS = UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
@@ -1779,6 +1887,24 @@ public interface MapPackage extends EPackage{
     int ABORT = 15;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABORT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ABORT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1804,15 +1930,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int ABORT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ABORT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -1997,6 +2114,24 @@ public interface MapPackage extends EPackage{
     int COMPONENT_REF = 17;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REF__FROM_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int COMPONENT_REF__TO_LINKS = UrncorePackage.UC_MMODEL_ELEMENT__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2022,15 +2157,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int COMPONENT_REF__DESCRIPTION = UrncorePackage.UC_MMODEL_ELEMENT__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int COMPONENT_REF__URNLINKS = UrncorePackage.UC_MMODEL_ELEMENT__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2178,6 +2304,24 @@ public interface MapPackage extends EPackage{
     int TIMER = 18;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TIMER__FROM_LINKS = WAITING_PLACE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int TIMER__TO_LINKS = WAITING_PLACE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2203,15 +2347,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int TIMER__DESCRIPTION = WAITING_PLACE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int TIMER__URNLINKS = WAITING_PLACE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2323,6 +2458,24 @@ public interface MapPackage extends EPackage{
     int AND_FORK = 19;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_FORK__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int AND_FORK__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2348,15 +2501,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int AND_FORK__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int AND_FORK__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2450,6 +2594,24 @@ public interface MapPackage extends EPackage{
     int EMPTY_POINT = 20;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EMPTY_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int EMPTY_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2475,15 +2637,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int EMPTY_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int EMPTY_POINT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2568,6 +2721,24 @@ public interface MapPackage extends EPackage{
     int FAILURE_POINT = 21;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FAILURE_POINT__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int FAILURE_POINT__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2593,15 +2764,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int FAILURE_POINT__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int FAILURE_POINT__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
@@ -2686,6 +2848,24 @@ public interface MapPackage extends EPackage{
     int DIRECTION_ARROW = 22;
 
     /**
+     * The feature id for the '<em><b>From Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIRECTION_ARROW__FROM_LINKS = PATH_NODE__FROM_LINKS;
+
+    /**
+     * The feature id for the '<em><b>To Links</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int DIRECTION_ARROW__TO_LINKS = PATH_NODE__TO_LINKS;
+
+    /**
      * The feature id for the '<em><b>Id</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2711,15 +2891,6 @@ public interface MapPackage extends EPackage{
      * @ordered
      */
     int DIRECTION_ARROW__DESCRIPTION = PATH_NODE__DESCRIPTION;
-
-    /**
-     * The feature id for the '<em><b>Urnlinks</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DIRECTION_ARROW__URNLINKS = PATH_NODE__URNLINKS;
 
     /**
      * The feature id for the '<em><b>X</b></em>' attribute.
