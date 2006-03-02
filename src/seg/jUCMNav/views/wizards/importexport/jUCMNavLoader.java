@@ -167,6 +167,7 @@ public class jUCMNavLoader {
 					// find a pointer to jUCMNav.
 					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().findEditor("seg.jUCMNav.MainEditor"); //$NON-NLS-1$
 
+                    
 					// open the newfile using jucmnav.
 					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(new FileEditorInput((IFile) resource2), desc.getId());                    
                              

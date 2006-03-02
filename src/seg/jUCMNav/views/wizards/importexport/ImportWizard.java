@@ -96,9 +96,10 @@ public class ImportWizard extends Wizard implements IImportWizard {
         boolean b = ((ImportWizardFileSelectionPage) getPage(PAGE0)).finish();
 
         if (b) {
-            if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_NEWFILE){
+            //If we need didn't import in the current file, set the path
+            if (urn == null || ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_NEWFILE){
                 ImportPreferenceHelper.setSavePath(ImportPreferenceHelper.getPath());
-            }
+            } 
             // given the import type, get the exporter id
             int importtype = ImportPreferenceHelper.getType();
             String id = URNImportExtensionPointHelper.getExporterFromLabelIndex(importtype);
