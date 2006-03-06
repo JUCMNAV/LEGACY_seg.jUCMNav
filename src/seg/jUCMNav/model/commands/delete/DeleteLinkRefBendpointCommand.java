@@ -8,6 +8,7 @@ import grl.LinkRefBendpoint;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -29,7 +30,7 @@ public class DeleteLinkRefBendpointCommand extends Command implements JUCMNavCom
         this.oldBendpoint = oldBendpoint;
         link = oldBendpoint.getLinkref();
         
-        setLabel("Delete LinkRef bendpoint");
+        setLabel(Messages.getString("DeleteLinkRefBendpointCommand.DeleteLinkRefBendpoint")); //$NON-NLS-1$
     }
 
     /**

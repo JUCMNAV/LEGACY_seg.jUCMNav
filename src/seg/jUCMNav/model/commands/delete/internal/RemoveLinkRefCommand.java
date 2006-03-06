@@ -67,7 +67,7 @@ public class RemoveLinkRefCommand extends Command implements JUCMNavCommand {
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert linkref != null: "Pre linkref is null";
+        assert linkref != null: "Pre linkref is null"; //$NON-NLS-1$
         assert link != null: "Pre link is null"; //$NON-NLS-1$
         assert graph != null : "Pre graph is null"; //$NON-NLS-1$
         assert source != null && target != null: "Pre source-target is null"; //$NON-NLS-1$

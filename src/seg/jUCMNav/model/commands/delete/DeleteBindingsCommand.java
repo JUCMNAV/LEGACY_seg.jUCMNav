@@ -5,6 +5,7 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
@@ -36,7 +37,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(InBinding binding) {
         this.element = binding;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**
@@ -46,7 +47,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(UCMmap map) {
         this.element = map;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**
@@ -56,7 +57,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(NodeConnection nc) {
         this.element = nc;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**
@@ -66,7 +67,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(OutBinding binding) {
         this.element = binding;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**
@@ -76,7 +77,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(PathNode pn) {
         this.element = pn;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**
@@ -86,7 +87,7 @@ public class DeleteBindingsCommand extends CompoundCommand {
      */
     public DeleteBindingsCommand(PluginBinding binding) {
         this.element = binding;
-        setLabel("Delete Binding");
+        setLabel(Messages.getString("DeleteBindingsCommand.deleteBinding")); //$NON-NLS-1$
     }
 
     /**

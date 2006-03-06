@@ -188,7 +188,7 @@ public class AutoLayoutWizard extends Wizard {
 
 			} else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"\\];")) { //$NON-NLS-1$
 				pageHeight = Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
-			} else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex:
+			} else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex: //$NON-NLS-1$ //$NON-NLS-2$
 				// subgraph
 				// cluster_0
 				// {
@@ -214,7 +214,7 @@ public class AutoLayoutWizard extends Wizard {
 							- Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
 							- Integer.parseInt(coords[1]));
 					cmd.add(resize);
-				} else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex:
+				} else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: //$NON-NLS-1$
 					// graph
 					// [bb=""];
 					// //$NON-NLS-1$

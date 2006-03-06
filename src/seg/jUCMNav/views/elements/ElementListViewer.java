@@ -162,16 +162,16 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 		if (element instanceof IntentionalElementRef) {
 			IntentionalElementRef intentional = (IntentionalElementRef) element;
 			if (intentional.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL) {
-				respItem.setElementImg("/seg/jUCMNav/icons/Softgoal16.gif");
+				respItem.setElementImg("/seg/jUCMNav/icons/Softgoal16.gif"); //$NON-NLS-1$
 			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.GOAL) {
-				respItem.setElementImg("/seg/jUCMNav/icons/Goal16.gif");
+				respItem.setElementImg("/seg/jUCMNav/icons/Goal16.gif"); //$NON-NLS-1$
 			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.RESSOURCE) {
-				respItem.setElementImg("/seg/jUCMNav/icons/Resource16.gif");
+				respItem.setElementImg("/seg/jUCMNav/icons/Resource16.gif"); //$NON-NLS-1$
 			} else if (intentional.getDef().getType().getValue() == IntentionalElementType.TASK) {
-				respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif");
+				respItem.setElementImg("/seg/jUCMNav/icons/Task16.gif"); //$NON-NLS-1$
 			}
 		} else if (element instanceof RespRef) {
-			respItem.setElementImg("/seg/jUCMNav/icons/Resp16.gif");
+			respItem.setElementImg("/seg/jUCMNav/icons/Resp16.gif"); //$NON-NLS-1$
 		}
 	}
 

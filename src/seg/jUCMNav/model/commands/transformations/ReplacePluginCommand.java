@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
@@ -48,7 +49,7 @@ public class ReplacePluginCommand extends Command implements JUCMNavCommand {
         super();
         this.oldPlugin = oldPlugin;
         this.map = map;
-        setLabel("Replace Plugin");
+        setLabel(Messages.getString("ReplacePluginCommand.replacePlugin")); //$NON-NLS-1$
     }
 
     /**

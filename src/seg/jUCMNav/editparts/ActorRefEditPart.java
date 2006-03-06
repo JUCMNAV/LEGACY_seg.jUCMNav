@@ -90,7 +90,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(50,16);
-        evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage();
+        evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage(); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
 
@@ -174,7 +174,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                     ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
                 } else { 
-                    ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled());
+                    ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
                 }
                 
             }

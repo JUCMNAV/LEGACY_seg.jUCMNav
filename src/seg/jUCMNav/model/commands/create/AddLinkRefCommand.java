@@ -9,6 +9,7 @@ import grl.LinkRef;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.IURNDiagram;
@@ -36,7 +37,7 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
         this.destination = destination;
         this.link = link;
         
-        setLabel("Add LinkRef");
+        setLabel(Messages.getString("AddLinkRefCommand.addLinkRef")); //$NON-NLS-1$
     }
 
     /**

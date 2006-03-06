@@ -167,7 +167,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new DeleteEvaluationAction(editor);
-        action.setText("Delete User Evaluation"); 
+        action.setText(Messages.getString("ActionRegistryManager.deleteUserEvaluation"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new CutPathAction(editor);
@@ -243,7 +243,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new AddBeliefAction(editor);
-        action.setText("Add Belief"); 
+        action.setText(Messages.getString("ActionRegistryManager.addBelief"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddMapAction(editor);
@@ -267,7 +267,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);  
 
         action = new EditURNLinksAction((IWorkbenchPart) editor);
-        action.setText("Edit URN Links"); 
+        action.setText(Messages.getString("ActionRegistryManager.editURNLinks"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
         
         action = new AddGrlGraphAction(editor);
@@ -275,11 +275,11 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
 
         action = new AddEvaluationGroupAction((IWorkbenchPart)editor);
-        action.setText("Add Evaluation Group"); 
+        action.setText(Messages.getString("ActionRegistryManager.addEvaluationGroup"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddEvaluationStrategyAction((IWorkbenchPart)editor);
-        action.setText("Add Evaluation Strategy"); 
+        action.setText(Messages.getString("ActionRegistryManager.addEvaluationStrategy"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
     }
 

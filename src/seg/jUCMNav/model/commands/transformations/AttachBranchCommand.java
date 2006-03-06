@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.transformations.internal.AttachEndCommand;
 import seg.jUCMNav.model.commands.transformations.internal.AttachStartCommand;
@@ -43,6 +44,6 @@ public class AttachBranchCommand extends CompoundCommand {
         } else {
             assert false : "not a start or end point"; //$NON-NLS-1$
         }
-        setLabel("Attach Branch");
+        setLabel(Messages.getString("AttachBranchCommand.attachBranch")); //$NON-NLS-1$
     }
 }

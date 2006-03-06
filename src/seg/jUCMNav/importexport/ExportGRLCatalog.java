@@ -69,7 +69,7 @@ public class ExportGRLCatalog implements IURNExport {
         //Starting tag
         write(TAB);
         write(SOT);
-        write("element-def");
+        write("element-def"); //$NON-NLS-1$
         write(EOT);
         
         //Create an xml element for each of the intentionalElement
@@ -78,20 +78,20 @@ public class ExportGRLCatalog implements IURNExport {
             write(TAB);
             write(TAB);
             write(SOT);
-            write("intentional-element");
-            writeAttribute("id", element.getId());
-            writeAttribute("name", element.getName());
-            writeAttribute("description", element.getDescription());
-            writeAttribute("type", element.getType().getName());
-            writeAttribute("decompositiontype", element.getDecompositionType().getName());
-            write("/");
+            write("intentional-element"); //$NON-NLS-1$
+            writeAttribute("id", element.getId()); //$NON-NLS-1$
+            writeAttribute("name", element.getName()); //$NON-NLS-1$
+            writeAttribute("description", element.getDescription()); //$NON-NLS-1$
+            writeAttribute("type", element.getType().getName()); //$NON-NLS-1$
+            writeAttribute("decompositiontype", element.getDecompositionType().getName()); //$NON-NLS-1$
+            write("/"); //$NON-NLS-1$
             write(EOT);
         }
 
         //End tag
         write(TAB);
         write(SOT);
-        write("/element-def");
+        write("/element-def"); //$NON-NLS-1$
         write(EOT);
 
     }
@@ -100,7 +100,7 @@ public class ExportGRLCatalog implements IURNExport {
         //Starting tag
         write(TAB);
         write(SOT);
-        write("link-def");
+        write("link-def"); //$NON-NLS-1$
         write(EOT);
         
         //Write an element for each decomposition, contribution and dependency
@@ -110,38 +110,38 @@ public class ExportGRLCatalog implements IURNExport {
             write(TAB);
             write(SOT);
             if (link instanceof Decomposition){
-                write("decomposition");
-                writeAttribute("name", link.getName());
-                writeAttribute("description", link.getDescription());
-                writeAttribute("srcid", link.getSrc().getId());
-                writeAttribute("destid", link.getDest().getId());
+                write("decomposition"); //$NON-NLS-1$
+                writeAttribute("name", link.getName()); //$NON-NLS-1$
+                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
+                writeAttribute("srcid", link.getSrc().getId()); //$NON-NLS-1$
+                writeAttribute("destid", link.getDest().getId()); //$NON-NLS-1$
             } else if (link instanceof Dependency){
-                write("dependency");
-                writeAttribute("name", link.getName());
-                writeAttribute("description", link.getDescription());
-                writeAttribute("dependeeid", link.getDest().getId());
-                writeAttribute("dependerid", link.getSrc().getId());
+                write("dependency"); //$NON-NLS-1$
+                writeAttribute("name", link.getName()); //$NON-NLS-1$
+                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
+                writeAttribute("dependeeid", link.getDest().getId()); //$NON-NLS-1$
+                writeAttribute("dependerid", link.getSrc().getId()); //$NON-NLS-1$
             } else if (link instanceof Contribution){
-                write("contribution");
-                writeAttribute("name", link.getName());
-                writeAttribute("description", link.getDescription());
-                writeAttribute("srcid", link.getSrc().getId());
-                writeAttribute("destid", link.getDest().getId());
-                writeAttribute("contributiontype", ((Contribution)link).getContribution().getName());
+                write("contribution"); //$NON-NLS-1$
+                writeAttribute("name", link.getName()); //$NON-NLS-1$
+                writeAttribute("description", link.getDescription()); //$NON-NLS-1$
+                writeAttribute("srcid", link.getSrc().getId()); //$NON-NLS-1$
+                writeAttribute("destid", link.getDest().getId()); //$NON-NLS-1$
+                writeAttribute("contributiontype", ((Contribution)link).getContribution().getName()); //$NON-NLS-1$
                 if (((Contribution)link).isCorrelation()){
-                    writeAttribute("correlation", "true");
+                    writeAttribute("correlation", "true"); //$NON-NLS-1$ //$NON-NLS-2$
                 } else{
-                    writeAttribute("correlation", "false");
+                    writeAttribute("correlation", "false"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
-            write("/");
+            write("/"); //$NON-NLS-1$
             write(EOT);
         }
         
         //End tag
         write(TAB);
         write(SOT);
-        write("/link-def");
+        write("/link-def"); //$NON-NLS-1$
         write(EOT);
     }
     /**
@@ -160,28 +160,28 @@ public class ExportGRLCatalog implements IURNExport {
     private void writeAttribute(String name, String description)throws IOException{
         write(SPACE);
         write(name);
-        write("=" + QUOTE);
+        write("=" + QUOTE); //$NON-NLS-1$
         write(description);
         write(QUOTE);
     }
     
     private void writeHeader(URNspec urn) throws IOException{
-        write("<?xml version='1.0' encoding='ISO-8859-1'?>\r\n");
+        write("<?xml version='1.0' encoding='ISO-8859-1'?>\r\n"); //$NON-NLS-1$
         
         //write("<!DOCTYPE grl-catalog LOCAL \"../seg/jUCMNav/importexport/grlcatalog.dtd\">\r\n");
         
         //Write the root tag
         write(SOT);
-        write("grl-catalog");
-        writeAttribute("catalog-name", urn.getName());
-        writeAttribute("description", urn.getDescription());
-        writeAttribute("author", urn.getAuthor());
+        write("grl-catalog"); //$NON-NLS-1$
+        writeAttribute("catalog-name", urn.getName()); //$NON-NLS-1$
+        writeAttribute("description", urn.getDescription()); //$NON-NLS-1$
+        writeAttribute("author", urn.getAuthor()); //$NON-NLS-1$
         write(EOT);
     }
     
     private void writeFooter()throws IOException{
         write(SOT);
-        write("/grl-catalog");
+        write("/grl-catalog"); //$NON-NLS-1$
         write(EOT);
     }
 }

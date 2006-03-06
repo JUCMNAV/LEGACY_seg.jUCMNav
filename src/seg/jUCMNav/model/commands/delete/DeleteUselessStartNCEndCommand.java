@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import ucm.map.EndPoint;
 import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
@@ -29,7 +30,7 @@ public class DeleteUselessStartNCEndCommand extends CompoundCommand {
         if (map.getUrndefinition() != null) {
             this.nextGlobalID = Integer.parseInt(map.getUrndefinition().getUrnspec().getNextGlobalID());
         }
-        setLabel("Delete Useless Start/End Points");
+        setLabel(Messages.getString("DeleteUselessStartNCEndCommand.deleteUselessStartEndPoints")); //$NON-NLS-1$
     }
 
     /**

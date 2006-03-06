@@ -8,6 +8,7 @@ import grl.GRLGraph;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -33,7 +34,7 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
         super();
         this.graph = graph;
         this.belief = belief;
-        setLabel("Create Belief"); 
+        setLabel(Messages.getString("AddBeliefCommand.createBelief"));  //$NON-NLS-1$
     }
 
     /**

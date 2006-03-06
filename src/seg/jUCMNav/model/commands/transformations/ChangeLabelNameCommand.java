@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.transformations;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.PathNode;
@@ -37,7 +38,7 @@ public class ChangeLabelNameCommand extends Command implements JUCMNavCommand {
             this.elem = lbl;
         }
         this.name = name;
-        setLabel("Change Label Name");
+        setLabel(Messages.getString("ChangeLabelNameCommand.changeLabelName")); //$NON-NLS-1$
     }
 
     /**

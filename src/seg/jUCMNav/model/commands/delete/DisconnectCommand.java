@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import ucm.map.Connect;
@@ -66,7 +67,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
             this.urn = this.left.getDiagram().getUrndefinition().getUrnspec();
         }
         
-        setLabel("DisconnectCommand");
+        setLabel(Messages.getString("DisconnectCommand.disconnectCommand")); //$NON-NLS-1$
     }
 
     /**

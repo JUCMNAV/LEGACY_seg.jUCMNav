@@ -13,6 +13,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 
 /**
@@ -82,6 +83,6 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
      * @return the URNspec name.
      */
     protected String getText() {
-        return "GRL Evaluation Strategies";
+        return Messages.getString("GRLspecStrategyTreeEditPart.grlEvaluationStrategies"); //$NON-NLS-1$
     }
 }

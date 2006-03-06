@@ -178,8 +178,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      */
     private void strategyDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
         //We add only the strategy name
-        if (attr.getName() == "name"){
-            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "strategyName");
+        if (attr.getName() == "name"){ //$NON-NLS-1$
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "strategyName"); //$NON-NLS-1$
             pd.setReadOnly(true);
             pd.setCategory("Strategy"); //$NON-NLS-1$
             descriptors.add(pd);            
@@ -192,8 +192,8 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (attr.getName() == "evaluation"){
-            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "evaluationLevel (100 to -100)");
+        if (attr.getName() == "evaluation"){ //$NON-NLS-1$
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "evaluationLevel (100 to -100)"); //$NON-NLS-1$
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
                 public String isValid(Object value) {
@@ -202,7 +202,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                         intValue = Integer.parseInt((String) value);
                         return null;
                     } catch (NumberFormatException exc) {
-                        return "Not Number"; 
+                        return "Not Number";  //$NON-NLS-1$
                     }
                 }
             });
@@ -241,12 +241,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         Object result = null;
 
         // if this attribute comes from the referenced object
-        if (propertyid.getEClass().getName() == "IntentionalElement")
+        if (propertyid.getEClass().getName() == "IntentionalElement") //$NON-NLS-1$
             result = def.eGet(feature);
-        else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+        else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                             .eGet(feature);
-        } else if (propertyid.getEClass().getName() == "Evaluation"){
+        } else if (propertyid.getEClass().getName() == "Evaluation"){ //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
         }else
             result = object.eGet(feature);
@@ -264,12 +264,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IntentionalElementRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IntentionalElementRef))) {
-            if (propertyid.getEClass().getName() == "IntentionalElement")
+            if (propertyid.getEClass().getName() == "IntentionalElement") //$NON-NLS-1$
                 def.eSet(feature, null);
-            else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+            else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
                 EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                         .eSet(feature,null);
-            } else if (propertyid.getEClass().getName() == "Evaluation"){
+            } else if (propertyid.getEClass().getName() == "Evaluation"){ //$NON-NLS-1$
                 //The default value for an Evaluation is 0
                 EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def,0);
             }
@@ -329,9 +329,9 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
     }
     
     protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
-        if (propertyid.getEClass().getName() == "IntentionalElement"){
+        if (propertyid.getEClass().getName() == "IntentionalElement"){ //$NON-NLS-1$
             def.eSet(feature, result);
-        } else if (propertyid.getEClass().getName() == "EvaluationStrategy"){
+        } else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
             EvaluationStrategyManager.getInstance().getEvaluationStrategy()
                     .eSet(feature,result);
         } else {

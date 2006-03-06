@@ -7,6 +7,7 @@ import grl.GRLGraph;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -28,7 +29,7 @@ public class CreateGrlGraphCommand extends Command implements JUCMNavCommand {
 
         // must be created here for getMap() to work properly.
         graph = (GRLGraph) ModelCreationFactory.getNewObject(urn, GRLGraph.class);
-        setLabel("Create GRLGraph");
+        setLabel(Messages.getString("CreateGrlGraphCommand.createGrlGraph")); //$NON-NLS-1$
     }
     
     /**

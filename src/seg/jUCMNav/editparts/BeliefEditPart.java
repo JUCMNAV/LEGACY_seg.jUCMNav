@@ -167,9 +167,9 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         setText();
 
         if (((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
-            ((BeliefFigure) figure).setColors("75,75,75", "0,0,0", false);
+            ((BeliefFigure) figure).setColors("75,75,75", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
         } else{
-            ((BeliefFigure) figure).setColors("0,0,0", "0,0,0", false);
+            ((BeliefFigure) figure).setColors("0,0,0", "0,0,0", false); //$NON-NLS-1$ //$NON-NLS-2$
         }
 
         // set information for specific drawing

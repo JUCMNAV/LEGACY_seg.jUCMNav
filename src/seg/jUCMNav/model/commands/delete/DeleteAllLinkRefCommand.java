@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
+
 /**
  * This compound command delete all the LinkRef associate with the specified IntentionalElementRef
  * 
@@ -22,7 +24,7 @@ public class DeleteAllLinkRefCommand extends CompoundCommand {
      * 
      */
     public DeleteAllLinkRefCommand(IntentionalElementRef element) {
-        setLabel("Delete All LinkRefs"); 
+        setLabel(Messages.getString("DeleteAllLinkRefCommand.deleteAllLinkRefs"));  //$NON-NLS-1$
         for (Iterator iter = element.getPred().iterator(); iter.hasNext();){
             LinkRef linkref = (LinkRef)iter.next();
             add(new DeleteLinkRefCommand(linkref));

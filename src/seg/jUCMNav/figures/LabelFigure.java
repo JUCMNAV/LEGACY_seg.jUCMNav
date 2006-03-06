@@ -12,7 +12,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * @author Jordan, Jean-François Roy
  */
 public class LabelFigure extends Label implements LabelElementFigure {
-    public String additionalText = "";
+    public String additionalText = ""; //$NON-NLS-1$
     
     private boolean selected;
     
@@ -44,8 +44,8 @@ public class LabelFigure extends Label implements LabelElementFigure {
      * Use this method instead of getText for LabelFigure
      */
     public String getEditableText() {
-        if (!additionalText.equals("")){
-            int sub = super.getText().lastIndexOf("{");
+        if (!additionalText.equals("")){ //$NON-NLS-1$
+            int sub = super.getText().lastIndexOf("{"); //$NON-NLS-1$
             return super.getText().substring(0,sub);
         }
         return super.getText();
@@ -91,8 +91,8 @@ public class LabelFigure extends Label implements LabelElementFigure {
      * @see seg.jUCMNav.figures.LabelElementFigure#setText(java.lang.String)
      */
     public void setEditableText(String newText) {
-        if (! additionalText.equals("")){
-            super.setText(newText + "{" + additionalText + "}");
+        if (! additionalText.equals("")){ //$NON-NLS-1$
+            super.setText(newText + "{" + additionalText + "}"); //$NON-NLS-1$ //$NON-NLS-2$
         } else{
             super.setText(newText);
         }

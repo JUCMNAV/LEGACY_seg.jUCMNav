@@ -8,6 +8,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import urn.URNspec;
@@ -32,7 +33,7 @@ public class AddStandardElementLinkCommand extends Command implements JUCMNavCom
         this.link = link;
         this.src = source;
         
-        setLabel("Add Element Link Command"); 
+        setLabel(Messages.getString("AddStandardElementLinkCommand.addElementLink"));  //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

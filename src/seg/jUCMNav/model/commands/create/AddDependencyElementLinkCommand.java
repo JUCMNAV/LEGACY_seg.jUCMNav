@@ -8,6 +8,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.EvaluationStrategyManager;
 import urn.URNspec;
@@ -33,7 +34,7 @@ public class AddDependencyElementLinkCommand extends Command implements JUCMNavC
         this.link = link;
         this.dependee = dependee;
         
-        setLabel("Add Dependency Command"); 
+        setLabel(Messages.getString("AddDependencyElementLinkCommand.addDependency"));  //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

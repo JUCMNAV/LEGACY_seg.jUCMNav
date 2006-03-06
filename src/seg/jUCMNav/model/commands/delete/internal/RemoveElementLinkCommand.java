@@ -8,6 +8,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -27,7 +28,7 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
     public RemoveElementLinkCommand(ElementLink link) {
         this.link = link;
         urn = link.getGrlspec().getUrnspec();
-        setLabel("RemoveElementLinkCommand");
+        setLabel(Messages.getString("RemoveElementLinkCommand.removeElementLink")); //$NON-NLS-1$
     }
 
     /**

@@ -289,19 +289,19 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 
                 String color;
                 if (evaluation.getEvaluation() == 0){
-                    color = "255,255,0";
+                    color = "255,255,0"; //$NON-NLS-1$
                 } else {
                     int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
                     if (evaluation.getEvaluation() < 0){
-                        color = "255," + partial + ",0";
+                        color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
                     } else{
-                        color = partial + ",255,0";
+                        color = partial + ",255,0"; //$NON-NLS-1$
                     }
                 }
-                ((IntentionalElementFigure) figure).setColors("75,75,75", color, true);
+                ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
                 String text = String.valueOf(evaluation.getEvaluation());
                 if (evaluation.getStrategies() != null){
-                    text = text + "*";
+                    text = text + "*"; //$NON-NLS-1$
                 }
                 evaluationLabel.setText(text);
                 Point position = getNodeFigure().getLocation();
@@ -316,15 +316,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 }
                 //Set the label icon
                 if (evaluation.getEvaluation() == -100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();    
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();     //$NON-NLS-1$
                 } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage();
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage(); //$NON-NLS-1$
                 } else if (evaluation.getEvaluation() == 0){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage();
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage(); //$NON-NLS-1$
                 } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage();
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage(); //$NON-NLS-1$
                 } else if (evaluation.getEvaluation() == 100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage();
+                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage(); //$NON-NLS-1$
                 } 
                 if (evaluationLabel != null){
                     evaluationLabel.setIcon(evaluationImg);

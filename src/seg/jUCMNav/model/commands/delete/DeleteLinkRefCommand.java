@@ -9,6 +9,7 @@ import grl.LinkRefBendpoint;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveLinkRefCommand;
 
@@ -30,7 +31,7 @@ public class DeleteLinkRefCommand extends CompoundCommand {
     public DeleteLinkRefCommand(LinkRef ref) {
         this.linkref = ref;
         this.link = linkref.getLink();
-        setLabel("Delete LinkRef");
+        setLabel(Messages.getString("DeleteLinkRefCommand.deleteLinkRef")); //$NON-NLS-1$
     }
     
     /**

@@ -161,14 +161,14 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         cboImageType.setLayoutData(data);
 
         lblFilenamePrefix = new Label(composite, SWT.NONE);
-        lblFilenamePrefix.setText("Filename Prefix:"); 
+        lblFilenamePrefix.setText(Messages.getString("ExportWizardMapSelectionPage.filenamePrefix"));  //$NON-NLS-1$
         data = new GridData();
         data.horizontalSpan = 1;
         data.horizontalAlignment = GridData.FILL;
         lblFilenamePrefix.setLayoutData(data);
         
         txtFilenamePrefix = new Text(composite, SWT.BORDER | SWT.SINGLE | SWT.LEFT);
-        txtFilenamePrefix.setText("");
+        txtFilenamePrefix.setText(""); //$NON-NLS-1$
         //txtFilenamePrefix.setText(ExportPreferenceHelper.getPath());
 
         data = new GridData();
@@ -373,8 +373,8 @@ public class ExportWizardMapSelectionPage extends WizardPage {
         if (mapsToExport.size() == 0 && ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
             setErrorMessage(Messages.getString("ExportImageWizardPage.noMapsSelected")); //$NON-NLS-1$
         } else if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN && 
-                txtFilenamePrefix.getText() == ""){ //txtFilenamePrefix is used only in export URN
-            setErrorMessage("Invalid filename");
+                txtFilenamePrefix.getText() == ""){ //txtFilenamePrefix is used only in export URN //$NON-NLS-1$
+            setErrorMessage(Messages.getString("ExportWizardMapSelectionPage.invalidFilename")); //$NON-NLS-1$
         }
 
         setPageComplete(getErrorMessage() == null && 

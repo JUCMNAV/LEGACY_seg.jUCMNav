@@ -7,6 +7,7 @@ import grl.Actor;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -28,7 +29,7 @@ public class RemoveActorCommand extends Command implements JUCMNavCommand {
      */
     public RemoveActorCommand(Actor actor) {
         setActorDef(actor);
-        setLabel("Delete Actor");
+        setLabel(Messages.getString("RemoveActorCommand.deleteActor")); //$NON-NLS-1$
     }
 
     /**

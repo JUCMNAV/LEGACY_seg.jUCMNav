@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveEvaluationStrategyCommand;
 
 /**
@@ -22,7 +23,7 @@ import seg.jUCMNav.model.commands.delete.internal.RemoveEvaluationStrategyComman
 public class DeleteEvaluationStrategyCommand extends CompoundCommand {
 
     public DeleteEvaluationStrategyCommand(EvaluationStrategy strategy) {
-        setLabel("Delete EvaluationStrategy"); 
+        setLabel(Messages.getString("DeleteEvaluationStrategyCommand.deleteEvaluationStrategy"));  //$NON-NLS-1$
         
         for (Iterator iter = strategy.getEvaluations().iterator(); iter.hasNext();){
             Evaluation eval = (Evaluation)iter.next();

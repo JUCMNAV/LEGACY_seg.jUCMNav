@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveActorCommand;
 import urn.URNlink;
 
@@ -25,7 +26,7 @@ public class DeleteActorCommand extends CompoundCommand{
      *          the ActorRef to delete
      */
     public DeleteActorCommand(Actor actor) {
-        setLabel("Delete Actor");
+        setLabel(Messages.getString("DeleteActorCommand.deleteActor")); //$NON-NLS-1$
         
         //Remove the URNlinks
         for (Iterator it = actor.getFromLinks().iterator(); it.hasNext();){

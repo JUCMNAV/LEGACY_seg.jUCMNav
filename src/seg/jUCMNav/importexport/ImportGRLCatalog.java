@@ -100,49 +100,49 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     //SAXParser function
     public void startElement(String namespaceURI, String lName, String qName, 
             Attributes attrs) throws SAXException {
-        if (qName == "grl-catalog"){//Root element
+        if (qName == "grl-catalog"){//Root element //$NON-NLS-1$
             //Create a new GRLGraph in the urnspec
             CreateGrlGraphCommand graphCmd = new CreateGrlGraphCommand(urn);
             
             if (graphCmd.canExecute()){
                 graph = graphCmd.getDiagram();
                 graphCmd.execute();
-                graph.setDescription(attrs.getValue("description"));
-                if (attrs.getValue("name") != null){
-                    graph.setName(attrs.getValue("name"));
+                graph.setDescription(attrs.getValue("description")); //$NON-NLS-1$
+                if (attrs.getValue("name") != null){ //$NON-NLS-1$
+                    graph.setName(attrs.getValue("name")); //$NON-NLS-1$
                 }
                 
             } else{
-                throw new SAXException("Could not create a GrlGraph");
+                throw new SAXException("Could not create a GrlGraph"); //$NON-NLS-1$
             }
-        } else if (qName == "intentional-element"){ 
+        } else if (qName == "intentional-element"){  //$NON-NLS-1$
             //Create the intentional element 
-            IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type"));
+            IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type")); //$NON-NLS-1$
             IntentionalElementRef ref = (IntentionalElementRef)ModelCreationFactory.getNewObject(urn,IntentionalElementRef.class, type.getValue());
             
             AddIntentionalElementRefCommand elementCmd = new AddIntentionalElementRefCommand(graph, ref);
             if (elementCmd.canExecute()){
                 elementCmd.execute();
                 //Set the definition properties define in the catalog
-                ref.getDef().setDecompositionType(DecompositionType.get(attrs.getValue("decompositiontype")));
-                ref.getDef().setName(attrs.getValue("name"));
-                ref.getDef().setDescription(attrs.getValue("description"));
+                ref.getDef().setDecompositionType(DecompositionType.get(attrs.getValue("decompositiontype"))); //$NON-NLS-1$
+                ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+                ref.getDef().setDescription(attrs.getValue("description")); //$NON-NLS-1$
                 
                 //Verify for name conflict
                 URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
                 
                 //Add the new element in the hashmap for reference from links
-                map.put(attrs.getValue("id"),ref.getDef());
+                map.put(attrs.getValue("id"),ref.getDef()); //$NON-NLS-1$
             }else{
-                throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name"));
+                throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-        } else if (qName == "dependency"){ 
+        } else if (qName == "dependency"){  //$NON-NLS-1$
             //Create a dependency between the 2 elements
-            IntentionalElement dependee = (IntentionalElement)map.get(attrs.getValue("dependeeid"));
-            IntentionalElement depender = (IntentionalElement)map.get(attrs.getValue("dependerid"));
+            IntentionalElement dependee = (IntentionalElement)map.get(attrs.getValue("dependeeid")); //$NON-NLS-1$
+            IntentionalElement depender = (IntentionalElement)map.get(attrs.getValue("dependerid")); //$NON-NLS-1$
             
             if (dependee == null || depender == null){
-                throw new SAXException("Invalid intentional element id in dependency");
+                throw new SAXException("Invalid intentional element id in dependency"); //$NON-NLS-1$
             }
             Dependency depend = (Dependency)ModelCreationFactory.getNewObject(urn,Dependency.class);
             CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, depender, depend);
@@ -150,37 +150,37 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             if (linkCmd.canExecute()){
                 linkCmd.execute();
                 //Set the name and description
-                depend.setName(attrs.getValue("name"));
-                depend.setDescription(attrs.getValue("description"));
+                depend.setName(attrs.getValue("name")); //$NON-NLS-1$
+                depend.setDescription(attrs.getValue("description")); //$NON-NLS-1$
             } else {
-                throw new SAXException("Could not create Dependency");
+                throw new SAXException("Could not create Dependency"); //$NON-NLS-1$
             }
-        } else if (qName == "decomposition"){ 
+        } else if (qName == "decomposition"){  //$NON-NLS-1$
             //Create a decomposition between the 2 elements
-            IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid"));
-            IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid"));
+            IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid")); //$NON-NLS-1$
+            IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid")); //$NON-NLS-1$
             
             if (src == null || dest == null){
-                throw new SAXException("Invalid intentional element id in decomposition");
+                throw new SAXException("Invalid intentional element id in decomposition"); //$NON-NLS-1$
             }
             Decomposition decomp = (Decomposition)ModelCreationFactory.getNewObject(urn,Decomposition.class);
             CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, decomp);
             linkCmd.setTarget(dest);
             if (linkCmd.canExecute()){
                 //Set the name and description
-                decomp.setName(attrs.getValue("name"));
-                decomp.setDescription(attrs.getValue("description"));
+                decomp.setName(attrs.getValue("name")); //$NON-NLS-1$
+                decomp.setDescription(attrs.getValue("description")); //$NON-NLS-1$
                 linkCmd.execute();
             } else {
-                throw new SAXException("Could not create Decomposition");
+                throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
             }
-        } else if (qName == "contribution"){ 
+        } else if (qName == "contribution"){  //$NON-NLS-1$
             //Create a contribution between the 2 elements
-            IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid"));
-            IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid"));
+            IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid")); //$NON-NLS-1$
+            IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid")); //$NON-NLS-1$
             
             if (src == null || dest == null){
-                throw new SAXException("Invalid intentional element id in contribution");
+                throw new SAXException("Invalid intentional element id in contribution"); //$NON-NLS-1$
             }
             Contribution contrib = (Contribution)ModelCreationFactory.getNewObject(urn,Contribution.class);
             CreateElementLinkCommand linkCmd = new CreateElementLinkCommand(urn, src, contrib);
@@ -188,18 +188,18 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             if (linkCmd.canExecute()){
                 linkCmd.execute();
                 //Set the name and description
-                contrib.setName(attrs.getValue("name"));
-                contrib.setDescription(attrs.getValue("description"));
+                contrib.setName(attrs.getValue("name")); //$NON-NLS-1$
+                contrib.setDescription(attrs.getValue("description")); //$NON-NLS-1$
                 //Set the contribution type
-                contrib.setContribution(ContributionType.get(attrs.getValue("contributiontype")));
+                contrib.setContribution(ContributionType.get(attrs.getValue("contributiontype"))); //$NON-NLS-1$
                 //Set the correlation
-                if (attrs.getValue("correlation") == "true"){
+                if (attrs.getValue("correlation") == "true"){ //$NON-NLS-1$ //$NON-NLS-2$
                     contrib.setCorrelation(true);
                 }else{
                     contrib.setCorrelation(false);
                 }
             } else {
-                throw new SAXException("Could not create Decomposition");
+                throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
             }
         }
     }

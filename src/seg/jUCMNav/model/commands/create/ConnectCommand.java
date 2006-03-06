@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -51,7 +52,7 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
             urn = left.getDiagram().getUrndefinition().getUrnspec();
         }
         
-        setLabel("Connect");
+        setLabel(Messages.getString("ConnectCommand.connect")); //$NON-NLS-1$
     }
 
     /**

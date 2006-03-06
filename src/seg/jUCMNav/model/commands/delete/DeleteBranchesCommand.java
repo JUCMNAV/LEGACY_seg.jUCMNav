@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PostPathManipulationCommand;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.PrePathManipulationCommand;
@@ -23,7 +24,7 @@ import ucm.map.Stub;
 public class DeleteBranchesCommand extends CompoundCommand {
 
     public DeleteBranchesCommand(PathNode pn, DoesDisconnectImplyDelete verification, Map editpartregistry) {
-        setLabel("Delete Branches");
+        setLabel(Messages.getString("DeleteBranchesCommand.deleteBranches")); //$NON-NLS-1$
         if (verification.shouldDeleteNode() || verification.shouldReplaceWithEmpty()) {
             add(new PreDeleteUrnModelElementCommand(pn));
             add(new PrePathManipulationCommand(pn, verification.getNcInToRemove(), verification.getNcOutToRemove(), editpartregistry, true));

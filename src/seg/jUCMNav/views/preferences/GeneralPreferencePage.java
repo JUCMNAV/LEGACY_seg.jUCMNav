@@ -20,8 +20,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
     public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR"; //$NON-NLS-1$
-    public static final String PREF_LINKREFLABELCOLOR = "PREF_LINKREFLABELCOLOR";
-    public static final String PREF_AUTHOR = "PREF_AUTHOR";
+    public static final String PREF_LINKREFLABELCOLOR = "PREF_LINKREFLABELCOLOR"; //$NON-NLS-1$
+    public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
 
     
     public GeneralPreferencePage() {
@@ -40,10 +40,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         addField(stubLabelColor);
         ColorFieldEditor conditionLabelColor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(conditionLabelColor);
-        ColorFieldEditor decompositionLabelColor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, "GRL Link Label Color", getFieldEditorParent());
+        ColorFieldEditor decompositionLabelColor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.GrlLinkLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(decompositionLabelColor);
         
-        StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, "Author Name", getFieldEditorParent());
+        StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
     }
 
@@ -59,6 +59,6 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @return the Author
      */
     public static String getAuthor() {
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getString("PREF_AUTHOR");
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getString("PREF_AUTHOR"); //$NON-NLS-1$
     }
 }

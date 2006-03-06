@@ -11,7 +11,7 @@ import org.eclipse.ui.IPerspectiveFactory;
  */
 public class UCMPerspectiveFactory implements IPerspectiveFactory {
 
-	public final static String JUCMNAV_PERSPECTIVE_ID = "seg.jUCMNav.UCMEditor";
+	public final static String JUCMNAV_PERSPECTIVE_ID = "seg.jUCMNav.UCMEditor"; //$NON-NLS-1$
 
 
 	/**
@@ -32,10 +32,10 @@ public class UCMPerspectiveFactory implements IPerspectiveFactory {
 		bottomLeft.addView(IPageLayout.ID_OUTLINE);
 		bottomLeft.addView("seg.jUCMNav.views.ElementView"); //$NON-NLS-1$
 
-		IFolderLayout bottomMiddle = layout.createFolder("bottomMiddle", IPageLayout.BOTTOM, 0.75f, editorArea);
+		IFolderLayout bottomMiddle = layout.createFolder("bottomMiddle", IPageLayout.BOTTOM, 0.75f, editorArea); //$NON-NLS-1$
 		bottomMiddle.addView("seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
 
-		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.RIGHT, 0.34f, "bottomMiddle");
+		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.RIGHT, 0.34f, "bottomMiddle"); //$NON-NLS-1$ //$NON-NLS-2$
 		bottomRight.addView(IPageLayout.ID_PROP_SHEET);
 
 	}

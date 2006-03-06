@@ -19,7 +19,7 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
     private URNspec urn;
     
     public RemoveGRLGraphCommand(GRLGraph graph) {
-        setLabel("Remove GRLGraph");
+        setLabel("Remove GRLGraph"); //$NON-NLS-1$
         diagram = graph;
     }
 

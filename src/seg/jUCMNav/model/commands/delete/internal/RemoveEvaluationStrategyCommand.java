@@ -26,7 +26,7 @@ public class RemoveEvaluationStrategyCommand extends Command implements JUCMNavC
      */
     public RemoveEvaluationStrategyCommand(EvaluationStrategy strategy) {
         this.strategy = strategy;
-        setLabel("RemoveEvaluationStrategyCommand");       
+        setLabel("RemoveEvaluationStrategyCommand");        //$NON-NLS-1$
     }
     
     /**

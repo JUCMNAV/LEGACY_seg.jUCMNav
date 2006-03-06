@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddUrnLinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
@@ -40,9 +41,9 @@ import urncore.URNmodelElement;
 public class URNLinksDialog {
 
     //List of element type where links are available (to fill combo box)
-    private static final String COMPONENT = "Component";
-    private static final String RESPONSIBILITY = "Responsibility";
-    private static final String MAP = "Map";
+    private static final String COMPONENT = Messages.getString("URNLinksDialog.component"); //$NON-NLS-1$
+    private static final String RESPONSIBILITY = Messages.getString("URNLinksDialog.responsibility"); //$NON-NLS-1$
+    private static final String MAP = Messages.getString("URNLinksDialog.map"); //$NON-NLS-1$
     
     private Shell sURNLinks = null;  //  @jve:decl-index=0:visual-constraint="10,10"
     private Group group = null;
@@ -101,14 +102,14 @@ public class URNLinksDialog {
      */
     private void createSShell() {
         sURNLinks = new Shell(SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-        sURNLinks.setText("URN Links");
+        sURNLinks.setText("URN Links"); //$NON-NLS-1$
         sURNLinks.setSize(new org.eclipse.swt.graphics.Point(434,349));
         createGroup();
         createGroupCurrentLink();
         createGroupAddLink();
         buttonClose = new Button(sURNLinks, SWT.NONE);
         buttonClose.setBounds(new org.eclipse.swt.graphics.Rectangle(302,275,121,40));
-        buttonClose.setText("Close");
+        buttonClose.setText(Messages.getString("URNLinksDialog.close")); //$NON-NLS-1$
         buttonClose.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
             public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
                 sURNLinks.close();
@@ -121,31 +122,31 @@ public class URNLinksDialog {
      */
     private void createGroup() {
         group = new Group(sURNLinks, SWT.NONE);
-        group.setText("GRL Element");
+        group.setText(Messages.getString("URNLinksDialog.grlElement")); //$NON-NLS-1$
         group.setBounds(new org.eclipse.swt.graphics.Rectangle(3,2,419,75));
         lblName = new CLabel(group, SWT.NONE);
-        lblName.setText("Name:");
-        lblName.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD));
+        lblName.setText(Messages.getString("URNLinksDialog.name")); //$NON-NLS-1$
+        lblName.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD)); //$NON-NLS-1$
         lblName.setBounds(new org.eclipse.swt.graphics.Rectangle(8,15,50,22));
         lblType = new CLabel(group, SWT.NONE);
-        lblType.setText("Type:");
-        lblType.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD));
+        lblType.setText(Messages.getString("URNLinksDialog.type")); //$NON-NLS-1$
+        lblType.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD)); //$NON-NLS-1$
         lblType.setBounds(new org.eclipse.swt.graphics.Rectangle(263,14,37,19));
         lblDescription = new CLabel(group, SWT.NONE);
-        lblDescription.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD));
+        lblDescription.setFont(new Font(Display.getDefault(), "Tahoma", 8, SWT.BOLD)); //$NON-NLS-1$
         lblDescription.setLocation(new org.eclipse.swt.graphics.Point(8,41));
-        lblDescription.setText("Description:");
+        lblDescription.setText(Messages.getString("URNLinksDialog.description")); //$NON-NLS-1$
         lblDescription.setSize(new org.eclipse.swt.graphics.Point(80,22));
         cLabelGrlName = new CLabel(group, SWT.SHADOW_IN);
-        cLabelGrlName.setText("");
+        cLabelGrlName.setText(""); //$NON-NLS-1$
         cLabelGrlName.setLocation(new org.eclipse.swt.graphics.Point(66,15));
         cLabelGrlName.setSize(new org.eclipse.swt.graphics.Point(189,23));
         cLabelGrlDescription = new CLabel(group, SWT.SHADOW_IN);
-        cLabelGrlDescription.setText("");
+        cLabelGrlDescription.setText(""); //$NON-NLS-1$
         cLabelGrlDescription.setLocation(new org.eclipse.swt.graphics.Point(95,41));
         cLabelGrlDescription.setSize(new org.eclipse.swt.graphics.Point(315,23));
         cLabelGrlType = new CLabel(group, SWT.SHADOW_IN);
-        cLabelGrlType.setText("");
+        cLabelGrlType.setText(""); //$NON-NLS-1$
         cLabelGrlType.setLocation(new org.eclipse.swt.graphics.Point(306,14));
         cLabelGrlType.setSize(new org.eclipse.swt.graphics.Point(103,23));
     }
@@ -155,7 +156,7 @@ public class URNLinksDialog {
      */
     private void createGroupCurrentLink() {
         groupCurrentLink = new Group(sURNLinks, SWT.NONE);
-        groupCurrentLink.setText("URN Links");
+        groupCurrentLink.setText(Messages.getString("URNLinksDialog.urnLinks")); //$NON-NLS-1$
         groupCurrentLink.setBounds(new org.eclipse.swt.graphics.Rectangle(5,86,175,233));
         listLinks = new List(groupCurrentLink, SWT.V_SCROLL | SWT.H_SCROLL);
         listLinks.setBounds(new org.eclipse.swt.graphics.Rectangle(5,16,163,170));    
@@ -169,7 +170,7 @@ public class URNLinksDialog {
         buttonDeleteLink = new Button(groupCurrentLink, SWT.NONE);
         buttonDeleteLink.setBounds(new org.eclipse.swt.graphics.Rectangle(5,192,79,30));
         buttonDeleteLink.setEnabled(false);
-        buttonDeleteLink.setText("Delete Link");
+        buttonDeleteLink.setText(Messages.getString("URNLinksDialog.deleteLink")); //$NON-NLS-1$
         buttonDeleteLink.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
             public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
                 deleteLink(); 
@@ -182,21 +183,21 @@ public class URNLinksDialog {
      */
     private void createGroupAddLink() {
         groupAddLink = new Group(sURNLinks, SWT.NONE);
-        groupAddLink.setText("Add Link to UCM Element");
+        groupAddLink.setText(Messages.getString("URNLinksDialog.addLinkToUcm")); //$NON-NLS-1$
         groupAddLink.setBounds(new org.eclipse.swt.graphics.Rectangle(183,85,241,173));
         cLabelUcmType = new CLabel(groupAddLink, SWT.NONE);
-        cLabelUcmType.setText("Element Type:");
+        cLabelUcmType.setText(Messages.getString("URNLinksDialog.elementType")); //$NON-NLS-1$
         cLabelUcmType.setBounds(new org.eclipse.swt.graphics.Rectangle(9,15,81,24));
         createComboUcmType();
         cLabelUcmElement = new CLabel(groupAddLink, SWT.NONE);
-        cLabelUcmElement.setText("UCM Element:");
+        cLabelUcmElement.setText(Messages.getString("URNLinksDialog.ucmElement")); //$NON-NLS-1$
         cLabelUcmElement.setLocation(new org.eclipse.swt.graphics.Point(9,66));
         cLabelUcmElement.setSize(new org.eclipse.swt.graphics.Point(75,19));
         createComboUcmElement();
         buttonAddLink = new Button(groupAddLink, SWT.NONE);
         buttonAddLink.setBounds(new org.eclipse.swt.graphics.Rectangle(10,127,88,33));
         buttonAddLink.setEnabled(false);
-        buttonAddLink.setText("Add Link");
+        buttonAddLink.setText(Messages.getString("URNLinksDialog.addLink")); //$NON-NLS-1$
         buttonAddLink.addSelectionListener(new org.eclipse.swt.events.SelectionAdapter() {
             public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
                 createLink();
@@ -279,7 +280,7 @@ public class URNLinksDialog {
             cLabelGrlType.setText(((IntentionalElement)fromElement).getType().getName());
             urn = ((IntentionalElement)fromElement).getGrlspec().getUrnspec();
         } else if (fromElement instanceof Actor){
-            cLabelGrlType.setText("Actor");
+            cLabelGrlType.setText(Messages.getString("URNLinksDialog.actor")); //$NON-NLS-1$
             urn = ((Actor)fromElement).getGrlspec().getUrnspec();
         } 
     }
@@ -295,7 +296,7 @@ public class URNLinksDialog {
             for (Iterator it = urn.getUrndef().getComponents().iterator(); it.hasNext();){
                 ComponentElement comp = (ComponentElement)it.next();
                 if (comp.getToLinks().size() == 0){
-                    comboUcmElement.add(comp.getName() + " (" + comp.getId() + ")");
+                    comboUcmElement.add(comp.getName() + " (" + comp.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
                     ucmelements.add(comp);
                 }
             }
@@ -304,7 +305,7 @@ public class URNLinksDialog {
             for (Iterator it = urn.getUrndef().getResponsibilities().iterator(); it.hasNext();){
                 Responsibility resp = (Responsibility)it.next();
                 if (resp.getToLinks().size() == 0){
-                    comboUcmElement.add(resp.getName() + " (" + resp.getId() + ")");
+                    comboUcmElement.add(resp.getName() + " (" + resp.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
                     ucmelements.add(resp);
                 }
             }            
@@ -312,7 +313,7 @@ public class URNLinksDialog {
             for (Iterator it = urn.getUrndef().getSpecDiagrams().iterator(); it.hasNext();){
                 IURNDiagram map = (IURNDiagram)it.next();
                 if (map instanceof UCMmap && (((UCMmap)map).getToLinks().size() == 0)){
-                    comboUcmElement.add(((UCMmap)map).getName()  + " (" + ((UCMmap)map).getId() + ")");
+                    comboUcmElement.add(((UCMmap)map).getName()  + " (" + ((UCMmap)map).getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
                     ucmelements.add(map);
                 }
             }                 
@@ -364,8 +365,8 @@ public class URNLinksDialog {
      *
      */
     private void refresh(){
-        comboUcmElement.setText("");
-        comboUcmType.setText("");
+        comboUcmElement.setText(""); //$NON-NLS-1$
+        comboUcmType.setText(""); //$NON-NLS-1$
         refreshListLink();
     }
     
@@ -381,7 +382,7 @@ public class URNLinksDialog {
         for (Iterator it = fromElement.getFromLinks().iterator(); it.hasNext();){
             URNlink link = (URNlink)it.next();
             listLinks.add(link.getToElem().getName() + 
-                    " (" + link.getToElem().getId() + ")");
+                    " (" + link.getToElem().getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
             urnlinks.add(link);
         }
         buttonDeleteLink.setEnabled(false);

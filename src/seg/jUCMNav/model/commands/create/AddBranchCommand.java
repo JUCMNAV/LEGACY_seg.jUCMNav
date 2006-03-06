@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
@@ -53,7 +54,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
     public AddBranchCommand(PathNode insertionNode, boolean inCompoundCommand) {
         this.insertionNode = insertionNode;
         this.inCompoundCommand = inCompoundCommand;
-        setLabel("Add Branch");
+        setLabel(Messages.getString("AddBranchCommand.addBranch")); //$NON-NLS-1$
     }
 
     /**
@@ -62,7 +63,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
      */
     public AddBranchCommand(PathNode insertionNode) {
         this.insertionNode = insertionNode;
-        setLabel("Add Branch");
+        setLabel(Messages.getString("AddBranchCommand.addBranch")); //$NON-NLS-1$
     }
 
     /**

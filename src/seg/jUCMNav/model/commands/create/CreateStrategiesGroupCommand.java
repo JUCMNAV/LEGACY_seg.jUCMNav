@@ -7,6 +7,7 @@ import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
@@ -29,7 +30,7 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
         this.urn = urn;
         
         group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
-        setLabel("Create StrategiesGroup");
+        setLabel(Messages.getString("CreateStrategiesGroupCommand.createStrategiesGroup")); //$NON-NLS-1$
     }
 
     /**

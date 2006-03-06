@@ -8,6 +8,7 @@ import grl.LinkRefBendpoint;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
@@ -30,7 +31,7 @@ public class AddLinkRefBendpointCommand extends Command implements JUCMNavComman
         this.index = index;
         x = 0;
         y = 0;
-        setLabel("Add LinkRefBenpoint");
+        setLabel(Messages.getString("AddLinkRefBendpointCommand.addLinkRefBendpoint")); //$NON-NLS-1$
     }
 
     /**

@@ -7,6 +7,7 @@ import grl.GRLGraph;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.CleanRelationshipsCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteGRLGraphRefDefLinksCommand;
 import urncore.IURNDiagram;
@@ -25,7 +26,7 @@ public class DeleteGRLGraphCommand extends CompoundCommand {
      * 
      */
     public DeleteGRLGraphCommand(GRLGraph diagram) {
-        setLabel("Delete GRLGraph");
+        setLabel(Messages.getString("DeleteGRLGraphCommand.deleteGrlGraph")); //$NON-NLS-1$
         setDiagram(diagram);
         
         add(new CleanRelationshipsCommand(diagram));

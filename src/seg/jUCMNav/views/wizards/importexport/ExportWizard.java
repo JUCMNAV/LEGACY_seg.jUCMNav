@@ -262,7 +262,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // generate the path.
             Path genericPath = new Path(ExportPreferenceHelper.getPreferenceStore().getString(ExportPreferenceHelper.PREF_PATH));
-            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getFilenamePrefix()); 
+            genericPath = (Path) genericPath.append("/" + ExportPreferenceHelper.getFilenamePrefix());  //$NON-NLS-1$
             genericPath = (Path) genericPath.addFileExtension(URNExportExtensionPointHelper.getFilenameExtension(id));
 
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
@@ -333,7 +333,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
         String filename = ExportPreferenceHelper.getFilenamePrefix();
         //((FileEditorInput) editor.getEditorInput()).getName();
         // remove the .jucm extension
-        if (filename.substring(filename.length() - 5).equals(".jucm")){
+        if (filename.substring(filename.length() - 5).equals(".jucm")){ //$NON-NLS-1$
             filename = filename.substring(0, filename.length() - 5);
         }
         return filename;

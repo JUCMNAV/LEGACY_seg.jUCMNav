@@ -10,6 +10,7 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -36,7 +37,7 @@ public class AddBeliefLinkCommand extends Command implements JUCMNavCommand{
         this.src = src;
         this.link = link;
         
-        setLabel("Add BeliefLink");
+        setLabel(Messages.getString("AddBeliefLinkCommand.addBeliefLink")); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -78,7 +79,7 @@ public class AddBeliefLinkCommand extends Command implements JUCMNavCommand{
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert graph != null : "pre graph";
+        assert graph != null : "pre graph"; //$NON-NLS-1$
         assert link != null : "pre Link"; //$NON-NLS-1$
         assert src != null: "pre src"; //$NON-NLS-1$
         assert elementDest != null: "pre elementDest"; //$NON-NLS-1$
@@ -92,7 +93,7 @@ public class AddBeliefLinkCommand extends Command implements JUCMNavCommand{
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert graph != null : "post graph";
+        assert graph != null : "post graph"; //$NON-NLS-1$
         assert link != null : "post Link"; //$NON-NLS-1$
         assert src != null: "post src"; //$NON-NLS-1$
         assert elementDest != null: "post elementDest"; //$NON-NLS-1$

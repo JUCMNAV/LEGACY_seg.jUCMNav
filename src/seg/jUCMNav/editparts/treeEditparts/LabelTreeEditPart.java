@@ -89,16 +89,16 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             list.addAll(root.getUrndef().getComponents());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             list.addAll(root.getUrndef().getResponsibilities());
-        else if (getLabel().equals("Intentional Element Definitions"))
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
             list.addAll(root.getGrlspec().getIntElements());
-        else if (getLabel().equals("Actor Definitions"))
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
             list.addAll(root.getGrlspec().getActors());
-        else if (getLabel().equals("UCM Definitions")){
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
-            list.add(Messages.getString("LabelTreeEditPart.responsibilities"));
-        } else if (getLabel().equals("GRL Definitions")){
-            list.add("Actor Definitions");
-            list.add("Intentional Element Definitions"); 
+            list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
+            list.add(Messages.getString("LabelTreeEditPart.actorDefs")); //$NON-NLS-1$
+            list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs"));  //$NON-NLS-1$
         }
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
@@ -121,14 +121,14 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.responsibilityDef"); //$NON-NLS-1$
-        } else if (getLabel().equals("Intentional Element Definitions")){
-            return "Intentional Element Definitions";
-        } else if (getLabel().equals("Actor Definitions")){
-            return "Actors Definitions";
-        } else if (getLabel().equals("UCM Definitions")){
-            return "UCM Definitions";
-        } else if (getLabel().equals("GRL Definitions")){
-            return "GRL Definitions";
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))){ //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.intentionalElementDefs"); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))){ //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.actorDefs"); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
         }
         else
             return null;
@@ -143,13 +143,13 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals("GRL Definitions"))
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")).createImage()); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals("UCM Definitions"))
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals("Actor Definitions"))
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif")).createImage()); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals("Intentional Element Definitions"))
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
 
         return super.getImage();

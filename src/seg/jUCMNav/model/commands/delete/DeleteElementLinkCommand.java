@@ -9,6 +9,7 @@ import grl.LinkRef;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveElementLinkCommand;
 
 /**
@@ -25,7 +26,7 @@ public class DeleteElementLinkCommand extends CompoundCommand {
      *          the elementLink to delete
      */
     public DeleteElementLinkCommand(ElementLink link) {
-        setLabel("Delete ElementLink");
+        setLabel(Messages.getString("DeleteElementLinkCommand.deleteElementLink")); //$NON-NLS-1$
         this.link = link;
     }
 

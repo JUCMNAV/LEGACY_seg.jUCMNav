@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNlink;
 import urn.URNspec;
@@ -34,7 +35,7 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
         this.from = fromElem;
         this.to = toElem;
         this.urn = urn;
-        setLabel("Add a URN Link");
+        setLabel(Messages.getString("AddUrnLinkCommand.addUrnLink")); //$NON-NLS-1$
     }
 
     /**

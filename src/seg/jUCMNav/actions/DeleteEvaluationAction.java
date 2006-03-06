@@ -12,6 +12,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.model.util.EvaluationStrategyManager;
 
@@ -21,7 +22,7 @@ import seg.jUCMNav.model.util.EvaluationStrategyManager;
  */
 public class DeleteEvaluationAction extends URNSelectionAction {
 
-    public static final String DELETEEVALUATION = "Delete User Evaluation";
+    public static final String DELETEEVALUATION = Messages.getString("DeleteEvaluationAction.DeleteUserEvaluation"); //$NON-NLS-1$
     private Evaluation evaluation;
     /**
      * @param part

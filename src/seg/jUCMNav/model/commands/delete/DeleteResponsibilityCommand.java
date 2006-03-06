@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveResponsibilityCommand;
 import urn.URNlink;
 import urncore.Responsibility;
@@ -17,7 +18,7 @@ import urncore.Responsibility;
 public class DeleteResponsibilityCommand extends CompoundCommand {
 
     public DeleteResponsibilityCommand(Responsibility resp) {
-        setLabel("DeleteResponsibilityCommand");
+        setLabel(Messages.getString("DeleteResponsibilityCommand.deleteResponsibilityCommand")); //$NON-NLS-1$
         
         //Remove the URNlinks
         for (Iterator it = resp.getFromLinks().iterator(); it.hasNext();){

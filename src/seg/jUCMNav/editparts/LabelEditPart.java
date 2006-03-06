@@ -356,7 +356,7 @@ public class LabelEditPart extends ModelElementEditPart {
                 if (ucmElem.getToLinks().size() > 0){
                     //If there is a link, add the icon if not already added
                     if (iconImg == null) {
-                        iconImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage();
+                        iconImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage(); //$NON-NLS-1$
                         labelFigure.setIcon(iconImg);
                     }
                     //Verify if there is an evaluation level if it is an IntentionalElement
@@ -369,17 +369,18 @@ public class LabelEditPart extends ModelElementEditPart {
                             int eval = EvaluationStrategyManager.getInstance().getEvaluation((IntentionalElement)grlElem);
                             labelFigure.setAdditionalText(String.valueOf(eval));
                         } else {
-                            labelFigure.setAdditionalText("");
+                            labelFigure.setAdditionalText(""); //$NON-NLS-1$
                         }
                     } else {
-                        labelFigure.setAdditionalText("");
+                        labelFigure.setAdditionalText(""); //$NON-NLS-1$
                     }
                 } else {
                     //Remove the icon and remove the additional text
                     if (iconImg != null) {
                         iconImg.dispose();
                         iconImg = null; 
-                        labelFigure.setAdditionalText("");
+                        labelFigure.setAdditionalText(""); //$NON-NLS-1$
+                        labelFigure.setIcon(null);
                     }
                     
                 }

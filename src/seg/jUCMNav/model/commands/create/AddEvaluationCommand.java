@@ -9,6 +9,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
@@ -30,7 +31,7 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
         this.element = elem;
         this.strategy = strategy;
         
-        setLabel("Add Evaluation");
+        setLabel(Messages.getString("AddEvaluationCommand.addEvaluation")); //$NON-NLS-1$
     }
 
     /**

@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.util.DoesDisconnectImplyDelete;
@@ -36,7 +37,7 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
         PathNode source = (PathNode)nc.getSource();
         PathNode target = (PathNode)nc.getTarget();
         
-        setLabel("Delete NodeConnection");
+        setLabel(Messages.getString("DeleteNodeConnectionCommand.deleteNodeConnection")); //$NON-NLS-1$
         
         if (source instanceof Stub || source instanceof OrFork || source instanceof AndFork || (source instanceof Timer && source.getSucc().indexOf(nc) == 1)) {
             Vector in = new Vector();

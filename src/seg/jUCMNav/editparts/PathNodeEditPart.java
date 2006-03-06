@@ -458,7 +458,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 //                    new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));
 //        } else{
             nodeFigure.setForegroundColor(
-                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0")));
+                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0"))); //$NON-NLS-1$
 //        }
     }
 

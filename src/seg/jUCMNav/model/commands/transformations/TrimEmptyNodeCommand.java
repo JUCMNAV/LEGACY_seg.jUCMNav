@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.EmptyPoint;
@@ -37,7 +38,7 @@ public class TrimEmptyNodeCommand extends CompoundCommand {
                 deleteIfPossible(pn);
             }
         }
-        setLabel("Trim Empty Node");
+        setLabel(Messages.getString("TrimEmptyNodeCommand.trimEmptyNode")); //$NON-NLS-1$
 
     }
 

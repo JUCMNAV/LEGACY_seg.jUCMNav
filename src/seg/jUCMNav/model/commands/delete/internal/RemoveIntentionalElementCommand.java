@@ -7,6 +7,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -30,7 +31,7 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
      */
     public RemoveIntentionalElementCommand(IntentionalElement intentionalelement) {
         this.element = intentionalelement;
-        setLabel("RemoveIntentionalElementCommand"); //$NON-NLS-1
+        setLabel(Messages.getString("RemoveIntentionalElementCommand.removeIntentionalElement")); //$NON-NLS-1 //$NON-NLS-1$
     }
 
     /**

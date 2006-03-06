@@ -298,7 +298,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             
             //Set the contribution Label
             String type = contrib.getContribution().getName();
-            if (!type.equals("Unknown")){
+            if (!type.equals("Unknown")){ //$NON-NLS-1$
                 contributionLabel.setText(type);
                 
                 if (img != null) {
@@ -306,18 +306,18 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                     img = null;
                 }
                 //Set the icon
-                if (type.equals("Make")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Make.gif")).createImage();
-                } else if (type.equals("Help")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Help.gif")).createImage();
-                } else if (type.equals("SomePositive")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomePositive.gif")).createImage();
-                } else if (type.equals("SomeNegative")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomeNegative.gif")).createImage();
-                } else if (type.equals("Hurt")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Hurt.gif")).createImage();
-                } else if (type.equals("Break")){
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage();
+                if (type.equals("Make")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Make.gif")).createImage(); //$NON-NLS-1$
+                } else if (type.equals("Help")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Help.gif")).createImage(); //$NON-NLS-1$
+                } else if (type.equals("SomePositive")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomePositive.gif")).createImage(); //$NON-NLS-1$
+                } else if (type.equals("SomeNegative")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomeNegative.gif")).createImage(); //$NON-NLS-1$
+                } else if (type.equals("Hurt")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Hurt.gif")).createImage(); //$NON-NLS-1$
+                } else if (type.equals("Break")){ //$NON-NLS-1$
+                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage(); //$NON-NLS-1$
                 }
                 if (img != null){
                     contributionLabel.setIcon(img);

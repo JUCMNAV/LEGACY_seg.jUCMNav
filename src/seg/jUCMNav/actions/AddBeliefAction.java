@@ -10,6 +10,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.transformations.AddBeliefToIntentionalElementRefCommand;
 
 /**
@@ -20,7 +21,7 @@ import seg.jUCMNav.model.commands.transformations.AddBeliefToIntentionalElementR
  */
 public class AddBeliefAction extends URNSelectionAction {
 
-    public static final String ADDBELIEF = "Add Belief";
+    public static final String ADDBELIEF = Messages.getString("AddBeliefAction.AddBelief"); //$NON-NLS-1$
     private IntentionalElementRef selection;
     
     /**

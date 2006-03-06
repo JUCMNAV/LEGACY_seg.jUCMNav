@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import ucm.map.AndFork;
@@ -54,7 +55,7 @@ public class DividePathCommand extends CompoundCommand {
         add(new SplitLinkCommand((UCMmap)startOrEnd.getDiagram(), empty, ncTarget, x, y));
 
         createAndInsert(startOrEnd, empty, isOrDivision);
-        setLabel("Divide Path");
+        setLabel(Messages.getString("DividePathCommand.dividePath")); //$NON-NLS-1$
     }
 
     /**

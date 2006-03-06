@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 
 /**
@@ -42,7 +43,7 @@ public class CreateElementLinkCommand extends CompoundCommand {
         } else{
             add(new AddStandardElementLinkCommand(urn, source, link));
         }
-        setLabel("Create ElementLink");
+        setLabel(Messages.getString("CreateElementLinkCommand.createElementLink")); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)

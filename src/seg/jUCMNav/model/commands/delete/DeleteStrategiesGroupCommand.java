@@ -7,6 +7,7 @@ import grl.StrategiesGroup;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -27,7 +28,7 @@ public class DeleteStrategiesGroupCommand extends Command implements JUCMNavComm
      */
     public DeleteStrategiesGroupCommand(StrategiesGroup group) {
         this.group = group;
-        setLabel("Delete StrategiesGroup");
+        setLabel(Messages.getString("DeleteStrategiesGroupCommand.deleteStrategiesGroup")); //$NON-NLS-1$
     }
 
     /**

@@ -337,7 +337,7 @@ public class ModelCreationFactory implements CreationFactory {
                     //Set the author to the author specify in the preferences
                     ((Belief)result).setAuthor(GeneralPreferencePage.getAuthor());
                     //New belief description should be set to "" by default (because we use it in the description
-                    ((Belief) result).setDescription("");
+                    ((Belief) result).setDescription(""); //$NON-NLS-1$
                 }
                 else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$

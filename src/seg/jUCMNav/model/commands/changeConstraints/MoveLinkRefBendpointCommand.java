@@ -8,6 +8,7 @@ import grl.LinkRefBendpoint;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
@@ -34,7 +35,7 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
         this.newY = y;
         this.link = oldBendpoint.getLinkref();
         this.index = link.getBendpoints().indexOf(oldBendpoint);
-        setLabel("Move LinkRefBendpoint");
+        setLabel(Messages.getString("MoveLinkRefBendpointCommand.moveLinkRefBendpoint")); //$NON-NLS-1$
     }
 
     /**

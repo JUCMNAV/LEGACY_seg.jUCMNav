@@ -9,6 +9,7 @@ import grl.IntentionalElement;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.EvaluationStrategyManager;
@@ -30,7 +31,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
      */
     public DeleteEvaluationCommand(Evaluation eval) {
         this.evaluation = eval;
-        setLabel("Delete Evaluation");
+        setLabel(Messages.getString("DeleteEvaluationCommand.deleteEvaluation")); //$NON-NLS-1$
     }
     
     /**

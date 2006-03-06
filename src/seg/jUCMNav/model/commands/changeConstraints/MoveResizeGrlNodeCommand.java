@@ -9,6 +9,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import urncore.IURNContainerRef;
@@ -36,7 +37,7 @@ public class MoveResizeGrlNodeCommand extends Command implements JUCMNavCommand 
             setNewX(x);
             setNewY(y);
 
-            setLabel("MoveResizeGrlNode");
+            setLabel(Messages.getString("MoveResizeGrlNodeCommand.moveResizeGrlNode")); //$NON-NLS-1$
 
     }
 

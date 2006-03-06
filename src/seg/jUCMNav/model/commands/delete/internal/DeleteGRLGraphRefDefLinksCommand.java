@@ -38,7 +38,7 @@ public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
      */
     public DeleteGRLGraphRefDefLinksCommand(GRLGraph diagram) {
         this.graph = diagram;
-        setLabel("DeleteGRLGraphRefDefLinksCommand");
+        setLabel("DeleteGRLGraphRefDefLinksCommand"); //$NON-NLS-1$
     }
 
     /**

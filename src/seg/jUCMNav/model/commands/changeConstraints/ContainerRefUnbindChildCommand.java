@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -33,7 +34,7 @@ public class ContainerRefUnbindChildCommand extends Command implements JUCMNavCo
         this.parent = parent;
         this.children = new Vector();
         this.children.add(child);
-        setLabel("Unbind Container Reference");
+        setLabel(Messages.getString("ContainerRefUnbindChildCommand.unbindContainerReference")); //$NON-NLS-1$
     }
 
     /**

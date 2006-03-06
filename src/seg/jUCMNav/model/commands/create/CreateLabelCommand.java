@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
@@ -33,7 +34,7 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
      */
     public CreateLabelCommand(UCMmodelElement elem) {
         modelElement = elem;
-        setLabel("Create Label");
+        setLabel(Messages.getString("CreateLabelCommand.createLabel")); //$NON-NLS-1$
     }
 
     /**

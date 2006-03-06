@@ -12,6 +12,8 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
+
 /**
  * This command is used to create all LinkRef from an intentionalElementRef to other intentionalElementRef
  * that are not already in the GRLGraph. Use when modifying the definition of an intentionalElementRef or 
@@ -29,7 +31,7 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
      *      The IntentionalElementReference
      */
     public CreateAllLinkRefCommand(IntentionalElementRef element) {
-        setLabel("Create All LinkRefs");
+        setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
         
         GRLGraph graph = (GRLGraph)element.getDiagram();
         for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();){

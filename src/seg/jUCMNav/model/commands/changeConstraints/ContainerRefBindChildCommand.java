@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.Connect;
 import urncore.IURNContainerRef;
@@ -43,7 +44,7 @@ public class ContainerRefBindChildCommand extends Command implements JUCMNavComm
             if (!(o instanceof Connect))
                 this.children.add(o);
         }
-        setLabel("Bind Container Reference");
+        setLabel(Messages.getString("ContainerRefBindChildCommand.bindContainerReference")); //$NON-NLS-1$
 
     }
 

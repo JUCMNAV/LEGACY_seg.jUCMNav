@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -30,7 +31,7 @@ public class SetConstraintCommand extends CompoundCommand {
      *            the new Y
      */
     public SetConstraintCommand(IURNNode node, int x, int y) {
-        setLabel("Set Node Constraints");
+        setLabel(Messages.getString("SetConstraintCommand.setNodeConstraints")); //$NON-NLS-1$
         add(new MoveNodeCommand(node, x, y));
 
         if (node.getPred().size() > 0) {
@@ -67,7 +68,7 @@ public class SetConstraintCommand extends CompoundCommand {
      *            the new height           
      */
     public SetConstraintCommand(GRLNode node, int x, int y) {
-        setLabel("Set Node Constraints");
+        setLabel(Messages.getString("SetConstraintCommand.setNodeConstraints")); //$NON-NLS-1$
         add(new MoveResizeGrlNodeCommand(node, x, y));
 
         if (node.getPred().size() > 0) {

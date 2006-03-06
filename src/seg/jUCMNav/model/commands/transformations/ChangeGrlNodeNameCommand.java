@@ -10,6 +10,7 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urncore.URNmodelElement;
@@ -32,7 +33,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     public ChangeGrlNodeNameCommand(GRLNode node, String name) {
         this.elem = node;
         this.name = name;
-        setLabel("Change GRLNode Name");
+        setLabel(Messages.getString("ChangeGrlNodeNameCommand.changeGrlNodeName")); //$NON-NLS-1$
     }
 
     /**

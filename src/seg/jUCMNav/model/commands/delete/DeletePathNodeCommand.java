@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.delete.internal.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.internal.PostPathManipulationCommand;
@@ -39,7 +40,7 @@ public class DeletePathNodeCommand extends CompoundCommand {
     public DeletePathNodeCommand(PathNode pn, java.util.Map editpartregistry) {
         this.pn = pn;
         this.editpartregistry = editpartregistry;
-        setLabel("Delete PathNode");
+        setLabel(Messages.getString("DeletePathNodeCommand.deletePathNode")); //$NON-NLS-1$
     }
 
     /**

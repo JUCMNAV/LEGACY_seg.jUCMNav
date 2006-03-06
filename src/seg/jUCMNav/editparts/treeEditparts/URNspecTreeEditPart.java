@@ -7,6 +7,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 
 /**
@@ -70,8 +71,8 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
         //We want to keep the spec diagram in the order of the tabs
         //Collections.sort(list, new EObjectClassNameComparator());
         //Instead of having all type of definition in the main category, we divided defs in grl and ucm
-        list.add("UCM Definitions");
-        list.add("GRL Definitions");
+        list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
+        list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
         
         return list;
 

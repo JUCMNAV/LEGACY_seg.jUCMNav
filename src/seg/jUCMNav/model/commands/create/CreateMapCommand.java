@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.UCMmap;
@@ -23,7 +24,7 @@ public class CreateMapCommand extends Command implements JUCMNavCommand {
 
         // must be created here for getMap() to work properly.
         map = (UCMmap) ModelCreationFactory.getNewObject(urn, UCMmap.class);
-        setLabel("Create UCMMap");
+        setLabel(Messages.getString("CreateMapCommand.createMap")); //$NON-NLS-1$
     }
 
     /**

@@ -10,6 +10,7 @@ import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.MoveResizeGrlNodeCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
@@ -34,7 +35,7 @@ public class AddBeliefToIntentionalElementRefCommand extends CompoundCommand {
     public AddBeliefToIntentionalElementRefCommand(IntentionalElementRef ref) {
         this.ref = ref;
         urn = ref.getDiagram().getUrndefinition().getUrnspec();
-        setLabel("Add Belief");
+        setLabel(Messages.getString("AddBeliefToIntentionalElementRefCommand.addBelief")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {

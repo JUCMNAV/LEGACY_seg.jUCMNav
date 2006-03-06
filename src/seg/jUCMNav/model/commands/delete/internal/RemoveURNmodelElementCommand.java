@@ -172,33 +172,33 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert element != null && diagram != null : "pre something is null";
+        assert element != null && diagram != null : "pre something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
-            assert diagram.getNodes().contains(element) : "pre diagram contains element";
+            assert diagram.getNodes().contains(element) : "pre diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)
-            assert diagram.getContRefs().contains(element) : "pre diagram contains element";
+            assert diagram.getContRefs().contains(element) : "pre diagram contains element"; //$NON-NLS-1$
 
         if (definition != null) {
             if (element instanceof RespRef) {
                 RespRef ref = (RespRef) element;
-                assert definition == ref.getRespDef() : "pre resp def";
+                assert definition == ref.getRespDef() : "pre resp def"; //$NON-NLS-1$
             } else if (element instanceof IURNContainerRef) {
                 IURNContainerRef ref = (IURNContainerRef) element;
-                assert definition == ref.getContDef() : "pre comp def";
+                assert definition == ref.getContDef() : "pre comp def"; //$NON-NLS-1$
             } else if (element instanceof IntentionalElementRef) {
                 IntentionalElementRef ref = (IntentionalElementRef) element;
-                assert definition == ref.getDef() : "pre intentional element def";
+                assert definition == ref.getDef() : "pre intentional element def"; //$NON-NLS-1$
             }
         }
 
         if (parent != null) {
             if (element instanceof IURNNode) {
                 IURNNode node = (IURNNode) element;
-                assert parent == node.getContRef() : "pre pn parent";
+                assert parent == node.getContRef() : "pre pn parent"; //$NON-NLS-1$
 
             } else if (element instanceof IURNContainerRef) {
                 IURNContainerRef ref = (IURNContainerRef) element;
-                assert parent == ref.getParent() : "pre cr parent";
+                assert parent == ref.getParent() : "pre cr parent"; //$NON-NLS-1$
             }
         }
 
@@ -209,32 +209,32 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert element != null && diagram != null : "post something is null";
+        assert element != null && diagram != null : "post something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
-            assert !diagram.getNodes().contains(element) : "post diagram contains element";
+            assert !diagram.getNodes().contains(element) : "post diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)
-            assert !diagram.getContRefs().contains(element) : "post diagram contains element";
+            assert !diagram.getContRefs().contains(element) : "post diagram contains element"; //$NON-NLS-1$
         if (definition != null) {
             if (element instanceof RespRef) {
                 RespRef ref = (RespRef) element;
-                assert null == ref.getRespDef() : "post resp def";
+                assert null == ref.getRespDef() : "post resp def"; //$NON-NLS-1$
             } else if (element instanceof IURNContainerRef) {
                 IURNContainerRef ref = (IURNContainerRef) element;
-                assert null == ref.getContDef() : "post comp def";
+                assert null == ref.getContDef() : "post comp def"; //$NON-NLS-1$
             } else if (element instanceof IntentionalElementRef) {
                 IntentionalElementRef ref = (IntentionalElementRef) element;
-                assert null == ref.getDef() : "post comp def";
+                assert null == ref.getDef() : "post comp def"; //$NON-NLS-1$
             }
         }
 
         if (parent != null) {
             if (element instanceof IURNNode) {
                 IURNNode node = (IURNNode) element;
-                assert null == node.getContRef() : "post pn parent";
+                assert null == node.getContRef() : "post pn parent"; //$NON-NLS-1$
 
             } else if (element instanceof IURNContainerRef) {
                 IURNContainerRef ref = (IURNContainerRef) element;
-                assert null == ref.getParent() : "post cr parent";
+                assert null == ref.getParent() : "post cr parent"; //$NON-NLS-1$
             }
         }
     }

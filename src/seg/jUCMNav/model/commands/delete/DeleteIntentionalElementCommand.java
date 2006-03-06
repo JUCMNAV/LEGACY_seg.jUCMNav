@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveIntentionalElementCommand;
 import urn.URNlink;
 
@@ -26,7 +27,7 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
      *          The intentionalElement to delete
      */
     public DeleteIntentionalElementCommand(IntentionalElement element) {
-        setLabel("Delete IntentionalElement");
+        setLabel(Messages.getString("DeleteIntentionalElementCommand.deleteIntentionalElement")); //$NON-NLS-1$
         this.element = element;
     }
 

@@ -24,6 +24,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
@@ -76,8 +77,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
         };
         showDesignView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DesignView16.gif")); //$NON-NLS-1$
-        showDesignView.setToolTipText("Switch to Design View"); 
-        showDesignView.setText("Switch to Design View"); 
+        showDesignView.setToolTipText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
+        showDesignView.setText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
 
         showStrategiesView = new Action() {
             public void run() {
@@ -86,8 +87,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
         };
         showStrategiesView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyView16.gif")); //$NON-NLS-1$
-        showStrategiesView.setToolTipText("Switch to Strategies View"); 
-        showStrategiesView.setText("Switch to Strategies View"); 
+        showStrategiesView.setToolTipText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
+        showStrategiesView.setText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
 
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
         tbm.add(showStrategiesView);

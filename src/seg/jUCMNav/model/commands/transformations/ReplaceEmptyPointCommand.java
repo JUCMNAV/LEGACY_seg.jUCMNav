@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
@@ -29,7 +30,7 @@ public class ReplaceEmptyPointCommand extends CompoundCommand {
     public ReplaceEmptyPointCommand(PathNode empty, PathNode newNode) {
         this.empty = empty;
         this.newNode = newNode;
-        setLabel("Replace Empty Point");
+        setLabel(Messages.getString("ReplaceEmptyPointCommand.replaceEmptyPoint")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {

@@ -458,7 +458,7 @@ public class URNNamingHelper {
 //            elem.setName(""); //$NON-NLS-1$
 //            setElementNameAndID(urn, elem);
             String initialName = elem.getName();
-            if (initialName.equals("")){
+            if (initialName.equals("")){ //$NON-NLS-1$
                 setElementNameAndID(urn, elem);
                 initialName = elem.getName();
             }
@@ -562,7 +562,7 @@ public class URNNamingHelper {
             }
 
             if (elem.getName() == null || elem.getName().trim().length() == 0) {
-                elem.setName(elem.getType().getName() + " " + elem.getId());
+                elem.setName(elem.getType().getName() + " " + elem.getId()); //$NON-NLS-1$
             }
         } else if (o instanceof StrategiesGroup) {
             StrategiesGroup group = (StrategiesGroup) o;
@@ -579,7 +579,7 @@ public class URNNamingHelper {
                 strategy.setId(getNewID(urn));
             }
 
-            strategy.setName("Strategy" + strategy.getId());
+            strategy.setName("Strategy" + strategy.getId()); //$NON-NLS-1$
         } else if (o instanceof URNmodelElement) {
             URNmodelElement model = (URNmodelElement) o;
             if (model.getId() == null || model.getId().trim().length() == 0) {
@@ -758,7 +758,7 @@ public class URNNamingHelper {
             }
         } else if (elem instanceof ActorRef || elem instanceof Actor) {
             if (URNNamingHelper.doesActorNameExists(urn, name)) {
-                message = "Actor name already exists"; 
+                message = "Actor name already exists";  //$NON-NLS-1$
             }
         } else if (elem instanceof RespRef || elem instanceof Responsibility) {
             if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
@@ -766,7 +766,7 @@ public class URNNamingHelper {
             }
         } else if (elem instanceof IntentionalElementRef || elem instanceof IntentionalElement) {
             if (URNNamingHelper.doesIntentionalElementNameExists(urn, name)) {
-                message = "Intentional Element name already exists"; 
+                message = "Intentional Element name already exists";  //$NON-NLS-1$
             }
         } 
 

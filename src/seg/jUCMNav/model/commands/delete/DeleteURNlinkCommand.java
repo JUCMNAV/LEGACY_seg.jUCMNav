@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNlink;
 import urn.URNspec;
@@ -31,7 +32,7 @@ public class DeleteURNlinkCommand extends Command implements JUCMNavCommand {
      */
     public DeleteURNlinkCommand(URNlink link) {
         this.link = link;
-        setLabel("Delete URNlink");
+        setLabel(Messages.getString("DeleteURNlinkCommand.deleteUrnLink")); //$NON-NLS-1$
     }
 
     /**
