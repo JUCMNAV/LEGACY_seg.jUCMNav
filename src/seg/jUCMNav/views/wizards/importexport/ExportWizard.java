@@ -140,7 +140,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * Adds an entry in both mapsToEditor and mapsToSpecificEditor
      * 
      * @param editor
-     * @param map
+     * @param diagram
      */
     private void defineMapping(UCMNavMultiPageEditor editor, IURNDiagram diagram) {
         mapsToEditor.put(diagram, editor);
@@ -172,7 +172,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
     /**
      * Exports a diagram to a file. Uses mapsToExport to find the editor and the preference store to build the file name.
      * 
-     * @param map
+     * @param diagram
      */
     private void ExportDiagram(IURNDiagram diagram) {
         FileOutputStream fos = null;
@@ -243,7 +243,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * 
      * Won't export the URNSpec which contains map if it is already contained in v
      * 
-     * @param map
+     * @param diagram
      * @param v
      */
 
@@ -325,7 +325,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
     /**
      * 
-     * @param map
+     * @param diagram
      * @return the prefix of the file containing the diagram; assumes .jucm extension
      */
     public String getFilePrefix(IURNDiagram diagram) {
@@ -344,7 +344,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * 
      * To be used to save to disk.
      * 
-     * @param map
+     * @param diagram
      * @return map name
      */
     public String getDiagramName(IURNDiagram diagram) {

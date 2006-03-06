@@ -25,8 +25,8 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     
     /**
-     * @param editor
-     *          The UCMNavMultiPageEditor
+     * @param model
+     *          The GRLspec model
      */
     public GRLspecStrategyTreeEditPart(GRLspec model) {
         super(model);

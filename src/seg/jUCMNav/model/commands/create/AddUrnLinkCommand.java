@@ -27,8 +27,8 @@ public class AddUrnLinkCommand extends Command implements JUCMNavCommand {
     /**
      * @param urn the URNspec
      * @param link the URNlink to add
-     * @param from the URNmodelElement in the link
-     * @param to the URNmodelElement in the link
+     * @param fromElem the URNmodelElement in the link
+     * @param toElem the URNmodelElement in the link
      */
     public AddUrnLinkCommand(URNspec urn, URNlink link, URNmodelElement fromElem, URNmodelElement toElem) {
         this.link = link;

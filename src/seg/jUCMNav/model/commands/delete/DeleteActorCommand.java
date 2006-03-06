@@ -22,7 +22,7 @@ import urn.URNlink;
 public class DeleteActorCommand extends CompoundCommand{
 
     /**
-     * @param ar
+     * @param actor
      *          the ActorRef to delete
      */
     public DeleteActorCommand(Actor actor) {

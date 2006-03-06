@@ -61,11 +61,7 @@ public class SetConstraintCommand extends CompoundCommand {
      * @param x
      *            the new X
      * @param y
-     *            the new Y
-     * @param width
-     *            the new width
-     * @param height
-     *            the new height           
+     *            the new Y           
      */
     public SetConstraintCommand(GRLNode node, int x, int y) {
         setLabel(Messages.getString("SetConstraintCommand.setNodeConstraints")); //$NON-NLS-1$

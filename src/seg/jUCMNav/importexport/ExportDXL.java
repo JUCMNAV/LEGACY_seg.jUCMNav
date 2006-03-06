@@ -88,8 +88,8 @@ public class ExportDXL implements IURNExport {
     /**
      * Writes the information about components, such as id, name, type, and description of the components
      * 
-     * @param URNspec
-     *            urn
+     * @param urn
+     *            URNspec
      * @throws IOException
      * 
      */
@@ -133,8 +133,8 @@ public class ExportDXL implements IURNExport {
      * Writes the information about component references, such as id, fx, fy, width, height, anchored, definition id, name, component role, and parent component
      * of stubs.
      * 
-     * @param UCMmap
-     *            ucmmap
+     * @param ucmmap
+     *            UCMmap
      * @throws IOException
      */
     protected void writeCompRef(UCMmap ucmmap) throws IOException {
@@ -251,9 +251,9 @@ public class ExportDXL implements IURNExport {
      * Calls the methods writeRespRef(ucmmap, fos), writeStub(ucmmap, fos), writeCompRef(ucmmap, fos) to write required informations about the responsibility
      * refereneces, stubs, and component references of each map.
      * 
-     * @param URNspec
+     * @param urn
      *            urn
-     * @param String
+     * @param filename
      *            Path
      * @throws IOException
      */
@@ -318,7 +318,7 @@ public class ExportDXL implements IURNExport {
     /**
      * Writes the information about responsibilities, such as id, name, description, and processor demand of the responsibilities
      * 
-     * @param URNspec
+     * @param urn
      *            urn
      * @throws IOException
      */
@@ -356,7 +356,7 @@ public class ExportDXL implements IURNExport {
      * Writes the information about responsibility references, such as id, fx, fy, enclosing component, definition id, name, and description of
      * responsibilities.
      * 
-     * @param UCMmap
+     * @param ucmmap
      *            ucmmap
      * @throws IOException
      */
@@ -442,7 +442,7 @@ public class ExportDXL implements IURNExport {
     /**
      * Writes the information about stubs, such as id, fx, fy, name, stub type, and plugin ids of stubs.
      * 
-     * @param UCMmap
+     * @param ucmmap
      *            ucmmap
      * @throws IOException
      */

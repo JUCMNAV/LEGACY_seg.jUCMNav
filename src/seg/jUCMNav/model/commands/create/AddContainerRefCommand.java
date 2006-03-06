@@ -91,7 +91,7 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
     }
 
     /**
-     * @param diagram
+     * @param map
      *            The diagram to set.
      */
     public void setMap(IURNDiagram map) {
