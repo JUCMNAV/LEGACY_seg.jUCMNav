@@ -134,7 +134,7 @@ public class MapXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
         if (child.getModel() instanceof PathNode) {
             return handleMovePathNode(child, constraint);
         } else if (child.getModel() instanceof ComponentRef) {
-            return handleMoveResizeComponentRef(child, constraint);
+            return handleMoveResizeContainerRef(child, constraint);
         } else if (child.getModel() instanceof Condition && ((Condition) child.getModel()).getNodeConnection() != null) {
             return handleMoveNodeConnectionCondition(child, constraint);
         } else if (child.getModel() instanceof Label) {

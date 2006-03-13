@@ -131,7 +131,7 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
      *            where it should be moved and its new dimensions.
      * @return a SetConstraintBoundContainerRefCompoundCommand
      */
-    protected Command handleMoveResizeComponentRef(EditPart child, Object constraint) {
+    protected Command handleMoveResizeContainerRef(EditPart child, Object constraint) {
         Rectangle rect = (Rectangle) constraint;
         IURNContainerRef compRef = (IURNContainerRef) child.getModel();
 

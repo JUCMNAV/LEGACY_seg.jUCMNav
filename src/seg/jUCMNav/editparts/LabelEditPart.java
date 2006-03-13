@@ -1,6 +1,5 @@
 package seg.jUCMNav.editparts;
 
-import grl.ActorRef;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 
@@ -40,7 +39,6 @@ import ucm.map.MapPackage;
 import ucm.map.RespRef;
 import urn.URNlink;
 import urncore.ComponentLabel;
-import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
@@ -144,12 +142,12 @@ public class LabelEditPart extends ModelElementEditPart {
                     - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
         } else if (modelElement instanceof IURNContainerRef) {
             IURNContainerRef component = (IURNContainerRef) modelElement;
-            if (modelElement instanceof ActorRef) {
-                location = new Point(component.getX() + component.getWidth() / 2 - label.getDeltaX() - labelDimension.width / 2, component.getY()
-                        - label.getDeltaY() - labelDimension.height);
-            } else {
+            //if (modelElement instanceof ActorRef) {
+            //    location = new Point(component.getX() + component.getWidth() / 2 - label.getDeltaX() - labelDimension.width / 2, component.getY()
+            //            - label.getDeltaY() - labelDimension.height);
+            //} else {
                 location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
-            }
+            //}
         } else {
             // if we don't know how to place this label, use top left corner of screen.
             // not used in practice, simply for debugging.
@@ -165,11 +163,11 @@ public class LabelEditPart extends ModelElementEditPart {
     protected void createEditPolicies() {
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-        if ((getModelObj() instanceof NodeLabel && ((NodeLabel) getModelObj()).getNode() instanceof UCMmodelElement)
-                || (getModelObj() instanceof ComponentLabel && ((ComponentLabel) getModelObj()).getContRef() instanceof UCMmodelElement)
-                || (getModelObj() instanceof Condition)) {
+        //if ((getModelObj() instanceof NodeLabel && ((NodeLabel) getModelObj()).getNode() instanceof UCMmodelElement)
+       //         || (getModelObj() instanceof ComponentLabel && ((ComponentLabel) getModelObj()).getContRef() instanceof UCMmodelElement)
+        //        || (getModelObj() instanceof Condition)) {
             installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
-        }
+        //}
     }
 
     /**

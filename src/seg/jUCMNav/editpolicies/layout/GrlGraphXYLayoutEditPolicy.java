@@ -13,7 +13,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
 import seg.jUCMNav.Messages;
@@ -31,7 +30,7 @@ import urncore.Label;
  * @author Jean-François Roy
  *
  */
-public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
+public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
 
     /* (non-Javadoc)
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
@@ -87,10 +86,9 @@ public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         if (child.getModel() instanceof IURNNode) {
             return handleMoveGRLNode(child, constraint);
         } else if (child.getModel() instanceof Label) {
-            //Moving label is not allow in GRL
-            return null;
+            return handleMoveLabel(child, constraint);
         }else if (child.getModel() instanceof IURNContainerRef){
-            return handleMoveResizeActorRef(child, constraint);
+            return handleMoveResizeContainerRef(child, constraint);
         }else {
             System.out.println(Messages.getString("GrlGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
             return null;
@@ -160,25 +158,6 @@ public class GrlGraphXYLayoutEditPolicy extends XYLayoutEditPolicy {
         return new SetConstraintCommand(node, rect.getLocation().x, rect
                 .getLocation().y);
 
-    }
-    
-    /**
-     * Handles moving/resizing a ActorRef.
-     * 
-     * @param child
-     *            the ActorRefEditPart
-     * @param constraint
-     *            where it should be moved and its new dimensions.
-     * @return a SetConstraintBoundContainerRefCompoundCommand
-     */
-    protected Command handleMoveResizeActorRef(EditPart child, Object constraint) {
-        Rectangle rect = (Rectangle) constraint;
-        IURNContainerRef compRef = (IURNContainerRef) child.getModel();
-
-        SetConstraintBoundContainerRefCompoundCommand moveResize = new SetConstraintBoundContainerRefCompoundCommand(compRef, rect.getLocation().x, rect
-                .getLocation().y, rect.width, rect.height);
-
-        return moveResize;
     }
     
 }

@@ -1,5 +1,7 @@
 package seg.jUCMNav.editpolicies.feedback;
 
+import grl.ActorRef;
+
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Polyline;
 import org.eclipse.draw2d.RoundedRectangle;
@@ -114,7 +116,12 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
             Rectangle rect = null;
             if (getReference() instanceof IURNContainerRef) {
                 IURNContainerRef cr = (IURNContainerRef) getReference();
-                pt2 = new Point(cr.getX(), cr.getY());
+                //If it is an actor reference, the feedback should be in the middle top of the element
+                if (cr instanceof ActorRef){
+                    pt2 = new Point(cr.getX()+(cr.getWidth()/2), cr.getY());
+                } else {
+                    pt2 = new Point(cr.getX(), cr.getY());
+                }
             } else if (getReference() instanceof IURNNode) {
                 IURNNode pn = (IURNNode) getReference();
                 try {
