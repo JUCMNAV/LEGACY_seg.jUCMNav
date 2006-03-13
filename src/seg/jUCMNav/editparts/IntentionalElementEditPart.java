@@ -42,7 +42,7 @@ import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolic
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
 import seg.jUCMNav.figures.IntentionalElementFigure;
-import seg.jUCMNav.model.util.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urncore.IURNConnection;

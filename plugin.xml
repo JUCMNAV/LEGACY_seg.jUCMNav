@@ -29,6 +29,7 @@
    <extension-point id="UseCaseMapExport" name="Use Case Map Export" schema="schema/UseCaseMapExport.exsd"/>
    <extension-point id="URNExport" name="URN Export" schema="schema/URNExport.exsd"/>
    <extension-point id="URNImport" name="URN Import" schema="schema/URNImport.exsd"/>
+   <extension-point id="GRLStrategyAlgorithm" name="GRL Strategy Algorithm" schema="schema/GRLStrategyAlgorithm.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -236,6 +237,15 @@
             importInSelectedFile="true"
             name="%GRLCatalog"
             useStream="true"/>
+   </extension>
+   <extension
+         id="seg.jUCMNav.strategies.GRLStrategyAlgorithm"
+         name="%strategyAlgorithm"
+         point="seg.jUCMNav.GRLStrategyAlgorithm">
+         <evaluation
+            class="seg.jUCMNav.strategies.DefaultGRLStrategyAlgorithm"
+            id="seg.jUCMNav.DefaultGRLStrategyAlgorithm"
+            name="%DefaultGRLStrategyAlgorithm"/>
    </extension>
 
 </plugin>

@@ -36,6 +36,7 @@ public class MoveLinkRefBendpointCommand extends Command implements JUCMNavComma
         this.link = oldBendpoint.getLinkref();
         this.index = link.getBendpoints().indexOf(oldBendpoint);
         setLabel(Messages.getString("MoveLinkRefBendpointCommand.moveLinkRefBendpoint")); //$NON-NLS-1$
+        //System.out.println("Move Bendpoint: x=" + x + " y=" + y);
     }
 
     /**

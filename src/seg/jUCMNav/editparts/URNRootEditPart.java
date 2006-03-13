@@ -9,7 +9,7 @@ import org.eclipse.draw2d.LayeredPane;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.model.util.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
  * Root edit part of any jUCMNav editor.

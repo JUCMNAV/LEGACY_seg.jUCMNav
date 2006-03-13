@@ -31,7 +31,7 @@ import seg.jUCMNav.editpolicies.element.LabelComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.LabelFeedbackEditPolicy;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.figures.util.JUCMNavFigure;
-import seg.jUCMNav.model.util.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.LabelPropertySource;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;

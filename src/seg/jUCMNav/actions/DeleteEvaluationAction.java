@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
-import seg.jUCMNav.model.util.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
  * @author Jean-François Roy

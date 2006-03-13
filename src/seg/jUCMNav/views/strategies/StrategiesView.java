@@ -31,7 +31,7 @@ import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
-import seg.jUCMNav.model.util.EvaluationStrategyManager;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
 	private TreeViewer viewer;
