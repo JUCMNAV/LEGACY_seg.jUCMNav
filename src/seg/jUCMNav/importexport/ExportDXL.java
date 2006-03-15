@@ -187,7 +187,7 @@ public class ExportDXL implements IURNExport {
             write(component.getName());
             write(QUOTES_COMMA);
 
-            // ConponentRole
+            // ComponentRole
             write(QUOTES);
             write(compRef.getRole());
             write(QUOTES_COMMA);
