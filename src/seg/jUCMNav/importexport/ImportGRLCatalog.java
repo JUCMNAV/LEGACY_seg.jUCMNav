@@ -125,11 +125,15 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 elementCmd.execute();
                 //Set the definition properties define in the catalog
                 ref.getDef().setDecompositionType(DecompositionType.get(attrs.getValue("decompositiontype"))); //$NON-NLS-1$
-                ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+
                 ref.getDef().setDescription(attrs.getValue("description")); //$NON-NLS-1$
                 
-                //Verify for name conflict
-                URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
+                if (URNNamingHelper.isNameValid(ref.getDef(), attrs.getValue("name")).equals("")){ //$NON-NLS-1$ //$NON-NLS-2$
+                    ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+                } else {
+                    ref.getDef().setName(attrs.getValue("name")); //$NON-NLS-1$
+                    URNNamingHelper.resolveNamingConflict(urn, ref.getDef());
+                }
                 
                 //Add the new element in the hashmap for reference from links
                 map.put(attrs.getValue("id"),ref.getDef()); //$NON-NLS-1$
