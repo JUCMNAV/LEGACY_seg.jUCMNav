@@ -403,7 +403,7 @@ public class ExportDXL implements IURNExport {
 
                 // Description
                 write(QUOTES);
-                write(respRef.getDescription());
+                write(res.getDescription());
                 write(QUOTES_END_ELEM);
             }
         }
