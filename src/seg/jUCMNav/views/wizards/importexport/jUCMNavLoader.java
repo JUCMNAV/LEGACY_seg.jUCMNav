@@ -3,6 +3,7 @@ package seg.jUCMNav.views.wizards.importexport;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -20,6 +21,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
+import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.views.wizards.AutoLayoutWizard;
 import urn.URNspec;
 import urncore.IURNDiagram;
@@ -34,7 +36,7 @@ import urncore.IURNDiagram;
 public class jUCMNavLoader {
 	protected Shell shell;
 	protected IWorkbenchPage page;
-
+    
 	/**
 	 * jUCMNavLoader can be reused many times
 	 * 
@@ -110,9 +112,33 @@ public class jUCMNavLoader {
 	 * @throws InvocationTargetException
 	 */
 	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn) throws InvocationTargetException {
-		createAndOpenFile(originalFileName, newProject, newurn, false, false, false);
+		createAndOpenFile(originalFileName, newProject, newurn, false, false, null);
 	}
 
+    /**
+     * Will create a new file in newProject with the name baseFilename.jucm (or
+     * baseFilename-#.jucm where the # is the first integer for which the
+     * filename doesn't already exist, if overwrite is set to false) using the
+     * given URNspec.
+     * 
+     * Will perform autolayout on all maps if doAutoLayout is true.
+     * 
+     * @param originalFileName
+     *            the original file name
+     * @param newProject
+     *            the project in which the jucm file should be created
+     * @param newurn
+     *            the contents of this new file
+     * @param onlyLastEditor
+     *            for the autolayout. If it is true, will autolayout the last editor in the list
+     * @param overwrite
+     *            should we overwrite a file if it already exists?
+     * @throws InvocationTargetException
+     */
+    public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn, boolean onlyLastEditor, boolean overwrite) throws InvocationTargetException {
+        createAndOpenFile(originalFileName, newProject, newurn, onlyLastEditor, overwrite, null);
+    }    
+    
 	/**
 	 * Will create a new file in newProject with the name baseFilename.jucm (or
 	 * baseFilename-#.jucm where the # is the first integer for which the
@@ -127,19 +153,29 @@ public class jUCMNavLoader {
 	 *            the project in which the jucm file should be created
 	 * @param newurn
 	 *            the contents of this new file
-	 * @param doAutoLayout
-	 *            should the maps be layed out automatically on load? useful
-	 *            with reverse engineering
-     * @param onlyLastEditor
+	 * @param onlyLastEditor
      *            for the autolayout. If it is true, will autolayout the last editor in the list
 	 * @param overwrite
 	 *            should we overwrite a file if it already exists?
+	 * @param doAutoLayoutDiagrams
+	 *            Vector of diagrams to execute the autolayout automatically. Useful
+	 *            with reverse engineering
 	 * @throws InvocationTargetException
 	 */
-	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn, boolean doAutoLayout, boolean onlyLastEditor, boolean overwrite)
+	public void createAndOpenFile(String originalFileName, String newProject, URNspec newurn, boolean onlyLastEditor, boolean overwrite, Vector doAutoLayoutDiagrams)
 			throws InvocationTargetException {
 		// final for asynch thread.
-		final boolean autolayout = doAutoLayout;
+        // Convert diagrams id for editor index
+        Vector temp = new Vector();
+        if (doAutoLayoutDiagrams != null){
+            for (int i=0; i<doAutoLayoutDiagrams.size();i++){
+                Object foundObj = URNElementFinder.find(newurn, (String)doAutoLayoutDiagrams.get(i));
+                if (foundObj instanceof IURNDiagram){
+                    temp.add(new Integer(newurn.getUrndef().getSpecDiagrams().indexOf(foundObj)));
+                }
+            }
+        }
+		final Vector autolayout = temp;
         
         final boolean lastEditor = onlyLastEditor;
 
@@ -170,21 +206,16 @@ public class jUCMNavLoader {
                     
 					// open the newfile using jucmnav.
 					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(new FileEditorInput((IFile) resource2), desc.getId());                    
-                             
-					// autolayout
-					if (autolayout) {
-                        if (lastEditor){
-                            doAutolayout(editor, editor.getPageCount()-1);
-                        } else{
-    						for (int i = 0; i < editor.getPageCount(); i++) {
-    							doAutolayout(editor, i);
-    						}
+                    if (autolayout.size() > 0){         
+                        for (int i=0; i<autolayout.size(); i++){
+                            Integer id = (Integer)autolayout.get(i);
+                            doAutolayout(editor, id.intValue());
                         }
-
-						// save the file after autolayout.
-						editor.getFileManager().doSave(new NullProgressMonitor());
-					}
-
+    
+    
+    					// save the file after autolayout.
+    					editor.getFileManager().doSave(new NullProgressMonitor());
+                    }
 				} catch (Exception e) {
 					// can't because the asynch thread doesn't throw errors.
 					// throw new InvocationTargetException(e, "Error opening

@@ -16,6 +16,7 @@ import grl.IntentionalElementType;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -45,22 +46,24 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     private GRLGraph graph;
     private HashMap map;
     
+    private Vector autolayoutDiagrams; 
+    
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.io.FileInputStream)
      */
-    public URNspec importURN(FileInputStream fis) throws InvocationTargetException {
+    public URNspec importURN(FileInputStream fis, Vector autolayoutDiagrams) throws InvocationTargetException {
         URNspec urn = ModelCreationFactory.getNewURNspec();
         
         //Remove ucm diagram (only one diagram is insert by default).
         urn.getUrndef().getSpecDiagrams().remove(0);
         
-        return importURN(fis, urn);
+        return importURN(fis, urn, autolayoutDiagrams);
     }
 
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.lang.String)
      */
-    public URNspec importURN(String filename) throws InvocationTargetException {
+    public URNspec importURN(String filename, Vector autolayoutDiagrams) throws InvocationTargetException {
         //not used
         return null;
     }
@@ -68,9 +71,10 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.io.FileInputStream, urn.URNspec)
      */
-    public URNspec importURN(FileInputStream fis, URNspec urn) throws InvocationTargetException {
+    public URNspec importURN(FileInputStream fis, URNspec urn, Vector autolayoutDiagrams) throws InvocationTargetException {
         this.urn = (URNspec)EcoreUtil.copy(urn);
         this.map = new HashMap();
+        this.autolayoutDiagrams = autolayoutDiagrams;
         // Use the default parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
         factory.setValidating(true);
@@ -92,7 +96,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     /* (non-Javadoc)
      * @see seg.jUCMNav.extensionpoints.IURNImport#importURN(java.lang.String, urn.URNspec)
      */
-    public URNspec importURN(String filename, URNspec urn) throws InvocationTargetException {
+    public URNspec importURN(String filename, URNspec urn, Vector autolayoutDiagrams) throws InvocationTargetException {
         //not used 
         return null;
     }
@@ -104,6 +108,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             //Create a new GRLGraph in the urnspec
             CreateGrlGraphCommand graphCmd = new CreateGrlGraphCommand(urn);
             
+
             if (graphCmd.canExecute()){
                 graph = graphCmd.getDiagram();
                 graphCmd.execute();
@@ -111,7 +116,8 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
                 if (attrs.getValue("name") != null){ //$NON-NLS-1$
                     graph.setName(attrs.getValue("name")); //$NON-NLS-1$
                 }
-                
+                //Add the diagram in the autolayout vector
+                autolayoutDiagrams.add(graph.getId());
             } else{
                 throw new SAXException("Could not create a GrlGraph"); //$NON-NLS-1$
             }

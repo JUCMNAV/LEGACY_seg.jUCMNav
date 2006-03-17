@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -67,6 +68,11 @@ public class ImportWizard extends Wizard implements IImportWizard {
     private URNspec urn;
     
     /**
+     * Vector that contains diagram ids to use autolayout
+     */
+    private Vector autolayoutDiagrams;
+    
+    /**
      * Initialize preferences.
      */
     public ImportWizard() {
@@ -109,6 +115,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 
             IURNImport importer = (IURNImport) URNImportExtensionPointHelper.getImporter(id);
 
+            autolayoutDiagrams = new Vector();
             if (URNImportExtensionPointHelper.isUseStream(id)) {
                 FileInputStream fis;
                 try {
@@ -116,9 +123,9 @@ public class ImportWizard extends Wizard implements IImportWizard {
                     //If import type is URN, import the file in this urn
                     if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN 
                             && urn != null){
-                        newurn = importer.importURN(fis, urn);
+                        newurn = importer.importURN(fis, urn, autolayoutDiagrams);
                     } else {
-                        newurn = importer.importURN(fis);
+                        newurn = importer.importURN(fis, autolayoutDiagrams);
                     }
                 } catch (FileNotFoundException e) {
                     throw new InvocationTargetException(e, Messages.getString("ImportWizard.UnableFindSource")); //$NON-NLS-1$
@@ -127,9 +134,9 @@ public class ImportWizard extends Wizard implements IImportWizard {
             } else {
                 if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN
                         && urn != null){
-                    importer.importURN(path, urn);
+                    importer.importURN(path, urn, autolayoutDiagrams);
                 } else {
-                    newurn = importer.importURN(path);
+                    newurn = importer.importURN(path, autolayoutDiagrams);
                 }
             }
 
@@ -258,11 +265,21 @@ public class ImportWizard extends Wizard implements IImportWizard {
             closedOpenedEditor();
             jUCMNavLoader loader = new jUCMNavLoader(page, getShell());
             if ((success) && urn != null && ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN){
-                loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, ImportPreferenceHelper.getAutoLayout(),
-                        true, true);                
+                if(ImportPreferenceHelper.getAutoLayout()){
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
+                            true, autolayoutDiagrams);
+                } else{
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
+                        true);
+                }
             } else if ((success)) {
-                loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, ImportPreferenceHelper.getAutoLayout(),
-                        true,((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite);
+                if (ImportPreferenceHelper.getAutoLayout()){
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
+                            ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite,autolayoutDiagrams);
+                } else{
+                    loader.createAndOpenFile(ImportPreferenceHelper.getSavePath(), ImportPreferenceHelper.getProject(), newurn, true,
+                        ((ImportWizardFileSelectionPage) getPage(PAGE0)).overwrite);
+                }
             } 
 
         } catch (InterruptedException e) {
