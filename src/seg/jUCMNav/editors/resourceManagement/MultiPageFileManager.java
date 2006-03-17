@@ -30,7 +30,6 @@ import org.xml.sax.SAXParseException;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urn.URNspec;
 
 /**
@@ -110,7 +109,6 @@ public class MultiPageFileManager {
                 sDate = df.format(new Date());
                 editor.getModel().setModified(sDate);
                 setVersions();
-                editor.getModel().setAuthor(GeneralPreferencePage.getAuthor());
                 save(file, monitor);
                 getEditor().getMultiPageCommandStackListener().markSaveLocations();
             }

@@ -1,8 +1,5 @@
 package seg.jUCMNav.views.wizards;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
@@ -27,10 +24,11 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.ide.IDE;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.UCMPerspectiveFactory;
+import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
 
 /**
  * This wizard will create a new .jUCM file and open the UCMNavMultiPageEditor.
@@ -40,6 +38,12 @@ import seg.jUCMNav.views.UCMPerspectiveFactory;
 public class NewUcmFileWizard extends Wizard implements INewWizard {
 	private NewUcmFileWizardPage page;
 	private ISelection selection;
+    
+    /**
+     * The workbench page in which we are working
+     */
+    protected IWorkbenchPage workbenchPage;
+    
 
 	/**
 	 * Constructor for NewUcmFileWizard.
@@ -106,22 +110,25 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 		IContainer container = (IContainer) resource;
 		final IFile file = container.getFile(new Path(fileName));
 		try {
-			InputStream stream = openContentStream();
-			if (file.exists()) {
-				file.setContents(stream, true, true, monitor);
-			} else {
-				file.create(stream, true, monitor);
-			}
-			stream.close();
-		} catch (IOException e) {
-		}
+            jUCMNavLoader loader = new jUCMNavLoader(workbenchPage, getShell());
+            loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec());                
+            
+//			InputStream stream = openContentStream();
+//			if (file.exists()) {
+//				file.setContents(stream, true, true, monitor);
+//			} else {
+//				file.create(stream, true, monitor);
+//			}
+//			stream.close();
+//		} catch (IOException e) {
+        }catch (InvocationTargetException e){}
 		monitor.worked(1);
 		monitor.setTaskName(Messages.getString("NewUcmFileWizard.openingForEditing")); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
-					IDE.openEditor(page, file, true);
+					//IDE.openEditor(page, file, true);
 					PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 
@@ -137,10 +144,10 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	 * We will initialize file contents with a sample text.
 	 */
 
-	private InputStream openContentStream() {
-		String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\" xmlns:ucm.map=\"http:///ucm/map.ecore\" xmlns:urncore=\"http:///urncore.ecore\">\n<urndef>\n<specDiagrams xsi:type=\"ucm.map:UCMmap\" id=\"2\" name=\"UCMmap\"/>\n</urndef>\n</urn:URNspec>"; //$NON-NLS-1$
-		return new ByteArrayInputStream(contents.getBytes());
-	}
+//	private InputStream openContentStream() {
+//		String contents = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><urn:URNspec xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:urn=\"http:///urn.ecore\" xmlns:ucm.map=\"http:///ucm/map.ecore\" xmlns:urncore=\"http:///urncore.ecore\">\n<urndef>\n<specDiagrams xsi:type=\"ucm.map:UCMmap\" id=\"2\" name=\"UCMmap\"/>\n</urndef>\n</urn:URNspec>"; //$NON-NLS-1$
+//		return new ByteArrayInputStream(contents.getBytes());
+//	}
 
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status = new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.OK, message, null); //$NON-NLS-1$
@@ -155,5 +162,6 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
+        this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 	}
 }

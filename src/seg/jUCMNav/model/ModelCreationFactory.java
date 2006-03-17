@@ -389,7 +389,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setCreated(sDate);
         urnspec.setModified(sDate);
 
-        urnspec.setUrnVersion("0.9"); //$NON-NLS-1$
+        urnspec.setUrnVersion("0.11"); //$NON-NLS-1$
         urnspec.setSpecVersion("0"); //$NON-NLS-1$
 
         //Set the author to the current user
@@ -407,6 +407,12 @@ public class ModelCreationFactory implements CreationFactory {
         // add the new map to the UCMspec
         urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
 
+        //Create a Strategy and Strategy Group
+        StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);
+        urnspec.getGrlspec().getGroups().add(group);
+        EvaluationStrategy strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urnspec,EvaluationStrategy.class);
+        group.getStrategies().add(strategy);
+        urnspec.getGrlspec().getStrategies().add(strategy);
         result = urnspec;
         return result;
     }
