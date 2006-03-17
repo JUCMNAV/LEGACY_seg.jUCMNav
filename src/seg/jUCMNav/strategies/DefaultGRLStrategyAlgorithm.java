@@ -124,7 +124,8 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                     }
                 } 
             } else if (link instanceof Dependency){
-                if (dependencyValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()){
+                if (dependencyValue > ((Evaluation)evaluations.get(link.getSrc())).getEvaluation()
+                        && ((Evaluation)evaluations.get(link.getSrc())).getEvaluation() != 0){
                     dependencyValue = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
                 }
             } else if (link instanceof Contribution){
