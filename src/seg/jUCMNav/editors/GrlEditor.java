@@ -19,7 +19,9 @@ import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.util.TransferDropTargetListener;
+import org.eclipse.ui.internal.PartSite;
 
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
@@ -73,7 +75,16 @@ public class GrlEditor extends UrnEditor {
         
         ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.GrlContextMenuProvider", provider, viewer); //$NON-NLS-1$
+
+
+        // Bug 381: 3.1: remove extra items from contextual menus
+        // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
+        ArrayList menuExtenders = new ArrayList(1);
+        PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
+                this, menuExtenders);
+        if (menuExtenders.get(0)!=null)
+        	provider.removeMenuListener((IMenuListener)menuExtenders.get(0));
+
         
         viewer.setEditPartFactory(new GrlGraphicalEditPartFactory((GRLGraph)getModel()));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
