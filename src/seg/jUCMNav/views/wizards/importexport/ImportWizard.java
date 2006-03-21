@@ -57,6 +57,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
 
     protected boolean success = false;
 
+    protected boolean hasBeenOpened=false;
+    
     /**
      * Editor open by the wizard.
      */
@@ -90,7 +92,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
      * Closes the editor opened during the wizard's work.
      */
     private void closedOpenedEditor() {
-        if (openedEditor != null){
+        if (openedEditor != null && hasBeenOpened){
             openedEditor.closeEditor(true);   
         }
     }
@@ -158,7 +160,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
      */
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
         this.page = workbench.getActiveWorkbenchWindow().getActivePage();
-        
+        this.hasBeenOpened=false;
         //ImportPreferenceHelper.setImportType(ImportPreferenceHelper.IMPORT_NEWFILE);
         ImportPreferenceHelper.setSavePath(ImportPreferenceHelper.getPath());
         // editor = (UCMNavMultiPageEditor) page.getActiveEditor();
@@ -198,7 +200,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
                         openedEditor = (UCMNavMultiPageEditor) page.findEditor(input);
                         // if editor isn't opened, open it.
                         if (openedEditor == null) {
-                            openedEditor = (UCMNavMultiPageEditor) page.openEditor(input, desc.getId(), false);                        
+                            openedEditor = (UCMNavMultiPageEditor) page.openEditor(input, desc.getId(), false);
+                            this.hasBeenOpened=true;
                         }
                         urn = openedEditor.getModel();
                         ImportPreferenceHelper.setSavePath(((FileEditorInput) openedEditor.getEditorInput()).getPath().toOSString());
