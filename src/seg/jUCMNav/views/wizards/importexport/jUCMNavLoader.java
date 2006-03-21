@@ -204,8 +204,15 @@ public class jUCMNavLoader {
 					IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().findEditor("seg.jUCMNav.MainEditor"); //$NON-NLS-1$
 
                     
-					// open the newfile using jucmnav.
-					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(new FileEditorInput((IFile) resource2), desc.getId());                    
+
+					FileEditorInput input = new FileEditorInput((IFile) resource2);
+
+					// close the existing editor if it already is open
+					if (getPage().findEditor(input)!=null)
+						getPage().closeEditor(getPage().findEditor(input), false);
+
+					// open the newfile using jucmnav.					
+					UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) getPage().openEditor(input, desc.getId());                    
                     if (autolayout.size() > 0){         
                         for (int i=0; i<autolayout.size(); i++){
                             Integer id = (Integer)autolayout.get(i);
