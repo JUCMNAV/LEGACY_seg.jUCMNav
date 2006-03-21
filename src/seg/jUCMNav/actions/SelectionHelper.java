@@ -3,6 +3,7 @@ package seg.jUCMNav.actions;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.ElementLink;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLNode;
@@ -38,6 +39,7 @@ import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
+import urncore.ComponentElement;
 import urncore.ComponentLabel;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
@@ -325,7 +327,9 @@ public class SelectionHelper {
                 map = (UCMmap)nodeconnection.getDiagram();
             else if (model instanceof PathNode)
                 map = (UCMmap)((PathNode) model).getDiagram();
-
+            else if (model instanceof ComponentRef)
+            	map = (UCMmap) ((ComponentRef)model).getDiagram();
+            
             if (map != null && map.getUrndefinition()!=null)
                 urnspec = map.getUrndefinition().getUrnspec();
         } else if (model instanceof LinkRef || model instanceof GRLNode || model instanceof ActorRef) {
@@ -339,6 +343,27 @@ public class SelectionHelper {
             
             if (grlgraph != null && grlgraph.getUrndefinition()!=null)
                 urnspec = grlgraph.getUrndefinition().getUrnspec();
+        }
+        
+        if (urnspec==null)
+        {
+        	if (model instanceof ComponentElement)
+        	{
+				ComponentElement element = (ComponentElement) model;
+				urnspec = element.getUrndefinition().getUrnspec();
+        	} else if (model instanceof Actor)
+        	{
+				Actor actor = (Actor) model;
+        		urnspec = actor.getGrlspec().getUrnspec();
+        	} else if (model instanceof IntentionalElement)
+        	{
+				IntentionalElement element = (IntentionalElement) model;
+				urnspec = element.getGrlspec().getUrnspec();
+        	} else if (model instanceof ElementLink)
+        	{
+        		ElementLink element = (ElementLink) model;
+        		urnspec = element.getGrlspec().getUrnspec();
+        	}
         }
     }
 
