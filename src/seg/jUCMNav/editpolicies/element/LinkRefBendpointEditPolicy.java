@@ -29,6 +29,7 @@ public class LinkRefBendpointEditPolicy extends BendpointEditPolicy {
     protected Command getCreateBendpointCommand(BendpointRequest request) {
         AddLinkRefBendpointCommand com = new AddLinkRefBendpointCommand((LinkRef)request.getSource().getModel(), request.getIndex());
         Point p = request.getLocation();
+        getConnection().translateToRelative(p);
         com.setX(p.x);
         com.setY(p.y);
 
@@ -48,8 +49,10 @@ public class LinkRefBendpointEditPolicy extends BendpointEditPolicy {
      */
     protected Command getMoveBendpointCommand(BendpointRequest request) {
         Point p = request.getLocation();
+        getConnection().translateToRelative(p);
         LinkRef ref = (LinkRef)request.getSource().getModel();
         return new MoveLinkRefBendpointCommand((LinkRefBendpoint)ref.getBendpoints().get(request.getIndex()), p.x, p.y);
     }
 
+    
 }
