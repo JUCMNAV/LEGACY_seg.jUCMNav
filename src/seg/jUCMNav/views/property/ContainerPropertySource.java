@@ -192,10 +192,16 @@ public class ContainerPropertySource extends URNElementPropertySource {
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef))) {
-            if (propertyid.getEClass() != object.eClass())
+            if (propertyid.getEClass() != object.eClass()) {
                 comp.eSet(feature, null);
+                if (feature.getName().equalsIgnoreCase("fillColor")) { //$NON-NLS-1$
+                    comp.setFilled(false);
+                }
+                
+            }
             else
                 object.eSet(feature, null);
+            
         } else
             super.resetPropertyValue(id);
     }
@@ -250,4 +256,15 @@ public class ContainerPropertySource extends URNElementPropertySource {
             object.eSet(feature, result);
     }
 
+    public boolean isPropertySet(Object id) {
+        PropertyID propertyid = (PropertyID) id;
+        EStructuralFeature feature = propertyid.getFeature();
+
+    	if (feature.getName().toLowerCase().indexOf("fillcolor")>=0)
+    		return super.isPropertySet(id) && comp.isFilled();
+    	else
+    		return super.isPropertySet(id);
+    	
+    }
+    
 }
