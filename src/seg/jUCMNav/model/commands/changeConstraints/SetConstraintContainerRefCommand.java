@@ -44,7 +44,7 @@ public class SetConstraintContainerRefCommand extends Command implements JUCMNav
         setNewWidth(width);
         setNewHeight(height);
 
-        setLabel(Messages.getString("SetConstraintContainerRefCommand.changeCompConst")); //$NON-NLS-1$
+        setLabel(Messages.getString("SetConstraintBoundContainerRefCompoundCommand.changeCompConstraints")); //$NON-NLS-1$
 
     }
 

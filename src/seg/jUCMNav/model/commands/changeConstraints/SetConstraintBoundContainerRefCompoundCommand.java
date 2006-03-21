@@ -146,7 +146,7 @@ public class SetConstraintBoundContainerRefCompoundCommand extends CompoundComma
                 add(cmd2);
 
             } else {
-                System.out.println(Messages.getString("SetConstraintBoundContainerRefCompoundCommand.unknownType")); //$NON-NLS-1$
+                System.out.println("Unknown type."); //$NON-NLS-1$
             }
 
             v.remove(0);

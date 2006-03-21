@@ -15,7 +15,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
@@ -90,7 +89,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         }else if (child.getModel() instanceof IURNContainerRef){
             return handleMoveResizeContainerRef(child, constraint);
         }else {
-            System.out.println(Messages.getString("GrlGraphXYLayoutEditPolicy.unknownModelElement")); //$NON-NLS-1$
+            System.out.println("Unknown model element"); //$NON-NLS-1$
             return null;
         }
     
