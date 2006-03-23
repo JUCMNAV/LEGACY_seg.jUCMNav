@@ -74,7 +74,6 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
     public void testPostConditions() {
         assert evaluation != null && strategy != null && intentional != null: "post something is null"; //$NON-NLS-1$
         assert !strategy.getEvaluations().contains(evaluation) : "post evaluation in strategy"; //$NON-NLS-1$
-        assert !evaluation.getIntElement().equals(intentional): "post evaluation in intentional element"; //$NON-NLS-1$
     }
 
     /**
@@ -83,11 +82,11 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
-        //Set the evaluation object from the EvaluationManager
-        EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional, evaluation);
-
         evaluation.setStrategies(strategy);
         evaluation.setIntElement(intentional);
+
+        //Set the evaluation object from the EvaluationManager
+        EvaluationStrategyManager.getInstance().setEvaluationForElement(intentional, evaluation);
 
         testPreConditions();
     }
