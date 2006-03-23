@@ -77,9 +77,8 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
      * @see seg.jUCMNav.extensionpoints.IGRLStrategiesAlgorithm#nextNode()
      */
     public IntentionalElement nextNode() {
-        
         IntentionalElement intElem = (IntentionalElement)evalReady.remove(0);
-   
+
         for (Iterator j=intElem.getLinksSrc().iterator();j.hasNext();){
             IntentionalElement temp = ((ElementLink)j.next()).getDest();
             if (evaluationCalculation.containsKey(temp)){

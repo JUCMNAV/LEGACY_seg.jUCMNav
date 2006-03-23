@@ -8,7 +8,6 @@ import grl.StrategiesGroup;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
@@ -26,10 +25,9 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
     /**
      * 
      */
-    public CreateStrategiesGroupCommand(URNspec urn) {
+    public CreateStrategiesGroupCommand(URNspec urn, StrategiesGroup group) {
         this.urn = urn;
-        
-        group = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
+        this.group = group;
         setLabel(Messages.getString("CreateStrategiesGroupCommand.createStrategiesGroup")); //$NON-NLS-1$
     }
 
@@ -37,7 +35,7 @@ public class CreateStrategiesGroupCommand extends Command implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return urn != null;
+        return urn != null && group != null;
     }
     
     /**

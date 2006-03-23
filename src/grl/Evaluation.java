@@ -56,7 +56,6 @@ public interface Evaluation extends EObject{
 
     /**
      * Returns the value of the '<em><b>Int Element</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
      * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Int Element</em>' reference isn't clear,
@@ -66,8 +65,7 @@ public interface Evaluation extends EObject{
      * @return the value of the '<em>Int Element</em>' reference.
      * @see #setIntElement(IntentionalElement)
      * @see grl.GrlPackage#getEvaluation_IntElement()
-     * @see grl.IntentionalElement#getEvals
-     * @model opposite="evals" required="true"
+     * @model required="true"
      * @generated
      */
     IntentionalElement getIntElement();

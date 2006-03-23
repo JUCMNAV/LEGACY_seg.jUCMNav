@@ -32,8 +32,6 @@
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/intElements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1" eType="#//IntentionalElementRef"
         eOpposite="#//IntentionalElementRef/def"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="evals" upperBound="-1"
-        eType="#//Evaluation" eOpposite="#//Evaluation/intElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="linksSrc" upperBound="-1"
         eType="#//ElementLink" eOpposite="#//ElementLink/src"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="linksDest" upperBound="-1"
@@ -112,7 +110,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="intElement" lowerBound="1"
-        eType="#//IntentionalElement" eOpposite="#//IntentionalElement/evals"/>
+        eType="#//IntentionalElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" lowerBound="1"
         eType="#//EvaluationStrategy" transient="true" eOpposite="#//EvaluationStrategy/evaluations"/>
   </eClassifiers>

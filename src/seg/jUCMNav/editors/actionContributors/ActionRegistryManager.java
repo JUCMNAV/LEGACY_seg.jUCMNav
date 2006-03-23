@@ -27,7 +27,7 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
-import seg.jUCMNav.actions.AddEvaluationGroupAction;
+import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -274,7 +274,7 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addGRLGraph")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        action = new AddEvaluationGroupAction((IWorkbenchPart)editor);
+        action = new AddStrategiesGroupAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.addEvaluationGroup"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         

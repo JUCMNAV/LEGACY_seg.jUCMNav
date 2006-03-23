@@ -11,7 +11,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
-import seg.jUCMNav.actions.AddEvaluationGroupAction;
+import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 
 /**
@@ -52,7 +52,7 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
 
-        action = getActionRegistry().getAction(AddEvaluationGroupAction.ADDEVALUATIONGROUP);
+        action = getActionRegistry().getAction(AddStrategiesGroupAction.ADDSTRATEGIESGROUP);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

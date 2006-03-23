@@ -54,8 +54,6 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         linkref = (LinkRef) ModelCreationFactory.getNewObject(graph.getUrndefinition().getUrnspec(), LinkRef.class);
-        linkref.setLink(link);
-        linkref.setDiagram(graph);
         redo();
     }
 
@@ -64,7 +62,9 @@ public class AddLinkRefCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-
+        linkref.setLink(link);
+        linkref.setDiagram(graph);
+        
         linkref.setSource(source);
         linkref.setTarget(destination);
         

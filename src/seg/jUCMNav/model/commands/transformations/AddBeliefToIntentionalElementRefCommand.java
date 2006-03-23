@@ -12,7 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
-import seg.jUCMNav.model.commands.changeConstraints.MoveResizeGrlNodeCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import urn.URNspec;
@@ -60,6 +60,6 @@ public class AddBeliefToIntentionalElementRefCommand extends CompoundCommand {
         linkcmd.setTarget(ref);
         add(linkcmd);
         
-        add(new MoveResizeGrlNodeCommand(belief, ref.getX()-150, ref.getY()));
+        add(new SetConstraintCommand(belief, ref.getX()-150, ref.getY()));
     }
 }

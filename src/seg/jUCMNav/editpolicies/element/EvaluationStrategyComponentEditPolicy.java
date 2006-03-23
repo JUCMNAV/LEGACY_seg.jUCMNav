@@ -9,7 +9,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import seg.jUCMNav.model.commands.delete.DeleteEvaluationStrategyCommand;
+import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
 
 /**
  * ComponentEditPolicy for EvaluationStrategy. Return the delete command for a strategy
@@ -26,7 +26,7 @@ public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
         if (obj instanceof EvaluationStrategy) {
 
             EvaluationStrategy strategy = (EvaluationStrategy) obj;
-            DeleteEvaluationStrategyCommand deleteCommand = new DeleteEvaluationStrategyCommand(strategy);
+            DeleteStrategyCommand deleteCommand = new DeleteStrategyCommand(strategy);
             return deleteCommand;
         }
 

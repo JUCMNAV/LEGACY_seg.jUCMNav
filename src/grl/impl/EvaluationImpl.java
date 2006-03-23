@@ -137,33 +137,11 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
      * <!-- end-user-doc -->
      * @generated
      */
-    public NotificationChain basicSetIntElement(IntentionalElement newIntElement, NotificationChain msgs) {
+    public void setIntElement(IntentionalElement newIntElement) {
         IntentionalElement oldIntElement = intElement;
         intElement = newIntElement;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, oldIntElement, newIntElement);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setIntElement(IntentionalElement newIntElement) {
-        if (newIntElement != intElement) {
-            NotificationChain msgs = null;
-            if (intElement != null)
-                msgs = ((InternalEObject)intElement).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
-            if (newIntElement != null)
-                msgs = ((InternalEObject)newIntElement).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
-            msgs = basicSetIntElement(newIntElement, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, newIntElement, newIntElement));
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.EVALUATION__INT_ELEMENT, oldIntElement, intElement));
     }
 
     /**
@@ -205,10 +183,6 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
     public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION__INT_ELEMENT:
-                    if (intElement != null)
-                        msgs = ((InternalEObject)intElement).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__EVALS, IntentionalElement.class, msgs);
-                    return basicSetIntElement((IntentionalElement)otherEnd, msgs);
                 case GrlPackage.EVALUATION__STRATEGIES:
                     if (eContainer != null)
                         msgs = eBasicRemoveFromContainer(msgs);
@@ -230,8 +204,6 @@ public class EvaluationImpl extends EObjectImpl implements Evaluation {
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
         if (featureID >= 0) {
             switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.EVALUATION__INT_ELEMENT:
-                    return basicSetIntElement(null, msgs);
                 case GrlPackage.EVALUATION__STRATEGIES:
                     return eBasicSetContainer(null, GrlPackage.EVALUATION__STRATEGIES, msgs);
                 default:

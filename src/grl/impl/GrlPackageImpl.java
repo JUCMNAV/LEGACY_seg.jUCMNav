@@ -466,7 +466,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getIntentionalElement_Evals() {
+    public EReference getIntentionalElement_LinksSrc() {
         return (EReference)intentionalElementEClass.getEStructuralFeatures().get(7);
     }
 
@@ -475,17 +475,8 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getIntentionalElement_LinksSrc() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(8);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EReference getIntentionalElement_LinksDest() {
-        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(9);
+        return (EReference)intentionalElementEClass.getEStructuralFeatures().get(8);
     }
 
     /**
@@ -931,7 +922,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         createEAttribute(intentionalElementEClass, INTENTIONAL_ELEMENT__FILLED);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__GRLSPEC);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__REFS);
-        createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__EVALS);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__LINKS_SRC);
         createEReference(intentionalElementEClass, INTENTIONAL_ELEMENT__LINKS_DEST);
 
@@ -1065,7 +1055,6 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
         initEAttribute(getIntentionalElement_Filled(), ecorePackage.getEBoolean(), "filled", "false", 0, 1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElement_Grlspec(), this.getGRLspec(), this.getGRLspec_IntElements(), "grlspec", null, 1, 1, IntentionalElement.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElement_Refs(), this.getIntentionalElementRef(), this.getIntentionalElementRef_Def(), "refs", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getIntentionalElement_Evals(), this.getEvaluation(), this.getEvaluation_IntElement(), "evals", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElement_LinksSrc(), this.getElementLink(), this.getElementLink_Src(), "linksSrc", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getIntentionalElement_LinksDest(), this.getElementLink(), this.getElementLink_Dest(), "linksDest", null, 0, -1, IntentionalElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1101,7 +1090,7 @@ public class GrlPackageImpl extends EPackageImpl implements GrlPackage {
 
         initEClass(evaluationEClass, Evaluation.class, "Evaluation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getEvaluation_Evaluation(), ecorePackage.getEInt(), "evaluation", "0", 0, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), this.getIntentionalElement_Evals(), "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getEvaluation_IntElement(), this.getIntentionalElement(), null, "intElement", null, 1, 1, Evaluation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getEvaluation_Strategies(), this.getEvaluationStrategy(), this.getEvaluationStrategy_Evaluations(), "strategies", null, 1, 1, Evaluation.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(evaluationStrategyEClass, EvaluationStrategy.class, "EvaluationStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

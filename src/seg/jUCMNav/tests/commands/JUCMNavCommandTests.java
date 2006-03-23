@@ -73,7 +73,6 @@ import urncore.UCMmodelElement;
  * Tests that run on seg.jUCMNav.model.commands. To be run as PDE JUnit tests. See CommandLinePDEJUnit and DevDocCommand
  * 
  * Uses interesting setUp()/tearDown();
- * TODO Modify command test to support GRLGraph in the multipageeditor
  * 
  * @author jkealey
  *  

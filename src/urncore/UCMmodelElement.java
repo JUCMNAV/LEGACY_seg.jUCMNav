@@ -8,6 +8,7 @@ package urncore;
 
 
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>UC Mmodel Element</b></em>'.

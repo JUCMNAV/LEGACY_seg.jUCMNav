@@ -65,7 +65,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert evaluation != null && strategy != null && intentional != null: "pre something is null"; //$NON-NLS-1$
         assert strategy.getEvaluations().contains(evaluation) : "pre evaluation in strategy"; //$NON-NLS-1$
-        assert intentional.getEvals().contains(evaluation): "pre evaluation in intentional element"; //$NON-NLS-1$
+        assert evaluation.getIntElement().equals(intentional): "pre evaluation in intentional element"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -74,7 +74,7 @@ public class DeleteEvaluationCommand extends Command implements JUCMNavCommand {
     public void testPostConditions() {
         assert evaluation != null && strategy != null && intentional != null: "post something is null"; //$NON-NLS-1$
         assert !strategy.getEvaluations().contains(evaluation) : "post evaluation in strategy"; //$NON-NLS-1$
-        assert !intentional.getEvals().contains(evaluation): "post evaluation in intentional element"; //$NON-NLS-1$
+        assert !evaluation.getIntElement().equals(intentional): "post evaluation in intentional element"; //$NON-NLS-1$
     }
 
     /**

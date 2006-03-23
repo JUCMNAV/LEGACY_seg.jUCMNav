@@ -60,7 +60,8 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
         evaluation.setIntElement(element);
-        evaluation.setStrategies(strategy);
+        strategy.getEvaluations().add(evaluation);
+        
         testPostConditions();
     }
     
@@ -87,8 +88,8 @@ public class AddEvaluationCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
+        strategy.getEvaluations().remove(evaluation);
         evaluation.setIntElement(null);
-        evaluation.setStrategies(null);
         testPreConditions();
     }
 }

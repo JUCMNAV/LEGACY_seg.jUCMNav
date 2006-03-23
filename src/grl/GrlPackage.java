@@ -517,22 +517,13 @@ public interface GrlPackage extends EPackage{
     int INTENTIONAL_ELEMENT__REFS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 6;
 
     /**
-     * The feature id for the '<em><b>Evals</b></em>' reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int INTENTIONAL_ELEMENT__EVALS = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
-
-    /**
      * The feature id for the '<em><b>Links Src</b></em>' reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
+    int INTENTIONAL_ELEMENT__LINKS_SRC = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 7;
 
     /**
      * The feature id for the '<em><b>Links Dest</b></em>' reference list.
@@ -541,7 +532,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int INTENTIONAL_ELEMENT__LINKS_DEST = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 8;
 
     /**
      * The number of structural features of the the '<em>Intentional Element</em>' class.
@@ -550,7 +541,7 @@ public interface GrlPackage extends EPackage{
      * @generated
      * @ordered
      */
-    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 10;
+    int INTENTIONAL_ELEMENT_FEATURE_COUNT = UrncorePackage.GR_LMODEL_ELEMENT_FEATURE_COUNT + 9;
 
     /**
      * The meta object id for the '{@link grl.impl.ActorImpl <em>Actor</em>}' class.
@@ -2114,17 +2105,6 @@ public interface GrlPackage extends EPackage{
      * @generated
      */
     EReference getIntentionalElement_Refs();
-
-    /**
-     * Returns the meta object for the reference list '{@link grl.IntentionalElement#getEvals <em>Evals</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the reference list '<em>Evals</em>'.
-     * @see grl.IntentionalElement#getEvals()
-     * @see #getIntentionalElement()
-     * @generated
-     */
-    EReference getIntentionalElement_Evals();
 
     /**
      * Returns the meta object for the reference list '{@link grl.IntentionalElement#getLinksSrc <em>Links Src</em>}'.
