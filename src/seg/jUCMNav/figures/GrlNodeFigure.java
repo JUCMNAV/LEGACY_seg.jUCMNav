@@ -162,21 +162,23 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      */
     public void setEditableText(String newText) {
         textFlow.setText(newText);
+        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
         
         //Calculate the size of the label and of the figure
         //Max size available for the label
         int width = getDefaultDimension().width - 2*LABEL_PADDING_X;
-        int height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
-        
-        Dimension dimEditableLabel = flowPage.getPreferredSize().getCopy();
+        int height = dimEditableLabel.height;
         
         int minWidth = flowPage.getPreferredSize(width,1).width;
         
         //Loop until we have good dimension for the labels to fit in the node
         while ((dimEditableLabel.width > (width* Math.floor(height/dimEditableLabel.height)))
                 || width < minWidth){
-            height = height + 13;
+            height = height + dimEditableLabel.height;
             width = width + 20;
+        }
+        if (height < (getDefaultDimension().height - 2*LABEL_PADDING_Y)){
+            height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
         }
         
         Rectangle r = new Rectangle();
