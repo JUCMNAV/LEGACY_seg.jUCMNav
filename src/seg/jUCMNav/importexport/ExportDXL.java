@@ -44,6 +44,7 @@ public class ExportDXL implements IURNExport {
     public static final String END_ELEM = " )\n"; //$NON-NLS-1$
     public static final String QUOTES_END_ELEM = "\" )\n"; //$NON-NLS-1$
 
+    private String filename;
     /**
      * Not used.
      */
@@ -56,6 +57,7 @@ public class ExportDXL implements IURNExport {
      * Export the URNspec to the given filename in DXL format.
      */
     public void export(URNspec urn, String filename) throws InvocationTargetException {
+        this.filename = filename;
         try {
             fos = new FileOutputStream(filename);
 
@@ -410,7 +412,14 @@ public class ExportDXL implements IURNExport {
     protected void writeHeader(URNspec urn) throws IOException {
         write("#include \"addins/UCM/lib/UCMUtilities.dxl\"\n"); //$NON-NLS-1$
         write("pragma runLim, 0\n\n"); //$NON-NLS-1$
-        write("beginImport( " + QUOTES + urn.getName() + QUOTES + " )\n\n"); // write URN name //$NON-NLS-1$ //$NON-NLS-2$
+        //Set the name of the import model
+        // GraphFileName
+        int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
+        int lastIndex = filename.indexOf("."); //$NON-NLS-1$
+
+        String name = filename.substring(firstIndex, lastIndex);
+
+        write("beginImport( " + QUOTES + name + QUOTES + " )\n\n"); // write URN name //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
