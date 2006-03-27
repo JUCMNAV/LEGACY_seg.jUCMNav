@@ -85,7 +85,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             saxParser.parse(fis, this);
             
             //Sanitize urnspec to resolve naming conflict
-            URNNamingHelper.sanitizeURNspec(urn);
+            URNNamingHelper.sanitizeURNspec(this.urn);
 
         } catch (Exception e) {
             throw new InvocationTargetException(e);
