@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.stub;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -864,8 +865,15 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
 	 */
 	protected void cancelPressed() {
+		try {
 		for (int i = executedCount; i > 0; i--) {
 			getCommandStack().undo();
+		}
+		} catch (EmptyStackException ex)
+		{
+			// bug 387: because our add map command is only undoable if no other add/delete map actions 
+			// were done, we cannot cancel the stub view if we add a map and create a binding.
+			
 		}
 
 		dispose();
