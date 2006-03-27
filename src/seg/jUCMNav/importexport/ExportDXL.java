@@ -1,5 +1,14 @@
 package seg.jUCMNav.importexport;
 
+import grl.Actor;
+import grl.ActorRef;
+import grl.Belief;
+import grl.DecompositionType;
+import grl.GRLGraph;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -52,10 +61,14 @@ public class ExportDXL implements IURNExport {
 
             writeHeader(urn);
             writeDevices(urn);
+            writeActors(urn);
             writeComponents(urn);
             writeResponsibilities(urn);
+            writeIntentionalElements(urn);
+            writeGrlDiagrams(urn, filename);
             writeMaps(urn, filename);
             writeScenarios(urn);
+            
             writeFooter();
 
         } catch (Exception e) {
@@ -86,7 +99,99 @@ public class ExportDXL implements IURNExport {
     }
 
     /**
-     * Writes the information about components, such as id, name, type, and description of the components
+     * Writes the information about actors such as id, name, type, and description
+     * 
+     * @param urn
+     *            URNspec
+     * @throws IOException
+     * 
+     */
+    protected void writeActors(URNspec urn) throws IOException {
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            Actor actor = (Actor)iter.next();
+            write("actor( "); //$NON-NLS-1$
+
+            // ID
+            write(QUOTES);
+            write(actor.getId());
+            write(QUOTES_COMMA);
+
+            // Name
+            write(QUOTES);
+            write(actor.getName());
+            write(QUOTES_COMMA);
+
+            // Description
+            write(QUOTES);
+            write(actor.getDescription());
+            write(QUOTES);
+            
+            write(END_ELEM);
+        }
+        write("\n"); //$NON-NLS-1$
+    }
+
+    /**
+     * Writes the information about actor references, such as id, fx, fy, width, height, definition id, name, and parent actor
+     * of stubs.
+     * 
+     * @param ucmmap
+     *            UCMmap
+     * @throws IOException
+     */
+    protected void writeActorRef(GRLGraph graph) throws IOException {
+        for (Iterator iter1 = graph.getContRefs().iterator(); iter1.hasNext();) {
+            ActorRef actorRef = (ActorRef) iter1.next();
+            write("   actorRef( "); //$NON-NLS-1$
+
+            // ID
+            write(QUOTES);
+            write(actorRef.getId());
+            write(QUOTES_COMMA);
+
+            // Fx
+            String compX = "" + actorRef.getX(); //$NON-NLS-1$
+            write(compX);
+            write(COMMA);
+
+            // Fy
+            String compY = "" + actorRef.getY(); //$NON-NLS-1$
+            write(compY);
+            write(COMMA);
+
+            // Width
+            String width = "" + actorRef.getWidth(); //$NON-NLS-1$
+            write(width);
+            write(COMMA);
+
+            // Height
+            String height = "" + actorRef.getHeight(); //$NON-NLS-1$
+            write(height);
+            write(COMMA);
+
+            // DefinitionID
+            Actor actor = (Actor) actorRef.getContDef();
+            write(QUOTES);
+            write(actor.getId());
+            write(QUOTES_COMMA);
+
+            // Name
+            write(QUOTES);
+            write(actor.getName());
+            write(QUOTES_COMMA);
+
+            // Parent Actor
+            write(QUOTES);
+            if (actorRef.getParent() != null) {
+                Actor parActor = (Actor) actorRef.getParent().getContDef();
+                write(parActor.getName());
+            }
+            write(QUOTES_END_ELEM);
+        }
+    }
+    
+    /**
+     * Writes the information about components such as id, name, type, and description of the components
      * 
      * @param urn
      *            URNspec
@@ -95,21 +200,20 @@ public class ExportDXL implements IURNExport {
      */
     protected void writeComponents(URNspec urn) throws IOException {
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
-            Component component = (Component) iter.next();
+            Component element = (Component)iter.next();
             write("component( "); //$NON-NLS-1$
 
             // ID
             write(QUOTES);
-            write(component.getId());
+            write(element.getId());
             write(QUOTES_COMMA);
 
             // Name
             write(QUOTES);
-            write(component.getName());
+            write(element.getName());
             write(QUOTES_COMMA);
 
-            // Type
-            ComponentKind kind = component.getKind();
+            ComponentKind kind = ((Component)element).getKind();
             String kindString = kind.getName();
             write(QUOTES);
             write(kindString);
@@ -117,7 +221,7 @@ public class ExportDXL implements IURNExport {
 
             // Description
             write(QUOTES);
-            write(component.getDescription());
+            write(element.getDescription());
             write(QUOTES_COMMA);
 
             // DeviceID
@@ -233,6 +337,70 @@ public class ExportDXL implements IURNExport {
     }
 
     /**
+     * Writes the information about grl graph, such as id, name.
+     * 
+     * @param urn
+     *            urn
+     * @param filename
+     *            Path
+     * @throws IOException
+     */
+    protected void writeGrlDiagrams(URNspec urn, String filename) throws IOException {
+        for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
+            IURNDiagram element = (IURNDiagram) iter.next();
+            if (element instanceof GRLGraph) {
+                GRLGraph grlgraph = (GRLGraph) element;
+                // map
+                write("grldiagram( "); //$NON-NLS-1$
+
+                // id
+                String graphID = grlgraph.getId();
+                write(QUOTES);
+                write(graphID);
+                write(QUOTES_COMMA);
+
+                // Name
+                String graphName = grlgraph.getName();
+                write(QUOTES);
+                write(graphName);
+                write(QUOTES_COMMA);
+
+                // GraphFileName
+                int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
+                int lastIndex = filename.indexOf("."); //$NON-NLS-1$
+
+                String bitmapFilename = filename.substring(firstIndex, lastIndex);
+                bitmapFilename = bitmapFilename.concat("-GRLGraph"); //$NON-NLS-1$
+                bitmapFilename = bitmapFilename.concat(graphID);
+                bitmapFilename = bitmapFilename.concat("-"); //$NON-NLS-1$
+                bitmapFilename = bitmapFilename.concat(ExportWizard.cleanFileName(graphName));
+                bitmapFilename = bitmapFilename.concat(".bmp"); //$NON-NLS-1$
+
+                write(QUOTES);
+                write(bitmapFilename);
+                write(QUOTES_COMMA);
+
+                // Diagram Title
+                write(QUOTES);
+                write(graphName);
+                write(QUOTES_COMMA);
+
+                // Description
+                write(QUOTES);
+                write(grlgraph.getDescription());
+                write(QUOTES_END_ELEM);
+                
+                //Write the element in the graph
+                writeActorRef(grlgraph);
+                writeGrlNodes(grlgraph);
+                
+            }
+        }
+        write("\n\n"); //$NON-NLS-1$
+
+    }
+    
+    /**
      * Writes the DXL header.
      * 
      * @param urn
@@ -245,6 +413,157 @@ public class ExportDXL implements IURNExport {
         write("beginImport( " + QUOTES + urn.getName() + QUOTES + " )\n\n"); // write URN name //$NON-NLS-1$ //$NON-NLS-2$
     }
 
+    /**
+     * Writes the information about intentional elements
+     * 
+     * @param urn
+     *            urn
+     * @throws IOException
+     */
+    protected void writeIntentionalElements(URNspec urn) throws IOException {
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            IntentionalElement element = (IntentionalElement) iter.next();
+            write("intentionalelement( "); //$NON-NLS-1$
+
+            // ID
+            write(QUOTES);
+            write(element.getId());
+            write(QUOTES_COMMA);
+
+            // Name
+            write(QUOTES);
+            write(element.getName());
+            write(QUOTES_COMMA);
+
+            // Type 
+            IntentionalElementType type = element.getType();
+            write(QUOTES);
+            write(type.getName());
+            write(QUOTES_COMMA);
+            
+            // Description
+            write(QUOTES);
+            write(element.getDescription());
+            write(QUOTES_COMMA);
+
+            // ProcessorDemand
+            DecompositionType decompType = element.getDecompositionType();
+            write(QUOTES);
+            write(decompType.getName());
+            write(QUOTES_END_ELEM);
+        }
+        write("\n"); //$NON-NLS-1$
+
+    }
+
+    /**
+     * Writes the information about grl nodes (intentional element references or belief), 
+     * such as id, fx, fy, enclosing actor, definition id, name, description, priority and criticality
+     * 
+     * @param ucmmap
+     *            ucmmap
+     * @throws IOException
+     */
+    protected void writeGrlNodes(GRLGraph graph) throws IOException {
+        for (Iterator iter1 = graph.getNodes().iterator(); iter1.hasNext();) {
+            IURNNode specNode = (IURNNode) iter1.next();
+            if (specNode instanceof IntentionalElementRef) {
+                IntentionalElementRef elementRef = (IntentionalElementRef) specNode;
+                write("   intentionalElementRef( "); //$NON-NLS-1$
+
+                // ID
+                write(QUOTES);
+                write(elementRef.getId());
+                write(QUOTES_COMMA);
+
+                // Fx
+                String respX = "" + elementRef.getX(); //$NON-NLS-1$
+                write(respX);
+                write(COMMA);
+
+                // Fy
+                String respY = "" + elementRef.getY(); //$NON-NLS-1$
+                write(respY);
+                write(COMMA);
+
+                // EnclosingActor
+                ActorRef actorRef = (ActorRef) elementRef.getContRef();
+                write(QUOTES);
+                if (actorRef != null) {
+                    write(actorRef.getId());
+                }
+                write(QUOTES_COMMA);
+
+                // DefinitionID
+                IntentionalElement intElement = elementRef.getDef();
+                write(QUOTES);
+                write(intElement.getId());
+                write(QUOTES_COMMA);
+
+                // Name
+                write(QUOTES);
+                write(intElement.getName());
+                write(QUOTES_COMMA);
+
+                // Description
+                write(QUOTES);
+                write(intElement.getDescription());
+                write(QUOTES_COMMA);
+                
+                //Priority
+                write(QUOTES);
+                write(elementRef.getPriority().getName());
+                write(QUOTES_COMMA);
+                
+                //Criticality
+                write(QUOTES);
+                write(elementRef.getCriticality().getName());
+                write(QUOTES_END_ELEM);
+            } else if (specNode instanceof Belief){
+                Belief belief = (Belief) specNode;
+                write("   belief( "); //$NON-NLS-1$
+
+                // ID
+                write(QUOTES);
+                write(belief.getId());
+                write(QUOTES_COMMA);
+
+                // Fx
+                String respX = "" + belief.getX(); //$NON-NLS-1$
+                write(respX);
+                write(COMMA);
+
+                // Fy
+                String respY = "" + belief.getY(); //$NON-NLS-1$
+                write(respY);
+                write(COMMA);
+
+                // EnclosingActor
+                ActorRef actorRef = (ActorRef) belief.getContRef();
+                write(QUOTES);
+                if (actorRef != null) {
+                    write(actorRef.getId());
+                }
+                write(QUOTES_COMMA);
+
+                // Name
+                write(QUOTES);
+                write(belief.getName());
+                write(QUOTES_COMMA);
+
+                // Description
+                write(QUOTES);
+                write(belief.getDescription());
+                write(QUOTES_COMMA);
+                
+                //Author
+                write(QUOTES);
+                write(belief.getAuthor());
+                write(QUOTES_END_ELEM);
+            }
+        }
+    }
+    
     /**
      * Writes the information about maps, such as id, name, map file name, map title, and description of maps.
      * 
