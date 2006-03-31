@@ -410,7 +410,7 @@ public class ExportDXL implements IURNExport {
      * @throws IOException
      */
     protected void writeHeader(URNspec urn) throws IOException {
-        write("#include \"addins/UCM/lib/UCMUtilities.dxl\"\n"); //$NON-NLS-1$
+        write("#include \"addins/URN/lib/URNUtilities.dxl\"\n"); //$NON-NLS-1$
         write("pragma runLim, 0\n\n"); //$NON-NLS-1$
         //Set the name of the import model
         // GraphFileName
