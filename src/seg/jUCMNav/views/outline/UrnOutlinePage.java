@@ -41,6 +41,7 @@ import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editparts.treeEditparts.TreeEditPartFactory;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDragSourceListener;
 
 /**
  * Creates an outline pagebook for both UCMNavMultiPageEditor and UcmEditor. Supports two views: hierarchical tree view and graphical overview.
@@ -98,6 +99,9 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
         // ((TreeViewer) getViewer())
         // .addDropTargetListener(new MSCTransferDropTargetListener(
         // getViewer()));
+        
+        getViewer().addDragSourceListener(new UrnTemplateTransferDragSourceListener(getViewer()));        
+
 
         IToolBarManager tbm = getSite().getActionBars().getToolBarManager();
         showOutlineAction = new Action() {
@@ -215,6 +219,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
             }
             tree.getTopItem().setExpanded(true);
         }
+       
     }
 
     /**

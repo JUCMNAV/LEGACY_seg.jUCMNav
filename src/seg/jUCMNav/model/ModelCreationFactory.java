@@ -74,21 +74,23 @@ import urncore.UrncoreFactory;
  * non-static methods.
  * 
  * Since it would make no sense to provide a URNspec to be able to obtain one, an additional specific method was created for this task: getNewURNspec().
- *  
+ * 
  * See DevDocModelCreationFactory
- *  
+ * 
  * @author jkealey
- *  
+ * 
  */
 
 public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
     private URNspec urn;
-    public static int DEFAULT_UCM_COMPONENT_HEIGHT=100;
-    public static int DEFAULT_UCM_COMPONENT_WIDTH=100;
-    public static int DEFAULT_GRL_COMPONENT_HEIGHT=200;
-    public static int DEFAULT_GRL_COMPONENT_WIDTH=200;
+    public static int DEFAULT_UCM_COMPONENT_HEIGHT = 100;
+    public static int DEFAULT_UCM_COMPONENT_WIDTH = 100;
+    public static int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
+    public static int DEFAULT_GRL_COMPONENT_WIDTH = 200;
+
+    private Object preDefinedDefinition;
 
     /**
      * @param urn
@@ -107,6 +109,23 @@ public class ModelCreationFactory implements CreationFactory {
      *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
      * @param targetClass
      *            The class we need to create from this factory.
+     * @param definition
+     *            An instance of IURNContainer if targetClass is IURNContainerRef, or Responsibility if is a RespRef. Instead of creating a new definition for
+     *            the reference, it will use the one that is passed in.
+     */
+    public ModelCreationFactory(URNspec urn, Class targetClass, Object definition) {
+        this.urn = urn;
+        this.targetClass = targetClass;
+        this.type = 0;
+        this.preDefinedDefinition = definition;
+    }
+
+
+    /**
+     * @param urn
+     *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
+     * @param targetClass
+     *            The class we need to create from this factory.
      * @param type
      *            If this is a ComponentRef or an IntentionalElementRef, we can pass the type.
      */
@@ -116,6 +135,24 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
     }
 
+    /**
+     * @param urn
+     *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
+     * @param targetClass
+     *            The class we need to create from this factory.
+     * @param type
+     *            If this is a ComponentRef or an IntentionalElementRef, we can pass the type.
+     * @param definition
+     *            An instance of IURNContainer if targetClass is IURNContainerRef, or Responsibility if is a RespRef. Instead of creating a new definition for
+     *            the reference, it will use the one that is passed in.
+     */
+    public ModelCreationFactory(URNspec urn, Class targetClass, int type, Object definition) {
+        this.urn = urn;
+        this.targetClass = targetClass;
+        this.type = type;
+        this.preDefinedDefinition = definition;
+    }
+    
     /**
      * @return the target class.
      * 
@@ -129,7 +166,7 @@ public class ModelCreationFactory implements CreationFactory {
      * @return the object defined by the constructor parameters
      */
     public Object getNewObject() {
-        return getNewObject(urn, targetClass, type);
+        return getNewObject(urn, targetClass, type, preDefinedDefinition);
     }
 
     /**
@@ -153,13 +190,26 @@ public class ModelCreationFactory implements CreationFactory {
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
      */
     public static Object getNewObject(URNspec urn, Class targetClass, int type) {
+        return getNewObject(urn, targetClass, 0, null);
+    }
+
+    /**
+     * Returns a new model element preset with its default values. Note that no exception will be thrown for unknown classes but there will be a message printed
+     * on the standard output to facilitate debugging for new developers.
+     * 
+     * @param urn
+     *            The URNspec containing the ID seed. Use null if the targetClass does not have an id/name.
+     * 
+     * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
+     */
+    public static Object getNewObject(URNspec urn, Class targetClass, int type, Object definition) {
         MapFactory mapfactory = MapFactory.eINSTANCE;
         UcmFactory ucmfactory = UcmFactory.eINSTANCE;
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
-        
+
         Object result = null;
 
         if (targetClass != null) {
@@ -215,18 +265,18 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createContribution();
             } else if (targetClass.equals(Dependency.class)) {
                 result = grlfactory.createDependency();
-            } else if (targetClass.equals(LinkRef.class)){
-                result = grlfactory.createLinkRef();  
-            } else if (targetClass.equals(BeliefLink.class)){
-                result = grlfactory.createBeliefLink();  
-            } else if (targetClass.equals(LinkRefBendpoint.class)){
-                result = grlfactory.createLinkRefBendpoint();  
-            } else if (targetClass.equals(StrategiesGroup.class)){
-                result = grlfactory.createStrategiesGroup();  
-            } else if (targetClass.equals(EvaluationStrategy.class)){
-                result = grlfactory.createEvaluationStrategy();  
-                ((EvaluationStrategy)result).setAuthor(GeneralPreferencePage.getAuthor());
-            } else if (targetClass.equals(Evaluation.class)){
+            } else if (targetClass.equals(LinkRef.class)) {
+                result = grlfactory.createLinkRef();
+            } else if (targetClass.equals(BeliefLink.class)) {
+                result = grlfactory.createBeliefLink();
+            } else if (targetClass.equals(LinkRefBendpoint.class)) {
+                result = grlfactory.createLinkRefBendpoint();
+            } else if (targetClass.equals(StrategiesGroup.class)) {
+                result = grlfactory.createStrategiesGroup();
+            } else if (targetClass.equals(EvaluationStrategy.class)) {
+                result = grlfactory.createEvaluationStrategy();
+                ((EvaluationStrategy) result).setAuthor(GeneralPreferencePage.getAuthor());
+            } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
             } else {
                 // complex creations
@@ -240,14 +290,21 @@ public class ModelCreationFactory implements CreationFactory {
                     result = mapfactory.createComponentRef();
 
                     // new component refs must have a component definition
-                    Component compdef = urncorefactory.createComponent();
+                    Component compdef = null;
+                    if (definition instanceof Component)
+                        compdef = (Component) definition;
+                    else
+                        compdef = urncorefactory.createComponent();
+
                     ((ComponentRef) result).setContDef(compdef);
 
                     // define the ComponentKind according to what was set in the construction
                     compdef.setKind(ComponentKind.get(type));
 
-                    URNNamingHelper.setElementNameAndID(urn, compdef);
-                    URNNamingHelper.resolveNamingConflict(urn, compdef);
+                    if (definition==null) {
+                        URNNamingHelper.setElementNameAndID(urn, compdef);
+                        URNNamingHelper.resolveNamingConflict(urn, compdef);
+                    }
 
                     ((ComponentRef) result).setHeight(DEFAULT_UCM_COMPONENT_HEIGHT);
                     ((ComponentRef) result).setWidth(DEFAULT_UCM_COMPONENT_WIDTH);
@@ -269,11 +326,18 @@ public class ModelCreationFactory implements CreationFactory {
                     result = mapfactory.createRespRef();
 
                     // new component refs must have a component definition
-                    Responsibility respdef = urncorefactory.createResponsibility();
+                    Responsibility respdef = null;
+                    if (definition instanceof Responsibility)
+                        respdef = (Responsibility) definition;
+                    else
+                        respdef = urncorefactory.createResponsibility();
+
                     ((RespRef) result).setRespDef(respdef);
 
-                    URNNamingHelper.setElementNameAndID(urn, respdef);
-                    URNNamingHelper.resolveNamingConflict(urn, respdef);
+                    if (definition==null) {
+                        URNNamingHelper.setElementNameAndID(urn, respdef);
+                        URNNamingHelper.resolveNamingConflict(urn, respdef);
+                    }
                 } else if (targetClass.equals(Condition.class)) {
                     Condition cond = urncorefactory.createCondition();
                     cond.setExpression("true"); //$NON-NLS-1$
@@ -293,53 +357,68 @@ public class ModelCreationFactory implements CreationFactory {
                     result = ep;
                 } else if (targetClass.equals(PluginBinding.class)) {
                     PluginBinding plug = mapfactory.createPluginBinding();
-                    
+
                     plug.setPrecondition((Condition) getNewObject(urn, Condition.class));
                     plug.getPrecondition().setExpression("true"); //$NON-NLS-1$
-                    
+
                     result = plug;
                 } else if (targetClass.equals(GRLGraph.class)) {
                     // create a map
                     result = grlfactory.createGRLGraph();
                     URNNamingHelper.setElementNameAndID(urn, (GRLGraph) result);
-                }else if (targetClass.equals(IntentionalElementRef.class)) {
+                } else if (targetClass.equals(IntentionalElementRef.class)) {
                     // create the intentional Element ref
                     result = grlfactory.createIntentionalElementRef();
-                    
-                    IntentionalElement elementdef = grlfactory.createIntentionalElement();
+
+                    IntentionalElement elementdef = null;
+
+                    if (definition instanceof IntentionalElement)
+                        elementdef = (IntentionalElement) definition;
+                    else
+                        elementdef = grlfactory.createIntentionalElement();
+
                     ((IntentionalElementRef) result).setDef(elementdef);
 
                     elementdef.setType(IntentionalElementType.get(type));
 
-                    URNNamingHelper.setElementNameAndID(urn, elementdef);
-                    URNNamingHelper.resolveNamingConflict(urn, elementdef);
-                } else if (targetClass.equals(ActorRef.class)){
-                    //Create the actor
+                    if (definition==null) {
+                        URNNamingHelper.setElementNameAndID(urn, elementdef);
+                        URNNamingHelper.resolveNamingConflict(urn, elementdef);
+                    }
+                } else if (targetClass.equals(ActorRef.class)) {
+                    // Create the actor
                     result = grlfactory.createActorRef();
-                    
-                    Actor actor = grlfactory.createActor();
-                    ((ActorRef)result).setContDef(actor);
-                    
-                    URNNamingHelper.setElementNameAndID(urn, actor);
-                    URNNamingHelper.resolveNamingConflict(urn, actor);
-                    
+
+                    Actor actor = null;
+
+                    if (definition instanceof Actor)
+                        actor = (Actor) definition;
+                    else
+                        actor = grlfactory.createActor();
+
+                    ((ActorRef) result).setContDef(actor);
+
+                    if (definition==null) {
+                        URNNamingHelper.setElementNameAndID(urn, actor);
+                        URNNamingHelper.resolveNamingConflict(urn, actor);
+                    }
+
                     ((ActorRef) result).setHeight(DEFAULT_GRL_COMPONENT_HEIGHT);
                     ((ActorRef) result).setWidth(DEFAULT_GRL_COMPONENT_WIDTH);
-                    
+
                     ((ActorRef) result).setLabel(urncorefactory.createComponentLabel());
                 } else if (targetClass.equals(Actor.class)) {
                     result = grlfactory.createActor();
-                } else if (targetClass.equals(Belief.class)){
-                    //Create the belief
+                } else if (targetClass.equals(Belief.class)) {
+                    // Create the belief
                     result = grlfactory.createBelief();
                     URNNamingHelper.setElementNameAndID(urn, result);
-                    
-                    //Set the author to the author specify in the preferences
-                    ((Belief)result).setAuthor(GeneralPreferencePage.getAuthor());
-                    //New belief description should be set to "" by default (because we use it in the description
+
+                    // Set the author to the author specify in the preferences
+                    ((Belief) result).setAuthor(GeneralPreferencePage.getAuthor());
+                    // New belief description should be set to "" by default (because we use it in the description
                     ((Belief) result).setDescription(""); //$NON-NLS-1$
-                }
-                else {
+                } else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }
             }
@@ -347,7 +426,7 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add labels automatically to the required pathnodes.
         if (result instanceof StartPoint || result instanceof EndPoint || result instanceof Stub || result instanceof RespRef || result instanceof WaitingPlace
-                || result instanceof Timer){
+                || result instanceof Timer) {
             ((IURNNode) result).setLabel(urncorefactory.createNodeLabel());
         }
 
@@ -392,7 +471,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setUrnVersion("0.11"); //$NON-NLS-1$
         urnspec.setSpecVersion("0"); //$NON-NLS-1$
 
-        //Set the author to the current user
+        // Set the author to the current user
         urnspec.setAuthor(GeneralPreferencePage.getAuthor());
 
         // add its URN definition
@@ -403,14 +482,14 @@ public class ModelCreationFactory implements CreationFactory {
 
         // add its GRLspec
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
-     
+
         // add the new map to the UCMspec
         urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
 
-        //Create a Strategy and Strategy Group
+        // Create a Strategy and Strategy Group
         StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);
         urnspec.getGrlspec().getGroups().add(group);
-        EvaluationStrategy strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urnspec,EvaluationStrategy.class);
+        EvaluationStrategy strategy = (EvaluationStrategy) ModelCreationFactory.getNewObject(urnspec, EvaluationStrategy.class);
         group.getStrategies().add(strategy);
         urnspec.getGrlspec().getStrategies().add(strategy);
         result = urnspec;

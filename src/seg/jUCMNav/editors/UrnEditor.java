@@ -4,23 +4,34 @@
 package seg.jUCMNav.editors;
 
 import java.util.EventObject;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyHandler;
 import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.palette.PaletteTemplateEntry;
+import org.eclipse.gef.requests.CreationFactory;
+import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.palette.PaletteViewer;
+import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.actions.ActionFactory;
@@ -29,6 +40,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import urncore.IURNDiagram;
 
@@ -267,5 +279,56 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
      */
     public void undo() {
         parent.getDelegatingCommandStack().undo();
+    }
+
+    /**
+     * Allows dragging from the palette into the editor.
+     * 
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+     */
+    protected PaletteViewerProvider createPaletteViewerProvider() {
+        return new PaletteViewerProvider(getEditDomain()) {
+            protected void configurePaletteViewer(PaletteViewer viewer) {
+                super.configurePaletteViewer(viewer);
+                // create a drag source listener for this palette viewer
+                // together with an appropriate transfer drop target listener, this will enable
+                // model element creation by dragging a CombinatedTemplateCreationEntries
+                // from the palette into the editor
+                // @see ShapesEditor#createTransferDropTargetListener()
+                viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer) {
+                    protected Object getTemplate() {
+                        List selection = getViewer().getSelectedEditParts();
+                        if (selection.size() == 1) {
+                            EditPart editpart = (EditPart)getViewer().getSelectedEditParts().get(0);
+                            Object model = editpart.getModel(); 
+                            if (model instanceof PaletteTemplateEntry)
+                                return ((PaletteTemplateEntry)model).getTemplate();
+                            if (model instanceof CombinedTemplateCreationEntry)
+                                return ((CombinedTemplateCreationEntry)model).getToolProperty(CreationTool.PROPERTY_CREATION_FACTORY);
+                        }
+                        return null;
+                    };
+                });
+            }
+        };
+    }
+
+    /**
+     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
+     * dragging from the palette.
+     * 
+     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
+     */
+    protected TransferDropTargetListener createTransferDropTargetListener() {
+        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
+            protected CreationFactory getFactory(Object template) {
+                setEnablementDeterminedByCommand(true);
+                 
+                if (template instanceof CreationFactory)
+                    return (CreationFactory) template;
+                else
+                    return new ModelCreationFactory(getModel().getUrndefinition().getUrnspec(), (Class) template);
+            }
+        };
     }
 }

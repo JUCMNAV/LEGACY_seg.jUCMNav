@@ -6,25 +6,19 @@ import java.util.List;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.requests.SimpleFactory;
-import org.eclipse.gef.ui.palette.PaletteViewer;
-import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.ui.internal.PartSite;
 
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editparts.GraphicalEditPartFactory;
 import seg.jUCMNav.editparts.UCMConnectionOnBottomRootEditPart;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
 import ucm.map.UCMmap;
 import urncore.IURNDiagram;
 
@@ -40,7 +34,7 @@ public class UcmEditor extends UrnEditor {
 
     /** The palette root used to display the palette. */
     private PaletteRoot paletteRoot;
-    
+
     /** Create a new UcmEditor instance. This is called by the Workspace. */
     public UcmEditor(UCMNavMultiPageEditor parent) {
         super(parent);
@@ -72,54 +66,17 @@ public class UcmEditor extends UrnEditor {
 
         ContextMenuProvider provider = new UrnContextMenuProvider(viewer, getActionRegistry());
         viewer.setContextMenu(provider);
-        
-
 
         // Bug 381: 3.1: remove extra items from contextual menus
         // getSite().registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer); //$NON-NLS-1$
         ArrayList menuExtenders = new ArrayList(1);
         PartSite.registerContextMenu("seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider", provider, viewer, true, //$NON-NLS-1$
                 this, menuExtenders);
-        if (menuExtenders.get(0)!=null)
-        	provider.removeMenuListener((IMenuListener)menuExtenders.get(0));
-        
+        if (menuExtenders.get(0) != null)
+            provider.removeMenuListener((IMenuListener) menuExtenders.get(0));
 
-
-        viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap)getModel()));
+        viewer.setEditPartFactory(new GraphicalEditPartFactory((UCMmap) getModel()));
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
-    }
-
-    /**
-     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
-     * dragging from the palette.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
-     */
-    private TransferDropTargetListener createTransferDropTargetListener() {
-        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
-            protected CreationFactory getFactory(Object template) {
-                return new SimpleFactory((Class) template);
-            }
-        };
-    }
-
-    /**
-     * Allows dragging from the palette into the editor.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
-     */
-    protected PaletteViewerProvider createPaletteViewerProvider() {
-        return new PaletteViewerProvider(getEditDomain()) {
-            protected void configurePaletteViewer(PaletteViewer viewer) {
-                super.configurePaletteViewer(viewer);
-                // create a drag source listener for this palette viewer
-                // together with an appropriate transfer drop target listener, this will enable
-                // model element creation by dragging a CombinatedTemplateCreationEntries
-                // from the palette into the editor
-                // @see ShapesEditor#createTransferDropTargetListener()
-                viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
-            }
-        };
     }
 
     /**
@@ -161,7 +118,6 @@ public class UcmEditor extends UrnEditor {
         return paletteRoot;
     }
 
-
     /**
      * Set up the editor's inital content (after creation).
      * 
@@ -172,6 +128,9 @@ public class UcmEditor extends UrnEditor {
         graphicalViewer.setContents(getModel()); // set the contents of this editor
         // listen for dropped parts
         graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
+
+        graphicalViewer.addDropTargetListener(new UrnTemplateTransferDropTargetListener(this));
+
     }
 
     /**
@@ -180,7 +139,7 @@ public class UcmEditor extends UrnEditor {
      * @param m
      */
     public void setModel(IURNDiagram m) {
-        mapModel = (UCMmap)m;
+        mapModel = (UCMmap) m;
     }
 
 }

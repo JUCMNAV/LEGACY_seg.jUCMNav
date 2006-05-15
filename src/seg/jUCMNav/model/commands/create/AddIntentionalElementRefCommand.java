@@ -24,6 +24,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
     
     //Graph where the element has been added.
     private GRLGraph graph;
+
+    private boolean bDefAlreadyExists;
     
     /**
      * 
@@ -43,6 +45,9 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        
+        bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef());
+        
         redo();
     }
 
@@ -54,7 +59,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         testPreConditions();
 
         URNspec urnspec = graph.getUrndefinition().getUrnspec();
-        urnspec.getGrlspec().getIntElements().add(elementRef.getDef());
+        if (!bDefAlreadyExists)
+            urnspec.getGrlspec().getIntElements().add(elementRef.getDef());
         
         graph.getNodes().add(elementRef);
         
@@ -70,7 +76,7 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         assert graph != null : "pre graph"; //$NON-NLS-1$
 
         assert !graph.getNodes().contains(elementRef) : "pre elementref in graph"; //$NON-NLS-1$
-        assert !graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "pre elementDef in model"; //$NON-NLS-1$
+        assert bDefAlreadyExists ^ !graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "pre elementDef in model"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -93,7 +99,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         testPostConditions();
 
         URNspec urnspec = graph.getUrndefinition().getUrnspec();
-        urnspec.getGrlspec().getIntElements().remove(elementRef.getDef());
+        if (!bDefAlreadyExists)
+            urnspec.getGrlspec().getIntElements().remove(elementRef.getDef());
         
         graph.getNodes().remove(elementRef);
 

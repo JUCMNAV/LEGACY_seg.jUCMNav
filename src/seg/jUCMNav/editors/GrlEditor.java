@@ -8,25 +8,19 @@ import java.util.List;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
-import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
-import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gef.requests.SimpleFactory;
-import org.eclipse.gef.ui.palette.PaletteViewer;
-import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.ui.internal.PartSite;
 
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
 import seg.jUCMNav.editors.palette.GrlPaletteRoot;
 import seg.jUCMNav.editparts.GrlConnectionOnBottomRootEditPart;
 import seg.jUCMNav.editparts.GrlGraphicalEditPartFactory;
+import seg.jUCMNav.views.dnd.UrnTemplateTransferDropTargetListener;
 import urncore.IURNDiagram;
 
 /** 
@@ -90,39 +84,7 @@ public class GrlEditor extends UrnEditor {
         viewer.setKeyHandler(new GraphicalViewerKeyHandler(viewer).setParent(getCommonKeyHandler()));
     }
     
-    /**
-     * Allows dragging from the palette into the editor.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
-     */
-    protected PaletteViewerProvider createPaletteViewerProvider() {
-        return new PaletteViewerProvider(getEditDomain()) {
-            protected void configurePaletteViewer(PaletteViewer viewer) {
-                super.configurePaletteViewer(viewer);
-                // create a drag source listener for this palette viewer
-                // together with an appropriate transfer drop target listener, this will enable
-                // model element creation by dragging a CombinatedTemplateCreationEntries
-                // from the palette into the editor
-                // @see ShapesEditor#createTransferDropTargetListener()
-                viewer.addDragSourceListener(new TemplateTransferDragSourceListener(viewer));
-            }
-        };
-    }
-    
-    /**
-     * Create a transfer drop target listener. When using a CombinedTemplateCreationEntry tool in the palette, this will enable model element creation by
-     * dragging from the palette.
-     * 
-     * @see org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette#createPaletteViewerProvider()
-     */
-    private TransferDropTargetListener createTransferDropTargetListener() {
-        return new TemplateTransferDropTargetListener(getGraphicalViewer()) {
-            protected CreationFactory getFactory(Object template) {
-                return new SimpleFactory((Class) template);
-            }
-        };
-    }
-    
+   
     /**
      * Overiden to change the visibility
      */
@@ -171,6 +133,8 @@ public class GrlEditor extends UrnEditor {
         graphicalViewer.setContents(getModel()); // set the contents of this editor
         // listen for dropped parts
         graphicalViewer.addDropTargetListener(createTransferDropTargetListener());
+        
+        graphicalViewer.addDropTargetListener(new UrnTemplateTransferDropTargetListener(this));
     }
     
     /**

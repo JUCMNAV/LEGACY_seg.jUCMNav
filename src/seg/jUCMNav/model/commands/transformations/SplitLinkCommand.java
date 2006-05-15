@@ -45,6 +45,9 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     // the location
     private int x, y;
 
+    // does the responsibility definition already exist? (don't remove it on undo)
+    private boolean bDefAlreadyExists;
+
     /**
      * @param pg
      *            the pathgraph containing the elements
@@ -71,8 +74,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
-        previousNode = (PathNode)oldLink.getSource();
-        nextNode = (PathNode)oldLink.getTarget();
+        previousNode = (PathNode) oldLink.getSource();
+        nextNode = (PathNode) oldLink.getTarget();
         if (previousNode == null || nextNode == null || previousNode.getDiagram() == null || nextNode.getDiagram() == null) {
             aborted = true;
             return;
@@ -84,6 +87,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
         node.setX(x);
         node.setY(y);
+
+        if (node instanceof RespRef) {
+            bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(((RespRef) node).getRespDef());
+        }
         redo();
     }
 
@@ -117,7 +124,7 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         diagram.getNodes().add(node);
         diagram.getConnections().add(newLink);
 
-        if (node instanceof RespRef) {
+        if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
         }
@@ -125,11 +132,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         // bind to parent
         node.setContRef(ParentFinder.findParent(diagram, x, y));
 
-
-        // transfer bindings from at the ending of the old link onto the new one. 
+        // transfer bindings from at the ending of the old link onto the new one.
         newLink.getInBindings().addAll(oldLink.getInBindings());
         oldLink.getInBindings().clear();
-        
+
         testPostConditions();
     }
 
@@ -152,15 +158,14 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         oldLink.setTarget(nextNode);
         newLink.setTarget(null);
 
-        if (node instanceof RespRef) {
+        if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
         }
-        
-        // transfer bindings from at the ending of the new link back onto the old one. 
+
+        // transfer bindings from at the ending of the new link back onto the old one.
         oldLink.getInBindings().addAll(newLink.getInBindings());
         newLink.getInBindings().clear();
-
 
         testPreConditions();
     }
