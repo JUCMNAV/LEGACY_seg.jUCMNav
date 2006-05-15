@@ -15,10 +15,21 @@ import ucm.map.RespRef;
 import urncore.Component;
 import urncore.Responsibility;
 
+/**
+ * Drag target setup on the UcmEditor and GrlEditor.
+ * 
+ * @author jkealey
+ */
 public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropTargetListener {
 
     protected UrnEditor editor;
 
+    /**
+     * Creates a listener for drop events of type UrnTemplateTransfer.
+     * 
+     * @param editor
+     *            The editor with a reference to the URNspec to be passed on to the ModelCreationFactory instance that is created by getFactory)
+     */
     public UrnTemplateTransferDropTargetListener(UrnEditor editor) {
         super(editor.getGraphicalViewer());
         setEnablementDeterminedByCommand(true);
@@ -26,6 +37,11 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
         this.editor = editor;
     }
 
+    /**
+     * Given a template, return a proper instance of ModelCreationFactory.
+     * 
+     * @see org.eclipse.gef.dnd.TemplateTransferDropTargetListener#getFactory(java.lang.Object)
+     */
     protected CreationFactory getFactory(Object template) {
         // return new SimpleFactory((Class) template);
 
@@ -56,15 +72,15 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ActorRef.class, definition);
         }
 
-        if (template instanceof IntentionalElement || template instanceof IntentionalElementRef) 
-        {
+        if (template instanceof IntentionalElement || template instanceof IntentionalElementRef) {
             Object definition = template;
 
             if (definition instanceof IntentionalElementRef)
                 definition = ((IntentionalElementRef) definition).getDef();
-            
-            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class, ((IntentionalElement)definition).getType().getValue(), definition);
-            
+
+            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class, ((IntentionalElement) definition)
+                    .getType().getValue(), definition);
+
         }
 
         return null;

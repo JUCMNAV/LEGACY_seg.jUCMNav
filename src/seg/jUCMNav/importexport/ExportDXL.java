@@ -137,8 +137,8 @@ public class ExportDXL implements IURNExport {
      * Writes the information about actor references, such as id, fx, fy, width, height, definition id, name, and parent actor
      * of stubs.
      * 
-     * @param ucmmap
-     *            UCMmap
+     * @param graph
+     *            GRLGraph
      * @throws IOException
      */
     protected void writeActorRef(GRLGraph graph) throws IOException {
@@ -469,8 +469,8 @@ public class ExportDXL implements IURNExport {
      * Writes the information about grl nodes (intentional element references or belief), 
      * such as id, fx, fy, enclosing actor, definition id, name, description, priority and criticality
      * 
-     * @param ucmmap
-     *            ucmmap
+     * @param graph
+     *            GRLGraph
      * @throws IOException
      */
     protected void writeGrlNodes(GRLGraph graph) throws IOException {

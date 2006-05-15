@@ -14,6 +14,11 @@ import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.Responsibility;
 
+/**
+ * Drag source setup on the UrnOutlinePage
+ *  
+ * @author jkealey
+ */
 public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragSourceListener {
 
     /**
