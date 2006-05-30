@@ -102,7 +102,7 @@
             finalPerspective="seg.jUCMNav.UCMEditor"
             icon="icons/icon16.gif"
             id="seg.jUCMNav.views.wizards.NewUcmFileWizard"
-            name="Use Case Map"
+            name="Use Case Map / GRL Graph"
             preferredPerspectives="seg.jUCMNav.UCMEditor"
             project="true"/>
    </extension>
