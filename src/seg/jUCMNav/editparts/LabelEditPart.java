@@ -351,7 +351,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     ucmElem = (UCMmodelElement)modelElement;
                 }
                 
-                if (ucmElem.getToLinks().size() > 0){
+                if (ucmElem!=null && ucmElem.getToLinks().size() > 0){
                     //If there is a link, add the icon if not already added
                     if (iconImg == null) {
                         iconImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage(); //$NON-NLS-1$
