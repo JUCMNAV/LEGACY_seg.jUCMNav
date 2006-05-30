@@ -92,16 +92,16 @@
 			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
 		</tstamp>
 		
-		<!--
+		
 		<condition property="jucmnav.version" value="2.0.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
-		-->
+		
 		<!--<property name="jucmnav.version" value="2.0.${buildtime}" />-->
 		
-		<property name="jucmnav.version" value="2.0.0" />
+		<!--<property name="jucmnav.version" value="2.0.0" />-->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -118,15 +118,15 @@
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="jucmnav.version" value="2.1.alpha"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="jucmnav.version" value="2.1.alpha"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="2.0.alpha"/>
+			<param name="jucmnav.version" value="2.1.alpha"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
