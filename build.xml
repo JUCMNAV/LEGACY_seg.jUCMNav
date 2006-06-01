@@ -93,7 +93,7 @@
 		</tstamp>
 		
 		
-		<condition property="jucmnav.version" value="2.0.${buildtime}">
+		<condition property="jucmnav.version" value="2.0.1">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
