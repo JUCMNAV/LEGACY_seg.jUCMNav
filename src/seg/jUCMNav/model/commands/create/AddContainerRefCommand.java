@@ -6,6 +6,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 import urncore.GRLmodelElement;
+import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.UCMmodelElement;
@@ -28,6 +29,7 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
 
     // does the definition already exist.
     private boolean bDefAlreadyExists;
+    private IURNContainer existingDef;
 
     /**
      * 
@@ -47,10 +49,12 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
+        existingDef = compRef.getContDef();
+        
         if (compRef instanceof UCMmodelElement) {
             bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getUrndef().getComponents().contains(compRef.getContDef());
         } else if (compRef instanceof GRLmodelElement) {
-            bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(compRef.getContDef());
+            bDefAlreadyExists = diagram.getUrndefinition().getUrnspec().getGrlspec().getActors().contains(existingDef);
         }
         
         redo();
@@ -83,7 +87,8 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
             urnspec.getUrndef().getComponents().add(compRef.getContDef());
         } else if (!bDefAlreadyExists  && compRef instanceof GRLmodelElement) {
             urnspec.getGrlspec().getActors().add(compRef.getContDef());
-        }
+        } else if (bDefAlreadyExists)
+            compRef.setContDef(existingDef);
 
         // add the component reference to the model
         diagram.getContRefs().add(compRef);
@@ -160,7 +165,8 @@ public class AddContainerRefCommand extends Command implements JUCMNavCommand {
             urnspec.getUrndef().getComponents().remove(compRef.getContDef());
         } else if (!bDefAlreadyExists && compRef instanceof GRLmodelElement) {
             urnspec.getGrlspec().getActors().remove(compRef.getContDef());
-        }
+        } else if (bDefAlreadyExists)
+            compRef.setContDef(null);
 
         testPreConditions();
     }

@@ -12,6 +12,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import urn.URNspec;
+import urncore.Responsibility;
 
 /**
  * This command splits a link and inserts a passed PathNode on the target location.
@@ -47,6 +48,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
     // does the responsibility definition already exist? (don't remove it on undo)
     private boolean bDefAlreadyExists;
+
+    private Responsibility existingDef;
 
     /**
      * @param pg
@@ -89,7 +92,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         node.setY(y);
 
         if (node instanceof RespRef) {
-            bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(((RespRef) node).getRespDef());
+            existingDef = ((RespRef) node).getRespDef();
+            bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(existingDef);
         }
         redo();
     }
@@ -127,6 +131,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().add(((RespRef) node).getRespDef());
+        } else if (node instanceof RespRef && bDefAlreadyExists) {
+            ((RespRef) node).setRespDef(existingDef);
         }
 
         // bind to parent
@@ -161,6 +167,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
             urn.getUrndef().getResponsibilities().remove(((RespRef) node).getRespDef());
+        } else if (node instanceof RespRef && bDefAlreadyExists) {
+            ((RespRef) node).setRespDef(null);
         }
 
         // transfer bindings from at the ending of the new link back onto the old one.

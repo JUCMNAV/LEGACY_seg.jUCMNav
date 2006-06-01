@@ -3,20 +3,26 @@ package seg.jUCMNav.views.dnd;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
+import org.eclipse.swt.dnd.DragSourceEvent;
 
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editparts.treeEditparts.OutlineRootEditPart;
 import ucm.map.RespRef;
+import urn.URNspec;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.Responsibility;
 
 /**
  * Drag source setup on the UrnOutlinePage
- *  
+ * 
  * @author jkealey
  */
 public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragSourceListener {
@@ -54,4 +60,72 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
         return null;
     }
 
+    public void dragFinished(DragSourceEvent event) {
+        // ModelCreationFactory creates useless refs that are not added when dragged here. 
+        URNspec urn = ((UCMNavMultiPageEditor)((OutlineRootEditPart)getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
+        cleanUnusedRespRefs(urn);
+        cleanUnusedContRefs(urn);
+        cleanUnusedIntElemntRef(urn);
+
+    }
+
+    private void cleanUnusedRespRefs(URNspec urn) {
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = urn.getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+            Responsibility resp = (Responsibility) iter.next();
+            for (Iterator iterator = resp.getRespRefs().iterator(); iterator.hasNext();) {
+                RespRef ref = (RespRef) iterator.next();
+                if (ref.getDiagram()==null)
+                    toRemove.add(ref);
+            }
+        }
+        
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            RespRef ref = (RespRef) iter.next();
+            ref.setRespDef(null);
+        }
+    }
+    
+    private void cleanUnusedContRefs(URNspec urn) {
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
+            IURNContainer cont = (IURNContainer) iter.next();
+            for (Iterator iterator = cont.getContRefs().iterator(); iterator.hasNext();) {
+                IURNContainerRef ref = (IURNContainerRef) iterator.next();
+                if (ref.getDiagram()==null)
+                    toRemove.add(ref);
+            }
+        }
+        
+        for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
+            IURNContainer cont = (IURNContainer) iter.next();
+            for (Iterator iterator = cont.getContRefs().iterator(); iterator.hasNext();) {
+                IURNContainerRef ref = (IURNContainerRef) iterator.next();
+                if (ref.getDiagram()==null)
+                    toRemove.add(ref);
+            }
+        }
+                
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            IURNContainerRef ref = (IURNContainerRef) iter.next();
+            ref.setContDef(null);
+        }
+    }
+    
+    private void cleanUnusedIntElemntRef(URNspec urn) {
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+            IntentionalElement elem = (IntentionalElement) iter.next();
+            for (Iterator iterator = elem.getRefs().iterator(); iterator.hasNext();) {
+                IntentionalElementRef ref = (IntentionalElementRef) iterator.next();
+                if (ref.getDiagram()==null)
+                    toRemove.add(ref);
+            }
+        }
+        
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            IntentionalElementRef ref = (IntentionalElementRef) iter.next();
+            ref.setDef(null);
+        }
+    }       
 }

@@ -23,6 +23,8 @@ import urncore.Responsibility;
 public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropTargetListener {
 
     protected UrnEditor editor;
+    private Object lastTemplate;
+    private CreationFactory lastFactory;
 
     /**
      * Creates a listener for drop events of type UrnTemplateTransfer.
@@ -44,14 +46,21 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
      */
     protected CreationFactory getFactory(Object template) {
         // return new SimpleFactory((Class) template);
-
+        if (lastTemplate==template)
+            return lastFactory;
+        else {
+            lastTemplate = template;
+            lastFactory = null;
+        }
+            
         if (template instanceof ComponentRef || template instanceof Component) {
             Object definition = template;
 
             if (definition instanceof ComponentRef)
                 definition = ((ComponentRef) definition).getContDef();
 
-            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, definition);
+            
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, definition);
         }
 
         if (template instanceof Responsibility || template instanceof RespRef) {
@@ -60,7 +69,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof RespRef)
                 definition = ((RespRef) definition).getRespDef();
 
-            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), RespRef.class, definition);
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), RespRef.class, definition);
         }
 
         if (template instanceof Actor || template instanceof ActorRef) {
@@ -69,7 +78,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof ActorRef)
                 definition = ((ActorRef) definition).getContDef();
 
-            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ActorRef.class, definition);
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ActorRef.class, definition);
         }
 
         if (template instanceof IntentionalElement || template instanceof IntentionalElementRef) {
@@ -78,12 +87,12 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof IntentionalElementRef)
                 definition = ((IntentionalElementRef) definition).getDef();
 
-            return new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class, ((IntentionalElement) definition)
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class, ((IntentionalElement) definition)
                     .getType().getValue(), definition);
 
         }
 
-        return null;
+        return lastFactory;
     }
 
 }

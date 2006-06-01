@@ -4,6 +4,7 @@
 package seg.jUCMNav.model.commands.create;
 
 import grl.GRLGraph;
+import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
@@ -26,6 +27,7 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
     private GRLGraph graph;
 
     private boolean bDefAlreadyExists;
+    private IntentionalElement existingDef;
     
     /**
      * 
@@ -46,7 +48,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
      */
     public void execute() {
         
-        bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef());
+        existingDef = elementRef.getDef();
+        bDefAlreadyExists = graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(existingDef);
         
         redo();
     }
@@ -61,7 +64,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         URNspec urnspec = graph.getUrndefinition().getUrnspec();
         if (!bDefAlreadyExists)
             urnspec.getGrlspec().getIntElements().add(elementRef.getDef());
-        
+        else
+            elementRef.setDef(existingDef);
         graph.getNodes().add(elementRef);
         
         testPostConditions();
@@ -101,6 +105,8 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
         URNspec urnspec = graph.getUrndefinition().getUrnspec();
         if (!bDefAlreadyExists)
             urnspec.getGrlspec().getIntElements().remove(elementRef.getDef());
+        else
+            elementRef.setDef(null);
         
         graph.getNodes().remove(elementRef);
 
