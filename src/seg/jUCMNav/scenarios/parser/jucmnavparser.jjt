@@ -1,0 +1,302 @@
+/*
+JJTree file for jUCMNav's condition syntax. 
+
+	Needs JavaCC 3.2 ... 4.0 doesn't seem to work
+	
+	See: http://jucmnav.softwareengineering.ca/twiki/bin/view/ProjetSEG/UcmScenariosDataModel
+
+*/
+
+options {
+	LOOKAHEAD=1;
+}
+
+PARSER_BEGIN(jUCMNavParser)
+package seg.jUCMNav.scenarios.parser;
+public class jUCMNavParser {
+  public static void main(String args[]) {
+    System.out.println("Reading from standard input...");
+    jUCMNavParser t = new jUCMNavParser(System.in);
+    try {
+      SimpleNode n = t.Start();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(jUCMNavParser)
+
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n"|"\0")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+
+SimpleNode Start() : {}
+{
+  Expression() <EOF> 
+  { return jjtThis; }
+}
+
+SimpleNode StartResponsibility() : {}
+{
+  (Statement())+ <EOF> 
+  { return jjtThis; }
+}
+
+void Statement() #void : {}
+{
+	(Assignment() | CompoundStatement() | IfStatement())
+}
+
+void Assignment() #void : {}
+{
+	(Identifier() (<EQUALS> | <ASSIGNMENTOPERATOR>) Expression() <STATEMENTTERMINATOR>) #Assignment(>1)
+}
+
+void CompoundStatement() #void : {}
+{
+	( "{" (Statement())* "}" ) #CompoundStatement(>0)
+}
+
+void IfStatement() #void : {}
+{
+	( <IF> Expression() Statement()(<ELSE> Statement())? ) #IfStatement(>1)
+}
+
+void Expression() #void : {}
+{
+   ( Implication() )
+}
+
+void Implication() #void : {}
+{
+  ( (Disjunction() ( "=>" Disjunction() )*) ) #Implication(>1)
+}
+
+void Disjunction() #void : {}
+{
+  ( Conjunction() (( InclusiveDisjunction() | ExclusiveDisjunction()) Conjunction()  )* ) #Disjunction(>1)
+}
+
+void InclusiveDisjunction() #void : {}
+{
+  ( <OR> )  #InclusiveDisjunction(true)
+}
+
+void ExclusiveDisjunction() #void : {}
+{
+  ( <XOR> ) #ExclusiveDisjunction(true)
+}
+
+void Conjunction() #void : {}
+{
+  ( Comparison() ( <AND> Comparison() )* ) #Conjunction(>1)
+}
+
+void Comparison() #void : {}
+{
+   ( BooleanUnit() ((Equality() | Inequality()) BooleanUnit())* )   #Comparison(>1)
+}
+
+void Equality() #void : {}
+{
+   ( <EQUALS> | <DOUBLEEQUALS> )  #Equality(true)
+}
+
+void Inequality() #void : {}
+{
+   ( <NOTEQUALS> ) #Inequality(true)
+}
+
+void Negation() #void : {}
+{
+  ( <NOT> BooleanUnit() ) #Negation(1)
+}
+
+void BooleanUnit() #void : {}
+{
+  ( Negation() | RelationalExpression() | BooleanConstant() )
+}
+
+void RelationalExpression() # void:  {}
+{
+	(AdditiveExpression() (RelationalOperation()  AdditiveExpression())?) #RelationalExpression(>1)
+}
+
+void RelationalOperation() # void: { }
+{
+	(GreaterThan() | GreaterOrEqualTo() | LowerThan() | LowerOrEqualTo() ) #RelationalOperation(false)
+}
+
+void AdditiveExpression() # void: {}
+{
+	( MultiplicativeExpression()  ( (AdditiveOperator())  MultiplicativeExpression() )* )  #AdditiveExpression(>1)
+}
+
+void MultiplicativeExpression() # void: {}
+{
+	( UnaryExpression()  ( MultiplicativeOperator() UnaryExpression() )* )  #MultiplicativeExpression(>1)
+}
+
+void UnaryExpression() # void: {}
+{
+	 (AdditiveComplementOperator())? (("(" Expression() ")") | IntegerConstant() | Identifier()) 
+}
+
+void AdditiveOperator() # void: { }
+{
+	( Addition() | Substraction() )
+}
+
+void AdditiveComplementOperator() # void : { }
+{
+	( Addition() | Substraction() )
+}
+
+void MultiplicativeOperator() # void : { }
+{
+   ( Multiplication() ) 
+}
+void GreaterThan() # void: { }
+{ 
+	(	">" )  #GreaterThan(true)
+}
+
+void GreaterOrEqualTo() # void : { }
+{	
+	( ">=" ) #GreaterOrEqualTo(true)
+}
+
+void LowerThan() # void : { }
+{
+ ( "<" ) #LowerThan(true)
+}
+
+void LowerOrEqualTo() # void : { }
+{ 	
+  ( "<=" ) #LowerOrEqualTo(true)
+}
+
+void Addition() # void : { }
+{ ( "+" ) #Addition(true)
+}
+
+void Substraction() # void : {} 
+{ 
+	( "-" ) #Substraction(true)
+}
+
+void Multiplication() # void : { }
+{ 
+	( "*" ) #Multiplication(true)
+}
+
+
+
+void BooleanConstant() : { Token t; } 
+{
+	t=<BOOLEAN> { jjtThis.setText( t.image );} 
+}
+
+void IntegerConstant() : { Token t; } 
+{
+	t=<INTEGER> { jjtThis.setText( t.image );} 
+}
+
+void Identifier() : { Token t; } 
+{
+	t=<IDENTIFIER> { jjtThis.setText( t.image );} 
+}
+
+
+TOKEN : 
+{
+	< AND: ("and" | "&&") >
+}
+
+
+TOKEN : 
+{
+	< OR: ("or" | "||") >
+}
+
+TOKEN : 
+{
+	< XOR: ("xor" | "^") >
+}
+
+TOKEN : 
+{
+	< EQUALS: ("=") >
+}
+
+/* split out here for LL(1) conflict with assignment */
+TOKEN : 
+{
+	< DOUBLEEQUALS: ("==") >
+}
+
+TOKEN : 
+{
+	< NOTEQUALS: ("/=" | "!=") >
+}
+
+TOKEN : 
+{
+	< NOT: ("not" | "!") >
+}
+
+
+TOKEN : 
+{
+	< ASSIGNMENTOPERATOR: (":=") >
+}
+
+TOKEN : 
+{
+	< IF: ("if") >
+}
+
+TOKEN : 
+{
+	< ELSE: ("else") >
+}
+
+TOKEN : 
+{
+	< STATEMENTTERMINATOR: (";") >
+}
+
+
+TOKEN : 
+{
+	< BOOLEAN: ("true" | "false") >
+}
+
+TOKEN : 
+{
+	< INTEGER: (["0"-"9"])+ >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: ["_","a"-"z","A"-"Z"] >
+|
+  < #DIGIT: ["0"-"9"] >
+}
+
