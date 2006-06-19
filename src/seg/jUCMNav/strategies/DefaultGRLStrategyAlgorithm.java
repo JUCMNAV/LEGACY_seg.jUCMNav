@@ -160,6 +160,10 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                                 resultContrib = 0;
                                 break;
                         }
+                        int tempEval = ((Evaluation)evaluations.get(link.getSrc())).getEvaluation();
+                        if (Math.abs(resultContrib) > Math.abs(tempEval)){
+                            resultContrib = (Math.abs(resultContrib)/resultContrib)*tempEval;
+                        }
                         if (resultContrib != 0){
                             contributionValues[contribArrayIt] = 
                                 (new Double(Math.round(resultContrib))).intValue();
