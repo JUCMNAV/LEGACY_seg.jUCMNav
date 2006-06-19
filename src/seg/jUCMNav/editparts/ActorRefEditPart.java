@@ -274,6 +274,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         if (total > 0){
             total = new Double((satisficed +denied)/total).intValue();
         }
+        if (Math.abs(total) > 100){
+            total = (Math.abs(total)/total)*100;
+        }
         return String.valueOf(total);
     }
 
