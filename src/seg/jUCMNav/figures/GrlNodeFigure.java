@@ -176,20 +176,17 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
                 width < minWidth){
             height = height + dimEditableLabel.height;
             width = width + 20;
-            System.out.println("In while:minWidth=" + minWidth + " width:" + dimEditableLabel.width + " " + width* Math.floor(height/dimEditableLabel.height));        
 
         }
         if (height < (getDefaultDimension().height - 2*LABEL_PADDING_Y)){
             height = getDefaultDimension().height - 2*LABEL_PADDING_Y;
         }
-        System.out.println("Dimension:width:" + width + " height:" + getDefaultDimension().height);            
         Rectangle r = new Rectangle();
         r.x = LABEL_PADDING_X;
         r.y = LABEL_PADDING_Y;
         r.width = width;
         r.height = height;
         setConstraint(flowPage,r);
-System.out.println("Dimension 2:width:" + width + " height:" + height);        
         setSize(width + 2*LABEL_PADDING_X, height + 2*LABEL_PADDING_Y);
 
     }    
