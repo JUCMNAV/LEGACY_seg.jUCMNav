@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport;
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
+import grl.BeliefLink;
 import grl.DecompositionType;
 import grl.GRLGraph;
 import grl.IntentionalElement;
@@ -24,6 +25,7 @@ import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentKind;
+import urncore.IURNConnection;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Responsibility;
@@ -555,6 +557,17 @@ public class ExportDXL implements IURNExport {
                 }
                 write(QUOTES_COMMA);
 
+                //Link to intentional element (id)
+                write(QUOTES);
+                if (belief.getSucc().size() > 0){
+                    IURNConnection connection = (IURNConnection)belief.getSucc().get(0);
+                    if (connection != null && (connection instanceof BeliefLink)){
+                        IntentionalElementRef beliefref = (IntentionalElementRef)connection.getTarget();
+                        write(beliefref.getId());
+                    }
+                }
+                write(QUOTES_COMMA);
+                
                 // Name
                 write(QUOTES);
                 write(belief.getName());
