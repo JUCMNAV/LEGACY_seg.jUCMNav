@@ -2,6 +2,8 @@ package seg.jUCMNav.model.util;
 
 import grl.Actor;
 import grl.ActorRef;
+import grl.Belief;
+import grl.ElementLink;
 import grl.EvaluationStrategy;
 import grl.GRLGraph;
 import grl.GRLspec;
@@ -594,7 +596,25 @@ public class URNNamingHelper {
 			if (elem.getName() == null || elem.getName().trim().length() == 0) {
 				elem.setName(elem.getType().getName() + " " + elem.getId()); //$NON-NLS-1$
 			}
-		} else if (o instanceof StrategiesGroup) {
+		} else if (o instanceof Belief) {
+            Belief belief = (Belief) o;
+            if (belief.getId() == null || belief.getId().trim().length() == 0) {
+                belief.setId(getNewID(urn));
+            }
+
+            if (belief.getName() == null || belief.getName().trim().length() == 0) {
+                belief.setName(getPrefix(o.getClass()) + belief.getId()); //$NON-NLS-1$
+            }
+        } else if (o instanceof ElementLink) {
+            ElementLink link = (ElementLink) o;
+            if (link.getId() == null || link.getId().trim().length() == 0) {
+                link.setId(getNewID(urn));
+            }
+
+            if (link.getName() == null || link.getName().trim().length() == 0) {
+                link.setName(getPrefix(o.getClass()) + link.getId()); //$NON-NLS-1$
+            }
+        } else if (o instanceof StrategiesGroup) {
 			StrategiesGroup group = (StrategiesGroup) o;
 			if (group.getId() == null || group.getId().trim().length() == 0) {
 				group.setId(getNewID(urn));
