@@ -4,11 +4,16 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;
 import grl.BeliefLink;
+import grl.Contribution;
+import grl.Decomposition;
 import grl.DecompositionType;
+import grl.Dependency;
+import grl.ElementLink;
 import grl.GRLGraph;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.IntentionalElementType;
+import grl.LinkRef;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,6 +34,7 @@ import urncore.IURNConnection;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * Export DXL Script to be run in Telelogic DOORS
@@ -69,6 +75,7 @@ public class ExportDXL implements IURNExport {
             writeComponents(urn);
             writeResponsibilities(urn);
             writeIntentionalElements(urn);
+            writeElementLinks(urn);
             writeGrlDiagrams(urn, filename);
             writeMaps(urn, filename);
             writeScenarios(urn);
@@ -398,6 +405,9 @@ public class ExportDXL implements IURNExport {
                 writeActorRef(grlgraph);
                 writeGrlNodes(grlgraph);
                 
+                //Write the links in the diagram
+                writeLinkRef(grlgraph);
+                
             }
         }
         write("\n\n"); //$NON-NLS-1$
@@ -422,6 +432,83 @@ public class ExportDXL implements IURNExport {
         String name = filename.substring(firstIndex, lastIndex);
 
         write("beginImport( " + QUOTES + name + QUOTES + " )\n\n"); // write URN name //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * Writes the information about ElementLinks
+     * 
+     * @param urn
+     *            urn
+     * @throws IOException
+     */
+    protected void writeElementLinks(URNspec urn) throws IOException {
+        for (Iterator iter = urn.getGrlspec().getLinks().iterator(); iter.hasNext();) {
+            //Create different type of dxl based on the type of link
+            ElementLink link = (ElementLink) iter.next();
+            if (link instanceof Contribution){
+                write("contribution("); //$NON-NLS-1$
+            } else {
+                write("elementlink( "); //$NON-NLS-1$
+            }
+            
+            // ID
+            write(QUOTES);
+            write(link.getId());
+            write(QUOTES_COMMA);
+
+            // Name
+            write(QUOTES);
+            write(link.getName());
+            write(QUOTES_COMMA);
+            
+            if (link instanceof Decomposition)
+            {
+                write(QUOTES);
+                write("decomposition"); //$NON-NLS-1$
+                write(QUOTES_COMMA);
+            } else if (link instanceof Dependency){
+                write(QUOTES);
+                write("dependency"); //$NON-NLS-1$
+                write(QUOTES_COMMA);
+            } else if (link instanceof Contribution){
+                write(QUOTES);
+                write("contribution"); //$NON-NLS-1$
+                write(QUOTES_COMMA);
+                
+                // Contribution Type
+                write(QUOTES);
+                write(((Contribution)link).getContribution().getName());
+                write(QUOTES_COMMA);
+                
+                //Correlation
+                write(QUOTES);
+                if (((Contribution)link).isCorrelation())
+                {
+                    write("1");
+                } else {
+                    write("0");
+                }
+                write(QUOTES_COMMA);
+            } else {
+                throw new IOException("Invalid ElementLink type");
+            }
+            
+            // Description
+            write(QUOTES);
+            write(link.getDescription());
+            write(QUOTES_COMMA);
+            
+            // Source
+            write(QUOTES);
+            write(link.getSrc().getId());
+            write(QUOTES_COMMA);
+            
+            // Destination
+            write(QUOTES);
+            write(link.getDest().getId());
+            write(QUOTES_END_ELEM);
+        }
+        write("\n"); //$NON-NLS-1$    
     }
 
     /**
@@ -582,6 +669,37 @@ public class ExportDXL implements IURNExport {
                 write(QUOTES);
                 write(belief.getAuthor());
                 write(QUOTES_END_ELEM);
+            }
+        }
+    }
+    
+    /**
+     * Writes the information about Link References
+     * 
+     * @param graph
+     *            GRLGraph
+     * @throws IOException
+     */
+    protected void writeLinkRef(GRLGraph graph) throws IOException {
+        for (Iterator iter = graph.getConnections().iterator(); iter.hasNext();) {
+            IURNConnection connection = (IURNConnection) iter.next();
+            if (connection instanceof LinkRef){
+                write("   linkref( "); //$NON-NLS-1$
+                LinkRef ref = (LinkRef)connection;
+                //Source
+                write(QUOTES);
+                write(((URNmodelElement)ref.getSource()).getId());
+                write(QUOTES_COMMA);         
+                
+                //Target
+                write(QUOTES);
+                write(((URNmodelElement)ref.getTarget()).getId());
+                write(QUOTES_COMMA);  
+                
+                //Element Link
+                write(QUOTES);
+                write(ref.getLink().getId());
+                write(QUOTES_END_ELEM);                  
             }
         }
     }
