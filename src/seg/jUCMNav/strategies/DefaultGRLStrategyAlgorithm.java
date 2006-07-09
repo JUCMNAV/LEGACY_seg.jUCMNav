@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import seg.jUCMNav.extensionpoints.IGRLStrategyAlgorithm;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 /**
  * This class implement the default GRL evaluation algorithm.
@@ -186,10 +187,10 @@ public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
                 contribValue += contributionValues[i];
             }
             
-            if (contribValue > 90 && numSatisfied == 0){
-                contribValue = 90;
-            } else if (contribValue < -90 && numDenied == 0){
-                contribValue = -90;
+            if (contribValue > (100 - GeneralPreferencePage.getTolerance()) && numSatisfied == 0){
+                contribValue = 100 - GeneralPreferencePage.getTolerance();
+            } else if (contribValue < (-100 + GeneralPreferencePage.getTolerance()) && numDenied == 0){
+                contribValue = -100 + GeneralPreferencePage.getTolerance();
             }
             result = result + contribValue;
             

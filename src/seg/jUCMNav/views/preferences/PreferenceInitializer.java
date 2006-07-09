@@ -25,6 +25,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
 
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_TOLERANCE, 10);
+
         // done elsewhere
         AutoLayoutPreferences.createPreferences();
 
