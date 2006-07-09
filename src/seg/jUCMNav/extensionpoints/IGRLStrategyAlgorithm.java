@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.extensionpoints;
 
+import grl.Actor;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 
@@ -48,4 +49,10 @@ public interface IGRLStrategyAlgorithm {
      * @return int Evaluation of the intentionalElement between -100 and 100
      */
     public int getEvaluation(IntentionalElement element);
+
+    /**
+     * @param actor actor to calculate the evaluation
+     * @return int Evaluation of the actor
+     */
+    public int getActorEvaluation(Actor actor);
 }

@@ -5,12 +5,7 @@ package seg.jUCMNav.editparts;
 
 import grl.Actor;
 import grl.ActorRef;
-import grl.Criticality;
 import grl.GRLGraph;
-import grl.IntentionalElementRef;
-import grl.Priority;
-
-import java.util.Iterator;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -35,7 +30,6 @@ import seg.jUCMNav.figures.ActorFigure;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
-import urncore.IURNNode;
 
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
@@ -201,83 +195,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
     }
     
     public String calculateEvaluation(){
-        double satisficed = 0;
-        double denied = 0;
-        
-        int total = 0;
-        
-        Iterator iter = getActorRef().getNodes().iterator();
-        while (iter.hasNext()){
-            IURNNode node = (IURNNode)iter.next();
-            if (node instanceof IntentionalElementRef){
-                IntentionalElementRef element = (IntentionalElementRef)node;
-                int evaluation = EvaluationStrategyManager.getInstance().getEvaluation(element.getDef());
-                switch (element.getCriticality().getValue()){
-                case Criticality.HIGH:
-                    if (evaluation > 0){
-                        satisficed = satisficed + (evaluation*1.5);
-                    } else {
-                        denied = denied + (evaluation*1.5);
-                    }
-                    total++;
-                    break;
-                case Criticality.MEDIUM:
-                    if (evaluation > 0){
-                        satisficed = satisficed + evaluation;
-                    } else {
-                        denied = denied + evaluation;
-                    }
-                    total++;
-                    break;
-                case Criticality.LOW:
-                    if (evaluation > 0){
-                        satisficed = satisficed + (evaluation*0.5);
-                    } else {
-                        denied = denied + (evaluation*0.5);
-                    }
-                    total++;
-                    break;
-                default:
-                    break;
-                }
-                
-                switch (element.getPriority().getValue()){
-                case Priority.HIGH:
-                    if (evaluation > 0){
-                        satisficed = satisficed + (evaluation*1.5);
-                    } else {
-                        denied = denied + (evaluation*1.5);
-                    }
-                    total++;
-                    break;
-                case Priority.MEDIUM:
-                    if (evaluation > 0){
-                        satisficed = satisficed + evaluation;
-                    } else {
-                        denied = denied + evaluation;
-                    }
-                    total++;
-                    break;
-                case Priority.LOW:
-                    if (evaluation > 0){
-                        satisficed = satisficed + (evaluation*0.5);
-                    } else {
-                        denied = denied + (evaluation*0.5);
-                    }
-                    total++;
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-        if (total > 0){
-            total = new Double((satisficed +denied)/total).intValue();
-        }
-        if (Math.abs(total) > 100){
-            total = (Math.abs(total)/total)*100;
-        }
-        return String.valueOf(total);
+        return String.valueOf(EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor)getActorRef().getContDef())));
     }
 
 }
