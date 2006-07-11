@@ -43,11 +43,22 @@ public class EvaluationStrategyManager {
     private UCMNavMultiPageEditor multieditor;
     
     private static EvaluationStrategyManager instance;
+    private boolean canRefresh;
     public static synchronized EvaluationStrategyManager getInstance()
     {
         if (instance == null){
             instance = new EvaluationStrategyManager();
         }
+        instance.canRefresh = true;
+        return instance;
+    }
+
+    public static synchronized EvaluationStrategyManager getInstance(boolean canRefresh)
+    {
+        if (instance == null){
+            instance = new EvaluationStrategyManager();
+        }
+        instance.canRefresh = canRefresh;
         return instance;
     }
     
@@ -61,7 +72,7 @@ public class EvaluationStrategyManager {
         
     }
     
-    public void calculateEvaluation(){
+    public synchronized void calculateEvaluation(){
         if (strategy == null){
             return;
         }
@@ -75,17 +86,19 @@ public class EvaluationStrategyManager {
             eval.setEvaluation(algo.getEvaluation(element));
         }
 
-        //Refresh all the diagrams
-        for (int i=0; i< multieditor.getPageCount(); i++){
-            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).refreshChildren();         
+        //Refresh all the diagrams if canRefresh set to true
+        if (canRefresh){
+            for (int i=0; i< multieditor.getPageCount(); i++){
+                UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).refreshChildren();         
+            }
         }
     }
     
-    public int getActorEvaluation(Actor actor){
+    public synchronized int getActorEvaluation(Actor actor){
         return algo.getActorEvaluation(actor);
     }
-    public int getEvaluation(IntentionalElement elem){
+    public synchronized int getEvaluation(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
         if (temp == null){
             temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
@@ -94,7 +107,7 @@ public class EvaluationStrategyManager {
         return temp.getEvaluation();
     }
     
-    public Evaluation getEvaluationObject(IntentionalElement elem){
+    public synchronized Evaluation getEvaluationObject(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
         //if the evaluation is null, it is a new element and we need to create a new evaluation
         if (temp == null){
@@ -104,11 +117,11 @@ public class EvaluationStrategyManager {
         return temp;
     }
     
-    public EvaluationStrategy getEvaluationStrategy(){
+    public synchronized EvaluationStrategy getEvaluationStrategy(){
         return strategy;
     }
     
-    public void setEvaluationForElement(IntentionalElement element, Evaluation eval){
+    public synchronized void setEvaluationForElement(IntentionalElement element, Evaluation eval){
         if (eval != null){
             evaluations.remove(element);
             evaluations.put(element,eval);
@@ -116,7 +129,7 @@ public class EvaluationStrategyManager {
         }
         
     }
-    public void setStrategy(EvaluationStrategy strategy){
+    public synchronized void setStrategy(EvaluationStrategy strategy){
         this.strategy = strategy;
 
         //Create a new hash map for this strategy
@@ -145,7 +158,7 @@ public class EvaluationStrategyManager {
         }
     }
     
-    public void setIntentionalElementEvaluation(IntentionalElement element, int value){
+    public synchronized void setIntentionalElementEvaluation(IntentionalElement element, int value){
         //The evaluation could only be between 100 and -100. Do nothing if it is not the case
         if (value<=100 && value>=-100){
             Evaluation eval = (Evaluation)evaluations.get(element);
@@ -163,7 +176,7 @@ public class EvaluationStrategyManager {
         }
     }
 
-    public void setMultieditor(UCMNavMultiPageEditor multieditor) {
+    public synchronized void setMultieditor(UCMNavMultiPageEditor multieditor) {
         this.multieditor = multieditor;
     }
 }
