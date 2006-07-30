@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ <xs:element name="grl-catalog">
+  <xs:complexType>
+   <xs:sequence>
+	<xs:element name="element-def">
+	 <xs:complexType>
+	  <xs:sequence>
+	   <!-- Intentional Elements List -->
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="intentional-element">
+	    <xs:complexType>
+		 <xs:attribute name="id" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="type" type="xs:string" use="required"/>
+		 <xs:attribute name="decompositiontype" type="xs:string" use="required"/>
+		 <xs:attribute name="name" type="xs:string" use="required"/>
+		 <xs:attribute name="description" type="xs:string" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+       <!-- End of Intentional Elements List -->
+	  </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+    <!-- Links definitions -->
+    <xs:element name="link-def">
+	 <xs:complexType>
+	  <xs:sequence>
+	  <!-- Dependency -->
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="dependency">
+	    <xs:complexType>
+		 <xs:attribute name="dependeeid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="dependerid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="name" type="xs:string" use="required"/>
+		 <xs:attribute name="description" type="xs:string" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+	   <!-- Decomposition -->
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="decomposition">
+	    <xs:complexType>
+	     <xs:attribute name="srcid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="destid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="name" type="xs:string" use="required"/>
+		 <xs:attribute name="description" type="xs:string" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+	   <!--Contribution -->
+	   <xs:element maxOccurs="unbounded" minOccurs="0" name="contribution">
+		<xs:complexType>
+		 <xs:attribute name="srcid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="destid" type="xs:positiveInteger" use="required"/>
+		 <xs:attribute name="contributiontype" type="xs:string" use="required"/>
+		 <xs:attribute name="correlation" type="xs:boolean" use="required"/>
+		 <xs:attribute name="name" type="xs:string" use="required"/>
+		 <xs:attribute name="description" type="xs:string" use="required"/>
+		</xs:complexType>
+	   </xs:element>
+	  </xs:sequence>
+	 </xs:complexType>
+	</xs:element>
+	<!-- End of Links definitions -->
+   </xs:sequence>
+   <!-- GRL catalogue attributes -->
+   <xs:attribute name="catalog-name" type="xs:string" use="required"/>
+   <xs:attribute name="description" type="xs:string" use="required"/>
+   <xs:attribute name="author" type="xs:string" use="required"/>
+  </xs:complexType>
+ </xs:element>
+</xs:schema>
