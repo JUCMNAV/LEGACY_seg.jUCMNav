@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.preferences;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -24,6 +25,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_LINKREFLABELCOLOR = "PREF_LINKREFLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
+    public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -49,6 +51,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         
         IntegerFieldEditor tolerance = new IntegerFieldEditor(PREF_TOLERANCE, "GRL Evaluation Algorithm Tolerance", getFieldEditorParent()); //$NON-NLS-1$
         addField(tolerance);
+        
+        BooleanFieldEditor eval_filled = new BooleanFieldEditor(PREF_EVALFILLED, "GRL Strategies - Element Filled ", getFieldEditorParent()); //$NON-NLS-1$
+        addField(eval_filled);
     }
 
     /**
@@ -73,4 +78,12 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static int getTolerance() {
         return JUCMNavPlugin.getDefault().getPreferenceStore().getInt("PREF_TOLERANCE"); //$NON-NLS-1$
     }  
+    
+    /**
+     * @return boolean TRUE if elements should be filled for GRL strategies
+     */
+    public static boolean getElementFilled(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean("PREF_EVALFILLED"); //$NON-NLS-1$
+    }
+    
 }

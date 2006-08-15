@@ -287,18 +287,21 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 //Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
                 
-                String color;
-                if (evaluation.getEvaluation() == 0){
-                    color = "255,255,0"; //$NON-NLS-1$
-                } else {
-                    int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
-                    if (evaluation.getEvaluation() < 0){
-                        color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
-                    } else{
-                        color = partial + ",255,0"; //$NON-NLS-1$
+                if (GeneralPreferencePage.getElementFilled())
+                {
+                    String color;
+                    if (evaluation.getEvaluation() == 0){
+                        color = "255,255,0"; //$NON-NLS-1$
+                    } else {
+                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
+                        if (evaluation.getEvaluation() < 0){
+                            color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
+                        } else{
+                            color = partial + ",255,0"; //$NON-NLS-1$
+                        }
                     }
-                }
-                ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
+                    ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
+                }   
                 String text = String.valueOf(evaluation.getEvaluation());
                 if (evaluation.getStrategies() != null){
                     text = text + "*"; //$NON-NLS-1$
