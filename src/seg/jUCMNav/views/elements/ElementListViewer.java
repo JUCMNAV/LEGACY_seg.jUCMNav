@@ -248,7 +248,8 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 	 */
 	protected void setSelectionToWidget(List l, boolean reveal) {
 		if (list == null) {
-			list.deselectAll();
+			// problem found by inforce. 
+			//list.deselectAll();
 			return;
 		}
 

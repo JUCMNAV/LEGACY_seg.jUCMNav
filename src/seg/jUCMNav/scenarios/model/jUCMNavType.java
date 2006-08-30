@@ -69,6 +69,12 @@ public class jUCMNavType {
             return false;
     }
     
+    public int hashCode() {
+    	if (type!=null)
+    		return type.hashCode();
+    	else
+    		return 0;
+    }
     public String toString() {
         if (this == VOID)
             return "void";

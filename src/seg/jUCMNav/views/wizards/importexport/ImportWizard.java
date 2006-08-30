@@ -2,7 +2,7 @@ package seg.jUCMNav.views.wizards.importexport;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
@@ -129,7 +129,9 @@ public class ImportWizard extends Wizard implements IImportWizard {
                     } else {
                         newurn = importer.importURN(fis, autolayoutDiagrams);
                     }
-                } catch (FileNotFoundException e) {
+                    // found by inforce
+                    fis.close();
+                } catch (IOException e) {
                     throw new InvocationTargetException(e, Messages.getString("ImportWizard.UnableFindSource")); //$NON-NLS-1$
                 }
 

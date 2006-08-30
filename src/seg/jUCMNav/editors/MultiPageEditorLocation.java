@@ -48,7 +48,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
 
 	public String getText() {
 		if (editor == null)
-			return new String();
+			return "";
 		return editor.getTitle();
 	}
 

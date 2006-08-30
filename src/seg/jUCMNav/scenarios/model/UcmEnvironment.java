@@ -57,7 +57,7 @@ public class UcmEnvironment {
     public void registerBoolean(String var, boolean b) {
         checkVariableDoesNotExist(var);
         declarations.put(var, jUCMNavType.BOOLEAN);
-        valuations.put(var, new Boolean(b));
+        valuations.put(var, Boolean.valueOf(b));
     }
 
     public void registerEnumeration(String enumName, String[] values) {

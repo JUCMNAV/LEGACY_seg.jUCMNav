@@ -38,6 +38,9 @@ public abstract class ExportImage implements IUseCaseMapExport {
         ImageLoader loader = new ImageLoader();
         loader.data = new ImageData[] { image.getImageData() };
         loader.save(fos, getType());
+        
+        gc.dispose();
+        image.dispose();
     }
 
     public void export(IFigure pane, String path) {

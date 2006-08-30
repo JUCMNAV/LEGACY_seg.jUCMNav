@@ -49,6 +49,9 @@ public class ExportImageGIF extends ExportImage {
 		ImageLoader loader = new ImageLoader();
 		loader.data = new ImageData[] { downSample(image) };
 		loader.save(fos, getType());
+		
+        gc.dispose();
+        image.dispose();
 	}
 
 	/**

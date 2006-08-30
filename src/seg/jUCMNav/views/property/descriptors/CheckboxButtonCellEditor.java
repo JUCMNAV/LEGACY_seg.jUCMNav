@@ -54,7 +54,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      * @see org.eclipse.jface.viewers.CellEditor#activate()
      */
     public void activate() {
-        this.doSetValue(new Boolean(check.getSelection()));
+        this.doSetValue(Boolean.valueOf(check.getSelection()));
     }
 
     /*
@@ -106,7 +106,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.MouseEvent)
      */
     public void mouseUp(MouseEvent e) {
-        doSetValue(new Boolean(!check.getSelection()));
+        doSetValue(Boolean.valueOf(!check.getSelection()));
         fireApplyEditorValue();
     }
 
@@ -124,7 +124,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
      */
     public void widgetSelected(SelectionEvent e) {
-        doSetValue(new Boolean(check.getSelection()));
+        doSetValue(Boolean.valueOf(check.getSelection()));
         fireApplyEditorValue();
     }
 }

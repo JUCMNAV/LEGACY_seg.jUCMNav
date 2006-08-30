@@ -1,5 +1,8 @@
 package seg.jUCMNav.views.elements;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
@@ -119,7 +122,13 @@ public class ElementListItem extends CompositeListItem {
      *          The image to set. Default image is the responsibility image
      */
     public void setElementImg(String path){
-        lblIcon.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream(path))); 
+    	InputStream stream = getClass().getResourceAsStream(path);
+        lblIcon.setImage(new Image(Display.getCurrent(), stream));
+        try {
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     
     /**
@@ -135,7 +144,14 @@ public class ElementListItem extends CompositeListItem {
         lblName = new Label(composite, SWT.NONE);
         lblName.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
         lblIcon.setText(""); //$NON-NLS-1$
-        lblIcon.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif"))); //$NON-NLS-1$
+    	InputStream stream = getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif");//$NON-NLS-1$
+    	lblIcon.setImage(new Image(Display.getCurrent(), stream)); 
+        try {
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}        
+        
         lblName.setText(""); //$NON-NLS-1$
         lblName.setLayoutData(gridData3);
         lblName.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.BOLD)); //$NON-NLS-1$
