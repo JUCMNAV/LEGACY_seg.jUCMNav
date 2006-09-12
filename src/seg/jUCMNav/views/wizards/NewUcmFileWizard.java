@@ -104,7 +104,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 		monitor.beginTask(Messages.getString("NewUcmFileWizard.creating") + fileName, 2); //$NON-NLS-1$
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource resource = root.findMember(new Path(containerName));
-		if (!resource.exists() || !(resource instanceof IContainer)) {
+		if (resource==null || !resource.exists() || !(resource instanceof IContainer)) {
 			throwCoreException(Messages.getString("NewUcmFileWizard.container") + containerName + Messages.getString("NewUcmFileWizard.doesNotExist")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		IContainer container = (IContainer) resource;
