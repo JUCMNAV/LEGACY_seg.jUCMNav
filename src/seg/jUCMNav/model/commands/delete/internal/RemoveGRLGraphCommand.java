@@ -17,6 +17,8 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
 
     private GRLGraph diagram;
     private URNspec urn;
+    private int position;
+    
     
     public RemoveGRLGraphCommand(GRLGraph graph) {
         setLabel("Remove GRLGraph"); //$NON-NLS-1$
@@ -38,6 +40,7 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
+        position = urn.getUrndef().getSpecDiagrams().indexOf(diagram);
         urn.getUrndef().getSpecDiagrams().remove(diagram);
 
         testPostConditions();
@@ -59,7 +62,7 @@ public class RemoveGRLGraphCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
-        urn.getUrndef().getSpecDiagrams().add(diagram);
+        urn.getUrndef().getSpecDiagrams().add(position, diagram);
 
         testPreConditions();
     }

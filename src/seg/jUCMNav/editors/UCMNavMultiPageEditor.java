@@ -344,7 +344,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     public MultiPageCommandStackListener getMultiPageCommandStackListener() {
         if (null == multiPageCommandStackListener) {
             multiPageCommandStackListener = new MultiPageCommandStackListener(this);
-            multiPageCommandStackListener.addCommandStack(getDelegatingCommandStack());
+            // already there
+            //multiPageCommandStackListener.addCommandStack(getDelegatingCommandStack());
         }
         return multiPageCommandStackListener;
     }

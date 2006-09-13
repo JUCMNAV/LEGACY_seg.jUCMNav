@@ -97,6 +97,15 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
     protected void createActions() {
         // now done in MultiPage
     }
+    
+    /**
+	* Disposes the editor. 
+	*/
+    public void dispose() {
+    	// for some reason not in framework.
+    	getSelectionSynchronizer().removeViewer(getGraphicalViewer());
+    	super.dispose();
+    }
 
     /**
      * Used when UcmEditor was the root model element.
