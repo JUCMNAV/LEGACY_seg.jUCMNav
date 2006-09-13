@@ -100,7 +100,7 @@ public class EvaluationStrategyManager {
     }
     public synchronized int getEvaluation(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
-        if (temp == null){
+        if (temp == null  && strategy.getGrlspec()!=null && strategy.getGrlspec().getUrnspec()!=null){
             temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
         }
@@ -110,7 +110,7 @@ public class EvaluationStrategyManager {
     public synchronized Evaluation getEvaluationObject(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
         //if the evaluation is null, it is a new element and we need to create a new evaluation
-        if (temp == null){
+        if (temp == null && strategy.getGrlspec()!=null && strategy.getGrlspec().getUrnspec()!=null){
             temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
         }
