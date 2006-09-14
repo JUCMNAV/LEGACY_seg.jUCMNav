@@ -1,140 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="seg.jUCMNav" default="build.jars" basedir=".">
 
-	<property name="bootclasspath" value=""/>
-	<property name="ws" value="win32"/> <!-- JP: hard-code win32 because property not defined outside eclipse -->
 	<property name="basews" value="${ws}"/>
 	<property name="baseos" value="${os}"/>
 	<property name="basearch" value="${arch}"/>
 	<property name="basenl" value="${nl}"/>
-	<property name="javacFailOnError" value="true"/>
+
+	<!-- Compiler settings. -->
+	<property name="javacFailOnError" value="false"/>
 	<property name="javacDebugInfo" value="on"/>
 	<property name="javacVerbose" value="false"/>
-	<property name="javacSource" value="1.4"/>
-	<property name="javacTarget" value="1.4"/>
+	<property name="logExtension" value=".log"/>
 	<property name="compilerArg" value=""/>
-	<property environment="env" />
-
-	<!-- jucmnav classpath, _should_ be fairly cross-platform -->
-	<patternset id="jucmnav.classpath">
-		<include name="org.apache.lucene*/*.jar" />
-		<include name="org.junit*/*.jar" />
-		<include name="org.eclipse.core*/*.jar" />
-		<include name="org.eclipse.draw*/*.jar" />
-		<include name="org.eclipse.equinox*/*.jar" />
-		<include name="org.eclipse.emf*/*.jar" />
-		<include name="org.eclipse.gef*/*.jar" />
-		<include name="org.eclipse.help*/*.jar" />
-		<include name="org.eclipse.jface*/*.jar" />
-		<include name="org.eclipse.osgi*/*.jar" />
-		<include name="org.eclipse.swt*/*.jar" />
-		<include name="org.eclipse.ui*/*.jar" />
-		<include name="org.eclipse.update*/*.jar" />
-
-		<include name="org.apache.lucene*.jar" />
-		<include name="org.junit*.jar" />
-		<include name="org.eclipse.core*.jar" />
-		<include name="org.eclipse.draw*.jar" />
-		<include name="org.eclipse.emf*.jar" />
-		<include name="org.eclipse.equinox*.jar" />
-		<include name="org.eclipse.gef*.jar" />
-		<include name="org.eclipse.help*.jar" />
-		<include name="org.eclipse.jface*.jar" />
-		<include name="org.eclipse.osgi*.jar" />
-		<include name="org.eclipse.swt*.jar" />
-		<include name="org.eclipse.ui*.jar" />
-		<include name="org.eclipse.update*.jar" />
-	</patternset>
-	
-	<target name="testenv" depends="init">
-		<echo>Eclipse Home: ${eclipsehome}</echo>
-		<fileset id="test.classpath" dir="${eclipsehome}/plugins/">
-			<patternset refid="jucmnav.classpath" />
+	<property name="javacSource" value="1.3"/>
+	<property name="javacTarget" value="1.2"/>
+	<path id="path_bootclasspath">
+		<fileset dir="${java.home}/lib">
+			<include name="*.jar"/>
 		</fileset>
-		<property name="testcp" refid="test.classpath" />
-		<echo>Classpath: ${testcp}</echo>
-	</target>
+	</path>
+	<property name="bootclasspath" refid="path_bootclasspath"/>
+	<property name="bundleJavacSource" value="${javacSource}"/>
+	<property name="bundleJavacTarget" value="${javacTarget}"/>
+	<property name="bundleBootClasspath" value="${bootclasspath}"/>
 
 	<target name="init" depends="properties">
-		<condition property="pluginTemp" value="${buildTempFolder}/eclipse/plugins">
+		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
 		<condition property="build.result.folder" value="${pluginTemp}/seg.jUCMNav">
 			<isset property="buildTempFolder"/>
 		</condition>
-		<property name="build.result.folder" value="${basedir}/build/"/>
+		<property name="build.result.folder" value="${basedir}"/>
 		<property name="temp.folder" value="${basedir}/temp.folder"/>
-		<property name="plugin.destination" value="${basedir}/build/"/>
-		<property name="updatesite.destination" value="${plugin.destination}/updatesite" />
-		<property name="updatesite.features" value="${updatesite.destination}/features" />
-		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
-
-		<condition property="env.ECLIPSE_HOME" value="c:/jason/eclipse/">
-			<and>
-				<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
-				<os family="windows" />
-				<not>
-					<isset property="env.ECLIPSE_HOME"/>
-				</not>
-			</and>
-		</condition>
-		<property name="env.ECLIPSE_HOME" value="/opt/eclipse/" />
-		<property name="eclipsehome" value="${env.ECLIPSE_HOME}" />
-		
-		<!-- <echo>Using ECLIPSE_HOME: ${eclipsehome}</echo> -->
-		<tstamp>
-			<!--
-			JPDaigle: There are rules to respect when assigning a plugin version!
-			we can't have a .0xx (leading zero) anywhere because eclipse removes it and filenames
-			don't match from then on. (This is why there's a year and a 'v' before the time)
-			The date formatter also cannot truncate a year to a single character so we're hardcoding
-			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
-			-->
-			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
-		</tstamp>
-		
-		
-		<condition property="jucmnav.version" value="2.0.${buildtime}">
-			<not>
-				<isset property="jucmnav.version"/>
-			</not>
-		</condition>
-		
-		<!--<property name="jucmnav.version" value="2.0.${buildtime}" />-->
-		
-		<!--<property name="jucmnav.version" value="2.0.0" />-->
-		<echo>Building version: ${jucmnav.version}</echo>
-		
+		<property name="plugin.destination" value="${basedir}"/>
 	</target>
 
-	<target name="clean.buildjar" depends="init, clean">
-		<antcall target="build.jars"/>
-	</target>
-
-	<target name="build.fullzip" depends="init, clean">
-		<antcall target="clean"/>
-		<antcall target="zip.plugin"/>
-		<!-- <antcall target="runtests"/> -->
-	</target>
-	
-	<target name="build.fullzip.exactversion">
-		<antcall target="init">
-			<param name="jucmnav.version" value="2.1.alpha"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
-		</antcall>
-		<antcall target="clean">
-			<param name="jucmnav.version" value="2.1.alpha"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
-		</antcall>
-		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="2.1.alpha"/>
-			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
-		</antcall>
-	</target>
-			
 	<target name="properties" if="eclipse.running">
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+
 	</target>
 
 	<target name="build.update.jar" depends="init" description="Build the plug-in: seg.jUCMNav for an update site.">
@@ -144,37 +49,80 @@
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/seg.jUCMNav_${jucmnav.version}" filesonly="false" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/seg.jUCMNav_2.1.0.jar" basedir="${temp.folder}/seg.jUCMNav_2.1.0" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
-	<target name="jUCMNav.jar" depends="init" unless="jUCMNav.jar" description="Create jar: jUCMNav.jar.">
+	<target name="jUCMNav.jar" depends="init" unless="jUCMNav.jar" description="Create jar: seg.jUCMNav jUCMNav.jar.">
 		<delete dir="${temp.folder}/jUCMNav.jar.bin"/>
 		<mkdir dir="${temp.folder}/jUCMNav.jar.bin"/>
+		<path id="jUCMNav.jar.classpath">
+			<pathelement path="../../plugins/org.eclipse.ui_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.osgi_3.2.0.v20060601.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.common_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.jobs_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.0.v20060603/runtime_registry_compatibility.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.0.v20060603"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.registry_3.2.0.v20060601.jar"/>
+			<pathelement path="../../plugins/org.eclipse.equinox.preferences_3.2.0.v20060601.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.registry_3.2.0.v20060603/@dot"/>
+			<pathelement path="../../plugins/org.eclipse.core.contenttype_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility.auth_3.2.0.v20060601.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt_3.2.0.v3232o.jar"/>
+			<pathelement path="../../plugins/org.eclipse.swt.win32.win32.x86_3.2.0.v3232m.jar"/>
+			<pathelement path="../../plugins/org.eclipse.jface_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.commands_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20060605-1400/@dot"/>
+			<pathelement path="../../plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20060605-1400/compatibility.jar"/>
+			<pathelement path="../../plugins/com.ibm.icu_3.4.4.1.jar"/>
+			<pathelement path="../../plugins/org.eclipse.help_3.2.0.v20060602.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.expressions_3.2.0.v20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources.compatibility_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.resources.win32_3.2.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.runtime.compatibility_3.1.100.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.configurator_3.2.0.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ant.core_3.1.100.v20060531.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.variables_3.1.100.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.filesystem_1.0.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.core.filesystem.win32.x86_1.0.0.v20060603.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.ide_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.win32_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.views_3.2.0.I20060605-1400.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.core_3.2.0.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.core.win32_3.2.0.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.update.ui_3.2.0.v20060605.jar"/>
+			<pathelement path="../../plugins/org.eclipse.ui.forms_3.2.0.v20060602.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore_2.2.1.v200609071016.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.common_2.2.1.v200609071016.jar"/>
+			<pathelement path="../../plugins/org.eclipse.draw2d_3.2.0.v20060626.jar"/>
+			<pathelement path="../../plugins/org.eclipse.gef_3.2.0.v20060626.jar"/>
+			<pathelement path="../../plugins/org.eclipse.emf.ecore.xmi_2.2.1.v200609071016.jar"/>
+			<pathelement path="../../plugins/org.junit_3.8.1/junit.jar"/>
+		</path>
 		<!-- compile the source code -->
-		<javac destdir="${temp.folder}/jUCMNav.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bootclasspath}" source="${javacSource}" target="${javacTarget}"		>
-			<compilerarg line="${compilerArg}"/>
-			<classpath>
-				<fileset dir="${eclipsehome}/plugins/">
-					<patternset refid="jucmnav.classpath" />
-				</fileset>
-			</classpath>
+		<javac destdir="${temp.folder}/jUCMNav.jar.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"		>
+			<compilerarg line="${compilerArg}" compiler="${build.compiler}"/>
+			<classpath refid="jUCMNav.jar.classpath" />
 			<src path="src/"			/>
-			</javac>
+			<compilerarg value="@${basedir}/javaCompiler.jUCMNav.jar.args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+			<compilerarg line="-log '${temp.folder}/jUCMNav.jar.bin${logExtension}'" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+		</javac>
 		<!-- Copy necessary resources -->
-		<copy todir="${temp.folder}/jUCMNav.jar.bin" failonerror="true">
+		<copy todir="${temp.folder}/jUCMNav.jar.bin" failonerror="true" overwrite="false">
 			<fileset dir="src/" excludes="**/*.java, **/package.htm*"			/>
 		</copy>
 		<mkdir dir="${build.result.folder}"/>
-		<jar jarfile="${build.result.folder}/jUCMNav.jar" basedir="${temp.folder}/jUCMNav.jar.bin"/>
+		<jar destfile="${build.result.folder}/jUCMNav.jar" basedir="${temp.folder}/jUCMNav.jar.bin"/>
 		<delete dir="${temp.folder}/jUCMNav.jar.bin"/>
 	</target>
 
 	<target name="jUCMNavsrc.zip" depends="init" unless="jUCMNavsrc.zip">
 		<mkdir dir="${build.result.folder}"/>
-		<zip zipfile="${build.result.folder}/jUCMNavsrc.zip" filesonly="false" whenempty="skip" update="false">
-			<!-- want to add xml files too	<fileset dir="src/" includes="**/*.java"			/> -->
-			<fileset dir="" includes="**/*.*" excludes="bin/**/*.*" />
+		<zip destfile="${build.result.folder}/jUCMNavsrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/" includes="**/*.java"			/>
 		</zip>
 	</target>
 
@@ -188,166 +136,69 @@
 		<antcall target="jUCMNavsrc.zip"/>
 	</target>
 
-	<target name="build.docs" depends="init">
-		<javadoc packagenames="seg.jUCMNav.*"
-		           sourcepath="src"
-		           excludepackagenames="seg.jUCMNav.Tests.*"
-		           defaultexcludes="yes"
-		           destdir="docs/api"
-		           author="true"
-		           version="true"
-				   use="true"
-				   breakiterator="yes"
-			       additionalparam="-quiet -source 1.4"
-		           windowtitle="jUCMNav"
-			access="private">
-			   <tag name="todo" scope="all" description="To do:" />
-			<classpath>
-				
-				<fileset dir="${eclipsehome}/plugins/">
-					<patternset refid="jucmnav.classpath" />
-				</fileset>
-			</classpath>
-	</javadoc>
-		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
-		<antcall target="jUCMNavdocs.zip"/>
-	</target>
-
-	<target name="jUCMNavdocs.zip" depends="init">
-		<mkdir dir="${build.result.folder}"/>
-		<zip zipfile="${build.result.folder}/jUCMNavdocs.zip" filesonly="false" whenempty="skip" update="false">
-			<fileset dir="" includes="docs/**"/>
-		</zip>
-	</target>
-	
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
-		<copy todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="true">
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_2.1.0"/>
+		<copy todir="${destination.temp.folder}/seg.jUCMNav_2.1.0" failonerror="true" overwrite="false">
 			<fileset dir="${build.result.folder}" includes="jUCMNav.jar"			/>
 		</copy>
-		<copy todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="true">
-			<fileset dir="${basedir}" includes="plugin.xml,jUCMNav.jar"			/>
+		<copy todir="${destination.temp.folder}/seg.jUCMNav_2.1.0" failonerror="true" overwrite="false">
+			<fileset dir="${basedir}" includes="plugin.xml,jUCMNav.jar,META-INF/,about.html,helpcontent/,help.xml,grlcatalogue.xsd,icons/,plugin_fr.properties,plugin.properties,lib/,test.xml"			/>
 		</copy>
+		
+			<copy todir="${destination.temp.folder}/seg.jUCMNav_2.1.0" >
+				<fileset dir="./">
+					<include name="helpcontent/**/*.*"/>
+				</fileset>
+			</copy>
+
+			<!-- jkealey: create icons directory, bug 238 -->
+			<copy todir="${destination.temp.folder}/seg.jUCMNav_2.1.0">
+			    <fileset dir="src/seg/jUCMNav/icons"/>
+			</copy>		
 	</target>
 
 	<target name="build.zips" depends="init">
 	</target>
 
 	<target name="gather.sources" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
-		<copy file="${build.result.folder}/jUCMNavsrc.zip" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_2.1.0"/>
+		<copy file="${build.result.folder}/jUCMNavsrc.zip" todir="${destination.temp.folder}/seg.jUCMNav_2.1.0" failonerror="false" overwrite="false"/>
 	</target>
 
-	<target name="gather.docs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
-		<copy file="${build.result.folder}/jUCMNavdocs.zip" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
-	</target>
-	
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}"/>
-		<copy file="${temp.folder}/jUCMNav.jar.bin.log" todir="${destination.temp.folder}/seg.jUCMNav_${jucmnav.version}" failonerror="false"/>
+		<mkdir dir="${destination.temp.folder}/seg.jUCMNav_2.1.0"/>
+		<copy file="${temp.folder}/jUCMNav.jar.bin${logExtension}" todir="${destination.temp.folder}/seg.jUCMNav_2.1.0" failonerror="false" overwrite="false"/>
 	</target>
 
 	<target name="clean" depends="init" description="Clean the plug-in: seg.jUCMNav of all the zips, jars and logs created.">
-		<delete file="testresults.xml"/>
-		<delete>
-			<!-- Lucky for us, Ant ignores the CVS folder and .cvsignore files -->
-			<fileset dir="${build.result.folder}">
-				<include name="**/*"/>
-			</fileset>
-			<fileset dir="${plugin.destination}">
-				<include name="**/*"/>
-			</fileset>
-		</delete>
+		<delete file="${build.result.folder}/jUCMNav.jar"/>
+		<delete file="${build.result.folder}/jUCMNavsrc.zip"/>
+		<delete file="${plugin.destination}/seg.jUCMNav_2.1.0.jar"/>
+		<delete file="${plugin.destination}/seg.jUCMNav_2.1.0.zip"/>
 		<delete dir="${temp.folder}"/>
-		<delete dir="docs/api"/>
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
-		<eclipse.convertPath fileSystemPath="H:/eclipse/workspace/seg.jUCMNav" property="resourcePath"/>
+		<eclipse.convertPath fileSystemPath="C:/jason/eclipse/workspace/seg.jUCMNav" property="resourcePath"/>
 		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
 	</target>
 
 	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: seg.jUCMNav.">
-		<delete dir="${temp.folder}/eclipse/plugins"/>
-		<mkdir dir="${temp.folder}/eclipse/plugins"/>
+		<delete dir="${temp.folder}"/>
+		<mkdir dir="${temp.folder}"/>
 		<antcall target="build.jars"/>
 		<antcall target="build.sources"/>
-		<antcall target="build.docs"/>
 		<antcall target="gather.bin.parts">
-			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<!--
 		<antcall target="gather.sources">
-			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
+			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<antcall target="gather.docs">
-			<param name="destination.temp.folder" value="${temp.folder}/eclipse/plugins/"/>
-		</antcall>
-		-->
 		<delete>
-			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
+			<fileset dir="${temp.folder}" includes="**/*.bin${logExtension}"			/>
 		</delete>
-
-		<!-- Include test.xml in the zip for unit testing purposes -->
-		<copy file="test.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
-
-		<!-- Include about.html in the zip -->
-		<copy file="about.html" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
-			
-		<!-- Include help in the zip for integration with eclipse help-->
-		<copy file="help.xml" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
-		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" >
-			<fileset dir="./">
-				<include name="helpcontent/**/*.*"/>
-			</fileset>
-		</copy>
-		
-		<!-- Include plugin i18n strings for view names, etc -->
-		<copy file="plugin.properties" todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}" />
-		
-		<!-- jkealey: create icons directory, bug 238 -->
-		<mkdir dir="${temp.folder}/seg.jUCMNav_${jucmnav.version}/icons"/>
-		<copy todir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/icons">
-		    <fileset dir="src/seg/jUCMNav/icons"/>
-		</copy>
-		
-		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
-		<jar jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
+		<zip destfile="${plugin.destination}/seg.jUCMNav_2.1.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
-		<delete file="${plugin.destination}/jUCMNav.jar" />
 	</target>
-	
-	<target name="mkupdate" description="Make update site files" depends="init,build.fullzip">
-		<mkdir dir="${updatesite.features}" />
-		<mkdir dir="${updatesite.plugins}" />
 
-		<property name="dir.out" value="build/" />
-		<property name="jar.basename" value="org.usecasemaps.jUCMNav" />
-		
-		<ant dir="updatesite/features/" description="Make feature jar" inheritall="true">
-		</ant>
-		<ant dir="updatesite/site/" description="Make site.xml" inheritall="true">
-		</ant>
-
-		<copy todir="${updatesite.features}" file="updatesite/features/build/${jar.basename}_${jucmnav.version}.jar" />
-		<copy todir="${updatesite.destination}" file="updatesite/site/build/site.xml" />
-		<move tofile="${updatesite.plugins}/seg.jUCMNav_${jucmnav.version}.jar" file="${plugin.destination}/seg.jUCMNav_plugin.jar" />
-	</target>
-	
-	<!-- Tests are now run from a batch file called runtests.bat, invoked by the cruisecontrol task.
-	<target name="runtests" depends="init, build.jars" description="Run unit tests on jUCMNav.jar">
-		<junit printsummary="yes">
-			<classpath>
-				<pathelement location="${build.result.folder}jUCMNav.jar" />
-				<fileset dir="${eclipsehome}/plugins">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
-			<test name="seg.jUCMNav.tests.TestAllTestSuite" outfile="testresults"/>
-			<formatter type="xml" />
-		</junit>
-	</target>
-	-->
-	
 </project>
