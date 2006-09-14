@@ -203,9 +203,10 @@
 			access="private">
 			   <tag name="todo" scope="all" description="To do:" />
 			<classpath>
-				<fileset dir="${eclipsehome}/plugins/">
-					<patternset refid="jucmnav.classpath" />
-				</fileset>
+				<dirset dir="${eclipsehome}/plugins/">
+					<include name="."/>
+					<include name="org.*"/>
+				</dirset>
 			</classpath>
 	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
