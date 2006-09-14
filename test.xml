@@ -6,7 +6,7 @@
   <!-- sets the properties eclipse-home, and library-file -->
   <property name="eclipse-home" value="${basedir}/../.."/>
   <property name="plugin-name" value="seg.jUCMNav"/>
-  <property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test/library.xml"/>
+  <property name="library-file" value="${eclipse-home}/plugins/org.eclipse.test_3.1.0/library.xml"/>
 
   <!-- This target holds all initialization code that needs to be done for -->
   <!-- all tests that are to be run. Initialization for individual tests -->

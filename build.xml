@@ -21,6 +21,7 @@
 		<include name="org.junit*/**/*.jar" />
 		<include name="org.eclipse.core*/**/*.jar" />
 		<include name="org.eclipse.draw*/**/*.jar" />
+		<include name="org.eclipse.equinox*/**/*.jar" />
 		<include name="org.eclipse.emf*/**/*.jar" />
 		<include name="org.eclipse.gef*/**/*.jar" />
 		<include name="org.eclipse.help*/**/*.jar" />
@@ -35,6 +36,7 @@
 		<include name="org.eclipse.core*.jar" />
 		<include name="org.eclipse.draw*.jar" />
 		<include name="org.eclipse.emf*.jar" />
+		<include name="org.eclipse.equinox*.jar" />
 		<include name="org.eclipse.gef*.jar" />
 		<include name="org.eclipse.help*.jar" />
 		<include name="org.eclipse.jface*.jar" />
@@ -68,7 +70,7 @@
 		<property name="updatesite.features" value="${updatesite.destination}/features" />
 		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
 
-		<condition property="env.ECLIPSE_HOME" value="c:/eclipse/">
+		<condition property="env.ECLIPSE_HOME" value="c:/jason/eclipse/">
 			<and>
 				<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
 				<os family="windows" />
