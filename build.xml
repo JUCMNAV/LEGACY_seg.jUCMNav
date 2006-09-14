@@ -17,19 +17,19 @@
 
 	<!-- jucmnav classpath, _should_ be fairly cross-platform -->
 	<patternset id="jucmnav.classpath">
-		<include name="org.apache.lucene*/**/*.jar" />
-		<include name="org.junit*/**/*.jar" />
-		<include name="org.eclipse.core*/**/*.jar" />
-		<include name="org.eclipse.draw*/**/*.jar" />
-		<include name="org.eclipse.equinox*/**/*.jar" />
-		<include name="org.eclipse.emf*/**/*.jar" />
-		<include name="org.eclipse.gef*/**/*.jar" />
-		<include name="org.eclipse.help*/**/*.jar" />
-		<include name="org.eclipse.jface*/**/*.jar" />
-		<include name="org.eclipse.osgi*/**/*.jar" />
-		<include name="org.eclipse.swt*/**/*.jar" />
-		<include name="org.eclipse.ui*/**/*.jar" />
-		<include name="org.eclipse.update*/**/*.jar" />
+		<include name="org.apache.lucene*/*.jar" />
+		<include name="org.junit*/*.jar" />
+		<include name="org.eclipse.core*/*.jar" />
+		<include name="org.eclipse.draw*/*.jar" />
+		<include name="org.eclipse.equinox*/*.jar" />
+		<include name="org.eclipse.emf*/*.jar" />
+		<include name="org.eclipse.gef*/*.jar" />
+		<include name="org.eclipse.help*/*.jar" />
+		<include name="org.eclipse.jface*/*.jar" />
+		<include name="org.eclipse.osgi*/*.jar" />
+		<include name="org.eclipse.swt*/*.jar" />
+		<include name="org.eclipse.ui*/*.jar" />
+		<include name="org.eclipse.update*/*.jar" />
 
 		<include name="org.apache.lucene*.jar" />
 		<include name="org.junit*.jar" />
@@ -203,10 +203,10 @@
 			access="private">
 			   <tag name="todo" scope="all" description="To do:" />
 			<classpath>
-				<dirset dir="${eclipsehome}/plugins/">
-					<include name="."/>
-					<include name="org.*"/>
-				</dirset>
+				
+				<fileset dir="${eclipsehome}/plugins/">
+					<patternset refid="jucmnav.classpath" />
+				</fileset>
 			</classpath>
 	</javadoc>
 		<available property="jUCMNavsrc.zip" file="${build.result.folder}/jUCMNavsrc.zip"/>
