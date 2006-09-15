@@ -330,7 +330,7 @@ this file is kept here with the information necessary for a good build by cruise
 		</copy>
 		
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
-		<jar jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
+		<jar manifest="${temp.folder}/seg.jUCMNav_${jucmnav.version}/META-INF/MANIFEST.MF" jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
 		<delete dir="${temp.folder}"/>
 		<delete file="${plugin.destination}/jUCMNav.jar" />
 	</target>
