@@ -100,15 +100,16 @@ this file is kept here with the information necessary for a good build by cruise
 			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
 		</tstamp>
 		
-<!--
+
 		<condition property="jucmnav.version" value="2.1.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
--->
-		
+
+		<!--
 		 <property name="jucmnav.version" value="2.1.0" /> 
+		-->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
