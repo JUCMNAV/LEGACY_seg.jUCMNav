@@ -100,16 +100,15 @@ this file is kept here with the information necessary for a good build by cruise
 			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
 		</tstamp>
 		
-		<!--
+<!--
 		<condition property="jucmnav.version" value="2.1.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
-		-->
-		<!--<property name="jucmnav.version" value="2.1.${buildtime}" />-->
+-->
 		
-		<property name="jucmnav.version" value="2.1.0" />
+		 <property name="jucmnav.version" value="2.1.0" /> 
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -330,7 +329,7 @@ this file is kept here with the information necessary for a good build by cruise
 		</copy>
 		
 		<zip zipfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
-		<jar manifest="${temp.folder}/seg.jUCMNav_${jucmnav.version}/META-INF/MANIFEST.MF" jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
+		<jar manifest="META-INF/MANIFEST.MF" jarfile="${plugin.destination}/seg.jUCMNav_${jucmnav.version}.jar" basedir="${temp.folder}/eclipse/plugins/seg.jUCMNav_${jucmnav.version}/" update="false" />
 		<delete dir="${temp.folder}"/>
 		<delete file="${plugin.destination}/jUCMNav.jar" />
 	</target>
