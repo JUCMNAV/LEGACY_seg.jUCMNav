@@ -87,7 +87,7 @@ public class URNNamingHelper {
 		if (id != null && id.length() > 0)
 			id = Long.toString(Long.parseLong(id) + 1);
 		else {
-			id = "2"; // for backwards compatibility reasons with early
+			id = "2"; // for backwards compatibility reasons with early //$NON-NLS-1$
 						// jUCMNav files. //$NON-NLS-1$
 			System.out.println(Messages.getString("URNNamingHelper.oldFileDiscard")); //$NON-NLS-1$
 		}
@@ -125,7 +125,7 @@ public class URNNamingHelper {
 	 */
 	private static String getSimpleName(Class targetClass) {
 		String simpleName = targetClass.getName();
-		return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip
+		return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip //$NON-NLS-1$
 																		// the
 																		// package
 																		// name

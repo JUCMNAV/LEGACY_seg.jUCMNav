@@ -13,11 +13,17 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -31,6 +37,7 @@ import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.URNElementPropertySource;
+import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
@@ -46,297 +53,324 @@ import urncore.IURNDiagram;
  */
 public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 
-    /**
-     * Because GEF's AbstractConnectionEditPart has methods conflicting with EMF's Adapter, we needed an internal class to act as a listener.
-     * 
-     */
-    private class NodeConnectionAdapter implements Adapter {
-        private Notifier target;
+	/**
+	 * Because GEF's AbstractConnectionEditPart has methods conflicting with
+	 * EMF's Adapter, we needed an internal class to act as a listener.
+	 * 
+	 */
+	private class NodeConnectionAdapter implements Adapter {
+		private Notifier target;
 
-        public NodeConnectionAdapter(Notifier target) {
-            this.target = target;
-        }
+		public NodeConnectionAdapter(Notifier target) {
+			this.target = target;
+		}
 
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#getTarget()
-         */
-        public Notifier getTarget() {
-            return target;
-        }
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#getTarget()
+		 */
+		public Notifier getTarget() {
+			return target;
+		}
 
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
-         */
-        public boolean isAdapterForType(Object type) {
-            return type.equals(getModel().getClass());
-        }
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#isAdapterForType(java.lang.Object)
+		 */
+		public boolean isAdapterForType(Object type) {
+			return type.equals(getModel().getClass());
+		}
 
-        /**
-         * When connection's condition is changed, refresh map and path graph.
-         */
-        public void notifyChanged(Notification notification) {
+		/**
+		 * When connection's condition is changed, refresh map and path graph.
+		 */
+		public void notifyChanged(Notification notification) {
 
-            int type = notification.getEventType();
-            int featureId = notification.getFeatureID(UcmPackage.class);
-            switch (type) {
-            case Notification.SET:
-                if (featureId == MapPackage.NODE_CONNECTION__CONDITION) {
-                    EditPartViewer viewer = getViewer();
-                    if (viewer != null) {
-                        Map registry = viewer.getEditPartRegistry();
-                        if (registry != null) {
-                            URNDiagramEditPart part = (URNDiagramEditPart) registry.get(getMap());
-                            if (part != null) {
+			int type = notification.getEventType();
+			int featureId = notification.getFeatureID(UcmPackage.class);
+			switch (type) {
+			case Notification.SET:
+				if (featureId == MapPackage.NODE_CONNECTION__CONDITION) {
+					EditPartViewer viewer = getViewer();
+					if (viewer != null) {
+						Map registry = viewer.getEditPartRegistry();
+						if (registry != null) {
+							URNDiagramEditPart part = (URNDiagramEditPart) registry.get(getMap());
+							if (part != null) {
 
-                                part.notifyChanged(notification);
-                            }
-                        }
-                    }
-                }
-                break;
-            }
-        }
+								part.notifyChanged(notification);
+							}
+						}
+					}
+				}
+				break;
+			}
+		}
 
-        /**
-         * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
-         */
-        public void setTarget(Notifier newTarget) {
-            target = newTarget;
-        }
-    }
+		/**
+		 * @see org.eclipse.emf.common.notify.Adapter#setTarget(org.eclipse.emf.common.notify.Notifier)
+		 */
+		public void setTarget(Notifier newTarget) {
+			target = newTarget;
+		}
+	}
 
-    NodeConnectionAdapter adapter;
+	NodeConnectionAdapter adapter;
 
-    private IURNDiagram diagram;
-    private Label endLabel, startLabel;
-    protected IPropertySource propertySource = null;
-    private TimeoutPathFigure timeout;
+	private IURNDiagram diagram;
 
-    /**
-     * Build an edit part for the given link, in the given pathgraph.
-     * 
-     * @param link
-     *            to be represented
-     * @param diagram
-     *            the map which contains it.
-     */
-    public NodeConnectionEditPart(NodeConnection link, IURNDiagram diagram) {
-        super();
-        setModel(link);
-        this.diagram = diagram;
+	private Label endLabel, startLabel;
 
-        adapter = new NodeConnectionAdapter((Notifier) getModel());
-    }
+	protected IPropertySource propertySource = null;
 
-    /**
-     * Add NodeConnectionAdapter to listeners.
-     * 
-     * @see org.eclipse.gef.EditPart#activate()
-     */
-    public void activate() {
-        if (!isActive())
-            ((EObject) getModel()).eAdapters().add(adapter);
-        super.activate();
-    }
+	private TimeoutPathFigure timeout;
 
-    /**
-     * Given a connection which goes into a Stub, adds the appropriate label.
-     * 
-     * @param connection
-     */
-    private void addEndLabel(SplineConnection connection) {
-        if (endLabel != null)
-            getFigure().remove(endLabel);
-        int index = getLink().getTarget().getPred().indexOf(getLink());
-        StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
-        targetEndpointLocator.setVDistance(5);
-        targetEndpointLocator.setUDistance(30);
-        endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_STUBLABELCOLOR );
-        endLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
-        endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
-        connection.add(endLabel, targetEndpointLocator);
-    }
+	/**
+	 * Build an edit part for the given link, in the given pathgraph.
+	 * 
+	 * @param link
+	 *            to be represented
+	 * @param diagram
+	 *            the map which contains it.
+	 */
+	public NodeConnectionEditPart(NodeConnection link, IURNDiagram diagram) {
+		super();
+		setModel(link);
+		this.diagram = diagram;
 
-    /**
-     * Given a connection which originates from a Stub, adds the appropriate label.
-     * 
-     * @param connection
-     */
-    private void addStartLabel(SplineConnection connection) {
-        if (startLabel != null)
-            getFigure().remove(startLabel);
-        int index = getLink().getSource().getSucc().indexOf(getLink());
-        StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
-        targetEndpointLocator.setVDistance(5);
-        targetEndpointLocator.setUDistance(30);
-        startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_STUBLABELCOLOR );
-        startLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
-        startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
-        connection.add(startLabel, targetEndpointLocator);
-    }
+		adapter = new NodeConnectionAdapter((Notifier) getModel());
+	}
 
-    /**
-     * Given a connection, draw the TimeoutPathFigure on the node connection.
-     * 
-     * @param connection
-     */
-    private void addTimeout(SplineConnection connection) {
-        if (timeout != null)
-            getFigure().remove(timeout);
-        int index = getLink().getSource().getSucc().indexOf(getLink());
-        if (index == 1) {
-            NodeConnectionLocator constraint = new NodeConnectionLocator(connection, ConnectionLocator.MIDDLE);
-            constraint.setRelativePosition(PositionConstants.CENTER);
-            timeout = new TimeoutPathFigure();
-            connection.add(timeout, constraint);
-        }
+	/**
+	 * Add NodeConnectionAdapter to listeners.
+	 * 
+	 * @see org.eclipse.gef.EditPart#activate()
+	 */
+	public void activate() {
+		if (!isActive())
+			((EObject) getModel()).eAdapters().add(adapter);
+		super.activate();
+	}
 
-    }
+	/**
+	 * Given a connection which goes into a Stub, adds the appropriate label.
+	 * 
+	 * @param connection
+	 */
+	private void addEndLabel(SplineConnection connection) {
+		if (endLabel != null)
+			getFigure().remove(endLabel);
+		int index = getLink().getTarget().getPred().indexOf(getLink());
+		StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, true);
+		targetEndpointLocator.setVDistance(5);
+		targetEndpointLocator.setUDistance(30);
+		endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
+		RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_STUBLABELCOLOR);
+		endLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+		endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
+		connection.add(endLabel, targetEndpointLocator);
+	}
 
-    /**
-     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-     */
-    protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
-        installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ConnectionFeedbackEditPolicy());
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
-    }
+	/**
+	 * Given a connection which originates from a Stub, adds the appropriate
+	 * label.
+	 * 
+	 * @param connection
+	 */
+	private void addStartLabel(SplineConnection connection) {
+		if (startLabel != null)
+			getFigure().remove(startLabel);
+		int index = getLink().getSource().getSucc().indexOf(getLink());
+		StubConnectionEndpointLocator targetEndpointLocator = new StubConnectionEndpointLocator(connection, false);
+		targetEndpointLocator.setVDistance(5);
+		targetEndpointLocator.setUDistance(30);
+		startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
+		RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_STUBLABELCOLOR);
+		startLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+		startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
+		connection.add(startLabel, targetEndpointLocator);
+	}
 
-    /**
-     * Creates a SplineConnection and adds appropriate decorations.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-     */
-    protected IFigure createFigure() {
-        SplineConnection connection = new SplineConnection(getLink());
-        connection.setRoutingConstraint(getLink());
-        connection.setLineWidth(3);
-        // PolygonDecoration p = new PolygonDecoration();
-        // connection.setTargetDecoration(p); // arrow at target endpoint
+	/**
+	 * Given a connection, draw the TimeoutPathFigure on the node connection.
+	 * 
+	 * @param connection
+	 */
+	private void addTimeout(SplineConnection connection) {
+		if (timeout != null)
+			getFigure().remove(timeout);
+		int index = getLink().getSource().getSucc().indexOf(getLink());
+		if (index == 1) {
+			NodeConnectionLocator constraint = new NodeConnectionLocator(connection, ConnectionLocator.MIDDLE);
+			constraint.setRelativePosition(PositionConstants.CENTER);
+			timeout = new TimeoutPathFigure();
+			connection.add(timeout, constraint);
+		}
 
-        if (getLink().getTarget() instanceof Stub) {
-            addEndLabel(connection);
-        }
-        if (getLink().getSource() instanceof Stub) {
-            addStartLabel(connection);
-        }
-        if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
-            addTimeout(connection);
-        }
+	}
 
-        return connection;
-    }
+	/**
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new NodeConnectionXYLayoutEditPolicy());
+		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ConnectionFeedbackEditPolicy());
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeConnectionComponentEditPolicy());
+	}
 
-    /**
-     * Removes the adapter.
-     * 
-     * @see org.eclipse.gef.EditPart#deactivate()
-     */
-    public void deactivate() {
-        if (isActive())
-            ((EObject) getModel()).eAdapters().remove(adapter);
-        super.deactivate();
+	/**
+	 * Creates a SplineConnection and adds appropriate decorations.
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+	 */
+	protected IFigure createFigure() {
+		SplineConnection connection = new SplineConnection(getLink());
+		connection.setRoutingConstraint(getLink());
+		connection.setLineWidth(3);
+		// PolygonDecoration p = new PolygonDecoration();
+		// connection.setTargetDecoration(p); // arrow at target endpoint
 
-        // jkealey: removed during cleanup; i think the figure tree will remove these automatically.
-        // leaving in case testing needs to be done.
-        // if (endLabel != null) {
-        // ((SplineConnection) getFigure()).remove(endLabel);
-        // endLabel = null;
-        // }
-        // if (startLabel != null) {
-        // ((SplineConnection) getFigure()).remove(startLabel);
-        // startLabel = null;
-        // }
+		if (getLink().getTarget() instanceof Stub) {
+			addEndLabel(connection);
+		}
+		if (getLink().getSource() instanceof Stub) {
+			addStartLabel(connection);
+		}
+		if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
+			addTimeout(connection);
+		}
 
-    }
+		return connection;
+	}
 
-    /**
-     * Returns a URNElementPropertySource
-     * 
-     * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
-     */
-    public Object getAdapter(Class adapter) {
-        if (IPropertySource.class == adapter) {
-            if (propertySource == null) {
-                propertySource = new URNElementPropertySource((EObject) getModel());
-            }
-            return propertySource;
-        }
-        return super.getAdapter(adapter);
-    }
+	/**
+	 * Removes the adapter.
+	 * 
+	 * @see org.eclipse.gef.EditPart#deactivate()
+	 */
+	public void deactivate() {
+		if (isActive())
+			((EObject) getModel()).eAdapters().remove(adapter);
+		super.deactivate();
 
-    /**
-     * @return the concerned node connection.
-     */
-    private NodeConnection getLink() {
-        return (NodeConnection) getModel();
-    }
+		// jkealey: removed during cleanup; i think the figure tree will remove
+		// these automatically.
+		// leaving in case testing needs to be done.
+		// if (endLabel != null) {
+		// ((SplineConnection) getFigure()).remove(endLabel);
+		// endLabel = null;
+		// }
+		// if (startLabel != null) {
+		// ((SplineConnection) getFigure()).remove(startLabel);
+		// startLabel = null;
+		// }
 
-    /**
-     * Queries the figure to obtain its middle point. This method has no knowledge of whether the connection has been routed or not. If not, you might get
-     * invalid results. Used to encapsulate access to the middle point in this class instead of having everyone directly access the figure (still is bad code
-     * though).
-     * 
-     * @return The middle point of the spline.
-     */
-    public Point getMiddlePoint() {
-        if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null || ((SplineConnection) getFigure()).getPoints().size() == 0)
-            if (getLink().getSource() != null && getLink().getTarget() != null)
-                return new Point(getLink().getTarget().getX() - getLink().getSource().getX(), getLink().getTarget().getY() - getLink().getSource().getY());
-            else
-                return new Point(0, 0);
-        else
-            return ((SplineConnection) getFigure()).getPoints().getMidpoint();
-    }
+	}
 
-    /**
-     * 
-     * @return the pathgraph containing the connection.
-     */
-    public IURNDiagram getMap() {
-        return diagram;
-    }
+	/**
+	 * Returns a URNElementPropertySource
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractConnectionEditPart#getAdapter(java.lang.Class)
+	 */
+	public Object getAdapter(Class adapter) {
+		if (IPropertySource.class == adapter) {
+			if (propertySource == null) {
+				propertySource = new URNElementPropertySource((EObject) getModel());
+			}
+			return propertySource;
+		}
+		return super.getAdapter(adapter);
+	}
 
-    /**
-     * Refreshes the connection; adds/removes/replaces connection decorations if appropriate.
-     * 
-     * Hides the stub label if in print mode.
-     * 
-     * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
-     */
-    public void refreshVisuals() {
-        if (getLink().getTarget() instanceof Stub) {
-            addEndLabel((SplineConnection) getFigure());
-        } else if (endLabel != null) {
-            ((SplineConnection) getFigure()).remove(endLabel);
-            endLabel = null;
-        }
+	/**
+	 * @return the concerned node connection.
+	 */
+	private NodeConnection getLink() {
+		return (NodeConnection) getModel();
+	}
 
-        if (getLink().getSource() instanceof Stub) {
-            addStartLabel((SplineConnection) getFigure());
-        } else if (startLabel != null) {
-            ((SplineConnection) getFigure()).remove(startLabel);
-            startLabel = null;
-        }
+	/**
+	 * Queries the figure to obtain its middle point. This method has no
+	 * knowledge of whether the connection has been routed or not. If not, you
+	 * might get invalid results. Used to encapsulate access to the middle point
+	 * in this class instead of having everyone directly access the figure
+	 * (still is bad code though).
+	 * 
+	 * @return The middle point of the spline.
+	 */
+	public Point getMiddlePoint() {
+		if (getFigure() == null || ((SplineConnection) getFigure()).getPoints() == null || ((SplineConnection) getFigure()).getPoints().size() == 0)
+			if (getLink().getSource() != null && getLink().getTarget() != null)
+				return new Point(getLink().getTarget().getX() - getLink().getSource().getX(), getLink().getTarget().getY() - getLink().getSource().getY());
+			else
+				return new Point(0, 0);
+		else
+			return ((SplineConnection) getFigure()).getPoints().getMidpoint();
+	}
 
-        if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
-            addTimeout((SplineConnection) getFigure());
-        } else if (timeout != null) {
-            ((SplineConnection) getFigure()).remove(timeout);
-            timeout = null;
-        }
+	/**
+	 * 
+	 * @return the pathgraph containing the connection.
+	 */
+	public IURNDiagram getMap() {
+		return diagram;
+	}
 
-        // hide in print mode.
-        if (startLabel != null) {
-            startLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
-        }
+	/**
+	 * Refreshes the connection; adds/removes/replaces connection decorations if
+	 * appropriate.
+	 * 
+	 * Hides the stub label if in print mode.
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#refreshVisuals()
+	 */
+	public void refreshVisuals() {
+		if (getLink().getTarget() instanceof Stub) {
+			addEndLabel((SplineConnection) getFigure());
+		} else if (endLabel != null) {
+			((SplineConnection) getFigure()).remove(endLabel);
+			endLabel = null;
+		}
 
-        // hide in print mode.
-        if (endLabel != null) {
-            endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
-        }
-        super.refreshVisuals();
-    }
+		if (getLink().getSource() instanceof Stub) {
+			addStartLabel((SplineConnection) getFigure());
+		} else if (startLabel != null) {
+			((SplineConnection) getFigure()).remove(startLabel);
+			startLabel = null;
+		}
+
+		if (getLink().getSource() instanceof Timer && getLink().getSource().getSucc().indexOf(getLink()) == 1) {
+			addTimeout((SplineConnection) getFigure());
+		} else if (timeout != null) {
+			((SplineConnection) getFigure()).remove(timeout);
+			timeout = null;
+		}
+
+		// hide in print mode.
+		if (startLabel != null) {
+			startLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+		}
+
+		// hide in print mode.
+		if (endLabel != null) {
+			endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
+		}
+		super.refreshVisuals();
+	}
+
+	/**
+	 * Show direct edit on node connection with condition on double click, f2 or
+	 * delay. Pops up the condition editor. 
+	 */
+	public void performRequest(Request request) {
+		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT || request.getType() == RequestConstants.REQ_OPEN) {
+			if (getLink() != null && getLink().getCondition() != null) {
+				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				CodeEditor wizard = new CodeEditor();
+
+				StructuredSelection selection = new StructuredSelection(getLink().getCondition());
+				wizard.init(PlatformUI.getWorkbench(), selection);
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				dialog.open();
+			}
+		}
+	}
 }

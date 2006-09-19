@@ -3,30 +3,32 @@ package seg.jUCMNav.scenarios.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
+
 public class jUCMNavType {
 
-    public final static jUCMNavType VOID = new jUCMNavType("#VOID");
-    public final static jUCMNavType BOOLEAN = new jUCMNavType("#BOOL");
-    public final static jUCMNavType INTEGER = new jUCMNavType("#INT");
-    public final static String ENUMERATION = "#ENUM#";
+    public final static jUCMNavType VOID = new jUCMNavType("#VOID"); //$NON-NLS-1$
+    public final static jUCMNavType BOOLEAN = new jUCMNavType("#BOOL"); //$NON-NLS-1$
+    public final static jUCMNavType INTEGER = new jUCMNavType("#INT"); //$NON-NLS-1$
+    public final static String ENUMERATION = "#ENUM#"; //$NON-NLS-1$
 
     private Object type;
 
     public jUCMNavType(String s) {
-        if (s.equals("#VOID") || s.equals("#BOOL") || s.equals("#INT")) {
+        if (s.equals("#VOID") || s.equals("#BOOL") || s.equals("#INT")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             type = s;
         } else if (s.startsWith(ENUMERATION)) {
             type = new ArrayList();
             addEnumerationType(s);
         } else
-            throw new IllegalArgumentException("Invalid type specified");
+            throw new IllegalArgumentException(Messages.getString("jUCMNavType.InvalidTypeSpecified")); //$NON-NLS-1$
 
     }
 
     public jUCMNavType(ArrayList al) {
         for (Iterator iter = al.iterator(); iter.hasNext();) {
             if (!iter.next().toString().startsWith(ENUMERATION)) {
-                throw new IllegalArgumentException("Invalid type specified");
+                throw new IllegalArgumentException(Messages.getString("jUCMNavType.InvalidTypeSpecified")); //$NON-NLS-1$
             }
         }
         type = al;
@@ -77,11 +79,11 @@ public class jUCMNavType {
     }
     public String toString() {
         if (this == VOID)
-            return "void";
+            return "void"; //$NON-NLS-1$
         else if (this == BOOLEAN)
-            return "Boolean";
+            return "Boolean"; //$NON-NLS-1$
         else if (this == INTEGER)
-            return "integer";
+            return "integer"; //$NON-NLS-1$
         else  // TODO: enumeration
             return type.toString();
     }

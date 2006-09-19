@@ -24,7 +24,9 @@ import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.property.descriptors.CheckboxPropertyDescriptor;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
+import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import ucm.map.MapPackage;
+import urncore.Condition;
 
 /**
  * This class is intended to be a generic property source for all the objects in the application's model.
@@ -200,7 +202,12 @@ public class EObjectPropertySource implements IPropertySource2 {
             CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
             text.setReadOnly(true);
             pd = text;
-        } else {
+        } else if (name.equals("expression")) //$NON-NLS-1$
+		{ 
+			// conditions have expressions
+        	pd = new CodePropertyDescriptor(propertyid, (Condition) getEditableValue());
+		}
+        else {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());
         }
 
@@ -208,6 +215,8 @@ public class EObjectPropertySource implements IPropertySource2 {
             pd.setCategory(Messages.getString("EObjectPropertySource.info")); //$NON-NLS-1$
         } else if (name.indexOf("color") >= 0) { //$NON-NLS-1$
             pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
+        } else if (name.indexOf("expression") >= 0) { //$NON-NLS-1$
+            pd.setCategory(Messages.getString("EObjectPropertySource.Scenarios")); //$NON-NLS-1$
         } else if (object.eClass() != propertyid.getEClass()) {
             pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
         } else {

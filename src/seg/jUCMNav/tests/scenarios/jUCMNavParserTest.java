@@ -3,6 +3,7 @@ package seg.jUCMNav.tests.scenarios;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.evaluator.UcmExpressionEvaluator;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
@@ -20,7 +21,7 @@ import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
  * 
  */
 public class jUCMNavParserTest extends TestCase {
-    static jUCMNavParser parser = new jUCMNavParser(new StringReader("true"));
+    static jUCMNavParser parser = ScenarioUtils.parser;
     static int i = 0;
     boolean shouldFail;
     boolean shouldFailTypeCheck;

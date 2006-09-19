@@ -1,5 +1,6 @@
 package seg.jUCMNav.scenarios.evaluator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.model.jUCMNavType;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
@@ -44,7 +45,7 @@ public class UcmExpressionEvaluator {
             SimpleNode node = ((SimpleNode) root.jjtGetChild(0));
             Object value = evaluate(((SimpleNode) root.jjtGetChild(1)), env);
             
-            System.out.println("Setting " + node.getText() + " to " + value );
+            //System.out.println("Setting " + node.getText() + " to " + value );
             env.setValue(node.getText(), value);
             
             return null;
@@ -133,7 +134,7 @@ public class UcmExpressionEvaluator {
                 break;
             }
             default:
-                throw new IllegalArgumentException("Unknown integer comparison");
+                throw new IllegalArgumentException(Messages.getString("UcmExpressionEvaluator.UnknownIntegerComparison")); //$NON-NLS-1$
             }
 
             return new Boolean(result);
@@ -219,7 +220,7 @@ public class UcmExpressionEvaluator {
         case jUCMNavParserTreeConstants.JJTINEQUALITY: 
             return jUCMNavType.VOID;
         default:
-            System.out.println("Error; unimplemented");
+            System.out.println(Messages.getString("UcmExpressionEvaluator.ErrorUnimplemented")); //$NON-NLS-1$
             return jUCMNavType.VOID;
         }
 
@@ -244,7 +245,7 @@ public class UcmExpressionEvaluator {
             break;
         }
         default: {
-            throw new IllegalArgumentException("Unknown operation");
+            throw new IllegalArgumentException(Messages.getString("UcmExpressionEvaluator.UnknownOperation")); //$NON-NLS-1$
 
         }
         }

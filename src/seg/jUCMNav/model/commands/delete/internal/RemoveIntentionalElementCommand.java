@@ -31,7 +31,7 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
      */
     public RemoveIntentionalElementCommand(IntentionalElement intentionalelement) {
         this.element = intentionalelement;
-        setLabel(Messages.getString("RemoveIntentionalElementCommand.removeIntentionalElement")); //$NON-NLS-1 //$NON-NLS-1$
+        setLabel(Messages.getString("RemoveIntentionalElementCommand.removeIntentionalElement"));  //$NON-NLS-1$
     }
 
     /**

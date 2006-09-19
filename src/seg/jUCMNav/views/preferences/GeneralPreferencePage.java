@@ -26,6 +26,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
     public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
     public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
+    public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -49,11 +50,14 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
         
-        IntegerFieldEditor tolerance = new IntegerFieldEditor(PREF_TOLERANCE, "GRL Evaluation Algorithm Tolerance", getFieldEditorParent()); //$NON-NLS-1$
+        IntegerFieldEditor tolerance = new IntegerFieldEditor(PREF_TOLERANCE, Messages.getString("GeneralPreferencePage.GRLEvaluationAlgorithmTolerance"), getFieldEditorParent());  //$NON-NLS-1$
         addField(tolerance);
         
-        BooleanFieldEditor eval_filled = new BooleanFieldEditor(PREF_EVALFILLED, "GRL Strategies - Element Filled ", getFieldEditorParent()); //$NON-NLS-1$
+        BooleanFieldEditor eval_filled = new BooleanFieldEditor(PREF_EVALFILLED, Messages.getString("GeneralPreferencePage.GrlStrategiesElementFilled"), getFieldEditorParent());  //$NON-NLS-1$
         addField(eval_filled);
+        
+        BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR, Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(strict_codeeditor);
     }
 
     /**
@@ -68,7 +72,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @return the Author
      */
     public static String getAuthor() {
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getString("PREF_AUTHOR"); //$NON-NLS-1$
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getString(PREF_AUTHOR); 
     }
     
     /**
@@ -76,14 +80,20 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @return the Tolerance
      */
     public static int getTolerance() {
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getInt("PREF_TOLERANCE"); //$NON-NLS-1$
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getInt(PREF_TOLERANCE);
     }  
     
     /**
      * @return boolean TRUE if elements should be filled for GRL strategies
      */
     public static boolean getElementFilled(){
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean("PREF_EVALFILLED"); //$NON-NLS-1$
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_EVALFILLED); 
     }
     
+    /**
+     * @return boolean TRUE if editor should be strict. 
+     */
+    public static boolean getStrictCodeEditor(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_STRICTCODEEDITOR); 
+    }    
 }

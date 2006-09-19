@@ -2,6 +2,7 @@ package seg.jUCMNav.scenarios.model;
 
 import java.util.HashMap;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 
 public class UcmEnvironment {
@@ -19,13 +20,13 @@ public class UcmEnvironment {
     public void checkEnumerationDoesNotExists(String var) {
         Object type = enumerations.get(var);
         if (type != null)
-            throw new IllegalArgumentException("Enumeration " + var + " is already defined.");
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationSpace") + var + Messages.getString("UcmEnvironment.IsAlreadyDefined")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public String[] checkEnumerationExists(String var) {
         Object type = enumerations.get(var);
         if (type == null)
-            throw new IllegalArgumentException("Enumeration " + var + " is not defined.");
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
         return (String[]) type;
     }
 
@@ -36,7 +37,7 @@ public class UcmEnvironment {
     public void checkVariableDoesNotExist(String var) {
         Object type = declarations.get(var);
         if (type != null)
-            throw new IllegalArgumentException("Variable " + var + " is already defined.");
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsAlreadyDefined")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public jUCMNavType checkVariableExists(SimpleNode root) {
@@ -46,7 +47,7 @@ public class UcmEnvironment {
     public jUCMNavType checkVariableExists(String var) {
         Object type = declarations.get(var);
         if (type == null || !(type instanceof jUCMNavType))
-            throw new IllegalArgumentException("Variable " + var + " is not defined.");
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
         return (jUCMNavType) type;
     }
 
@@ -63,7 +64,7 @@ public class UcmEnvironment {
     public void registerEnumeration(String enumName, String[] values) {
         checkEnumerationDoesNotExists(enumName);
         if (values.length == 0)
-            throw new IllegalArgumentException("Enumeration must have values.");
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationMustHaveValues")); //$NON-NLS-1$
 
         enumerations.put(enumName, values);
 
@@ -115,7 +116,7 @@ public class UcmEnvironment {
             result = declarations.get(var);
             
             if (result==null) {// || result.toString().indexOf(jUCMNavType.ENUMERATION)>=0) {
-                throw new IllegalArgumentException("Variable " + var +  " has no valuation.");
+                throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var +  Messages.getString("UcmEnvironment.HasNoValuation")); //$NON-NLS-1$ //$NON-NLS-2$
             } else
                 result = var;
         }

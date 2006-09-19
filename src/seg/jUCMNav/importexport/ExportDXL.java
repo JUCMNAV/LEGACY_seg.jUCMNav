@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
@@ -367,7 +368,7 @@ public class ExportDXL implements IURNExport {
             
             write(QUOTES);
             write(elem.getName());
-            write("(E)");
+            write("(E)"); //$NON-NLS-1$
             write(QUOTES_COMMA);
             
             String temp = QUOTES + eval.getEvaluation() + QUOTES_END_ELEM;
@@ -384,7 +385,7 @@ public class ExportDXL implements IURNExport {
             
             write(QUOTES);
             write(actor.getName());
-            write("(A)");
+            write("(A)"); //$NON-NLS-1$
             write(QUOTES_COMMA);
             
             String temp = QUOTES + evaluation + QUOTES_END_ELEM;
@@ -538,13 +539,13 @@ public class ExportDXL implements IURNExport {
                 write(QUOTES);
                 if (((Contribution)link).isCorrelation())
                 {
-                    write("1");
+                    write("1"); //$NON-NLS-1$
                 } else {
-                    write("0");
+                    write("0"); //$NON-NLS-1$
                 }
                 write(QUOTES_COMMA);
             } else {
-                throw new IOException("Invalid ElementLink type");
+                throw new IOException(Messages.getString("ExportDXL.InvalidElementLinkType")); //$NON-NLS-1$
             }
             
             // Description
@@ -962,7 +963,7 @@ public class ExportDXL implements IURNExport {
     protected void writeStrategies(URNspec urn) throws IOException {
         for (Iterator iter = urn.getGrlspec().getStrategies().iterator(); iter.hasNext();){
             EvaluationStrategy strategy = (EvaluationStrategy)iter.next();
-            write("strategy( ");
+            write("strategy( "); //$NON-NLS-1$
             
             // ID
             write(QUOTES);

@@ -260,7 +260,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-    	if (feature.getName().toLowerCase().indexOf("fillcolor")>=0)
+    	if (feature.getName().toLowerCase().indexOf("fillcolor")>=0) //$NON-NLS-1$
     		return super.isPropertySet(id) && comp.isFilled();
     	else
     		return super.isPropertySet(id);

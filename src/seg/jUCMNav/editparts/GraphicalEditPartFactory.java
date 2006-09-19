@@ -6,10 +6,11 @@ import org.eclipse.gef.EditPartFactory;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urncore.Condition;
 import urncore.Label;
 
@@ -47,6 +48,8 @@ public class GraphicalEditPartFactory implements EditPartFactory {
 			return new LabelEditPart((Label)model);
 		else if(model instanceof ComponentRef) 
 		    return new ComponentRefEditPart((ComponentRef)model, root);
+		else if(model instanceof RespRef)
+			return new RespRefEditPart((RespRef)model, root);
 		else if(model instanceof Stub)
 			return new StubEditPart((Stub)model, root);
 		else if (model instanceof AndFork || model instanceof AndJoin)

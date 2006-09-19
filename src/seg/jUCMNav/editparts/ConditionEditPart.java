@@ -3,20 +3,21 @@ package seg.jUCMNav.editparts;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editpolicies.directEditPolicy.ExtendedDirectEditManager;
-import seg.jUCMNav.editpolicies.directEditPolicy.LabelCellEditorLocator;
 import seg.jUCMNav.figures.LabelFigure;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 import urncore.Condition;
 import urncore.Label;
 
@@ -101,22 +102,33 @@ public class ConditionEditPart extends LabelEditPart {
      *  
      */
     protected void performDirectEdit() {
-        LabelFigure figure = (LabelFigure) getFigure();
-
-        // remove surrounding []
-        figure.setEditableText(figure.getEditableText().substring(1, figure.getEditableText().length() - 1));
-
-        if (manager == null) {
-
-            ICellEditorValidator validator = new ICellEditorValidator() {
-                public String isValid(Object value) {
-                    return ""; //$NON-NLS-1$
-                }
-            };
-
-            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
-        }
-        manager.show();
+    	// open condition editor 
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        CodeEditor wizard = new CodeEditor();
+        
+        StructuredSelection selection = new StructuredSelection(getModel());
+        wizard.init(PlatformUI.getWorkbench(), selection);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
+        
+        // no longer doing direct edit. 
+    	
+//        LabelFigure figure = (LabelFigure) getFigure();
+//
+//        // remove surrounding []
+//        figure.setEditableText(figure.getEditableText().substring(1, figure.getEditableText().length() - 1));
+//
+//        if (manager == null) {
+//
+//            ICellEditorValidator validator = new ICellEditorValidator() {
+//                public String isValid(Object value) {
+//                    return ""; //$NON-NLS-1$
+//                }
+//            };
+//
+//            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
+//        }
+//        manager.show();
     }
 
     /**

@@ -1193,7 +1193,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				// in.
 				if (map != stub.getDiagram()) {
 					item = new TableItem(tabMapList, SWT.NONE);
-					item.setText(map.getName() + ", ID: " + map.getId());
+					item.setText(map.getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + map.getId()); //$NON-NLS-1$
 					item.setData(map);
 					// If the map is binded to this stub, check the item.
 					if (binded.contains(map)) {
@@ -1231,7 +1231,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			PluginBinding binding = (PluginBinding) i.next();
 			// Generate a tree item under root for this PluginBinding
 			item = new TreeItem(item, SWT.NULL);
-			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName() + ", ID: " + binding.getPlugin().getId()); //$NON-NLS-1$
+			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + binding.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
 			image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
 			images.add(image);
 			item.setImage(image);
@@ -1312,7 +1312,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		if (selectedPlugin != null) {
 			// Update the label
 			selectedPluginLabel.setText(selectedPlugin.getStub().getName()
-					+ " <-> " + selectedPlugin.getPlugin().getName() + ", ID: " + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$
+					+ " <-> " + selectedPlugin.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
 			selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
 			selectedPluginLabel.setData(selectedPlugin);
 			addPluginClient.setVisible(true);

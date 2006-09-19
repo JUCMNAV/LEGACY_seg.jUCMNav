@@ -1,5 +1,6 @@
 package seg.jUCMNav.scenarios.parser;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.model.jUCMNavType;
 
@@ -18,7 +19,7 @@ public class jUCMNavTypeChecker {
             for (int i = 0; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
                 if (!verifySemantics(node, env).equals(jUCMNavType.VOID)) {
-                    throw new IllegalArgumentException("Invalid statements; type error.");
+                    throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidStatementsTypeError")); //$NON-NLS-1$
                 }
             }
 
@@ -27,13 +28,13 @@ public class jUCMNavTypeChecker {
         case jUCMNavParserTreeConstants.JJTIFSTATEMENT: {
             if (!verifySemantics(((SimpleNode) root.jjtGetChild(0)), env).equals(jUCMNavType.BOOLEAN))
             {
-                throw new IllegalArgumentException("Condition to if statement is not boolean.");
+                throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.ConditionToIfStatementIsNotBoolean")); //$NON-NLS-1$
             }
             
             for (int i = 1; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
                 if (!verifySemantics(node, env).equals(jUCMNavType.VOID)) {
-                    throw new IllegalArgumentException("Invalid statements; type error.");
+                    throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidStatementsTypeError")); //$NON-NLS-1$
                 }
             }
 
@@ -45,7 +46,7 @@ public class jUCMNavTypeChecker {
             jUCMNavType type = verifySemantics(node, env); 
             jUCMNavType type2 = verifySemantics(node2, env);
             if (!type.equals(type2)) {
-                throw new IllegalArgumentException("Cannot assign " + type2.toString() + " to variable of type " + type.toString());
+                throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.CannotAssign") + type2.toString() + Messages.getString("jUCMNavTypeChecker.ToVariableOfType") + type.toString()); //$NON-NLS-1$ //$NON-NLS-2$
             }
             
             return jUCMNavType.VOID;
@@ -61,7 +62,7 @@ public class jUCMNavTypeChecker {
                     break;
                 default:
                     if (!verifySemantics(node, env).equals(jUCMNavType.BOOLEAN)) {
-                        throw new IllegalArgumentException("Invalid operation; type error.");
+                        throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidOperationTypeError")); //$NON-NLS-1$
                     }
                 }
             }
@@ -73,7 +74,7 @@ public class jUCMNavTypeChecker {
             Object type2 = verifySemantics((SimpleNode) root.jjtGetChild(2), env);
 
             if (!type1.equals(type2)) {
-                    throw new IllegalArgumentException("Equality / inequality must be applied to the same types.");
+                    throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.EqualityInequalityMustBeAppliedToSameTypes")); //$NON-NLS-1$
             }
             for (int i = 3; i < root.jjtGetNumChildren(); i++) {
                 SimpleNode node = ((SimpleNode) root.jjtGetChild(i));
@@ -83,7 +84,7 @@ public class jUCMNavTypeChecker {
                     break;
                 default:
                     if (!verifySemantics(node, env).equals(jUCMNavType.BOOLEAN)) {
-                        throw new IllegalArgumentException("Invalid operation; type error.");
+                        throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidOPerationTypeError")); //$NON-NLS-1$
                     }
                 }
             }
@@ -92,7 +93,7 @@ public class jUCMNavTypeChecker {
         }
         case jUCMNavParserTreeConstants.JJTNEGATION: {
             if (!verifySemantics((SimpleNode) root.jjtGetChild(0), env).equals(jUCMNavType.BOOLEAN)) {
-                throw new IllegalArgumentException("Negation can only be applied to booleans.");
+                throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.NegationCanOnlyBeAppliedToBooleans")); //$NON-NLS-1$
             }
             return jUCMNavType.BOOLEAN;
         }
@@ -108,7 +109,7 @@ public class jUCMNavTypeChecker {
                     break;
                 default:
                     if (!verifySemantics(node, env).equals(jUCMNavType.INTEGER)) {
-                        throw new IllegalArgumentException("Invalid operation; type error.");
+                        throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidOperationTypeError")); //$NON-NLS-1$
                     }
                 }
             }
@@ -126,7 +127,7 @@ public class jUCMNavTypeChecker {
                     break;
                 default:
                     if (!verifySemantics(node, env).equals(jUCMNavType.INTEGER)) {
-                        throw new IllegalArgumentException("Invalid operation; type error.");
+                        throw new IllegalArgumentException(Messages.getString("jUCMNavTypeChecker.InvalidOperationTypeError")); //$NON-NLS-1$
                     }
                 }
             }
@@ -139,7 +140,7 @@ public class jUCMNavTypeChecker {
         case jUCMNavParserTreeConstants.JJTIDENTIFIER:
             return env.checkVariableExists(root);
         default:
-            System.out.println("Error; unimplemented");
+            System.out.println(Messages.getString("jUCMNavTypeChecker.ErrorUnimplemented")); //$NON-NLS-1$
             return jUCMNavType.VOID;
         }
 

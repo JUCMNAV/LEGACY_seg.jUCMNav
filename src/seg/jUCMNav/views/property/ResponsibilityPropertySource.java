@@ -16,6 +16,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.views.property.descriptors.CodePropertyDescriptor;
 import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.Responsibility;
@@ -35,7 +36,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
 
     //	 if this is a reference to a component, we want it.
     private Responsibility resp = null;
-    int i = 0;
+    private int i = 0;
 
     /**
      * @param obj
@@ -79,7 +80,14 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
             // add the new properties
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
-                addPropertyToDescriptor(descriptors, attr, resp.eClass());
+                
+                // TODO: change to expression when it is added to the metamodel.  
+                if (attr.getName()=="description") { //$NON-NLS-1$
+                	CodePropertyDescriptor pd = new CodePropertyDescriptor(new PropertyID(resp.eClass(), resp.eClass().getEStructuralFeature("description")), resp); //$NON-NLS-1$
+                	descriptors.add(pd);
+                }
+                else 
+                	addPropertyToDescriptor(descriptors, attr, resp.eClass());
             }
         }
         return (Vector) descriptors;
