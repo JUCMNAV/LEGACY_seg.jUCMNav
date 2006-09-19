@@ -11,6 +11,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import ucm.UCMspec;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 
 /**
@@ -40,10 +43,17 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
             return new StrategyRootEditPart((UCMNavMultiPageEditor)model);
         } else if (model instanceof GRLspec){
             return new GRLspecStrategyTreeEditPart((GRLspec) model);
+        } else if (model instanceof UCMspec){
+            return new UCMspecScenarioTreeEditPart((UCMspec) model);
         } else if (model instanceof StrategiesGroup){
             return new StrategiesGroupTreeEditPart((StrategiesGroup) model);
+        } else if (model instanceof ScenarioGroup){
+            return new ScenarioGroupTreeEditPart((ScenarioGroup) model);
         } else if (model instanceof EvaluationStrategy){
             return new EvaluationStategyTreeEditPart((EvaluationStrategy) model);
+        } else if (model instanceof ScenarioDef){
+            return new ScenarioDefTreeEditPart((ScenarioDef) model);
+           
         } else {
             return null;
         }

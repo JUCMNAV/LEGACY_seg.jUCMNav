@@ -11,8 +11,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import ucm.scenario.*;
-
+import ucm.scenario.EnumerationType;
+import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioPackage;
+import ucm.scenario.Variable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
@@ -30,182 +34,226 @@ import urncore.URNmodelElement;
  * @generated
  */
 public class ScenarioSwitch {
-    /**
-     * The cached model package
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached model package
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected static ScenarioPackage modelPackage;
 
-    /**
-     * Creates an instance of the switch.
-     * <!-- begin-user-doc -->
+	/**
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioSwitch() {
-        if (modelPackage == null) {
-            modelPackage = ScenarioPackage.eINSTANCE;
-        }
-    }
+		if (modelPackage == null) {
+			modelPackage = ScenarioPackage.eINSTANCE;
+		}
+	}
 
-    /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     public Object doSwitch(EObject theEObject) {
-        return doSwitch(theEObject.eClass(), theEObject);
-    }
+		return doSwitch(theEObject.eClass(), theEObject);
+	}
 
-    /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected Object doSwitch(EClass theEClass, EObject theEObject) {
-        if (theEClass.eContainer() == modelPackage) {
-            return doSwitch(theEClass.getClassifierID(), theEObject);
-        }
-        else {
-            List eSuperTypes = theEClass.getESuperTypes();
-            return
-                eSuperTypes.isEmpty() ?
-                    defaultCase(theEObject) :
-                    doSwitch((EClass)eSuperTypes.get(0), theEObject);
-        }
-    }
+		if (theEClass.eContainer() == modelPackage) {
+			return doSwitch(theEClass.getClassifierID(), theEObject);
+		}
+		else {
+			List eSuperTypes = theEClass.getESuperTypes();
+			return
+				eSuperTypes.isEmpty() ?
+					defaultCase(theEObject) :
+					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+		}
+	}
 
-    /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	/**
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected Object doSwitch(int classifierID, EObject theEObject) {
-        switch (classifierID) {
-            case ScenarioPackage.VARIABLE: {
-                Variable variable = (Variable)theEObject;
-                Object result = caseVariable(variable);
-                if (result == null) result = caseUCMmodelElement(variable);
-                if (result == null) result = caseURNmodelElement(variable);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case ScenarioPackage.SCENARIO_DEF: {
-                ScenarioDef scenarioDef = (ScenarioDef)theEObject;
-                Object result = caseScenarioDef(scenarioDef);
-                if (result == null) result = caseUCMmodelElement(scenarioDef);
-                if (result == null) result = caseURNmodelElement(scenarioDef);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case ScenarioPackage.SCENARIO_GROUP: {
-                ScenarioGroup scenarioGroup = (ScenarioGroup)theEObject;
-                Object result = caseScenarioGroup(scenarioGroup);
-                if (result == null) result = caseUCMmodelElement(scenarioGroup);
-                if (result == null) result = caseURNmodelElement(scenarioGroup);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            default: return defaultCase(theEObject);
-        }
-    }
+		switch (classifierID) {
+			case ScenarioPackage.VARIABLE: {
+				Variable variable = (Variable)theEObject;
+				Object result = caseVariable(variable);
+				if (result == null) result = caseUCMmodelElement(variable);
+				if (result == null) result = caseURNmodelElement(variable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.SCENARIO_DEF: {
+				ScenarioDef scenarioDef = (ScenarioDef)theEObject;
+				Object result = caseScenarioDef(scenarioDef);
+				if (result == null) result = caseUCMmodelElement(scenarioDef);
+				if (result == null) result = caseURNmodelElement(scenarioDef);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.SCENARIO_GROUP: {
+				ScenarioGroup scenarioGroup = (ScenarioGroup)theEObject;
+				Object result = caseScenarioGroup(scenarioGroup);
+				if (result == null) result = caseUCMmodelElement(scenarioGroup);
+				if (result == null) result = caseURNmodelElement(scenarioGroup);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.ENUMERATION_TYPE: {
+				EnumerationType enumerationType = (EnumerationType)theEObject;
+				Object result = caseEnumerationType(enumerationType);
+				if (result == null) result = caseUCMmodelElement(enumerationType);
+				if (result == null) result = caseURNmodelElement(enumerationType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.INITIALIZATION: {
+				Initialization initialization = (Initialization)theEObject;
+				Object result = caseInitialization(initialization);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
+		}
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Group</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Group</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Group</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Group</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseScenarioGroup(ScenarioGroup object) {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Def</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Enumeration Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Enumeration Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseEnumerationType(EnumerationType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Initialization</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Initialization</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseInitialization(Initialization object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Def</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Def</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Def</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseScenarioDef(ScenarioDef object) {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>Variable</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Variable</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>Variable</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Variable</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseVariable(Variable object) {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>UR Nmodel Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseURNmodelElement(URNmodelElement object) {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>UC Mmodel Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public Object caseUCMmodelElement(UCMmodelElement object) {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch, but this is the last case anyway.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
     public Object defaultCase(EObject object) {
-        return null;
-    }
+		return null;
+	}
 
 } //ScenarioSwitch

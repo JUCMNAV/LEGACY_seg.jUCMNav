@@ -6,13 +6,38 @@
  */
 package grl.impl;
 
-import grl.*;
+import grl.Actor;
+import grl.ActorRef;
+import grl.Belief;
+import grl.BeliefLink;
+import grl.Contribution;
+import grl.ContributionType;
+import grl.Criticality;
+import grl.Decomposition;
+import grl.DecompositionType;
+import grl.Dependency;
+import grl.ElementLink;
+import grl.Evaluation;
+import grl.EvaluationStrategy;
+import grl.GRLGraph;
+import grl.GRLNode;
+import grl.GRLspec;
+import grl.GrlFactory;
+import grl.GrlPackage;
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+import grl.IntentionalElementType;
+import grl.LinkRef;
+import grl.LinkRefBendpoint;
+import grl.Priority;
+import grl.StrategiesGroup;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,302 +46,406 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
  * @generated
  */
 public class GrlFactoryImpl extends EFactoryImpl implements GrlFactory {
-    /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static GrlFactory init() {
+		try {
+			GrlFactory theGrlFactory = (GrlFactory)EPackage.Registry.INSTANCE.getEFactory("http:///grl.ecore"); 
+			if (theGrlFactory != null) {
+				return theGrlFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new GrlFactoryImpl();
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GrlFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case GrlPackage.GR_LSPEC: return createGRLspec();
-            case GrlPackage.BELIEF: return createBelief();
-            case GrlPackage.INTENTIONAL_ELEMENT: return createIntentionalElement();
-            case GrlPackage.ACTOR: return createActor();
-            case GrlPackage.GRL_GRAPH: return createGRLGraph();
-            case GrlPackage.ACTOR_REF: return createActorRef();
-            case GrlPackage.INTENTIONAL_ELEMENT_REF: return createIntentionalElementRef();
-            case GrlPackage.CONTRIBUTION: return createContribution();
-            case GrlPackage.LINK_REF: return createLinkRef();
-            case GrlPackage.ELEMENT_LINK: return createElementLink();
-            case GrlPackage.DECOMPOSITION: return createDecomposition();
-            case GrlPackage.DEPENDENCY: return createDependency();
-            case GrlPackage.EVALUATION: return createEvaluation();
-            case GrlPackage.EVALUATION_STRATEGY: return createEvaluationStrategy();
-            case GrlPackage.GRL_NODE: return createGRLNode();
-            case GrlPackage.LINK_REF_BENDPOINT: return createLinkRefBendpoint();
-            case GrlPackage.BELIEF_LINK: return createBeliefLink();
-            case GrlPackage.STRATEGIES_GROUP: return createStrategiesGroup();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case GrlPackage.GR_LSPEC: return createGRLspec();
+			case GrlPackage.BELIEF: return createBelief();
+			case GrlPackage.INTENTIONAL_ELEMENT: return createIntentionalElement();
+			case GrlPackage.ACTOR: return createActor();
+			case GrlPackage.GRL_GRAPH: return createGRLGraph();
+			case GrlPackage.ACTOR_REF: return createActorRef();
+			case GrlPackage.INTENTIONAL_ELEMENT_REF: return createIntentionalElementRef();
+			case GrlPackage.CONTRIBUTION: return createContribution();
+			case GrlPackage.LINK_REF: return createLinkRef();
+			case GrlPackage.ELEMENT_LINK: return createElementLink();
+			case GrlPackage.DECOMPOSITION: return createDecomposition();
+			case GrlPackage.DEPENDENCY: return createDependency();
+			case GrlPackage.EVALUATION: return createEvaluation();
+			case GrlPackage.EVALUATION_STRATEGY: return createEvaluationStrategy();
+			case GrlPackage.GRL_NODE: return createGRLNode();
+			case GrlPackage.LINK_REF_BENDPOINT: return createLinkRefBendpoint();
+			case GrlPackage.BELIEF_LINK: return createBeliefLink();
+			case GrlPackage.STRATEGIES_GROUP: return createStrategiesGroup();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Object createFromString(EDataType eDataType, String initialValue) {
-        switch (eDataType.getClassifierID()) {
-            case GrlPackage.CRITICALITY: {
-                Criticality result = Criticality.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            case GrlPackage.INTENTIONAL_ELEMENT_TYPE: {
-                IntentionalElementType result = IntentionalElementType.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            case GrlPackage.PRIORITY: {
-                Priority result = Priority.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            case GrlPackage.CONTRIBUTION_TYPE: {
-                ContributionType result = ContributionType.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            case GrlPackage.DECOMPOSITION_TYPE: {
-                DecompositionType result = DecompositionType.get(initialValue);
-                if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-                return result;
-            }
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eDataType.getClassifierID()) {
+			case GrlPackage.CRITICALITY:
+				return createCriticalityFromString(eDataType, initialValue);
+			case GrlPackage.INTENTIONAL_ELEMENT_TYPE:
+				return createIntentionalElementTypeFromString(eDataType, initialValue);
+			case GrlPackage.PRIORITY:
+				return createPriorityFromString(eDataType, initialValue);
+			case GrlPackage.CONTRIBUTION_TYPE:
+				return createContributionTypeFromString(eDataType, initialValue);
+			case GrlPackage.DECOMPOSITION_TYPE:
+				return createDecompositionTypeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String convertToString(EDataType eDataType, Object instanceValue) {
-        switch (eDataType.getClassifierID()) {
-            case GrlPackage.CRITICALITY:
-                return instanceValue == null ? null : instanceValue.toString();
-            case GrlPackage.INTENTIONAL_ELEMENT_TYPE:
-                return instanceValue == null ? null : instanceValue.toString();
-            case GrlPackage.PRIORITY:
-                return instanceValue == null ? null : instanceValue.toString();
-            case GrlPackage.CONTRIBUTION_TYPE:
-                return instanceValue == null ? null : instanceValue.toString();
-            case GrlPackage.DECOMPOSITION_TYPE:
-                return instanceValue == null ? null : instanceValue.toString();
-            default:
-                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eDataType.getClassifierID()) {
+			case GrlPackage.CRITICALITY:
+				return convertCriticalityToString(eDataType, instanceValue);
+			case GrlPackage.INTENTIONAL_ELEMENT_TYPE:
+				return convertIntentionalElementTypeToString(eDataType, instanceValue);
+			case GrlPackage.PRIORITY:
+				return convertPriorityToString(eDataType, instanceValue);
+			case GrlPackage.CONTRIBUTION_TYPE:
+				return convertContributionTypeToString(eDataType, instanceValue);
+			case GrlPackage.DECOMPOSITION_TYPE:
+				return convertDecompositionTypeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GRLspec createGRLspec() {
-        GRLspecImpl grLspec = new GRLspecImpl();
-        return grLspec;
-    }
+		GRLspecImpl grLspec = new GRLspecImpl();
+		return grLspec;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Belief createBelief() {
-        BeliefImpl belief = new BeliefImpl();
-        return belief;
-    }
+		BeliefImpl belief = new BeliefImpl();
+		return belief;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement createIntentionalElement() {
-        IntentionalElementImpl intentionalElement = new IntentionalElementImpl();
-        return intentionalElement;
-    }
+		IntentionalElementImpl intentionalElement = new IntentionalElementImpl();
+		return intentionalElement;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Actor createActor() {
-        ActorImpl actor = new ActorImpl();
-        return actor;
-    }
+		ActorImpl actor = new ActorImpl();
+		return actor;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GRLGraph createGRLGraph() {
-        GRLGraphImpl grlGraph = new GRLGraphImpl();
-        return grlGraph;
-    }
+		GRLGraphImpl grlGraph = new GRLGraphImpl();
+		return grlGraph;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ActorRef createActorRef() {
-        ActorRefImpl actorRef = new ActorRefImpl();
-        return actorRef;
-    }
+		ActorRefImpl actorRef = new ActorRefImpl();
+		return actorRef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElementRef createIntentionalElementRef() {
-        IntentionalElementRefImpl intentionalElementRef = new IntentionalElementRefImpl();
-        return intentionalElementRef;
-    }
+		IntentionalElementRefImpl intentionalElementRef = new IntentionalElementRefImpl();
+		return intentionalElementRef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Contribution createContribution() {
-        ContributionImpl contribution = new ContributionImpl();
-        return contribution;
-    }
+		ContributionImpl contribution = new ContributionImpl();
+		return contribution;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public LinkRef createLinkRef() {
-        LinkRefImpl linkRef = new LinkRefImpl();
-        return linkRef;
-    }
+		LinkRefImpl linkRef = new LinkRefImpl();
+		return linkRef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ElementLink createElementLink() {
-        ElementLinkImpl elementLink = new ElementLinkImpl();
-        return elementLink;
-    }
+		ElementLinkImpl elementLink = new ElementLinkImpl();
+		return elementLink;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Decomposition createDecomposition() {
-        DecompositionImpl decomposition = new DecompositionImpl();
-        return decomposition;
-    }
+		DecompositionImpl decomposition = new DecompositionImpl();
+		return decomposition;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Dependency createDependency() {
-        DependencyImpl dependency = new DependencyImpl();
-        return dependency;
-    }
+		DependencyImpl dependency = new DependencyImpl();
+		return dependency;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Evaluation createEvaluation() {
-        EvaluationImpl evaluation = new EvaluationImpl();
-        return evaluation;
-    }
+		EvaluationImpl evaluation = new EvaluationImpl();
+		return evaluation;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EvaluationStrategy createEvaluationStrategy() {
-        EvaluationStrategyImpl evaluationStrategy = new EvaluationStrategyImpl();
-        return evaluationStrategy;
-    }
+		EvaluationStrategyImpl evaluationStrategy = new EvaluationStrategyImpl();
+		return evaluationStrategy;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GRLNode createGRLNode() {
-        GRLNodeImpl grlNode = new GRLNodeImpl();
-        return grlNode;
-    }
+		GRLNodeImpl grlNode = new GRLNodeImpl();
+		return grlNode;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public LinkRefBendpoint createLinkRefBendpoint() {
-        LinkRefBendpointImpl linkRefBendpoint = new LinkRefBendpointImpl();
-        return linkRefBendpoint;
-    }
+		LinkRefBendpointImpl linkRefBendpoint = new LinkRefBendpointImpl();
+		return linkRefBendpoint;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public BeliefLink createBeliefLink() {
-        BeliefLinkImpl beliefLink = new BeliefLinkImpl();
-        return beliefLink;
-    }
+		BeliefLinkImpl beliefLink = new BeliefLinkImpl();
+		return beliefLink;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public StrategiesGroup createStrategiesGroup() {
-        StrategiesGroupImpl strategiesGroup = new StrategiesGroupImpl();
-        return strategiesGroup;
-    }
+		StrategiesGroupImpl strategiesGroup = new StrategiesGroupImpl();
+		return strategiesGroup;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Criticality createCriticalityFromString(EDataType eDataType, String initialValue) {
+		Criticality result = Criticality.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertCriticalityToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntentionalElementType createIntentionalElementTypeFromString(EDataType eDataType, String initialValue) {
+		IntentionalElementType result = IntentionalElementType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertIntentionalElementTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Priority createPriorityFromString(EDataType eDataType, String initialValue) {
+		Priority result = Priority.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertPriorityToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ContributionType createContributionTypeFromString(EDataType eDataType, String initialValue) {
+		ContributionType result = ContributionType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertContributionTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DecompositionType createDecompositionTypeFromString(EDataType eDataType, String initialValue) {
+		DecompositionType result = DecompositionType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDecompositionTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GrlPackage getGrlPackage() {
-        return (GrlPackage)getEPackage();
-    }
+		return (GrlPackage)getEPackage();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
+	 * @deprecated
+	 * @generated
+	 */
     public static GrlPackage getPackage() {
-        return GrlPackage.eINSTANCE;
-    }
+		return GrlPackage.eINSTANCE;
+	}
 
 } //GrlFactoryImpl

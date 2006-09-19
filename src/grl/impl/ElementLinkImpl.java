@@ -18,7 +18,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -44,433 +43,369 @@ import urncore.impl.GRLmodelElementImpl;
  * @generated
  */
 public class ElementLinkImpl extends GRLmodelElementImpl implements ElementLink {
-    /**
-     * The cached value of the '{@link #getRefs() <em>Refs</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getRefs() <em>Refs</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getRefs()
-     * @generated
-     * @ordered
-     */
+	 * @see #getRefs()
+	 * @generated
+	 * @ordered
+	 */
     protected EList refs = null;
 
-    /**
-     * The cached value of the '{@link #getSrc() <em>Src</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSrc() <em>Src</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSrc()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSrc()
+	 * @generated
+	 * @ordered
+	 */
     protected IntentionalElement src = null;
 
-    /**
-     * The cached value of the '{@link #getDest() <em>Dest</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getDest() <em>Dest</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDest()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDest()
+	 * @generated
+	 * @ordered
+	 */
     protected IntentionalElement dest = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected ElementLinkImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return GrlPackage.eINSTANCE.getElementLink();
-    }
+		return GrlPackage.Literals.ELEMENT_LINK;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getRefs() {
-        if (refs == null) {
-            refs = new EObjectWithInverseResolvingEList(LinkRef.class, this, GrlPackage.ELEMENT_LINK__REFS, GrlPackage.LINK_REF__LINK);
-        }
-        return refs;
-    }
+		if (refs == null) {
+			refs = new EObjectWithInverseResolvingEList(LinkRef.class, this, GrlPackage.ELEMENT_LINK__REFS, GrlPackage.LINK_REF__LINK);
+		}
+		return refs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public GRLspec getGrlspec() {
-        if (eContainerFeatureID != GrlPackage.ELEMENT_LINK__GRLSPEC) return null;
-        return (GRLspec)eContainer;
-    }
+		if (eContainerFeatureID != GrlPackage.ELEMENT_LINK__GRLSPEC) return null;
+		return (GRLspec)eContainer();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetGrlspec(GRLspec newGrlspec, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.ELEMENT_LINK__GRLSPEC, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setGrlspec(GRLspec newGrlspec) {
-        if (newGrlspec != eContainer || (eContainerFeatureID != GrlPackage.ELEMENT_LINK__GRLSPEC && newGrlspec != null)) {
-            if (EcoreUtil.isAncestor(this, newGrlspec))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eContainer != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newGrlspec != null)
-                msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newGrlspec, GrlPackage.ELEMENT_LINK__GRLSPEC, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__GRLSPEC, newGrlspec, newGrlspec));
-    }
+		if (newGrlspec != eInternalContainer() || (eContainerFeatureID != GrlPackage.ELEMENT_LINK__GRLSPEC && newGrlspec != null)) {
+			if (EcoreUtil.isAncestor(this, newGrlspec))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newGrlspec != null)
+				msgs = ((InternalEObject)newGrlspec).eInverseAdd(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
+			msgs = basicSetGrlspec(newGrlspec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__GRLSPEC, newGrlspec, newGrlspec));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement getSrc() {
-        if (src != null && src.eIsProxy()) {
-            IntentionalElement oldSrc = src;
-            src = (IntentionalElement)eResolveProxy((InternalEObject)src);
-            if (src != oldSrc) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ELEMENT_LINK__SRC, oldSrc, src));
-            }
-        }
-        return src;
-    }
+		if (src != null && src.eIsProxy()) {
+			InternalEObject oldSrc = (InternalEObject)src;
+			src = (IntentionalElement)eResolveProxy(oldSrc);
+			if (src != oldSrc) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ELEMENT_LINK__SRC, oldSrc, src));
+			}
+		}
+		return src;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement basicGetSrc() {
-        return src;
-    }
+		return src;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetSrc(IntentionalElement newSrc, NotificationChain msgs) {
-        IntentionalElement oldSrc = src;
-        src = newSrc;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__SRC, oldSrc, newSrc);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IntentionalElement oldSrc = src;
+		src = newSrc;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__SRC, oldSrc, newSrc);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setSrc(IntentionalElement newSrc) {
-        if (newSrc != src) {
-            NotificationChain msgs = null;
-            if (src != null)
-                msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
-            if (newSrc != null)
-                msgs = ((InternalEObject)newSrc).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
-            msgs = basicSetSrc(newSrc, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__SRC, newSrc, newSrc));
-    }
+		if (newSrc != src) {
+			NotificationChain msgs = null;
+			if (src != null)
+				msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
+			if (newSrc != null)
+				msgs = ((InternalEObject)newSrc).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
+			msgs = basicSetSrc(newSrc, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__SRC, newSrc, newSrc));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement getDest() {
-        if (dest != null && dest.eIsProxy()) {
-            IntentionalElement oldDest = dest;
-            dest = (IntentionalElement)eResolveProxy((InternalEObject)dest);
-            if (dest != oldDest) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ELEMENT_LINK__DEST, oldDest, dest));
-            }
-        }
-        return dest;
-    }
+		if (dest != null && dest.eIsProxy()) {
+			InternalEObject oldDest = (InternalEObject)dest;
+			dest = (IntentionalElement)eResolveProxy(oldDest);
+			if (dest != oldDest) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.ELEMENT_LINK__DEST, oldDest, dest));
+			}
+		}
+		return dest;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement basicGetDest() {
-        return dest;
-    }
+		return dest;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetDest(IntentionalElement newDest, NotificationChain msgs) {
-        IntentionalElement oldDest = dest;
-        dest = newDest;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__DEST, oldDest, newDest);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IntentionalElement oldDest = dest;
+		dest = newDest;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__DEST, oldDest, newDest);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDest(IntentionalElement newDest) {
-        if (newDest != dest) {
-            NotificationChain msgs = null;
-            if (dest != null)
-                msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
-            if (newDest != null)
-                msgs = ((InternalEObject)newDest).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
-            msgs = basicSetDest(newDest, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__DEST, newDest, newDest));
-    }
+		if (newDest != dest) {
+			NotificationChain msgs = null;
+			if (dest != null)
+				msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
+			if (newDest != null)
+				msgs = ((InternalEObject)newDest).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
+			msgs = basicSetDest(newDest, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.ELEMENT_LINK__DEST, newDest, newDest));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__REFS:
-                    return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, GrlPackage.ELEMENT_LINK__GRLSPEC, msgs);
-                case GrlPackage.ELEMENT_LINK__SRC:
-                    if (src != null)
-                        msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
-                    return basicSetSrc((IntentionalElement)otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__DEST:
-                    if (dest != null)
-                        msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
-                    return basicSetDest((IntentionalElement)otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				return ((InternalEList)getRefs()).basicAdd(otherEnd, msgs);
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetGrlspec((GRLspec)otherEnd, msgs);
+			case GrlPackage.ELEMENT_LINK__SRC:
+				if (src != null)
+					msgs = ((InternalEObject)src).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_SRC, IntentionalElement.class, msgs);
+				return basicSetSrc((IntentionalElement)otherEnd, msgs);
+			case GrlPackage.ELEMENT_LINK__DEST:
+				if (dest != null)
+					msgs = ((InternalEObject)dest).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__LINKS_DEST, IntentionalElement.class, msgs);
+				return basicSetDest((IntentionalElement)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__REFS:
-                    return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
-                case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                    return eBasicSetContainer(null, GrlPackage.ELEMENT_LINK__GRLSPEC, msgs);
-                case GrlPackage.ELEMENT_LINK__SRC:
-                    return basicSetSrc(null, msgs);
-                case GrlPackage.ELEMENT_LINK__DEST:
-                    return basicSetDest(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				return ((InternalEList)getRefs()).basicRemove(otherEnd, msgs);
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				return basicSetGrlspec(null, msgs);
+			case GrlPackage.ELEMENT_LINK__SRC:
+				return basicSetSrc(null, msgs);
+			case GrlPackage.ELEMENT_LINK__DEST:
+				return basicSetDest(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                    return eContainer.eInverseRemove(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID) {
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				return eInternalContainer().eInverseRemove(this, GrlPackage.GR_LSPEC__LINKS, GRLspec.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                return getToLinks();
-            case GrlPackage.ELEMENT_LINK__ID:
-                return getId();
-            case GrlPackage.ELEMENT_LINK__NAME:
-                return getName();
-            case GrlPackage.ELEMENT_LINK__DESCRIPTION:
-                return getDescription();
-            case GrlPackage.ELEMENT_LINK__REFS:
-                return getRefs();
-            case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                return getGrlspec();
-            case GrlPackage.ELEMENT_LINK__SRC:
-                if (resolve) return getSrc();
-                return basicGetSrc();
-            case GrlPackage.ELEMENT_LINK__DEST:
-                if (resolve) return getDest();
-                return basicGetDest();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				return getRefs();
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				return getGrlspec();
+			case GrlPackage.ELEMENT_LINK__SRC:
+				if (resolve) return getSrc();
+				return basicGetSrc();
+			case GrlPackage.ELEMENT_LINK__DEST:
+				if (resolve) return getDest();
+				return basicGetDest();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__ID:
-                setId((String)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__NAME:
-                setName((String)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__DESCRIPTION:
-                setDescription((String)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__REFS:
-                getRefs().clear();
-                getRefs().addAll((Collection)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                setGrlspec((GRLspec)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__SRC:
-                setSrc((IntentionalElement)newValue);
-                return;
-            case GrlPackage.ELEMENT_LINK__DEST:
-                setDest((IntentionalElement)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				getRefs().clear();
+				getRefs().addAll((Collection)newValue);
+				return;
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				setGrlspec((GRLspec)newValue);
+				return;
+			case GrlPackage.ELEMENT_LINK__SRC:
+				setSrc((IntentionalElement)newValue);
+				return;
+			case GrlPackage.ELEMENT_LINK__DEST:
+				setDest((IntentionalElement)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                getToLinks().clear();
-                return;
-            case GrlPackage.ELEMENT_LINK__ID:
-                setId(ID_EDEFAULT);
-                return;
-            case GrlPackage.ELEMENT_LINK__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case GrlPackage.ELEMENT_LINK__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.ELEMENT_LINK__REFS:
-                getRefs().clear();
-                return;
-            case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                setGrlspec((GRLspec)null);
-                return;
-            case GrlPackage.ELEMENT_LINK__SRC:
-                setSrc((IntentionalElement)null);
-                return;
-            case GrlPackage.ELEMENT_LINK__DEST:
-                setDest((IntentionalElement)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				getRefs().clear();
+				return;
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				setGrlspec((GRLspec)null);
+				return;
+			case GrlPackage.ELEMENT_LINK__SRC:
+				setSrc((IntentionalElement)null);
+				return;
+			case GrlPackage.ELEMENT_LINK__DEST:
+				setDest((IntentionalElement)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.ELEMENT_LINK__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.ELEMENT_LINK__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
-            case GrlPackage.ELEMENT_LINK__ID:
-                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case GrlPackage.ELEMENT_LINK__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case GrlPackage.ELEMENT_LINK__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.ELEMENT_LINK__REFS:
-                return refs != null && !refs.isEmpty();
-            case GrlPackage.ELEMENT_LINK__GRLSPEC:
-                return getGrlspec() != null;
-            case GrlPackage.ELEMENT_LINK__SRC:
-                return src != null;
-            case GrlPackage.ELEMENT_LINK__DEST:
-                return dest != null;
-        }
-        return eDynamicIsSet(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case GrlPackage.ELEMENT_LINK__REFS:
+				return refs != null && !refs.isEmpty();
+			case GrlPackage.ELEMENT_LINK__GRLSPEC:
+				return getGrlspec() != null;
+			case GrlPackage.ELEMENT_LINK__SRC:
+				return src != null;
+			case GrlPackage.ELEMENT_LINK__DEST:
+				return dest != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ElementLinkImpl

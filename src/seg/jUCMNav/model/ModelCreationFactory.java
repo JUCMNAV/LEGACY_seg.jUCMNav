@@ -50,6 +50,9 @@ import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.Workload;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioFactory;
+import ucm.scenario.ScenarioGroup;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
@@ -206,6 +209,7 @@ public class ModelCreationFactory implements CreationFactory {
     public static Object getNewObject(URNspec urn, Class targetClass, int type, Object definition) {
         MapFactory mapfactory = MapFactory.eINSTANCE;
         UcmFactory ucmfactory = UcmFactory.eINSTANCE;
+        ScenarioFactory ucmscenariofactory = ScenarioFactory.eINSTANCE;
         UrncoreFactory urncorefactory = UrncoreFactory.eINSTANCE;
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
@@ -277,6 +281,10 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(EvaluationStrategy.class)) {
                 result = grlfactory.createEvaluationStrategy();
                 ((EvaluationStrategy) result).setAuthor(GeneralPreferencePage.getAuthor());
+            } else if (targetClass.equals(ScenarioGroup.class)) {
+                result = ucmscenariofactory.createScenarioGroup();
+            } else if (targetClass.equals(ScenarioDef.class)) {
+                result = ucmscenariofactory.createScenarioDef();
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
             } else {
@@ -493,6 +501,17 @@ public class ModelCreationFactory implements CreationFactory {
         EvaluationStrategy strategy = (EvaluationStrategy) ModelCreationFactory.getNewObject(urnspec, EvaluationStrategy.class);
         group.getStrategies().add(strategy);
         urnspec.getGrlspec().getStrategies().add(strategy);
+        
+        
+        // Create a Scenario and ScenarioGroup
+        ScenarioGroup scenariogroup = (ScenarioGroup) ModelCreationFactory.getNewObject(urnspec, ScenarioGroup.class);
+        urnspec.getUcmspec().getScenarioGroups().add(scenariogroup);
+        ScenarioDef scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urnspec, ScenarioDef.class);
+        scenariogroup.getScenarios().add(scenario);
+        // I want to remove this. 
+        //urnspec.getUcmspec().getScenarioDefs().add(scenario);
+        
+        
         result = urnspec;
         return result;
     }

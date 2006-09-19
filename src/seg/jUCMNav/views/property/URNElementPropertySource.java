@@ -58,7 +58,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             componentRefDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == Workload.class) {
             workloadDescriptor(descriptors, propertyid);
-        } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label)) {
+        } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label) && attr.getUpperBound()!=-1) { // not a list. 
             if (getEditableValue() instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) getEditableValue();
                 // only on node connections that follow an or fork or a waitingplace/timer, but not on the timeout path
@@ -184,7 +184,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
                     urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-            }
+            } 
             result = new URNElementPropertySource((EObject) result);
         } else if (result instanceof AbstractEnumerator) {
             // if this is an EMF enumeration

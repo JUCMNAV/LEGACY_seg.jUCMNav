@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
+import ucm.UCMspec;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
@@ -38,6 +39,8 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
@@ -96,7 +99,10 @@ public class SelectionHelper {
     public static final int TIMER = 7;
     public static final int URNSPEC = 17;
     public static final int WAITINGPLACE = 8;
+    public static final int SCENARIOGROUP = 119;
+    public static final int SCENARIO = 120;
 
+    
     //GRL constant
     public static final int GRLGRAPH = 200;
     public static final int ACTORREF = 201;
@@ -142,6 +148,11 @@ public class SelectionHelper {
     private LinkRef linkref;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
+    private ScenarioGroup scenariogroup;
+    private ScenarioDef scenario;
+    
+    private UCMspec ucmspec;
+    private GRLspec grlspec;
     
     public SelectionHelper(List selection) {
         setSelection(selection);
@@ -315,9 +326,28 @@ public class SelectionHelper {
             urnspec = grlgraph.getUrndefinition().getUrnspec();
         } else if (model instanceof StrategiesGroup) {
             group = (StrategiesGroup)model;
+            grlspec = group.getGrlspec();
             urnspec = group.getGrlspec().getUrnspec();
+        } else if (model instanceof ScenarioGroup) {
+            scenariogroup = (ScenarioGroup)model;
+            ucmspec = scenariogroup.getUcmspec();
+            urnspec = scenariogroup.getUcmspec().getUrnspec();            
+        } else if (model instanceof EvaluationStrategy) {
+        	strategy =(EvaluationStrategy)model; 
+            group = strategy.getGroup();
+            grlspec = group.getGrlspec();
+            urnspec = group.getGrlspec().getUrnspec();
+        } else if (model instanceof ScenarioDef) {
+        	scenario= (ScenarioDef)model;
+        	scenariogroup = scenario.getGroups();
+        	ucmspec = scenariogroup.getUcmspec();
+            urnspec = scenariogroup.getUcmspec().getUrnspec();            
         } else if (model instanceof GRLspec) {
+        	grlspec = ((GRLspec)model);
             urnspec = ((GRLspec)model).getUrnspec();
+        } else if (model instanceof UCMspec) {
+        	ucmspec = (UCMspec)model;
+            urnspec = ((UCMspec)model).getUrnspec();
         } else if (model instanceof URNspec) {
             urnspec = (URNspec) model;
         }
@@ -508,6 +538,10 @@ public class SelectionHelper {
             selectionType = EVALUATIONGROUP;
         else if (strategy != null)
             selectionType = EVALUATIONSTRATEGY;
+        else if (group != null)
+            selectionType = SCENARIOGROUP;
+        else if (scenario != null)
+            selectionType = SCENARIO;        
         else if (grlgraph != null)
             selectionType = GRLGRAPH;        
         else if (urnspec != null)
@@ -556,4 +590,20 @@ public class SelectionHelper {
     public EvaluationStrategy getEvaluationStrategy(){
         return strategy;
     }
+    
+    public ScenarioGroup getScenarioGroup(){
+        return scenariogroup;
+    }
+    
+    public ScenarioDef getScenario(){
+        return scenario;
+    }    
+    
+    public GRLspec getGRLspec(){
+        return grlspec;
+    }
+    
+    public UCMspec getUCMspec(){
+        return ucmspec;
+    }     
 }

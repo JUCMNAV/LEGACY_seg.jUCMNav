@@ -2,10 +2,10 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-     <extension-point id="UseCaseMapExport" name="Use Case Map Export" schema="schema/UseCaseMapExport.exsd"/>
-   <extension-point id="URNExport" name="URN Export" schema="schema/URNExport.exsd"/>
-   <extension-point id="URNImport" name="URN Import" schema="schema/URNImport.exsd"/>
-   <extension-point id="GRLStrategyAlgorithm" name="GRL Strategy Algorithm" schema="schema/GRLStrategyAlgorithm.exsd"/>
+     <extension-point id="UseCaseMapExport" name="%UseCaseMapExport" schema="schema/UseCaseMapExport.exsd"/>
+   <extension-point id="URNExport" name="%UrnExport" schema="schema/URNExport.exsd"/>
+   <extension-point id="URNImport" name="%UrnImport" schema="schema/URNImport.exsd"/>
+   <extension-point id="GRLStrategyAlgorithm" name="%GrlStrategyAlgorithm" schema="schema/GRLStrategyAlgorithm.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -78,7 +78,7 @@
             finalPerspective="seg.jUCMNav.UCMEditor"
             icon="icons/icon16.gif"
             id="seg.jUCMNav.views.wizards.NewUcmFileWizard"
-            name="Use Case Map / GRL Graph"
+            name="%UseCaseMapGrlGraph"
             preferredPerspectives="seg.jUCMNav.UCMEditor"
             project="true"/>
    </extension>
@@ -102,14 +102,14 @@
             class="seg.jUCMNav.views.elements.ElementView"
             icon="icons/Resp16.gif"
             category="seg.jUCMNav"
-            name="Elements"
+            name="%Elements"
             id="seg.jUCMNav.views.ElementView"/>
       <view
             category="seg.jUCMNav"
             class="seg.jUCMNav.views.strategies.StrategiesView"
             icon="icons/StategyView16.gif"
             id="seg.jUCMNav.views.StrategiesView"
-            name="Strategies"/>
+            name="%Strategies"/>
    </extension>
    <extension
          point="org.eclipse.help.toc">

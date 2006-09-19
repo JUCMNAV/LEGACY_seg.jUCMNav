@@ -6,26 +6,12 @@
  */
 package ucm.map.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.MapPackage;
 import ucm.map.OrJoin;
-
-import urncore.NodeLabel;
-import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
-import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,340 +27,132 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class OrJoinImpl extends PathNodeImpl implements OrJoin {
-    /**
-     * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getOrientation()
-     * @generated
-     * @ordered
-     */
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String ORIENTATION_EDEFAULT = null;
 
-    /**
-     * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getOrientation()
-     * @generated
-     * @ordered
-     */
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
     protected String orientation = ORIENTATION_EDEFAULT;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected OrJoinImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.eINSTANCE.getOrJoin();
-    }
+		return MapPackage.Literals.OR_JOIN;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String getOrientation() {
-        return orientation;
-    }
+		return orientation;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setOrientation(String newOrientation) {
-        String oldOrientation = orientation;
-        orientation = newOrientation;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OR_JOIN__ORIENTATION, oldOrientation, orientation));
-    }
+		String oldOrientation = orientation;
+		orientation = newOrientation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OR_JOIN__ORIENTATION, oldOrientation, orientation));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.OR_JOIN__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.OR_JOIN__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.OR_JOIN__DIAGRAM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.OR_JOIN__DIAGRAM, msgs);
-                case MapPackage.OR_JOIN__CONT_REF:
-                    if (contRef != null)
-                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
-                case MapPackage.OR_JOIN__SUCC:
-                    return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
-                case MapPackage.OR_JOIN__PRED:
-                    return ((InternalEList)getPred()).basicAdd(otherEnd, msgs);
-                case MapPackage.OR_JOIN__LABEL:
-                    if (label != null)
-                        msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.OR_JOIN__LABEL, null, msgs);
-                    return basicSetLabel((NodeLabel)otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case MapPackage.OR_JOIN__ORIENTATION:
+				return getOrientation();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.OR_JOIN__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.OR_JOIN__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.OR_JOIN__DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.OR_JOIN__DIAGRAM, msgs);
-                case MapPackage.OR_JOIN__CONT_REF:
-                    return basicSetContRef(null, msgs);
-                case MapPackage.OR_JOIN__SUCC:
-                    return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
-                case MapPackage.OR_JOIN__PRED:
-                    return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
-                case MapPackage.OR_JOIN__LABEL:
-                    return basicSetLabel(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case MapPackage.OR_JOIN__ORIENTATION:
+				setOrientation((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case MapPackage.OR_JOIN__DIAGRAM:
-                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case MapPackage.OR_JOIN__ORIENTATION:
+				setOrientation(ORIENTATION_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_JOIN__FROM_LINKS:
-                return getFromLinks();
-            case MapPackage.OR_JOIN__TO_LINKS:
-                return getToLinks();
-            case MapPackage.OR_JOIN__ID:
-                return getId();
-            case MapPackage.OR_JOIN__NAME:
-                return getName();
-            case MapPackage.OR_JOIN__DESCRIPTION:
-                return getDescription();
-            case MapPackage.OR_JOIN__X:
-                return new Integer(getX());
-            case MapPackage.OR_JOIN__Y:
-                return new Integer(getY());
-            case MapPackage.OR_JOIN__DIAGRAM:
-                return getDiagram();
-            case MapPackage.OR_JOIN__CONT_REF:
-                if (resolve) return getContRef();
-                return basicGetContRef();
-            case MapPackage.OR_JOIN__SUCC:
-                return getSucc();
-            case MapPackage.OR_JOIN__PRED:
-                return getPred();
-            case MapPackage.OR_JOIN__LABEL:
-                return getLabel();
-            case MapPackage.OR_JOIN__ORIENTATION:
-                return getOrientation();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case MapPackage.OR_JOIN__ORIENTATION:
+				return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_JOIN__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.OR_JOIN__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.OR_JOIN__ID:
-                setId((String)newValue);
-                return;
-            case MapPackage.OR_JOIN__NAME:
-                setName((String)newValue);
-                return;
-            case MapPackage.OR_JOIN__DESCRIPTION:
-                setDescription((String)newValue);
-                return;
-            case MapPackage.OR_JOIN__X:
-                setX(((Integer)newValue).intValue());
-                return;
-            case MapPackage.OR_JOIN__Y:
-                setY(((Integer)newValue).intValue());
-                return;
-            case MapPackage.OR_JOIN__DIAGRAM:
-                setDiagram((IURNDiagram)newValue);
-                return;
-            case MapPackage.OR_JOIN__CONT_REF:
-                setContRef((IURNContainerRef)newValue);
-                return;
-            case MapPackage.OR_JOIN__SUCC:
-                getSucc().clear();
-                getSucc().addAll((Collection)newValue);
-                return;
-            case MapPackage.OR_JOIN__PRED:
-                getPred().clear();
-                getPred().addAll((Collection)newValue);
-                return;
-            case MapPackage.OR_JOIN__LABEL:
-                setLabel((NodeLabel)newValue);
-                return;
-            case MapPackage.OR_JOIN__ORIENTATION:
-                setOrientation((String)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_JOIN__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case MapPackage.OR_JOIN__TO_LINKS:
-                getToLinks().clear();
-                return;
-            case MapPackage.OR_JOIN__ID:
-                setId(ID_EDEFAULT);
-                return;
-            case MapPackage.OR_JOIN__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case MapPackage.OR_JOIN__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case MapPackage.OR_JOIN__X:
-                setX(X_EDEFAULT);
-                return;
-            case MapPackage.OR_JOIN__Y:
-                setY(Y_EDEFAULT);
-                return;
-            case MapPackage.OR_JOIN__DIAGRAM:
-                setDiagram((IURNDiagram)null);
-                return;
-            case MapPackage.OR_JOIN__CONT_REF:
-                setContRef((IURNContainerRef)null);
-                return;
-            case MapPackage.OR_JOIN__SUCC:
-                getSucc().clear();
-                return;
-            case MapPackage.OR_JOIN__PRED:
-                getPred().clear();
-                return;
-            case MapPackage.OR_JOIN__LABEL:
-                setLabel((NodeLabel)null);
-                return;
-            case MapPackage.OR_JOIN__ORIENTATION:
-                setOrientation(ORIENTATION_EDEFAULT);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.OR_JOIN__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case MapPackage.OR_JOIN__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
-            case MapPackage.OR_JOIN__ID:
-                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case MapPackage.OR_JOIN__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case MapPackage.OR_JOIN__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.OR_JOIN__X:
-                return x != X_EDEFAULT;
-            case MapPackage.OR_JOIN__Y:
-                return y != Y_EDEFAULT;
-            case MapPackage.OR_JOIN__DIAGRAM:
-                return getDiagram() != null;
-            case MapPackage.OR_JOIN__CONT_REF:
-                return contRef != null;
-            case MapPackage.OR_JOIN__SUCC:
-                return succ != null && !succ.isEmpty();
-            case MapPackage.OR_JOIN__PRED:
-                return pred != null && !pred.isEmpty();
-            case MapPackage.OR_JOIN__LABEL:
-                return label != null;
-            case MapPackage.OR_JOIN__ORIENTATION:
-                return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
-        }
-        return eDynamicIsSet(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (orientation: ");
-        result.append(orientation);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (orientation: ");
+		result.append(orientation);
+		result.append(')');
+		return result.toString();
+	}
 
 } //OrJoinImpl

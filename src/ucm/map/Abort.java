@@ -24,21 +24,21 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface Abort extends PathNode{
-    /**
-     * Returns the value of the '<em><b>Condition</b></em>' reference list.
-     * The list contents are of type {@link urncore.Condition}.
-     * <!-- begin-user-doc -->
+public interface Abort extends PathNode {
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' reference list.
+	 * The list contents are of type {@link urncore.Condition}.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Condition</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Condition</em>' reference list.
-     * @see ucm.map.MapPackage#getAbort_Condition()
-     * @model type="urncore.Condition"
-     * @generated
-     */
+	 * @return the value of the '<em>Condition</em>' reference list.
+	 * @see ucm.map.MapPackage#getAbort_Condition()
+	 * @model type="urncore.Condition"
+	 * @generated
+	 */
     EList getCondition();
 
 } // Abort

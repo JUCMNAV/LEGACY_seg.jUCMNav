@@ -9,7 +9,6 @@ package ucm.scenario;
 import org.eclipse.emf.common.util.EList;
 
 import ucm.UCMspec;
-
 import urncore.UCMmodelElement;
 
 /**
@@ -33,51 +32,51 @@ import urncore.UCMmodelElement;
  * @model
  * @generated
  */
-public interface ScenarioGroup extends UCMmodelElement{
-    /**
-     * Returns the value of the '<em><b>Ucmspec</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link ucm.UCMspec#getScenarioGroups <em>Scenario Groups</em>}'.
-     * <!-- begin-user-doc -->
+public interface ScenarioGroup extends UCMmodelElement {
+	/**
+	 * Returns the value of the '<em><b>Ucmspec</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ucm.UCMspec#getScenarioGroups <em>Scenario Groups</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Ucmspec</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Ucmspec</em>' container reference.
-     * @see #setUcmspec(UCMspec)
-     * @see ucm.scenario.ScenarioPackage#getScenarioGroup_Ucmspec()
-     * @see ucm.UCMspec#getScenarioGroups
-     * @model opposite="scenarioGroups" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Ucmspec</em>' container reference.
+	 * @see #setUcmspec(UCMspec)
+	 * @see ucm.scenario.ScenarioPackage#getScenarioGroup_Ucmspec()
+	 * @see ucm.UCMspec#getScenarioGroups
+	 * @model opposite="scenarioGroups" required="true"
+	 * @generated
+	 */
     UCMspec getUcmspec();
 
-    /**
-     * Sets the value of the '{@link ucm.scenario.ScenarioGroup#getUcmspec <em>Ucmspec</em>}' container reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.scenario.ScenarioGroup#getUcmspec <em>Ucmspec</em>}' container reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Ucmspec</em>' container reference.
-     * @see #getUcmspec()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Ucmspec</em>' container reference.
+	 * @see #getUcmspec()
+	 * @generated
+	 */
     void setUcmspec(UCMspec value);
 
-    /**
-     * Returns the value of the '<em><b>Scenarios</b></em>' reference list.
-     * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-     * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getGroups <em>Groups</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Scenarios</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioDef}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getGroups <em>Groups</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Scenarios</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Scenarios</em>' reference list.
-     * @see ucm.scenario.ScenarioPackage#getScenarioGroup_Scenarios()
-     * @see ucm.scenario.ScenarioDef#getGroups
-     * @model type="ucm.scenario.ScenarioDef" opposite="groups"
-     * @generated
-     */
+	 * @return the value of the '<em>Scenarios</em>' containment reference list.
+	 * @see ucm.scenario.ScenarioPackage#getScenarioGroup_Scenarios()
+	 * @see ucm.scenario.ScenarioDef#getGroups
+	 * @model type="ucm.scenario.ScenarioDef" opposite="groups" containment="true"
+	 * @generated
+	 */
     EList getScenarios();
 
 } // ScenarioGroup

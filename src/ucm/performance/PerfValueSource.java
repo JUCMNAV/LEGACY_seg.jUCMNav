@@ -22,195 +22,211 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @generated
  */
 public final class PerfValueSource extends AbstractEnumerator {
-    /**
-     * The '<em><b>Required</b></em>' literal value.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Required</b></em>' literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #REQUIRED_LITERAL
-     * @model name="Required"
-     * @generated
-     * @ordered
-     */
+	 * @see #REQUIRED_LITERAL
+	 * @model name="Required"
+	 * @generated
+	 * @ordered
+	 */
     public static final int REQUIRED = 0;
 
-    /**
-     * The '<em><b>Assumed</b></em>' literal value.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Assumed</b></em>' literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #ASSUMED_LITERAL
-     * @model name="Assumed"
-     * @generated
-     * @ordered
-     */
+	 * @see #ASSUMED_LITERAL
+	 * @model name="Assumed"
+	 * @generated
+	 * @ordered
+	 */
     public static final int ASSUMED = 1;
 
-    /**
-     * The '<em><b>Predicted</b></em>' literal value.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Predicted</b></em>' literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #PREDICTED_LITERAL
-     * @model name="Predicted"
-     * @generated
-     * @ordered
-     */
+	 * @see #PREDICTED_LITERAL
+	 * @model name="Predicted"
+	 * @generated
+	 * @ordered
+	 */
     public static final int PREDICTED = 2;
 
-    /**
-     * The '<em><b>Measured</b></em>' literal value.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Measured</b></em>' literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #MEASURED_LITERAL
-     * @model name="Measured"
-     * @generated
-     * @ordered
-     */
+	 * @see #MEASURED_LITERAL
+	 * @model name="Measured"
+	 * @generated
+	 * @ordered
+	 */
     public static final int MEASURED = 3;
 
-    /**
-     * The '<em><b>Unknown</b></em>' literal value.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Unknown</b></em>' literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #UNKNOWN_LITERAL
-     * @model name="Unknown"
-     * @generated
-     * @ordered
-     */
+	 * @see #UNKNOWN_LITERAL
+	 * @model name="Unknown"
+	 * @generated
+	 * @ordered
+	 */
     public static final int UNKNOWN = 4;
 
-    /**
-     * The '<em><b>Required</b></em>' literal object.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Required</b></em>' literal object.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Required</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #REQUIRED
-     * @generated
-     * @ordered
-     */
-    public static final PerfValueSource REQUIRED_LITERAL = new PerfValueSource(REQUIRED, "Required");
+	 * @see #REQUIRED
+	 * @generated
+	 * @ordered
+	 */
+    public static final PerfValueSource REQUIRED_LITERAL = new PerfValueSource(REQUIRED, "Required", "Required");
 
-    /**
-     * The '<em><b>Assumed</b></em>' literal object.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Assumed</b></em>' literal object.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Assumed</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #ASSUMED
-     * @generated
-     * @ordered
-     */
-    public static final PerfValueSource ASSUMED_LITERAL = new PerfValueSource(ASSUMED, "Assumed");
+	 * @see #ASSUMED
+	 * @generated
+	 * @ordered
+	 */
+    public static final PerfValueSource ASSUMED_LITERAL = new PerfValueSource(ASSUMED, "Assumed", "Assumed");
 
-    /**
-     * The '<em><b>Predicted</b></em>' literal object.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Predicted</b></em>' literal object.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Predicted</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #PREDICTED
-     * @generated
-     * @ordered
-     */
-    public static final PerfValueSource PREDICTED_LITERAL = new PerfValueSource(PREDICTED, "Predicted");
+	 * @see #PREDICTED
+	 * @generated
+	 * @ordered
+	 */
+    public static final PerfValueSource PREDICTED_LITERAL = new PerfValueSource(PREDICTED, "Predicted", "Predicted");
 
-    /**
-     * The '<em><b>Measured</b></em>' literal object.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Measured</b></em>' literal object.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Measured</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #MEASURED
-     * @generated
-     * @ordered
-     */
-    public static final PerfValueSource MEASURED_LITERAL = new PerfValueSource(MEASURED, "Measured");
+	 * @see #MEASURED
+	 * @generated
+	 * @ordered
+	 */
+    public static final PerfValueSource MEASURED_LITERAL = new PerfValueSource(MEASURED, "Measured", "Measured");
 
-    /**
-     * The '<em><b>Unknown</b></em>' literal object.
-     * <!-- begin-user-doc -->
+	/**
+	 * The '<em><b>Unknown</b></em>' literal object.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Unknown</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @see #UNKNOWN
-     * @generated
-     * @ordered
-     */
-    public static final PerfValueSource UNKNOWN_LITERAL = new PerfValueSource(UNKNOWN, "Unknown");
+	 * @see #UNKNOWN
+	 * @generated
+	 * @ordered
+	 */
+    public static final PerfValueSource UNKNOWN_LITERAL = new PerfValueSource(UNKNOWN, "Unknown", "Unknown");
 
-    /**
-     * An array of all the '<em><b>Perf Value Source</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+	/**
+	 * An array of all the '<em><b>Perf Value Source</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private static final PerfValueSource[] VALUES_ARRAY =
-        new PerfValueSource[] {
-            REQUIRED_LITERAL,
-            ASSUMED_LITERAL,
-            PREDICTED_LITERAL,
-            MEASURED_LITERAL,
-            UNKNOWN_LITERAL,
-        };
+		new PerfValueSource[] {
+			REQUIRED_LITERAL,
+			ASSUMED_LITERAL,
+			PREDICTED_LITERAL,
+			MEASURED_LITERAL,
+			UNKNOWN_LITERAL,
+		};
 
-    /**
-     * A public read-only list of all the '<em><b>Perf Value Source</b></em>' enumerators.
-     * <!-- begin-user-doc -->
+	/**
+	 * A public read-only list of all the '<em><b>Perf Value Source</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
-    /**
-     * Returns the '<em><b>Perf Value Source</b></em>' literal with the specified name.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the '<em><b>Perf Value Source</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public static PerfValueSource get(String name) {
-        for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-            PerfValueSource result = VALUES_ARRAY[i];
-            if (result.toString().equals(name)) {
-                return result;
-            }
-        }
-        return null;
-    }
+	 * @generated
+	 */
+    public static PerfValueSource get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PerfValueSource result = VALUES_ARRAY[i];
+			if (result.toString().equals(literal)) {
+				return result;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Returns the '<em><b>Perf Value Source</b></em>' literal with the specified value.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the '<em><b>Perf Value Source</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static PerfValueSource getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+			PerfValueSource result = VALUES_ARRAY[i];
+			if (result.getName().equals(name)) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the '<em><b>Perf Value Source</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public static PerfValueSource get(int value) {
-        switch (value) {
-            case REQUIRED: return REQUIRED_LITERAL;
-            case ASSUMED: return ASSUMED_LITERAL;
-            case PREDICTED: return PREDICTED_LITERAL;
-            case MEASURED: return MEASURED_LITERAL;
-            case UNKNOWN: return UNKNOWN_LITERAL;
-        }
-        return null;	
-    }
+		switch (value) {
+			case REQUIRED: return REQUIRED_LITERAL;
+			case ASSUMED: return ASSUMED_LITERAL;
+			case PREDICTED: return PREDICTED_LITERAL;
+			case MEASURED: return MEASURED_LITERAL;
+			case UNKNOWN: return UNKNOWN_LITERAL;
+		}
+		return null;	
+	}
 
-    /**
-     * Only this class can construct instances.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private PerfValueSource(int value, String name) {
-        super(value, name);
-    }
+	/**
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private PerfValueSource(int value, String name, String literal) {
+		super(value, name, literal);
+	}
 
 } //PerfValueSource

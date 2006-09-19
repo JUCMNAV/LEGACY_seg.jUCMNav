@@ -15,7 +15,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -50,613 +49,549 @@ import urncore.impl.GRLmodelElementImpl;
  * @generated
  */
 public class GRLNodeImpl extends GRLmodelElementImpl implements GRLNode {
-    /**
-     * The default value of the '{@link #getX() <em>X</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getX() <em>X</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getX()
-     * @generated
-     * @ordered
-     */
+	 * @see #getX()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int X_EDEFAULT = 0;
 
-    /**
-     * The cached value of the '{@link #getX() <em>X</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getX() <em>X</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getX()
-     * @generated
-     * @ordered
-     */
+	 * @see #getX()
+	 * @generated
+	 * @ordered
+	 */
     protected int x = X_EDEFAULT;
 
-    /**
-     * The default value of the '{@link #getY() <em>Y</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getY() <em>Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getY()
-     * @generated
-     * @ordered
-     */
+	 * @see #getY()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int Y_EDEFAULT = 0;
 
-    /**
-     * The cached value of the '{@link #getY() <em>Y</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getY() <em>Y</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getY()
-     * @generated
-     * @ordered
-     */
+	 * @see #getY()
+	 * @generated
+	 * @ordered
+	 */
     protected int y = Y_EDEFAULT;
 
-    /**
-     * The cached value of the '{@link #getContRef() <em>Cont Ref</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getContRef() <em>Cont Ref</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getContRef()
-     * @generated
-     * @ordered
-     */
+	 * @see #getContRef()
+	 * @generated
+	 * @ordered
+	 */
     protected IURNContainerRef contRef = null;
 
-    /**
-     * The cached value of the '{@link #getSucc() <em>Succ</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSucc() <em>Succ</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSucc()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSucc()
+	 * @generated
+	 * @ordered
+	 */
     protected EList succ = null;
 
-    /**
-     * The cached value of the '{@link #getPred() <em>Pred</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getPred() <em>Pred</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPred()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPred()
+	 * @generated
+	 * @ordered
+	 */
     protected EList pred = null;
 
-    /**
-     * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getLabel() <em>Label</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getLabel()
-     * @generated
-     * @ordered
-     */
+	 * @see #getLabel()
+	 * @generated
+	 * @ordered
+	 */
     protected NodeLabel label = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected GRLNodeImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return GrlPackage.eINSTANCE.getGRLNode();
-    }
+		return GrlPackage.Literals.GRL_NODE;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int getX() {
-        return x;
-    }
+		return x;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setX(int newX) {
-        int oldX = x;
-        x = newX;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__X, oldX, x));
-    }
+		int oldX = x;
+		x = newX;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__X, oldX, x));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int getY() {
-        return y;
-    }
+		return y;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setY(int newY) {
-        int oldY = y;
-        y = newY;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__Y, oldY, y));
-    }
+		int oldY = y;
+		y = newY;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__Y, oldY, y));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNDiagram getDiagram() {
-        if (eContainerFeatureID != GrlPackage.GRL_NODE__DIAGRAM) return null;
-        return (IURNDiagram)eContainer;
-    }
+		if (eContainerFeatureID != GrlPackage.GRL_NODE__DIAGRAM) return null;
+		return (IURNDiagram)eContainer();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDiagram(IURNDiagram newDiagram, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newDiagram, GrlPackage.GRL_NODE__DIAGRAM, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDiagram(IURNDiagram newDiagram) {
-        if (newDiagram != eContainer || (eContainerFeatureID != GrlPackage.GRL_NODE__DIAGRAM && newDiagram != null)) {
-            if (EcoreUtil.isAncestor(this, newDiagram))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eContainer != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newDiagram != null)
-                msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
-            msgs = eBasicSetContainer((InternalEObject)newDiagram, GrlPackage.GRL_NODE__DIAGRAM, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__DIAGRAM, newDiagram, newDiagram));
-    }
+		if (newDiagram != eInternalContainer() || (eContainerFeatureID != GrlPackage.GRL_NODE__DIAGRAM && newDiagram != null)) {
+			if (EcoreUtil.isAncestor(this, newDiagram))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newDiagram != null)
+				msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
+			msgs = basicSetDiagram(newDiagram, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__DIAGRAM, newDiagram, newDiagram));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNContainerRef getContRef() {
-        if (contRef != null && contRef.eIsProxy()) {
-            IURNContainerRef oldContRef = contRef;
-            contRef = (IURNContainerRef)eResolveProxy((InternalEObject)contRef);
-            if (contRef != oldContRef) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GRL_NODE__CONT_REF, oldContRef, contRef));
-            }
-        }
-        return contRef;
-    }
+		if (contRef != null && contRef.eIsProxy()) {
+			InternalEObject oldContRef = (InternalEObject)contRef;
+			contRef = (IURNContainerRef)eResolveProxy(oldContRef);
+			if (contRef != oldContRef) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GRL_NODE__CONT_REF, oldContRef, contRef));
+			}
+		}
+		return contRef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNContainerRef basicGetContRef() {
-        return contRef;
-    }
+		return contRef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetContRef(IURNContainerRef newContRef, NotificationChain msgs) {
-        IURNContainerRef oldContRef = contRef;
-        contRef = newContRef;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__CONT_REF, oldContRef, newContRef);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IURNContainerRef oldContRef = contRef;
+		contRef = newContRef;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__CONT_REF, oldContRef, newContRef);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setContRef(IURNContainerRef newContRef) {
-        if (newContRef != contRef) {
-            NotificationChain msgs = null;
-            if (contRef != null)
-                msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-            if (newContRef != null)
-                msgs = ((InternalEObject)newContRef).eInverseAdd(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-            msgs = basicSetContRef(newContRef, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__CONT_REF, newContRef, newContRef));
-    }
+		if (newContRef != contRef) {
+			NotificationChain msgs = null;
+			if (contRef != null)
+				msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+			if (newContRef != null)
+				msgs = ((InternalEObject)newContRef).eInverseAdd(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+			msgs = basicSetContRef(newContRef, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__CONT_REF, newContRef, newContRef));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getSucc() {
-        if (succ == null) {
-            succ = new EObjectWithInverseResolvingEList(IURNConnection.class, this, GrlPackage.GRL_NODE__SUCC, UrncorePackage.IURN_CONNECTION__SOURCE);
-        }
-        return succ;
-    }
+		if (succ == null) {
+			succ = new EObjectWithInverseResolvingEList(IURNConnection.class, this, GrlPackage.GRL_NODE__SUCC, UrncorePackage.IURN_CONNECTION__SOURCE);
+		}
+		return succ;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getPred() {
-        if (pred == null) {
-            pred = new EObjectWithInverseResolvingEList(IURNConnection.class, this, GrlPackage.GRL_NODE__PRED, UrncorePackage.IURN_CONNECTION__TARGET);
-        }
-        return pred;
-    }
+		if (pred == null) {
+			pred = new EObjectWithInverseResolvingEList(IURNConnection.class, this, GrlPackage.GRL_NODE__PRED, UrncorePackage.IURN_CONNECTION__TARGET);
+		}
+		return pred;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NodeLabel getLabel() {
-        return label;
-    }
+		return label;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetLabel(NodeLabel newLabel, NotificationChain msgs) {
-        NodeLabel oldLabel = label;
-        label = newLabel;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__LABEL, oldLabel, newLabel);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		NodeLabel oldLabel = label;
+		label = newLabel;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__LABEL, oldLabel, newLabel);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setLabel(NodeLabel newLabel) {
-        if (newLabel != label) {
-            NotificationChain msgs = null;
-            if (label != null)
-                msgs = ((InternalEObject)label).eInverseRemove(this, UrncorePackage.NODE_LABEL__NODE, NodeLabel.class, msgs);
-            if (newLabel != null)
-                msgs = ((InternalEObject)newLabel).eInverseAdd(this, UrncorePackage.NODE_LABEL__NODE, NodeLabel.class, msgs);
-            msgs = basicSetLabel(newLabel, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__LABEL, newLabel, newLabel));
-    }
+		if (newLabel != label) {
+			NotificationChain msgs = null;
+			if (label != null)
+				msgs = ((InternalEObject)label).eInverseRemove(this, UrncorePackage.NODE_LABEL__NODE, NodeLabel.class, msgs);
+			if (newLabel != null)
+				msgs = ((InternalEObject)newLabel).eInverseAdd(this, UrncorePackage.NODE_LABEL__NODE, NodeLabel.class, msgs);
+			msgs = basicSetLabel(newLabel, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_NODE__LABEL, newLabel, newLabel));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_NODE__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__DIAGRAM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, GrlPackage.GRL_NODE__DIAGRAM, msgs);
-                case GrlPackage.GRL_NODE__CONT_REF:
-                    if (contRef != null)
-                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
-                case GrlPackage.GRL_NODE__SUCC:
-                    return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__PRED:
-                    return ((InternalEList)getPred()).basicAdd(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__LABEL:
-                    if (label != null)
-                        msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GrlPackage.GRL_NODE__LABEL, null, msgs);
-                    return basicSetLabel((NodeLabel)otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetDiagram((IURNDiagram)otherEnd, msgs);
+			case GrlPackage.GRL_NODE__CONT_REF:
+				if (contRef != null)
+					msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
+				return basicSetContRef((IURNContainerRef)otherEnd, msgs);
+			case GrlPackage.GRL_NODE__SUCC:
+				return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GRL_NODE__PRED:
+				return ((InternalEList)getPred()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GRL_NODE__LABEL:
+				if (label != null)
+					msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - GrlPackage.GRL_NODE__LABEL, null, msgs);
+				return basicSetLabel((NodeLabel)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case GrlPackage.GRL_NODE__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__DIAGRAM:
-                    return eBasicSetContainer(null, GrlPackage.GRL_NODE__DIAGRAM, msgs);
-                case GrlPackage.GRL_NODE__CONT_REF:
-                    return basicSetContRef(null, msgs);
-                case GrlPackage.GRL_NODE__SUCC:
-                    return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__PRED:
-                    return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
-                case GrlPackage.GRL_NODE__LABEL:
-                    return basicSetLabel(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				return basicSetDiagram(null, msgs);
+			case GrlPackage.GRL_NODE__CONT_REF:
+				return basicSetContRef(null, msgs);
+			case GrlPackage.GRL_NODE__SUCC:
+				return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GRL_NODE__PRED:
+				return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GRL_NODE__LABEL:
+				return basicSetLabel(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case GrlPackage.GRL_NODE__DIAGRAM:
-                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID) {
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				return eInternalContainer().eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_NODE__FROM_LINKS:
-                return getFromLinks();
-            case GrlPackage.GRL_NODE__TO_LINKS:
-                return getToLinks();
-            case GrlPackage.GRL_NODE__ID:
-                return getId();
-            case GrlPackage.GRL_NODE__NAME:
-                return getName();
-            case GrlPackage.GRL_NODE__DESCRIPTION:
-                return getDescription();
-            case GrlPackage.GRL_NODE__X:
-                return new Integer(getX());
-            case GrlPackage.GRL_NODE__Y:
-                return new Integer(getY());
-            case GrlPackage.GRL_NODE__DIAGRAM:
-                return getDiagram();
-            case GrlPackage.GRL_NODE__CONT_REF:
-                if (resolve) return getContRef();
-                return basicGetContRef();
-            case GrlPackage.GRL_NODE__SUCC:
-                return getSucc();
-            case GrlPackage.GRL_NODE__PRED:
-                return getPred();
-            case GrlPackage.GRL_NODE__LABEL:
-                return getLabel();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__X:
+				return new Integer(getX());
+			case GrlPackage.GRL_NODE__Y:
+				return new Integer(getY());
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				return getDiagram();
+			case GrlPackage.GRL_NODE__CONT_REF:
+				if (resolve) return getContRef();
+				return basicGetContRef();
+			case GrlPackage.GRL_NODE__SUCC:
+				return getSucc();
+			case GrlPackage.GRL_NODE__PRED:
+				return getPred();
+			case GrlPackage.GRL_NODE__LABEL:
+				return getLabel();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_NODE__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.GRL_NODE__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
-            case GrlPackage.GRL_NODE__ID:
-                setId((String)newValue);
-                return;
-            case GrlPackage.GRL_NODE__NAME:
-                setName((String)newValue);
-                return;
-            case GrlPackage.GRL_NODE__DESCRIPTION:
-                setDescription((String)newValue);
-                return;
-            case GrlPackage.GRL_NODE__X:
-                setX(((Integer)newValue).intValue());
-                return;
-            case GrlPackage.GRL_NODE__Y:
-                setY(((Integer)newValue).intValue());
-                return;
-            case GrlPackage.GRL_NODE__DIAGRAM:
-                setDiagram((IURNDiagram)newValue);
-                return;
-            case GrlPackage.GRL_NODE__CONT_REF:
-                setContRef((IURNContainerRef)newValue);
-                return;
-            case GrlPackage.GRL_NODE__SUCC:
-                getSucc().clear();
-                getSucc().addAll((Collection)newValue);
-                return;
-            case GrlPackage.GRL_NODE__PRED:
-                getPred().clear();
-                getPred().addAll((Collection)newValue);
-                return;
-            case GrlPackage.GRL_NODE__LABEL:
-                setLabel((NodeLabel)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__X:
+				setX(((Integer)newValue).intValue());
+				return;
+			case GrlPackage.GRL_NODE__Y:
+				setY(((Integer)newValue).intValue());
+				return;
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				setDiagram((IURNDiagram)newValue);
+				return;
+			case GrlPackage.GRL_NODE__CONT_REF:
+				setContRef((IURNContainerRef)newValue);
+				return;
+			case GrlPackage.GRL_NODE__SUCC:
+				getSucc().clear();
+				getSucc().addAll((Collection)newValue);
+				return;
+			case GrlPackage.GRL_NODE__PRED:
+				getPred().clear();
+				getPred().addAll((Collection)newValue);
+				return;
+			case GrlPackage.GRL_NODE__LABEL:
+				setLabel((NodeLabel)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_NODE__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case GrlPackage.GRL_NODE__TO_LINKS:
-                getToLinks().clear();
-                return;
-            case GrlPackage.GRL_NODE__ID:
-                setId(ID_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__X:
-                setX(X_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__Y:
-                setY(Y_EDEFAULT);
-                return;
-            case GrlPackage.GRL_NODE__DIAGRAM:
-                setDiagram((IURNDiagram)null);
-                return;
-            case GrlPackage.GRL_NODE__CONT_REF:
-                setContRef((IURNContainerRef)null);
-                return;
-            case GrlPackage.GRL_NODE__SUCC:
-                getSucc().clear();
-                return;
-            case GrlPackage.GRL_NODE__PRED:
-                getPred().clear();
-                return;
-            case GrlPackage.GRL_NODE__LABEL:
-                setLabel((NodeLabel)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__X:
+				setX(X_EDEFAULT);
+				return;
+			case GrlPackage.GRL_NODE__Y:
+				setY(Y_EDEFAULT);
+				return;
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				setDiagram((IURNDiagram)null);
+				return;
+			case GrlPackage.GRL_NODE__CONT_REF:
+				setContRef((IURNContainerRef)null);
+				return;
+			case GrlPackage.GRL_NODE__SUCC:
+				getSucc().clear();
+				return;
+			case GrlPackage.GRL_NODE__PRED:
+				getPred().clear();
+				return;
+			case GrlPackage.GRL_NODE__LABEL:
+				setLabel((NodeLabel)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case GrlPackage.GRL_NODE__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case GrlPackage.GRL_NODE__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
-            case GrlPackage.GRL_NODE__ID:
-                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case GrlPackage.GRL_NODE__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case GrlPackage.GRL_NODE__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case GrlPackage.GRL_NODE__X:
-                return x != X_EDEFAULT;
-            case GrlPackage.GRL_NODE__Y:
-                return y != Y_EDEFAULT;
-            case GrlPackage.GRL_NODE__DIAGRAM:
-                return getDiagram() != null;
-            case GrlPackage.GRL_NODE__CONT_REF:
-                return contRef != null;
-            case GrlPackage.GRL_NODE__SUCC:
-                return succ != null && !succ.isEmpty();
-            case GrlPackage.GRL_NODE__PRED:
-                return pred != null && !pred.isEmpty();
-            case GrlPackage.GRL_NODE__LABEL:
-                return label != null;
-        }
-        return eDynamicIsSet(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case GrlPackage.GRL_NODE__X:
+				return x != X_EDEFAULT;
+			case GrlPackage.GRL_NODE__Y:
+				return y != Y_EDEFAULT;
+			case GrlPackage.GRL_NODE__DIAGRAM:
+				return getDiagram() != null;
+			case GrlPackage.GRL_NODE__CONT_REF:
+				return contRef != null;
+			case GrlPackage.GRL_NODE__SUCC:
+				return succ != null && !succ.isEmpty();
+			case GrlPackage.GRL_NODE__PRED:
+				return pred != null && !pred.isEmpty();
+			case GrlPackage.GRL_NODE__LABEL:
+				return label != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass) {
-        if (baseClass == IURNNode.class) {
-            switch (derivedFeatureID) {
-                case GrlPackage.GRL_NODE__X: return UrncorePackage.IURN_NODE__X;
-                case GrlPackage.GRL_NODE__Y: return UrncorePackage.IURN_NODE__Y;
-                case GrlPackage.GRL_NODE__DIAGRAM: return UrncorePackage.IURN_NODE__DIAGRAM;
-                case GrlPackage.GRL_NODE__CONT_REF: return UrncorePackage.IURN_NODE__CONT_REF;
-                case GrlPackage.GRL_NODE__SUCC: return UrncorePackage.IURN_NODE__SUCC;
-                case GrlPackage.GRL_NODE__PRED: return UrncorePackage.IURN_NODE__PRED;
-                case GrlPackage.GRL_NODE__LABEL: return UrncorePackage.IURN_NODE__LABEL;
-                default: return -1;
-            }
-        }
-        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-    }
+		if (baseClass == IURNNode.class) {
+			switch (derivedFeatureID) {
+				case GrlPackage.GRL_NODE__X: return UrncorePackage.IURN_NODE__X;
+				case GrlPackage.GRL_NODE__Y: return UrncorePackage.IURN_NODE__Y;
+				case GrlPackage.GRL_NODE__DIAGRAM: return UrncorePackage.IURN_NODE__DIAGRAM;
+				case GrlPackage.GRL_NODE__CONT_REF: return UrncorePackage.IURN_NODE__CONT_REF;
+				case GrlPackage.GRL_NODE__SUCC: return UrncorePackage.IURN_NODE__SUCC;
+				case GrlPackage.GRL_NODE__PRED: return UrncorePackage.IURN_NODE__PRED;
+				case GrlPackage.GRL_NODE__LABEL: return UrncorePackage.IURN_NODE__LABEL;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass) {
-        if (baseClass == IURNNode.class) {
-            switch (baseFeatureID) {
-                case UrncorePackage.IURN_NODE__X: return GrlPackage.GRL_NODE__X;
-                case UrncorePackage.IURN_NODE__Y: return GrlPackage.GRL_NODE__Y;
-                case UrncorePackage.IURN_NODE__DIAGRAM: return GrlPackage.GRL_NODE__DIAGRAM;
-                case UrncorePackage.IURN_NODE__CONT_REF: return GrlPackage.GRL_NODE__CONT_REF;
-                case UrncorePackage.IURN_NODE__SUCC: return GrlPackage.GRL_NODE__SUCC;
-                case UrncorePackage.IURN_NODE__PRED: return GrlPackage.GRL_NODE__PRED;
-                case UrncorePackage.IURN_NODE__LABEL: return GrlPackage.GRL_NODE__LABEL;
-                default: return -1;
-            }
-        }
-        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-    }
+		if (baseClass == IURNNode.class) {
+			switch (baseFeatureID) {
+				case UrncorePackage.IURN_NODE__X: return GrlPackage.GRL_NODE__X;
+				case UrncorePackage.IURN_NODE__Y: return GrlPackage.GRL_NODE__Y;
+				case UrncorePackage.IURN_NODE__DIAGRAM: return GrlPackage.GRL_NODE__DIAGRAM;
+				case UrncorePackage.IURN_NODE__CONT_REF: return GrlPackage.GRL_NODE__CONT_REF;
+				case UrncorePackage.IURN_NODE__SUCC: return GrlPackage.GRL_NODE__SUCC;
+				case UrncorePackage.IURN_NODE__PRED: return GrlPackage.GRL_NODE__PRED;
+				case UrncorePackage.IURN_NODE__LABEL: return GrlPackage.GRL_NODE__LABEL;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (x: ");
-        result.append(x);
-        result.append(", y: ");
-        result.append(y);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (x: ");
+		result.append(x);
+		result.append(", y: ");
+		result.append(y);
+		result.append(')');
+		return result.toString();
+	}
 
 } //GRLNodeImpl

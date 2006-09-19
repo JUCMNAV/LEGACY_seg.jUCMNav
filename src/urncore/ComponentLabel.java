@@ -23,33 +23,33 @@ package urncore;
  * @model
  * @generated
  */
-public interface ComponentLabel extends Label{
-    /**
-     * Returns the value of the '<em><b>Cont Ref</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link urncore.IURNContainerRef#getLabel <em>Label</em>}'.
-     * <!-- begin-user-doc -->
+public interface ComponentLabel extends Label {
+	/**
+	 * Returns the value of the '<em><b>Cont Ref</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link urncore.IURNContainerRef#getLabel <em>Label</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Cont Ref</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Cont Ref</em>' container reference.
-     * @see #setContRef(IURNContainerRef)
-     * @see urncore.UrncorePackage#getComponentLabel_ContRef()
-     * @see urncore.IURNContainerRef#getLabel
-     * @model opposite="label"
-     * @generated
-     */
+	 * @return the value of the '<em>Cont Ref</em>' container reference.
+	 * @see #setContRef(IURNContainerRef)
+	 * @see urncore.UrncorePackage#getComponentLabel_ContRef()
+	 * @see urncore.IURNContainerRef#getLabel
+	 * @model opposite="label"
+	 * @generated
+	 */
     IURNContainerRef getContRef();
 
-    /**
-     * Sets the value of the '{@link urncore.ComponentLabel#getContRef <em>Cont Ref</em>}' container reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link urncore.ComponentLabel#getContRef <em>Cont Ref</em>}' container reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Cont Ref</em>' container reference.
-     * @see #getContRef()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Cont Ref</em>' container reference.
+	 * @see #getContRef()
+	 * @generated
+	 */
     void setContRef(IURNContainerRef value);
 
 } // ComponentLabel

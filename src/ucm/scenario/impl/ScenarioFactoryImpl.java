@@ -8,10 +8,17 @@ package ucm.scenario.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucm.scenario.*;
+import ucm.scenario.EnumerationType;
+import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioFactory;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioPackage;
+import ucm.scenario.Variable;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,67 +27,119 @@ import ucm.scenario.*;
  * @generated
  */
 public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory {
-    /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static ScenarioFactory init() {
+		try {
+			ScenarioFactory theScenarioFactory = (ScenarioFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/scenario.ecore"); 
+			if (theScenarioFactory != null) {
+				return theScenarioFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new ScenarioFactoryImpl();
+	}
+
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case ScenarioPackage.VARIABLE: return createVariable();
-            case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case ScenarioPackage.VARIABLE: return createVariable();
+			case ScenarioPackage.SCENARIO_DEF: return createScenarioDef();
+			case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
+			case ScenarioPackage.ENUMERATION_TYPE: return createEnumerationType();
+			case ScenarioPackage.INITIALIZATION: return createInitialization();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioGroup createScenarioGroup() {
-        ScenarioGroupImpl scenarioGroup = new ScenarioGroupImpl();
-        return scenarioGroup;
-    }
+		ScenarioGroupImpl scenarioGroup = new ScenarioGroupImpl();
+		return scenarioGroup;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnumerationType createEnumerationType() {
+		EnumerationTypeImpl enumerationType = new EnumerationTypeImpl();
+		return enumerationType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Initialization createInitialization() {
+		InitializationImpl initialization = new InitializationImpl();
+		return initialization;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Variable createVariable() {
-        VariableImpl variable = new VariableImpl();
-        return variable;
-    }
+		VariableImpl variable = new VariableImpl();
+		return variable;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScenarioDef createScenarioDef() {
+		ScenarioDefImpl scenarioDef = new ScenarioDefImpl();
+		return scenarioDef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioPackage getScenarioPackage() {
-        return (ScenarioPackage)getEPackage();
-    }
+		return (ScenarioPackage)getEPackage();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
+	 * @deprecated
+	 * @generated
+	 */
     public static ScenarioPackage getPackage() {
-        return ScenarioPackage.eINSTANCE;
-    }
+		return ScenarioPackage.eINSTANCE;
+	}
 
 } //ScenarioFactoryImpl

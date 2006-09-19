@@ -27,13 +27,15 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
-import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddScenarioAction;
+import seg.jUCMNav.actions.AddScenarioGroupAction;
+import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
@@ -281,6 +283,14 @@ public class ActionRegistryManager {
         action = new AddEvaluationStrategyAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.addEvaluationStrategy"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
+        
+        action = new AddScenarioGroupAction((IWorkbenchPart)editor);
+        action.setText("Add Scenario Group");
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddScenarioAction((IWorkbenchPart)editor);
+        action.setText("Add Scenario");
+        addEditPartAction((SelectionAction) action);        
     }
 
     /**
@@ -328,9 +338,6 @@ public class ActionRegistryManager {
      *            the list of ids of actions to update
      */
     public void updateActions(List actionIds) {
-        // jkealey: this method comes from copy paste; I don't think we have any UpdateActions.
-        // leaving here just in case, for future use.
-
         for (Iterator ids = actionIds.iterator(); ids.hasNext();) {
             IAction action = getActionRegistry().getAction(ids.next());
             if (null != action && action instanceof UpdateAction)

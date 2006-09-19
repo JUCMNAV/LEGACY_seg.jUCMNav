@@ -35,7 +35,7 @@ public class AddStrategiesGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null;
+        return sel.getUrnspec() != null && sel.getGRLspec()!=null;
     }
     
     /**

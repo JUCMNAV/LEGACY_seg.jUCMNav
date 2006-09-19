@@ -10,28 +10,17 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.impl.PathNodeImpl;
-
 import ucm.performance.PerformancePackage;
 import ucm.performance.ResponseTimeReq;
 import ucm.performance.Timestamp;
-
-import urncore.NodeLabel;
-import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
-import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,414 +38,228 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class TimestampImpl extends PathNodeImpl implements Timestamp {
-    /**
-     * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getOrientation()
-     * @generated
-     * @ordered
-     */
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String ORIENTATION_EDEFAULT = null;
 
-    /**
-     * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getOrientation()
-     * @generated
-     * @ordered
-     */
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
     protected String orientation = ORIENTATION_EDEFAULT;
 
-    /**
-     * The cached value of the '{@link #getTargets() <em>Targets</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getTargets() <em>Targets</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTargets()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTargets()
+	 * @generated
+	 * @ordered
+	 */
     protected EList targets = null;
 
-    /**
-     * The cached value of the '{@link #getSources() <em>Sources</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSources() <em>Sources</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSources()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSources()
+	 * @generated
+	 * @ordered
+	 */
     protected EList sources = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected TimestampImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return PerformancePackage.eINSTANCE.getTimestamp();
-    }
+		return PerformancePackage.Literals.TIMESTAMP;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String getOrientation() {
-        return orientation;
-    }
+		return orientation;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setOrientation(String newOrientation) {
-        String oldOrientation = orientation;
-        orientation = newOrientation;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.TIMESTAMP__ORIENTATION, oldOrientation, orientation));
-    }
+		String oldOrientation = orientation;
+		orientation = newOrientation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.TIMESTAMP__ORIENTATION, oldOrientation, orientation));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getTargets() {
-        if (targets == null) {
-            targets = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__TARGETS, PerformancePackage.RESPONSE_TIME_REQ__TS1);
-        }
-        return targets;
-    }
+		if (targets == null) {
+			targets = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__TARGETS, PerformancePackage.RESPONSE_TIME_REQ__TS1);
+		}
+		return targets;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getSources() {
-        if (sources == null) {
-            sources = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__SOURCES, PerformancePackage.RESPONSE_TIME_REQ__TS2);
-        }
-        return sources;
-    }
+		if (sources == null) {
+			sources = new EObjectWithInverseResolvingEList(ResponseTimeReq.class, this, PerformancePackage.TIMESTAMP__SOURCES, PerformancePackage.RESPONSE_TIME_REQ__TS2);
+		}
+		return sources;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__DIAGRAM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, PerformancePackage.TIMESTAMP__DIAGRAM, msgs);
-                case PerformancePackage.TIMESTAMP__CONT_REF:
-                    if (contRef != null)
-                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__SUCC:
-                    return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__PRED:
-                    return ((InternalEList)getPred()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__LABEL:
-                    if (label != null)
-                        msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PerformancePackage.TIMESTAMP__LABEL, null, msgs);
-                    return basicSetLabel((NodeLabel)otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__TARGETS:
-                    return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__SOURCES:
-                    return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return ((InternalEList)getTargets()).basicAdd(otherEnd, msgs);
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return ((InternalEList)getSources()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__DIAGRAM:
-                    return eBasicSetContainer(null, PerformancePackage.TIMESTAMP__DIAGRAM, msgs);
-                case PerformancePackage.TIMESTAMP__CONT_REF:
-                    return basicSetContRef(null, msgs);
-                case PerformancePackage.TIMESTAMP__SUCC:
-                    return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__PRED:
-                    return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__LABEL:
-                    return basicSetLabel(null, msgs);
-                case PerformancePackage.TIMESTAMP__TARGETS:
-                    return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
-                case PerformancePackage.TIMESTAMP__SOURCES:
-                    return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return ((InternalEList)getTargets()).basicRemove(otherEnd, msgs);
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return ((InternalEList)getSources()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case PerformancePackage.TIMESTAMP__DIAGRAM:
-                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__ORIENTATION:
+				return getOrientation();
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return getTargets();
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return getSources();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                return getFromLinks();
-            case PerformancePackage.TIMESTAMP__TO_LINKS:
-                return getToLinks();
-            case PerformancePackage.TIMESTAMP__ID:
-                return getId();
-            case PerformancePackage.TIMESTAMP__NAME:
-                return getName();
-            case PerformancePackage.TIMESTAMP__DESCRIPTION:
-                return getDescription();
-            case PerformancePackage.TIMESTAMP__X:
-                return new Integer(getX());
-            case PerformancePackage.TIMESTAMP__Y:
-                return new Integer(getY());
-            case PerformancePackage.TIMESTAMP__DIAGRAM:
-                return getDiagram();
-            case PerformancePackage.TIMESTAMP__CONT_REF:
-                if (resolve) return getContRef();
-                return basicGetContRef();
-            case PerformancePackage.TIMESTAMP__SUCC:
-                return getSucc();
-            case PerformancePackage.TIMESTAMP__PRED:
-                return getPred();
-            case PerformancePackage.TIMESTAMP__LABEL:
-                return getLabel();
-            case PerformancePackage.TIMESTAMP__ORIENTATION:
-                return getOrientation();
-            case PerformancePackage.TIMESTAMP__TARGETS:
-                return getTargets();
-            case PerformancePackage.TIMESTAMP__SOURCES:
-                return getSources();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__ORIENTATION:
+				setOrientation((String)newValue);
+				return;
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				getTargets().clear();
+				getTargets().addAll((Collection)newValue);
+				return;
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				getSources().clear();
+				getSources().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__ID:
-                setId((String)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__NAME:
-                setName((String)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__DESCRIPTION:
-                setDescription((String)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__X:
-                setX(((Integer)newValue).intValue());
-                return;
-            case PerformancePackage.TIMESTAMP__Y:
-                setY(((Integer)newValue).intValue());
-                return;
-            case PerformancePackage.TIMESTAMP__DIAGRAM:
-                setDiagram((IURNDiagram)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__CONT_REF:
-                setContRef((IURNContainerRef)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__SUCC:
-                getSucc().clear();
-                getSucc().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__PRED:
-                getPred().clear();
-                getPred().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__LABEL:
-                setLabel((NodeLabel)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__ORIENTATION:
-                setOrientation((String)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__TARGETS:
-                getTargets().clear();
-                getTargets().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.TIMESTAMP__SOURCES:
-                getSources().clear();
-                getSources().addAll((Collection)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__ORIENTATION:
+				setOrientation(ORIENTATION_EDEFAULT);
+				return;
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				getTargets().clear();
+				return;
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				getSources().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case PerformancePackage.TIMESTAMP__TO_LINKS:
-                getToLinks().clear();
-                return;
-            case PerformancePackage.TIMESTAMP__ID:
-                setId(ID_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__X:
-                setX(X_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__Y:
-                setY(Y_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__DIAGRAM:
-                setDiagram((IURNDiagram)null);
-                return;
-            case PerformancePackage.TIMESTAMP__CONT_REF:
-                setContRef((IURNContainerRef)null);
-                return;
-            case PerformancePackage.TIMESTAMP__SUCC:
-                getSucc().clear();
-                return;
-            case PerformancePackage.TIMESTAMP__PRED:
-                getPred().clear();
-                return;
-            case PerformancePackage.TIMESTAMP__LABEL:
-                setLabel((NodeLabel)null);
-                return;
-            case PerformancePackage.TIMESTAMP__ORIENTATION:
-                setOrientation(ORIENTATION_EDEFAULT);
-                return;
-            case PerformancePackage.TIMESTAMP__TARGETS:
-                getTargets().clear();
-                return;
-            case PerformancePackage.TIMESTAMP__SOURCES:
-                getSources().clear();
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case PerformancePackage.TIMESTAMP__ORIENTATION:
+				return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
+			case PerformancePackage.TIMESTAMP__TARGETS:
+				return targets != null && !targets.isEmpty();
+			case PerformancePackage.TIMESTAMP__SOURCES:
+				return sources != null && !sources.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case PerformancePackage.TIMESTAMP__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case PerformancePackage.TIMESTAMP__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
-            case PerformancePackage.TIMESTAMP__ID:
-                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case PerformancePackage.TIMESTAMP__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case PerformancePackage.TIMESTAMP__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case PerformancePackage.TIMESTAMP__X:
-                return x != X_EDEFAULT;
-            case PerformancePackage.TIMESTAMP__Y:
-                return y != Y_EDEFAULT;
-            case PerformancePackage.TIMESTAMP__DIAGRAM:
-                return getDiagram() != null;
-            case PerformancePackage.TIMESTAMP__CONT_REF:
-                return contRef != null;
-            case PerformancePackage.TIMESTAMP__SUCC:
-                return succ != null && !succ.isEmpty();
-            case PerformancePackage.TIMESTAMP__PRED:
-                return pred != null && !pred.isEmpty();
-            case PerformancePackage.TIMESTAMP__LABEL:
-                return label != null;
-            case PerformancePackage.TIMESTAMP__ORIENTATION:
-                return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
-            case PerformancePackage.TIMESTAMP__TARGETS:
-                return targets != null && !targets.isEmpty();
-            case PerformancePackage.TIMESTAMP__SOURCES:
-                return sources != null && !sources.isEmpty();
-        }
-        return eDynamicIsSet(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (orientation: ");
-        result.append(orientation);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (orientation: ");
+		result.append(orientation);
+		result.append(')');
+		return result.toString();
+	}
 
 } //TimestampImpl

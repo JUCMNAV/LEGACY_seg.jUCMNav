@@ -8,9 +8,9 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
- * This class is simply here because the root of our strategy (GRLspec)
+ * This class is simply here because the root of our strategy (GRLspec) / scenario (UCMspec)
  * 
- * @author jfroy
+ * @author jfroy, jkealey
  *  
  */
 public class StrategyRootEditPart extends AbstractTreeEditPart {
@@ -24,6 +24,7 @@ public class StrategyRootEditPart extends AbstractTreeEditPart {
      */
     protected List getModelChildren() {
         ArrayList l = new ArrayList();
+        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec());
         l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec());
         return l;
     }

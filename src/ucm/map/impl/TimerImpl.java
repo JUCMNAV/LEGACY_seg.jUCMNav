@@ -6,29 +6,15 @@
  */
 package ucm.map.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.Timer;
-
 import ucm.scenario.Variable;
-
-import urncore.NodeLabel;
-import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
-import urncore.UrncorePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,402 +31,184 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class TimerImpl extends WaitingPlaceImpl implements Timer {
-    /**
-     * The cached value of the '{@link #getTimeoutPath() <em>Timeout Path</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getTimeoutPath() <em>Timeout Path</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTimeoutPath()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTimeoutPath()
+	 * @generated
+	 * @ordered
+	 */
     protected NodeConnection timeoutPath = null;
 
-    /**
-     * The cached value of the '{@link #getTimerVar() <em>Timer Var</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getTimerVar() <em>Timer Var</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTimerVar()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTimerVar()
+	 * @generated
+	 * @ordered
+	 */
     protected Variable timerVar = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected TimerImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.eINSTANCE.getTimer();
-    }
+		return MapPackage.Literals.TIMER;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NodeConnection getTimeoutPath() {
-        if (timeoutPath != null && timeoutPath.eIsProxy()) {
-            NodeConnection oldTimeoutPath = timeoutPath;
-            timeoutPath = (NodeConnection)eResolveProxy((InternalEObject)timeoutPath);
-            if (timeoutPath != oldTimeoutPath) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
-            }
-        }
-        return timeoutPath;
-    }
+		if (timeoutPath != null && timeoutPath.eIsProxy()) {
+			InternalEObject oldTimeoutPath = (InternalEObject)timeoutPath;
+			timeoutPath = (NodeConnection)eResolveProxy(oldTimeoutPath);
+			if (timeoutPath != oldTimeoutPath) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
+			}
+		}
+		return timeoutPath;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NodeConnection basicGetTimeoutPath() {
-        return timeoutPath;
-    }
+		return timeoutPath;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setTimeoutPath(NodeConnection newTimeoutPath) {
-        NodeConnection oldTimeoutPath = timeoutPath;
-        timeoutPath = newTimeoutPath;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
-    }
+		NodeConnection oldTimeoutPath = timeoutPath;
+		timeoutPath = newTimeoutPath;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMEOUT_PATH, oldTimeoutPath, timeoutPath));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Variable getTimerVar() {
-        if (timerVar != null && timerVar.eIsProxy()) {
-            Variable oldTimerVar = timerVar;
-            timerVar = (Variable)eResolveProxy((InternalEObject)timerVar);
-            if (timerVar != oldTimerVar) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
-            }
-        }
-        return timerVar;
-    }
+		if (timerVar != null && timerVar.eIsProxy()) {
+			InternalEObject oldTimerVar = (InternalEObject)timerVar;
+			timerVar = (Variable)eResolveProxy(oldTimerVar);
+			if (timerVar != oldTimerVar) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
+			}
+		}
+		return timerVar;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Variable basicGetTimerVar() {
-        return timerVar;
-    }
+		return timerVar;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setTimerVar(Variable newTimerVar) {
-        Variable oldTimerVar = timerVar;
-        timerVar = newTimerVar;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
-    }
+		Variable oldTimerVar = timerVar;
+		timerVar = newTimerVar;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.TIMER__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.TIMER__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicAdd(otherEnd, msgs);
-                case MapPackage.TIMER__DIAGRAM:
-                    if (eContainer != null)
-                        msgs = eBasicRemoveFromContainer(msgs);
-                    return eBasicSetContainer(otherEnd, MapPackage.TIMER__DIAGRAM, msgs);
-                case MapPackage.TIMER__CONT_REF:
-                    if (contRef != null)
-                        msgs = ((InternalEObject)contRef).eInverseRemove(this, UrncorePackage.IURN_CONTAINER_REF__NODES, IURNContainerRef.class, msgs);
-                    return basicSetContRef((IURNContainerRef)otherEnd, msgs);
-                case MapPackage.TIMER__SUCC:
-                    return ((InternalEList)getSucc()).basicAdd(otherEnd, msgs);
-                case MapPackage.TIMER__PRED:
-                    return ((InternalEList)getPred()).basicAdd(otherEnd, msgs);
-                case MapPackage.TIMER__LABEL:
-                    if (label != null)
-                        msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.TIMER__LABEL, null, msgs);
-                    return basicSetLabel((NodeLabel)otherEnd, msgs);
-                default:
-                    return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				if (resolve) return getTimeoutPath();
+				return basicGetTimeoutPath();
+			case MapPackage.TIMER__TIMER_VAR:
+				if (resolve) return getTimerVar();
+				return basicGetTimerVar();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs) {
-        if (featureID >= 0) {
-            switch (eDerivedStructuralFeatureID(featureID, baseClass)) {
-                case MapPackage.TIMER__FROM_LINKS:
-                    return ((InternalEList)getFromLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.TIMER__TO_LINKS:
-                    return ((InternalEList)getToLinks()).basicRemove(otherEnd, msgs);
-                case MapPackage.TIMER__DIAGRAM:
-                    return eBasicSetContainer(null, MapPackage.TIMER__DIAGRAM, msgs);
-                case MapPackage.TIMER__CONT_REF:
-                    return basicSetContRef(null, msgs);
-                case MapPackage.TIMER__SUCC:
-                    return ((InternalEList)getSucc()).basicRemove(otherEnd, msgs);
-                case MapPackage.TIMER__PRED:
-                    return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
-                case MapPackage.TIMER__LABEL:
-                    return basicSetLabel(null, msgs);
-                default:
-                    return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-            }
-        }
-        return eBasicSetContainer(null, featureID, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				setTimeoutPath((NodeConnection)newValue);
+				return;
+			case MapPackage.TIMER__TIMER_VAR:
+				setTimerVar((Variable)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs) {
-        if (eContainerFeatureID >= 0) {
-            switch (eContainerFeatureID) {
-                case MapPackage.TIMER__DIAGRAM:
-                    return eContainer.eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__NODES, IURNDiagram.class, msgs);
-                default:
-                    return eDynamicBasicRemoveFromContainer(msgs);
-            }
-        }
-        return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				setTimeoutPath((NodeConnection)null);
+				return;
+			case MapPackage.TIMER__TIMER_VAR:
+				setTimerVar((Variable)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object eGet(EStructuralFeature eFeature, boolean resolve) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.TIMER__FROM_LINKS:
-                return getFromLinks();
-            case MapPackage.TIMER__TO_LINKS:
-                return getToLinks();
-            case MapPackage.TIMER__ID:
-                return getId();
-            case MapPackage.TIMER__NAME:
-                return getName();
-            case MapPackage.TIMER__DESCRIPTION:
-                return getDescription();
-            case MapPackage.TIMER__X:
-                return new Integer(getX());
-            case MapPackage.TIMER__Y:
-                return new Integer(getY());
-            case MapPackage.TIMER__DIAGRAM:
-                return getDiagram();
-            case MapPackage.TIMER__CONT_REF:
-                if (resolve) return getContRef();
-                return basicGetContRef();
-            case MapPackage.TIMER__SUCC:
-                return getSucc();
-            case MapPackage.TIMER__PRED:
-                return getPred();
-            case MapPackage.TIMER__LABEL:
-                return getLabel();
-            case MapPackage.TIMER__WAIT_TYPE:
-                return getWaitType();
-            case MapPackage.TIMER__TIMEOUT_PATH:
-                if (resolve) return getTimeoutPath();
-                return basicGetTimeoutPath();
-            case MapPackage.TIMER__TIMER_VAR:
-                if (resolve) return getTimerVar();
-                return basicGetTimerVar();
-        }
-        return eDynamicGet(eFeature, resolve);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eSet(EStructuralFeature eFeature, Object newValue) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.TIMER__FROM_LINKS:
-                getFromLinks().clear();
-                getFromLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.TIMER__TO_LINKS:
-                getToLinks().clear();
-                getToLinks().addAll((Collection)newValue);
-                return;
-            case MapPackage.TIMER__ID:
-                setId((String)newValue);
-                return;
-            case MapPackage.TIMER__NAME:
-                setName((String)newValue);
-                return;
-            case MapPackage.TIMER__DESCRIPTION:
-                setDescription((String)newValue);
-                return;
-            case MapPackage.TIMER__X:
-                setX(((Integer)newValue).intValue());
-                return;
-            case MapPackage.TIMER__Y:
-                setY(((Integer)newValue).intValue());
-                return;
-            case MapPackage.TIMER__DIAGRAM:
-                setDiagram((IURNDiagram)newValue);
-                return;
-            case MapPackage.TIMER__CONT_REF:
-                setContRef((IURNContainerRef)newValue);
-                return;
-            case MapPackage.TIMER__SUCC:
-                getSucc().clear();
-                getSucc().addAll((Collection)newValue);
-                return;
-            case MapPackage.TIMER__PRED:
-                getPred().clear();
-                getPred().addAll((Collection)newValue);
-                return;
-            case MapPackage.TIMER__LABEL:
-                setLabel((NodeLabel)newValue);
-                return;
-            case MapPackage.TIMER__WAIT_TYPE:
-                setWaitType((String)newValue);
-                return;
-            case MapPackage.TIMER__TIMEOUT_PATH:
-                setTimeoutPath((NodeConnection)newValue);
-                return;
-            case MapPackage.TIMER__TIMER_VAR:
-                setTimerVar((Variable)newValue);
-                return;
-        }
-        eDynamicSet(eFeature, newValue);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void eUnset(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.TIMER__FROM_LINKS:
-                getFromLinks().clear();
-                return;
-            case MapPackage.TIMER__TO_LINKS:
-                getToLinks().clear();
-                return;
-            case MapPackage.TIMER__ID:
-                setId(ID_EDEFAULT);
-                return;
-            case MapPackage.TIMER__NAME:
-                setName(NAME_EDEFAULT);
-                return;
-            case MapPackage.TIMER__DESCRIPTION:
-                setDescription(DESCRIPTION_EDEFAULT);
-                return;
-            case MapPackage.TIMER__X:
-                setX(X_EDEFAULT);
-                return;
-            case MapPackage.TIMER__Y:
-                setY(Y_EDEFAULT);
-                return;
-            case MapPackage.TIMER__DIAGRAM:
-                setDiagram((IURNDiagram)null);
-                return;
-            case MapPackage.TIMER__CONT_REF:
-                setContRef((IURNContainerRef)null);
-                return;
-            case MapPackage.TIMER__SUCC:
-                getSucc().clear();
-                return;
-            case MapPackage.TIMER__PRED:
-                getPred().clear();
-                return;
-            case MapPackage.TIMER__LABEL:
-                setLabel((NodeLabel)null);
-                return;
-            case MapPackage.TIMER__WAIT_TYPE:
-                setWaitType(WAIT_TYPE_EDEFAULT);
-                return;
-            case MapPackage.TIMER__TIMEOUT_PATH:
-                setTimeoutPath((NodeConnection)null);
-                return;
-            case MapPackage.TIMER__TIMER_VAR:
-                setTimerVar((Variable)null);
-                return;
-        }
-        eDynamicUnset(eFeature);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public boolean eIsSet(EStructuralFeature eFeature) {
-        switch (eDerivedStructuralFeatureID(eFeature)) {
-            case MapPackage.TIMER__FROM_LINKS:
-                return fromLinks != null && !fromLinks.isEmpty();
-            case MapPackage.TIMER__TO_LINKS:
-                return toLinks != null && !toLinks.isEmpty();
-            case MapPackage.TIMER__ID:
-                return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-            case MapPackage.TIMER__NAME:
-                return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-            case MapPackage.TIMER__DESCRIPTION:
-                return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
-            case MapPackage.TIMER__X:
-                return x != X_EDEFAULT;
-            case MapPackage.TIMER__Y:
-                return y != Y_EDEFAULT;
-            case MapPackage.TIMER__DIAGRAM:
-                return getDiagram() != null;
-            case MapPackage.TIMER__CONT_REF:
-                return contRef != null;
-            case MapPackage.TIMER__SUCC:
-                return succ != null && !succ.isEmpty();
-            case MapPackage.TIMER__PRED:
-                return pred != null && !pred.isEmpty();
-            case MapPackage.TIMER__LABEL:
-                return label != null;
-            case MapPackage.TIMER__WAIT_TYPE:
-                return WAIT_TYPE_EDEFAULT == null ? waitType != null : !WAIT_TYPE_EDEFAULT.equals(waitType);
-            case MapPackage.TIMER__TIMEOUT_PATH:
-                return timeoutPath != null;
-            case MapPackage.TIMER__TIMER_VAR:
-                return timerVar != null;
-        }
-        return eDynamicIsSet(eFeature);
-    }
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case MapPackage.TIMER__TIMEOUT_PATH:
+				return timeoutPath != null;
+			case MapPackage.TIMER__TIMER_VAR:
+				return timerVar != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //TimerImpl
