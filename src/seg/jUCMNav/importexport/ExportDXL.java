@@ -433,7 +433,7 @@ public class ExportDXL implements IURNExport {
 
                 // GraphFileName
                 int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
-                int lastIndex = filename.indexOf("."); //$NON-NLS-1$
+                int lastIndex = filename.lastIndexOf("."); //$NON-NLS-1$
 
                 String bitmapFilename = filename.substring(firstIndex, lastIndex);
                 bitmapFilename = bitmapFilename.concat("-GRLGraph"); //$NON-NLS-1$
@@ -482,7 +482,7 @@ public class ExportDXL implements IURNExport {
         //Set the name of the import model
         // GraphFileName
         int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
-        int lastIndex = filename.indexOf("."); //$NON-NLS-1$
+        int lastIndex = filename.lastIndexOf("."); //$NON-NLS-1$
 
         String name = filename.substring(firstIndex, lastIndex);
 
@@ -793,7 +793,7 @@ public class ExportDXL implements IURNExport {
 
                 // MapFileName
                 int firstIndex = filename.lastIndexOf("\\") + 1; //$NON-NLS-1$
-                int lastIndex = filename.indexOf("."); //$NON-NLS-1$
+                int lastIndex = filename.lastIndexOf("."); //$NON-NLS-1$
 
                 String bitmapFilename = filename.substring(firstIndex, lastIndex);
                 bitmapFilename = bitmapFilename.concat("-Map"); //$NON-NLS-1$
