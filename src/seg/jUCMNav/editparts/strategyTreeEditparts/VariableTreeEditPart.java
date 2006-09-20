@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.VariableComponentEditPolicy;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Variable;
 
 /**
@@ -66,9 +67,9 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
-			if ("bool".equals(getVariable().getType())) {
-				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/node16.gif").createImage()); //$NON-NLS-1$
-			} else if ("int".equals(getVariable().getType())) {
+			if (ScenarioUtils.sTypeBoolean.equals(getVariable().getType())) {
+				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif").createImage()); //$NON-NLS-1$
+			} else if (ScenarioUtils.sTypeInteger.equals(getVariable().getType())) {
 				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GoalTag16.gif").createImage()); //$NON-NLS-1$
 			} else {
 				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ISR16.gif").createImage()); //$NON-NLS-1$

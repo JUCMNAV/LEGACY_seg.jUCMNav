@@ -36,7 +36,7 @@ public class AddVariableAction extends URNSelectionAction {
         
         if (ScenarioUtils.sTypeBoolean.equals(type)) {
         	setId(ADDBOOLVARIABLE);
-        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/node16.gif")); //$NON-NLS-1$
+        	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")); //$NON-NLS-1$
         }
         else if (ScenarioUtils.sTypeInteger.equals(type)) {
         	setId(ADDINTVARIABLE);
