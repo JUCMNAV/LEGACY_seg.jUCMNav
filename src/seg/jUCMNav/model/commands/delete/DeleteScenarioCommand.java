@@ -32,7 +32,7 @@ public class DeleteScenarioCommand extends CompoundCommand {
     }
     public boolean canExecute() { return true; }
     public void execute() {
-    	scenario.setGroups(null);
+    	scenario.setGroup(null);
     }
 
 }

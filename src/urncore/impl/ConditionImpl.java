@@ -43,7 +43,6 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.ConditionImpl#getEndPoint <em>End Point</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getPluginBinding <em>Plugin Binding</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getNodeConnection <em>Node Connection</em>}</li>
- *   <li>{@link urncore.impl.ConditionImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.impl.ConditionImpl#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
@@ -111,16 +110,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 	 * @ordered
 	 */
     protected String description = DESCRIPTION_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getVariables() <em>Variables</em>}' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getVariables()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList variables = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -369,18 +358,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public EList getVariables() {
-		if (variables == null) {
-			variables = new EObjectWithInverseResolvingEList.ManyInverse(Variable.class, this, UrncorePackage.CONDITION__VARIABLES, ScenarioPackage.VARIABLE__USAGES);
-		}
-		return variables;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -484,8 +461,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetNodeConnection((NodeConnection)otherEnd, msgs);
-			case UrncorePackage.CONDITION__VARIABLES:
-				return ((InternalEList)getVariables()).basicAdd(otherEnd, msgs);
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -513,8 +488,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 				return basicSetPluginBinding(null, msgs);
 			case UrncorePackage.CONDITION__NODE_CONNECTION:
 				return basicSetNodeConnection(null, msgs);
-			case UrncorePackage.CONDITION__VARIABLES:
-				return ((InternalEList)getVariables()).basicRemove(otherEnd, msgs);
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				return basicSetScenarioDefPre(null, msgs);
 			case UrncorePackage.CONDITION__SCENARIO_DEF_POST:
@@ -567,8 +540,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 				return getPluginBinding();
 			case UrncorePackage.CONDITION__NODE_CONNECTION:
 				return getNodeConnection();
-			case UrncorePackage.CONDITION__VARIABLES:
-				return getVariables();
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				return getScenarioDefPre();
 			case UrncorePackage.CONDITION__SCENARIO_DEF_POST:
@@ -604,10 +575,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 				return;
 			case UrncorePackage.CONDITION__NODE_CONNECTION:
 				setNodeConnection((NodeConnection)newValue);
-				return;
-			case UrncorePackage.CONDITION__VARIABLES:
-				getVariables().clear();
-				getVariables().addAll((Collection)newValue);
 				return;
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				setScenarioDefPre((ScenarioDef)newValue);
@@ -647,9 +614,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 			case UrncorePackage.CONDITION__NODE_CONNECTION:
 				setNodeConnection((NodeConnection)null);
 				return;
-			case UrncorePackage.CONDITION__VARIABLES:
-				getVariables().clear();
-				return;
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				setScenarioDefPre((ScenarioDef)null);
 				return;
@@ -681,8 +645,6 @@ public class ConditionImpl extends LabelImpl implements Condition {
 				return getPluginBinding() != null;
 			case UrncorePackage.CONDITION__NODE_CONNECTION:
 				return getNodeConnection() != null;
-			case UrncorePackage.CONDITION__VARIABLES:
-				return variables != null && !variables.isEmpty();
 			case UrncorePackage.CONDITION__SCENARIO_DEF_PRE:
 				return getScenarioDefPre() != null;
 			case UrncorePackage.CONDITION__SCENARIO_DEF_POST:

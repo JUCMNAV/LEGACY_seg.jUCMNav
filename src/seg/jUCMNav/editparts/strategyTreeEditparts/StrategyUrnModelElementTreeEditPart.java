@@ -11,6 +11,8 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.views.property.URNElementPropertySource;
+import seg.jUCMNav.views.property.VariablePropertySource;
+import ucm.scenario.Variable;
 
 /**
  * TreeEditPart for all UrnModelElements. Baseclass for most other TreeEditParts.
@@ -98,7 +100,10 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
-            propertySource = new URNElementPropertySource((EObject) getModel());
+        	if (getModel() instanceof Variable)
+        		propertySource = new VariablePropertySource((EObject) getModel());
+        	else
+        		propertySource = new URNElementPropertySource((EObject) getModel());
         }
         return propertySource;
 

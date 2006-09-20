@@ -42,8 +42,7 @@ import urncore.impl.UCMmodelElementImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getStartPoints <em>Start Points</em>}</li>
- *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getUcmspec <em>Ucmspec</em>}</li>
- *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getGroups <em>Groups</em>}</li>
+ *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getParentScenarios <em>Parent Scenarios</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getIncludedScenarios <em>Included Scenarios</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getEndPoints <em>End Points</em>}</li>
@@ -169,52 +168,11 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public UCMspec getUcmspec() {
-		if (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__UCMSPEC) return null;
-		return (UCMspec)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetUcmspec(UCMspec newUcmspec, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newUcmspec, ScenarioPackage.SCENARIO_DEF__UCMSPEC, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void setUcmspec(UCMspec newUcmspec) {
-		if (newUcmspec != eInternalContainer() || (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__UCMSPEC && newUcmspec != null)) {
-			if (EcoreUtil.isAncestor(this, newUcmspec))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newUcmspec != null)
-				msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__SCENARIO_DEFS, UCMspec.class, msgs);
-			msgs = basicSetUcmspec(newUcmspec, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO_DEF__UCMSPEC, newUcmspec, newUcmspec));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public ScenarioGroup getGroups() {
-		if (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__GROUPS) return null;
+	public ScenarioGroup getGroup() {
+		if (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__GROUP) return null;
 		return (ScenarioGroup)eContainer();
 	}
 
@@ -223,8 +181,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetGroups(ScenarioGroup newGroups, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newGroups, ScenarioPackage.SCENARIO_DEF__GROUPS, msgs);
+	public NotificationChain basicSetGroup(ScenarioGroup newGroup, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newGroup, ScenarioPackage.SCENARIO_DEF__GROUP, msgs);
 		return msgs;
 	}
 
@@ -233,20 +191,20 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setGroups(ScenarioGroup newGroups) {
-		if (newGroups != eInternalContainer() || (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__GROUPS && newGroups != null)) {
-			if (EcoreUtil.isAncestor(this, newGroups))
+	public void setGroup(ScenarioGroup newGroup) {
+		if (newGroup != eInternalContainer() || (eContainerFeatureID != ScenarioPackage.SCENARIO_DEF__GROUP && newGroup != null)) {
+			if (EcoreUtil.isAncestor(this, newGroup))
 				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
-			if (newGroups != null)
-				msgs = ((InternalEObject)newGroups).eInverseAdd(this, ScenarioPackage.SCENARIO_GROUP__SCENARIOS, ScenarioGroup.class, msgs);
-			msgs = basicSetGroups(newGroups, msgs);
+			if (newGroup != null)
+				msgs = ((InternalEObject)newGroup).eInverseAdd(this, ScenarioPackage.SCENARIO_GROUP__SCENARIOS, ScenarioGroup.class, msgs);
+			msgs = basicSetGroup(newGroup, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO_DEF__GROUPS, newGroups, newGroups));
+			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.SCENARIO_DEF__GROUP, newGroup, newGroup));
 	}
 
 	/**
@@ -342,14 +300,10 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 		switch (featureID) {
 			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
 				return ((InternalEList)getStartPoints()).basicAdd(otherEnd, msgs);
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetUcmspec((UCMspec)otherEnd, msgs);
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetGroups((ScenarioGroup)otherEnd, msgs);
+				return basicSetGroup((ScenarioGroup)otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return ((InternalEList)getParentScenarios()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
@@ -375,10 +329,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 		switch (featureID) {
 			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
 				return ((InternalEList)getStartPoints()).basicRemove(otherEnd, msgs);
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				return basicSetUcmspec(null, msgs);
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				return basicSetGroups(null, msgs);
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
+				return basicSetGroup(null, msgs);
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return ((InternalEList)getParentScenarios()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
@@ -402,9 +354,7 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID) {
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				return eInternalContainer().eInverseRemove(this, UcmPackage.UC_MSPEC__SCENARIO_DEFS, UCMspec.class, msgs);
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				return eInternalContainer().eInverseRemove(this, ScenarioPackage.SCENARIO_GROUP__SCENARIOS, ScenarioGroup.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
@@ -419,10 +369,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 		switch (featureID) {
 			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
 				return getStartPoints();
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				return getUcmspec();
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				return getGroups();
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
+				return getGroup();
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return getParentScenarios();
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
@@ -452,11 +400,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 				getStartPoints().clear();
 				getStartPoints().addAll((Collection)newValue);
 				return;
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				setUcmspec((UCMspec)newValue);
-				return;
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				setGroups((ScenarioGroup)newValue);
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
+				setGroup((ScenarioGroup)newValue);
 				return;
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				getParentScenarios().clear();
@@ -500,11 +445,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
 				getStartPoints().clear();
 				return;
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				setUcmspec((UCMspec)null);
-				return;
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				setGroups((ScenarioGroup)null);
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
+				setGroup((ScenarioGroup)null);
 				return;
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				getParentScenarios().clear();
@@ -540,10 +482,8 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 		switch (featureID) {
 			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
 				return startPoints != null && !startPoints.isEmpty();
-			case ScenarioPackage.SCENARIO_DEF__UCMSPEC:
-				return getUcmspec() != null;
-			case ScenarioPackage.SCENARIO_DEF__GROUPS:
-				return getGroups() != null;
+			case ScenarioPackage.SCENARIO_DEF__GROUP:
+				return getGroup() != null;
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return parentScenarios != null && !parentScenarios.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:

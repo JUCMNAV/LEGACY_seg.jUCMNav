@@ -1723,22 +1723,13 @@ public interface UrncorePackage extends EPackage {
     int CONDITION__NODE_CONNECTION = LABEL_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Variables</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int CONDITION__VARIABLES = LABEL_FEATURE_COUNT + 7;
-
-	/**
 	 * The feature id for the '<em><b>Scenario Def Pre</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION__SCENARIO_DEF_PRE = LABEL_FEATURE_COUNT + 8;
+	int CONDITION__SCENARIO_DEF_PRE = LABEL_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Scenario Def Post</b></em>' container reference.
@@ -1747,7 +1738,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONDITION__SCENARIO_DEF_POST = LABEL_FEATURE_COUNT + 9;
+	int CONDITION__SCENARIO_DEF_POST = LABEL_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Condition</em>' class.
@@ -1756,7 +1747,7 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 10;
+    int CONDITION_FEATURE_COUNT = LABEL_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link urncore.IURNDiagram <em>IURN Diagram</em>}' class.
@@ -2762,17 +2753,6 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 */
     EReference getCondition_NodeConnection();
-
-	/**
-	 * Returns the meta object for the reference list '{@link urncore.Condition#getVariables <em>Variables</em>}'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Variables</em>'.
-	 * @see urncore.Condition#getVariables()
-	 * @see #getCondition()
-	 * @generated
-	 */
-    EReference getCondition_Variables();
 
 	/**
 	 * Returns the meta object for the container reference '{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}'.
@@ -3782,14 +3762,6 @@ public interface UrncorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONDITION__NODE_CONNECTION = eINSTANCE.getCondition_NodeConnection();
-
-		/**
-		 * The meta object literal for the '<em><b>Variables</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONDITION__VARIABLES = eINSTANCE.getCondition_Variables();
 
 		/**
 		 * The meta object literal for the '<em><b>Scenario Def Pre</b></em>' container reference feature.

@@ -64,7 +64,7 @@ public interface ScenarioGroup extends UCMmodelElement {
 	/**
 	 * Returns the value of the '<em><b>Scenarios</b></em>' containment reference list.
 	 * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getGroups <em>Groups</em>}'.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getGroup <em>Group</em>}'.
 	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Scenarios</em>' reference list isn't clear,
@@ -73,8 +73,8 @@ public interface ScenarioGroup extends UCMmodelElement {
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Scenarios</em>' containment reference list.
 	 * @see ucm.scenario.ScenarioPackage#getScenarioGroup_Scenarios()
-	 * @see ucm.scenario.ScenarioDef#getGroups
-	 * @model type="ucm.scenario.ScenarioDef" opposite="groups" containment="true"
+	 * @see ucm.scenario.ScenarioDef#getGroup
+	 * @model type="ucm.scenario.ScenarioDef" opposite="group" containment="true"
 	 * @generated
 	 */
     EList getScenarios();

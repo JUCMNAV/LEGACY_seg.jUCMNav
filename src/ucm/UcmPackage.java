@@ -123,22 +123,13 @@ public interface UcmPackage extends EPackage {
     int UC_MSPEC__VARIABLES = 5;
 
 	/**
-	 * The feature id for the '<em><b>Scenario Defs</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int UC_MSPEC__SCENARIO_DEFS = 6;
-
-	/**
 	 * The feature id for the '<em><b>Enumeration Types</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UC_MSPEC__ENUMERATION_TYPES = 7;
+	int UC_MSPEC__ENUMERATION_TYPES = 6;
 
 	/**
 	 * The number of structural features of the '<em>UC Mspec</em>' class.
@@ -147,7 +138,7 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MSPEC_FEATURE_COUNT = 8;
+    int UC_MSPEC_FEATURE_COUNT = 7;
 
 
 	/**
@@ -225,17 +216,6 @@ public interface UcmPackage extends EPackage {
 	 * @generated
 	 */
     EReference getUCMspec_Variables();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getScenarioDefs <em>Scenario Defs</em>}'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Scenario Defs</em>'.
-	 * @see ucm.UCMspec#getScenarioDefs()
-	 * @see #getUCMspec()
-	 * @generated
-	 */
-    EReference getUCMspec_ScenarioDefs();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ucm.UCMspec#getEnumerationTypes <em>Enumeration Types</em>}'.
@@ -327,14 +307,6 @@ public interface UcmPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UC_MSPEC__VARIABLES = eINSTANCE.getUCMspec_Variables();
-
-		/**
-		 * The meta object literal for the '<em><b>Scenario Defs</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference UC_MSPEC__SCENARIO_DEFS = eINSTANCE.getUCMspec_ScenarioDefs();
 
 		/**
 		 * The meta object literal for the '<em><b>Enumeration Types</b></em>' containment reference list feature.

@@ -164,22 +164,13 @@ public interface ScenarioPackage extends EPackage {
     int VARIABLE__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Usages</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int VARIABLE__USAGES = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Enumeration Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VARIABLE__ENUMERATION_TYPE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int VARIABLE__ENUMERATION_TYPE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Variable</em>' class.
@@ -188,7 +179,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int VARIABLE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int VARIABLE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 
 	/**
@@ -255,22 +246,13 @@ public interface ScenarioPackage extends EPackage {
     int SCENARIO_DEF__START_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
+	 * The feature id for the '<em><b>Group</b></em>' container reference.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int SCENARIO_DEF__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Groups</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int SCENARIO_DEF__GROUPS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+	int SCENARIO_DEF__GROUP = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Parent Scenarios</b></em>' reference list.
@@ -279,7 +261,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__PARENT_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+	int SCENARIO_DEF__PARENT_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Included Scenarios</b></em>' reference list.
@@ -288,7 +270,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__INCLUDED_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int SCENARIO_DEF__INCLUDED_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>End Points</b></em>' reference list.
@@ -297,7 +279,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__END_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+	int SCENARIO_DEF__END_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
@@ -306,7 +288,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__PRECONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+	int SCENARIO_DEF__PRECONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Postconditions</b></em>' containment reference list.
@@ -315,7 +297,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__POSTCONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+	int SCENARIO_DEF__POSTCONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Variable</b></em>' reference list.
@@ -324,7 +306,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__VARIABLE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+	int SCENARIO_DEF__VARIABLE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Initializations</b></em>' containment reference list.
@@ -333,7 +315,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__INITIALIZATIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+	int SCENARIO_DEF__INITIALIZATIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Def</em>' class.
@@ -342,7 +324,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 10;
+    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -712,26 +694,15 @@ public interface ScenarioPackage extends EPackage {
     EReference getScenarioDef_StartPoints();
 
 	/**
-	 * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioDef#getUcmspec <em>Ucmspec</em>}'.
+	 * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioDef#getGroup <em>Group</em>}'.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Ucmspec</em>'.
-	 * @see ucm.scenario.ScenarioDef#getUcmspec()
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Group</em>'.
+	 * @see ucm.scenario.ScenarioDef#getGroup()
 	 * @see #getScenarioDef()
 	 * @generated
 	 */
-    EReference getScenarioDef_Ucmspec();
-
-	/**
-	 * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioDef#getGroups <em>Groups</em>}'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Groups</em>'.
-	 * @see ucm.scenario.ScenarioDef#getGroups()
-	 * @see #getScenarioDef()
-	 * @generated
-	 */
-    EReference getScenarioDef_Groups();
+	EReference getScenarioDef_Group();
 
 	/**
 	 * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioDef#getParentScenarios <em>Parent Scenarios</em>}'.
@@ -843,17 +814,6 @@ public interface ScenarioPackage extends EPackage {
     EReference getVariable_Ucmspec();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.scenario.Variable#getUsages <em>Usages</em>}'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Usages</em>'.
-	 * @see ucm.scenario.Variable#getUsages()
-	 * @see #getVariable()
-	 * @generated
-	 */
-    EReference getVariable_Usages();
-
-	/**
 	 * Returns the meta object for the reference '{@link ucm.scenario.Variable#getEnumerationType <em>Enumeration Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -913,14 +873,6 @@ public interface ScenarioPackage extends EPackage {
 		EReference VARIABLE__UCMSPEC = eINSTANCE.getVariable_Ucmspec();
 
 		/**
-		 * The meta object literal for the '<em><b>Usages</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference VARIABLE__USAGES = eINSTANCE.getVariable_Usages();
-
-		/**
 		 * The meta object literal for the '<em><b>Enumeration Type</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -947,20 +899,12 @@ public interface ScenarioPackage extends EPackage {
 		EReference SCENARIO_DEF__START_POINTS = eINSTANCE.getScenarioDef_StartPoints();
 
 		/**
-		 * The meta object literal for the '<em><b>Ucmspec</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Group</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SCENARIO_DEF__UCMSPEC = eINSTANCE.getScenarioDef_Ucmspec();
-
-		/**
-		 * The meta object literal for the '<em><b>Groups</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SCENARIO_DEF__GROUPS = eINSTANCE.getScenarioDef_Groups();
+		EReference SCENARIO_DEF__GROUP = eINSTANCE.getScenarioDef_Group();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent Scenarios</b></em>' reference list feature.

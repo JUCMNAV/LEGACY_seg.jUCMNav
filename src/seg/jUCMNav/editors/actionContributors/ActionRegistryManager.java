@@ -37,6 +37,7 @@ import seg.jUCMNav.actions.AddScenarioAction;
 import seg.jUCMNav.actions.AddScenarioGroupAction;
 import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
+import seg.jUCMNav.actions.AddVariableAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
@@ -54,6 +55,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
@@ -290,7 +292,15 @@ public class ActionRegistryManager {
         
         action = new AddScenarioAction((IWorkbenchPart)editor);
         action.setText("Add Scenario");
-        addEditPartAction((SelectionAction) action);        
+        addEditPartAction((SelectionAction) action);   
+        
+        action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeBoolean);
+        action.setText("New Boolean");
+        addEditPartAction((SelectionAction) action);   
+
+        action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeInteger);
+        action.setText("New Integer");
+        addEditPartAction((SelectionAction) action);           
     }
 
     /**

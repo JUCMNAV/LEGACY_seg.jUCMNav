@@ -339,7 +339,7 @@ public class SelectionHelper {
             urnspec = group.getGrlspec().getUrnspec();
         } else if (model instanceof ScenarioDef) {
         	scenario= (ScenarioDef)model;
-        	scenariogroup = scenario.getGroups();
+        	scenariogroup = scenario.getGroup();
         	ucmspec = scenariogroup.getUcmspec();
             urnspec = scenariogroup.getUcmspec().getUrnspec();            
         } else if (model instanceof GRLspec) {

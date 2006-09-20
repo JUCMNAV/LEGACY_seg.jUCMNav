@@ -805,10 +805,10 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getCondition_Variables() {
+	public EReference getCondition_ScenarioDefPre() {
 		return (EReference)conditionEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -817,17 +817,8 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCondition_ScenarioDefPre() {
-		return (EReference)conditionEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCondition_ScenarioDefPost() {
-		return (EReference)conditionEClass.getEStructuralFeatures().get(9);
+		return (EReference)conditionEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -1340,7 +1331,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		createEReference(conditionEClass, CONDITION__END_POINT);
 		createEReference(conditionEClass, CONDITION__PLUGIN_BINDING);
 		createEReference(conditionEClass, CONDITION__NODE_CONNECTION);
-		createEReference(conditionEClass, CONDITION__VARIABLES);
 		createEReference(conditionEClass, CONDITION__SCENARIO_DEF_PRE);
 		createEReference(conditionEClass, CONDITION__SCENARIO_DEF_POST);
 
@@ -1513,7 +1503,6 @@ public class UrncorePackageImpl extends EPackageImpl implements UrncorePackage {
 		initEReference(getCondition_EndPoint(), theMapPackage.getEndPoint(), theMapPackage.getEndPoint_Postcondition(), "endPoint", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCondition_PluginBinding(), theMapPackage.getPluginBinding(), theMapPackage.getPluginBinding_Precondition(), "pluginBinding", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCondition_NodeConnection(), theMapPackage.getNodeConnection(), theMapPackage.getNodeConnection_Condition(), "nodeConnection", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCondition_Variables(), theScenarioPackage.getVariable(), theScenarioPackage.getVariable_Usages(), "variables", null, 0, -1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCondition_ScenarioDefPre(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_Preconditions(), "scenarioDefPre", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCondition_ScenarioDefPost(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_Postconditions(), "scenarioDefPost", null, 0, 1, Condition.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

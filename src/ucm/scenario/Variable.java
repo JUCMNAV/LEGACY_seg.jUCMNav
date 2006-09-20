@@ -25,7 +25,6 @@ import urncore.UCMmodelElement;
  * <ul>
  *   <li>{@link ucm.scenario.Variable#getType <em>Type</em>}</li>
  *   <li>{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}</li>
- *   <li>{@link ucm.scenario.Variable#getUsages <em>Usages</em>}</li>
  *   <li>{@link ucm.scenario.Variable#getEnumerationType <em>Enumeration Type</em>}</li>
  * </ul>
  * </p>
@@ -89,24 +88,6 @@ public interface Variable extends UCMmodelElement {
 	 * @generated
 	 */
     void setUcmspec(UCMspec value);
-
-	/**
-	 * Returns the value of the '<em><b>Usages</b></em>' reference list.
-	 * The list contents are of type {@link urncore.Condition}.
-	 * It is bidirectional and its opposite is '{@link urncore.Condition#getVariables <em>Variables</em>}'.
-	 * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Usages</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-	 * @return the value of the '<em>Usages</em>' reference list.
-	 * @see ucm.scenario.ScenarioPackage#getVariable_Usages()
-	 * @see urncore.Condition#getVariables
-	 * @model type="urncore.Condition" opposite="variables"
-	 * @generated
-	 */
-    EList getUsages();
 
 	/**
 	 * Returns the value of the '<em><b>Enumeration Type</b></em>' reference.

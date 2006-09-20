@@ -8,6 +8,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.editparts.strategyTreeEditparts.VariableListTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateScenarioGroupCommand;
 import ucm.scenario.ScenarioGroup;
@@ -36,7 +37,7 @@ public class AddScenarioGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getUCMspec()!=null;
+        return sel.getUrnspec() != null && sel.getUCMspec()!=null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart);
     }
     
     /**

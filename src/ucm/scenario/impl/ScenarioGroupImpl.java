@@ -116,7 +116,7 @@ public class ScenarioGroupImpl extends UCMmodelElementImpl implements ScenarioGr
 	 */
     public EList getScenarios() {
 		if (scenarios == null) {
-			scenarios = new EObjectContainmentWithInverseEList(ScenarioDef.class, this, ScenarioPackage.SCENARIO_GROUP__SCENARIOS, ScenarioPackage.SCENARIO_DEF__GROUPS);
+			scenarios = new EObjectContainmentWithInverseEList(ScenarioDef.class, this, ScenarioPackage.SCENARIO_GROUP__SCENARIOS, ScenarioPackage.SCENARIO_DEF__GROUP);
 		}
 		return scenarios;
 	}

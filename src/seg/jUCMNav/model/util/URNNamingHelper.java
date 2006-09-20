@@ -31,6 +31,9 @@ import ucm.map.EndPoint;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentElement;
@@ -195,10 +198,13 @@ public class URNNamingHelper {
 		HashMap htIDs = new HashMap();
 		HashMap htComponentNames = new HashMap();
 		HashMap htResponsibilityNames = new HashMap();
+		HashMap htVariableNames = new HashMap();
+		
 		Vector IDConflicts = new Vector();
 		Vector CompNameConflicts = new Vector();
 		Vector RespNameConflicts = new Vector();
-
+		Vector VariableNameConflicts = new Vector();
+		
 		// make sure that we have a legal Long as our proposedTopID
 		if (proposedTopID == null || proposedTopID.length() == 0 || !isValidID(proposedTopID)) {
 			proposedTopID = setTopID(urn, "2"); //$NON-NLS-1$
@@ -241,13 +247,13 @@ public class URNNamingHelper {
 		sanitizeURNdef(urn, htIDs, htComponentNames, htResponsibilityNames, IDConflicts, CompNameConflicts, RespNameConflicts);
 
 		// make sure all componentrefs and pathnodes have unique ids.
-		sanitizeUCMspec(urn, htIDs, IDConflicts);
+		sanitizeUCMspec(urn, htIDs, IDConflicts, htVariableNames, VariableNameConflicts);
 
 		// make sure all nodes and actorref have unique ids
 		sanitizeGRLspec(urn, htIDs, IDConflicts);
 
 		// now that we have found our conflicts, clean them up.
-		resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, IDConflicts, CompNameConflicts, RespNameConflicts);
+		resolveConflicts(urn, htIDs, htComponentNames, htResponsibilityNames, htVariableNames, IDConflicts, CompNameConflicts, RespNameConflicts, VariableNameConflicts);
 	}
 
 	/**
@@ -301,13 +307,23 @@ public class URNNamingHelper {
 	 *            The hash map of used ids
 	 * @param IDConflicts
 	 *            The vector of conflictual elements. Add problems here.
+	 * @param htVariableName
+	 *            a hashmap of used variable  names
+	 * @param VariableNameConflicts
+	 *            a vector in which to store variable name conflicts.
+	 *                        
 	 */
-	private static void sanitizeUCMspec(URNspec urn, HashMap htIDs, Vector IDConflicts) {
+	private static void sanitizeUCMspec(URNspec urn, HashMap htIDs, Vector IDConflicts, HashMap htVariableNames, Vector VariableNameConflicts) {
 		// we need a ucm specification
 		if (urn.getUcmspec() == null) {
 			// create a default one; no name required.
 			urn.setUcmspec((UCMspec) ModelCreationFactory.getNewObject(null, UCMspec.class));
 		}
+		
+		// look at all variables
+		for (Iterator iterator = urn.getUcmspec().getVariables().iterator(); iterator.hasNext();) {
+			findConflicts(htIDs, htVariableNames, IDConflicts, VariableNameConflicts, (URNmodelElement) iterator.next());
+		}		
 
 		// look at all maps
 		for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
@@ -398,21 +414,27 @@ public class URNNamingHelper {
 	 *            a hashmap of used component names
 	 * @param htResponsibilityNames
 	 *            a hashmap of used responsibility names
+	 * @param htVariableNames
+	 *            a hashmap of used variable  names
 	 * @param IDConflicts
 	 *            a vector in which to store id conflicts
 	 * @param CompNameConflicts
 	 *            a vector in which to store component name conflicts
 	 * @param RespNameConflicts
 	 *            a vector in which to store responsibility name conflicts.
+	 * @param VariableNameConflicts
+	 *            a vector in which to store variable name conflicts.
 	 */
-	private static void resolveConflicts(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, Vector IDConflicts,
-			Vector CompNameConflicts, Vector RespNameConflicts) {
+	private static void resolveConflicts(URNspec urn, HashMap htIDs, HashMap htComponentNames, HashMap htResponsibilityNames, HashMap htVariableNames, Vector IDConflicts,
+			Vector CompNameConflicts, Vector RespNameConflicts, Vector VariableNameConflicts) {
 
 		resolveIDConflicts(urn, htIDs, IDConflicts);
 
 		resolveNamingConflicts(urn, htComponentNames, CompNameConflicts);
 
 		resolveNamingConflicts(urn, htResponsibilityNames, RespNameConflicts);
+		
+		resolveNamingConflicts(urn, htVariableNames, VariableNameConflicts);
 	}
 
 	/**
@@ -560,8 +582,8 @@ public class URNNamingHelper {
 		// to determine of the name and id attributes exist but decided to go
 		// for
 		// legibility
-		if (o instanceof ComponentElement) {
-			ComponentElement ce = (ComponentElement) o;
+		if (o instanceof ComponentElement || o instanceof Responsibility || o instanceof Actor || o instanceof IntentionalElement || o instanceof Belief  || o instanceof ElementLink || o instanceof StrategiesGroup ||  o instanceof ScenarioGroup) {
+			URNmodelElement ce = (URNmodelElement) o;
 			if (ce.getId() == null || ce.getId().trim().length() == 0) {
 				ce.setId(getNewID(urn));
 			}
@@ -569,60 +591,8 @@ public class URNNamingHelper {
 			if (ce.getName() == null || ce.getName().trim().length() == 0) {
 				ce.setName(getPrefix(o.getClass()) + ce.getId());
 			}
-		} else if (o instanceof Responsibility) {
-			Responsibility resp = (Responsibility) o;
-			if (resp.getId() == null || resp.getId().trim().length() == 0) {
-				resp.setId(getNewID(urn));
-			}
 
-			if (resp.getName() == null || resp.getName().trim().length() == 0) {
-				resp.setName(getPrefix(o.getClass()) + resp.getId());
-			}
-		} else if (o instanceof Actor) {
-			Actor actor = (Actor) o;
-			if (actor.getId() == null || actor.getId().trim().length() == 0) {
-				actor.setId(getNewID(urn));
-			}
 
-			if (actor.getName() == null || actor.getName().trim().length() == 0) {
-				actor.setName(getPrefix(o.getClass()) + actor.getId());
-			}
-		} else if (o instanceof IntentionalElement) {
-			IntentionalElement elem = (IntentionalElement) o;
-			if (elem.getId() == null || elem.getId().trim().length() == 0) {
-				elem.setId(getNewID(urn));
-			}
-
-			if (elem.getName() == null || elem.getName().trim().length() == 0) {
-				elem.setName(elem.getType().getName() + " " + elem.getId()); //$NON-NLS-1$
-			}
-		} else if (o instanceof Belief) {
-            Belief belief = (Belief) o;
-            if (belief.getId() == null || belief.getId().trim().length() == 0) {
-                belief.setId(getNewID(urn));
-            }
-
-            if (belief.getName() == null || belief.getName().trim().length() == 0) {
-                belief.setName(getPrefix(o.getClass()) + belief.getId()); //$NON-NLS-1$
-            }
-        } else if (o instanceof ElementLink) {
-            ElementLink link = (ElementLink) o;
-            if (link.getId() == null || link.getId().trim().length() == 0) {
-                link.setId(getNewID(urn));
-            }
-
-            if (link.getName() == null || link.getName().trim().length() == 0) {
-                link.setName(getPrefix(o.getClass()) + link.getId()); //$NON-NLS-1$
-            }
-        } else if (o instanceof StrategiesGroup) {
-			StrategiesGroup group = (StrategiesGroup) o;
-			if (group.getId() == null || group.getId().trim().length() == 0) {
-				group.setId(getNewID(urn));
-			}
-
-			if (group.getName() == null || group.getName().trim().length() == 0) {
-				group.setName(getPrefix(o.getClass()) + group.getId());
-			}
 		} else if (o instanceof EvaluationStrategy) {
 			EvaluationStrategy strategy = (EvaluationStrategy) o;
 			if (strategy.getId() == null || strategy.getId().trim().length() == 0) {
@@ -630,6 +600,26 @@ public class URNNamingHelper {
 			}
 
 			strategy.setName("Strategy" + strategy.getId()); //$NON-NLS-1$
+		} else if (o instanceof ScenarioDef) {
+			ScenarioDef scenario = (ScenarioDef) o;
+			if (scenario.getId() == null || scenario.getId().trim().length() == 0) {
+				scenario.setId(getNewID(urn));
+			}
+
+			scenario.setName("Scenario" + scenario.getId()); //$NON-NLS-1$
+		} else if (o instanceof Variable) {
+			Variable var = (Variable) o;
+			if (var.getId() == null || var.getId().trim().length() == 0) {
+				var.setId(getNewID(urn));
+			}
+
+			if ("boolean".equals(var.getType()))
+				var.setName("Boolean" + var.getId()); 	
+			else if ("integer".equals(var.getType()))
+				var.setName("Integer" + var.getId());
+			else 
+				var.setName(var.getType() + var.getId());			
+			
 		} else if (o instanceof URNmodelElement) {
 			URNmodelElement model = (URNmodelElement) o;
 			if (model.getId() == null || model.getId().trim().length() == 0) {
@@ -710,6 +700,26 @@ public class URNNamingHelper {
 	}
 
 	/**
+	 * Verifies in the ucmspec to see if the variable name is already in use. 
+	 * If you plan on calling resolveNamingConflict after this call, call
+	 * it directly; this method will only add overhead.
+	 * 
+	 * @param urn
+	 *            the urnspec containg all variables
+	 * @param proposedName
+	 *            the proposed name
+	 * @return true if name exists
+	 */
+	public static boolean doesVariableNameExist(URNspec urn, String proposedName) {
+		for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
+			URNmodelElement element = (URNmodelElement) iter.next();
+			if (element.getName().equalsIgnoreCase(proposedName))
+				return true;
+		}
+		return proposedName.length() == 0;
+	}
+	
+	/**
 	 * Verifies in the urnspec to see if a intentionalElement exists with the
 	 * proposed name.If you plan on calling resolveNamingConflict after this
 	 * call, call it directly; this method will only add overhead.
@@ -771,8 +781,12 @@ public class URNNamingHelper {
 			c = urn.getGrlspec().getIntElements();
 		} else if (elem instanceof Actor) {
 			c = urn.getGrlspec().getActors();
+		} else if (elem instanceof Variable) {
+			c = urn.getUcmspec().getVariables();
 		} else {
 			System.out.println(Messages.getString("URNNamingHelper.unableToResolve")); //$NON-NLS-1$
+			if (elem!=null)
+				System.out.println("\t(" + elem.getClass().getName() +")");
 			return;
 		}
 
@@ -818,7 +832,7 @@ public class URNNamingHelper {
 				}
 			} else if (elem instanceof ActorRef || elem instanceof Actor) {
 				if (URNNamingHelper.doesActorNameExists(urn, name)) {
-					message = "Actor name already exists"; //$NON-NLS-1$
+					message = "Actor name already exists"; 
 				}
 			} else if (elem instanceof RespRef || elem instanceof Responsibility) {
 				if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
@@ -826,7 +840,11 @@ public class URNNamingHelper {
 				}
 			} else if (elem instanceof IntentionalElementRef || elem instanceof IntentionalElement) {
 				if (URNNamingHelper.doesIntentionalElementNameExists(urn, name)) {
-					message = "Intentional Element name already exists"; //$NON-NLS-1$
+					message = "Intentional Element name already exists"; 
+				}
+			} else if (elem instanceof Variable) {
+				if (URNNamingHelper.doesVariableNameExist(urn, name)) {
+					message = "Variable name already exists"; 
 				}
 			}
 		}

@@ -46,7 +46,6 @@ import urn.UrnPackage;
  *   <li>{@link ucm.impl.UCMspecImpl#getResources <em>Resources</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getScenarioGroups <em>Scenario Groups</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getVariables <em>Variables</em>}</li>
- *   <li>{@link ucm.impl.UCMspecImpl#getScenarioDefs <em>Scenario Defs</em>}</li>
  *   <li>{@link ucm.impl.UCMspecImpl#getEnumerationTypes <em>Enumeration Types</em>}</li>
  * </ul>
  * </p>
@@ -103,16 +102,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 	 * @ordered
 	 */
     protected EList variables = null;
-
-	/**
-	 * The cached value of the '{@link #getScenarioDefs() <em>Scenario Defs</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getScenarioDefs()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList scenarioDefs = null;
 
 	/**
 	 * The cached value of the '{@link #getEnumerationTypes() <em>Enumeration Types</em>}' containment reference list.
@@ -245,18 +234,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public EList getScenarioDefs() {
-		if (scenarioDefs == null) {
-			scenarioDefs = new EObjectContainmentWithInverseEList(ScenarioDef.class, this, UcmPackage.UC_MSPEC__SCENARIO_DEFS, ScenarioPackage.SCENARIO_DEF__UCMSPEC);
-		}
-		return scenarioDefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -288,8 +265,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 				return ((InternalEList)getScenarioGroups()).basicAdd(otherEnd, msgs);
 			case UcmPackage.UC_MSPEC__VARIABLES:
 				return ((InternalEList)getVariables()).basicAdd(otherEnd, msgs);
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicAdd(otherEnd, msgs);
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				return ((InternalEList)getEnumerationTypes()).basicAdd(otherEnd, msgs);
 		}
@@ -315,8 +290,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 				return ((InternalEList)getScenarioGroups()).basicRemove(otherEnd, msgs);
 			case UcmPackage.UC_MSPEC__VARIABLES:
 				return ((InternalEList)getVariables()).basicRemove(otherEnd, msgs);
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicRemove(otherEnd, msgs);
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				return ((InternalEList)getEnumerationTypes()).basicRemove(otherEnd, msgs);
 		}
@@ -355,8 +328,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 				return getScenarioGroups();
 			case UcmPackage.UC_MSPEC__VARIABLES:
 				return getVariables();
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				return getScenarioDefs();
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				return getEnumerationTypes();
 		}
@@ -393,10 +364,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 				getVariables().clear();
 				getVariables().addAll((Collection)newValue);
 				return;
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				getScenarioDefs().clear();
-				getScenarioDefs().addAll((Collection)newValue);
-				return;
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				getEnumerationTypes().clear();
 				getEnumerationTypes().addAll((Collection)newValue);
@@ -430,9 +397,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 			case UcmPackage.UC_MSPEC__VARIABLES:
 				getVariables().clear();
 				return;
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				getScenarioDefs().clear();
-				return;
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				getEnumerationTypes().clear();
 				return;
@@ -459,8 +423,6 @@ public class UCMspecImpl extends EObjectImpl implements UCMspec {
 				return scenarioGroups != null && !scenarioGroups.isEmpty();
 			case UcmPackage.UC_MSPEC__VARIABLES:
 				return variables != null && !variables.isEmpty();
-			case UcmPackage.UC_MSPEC__SCENARIO_DEFS:
-				return scenarioDefs != null && !scenarioDefs.isEmpty();
 			case UcmPackage.UC_MSPEC__ENUMERATION_TYPES:
 				return enumerationTypes != null && !enumerationTypes.isEmpty();
 		}

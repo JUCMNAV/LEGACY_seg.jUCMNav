@@ -17,6 +17,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.scenario.Variable;
 import urn.URNlink;
 
 /**
@@ -66,6 +67,15 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      */
     public CleanRelationshipsCommand(NodeConnection nc) {
         this.element = nc;
+    }
+    
+    /**
+     * 
+     * @param var
+     *            the Variable to be cleaned.
+     */
+    public CleanRelationshipsCommand(Variable var) {
+        this.element = var;
     }
 
     /**
@@ -198,6 +208,18 @@ public class CleanRelationshipsCommand extends CompoundCommand {
     }
     
     /**
+     * 
+     * @param var
+     *            the Variable to be cleaned.
+     */
+    private void build(Variable var) {
+    	// TODO: 
+    	// Delete Variable initializations
+    	// Delete Timer Variable 
+    }
+    
+    
+    /**
      * Returns true even if no commands exist.
      */
     public boolean canExecute() {
@@ -241,6 +263,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
             build((PathNode)element);
         else if (element instanceof IntentionalElementRef)
             build((IntentionalElementRef)element);
+        else if (element instanceof Variable)
+        	build((Variable) element);
     }
 
 }

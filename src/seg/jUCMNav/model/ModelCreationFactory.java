@@ -53,6 +53,7 @@ import ucm.performance.Workload;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioFactory;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnFactory;
@@ -139,6 +140,7 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
     }
 
+    
     /**
      * @param urn
      *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
@@ -287,6 +289,9 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmscenariofactory.createScenarioDef();
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
+            } else if (targetClass.equals(Variable.class)) {
+                result = ucmscenariofactory.createVariable();
+                ((Variable)result).setType(definition.toString());
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {
@@ -446,7 +451,7 @@ public class ModelCreationFactory implements CreationFactory {
         }
 
         // verify unique names
-        if (result instanceof Responsibility || result instanceof ComponentElement) {
+        if (result instanceof Responsibility || result instanceof ComponentElement || result instanceof Variable) {
             URNNamingHelper.resolveNamingConflict(urn, (UCMmodelElement) result);
         }
 

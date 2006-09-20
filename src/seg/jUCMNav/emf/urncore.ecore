@@ -134,8 +134,6 @@
         transient="true" eOpposite="ucm.ecore#//map/PluginBinding/precondition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodeConnection" eType="ecore:EClass ucm.ecore#//map/NodeConnection"
         transient="true" eOpposite="ucm.ecore#//map/NodeConnection/condition"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
-        eType="ecore:EClass ucm.ecore#//scenario/Variable" eOpposite="ucm.ecore#//scenario/Variable/usages"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPre" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"
         transient="true" eOpposite="ucm.ecore#//scenario/ScenarioDef/preconditions"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefPost" eType="ecore:EClass ucm.ecore#//scenario/ScenarioDef"

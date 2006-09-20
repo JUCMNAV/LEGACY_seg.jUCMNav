@@ -18,6 +18,9 @@ public class ScenarioUtils {
 	// static reference to jUCMNavParser. can't have more than one reference to
 	// the parser in the whole application.
 	public static jUCMNavParser parser = new jUCMNavParser(new StringReader("true")); //$NON-NLS-1$
+	public static final String sTypeBoolean = "boolean";
+	public static final String sTypeInteger = "integer";
+	public static final String sTypeEnumeration = "enumeration";
 
 	/**
 	 * Parses a string and returns an error message if is not valid (as a

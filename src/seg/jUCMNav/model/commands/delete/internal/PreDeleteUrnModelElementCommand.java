@@ -11,6 +11,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.scenario.Variable;
 
 /**
  * This command prepares an element for deletion. It gets rid of synch/asynch connections and invisible relationships.
@@ -33,6 +34,16 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
         add(new CleanRelationshipsCommand(map));
     }
 
+    /**
+     * 
+     * @param var
+     *            the Variable to be deleted.
+     */
+    public PreDeleteUrnModelElementCommand(Variable var) {
+        this.element = var;
+        add(new CleanRelationshipsCommand(var));
+    }
+    
     /**
      * 
      * @param nc

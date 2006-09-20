@@ -19,8 +19,10 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.ViewPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -98,6 +100,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         manager.add(showStrategiesView);
         manager.add(new Separator());
         manager.add(showDesignView);
+        
+ 
         
         showPage(ID_DESIGN);
 	}
@@ -223,6 +227,15 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             viewer.setEditDomain(new DefaultEditDomain(multieditor));
             viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
     
+            // register them. other ways failed to add undo/redo, only added delete.  
+            IActionBars bars = getViewSite().getActionBars();
+            String id = ActionFactory.UNDO.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
+            id = ActionFactory.REDO.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
+            id = ActionFactory.DELETE.getId();
+            bars.setGlobalActionHandler(id, multieditor.getActionRegistry().getAction(id));
+
            
             //Hook context menu
 

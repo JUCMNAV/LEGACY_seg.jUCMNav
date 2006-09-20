@@ -29,7 +29,6 @@ import ucm.scenario.ScenarioDef;
  *   <li>{@link urncore.Condition#getEndPoint <em>End Point</em>}</li>
  *   <li>{@link urncore.Condition#getPluginBinding <em>Plugin Binding</em>}</li>
  *   <li>{@link urncore.Condition#getNodeConnection <em>Node Connection</em>}</li>
- *   <li>{@link urncore.Condition#getVariables <em>Variables</em>}</li>
  *   <li>{@link urncore.Condition#getScenarioDefPre <em>Scenario Def Pre</em>}</li>
  *   <li>{@link urncore.Condition#getScenarioDefPost <em>Scenario Def Post</em>}</li>
  * </ul>
@@ -229,24 +228,6 @@ public interface Condition extends Label {
 	 * @generated
 	 */
     void setNodeConnection(NodeConnection value);
-
-	/**
-	 * Returns the value of the '<em><b>Variables</b></em>' reference list.
-	 * The list contents are of type {@link ucm.scenario.Variable}.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.Variable#getUsages <em>Usages</em>}'.
-	 * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Variables</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variables</em>' reference list.
-	 * @see urncore.UrncorePackage#getCondition_Variables()
-	 * @see ucm.scenario.Variable#getUsages
-	 * @model type="ucm.scenario.Variable" opposite="usages"
-	 * @generated
-	 */
-    EList getVariables();
 
 	/**
 	 * Returns the value of the '<em><b>Scenario Def Pre</b></em>' container reference.

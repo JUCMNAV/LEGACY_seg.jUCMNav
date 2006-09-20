@@ -36,7 +36,6 @@ import urncore.impl.UCMmodelElementImpl;
  * <ul>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getType <em>Type</em>}</li>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getUcmspec <em>Ucmspec</em>}</li>
- *   <li>{@link ucm.scenario.impl.VariableImpl#getUsages <em>Usages</em>}</li>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getEnumerationType <em>Enumeration Type</em>}</li>
  * </ul>
  * </p>
@@ -63,16 +62,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 	 * @ordered
 	 */
     protected String type = TYPE_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getUsages() <em>Usages</em>}' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getUsages()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList usages = null;
 
 	/**
 	 * The cached value of the '{@link #getEnumerationType() <em>Enumeration Type</em>}' reference.
@@ -166,18 +155,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public EList getUsages() {
-		if (usages == null) {
-			usages = new EObjectWithInverseResolvingEList.ManyInverse(Condition.class, this, ScenarioPackage.VARIABLE__USAGES, UrncorePackage.CONDITION__VARIABLES);
-		}
-		return usages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -247,8 +224,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetUcmspec((UCMspec)otherEnd, msgs);
-			case ScenarioPackage.VARIABLE__USAGES:
-				return ((InternalEList)getUsages()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				if (enumerationType != null)
 					msgs = ((InternalEObject)enumerationType).eInverseRemove(this, ScenarioPackage.ENUMERATION_TYPE__INSTANCES, EnumerationType.class, msgs);
@@ -266,8 +241,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 		switch (featureID) {
 			case ScenarioPackage.VARIABLE__UCMSPEC:
 				return basicSetUcmspec(null, msgs);
-			case ScenarioPackage.VARIABLE__USAGES:
-				return ((InternalEList)getUsages()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				return basicSetEnumerationType(null, msgs);
 		}
@@ -298,8 +271,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return getType();
 			case ScenarioPackage.VARIABLE__UCMSPEC:
 				return getUcmspec();
-			case ScenarioPackage.VARIABLE__USAGES:
-				return getUsages();
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				if (resolve) return getEnumerationType();
 				return basicGetEnumerationType();
@@ -319,10 +290,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return;
 			case ScenarioPackage.VARIABLE__UCMSPEC:
 				setUcmspec((UCMspec)newValue);
-				return;
-			case ScenarioPackage.VARIABLE__USAGES:
-				getUsages().clear();
-				getUsages().addAll((Collection)newValue);
 				return;
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				setEnumerationType((EnumerationType)newValue);
@@ -344,9 +311,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 			case ScenarioPackage.VARIABLE__UCMSPEC:
 				setUcmspec((UCMspec)null);
 				return;
-			case ScenarioPackage.VARIABLE__USAGES:
-				getUsages().clear();
-				return;
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				setEnumerationType((EnumerationType)null);
 				return;
@@ -365,8 +329,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case ScenarioPackage.VARIABLE__UCMSPEC:
 				return getUcmspec() != null;
-			case ScenarioPackage.VARIABLE__USAGES:
-				return usages != null && !usages.isEmpty();
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				return enumerationType != null;
 		}

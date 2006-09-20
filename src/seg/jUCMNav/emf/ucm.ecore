@@ -16,8 +16,6 @@
         eType="#//scenario/ScenarioGroup" containment="true" eOpposite="#//scenario/ScenarioGroup/ucmspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
         eType="#//scenario/Variable" containment="true" eOpposite="#//scenario/Variable/ucmspec"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefs" upperBound="-1"
-        eType="#//scenario/ScenarioDef" containment="true" eOpposite="#//scenario/ScenarioDef/ucmspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="enumerationTypes" upperBound="-1"
         eType="#//scenario/EnumerationType" containment="true" eOpposite="#//scenario/EnumerationType/ucmspec"/>
   </eClassifiers>
@@ -283,8 +281,6 @@
           defaultValueLiteral="boolean"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/variables"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="usages" upperBound="-1"
-          eType="ecore:EClass urncore.ecore#//Condition" eOpposite="urncore.ecore#//Condition/variables"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="enumerationType" eType="#//scenario/EnumerationType"
           eOpposite="#//scenario/EnumerationType/instances"/>
     </eClassifiers>
@@ -294,9 +290,7 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="startPoints" lowerBound="1"
           upperBound="-1" eType="#//map/StartPoint" eOpposite="#//map/StartPoint/scenarioDefs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
-          eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/scenarioDefs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="groups" lowerBound="1"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1"
           eType="#//scenario/ScenarioGroup" transient="true" eOpposite="#//scenario/ScenarioGroup/scenarios"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentScenarios" upperBound="-1"
           eType="#//scenario/ScenarioDef" eOpposite="#//scenario/ScenarioDef/includedScenarios"/>
@@ -320,7 +314,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/scenarioGroups"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1"
-          eType="#//scenario/ScenarioDef" containment="true" eOpposite="#//scenario/ScenarioDef/groups"/>
+          eType="#//scenario/ScenarioDef" containment="true" eOpposite="#//scenario/ScenarioDef/group"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="EnumerationType" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

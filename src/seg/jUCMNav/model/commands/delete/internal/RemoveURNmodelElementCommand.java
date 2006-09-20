@@ -9,9 +9,11 @@ import grl.IntentionalElementRef;
 import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.scenario.Variable;
 import urncore.ComponentElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -32,6 +34,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
     private IURNContainerRef parent;
     private IURNDiagram diagram;
     private URNmodelElement definition;
+    private UCMspec ucmspec;
     private boolean aborted = false;
 
     /**
@@ -51,6 +54,16 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
     public RemoveURNmodelElementCommand(ComponentRef cr) {
         this.element = cr;
     }
+    
+    /**
+     * 
+     * @param var
+     *            the Variable to be deleted.
+     */
+    public RemoveURNmodelElementCommand(Variable var) {
+        this.element = var;
+    }
+
 
     /**
      * 
@@ -101,7 +114,14 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
             } else if (ref.getContDef() instanceof Actor){
                 definition = (Actor)ref.getContDef();
             }
+        } else if (element instanceof Variable) {
+			Variable var = (Variable) element;
+        	aborted = var.getUcmspec() == null;
+        	if (aborted)
+        		return;
+        	ucmspec = var.getUcmspec();
         }
+        	
         redo();
     }
 
@@ -131,6 +151,10 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
             diagram.getContRefs().remove(ref);
             ref.setParent(null);
             ref.setContDef(null);
+        } else if (element instanceof Variable) 
+        {
+			Variable var = (Variable) element;
+			var.setUcmspec(null);
         }
 
         testPostConditions();
@@ -163,6 +187,10 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
             ref.setParent(parent);
             ref.setContDef((IURNContainer) definition);
             diagram.getContRefs().add(ref);
+        } else if (element instanceof Variable) 
+        {
+			Variable var = (Variable) element;
+			var.setUcmspec(ucmspec);
         }
         testPreConditions();
     }
@@ -172,7 +200,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert element != null && diagram != null : "pre something is null"; //$NON-NLS-1$
+        assert element != null && (diagram != null || ucmspec!=null) : "pre something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
             assert diagram.getNodes().contains(element) : "pre diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)
@@ -209,7 +237,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert element != null && diagram != null : "post something is null"; //$NON-NLS-1$
+        assert element != null && (diagram != null || ucmspec!=null) : "post something is null"; //$NON-NLS-1$
         if (element instanceof IURNNode)
             assert !diagram.getNodes().contains(element) : "post diagram contains element"; //$NON-NLS-1$
         else if (element instanceof IURNContainerRef)

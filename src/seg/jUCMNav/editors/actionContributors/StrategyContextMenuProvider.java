@@ -15,6 +15,7 @@ import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.AddScenarioAction;
 import seg.jUCMNav.actions.AddScenarioGroupAction;
 import seg.jUCMNav.actions.AddStrategiesGroupAction;
+import seg.jUCMNav.actions.AddVariableAction;
 
 /**
  * This class build the context menu for the Strategy view
@@ -41,7 +42,6 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
      */
     public void buildContextMenu(IMenuManager menu) {
         GEFActionConstants.addStandardActionGroups(menu);
-
         IAction action;
 
         action = getActionRegistry().getAction(ActionFactory.UNDO.getId());
@@ -68,7 +68,17 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(AddScenarioAction.ADDSCENARIO);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);        
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);     
+        
+        action = getActionRegistry().getAction(AddVariableAction.ADDBOOLVARIABLE);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+
+        action = getActionRegistry().getAction(AddVariableAction.ADDINTVARIABLE);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+
+          
 
     }
 

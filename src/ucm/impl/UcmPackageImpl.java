@@ -195,20 +195,11 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public EReference getUCMspec_ScenarioDefs() {
-		return (EReference)ucMspecEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getUCMspec_EnumerationTypes() {
-		return (EReference)ucMspecEClass.getEStructuralFeatures().get(7);
+		return (EReference)ucMspecEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -246,7 +237,6 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		createEReference(ucMspecEClass, UC_MSPEC__RESOURCES);
 		createEReference(ucMspecEClass, UC_MSPEC__SCENARIO_GROUPS);
 		createEReference(ucMspecEClass, UC_MSPEC__VARIABLES);
-		createEReference(ucMspecEClass, UC_MSPEC__SCENARIO_DEFS);
 		createEReference(ucMspecEClass, UC_MSPEC__ENUMERATION_TYPES);
 	}
 
@@ -294,7 +284,6 @@ public class UcmPackageImpl extends EPackageImpl implements UcmPackage {
 		initEReference(getUCMspec_Resources(), thePerformancePackage.getGeneralResource(), thePerformancePackage.getGeneralResource_Ucmspec(), "resources", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_ScenarioGroups(), theScenarioPackage.getScenarioGroup(), theScenarioPackage.getScenarioGroup_Ucmspec(), "scenarioGroups", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_Variables(), theScenarioPackage.getVariable(), theScenarioPackage.getVariable_Ucmspec(), "variables", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUCMspec_ScenarioDefs(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_Ucmspec(), "scenarioDefs", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUCMspec_EnumerationTypes(), theScenarioPackage.getEnumerationType(), theScenarioPackage.getEnumerationType_Ucmspec(), "enumerationTypes", null, 0, -1, UCMspec.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource

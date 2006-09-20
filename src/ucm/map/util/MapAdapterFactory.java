@@ -11,6 +11,8 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import ucm.map.*;
+
 import ucm.map.Abort;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
