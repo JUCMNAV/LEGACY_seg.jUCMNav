@@ -26,7 +26,6 @@ import ucm.performance.PerfMeasure;
 import ucm.performance.PerformancePackage;
 import ucm.performance.ResponseTimeReq;
 import ucm.scenario.EnumerationType;
-import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
 import ucm.scenario.Variable;

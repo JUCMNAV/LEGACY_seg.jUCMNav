@@ -20,8 +20,6 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import ucm.UCMspec;
-import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.StartPoint;

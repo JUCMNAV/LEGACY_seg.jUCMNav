@@ -8,7 +8,6 @@ package ucm.scenario;
 
 import org.eclipse.emf.common.util.EList;
 
-import ucm.UCMspec;
 import urncore.UCMmodelElement;
 
 /**

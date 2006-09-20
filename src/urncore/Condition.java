@@ -6,8 +6,6 @@
  */
 package urncore;
 
-import org.eclipse.emf.common.util.EList;
-
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;

@@ -13,8 +13,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucm.performance.*;
-
 import ucm.performance.ActiveResource;
 import ucm.performance.ArrivalProcess;
 import ucm.performance.Demand;

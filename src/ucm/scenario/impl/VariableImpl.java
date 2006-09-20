@@ -6,25 +6,18 @@
  */
 package ucm.scenario.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.UCMspec;
 import ucm.UcmPackage;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.ScenarioPackage;
 import ucm.scenario.Variable;
-import urncore.Condition;
-import urncore.UrncorePackage;
 import urncore.impl.UCMmodelElementImpl;
 
 /**
