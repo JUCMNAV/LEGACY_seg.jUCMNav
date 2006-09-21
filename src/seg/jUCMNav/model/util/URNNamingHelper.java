@@ -820,7 +820,7 @@ public class URNNamingHelper {
 
 		if (elem instanceof IURNContainerRef || elem instanceof RespRef || elem instanceof Responsibility || elem instanceof IntentionalElementRef
 				|| elem instanceof IntentionalElement || elem instanceof IURNContainer) {
-			if (name.toString().trim().length() == 0) {
+			if (name.trim().length() == 0) {
 				message = Messages.getString("URNNamingHelper.invalidName"); //$NON-NLS-1$
 			}
 		}

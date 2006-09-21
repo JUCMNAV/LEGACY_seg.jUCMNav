@@ -33,7 +33,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         if (elem instanceof Responsibility) {
-            oldCode = ((Responsibility)elem).getDescription();
+            oldCode = ((Responsibility)elem).getExpression();
         } else if (elem instanceof Condition) {
         	oldCode = ((Condition) elem).getExpression();
         }
@@ -50,7 +50,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         testPreConditions();
 
         if (elem instanceof Responsibility) {
-            ((Responsibility)elem).setDescription(code);
+            ((Responsibility)elem).setExpression(code);
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(code);
         }
@@ -85,7 +85,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         testPostConditions();
 
         if (elem instanceof Responsibility) {
-            ((Responsibility)elem).setDescription(oldCode);
+            ((Responsibility)elem).setExpression(oldCode);
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(oldCode);
         }

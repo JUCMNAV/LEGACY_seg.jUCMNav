@@ -61,6 +61,7 @@ import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteInBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
+import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
 import ucm.UcmPackage;
@@ -92,7 +93,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	private ScrolledForm form;
 
 	// The description label.
-	private Label descrip;
+	private Text descrip;
 
 	// The stub we are representing here
 	private Stub stub;
@@ -105,24 +106,24 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	// Sections in the form.
 	private Section mapSection; // Select the plugin(s) of the stub.
 	private Section pluginListSection; // List of all the PluginBindings with
-										// all there attributes.
+	// all there attributes.
 
 	// The tree listing the PluginBindings.
 	private Tree treeBindings;
 
 	private Table tabMapIns; // The table for making in bindings with maps
 	private TableColumn mapInsColumn; // It's first column (so that we can
-										// make it as wide as the table)
+	// make it as wide as the table)
 	private Table tabStubIns; // The table for making in bindings with stubs
 	private TableColumn stubInsColumn; // It's first column (so that we can
-										// make it as wide as the table)
+	// make it as wide as the table)
 
 	private Table tabMapOuts; // The table for making out bindings with maps
 	private TableColumn mapOutsColumn; // It's first column (so that we can
-										// make it as wide as the table)
+	// make it as wide as the table)
 	private Table tabStubOuts; // The table for making out bindings with stubs
 	private TableColumn stubOutsColumn; // It's first column (so that we can
-										// make it as wide as the table)
+	// make it as wide as the table)
 
 	// The button for doing in bindings.
 	private Button btInBind;
@@ -193,18 +194,21 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		d.grabExcessHorizontalSpace = true;
 		d.grabExcessVerticalSpace = true;
 		form.setLayoutData(d);
-		form.setText(Messages.getString("StubBindingsDialog.stubBindings")); //$NON-NLS-1$
+		//form.setText(Messages.getString("StubBindingsDialog.stubBindings")); //$NON-NLS-1$
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 2;
 		form.getBody().setLayout(layout);
 		TableWrapData td = new TableWrapData();
 
-		final ExpandableComposite ec = toolkit.createExpandableComposite(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		final ExpandableComposite ec = toolkit.createExpandableComposite(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED | SWT.FILL);
 		ec.setText(Messages.getString("StubBindingsDialog.stubDesc")); //$NON-NLS-1$
-		descrip = toolkit.createLabel(ec, "", SWT.WRAP); //$NON-NLS-1$
+		// descrip = toolkit.createLabel(ec, "", SWT.WRAP); //$NON-NLS-1$
+		descrip = toolkit.createText(ec, "", SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);//$NON-NLS-1$
 		ec.setClient(descrip);
-		td = new TableWrapData();
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
+		td.grabHorizontal = true;
+		td.heightHint = 85;
 		ec.setLayoutData(td);
 
 		// Connect map section
@@ -683,16 +687,17 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 *            should the data be re-loaded after modification?
 	 */
 	protected void handleUpdateLabels(boolean refresh) {
-		if (this.preventUpdate) return;
-		
+		if (this.preventUpdate)
+			return;
+
 		PluginBinding plug = (PluginBinding) selectedPluginLabel.getData();
 		Condition cond = plug.getPrecondition();
-		if (cond.getLabel()!=null && cond.getDescription()!=null && cond.getExpression()!=null && cond.getLabel().equals(txtLabelCondition.getText()) && cond.getExpression().equals(txtExpCondition.getText()) && cond.getDescription().equals(txtDescCondition.getText()))
+		if (cond.getLabel() != null && cond.getDescription() != null && cond.getExpression() != null && cond.getLabel().equals(txtLabelCondition.getText())
+				&& cond.getExpression().equals(txtExpCondition.getText()) && cond.getDescription().equals(txtDescCondition.getText()))
 			return;
 		ChangeLabelNameCommand label = new ChangeLabelNameCommand(cond, txtLabelCondition.getText());
 		label.setExpression(txtExpCondition.getText());
 		label.setDescription(txtDescCondition.getText());
-		
 
 		execute(label, false);
 
@@ -703,7 +708,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	private void refreshCondition() {
 		PluginBinding plug = (PluginBinding) selectedPluginLabel.getData();
 
-		this.preventUpdate=true;
+		this.preventUpdate = true;
 		if (plug.getPrecondition() != null) {
 			txtLabelCondition.setText(plug.getPrecondition().getLabel() == null ? "" : plug.getPrecondition().getLabel()); //$NON-NLS-1$
 			txtExpCondition.setText(plug.getPrecondition().getExpression() == null ? "" : plug.getPrecondition().getExpression()); //$NON-NLS-1$
@@ -717,7 +722,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			txtExpCondition.setEnabled(false);
 			txtDescCondition.setEnabled(false);
 		}
-		this.preventUpdate=false;		
+		this.preventUpdate = false;
 	}
 
 	/**
@@ -866,14 +871,15 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 */
 	protected void cancelPressed() {
 		try {
-		for (int i = executedCount; i > 0; i--) {
-			getCommandStack().undo();
-		}
-		} catch (EmptyStackException ex)
-		{
-			// bug 387: because our add map command is only undoable if no other add/delete map actions 
-			// were done, we cannot cancel the stub view if we add a map and create a binding.
-			
+			for (int i = executedCount; i > 0; i--) {
+				getCommandStack().undo();
+			}
+		} catch (EmptyStackException ex) {
+			// bug 387: because our add map command is only undoable if no other
+			// add/delete map actions
+			// were done, we cannot cancel the stub view if we add a map and
+			// create a binding.
+
 		}
 
 		dispose();
@@ -887,6 +893,13 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	protected void okPressed() {
+		
+		if (!descrip.getText().equals(stub.getDescription()) && !(stub.getDescription()==null && descrip.getText().length()==0))
+		{
+			ChangeDescriptionCommand command = new ChangeDescriptionCommand(stub, descrip.getText());
+			execute(command,false);
+			
+		}
 		dispose();
 		super.okPressed();
 	}
@@ -934,23 +947,37 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	protected void execute(Command command, boolean refresh) {
 		if (command == null || !command.canExecute())
 			return;
-		
+
 		// avoid duplicate entries for plugin binding conditions
-		if (getCommandStack().getUndoCommand() instanceof ChangeLabelNameCommand && command instanceof ChangeLabelNameCommand)
-		{
+		if (getCommandStack().getUndoCommand() instanceof ChangeLabelNameCommand && command instanceof ChangeLabelNameCommand) {
 			ChangeLabelNameCommand changeLabel1 = (ChangeLabelNameCommand) getCommandStack().getUndoCommand();
 			ChangeLabelNameCommand changeLabel2 = (ChangeLabelNameCommand) command;
 			if (changeLabel1.getRenamedLabel().equals(changeLabel2.getRenamedLabel())) {
 				getCommandStack().undo();
-				
+
 				changeLabel1.setName(changeLabel2.getName());
 				changeLabel1.setDescription(changeLabel2.getDescription());
 				changeLabel1.setExpression(changeLabel2.getExpression());
-				
+
 				getCommandStack().redo();
 				return;
 			}
 		}
+		
+		// avoid duplicate entries for description
+		// This only happens 
+//		if (getCommandStack().getUndoCommand() instanceof ChangeDescriptionCommand && command instanceof ChangeDescriptionCommand) {
+//			ChangeDescriptionCommand changeDesc1 = (ChangeDescriptionCommand) getCommandStack().getUndoCommand();
+//			ChangeDescriptionCommand changeDesc2 = (ChangeDescriptionCommand) command;
+//			if (changeDesc1.getElement().equals(changeDesc2.getElement())) {
+//				getCommandStack().undo();
+//
+//				changeDesc1.setNewDescription(changeDesc2.getNewDescription());
+//
+//				getCommandStack().redo();
+//				return;
+//			}
+//		}		
 		getCommandStack().execute(command); // Execute the command
 
 		// Reset totalExecuted to executedCount
@@ -982,8 +1009,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		refreshBindingsTree();
 
 		setSelectedPluginView(null); // Since we don't know if the currently
-										// selected plugin is still there,
-										// update it with null
+		// selected plugin is still there,
+		// update it with null
 	}
 
 	protected void redo() {
@@ -991,8 +1018,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 		executedCount++;
 		if (executedCount == totalExecuted) // If we arrived to the maximum of
-											// our redo stack, disable the
-											// button.
+			// our redo stack, disable the
+			// button.
 			btRedo.setEnabled(false);
 
 		// We should always be able to undo.
@@ -1002,8 +1029,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		refreshBindingsTree();
 
 		setSelectedPluginView(null); // Since we don't know if the currently
-										// selected plugin is still there,
-										// update it with null
+		// selected plugin is still there,
+		// update it with null
 	}
 
 	/**
@@ -1158,8 +1185,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			descrip.setText(stub.getDescription());
 		else {
 			descrip.setText(""); //$NON-NLS-1$
-
 		}
+		
 	}
 
 	/**
@@ -1220,7 +1247,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		root.setText(Messages.getString("StubBindingsDialog.bindings")); //$NON-NLS-1$
 		TreeItem item; // This represents a PluginBinding
 		TreeItem subLabelItem; // An item for a label under item. This item
-								// cannot be deleted/selected.
+		// cannot be deleted/selected.
 		TreeItem subItem; // This represent a In/OutBinding
 
 		Image image;
@@ -1231,7 +1258,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			PluginBinding binding = (PluginBinding) i.next();
 			// Generate a tree item under root for this PluginBinding
 			item = new TreeItem(item, SWT.NULL);
-			item.setText(binding.getStub().getName() + " <-> " + binding.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + binding.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
+			item.setText(binding.getStub().getName()
+					+ " <-> " + binding.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + binding.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
 			image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
 			images.add(image);
 			item.setImage(image);
@@ -1254,7 +1282,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				subItem.setData(inBind);
 			}
 			subLabelItem.setExpanded(true); // We want everything expanded by
-											// default.
+			// default.
 
 			// The add the label for OutBindings under the PluginBinding item
 			subLabelItem = new TreeItem(item, SWT.NULL);
@@ -1311,8 +1339,9 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		// If the user selected a plugin
 		if (selectedPlugin != null) {
 			// Update the label
-			selectedPluginLabel.setText(selectedPlugin.getStub().getName()
-					+ " <-> " + selectedPlugin.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
+			selectedPluginLabel
+					.setText(selectedPlugin.getStub().getName()
+							+ " <-> " + selectedPlugin.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + selectedPlugin.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
 			selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
 			selectedPluginLabel.setData(selectedPlugin);
 			addPluginClient.setVisible(true);
@@ -1478,7 +1507,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		int featureId = notification.getFeatureID(UcmPackage.class);
 		switch (featureId) {
 		case MapPackage.STUB__DESCRIPTION:
-			descrip.setText(stub.getDescription());
+			if (stub.getDescription()!=null)
+				descrip.setText(stub.getDescription());
+			else
+				descrip.setText("");
 			break;
 		}
 	}

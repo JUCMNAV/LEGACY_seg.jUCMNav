@@ -55,7 +55,7 @@ public class URNElementFinder {
 					return o;
 			}
 		}
-		return o;
+		return null;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class URNElementFinder {
 		if ((o = findMapByName(urn, name)) != null)
 			return o;
 
-		return o;
+		return null;
 	}
 
 	/**

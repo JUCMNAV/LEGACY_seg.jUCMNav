@@ -63,7 +63,7 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public void testPostConditions() {
         assert urn != null && urn.getUcmspec() != null && var != null && type!=null  : "post not null"; //$NON-NLS-1$
         assert urn.getUcmspec().getVariables().contains(var): "post var not in model"; //$NON-NLS-1$
-        assert var.getType() == this.type.toString() : "post type not set"; //$NON-NLS-1$
+        assert var.getType().equals(this.type) : "post type not set"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -72,7 +72,7 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public void testPreConditions() {
         assert urn != null && urn.getUcmspec() != null && var != null && type!=null : "pre not null"; //$NON-NLS-1$
         assert !urn.getUcmspec().getVariables().contains(var) : "pre var not in model"; //$NON-NLS-1$
-        assert var.getType() == this.type.toString() : "pre type not set"; //$NON-NLS-1$
+        assert var.getType().equals(this.type) : "pre type not set"; //$NON-NLS-1$
     }
 
 

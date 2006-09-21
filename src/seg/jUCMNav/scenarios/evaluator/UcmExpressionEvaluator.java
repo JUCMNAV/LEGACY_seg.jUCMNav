@@ -73,7 +73,7 @@ public class UcmExpressionEvaluator {
 
             }
 
-            return new Boolean(result);
+            return Boolean.valueOf(result);
         }
         case jUCMNavParserTreeConstants.JJTCOMPARISON: {
 
@@ -103,12 +103,12 @@ public class UcmExpressionEvaluator {
                         result = (result != result2);
                 }
             }
-            return new Boolean(result);
+            return Boolean.valueOf(result);
         }
         case jUCMNavParserTreeConstants.JJTNEGATION: {
 
             boolean result = ((Boolean) evaluate(((SimpleNode) root.jjtGetChild(0)), env)).booleanValue();
-            return new Boolean(!result);
+            return Boolean.valueOf(!result);
         }
 
         case jUCMNavParserTreeConstants.JJTRELATIONALEXPRESSION: {
@@ -137,7 +137,7 @@ public class UcmExpressionEvaluator {
                 throw new IllegalArgumentException(Messages.getString("UcmExpressionEvaluator.UnknownIntegerComparison")); //$NON-NLS-1$
             }
 
-            return new Boolean(result);
+            return Boolean.valueOf(result);
         }
         case jUCMNavParserTreeConstants.JJTADDITIVEEXPRESSION: {
 
