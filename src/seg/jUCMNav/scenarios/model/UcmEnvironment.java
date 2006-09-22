@@ -40,12 +40,14 @@ public class UcmEnvironment implements Adapter {
     }
 
     public void checkEnumerationDoesNotExists(String var) {
+    	var = var.toLowerCase();
         Object type = enumerations.get(var);
         if (type != null)
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationSpace") + var + Messages.getString("UcmEnvironment.IsAlreadyDefined")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     public String[] checkEnumerationExists(String var) {
+    	var = var.toLowerCase();
         Object type = enumerations.get(var);
         if (type == null)
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -57,6 +59,7 @@ public class UcmEnvironment implements Adapter {
     }
 
     public void checkVariableDoesNotExist(String var) {
+    	var = var.toLowerCase();
         Object type = declarations.get(var);
         if (type != null)
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsAlreadyDefined")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -67,6 +70,7 @@ public class UcmEnvironment implements Adapter {
     }
 
     public jUCMNavType checkVariableExists(String var) {
+    	var = var.toLowerCase();
         Object type = declarations.get(var);
         if (type == null || !(type instanceof jUCMNavType))
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -78,12 +82,14 @@ public class UcmEnvironment implements Adapter {
     }
 
     public void registerBoolean(String var, boolean b) {
+    	var = var.toLowerCase();
         checkVariableDoesNotExist(var);
         declarations.put(var, jUCMNavType.BOOLEAN);
         valuations.put(var, Boolean.valueOf(b));
     }
 
     public void registerEnumeration(String enumName, String[] values) {
+    	enumName = enumName.toLowerCase();
         checkEnumerationDoesNotExists(enumName);
         if (values.length == 0)
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationMustHaveValues")); //$NON-NLS-1$
@@ -104,16 +110,22 @@ public class UcmEnvironment implements Adapter {
     }
 
     public String getEnumerationValue(String enumName, int index) {
+    	enumName = enumName.toLowerCase();
         checkEnumerationExists(enumName);
         String[] values = (String[]) enumerations.get(enumName);
         return values[index];
     }
 
     public void registerEnumerationInstance(String enumName, String var) {
+    	enumName = enumName.toLowerCase();
+    	var = var.toLowerCase();
         registerEnumerationInstance(enumName, var, getEnumerationValue(enumName, 0));
     }
 
     public void registerEnumerationInstance(String enumName, String var, String value) {
+    	enumName = enumName.toLowerCase();
+    	var = var.toLowerCase();
+    	value = value.toLowerCase();
         checkEnumerationExists(enumName);
         checkVariableDoesNotExist(var);
         checkVariableExists(value);
@@ -127,12 +139,15 @@ public class UcmEnvironment implements Adapter {
     }
 
     public void registerInteger(String var, int i) {
+    	var = var.toLowerCase();
         checkVariableDoesNotExist(var);
         declarations.put(var, jUCMNavType.INTEGER);
         valuations.put(var, new Integer(i));
     }
 
     public Object getValue(String var) {
+    	var = var.toLowerCase();
+   	
         Object result = valuations.get(var);
         if (result == null) {
             result = declarations.get(var);
@@ -146,6 +161,7 @@ public class UcmEnvironment implements Adapter {
     }
     
     public void setValue(String var, Object o) {
+    	var = var.toLowerCase();
         valuations.put(var, o);
     }
 
@@ -175,15 +191,15 @@ public class UcmEnvironment implements Adapter {
 			int featureId = notification.getFeatureID(Variable.class);
 
 			if (featureId == ScenarioPackage.VARIABLE__NAME) {
-				if (declarations.containsKey(notification.getOldValue())) {
-					Object o = declarations.get(notification.getOldValue());
-					declarations.remove(notification.getOldValue());
-					declarations.put(notification.getNewValue(), o);
+				if (declarations.containsKey(notification.getOldValue().toString().toLowerCase())) {
+					Object o = declarations.get(notification.getOldValue().toString().toLowerCase());
+					declarations.remove(notification.getOldValue().toString().toLowerCase());
+					declarations.put(notification.getNewValue().toString().toLowerCase(), o);
 				}
-				if (valuations.containsKey(notification.getOldValue())) {
-					Object o = valuations.get(notification.getOldValue());
-					valuations.remove(notification.getOldValue());
-					valuations.put(notification.getNewValue(), o);
+				if (valuations.containsKey(notification.getOldValue().toString().toLowerCase())) {
+					Object o = valuations.get(notification.getOldValue().toString().toLowerCase());
+					valuations.remove(notification.getOldValue().toString().toLowerCase());
+					valuations.put(notification.getNewValue().toString().toLowerCase(), o);
 				}				
 					
 			} else if (featureId == ScenarioPackage.VARIABLE__TYPE) {
@@ -242,16 +258,17 @@ public class UcmEnvironment implements Adapter {
 			
 			for (Iterator iter = this.urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
 				Variable var = (Variable) iter.next();
+				String name = var.getName().toLowerCase();
 				if (ScenarioUtils.sTypeBoolean.equals(var.getType())) {
-					if (oldValuations.containsKey(var.getName()))
-						this.registerBoolean(var.getName(), ((Boolean)oldValuations.get(var.getName())).booleanValue());
+					if (oldValuations.containsKey(name))
+						this.registerBoolean(name, ((Boolean)oldValuations.get(name)).booleanValue());
 					else
-						this.registerBoolean(var.getName());
+						this.registerBoolean(name);
 				} else if (ScenarioUtils.sTypeInteger.equals(var.getType())) {
-					if (oldValuations.containsKey(var.getName()))
-						this.registerInteger(var.getName(), ((Integer)oldValuations.get(var.getName())).intValue());
+					if (oldValuations.containsKey(name))
+						this.registerInteger(name, ((Integer)oldValuations.get(name)).intValue());
 					else
-						this.registerInteger(var.getName());
+						this.registerInteger(name);
 				} else {
 					//	TODO: implement enumerations
 					System.out.println("TODO: implement enumerations");
