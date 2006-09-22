@@ -22,7 +22,6 @@ import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
-import seg.jUCMNav.actions.DeleteEvaluationAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
@@ -34,6 +33,8 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
+import seg.jUCMNav.actions.scenarios.EditCodeAction;
 
 /**
  * This class builds the context menu used in our editor and views.
@@ -174,6 +175,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
+        if (action.isEnabled())
+        	manager.appendToGroup(GEFActionConstants.GROUP_REST, action);    
 
     }
 

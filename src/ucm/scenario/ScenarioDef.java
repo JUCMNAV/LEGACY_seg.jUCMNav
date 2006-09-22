@@ -23,15 +23,14 @@ import urncore.UCMmodelElement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getGroup <em>Group</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getParentScenarios <em>Parent Scenarios</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getIncludedScenarios <em>Included Scenarios</em>}</li>
- *   <li>{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getPreconditions <em>Preconditions</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getPostconditions <em>Postconditions</em>}</li>
- *   <li>{@link ucm.scenario.ScenarioDef#getVariable <em>Variable</em>}</li>
  *   <li>{@link ucm.scenario.ScenarioDef#getInitializations <em>Initializations</em>}</li>
+ *   <li>{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}</li>
+ *   <li>{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,19 +40,19 @@ import urncore.UCMmodelElement;
  */
 public interface ScenarioDef extends UCMmodelElement {
 	/**
-	 * Returns the value of the '<em><b>Start Points</b></em>' reference list.
-	 * The list contents are of type {@link ucm.map.StartPoint}.
-	 * It is bidirectional and its opposite is '{@link ucm.map.StartPoint#getScenarioDefs <em>Scenario Defs</em>}'.
+	 * Returns the value of the '<em><b>Start Points</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioStartPoint}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioStartPoint#getScenarioDef <em>Scenario Def</em>}'.
 	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Start Points</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Start Points</em>' reference list.
+	 * @return the value of the '<em>Start Points</em>' containment reference list.
 	 * @see ucm.scenario.ScenarioPackage#getScenarioDef_StartPoints()
-	 * @see ucm.map.StartPoint#getScenarioDefs
-	 * @model type="ucm.map.StartPoint" opposite="scenarioDefs" required="true"
+	 * @see ucm.scenario.ScenarioStartPoint#getScenarioDef
+	 * @model type="ucm.scenario.ScenarioStartPoint" opposite="scenarioDef" containment="true"
 	 * @generated
 	 */
     EList getStartPoints();
@@ -123,19 +122,19 @@ public interface ScenarioDef extends UCMmodelElement {
 	EList getIncludedScenarios();
 
 	/**
-	 * Returns the value of the '<em><b>End Points</b></em>' reference list.
-	 * The list contents are of type {@link ucm.map.EndPoint}.
-	 * It is bidirectional and its opposite is '{@link ucm.map.EndPoint#getScenarioDefs <em>Scenario Defs</em>}'.
+	 * Returns the value of the '<em><b>End Points</b></em>' containment reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioEndPoint}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioEndPoint#getScenarioDef <em>Scenario Def</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>End Points</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>End Points</em>' reference list.
+	 * @return the value of the '<em>End Points</em>' containment reference list.
 	 * @see ucm.scenario.ScenarioPackage#getScenarioDef_EndPoints()
-	 * @see ucm.map.EndPoint#getScenarioDefs
-	 * @model type="ucm.map.EndPoint" opposite="scenarioDefs"
+	 * @see ucm.scenario.ScenarioEndPoint#getScenarioDef
+	 * @model type="ucm.scenario.ScenarioEndPoint" opposite="scenarioDef" containment="true"
 	 * @generated
 	 */
 	EList getEndPoints();
@@ -175,22 +174,6 @@ public interface ScenarioDef extends UCMmodelElement {
 	 * @generated
 	 */
 	EList getPostconditions();
-
-	/**
-	 * Returns the value of the '<em><b>Variable</b></em>' reference list.
-	 * The list contents are of type {@link ucm.scenario.Variable}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Variable</em>' reference list.
-	 * @see ucm.scenario.ScenarioPackage#getScenarioDef_Variable()
-	 * @model type="ucm.scenario.Variable"
-	 * @generated
-	 */
-	EList getVariable();
 
 	/**
 	 * Returns the value of the '<em><b>Initializations</b></em>' containment reference list.

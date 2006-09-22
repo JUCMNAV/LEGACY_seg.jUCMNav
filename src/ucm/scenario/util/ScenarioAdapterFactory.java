@@ -14,8 +14,10 @@ import org.eclipse.emf.ecore.EObject;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
@@ -90,6 +92,12 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 			public Object caseInitialization(Initialization object) {
 				return createInitializationAdapter();
 			}
+			public Object caseScenarioStartPoint(ScenarioStartPoint object) {
+				return createScenarioStartPointAdapter();
+			}
+			public Object caseScenarioEndPoint(ScenarioEndPoint object) {
+				return createScenarioEndPointAdapter();
+			}
 			public Object caseURNmodelElement(URNmodelElement object) {
 				return createURNmodelElementAdapter();
 			}
@@ -153,6 +161,34 @@ public class ScenarioAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createInitializationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.scenario.ScenarioStartPoint <em>Start Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.scenario.ScenarioStartPoint
+	 * @generated
+	 */
+	public Adapter createScenarioStartPointAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ucm.scenario.ScenarioEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ucm.scenario.ScenarioEndPoint
+	 * @generated
+	 */
+	public Adapter createScenarioEndPointAdapter() {
 		return null;
 	}
 

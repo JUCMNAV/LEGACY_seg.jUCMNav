@@ -3,8 +3,11 @@
  */
 package seg.jUCMNav.model.commands.delete;
 
+import java.util.Iterator;
+
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.delete.internal.RemoveScenarioCommand;
 import ucm.scenario.ScenarioDef;
 
 /**
@@ -21,18 +24,19 @@ public class DeleteScenarioCommand extends CompoundCommand {
         setLabel("Delete Scenario");  
         
         // TODO: delete all relationships
-//        for (Iterator iter = strategy.getEvaluations().iterator(); iter.hasNext();){
-//            Evaluation eval = (Evaluation)iter.next();
-//            add(new DeleteEvaluationCommand(eval));
-//        }
-//        add(new RemoveEvaluationStrategyCommand(strategy));
+        for (Iterator iter = scenario.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef child = (ScenarioDef) iter.next();
+			add(new DeleteIncludedScenarioCommand(scenario, child));
+		}
+        for (Iterator iter = scenario.getParentScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef parent = (ScenarioDef) iter.next();
+			add(new DeleteIncludedScenarioCommand(parent, scenario));
+		}        
+        add(new RemoveScenarioCommand(scenario));
         this.scenario = scenario;
         
         
     }
-    public boolean canExecute() { return true; }
-    public void execute() {
-    	scenario.setGroup(null);
-    }
+
 
 }

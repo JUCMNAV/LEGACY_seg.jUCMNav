@@ -53,6 +53,24 @@ public interface ScenarioFactory extends EFactory {
 	Initialization createInitialization();
 
 	/**
+	 * Returns a new object of class '<em>Start Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Start Point</em>'.
+	 * @generated
+	 */
+	ScenarioStartPoint createScenarioStartPoint();
+
+	/**
+	 * Returns a new object of class '<em>End Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>End Point</em>'.
+	 * @generated
+	 */
+	ScenarioEndPoint createScenarioEndPoint();
+
+	/**
 	 * Returns a new object of class '<em>Variable</em>'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

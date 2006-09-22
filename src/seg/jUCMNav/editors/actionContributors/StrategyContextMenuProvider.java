@@ -11,11 +11,13 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
-import seg.jUCMNav.actions.AddEvaluationStrategyAction;
-import seg.jUCMNav.actions.AddScenarioAction;
-import seg.jUCMNav.actions.AddScenarioGroupAction;
-import seg.jUCMNav.actions.AddStrategiesGroupAction;
-import seg.jUCMNav.actions.AddVariableAction;
+import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddScenarioAction;
+import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
+import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
+import seg.jUCMNav.actions.scenarios.AddVariableAction;
+import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 
 /**
  * This class build the context menu for the Strategy view
@@ -78,8 +80,14 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
 
-          
+        action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);              
 
+        action = getActionRegistry().getAction(IncludeScenarioAction.INCLUDESCENARIO);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
+        
     }
 
     /**

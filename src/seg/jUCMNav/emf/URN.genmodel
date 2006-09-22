@@ -422,14 +422,14 @@
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/outBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/postcondition"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/scenarioDefs"/>
+            ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/scenarioEndPoints"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/StartPoint">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/workload"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/scenarioDefs"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/inBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/precondition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/StartPoint/scenarioStartPoints"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/UCMmap">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/UCMmap/parentStub"/>
@@ -471,19 +471,17 @@
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/enumerationType"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioDef">
-        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/startPoints"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/group"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/parentScenarios"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/includedScenarios"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/endPoints"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/preconditions"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/postconditions"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/Variable"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/initializations"/>
+        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/startPoints"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/endPoints"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioGroup">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioGroup/ucmspec"/>
@@ -500,6 +498,19 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/Initialization/scenarioDef"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/Initialization/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioStartPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//scenario/ScenarioStartPoint/enabled"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioStartPoint/scenarioDef"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioStartPoint/startPoint"/>
+      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioEndPoint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//scenario/ScenarioEndPoint/enabled"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//scenario/ScenarioEndPoint/mandatory"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioEndPoint/scenarioDef"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioEndPoint/endPoint"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

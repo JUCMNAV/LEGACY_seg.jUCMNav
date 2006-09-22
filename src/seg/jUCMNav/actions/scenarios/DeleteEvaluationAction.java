@@ -1,7 +1,7 @@
 /**
  * 
  */
-package seg.jUCMNav.actions;
+package seg.jUCMNav.actions.scenarios;
 
 import grl.Evaluation;
 import grl.EvaluationStrategy;
@@ -13,6 +13,8 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.actions.SelectionHelper;
+import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 

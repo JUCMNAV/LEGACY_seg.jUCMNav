@@ -1,13 +1,15 @@
 /**
  * 
  */
-package seg.jUCMNav.actions;
+package seg.jUCMNav.actions.scenarios;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.SelectionHelper;
+import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.create.CreateScenarioCommand;
 
 /**
@@ -35,7 +37,7 @@ public class AddScenarioAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getScenarioGroup() != null;
+        return sel.getUrnspec() != null && sel.getScenarioGroup() != null && sel.getScenario()==null;
     }
 
     /**

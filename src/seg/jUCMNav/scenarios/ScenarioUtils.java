@@ -1,7 +1,10 @@
 package seg.jUCMNav.scenarios;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -10,6 +13,8 @@ import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 
 /**
@@ -94,7 +99,7 @@ public class ScenarioUtils {
 
 		if (object instanceof URNspec) {
 			if (!getEnvironments().containsKey(object)) {
-				getEnvironments().put(object, new UcmEnvironment((URNspec)object));
+				getEnvironments().put(object, new UcmEnvironment((URNspec) object));
 			}
 			return (UcmEnvironment) getEnvironments().get(object);
 		} else
@@ -119,7 +124,7 @@ public class ScenarioUtils {
 	}
 
 	/**
-	 * Global UcmEnvironment cache. 
+	 * Global UcmEnvironment cache.
 	 * 
 	 * @return a HashMap of URNspec -> UcmEnvironment
 	 */
@@ -128,5 +133,77 @@ public class ScenarioUtils {
 			environments = new HashMap();
 
 		return environments;
+	}
+
+	/**
+	 * Returns a list of all ScenarioDefs in all groups.
+	 * 
+	 * @param urn
+	 *            the root urnspec
+	 * @return the list of scenarios
+	 */
+	public static List getAllScenarios(URNspec urn) {
+		ArrayList list = new ArrayList();
+		for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup group = (ScenarioGroup) iter.next();
+
+			for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+				ScenarioDef scenario = (ScenarioDef) iterator.next();
+				list.add(scenario);
+			}
+		}
+		return list;
+	}
+
+	/**
+	 * Recursively removes all the included scenarios from the given list.
+	 * 
+	 * @param list
+	 *            list of ScenarioDefs
+	 * @param parent
+	 *            the root scenariodef from which we remove the children. we
+	 *            also remove the parent from the list.
+	 */
+	private static void removeIncludedScenarios(List list, ScenarioDef parent) {
+		for (Iterator iter = parent.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef child = (ScenarioDef) iter.next();
+			removeIncludedScenarios(list, child);
+		}
+
+		if (list.contains(parent))
+			list.remove(parent);
+	}
+
+	/**
+	 * Returns all scenarios that we may include into the given parent. Will not
+	 * cause any circular references.
+	 * 
+	 * @param parent
+	 *            the parent scenario definition
+	 * @return the list of possible children.
+	 */
+	public static List getPossibleIncludedScenarios(ScenarioDef parent) {
+		List list = getPossibleIncludedScenariosNonRecursive(parent);
+		
+		ArrayList toRemove = new ArrayList();
+		for (Iterator iter = list.iterator(); iter.hasNext();) {
+			ScenarioDef child = (ScenarioDef) iter.next();
+			if (!getPossibleIncludedScenariosNonRecursive(child).contains(parent))
+				toRemove.add(child);
+		}
+		for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+			ScenarioDef element = (ScenarioDef) iter.next();
+			if (list.contains(element)) list.remove(element);
+		}
+		return list;
+	}
+	
+	private static List getPossibleIncludedScenariosNonRecursive(ScenarioDef parent) {
+		URNspec urn = parent.getGroup().getUcmspec().getUrnspec();
+		List list = getAllScenarios(urn);
+
+		removeIncludedScenarios(list, parent);
+		return list;
+	
 	}
 }

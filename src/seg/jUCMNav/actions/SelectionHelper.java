@@ -44,11 +44,13 @@ import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
+import urncore.Condition;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.NodeLabel;
+import urncore.Responsibility;
 
 /**
  * This class will help reduce redundant code in all action classes. When given a selection, it parses it and gives utility functions to return its type and
@@ -85,7 +87,7 @@ public class SelectionHelper {
     public static final int ORFORK = 12;
     public static final int ORJOIN = 15;
     public static final int OTHER = -1;
-    public static final int RESPONSIBILITY = 4;
+    public static final int RESPONSIBILITYREF = 4;
     public static final int STARTPOINT = 5;
     public static final int STARTPOINT_ANDFORK = 114;
     public static final int STARTPOINT_DIRECTIONARROW = 118;
@@ -101,7 +103,8 @@ public class SelectionHelper {
     public static final int WAITINGPLACE = 8;
     public static final int SCENARIOGROUP = 119;
     public static final int SCENARIO = 120;
-
+    public static final int RESPONSIBILITY = 121;
+    public static final int CONDITION = 122;
     
     //GRL constant
     public static final int GRLGRAPH = 200;
@@ -138,6 +141,11 @@ public class SelectionHelper {
     private URNspec urnspec;
     private WaitingPlace waitingplace;
 
+    private ScenarioGroup scenariogroup;
+    private ScenarioDef scenario;
+    private Responsibility respdef;
+    private Condition condition;
+    
     //internal variable for GRL
     private ActorRef actorref;
     private Actor actor;
@@ -148,8 +156,6 @@ public class SelectionHelper {
     private LinkRef linkref;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
-    private ScenarioGroup scenariogroup;
-    private ScenarioDef scenario;
     
     private UCMspec ucmspec;
     private GRLspec grlspec;
@@ -210,10 +216,14 @@ public class SelectionHelper {
         return orjoin;
     }
 
-    public RespRef getRespref() {
+    public RespRef getRespRef() {
         return respref;
     }
 
+    public Responsibility getRespDef() {
+        return respdef;
+    }
+    
     public List getSelection() {
         return selection;
     }
@@ -265,8 +275,13 @@ public class SelectionHelper {
         } else if (model instanceof NodeConnection) {
             nodeconnection = (NodeConnection) model;
             nodeconnectionmiddle = ((NodeConnectionEditPart) part).getMiddlePoint();
+        } else if (model instanceof Responsibility) {
+            respdef = (Responsibility) model;
+        } else if (model instanceof Condition) {
+            condition = (Condition) model;
         } else if (model instanceof RespRef) {
             respref = (RespRef) model;
+            respdef = respref.getRespDef();
         } else if (model instanceof IntentionalElement) {
             intentionalelement = (IntentionalElement) model;
         } else if (model instanceof IntentionalElementRef) {
@@ -497,7 +512,11 @@ public class SelectionHelper {
         else if (nodeconnection != null)
             selectionType = NODECONNECTION;
         else if (respref != null)
+            selectionType = RESPONSIBILITYREF;
+        else if (respdef != null)
             selectionType = RESPONSIBILITY;
+        else if (condition != null)
+            selectionType = CONDITION;
         else if (startpoint != null)
             selectionType = STARTPOINT;
         else if (stub != null)
@@ -605,5 +624,9 @@ public class SelectionHelper {
     
     public UCMspec getUCMspec(){
         return ucmspec;
-    }     
+    }
+
+	public Condition getCondition() {
+		return condition;
+	}     
 }

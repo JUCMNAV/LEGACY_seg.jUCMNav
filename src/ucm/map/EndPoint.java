@@ -24,7 +24,7 @@ import urncore.Condition;
  * <ul>
  *   <li>{@link ucm.map.EndPoint#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link ucm.map.EndPoint#getPostcondition <em>Postcondition</em>}</li>
- *   <li>{@link ucm.map.EndPoint#getScenarioDefs <em>Scenario Defs</em>}</li>
+ *   <li>{@link ucm.map.EndPoint#getScenarioEndPoints <em>Scenario End Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,21 +80,21 @@ public interface EndPoint extends PathNode {
     void setPostcondition(Condition value);
 
 	/**
-	 * Returns the value of the '<em><b>Scenario Defs</b></em>' reference list.
-	 * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}'.
+	 * Returns the value of the '<em><b>Scenario End Points</b></em>' reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioEndPoint}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioEndPoint#getEndPoint <em>End Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Scenario Defs</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Scenario End Points</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Scenario Defs</em>' reference list.
-	 * @see ucm.map.MapPackage#getEndPoint_ScenarioDefs()
-	 * @see ucm.scenario.ScenarioDef#getEndPoints
-	 * @model type="ucm.scenario.ScenarioDef" opposite="endPoints"
+	 * @return the value of the '<em>Scenario End Points</em>' reference list.
+	 * @see ucm.map.MapPackage#getEndPoint_ScenarioEndPoints()
+	 * @see ucm.scenario.ScenarioEndPoint#getEndPoint
+	 * @model type="ucm.scenario.ScenarioEndPoint" opposite="endPoint"
 	 * @generated
 	 */
-	EList getScenarioDefs();
+	EList getScenarioEndPoints();
 
 } // EndPoint

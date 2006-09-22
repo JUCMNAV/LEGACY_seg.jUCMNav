@@ -1695,13 +1695,13 @@ public interface MapPackage extends EPackage {
     int END_POINT__POSTCONDITION = PATH_NODE_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Scenario Defs</b></em>' reference list.
+	 * The feature id for the '<em><b>Scenario End Points</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int END_POINT__SCENARIO_DEFS = PATH_NODE_FEATURE_COUNT + 2;
+	int END_POINT__SCENARIO_END_POINTS = PATH_NODE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>End Point</em>' class.
@@ -1849,22 +1849,13 @@ public interface MapPackage extends EPackage {
     int START_POINT__WORKLOAD = PATH_NODE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Scenario Defs</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int START_POINT__SCENARIO_DEFS = PATH_NODE_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>In Bindings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 2;
+    int START_POINT__IN_BINDINGS = PATH_NODE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Precondition</b></em>' containment reference.
@@ -1873,7 +1864,16 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 3;
+    int START_POINT__PRECONDITION = PATH_NODE_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Scenario Start Points</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__SCENARIO_START_POINTS = PATH_NODE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Start Point</em>' class.
@@ -3527,15 +3527,15 @@ public interface MapPackage extends EPackage {
     EReference getEndPoint_Postcondition();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.map.EndPoint#getScenarioDefs <em>Scenario Defs</em>}'.
+	 * Returns the meta object for the reference list '{@link ucm.map.EndPoint#getScenarioEndPoints <em>Scenario End Points</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Scenario Defs</em>'.
-	 * @see ucm.map.EndPoint#getScenarioDefs()
+	 * @return the meta object for the reference list '<em>Scenario End Points</em>'.
+	 * @see ucm.map.EndPoint#getScenarioEndPoints()
 	 * @see #getEndPoint()
 	 * @generated
 	 */
-	EReference getEndPoint_ScenarioDefs();
+	EReference getEndPoint_ScenarioEndPoints();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.map.StartPoint <em>Start Point</em>}'.
@@ -3559,17 +3559,6 @@ public interface MapPackage extends EPackage {
     EReference getStartPoint_Workload();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getScenarioDefs <em>Scenario Defs</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Scenario Defs</em>'.
-	 * @see ucm.map.StartPoint#getScenarioDefs()
-	 * @see #getStartPoint()
-	 * @generated
-	 */
-	EReference getStartPoint_ScenarioDefs();
-
-	/**
 	 * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3590,6 +3579,17 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 */
     EReference getStartPoint_Precondition();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ucm.map.StartPoint#getScenarioStartPoints <em>Scenario Start Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Scenario Start Points</em>'.
+	 * @see ucm.map.StartPoint#getScenarioStartPoints()
+	 * @see #getStartPoint()
+	 * @generated
+	 */
+	EReference getStartPoint_ScenarioStartPoints();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.map.UCMmap <em>UC Mmap</em>}'.
@@ -4186,12 +4186,12 @@ public interface MapPackage extends EPackage {
 		EReference END_POINT__POSTCONDITION = eINSTANCE.getEndPoint_Postcondition();
 
 		/**
-		 * The meta object literal for the '<em><b>Scenario Defs</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Scenario End Points</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference END_POINT__SCENARIO_DEFS = eINSTANCE.getEndPoint_ScenarioDefs();
+		EReference END_POINT__SCENARIO_END_POINTS = eINSTANCE.getEndPoint_ScenarioEndPoints();
 
 		/**
 		 * The meta object literal for the '{@link ucm.map.impl.StartPointImpl <em>Start Point</em>}' class.
@@ -4212,14 +4212,6 @@ public interface MapPackage extends EPackage {
 		EReference START_POINT__WORKLOAD = eINSTANCE.getStartPoint_Workload();
 
 		/**
-		 * The meta object literal for the '<em><b>Scenario Defs</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference START_POINT__SCENARIO_DEFS = eINSTANCE.getStartPoint_ScenarioDefs();
-
-		/**
 		 * The meta object literal for the '<em><b>In Bindings</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4234,6 +4226,14 @@ public interface MapPackage extends EPackage {
 		 * @generated
 		 */
 		EReference START_POINT__PRECONDITION = eINSTANCE.getStartPoint_Precondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Scenario Start Points</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference START_POINT__SCENARIO_START_POINTS = eINSTANCE.getStartPoint_ScenarioStartPoints();
 
 		/**
 		 * The meta object literal for the '{@link ucm.map.impl.UCMmapImpl <em>UC Mmap</em>}' class.

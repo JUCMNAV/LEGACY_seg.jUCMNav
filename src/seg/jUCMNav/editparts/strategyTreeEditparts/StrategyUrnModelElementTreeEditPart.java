@@ -5,6 +5,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -69,11 +70,32 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
     }
 
     /**
+     * @see org.eclipse.gef.EditPart#getRoot()
+     */
+    public RootEditPart getRoot() {
+    	if (getParent()==null)
+    		return null;
+    	else
+    		return getParent().getRoot();
+    }
+    
+    /**
+     * Undoes any registration performed by {@link #register()}. The provided base classes
+     * will correctly unregister their visuals.
+     */
+    protected void unregister() {
+    	unregisterAccessibility();
+    	unregisterVisuals();
+    	if (getRoot()!=null)
+    		unregisterModel();
+    }
+    
+    /**
      * When something is changed, refresh. We are also refreshing the parent so that elements can be reordered if renamed
      *  
      */
     public void notifyChanged(Notification notification) {
-        if (notification.getEventType() != Notification.REMOVING_ADAPTER) {
+        if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot()!=null) {
             refreshChildren();
             refreshVisuals();
 

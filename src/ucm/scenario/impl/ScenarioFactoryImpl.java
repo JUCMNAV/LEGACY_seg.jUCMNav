@@ -15,9 +15,11 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioFactory;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 
 /**
@@ -68,6 +70,8 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 			case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
 			case ScenarioPackage.ENUMERATION_TYPE: return createEnumerationType();
 			case ScenarioPackage.INITIALIZATION: return createInitialization();
+			case ScenarioPackage.SCENARIO_START_POINT: return createScenarioStartPoint();
+			case ScenarioPackage.SCENARIO_END_POINT: return createScenarioEndPoint();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -101,6 +105,26 @@ public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory
 	public Initialization createInitialization() {
 		InitializationImpl initialization = new InitializationImpl();
 		return initialization;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScenarioStartPoint createScenarioStartPoint() {
+		ScenarioStartPointImpl scenarioStartPoint = new ScenarioStartPointImpl();
+		return scenarioStartPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ScenarioEndPoint createScenarioEndPoint() {
+		ScenarioEndPointImpl scenarioEndPoint = new ScenarioEndPointImpl();
+		return scenarioEndPoint;
 	}
 
 	/**

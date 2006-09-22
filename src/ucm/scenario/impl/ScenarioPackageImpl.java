@@ -24,9 +24,11 @@ import ucm.performance.impl.PerformancePackageImpl;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioFactory;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.UrnPackage;
 import urn.impl.UrnPackageImpl;
@@ -60,6 +62,20 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * @generated
 	 */
 	private EClass initializationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass scenarioStartPointEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass scenarioEndPointEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -264,6 +280,87 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getScenarioStartPoint() {
+		return scenarioStartPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioStartPoint_Enabled() {
+		return (EAttribute)scenarioStartPointEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioStartPoint_ScenarioDef() {
+		return (EReference)scenarioStartPointEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioStartPoint_StartPoint() {
+		return (EReference)scenarioStartPointEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getScenarioEndPoint() {
+		return scenarioEndPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioEndPoint_Enabled() {
+		return (EAttribute)scenarioEndPointEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getScenarioEndPoint_Mandatory() {
+		return (EAttribute)scenarioEndPointEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioEndPoint_ScenarioDef() {
+		return (EReference)scenarioEndPointEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioEndPoint_EndPoint() {
+		return (EReference)scenarioEndPointEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -277,60 +374,6 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * @generated
 	 */
     public EReference getScenarioDef_StartPoints() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_Group() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_ParentScenarios() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_IncludedScenarios() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_EndPoints() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_Preconditions() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getScenarioDef_Postconditions() {
 		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -339,7 +382,34 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getScenarioDef_Variable() {
+	public EReference getScenarioDef_Group() {
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioDef_ParentScenarios() {
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioDef_IncludedScenarios() {
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioDef_EndPoints() {
 		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -348,8 +418,26 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getScenarioDef_Preconditions() {
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getScenarioDef_Postconditions() {
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getScenarioDef_Initializations() {
-		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(8);
+		return (EReference)scenarioDefEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -422,15 +510,14 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEReference(variableEClass, VARIABLE__ENUMERATION_TYPE);
 
 		scenarioDefEClass = createEClass(SCENARIO_DEF);
-		createEReference(scenarioDefEClass, SCENARIO_DEF__START_POINTS);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__GROUP);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__PARENT_SCENARIOS);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__INCLUDED_SCENARIOS);
-		createEReference(scenarioDefEClass, SCENARIO_DEF__END_POINTS);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__PRECONDITIONS);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__POSTCONDITIONS);
-		createEReference(scenarioDefEClass, SCENARIO_DEF__VARIABLE);
 		createEReference(scenarioDefEClass, SCENARIO_DEF__INITIALIZATIONS);
+		createEReference(scenarioDefEClass, SCENARIO_DEF__START_POINTS);
+		createEReference(scenarioDefEClass, SCENARIO_DEF__END_POINTS);
 
 		scenarioGroupEClass = createEClass(SCENARIO_GROUP);
 		createEReference(scenarioGroupEClass, SCENARIO_GROUP__UCMSPEC);
@@ -445,6 +532,17 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		createEAttribute(initializationEClass, INITIALIZATION__VALUE);
 		createEReference(initializationEClass, INITIALIZATION__SCENARIO_DEF);
 		createEReference(initializationEClass, INITIALIZATION__VARIABLE);
+
+		scenarioStartPointEClass = createEClass(SCENARIO_START_POINT);
+		createEAttribute(scenarioStartPointEClass, SCENARIO_START_POINT__ENABLED);
+		createEReference(scenarioStartPointEClass, SCENARIO_START_POINT__SCENARIO_DEF);
+		createEReference(scenarioStartPointEClass, SCENARIO_START_POINT__START_POINT);
+
+		scenarioEndPointEClass = createEClass(SCENARIO_END_POINT);
+		createEAttribute(scenarioEndPointEClass, SCENARIO_END_POINT__ENABLED);
+		createEAttribute(scenarioEndPointEClass, SCENARIO_END_POINT__MANDATORY);
+		createEReference(scenarioEndPointEClass, SCENARIO_END_POINT__SCENARIO_DEF);
+		createEReference(scenarioEndPointEClass, SCENARIO_END_POINT__END_POINT);
 	}
 
 	/**
@@ -488,15 +586,14 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEReference(getVariable_EnumerationType(), this.getEnumerationType(), this.getEnumerationType_Instances(), "enumerationType", null, 0, 1, Variable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioDefEClass, ScenarioDef.class, "ScenarioDef", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getScenarioDef_StartPoints(), theMapPackage.getStartPoint(), theMapPackage.getStartPoint_ScenarioDefs(), "startPoints", null, 1, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_Group(), this.getScenarioGroup(), this.getScenarioGroup_Scenarios(), "group", null, 1, 1, ScenarioDef.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_ParentScenarios(), this.getScenarioDef(), this.getScenarioDef_IncludedScenarios(), "parentScenarios", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_IncludedScenarios(), this.getScenarioDef(), this.getScenarioDef_ParentScenarios(), "includedScenarios", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScenarioDef_EndPoints(), theMapPackage.getEndPoint(), theMapPackage.getEndPoint_ScenarioDefs(), "endPoints", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_Preconditions(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_ScenarioDefPre(), "preconditions", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_Postconditions(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_ScenarioDefPost(), "postconditions", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getScenarioDef_Variable(), this.getVariable(), null, "Variable", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScenarioDef_Initializations(), this.getInitialization(), this.getInitialization_ScenarioDef(), "initializations", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioDef_StartPoints(), this.getScenarioStartPoint(), this.getScenarioStartPoint_ScenarioDef(), "startPoints", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioDef_EndPoints(), this.getScenarioEndPoint(), this.getScenarioEndPoint_ScenarioDef(), "endPoints", null, 0, -1, ScenarioDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scenarioGroupEClass, ScenarioGroup.class, "ScenarioGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getScenarioGroup_Ucmspec(), theUcmPackage.getUCMspec(), theUcmPackage.getUCMspec_ScenarioGroups(), "ucmspec", null, 1, 1, ScenarioGroup.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -511,6 +608,17 @@ public class ScenarioPackageImpl extends EPackageImpl implements ScenarioPackage
 		initEAttribute(getInitialization_Value(), ecorePackage.getEString(), "value", null, 0, 1, Initialization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInitialization_ScenarioDef(), this.getScenarioDef(), this.getScenarioDef_Initializations(), "scenarioDef", null, 1, 1, Initialization.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInitialization_Variable(), this.getVariable(), null, "variable", null, 1, 1, Initialization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(scenarioStartPointEClass, ScenarioStartPoint.class, "ScenarioStartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getScenarioStartPoint_Enabled(), ecorePackage.getEBoolean(), "enabled", null, 0, 1, ScenarioStartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioStartPoint_ScenarioDef(), this.getScenarioDef(), this.getScenarioDef_StartPoints(), "scenarioDef", null, 1, 1, ScenarioStartPoint.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioStartPoint_StartPoint(), theMapPackage.getStartPoint(), theMapPackage.getStartPoint_ScenarioStartPoints(), "startPoint", null, 1, 1, ScenarioStartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(scenarioEndPointEClass, ScenarioEndPoint.class, "ScenarioEndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getScenarioEndPoint_Enabled(), ecorePackage.getEBoolean(), "enabled", null, 0, 1, ScenarioEndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getScenarioEndPoint_Mandatory(), ecorePackage.getEBoolean(), "mandatory", null, 0, 1, ScenarioEndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioEndPoint_ScenarioDef(), this.getScenarioDef(), this.getScenarioDef_EndPoints(), "scenarioDef", null, 1, 1, ScenarioEndPoint.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScenarioEndPoint_EndPoint(), theMapPackage.getEndPoint(), theMapPackage.getEndPoint_ScenarioEndPoints(), "endPoint", null, 1, 1, ScenarioEndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //ScenarioPackageImpl

@@ -6,14 +6,11 @@ package seg.jUCMNav.editparts.strategyTreeEditparts;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
-import seg.jUCMNav.editpolicies.element.VariableComponentEditPolicy;
-import seg.jUCMNav.scenarios.ScenarioUtils;
-import ucm.scenario.Variable;
+import urncore.Condition;
 
 /**
  * This class is the root edit part for a variable.  
@@ -21,24 +18,24 @@ import ucm.scenario.Variable;
  * @author jkealey
  *
  */
-public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
+public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     
     /**
      * @param model
      *          The UCMspec model
      */
-    public VariableTreeEditPart(Variable model) {
+    public ConditionTreeEditPart(Condition model) {
         super(model);
     }
 
     /**
-     * Listens to Variable
+     * Listens to a condition
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {
         if (!isActive()) {
-            getVariable().eAdapters().add(this);
+            getCondition().eAdapters().add(this);
         }
         super.activate();
     }
@@ -47,17 +44,17 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new VariableComponentEditPolicy());
+//        installEditPolicy(EditPolicy.COMPONENT_ROLE, new VariableComponentEditPolicy());
     }
     
     /**
-     * Stops listening to the variable. 
+     * Stops listening to the condition
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
         if (isActive()) {
-        	getVariable().eAdapters().remove(this);
+        	getCondition().eAdapters().remove(this);
         }
         super.deactivate();
     }
@@ -67,19 +64,13 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
-			if (ScenarioUtils.sTypeBoolean.equals(getVariable().getType())) {
-				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif").createImage()); //$NON-NLS-1$
-			} else if (ScenarioUtils.sTypeInteger.equals(getVariable().getType())) {
-				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GoalTag16.gif").createImage()); //$NON-NLS-1$
-			} else {
-				setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ISR16.gif").createImage()); //$NON-NLS-1$
-			}
+			setImage(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif").createImage()); //$NON-NLS-1$
 		}
 		return super.getImage();
     }
     
     /**
-	 * Variables have no children.
+	 * Conditions have no children.
 	 * 
 	 * @return empty list
 	 */
@@ -88,14 +79,17 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
         return list;
     }
 
-    private Variable getVariable(){
-        return (Variable)getModel();
+    private Condition getCondition(){
+        return (Condition)getModel();
     }
     
     /**
-     * @return the URNspec name.
+     * @return the condition label. 
      */
     protected String getText() {
-        return getVariable().getName();
+        if (getCondition().getLabel()==null)
+        	return "";
+        else
+        	return getCondition().getLabel();
     }
 }

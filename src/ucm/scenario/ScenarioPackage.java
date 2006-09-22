@@ -237,22 +237,13 @@ public interface ScenarioPackage extends EPackage {
 	int SCENARIO_DEF__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
 	/**
-	 * The feature id for the '<em><b>Start Points</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int SCENARIO_DEF__START_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Group</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__GROUP = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+	int SCENARIO_DEF__GROUP = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Parent Scenarios</b></em>' reference list.
@@ -261,7 +252,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__PARENT_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+	int SCENARIO_DEF__PARENT_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Included Scenarios</b></em>' reference list.
@@ -270,16 +261,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__INCLUDED_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>End Points</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCENARIO_DEF__END_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+	int SCENARIO_DEF__INCLUDED_SCENARIOS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
@@ -288,7 +270,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__PRECONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+	int SCENARIO_DEF__PRECONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Postconditions</b></em>' containment reference list.
@@ -297,16 +279,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__POSTCONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
-
-	/**
-	 * The feature id for the '<em><b>Variable</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SCENARIO_DEF__VARIABLE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+	int SCENARIO_DEF__POSTCONDITIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Initializations</b></em>' containment reference list.
@@ -315,7 +288,25 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCENARIO_DEF__INITIALIZATIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+	int SCENARIO_DEF__INITIALIZATIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Start Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int SCENARIO_DEF__START_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>End Points</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_DEF__END_POINTS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>Def</em>' class.
@@ -324,7 +315,7 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+    int SCENARIO_DEF_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>From Links</b></em>' reference list.
@@ -555,6 +546,108 @@ public interface ScenarioPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link ucm.scenario.impl.ScenarioStartPointImpl <em>Start Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ucm.scenario.impl.ScenarioStartPointImpl
+	 * @see ucm.scenario.impl.ScenarioPackageImpl#getScenarioStartPoint()
+	 * @generated
+	 */
+	int SCENARIO_START_POINT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_START_POINT__ENABLED = 0;
+
+	/**
+	 * The feature id for the '<em><b>Scenario Def</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_START_POINT__SCENARIO_DEF = 1;
+
+	/**
+	 * The feature id for the '<em><b>Start Point</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_START_POINT__START_POINT = 2;
+
+	/**
+	 * The number of structural features of the '<em>Start Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_START_POINT_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link ucm.scenario.impl.ScenarioEndPointImpl <em>End Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ucm.scenario.impl.ScenarioEndPointImpl
+	 * @see ucm.scenario.impl.ScenarioPackageImpl#getScenarioEndPoint()
+	 * @generated
+	 */
+	int SCENARIO_END_POINT = 6;
+
+	/**
+	 * The feature id for the '<em><b>Enabled</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_END_POINT__ENABLED = 0;
+
+	/**
+	 * The feature id for the '<em><b>Mandatory</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_END_POINT__MANDATORY = 1;
+
+	/**
+	 * The feature id for the '<em><b>Scenario Def</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_END_POINT__SCENARIO_DEF = 2;
+
+	/**
+	 * The feature id for the '<em><b>End Point</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_END_POINT__END_POINT = 3;
+
+	/**
+	 * The number of structural features of the '<em>End Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCENARIO_END_POINT_FEATURE_COUNT = 4;
+
+
+	/**
 	 * Returns the meta object for class '{@link ucm.scenario.ScenarioGroup <em>Group</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -673,6 +766,103 @@ public interface ScenarioPackage extends EPackage {
 	EReference getInitialization_Variable();
 
 	/**
+	 * Returns the meta object for class '{@link ucm.scenario.ScenarioStartPoint <em>Start Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Start Point</em>'.
+	 * @see ucm.scenario.ScenarioStartPoint
+	 * @generated
+	 */
+	EClass getScenarioStartPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucm.scenario.ScenarioStartPoint#isEnabled <em>Enabled</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Enabled</em>'.
+	 * @see ucm.scenario.ScenarioStartPoint#isEnabled()
+	 * @see #getScenarioStartPoint()
+	 * @generated
+	 */
+	EAttribute getScenarioStartPoint_Enabled();
+
+	/**
+	 * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioStartPoint#getScenarioDef <em>Scenario Def</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Scenario Def</em>'.
+	 * @see ucm.scenario.ScenarioStartPoint#getScenarioDef()
+	 * @see #getScenarioStartPoint()
+	 * @generated
+	 */
+	EReference getScenarioStartPoint_ScenarioDef();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.scenario.ScenarioStartPoint#getStartPoint <em>Start Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Start Point</em>'.
+	 * @see ucm.scenario.ScenarioStartPoint#getStartPoint()
+	 * @see #getScenarioStartPoint()
+	 * @generated
+	 */
+	EReference getScenarioStartPoint_StartPoint();
+
+	/**
+	 * Returns the meta object for class '{@link ucm.scenario.ScenarioEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>End Point</em>'.
+	 * @see ucm.scenario.ScenarioEndPoint
+	 * @generated
+	 */
+	EClass getScenarioEndPoint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucm.scenario.ScenarioEndPoint#isEnabled <em>Enabled</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Enabled</em>'.
+	 * @see ucm.scenario.ScenarioEndPoint#isEnabled()
+	 * @see #getScenarioEndPoint()
+	 * @generated
+	 */
+	EAttribute getScenarioEndPoint_Enabled();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucm.scenario.ScenarioEndPoint#isMandatory <em>Mandatory</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mandatory</em>'.
+	 * @see ucm.scenario.ScenarioEndPoint#isMandatory()
+	 * @see #getScenarioEndPoint()
+	 * @generated
+	 */
+	EAttribute getScenarioEndPoint_Mandatory();
+
+	/**
+	 * Returns the meta object for the container reference '{@link ucm.scenario.ScenarioEndPoint#getScenarioDef <em>Scenario Def</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Scenario Def</em>'.
+	 * @see ucm.scenario.ScenarioEndPoint#getScenarioDef()
+	 * @see #getScenarioEndPoint()
+	 * @generated
+	 */
+	EReference getScenarioEndPoint_ScenarioDef();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.scenario.ScenarioEndPoint#getEndPoint <em>End Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>End Point</em>'.
+	 * @see ucm.scenario.ScenarioEndPoint#getEndPoint()
+	 * @see #getScenarioEndPoint()
+	 * @generated
+	 */
+	EReference getScenarioEndPoint_EndPoint();
+
+	/**
 	 * Returns the meta object for class '{@link ucm.scenario.ScenarioDef <em>Def</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -683,10 +873,10 @@ public interface ScenarioPackage extends EPackage {
     EClass getScenarioDef();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Start Points</em>'.
+	 * @return the meta object for the containment reference list '<em>Start Points</em>'.
 	 * @see ucm.scenario.ScenarioDef#getStartPoints()
 	 * @see #getScenarioDef()
 	 * @generated
@@ -727,10 +917,10 @@ public interface ScenarioPackage extends EPackage {
 	EReference getScenarioDef_IncludedScenarios();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}'.
+	 * Returns the meta object for the containment reference list '{@link ucm.scenario.ScenarioDef#getEndPoints <em>End Points</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>End Points</em>'.
+	 * @return the meta object for the containment reference list '<em>End Points</em>'.
 	 * @see ucm.scenario.ScenarioDef#getEndPoints()
 	 * @see #getScenarioDef()
 	 * @generated
@@ -758,17 +948,6 @@ public interface ScenarioPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getScenarioDef_Postconditions();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ucm.scenario.ScenarioDef#getVariable <em>Variable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Variable</em>'.
-	 * @see ucm.scenario.ScenarioDef#getVariable()
-	 * @see #getScenarioDef()
-	 * @generated
-	 */
-	EReference getScenarioDef_Variable();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link ucm.scenario.ScenarioDef#getInitializations <em>Initializations</em>}'.
@@ -891,7 +1070,7 @@ public interface ScenarioPackage extends EPackage {
 		EClass SCENARIO_DEF = eINSTANCE.getScenarioDef();
 
 		/**
-		 * The meta object literal for the '<em><b>Start Points</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Start Points</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -923,7 +1102,7 @@ public interface ScenarioPackage extends EPackage {
 		EReference SCENARIO_DEF__INCLUDED_SCENARIOS = eINSTANCE.getScenarioDef_IncludedScenarios();
 
 		/**
-		 * The meta object literal for the '<em><b>End Points</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>End Points</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -945,14 +1124,6 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SCENARIO_DEF__POSTCONDITIONS = eINSTANCE.getScenarioDef_Postconditions();
-
-		/**
-		 * The meta object literal for the '<em><b>Variable</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SCENARIO_DEF__VARIABLE = eINSTANCE.getScenarioDef_Variable();
 
 		/**
 		 * The meta object literal for the '<em><b>Initializations</b></em>' containment reference list feature.
@@ -1055,6 +1226,82 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference INITIALIZATION__VARIABLE = eINSTANCE.getInitialization_Variable();
+
+			/**
+		 * The meta object literal for the '{@link ucm.scenario.impl.ScenarioStartPointImpl <em>Start Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ucm.scenario.impl.ScenarioStartPointImpl
+		 * @see ucm.scenario.impl.ScenarioPackageImpl#getScenarioStartPoint()
+		 * @generated
+		 */
+		EClass SCENARIO_START_POINT = eINSTANCE.getScenarioStartPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_START_POINT__ENABLED = eINSTANCE.getScenarioStartPoint_Enabled();
+
+		/**
+		 * The meta object literal for the '<em><b>Scenario Def</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_START_POINT__SCENARIO_DEF = eINSTANCE.getScenarioStartPoint_ScenarioDef();
+
+		/**
+		 * The meta object literal for the '<em><b>Start Point</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_START_POINT__START_POINT = eINSTANCE.getScenarioStartPoint_StartPoint();
+
+		/**
+		 * The meta object literal for the '{@link ucm.scenario.impl.ScenarioEndPointImpl <em>End Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ucm.scenario.impl.ScenarioEndPointImpl
+		 * @see ucm.scenario.impl.ScenarioPackageImpl#getScenarioEndPoint()
+		 * @generated
+		 */
+		EClass SCENARIO_END_POINT = eINSTANCE.getScenarioEndPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Enabled</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_END_POINT__ENABLED = eINSTANCE.getScenarioEndPoint_Enabled();
+
+		/**
+		 * The meta object literal for the '<em><b>Mandatory</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SCENARIO_END_POINT__MANDATORY = eINSTANCE.getScenarioEndPoint_Mandatory();
+
+		/**
+		 * The meta object literal for the '<em><b>Scenario Def</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_END_POINT__SCENARIO_DEF = eINSTANCE.getScenarioEndPoint_ScenarioDef();
+
+		/**
+		 * The meta object literal for the '<em><b>End Point</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCENARIO_END_POINT__END_POINT = eINSTANCE.getScenarioEndPoint_EndPoint();
 
 	}
 

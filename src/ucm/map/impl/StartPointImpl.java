@@ -22,8 +22,8 @@ import ucm.map.MapPackage;
 import ucm.map.StartPoint;
 import ucm.performance.PerformancePackage;
 import ucm.performance.Workload;
-import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioPackage;
+import ucm.scenario.ScenarioStartPoint;
 import urncore.Condition;
 import urncore.UrncorePackage;
 
@@ -35,9 +35,9 @@ import urncore.UrncorePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.map.impl.StartPointImpl#getWorkload <em>Workload</em>}</li>
- *   <li>{@link ucm.map.impl.StartPointImpl#getScenarioDefs <em>Scenario Defs</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.StartPointImpl#getPrecondition <em>Precondition</em>}</li>
+ *   <li>{@link ucm.map.impl.StartPointImpl#getScenarioStartPoints <em>Scenario Start Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,16 +53,6 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 	 * @ordered
 	 */
     protected Workload workload = null;
-
-	/**
-	 * The cached value of the '{@link #getScenarioDefs() <em>Scenario Defs</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getScenarioDefs()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList scenarioDefs = null;
 
 	/**
 	 * The cached value of the '{@link #getInBindings() <em>In Bindings</em>}' reference list.
@@ -83,6 +73,16 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 	 * @ordered
 	 */
     protected Condition precondition = null;
+
+	/**
+	 * The cached value of the '{@link #getScenarioStartPoints() <em>Scenario Start Points</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getScenarioStartPoints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList scenarioStartPoints = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -147,18 +147,6 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList getScenarioDefs() {
-		if (scenarioDefs == null) {
-			scenarioDefs = new EObjectWithInverseResolvingEList.ManyInverse(ScenarioDef.class, this, MapPackage.START_POINT__SCENARIO_DEFS, ScenarioPackage.SCENARIO_DEF__START_POINTS);
-		}
-		return scenarioDefs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -217,20 +205,32 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getScenarioStartPoints() {
+		if (scenarioStartPoints == null) {
+			scenarioStartPoints = new EObjectWithInverseResolvingEList(ScenarioStartPoint.class, this, MapPackage.START_POINT__SCENARIO_START_POINTS, ScenarioPackage.SCENARIO_START_POINT__START_POINT);
+		}
+		return scenarioStartPoints;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case MapPackage.START_POINT__WORKLOAD:
 				if (workload != null)
 					msgs = ((InternalEObject)workload).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__WORKLOAD, null, msgs);
 				return basicSetWorkload((Workload)otherEnd, msgs);
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicAdd(otherEnd, msgs);
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return ((InternalEList)getInBindings()).basicAdd(otherEnd, msgs);
 			case MapPackage.START_POINT__PRECONDITION:
 				if (precondition != null)
 					msgs = ((InternalEObject)precondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.START_POINT__PRECONDITION, null, msgs);
 				return basicSetPrecondition((Condition)otherEnd, msgs);
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return ((InternalEList)getScenarioStartPoints()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -244,12 +244,12 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 		switch (featureID) {
 			case MapPackage.START_POINT__WORKLOAD:
 				return basicSetWorkload(null, msgs);
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicRemove(otherEnd, msgs);
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return ((InternalEList)getInBindings()).basicRemove(otherEnd, msgs);
 			case MapPackage.START_POINT__PRECONDITION:
 				return basicSetPrecondition(null, msgs);
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return ((InternalEList)getScenarioStartPoints()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -263,12 +263,12 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 		switch (featureID) {
 			case MapPackage.START_POINT__WORKLOAD:
 				return getWorkload();
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				return getScenarioDefs();
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return getInBindings();
 			case MapPackage.START_POINT__PRECONDITION:
 				return getPrecondition();
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return getScenarioStartPoints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -283,16 +283,16 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 			case MapPackage.START_POINT__WORKLOAD:
 				setWorkload((Workload)newValue);
 				return;
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				getScenarioDefs().clear();
-				getScenarioDefs().addAll((Collection)newValue);
-				return;
 			case MapPackage.START_POINT__IN_BINDINGS:
 				getInBindings().clear();
 				getInBindings().addAll((Collection)newValue);
 				return;
 			case MapPackage.START_POINT__PRECONDITION:
 				setPrecondition((Condition)newValue);
+				return;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				getScenarioStartPoints().clear();
+				getScenarioStartPoints().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -308,14 +308,14 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 			case MapPackage.START_POINT__WORKLOAD:
 				setWorkload((Workload)null);
 				return;
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				getScenarioDefs().clear();
-				return;
 			case MapPackage.START_POINT__IN_BINDINGS:
 				getInBindings().clear();
 				return;
 			case MapPackage.START_POINT__PRECONDITION:
 				setPrecondition((Condition)null);
+				return;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				getScenarioStartPoints().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -330,12 +330,12 @@ public class StartPointImpl extends PathNodeImpl implements StartPoint {
 		switch (featureID) {
 			case MapPackage.START_POINT__WORKLOAD:
 				return workload != null;
-			case MapPackage.START_POINT__SCENARIO_DEFS:
-				return scenarioDefs != null && !scenarioDefs.isEmpty();
 			case MapPackage.START_POINT__IN_BINDINGS:
 				return inBindings != null && !inBindings.isEmpty();
 			case MapPackage.START_POINT__PRECONDITION:
 				return precondition != null;
+			case MapPackage.START_POINT__SCENARIO_START_POINTS:
+				return scenarioStartPoints != null && !scenarioStartPoints.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

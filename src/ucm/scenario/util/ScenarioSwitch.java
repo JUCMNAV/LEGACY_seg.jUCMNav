@@ -14,8 +14,10 @@ import org.eclipse.emf.ecore.EObject;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
@@ -132,6 +134,18 @@ public class ScenarioSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ScenarioPackage.SCENARIO_START_POINT: {
+				ScenarioStartPoint scenarioStartPoint = (ScenarioStartPoint)theEObject;
+				Object result = caseScenarioStartPoint(scenarioStartPoint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ScenarioPackage.SCENARIO_END_POINT: {
+				ScenarioEndPoint scenarioEndPoint = (ScenarioEndPoint)theEObject;
+				Object result = caseScenarioEndPoint(scenarioEndPoint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -178,6 +192,36 @@ public class ScenarioSwitch {
 	 * @generated
 	 */
 	public Object caseInitialization(Initialization object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Start Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Start Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseScenarioStartPoint(ScenarioStartPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>End Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>End Point</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseScenarioEndPoint(ScenarioEndPoint object) {
 		return null;
 	}
 

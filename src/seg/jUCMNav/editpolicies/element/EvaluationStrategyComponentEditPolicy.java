@@ -9,16 +9,18 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
+import seg.jUCMNav.model.commands.delete.DeleteIncludedScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
 import ucm.scenario.ScenarioDef;
 
 /**
- * ComponentEditPolicy for EvaluationStrategy. Return the delete command for a strategy
- * @author Jean-François Roy
+ * ComponentEditPolicy for EvaluationStrategy/ScenarioDef. Return the delete command for a strategy
+ * @author Jean-François Roy, jkealey
  *
  */
 public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
+
 
     /**
      * Return a DeleteEvaluationStrategyCommand
@@ -31,10 +33,16 @@ public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
             DeleteStrategyCommand deleteCommand = new DeleteStrategyCommand(strategy);
             return deleteCommand;
         } else if (obj instanceof ScenarioDef) {
-
         	ScenarioDef scenario = (ScenarioDef) obj;
-            DeleteScenarioCommand deleteCommand = new DeleteScenarioCommand(scenario);
-            return deleteCommand;
+        	if (getHost().getParent().getModel() instanceof String) {
+        		// included scenario. 
+        		ScenarioDef parent =  (ScenarioDef) getHost().getParent().getParent().getModel();
+        		return new DeleteIncludedScenarioCommand(parent, scenario);
+        	
+        	} else {
+	            DeleteScenarioCommand deleteCommand = new DeleteScenarioCommand(scenario);
+	            return deleteCommand;
+        	}
         }
 
 

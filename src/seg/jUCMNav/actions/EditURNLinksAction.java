@@ -55,8 +55,8 @@ public class EditURNLinksAction extends URNSelectionAction {
         } else if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENT){
             element = sel.getIntentionalElement();
             return true;
-        } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITY){
-            Responsibility resp = sel.getRespref().getRespDef();
+        } else if (sel.getSelectionType() == SelectionHelper.RESPONSIBILITYREF){
+            Responsibility resp = sel.getRespRef().getRespDef();
             if (resp.getToLinks().size() > 0){
                 element = ((URNlink)resp.getToLinks().get(0)).getFromElem();
                 return true;

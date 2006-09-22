@@ -1,7 +1,7 @@
 /**
  * 
  */
-package seg.jUCMNav.actions;
+package seg.jUCMNav.actions.scenarios;
 
 import grl.StrategiesGroup;
 
@@ -10,6 +10,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.SelectionHelper;
+import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 

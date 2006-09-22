@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import ucm.map.EndPoint;
 import ucm.map.MapPackage;
 import ucm.map.OutBinding;
-import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioPackage;
 import urncore.Condition;
 import urncore.UrncorePackage;
@@ -34,7 +34,7 @@ import urncore.UrncorePackage;
  * <ul>
  *   <li>{@link ucm.map.impl.EndPointImpl#getOutBindings <em>Out Bindings</em>}</li>
  *   <li>{@link ucm.map.impl.EndPointImpl#getPostcondition <em>Postcondition</em>}</li>
- *   <li>{@link ucm.map.impl.EndPointImpl#getScenarioDefs <em>Scenario Defs</em>}</li>
+ *   <li>{@link ucm.map.impl.EndPointImpl#getScenarioEndPoints <em>Scenario End Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,14 +62,14 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
     protected Condition postcondition = null;
 
 	/**
-	 * The cached value of the '{@link #getScenarioDefs() <em>Scenario Defs</em>}' reference list.
+	 * The cached value of the '{@link #getScenarioEndPoints() <em>Scenario End Points</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getScenarioDefs()
+	 * @see #getScenarioEndPoints()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList scenarioDefs = null;
+	protected EList scenarioEndPoints = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -149,11 +149,11 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getScenarioDefs() {
-		if (scenarioDefs == null) {
-			scenarioDefs = new EObjectWithInverseResolvingEList.ManyInverse(ScenarioDef.class, this, MapPackage.END_POINT__SCENARIO_DEFS, ScenarioPackage.SCENARIO_DEF__END_POINTS);
+	public EList getScenarioEndPoints() {
+		if (scenarioEndPoints == null) {
+			scenarioEndPoints = new EObjectWithInverseResolvingEList(ScenarioEndPoint.class, this, MapPackage.END_POINT__SCENARIO_END_POINTS, ScenarioPackage.SCENARIO_END_POINT__END_POINT);
 		}
-		return scenarioDefs;
+		return scenarioEndPoints;
 	}
 
 	/**
@@ -169,8 +169,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 				if (postcondition != null)
 					msgs = ((InternalEObject)postcondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.END_POINT__POSTCONDITION, null, msgs);
 				return basicSetPostcondition((Condition)otherEnd, msgs);
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicAdd(otherEnd, msgs);
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return ((InternalEList)getScenarioEndPoints()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -186,8 +186,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 				return ((InternalEList)getOutBindings()).basicRemove(otherEnd, msgs);
 			case MapPackage.END_POINT__POSTCONDITION:
 				return basicSetPostcondition(null, msgs);
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				return ((InternalEList)getScenarioDefs()).basicRemove(otherEnd, msgs);
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return ((InternalEList)getScenarioEndPoints()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -203,8 +203,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 				return getOutBindings();
 			case MapPackage.END_POINT__POSTCONDITION:
 				return getPostcondition();
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				return getScenarioDefs();
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return getScenarioEndPoints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -223,9 +223,9 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 			case MapPackage.END_POINT__POSTCONDITION:
 				setPostcondition((Condition)newValue);
 				return;
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				getScenarioDefs().clear();
-				getScenarioDefs().addAll((Collection)newValue);
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				getScenarioEndPoints().clear();
+				getScenarioEndPoints().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -244,8 +244,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 			case MapPackage.END_POINT__POSTCONDITION:
 				setPostcondition((Condition)null);
 				return;
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				getScenarioDefs().clear();
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				getScenarioEndPoints().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -262,8 +262,8 @@ public class EndPointImpl extends PathNodeImpl implements EndPoint {
 				return outBindings != null && !outBindings.isEmpty();
 			case MapPackage.END_POINT__POSTCONDITION:
 				return postcondition != null;
-			case MapPackage.END_POINT__SCENARIO_DEFS:
-				return scenarioDefs != null && !scenarioDefs.isEmpty();
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return scenarioEndPoints != null && !scenarioEndPoints.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -25,9 +25,9 @@ import urncore.Condition;
  * The following features are supported:
  * <ul>
  *   <li>{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}</li>
- *   <li>{@link ucm.map.StartPoint#getScenarioDefs <em>Scenario Defs</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getInBindings <em>In Bindings</em>}</li>
  *   <li>{@link ucm.map.StartPoint#getPrecondition <em>Precondition</em>}</li>
+ *   <li>{@link ucm.map.StartPoint#getScenarioStartPoints <em>Scenario Start Points</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,24 +63,6 @@ public interface StartPoint extends PathNode {
 	 * @generated
 	 */
     void setWorkload(Workload value);
-
-	/**
-	 * Returns the value of the '<em><b>Scenario Defs</b></em>' reference list.
-	 * The list contents are of type {@link ucm.scenario.ScenarioDef}.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioDef#getStartPoints <em>Start Points</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Scenario Defs</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Scenario Defs</em>' reference list.
-	 * @see ucm.map.MapPackage#getStartPoint_ScenarioDefs()
-	 * @see ucm.scenario.ScenarioDef#getStartPoints
-	 * @model type="ucm.scenario.ScenarioDef" opposite="startPoints"
-	 * @generated
-	 */
-	EList getScenarioDefs();
 
 	/**
 	 * Returns the value of the '<em><b>In Bindings</b></em>' reference list.
@@ -127,5 +109,23 @@ public interface StartPoint extends PathNode {
 	 * @generated
 	 */
     void setPrecondition(Condition value);
+
+	/**
+	 * Returns the value of the '<em><b>Scenario Start Points</b></em>' reference list.
+	 * The list contents are of type {@link ucm.scenario.ScenarioStartPoint}.
+	 * It is bidirectional and its opposite is '{@link ucm.scenario.ScenarioStartPoint#getStartPoint <em>Start Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Scenario Start Points</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Scenario Start Points</em>' reference list.
+	 * @see ucm.map.MapPackage#getStartPoint_ScenarioStartPoints()
+	 * @see ucm.scenario.ScenarioStartPoint#getStartPoint
+	 * @model type="ucm.scenario.ScenarioStartPoint" opposite="startPoint"
+	 * @generated
+	 */
+	EList getScenarioStartPoints();
 
 } // StartPoint

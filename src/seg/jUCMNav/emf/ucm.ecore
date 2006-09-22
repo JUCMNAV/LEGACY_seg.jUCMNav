@@ -207,8 +207,8 @@
           eType="#//map/OutBinding" eOpposite="#//map/OutBinding/endPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="postcondition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/endPoint"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefs" upperBound="-1"
-          eType="#//scenario/ScenarioDef" eOpposite="#//scenario/ScenarioDef/endPoints"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioEndPoints" upperBound="-1"
+          eType="#//scenario/ScenarioEndPoint" eOpposite="#//scenario/ScenarioEndPoint/endPoint"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="StartPoint" eSuperTypes="#//map/PathNode">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -216,12 +216,12 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="workload" eType="#//performance/Workload"
           containment="true" eOpposite="#//performance/Workload/startPoint"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDefs" upperBound="-1"
-          eType="#//scenario/ScenarioDef" eOpposite="#//scenario/ScenarioDef/startPoints"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inBindings" upperBound="-1"
           eType="#//map/InBinding" eOpposite="#//map/InBinding/startPoint"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="precondition" eType="ecore:EClass urncore.ecore#//Condition"
           containment="true" eOpposite="urncore.ecore#//Condition/startPoint"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioStartPoints"
+          upperBound="-1" eType="#//scenario/ScenarioStartPoint" eOpposite="#//scenario/ScenarioStartPoint/startPoint"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UCMmap" eSuperTypes="urncore.ecore#//UCMmodelElement urncore.ecore#//IURNDiagram">
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentStub" upperBound="-1"
@@ -288,24 +288,22 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines initial values for the variables, the expected postconditions, the end points, and the start points.&#xD;&#xA;"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="startPoints" lowerBound="1"
-          upperBound="-1" eType="#//map/StartPoint" eOpposite="#//map/StartPoint/scenarioDefs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="group" lowerBound="1"
           eType="#//scenario/ScenarioGroup" transient="true" eOpposite="#//scenario/ScenarioGroup/scenarios"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parentScenarios" upperBound="-1"
           eType="#//scenario/ScenarioDef" eOpposite="#//scenario/ScenarioDef/includedScenarios"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="includedScenarios" upperBound="-1"
           eType="#//scenario/ScenarioDef" eOpposite="#//scenario/ScenarioDef/parentScenarios"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="endPoints" upperBound="-1"
-          eType="#//map/EndPoint" eOpposite="#//map/EndPoint/scenarioDefs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="preconditions" upperBound="-1"
           eType="ecore:EClass urncore.ecore#//Condition" containment="true" eOpposite="urncore.ecore#//Condition/scenarioDefPre"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="postconditions" upperBound="-1"
           eType="ecore:EClass urncore.ecore#//Condition" containment="true" eOpposite="urncore.ecore#//Condition/scenarioDefPost"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="Variable" upperBound="-1"
-          eType="#//scenario/Variable"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="initializations" upperBound="-1"
           eType="#//scenario/Initialization" containment="true" eOpposite="#//scenario/Initialization/scenarioDef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startPoints" upperBound="-1"
+          eType="#//scenario/ScenarioStartPoint" containment="true" eOpposite="#//scenario/ScenarioStartPoint/scenarioDef"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endPoints" upperBound="-1"
+          eType="#//scenario/ScenarioEndPoint" containment="true" eOpposite="#//scenario/ScenarioEndPoint/scenarioDef"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ScenarioGroup" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -329,6 +327,21 @@
           eType="#//scenario/ScenarioDef" transient="true" eOpposite="#//scenario/ScenarioDef/initializations"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
           eType="#//scenario/Variable"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScenarioStartPoint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDef" lowerBound="1"
+          eType="#//scenario/ScenarioDef" transient="true" eOpposite="#//scenario/ScenarioDef/startPoints"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startPoint" lowerBound="1"
+          eType="#//map/StartPoint" eOpposite="#//map/StartPoint/scenarioStartPoints"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ScenarioEndPoint">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mandatory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDef" lowerBound="1"
+          eType="#//scenario/ScenarioDef" transient="true" eOpposite="#//scenario/ScenarioDef/endPoints"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="endPoint" lowerBound="1"
+          eType="#//map/EndPoint" eOpposite="#//map/EndPoint/scenarioEndPoints"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

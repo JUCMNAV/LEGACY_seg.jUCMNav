@@ -3,6 +3,9 @@
  */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Color;
@@ -42,6 +45,15 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 		return (ScenarioDef) getModel();
 	}
 
+	protected List getModelChildren() {
+        ArrayList list = new ArrayList();
+        list.add("Included scenarios");
+        list.add("Start points");
+        list.add("Preconditions");
+        list.add("End points");
+        list.add("Postconditions");
+        return list;
+        }
 	/**
 	 * Returns the icon
 	 */
@@ -65,4 +77,6 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 		}
 		// refreshVisuals();
 	}
+	
+
 }

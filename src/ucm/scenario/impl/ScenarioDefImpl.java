@@ -15,19 +15,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import ucm.map.EndPoint;
-import ucm.map.MapPackage;
-import ucm.map.StartPoint;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioPackage;
-import ucm.scenario.Variable;
+import ucm.scenario.ScenarioStartPoint;
 import urncore.Condition;
 import urncore.UrncorePackage;
 import urncore.impl.UCMmodelElementImpl;
@@ -39,31 +36,20 @@ import urncore.impl.UCMmodelElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getStartPoints <em>Start Points</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getParentScenarios <em>Parent Scenarios</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getIncludedScenarios <em>Included Scenarios</em>}</li>
- *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getEndPoints <em>End Points</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getPreconditions <em>Preconditions</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getPostconditions <em>Postconditions</em>}</li>
- *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getInitializations <em>Initializations</em>}</li>
+ *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getStartPoints <em>Start Points</em>}</li>
+ *   <li>{@link ucm.scenario.impl.ScenarioDefImpl#getEndPoints <em>End Points</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef {
-	/**
-	 * The cached value of the '{@link #getStartPoints() <em>Start Points</em>}' reference list.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getStartPoints()
-	 * @generated
-	 * @ordered
-	 */
-    protected EList startPoints = null;
-
 	/**
 	 * The cached value of the '{@link #getParentScenarios() <em>Parent Scenarios</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -83,16 +69,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 * @ordered
 	 */
 	protected EList includedScenarios = null;
-
-	/**
-	 * The cached value of the '{@link #getEndPoints() <em>End Points</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEndPoints()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList endPoints = null;
 
 	/**
 	 * The cached value of the '{@link #getPreconditions() <em>Preconditions</em>}' containment reference list.
@@ -115,16 +91,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	protected EList postconditions = null;
 
 	/**
-	 * The cached value of the '{@link #getVariable() <em>Variable</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariable()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList variable = null;
-
-	/**
 	 * The cached value of the '{@link #getInitializations() <em>Initializations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -133,6 +99,26 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 * @ordered
 	 */
 	protected EList initializations = null;
+
+	/**
+	 * The cached value of the '{@link #getStartPoints() <em>Start Points</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @see #getStartPoints()
+	 * @generated
+	 * @ordered
+	 */
+    protected EList startPoints = null;
+
+	/**
+	 * The cached value of the '{@link #getEndPoints() <em>End Points</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEndPoints()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList endPoints = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -159,7 +145,7 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
     public EList getStartPoints() {
 		if (startPoints == null) {
-			startPoints = new EObjectWithInverseResolvingEList.ManyInverse(StartPoint.class, this, ScenarioPackage.SCENARIO_DEF__START_POINTS, MapPackage.START_POINT__SCENARIO_DEFS);
+			startPoints = new EObjectContainmentWithInverseEList(ScenarioStartPoint.class, this, ScenarioPackage.SCENARIO_DEF__START_POINTS, ScenarioPackage.SCENARIO_START_POINT__SCENARIO_DEF);
 		}
 		return startPoints;
 	}
@@ -236,7 +222,7 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public EList getEndPoints() {
 		if (endPoints == null) {
-			endPoints = new EObjectWithInverseResolvingEList.ManyInverse(EndPoint.class, this, ScenarioPackage.SCENARIO_DEF__END_POINTS, MapPackage.END_POINT__SCENARIO_DEFS);
+			endPoints = new EObjectContainmentWithInverseEList(ScenarioEndPoint.class, this, ScenarioPackage.SCENARIO_DEF__END_POINTS, ScenarioPackage.SCENARIO_END_POINT__SCENARIO_DEF);
 		}
 		return endPoints;
 	}
@@ -270,18 +256,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getVariable() {
-		if (variable == null) {
-			variable = new EObjectResolvingEList(Variable.class, this, ScenarioPackage.SCENARIO_DEF__VARIABLE);
-		}
-		return variable;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList getInitializations() {
 		if (initializations == null) {
 			initializations = new EObjectContainmentWithInverseEList(Initialization.class, this, ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS, ScenarioPackage.INITIALIZATION__SCENARIO_DEF);
@@ -296,8 +270,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				return ((InternalEList)getStartPoints()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -306,14 +278,16 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 				return ((InternalEList)getParentScenarios()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
 				return ((InternalEList)getIncludedScenarios()).basicAdd(otherEnd, msgs);
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				return ((InternalEList)getEndPoints()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				return ((InternalEList)getPreconditions()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__POSTCONDITIONS:
 				return ((InternalEList)getPostconditions()).basicAdd(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				return ((InternalEList)getInitializations()).basicAdd(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				return ((InternalEList)getStartPoints()).basicAdd(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				return ((InternalEList)getEndPoints()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -325,22 +299,22 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				return ((InternalEList)getStartPoints()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				return basicSetGroup(null, msgs);
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return ((InternalEList)getParentScenarios()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
 				return ((InternalEList)getIncludedScenarios()).basicRemove(otherEnd, msgs);
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				return ((InternalEList)getEndPoints()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				return ((InternalEList)getPreconditions()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__POSTCONDITIONS:
 				return ((InternalEList)getPostconditions()).basicRemove(otherEnd, msgs);
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				return ((InternalEList)getInitializations()).basicRemove(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				return ((InternalEList)getStartPoints()).basicRemove(otherEnd, msgs);
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				return ((InternalEList)getEndPoints()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -365,24 +339,22 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				return getStartPoints();
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				return getGroup();
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return getParentScenarios();
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
 				return getIncludedScenarios();
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				return getEndPoints();
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				return getPreconditions();
 			case ScenarioPackage.SCENARIO_DEF__POSTCONDITIONS:
 				return getPostconditions();
-			case ScenarioPackage.SCENARIO_DEF__VARIABLE:
-				return getVariable();
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				return getInitializations();
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				return getStartPoints();
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				return getEndPoints();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -394,10 +366,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				getStartPoints().clear();
-				getStartPoints().addAll((Collection)newValue);
-				return;
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				setGroup((ScenarioGroup)newValue);
 				return;
@@ -409,10 +377,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 				getIncludedScenarios().clear();
 				getIncludedScenarios().addAll((Collection)newValue);
 				return;
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				getEndPoints().clear();
-				getEndPoints().addAll((Collection)newValue);
-				return;
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				getPreconditions().clear();
 				getPreconditions().addAll((Collection)newValue);
@@ -421,13 +385,17 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 				getPostconditions().clear();
 				getPostconditions().addAll((Collection)newValue);
 				return;
-			case ScenarioPackage.SCENARIO_DEF__VARIABLE:
-				getVariable().clear();
-				getVariable().addAll((Collection)newValue);
-				return;
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				getInitializations().clear();
 				getInitializations().addAll((Collection)newValue);
+				return;
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				getStartPoints().clear();
+				getStartPoints().addAll((Collection)newValue);
+				return;
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				getEndPoints().clear();
+				getEndPoints().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -440,9 +408,6 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				getStartPoints().clear();
-				return;
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				setGroup((ScenarioGroup)null);
 				return;
@@ -452,20 +417,20 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
 				getIncludedScenarios().clear();
 				return;
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				getEndPoints().clear();
-				return;
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				getPreconditions().clear();
 				return;
 			case ScenarioPackage.SCENARIO_DEF__POSTCONDITIONS:
 				getPostconditions().clear();
 				return;
-			case ScenarioPackage.SCENARIO_DEF__VARIABLE:
-				getVariable().clear();
-				return;
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				getInitializations().clear();
+				return;
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				getStartPoints().clear();
+				return;
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				getEndPoints().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -478,24 +443,22 @@ public class ScenarioDefImpl extends UCMmodelElementImpl implements ScenarioDef 
 	 */
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
-				return startPoints != null && !startPoints.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__GROUP:
 				return getGroup() != null;
 			case ScenarioPackage.SCENARIO_DEF__PARENT_SCENARIOS:
 				return parentScenarios != null && !parentScenarios.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__INCLUDED_SCENARIOS:
 				return includedScenarios != null && !includedScenarios.isEmpty();
-			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
-				return endPoints != null && !endPoints.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__PRECONDITIONS:
 				return preconditions != null && !preconditions.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__POSTCONDITIONS:
 				return postconditions != null && !postconditions.isEmpty();
-			case ScenarioPackage.SCENARIO_DEF__VARIABLE:
-				return variable != null && !variable.isEmpty();
 			case ScenarioPackage.SCENARIO_DEF__INITIALIZATIONS:
 				return initializations != null && !initializations.isEmpty();
+			case ScenarioPackage.SCENARIO_DEF__START_POINTS:
+				return startPoints != null && !startPoints.isEmpty();
+			case ScenarioPackage.SCENARIO_DEF__END_POINTS:
+				return endPoints != null && !endPoints.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

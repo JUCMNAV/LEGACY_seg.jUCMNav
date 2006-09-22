@@ -627,7 +627,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEndPoint_ScenarioDefs() {
+	public EReference getEndPoint_ScenarioEndPoints() {
 		return (EReference)endPointEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -651,10 +651,10 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 	/**
 	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getStartPoint_ScenarioDefs() {
+    public EReference getStartPoint_InBindings() {
 		return (EReference)startPointEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -663,16 +663,16 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getStartPoint_InBindings() {
+    public EReference getStartPoint_Precondition() {
 		return (EReference)startPointEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getStartPoint_Precondition() {
+	public EReference getStartPoint_ScenarioStartPoints() {
 		return (EReference)startPointEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -976,13 +976,13 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		endPointEClass = createEClass(END_POINT);
 		createEReference(endPointEClass, END_POINT__OUT_BINDINGS);
 		createEReference(endPointEClass, END_POINT__POSTCONDITION);
-		createEReference(endPointEClass, END_POINT__SCENARIO_DEFS);
+		createEReference(endPointEClass, END_POINT__SCENARIO_END_POINTS);
 
 		startPointEClass = createEClass(START_POINT);
 		createEReference(startPointEClass, START_POINT__WORKLOAD);
-		createEReference(startPointEClass, START_POINT__SCENARIO_DEFS);
 		createEReference(startPointEClass, START_POINT__IN_BINDINGS);
 		createEReference(startPointEClass, START_POINT__PRECONDITION);
+		createEReference(startPointEClass, START_POINT__SCENARIO_START_POINTS);
 
 		ucMmapEClass = createEClass(UC_MMAP);
 		createEReference(ucMmapEClass, UC_MMAP__PARENT_STUB);
@@ -1120,13 +1120,13 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEndPoint_OutBindings(), this.getOutBinding(), this.getOutBinding_EndPoint(), "outBindings", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getEndPoint_Postcondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_EndPoint(), "postcondition", null, 0, 1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEndPoint_ScenarioDefs(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_EndPoints(), "scenarioDefs", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEndPoint_ScenarioEndPoints(), theScenarioPackage.getScenarioEndPoint(), theScenarioPackage.getScenarioEndPoint_EndPoint(), "scenarioEndPoints", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(startPointEClass, StartPoint.class, "StartPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStartPoint_Workload(), thePerformancePackage.getWorkload(), thePerformancePackage.getWorkload_StartPoint(), "workload", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getStartPoint_ScenarioDefs(), theScenarioPackage.getScenarioDef(), theScenarioPackage.getScenarioDef_StartPoints(), "scenarioDefs", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStartPoint_InBindings(), this.getInBinding(), this.getInBinding_StartPoint(), "inBindings", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStartPoint_Precondition(), theUrncorePackage.getCondition(), theUrncorePackage.getCondition_StartPoint(), "precondition", null, 0, 1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStartPoint_ScenarioStartPoints(), theScenarioPackage.getScenarioStartPoint(), theScenarioPackage.getScenarioStartPoint_StartPoint(), "scenarioStartPoints", null, 0, -1, StartPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ucMmapEClass, UCMmap.class, "UCMmap", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUCMmap_ParentStub(), this.getPluginBinding(), this.getPluginBinding_Plugin(), "parentStub", null, 0, -1, UCMmap.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

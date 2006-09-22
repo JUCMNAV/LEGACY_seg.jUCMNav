@@ -27,22 +27,16 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
-import seg.jUCMNav.actions.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
-import seg.jUCMNav.actions.AddScenarioAction;
-import seg.jUCMNav.actions.AddScenarioGroupAction;
-import seg.jUCMNav.actions.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
-import seg.jUCMNav.actions.AddVariableAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
-import seg.jUCMNav.actions.DeleteEvaluationAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
@@ -55,6 +49,14 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddScenarioAction;
+import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
+import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
+import seg.jUCMNav.actions.scenarios.AddVariableAction;
+import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
+import seg.jUCMNav.actions.scenarios.EditCodeAction;
+import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
 /**
@@ -300,7 +302,16 @@ public class ActionRegistryManager {
 
         action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeInteger);
         action.setText("New Integer");
-        addEditPartAction((SelectionAction) action);           
+        addEditPartAction((SelectionAction) action);
+        
+        action = new EditCodeAction((IWorkbenchPart)editor);
+        action.setText("Edit");
+        addEditPartAction((SelectionAction) action);   
+
+        action = new IncludeScenarioAction((IWorkbenchPart)editor);
+        action.setText("Include Scenario");
+        addEditPartAction((SelectionAction) action);  
+        
     }
 
     /**

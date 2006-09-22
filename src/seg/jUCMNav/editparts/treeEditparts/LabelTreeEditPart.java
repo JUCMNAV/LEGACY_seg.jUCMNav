@@ -99,7 +99,17 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.actorDefs")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs"));  //$NON-NLS-1$
-        }
+        } else if (getLabel().equals("Included scenarios")) {
+        } else if (getLabel().equals("Start points")) {
+
+		} else if (getLabel().equals("Preconditions")) {
+
+		} else if (getLabel().equals("End points")) {
+
+		} else if (getLabel().equals("Postconditions")) {
+
+		}               
+        
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
