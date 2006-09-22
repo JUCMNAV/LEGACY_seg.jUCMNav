@@ -19,7 +19,6 @@ import org.eclipse.swt.widgets.Text;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
-import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import urncore.Condition;
@@ -115,10 +114,10 @@ public class CodeEditorPage extends WizardPage {
 			Object obj = ssel.getFirstElement();
 			if (obj instanceof Responsibility) {
 				resp = (Responsibility) obj;
-				if (resp.getDescription() == null)
+				if (resp.getExpression() == null)
 					codeText.setText(""); //$NON-NLS-1$
 				else
-					codeText.setText(resp.getDescription());
+					codeText.setText(resp.getExpression());
 			} else if (obj instanceof Condition) {
 				cond = (Condition) obj;
 				if (cond.getExpression() == null)
@@ -133,18 +132,16 @@ public class CodeEditorPage extends WizardPage {
 	 * Ensures that the pseudo-code is legal (syntax and type checking)
 	 */
 	private void dialogChanged() {
-		// TODO: Load from UCM.
-		UcmEnvironment env = new UcmEnvironment();
-		env.registerBoolean("a"); //$NON-NLS-1$
-		env.registerBoolean("b"); //$NON-NLS-1$
-		env.registerInteger("i"); //$NON-NLS-1$
-		env.registerInteger("j"); //$NON-NLS-1$
-		env.registerEnumeration("states", new String[] { "INITIAL", "WORKING", "FINAL" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-
 		if (getCode() == null || getCode().length() == 0)
 			updateStatus(null);
 		else {
-			Object o = ScenarioUtils.parse(getCode(), env, isResponsibility());
+			Object o;
+			
+			if (isResponsibility())
+				o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(resp), true);
+			else
+				o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(cond), false);
+			
 			if (o instanceof SimpleNode)
 				updateStatus(null);
 			else

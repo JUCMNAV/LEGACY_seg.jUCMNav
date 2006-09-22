@@ -1,20 +1,42 @@
 package seg.jUCMNav.scenarios.model;
 
 import java.util.HashMap;
+import java.util.Iterator;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
+import ucm.UCMspec;
+import ucm.UcmPackage;
+import ucm.scenario.ScenarioPackage;
+import ucm.scenario.Variable;
+import urn.URNspec;
 
-public class UcmEnvironment {
+public class UcmEnvironment implements Adapter {
 
-    HashMap declarations;
-    HashMap enumerations;
-    HashMap valuations;
+    private HashMap declarations;
+    private HashMap enumerations;
+    private HashMap valuations;
+    private URNspec urn;
+    private Notifier target;
 
     public UcmEnvironment() {
         declarations = new HashMap();
         valuations = new HashMap();
         enumerations = new HashMap();
+    }
+    
+    public UcmEnvironment(URNspec urn) {
+        declarations = new HashMap();
+        valuations = new HashMap();
+        enumerations = new HashMap();
+        
+        registerUCMspec(urn.getUcmspec());
+    	
     }
 
     public void checkEnumerationDoesNotExists(String var) {
@@ -126,6 +148,121 @@ public class UcmEnvironment {
     public void setValue(String var, Object o) {
         valuations.put(var, o);
     }
+
+	public Notifier getTarget() {
+		return urn;
+	}
+
+	public boolean isAdapterForType(Object arg0) {
+		return arg0 instanceof URNspec;
+	}
+
+	public void notifyChanged(Notification notification) {
+		
+//        int type = notification.getEventType();
+//        switch (type) {
+//        case Notification.SET:
+//        }
+
+        
+        if (notification.getNotifier() instanceof UCMspec) {
+        	int featureId = notification.getFeatureID(UCMspec.class);
+
+			if (featureId == UcmPackage.UC_MSPEC__VARIABLES) {
+				registerUCMspec((UCMspec)notification.getNotifier());
+			}
+        } else if (notification.getNotifier() instanceof Variable) {
+			int featureId = notification.getFeatureID(Variable.class);
+
+			if (featureId == ScenarioPackage.VARIABLE__NAME) {
+				if (declarations.containsKey(notification.getOldValue())) {
+					Object o = declarations.get(notification.getOldValue());
+					declarations.remove(notification.getOldValue());
+					declarations.put(notification.getNewValue(), o);
+				}
+				if (valuations.containsKey(notification.getOldValue())) {
+					Object o = valuations.get(notification.getOldValue());
+					valuations.remove(notification.getOldValue());
+					valuations.put(notification.getNewValue(), o);
+				}				
+					
+			} else if (featureId == ScenarioPackage.VARIABLE__TYPE) {
+				// assuming we can't change type. 
+			}
+//			refresh();
+		}
+        
+	}
+
+	public void setTarget(Notifier arg0) {
+		target = arg0;
+		refresh();
+	}
+
+	private void registerUCMspec(UCMspec ucmspec) {
+		if (this.urn!=null && ucmspec.getUrnspec()!=this.urn) {
+			this.urn.getUcmspec().eAdapters().remove(this);
+			
+			for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
+				Variable var = (Variable) iter.next();
+				var.eAdapters().remove(this);
+			}
+
+		}
+	
+		this.urn = ucmspec.getUrnspec();
+		target = ucmspec;
+		refresh();
+
+		if (this.urn!=null && !urn.getUcmspec().eAdapters().contains(this)) {
+			urn.getUcmspec().eAdapters().add(this);
+		}
+		
+		for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
+			Variable var = (Variable) iter.next();
+			if (!var.eAdapters().contains(this))
+				var.eAdapters().add(this);
+		}	
+		
+		// TODO: remove unused ones. 
+	}
+
+	private void refresh() {
+		if (this.urn == null) {
+			declarations.clear();
+			enumerations.clear();
+			valuations.clear();
+		}
+		else
+		{
+			declarations.clear();
+			enumerations.clear();
+			HashMap oldValuations = (HashMap) valuations.clone();
+			valuations.clear();
+			
+			for (Iterator iter = this.urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
+				Variable var = (Variable) iter.next();
+				if (ScenarioUtils.sTypeBoolean.equals(var.getType())) {
+					if (oldValuations.containsKey(var.getName()))
+						this.registerBoolean(var.getName(), ((Boolean)oldValuations.get(var.getName())).booleanValue());
+					else
+						this.registerBoolean(var.getName());
+				} else if (ScenarioUtils.sTypeInteger.equals(var.getType())) {
+					if (oldValuations.containsKey(var.getName()))
+						this.registerInteger(var.getName(), ((Integer)oldValuations.get(var.getName())).intValue());
+					else
+						this.registerInteger(var.getName());
+				} else {
+					//	TODO: implement enumerations
+					System.out.println("TODO: implement enumerations");
+				}
+				
+			}
+
+		}
+		
+		
+	}
     
 
 }

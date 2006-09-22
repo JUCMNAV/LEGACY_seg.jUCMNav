@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateLabelCommand;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
@@ -25,6 +27,7 @@ public class AddLabelAction extends URNSelectionAction {
     public AddLabelAction(IWorkbenchPart part) {
         super(part);
         setId(ADDLABEL);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/label.gif")); //$NON-NLS-1$
     }
 
     /**

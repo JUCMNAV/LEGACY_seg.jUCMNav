@@ -1,9 +1,11 @@
 package seg.jUCMNav.actions;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 
 /**
@@ -24,6 +26,7 @@ public class ExportImageAction extends URNSelectionAction {
     public ExportImageAction(IWorkbenchPart part) {
         super(part);
         setId(EXPORTBITMAP);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/export.gif")); //$NON-NLS-1$
     }
 
     /**

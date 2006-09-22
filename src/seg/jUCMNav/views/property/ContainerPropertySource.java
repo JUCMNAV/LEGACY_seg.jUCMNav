@@ -127,11 +127,11 @@ public class ContainerPropertySource extends URNElementPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((IURNContainer) list.get(i));
             if (values[i] == null)
-                values[i] = "[unnamed]"; //$NON-NLS-1$
+                values[i] = "[unnamed]"; 
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory("Reference"); //$NON-NLS-1$
+        pd.setCategory("Reference"); 
         descriptors.add(pd);
 
     }

@@ -1,12 +1,16 @@
 package seg.jUCMNav.scenarios;
 
 import java.io.StringReader;
+import java.util.HashMap;
+
+import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
+import urn.URNspec;
 
 /**
  * Utility class for UCM Scenarios.
@@ -21,6 +25,8 @@ public class ScenarioUtils {
 	public static final String sTypeBoolean = "boolean";
 	public static final String sTypeInteger = "integer";
 	public static final String sTypeEnumeration = "enumeration";
+
+	private static HashMap environments;
 
 	/**
 	 * Parses a string and returns an error message if is not valid (as a
@@ -69,5 +75,58 @@ public class ScenarioUtils {
 
 		// return the object.
 		return n;
+	}
+
+	/**
+	 * Return the UcmEnvironment associated with this object from the global
+	 * cache.
+	 * 
+	 * @param object
+	 *            an EObject from which we can reach the URNspec via
+	 *            object.eContainer()
+	 * 
+	 * @return null if can't reach the URNspec, a UcmEnvironment (newly created
+	 *         or retrieved from cache) otherwise.
+	 */
+	public static UcmEnvironment getEnvironment(EObject object) {
+		if (object == null)
+			return null;
+
+		if (object instanceof URNspec) {
+			if (!getEnvironments().containsKey(object)) {
+				getEnvironments().put(object, new UcmEnvironment((URNspec)object));
+			}
+			return (UcmEnvironment) getEnvironments().get(object);
+		} else
+			return getEnvironment(object.eContainer());
+
+	}
+
+	/**
+	 * Removes the UcmEnvironment associated with the object from the global
+	 * cache.
+	 * 
+	 * @param object
+	 */
+	public static void releaseEnvironment(EObject object) {
+		if (object == null)
+			return;
+
+		if (object instanceof URNspec) {
+			getEnvironments().remove(object);
+		} else
+			releaseEnvironment(object.eContainer());
+	}
+
+	/**
+	 * Global UcmEnvironment cache. 
+	 * 
+	 * @return a HashMap of URNspec -> UcmEnvironment
+	 */
+	private static HashMap getEnvironments() {
+		if (environments == null)
+			environments = new HashMap();
+
+		return environments;
 	}
 }
