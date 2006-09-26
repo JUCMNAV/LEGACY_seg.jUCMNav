@@ -366,10 +366,17 @@ public class ExportDXL implements IURNExport {
                 write("   evaluation( ");//$NON-NLS-1$
             }
             
+            //Element Id
             write(QUOTES);
-            write(elem.getName());
+            write(elem.getId());
             write("(E)"); //$NON-NLS-1$
-            write(QUOTES_COMMA);
+            write(QUOTES_COMMA);            
+            
+            //Element Name
+//            write(QUOTES);
+//            write(elem.getName());
+//            write("(E)"); //$NON-NLS-1$
+//            write(QUOTES_COMMA);
             
             String temp = QUOTES + eval.getEvaluation() + QUOTES_END_ELEM;
             write(temp);
@@ -384,7 +391,7 @@ public class ExportDXL implements IURNExport {
             write("   evaluation( ");//$NON-NLS-1$
             
             write(QUOTES);
-            write(actor.getName());
+            write(actor.getId());
             write("(A)"); //$NON-NLS-1$
             write(QUOTES_COMMA);
             
