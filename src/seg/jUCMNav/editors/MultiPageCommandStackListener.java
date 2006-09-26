@@ -160,6 +160,10 @@ public class MultiPageCommandStackListener implements CommandStackListener {
             CommandStack stack = (CommandStack) stacks.next();
             stack.markSaveLocation();
         }
+        
+        // bug 447
+        if (editor!=null && editor.getDelegatingCommandStack()!=null)
+        	editor.getDelegatingCommandStack().markSaveLocation();
     }
 
     /**
