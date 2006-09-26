@@ -14,6 +14,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
+import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
 import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
@@ -88,6 +89,14 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
         
+        action = getActionRegistry().getAction(AddStartEndPointAction.ADDSTARTPOINT);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
+        
+        action = getActionRegistry().getAction(AddStartEndPointAction.ADDENDPOINT);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
+                
     }
 
     /**

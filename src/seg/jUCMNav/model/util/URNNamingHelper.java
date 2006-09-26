@@ -307,7 +307,7 @@ public class URNNamingHelper {
 	 *            The hash map of used ids
 	 * @param IDConflicts
 	 *            The vector of conflictual elements. Add problems here.
-	 * @param htVariableName
+	 * @param htVariableNames
 	 *            a hashmap of used variable  names
 	 * @param VariableNameConflicts
 	 *            a vector in which to store variable name conflicts.

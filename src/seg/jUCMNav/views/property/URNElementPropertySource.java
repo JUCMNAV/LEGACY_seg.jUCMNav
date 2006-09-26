@@ -30,6 +30,7 @@ import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
 import urn.URNspec;
 import urncore.Condition;
 import urncore.IURNContainerRef;
@@ -149,7 +150,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
 
-        pd.setCategory(Messages.getString("URNElementPropertySource.strategy")); //$NON-NLS-1$
+        pd.setCategory("Scenario / Strategy"); 
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return ""; //$NON-NLS-1$
@@ -182,7 +183,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory("Scenario"); 
+        pd.setCategory("Scenario / Strategy"); 
         descriptors.add(pd);
 
     }
@@ -211,7 +212,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory("Strategy"); 
+        pd.setCategory("Scenario / Strategy"); 
         descriptors.add(pd);
 
     }
@@ -236,9 +237,18 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 result = new Integer(0);
 
         } else if (getFeatureType(feature).getInstanceClass() == Workload.class) {
+        	StartPoint pt=null;
+        	
             if (result == null) {
-                URNspec urn = ((StartPoint) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
-                result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
+            	if (getEditableValue() instanceof StartPoint) 
+            		pt = (StartPoint)getEditableValue();
+	        	if (getEditableValue() instanceof ScenarioStartPoint) 
+	        		pt = ((ScenarioStartPoint)getEditableValue()).getStartPoint();
+           
+	        	if (pt!=null) {
+	                URNspec urn = pt.getDiagram().getUrndefinition().getUrnspec();
+	                result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
+	        	}
             }
             result = new URNElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == Condition.class) {

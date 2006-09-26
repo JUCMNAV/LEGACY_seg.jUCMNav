@@ -23,7 +23,9 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.scenario.ScenarioDef;
 
 /**
- * The page actually containing the code for including a scenari. 
+ * The page actually containing the code for including a scenario. 
+ * 
+ * Not robust enough to support loading when none are available. 
  * 
  */
 public class IncludeScenarioPage extends WizardPage {
@@ -33,7 +35,7 @@ public class IncludeScenarioPage extends WizardPage {
 	private List scenarios;
 
 	/**
-	 * The selection contains either a responsibility or a condition. Loaded in
+	 * The selection contains a scenario definition for which we want to include another scenario. Loaded in
 	 * {@link #initialize()}.
 	 * 
 	 * @param selection

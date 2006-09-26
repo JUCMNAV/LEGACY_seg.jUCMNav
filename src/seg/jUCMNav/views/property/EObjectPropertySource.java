@@ -187,6 +187,8 @@ public class EObjectPropertySource implements IPropertySource2 {
 		String name = attr.getName().toLowerCase();
 		if (name.equals("fixed") || name.equals("filled")) { //$NON-NLS-1$ //$NON-NLS-2$
 			pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
+		} else if (name.equals("enabled")) { //$NON-NLS-1$ //$NON-NLS-2$
+			pd.setCategory("Scenario / Strategy");
 		} else if (object.eClass() != propertyid.getEClass()) {
 			pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
 		} else {

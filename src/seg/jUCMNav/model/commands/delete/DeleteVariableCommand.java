@@ -18,7 +18,7 @@ import ucm.scenario.Variable;
 public class DeleteVariableCommand extends CompoundCommand {
 
     /**
-     * @param ar
+     * @param var
      *          the Variable to delete
      */
     public DeleteVariableCommand(Variable var) {

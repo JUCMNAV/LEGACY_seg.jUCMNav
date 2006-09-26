@@ -51,8 +51,10 @@ import ucm.map.WaitingPlace;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.Workload;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioFactory;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNlink;
 import urn.URNspec;
@@ -287,6 +289,12 @@ public class ModelCreationFactory implements CreationFactory {
                 result = ucmscenariofactory.createScenarioGroup();
             } else if (targetClass.equals(ScenarioDef.class)) {
                 result = ucmscenariofactory.createScenarioDef();
+            } else if (targetClass.equals(ScenarioStartPoint.class)) {
+            	result = ucmscenariofactory.createScenarioStartPoint();
+            	((ScenarioStartPoint)result).setEnabled(true);
+            } else if (targetClass.equals(ScenarioEndPoint.class)) {
+            	result = ucmscenariofactory.createScenarioEndPoint();
+            	((ScenarioEndPoint)result).setEnabled(true);
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
             } else if (targetClass.equals(Variable.class)) {

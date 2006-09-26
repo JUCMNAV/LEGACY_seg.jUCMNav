@@ -52,6 +52,7 @@ import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
+import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
 import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
@@ -312,6 +313,14 @@ public class ActionRegistryManager {
         action.setText("Include Scenario");
         addEditPartAction((SelectionAction) action);  
         
+        action = new AddStartEndPointAction((IWorkbenchPart)editor, true);
+        action.setText("Add Start Point");
+        addEditPartAction((SelectionAction) action);  
+        
+        action = new AddStartEndPointAction((IWorkbenchPart)editor, false);
+        action.setText("Add End Point");
+        addEditPartAction((SelectionAction) action);  
+                
     }
 
     /**
