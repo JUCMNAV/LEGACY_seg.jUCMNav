@@ -12,6 +12,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
@@ -97,6 +98,14 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
                 
+        action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPRECONDITIONACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+
+        action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPOSTCONDITIONACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+
     }
 
     /**

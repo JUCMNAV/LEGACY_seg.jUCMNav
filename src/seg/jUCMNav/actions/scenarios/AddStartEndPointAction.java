@@ -52,7 +52,7 @@ public class AddStartEndPointAction extends IncludeScenarioAction {
 	 * True if we've selected something with code. 	 */
 	protected boolean calculateEnabled() {
 		initScenario();
-		if (scenario!=null) {
+		if (scenario!=null &&  scenario.getGroup()!=null) {
 		
 			for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
 				IURNDiagram diag = (IURNDiagram) iter.next();

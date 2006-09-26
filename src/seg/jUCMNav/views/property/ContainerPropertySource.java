@@ -111,7 +111,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void componentElementDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition() == null)
+        if (((IURNContainerRef) getEditableValue()).getDiagram()==null || ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition() == null)
             return;
         URNspec urn = ((IURNContainerRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
         Vector list;

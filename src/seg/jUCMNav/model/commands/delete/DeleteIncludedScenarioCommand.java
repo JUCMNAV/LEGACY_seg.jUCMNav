@@ -18,7 +18,7 @@ public class DeleteIncludedScenarioCommand extends Command implements JUCMNavCom
 
 	private ScenarioDef parent, child;
 	private int index;
-
+	private boolean aborted; // can happen if deleting multiple scenarios at a time
 	/**
 	 * Remove child from the parent's included scenario list. 
 	 */
@@ -42,7 +42,13 @@ public class DeleteIncludedScenarioCommand extends Command implements JUCMNavCom
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
+		if (!parent.getIncludedScenarios().contains(child))
+		{
+			aborted=true;
+		}
+
 		index = parent.getIncludedScenarios().indexOf(child);
+
 		redo();
 	}
 
@@ -50,6 +56,9 @@ public class DeleteIncludedScenarioCommand extends Command implements JUCMNavCom
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
+		if (aborted)
+			return;
+
 		testPreConditions();
 
 		parent.getIncludedScenarios().remove(child);
@@ -83,6 +92,8 @@ public class DeleteIncludedScenarioCommand extends Command implements JUCMNavCom
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
+		if (aborted)
+			return;
 		testPostConditions();
 
 		parent.getIncludedScenarios().add(index, child);

@@ -199,6 +199,8 @@ public class ScenarioUtils {
 	}
 	
 	private static List getPossibleIncludedScenariosNonRecursive(ScenarioDef parent) {
+		if (parent.getGroup()==null)
+			return new ArrayList();
 		URNspec urn = parent.getGroup().getUcmspec().getUrnspec();
 		List list = getAllScenarios(urn);
 

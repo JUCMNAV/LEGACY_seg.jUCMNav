@@ -26,6 +26,14 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	
 	/**
 	 * 
+	 * @return the added condition.
+	 */
+	public Condition getCondition() {
+		return condition;
+	}
+
+	/**
+	 * 
 	 */
 	public IncludeConditionInScenarioCommand(ScenarioDef parent, boolean bIsPreCondition) {
 		this.parent = parent;
@@ -46,6 +54,10 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	 */
 	public void execute() {
 		condition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+		if (bIsPreCondition)
+			condition.setLabel("Precondition");
+		else
+			condition.setLabel("Postcondition");
 		redo();
 	}
 
@@ -85,7 +97,7 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	 */
 	public void testPreConditions() {
 		assert parent != null && condition != null && urn!=null : "pre not null"; //$NON-NLS-1$
-		assert (parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && parent.getPostconditions().contains(condition)) : "pre scenario not updated";
+		assert (!parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && !parent.getPostconditions().contains(condition)) : "pre scenario not updated";
 	}
 
 	/**

@@ -50,6 +50,7 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
+import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
@@ -320,7 +321,14 @@ public class ActionRegistryManager {
         action = new AddStartEndPointAction((IWorkbenchPart)editor, false);
         action.setText("Add End Point");
         addEditPartAction((SelectionAction) action);  
-                
+       
+        action = new AddPrePostConditionAction((IWorkbenchPart)editor, true);
+        action.setText("Add Precondition");
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddPrePostConditionAction((IWorkbenchPart)editor, false);
+        action.setText("Add Postcondition");
+        addEditPartAction((SelectionAction) action);   
     }
 
     /**

@@ -19,6 +19,7 @@ import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urncore.ComponentElement;
+import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -42,6 +43,7 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 	private UCMspec ucmspec;
 	private boolean aborted = false;
 	private ScenarioDef scenario;
+	private boolean isPreCondition;
 
 	/**
 	 * 
@@ -97,6 +99,15 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		this.element = ar;
 	}
 
+	/**
+	 * 
+	 * @param cond
+	 *            the scenario Pre/Post condition to be deleted.
+	 */
+	public RemoveURNmodelElementCommand(Condition cond) {
+		this.element = cond;
+	}
+	
 	/**
 	 * 
 	 * @param node
@@ -155,7 +166,22 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			if (aborted)
 				return;
 			scenario = pt.getScenarioDef();
-		}
+		} else if (element instanceof Condition) {
+			Condition cond = (Condition) element;
+			aborted = cond.getScenarioDefPost() == null && cond.getScenarioDefPre() == null;
+			if (aborted)
+				return;
+
+			if (cond.getScenarioDefPre() != null) {
+				scenario = cond.getScenarioDefPre();
+				isPreCondition = true;
+			}
+			else if (cond.getScenarioDefPost() != null) {
+				scenario = cond.getScenarioDefPost();
+				isPreCondition = false;
+			}
+
+		}		
 
 		redo();
 	}
@@ -195,6 +221,13 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
 			pt.setScenarioDef(null);
+		} else if (element instanceof Condition) {
+			Condition cond = (Condition) element;
+			if (isPreCondition)
+				cond.setScenarioDefPre(null);
+			else
+				cond.setScenarioDefPost(null);
+			
 		}
 
 		testPostConditions();
@@ -236,6 +269,13 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
 			pt.setScenarioDef(scenario);
+		} else if (element instanceof Condition) {
+			Condition cond = (Condition) element;
+			if (isPreCondition)
+				cond.setScenarioDefPre(scenario);
+			else
+				cond.setScenarioDefPost(scenario);
+			
 		}
 		testPreConditions();
 	}
