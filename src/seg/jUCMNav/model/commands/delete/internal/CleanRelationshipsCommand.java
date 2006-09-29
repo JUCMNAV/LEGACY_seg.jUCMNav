@@ -222,7 +222,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
 
 		if (cr.getParent() != null)
-			add(new ContainerRefUnbindChildCommand((ComponentRef) cr.getParent(), cr));
+			add(new ContainerRefUnbindChildCommand((ActorRef) cr.getParent(), cr));
 	}
 
 	/**
