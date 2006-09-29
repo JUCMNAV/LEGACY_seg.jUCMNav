@@ -18,8 +18,10 @@ import seg.jUCMNav.actions.scenarios.AddScenarioGroupAction;
 import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
 import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
+import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 
 /**
@@ -87,6 +89,18 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);              
 
+        action = getActionRegistry().getAction(DuplicateAction.DUPLICATEACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
+        
+        action = getActionRegistry().getAction(MoveAction.MOVEUPACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
+
+        action = getActionRegistry().getAction(MoveAction.MOVEDOWNACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
+        
         action = getActionRegistry().getAction(VariableInitializationsAction.VARIABLEINITIALIZATIONS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 

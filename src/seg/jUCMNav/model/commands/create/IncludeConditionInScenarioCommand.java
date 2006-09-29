@@ -23,6 +23,7 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	private boolean bIsPreCondition;
 	private Condition condition;
 	private URNspec urn;
+	private Condition clone;
 	
 	/**
 	 * 
@@ -41,6 +42,13 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 		setLabel("Include Pre/Post Condition in Scenario");
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 	}
+	public IncludeConditionInScenarioCommand(ScenarioDef parent, boolean bIsPreCondition, Condition clone) {
+		this.parent = parent;
+		this.bIsPreCondition = bIsPreCondition;
+		setLabel("Include Pre/Post Condition in Scenario");
+		urn = parent.getGroup().getUcmspec().getUrnspec();
+		this.clone = clone;
+	}	
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()
@@ -54,10 +62,15 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	 */
 	public void execute() {
 		condition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-		if (bIsPreCondition)
-			condition.setLabel("Precondition");
-		else
-			condition.setLabel("Postcondition");
+		if (clone!=null) {
+			condition.setLabel(clone.getLabel());
+			condition.setExpression(clone.getExpression());
+		} else {
+			if (bIsPreCondition)
+				condition.setLabel("Precondition");
+			else
+				condition.setLabel("Postcondition");
+		}
 		redo();
 	}
 

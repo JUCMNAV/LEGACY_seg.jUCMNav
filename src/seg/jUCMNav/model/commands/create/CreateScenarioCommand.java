@@ -29,7 +29,6 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 	public CreateScenarioCommand(URNspec urn, ScenarioGroup group) {
 		this.urn = urn;
 		this.group = group;
-		scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urn, ScenarioDef.class);
 		setLabel("Create Scenario");
 	}
 
@@ -44,6 +43,7 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
+		scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urn, ScenarioDef.class);
 		redo();
 	}
 

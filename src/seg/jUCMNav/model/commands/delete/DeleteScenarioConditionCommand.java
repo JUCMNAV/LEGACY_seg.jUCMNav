@@ -15,7 +15,7 @@ import urncore.Condition;
 public class DeleteScenarioConditionCommand extends CompoundCommand {
 
     /**
-     * @param cibd
+     * @param cond
      *          the Condition to delete
      */
     public DeleteScenarioConditionCommand(Condition cond) {

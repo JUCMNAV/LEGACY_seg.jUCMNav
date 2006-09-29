@@ -57,8 +57,10 @@ import seg.jUCMNav.actions.scenarios.AddStartEndPointAction;
 import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
+import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.MoveAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
@@ -334,7 +336,19 @@ public class ActionRegistryManager {
         action = new VariableInitializationsAction((IWorkbenchPart)editor);
         action.setText("Initialize Variables");
         addEditPartAction((SelectionAction) action);  
+     
+        action = new MoveAction((IWorkbenchPart)editor, true);
+        action.setText("Move Up");
+        addEditPartAction((SelectionAction) action);          
+
+        action = new MoveAction((IWorkbenchPart)editor, false);
+        action.setText("Move Down");
+        addEditPartAction((SelectionAction) action);
         
+        action = new DuplicateAction((IWorkbenchPart)editor);
+        action.setText("Duplicate");
+        addEditPartAction((SelectionAction) action);    
+
     }
 
     /**

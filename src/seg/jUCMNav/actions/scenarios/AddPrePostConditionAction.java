@@ -56,7 +56,7 @@ public class AddPrePostConditionAction extends IncludeScenarioAction {
 		CodeEditor wizard = new CodeEditor();
 
 		UCMNavMultiPageEditor editor = ((UCMNavMultiPageEditor)getWorkbenchPart());
-		CommandStack cs = editor.getCurrentPage().getCommandStack();
+		CommandStack cs = editor.getDelegatingCommandStack();
 		IncludeConditionInScenarioCommand command = new IncludeConditionInScenarioCommand(scenario, isPreCondition);
 		cs.execute(command);
 		
