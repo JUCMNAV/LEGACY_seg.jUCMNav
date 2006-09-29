@@ -84,6 +84,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
         } else if (getLabel().equals("Start points")) {
         	list.addAll(root.getStartPoints());
 		} else if (getLabel().equals("Preconditions")) {
+			list.addAll(root.getInitializations());
 			list.addAll(root.getPreconditions());
 		} else if (getLabel().equals("End points")) {
 			list.addAll(root.getEndPoints());

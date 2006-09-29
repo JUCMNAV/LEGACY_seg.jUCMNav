@@ -22,12 +22,14 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
@@ -80,6 +82,14 @@ public class URNElementPropertySource extends EObjectPropertySource {
         	scenarioGroupDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy){
         	strategyGroupDescriptor(descriptors, propertyid);
+        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")){
+        	Initialization init = (Initialization)getEditableValue();
+        	if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
+        		intDescriptor(descriptors, attr, propertyid);
+        	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeBoolean))
+        		booleanDescriptor(descriptors, attr, propertyid);
+        		
+        		
         } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
@@ -344,9 +354,10 @@ public class URNElementPropertySource extends EObjectPropertySource {
             Vector list = new Vector(((EvaluationStrategy)getEditableValue()).getGroup().getGrlspec().getGroups());
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
-            setReferencedObject(propertyid, feature, result);                
+            setReferencedObject(propertyid, feature, result);
+        } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
+        	super.setPropertyValue(id, ((Boolean)value).toString());
         } else
-
             super.setPropertyValue(id, value);
     }
 

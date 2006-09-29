@@ -181,7 +181,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 	 * @param attr
 	 * @param propertyid
 	 */
-	private void booleanDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+	protected void booleanDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
 		CheckboxPropertyDescriptor pd = new CheckboxPropertyDescriptor(propertyid, attr.getName());
 
 		String name = attr.getName().toLowerCase();
@@ -206,7 +206,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 	 * @param attr
 	 * @param propertyid
 	 */
-	private void stringDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+	protected void stringDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
 		PropertyDescriptor pd;
 		String name = attr.getName().toLowerCase();
 		if (name.indexOf("color") >= 0) { //$NON-NLS-1$
@@ -248,7 +248,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 	 * @param attr
 	 * @param propertyid
 	 */
-	private void intDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+	protected void intDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
 		TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
 
 		((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {
@@ -281,7 +281,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 	 * @param attr
 	 * @param propertyid
 	 */
-	private void doubleDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+	protected void doubleDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
 		TextPropertyDescriptor desc = new TextPropertyDescriptor(propertyid, attr.getName());
 
 		((PropertyDescriptor) desc).setValidator(new ICellEditorValidator() {

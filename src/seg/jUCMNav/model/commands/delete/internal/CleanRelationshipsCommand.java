@@ -20,7 +20,10 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
+import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNlink;
@@ -85,6 +88,14 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 		this.element = var;
 	}
 
+	/**
+	 * 
+	 * @param init
+	 *            the Initialization to be cleaned.
+	 */
+	public CleanRelationshipsCommand(Initialization init) {
+		this.element = init;
+	}
 	/**
 	 * 
 	 * @param pt
@@ -252,11 +263,34 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	 *            the Variable to be cleaned.
 	 */
 	private void build(Variable var) {
-		// TODO:
+
+		// Sadly, metamodel sets Variable - Initialization link as unidirectional. 
 		// Delete Variable initializations
-		// Delete Timer Variable
+		for (Iterator iter = var.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup group = (ScenarioGroup) iter.next();
+			for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+				ScenarioDef scenario = (ScenarioDef) iterator.next();
+				for (Iterator iterator2 = scenario.getInitializations().iterator(); iterator2.hasNext();) {
+					Initialization init = (Initialization) iterator2.next();
+					if (init.getVariable()==var)
+						build(init);
+				}
+			}
+		}
+
+		// TODO: Delete Timer Variable
 	}
 
+	/**
+	 * 
+	 * @param init
+	 *            the Variable Initialization to be cleaned.
+	 */
+	private void build(Initialization init) {
+		add(new RemoveLinkedInfoCommand(init));
+	}
+
+	
 	/**
 	 * 
 	 * @param pt
@@ -325,6 +359,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			build((ScenarioStartPoint) element);
 		else if (element instanceof ScenarioEndPoint)
 			build((ScenarioEndPoint) element);
+		else if (element instanceof Initialization)
+			build((Initialization) element);
 
 	}
 

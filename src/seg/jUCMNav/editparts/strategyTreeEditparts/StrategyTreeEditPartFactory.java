@@ -13,6 +13,7 @@ import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import ucm.UCMspec;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
@@ -63,6 +64,8 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
 			return new ScenarioDefTreeEditPart((ScenarioDef) model);
 		} else if (model instanceof Variable) {
 			return new VariableTreeEditPart((Variable)model);
+		} else if (model instanceof Initialization) {
+			return new VariableInitializationTreeEditPart((Initialization)model);
 		} else if (model instanceof EList) {
 			return new VariableListTreeEditPart(urn.getUcmspec());
 		} else if (model instanceof ScenarioStartPoint) {

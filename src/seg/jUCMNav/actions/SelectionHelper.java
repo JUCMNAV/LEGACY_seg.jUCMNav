@@ -39,6 +39,7 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
@@ -105,6 +106,7 @@ public class SelectionHelper {
     public static final int SCENARIO = 120;
     public static final int RESPONSIBILITY = 121;
     public static final int CONDITION = 122;
+    public static final int INITIALIZATION = 123;
     
     //GRL constant
     public static final int GRLGRAPH = 200;
@@ -145,6 +147,7 @@ public class SelectionHelper {
     private ScenarioDef scenario;
     private Responsibility respdef;
     private Condition condition;
+    private Initialization initialization;
     
     //internal variable for GRL
     private ActorRef actorref;
@@ -251,6 +254,10 @@ public class SelectionHelper {
     public WaitingPlace getWaitingPlace() {
         return waitingplace;
     }
+    
+    public Initialization getInitialization() {
+    	return initialization;
+    }
 
     /**
      * Given an EditPart, set the appropriate internal variable.
@@ -356,7 +363,13 @@ public class SelectionHelper {
         	scenario= (ScenarioDef)model;
         	scenariogroup = scenario.getGroup();
         	ucmspec = scenariogroup.getUcmspec();
-            urnspec = scenariogroup.getUcmspec().getUrnspec();            
+            urnspec = scenariogroup.getUcmspec().getUrnspec();
+        } else if (model instanceof Initialization) {
+        	initialization = (Initialization)model;
+        	scenario = initialization.getScenarioDef();
+        	scenariogroup = scenario.getGroup();
+        	ucmspec = scenariogroup.getUcmspec();
+            urnspec = scenariogroup.getUcmspec().getUrnspec();
         } else if (model instanceof GRLspec) {
         	grlspec = ((GRLspec)model);
             urnspec = ((GRLspec)model).getUrnspec();
@@ -559,6 +572,8 @@ public class SelectionHelper {
             selectionType = EVALUATIONSTRATEGY;
         else if (group != null)
             selectionType = SCENARIOGROUP;
+        else if (initialization!=null)
+        	selectionType = INITIALIZATION;
         else if (scenario != null)
             selectionType = SCENARIO;        
         else if (grlgraph != null)

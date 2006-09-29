@@ -8,6 +8,7 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.internal.RemoveScenarioCommand;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
@@ -56,7 +57,10 @@ public class DeleteScenarioCommand extends CompoundCommand {
 			add(new DeleteScenarioPathNodeCommand(pt));
 		}
         
-        // TODO: delete initializations. 
+        for (Iterator iter = scenario.getInitializations() .iterator(); iter.hasNext();) {
+        	Initialization init = (Initialization) iter.next();
+			add(new DeleteVariableInitializationCommand(init));
+		}
         
         add(new RemoveScenarioCommand(scenario));
         this.scenario = scenario;

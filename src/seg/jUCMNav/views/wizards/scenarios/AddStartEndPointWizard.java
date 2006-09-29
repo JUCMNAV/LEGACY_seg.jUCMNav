@@ -61,7 +61,7 @@ public class AddStartEndPointWizard extends Wizard {
 		 final PathNode child = page.getSelectedNode();
 				
 		
-		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getCurrentPage().getCommandStack();
+		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 		
 		 // use a command to be undoable.
 		 IncludePathNodeInScenarioCommand command = new IncludePathNodeInScenarioCommand(parent, child);

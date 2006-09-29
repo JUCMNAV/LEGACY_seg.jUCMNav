@@ -5,11 +5,12 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import ucm.scenario.Initialization;
 import urncore.Condition;
 import urncore.Responsibility;
 
 /**
- * Changes the pseudo-code associated with a Responsibility or a Condition. 
+ * Changes the pseudo-code associated with a Responsibility or a Condition or the Initialization value of a variable. 
  * 
  * @author jkealey
  */
@@ -23,8 +24,10 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
     	
         if (elem instanceof Responsibility )
             setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
-        else
+        else if (elem instanceof Condition)
         	setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
+        else if (elem instanceof Initialization)
+        	setLabel("Change initialization");
     }
 
 
@@ -36,6 +39,8 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             oldCode = ((Responsibility)elem).getExpression();
         } else if (elem instanceof Condition) {
         	oldCode = ((Condition) elem).getExpression();
+        } else if (elem instanceof Initialization) {
+        	oldCode =  ((Initialization)elem).getValue();
         }
         redo();
     }
@@ -53,6 +58,8 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             ((Responsibility)elem).setExpression(code);
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(code);
+        } else if (elem instanceof Initialization) {
+        	((Initialization) elem).setValue(code);
         }
 
         testPostConditions();
@@ -88,6 +95,8 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
             ((Responsibility)elem).setExpression(oldCode);
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(oldCode);
+        } else if (elem instanceof Initialization) {
+        	((Initialization) elem).setValue(oldCode);
         }
         
         testPreConditions();

@@ -20,6 +20,7 @@ import seg.jUCMNav.actions.scenarios.AddStrategiesGroupAction;
 import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 
 /**
  * This class build the context menu for the Strategy view
@@ -86,6 +87,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);              
 
+        action = getActionRegistry().getAction(VariableInitializationsAction.VARIABLEINITIALIZATIONS);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action); 
+        
         action = getActionRegistry().getAction(IncludeScenarioAction.INCLUDESCENARIO);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
@@ -104,7 +109,7 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
 
         action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPOSTCONDITIONACTION);
         if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);   
 
     }
 

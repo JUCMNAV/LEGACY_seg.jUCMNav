@@ -84,6 +84,7 @@ public class CheckboxButtonCellEditor extends CheckboxCellEditor implements Sele
      * @see org.eclipse.jface.viewers.CellEditor#doSetValue(java.lang.Object)
      */
     protected void doSetValue(Object value) {
+    	if (value instanceof String) value = Boolean.valueOf(Boolean.parseBoolean((String)value));
         super.doSetValue(value);
 
         Boolean b = (Boolean) value;

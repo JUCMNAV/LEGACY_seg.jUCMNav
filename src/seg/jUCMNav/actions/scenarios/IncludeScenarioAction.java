@@ -59,8 +59,12 @@ public class IncludeScenarioAction extends URNSelectionAction {
 		}
 		SelectionHelper sel = new SelectionHelper(list2);
 		switch (sel.getSelectionType()) {
-		case SelectionHelper.SCENARIO: 
+		case SelectionHelper.SCENARIO:
+		case SelectionHelper.INITIALIZATION: 
 			scenario = sel.getScenario();
+			break;
+		default: 
+			scenario = null;
 		}
 	}
 

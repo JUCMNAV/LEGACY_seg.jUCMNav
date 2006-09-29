@@ -11,6 +11,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
@@ -46,6 +47,15 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
         add(new CleanRelationshipsCommand(var));
     }
     
+    /**
+     * 
+     * @param init
+     *            the Variable Initialization to be deleted.
+     */
+    public PreDeleteUrnModelElementCommand(Initialization init) {
+        this.element = init;
+        add(new CleanRelationshipsCommand(init));
+    }    
     /**
      * 
      * @param pt

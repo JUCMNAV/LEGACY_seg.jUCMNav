@@ -12,6 +12,8 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import urncore.Condition;
@@ -37,6 +39,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
 
     private Condition condition;
     private PathNode scenarioPathNode;
+    private ScenarioDef scenario;
     
 
     /**
@@ -101,6 +104,15 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     public RemoveLinkedInfoCommand(ScenarioEndPoint pt) {
         this.element = pt;
     }
+    
+    /**
+     * 
+     * @param init
+     *            the Initialization to be cleaned.
+     */
+    public RemoveLinkedInfoCommand(Initialization init) {
+        this.element = init;
+    }    
     /**
      * 
      * @see org.eclipse.gef.commands.Command#execute()
@@ -111,7 +123,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         else if (element instanceof ScenarioStartPoint)
         	this.scenarioPathNode = ((ScenarioStartPoint)element).getStartPoint();
         else if (element instanceof ScenarioEndPoint)
-        	this.scenarioPathNode = ((ScenarioEndPoint)element).getEndPoint();        
+        	this.scenarioPathNode = ((ScenarioEndPoint)element).getEndPoint();  
+        else if (element instanceof Initialization)
+        	this.scenario = ((Initialization)element).getScenarioDef();        
         redo();
     }
 
@@ -125,7 +139,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         else if (element instanceof ScenarioStartPoint)
         	((ScenarioStartPoint)element).setStartPoint(null);
         else if (element instanceof ScenarioEndPoint)
-        	((ScenarioEndPoint)element).setEndPoint(null);        
+        	((ScenarioEndPoint)element).setEndPoint(null);
+        else if (element instanceof Initialization)
+        	((Initialization)element).setScenarioDef(null);
 
         testPostConditions();
 
@@ -142,7 +158,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         else if (element instanceof ScenarioStartPoint)
         	((ScenarioStartPoint)element).setStartPoint((StartPoint)scenarioPathNode);
         else if (element instanceof ScenarioEndPoint)
-        	((ScenarioEndPoint)element).setEndPoint((EndPoint)scenarioPathNode);   
+        	((ScenarioEndPoint)element).setEndPoint((EndPoint)scenarioPathNode);  
+        else if (element instanceof Initialization)
+        	((Initialization)element).setScenarioDef(scenario);        
         testPreConditions();
     }
 
@@ -151,7 +169,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert element != null : "pre something is null"; //$NON-NLS-1$
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint) : "pre invalid class"; //$NON-NLS-1$
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization) : "pre invalid class"; //$NON-NLS-1$
     }
 
     /**

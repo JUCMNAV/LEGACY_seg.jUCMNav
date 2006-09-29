@@ -14,6 +14,7 @@ import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
@@ -70,6 +71,15 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 	 */
 	public RemoveURNmodelElementCommand(Variable var) {
 		this.element = var;
+	}
+	
+	/**
+	 * 
+	 * @param init
+	 *            the Initialization to be deleted.
+	 */
+	public RemoveURNmodelElementCommand(Initialization init) {
+		this.element = init;
 	}
 
 	/**
@@ -166,6 +176,12 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			if (aborted)
 				return;
 			scenario = pt.getScenarioDef();
+		} else if (element instanceof Initialization) {
+			Initialization init = (Initialization) element;
+			aborted = init.getScenarioDef() == null;
+			if (aborted)
+				return;
+			scenario = init.getScenarioDef();
 		} else if (element instanceof Condition) {
 			Condition cond = (Condition) element;
 			aborted = cond.getScenarioDefPost() == null && cond.getScenarioDefPre() == null;
@@ -221,6 +237,9 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
 			pt.setScenarioDef(null);
+		} else if (element instanceof Initialization) {
+			Initialization init = (Initialization) element;
+			init.setScenarioDef(null);
 		} else if (element instanceof Condition) {
 			Condition cond = (Condition) element;
 			if (isPreCondition)
@@ -269,6 +288,9 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
 			pt.setScenarioDef(scenario);
+		} else if (element instanceof Initialization) {
+			Initialization init = (Initialization) element;
+			init.setScenarioDef(scenario);			
 		} else if (element instanceof Condition) {
 			Condition cond = (Condition) element;
 			if (isPreCondition)

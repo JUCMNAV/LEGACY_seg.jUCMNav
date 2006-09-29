@@ -11,19 +11,15 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
-import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.model.commands.transformations.ChangeCodeCommand;
-import urncore.Condition;
-import urncore.Responsibility;
 
 /**
- * Wizard for editing a responsibility's code or a condition.  
+ * Scenario initializations wizard.    
  * 
  * @author jkealey
  */
-public class CodeEditor extends Wizard {
-	private CodeEditorPage page;
+public class ScenarioInitializations extends Wizard {
+	private ScenarioInitializationsPage page;
 	private ISelection selection;
     
     /**
@@ -35,39 +31,45 @@ public class CodeEditor extends Wizard {
     /** 
      * Creates the editor
      */
-	public CodeEditor() {
+	public ScenarioInitializations() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle(Messages.getString("CodeEditor.CodeEditor"));  //$NON-NLS-1$
+		this.setWindowTitle("Include Scenario");  
 	}
 
 	/**
 	 * Adding the page to the wizard.
 	 */
 	public void addPages() {
-		page = new CodeEditorPage(selection);
+		page = new ScenarioInitializationsPage(selection);
 		addPage(page);
 	}
 
+	public CommandStack getCommandStack() 
+	{
+		return ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+	}
 	/**
 	 * This method is called when 'Finish' button is pressed in the wizard. We
 	 * will create an operation and run it using wizard as execution context.
 	 */
 	public boolean performFinish() {
-		final Responsibility resp = page.getResponsibility();
-		final Condition cond = page.getCondition();
-		final String code = page.getCode();
-		
-
-		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-
-		// change the code using a command to be undoable. 
-		if (page.isResponsibility())
-			cs.execute(new ChangeCodeCommand(resp, code));
-		else
-			cs.execute(new ChangeCodeCommand(cond, code));
+		// Page modifies model during progressively... don't need to finish anything. 
 		
 		return true;
+	}
+	
+	public boolean performCancel() {
+		try {
+			for (int i=0;i<page.getCommandCount();i++)
+				getCommandStack().undo();
+			
+			return true;
+		}
+		catch (Exception ex){
+			return false;
+		}
+		
 	}
 
 	/** 

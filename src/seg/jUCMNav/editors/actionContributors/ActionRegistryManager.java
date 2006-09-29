@@ -59,6 +59,7 @@ import seg.jUCMNav.actions.scenarios.AddVariableAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
+import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
 /**
@@ -329,6 +330,11 @@ public class ActionRegistryManager {
         action = new AddPrePostConditionAction((IWorkbenchPart)editor, false);
         action.setText("Add Postcondition");
         addEditPartAction((SelectionAction) action);   
+        
+        action = new VariableInitializationsAction((IWorkbenchPart)editor);
+        action.setText("Initialize Variables");
+        addEditPartAction((SelectionAction) action);  
+        
     }
 
     /**

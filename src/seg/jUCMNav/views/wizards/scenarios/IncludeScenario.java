@@ -57,7 +57,7 @@ public class IncludeScenario extends Wizard {
 		final ScenarioDef child = page.getChildScenario();
 		
 
-		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getCurrentPage().getCommandStack();
+		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
 		// use a command to be undoable.
 		IncludeScenarioCommand command = new IncludeScenarioCommand(parent, child);
