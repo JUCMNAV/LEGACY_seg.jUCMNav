@@ -75,8 +75,7 @@ public class jUCMNavLoader {
 	 * @return the full filename to be used as a target
 	 */
 	public String getTargetFilename(String originalFileName, String newProject, boolean overwrite) {
-		//TODO: Test under non-Windows. I think the backslash will cause problems. 
-		String base = newProject + "\\" + getBaseNameFromFilename(originalFileName);//$NON-NLS-1$
+		String base = newProject + File.pathSeparator + getBaseNameFromFilename(originalFileName);
 		String mid = ""; //$NON-NLS-1$
 		String extension = ".jucm"; //$NON-NLS-1$
 		String filename = base + mid + extension;
