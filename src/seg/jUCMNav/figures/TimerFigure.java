@@ -63,4 +63,27 @@ public class TimerFigure extends PathNodeFigure {
     protected boolean useLocalCoordinates() {
         return true;
     }
+    
+    
+	protected void setColors() {
+		if (selected) {
+    		ellipse.setForegroundColor(BLACK);
+    		setColor(BLUE);
+    	}
+    	else if (traversed) {
+    		ellipse.setForegroundColor(RED);
+            if (hover)
+                setColor(GRAY);
+            else
+                setColor(WHITE);        		
+    	}
+        else {
+        	ellipse.setForegroundColor(BLACK);
+            if (hover)
+                setColor(GRAY);
+            else
+                setColor(WHITE);    		
+        }
+	}
+	
 }

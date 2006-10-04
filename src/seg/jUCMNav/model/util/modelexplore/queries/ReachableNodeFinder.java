@@ -26,7 +26,8 @@ import ucm.map.PathNode;
 public class ReachableNodeFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
     private Vector _visitedNodes;
-
+    private Vector _visitedNodeConnections;
+    
     public ReachableNodeFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDREACHABLENODES };
     }
@@ -36,7 +37,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
      */
     public QueryResponse runImpl(QueryRequest q) {
         _visitedNodes = new Vector();
-
+        _visitedNodeConnections = new Vector();
         if (((QFindReachableNodes) q).getStartPathNode() != null) {
             // call recursive function processNode with the start node
             Set exclusions = ((QFindReachableNodes) q).getExclusionSet();
@@ -48,6 +49,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         // Return a response containing the visited node list
         RReachableNodes r = new RReachableNodes();
         r.setNodes(_visitedNodes);
+        r.setConnections(_visitedNodeConnections);
         return r;
     }
 
@@ -76,16 +78,20 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
                 PathNode node = (PathNode)((NodeConnection) links.get(i)).getSource();
-                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
+                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
+                	_visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
+                }
             }
 
             links = n.getSucc();
             for (int i = 0; direction != QFindReachableNodes.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
                 PathNode node = (PathNode)((NodeConnection) links.get(i)).getTarget();
-                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect))
+                if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
+                	_visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
+                }
             }
 
             // recursive call to process all nodes in the list to visit
@@ -141,7 +147,8 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
     public class RReachableNodes extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
-
+        private Vector connections;
+        
         public RReachableNodes() {
             this._queryType = QueryObject.FINDREACHABLENODES;
         }
@@ -160,6 +167,14 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         public void setNodes(Vector nodes) {
             this.nodes = nodes;
         }
+
+		public Vector getConnections() {
+			return connections;
+		}
+
+		public void setConnections(Vector connections) {
+			this.connections = connections;
+		}
     }
 
 }

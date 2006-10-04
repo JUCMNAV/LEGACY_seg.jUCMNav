@@ -22,7 +22,7 @@ public class StartPointFigure extends PathNodeFigure {
     protected void createFigure() {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6, DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3));
-        ellipse.setBackgroundColor(new Color(null, 0, 0, 0));
+        ellipse.setBackgroundColor(PathNodeFigure.BLACK);
         add(ellipse);
     }
 
@@ -34,6 +34,10 @@ public class StartPointFigure extends PathNodeFigure {
         outgoingAnchor = new EllipseAnchor(ellipse);
     }
 
+    public void setColor(Color bg) {
+    	super.setColor(bg);
+    	ellipse.setBackgroundColor(bg);
+    }
     /**
      * Makes it larger on hover.
      */
@@ -49,6 +53,24 @@ public class StartPointFigure extends PathNodeFigure {
             ellipse.setSize(DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3);
         }
     }
+    
+	protected void setColors() {
+		if (selected) {
+    		setForegroundColor(BLACK);
+    		setColor(BLUE);
+    	}
+    	else if (traversed) {
+    		setForegroundColor(RED);
+            setColor(RED);
+    	}
+        else {
+    		setForegroundColor(BLACK);
+            if (hover)
+                setColor(BLACK);
+            else
+                setColor(BLACK);    		
+        }
+	}
 
     /**
      * We need local coordinates when resizing

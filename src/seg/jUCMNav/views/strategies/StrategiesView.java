@@ -32,8 +32,12 @@ import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editors.actionContributors.StrategyContextMenuProvider;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioDefTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioGroupTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import ucm.scenario.ScenarioDef;
 
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
 	private TreeViewer viewer;
@@ -44,6 +48,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	private UCMNavMultiPageEditor multieditor;
 	private EvaluationStrategy currentStrategy;
     private EvaluationStategyTreeEditPart currentSelection;
+	private ScenarioDef currentScenario;
+    private ScenarioDefTreeEditPart currentScenarioSelection;
     
     private IAction showDesignView, showStrategiesView; 
     
@@ -296,7 +302,25 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
                         }
                     }
+                } else if (obj instanceof ScenarioDefTreeEditPart && ((ScenarioDefTreeEditPart)obj).getParent() instanceof ScenarioGroupTreeEditPart ){
+                    if (currentScenarioSelection != null){
+                    	currentScenarioSelection.setSelected(false);
+                    }
+                    currentScenarioSelection = (ScenarioDefTreeEditPart)obj;
+                    if (currentView == ID_STRATEGY){
+                    	currentScenarioSelection.setSelected(true);
+                    }
+                    ScenarioDef scen = ((ScenarioDefTreeEditPart)obj).getScenarioDef();                    
+                    currentScenario = scen;
+                    if (currentView == ID_STRATEGY){
+                    	ScenarioUtils.setActiveScenario(currentScenario);
+                        for (int i=0; i< multieditor.getPageCount(); i++){
+                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
+                        }
+                    }
                 }
+
             }
         }
     }
@@ -316,6 +340,9 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 currentSelection.setSelected(false);
             }
             
+            if (currentScenarioSelection != null){
+            	currentScenarioSelection.setSelected(false);
+            }            
             currentView = ID_DESIGN;
             if (currentStrategy != null){
                 EvaluationStrategyManager.getInstance().setStrategy(null);
@@ -324,6 +351,13 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(false);         
                 }
             }
+            if (currentScenario != null){
+            	ScenarioUtils.clearActiveScenario(multieditor.getModel());
+                for (int i=0; i< multieditor.getPageCount(); i++){
+                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
+                }
+            }            	
         } else if (id == ID_STRATEGY) {
             showDesignView.setChecked(false);
             showStrategiesView.setChecked(true);
@@ -331,6 +365,10 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             if (currentSelection != null){
                 currentSelection.setSelected(true);
             }
+            
+            if (currentScenarioSelection != null){
+            	currentScenarioSelection.setSelected(true);
+            }              
             
             currentView = ID_STRATEGY;
             if (currentStrategy != null){
@@ -340,6 +378,13 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
                 }         
             }
+            if (currentScenario != null){
+            	ScenarioUtils.setActiveScenario(currentScenario);
+                for (int i=0; i< multieditor.getPageCount(); i++){
+                    UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                    ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
+                }
+            }            
         }
     }
 }

@@ -20,9 +20,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
-import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
@@ -39,6 +36,7 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -79,6 +77,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         super();
         setModel(model);
         this.diagram = diagram;
+        
     }
 
     /**
@@ -127,6 +126,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             figure = new AndForkJoinFigure();
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
+
+    	figure.setForegroundColor(PathNodeFigure.BLACK);
+    	figure.setColor(PathNodeFigure.BLACK);
 
         assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 
@@ -327,7 +329,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      *            the node connection
      * @return true if we could refresh (edit part and figure exist)
      */
-    protected boolean refreshNodeConnection(NodeConnection conn) {
+    public boolean refreshNodeConnection(NodeConnection conn) {
 
         NodeConnectionEditPart nc = (NodeConnectionEditPart) getViewer().getEditPartRegistry().get(conn);
         if (nc != null) {
@@ -411,14 +413,21 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      */
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
-
+        
+        
         // inform and forks/joins how many branches they must display.
         if (getNode() instanceof AndFork) {
             ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
         } else if (getNode() instanceof AndJoin) {
             ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
         }
-
+        boolean scenariosActive = ScenarioUtils.getActiveScenario(getNode())!=null && ScenarioUtils.getTraversalHitCount(getNode())>0;
+        nodeFigure.setTraversed(scenariosActive);
+        if (ScenarioUtils.getActiveScenario(getNode())!=null) 
+        	nodeFigure.setToolTip(new Label("Hits: " + ScenarioUtils.getTraversalHitCount(getNode())));
+        else
+        	nodeFigure.setToolTip(null);
+        
         // refresh node connection decorations
         // must not continue or will cause infinite loops
         if (refreshDecorations())
@@ -457,8 +466,17 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 //            nodeFigure.setForegroundColor(
 //                    new Color(Display.getCurrent(),StringConverter.asRGB("75,75,75")));
 //        } else{
-            nodeFigure.setForegroundColor(
-                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0"))); //$NON-NLS-1$
+        
+        
+
+//        if (ScenarioUtils.getActiveScenario(getNode())!=null && ScenarioUtils.getTraversalHitCount(getNode())>0) {
+//        	nodeFigure.setColor(PathNodeFigure.RED);
+//        }
+//        else {
+//        	nodeFigure.setColor(PathNodeFigure.BLACK);
+//        }
+//            nodeFigure.setForegroundColor(
+//                    new Color(Display.getCurrent(),StringConverter.asRGB("0,0,0"))); //$NON-NLS-1$
 //        }
     }
 

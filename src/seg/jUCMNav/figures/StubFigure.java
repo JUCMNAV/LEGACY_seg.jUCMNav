@@ -5,7 +5,6 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * Figure for stubs.
@@ -55,7 +54,7 @@ public class StubFigure extends PathNodeFigure {
         edges.addPoint(DEFAULT_WIDTH / 2, 1);
         mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
-        mainFigure.setBackgroundColor(new Color(null, 255, 255, 255));
+        mainFigure.setBackgroundColor(PathNodeFigure.WHITE);
         mainFigure.setFill(true);
         add(mainFigure);
     }
@@ -104,4 +103,25 @@ public class StubFigure extends PathNodeFigure {
     protected boolean useLocalCoordinates() {
         return true;
     }
+    
+	protected void setColors() {
+		if (selected) {
+    		mainFigure.setForegroundColor(BLACK);
+    		setColor(BLUE);
+    	}
+    	else if (traversed) {
+    		mainFigure.setForegroundColor(RED);
+            if (hover)
+                setColor(GRAY);
+            else
+                setColor(WHITE);  	
+    	}
+        else {
+    		mainFigure.setForegroundColor(BLACK);
+            if (hover)
+                setColor(GRAY);
+            else
+                setColor(WHITE);    		
+        }
+	}    
 }

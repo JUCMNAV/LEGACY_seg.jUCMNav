@@ -5,11 +5,18 @@ package seg.jUCMNav.editparts;
 
 import java.util.Iterator;
 
+import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.figures.router.UCMConnectionRouter;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import ucm.map.NodeConnection;
+import ucm.map.UCMmap;
 
 /**
  * Root edit part of any jUCMNav editor.
@@ -24,7 +31,9 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     private UCMNavMultiPageEditor multiPageEditor;
     
     protected boolean strategyView;
+    protected boolean scenarioView;
     
+  
     public static final String COMPONENT_LAYER = "COMPONENT"; //$NON-NLS-1$
 
     // what is the current view mode for this editor. 
@@ -43,6 +52,8 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
         } else{
             strategyView = false;
         }
+        
+        scenarioView = ScenarioUtils.getActiveScenario(editor.getModel())!=null;
     }
 
     /**
@@ -72,14 +83,58 @@ public abstract class URNRootEditPart extends ScalableFreeformRootEditPart {
     public boolean isStrategyView() {
         return strategyView;
     }
+    
+    public boolean isScenarioView() {
+        return scenarioView;
+    }
 
     public void setStrategyView(boolean view) {
         strategyView = view;
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
             URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
+            if (element instanceof GrlGraphEditPart) {
             element.refreshVisuals();
+            }
+
         }
     }
+    
+    public void setScenarioView(boolean view) {
+        scenarioView = view;
+		for (Iterator iter = getChildren().iterator(); iter.hasNext();) {
+			URNDiagramEditPart element = (URNDiagramEditPart) iter.next();
+			if (element instanceof UCMMapEditPart) {
+				UCMMapEditPart map = (UCMMapEditPart) element;
+				element.refreshVisuals();
+
+				ConnectionLayer cLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+
+				if (cLayer.getConnectionRouter() instanceof UCMConnectionRouter) {
+					((UCMConnectionRouter) cLayer.getConnectionRouter()).refreshConnections();
+
+						PathNodeEditPart child = null;
+
+						for (Iterator iterator = map.getChildren().iterator(); iterator.hasNext();) {
+							EditPart part = (EditPart) iterator.next();
+
+							if (part instanceof PathNodeEditPart) {
+								child = (PathNodeEditPart) part;
+								break;
+							}
+						}
+						
+						// using a method already in the code to refresh all node connections. 
+						if (child != null) {
+							for (Iterator iterator = ((UCMmap) map.getModel()).getConnections().iterator(); iterator.hasNext();) {
+								NodeConnection nc = (NodeConnection) iterator.next();
+								child.refreshNodeConnection(nc);
+							}
+						}
+					}
+				}
+		}
+        
+    }    
     
     public void refreshChildren() {
         for (Iterator iter = getChildren().iterator(); iter.hasNext();) {

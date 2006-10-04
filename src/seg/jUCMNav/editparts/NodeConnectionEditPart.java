@@ -31,10 +31,12 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
+import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
@@ -353,6 +355,21 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		if (endLabel != null) {
 			endLabel.setVisible(((UCMConnectionOnBottomRootEditPart) getRoot()).getMode() < 2);
 		}
+		
+        if (ScenarioUtils.getActiveScenario(getLink())!=null && ScenarioUtils.getTraversalHitCount(getLink())>0) {
+        	getFigure().setForegroundColor(PathNodeFigure.RED);
+        	getFigure().setBackgroundColor(PathNodeFigure.RED);
+        }
+        else {
+        	getFigure().setForegroundColor(PathNodeFigure.BLACK);
+        	getFigure().setBackgroundColor(PathNodeFigure.BLACK);
+        }
+        
+        if (ScenarioUtils.getActiveScenario(getLink())!=null) 
+        	getFigure().setToolTip(new Label("Hits: " + ScenarioUtils.getTraversalHitCount(getLink())));
+        else
+        	getFigure().setToolTip(null);
+		
 		super.refreshVisuals();
 	}
 

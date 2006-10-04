@@ -16,7 +16,12 @@ public abstract class PathNodeFigure extends Figure {
     // default sizes
     protected static int DEFAULT_HEIGHT = 24;
     protected static int DEFAULT_WIDTH = 24;
-
+    public static Color RED = new Color(null, 255,0,0);
+    public static Color WHITE = new Color(null, 255,250,250);
+    public static Color GRAY = new Color(null, 230,230,230);
+    public static Color BLUE = new Color(null, 0,102,204);
+    public static Color BLACK = new Color(null, 0,0,0);
+    
     /**
      * Override this method if you your figure is not of the default size. This method is invoked to know where to insert labels by default.
      * 
@@ -36,6 +41,11 @@ public abstract class PathNodeFigure extends Figure {
 
     // is the figure in selected state
     protected boolean selected;
+    
+    // is the point traversed by a scenario.
+    protected boolean traversed;
+    
+   
     protected XYLayout xylayout;
 
     /**
@@ -128,12 +138,7 @@ public abstract class PathNodeFigure extends Figure {
     public void setHover(boolean hover) {
         this.hover = hover;
 
-        if (selected == false) {
-            if (hover)
-                setColor(new Color(null, 230, 230, 230));
-            else
-                setColor(new Color(null, 255, 255, 255));
-        }
+        setColors();
     }
 
     /**
@@ -145,9 +150,34 @@ public abstract class PathNodeFigure extends Figure {
     public void setSelected(boolean selected) {
         this.selected = selected;
 
-        if (selected == true)
-            setColor(new Color(null, 0, 102, 204));
-        else
-            setColor(new Color(null, 255, 255, 255));
+        setColors();
     }
+    
+    public void setTraversed(boolean traversed)
+    {
+    	this.traversed = traversed;
+    	
+    	
+    	setColors();
+    		
+    
+    }
+
+	protected void setColors() {
+		if (selected) {
+    		setForegroundColor(BLACK);
+    		setColor(BLUE);
+    	}
+    	else if (traversed) {
+    		setForegroundColor(RED);
+            setColor(RED);
+    	}
+        else {
+    		setForegroundColor(BLACK);
+            if (hover)
+                setColor(GRAY);
+            else
+                setColor(WHITE);    		
+        }
+	}
 }

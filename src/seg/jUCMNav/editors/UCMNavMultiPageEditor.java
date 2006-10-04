@@ -36,6 +36,7 @@ import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
@@ -180,6 +181,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // stop listening to all maps for name changes
         for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
             ((IURNDiagram) model.getUrndef().getSpecDiagrams().get(i)).eAdapters().remove(this);
+        
+        // clear memory cache 
+        ScenarioUtils.releaseEnvironment(model);
         
         // important: always call super implementation of dispose
         super.dispose();

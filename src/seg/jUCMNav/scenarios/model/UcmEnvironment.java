@@ -16,7 +16,7 @@ import ucm.scenario.ScenarioPackage;
 import ucm.scenario.Variable;
 import urn.URNspec;
 
-public class UcmEnvironment implements Adapter {
+public class UcmEnvironment implements Adapter, Cloneable{
 
     private HashMap declarations;
     private HashMap enumerations;
@@ -77,6 +77,12 @@ public class UcmEnvironment implements Adapter {
         return (jUCMNavType) type;
     }
 
+    public void clearValuations() {
+    	valuations.clear();
+    }
+    public Object clone() throws CloneNotSupportedException {
+    	return super.clone();
+    }
     public void registerBoolean(String var) {
         registerBoolean(var, false);
     }
@@ -146,16 +152,16 @@ public class UcmEnvironment implements Adapter {
     }
 
     public Object getValue(String var) {
-    	var = var.toLowerCase();
+    	String lower = var.toLowerCase();
    	
-        Object result = valuations.get(var);
+        Object result = valuations.get(lower);
         if (result == null) {
-            result = declarations.get(var);
+            result = declarations.get(lower);
             
-            if (result==null) {// || result.toString().indexOf(jUCMNavType.ENUMERATION)>=0) {
+            if (result!=null) {// || result.toString().indexOf(jUCMNavType.ENUMERATION)>=0) {
                 throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var +  Messages.getString("UcmEnvironment.HasNoValuation")); //$NON-NLS-1$ //$NON-NLS-2$
             } else
-                result = var;
+                result = lower;
         }
         return result;
     }
@@ -280,6 +286,7 @@ public class UcmEnvironment implements Adapter {
 		
 		
 	}
-    
+	
+  
 
 }
