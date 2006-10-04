@@ -23,6 +23,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.PathNode;
@@ -270,6 +271,16 @@ public class URNElementPropertySource extends EObjectPropertySource {
                     urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+
+                if (getEditableValue() instanceof NodeConnection)
+                	((Condition)result).setNodeConnection((NodeConnection)getEditableValue());
+                else if (getEditableValue() instanceof StartPoint)
+                	((Condition)result).setStartPoint((StartPoint)getEditableValue());
+                else if (getEditableValue() instanceof EndPoint)
+                	((Condition)result).setEndPoint((EndPoint)getEditableValue());
+
+                // TODO: any other cases where we should initialize it?
+                
             } 
             result = new URNElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef) {

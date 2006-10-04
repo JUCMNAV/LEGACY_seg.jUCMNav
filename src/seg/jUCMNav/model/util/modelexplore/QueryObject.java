@@ -23,6 +23,9 @@ public abstract class QueryObject {
     public static final String FINDSPLINE = "FINDSPLINE"; //$NON-NLS-1$
 
     public static final String FINDDELETIONPATH = "FINDDELETIONPATH"; //$NON-NLS-1$
+    
+    public static final String DEFAULTSCENARIOTRAVERSAL = "DEFAULTSCENARIOTRAVERSAL"; //$NON-NLS-1$
+
 
     // one of the above public static final strings.
     public String _queryType;

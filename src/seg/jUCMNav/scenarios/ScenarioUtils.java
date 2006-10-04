@@ -277,9 +277,10 @@ public class ScenarioUtils {
 			UcmEnvironment forTraversal = (UcmEnvironment) initial.clone();
 			
 			DefaultScenarioTraversalAlgorithm algo = new DefaultScenarioTraversalAlgorithm(forTraversal, scenario);
+			traversals.put(initial, algo);
+
 			algo.traverse();
 			
-			traversals.put(initial, algo);
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		} catch (TraversalException e) {
