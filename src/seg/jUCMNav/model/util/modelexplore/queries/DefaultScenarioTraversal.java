@@ -367,13 +367,17 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				// skip over because processNode doesn't look at incoming
 				// connections to see if it can continue
 				// must be forced
+				if (_waitList.contains(nc.getTarget()))
+				{
+					incrementHitCount(nc.getTarget());
+					nc = (NodeConnection) nc.getTarget().getSucc().get(0);
+					incrementHitCount(nc);
+					_toVisit.push(nc.getTarget());
+
+				}
 				while (_waitList.contains(nc.getTarget())) {
 					_waitList.remove(nc.getTarget());
 				}
-				incrementHitCount(nc.getTarget());
-				nc = (NodeConnection) nc.getTarget().getSucc().get(0);
-				incrementHitCount(nc);
-				_toVisit.push(nc.getTarget());
 
 			} else
 				_error = "Traversal error.";
