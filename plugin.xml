@@ -193,6 +193,12 @@
             id="seg.jUCMNav.ExportGRLCatalog"
             name="%GRLCatalog"
             useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportCSV"
+            extension="csv"
+            id="seg.jUCMNav.ExportCSV"
+            name="%ExportCSV"
+            useStream="false"/>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">

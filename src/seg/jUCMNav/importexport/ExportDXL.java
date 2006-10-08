@@ -369,7 +369,6 @@ public class ExportDXL implements IURNExport {
             //Element Id
             write(QUOTES);
             write(elem.getId());
-            write("(E)"); //$NON-NLS-1$
             write(QUOTES_COMMA);            
             
             //Element Name
@@ -392,7 +391,6 @@ public class ExportDXL implements IURNExport {
             
             write(QUOTES);
             write(actor.getId());
-            write("(A)"); //$NON-NLS-1$
             write(QUOTES_COMMA);
             
             String temp = QUOTES + evaluation + QUOTES_END_ELEM;
