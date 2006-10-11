@@ -25,7 +25,7 @@ import urn.URNspec;
  */
 public class ExportCSV implements IURNExport {
 	
-    public static final String COMMA = ", "; //$NON-NLS-1$
+    public static final String COMMA = ","; //$NON-NLS-1$
     public static final String END_LINE = "\n"; //$NON-NLS-1$
 
     private FileOutputStream fos = null;
