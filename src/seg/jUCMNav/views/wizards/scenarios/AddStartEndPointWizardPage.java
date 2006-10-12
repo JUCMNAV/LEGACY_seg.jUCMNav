@@ -110,7 +110,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 		ArrayList pointStrings = new ArrayList();
 		for (Iterator iter = points.iterator(); iter.hasNext();) {
 			PathNode node = (PathNode) iter.next();
-			pointStrings.add(URNNamingHelper.getName((UCMmap)node.getDiagram()) + "\\" + URNNamingHelper.getName(node));
+			pointStrings.add(URNNamingHelper.getName((UCMmap)node.getDiagram()) + ": " + URNNamingHelper.getName(node));
 			
 		}
 		Object[] o = pointStrings.toArray();

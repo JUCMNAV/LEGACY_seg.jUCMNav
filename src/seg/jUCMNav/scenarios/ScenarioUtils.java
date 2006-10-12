@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -18,9 +19,13 @@ import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
+import ucm.map.RespRef;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
 import urn.URNspec;
+import urncore.Condition;
 
 /**
  * Utility class for UCM Scenarios.
@@ -29,16 +34,85 @@ import urn.URNspec;
  * 
  */
 public class ScenarioUtils {
-	private static HashMap environments;
-	private static HashMap traversals = new HashMap();
 	private static HashMap activeScenario = new HashMap();
+	private static HashMap environments;
 	// static reference to jUCMNavParser. can't have more than one reference to
 	// the parser in the whole application.
 	public static jUCMNavParser parser = new jUCMNavParser(new StringReader("true")); //$NON-NLS-1$
 	public static final String sTypeBoolean = "boolean";
 	public static final String sTypeEnumeration = "enumeration";
-
 	public static final String sTypeInteger = "integer";
+
+	private static HashMap traversals = new HashMap();
+
+	public static void clearActiveScenario(EObject obj)
+	{
+		UcmEnvironment initial = getEnvironment(obj);
+		if (activeScenario.containsKey(initial))
+			clearTraversalResults(initial);
+		activeScenario.remove(initial);
+
+	}
+
+	public static void clearTraversalResults(UcmEnvironment env) {
+		if (traversals.containsKey(env))
+		{
+			DefaultScenarioTraversalAlgorithm results = (DefaultScenarioTraversalAlgorithm) traversals.get(env);
+			results.clearTraversalResults();
+		}
+		if (activeScenario.containsKey(env)) {
+			activeScenario.remove(env);
+		}
+
+	}
+
+	public static Object evaluate(String code, UcmEnvironment env, boolean isResponsibility) 
+	{
+		Object res = parse(code, env, isResponsibility);
+		if (res instanceof String)
+			throw new IllegalArgumentException(res.toString());
+		else if (res instanceof SimpleNode)
+			return UcmExpressionEvaluator.evaluate((SimpleNode)res, env);
+		else 
+			return res;
+	}
+	
+	public static Object evaluate(Condition cond, UcmEnvironment env) 
+	{
+		if (isEmptyCondition(cond)) {
+			return Boolean.TRUE;
+		}
+		else
+			return evaluate(cond.getExpression(), env, false);
+	}
+	
+	public static Object evaluate(RespRef resp, UcmEnvironment env) 
+	{
+		if (isEmptyResponsibility(resp)) {
+			return null;
+		}
+		else
+			return evaluate(resp.getRespDef().getExpression(), env, true);
+	}	
+
+	private static boolean isEmptyCondition(Condition cond) {
+		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
+		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond);   
+	}
+	
+	private static boolean isEmptyResponsibility(RespRef resp) {
+		return resp == null || resp.getRespDef()==null || resp.getRespDef().getExpression() == null || resp.getRespDef().getExpression().length() == 0;   
+	}
+		
+	
+	public static ScenarioDef getActiveScenario(EObject obj)
+	{
+		UcmEnvironment initial = getEnvironment(obj);
+		if (activeScenario.containsKey(initial))
+			return (ScenarioDef) activeScenario.get(initial);
+		else
+			return null;
+	}
 
 	/**
 	 * Returns a list of all ScenarioDefs in all groups.
@@ -59,7 +133,7 @@ public class ScenarioUtils {
 		}
 		return list;
 	}
-
+	
 	/**
 	 * Return the UcmEnvironment associated with this object from the global
 	 * cache.
@@ -84,7 +158,6 @@ public class ScenarioUtils {
 			return getEnvironment(object.eContainer());
 
 	}
-
 	/**
 	 * Global UcmEnvironment cache.
 	 * 
@@ -96,7 +169,7 @@ public class ScenarioUtils {
 
 		return environments;
 	}
-
+	
 	/**
 	 * Returns all scenarios that we may include into the given parent. Will not
 	 * cause any circular references.
@@ -120,7 +193,7 @@ public class ScenarioUtils {
 		}
 		return list;
 	}
-
+	
 	private static List getPossibleIncludedScenariosNonRecursive(ScenarioDef parent) {
 		if (parent.getGroup()==null)
 			return new ArrayList();
@@ -132,6 +205,44 @@ public class ScenarioUtils {
 	
 	}
 	
+	public static Vector getDefinedStartPoints(ScenarioDef def)
+	{
+		Vector startPoints = new Vector();
+		getDefinedStartPoints(def, startPoints);
+		return startPoints;
+	}
+	private static void getDefinedStartPoints(ScenarioDef def, Vector startPoints)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedStartPoints(scenario, startPoints);
+		}
+		
+		for (Iterator iter = def.getStartPoints().iterator(); iter.hasNext();) {
+			ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
+			startPoints.add(pt);
+		}
+	}
+
+	public static Vector getDefinedEndPoints(ScenarioDef def)
+	{
+		Vector endPoints = new Vector();
+		getDefinedEndPoints(def, endPoints);
+		return endPoints;
+	}
+	private static void getDefinedEndPoints(ScenarioDef def, Vector endPoints)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedEndPoints(scenario, endPoints);
+		}
+		
+		for (Iterator iter = def.getEndPoints().iterator(); iter.hasNext();) {
+			ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
+			endPoints.add(pt);
+		}
+	}
+	
 	public static int getTraversalHitCount(EObject obj) {
 		TraversalResult res = getTraversalResults(obj);
 		if (res!=null)
@@ -139,25 +250,7 @@ public class ScenarioUtils {
 		else
 			return 0;
 	}
-	public static void incrementTraversalHitCount(EObject obj) {
-		TraversalResult res = getTraversalResults(obj);
-		
-		if (res!=null)
-			res.incrementHitCount();
-	}
-	
-	public static void clearTraversalResults(UcmEnvironment env) {
-		if (traversals.containsKey(env))
-		{
-			DefaultScenarioTraversalAlgorithm results = (DefaultScenarioTraversalAlgorithm) traversals.get(env);
-			results.clearTraversalResults();
-		}
-		if (activeScenario.containsKey(env)) {
-			activeScenario.remove(env);
-		}
 
-	}
-	
 	private static TraversalResult getTraversalResults(EObject obj) {
 		UcmEnvironment env = getEnvironment(obj);
 		if (traversals.containsKey(env))
@@ -169,7 +262,12 @@ public class ScenarioUtils {
 			return null;
 	}
 	
-
+	public static void incrementTraversalHitCount(EObject obj) {
+		TraversalResult res = getTraversalResults(obj);
+		
+		if (res!=null)
+			res.incrementHitCount();
+	}
 	
 	/**
 	 * Parses a string and returns an error message if is not valid (as a
@@ -219,7 +317,6 @@ public class ScenarioUtils {
 		// return the object.
 		return n;
 	}
-
 	/**
 	 * Removes the UcmEnvironment associated with the object from the global
 	 * cache.
@@ -255,14 +352,7 @@ public class ScenarioUtils {
 			list.remove(parent);
 	}
 	
-	public static ScenarioDef getActiveScenario(EObject obj)
-	{
-		UcmEnvironment initial = getEnvironment(obj);
-		if (activeScenario.containsKey(initial))
-			return (ScenarioDef) activeScenario.get(initial);
-		else
-			return null;
-	}
+	
 	public static void setActiveScenario(ScenarioDef scenario)
 	{
 		try {
@@ -287,27 +377,6 @@ public class ScenarioUtils {
 			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
 		}
 		
-	}
-	
-	public static void clearActiveScenario(EObject obj)
-	{
-		UcmEnvironment initial = getEnvironment(obj);
-		if (activeScenario.containsKey(initial))
-			clearTraversalResults(initial);
-		activeScenario.remove(initial);
-
-	}
-	
-	
-	public static Object evaluate(String code, UcmEnvironment env, boolean isResponsibility) 
-	{
-		Object res = parse(code, env, isResponsibility);
-		if (res instanceof String)
-			throw new IllegalArgumentException(res.toString());
-		else if (res instanceof SimpleNode)
-			return UcmExpressionEvaluator.evaluate((SimpleNode)res, env);
-		else 
-			return res;
 	}
 		
 	

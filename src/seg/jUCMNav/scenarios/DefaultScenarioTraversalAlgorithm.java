@@ -2,6 +2,7 @@ package seg.jUCMNav.scenarios;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,155 +17,56 @@ import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
 /**
- * This class implements the default UCM Scenario traversal algorithm
+ * This class invokes the default UCM Scenario traversal algorithm. Its only responsibilities are environment initialization, pre/post condition verifications
+ * and gathering the traversal results from the actual algorithm.
  * 
  * @author jkealey
  * 
  */
 public class DefaultScenarioTraversalAlgorithm {
 
-	protected HashMap results;
+	// Environment in which to run scenario.
 	protected UcmEnvironment env;
+
+	// HashMap of EObject -> TraversalResult
+	protected HashMap results;
+
+	// Scenario to be run.
 	protected ScenarioDef scenario;
 
-	public DefaultScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioDef scenario) {
+	// Vector of EObjects that are visited. 
+	protected Vector visited;
 
+	// TODO: make warnings objects that are then populated into the warnings view.
+	// Vector of Strings
+	protected Vector warnings;
+
+	/**
+	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, ScenarioDef)}
+	 * 
+	 * @param env
+	 *            environment in which to run the scenario
+	 * @param scenario
+	 *            the scenario to be run.
+	 */
+	public DefaultScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioDef scenario) {
 		init(env, scenario);
 	}
 
-	public void init(UcmEnvironment env, ScenarioDef scenario) {
-		this.env = env;
-		this.scenario = scenario;
-		results = new HashMap();
+	/**
+	 * Erase any traversal results we may have obtained.
+	 */
+	protected void clearTraversalResults() {
+		results.clear();
 	}
 
-	protected void traverse_Initializations(ScenarioDef root) throws TraversalException {
-		if (root==scenario) {
-			env.clearValuations();
-		}
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Initializations(scenario);
-		}
-		
-		for (Iterator iter = root.getInitializations().iterator(); iter.hasNext();) {
-			Initialization init = (Initialization) iter.next();
-			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true);
-		}
-	}
-	protected void traverse_Preconditions(ScenarioDef root) throws TraversalException {
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Preconditions(scenario);
-		}
-		
-		
-		for (Iterator iter = root.getPreconditions().iterator(); iter.hasNext();) {
-			Condition cond = (Condition) iter.next();
-			
-			if (cond.getExpression()!=null && cond.getExpression().length()>0) {
-				
-				Object res=null;
-				try {
-				res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
-				} catch (IllegalArgumentException e) {
-					throw new TraversalException(e.getMessage(), e);
-				}
-				if (res instanceof Boolean) { 
-					if (Boolean.FALSE.equals(res))
-						throw new TraversalException("Precondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
-				}
-				else
-					throw new TraversalException("Unexpected result returned");
-				
-			}
-
-		}
-
-	}
-
-	protected void traverse_Postconditions(ScenarioDef root) throws TraversalException {
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Postconditions(scenario);
-		}
-		
-		for (Iterator iter = root.getPostconditions().iterator(); iter.hasNext();) {
-			Condition cond = (Condition) iter.next();
-			
-			if (cond.getExpression()!=null && cond.getExpression().length()>0) {
-				
-				Object res=null;
-				try {
-				res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
-				} catch (IllegalArgumentException e) {
-					throw new TraversalException(e.getMessage(), e);
-				}
-				if (res instanceof Boolean) { 
-					if (Boolean.FALSE.equals(res))
-						throw new TraversalException("Postcondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
-				}
-				else
-					throw new TraversalException("Unexpected result returned");
-				
-			}
-
-		}
-
-	}
-
-	public void traverse() throws TraversalException {
-		traverse_Initializations(scenario);
-		traverse_Preconditions(scenario);
-
-		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal().new QDefaultScenarioTraversal(env, scenario.getStartPoints());
-		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.getInstance().run(qry);
-		//Vector vReachable = resp.getVisited();
-		results = resp.getResults();
-		
-		if (resp.getError()!=null)
-			throw new TraversalException(resp.getError());
-
-		if (resp.getWarnings()!=null && resp.getWarnings().size()>0) {
-			StringBuilder b = new StringBuilder();
-			b.append("** WARNINGS **\n");
-			for (Iterator iter = resp.getWarnings().iterator(); iter.hasNext();) {
-				Object o = (Object) iter.next();
-				b.append(o.toString() + "\n\n");
-			}
-			throw new TraversalException(b.toString());
-		}
-		
-//
-//		for (Iterator iter = scenario.getStartPoints().iterator(); iter.hasNext();) {
-//			ScenarioStartPoint element = (ScenarioStartPoint) iter.next();
-//			// TraversalResult res =
-//			// createTraversalResults(element.getStartPoint());
-//			// res.incrementHitCount();
-//
-//			// run the query of reachable nodes.
-//			QFindReachableNodes qry = new ReachableNodeFinder().new QFindReachableNodes(element.getStartPoint(), null, QFindReachableNodes.DIRECTION_FORWARD);
-//			ReachableNodeFinder.RReachableNodes resp = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qry);
-//			Vector vReachable = resp.getNodes();
-//
-//			for (Iterator iterator = vReachable.iterator(); iterator.hasNext();) {
-//				PathNode pn = (PathNode) iterator.next();
-//				TraversalResult res = createTraversalResults(pn);
-//				res.incrementHitCount();
-//			}
-//
-//			vReachable = resp.getConnections();
-//			for (Iterator iterator = vReachable.iterator(); iterator.hasNext();) {
-//				NodeConnection nc = (NodeConnection) iterator.next();
-//				TraversalResult res = createTraversalResults(nc);
-//				res.incrementHitCount();
-//			}
-//
-//		}
-
-		traverse_Postconditions(scenario);
-	}
-
+	/**
+	 * Add a result to the resullts HashMap for this object.
+	 * 
+	 * @param obj
+	 *            the object for which to create a result
+	 * @return the new result or the existing one if a result already exists for this object.
+	 */
 	protected TraversalResult createTraversalResults(EObject obj) {
 		if (results == null) {
 			results = new HashMap();
@@ -176,6 +78,13 @@ public class DefaultScenarioTraversalAlgorithm {
 		return (TraversalResult) results.get(obj);
 	}
 
+	/**
+	 * Returns the traversal result for a certain element.
+	 * 
+	 * @param obj
+	 *            the elemetn
+	 * @return the traversal result or null if it does not exist.
+	 */
 	protected TraversalResult getTraversalResults(EObject obj) {
 		if (results.containsKey(obj)) {
 			TraversalResult count = (TraversalResult) results.get(obj);
@@ -184,8 +93,181 @@ public class DefaultScenarioTraversalAlgorithm {
 			return null;
 	}
 
-	protected void clearTraversalResults() {
-		results.clear();
+	/**
+	 * Initialize the algorithm.
+	 * 
+	 * @param env
+	 *            the environment in which to run the scenario
+	 * @param scenario
+	 *            the scenario to be executed.
+	 */
+	public void init(UcmEnvironment env, ScenarioDef scenario) {
+		this.env = env;
+		this.scenario = scenario;
+		results = new HashMap();
+		warnings = new Vector();
+	}
+
+	/**
+	 * Execute the scenario in its environment. - Perform initializations - Verify preconditions - Execute the traversal algorithm - Verify postconditions -
+	 * Temporary: Show warnings. Caller should build warnings using {@link #getWarnings()}
+	 * 
+	 * @throws TraversalException
+	 *             fatal errors are returned as traversal exceptions.
+	 */
+	public void traverse() throws TraversalException {
+
+		// initialize all variables recursively
+		traverse_Initializations(scenario);
+
+		// test preconditions in a second step.
+		traverse_Preconditions(scenario);
+
+		// TODO: Load proper algorithm from plugin extensions / properties.
+		// execute the other algorithm
+		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal().new QDefaultScenarioTraversal(env, ScenarioUtils.getDefinedStartPoints(scenario),
+				ScenarioUtils.getDefinedEndPoints(scenario));
+		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.getInstance().run(qry);
+
+		// memorize our results.
+		results = resp.getResults();
+		visited = resp.getVisited();
+
+		if (resp.getError() != null)
+			throw new TraversalException(resp.getError());
+
+		if (resp.getWarnings() != null && resp.getWarnings().size() > 0)
+			warnings.addAll(resp.getWarnings());
+
+		traverse_Postconditions(scenario);
+
+		// TODO: Caller should build warnings using {@link #getWarnings()}
+		if (warnings.size() > 0) {
+			StringBuilder b = new StringBuilder();
+			b.append("** WARNINGS **\n");
+			for (Iterator iter = resp.getWarnings().iterator(); iter.hasNext();) {
+				Object o = (Object) iter.next();
+				b.append(o.toString() + "\n\n");
+			}
+			throw new TraversalException(b.toString());
+		}
+
+	}
+
+	/**
+	 * Initializes the environment with the given scenario, recursively.
+	 *  - Clear default valuations if root == the scenario being executed. - Set values to what we have defined in the included scenarios. - Set values as
+	 * defined in this scenario.
+	 * 
+	 * @param root
+	 *            the scenario for which to incorporate the variable initializations.
+	 * @throws TraversalException
+	 *             fatal errors are returned as traversal exceptions.
+	 */
+	protected void traverse_Initializations(ScenarioDef root) throws TraversalException {
+		if (root == scenario) {
+			env.clearValuations();
+		}
+		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			traverse_Initializations(scenario);
+		}
+
+		for (Iterator iter = root.getInitializations().iterator(); iter.hasNext();) {
+			Initialization init = (Initialization) iter.next();
+			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true);
+		}
+	}
+
+	/**
+	 * Recursively verify the postconditions.
+	 * 
+	 * @param root
+	 *            the scenario for which to verify the postconditions in the environment.
+	 * 
+	 * @throws TraversalException
+	 *             fatal errors are returned as traversal exceptions.
+	 */
+	protected void traverse_Postconditions(ScenarioDef root) throws TraversalException {
+		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			traverse_Postconditions(scenario);
+		}
+
+		for (Iterator iter = root.getPostconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+
+			if (cond.getExpression() != null && cond.getExpression().length() > 0) {
+
+				Object res = null;
+				try {
+					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+				} catch (IllegalArgumentException e) {
+					throw new TraversalException(e.getMessage(), e);
+				}
+				if (res instanceof Boolean) {
+					if (Boolean.FALSE.equals(res))
+						warnings.add("Postcondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
+				} else
+					throw new TraversalException("Unexpected result returned");
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * Recursively verify the preconditions.
+	 * 
+	 * @param root
+	 *            the scenario for which to verify the preconditions in the environment.
+	 * @throws TraversalException
+	 *             fatal errors are returned as traversal exceptions.
+	 */
+	protected void traverse_Preconditions(ScenarioDef root) throws TraversalException {
+		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			traverse_Preconditions(scenario);
+		}
+
+		for (Iterator iter = root.getPreconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+
+			if (cond.getExpression() != null && cond.getExpression().length() > 0) {
+
+				Object res = null;
+				try {
+					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+				} catch (IllegalArgumentException e) {
+					throw new TraversalException(e.getMessage(), e);
+				}
+				if (res instanceof Boolean) {
+					if (Boolean.FALSE.equals(res))
+						warnings.add("Precondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
+				} else
+					throw new TraversalException("Unexpected result returned");
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * The warnings accumulated during the execution.  
+	 * @return A vector of String instances.
+	 */
+	public Vector getWarnings() {
+		return warnings;
+	}
+
+	/**
+	 * The results of the traversal. 
+	 * @return A HashMap of EObject -> TraversalResult. 
+	 */
+	public HashMap getResults() {
+		return results;
 	}
 
 }
