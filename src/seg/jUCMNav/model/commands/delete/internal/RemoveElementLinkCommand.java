@@ -21,6 +21,7 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
     ElementLink link;
     URNspec urn;
     IntentionalElement src, dest;
+    boolean aborted=false;
     
     /**
      * 
@@ -40,6 +41,10 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
         redo();
     }
     
+    public boolean canExecute() {
+    	return urn!=null && urn.getGrlspec()!=null && urn.getGrlspec().getLinks().contains(link); 
+    }
+    
     public ElementLink getElementLink(){
         return link;
     }
@@ -47,6 +52,8 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+    	aborted = !canExecute();
+    	if (aborted)return;
         testPreConditions();
         urn.getGrlspec().getLinks().remove(link);
         
@@ -78,6 +85,7 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
+    	if (aborted)return;
         testPostConditions();
         urn.getGrlspec().getLinks().add(link);
         
