@@ -3,6 +3,7 @@
  */
 package seg.jUCMNav.model.commands.create;
 
+import grl.Dependency;
 import grl.ElementLink;
 import grl.GRLGraph;
 import grl.GRLNode;
@@ -83,13 +84,19 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
         for (int i=0; i<element.getDef().getLinksDest().size(); i++){
             if (current.getDef().getLinksSrc().contains(
                     element.getDef().getLinksDest().get(i))){
-                add(new AddLinkRefCommand(graph, current, element, (ElementLink)element.getDef().getLinksDest().get(i)));
+            	if ((ElementLink)element.getDef().getLinksDest().get(i) instanceof Dependency)
+            		add(new AddLinkRefCommand(graph, element, current, (ElementLink)element.getDef().getLinksDest().get(i)));
+            	else
+            		add(new AddLinkRefCommand(graph, current, element, (ElementLink)element.getDef().getLinksDest().get(i)));
             }
         }
         for (int i=0; i<element.getDef().getLinksSrc().size(); i++){
             if (current.getDef().getLinksDest().contains(
                     element.getDef().getLinksSrc().get(i))){
-                add(new AddLinkRefCommand(graph, element, current, (ElementLink)element.getDef().getLinksSrc().get(i)));
+            	if ((ElementLink)element.getDef().getLinksSrc().get(i) instanceof Dependency)
+                	add(new AddLinkRefCommand(graph, current, element, (ElementLink)element.getDef().getLinksSrc().get(i)));
+                else
+                	add(new AddLinkRefCommand(graph, element, current, (ElementLink)element.getDef().getLinksSrc().get(i)));
             }
         }
     }
