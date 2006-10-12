@@ -75,7 +75,7 @@ public class jUCMNavLoader {
 	 * @return the full filename to be used as a target
 	 */
 	public String getTargetFilename(String originalFileName, String newProject, boolean overwrite) {
-		String base = newProject + File.pathSeparator + getBaseNameFromFilename(originalFileName);
+		String base = newProject + File.separator + getBaseNameFromFilename(originalFileName);
 		String mid = ""; //$NON-NLS-1$
 		String extension = ".jucm"; //$NON-NLS-1$
 		String filename = base + mid + extension;
