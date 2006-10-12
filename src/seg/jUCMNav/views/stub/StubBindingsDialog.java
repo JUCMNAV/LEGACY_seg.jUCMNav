@@ -13,6 +13,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -43,6 +45,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
@@ -64,6 +67,7 @@ import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
+import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
@@ -580,7 +584,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 		Composite compCondition = toolkit.createComposite(addPluginClient, SWT.BORDER);
 		grid = new GridLayout();
-		grid.numColumns = 2;
+		grid.numColumns = 3;
 		compCondition.setLayout(grid);
 
 		g = new GridData(GridData.FILL_BOTH);
@@ -602,6 +606,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
+		g.horizontalSpan=2;
+		
 		txtLabelCondition.setLayoutData(g);
 		txtLabelCondition.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -616,17 +622,37 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		lblExpCondition.setLayoutData(g);
 		// lblExpCondition.setBackground(new Color(null, 232, 247, 255));
 
-		txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER); //$NON-NLS-1$
+		txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER|SWT.READ_ONLY); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
+		
 		txtExpCondition.setLayoutData(g);
-		txtExpCondition.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				handleUpdateLabels(false);
+//		txtExpCondition.addModifyListener(new ModifyListener() {
+//			public void modifyText(ModifyEvent e) {
+//				handleUpdateLabels(false);
+//			}
+//		});
+
+		Button editCondition = toolkit.createButton(compCondition, "...", SWT.BORDER);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = false;
+		g.grabExcessVerticalSpace = true;
+		editCondition.setLayoutData(g);
+		editCondition.addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				CodeEditor wizard = new CodeEditor();
+				PluginBinding plug = (PluginBinding) selectedPluginLabel.getData();
+				StructuredSelection selection = new StructuredSelection(plug.getPrecondition());
+				wizard.init(PlatformUI.getWorkbench(), selection);
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				dialog.open();
+				refreshCondition();
 			}
 		});
 
+		
 		Label lblDescCondition = toolkit.createLabel(compCondition, Messages.getString("StubBindingsDialog.Description")); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = false;
@@ -639,6 +665,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
+		g.horizontalSpan=2;
 		txtDescCondition.setLayoutData(g);
 		txtDescCondition.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
