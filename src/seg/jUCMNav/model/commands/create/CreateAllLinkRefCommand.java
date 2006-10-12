@@ -34,7 +34,21 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
         setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
         
         GRLGraph graph = (GRLGraph)element.getDiagram();
-        for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();){
+        init(element, graph);
+    }
+
+    /**
+     * Used when creating from outline. 
+     * @param graph
+     * @param element
+     */
+    public CreateAllLinkRefCommand(GRLGraph graph, IntentionalElementRef element) {
+        setLabel(Messages.getString("CreateAllLinkRefCommand.createAllLinkRefs")); //$NON-NLS-1$
+        
+        init(element, graph);
+    }
+	private void init(IntentionalElementRef element, GRLGraph graph) {
+		for (Iterator iter = graph.getNodes().iterator(); iter.hasNext();){
             GRLNode grlnode = (GRLNode)iter.next();
             if (grlnode instanceof IntentionalElementRef){
                 IntentionalElementRef current = (IntentionalElementRef)grlnode;
@@ -58,7 +72,7 @@ public class CreateAllLinkRefCommand extends CompoundCommand {
                 
             }
         }
-    }
+	}
 
     /**
      * @param graph

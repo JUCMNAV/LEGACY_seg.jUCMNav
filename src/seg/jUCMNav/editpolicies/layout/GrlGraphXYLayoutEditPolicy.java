@@ -20,6 +20,7 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.create.AddBeliefCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddIntentionalElementRefCommand;
+import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Label;
@@ -129,6 +130,14 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         if (request.getNewObject() instanceof IntentionalElementRef){
             node = (IntentionalElementRef) request.getNewObject();
             create = new AddIntentionalElementRefCommand(getGraph(), (IntentionalElementRef)node);
+            if (((IntentionalElementRef)node).getDef().getLinksSrc().size()+((IntentionalElementRef)node).getDef().getLinksDest().size()>0) {
+            	// dragged existinng element from outline. 
+            	
+                CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(getGraph(), (IntentionalElementRef)node);
+                if (createCmd.canExecute())
+                	create = create.chain(createCmd);
+
+            }            
         }else if (request.getNewObject() instanceof Belief){   
             node = (Belief) request.getNewObject();
             create = new AddBeliefCommand(getGraph(), (Belief)node);

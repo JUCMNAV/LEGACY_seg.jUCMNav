@@ -226,6 +226,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
+    	if (getParent()==null)return;
         refreshTargetConnections();
         refreshSourceConnections();
         refreshVisuals();
@@ -277,7 +278,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             IntentionalElement elem = ((IntentionalElementRef)getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
             //Set the line color and fill color. Option only available in design view
-            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
+            if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
                 ((IntentionalElementFigure) figure).setColors(getNode().getDef().getLineColor(), getNode().getDef().getFillColor(), getNode().getDef().isFilled());
                 ((IntentionalElementPropertySource)getPropertySource()).setEvaluationStrategyView(false);
                 evaluationLabel.setVisible(false);

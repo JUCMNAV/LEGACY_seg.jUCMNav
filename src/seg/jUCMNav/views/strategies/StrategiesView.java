@@ -371,12 +371,22 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }              
             
             currentView = ID_STRATEGY;
+            if (currentStrategy != null && (currentStrategy.getGroup()==null || currentStrategy.getGroup().getGrlspec()==null)){
+            	// was deleted
+            	currentStrategy=null;
+            }
+
             if (currentStrategy != null){
                 EvaluationStrategyManager.getInstance().setStrategy(currentStrategy);
                 for (int i=0; i< multieditor.getPageCount(); i++){
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
                 }         
+            }
+             
+            if (currentScenario != null && (currentScenario.getGroup()==null || currentScenario.getGroup().getUcmspec()==null)){
+            	// was deleted
+            	currentScenario=null;
             }
             if (currentScenario != null){
             	ScenarioUtils.setActiveScenario(currentScenario);

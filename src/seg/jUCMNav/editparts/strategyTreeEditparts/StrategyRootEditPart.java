@@ -3,6 +3,7 @@ package seg.jUCMNav.editparts.strategyTreeEditparts;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -30,4 +31,13 @@ public class StrategyRootEditPart extends AbstractTreeEditPart {
         return l;
     }
 
+    /**
+     * @see org.eclipse.gef.EditPart#getRoot()
+     */
+    public RootEditPart getRoot() {
+    	if (getParent()==null)
+    		return null;
+    	else
+    		return getParent().getRoot();
+    }
 }

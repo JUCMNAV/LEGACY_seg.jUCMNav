@@ -76,11 +76,11 @@ public class AddIntentionalElementRefCommand extends Command implements JUCMNavC
      */
     public void testPreConditions() {
         assert elementRef != null : "pre elementRef"; //$NON-NLS-1$
-        assert elementRef.getDef() != null : "pre elementDef"; //$NON-NLS-1$
+        assert bDefAlreadyExists || elementRef.getDef() != null : "pre elementDef"; //$NON-NLS-1$
         assert graph != null : "pre graph"; //$NON-NLS-1$
 
         assert !graph.getNodes().contains(elementRef) : "pre elementref in graph"; //$NON-NLS-1$
-        assert bDefAlreadyExists ^ !graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "pre elementDef in model"; //$NON-NLS-1$
+        assert bDefAlreadyExists || !graph.getUrndefinition().getUrnspec().getGrlspec().getIntElements().contains(elementRef.getDef()) : "pre elementDef in model"; //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
