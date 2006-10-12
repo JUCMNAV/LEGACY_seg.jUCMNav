@@ -17,6 +17,7 @@ import seg.jUCMNav.model.util.modelexplore.QueryResponse;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
+import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -143,7 +144,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	}
 
-	protected static final int MAXVISITCOUNT = 10;
+	protected static final int MAXVISITCOUNT = 100;
 
 	// fatal error
 	protected String _error;
@@ -162,6 +163,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	// Vector of Strings
 	protected Vector _warnings;
+	
+	// Vector of PluginBindings
+	protected Vector _currentContext;
+	
 
 	/**
 	 * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
@@ -257,7 +262,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			if (_waitList.size() > 0 && _toVisit.size() < lastAttempt) {
 				int sz = _waitList.size();
 
-				processNode(env, (PathNode) _waitList.poll());
+				processNode(env, (TraversalVisit) _waitList.poll());
 
 				if (sz == _waitList.size())
 					// was not able to make any progress.
@@ -274,23 +279,42 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 				// TODO: this is invalid. it removes all instances from the stack.
 				// if we hit another path that finds a node that is already on the waiting list, process it immediately, and remove it from the to process list.
-				while (_waitList.contains(_toVisit.peek())) {
-					_waitList.remove(_toVisit.peek());
+//				while (_waitList.contains(_toVisit.peek())) {
+//				_waitList.remove(_toVisit.peek());
+//			}
+				
+				// TODO: semantic variation. we are removing one instance, implying waiting place has memory.
+				// Remove all for no memory. 
+				PathNode peeking = (PathNode) ((TraversalVisit)_toVisit.peek()).getVisitedElement();
+				TraversalVisit toRemove = null;
+				for (Iterator iter = _waitList.iterator(); iter.hasNext();) {
+					TraversalVisit visit = (TraversalVisit) iter.next();
+					if (visit.getVisitedElement().equals(peeking)) {
+						toRemove = visit;
+						break;
+					}
 				}
 
-				processNode(env, (PathNode) _toVisit.pop());
+				if (toRemove!=null)
+					_waitList.remove(toRemove);
+				
+				processNode(env, (TraversalVisit) _toVisit.pop());
 
 			} else {
 				// TODO: this is invalid. it doesn't check to see any other blocked elements, it boots the next one out, which may still work.
 				// if we don't have anything to do in the toVisit queue and our last attempt at processing the _waitList failed, we've got to boot one element
 				// out.
 				if (lastAttempt == 0 && _waitList.size() > 0) {
+					TraversalVisit visit = (TraversalVisit)_waitList.peek();
+					
 					// if it is a timer, force the timeout path.
-					if (_waitList.peek() instanceof Timer && ((Timer) _waitList.peek()).getSucc().size() == 2) {
-						NodeConnection nc = (NodeConnection) ((Timer) _waitList.poll()).getSucc().get(1);
+					if (visit.getVisitedElement() instanceof Timer && ((Timer) visit.getVisitedElement()).getSucc().size() == 2) {
+						visit = (TraversalVisit) _waitList.poll();
+						NodeConnection nc = (NodeConnection) ((Timer)visit.getVisitedElement()).getSucc().get(1);
+						_currentContext = visit.getContext();
 						visitNodeConnection(nc);
 					} else { // otherwise (and join for example), kick the element out of our list.
-						_warnings.add("Traversal blocked on " + _waitList.peek().toString());
+						_warnings.add("Traversal blocked on " + visit.getVisitedElement().toString());
 
 						// kick out of waiting list because this is just a
 						// warning
@@ -326,23 +350,62 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		// TODO: Semantic variation: and join has memory or not?
 		if (andjoin.getSucc().size() == 1) {
 			NodeConnection out = (NodeConnection) andjoin.getSucc().get(0);
-			boolean b = false;
-			for (Iterator iter = andjoin.getPred().iterator(); iter.hasNext() && !b;) {
+			boolean blocked = false;
+			
+//			determines if we have a new token or if this is another branch that is arriving. 
+//			code never tested
+//			
+//			int count=getHitCount(((NodeConnection)_visited.lastElement()));
+//			boolean newToken=true;
+//			for (Iterator iter = andjoin.getPred().iterator(); iter.hasNext();) {
+//				NodeConnection in = (NodeConnection) iter.next();
+//				if (count<=getHitCount(in) && !in.equals(_visited.lastElement())))
+//					newToken=false;
+//			}
+			
+			for (Iterator iter = andjoin.getPred().iterator(); iter.hasNext() && !blocked;) {
 				NodeConnection in = (NodeConnection) iter.next();
 				if (getHitCount(out) + 1 > getHitCount(in)) {
 
-					// Don't add doubles.
-					if (!_waitList.contains(andjoin))
-						_waitList.offer(andjoin);
-					b = true;
+					// we have to wait for more branches.  
+					
+					addToWaitingList(andjoin);
+						 
+
+					blocked = true;
 				}
 			}
 
-			if (!b)
+			if (!blocked)
 				visitNodeConnection(out);
 
 		} else
 			_error = "Traversal error.";
+	}
+
+	/**
+	 * Adds an element to the waiting list. Assuming elements have no memory for simplicity.  
+	 *  
+	 * @param pn
+	 */
+	protected void addToWaitingList(PathNode pn) {
+		// TODO: semantic variation: do we add doubles? does join have memory?
+		// our implementation: and-joins do not have memory so doubles are not valid. 
+		boolean alreadyExists=false;
+		for (Iterator iterator = _waitList.iterator(); iterator.hasNext();) {
+			TraversalVisit visit = (TraversalVisit) iterator.next();
+			if (visit.getVisitedElement().equals(pn)) { 
+				// merge context. 
+				visit.increaseContext(_currentContext);
+				alreadyExists=true;
+				
+				// assuming only one instance. 
+				break;
+			}
+		}
+		
+		if (!alreadyExists)
+			_waitList.offer(new TraversalVisit(pn, _currentContext));
 	}
 
 	/**
@@ -363,16 +426,31 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 			// skip over because processNode doesn't look at incoming
 			// connections to see if it can continue must be forced
-			if (_waitList.contains(nc.getTarget())) {
-				incrementHitCount(nc.getTarget());
-				NodeConnection nc2 = (NodeConnection) nc.getTarget().getSucc().get(0);
-				visitNodeConnection(nc2);
+			boolean alreadyExists=false;
+			TraversalVisit toRemove=null;
+			for (Iterator iterator = _waitList.iterator(); iterator.hasNext();) {
+				TraversalVisit visit = (TraversalVisit) iterator.next();
+				if (visit.getVisitedElement().equals(nc.getTarget())) { 
+					incrementHitCount(nc.getTarget());
+					NodeConnection nc2 = (NodeConnection) nc.getTarget().getSucc().get(0);
+					
+					
+					if (visit.getContext()!=null)
+					_currentContext.addAll(visit.getContext());
 
+					visitNodeConnection(nc2);
+					alreadyExists=true;
+					toRemove=visit;
+					// assuming only one instance. 
+					break;
+				}
 			}
-			// TODO: invalid, should only remove once.
-			while (_waitList.contains(nc.getTarget())) {
-				_waitList.remove(nc.getTarget());
-			}
+			
+
+			// TODO: semantic variation: do we have multiple instances or not? 
+			// we prevent duplicates when adding, don't need to remove multiple instances.
+			if (toRemove!=null)
+				_waitList.remove(toRemove);
 
 		} else
 			_error = "Traversal error.";
@@ -400,17 +478,38 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processEndPoint(UcmEnvironment env, EndPoint end) throws TraversalException {
 		Condition post = end.getPostcondition();
 
+		
 		// TODO: semantic variation: if postcondition is false, should we continue processing?
 		if (testCondition(env, end.getPostcondition(), Boolean.TRUE, "Postcondition to End Point \"" + end.getName() + " (" + end.getId()
 				+ ")\" did not evaluate to true.")) {
 
-			// TODO: filter by "instance" that launched the start.
-			for (Iterator iter = end.getOutBindings().iterator(); iter.hasNext();) {
+			// filter by "instance" that launched the start.
+			Vector outbindings = new Vector();
+			// first find outbindings we need to fire
+			for (Iterator iter = _currentContext.iterator(); iter.hasNext();) {
+				PluginBinding binding = (PluginBinding) iter.next();
+				for (Iterator iterator = binding.getOut().iterator(); iterator.hasNext();) {
+					OutBinding outbinding = (OutBinding) iterator.next();
+					if (outbinding.getEndPoint().equals(end))
+					{
+						outbindings.add(outbinding);
+					}
+				}
+			}
+
+			// remove them from the context
+			for (Iterator iter = outbindings.iterator(); iter.hasNext();) {
+				OutBinding outbinding = (OutBinding) iter.next();
+				if (_currentContext.contains(outbinding.getBinding()))
+					_currentContext.remove(outbinding.getBinding());
+			}
+			
+			// fire the bindings with the new context 
+			for (Iterator iter = outbindings.iterator(); iter.hasNext();) {
 				OutBinding binding = (OutBinding) iter.next();
 				if (binding.getStubExit() != null) {
 					incrementHitCount(binding.getStubExit());
-					// TODO: new thread only if firing multiple at a time.
-					pushPathNode((PathNode) binding.getStubExit().getTarget(), end.getOutBindings().size() > 1);
+					pushPathNode((PathNode) binding.getStubExit().getTarget(), outbindings.size() > 1);
 				}
 			}
 
@@ -429,7 +528,11 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 * @throws TraversalException
 	 *             fatal error throw exceptions
 	 */
-	protected void processNode(UcmEnvironment env, PathNode pn) throws TraversalException {
+	protected void processNode(UcmEnvironment env, TraversalVisit visit) throws TraversalException {
+		PathNode pn = (PathNode) visit.getVisitedElement();
+		_currentContext = new Vector();
+		_currentContext.addAll(visit.getContext());
+		
 		trackVisit(pn);
 
 		if (pn instanceof StartPoint) {
@@ -562,8 +665,11 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (Boolean.TRUE.equals(result)) {
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
 						InBinding inb = (InBinding) iterator.next();
-						if (inb.getStartPoint() != null)
+						if (inb.getStartPoint() != null) {
+							if (!_currentContext.contains(binding))
+								_currentContext.add(binding);
 							pushPathNode(inb.getStartPoint(), false);
+						}
 						b = true;
 					}
 					if (binding.getIn().size() == 0)
@@ -601,7 +707,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			if (Boolean.TRUE.equals(result)) {
 				visitNodeConnection(nc);
 			} else {
-				_waitList.offer(pn);
+				addToWaitingList(pn);
 			}
 		} catch (IllegalArgumentException e) {
 			throw new TraversalException(e.getMessage(), e);
@@ -619,8 +725,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void pushPathNode(PathNode pn, boolean newThread) {
 		// TODO: Semantic Variation: "multithreading" in different stacks.
-		_toVisit.push(pn);
+		_toVisit.push(new TraversalVisit(pn, _currentContext));
 	}
+	
 
 	/**
 	 * Initialize using {@link QDefaultScenarioTraversal} , run {@link #process(UcmEnvironment, Vector, Vector)} and prepare {@link RTraversalSequence}
@@ -658,6 +765,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void seedAlgorithm(Vector startPoints) {
 		for (int i = startPoints.size() - 1; i >= 0; i--) {
+			_currentContext = new Vector();
 			if (startPoints.get(i) instanceof StartPoint)
 				pushPathNode((StartPoint) startPoints.get(i), true);
 			else if (startPoints.get(i) instanceof ScenarioStartPoint) {
