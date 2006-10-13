@@ -435,10 +435,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					NodeConnection nc2 = (NodeConnection) nc.getTarget().getSucc().get(0);
 					
 					
-					if (visit.getContext()!=null) {
-						_currentContext = (Vector)_currentContext.clone();
-						_currentContext.addAll(visit.getContext());
-					}
+					if (visit.getContext()!=null)
+					_currentContext.addAll(visit.getContext());
 
 					visitNodeConnection(nc2);
 					alreadyExists=true;
@@ -500,16 +498,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 
 			// remove them from the context
-			boolean bCloned=false;
 			for (Iterator iter = outbindings.iterator(); iter.hasNext();) {
 				OutBinding outbinding = (OutBinding) iter.next();
-				if (_currentContext.contains(outbinding.getBinding())) {
-					if (!bCloned) {
-						_currentContext = (Vector)_currentContext.clone();
-						bCloned=true;
-					}
+				if (_currentContext.contains(outbinding.getBinding()))
 					_currentContext.remove(outbinding.getBinding());
-				}
 			}
 			
 			// fire the bindings with the new context 
@@ -538,9 +530,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processNode(UcmEnvironment env, TraversalVisit visit) throws TraversalException {
 		PathNode pn = (PathNode) visit.getVisitedElement();
-//		_currentContext = new Vector();
-//		_currentContext.addAll(visit.getContext());
-		_currentContext = visit.getContext();
+		_currentContext = new Vector();
+		_currentContext.addAll(visit.getContext());
 		
 		trackVisit(pn);
 
@@ -666,7 +657,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processStub(UcmEnvironment env, Stub stub) throws TraversalException {
 		boolean b = false;
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
-		boolean bCloned=false;
 		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext() && !b;) {
 			PluginBinding binding = (PluginBinding) iter.next();
 
@@ -676,13 +666,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
 						InBinding inb = (InBinding) iterator.next();
 						if (inb.getStartPoint() != null) {
-							if (!_currentContext.contains(binding)) {
-								if (!bCloned) {
-									_currentContext = (Vector)_currentContext.clone();
-									bCloned=true;
-								}
+							if (!_currentContext.contains(binding))
 								_currentContext.add(binding);
-							}
 							pushPathNode(inb.getStartPoint(), false);
 						}
 						b = true;
