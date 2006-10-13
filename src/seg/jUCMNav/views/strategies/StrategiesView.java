@@ -34,6 +34,7 @@ import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EvaluationStategyTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioDefTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioGroupTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
@@ -51,7 +52,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
 	private ScenarioDef currentScenario;
     private ScenarioDefTreeEditPart currentScenarioSelection;
     
-    private IAction showDesignView, showStrategiesView; 
+    private IAction showDesignView, showStrategiesView, refreshTreeView; 
     
     private int currentView;
 	/**
@@ -98,15 +99,34 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         showStrategiesView.setToolTipText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
         showStrategiesView.setText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
 
+        refreshTreeView = new Action() {
+            public void run() {
+                // tree view
+            	if (viewer!=null && viewer.getRootEditPart().getChildren().size()>0) {
+            		StrategyRootEditPart root = ((StrategyRootEditPart) viewer.getRootEditPart().getChildren().get(0));
+            		if (root.getModel()!=null && ((UCMNavMultiPageEditor)root.getModel()).getModel()!=null)
+            			root.refreshScenarioTreeView(((UCMNavMultiPageEditor)root.getModel()).getModel().getUcmspec());
+            	}
+            	
+            	showPage(currentView);
+            }
+        };
+        refreshTreeView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/refresh.gif")); //$NON-NLS-1$
+        refreshTreeView.setToolTipText("Refresh");
+        refreshTreeView.setText("Refresh"); 
+
+        
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();
         tbm.add(showStrategiesView);
         tbm.add(showDesignView);
+        tbm.add(refreshTreeView);
 
         IMenuManager manager= getViewSite().getActionBars().getMenuManager();
-        manager.add(showStrategiesView);
+        manager.add(refreshTreeView);
         manager.add(new Separator());
+        manager.add(showStrategiesView);
         manager.add(showDesignView);
-        
+
  
         
         showPage(ID_DESIGN);

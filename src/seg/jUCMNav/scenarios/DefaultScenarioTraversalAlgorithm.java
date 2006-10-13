@@ -168,12 +168,9 @@ public class DefaultScenarioTraversalAlgorithm {
 		if (root == scenario) {
 			env.clearValuations();
 		}
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Initializations(scenario);
-		}
-
-		for (Iterator iter = root.getInitializations().iterator(); iter.hasNext();) {
+		
+		
+		for (Iterator iter = ScenarioUtils.getDefinedInitializations(root).iterator(); iter.hasNext();) {
 			Initialization init = (Initialization) iter.next();
 			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true);
 		}
@@ -189,12 +186,8 @@ public class DefaultScenarioTraversalAlgorithm {
 	 *             fatal errors are returned as traversal exceptions.
 	 */
 	protected void traverse_Postconditions(ScenarioDef root) throws TraversalException {
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Postconditions(scenario);
-		}
 
-		for (Iterator iter = root.getPostconditions().iterator(); iter.hasNext();) {
+		for (Iterator iter = ScenarioUtils.getDefinedPostconditions(root).iterator(); iter.hasNext();) {
 			Condition cond = (Condition) iter.next();
 
 			if (cond.getExpression() != null && cond.getExpression().length() > 0) {
@@ -226,12 +219,7 @@ public class DefaultScenarioTraversalAlgorithm {
 	 *             fatal errors are returned as traversal exceptions.
 	 */
 	protected void traverse_Preconditions(ScenarioDef root) throws TraversalException {
-		for (Iterator iter = root.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			traverse_Preconditions(scenario);
-		}
-
-		for (Iterator iter = root.getPreconditions().iterator(); iter.hasNext();) {
+		for (Iterator iter = ScenarioUtils.getDefinedPreconditions(root).iterator(); iter.hasNext();) {
 			Condition cond = (Condition) iter.next();
 
 			if (cond.getExpression() != null && cond.getExpression().length() > 0) {

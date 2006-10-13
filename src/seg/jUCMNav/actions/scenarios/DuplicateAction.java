@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.DuplicateCommand;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import urncore.Condition;
@@ -54,23 +55,25 @@ public class DuplicateAction extends IncludeScenarioAction {
 
 		if (child!=null)
 		{
-			if (child instanceof Condition)
-			{
-				Condition condition = (Condition) child;
-				if (condition.getScenarioDefPost()!=null)
-					scenario = condition.getScenarioDefPost();
-				else 
-					scenario = condition.getScenarioDefPre();
-			} else if (child instanceof ScenarioStartPoint)
-			{
-				ScenarioStartPoint point = (ScenarioStartPoint) child;
-				scenario = point.getScenarioDef();
-			} else if (child instanceof ScenarioEndPoint)
-			{
-				ScenarioEndPoint point = (ScenarioEndPoint) child;
-				scenario = point.getScenarioDef();
-			}
-				
+//			if (child instanceof Condition)
+//			{
+//				Condition condition = (Condition) child;
+//				if (condition.getScenarioDefPost()!=null)
+//					scenario = condition.getScenarioDefPost();
+//				else 
+//					scenario = condition.getScenarioDefPre();
+//			} else if (child instanceof ScenarioStartPoint)
+//			{
+//				ScenarioStartPoint point = (ScenarioStartPoint) child;
+//				scenario = point.getScenarioDef();
+//			} else if (child instanceof ScenarioEndPoint)
+//			{
+//				ScenarioEndPoint point = (ScenarioEndPoint) child;
+//				scenario = point.getScenarioDef();
+//			}
+		
+			// this will give us the behaviour we want for inherited elements. 
+			scenario = (ScenarioDef)((EditPart)list.get(0)).getParent().getParent().getModel();
 		}
 
 	}

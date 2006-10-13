@@ -9,11 +9,13 @@ import java.util.List;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.VariableComponentEditPolicy;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Initialization;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.Variable;
 
 /**
@@ -48,7 +50,8 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new VariableComponentEditPolicy());
+    	if (!isInherited()) 
+    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new VariableComponentEditPolicy());
     }
     
     /**
@@ -96,10 +99,22 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
         return getInitialization().getVariable();
     }
     
+
+	private boolean isInherited() {
+		return !((ScenarioDef) getParent().getParent().getModel()).getInitializations().contains(getModel());
+	}
+    
     /**
      * @return the Initialization name.
      */
     protected String getText() {
+    	
+    	if (isInherited()) 
+    		((TreeItem) widget).setForeground(GRAY);
+    	else
+    		((TreeItem) widget).setForeground(BLACK);
+    	
+    	
     	if (getVariable()==null) 
     		return "";
     	else 

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -24,6 +25,12 @@ import ucm.scenario.Variable;
  */
 public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 
+
+	public final Color GRAY = new Color(null, 150, 150, 150);
+	public final Color BLACK = new Color(null, 0, 0, 0);
+	public final Color LIGHTGRAY = new Color(null, 200, 200, 200);
+	public final Color WHITE = new Color(null, 255, 255, 255);
+	
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;
 
@@ -96,9 +103,14 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
      */
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot()!=null) {
+
             refreshChildren();
             refreshVisuals();
-
+            
+            // get rid of elements that were deleted. 
+            if (getModel() instanceof EObject && ((EObject)getModel()).eContainer()==null)
+            	getParent().refresh();
+            
             // refresh parent to reorder children if name changes.
             if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
                 getParent().refresh();
@@ -106,6 +118,7 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
 
         }
     }
+
 
     /**
      * Returns the textual string associated with this element.

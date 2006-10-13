@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 
 /**
@@ -80,16 +81,23 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals("Included scenarios")) {
-        	list.addAll(root.getIncludedScenarios());
+        	//list.addAll(root.getIncludedScenarios());
+        	list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
         } else if (getLabel().equals("Start points")) {
-        	list.addAll(root.getStartPoints());
+        	//list.addAll(root.getStartPoints());
+        	list.addAll(ScenarioUtils.getDefinedStartPoints(root));
 		} else if (getLabel().equals("Preconditions")) {
-			list.addAll(root.getInitializations());
-			list.addAll(root.getPreconditions());
+//			list.addAll(root.getInitializations());
+//			list.addAll(root.getPreconditions());
+			list.addAll(ScenarioUtils.getDefinedInitializations(root));
+			list.addAll(ScenarioUtils.getDefinedPreconditions(root));
 		} else if (getLabel().equals("End points")) {
-			list.addAll(root.getEndPoints());
+			//list.addAll(root.getEndPoints());
+			list.addAll(ScenarioUtils.getDefinedEndPoints(root));
 		} else if (getLabel().equals("Postconditions")) {
-			list.addAll(root.getPostconditions());
+//			list.addAll(root.getPostconditions());
+			list.addAll(ScenarioUtils.getDefinedPostconditions(root));
+			
 		}
         
         return list;

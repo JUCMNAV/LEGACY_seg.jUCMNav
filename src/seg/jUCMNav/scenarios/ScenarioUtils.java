@@ -20,10 +20,12 @@ import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
 import ucm.map.RespRef;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
+import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
 
@@ -223,6 +225,22 @@ public class ScenarioUtils {
 			startPoints.add(pt);
 		}
 	}
+	
+	public static Vector getDefinedIncludedScenarios(ScenarioDef def)
+	{
+		Vector scenarios = new Vector();
+		getDefinedIncludedScenarios(def, scenarios);
+		return scenarios;
+	}
+	private static void getDefinedIncludedScenarios(ScenarioDef def, Vector scenarios)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedIncludedScenarios(scenario, scenarios);
+			scenarios.add(scenario);
+		}
+		
+	}	
 
 	public static Vector getDefinedEndPoints(ScenarioDef def)
 	{
@@ -243,6 +261,78 @@ public class ScenarioUtils {
 		}
 	}
 	
+	public static Vector getDefinedPreconditions(ScenarioDef def)
+	{
+		Vector preconditions = new Vector();
+		getDefinedPreconditions(def, preconditions);
+		return preconditions;
+	}
+	private static void getDefinedPreconditions(ScenarioDef def, Vector preconditions)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedPreconditions(scenario, preconditions);
+		}
+		
+		for (Iterator iter = def.getPreconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+			if (!preconditions.contains(cond))
+				preconditions.add(cond);
+		}
+	}	
+	
+	public static Vector getDefinedPostconditions(ScenarioDef def)
+	{
+		Vector postconditions = new Vector();
+		getDefinedPostconditions(def, postconditions);
+		return postconditions;
+	}
+	private static void getDefinedPostconditions(ScenarioDef def, Vector postconditions)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedPostconditions(scenario, postconditions);
+		}
+		
+		for (Iterator iter = def.getPostconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+			if (!postconditions.contains(cond))
+				postconditions.add(cond);
+		}
+	}	
+	
+	public static Vector getDefinedInitializations(ScenarioDef def)
+	{
+		Vector initializations = new Vector();
+		getDefinedInitializations(def, initializations);
+		
+		Vector uniqueSubsetInitializations = new Vector();
+		for (Iterator iter = def.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
+			Variable var = (Variable) iter.next();
+			// only add last occurrence
+			for (int i=initializations.size()-1;i>=0;i--) {
+				Initialization init = (Initialization) initializations.get(i);
+				if (init.getVariable() == var) {
+					uniqueSubsetInitializations.add(init);
+					break;
+				}
+			}
+			
+		}
+		return uniqueSubsetInitializations;
+	}
+	private static void getDefinedInitializations(ScenarioDef def, Vector initializations)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedInitializations(scenario, initializations);
+		}
+		
+		for (Iterator iter = def.getInitializations().iterator(); iter.hasNext();) {
+			Initialization cond = (Initialization) iter.next();
+			initializations.add(cond);
+		}
+	}		
 	public static int getTraversalHitCount(EObject obj) {
 		TraversalResult res = getTraversalResults(obj);
 		if (res!=null)

@@ -8,13 +8,13 @@ import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 
 /**
  * TreeEditPart for Scenarios in the strategies view
@@ -38,7 +38,8 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
+    	if (!isInherited()) 
+    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
 	}
 
 	public ScenarioDef getScenarioDef() {
@@ -71,12 +72,29 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 			return;
 		this.selected = selected;
 		if (selected) {
-			((TreeItem) widget).setBackground(new Color(null, 200, 200, 200));
+			((TreeItem) widget).setBackground(LIGHTGRAY);
 		} else {
-			((TreeItem) widget).setBackground(new Color(null, 255, 255, 255));
+			((TreeItem) widget).setBackground(WHITE);
 		}
 		// refreshVisuals();
 	}
 	
+
+	private boolean isInherited() {
+		if (getParent().getModel() instanceof ScenarioGroup)
+			return false;
+		else 
+			return getParent().getChildren().indexOf(this) < ((ScenarioLabelTreeEditPart)getParent()).getModelChildren().size()-((ScenarioDef) getParent().getParent().getModel()).getIncludedScenarios().size();
+	}
+
+	protected String getText() {
+    	if (isInherited()) 
+    		((TreeItem) widget).setForeground(GRAY);
+    	else
+    		((TreeItem) widget).setForeground(BLACK);
+    	
+    	return super.getText();
+	}
+
 
 }

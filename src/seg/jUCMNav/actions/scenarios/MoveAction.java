@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioLabelTreeEditPart;
+import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioPathNodeTreeEditPart;
 import seg.jUCMNav.model.commands.transformations.ReorderScenarioChildrenCommand;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -52,7 +53,9 @@ public class MoveAction extends URNSelectionAction {
 	 * True if we've selected something with code. 	 */
 	protected boolean calculateEnabled() {
 		initScenario();
-		return scenario!=null && obj!=null;
+		List list = getSelectedObjects();
+		
+		return scenario!=null && obj!=null && list.size()>0 && list.get(0) instanceof ScenarioPathNodeTreeEditPart && !((ScenarioPathNodeTreeEditPart)list.get(0)).isInherited();
 	}
 
 	protected void initScenario() {

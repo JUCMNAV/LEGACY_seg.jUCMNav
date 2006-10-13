@@ -46,6 +46,8 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 	private ScenarioDef scenario;
 	private boolean isPreCondition;
 
+	private int index;
+	
 	/**
 	 * 
 	 * @param pn
@@ -170,18 +172,21 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			if (aborted)
 				return;
 			scenario = pt.getScenarioDef();
+			index = scenario.getStartPoints().indexOf(pt);
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
 			aborted = pt.getScenarioDef() == null;
 			if (aborted)
 				return;
 			scenario = pt.getScenarioDef();
+			index = scenario.getEndPoints().indexOf(pt);
 		} else if (element instanceof Initialization) {
 			Initialization init = (Initialization) element;
 			aborted = init.getScenarioDef() == null;
 			if (aborted)
 				return;
 			scenario = init.getScenarioDef();
+			index = scenario.getInitializations().indexOf(init);
 		} else if (element instanceof Condition) {
 			Condition cond = (Condition) element;
 			aborted = cond.getScenarioDefPost() == null && cond.getScenarioDefPre() == null;
@@ -191,10 +196,12 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			if (cond.getScenarioDefPre() != null) {
 				scenario = cond.getScenarioDefPre();
 				isPreCondition = true;
+				index = scenario.getPreconditions().indexOf(cond);
 			}
 			else if (cond.getScenarioDefPost() != null) {
 				scenario = cond.getScenarioDefPost();
 				isPreCondition = false;
+				index = scenario.getPostconditions().indexOf(cond);
 			}
 
 		}		
@@ -284,19 +291,26 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			var.setUcmspec(ucmspec);
 		} else if (element instanceof ScenarioStartPoint) {
 			ScenarioStartPoint pt = (ScenarioStartPoint) element;
-			pt.setScenarioDef(scenario);
+			//pt.setScenarioDef(scenario);
+			scenario.getStartPoints().add(index, pt);
 		} else if (element instanceof ScenarioEndPoint) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) element;
-			pt.setScenarioDef(scenario);
+			//pt.setScenarioDef(scenario);
+			scenario.getEndPoints().add(index, pt);
 		} else if (element instanceof Initialization) {
 			Initialization init = (Initialization) element;
-			init.setScenarioDef(scenario);			
+			//init.setScenarioDef(scenario);
+			scenario.getInitializations().add(index, init);
 		} else if (element instanceof Condition) {
 			Condition cond = (Condition) element;
-			if (isPreCondition)
-				cond.setScenarioDefPre(scenario);
-			else
-				cond.setScenarioDefPost(scenario);
+			if (isPreCondition) {
+				//cond.setScenarioDefPre(scenario);
+				scenario.getPreconditions().add(index, cond);
+			}
+			else {
+				//cond.setScenarioDefPost(scenario);
+				scenario.getPostconditions().add(index, cond);
+			}
 			
 		}
 		testPreConditions();

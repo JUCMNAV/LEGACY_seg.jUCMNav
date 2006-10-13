@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -16,6 +17,7 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 
@@ -47,7 +49,20 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies() {
-		 installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioPathNodeComponentEditPolicy());
+    	if (!isInherited()) 
+    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioPathNodeComponentEditPolicy()); // deletion
+	}
+
+	public boolean isInherited() {
+		return isInheritedStartPoint() || isInheritedEndPoint();
+	}
+
+	protected boolean isInheritedEndPoint() {
+		return getModel() instanceof ScenarioEndPoint && !((ScenarioDef) getParent().getParent().getModel()).getEndPoints().contains(getModel());
+	}
+
+	protected boolean isInheritedStartPoint() {
+		return getModel() instanceof ScenarioStartPoint && !((ScenarioDef) getParent().getParent().getModel()).getStartPoints().contains(getModel());
 	}
 	
     /**
@@ -56,6 +71,7 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {
+    	
         if (!isActive() && getPathNode()!=null)
             getPathNode().eAdapters().add(this);
         super.activate();
@@ -126,6 +142,11 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
      */
     protected String getText() {
+    	if (isInherited()) 
+    		((TreeItem) widget).setForeground(GRAY);
+    	else
+    		((TreeItem) widget).setForeground(BLACK);
+    	
     	if (getModel() instanceof ScenarioStartPoint && ((ScenarioStartPoint)getModel()).getStartPoint()!=null)
     		return ((UCMmap)((ScenarioStartPoint)getModel()).getStartPoint().getDiagram()).getName() + "\\" + EObjectClassNameComparator.getSortableElementName(((ScenarioStartPoint)getModel()).getStartPoint());
     	else if (getModel() instanceof ScenarioEndPoint && ((ScenarioEndPoint)getModel()).getEndPoint()!=null)
@@ -142,4 +163,5 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
 			node = ((ScenarioEndPoint) getModel()).getEndPoint();
 		return node;
 	}
+	
 }

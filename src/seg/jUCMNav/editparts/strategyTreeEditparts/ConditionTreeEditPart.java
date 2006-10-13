@@ -9,9 +9,11 @@ import java.util.List;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ScenarioConditionComponentEditPolicy;
+import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
 /**
@@ -46,7 +48,8 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioConditionComponentEditPolicy());
+    	if (!isInherited()) 
+    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioConditionComponentEditPolicy());
 	}
 
 	/**
@@ -85,10 +88,22 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 		return (Condition) getModel();
 	}
 
+	
+
+	public boolean isInherited() {
+		return !((ScenarioDef) getParent().getParent().getModel()).getPreconditions().contains(getModel()) && !((ScenarioDef) getParent().getParent().getModel()).getPostconditions().contains(getModel());
+	}
+	
+	
 	/**
 	 * @return the condition label.
 	 */
 	protected String getText() {
+	   	if (isInherited()) 
+    		((TreeItem) widget).setForeground(GRAY);
+    	else
+    		((TreeItem) widget).setForeground(BLACK);
+	   	
 		if (getCondition().getLabel() == null)
 			return "";
 		else

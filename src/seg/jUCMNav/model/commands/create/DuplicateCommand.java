@@ -35,7 +35,8 @@ public class DuplicateCommand extends CompoundCommand {
 		else if (this.child instanceof ScenarioEndPoint)
 			add(new IncludePathNodeInScenarioCommand(scenario, ((ScenarioEndPoint)child).getEndPoint()));
 		else if (this.child instanceof Condition) {
-			add(new IncludeConditionInScenarioCommand(scenario, scenario.getPreconditions().contains(this.child), (Condition)this.child));
+			
+			add(new IncludeConditionInScenarioCommand(scenario, ((Condition)this.child).getScenarioDefPost()==null, (Condition)this.child));
 		}
 
 	}

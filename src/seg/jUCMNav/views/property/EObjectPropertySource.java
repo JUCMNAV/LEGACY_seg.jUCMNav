@@ -83,7 +83,6 @@ public class EObjectPropertySource implements IPropertySource2 {
 	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
 	 */
 	public IPropertyDescriptor[] getPropertyDescriptors() {
-
 		Iterator it;
 		EClass cls = object.eClass();
 		Collection descriptors = new Vector();

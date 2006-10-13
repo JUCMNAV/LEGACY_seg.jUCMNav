@@ -261,6 +261,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 	                result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
 	        	}
             }
+            if (result!=null)
             result = new URNElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == Condition.class) {
             if (result == null) {
