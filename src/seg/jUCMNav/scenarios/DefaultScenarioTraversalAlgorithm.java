@@ -4,17 +4,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal.QDefaultScenarioTraversal;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
+import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
+import urncore.URNmodelElement;
 
 /**
  * This class invokes the default UCM Scenario traversal algorithm. Its only responsibilities are environment initialization, pre/post condition verifications
@@ -142,14 +151,46 @@ public class DefaultScenarioTraversalAlgorithm {
 		traverse_Postconditions(scenario);
 
 		// TODO: Caller should build warnings using {@link #getWarnings()}
-		if (warnings.size() > 0) {
-			StringBuilder b = new StringBuilder();
-			b.append("** WARNINGS **\n");
-			for (Iterator iter = resp.getWarnings().iterator(); iter.hasNext();) {
-				Object o = (Object) iter.next();
-				b.append(o.toString() + "\n\n");
+		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
+		try {
+
+			IMarker[] existingMarkers = resource.findMarkers(IMarker.PROBLEM, true, 3);
+			for (int i = 0; i < existingMarkers.length; i++) {
+				IMarker marker = existingMarkers[i];
+				marker.delete();
 			}
-			throw new TraversalException(b.toString());
+		} catch (CoreException ex) {
+			System.out.println(ex);
+		}
+		
+		if (warnings.size() > 0) {
+
+			
+			for (Iterator iter = warnings.iterator(); iter.hasNext();) {
+				TraversalWarning o = (TraversalWarning) iter.next();
+//				b.append(o.toString() + "\n\n");
+				
+				try {
+					IMarker marker = resource.createMarker(IMarker.PROBLEM);
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+					marker.setAttribute(IMarker.MESSAGE, o.toString());
+					if (o.getLocation() instanceof URNmodelElement) {
+						URNmodelElement elem = (URNmodelElement) o.getLocation();
+						marker.setAttribute(IMarker.LOCATION, URNNamingHelper.getName(elem));
+						marker.setAttribute("EObject", ((URNmodelElement)o.getLocation()).getId());
+					} else if (o.getLocation()!=null) {
+						marker.setAttribute(IMarker.LOCATION, o.getLocation().toString());
+					}
+					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1);
+				} catch(CoreException ex) 
+				{
+					//System.out.println(ex);
+				}
+				
+			}
+//			throw new TraversalException(b.toString());
+
 		}
 
 	}
@@ -200,7 +241,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add("Postcondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
+						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n", cond));
 				} else
 					throw new TraversalException("Unexpected result returned");
 
@@ -232,7 +273,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add("Precondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n");
+						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n", cond));
 				} else
 					throw new TraversalException("Unexpected result returned");
 

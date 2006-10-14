@@ -221,13 +221,15 @@
             useStream="true"/>
    </extension>
    <extension
-         id="seg.jUCMNav.strategies.GRLStrategyAlgorithm"
-         name="%strategyAlgorithm"
-         point="seg.jUCMNav.GRLStrategyAlgorithm">
-         <evaluation
-            class="seg.jUCMNav.strategies.DefaultGRLStrategyAlgorithm"
-            id="seg.jUCMNav.DefaultGRLStrategyAlgorithm"
-            name="%DefaultGRLStrategyAlgorithm"/>
+         id="seg.jUCMNav.MarkerSupport"
+         name="jUCMNav Marker Support"
+         point="org.eclipse.ui.ide.markerSupport">
+      <markerTypeCategory name="seg.jUCMNav.WarningMarker"/>
+      <problemFilter
+            enabled="true"
+            id="seg.jUCMNav.problemFilter1"
+            name="seg.jUCMNav.problemFilter1"
+            scope="ON_SELECTED_ONLY"/>
    </extension>
 
 </plugin>

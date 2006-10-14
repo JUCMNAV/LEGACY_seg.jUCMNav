@@ -18,6 +18,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
+import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -314,7 +315,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 						_currentContext = visit.getContext();
 						visitNodeConnection(nc);
 					} else { // otherwise (and join for example), kick the element out of our list.
-						_warnings.add("Traversal blocked on " + visit.getVisitedElement().toString());
+						_warnings.add(new TraversalWarning("Traversal blocked on " + visit.getVisitedElement().toString(),visit.getVisitedElement()));
 
 						// kick out of waiting list because this is just a
 						// warning
@@ -598,7 +599,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 		}
 
-		_warnings.add("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.");
+		_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork));
 	}
 
 	/**
@@ -673,8 +674,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 						b = true;
 					}
 					if (binding.getIn().size() == 0)
-						_warnings.add("No in bindings are defined for the Stub->Plugin relationship \"" + stub.getName() + " (" + stub.getId() + ") -> "
-								+ binding.getPlugin().getName() + " (" + binding.getPlugin().getId() + ")\".");
+						_warnings.add(new TraversalWarning("No in bindings are defined for the Stub->Plugin relationship \"" + stub.getName() + " (" + stub.getId() + ") -> "
+								+ binding.getPlugin().getName() + " (" + binding.getPlugin().getId() + ")\".", stub));
 				}
 			} catch (IllegalArgumentException e) {
 				throw new TraversalException(e.getMessage(), e);
@@ -688,7 +689,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
 				visitNodeConnection(nc);
 			} else
-				_warnings.add("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"");
+				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"",stub));
 		}
 	}
 
@@ -797,7 +798,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		try {
 			Object result = ScenarioUtils.evaluate(cond, env);
 			if (!expected.equals(result)) {
-				_warnings.add(errorMessage);
+				_warnings.add(new TraversalWarning(errorMessage, cond.eContainer()));
 				return false;
 			}
 		} catch (IllegalArgumentException e) {
@@ -845,7 +846,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 
 			if (pt != null && !reachedEndPoints.contains(pt)) {
-				_warnings.add("Scenario should have reached end point: " + pt.toString());
+				_warnings.add(new TraversalWarning("Scenario should have reached end point: " + pt.toString(),pt));
 			} else {
 				// so that we can find multiple instances
 				reachedEndPoints.remove(pt);

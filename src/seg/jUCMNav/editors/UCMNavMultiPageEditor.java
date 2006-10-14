@@ -3,11 +3,13 @@ package seg.jUCMNav.editors;
 import grl.GrlPackage;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.CommandStack;
@@ -18,6 +20,7 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -27,6 +30,7 @@ import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -36,6 +40,7 @@ import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
@@ -62,7 +67,7 @@ import urncore.IURNDiagram;
  * @author jkealey
  *  
  */
-public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider {
+public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker {
     /** the actionregistry shared between all editors */
     private ActionRegistry actionRegistry;
 
@@ -656,4 +661,40 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         int pageIndex = getModel().getUrndef().getSpecDiagrams().indexOf(diagram);
         setActivePage(pageIndex);
     }
+
+	public void gotoMarker(IMarker marker) {
+		try {
+			if (!marker.exists())
+				return;
+			Object o = marker.getAttribute("EObject");
+			if (o!=null) {
+				
+				UrnOutlinePage outline;
+				if (getPageCount()==0)
+					outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
+				else
+					outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
+				
+				Object element = URNElementFinder.find(getModel(), o.toString());
+				if (element!=null) {
+
+					EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
+
+					if (part!=null) {
+						getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
+						outline.getViewer().select(part);
+						//part.setSelected(EditPart.SELECTED_PRIMARY);
+
+
+					}
+				}
+				
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+
+		
+		
+	}
 }

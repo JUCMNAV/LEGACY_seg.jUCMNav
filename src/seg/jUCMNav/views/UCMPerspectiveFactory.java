@@ -37,6 +37,7 @@ public class UCMPerspectiveFactory implements IPerspectiveFactory {
 
 		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.RIGHT, 0.34f, "bottomMiddle"); //$NON-NLS-1$ //$NON-NLS-2$
 		bottomRight.addView(IPageLayout.ID_PROP_SHEET);
+		bottomRight.addView(IPageLayout.ID_PROBLEM_VIEW);
 
 	}
 
