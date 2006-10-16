@@ -29,8 +29,11 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
@@ -310,7 +313,12 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 evaluationLabel.setText(text);
                 Point position = getNodeFigure().getLocation();
                 position.y = position.y -16;
-                //position.x = position.x + getNodeFigure().getBounds().width;
+                // position.x = position.x + getNodeFigure().getBounds().width;
+                
+                // Take zoom facrtor into consideration to fix the label position
+                double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
+                position.x = (int) (position.x * zoomLevel);
+                position.y = (int) (position.y * zoomLevel);
                 evaluationLabel.setLocation(position);
                 evaluationLabel.setVisible(true);
                 
