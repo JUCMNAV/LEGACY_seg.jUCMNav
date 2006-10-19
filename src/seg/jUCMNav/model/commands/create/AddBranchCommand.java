@@ -116,10 +116,11 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
 
         // branches following OrForks always have conditions.
 
-        // jkealey: Timeout paths don't have conditions, they are the negation of the straight path, for uniformity with WaitingPlaces. However, I will leave
-        // this code here as we will possibly want to compute the condition automatically later. We're not displaying it though
         if (insertionNode instanceof OrFork || insertionNode instanceof Timer) {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+            // blocking path. 
+            if (insertionNode instanceof Timer)
+            	newCondition.setExpression("false");
             newConn.setCondition(newCondition);
         }
 

@@ -70,8 +70,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
         } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label) && attr.getUpperBound()!=-1) { // not a list. 
             if (getEditableValue() instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) getEditableValue();
-                // only on node connections that follow an or fork or a waitingplace/timer, but not on the timeout path
-                if (nc.getSource() instanceof OrFork || (nc.getSource() instanceof WaitingPlace && ((WaitingPlace) nc.getSource()).getSucc().indexOf(nc) == 0)) {
+                // only on node connections that follow an or fork or a waitingplace/timer
+                if (nc.getSource() instanceof OrFork || nc.getSource() instanceof WaitingPlace) {
                     conditionDescriptor(descriptors, propertyid);
                 }
             } else
@@ -272,9 +272,15 @@ public class URNElementPropertySource extends EObjectPropertySource {
                     urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-
-                if (getEditableValue() instanceof NodeConnection)
-                	((Condition)result).setNodeConnection((NodeConnection)getEditableValue());
+                
+                if (getEditableValue() instanceof NodeConnection) {
+                	
+                	NodeConnection connection = (NodeConnection) getEditableValue();
+                	if (connection.getSource() instanceof WaitingPlace) {
+                		((Condition)result).setExpression("false");
+                	}
+					((Condition)result).setNodeConnection(connection);
+                }
                 else if (getEditableValue() instanceof StartPoint)
                 	((Condition)result).setStartPoint((StartPoint)getEditableValue());
                 else if (getEditableValue() instanceof EndPoint)

@@ -358,6 +358,7 @@ public class ModelCreationFactory implements CreationFactory {
                         respdef = urncorefactory.createResponsibility();
 
                     ((RespRef) result).setRespDef(respdef);
+                    ((RespRef) result).setRepetitionCount(1);
 
                     if (definition==null) {
                         URNNamingHelper.setElementNameAndID(urn, respdef);

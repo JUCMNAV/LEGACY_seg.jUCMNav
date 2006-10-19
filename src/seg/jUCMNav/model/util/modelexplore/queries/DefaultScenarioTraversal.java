@@ -45,8 +45,6 @@ import urncore.Condition;
 /**
  * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
  * 
- * TODO: End point bindings not traversed properly.
- * 
  * TODO: timer does not have timer variable.
  * 
  * TODO: resp repetition count
@@ -243,7 +241,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			// verify that the reached end points match the expected ones.
 			verifyEndPoints(endPoints, reachedEndPoints);
 		} catch (Exception e) {
-			_error = "Exception occurred:\n" + e.getMessage();
+			_error = "Exception occurred: " + e.getMessage();
 		}
 
 	}
@@ -452,6 +450,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			// we prevent duplicates when adding, don't need to remove multiple instances.
 			if (toRemove!=null)
 				_waitList.remove(toRemove);
+			else 
+				_warnings.add(new TraversalWarning("Race condition symptom: connected path arrived at a non-blocked path.", nc.getTarget()));
 
 		} else
 			_error = "Traversal error.";
@@ -705,10 +705,27 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
 		try {
 			Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
+			// not using default behaviour. want to make sure we are blocked
+			if (nc.getCondition()==null) result=Boolean.FALSE;
+			
 			if (Boolean.TRUE.equals(result)) {
 				visitNodeConnection(nc);
 			} else {
-				addToWaitingList(pn);
+				if (pn instanceof Timer &&  pn.getSucc().size()==2) {
+					nc =  (NodeConnection) pn.getSucc().get(1);
+					result = ScenarioUtils.evaluate(nc.getCondition(), env);
+					// not using default behaviour. want to make sure we are blocked
+					if (nc.getCondition()==null) result=Boolean.FALSE;
+
+					// if we can take the timeout path
+					if (Boolean.TRUE.equals(result))
+						visitNodeConnection(nc);
+					else
+						addToWaitingList(pn);
+						
+				}
+				else
+					addToWaitingList(pn);
 			}
 		} catch (IllegalArgumentException e) {
 			throw new TraversalException(e.getMessage(), e);

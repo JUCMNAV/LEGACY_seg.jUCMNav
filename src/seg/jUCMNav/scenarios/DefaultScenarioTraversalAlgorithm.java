@@ -142,15 +142,14 @@ public class DefaultScenarioTraversalAlgorithm {
 		results = resp.getResults();
 		visited = resp.getVisited();
 
-		if (resp.getError() != null)
-			throw new TraversalException(resp.getError());
+//		if (resp.getError() != null)
+//			throw new TraversalException(resp.getError());
 
 		if (resp.getWarnings() != null && resp.getWarnings().size() > 0)
 			warnings.addAll(resp.getWarnings());
 
 		traverse_Postconditions(scenario);
 
-		// TODO: Caller should build warnings using {@link #getWarnings()}
 		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
 		try {
@@ -169,7 +168,6 @@ public class DefaultScenarioTraversalAlgorithm {
 			
 			for (Iterator iter = warnings.iterator(); iter.hasNext();) {
 				TraversalWarning o = (TraversalWarning) iter.next();
-//				b.append(o.toString() + "\n\n");
 				
 				try {
 					IMarker marker = resource.createMarker(IMarker.PROBLEM);
@@ -192,6 +190,10 @@ public class DefaultScenarioTraversalAlgorithm {
 //			throw new TraversalException(b.toString());
 
 		}
+		
+		if (resp.getError() != null)
+			throw new TraversalException(resp.getError());
+
 
 	}
 
@@ -241,7 +243,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n", cond));
+						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond));
 				} else
 					throw new TraversalException("Unexpected result returned");
 
@@ -273,7 +275,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false.\n(\"" + cond.getExpression() + "\" evaluates to false.)\n", cond));
+						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond));
 				} else
 					throw new TraversalException("Unexpected result returned");
 
