@@ -466,7 +466,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processEmptyPoint(UcmEnvironment env, PathNode pn) throws TraversalException {
 		// can be empty point or direction arrow
-		visitOnlySucc(pn);
+		// empty points can have asynch conections. 
+		visitAllSucc(pn);
 	}
 
 	/**
@@ -711,7 +712,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			if (Boolean.TRUE.equals(result)) {
 				visitNodeConnection(nc);
 			} else {
+				
 				if (pn instanceof Timer &&  pn.getSucc().size()==2) {
+					
+					//TODO: Semantic Variation. What do we do if both conditions are true at the same time?
 					nc =  (NodeConnection) pn.getSucc().get(1);
 					result = ScenarioUtils.evaluate(nc.getCondition(), env);
 					// not using default behaviour. want to make sure we are blocked
