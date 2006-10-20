@@ -22,7 +22,7 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     private URNspec urn;
     private Variable var;
     private String type;
-    
+    private String name;
     /**
      * 
      */
@@ -32,6 +32,14 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
         setLabel("Create Variable");
     }
 
+    public CreateVariableCommand(URNspec urn, String type, String name) {
+        this.urn = urn;
+        this.type = type;
+        this.name = name;
+        setLabel("Create Variable");
+    }
+
+    
     /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -44,6 +52,7 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
     	var = (Variable) ModelCreationFactory.getNewObject(urn, Variable.class, 0, type);
+    	if (name!=null) var.setName(name);
         redo();
     }
 

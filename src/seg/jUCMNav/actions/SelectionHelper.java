@@ -432,6 +432,10 @@ public class SelectionHelper {
      */
     private void setSelection(List selection) {
         this.selection = selection;
+        if ((selection.size() == 1) && selection.get(0) instanceof URNspec) {
+        	urnspec = (URNspec)selection.get(0);
+        }
+        
         if ((selection.size() == 1 || selection.size() == 2) && selection.get(0) instanceof EditPart) {
             EditPart ep = (EditPart) selection.get(0);
             if (ep.getModel() instanceof EObject) {
@@ -470,6 +474,7 @@ public class SelectionHelper {
             }
         }
 
+        
         setType();
     }
 

@@ -1,8 +1,11 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -14,13 +17,16 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import urn.URNspec;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -84,7 +90,27 @@ public class CodeEditorPage extends WizardPage {
 		button.setText(Messages.getString("CodeEditorPage.CreateNewVariable")); //$NON-NLS-1$
 		button.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				// TODO: open new variable wizard
+	    		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	    		AddVariableWizard wizard = new AddVariableWizard();
+
+	    		URNspec urn=null;
+	    		EObject o;
+	    		if (resp!=null)
+	    			urn = resp.getUrndefinition().getUrnspec();
+	    		else {
+	    			while ((o = cond.eContainer())!=null) {
+	    				if (o instanceof URNspec) {
+	    					urn = (URNspec)o;
+	    				}
+	    			}
+	    			
+	    		}
+	    		if (urn!=null) {
+		    		wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(urn));
+		    		WizardDialog dialog = new WizardDialog(shell, wizard);
+		    		dialog.open();
+		    		dialogChanged();
+	    		}
 			}
 		});
 

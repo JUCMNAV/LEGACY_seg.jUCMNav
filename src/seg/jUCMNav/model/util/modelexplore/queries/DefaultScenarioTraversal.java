@@ -525,7 +525,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 * 
 	 * @param env
 	 *            the environment
-	 * @param pn
+	 * @param visit
 	 *            the path node to process
 	 * @throws TraversalException
 	 *             fatal error throw exceptions

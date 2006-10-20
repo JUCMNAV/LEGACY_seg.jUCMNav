@@ -309,6 +309,10 @@ public class ActionRegistryManager {
         action.setText("New Integer");
         addEditPartAction((SelectionAction) action);
         
+        action = new AddVariableAction((IWorkbenchPart)editor, "");
+        action.setText("New Variable Wizard");
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditCodeAction((IWorkbenchPart)editor);
         action.setText("Edit");
         addEditPartAction((SelectionAction) action);   

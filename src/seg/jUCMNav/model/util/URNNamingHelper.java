@@ -719,6 +719,12 @@ public class URNNamingHelper {
 		return proposedName.length() == 0;
 	}
 	
+	public static String cleanVariableName(String proposedName)
+	{
+		proposedName = proposedName.toString().replaceAll("[^\\w]", "_");
+		return proposedName;
+	}
+	
 	/**
 	 * Verifies in the urnspec to see if a intentionalElement exists with the
 	 * proposed name.If you plan on calling resolveNamingConflict after this
