@@ -722,6 +722,8 @@ public class URNNamingHelper {
 	public static String cleanVariableName(String proposedName)
 	{
 		proposedName = proposedName.toString().replaceAll("[^\\w]", "_");
+		if (proposedName.length()>0 && proposedName.charAt(0)>='0' && proposedName.charAt(0)<='9')
+			proposedName = "_" + proposedName.substring(1);
 		return proposedName;
 	}
 	
