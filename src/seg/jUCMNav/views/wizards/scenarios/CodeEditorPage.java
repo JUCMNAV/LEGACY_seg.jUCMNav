@@ -1,5 +1,8 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import java.util.Collections;
+import java.util.Vector;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -12,11 +15,13 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
@@ -26,6 +31,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
 import urncore.Responsibility;
@@ -40,6 +46,8 @@ public class CodeEditorPage extends WizardPage {
 	private ISelection selection;
 	private Responsibility resp;
 	private Condition cond;
+	private URNspec urn;
+	private List variables;
 
 	/**
 	 * The selection contains either a responsibility or a condition. Loaded in
@@ -65,17 +73,48 @@ public class CodeEditorPage extends WizardPage {
 
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
-		layout.numColumns = 1;
+		layout.numColumns = 2;
 		layout.verticalSpacing = 5;
 
 		// label over the code box.
 		Label label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("CodeEditorPage.EnterTheCode")); //$NON-NLS-1$
 
+		
+		// variable list
+		variables = new List(container, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		variables.addSelectionListener(new SelectionListener() {
+		
+			public void widgetSelected(SelectionEvent e) {
+				// single click. 
+		
+			}
+		
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// double click. 
+				
+				if (variables.getSelection().length>0) {
+					codeText.insert(variables.getSelection()[0]);
+					codeText.forceFocus();
+				}
+		
+			}
+		
+		});
+		
+		GridData gd = new GridData(GridData.FILL_VERTICAL);
+	
+		gd.verticalSpan=3;
+		gd.widthHint=100;
+		gd.heightHint=200;
+		variables.setLayoutData(gd);
+
+		
+		
 		// simple multi-line scrollable text-box that grows with box.
 		codeText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		 gd = new GridData(GridData.FILL_BOTH);
 		codeText.setLayoutData(gd);
 		codeText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -83,7 +122,6 @@ public class CodeEditorPage extends WizardPage {
 			}
 		});
 
-		// TODO: variable dropdown
 
 		// Button to open the new variable wizard.
 		Button button = new Button(container, SWT.PUSH);
@@ -93,23 +131,14 @@ public class CodeEditorPage extends WizardPage {
 	    		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	    		AddVariableWizard wizard = new AddVariableWizard();
 
-	    		URNspec urn=null;
-	    		EObject o;
-	    		if (resp!=null)
-	    			urn = resp.getUrndefinition().getUrnspec();
-	    		else {
-	    			while ((o = cond.eContainer())!=null) {
-	    				if (o instanceof URNspec) {
-	    					urn = (URNspec)o;
-	    				}
-	    			}
-	    			
-	    		}
+
 	    		if (urn!=null) {
 		    		wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(urn));
 		    		WizardDialog dialog = new WizardDialog(shell, wizard);
 		    		dialog.open();
+		    		initVariables();
 		    		dialogChanged();
+		    		
 	    		}
 			}
 		});
@@ -152,8 +181,43 @@ public class CodeEditorPage extends WizardPage {
 					codeText.setText(cond.getExpression());
 			}
 		}
+		
+		
+		EObject o;
+		if (resp!=null)
+			urn = resp.getUrndefinition().getUrnspec();
+		else {
+			o = cond.eContainer();
+			while (o!=null) {
+				if (o instanceof URNspec) {
+					urn = (URNspec)o;
+				}
+				o = o.eContainer();
+			}
+			
+		}
+		
+		initVariables();
 	}
 
+	private void initVariables() 
+	{
+		Vector v = new Vector();
+
+		for (int i=0;i<urn.getUcmspec().getVariables().size();i++) {
+			v.add(((Variable)urn.getUcmspec().getVariables().get(i)).getName());
+		}
+		
+		Collections.sort(v);
+		String[] vars = new String[v.size()];
+
+		for (int i=0;i<v.size();i++) {
+			vars[i]=v.get(i).toString();
+		}
+		variables.setItems(vars);
+		
+
+	}
 	/**
 	 * Ensures that the pseudo-code is legal (syntax and type checking)
 	 */
