@@ -20,7 +20,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     private StartPoint start;
     private InBinding in;
     private NodeConnection stubEntry;
-
+    private int index; 
     /**
      * @param in
      *            the InBinding to be deleted.
@@ -48,6 +48,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
+        index = plugin.getIn().indexOf(in);
         plugin.getIn().remove(in);
         start.getInBindings().remove(in);
         stubEntry.getInBindings().remove(in);
@@ -62,7 +63,7 @@ public class DeleteInBindingCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
 
-        plugin.getIn().add(in);
+        plugin.getIn().add(index,in);
         start.getInBindings().add(in);
         stubEntry.getInBindings().add(in);
 

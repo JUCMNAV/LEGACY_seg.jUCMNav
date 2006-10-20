@@ -21,6 +21,7 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
     private OutBinding out;
     private NodeConnection stubExit;
 
+    private int index;
     /**
      * @param out
      *            the outbinding to be deleted.
@@ -45,6 +46,7 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
+    	index = plugin.getOut().indexOf(out);
         plugin.getOut().remove(out);
         end.getOutBindings().remove(out);
         stubExit.getOutBindings().remove(out);
@@ -55,7 +57,7 @@ public class DeleteOutBindingCommand extends Command implements JUCMNavCommand {
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-        plugin.getOut().add(out);
+        plugin.getOut().add(index, out);
         end.getOutBindings().add(out);
         stubExit.getOutBindings().add(out);
     }
