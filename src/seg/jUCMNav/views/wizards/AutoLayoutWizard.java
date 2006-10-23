@@ -50,7 +50,8 @@ public class AutoLayoutWizard extends Wizard {
 
 	private IURNDiagram map;
 	private UrnEditor editor;
-
+	public static int PADDING=50;
+	
 	public AutoLayoutWizard(UrnEditor editor, IURNDiagram map) {
 		this.map = map;
 		this.editor = editor;
@@ -187,7 +188,7 @@ public class AutoLayoutWizard extends Wizard {
 				}
 
 			} else if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"\\];")) { //$NON-NLS-1$
-				pageHeight = Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
+				pageHeight = PADDING + Integer.parseInt(line.substring(line.lastIndexOf(",") + 1, line.lastIndexOf("\""))); //$NON-NLS-1$ //$NON-NLS-2$
 			} else if (line.matches("\\s*subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + "\\d+ \\{")) { // ex: //$NON-NLS-1$ //$NON-NLS-2$
 				// subgraph
 				// cluster_0
@@ -210,7 +211,7 @@ public class AutoLayoutWizard extends Wizard {
 					String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$
 					String[] coords = subline.split(","); //$NON-NLS-1$
 					// we've got lower left x, y, upper right x, y
-					Command resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, Integer.parseInt(coords[0]), pageHeight
+					Command resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, PADDING + Integer.parseInt(coords[0]), pageHeight
 							- Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
 							- Integer.parseInt(coords[1]));
 					cmd.add(resize);
@@ -246,7 +247,7 @@ public class AutoLayoutWizard extends Wizard {
 
 				String subline = line.substring(line.indexOf("\"") + 1, line.indexOf("\"", line.indexOf("\"") + 1)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				String[] coords = subline.split(","); //$NON-NLS-1$
-				Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]), pageHeight - Integer.parseInt(coords[1]));
+				Command move = new SetConstraintCommand(pn, Integer.parseInt(coords[0]) + PADDING, pageHeight - Integer.parseInt(coords[1]));
 				cmd.add(move);
 			} else if (line
 					.matches("\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+\\s*->\\s*" + AutoLayoutPreferences.PATHNODEPREFIX + "\\d+ \\[pos=\"e,(\\d+,\\d+\\s+)*\\d+,\\d+\"];")) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

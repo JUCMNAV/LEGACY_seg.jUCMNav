@@ -160,11 +160,11 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
+        action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        action = getActionRegistry().getAction(ImportAction.IMPORT);
+        action = getActionRegistry().getAction(ExportImageAction.EXPORTBITMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

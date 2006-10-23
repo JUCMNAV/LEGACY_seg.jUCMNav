@@ -138,7 +138,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
             } else {
                 if (ImportPreferenceHelper.getImportType() == ImportPreferenceHelper.IMPORT_URN
                         && urn != null){
-                    importer.importURN(path, urn, autolayoutDiagrams);
+                    newurn = importer.importURN(path, urn, autolayoutDiagrams);
                 } else {
                     newurn = importer.importURN(path, autolayoutDiagrams);
                 }
