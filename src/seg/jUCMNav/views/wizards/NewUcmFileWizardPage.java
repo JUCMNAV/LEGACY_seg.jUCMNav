@@ -183,8 +183,8 @@ public class NewUcmFileWizardPage extends WizardPage {
     	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
         if (resource != null) {
-            overwrite = MessageDialog.openQuestion(getShell(), "File is already in use",
-                   "Filename already in use. Overwrite?");
+            overwrite = MessageDialog.openQuestion(getShell(), Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUse"), //$NON-NLS-1$
+                   Messages.getString("NewUcmFileWizardPage.FilenameAlreadyInUseOverwrite")); //$NON-NLS-1$
             
         }
 
