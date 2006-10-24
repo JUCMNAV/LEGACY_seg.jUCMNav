@@ -3,6 +3,7 @@ package seg.jUCMNav.editparts;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
@@ -14,12 +15,15 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Ray;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
@@ -38,6 +42,7 @@ import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.stub.PluginListDialog;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -45,10 +50,12 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -67,6 +74,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
     // the pathgraph contain our node.
     private UCMmap diagram;
 
+    private PluginListDialog dlg;
+    
     /**
      * 
      * @param model
@@ -283,6 +292,67 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         refreshVisuals();
     }
 
+    /**
+     * What should be done when the node is double clicked.
+     * 
+     * @see org.eclipse.gef.EditPart#performRequest(org.eclipse.gef.Request)
+     */
+    public void performRequest(Request req) {
+        if (req.getType() == REQ_OPEN) {
+        	if (getNode() instanceof StartPoint || getNode() instanceof EndPoint) 
+        	{
+
+            	Vector activeBindings = new Vector();
+            	
+            	EList bindings = null;
+            	if (getNode() instanceof StartPoint) {
+            		StartPoint start = (StartPoint) getNode();
+            		bindings = start.getInBindings();
+            	} else if (getNode() instanceof EndPoint) {
+            		EndPoint start = (EndPoint) getNode();
+            		bindings = start.getOutBindings();
+            	}
+            	
+            	
+            	for (Iterator iter = bindings.iterator(); iter.hasNext();) {
+					EObject element = (EObject) iter.next();
+					if (ScenarioUtils.getTraversalHitCount(element)>0) {
+						activeBindings.add(element);
+					}
+				}
+            		
+            	if (activeBindings.size()==0)
+            		activeBindings.addAll(bindings);
+
+            	
+				if (activeBindings.size() == 1 && getNode() instanceof StartPoint) {
+                    // if only one plugin, open it.
+                    UCMmap map = (UCMmap)((InBinding) activeBindings.get(0)).getBinding().getStub().getDiagram();
+                    if (map != null)
+                        ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+                } else if (activeBindings.size() == 1 && getNode() instanceof EndPoint) {
+                    // if only one plugin, open it.
+                    UCMmap map = (UCMmap)((OutBinding) activeBindings.get(0)).getBinding().getStub().getDiagram();
+                    if (map != null)
+                        ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+                }  else if (activeBindings.size() > 1) {
+                    // if multiple plugins, bring up selection window
+                    if (dlg != null) {
+                        dlg.close();
+                    }
+                    dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((UCMConnectionOnBottomRootEditPart) getRoot())
+                            .getMultiPageEditor());
+                    
+                    dlg.setInput(activeBindings);
+                    dlg.setMessage("Select parent Use Case Map");
+                    dlg.open();
+                }
+        	}
+
+        }
+    }
+    
+    
     /**
      * Call if this path node editpart must be rotated to be perpendicular to its first outgoing connection. (AndFork)
      * 

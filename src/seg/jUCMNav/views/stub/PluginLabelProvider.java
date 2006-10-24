@@ -6,7 +6,10 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
+import ucm.map.UCMmap;
 
 /**
  * Provide the icons and the text for each item in the list of plugins.
@@ -39,7 +42,13 @@ public class PluginLabelProvider implements ILabelProvider {
      * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
      */
     public String getText(Object element) {
-        return ((PluginBinding) element).getPlugin().getName();
+    	if (element instanceof PluginBinding)
+    		return ((PluginBinding) element).getPlugin().getName();
+    	else if (element instanceof OutBinding)
+    		return ((UCMmap)((OutBinding) element).getBinding().getStub().getDiagram()).getName();
+    	else // inbinding
+    		return ((UCMmap)((InBinding) element).getBinding().getStub().getDiagram()).getName();
+
     }
 
     /*

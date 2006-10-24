@@ -12,6 +12,8 @@ import org.eclipse.ui.dialogs.ListDialog;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.figures.ColorManager;
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.UCMmap;
 
@@ -77,7 +79,22 @@ public class PluginListDialog extends ListDialog {
      */
     protected void okPressed() {
         IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
-        UCMmap map = ((PluginBinding) selection.toList().get(0)).getPlugin();
+        UCMmap map=null;
+        if (selection.toList().get(0) instanceof PluginBinding) {
+        	map = ((PluginBinding) selection.toList().get(0)).getPlugin();
+        } else if (selection.toList().get(0) instanceof OutBinding)
+    	{
+			OutBinding binding = (OutBinding) selection.toList().get(0);
+			map = (UCMmap) binding.getBinding().getStub().getDiagram();
+    	
+    	}else if (selection.toList().get(0) instanceof InBinding)
+    	{
+    		InBinding binding = (InBinding) selection.toList().get(0);
+			map = (UCMmap) binding.getBinding().getStub().getDiagram();
+    	}
+        	 
+        
+
         if (map != null)
             editor.setActivePage(map);
 

@@ -511,6 +511,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				OutBinding binding = (OutBinding) iter.next();
 				if (binding.getStubExit() != null) {
 					incrementHitCount(binding.getStubExit());
+					incrementHitCount(binding);
+					incrementHitCount(binding.getBinding());
 					pushPathNode((PathNode) binding.getStubExit().getTarget(), outbindings.size() > 1);
 				}
 			}
@@ -670,6 +672,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (Boolean.TRUE.equals(result)) {
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
 						InBinding inb = (InBinding) iterator.next();
+						incrementHitCount(inb);
+						incrementHitCount(inb.getBinding());
 						if (inb.getStartPoint() != null) {
 							if (!_currentContext.contains(binding))
 								_currentContext.add(binding);

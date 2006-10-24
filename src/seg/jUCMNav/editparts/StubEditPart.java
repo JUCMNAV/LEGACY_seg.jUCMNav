@@ -1,9 +1,11 @@
 package seg.jUCMNav.editparts;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CommandStack;
@@ -14,6 +16,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.StubFigure;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.property.StubPropertySource;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.stub.StubBindingsDialog;
@@ -93,19 +96,34 @@ public class StubEditPart extends PathNodeEditPart {
     public void performRequest(Request req) {
         if (req.getType() == REQ_OPEN) {
             Stub stub = (Stub) getModel();
-            if (stub.getBindings().size() == 1) {
+            
+        	Vector activeBindings = new Vector();
+        	
+        	EList bindings = stub.getBindings();
+        	
+        	for (Iterator iter = bindings.iterator(); iter.hasNext();) {
+				EObject element = (EObject) iter.next();
+				if (ScenarioUtils.getTraversalHitCount(element)>0) {
+					activeBindings.add(element);
+				}
+			}
+        		
+        	if (activeBindings.size()==0)
+        		activeBindings.addAll(bindings);
+            
+            if (activeBindings.size() == 1) {
                 // if only one plugin, open it.
-                UCMmap map = ((PluginBinding) stub.getBindings().get(0)).getPlugin();
+                UCMmap map = ((PluginBinding) activeBindings.get(0)).getPlugin();
                 if (map != null)
                     ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
-            } else if (stub.getBindings().size() > 1) {
+            } else if (activeBindings.size() > 1) {
                 // if multiple plugins, bring up selection window
                 if (dlg != null) {
                     dlg.close();
                 }
                 dlg = new PluginListDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), ((UCMConnectionOnBottomRootEditPart) getRoot())
                         .getMultiPageEditor());
-                dlg.setInput(stub.getBindings());
+                dlg.setInput(activeBindings);
                 dlg.setMessage(Messages.getString("StubEditPart.selectPlugin")); //$NON-NLS-1$
                 dlg.open();
             } else {
