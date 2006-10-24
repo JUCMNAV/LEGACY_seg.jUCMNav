@@ -1494,14 +1494,15 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 *         selected Stub PluginBinding. Else return false.
 	 */
 	private boolean isStartPointInBinded(StartPoint start, PluginBinding plugin) {
-		if (stub.getBindings().size() > 0) {
-			List ins = plugin.getIn();
-			for (Iterator i = ins.iterator(); i.hasNext();) {
-				InBinding in = (InBinding) i.next();
-				if (in.getStartPoint() == start)
-					return true;
-			}
-		}
+		// Always say no so that it becomes re-usable. 
+//		if (stub.getBindings().size() > 0) {
+//			List ins = plugin.getIn();
+//			for (Iterator i = ins.iterator(); i.hasNext();) {
+//				InBinding in = (InBinding) i.next();
+//				if (in.getStartPoint() == start)
+//					return true;
+//			}
+//		}
 		return false;
 	}
 

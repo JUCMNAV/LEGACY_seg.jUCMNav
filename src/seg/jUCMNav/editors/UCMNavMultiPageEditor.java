@@ -39,6 +39,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
 import seg.jUCMNav.editors.resourceManagement.MultiPageFileManager;
 import seg.jUCMNav.editors.resourceManagement.ResourceTracker;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -116,6 +117,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     public UCMNavMultiPageEditor() {
         setModel((URNspec) ModelCreationFactory.getNewURNspec());
+        ColorManager.refresh();
     }
 
     /**
