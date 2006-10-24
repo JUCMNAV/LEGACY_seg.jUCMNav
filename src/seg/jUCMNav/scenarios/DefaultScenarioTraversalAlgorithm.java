@@ -171,7 +171,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				
 				try {
 					IMarker marker = resource.createMarker(IMarker.PROBLEM);
-					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+					marker.setAttribute(IMarker.SEVERITY, o.getSeverity());
 					marker.setAttribute(IMarker.MESSAGE, o.toString());
 					if (o.getLocation() instanceof URNmodelElement) {
 						URNmodelElement elem = (URNmodelElement) o.getLocation();
@@ -243,7 +243,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond));
+						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond, IMarker.SEVERITY_ERROR));
 				} else
 					throw new TraversalException("Unexpected result returned");
 
@@ -275,7 +275,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond));
+						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond,IMarker.SEVERITY_ERROR));
 				} else
 					throw new TraversalException("Unexpected result returned");
 

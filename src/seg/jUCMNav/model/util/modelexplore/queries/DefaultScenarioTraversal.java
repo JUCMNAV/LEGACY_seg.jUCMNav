@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor;
@@ -313,7 +314,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 						_currentContext = visit.getContext();
 						visitNodeConnection(nc);
 					} else { // otherwise (and join for example), kick the element out of our list.
-						_warnings.add(new TraversalWarning("Traversal blocked on " + visit.getVisitedElement().toString(),visit.getVisitedElement()));
+						_warnings.add(new TraversalWarning("Traversal blocked on " + visit.getVisitedElement().toString(),visit.getVisitedElement(),IMarker.SEVERITY_ERROR));
 
 						// kick out of waiting list because this is just a
 						// warning
@@ -597,9 +598,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
 						if (ScenarioTraversalPreferences.getIsDeterministic())
-							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork));
+							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork,IMarker.SEVERITY_ERROR));
 						else
-							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking any option (non-deterministic).", orfork));
+							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking any option (non-deterministic).", orfork, IMarker.SEVERITY_INFO));
 					}
 					
 					toVisit.add(nc);
@@ -621,7 +622,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			addToWaitingList(orfork);
 		}
 		else
-			_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork));
+			_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork, IMarker.SEVERITY_ERROR));
 	}
 
 	/**
@@ -694,9 +695,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
 						if (b) {
 							if (ScenarioTraversalPreferences.getIsDeterministic())
-								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub));
+								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub, IMarker.SEVERITY_ERROR));
 							else
-								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking any option (non-deterministic).", stub));
+								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking any option (non-deterministic).", stub, IMarker.SEVERITY_INFO));
 						}
 						toVisit.add(iterator.next());
 
@@ -704,7 +705,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					}
 					if (binding.getIn().size() == 0)
 						_warnings.add(new TraversalWarning("No in bindings are defined for the Stub->Plugin relationship \"" + stub.getName() + " (" + stub.getId() + ") -> "
-								+ binding.getPlugin().getName() + " (" + binding.getPlugin().getId() + ")\".", stub));
+								+ binding.getPlugin().getName() + " (" + binding.getPlugin().getId() + ")\".", stub, IMarker.SEVERITY_ERROR));
 				}
 			} catch (IllegalArgumentException e) {
 				throw new TraversalException(e.getMessage(), e);
@@ -714,13 +715,14 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		if (!b) {
 			// TODO: semantic variation : no plugins, what do we do?
 			// if we don't find any valid plugins, only follow first out if it exists.
-			if (stub.getSucc().size() == 1 && stub.getBindings().size()==0) {
+			if (stub.getPred().size()==1 && stub.getSucc().size() == 1 && stub.getBindings().size()==0) {
 				NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
 				visitNodeConnection(nc);
+				_warnings.add(new TraversalWarning("No plugin bindings for Stub \"" + stub.getName() + " (" + stub.getId() + ")\": using default plugin", stub, IMarker.SEVERITY_INFO));
 			} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
 				addToWaitingList(stub);
 			} else
-				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"", stub));
+				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"", stub, IMarker.SEVERITY_ERROR));
 		}  else {
 			
 			InBinding inb=null;
@@ -870,7 +872,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		try {
 			Object result = ScenarioUtils.evaluate(cond, env);
 			if (!expected.equals(result)) {
-				_warnings.add(new TraversalWarning(errorMessage, cond.eContainer()));
+				_warnings.add(new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR));
 				return false;
 			}
 		} catch (IllegalArgumentException e) {
@@ -918,7 +920,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 
 			if (pt != null && !reachedEndPoints.contains(pt)) {
-				_warnings.add(new TraversalWarning("Scenario should have reached end point: " + pt.toString(),pt));
+				_warnings.add(new TraversalWarning("Scenario should have reached end point: " + pt.toString(),pt,IMarker.SEVERITY_ERROR));
 			} else {
 				// so that we can find multiple instances
 				reachedEndPoints.remove(pt);
