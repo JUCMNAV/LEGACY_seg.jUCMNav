@@ -13,11 +13,8 @@ import java.util.Vector;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.LayeredPane;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,7 +30,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -150,7 +146,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
     /**
      * Saves all images and closes opened editors.
      */
-    private boolean doFinish(IProgressMonitor monitor) {
+    private boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
 
         if (b) {
@@ -158,8 +154,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
             Vector v = new Vector();
 
             for (Iterator iter = mapsToExport.iterator(); iter.hasNext();) {
-                if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM)
+                if (ExportPreferenceHelper.getExportType() == ExportPreferenceHelper.URN_DIAGRAM) {
                     ExportDiagram((IURNDiagram) iter.next());
+                }
                 else
                     ExportURN((IURNDiagram) iter.next(), v);
 
@@ -174,8 +171,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * 
      * @param diagram
      */
-    private void ExportDiagram(IURNDiagram diagram) {
+    private void ExportDiagram(IURNDiagram diagram) throws Exception  {
         FileOutputStream fos = null;
+
         try {
 
             // given the export type, get the exporter id
@@ -217,15 +215,15 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 }
             }
 
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-            return;
-        } catch (Exception e) {
-            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-            return;
+//        } catch (InvocationTargetException e) {
+//            Throwable realException = e.getTargetException();
+//            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+//            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+//            return;
+//        } catch (Exception e) {
+//            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+//            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+//            return;
         } finally {
             // close the stream
             if (fos != null) {
@@ -236,6 +234,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 }
             }
         }
+
     }
 
     /**
@@ -247,7 +246,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * @param v
      */
 
-    private void ExportURN(IURNDiagram diagram, Vector v) {
+    private void ExportURN(IURNDiagram diagram, Vector v) throws Exception {
         // dont output same URN multiple times.
         if (v.contains(diagram.getUrndefinition().getUrnspec()))
             return; // we've already exported this URNSpec
@@ -304,13 +303,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             }
 
-        } catch (InvocationTargetException e) {
-            Throwable realException = e.getTargetException();
-            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-        } catch (Exception e) {
-            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+//        } catch (InvocationTargetException e) {
+//            Throwable realException = e.getTargetException();
+//            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+//            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+//        } catch (Exception e) {
+//            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+//            ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
         } finally {
             // close the stream
             if (fos != null) {
@@ -333,7 +332,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
         String filename = ExportPreferenceHelper.getFilenamePrefix();
         //((FileEditorInput) editor.getEditorInput()).getName();
         // remove the .jucm extension
-        if (filename.substring(filename.length() - 5).equals(".jucm")){ //$NON-NLS-1$
+        if (filename.length()>5 && filename.substring(filename.length() - 5).equals(".jucm")){ //$NON-NLS-1$
             filename = filename.substring(0, filename.length() - 5);
         }
         return filename;
@@ -467,7 +466,12 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 try {
                     monitor.beginTask(Messages.getString("ExportWizard.Exporting"), IProgressMonitor.UNKNOWN); //$NON-NLS-1$
                     doFinish(monitor);
-                } finally {
+                } catch (Exception ex) {
+                	if (ex instanceof InvocationTargetException)
+                		throw (InvocationTargetException)ex;
+                	else 
+                		throw new InvocationTargetException(ex);
+                }finally {
                     monitor.done();
                 }
             }
