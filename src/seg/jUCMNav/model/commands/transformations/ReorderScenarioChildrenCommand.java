@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -26,9 +27,9 @@ public class ReorderScenarioChildrenCommand extends Command implements JUCMNavCo
     	this.isMoveUp = isMoveUp;
 
     	if (isMoveUp)
-    		setLabel("Move Up");
+    		setLabel(Messages.getString("ReorderScenarioChildrenCommand.MoveUp")); //$NON-NLS-1$
     	else
-    		setLabel("Move Down");
+    		setLabel(Messages.getString("ReorderScenarioChildrenCommand.MoveDown")); //$NON-NLS-1$
     	
         }
 

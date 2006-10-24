@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -38,10 +39,10 @@ import urn.URNspec;
  * 
  */
 public class AddVariableWizardInitsPage extends WizardPage {
-	private String[] boolean_values = { "true", "false" };
+	private String[] boolean_values = { "true", "false" }; //$NON-NLS-1$ //$NON-NLS-2$
 	private HashMap initializations;
 	private ISelection selection;
-	private String[] titles = { "Scenario", "Scenario Group", "Initialization" };
+	private String[] titles = { Messages.getString("AddVariableWizardInitsPage.Scenario"), Messages.getString("AddVariableWizardInitsPage.ScenarioGroup"), Messages.getString("AddVariableWizardInitsPage.Initialization") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	private URNspec urn;
 
 	private Table scenarios;
@@ -58,8 +59,8 @@ public class AddVariableWizardInitsPage extends WizardPage {
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		setTitle("New Variable Wizard");
-		setDescription("For each scenario, you may select this variable's initial value.");
+		setTitle(Messages.getString("AddVariableWizardInitsPage.NewVariableWizard")); //$NON-NLS-1$
+		setDescription(Messages.getString("AddVariableWizardInitsPage.SelectVariableInitialValue")); //$NON-NLS-1$
 		this.urn=urn;
 	}
 
@@ -77,7 +78,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 		layout.verticalSpacing = 5;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Set the intial values for each scenario: ");
+		label.setText(Messages.getString("AddVariableWizardInitsPage.SetInitialValues")); //$NON-NLS-1$
 
 		scenarios = new Table(container, SWT.CHECK | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION);
 		viewer = buildAndLayoutTable(scenarios);
@@ -193,7 +194,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 							return getInitialization((ScenarioDef) element).equals(boolean_values[0]) ? new Integer(0) : new Integer(1);
 					} else {
 						if (getVariableType().equals(ScenarioUtils.sTypeInteger))
-							return "0";
+							return "0"; //$NON-NLS-1$
 						else
 							return Integer.valueOf(0);
 					}
@@ -218,7 +219,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 						
 					} catch (NumberFormatException ex)
 					{
-						setInitialization(data, "0");
+						setInitialization(data, "0"); //$NON-NLS-1$
 					}
 					
 				}
@@ -271,9 +272,9 @@ public class AddVariableWizardInitsPage extends WizardPage {
 					if (getInitialization((ScenarioDef) element) != null)
 						return getInitialization((ScenarioDef) element);
 					else
-						return "";
+						return ""; //$NON-NLS-1$
 				default:
-					return "Invalid column: " + columnIndex;
+					return "Invalid column: " + columnIndex; //$NON-NLS-1$
 				}
 			}
 
@@ -317,7 +318,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 			item.setText(new String[] { scenario.getName(), scenario.getGroup().getName(), getInitialization(scenario) });
 			item.setChecked(true);
 		} else {
-			item.setText(new String[] { scenario.getName(), scenario.getGroup().getName(), "" });
+			item.setText(new String[] { scenario.getName(), scenario.getGroup().getName(), "" }); //$NON-NLS-1$
 			item.setChecked(false);
 		}
 	}
@@ -328,10 +329,10 @@ public class AddVariableWizardInitsPage extends WizardPage {
 
 		} else {
 			if (getVariableType().equals(ScenarioUtils.sTypeBoolean)) {
-				initializations.put(scenario, "false");
+				initializations.put(scenario, "false"); //$NON-NLS-1$
 			}
 			else if (getVariableType().equals(ScenarioUtils.sTypeInteger)) {
-				initializations.put(scenario, "0");
+				initializations.put(scenario, "0"); //$NON-NLS-1$
 			}
 		}
 	}

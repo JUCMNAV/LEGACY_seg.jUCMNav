@@ -16,6 +16,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.CreateVariableCommand;
@@ -44,7 +45,7 @@ public class AddVariableWizard extends Wizard {
 	public AddVariableWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("New Variable Wizard");
+		this.setWindowTitle(Messages.getString("AddVariableWizard.NewVariableWizard")); //$NON-NLS-1$
 
 	}
 

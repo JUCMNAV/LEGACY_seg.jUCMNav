@@ -277,7 +277,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
 						this.registerInteger(name);
 				} else {
 					//	TODO: implement enumerations
-					System.out.println("TODO: implement enumerations");
+					System.out.println("TODO: implement enumerations"); //$NON-NLS-1$
 				}
 				
 			}

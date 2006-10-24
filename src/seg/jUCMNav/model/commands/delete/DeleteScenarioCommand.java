@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveScenarioCommand;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -25,7 +26,7 @@ public class DeleteScenarioCommand extends CompoundCommand {
 
 	private ScenarioDef scenario;
     public DeleteScenarioCommand(ScenarioDef scenario) {
-        setLabel("Delete Scenario");  
+        setLabel(Messages.getString("DeleteScenarioCommand.DeleteScenario"));   //$NON-NLS-1$
         
 
         for (Iterator iter = scenario.getIncludedScenarios().iterator(); iter.hasNext();) {

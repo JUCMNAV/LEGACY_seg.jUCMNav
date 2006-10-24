@@ -635,7 +635,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 //			}
 //		});
 
-		Button editCondition = toolkit.createButton(compCondition, "...", SWT.BORDER);
+		Button editCondition = toolkit.createButton(compCondition, Messages.getString("StubBindingsDialog.Edit"), SWT.BORDER); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = false;
 		g.grabExcessVerticalSpace = true;
@@ -1539,7 +1539,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			if (stub.getDescription()!=null)
 				descrip.setText(stub.getDescription());
 			else
-				descrip.setText("");
+				descrip.setText(""); //$NON-NLS-1$
 			break;
 		}
 	}

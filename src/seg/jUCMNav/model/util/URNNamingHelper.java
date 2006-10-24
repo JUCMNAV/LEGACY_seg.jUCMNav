@@ -613,10 +613,10 @@ public class URNNamingHelper {
 				var.setId(getNewID(urn));
 			}
 
-			if ("boolean".equals(var.getType()))
-				var.setName("Boolean" + var.getId()); 	
-			else if ("integer".equals(var.getType()))
-				var.setName("Integer" + var.getId());
+			if ("boolean".equals(var.getType())) //$NON-NLS-1$
+				var.setName(Messages.getString("URNNamingHelper.DefaultPrefixBoolean") + var.getId()); 	 //$NON-NLS-1$
+			else if ("integer".equals(var.getType())) //$NON-NLS-1$
+				var.setName(Messages.getString("URNNamingHelper.DefaultPrefixInteger") + var.getId()); //$NON-NLS-1$
 			else 
 				var.setName(var.getType() + var.getId());			
 			
@@ -721,9 +721,9 @@ public class URNNamingHelper {
 	
 	public static String cleanVariableName(String proposedName)
 	{
-		proposedName = proposedName.toString().replaceAll("[^\\w]", "_");
+		proposedName = proposedName.toString().replaceAll("[^\\w]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (proposedName.length()>0 && proposedName.charAt(0)>='0' && proposedName.charAt(0)<='9')
-			proposedName = "_" + proposedName.substring(1);
+			proposedName = "_" + proposedName.substring(1); //$NON-NLS-1$
 		return proposedName;
 	}
 	
@@ -794,7 +794,7 @@ public class URNNamingHelper {
 		} else {
 			System.out.println(Messages.getString("URNNamingHelper.unableToResolve")); //$NON-NLS-1$
 			if (elem!=null)
-				System.out.println("\t(" + elem.getClass().getName() +")");
+				System.out.println("\t(" + elem.getClass().getName() +")"); //$NON-NLS-1$ //$NON-NLS-2$
 			return;
 		}
 
@@ -840,7 +840,7 @@ public class URNNamingHelper {
 				}
 			} else if (elem instanceof ActorRef || elem instanceof Actor) {
 				if (URNNamingHelper.doesActorNameExists(urn, name)) {
-					message = "Actor name already exists"; 
+					message = Messages.getString("URNNamingHelper.ActorNameAlreadyExists");  //$NON-NLS-1$
 				}
 			} else if (elem instanceof RespRef || elem instanceof Responsibility) {
 				if (URNNamingHelper.doesResponsibilityNameExists(urn, name)) {
@@ -848,11 +848,11 @@ public class URNNamingHelper {
 				}
 			} else if (elem instanceof IntentionalElementRef || elem instanceof IntentionalElement) {
 				if (URNNamingHelper.doesIntentionalElementNameExists(urn, name)) {
-					message = "Intentional Element name already exists"; 
+					message = Messages.getString("URNNamingHelper.IntentionalElementNameAlreadyExists");  //$NON-NLS-1$
 				}
 			} else if (elem instanceof Variable) {
 				if (URNNamingHelper.doesVariableNameExist(urn, name)) {
-					message = "Variable name already exists"; 
+					message = Messages.getString("URNNamingHelper.VariableNameAlreadyExists");  //$NON-NLS-1$
 				}
 			}
 		}

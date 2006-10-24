@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 
 /**
@@ -34,7 +35,7 @@ public class ScenarioInitializations extends Wizard {
 	public ScenarioInitializations() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("Include Scenario");  
+		this.setWindowTitle(Messages.getString("ScenarioInitializations.IncludeScenario"));   //$NON-NLS-1$
 	}
 
 	/**

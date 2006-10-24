@@ -25,6 +25,7 @@ import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
@@ -344,7 +345,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                             .getMultiPageEditor());
                     
                     dlg.setInput(activeBindings);
-                    dlg.setMessage("Select parent Use Case Map");
+                    dlg.setMessage(Messages.getString("PathNodeEditPart.SelectParentUCM")); //$NON-NLS-1$
                     dlg.open();
                 }
         	}
@@ -495,7 +496,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         boolean scenariosActive = ScenarioUtils.getActiveScenario(getNode())!=null && ScenarioUtils.getTraversalHitCount(getNode())>0;
         nodeFigure.setTraversed(scenariosActive);
         if (ScenarioUtils.getActiveScenario(getNode())!=null) 
-        	nodeFigure.setToolTip(new Label("Hits: " + ScenarioUtils.getTraversalHitCount(getNode())));
+        	nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + ScenarioUtils.getTraversalHitCount(getNode()))); //$NON-NLS-1$
         else
         	nodeFigure.setToolTip(null);
         

@@ -51,15 +51,15 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         editor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.GrlLinkLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(editor);
         
-        editor= new ColorFieldEditor(PREF_LINECOLOR, "Line Color", getFieldEditorParent()); 
+        editor= new ColorFieldEditor(PREF_LINECOLOR, Messages.getString("GeneralPreferencePage.LineColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
-        editor = new ColorFieldEditor(PREF_FILLCOLOR, "Fill Color", getFieldEditorParent()); 
+        editor = new ColorFieldEditor(PREF_FILLCOLOR, Messages.getString("GeneralPreferencePage.FillColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
-        editor = new ColorFieldEditor(PREF_HOVERCOLOR, "Element Hover Color", getFieldEditorParent()); 
+        editor = new ColorFieldEditor(PREF_HOVERCOLOR, Messages.getString("GeneralPreferencePage.HoverColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
-        editor = new ColorFieldEditor(PREF_SELECTEDCOLOR, "Element Selected Color", getFieldEditorParent()); 
+        editor = new ColorFieldEditor(PREF_SELECTEDCOLOR, Messages.getString("GeneralPreferencePage.SelectedColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
-        editor = new ColorFieldEditor(PREF_TRAVERSALCOLOR, "Traversal Color", getFieldEditorParent()); 
+        editor = new ColorFieldEditor(PREF_TRAVERSALCOLOR, Messages.getString("GeneralPreferencePage.TraversalColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
 
         

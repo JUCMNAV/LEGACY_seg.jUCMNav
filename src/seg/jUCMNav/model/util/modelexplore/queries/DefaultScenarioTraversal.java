@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor;
 import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
 import seg.jUCMNav.model.util.modelexplore.QueryObject;
@@ -242,7 +243,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			// verify that the reached end points match the expected ones.
 			verifyEndPoints(endPoints, reachedEndPoints);
 		} catch (Exception e) {
-			_error = "Exception occurred: " + e.getMessage();
+			_error = Messages.getString("DefaultScenarioTraversal.ExceptionOccurred") + e.getMessage(); //$NON-NLS-1$
 		}
 
 	}
@@ -314,7 +315,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 						_currentContext = visit.getContext();
 						visitNodeConnection(nc);
 					} else { // otherwise (and join for example), kick the element out of our list.
-						_warnings.add(new TraversalWarning("Traversal blocked on " + visit.getVisitedElement().toString(),visit.getVisitedElement(),IMarker.SEVERITY_ERROR));
+						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalBlockedOn") + visit.getVisitedElement().toString(),visit.getVisitedElement(),IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 
 						// kick out of waiting list because this is just a
 						// warning
@@ -380,7 +381,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				visitNodeConnection(out);
 
 		} else
-			_error = "Traversal error.";
+			_error = Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
 	}
 
 	/**
@@ -452,10 +453,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			if (toRemove!=null)
 				_waitList.remove(toRemove);
 			else 
-				_warnings.add(new TraversalWarning("Race condition symptom: connected path arrived at a non-blocked path.", nc.getTarget()));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.RaceConditionSymptom"), nc.getTarget())); //$NON-NLS-1$
 
 		} else
-			_error = "Traversal error.";
+			_error = Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
 	}
 
 	/**
@@ -483,8 +484,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 		
 		// TODO: semantic variation: if postcondition is false, should we continue processing?
-		if (testCondition(env, end.getPostcondition(), Boolean.TRUE, "Postcondition to End Point \"" + end.getName() + " (" + end.getId()
-				+ ")\" did not evaluate to true.")) {
+		if (testCondition(env, end.getPostcondition(), Boolean.TRUE, Messages.getString("DefaultScenarioTraversal.PostConditionToEndPoint") + end.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + end.getId() //$NON-NLS-1$ //$NON-NLS-2$
+				+ Messages.getString("DefaultScenarioTraversal.DidNotEvaluateToTrue"))) { //$NON-NLS-1$
 
 			// filter by "instance" that launched the start.
 			Vector outbindings = new Vector();
@@ -574,9 +575,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			processConnect(env, connect);
 		} else {
 			if (pn == null)
-				_error = "unknown path node!";
+				_error = Messages.getString("DefaultScenarioTraversal.UnknownPathNode"); //$NON-NLS-1$
 			else
-				_error = "unknown path node: " + pn.toString();
+				_error = Messages.getString("DefaultScenarioTraversal.UnknownPathNodeColon") + pn.toString(); //$NON-NLS-1$
 		}
 	}
 
@@ -598,9 +599,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
 						if (ScenarioTraversalPreferences.getIsDeterministic())
-							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork,IMarker.SEVERITY_ERROR));
+							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), orfork,IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						else
-							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking any option (non-deterministic).", orfork, IMarker.SEVERITY_INFO));
+							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), orfork, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
 					
 					toVisit.add(nc);
@@ -622,7 +623,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			addToWaitingList(orfork);
 		}
 		else
-			_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork, IMarker.SEVERITY_ERROR));
+			_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalBlockedAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.NoForkConditionEvaluatesToTrue"),orfork, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/**
@@ -664,8 +665,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processStartPoint(UcmEnvironment env, StartPoint start) throws TraversalException {
 		// TODO: semantic variation: if the pre-condition is invalid, should we proceed anyways?
-		if (testCondition(env, start.getPrecondition(), Boolean.TRUE, "Precondition to Start Point \"" + start.getName() + "\" (" + start.getId()
-				+ ") did not evaluate to true.")) {
+		if (testCondition(env, start.getPrecondition(), Boolean.TRUE, Messages.getString("DefaultScenarioTraversal.PreconditionToStartPoint") + start.getName() + Messages.getString("DefaultScenarioTraversal.QuoteOpenParenthesis") + start.getId() //$NON-NLS-1$ //$NON-NLS-2$
+				+ Messages.getString("DefaultScenarioTraversal.ParenthesisDidNotEvaluateToTrue"))) { //$NON-NLS-1$
 
 			visitOnlySucc(start);
 		} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
@@ -695,17 +696,17 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
 						if (b) {
 							if (ScenarioTraversalPreferences.getIsDeterministic())
-								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub, IMarker.SEVERITY_ERROR));
+								_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 							else
-								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking any option (non-deterministic).", stub, IMarker.SEVERITY_INFO));
+								_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						}
 						toVisit.add(iterator.next());
 
 						b = true;
 					}
 					if (binding.getIn().size() == 0)
-						_warnings.add(new TraversalWarning("No in bindings are defined for the Stub->Plugin relationship \"" + stub.getName() + " (" + stub.getId() + ") -> "
-								+ binding.getPlugin().getName() + " (" + binding.getPlugin().getId() + ")\".", stub, IMarker.SEVERITY_ERROR));
+						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.NoBindingsDefined") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisArrow") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								+ binding.getPlugin().getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + binding.getPlugin().getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			} catch (IllegalArgumentException e) {
 				throw new TraversalException(e.getMessage(), e);
@@ -718,11 +719,11 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			if (stub.getPred().size()==1 && stub.getSucc().size() == 1 && stub.getBindings().size()==0) {
 				NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
 				visitNodeConnection(nc);
-				_warnings.add(new TraversalWarning("No plugin bindings for Stub \"" + stub.getName() + " (" + stub.getId() + ")\": using default plugin", stub, IMarker.SEVERITY_INFO));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.NoPluginBindingForStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.UsingDefaultPlugin"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
 				addToWaitingList(stub);
 			} else
-				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"", stub, IMarker.SEVERITY_ERROR));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.UnableToNavigateToPluginFromStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisAndQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}  else {
 			
 			InBinding inb=null;
@@ -847,7 +848,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (((ScenarioStartPoint) startPoints.get(i)).isEnabled())
 					pushPathNode(((ScenarioStartPoint) startPoints.get(i)).getStartPoint(), true);
 			} else {
-				_error = "Illegal use of query.";
+				_error = Messages.getString("DefaultScenarioTraversal.IllegalUseOfQuery"); //$NON-NLS-1$
 				return;
 			}
 		}
@@ -898,7 +899,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		int count = incrementHitCount(o);
 
 		if (count >= ScenarioTraversalPreferences.getMaxHitCount()) {
-			throw new TraversalException("Infinite loop detected on " + o.toString());
+			throw new TraversalException(Messages.getString("DefaultScenarioTraversal.InfiniteLoopDetectedOn") + o.toString()); //$NON-NLS-1$
 		}
 	}
 
@@ -922,7 +923,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 
 			if (pt != null && !reachedEndPoints.contains(pt)) {
-				_warnings.add(new TraversalWarning("Scenario should have reached end point: " + pt.toString(),pt,IMarker.SEVERITY_ERROR));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.ScenariosShouldHaveReachedEndPoint") + pt.toString(),pt,IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 			} else {
 				// so that we can find multiple instances
 				reachedEndPoints.remove(pt);
@@ -979,7 +980,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
 			visitNodeConnection(nc);
 		} else
-			_error = "Traversal error.";
+			_error = Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
 	}
 
 	/**

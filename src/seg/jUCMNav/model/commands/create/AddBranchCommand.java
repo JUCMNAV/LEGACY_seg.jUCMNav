@@ -120,7 +120,7 @@ public class AddBranchCommand extends Command implements JUCMNavCommand {
             newCondition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
             // blocking path. 
             if (insertionNode instanceof Timer)
-            	newCondition.setExpression("false");
+            	newCondition.setExpression("false"); //$NON-NLS-1$
             newConn.setCondition(newCondition);
         }
 

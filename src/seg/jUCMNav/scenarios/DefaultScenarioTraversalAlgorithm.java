@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
@@ -178,7 +179,7 @@ public class DefaultScenarioTraversalAlgorithm {
 					if (o.getLocation() instanceof URNmodelElement) {
 						URNmodelElement elem = (URNmodelElement) o.getLocation();
 						marker.setAttribute(IMarker.LOCATION, URNNamingHelper.getName(elem));
-						marker.setAttribute("EObject", ((URNmodelElement)o.getLocation()).getId());
+						marker.setAttribute("EObject", ((URNmodelElement)o.getLocation()).getId()); //$NON-NLS-1$
 					} else if (o.getLocation()!=null) {
 						marker.setAttribute(IMarker.LOCATION, o.getLocation().toString());
 					}
@@ -187,20 +188,20 @@ public class DefaultScenarioTraversalAlgorithm {
 					{
 						if (o.getCondition().eContainer() instanceof StartPoint) {
 							StartPoint start = (StartPoint)o.getCondition().eContainer();
-							marker.setAttribute("NodePreCondition", start.getId() );
+							marker.setAttribute("NodePreCondition", start.getId() ); //$NON-NLS-1$
 						} else if (o.getCondition().eContainer() instanceof EndPoint) {
 							EndPoint end = (EndPoint)o.getCondition().eContainer();
-							marker.setAttribute("NodePostCondition", end.getId() );
+							marker.setAttribute("NodePostCondition", end.getId() ); //$NON-NLS-1$
 						}else if (o.getCondition().eContainer() instanceof ScenarioDef) {
 							ScenarioDef scenario = (ScenarioDef)o.getCondition().eContainer();
-							marker.setAttribute("Scenario", scenario.getId() );
-							marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition()));
-							marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition()));
+							marker.setAttribute("Scenario", scenario.getId() ); //$NON-NLS-1$
+							marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition())); //$NON-NLS-1$
+							marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition())); //$NON-NLS-1$
 						}
 
 						
 					}
-					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1);
+					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
 				} catch(CoreException ex) 
 				{
 					//System.out.println(ex);
@@ -235,7 +236,7 @@ public class DefaultScenarioTraversalAlgorithm {
 		
 		for (Iterator iter = ScenarioUtils.getDefinedInitializations(root).iterator(); iter.hasNext();) {
 			Initialization init = (Initialization) iter.next();
-			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true);
+			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 
@@ -263,12 +264,13 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res)) {
-						TraversalWarning warning = new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", scenario, IMarker.SEVERITY_ERROR);
+						
+						TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Postcondition") + cond.getLabel() + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario, IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						warning.setCondition(cond);
 						warnings.add(warning);
 					}
 				} else
-					throw new TraversalException("Unexpected result returned");
+					throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
 
 			}
 
@@ -298,12 +300,12 @@ public class DefaultScenarioTraversalAlgorithm {
 				}
 				if (res instanceof Boolean) {
 					if (Boolean.FALSE.equals(res)) {
-						TraversalWarning warning = new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", scenario,IMarker.SEVERITY_ERROR);
+						TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Precondition") + cond.getLabel() + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario,IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						warning.setCondition(cond);
 						warnings.add(warning);
 					}
 				} else
-					throw new TraversalException("Unexpected result returned");
+					throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
 
 			}
 

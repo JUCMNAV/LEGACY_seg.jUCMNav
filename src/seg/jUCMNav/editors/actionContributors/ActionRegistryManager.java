@@ -294,63 +294,63 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
         
         action = new AddScenarioGroupAction((IWorkbenchPart)editor);
-        action.setText("Add Scenario Group");
+        action.setText(Messages.getString("ActionRegistryManager.AddScenarioGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddScenarioAction((IWorkbenchPart)editor);
-        action.setText("Add Scenario");
+        action.setText(Messages.getString("ActionRegistryManager.AddScenario")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   
         
         action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeBoolean);
-        action.setText("New Boolean");
+        action.setText(Messages.getString("ActionRegistryManager.NewBoolean")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   
 
         action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeInteger);
-        action.setText("New Integer");
+        action.setText(Messages.getString("ActionRegistryManager.NewInteger")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
-        action = new AddVariableAction((IWorkbenchPart)editor, "");
-        action.setText("New Variable Wizard");
+        action = new AddVariableAction((IWorkbenchPart)editor, ""); //$NON-NLS-1$
+        action.setText(Messages.getString("ActionRegistryManager.NewVariableWizard")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditCodeAction((IWorkbenchPart)editor);
-        action.setText("Edit");
+        action.setText(Messages.getString("ActionRegistryManager.Edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   
 
         action = new IncludeScenarioAction((IWorkbenchPart)editor);
-        action.setText("Include Scenario");
+        action.setText(Messages.getString("ActionRegistryManager.IncludeScenario")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
         
         action = new AddStartEndPointAction((IWorkbenchPart)editor, true);
-        action.setText("Add Start Point");
+        action.setText(Messages.getString("ActionRegistryManager.AddStartPoint")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
         
         action = new AddStartEndPointAction((IWorkbenchPart)editor, false);
-        action.setText("Add End Point");
+        action.setText(Messages.getString("ActionRegistryManager.AddEndPoint")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
        
         action = new AddPrePostConditionAction((IWorkbenchPart)editor, true);
-        action.setText("Add Precondition");
+        action.setText(Messages.getString("ActionRegistryManager.AddPrecondition")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddPrePostConditionAction((IWorkbenchPart)editor, false);
-        action.setText("Add Postcondition");
+        action.setText(Messages.getString("ActionRegistryManager.AddPostcondition")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   
         
         action = new VariableInitializationsAction((IWorkbenchPart)editor);
-        action.setText("Initialize Variables");
+        action.setText(Messages.getString("ActionRegistryManager.InitializeVariables")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
      
         action = new MoveAction((IWorkbenchPart)editor, true);
-        action.setText("Move Up");
+        action.setText(Messages.getString("ActionRegistryManager.MoveUp")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);          
 
         action = new MoveAction((IWorkbenchPart)editor, false);
-        action.setText("Move Down");
+        action.setText(Messages.getString("ActionRegistryManager.MoveDown")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new DuplicateAction((IWorkbenchPart)editor);
-        action.setText("Duplicate");
+        action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);    
 
     }

@@ -8,6 +8,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * Preference page for scenario traversal
@@ -35,14 +36,14 @@ public class ScenarioTraversalPreferencePage extends FieldEditorPreferencePage i
         // Initialize all field editors.
     	
     	
-        IntegerFieldEditor hitcount = new IntegerFieldEditor(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, "Maximum number of times an element can be hit before it is declared blocked",  getFieldEditorParent());
+        IntegerFieldEditor hitcount = new IntegerFieldEditor(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, Messages.getString("ScenarioTraversalPreferencePage.MaximumHitCount"),  getFieldEditorParent()); //$NON-NLS-1$
         addField(hitcount);
 
 
-        BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, "Do we continue other processing and come back to the element later if its precondition is false?", getFieldEditorParent()); 
+        BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, Messages.getString("ScenarioTraversalPreferencePage.IsPatient"), getFieldEditorParent());  //$NON-NLS-1$
         addField(patient);
         
-        BooleanFieldEditor deterministic = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, "Deterministic algorithm?", getFieldEditorParent()); 
+        BooleanFieldEditor deterministic = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, Messages.getString("ScenarioTraversalPreferencePage.IsDeterministic"), getFieldEditorParent());  //$NON-NLS-1$
         addField(deterministic);        
         
     }

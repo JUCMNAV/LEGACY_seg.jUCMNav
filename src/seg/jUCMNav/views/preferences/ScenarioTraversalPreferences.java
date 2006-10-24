@@ -18,7 +18,7 @@ public class ScenarioTraversalPreferences {
 
     public final static String PREF_MAXHITCOUNT = "seg.jUCMNav.ScenarioTraversal.MaxHitCount"; //$NON-NLS-1$
     public final static String PREF_ISPATIENTONPRECONDITIONS = "seg.jUCMNav.ScenarioTraversal.IsPatientOnPreconditions"; //$NON-NLS-1$
-    public final static String PREF_ISDETERMINISTIC = "seg.jUCMNav.ScenarioTraversal.Deterministic"; // $NON-NLS-1$
+    public final static String PREF_ISDETERMINISTIC = "seg.jUCMNav.ScenarioTraversal.Deterministic"; // $NON-NLS-1$ //$NON-NLS-1$
     /**
      * 
      * @return Preference store where the properties are stored.

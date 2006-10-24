@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import ucm.scenario.ScenarioEndPoint;
@@ -23,7 +24,7 @@ public class DeleteScenarioPathNodeCommand extends CompoundCommand {
      *          the ScenarioStartPoint to delete
      */
     public DeleteScenarioPathNodeCommand(ScenarioStartPoint var) {
-        setLabel("Delete Scenario Start Point");
+        setLabel(Messages.getString("DeleteScenarioPathNodeCommand.DeleteScenarioStartPoint")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(var));
         add(new RemoveURNmodelElementCommand(var));
     }
@@ -33,7 +34,7 @@ public class DeleteScenarioPathNodeCommand extends CompoundCommand {
      *          the ScenarioStartPoint to delete
      */
     public DeleteScenarioPathNodeCommand(ScenarioEndPoint var) {
-        setLabel("Delete Scenario End Point");
+        setLabel(Messages.getString("DeleteScenarioPathNodeCommand.DeleteScenarioEndPoint")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(var));
         add(new RemoveURNmodelElementCommand(var));
     }

@@ -27,7 +27,7 @@ public class RemoveScenarioCommand extends Command implements JUCMNavCommand {
      */
     public RemoveScenarioCommand(ScenarioDef scenario) {
         this.scenario = scenario;
-        setLabel("RemoveScenarioCommand");
+        setLabel("RemoveScenarioCommand"); //$NON-NLS-1$
     }
     
     /**

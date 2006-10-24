@@ -30,7 +30,7 @@ public class AddVariableAction extends URNSelectionAction {
     public static final String ADDINTVARIABLE = "Add Int Variable"; //$NON-NLS-1$
     public static final String ADDBOOLVARIABLE = "Add Boolean Variable"; //$NON-NLS-1$
     public static final String ADDENUMERATIONVARIABLE = "Add Enumeration Variable"; //$NON-NLS-1$
-    public static final String ADDVARIABLEWIZARD = "Add Variable Wizard"; // $NON-NLS-1$
+    public static final String ADDVARIABLEWIZARD = "Add Variable Wizard"; // $NON-NLS-1$ //$NON-NLS-1$
     
     private String type;
     private boolean wizard=false;

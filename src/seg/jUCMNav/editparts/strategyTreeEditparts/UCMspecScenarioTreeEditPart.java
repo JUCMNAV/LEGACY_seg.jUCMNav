@@ -11,6 +11,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.UCMspec;
 
@@ -81,6 +82,6 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
      * @return the URNspec name.
      */
     protected String getText() {
-        return "UCM Scenarios";
+        return Messages.getString("UCMspecScenarioTreeEditPart.UcmScenarios"); //$NON-NLS-1$
     }
 }

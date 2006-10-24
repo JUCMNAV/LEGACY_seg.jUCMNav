@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.ScenarioDef;
@@ -29,7 +30,7 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 	public CreateScenarioCommand(URNspec urn, ScenarioGroup group) {
 		this.urn = urn;
 		this.group = group;
-		setLabel("Create Scenario");
+		setLabel(Messages.getString("CreateScenarioCommand.CreateScenario")); //$NON-NLS-1$
 	}
 
 	/**

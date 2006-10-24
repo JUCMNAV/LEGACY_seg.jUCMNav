@@ -157,7 +157,7 @@ public class ExportCSV implements IURNExport {
             if(evaluation.getStrategies() != null) {
                	write(COMMA + evaluation.getEvaluation());
             } else {
-            	write(COMMA + evaluation.getEvaluation() + "*");
+            	write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
             }
         }
     }

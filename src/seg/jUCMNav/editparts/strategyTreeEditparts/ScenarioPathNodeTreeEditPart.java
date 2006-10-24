@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.ScenarioPathNodeComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.views.property.ScenarioPathNodePropertySource;
@@ -149,11 +150,11 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
 	    		((TreeItem) widget).setForeground(BLACK);
     	}
     	if (getModel() instanceof ScenarioStartPoint && ((ScenarioStartPoint)getModel()).getStartPoint()!=null)
-    		return ((UCMmap)((ScenarioStartPoint)getModel()).getStartPoint().getDiagram()).getName() + "\\" + EObjectClassNameComparator.getSortableElementName(((ScenarioStartPoint)getModel()).getStartPoint());
+    		return ((UCMmap)((ScenarioStartPoint)getModel()).getStartPoint().getDiagram()).getName() + Messages.getString("ScenarioPathNodeTreeEditPart.MapNodeSeperator") + EObjectClassNameComparator.getSortableElementName(((ScenarioStartPoint)getModel()).getStartPoint()); //$NON-NLS-1$
     	else if (getModel() instanceof ScenarioEndPoint && ((ScenarioEndPoint)getModel()).getEndPoint()!=null)
-    		return  ((UCMmap)((ScenarioEndPoint)getModel()).getEndPoint().getDiagram()).getName() + "\\" + EObjectClassNameComparator.getSortableElementName(((ScenarioEndPoint)getModel()).getEndPoint());
+    		return  ((UCMmap)((ScenarioEndPoint)getModel()).getEndPoint().getDiagram()).getName() + Messages.getString("ScenarioPathNodeTreeEditPart.MapNodeSeperator") + EObjectClassNameComparator.getSortableElementName(((ScenarioEndPoint)getModel()).getEndPoint()); //$NON-NLS-1$
     	else
-    		return "";
+    		return ""; //$NON-NLS-1$
     }
 
 	private PathNode getPathNode() {

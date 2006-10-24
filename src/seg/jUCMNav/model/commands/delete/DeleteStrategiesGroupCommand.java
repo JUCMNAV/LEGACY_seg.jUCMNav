@@ -39,7 +39,7 @@ public class DeleteStrategiesGroupCommand extends Command implements JUCMNavComm
 	 */
 	public DeleteStrategiesGroupCommand(ScenarioGroup group) {
 		this.group = group;
-		setLabel("Delete Scenario Group");
+		setLabel(Messages.getString("DeleteStrategiesGroupCommand.DeleteScenarioGroup")); //$NON-NLS-1$
 	}
 
 	private ScenarioGroup getScenarioGroup() {

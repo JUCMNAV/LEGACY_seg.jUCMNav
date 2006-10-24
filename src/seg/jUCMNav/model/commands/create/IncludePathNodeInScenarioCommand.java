@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
@@ -35,7 +36,7 @@ public class IncludePathNodeInScenarioCommand extends Command implements JUCMNav
 	public IncludePathNodeInScenarioCommand(ScenarioDef parent, PathNode child) {
 		this.parent = parent;
 		this.child = child;
-		setLabel("Include Start/End Point in Scenario");
+		setLabel(Messages.getString("IncludePathNodeInScenarioCommand.IncludeStartEndPointInScenario")); //$NON-NLS-1$
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 	}
 
@@ -86,7 +87,7 @@ public class IncludePathNodeInScenarioCommand extends Command implements JUCMNav
 	 */
 	public void testPostConditions() {
 		assert parent != null && child != null && urn!=null: "post not null"; //$NON-NLS-1$
-		assert (parent.getStartPoints().contains(startPoint) || parent.getEndPoints().contains(endPoint)) : "post scenario not updated";
+		assert (parent.getStartPoints().contains(startPoint) || parent.getEndPoints().contains(endPoint)) : "post scenario not updated"; //$NON-NLS-1$
 		assert (startPoint!=null && startPoint.getStartPoint() == child) ||  (endPoint!=null && endPoint.getEndPoint() == child)  : "post child not added"; //$NON-NLS-1$
 	}
 

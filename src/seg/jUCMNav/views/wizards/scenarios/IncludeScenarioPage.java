@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
@@ -46,8 +47,8 @@ public class IncludeScenarioPage extends WizardPage {
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		setTitle("Include Scenario");
-		setDescription("Please choose the scenario to be included.");
+		setTitle(Messages.getString("IncludeScenarioPage.IncludeScenario")); //$NON-NLS-1$
+		setDescription(Messages.getString("IncludeScenarioPage.PleaseChooseScenario")); //$NON-NLS-1$
 
 		
 		// loaded in initialize()
@@ -68,7 +69,7 @@ public class IncludeScenarioPage extends WizardPage {
 
 		// label over the code box.
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Please choose the scenario to be included.");
+		label.setText(Messages.getString("IncludeScenarioPage.PleaseChooseScenario")); //$NON-NLS-1$
 
 
 		initialize();
@@ -102,7 +103,7 @@ public class IncludeScenarioPage extends WizardPage {
 		ArrayList childrenStrings = new ArrayList();
 		for (Iterator iter = possibleChildren.iterator(); iter.hasNext();) {
 			ScenarioDef possibleChild = (ScenarioDef) iter.next();
-			childrenStrings.add(URNNamingHelper.getName(possibleChild.getGroup()) + "\\" + URNNamingHelper.getName(possibleChild));
+			childrenStrings.add(URNNamingHelper.getName(possibleChild.getGroup()) + Messages.getString("IncludeScenarioPage.GroupScenarioSeperator") + URNNamingHelper.getName(possibleChild)); //$NON-NLS-1$
 		}
 		
 		Object [] o = childrenStrings.toArray();
@@ -138,7 +139,7 @@ public class IncludeScenarioPage extends WizardPage {
 	private void dialogChanged() {
 
 		if (scenarios.getSelectionIndex()<0)
-			updateStatus("Please select a scenario");
+			updateStatus(Messages.getString("IncludeScenarioPage.SelectScenario")); //$NON-NLS-1$
 		else {
 			children.clear();
 			for (int i = 0; i < scenarios.getSelectionIndices().length; i++) {

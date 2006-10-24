@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.create.CreateVariableInitializationCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableInitializationCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeCodeCommand;
@@ -46,12 +47,12 @@ import urn.URNspec;
  * 
  */
 public class ScenarioInitializationsPage extends WizardPage {
-	private String[] boolean_values = { "true", "false" };
+	private String[] boolean_values = { "true", "false" }; //$NON-NLS-1$ //$NON-NLS-2$
 	private int commandCount;
 	private HashMap initializations;
 	private ScenarioDef parent;
 	private ISelection selection;
-	private String[] titles = { "Variable", "Type", "Initialization" };
+	private String[] titles = { Messages.getString("ScenarioInitializationsPage.Variable"), Messages.getString("ScenarioInitializationsPage.Type"), Messages.getString("ScenarioInitializationsPage.Initialization") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	private URNspec urn;
 
 	private Table variables;
@@ -69,8 +70,8 @@ public class ScenarioInitializationsPage extends WizardPage {
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		setTitle("Variable Initializations");
-		setDescription("Please select which variables are to be initialized in this scenario and give them default values.");
+		setTitle(Messages.getString("ScenarioInitializationsPage.VariableInitializations")); //$NON-NLS-1$
+		setDescription(Messages.getString("ScenarioInitializationsPage.PleaseSelectVariables")); //$NON-NLS-1$
 
 		// loaded in initialize()
 		this.selection = selection;
@@ -105,7 +106,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 							return getInitialization((Variable) element).getValue().equals(boolean_values[0]) ? new Integer(0) : new Integer(1);
 					} else {
 						if (((Variable) element).getType().equals(ScenarioUtils.sTypeInteger))
-							return "0";
+							return "0"; //$NON-NLS-1$
 						else
 							return Integer.valueOf(0);
 					}
@@ -132,8 +133,8 @@ public class ScenarioInitializationsPage extends WizardPage {
 						
 					} catch (NumberFormatException ex)
 					{
-						if (!getInitialization(data).getValue().equals("0"))
-							command = new ChangeCodeCommand(getInitialization(data), "0");
+						if (!getInitialization(data).getValue().equals("0")) //$NON-NLS-1$
+							command = new ChangeCodeCommand(getInitialization(data), "0"); //$NON-NLS-1$
 					}
 					
 				}
@@ -190,9 +191,9 @@ public class ScenarioInitializationsPage extends WizardPage {
 					if (getInitialization((Variable) element) != null)
 						return getInitialization((Variable) element).getValue();
 					else
-						return "";
+						return ""; //$NON-NLS-1$
 				default:
-					return "Invalid column: " + columnIndex;
+					return "Invalid column: " + columnIndex; //$NON-NLS-1$
 				}
 			}
 
@@ -335,7 +336,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 			item.setText(new String[] { var.getName(), var.getType(), getInitialization(var).getValue() });
 			item.setChecked(true);
 		} else {
-			item.setText(new String[] { var.getName(), var.getType(), "" });
+			item.setText(new String[] { var.getName(), var.getType(), "" }); //$NON-NLS-1$
 			item.setChecked(false);
 		}
 	}

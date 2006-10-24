@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.PlatformUI;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import urncore.Condition;
 
@@ -34,7 +35,7 @@ public class OpenEditorQuickFix implements IMarkerResolution {
 		dialog.open();
 	}
 	public String getLabel() {
-		return "Edit code";
+		return Messages.getString("OpenEditorQuickFix.EditCode"); //$NON-NLS-1$
 	}
  }
 

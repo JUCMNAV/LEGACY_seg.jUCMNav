@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -35,7 +36,7 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
         this.var = var;
         this.scenario = scenario;
         this.value = value;
-        setLabel("Create Variable Initialization");
+        setLabel(Messages.getString("CreateVariableInitializationCommand.CreateVariableInitialization")); //$NON-NLS-1$
     }
     
     /**
@@ -45,7 +46,7 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
         this.varName = var;
         this.scenario = scenario;
         this.value = value;
-        setLabel("Create Variable Initialization");
+        setLabel(Messages.getString("CreateVariableInitializationCommand.CreateVariableInitialization")); //$NON-NLS-1$
     }
 
     /**
@@ -54,7 +55,7 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
     public CreateVariableInitializationCommand(Variable var, ScenarioDef scenario) {
         this.var = var;
         this.scenario = scenario;
-        setLabel("Create Variable Initialization");
+        setLabel(Messages.getString("CreateVariableInitializationCommand.CreateVariableInitialization")); //$NON-NLS-1$
     }
     
     /**
@@ -63,7 +64,7 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
     public CreateVariableInitializationCommand(String var, ScenarioDef scenario) {
         this.varName = var;
         this.scenario = scenario;
-        setLabel("Create Variable Initialization");
+        setLabel(Messages.getString("CreateVariableInitializationCommand.CreateVariableInitialization")); //$NON-NLS-1$
     }
     
     /**
@@ -93,17 +94,17 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
 		init = (Initialization) ModelCreationFactory.getNewObject(var.getUcmspec().getUrnspec(), Initialization.class);
 		
 
-		assert var!=null : "unable to find variable " + varName; 
+		assert var!=null : "unable to find variable " + varName;  //$NON-NLS-1$
 			
 		
 		
 		if (this.value==null) {
 			if (var.getType().equals(ScenarioUtils.sTypeBoolean))
-				init.setValue("false");
+				init.setValue("false"); //$NON-NLS-1$
 			else if (var.getType().equals(ScenarioUtils.sTypeInteger))
-				init.setValue("0");
+				init.setValue("0"); //$NON-NLS-1$
 			else
-				System.out.println("TODO: Enumerations");
+				System.out.println("TODO: Enumerations"); //$NON-NLS-1$
 		} else {
 			init.setValue(this.value);
 		}

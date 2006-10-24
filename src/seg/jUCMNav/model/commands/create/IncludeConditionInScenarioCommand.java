@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.ScenarioDef;
@@ -39,13 +40,13 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	public IncludeConditionInScenarioCommand(ScenarioDef parent, boolean bIsPreCondition) {
 		this.parent = parent;
 		this.bIsPreCondition = bIsPreCondition;
-		setLabel("Include Pre/Post Condition in Scenario");
+		setLabel(Messages.getString("IncludeConditionInScenarioCommand.IncludePrePostInScenario")); //$NON-NLS-1$
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 	}
 	public IncludeConditionInScenarioCommand(ScenarioDef parent, boolean bIsPreCondition, Condition clone) {
 		this.parent = parent;
 		this.bIsPreCondition = bIsPreCondition;
-		setLabel("Include Pre/Post Condition in Scenario");
+		setLabel(Messages.getString("IncludeConditionInScenarioCommand.IncludePrePostInScenario")); //$NON-NLS-1$
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 		this.clone = clone;
 	}	
@@ -67,9 +68,9 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 			condition.setExpression(clone.getExpression());
 		} else {
 			if (bIsPreCondition)
-				condition.setLabel("Precondition");
+				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Precondition")); //$NON-NLS-1$
 			else
-				condition.setLabel("Postcondition");
+				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Postcondition")); //$NON-NLS-1$
 		}
 		redo();
 	}
@@ -100,7 +101,7 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	 */
 	public void testPostConditions() {
 		assert parent != null && condition != null && urn!=null: "post not null"; //$NON-NLS-1$
-		assert (parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && parent.getPostconditions().contains(condition)) : "post scenario not updated";
+		assert (parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && parent.getPostconditions().contains(condition)) : "post scenario not updated"; //$NON-NLS-1$
 	}
 
 	/*
@@ -110,7 +111,7 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	 */
 	public void testPreConditions() {
 		assert parent != null && condition != null && urn!=null : "pre not null"; //$NON-NLS-1$
-		assert (!parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && !parent.getPostconditions().contains(condition)) : "pre scenario not updated";
+		assert (!parent.getPreconditions().contains(condition) && bIsPreCondition) || ( !bIsPreCondition && !parent.getPostconditions().contains(condition)) : "pre scenario not updated"; //$NON-NLS-1$
 	}
 
 	/**

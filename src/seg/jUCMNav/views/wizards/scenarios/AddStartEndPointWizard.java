@@ -15,6 +15,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.IncludePathNodeInScenarioCommand;
 import ucm.map.PathNode;
@@ -42,9 +43,9 @@ public class AddStartEndPointWizard extends Wizard {
 		setNeedsProgressMonitor(true);
 		this.bStartPoint = bStartPoint;
 		if (bStartPoint)
-			this.setWindowTitle("Add Start Point");
+			this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddStartPoint")); //$NON-NLS-1$
 		else
-			this.setWindowTitle("Add End Point");
+			this.setWindowTitle(Messages.getString("AddStartEndPointWizard.AddEndPoint")); //$NON-NLS-1$
 
 	}
 

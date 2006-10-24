@@ -24,38 +24,38 @@ public class QuickFixer implements IMarkerResolutionGenerator {
        try {
           IEditorPart ed = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 
-          if ((mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor)
+          if ((mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
           {
 			UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ed;
-			Object o = mk.getAttribute("EObject");
+			Object o = mk.getAttribute("EObject"); //$NON-NLS-1$
 			if (o!=null) {
 								
 				Object element = URNElementFinder.find(editor.getModel(), o.toString());
 				if (element!=null) {
 
 					Condition cond=null;
-					if (mk.getAttribute("NodePreCondition")!=null)
+					if (mk.getAttribute("NodePreCondition")!=null) //$NON-NLS-1$
 					{
 
 						cond = ((StartPoint)element).getPrecondition();
 
 					}
-					else if (mk.getAttribute("NodePostCondition")!=null)
+					else if (mk.getAttribute("NodePostCondition")!=null) //$NON-NLS-1$
 					{
 						cond = ((EndPoint)element).getPostcondition();
 
-					} else if (mk.getAttribute("Scenario")!=null)
+					} else if (mk.getAttribute("Scenario")!=null) //$NON-NLS-1$
 					{
 						ScenarioDef scenario = (ScenarioDef)element;
-						if (mk.getAttribute("ScenarioPreConditionIndex")!=null && mk.getAttribute("ScenarioPreConditionIndex") instanceof Integer)
+						if (mk.getAttribute("ScenarioPreConditionIndex")!=null && mk.getAttribute("ScenarioPreConditionIndex") instanceof Integer) //$NON-NLS-1$ //$NON-NLS-2$
 						{
-							Integer i = (Integer) mk.getAttribute("ScenarioPreConditionIndex");
+							Integer i = (Integer) mk.getAttribute("ScenarioPreConditionIndex"); //$NON-NLS-1$
 							if (i.intValue()<scenario.getPreconditions().size())
 								cond = (Condition) scenario.getPreconditions().get(i.intValue());
 						
-						} else if (mk.getAttribute("ScenarioPostConditionIndex")!=null && mk.getAttribute("ScenarioPostConditionIndex") instanceof Integer)
+						} else if (mk.getAttribute("ScenarioPostConditionIndex")!=null && mk.getAttribute("ScenarioPostConditionIndex") instanceof Integer) //$NON-NLS-1$ //$NON-NLS-2$
 						{
-							Integer i = (Integer) mk.getAttribute("ScenarioPostConditionIndex");
+							Integer i = (Integer) mk.getAttribute("ScenarioPostConditionIndex"); //$NON-NLS-1$
 							if (i.intValue()<scenario.getPostconditions().size())
 								cond = (Condition) scenario.getPostconditions().get(i.intValue());
 						
@@ -67,7 +67,7 @@ public class QuickFixer implements IMarkerResolutionGenerator {
 						return new IMarkerResolution[] {new OpenEditorQuickFix(cond) };
 					}
 				}else {
-					System.out.println("can't find it");
+					System.out.println("can't find it"); //$NON-NLS-1$
 				}
           }
           }

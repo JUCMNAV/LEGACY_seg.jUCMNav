@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 
 /**
@@ -28,8 +29,8 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		setTitle("New Variable Wizard");
-		setDescription("Choose an enumeration");
+		setTitle(Messages.getString("AddVariableWizardEnumsPage.NewVariableWizard")); //$NON-NLS-1$
+		setDescription(Messages.getString("AddVariableWizardEnumsPage.ChooseAnEnumeration")); //$NON-NLS-1$
 		this.urn=urn;
 	}
 
@@ -46,7 +47,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		layout.verticalSpacing = 5;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Enumeration name: ");
+		label.setText(Messages.getString("AddVariableWizardEnumsPage.Enumerationname")); //$NON-NLS-1$
 
 
 		// TODO: Create enumeration radio button list.

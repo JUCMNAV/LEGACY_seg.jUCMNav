@@ -668,7 +668,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 		try {
 			if (!marker.exists())
 				return;
-			Object o = marker.getAttribute("EObject");
+			Object o = marker.getAttribute("EObject"); //$NON-NLS-1$
 			if (o!=null) {
 				
 				UrnOutlinePage outline;

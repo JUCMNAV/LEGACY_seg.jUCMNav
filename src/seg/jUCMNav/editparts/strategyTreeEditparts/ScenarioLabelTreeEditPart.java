@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
 
@@ -80,21 +81,21 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public List getModelChildren() {
         ArrayList list = new ArrayList();
-        if (getLabel().equals("Included scenarios")) {
+        if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
         	//list.addAll(root.getIncludedScenarios());
         	list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
-        } else if (getLabel().equals("Start points")) {
+        } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
         	//list.addAll(root.getStartPoints());
         	list.addAll(ScenarioUtils.getDefinedStartPoints(root));
-		} else if (getLabel().equals("Preconditions")) {
+		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
 //			list.addAll(root.getInitializations());
 //			list.addAll(root.getPreconditions());
 			list.addAll(ScenarioUtils.getDefinedInitializations(root));
 			list.addAll(ScenarioUtils.getDefinedPreconditions(root));
-		} else if (getLabel().equals("End points")) {
+		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
 			//list.addAll(root.getEndPoints());
 			list.addAll(ScenarioUtils.getDefinedEndPoints(root));
-		} else if (getLabel().equals("Postconditions")) {
+		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
 //			list.addAll(root.getPostconditions());
 			list.addAll(ScenarioUtils.getDefinedPostconditions(root));
 			

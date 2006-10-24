@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import urn.URNspec;
@@ -43,8 +44,8 @@ public class AddVariableWizardPage extends WizardPage {
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
-		setTitle("New Variable Wizard");
-		setDescription("Please name your variable and select its type");
+		setTitle(Messages.getString("AddVariableWizardPage.NewVariableWizard")); //$NON-NLS-1$
+		setDescription(Messages.getString("AddVariableWizardPage.PleaseNameVariable")); //$NON-NLS-1$
 		this.urn=urn;
 	}
 
@@ -61,11 +62,11 @@ public class AddVariableWizardPage extends WizardPage {
 		layout.verticalSpacing = 5;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Variable name: ");
+		label.setText(Messages.getString("AddVariableWizardPage.VariableName")); //$NON-NLS-1$
 
 
 		variableName = new Text(container, SWT.BORDER);
-		variableName.setText("Variable");
+		variableName.setText(Messages.getString("AddVariableWizardPage.Variable")); //$NON-NLS-1$
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		variableName.setLayoutData(gd);
@@ -76,13 +77,13 @@ public class AddVariableWizardPage extends WizardPage {
 		});
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("Variable type: ");
+		label.setText(Messages.getString("AddVariableWizardPage.VariableType")); //$NON-NLS-1$
 		
 		Composite composite = new Composite(container, SWT.NULL);
 		composite.setLayout(new RowLayout(SWT.VERTICAL));
 		 
 		Button btnType = new Button(composite, SWT.RADIO);
-		btnType.setText("Boolean");
+		btnType.setText(Messages.getString("AddVariableWizardPage.Boolean")); //$NON-NLS-1$
 		btnType.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (!ScenarioUtils.sTypeBoolean.equals(sType)) {
@@ -97,7 +98,7 @@ public class AddVariableWizardPage extends WizardPage {
 		sType=ScenarioUtils.sTypeBoolean;
 		
 		btnType = new Button(composite, SWT.RADIO);
-		btnType.setText("Integer");
+		btnType.setText(Messages.getString("AddVariableWizardPage.Integer")); //$NON-NLS-1$
 		btnType.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (!ScenarioUtils.sTypeInteger.equals(sType)) {
@@ -110,7 +111,7 @@ public class AddVariableWizardPage extends WizardPage {
 		});
 		
 		btnType = new Button(composite, SWT.RADIO);
-		btnType.setText("Enumeration");
+		btnType.setText(Messages.getString("AddVariableWizardPage.Enumeration")); //$NON-NLS-1$
 		// TODO: enable enumerations
 		btnType.setEnabled(false);
 		btnType.addSelectionListener(new SelectionAdapter() {
@@ -139,9 +140,9 @@ public class AddVariableWizardPage extends WizardPage {
 		
 		
 		if (URNNamingHelper.doesVariableNameExist(urn, sVariableName))
-			updateStatus("Variable name already in use.");
+			updateStatus(Messages.getString("AddVariableWizardPage.VariableNameAlreadyInUse")); //$NON-NLS-1$
 		else if (sType==null)
-			updateStatus("Please select a type.");
+			updateStatus(Messages.getString("AddVariableWizardPage.PleaseSelectType")); //$NON-NLS-1$
 		else
 			updateStatus(null);
 

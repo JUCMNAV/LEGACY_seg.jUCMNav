@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.transformations;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urncore.URNmodelElement;
 
@@ -18,7 +19,7 @@ public class ChangeDescriptionCommand extends Command implements JUCMNavCommand 
     	this.element = obj;
     	this.newDescription = newdesc;
     	
-    	setLabel("Change Description");
+    	setLabel(Messages.getString("ChangeDescriptionCommand.ChangeDescription")); //$NON-NLS-1$
     }
 
 

@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.VariableComponentEditPolicy;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Initialization;
@@ -116,8 +117,8 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
     	
     	
     	if (getVariable()==null) 
-    		return "";
+    		return ""; //$NON-NLS-1$
     	else 
-    		return getVariable().getName() + "=" + getInitialization().getValue();
+    		return getVariable().getName() + Messages.getString("VariableInitializationTreeEditPart.Equals") + getInitialization().getValue(); //$NON-NLS-1$
     }
 }

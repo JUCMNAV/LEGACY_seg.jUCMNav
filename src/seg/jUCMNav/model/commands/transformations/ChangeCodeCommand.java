@@ -27,7 +27,7 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         else if (elem instanceof Condition)
         	setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
         else if (elem instanceof Initialization)
-        	setLabel("Change initialization");
+        	setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
     }
 
 

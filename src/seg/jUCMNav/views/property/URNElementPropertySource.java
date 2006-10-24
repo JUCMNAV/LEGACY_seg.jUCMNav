@@ -83,7 +83,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         	scenarioGroupDescriptor(descriptors, propertyid);
         } else if (type.getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy){
         	strategyGroupDescriptor(descriptors, propertyid);
-        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")){
+        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")){ //$NON-NLS-1$
         	Initialization init = (Initialization)getEditableValue();
         	if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
         		intDescriptor(descriptors, attr, propertyid);
@@ -161,7 +161,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
 
-        pd.setCategory("Scenario / Strategy"); 
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return ""; //$NON-NLS-1$
@@ -190,11 +190,11 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((ScenarioGroup) list.get(i));
             if (values[i] == null)
-                values[i] = "[unnamed]"; 
+                values[i] = Messages.getString("URNElementPropertySource.unnamed");  //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory("Scenario / Strategy"); 
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
         descriptors.add(pd);
 
     }
@@ -219,11 +219,11 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((StrategiesGroup) list.get(i));
             if (values[i] == null)
-                values[i] = "[unnamed]"; 
+                values[i] = Messages.getString("URNElementPropertySource.unnamed");  //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory("Scenario / Strategy"); 
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
         descriptors.add(pd);
 
     }
@@ -277,7 +277,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 	
                 	NodeConnection connection = (NodeConnection) getEditableValue();
                 	if (connection.getSource() instanceof WaitingPlace) {
-                		((Condition)result).setExpression("false");
+                		((Condition)result).setExpression("false"); //$NON-NLS-1$
                 	}
 					((Condition)result).setNodeConnection(connection);
                 }

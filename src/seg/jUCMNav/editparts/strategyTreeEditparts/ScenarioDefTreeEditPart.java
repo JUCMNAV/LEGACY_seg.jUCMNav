@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -48,11 +49,11 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 
 	protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.add("Included scenarios");
-        list.add("Start points");
-        list.add("Preconditions");
-        list.add("End points");
-        list.add("Postconditions");
+        list.add(Messages.getString("ScenarioDefTreeEditPart.IncludedScenarios")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioDefTreeEditPart.StartPoints")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioDefTreeEditPart.Preconditions")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioDefTreeEditPart.EndPoints")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioDefTreeEditPart.Postconditions")); //$NON-NLS-1$
         return list;
         }
 	/**

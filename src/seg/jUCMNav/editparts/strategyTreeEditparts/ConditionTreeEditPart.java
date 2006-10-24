@@ -105,7 +105,7 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     		((TreeItem) widget).setForeground(BLACK);
 	   	
 		if (getCondition().getLabel() == null)
-			return "";
+			return ""; //$NON-NLS-1$
 		else
 			return getCondition().getLabel();
 	}

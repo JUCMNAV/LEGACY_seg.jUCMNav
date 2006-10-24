@@ -3,6 +3,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import urncore.Condition;
 
@@ -19,7 +20,7 @@ public class DeleteScenarioConditionCommand extends CompoundCommand {
      *          the Condition to delete
      */
     public DeleteScenarioConditionCommand(Condition cond) {
-        setLabel("Delete Scenario Pre/Post Condition");
+        setLabel(Messages.getString("DeleteScenarioConditionCommand.DeleteScenarioPrePostCondition")); //$NON-NLS-1$
         add(new RemoveURNmodelElementCommand(cond));
     }
 

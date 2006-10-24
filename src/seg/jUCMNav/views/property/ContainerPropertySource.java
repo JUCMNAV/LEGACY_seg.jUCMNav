@@ -15,6 +15,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import urn.URNspec;
@@ -127,11 +128,11 @@ public class ContainerPropertySource extends URNElementPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((IURNContainer) list.get(i));
             if (values[i] == null)
-                values[i] = "[unnamed]"; 
+                values[i] = Messages.getString("ContainerPropertySource.unnamed");  //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory("Reference"); 
+        pd.setCategory(Messages.getString("ContainerPropertySource.reference"));  //$NON-NLS-1$
         descriptors.add(pd);
 
     }

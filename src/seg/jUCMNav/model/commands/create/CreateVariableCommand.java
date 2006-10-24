@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -29,14 +30,14 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public CreateVariableCommand(URNspec urn, String type) {
         this.urn = urn;
         this.type = type;
-        setLabel("Create Variable");
+        setLabel(Messages.getString("CreateVariableCommand.CreateVariable")); //$NON-NLS-1$
     }
 
     public CreateVariableCommand(URNspec urn, String type, String name) {
         this.urn = urn;
         this.type = type;
         this.name = name;
-        setLabel("Create Variable");
+        setLabel(Messages.getString("CreateVariableCommand.CreateVariable")); //$NON-NLS-1$
     }
 
     

@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.EndPoint;
 import ucm.map.PathNode;
@@ -52,11 +53,11 @@ public class AddStartEndPointWizardPage extends WizardPage {
 		this.bStartPoint = bIsStartPoint;
 
 		if (bIsStartPoint) {
-			setTitle("Add Start Point to Scenario");
-			setDescription("Please choose the start point to be added.");
+			setTitle(Messages.getString("AddStartEndPointWizardPage.AddStartToScenario")); //$NON-NLS-1$
+			setDescription(Messages.getString("AddStartEndPointWizardPage.ChooseStartPoints")); //$NON-NLS-1$
 		} else {
-			setTitle("Add End Point to Scenario");
-			setDescription("Please choose the end point to be added.");
+			setTitle(Messages.getString("AddStartEndPointWizardPage.AddEndPoints")); //$NON-NLS-1$
+			setDescription(Messages.getString("AddStartEndPointWizardPage.ChooseEndPoints")); //$NON-NLS-1$
 		}
 
 		// loaded in initialize()
@@ -78,7 +79,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 
 		// label over the dropdown list box.
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Please choose the scenario to be included.");
+		label.setText(Messages.getString("AddStartEndPointWizardPage.ChooseScenarioToBeIncluded")); //$NON-NLS-1$
 
 		initialize();
 
@@ -112,7 +113,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 		ArrayList pointStrings = new ArrayList();
 		for (Iterator iter = points.iterator(); iter.hasNext();) {
 			PathNode node = (PathNode) iter.next();
-			pointStrings.add(URNNamingHelper.getName((UCMmap)node.getDiagram()) + ": " + URNNamingHelper.getName(node));
+			pointStrings.add(URNNamingHelper.getName((UCMmap)node.getDiagram()) + ": " + URNNamingHelper.getName(node)); //$NON-NLS-1$
 			
 		}
 		Object[] o = pointStrings.toArray();
@@ -165,7 +166,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 	private void dialogChanged() {
 
 		if (points.getSelectionIndex() < 0)
-			updateStatus("Please select a point");
+			updateStatus(Messages.getString("AddStartEndPointWizardPage.SelectPoint")); //$NON-NLS-1$
 		else {
 			children.clear();
 			for (int i = 0; i < points.getSelectionIndices().length; i++) {

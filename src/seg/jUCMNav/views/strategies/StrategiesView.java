@@ -112,8 +112,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }
         };
         refreshTreeView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/refresh.gif")); //$NON-NLS-1$
-        refreshTreeView.setToolTipText("Refresh");
-        refreshTreeView.setText("Refresh"); 
+        refreshTreeView.setToolTipText(Messages.getString("StrategiesView.Refresh")); //$NON-NLS-1$
+        refreshTreeView.setText(Messages.getString("StrategiesView.Refresh"));  //$NON-NLS-1$
 
         
         IToolBarManager tbm = getViewSite().getActionBars().getToolBarManager();

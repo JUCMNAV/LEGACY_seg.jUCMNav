@@ -359,7 +359,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
         }
         
         if (ScenarioUtils.getActiveScenario(getLink())!=null) 
-        	getFigure().setToolTip(new Label("Hits: " + ScenarioUtils.getTraversalHitCount(getLink())));
+        	getFigure().setToolTip(new Label(Messages.getString("NodeConnectionEditPart.Hits") + ScenarioUtils.getTraversalHitCount(getLink()))); //$NON-NLS-1$
         else
         	getFigure().setToolTip(null);
 		

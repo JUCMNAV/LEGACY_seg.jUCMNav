@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.ScenarioDef;
@@ -26,7 +27,7 @@ public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 	public IncludeScenarioCommand(ScenarioDef parent, ScenarioDef child) {
 		this.parent = parent;
 		this.child = child;
-		setLabel("Include Scenario");
+		setLabel(Messages.getString("IncludeScenarioCommand.IncludeScenario")); //$NON-NLS-1$
 	}
 
 	/**

@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import ucm.scenario.Variable;
@@ -22,7 +23,7 @@ public class DeleteVariableCommand extends CompoundCommand {
      *          the Variable to delete
      */
     public DeleteVariableCommand(Variable var) {
-        setLabel("Delete Variable");
+        setLabel(Messages.getString("DeleteVariableCommand.DeleteVariable")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(var));
         add(new RemoveURNmodelElementCommand(var));
     }

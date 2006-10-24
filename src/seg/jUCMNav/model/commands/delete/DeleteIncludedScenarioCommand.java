@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.ScenarioDef;
 
@@ -25,7 +26,7 @@ public class DeleteIncludedScenarioCommand extends Command implements JUCMNavCom
 	public DeleteIncludedScenarioCommand(ScenarioDef parent, ScenarioDef child) {
 		this.parent = parent;
 		this.child = child;
-		setLabel("Remove Included Scenario");
+		setLabel(Messages.getString("DeleteIncludedScenarioCommand.RemoveIncludedScenarios")); //$NON-NLS-1$
 
 	}
 
