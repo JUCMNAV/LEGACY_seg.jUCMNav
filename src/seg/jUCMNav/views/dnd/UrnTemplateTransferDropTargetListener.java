@@ -60,7 +60,7 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
                 definition = ((ComponentRef) definition).getContDef();
 
             
-            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, definition);
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, ((Component)definition).getKind().getValue(), definition);
         }
 
         if (template instanceof Responsibility || template instanceof RespRef) {
