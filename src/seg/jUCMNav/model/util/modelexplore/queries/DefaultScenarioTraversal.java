@@ -589,24 +589,33 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processOrFork(UcmEnvironment env, OrFork orfork) throws TraversalException {
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
 
-		NodeConnection toVisit=null;
+		Vector toVisit = new Vector();
 		for (Iterator iter = orfork.getSucc().iterator(); iter.hasNext();) {
 			NodeConnection nc = (NodeConnection) iter.next();
 			try {
 				Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
 				if (Boolean.TRUE.equals(result)) {
-					if (toVisit!=null)
-						_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork));
-					else 
-						toVisit=nc;
+					if (toVisit.size()!=0) {
+						if (ScenarioTraversalPreferences.getIsDeterministic())
+							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork));
+						else
+							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking any option (non-deterministic).", orfork));
+					}
+					
+					toVisit.add(nc);
 				} 
 			} catch (IllegalArgumentException e) {
 				throw new TraversalException(e.getMessage(), e);
 			}
 		}
 		
-		if (toVisit!=null) {
-			visitNodeConnection(toVisit);
+		if (toVisit.size()>0) {
+			if (ScenarioTraversalPreferences.getIsDeterministic())
+				visitNodeConnection((NodeConnection)toVisit.get(0));
+			else {
+				int i = (int) Math.round(Math.random()*(toVisit.size()-1));
+				visitNodeConnection((NodeConnection)toVisit.get(i));
+			}
 		}
 		else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
 			addToWaitingList(orfork);
@@ -674,6 +683,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processStub(UcmEnvironment env, Stub stub) throws TraversalException {
 		boolean b = false;
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
+		
+		Vector toVisit = new Vector();
 		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
 			PluginBinding binding = (PluginBinding) iter.next();
 
@@ -681,18 +692,14 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
 				if (Boolean.TRUE.equals(result)) {
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
-						if (!b) {
-							InBinding inb = (InBinding) iterator.next();
-							incrementHitCount(inb);
-							incrementHitCount(inb.getBinding());
-							if (inb.getStartPoint() != null) {
-								if (!_currentContext.contains(binding))
-									_currentContext.add(binding);
-								pushPathNode(inb.getStartPoint(), false);
-							}
-						} else {
-							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub));
+						if (b) {
+							if (ScenarioTraversalPreferences.getIsDeterministic())
+								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub));
+							else
+								_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking any option (non-deterministic).", stub));
 						}
+						toVisit.add(iterator.next());
+
 						b = true;
 					}
 					if (binding.getIn().size() == 0)
@@ -714,7 +721,28 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				addToWaitingList(stub);
 			} else
 				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"", stub));
-		} 
+		}  else {
+			
+			InBinding inb=null;
+			
+			if (ScenarioTraversalPreferences.getIsDeterministic()) 
+				inb = (InBinding)toVisit.get(0);
+			else {
+				int i = (int) Math.round(Math.random()*(toVisit.size()-1));
+				inb = (InBinding)toVisit.get(i);
+
+			}
+			PluginBinding binding = inb.getBinding();
+
+			
+			incrementHitCount(inb);
+			incrementHitCount(inb.getBinding());
+			if (inb.getStartPoint() != null) {
+				if (!_currentContext.contains(binding))
+					_currentContext.add(binding);
+				pushPathNode(inb.getStartPoint(), false);
+			}
+		}
 	}
 
 	/**

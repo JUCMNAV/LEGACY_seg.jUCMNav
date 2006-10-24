@@ -42,6 +42,9 @@ public class ScenarioTraversalPreferencePage extends FieldEditorPreferencePage i
         BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, "Do we continue other processing and come back to the element later if its precondition is false?", getFieldEditorParent()); 
         addField(patient);
         
+        BooleanFieldEditor deterministic = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, "Deterministic algorithm?", getFieldEditorParent()); 
+        addField(deterministic);        
+        
     }
 
     public void init(IWorkbench workbench) {

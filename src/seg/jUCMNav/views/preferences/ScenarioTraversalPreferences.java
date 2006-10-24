@@ -14,10 +14,11 @@ public class ScenarioTraversalPreferences {
 
     public final static int DEFAULT_MAXHITCOUNT = 1000;
     public final static boolean DEFAULT_ISPATIENTONPRECONDITIONS = true;
+    public final static boolean DEFAULT_DETERMINISTIC = true;
 
     public final static String PREF_MAXHITCOUNT = "seg.jUCMNav.ScenarioTraversal.MaxHitCount"; //$NON-NLS-1$
     public final static String PREF_ISPATIENTONPRECONDITIONS = "seg.jUCMNav.ScenarioTraversal.IsPatientOnPreconditions"; //$NON-NLS-1$
-
+    public final static String PREF_ISDETERMINISTIC = "seg.jUCMNav.ScenarioTraversal.Deterministic"; // $NON-NLS-1$
     /**
      * 
      * @return Preference store where the properties are stored.
@@ -32,6 +33,7 @@ public class ScenarioTraversalPreferences {
     public static void createPreferences() {
         getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, ScenarioTraversalPreferences.DEFAULT_MAXHITCOUNT);
         getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, ScenarioTraversalPreferences.DEFAULT_ISPATIENTONPRECONDITIONS);
+        getPreferenceStore().setDefault(ScenarioTraversalPreferences.PREF_ISDETERMINISTIC, ScenarioTraversalPreferences.DEFAULT_DETERMINISTIC);
     }
 
     /**
@@ -49,6 +51,16 @@ public class ScenarioTraversalPreferences {
     public static boolean getIsPatientOnPreconditions() {
         return getPreferenceStore().getBoolean(PREF_ISPATIENTONPRECONDITIONS);
     }
+    
+
+    /**
+     * 
+     * @return is the algorithm deterministic
+     */
+    public static boolean getIsDeterministic() {
+        return getPreferenceStore().getBoolean(PREF_ISDETERMINISTIC);
+    }
+
 
 
     /**
@@ -69,4 +81,13 @@ public class ScenarioTraversalPreferences {
         getPreferenceStore().setValue(PREF_ISPATIENTONPRECONDITIONS, b);
     }
 
+    /**
+     * 
+     * @param b
+     *            is the algorithm deterministic
+     */
+    public static void setIsDeterministic(boolean b) {
+        getPreferenceStore().setValue(PREF_ISDETERMINISTIC, b);
+    }
+    
 }
