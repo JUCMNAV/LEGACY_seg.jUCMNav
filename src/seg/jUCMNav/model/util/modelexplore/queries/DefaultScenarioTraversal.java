@@ -872,7 +872,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		try {
 			Object result = ScenarioUtils.evaluate(cond, env);
 			if (!expected.equals(result)) {
-				_warnings.add(new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR));
+				TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);
+				warning.setCondition(cond);
+				_warnings.add(warning);
 				return false;
 			}
 		} catch (IllegalArgumentException e) {

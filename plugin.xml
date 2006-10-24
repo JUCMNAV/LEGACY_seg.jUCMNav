@@ -241,5 +241,13 @@
             name="seg.jUCMNav.problemFilter1"
             scope="ON_SELECTED_ONLY"/>
    </extension>
+   <extension
+         id="jUCMNav.MarkerResolution"
+         name="jUCMNav Quick Fix"
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="seg.jUCMNav.views.QuickFixer"
+            markerType="org.eclipse.core.resources.problemmarker"/>
+   </extension>
 
 </plugin>

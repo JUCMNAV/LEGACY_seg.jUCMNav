@@ -3,11 +3,14 @@ package seg.jUCMNav.scenarios.model;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
+import urncore.Condition;
+
 public class TraversalWarning {
 
 	private String msg;
 	private EObject location;
 	private int severity;
+	private Condition condition;
 	
 	public TraversalWarning(String msg) {
 		this.msg =msg;
@@ -62,6 +65,14 @@ public class TraversalWarning {
 
 	public void setInfo() {
 		severity = IMarker.SEVERITY_INFO;
+	}
+
+	public Condition getCondition() {
+		return condition;
+	}
+
+	public void setCondition(Condition condition) {
+		this.condition = condition;
 	}
 
 	

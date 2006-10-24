@@ -38,6 +38,14 @@ public class EditCodeAction extends URNSelectionAction {
 	protected boolean calculateEnabled() {
 		SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 		switch (sel.getSelectionType()) {
+		case SelectionHelper.STARTPOINT: {
+			obj = sel.getStartpoint().getPrecondition();
+			return true;
+		} 
+		case SelectionHelper.ENDPOINT: {
+			obj = sel.getEndpoint().getPostcondition();
+			return true;
+		}
 		case SelectionHelper.CONDITION: 
 			obj = sel.getCondition();
 			return true;

@@ -20,6 +20,8 @@ import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import ucm.map.EndPoint;
+import ucm.map.StartPoint;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
@@ -180,6 +182,24 @@ public class DefaultScenarioTraversalAlgorithm {
 					} else if (o.getLocation()!=null) {
 						marker.setAttribute(IMarker.LOCATION, o.getLocation().toString());
 					}
+					
+					if (o.getCondition()!=null && o.getCondition().eContainer()!=null)
+					{
+						if (o.getCondition().eContainer() instanceof StartPoint) {
+							StartPoint start = (StartPoint)o.getCondition().eContainer();
+							marker.setAttribute("NodePreCondition", start.getId() );
+						} else if (o.getCondition().eContainer() instanceof EndPoint) {
+							EndPoint end = (EndPoint)o.getCondition().eContainer();
+							marker.setAttribute("NodePostCondition", end.getId() );
+						}else if (o.getCondition().eContainer() instanceof ScenarioDef) {
+							ScenarioDef scenario = (ScenarioDef)o.getCondition().eContainer();
+							marker.setAttribute("Scenario", scenario.getId() );
+							marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition()));
+							marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition()));
+						}
+
+						
+					}
 					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1);
 				} catch(CoreException ex) 
 				{
@@ -242,8 +262,11 @@ public class DefaultScenarioTraversalAlgorithm {
 					throw new TraversalException(e.getMessage(), e);
 				}
 				if (res instanceof Boolean) {
-					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond, IMarker.SEVERITY_ERROR));
+					if (Boolean.FALSE.equals(res)) {
+						TraversalWarning warning = new TraversalWarning("Postcondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", scenario, IMarker.SEVERITY_ERROR);
+						warning.setCondition(cond);
+						warnings.add(warning);
+					}
 				} else
 					throw new TraversalException("Unexpected result returned");
 
@@ -274,8 +297,11 @@ public class DefaultScenarioTraversalAlgorithm {
 					throw new TraversalException(e.getMessage(), e);
 				}
 				if (res instanceof Boolean) {
-					if (Boolean.FALSE.equals(res))
-						warnings.add(new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", cond,IMarker.SEVERITY_ERROR));
+					if (Boolean.FALSE.equals(res)) {
+						TraversalWarning warning = new TraversalWarning("Precondition \"" + cond.getLabel() + "\" is false. (\"" + cond.getExpression() + "\" evaluates to false.)", scenario,IMarker.SEVERITY_ERROR);
+						warning.setCondition(cond);
+						warnings.add(warning);
+					}
 				} else
 					throw new TraversalException("Unexpected result returned");
 

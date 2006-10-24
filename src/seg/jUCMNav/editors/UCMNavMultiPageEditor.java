@@ -680,13 +680,12 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
 					EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(element);
 
-					if (part!=null) {
-						getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
-						outline.getViewer().select(part);
-						//part.setSelected(EditPart.SELECTED_PRIMARY);
+						if (part != null) {
+							getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
+							outline.getViewer().select(part);
+							// part.setSelected(EditPart.SELECTED_PRIMARY);
 
-
-					}
+						}
 				}
 				
 			}

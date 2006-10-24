@@ -2,11 +2,14 @@ package seg.jUCMNav.model.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Vector;
 
 import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.IURNConnection;
@@ -44,7 +47,9 @@ public class URNElementFinder {
 			return o;
 		if ((o = findMap(urn, id)) != null)
 			return o;
-
+		if ((o = findScenario(urn, id)) != null)
+			return o;
+		
 		for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
 			IURNDiagram g = (IURNDiagram) iter.next();
 			if (g instanceof UCMmap) {
@@ -189,6 +194,23 @@ public class URNElementFinder {
 	public static IURNDiagram findMap(URNspec urn, String id) {
 		return (IURNDiagram) find(urn.getUrndef().getSpecDiagrams(), id);
 	}
+	
+	/**
+	 * Given a URN spec, find the scenariodef having the passed id or return null.
+	 * 
+	 * @param urn
+	 * @param id
+	 * @return matching scenario def
+	 */
+	public static ScenarioDef findScenario(URNspec urn, String id) {
+		Vector v = new Vector();
+		for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup group = (ScenarioGroup) iter.next();
+			v.addAll(group.getScenarios());
+		}
+		return (ScenarioDef) find(v, id);
+	}
+	
 
 	/**
 	 * Given a URN spec, find the diagram having the passed name or return null.
