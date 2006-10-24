@@ -25,6 +25,7 @@ import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
 import seg.jUCMNav.figures.AndForkJoinFigure;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EmptyPointFigure;
 import seg.jUCMNav.figures.EndPointFigure;
@@ -127,8 +128,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
 
-    	figure.setForegroundColor(PathNodeFigure.BLACK);
-    	figure.setColor(PathNodeFigure.BLACK);
+    	figure.setForegroundColor(ColorManager.LINE);
+    	figure.setColor(ColorManager.LINE);
 
         assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 

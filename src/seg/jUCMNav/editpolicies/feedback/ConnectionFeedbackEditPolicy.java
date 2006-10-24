@@ -7,6 +7,7 @@ import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.BeliefLinkEditPart;
+import seg.jUCMNav.figures.ColorManager;
 
 /**
  * On mouse hover of node connection, it becomes thicker so that we can click on it more easily. Change the connection's color when selected.
@@ -16,7 +17,7 @@ import seg.jUCMNav.editparts.BeliefLinkEditPart;
 public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
 
     
-    private Color previousColor = new Color(null, 0, 0, 0);
+    private Color previousColor = ColorManager.LINE;
     
     /**
      * Convenience method to avoid casting.
@@ -66,6 +67,6 @@ public class ConnectionFeedbackEditPolicy extends SelectionEditPolicy {
      */
     protected void showSelection() {
         previousColor = getFigure().getForegroundColor();
-        getFigure().setForegroundColor(new Color(null, 0, 102, 204));
+        getFigure().setForegroundColor(ColorManager.SELECTED);
     }
 }

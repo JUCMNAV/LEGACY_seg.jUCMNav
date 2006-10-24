@@ -16,11 +16,6 @@ public abstract class PathNodeFigure extends Figure {
     // default sizes
     protected static int DEFAULT_HEIGHT = 24;
     protected static int DEFAULT_WIDTH = 24;
-    public static Color RED = new Color(null, 255,0,0);
-    public static Color WHITE = new Color(null, 255,250,250);
-    public static Color GRAY = new Color(null, 230,230,230);
-    public static Color BLUE = new Color(null, 0,102,204);
-    public static Color BLACK = new Color(null, 0,0,0);
     
     /**
      * Override this method if you your figure is not of the default size. This method is invoked to know where to insert labels by default.
@@ -165,19 +160,19 @@ public abstract class PathNodeFigure extends Figure {
 
 	protected void setColors() {
 		if (selected) {
-    		setForegroundColor(BLACK);
-    		setColor(BLUE);
+    		setForegroundColor(ColorManager.LINE);
+    		setColor(ColorManager.SELECTED);
     	}
     	else if (traversed) {
-    		setForegroundColor(RED);
-            setColor(RED);
+    		setForegroundColor(ColorManager.TRAVERSAL);
+            setColor(ColorManager.TRAVERSAL);
     	}
         else {
-    		setForegroundColor(BLACK);
+    		setForegroundColor(ColorManager.LINE);
             if (hover)
-                setColor(GRAY);
+                setColor(ColorManager.HOVER);
             else
-                setColor(WHITE);    		
+                setColor(ColorManager.FILL);    		
         }
 	}
 }

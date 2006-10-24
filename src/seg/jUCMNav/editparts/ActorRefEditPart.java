@@ -16,19 +16,16 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ActorRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ComponentFeedbackEditPolicy;
 import seg.jUCMNav.figures.ActorFigure;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.ContainerPropertySource;
 
 /**
@@ -79,8 +76,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      */
     protected IFigure createFigure() {
         evaluationLabel = new Label();
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_LINKREFLABELCOLOR );
-        evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+        evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(50,16);

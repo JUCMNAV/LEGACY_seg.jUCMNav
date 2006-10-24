@@ -2,13 +2,13 @@ package seg.jUCMNav.editparts.treeEditparts;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
+import seg.jUCMNav.figures.ColorManager;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.DirectionArrow;
@@ -54,7 +54,7 @@ public class PathNodeTreeEditPart extends UrnModelElementTreeEditPart {
         super.setWidget(widget);
         if (widget instanceof TreeItem) {
             if (getModel() instanceof EmptyPoint || getModel() instanceof DirectionArrow)
-                ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
+                ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         }
 
     }

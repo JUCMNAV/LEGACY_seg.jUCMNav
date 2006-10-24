@@ -72,7 +72,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 			return;
 		this.selected = selected;
 		if (selected) {
-			((TreeItem) widget).setBackground(LIGHTGRAY);
+			((TreeItem) widget).setBackground(GRAY);
 		} else {
 			((TreeItem) widget).setBackground(WHITE);
 		}
@@ -89,7 +89,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 
 	protected String getText() {
     	if (isInherited()) 
-    		((TreeItem) widget).setForeground(GRAY);
+    		((TreeItem) widget).setForeground(DARKGRAY);
     	else
     		((TreeItem) widget).setForeground(BLACK);
     	

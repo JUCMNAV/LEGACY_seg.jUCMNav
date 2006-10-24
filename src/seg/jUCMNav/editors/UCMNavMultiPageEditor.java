@@ -310,7 +310,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      */
     protected DelegatingZoomManager getDelegatingZoomManager() {
         if (null == delegatingZoomManager) {
-            delegatingZoomManager = new DelegatingZoomManager();
+            delegatingZoomManager = new DelegatingZoomManager(this);
             if (null != getCurrentPage() && null != getCurrentPage().getGraphicalViewer())
                 delegatingZoomManager.setCurrentZoomManager(getZoomManager(getCurrentPage().getGraphicalViewer()));
         }

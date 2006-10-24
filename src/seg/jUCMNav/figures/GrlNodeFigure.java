@@ -16,7 +16,6 @@ import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -138,22 +137,21 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
      *            should it be filled?
      */
     public void setColors(String lineColor, String fillColor, boolean filled) {
-        RGB color;
         setFill(filled);
 
         if (fillColor == null || fillColor.length() == 0) {
-            fillColor = StringConverter.asString(new RGB(255, 255, 255));
+            setBackgroundColor(ColorManager.FILL);
         }
-        color = StringConverter.asRGB(fillColor);
-        setBackgroundColor(new Color(Display.getCurrent(), color));
+        else
+        	setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
 
         if (lineColor == null || lineColor.length() == 0) {
-            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        	setForegroundColor(ColorManager.LINE);
         }
-
-        color = StringConverter.asRGB(lineColor);
-        setForegroundColor(new Color(Display.getCurrent(), color));
+        else
+        	setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
     }
+        
     
     /**
      * Sets the text of the TextFlow to the given value and set the size of the label.

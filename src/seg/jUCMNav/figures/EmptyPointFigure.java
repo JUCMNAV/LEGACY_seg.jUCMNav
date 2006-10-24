@@ -46,19 +46,19 @@ public class EmptyPointFigure extends PathNodeFigure {
     
 	protected void setColors() {
 		if (selected) {
-    		setForegroundColor(BLACK);
-    		setColor(BLUE);
+    		setForegroundColor(ColorManager.LINE);
+    		setColor(ColorManager.SELECTED);
     	}
     	else if (traversed) {
-    		setForegroundColor(RED);
-    		setColor(WHITE);  
+    		setForegroundColor(ColorManager.TRAVERSAL);
+    		setColor(ColorManager.FILL);  
     	}
         else {
-    		setForegroundColor(BLACK);
+    		setForegroundColor(ColorManager.LINE);
             if (hover)
-                setColor(GRAY);
+                setColor(ColorManager.HOVER);
             else
-                setColor(WHITE);    		
+                setColor(ColorManager.FILL);    		
         }
 	}
 }

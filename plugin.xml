@@ -171,6 +171,16 @@
             class="seg.jUCMNav.views.preferences.GeneralPreferencePage"
             id="seg.jUCMNav.views.preferences.GeneralPreferencePage"
             name="%jUCMNavPreferences"/>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.ScenarioTraversalPreferencePage"
+            id="seg.jUCMNav.views.preferences.ScenarioTraversalPreferencePage"
+            name="UCM Scenario Traversal Algorithm"/>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.StrategyEvaluationPreferencePage"
+            id="seg.jUCMNav.views.preferences.StrategyEvaluationPreferencePage"
+            name="GRL Strategy Evaluation Algorithm"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">

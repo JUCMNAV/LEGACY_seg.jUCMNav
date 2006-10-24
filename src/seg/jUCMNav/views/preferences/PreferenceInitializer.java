@@ -3,9 +3,9 @@ package seg.jUCMNav.views.preferences;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.swt.graphics.RGB;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.figures.ColorManager;
 
 /**
  * Class used to initialize default preference values.
@@ -19,19 +19,23 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     public void initializeDefaultPreferences() {
         IPreferenceStore store = JUCMNavPlugin.getDefault().getPreferenceStore();
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_STUBLABELCOLOR, new RGB(150, 0, 150));
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_CONDITIONLABELCOLOR, new RGB(100, 100, 100));
-        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINKREFLABELCOLOR, new RGB(150,150,150));
-
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_STUBLABELCOLOR, ColorManager.PURPLE.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_CONDITIONLABELCOLOR, ColorManager.VERYDARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_FILLCOLOR, ColorManager.WHITE.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINECOLOR, ColorManager.BLACK.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_SELECTEDCOLOR, ColorManager.BLUE.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
+        
+        
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
-
-        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_TOLERANCE, 10);
-
-        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_EVALFILLED, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
 
         // done elsewhere
         AutoLayoutPreferences.createPreferences();
+        ScenarioTraversalPreferences.createPreferences();
+        StrategyEvaluationPreferences.createPreferences();
 
     }
 

@@ -54,7 +54,7 @@ public class StubFigure extends PathNodeFigure {
         edges.addPoint(DEFAULT_WIDTH / 2, 1);
         mainFigure.setLineWidth(2);
         mainFigure.setPoints(edges);
-        mainFigure.setBackgroundColor(PathNodeFigure.WHITE);
+        mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
         add(mainFigure);
     }
@@ -106,22 +106,22 @@ public class StubFigure extends PathNodeFigure {
     
 	protected void setColors() {
 		if (selected) {
-    		mainFigure.setForegroundColor(BLACK);
-    		setColor(BLUE);
+    		mainFigure.setForegroundColor(ColorManager.LINE);
+    		setColor(ColorManager.SELECTED);
     	}
     	else if (traversed) {
-    		mainFigure.setForegroundColor(RED);
+    		mainFigure.setForegroundColor(ColorManager.TRAVERSAL);
             if (hover)
-                setColor(GRAY);
+                setColor(ColorManager.HOVER);
             else
-                setColor(WHITE);  	
+                setColor(ColorManager.FILL);  	
     	}
         else {
-    		mainFigure.setForegroundColor(BLACK);
+    		mainFigure.setForegroundColor(ColorManager.LINE);
             if (hover)
-                setColor(GRAY);
+                setColor(ColorManager.HOVER);
             else
-                setColor(WHITE);    		
+                setColor(ColorManager.FILL);    		
         }
 	}    
 }

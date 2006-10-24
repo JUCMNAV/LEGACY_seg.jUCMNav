@@ -25,20 +25,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.LinkRefBendpointEditPolicy;
 import seg.jUCMNav.editpolicies.element.LinkRefComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 
@@ -164,8 +161,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
         ce.setVDistance(0);
         
         decompLabel = new Label();
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_LINKREFLABELCOLOR );
-        decompLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+        decompLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         decompLabel.setOpaque(true);
         connection.add(decompLabel,ce);
         decompLabel.setVisible(false);
@@ -176,7 +172,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
         contribce.setVDistance(10);
 
         contributionLabel = new Label();
-        contributionLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+        contributionLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         connection.add(contributionLabel,contribce);
         contributionLabel.setVisible(false);
         

@@ -14,7 +14,6 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
@@ -100,7 +99,7 @@ public class LinkRefConnection extends PolylineConnection {
         depend.setTemplate(DEPENDENCY_FIG);
         depend.setLineWidth(3);
         depend.setFill(true);
-        depend.setForegroundColor(new Color(null, 0,0,0));
+        depend.setForegroundColor(ColorManager.LINE);
         depend.setScale(2,2);
         
         this.type = TYPE_CONTRIBUTION; 
@@ -172,14 +171,11 @@ public class LinkRefConnection extends PolylineConnection {
      *            outline color
      */
     public void setColors(String lineColor) {
-        RGB color;
-
         if (lineColor == null || lineColor.length() == 0) {
-            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        	setForegroundColor(ColorManager.LINE);
         }
-
-        color = StringConverter.asRGB(lineColor);
-        setForegroundColor(new Color(Display.getCurrent(), color));
+        else
+        	setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
     }
     
     /**

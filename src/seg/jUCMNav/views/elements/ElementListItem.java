@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -12,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.views.compositeList.CompositeListControl;
 import seg.jUCMNav.views.compositeList.CompositeListItem;
 
@@ -71,20 +71,20 @@ public class ElementListItem extends CompositeListItem {
 
     public void select() {
         super.select();
-        this.setBackground(new Color(null, 0, 0, 0));
-        lblDesc.setBackground(new Color(null, 145, 185, 255));
-        lblName.setBackground(new Color(null, 145, 185, 255));
-        composite.setBackground(new Color(null, 145, 185, 255));
-        lblIcon.setBackground(new Color(null, 145, 185, 255));
+        this.setBackground(ColorManager.BLACK);
+        lblDesc.setBackground(ColorManager.LIGHTBLUE);
+        lblName.setBackground(ColorManager.LIGHTBLUE);
+        composite.setBackground(ColorManager.LIGHTBLUE);
+        lblIcon.setBackground(ColorManager.LIGHTBLUE);
     }
 
     public void unselect() {
         super.unselect();
-        this.setBackground(new Color(null, 255, 255, 255));
-        lblDesc.setBackground(new Color(null, 255, 255, 255));
-        lblName.setBackground(new Color(null, 255, 255, 255));
-        composite.setBackground(new Color(null, 255, 255, 255));
-        lblIcon.setBackground(new Color(null, 255, 255, 255));
+        this.setBackground(ColorManager.WHITE);
+        lblDesc.setBackground(ColorManager.WHITE);
+        lblName.setBackground(ColorManager.WHITE);
+        composite.setBackground(ColorManager.WHITE);
+        lblIcon.setBackground(ColorManager.WHITE);
     }
 
     /**

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -12,8 +11,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import ucm.map.UCMmap;
+import seg.jUCMNav.figures.ColorManager;
 import ucm.map.PluginBinding;
+import ucm.map.UCMmap;
 
 /**
  * Dialog listing all the PluginBindings for the given dynamic stub.
@@ -54,15 +54,15 @@ public class PluginListDialog extends ListDialog {
      * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
      */
     protected Control createDialogArea(Composite container) {
-        container.setBackground(new Color(null, 255, 255, 255));
+        container.setBackground(ColorManager.WHITE);
         setWidthInChars(30);
         if (input != null)
             setHeightInChars(input.size());
         else
             setHeightInChars(10);
         Control toReturn = super.createDialogArea(container);
-        toReturn.setBackground(new Color(null, 255, 255, 255));
-        getTableViewer().getControl().setBackground(new Color(null, 235, 235, 235));
+        toReturn.setBackground(ColorManager.WHITE);
+        getTableViewer().getControl().setBackground(ColorManager.LIGHTGRAY);
         return toReturn;
     }
 
@@ -100,7 +100,7 @@ public class PluginListDialog extends ListDialog {
      */
     protected Label createMessageArea(Composite composite) {
         Label toReturn = super.createMessageArea(composite);
-        toReturn.setBackground(new Color(null, 255, 255, 255));
+        toReturn.setBackground(ColorManager.WHITE);
         return toReturn;
     }
 }

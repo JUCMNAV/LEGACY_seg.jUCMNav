@@ -20,6 +20,7 @@ import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
 import ucm.map.Connect;
@@ -143,7 +144,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	}
 
-	protected static final int MAXVISITCOUNT = 100;
 
 	// fatal error
 	protected String _error;
@@ -646,6 +646,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				+ ") did not evaluate to true.")) {
 
 			visitOnlySucc(start);
+		} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
+			_warnings.remove(_warnings.lastElement());
+			addToWaitingList(start);
 		}
 	}
 
@@ -842,7 +845,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 		int count = incrementHitCount(o);
 
-		if (count >= MAXVISITCOUNT) {
+		if (count >= ScenarioTraversalPreferences.getMaxHitCount()) {
 			throw new TraversalException("Infinite loop detected on " + o.toString());
 		}
 	}

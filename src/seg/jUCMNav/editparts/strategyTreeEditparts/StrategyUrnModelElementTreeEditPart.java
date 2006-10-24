@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.property.VariablePropertySource;
@@ -26,10 +27,10 @@ import ucm.scenario.Variable;
 public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 
 
-	public final Color GRAY = new Color(null, 150, 150, 150);
-	public final Color BLACK = new Color(null, 0, 0, 0);
-	public final Color LIGHTGRAY = new Color(null, 200, 200, 200);
-	public final Color WHITE = new Color(null, 255, 255, 255);
+	public final Color DARKGRAY = ColorManager.DARKGRAY;
+	public final Color BLACK = ColorManager.BLACK;
+	public final Color GRAY = ColorManager.GRAY;
+	public final Color WHITE = ColorManager.WHITE;
 	
     // The property source associated with this model element.
     protected IPropertySource propertySource = null;

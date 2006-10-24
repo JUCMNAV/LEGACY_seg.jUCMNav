@@ -15,11 +15,11 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.editpolicies.GraphicalEditPolicy;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 
 import seg.jUCMNav.editparts.LabelEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LabelFigure;
 import ucm.map.NodeConnection;
 import urncore.ComponentLabel;
@@ -172,7 +172,7 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
             // style
             line.setPoints(pl);
-            line.setForegroundColor(new Color(null, 180, 180, 180));
+            line.setForegroundColor(ColorManager.GRAY);
             line.setLineStyle(SWT.LINE_DOT);
 
             // rectangle over label.

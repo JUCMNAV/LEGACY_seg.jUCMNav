@@ -4,13 +4,13 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.figures.ColorManager;
 
 /**
  * The root preference page for jUCMNav. Has preferences for label colors.
@@ -23,9 +23,13 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_STUBLABELCOLOR = "PREF_STUBLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_CONDITIONLABELCOLOR = "PREF_CONDITIONLABELCOLOR"; //$NON-NLS-1$
     public static final String PREF_LINKREFLABELCOLOR = "PREF_LINKREFLABELCOLOR"; //$NON-NLS-1$
+    public static final String PREF_LINECOLOR = "PREF_LINECOLOR"; //$NON-NLS-1$
+    public static final String PREF_HOVERCOLOR = "PREF_HOVERCOLOR"; //$NON-NLS-1$
+    public static final String PREF_SELECTEDCOLOR = "PREF_SELECTEDCOLOR"; //$NON-NLS-1$
+    public static final String PREF_FILLCOLOR = "PREF_FILLCOLOR"; //$NON-NLS-1$
+    public static final String PREF_TRAVERSALCOLOR = "PREF_TRAVERSALCOLOR"; //$NON-NLS-1$
+
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
-    public static final String PREF_TOLERANCE = "PREF_TOLERANCE"; //$NON-NLS-1$
-    public static final String PREF_EVALFILLED = "PREF_EVALFILLED"; //$NON-NLS-1$
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
@@ -40,21 +44,27 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
      */
     protected void createFieldEditors() {
-        ColorFieldEditor stubLabelColor = new ColorFieldEditor(PREF_STUBLABELCOLOR, Messages.getString("GeneralPreferencePage.StubLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(stubLabelColor);
-        ColorFieldEditor conditionLabelColor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(conditionLabelColor);
-        ColorFieldEditor decompositionLabelColor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.GrlLinkLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
-        addField(decompositionLabelColor);
+        ColorFieldEditor editor = new ColorFieldEditor(PREF_STUBLABELCOLOR, Messages.getString("GeneralPreferencePage.StubLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_CONDITIONLABELCOLOR, Messages.getString("GeneralPreferencePage.ConditionLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_LINKREFLABELCOLOR, Messages.getString("GeneralPreferencePage.GrlLinkLabelColor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(editor);
+        
+        editor= new ColorFieldEditor(PREF_LINECOLOR, "Line Color", getFieldEditorParent()); 
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_FILLCOLOR, "Fill Color", getFieldEditorParent()); 
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_HOVERCOLOR, "Element Hover Color", getFieldEditorParent()); 
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_SELECTEDCOLOR, "Element Selected Color", getFieldEditorParent()); 
+        addField(editor);
+        editor = new ColorFieldEditor(PREF_TRAVERSALCOLOR, "Traversal Color", getFieldEditorParent()); 
+        addField(editor);
+
         
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
-        
-        IntegerFieldEditor tolerance = new IntegerFieldEditor(PREF_TOLERANCE, Messages.getString("GeneralPreferencePage.GRLEvaluationAlgorithmTolerance"), getFieldEditorParent());  //$NON-NLS-1$
-        addField(tolerance);
-        
-        BooleanFieldEditor eval_filled = new BooleanFieldEditor(PREF_EVALFILLED, Messages.getString("GeneralPreferencePage.GrlStrategiesElementFilled"), getFieldEditorParent());  //$NON-NLS-1$
-        addField(eval_filled);
         
         BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR, Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
@@ -76,24 +86,16 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     }
     
     /**
-     * 
-     * @return the Tolerance
-     */
-    public static int getTolerance() {
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getInt(PREF_TOLERANCE);
-    }  
-    
-    /**
-     * @return boolean TRUE if elements should be filled for GRL strategies
-     */
-    public static boolean getElementFilled(){
-        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_EVALFILLED); 
-    }
-    
-    /**
      * @return boolean TRUE if editor should be strict. 
      */
     public static boolean getStrictCodeEditor(){
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_STRICTCODEEDITOR); 
     }    
+    
+    public boolean performOk() {
+    	
+    	boolean b  = super.performOk();
+    	ColorManager.refresh();
+    	return b;
+    }
 }

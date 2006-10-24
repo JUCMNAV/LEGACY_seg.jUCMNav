@@ -7,12 +7,12 @@ import grl.EvaluationStrategy;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.EvaluationStrategyComponentEditPolicy;
+import seg.jUCMNav.figures.ColorManager;
 
 /**
  * TreeEditPart for Strategy in the strategies view
@@ -60,9 +60,9 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 			return;
 		this.selected = selected;
 		if (selected) {
-			((TreeItem) widget).setBackground(new Color(null, 200, 200, 200));
+			((TreeItem) widget).setBackground(ColorManager.LIGHTGRAY);
 		} else {
-			((TreeItem) widget).setBackground(new Color(null, 255, 255, 255));
+			((TreeItem) widget).setBackground(ColorManager.WHITE);
 		}
 		// refreshVisuals();
 	}

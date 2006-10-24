@@ -31,11 +31,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -43,9 +40,10 @@ import seg.jUCMNav.editpolicies.directEditPolicy.GrlNodeDirectEditPolicy;
 import seg.jUCMNav.editpolicies.directEditPolicy.IntentionalElementNodeEditPolicy;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.GrlNodeFeedbackEditPolicy;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.IntentionalElementFigure;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.StrategyEvaluationPreferences;
 import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 import urncore.IURNConnection;
 import urncore.IURNNode;
@@ -109,8 +107,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         IntentionalElementFigure fig = new IntentionalElementFigure();
         
         evaluationLabel = new Label();
-        RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_LINKREFLABELCOLOR );
-        evaluationLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+        evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(50,16);
@@ -290,7 +287,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 //Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
                 
-                if (GeneralPreferencePage.getElementFilled())
+                if (StrategyEvaluationPreferences.getFillElements())
                 {
                     String color;
                     if (evaluation.getEvaluation() == 0){

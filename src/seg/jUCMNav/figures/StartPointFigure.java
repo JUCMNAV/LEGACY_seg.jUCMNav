@@ -22,7 +22,7 @@ public class StartPointFigure extends PathNodeFigure {
     protected void createFigure() {
         ellipse = new Ellipse();
         ellipse.setBounds(new Rectangle(DEFAULT_WIDTH / 6, DEFAULT_HEIGHT / 6, DEFAULT_WIDTH * 2 / 3, DEFAULT_HEIGHT * 2 / 3));
-        ellipse.setBackgroundColor(PathNodeFigure.BLACK);
+        ellipse.setBackgroundColor(ColorManager.LINE);
         add(ellipse);
     }
 
@@ -56,19 +56,19 @@ public class StartPointFigure extends PathNodeFigure {
     
 	protected void setColors() {
 		if (selected) {
-    		setForegroundColor(BLACK);
-    		setColor(BLUE);
+    		setForegroundColor(ColorManager.LINE);
+    		setColor(ColorManager.SELECTED);
     	}
     	else if (traversed) {
-    		setForegroundColor(RED);
-            setColor(RED);
+    		setForegroundColor(ColorManager.TRAVERSAL);
+            setColor(ColorManager.TRAVERSAL);
     	}
         else {
-    		setForegroundColor(BLACK);
+    		setForegroundColor(ColorManager.LINE);
             if (hover)
-                setColor(BLACK);
+                setColor(ColorManager.LINE);
             else
-                setColor(BLACK);    		
+                setColor(ColorManager.LINE);    		
         }
 	}
 

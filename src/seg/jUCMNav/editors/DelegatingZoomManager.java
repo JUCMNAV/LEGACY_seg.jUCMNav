@@ -27,6 +27,8 @@ import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.jface.util.ListenerList;
 
+import seg.jUCMNav.editparts.URNRootEditPart;
+
 /**
  * A delegating ZoomManager.
  * 
@@ -40,13 +42,17 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
     /** listeners */
     private ListenerList zoomListeners = new ListenerList(3);
 
+    private UCMNavMultiPageEditor editor;
     /**
      * Creates a new DelegatingZoomManager instance.
      */
-    public DelegatingZoomManager()
+    public DelegatingZoomManager(UCMNavMultiPageEditor editor)
     {
         super((ScalableFigure) null, (Viewport) null);
-        
+    	
+        this.editor=editor;
+
+    	
         List zoomLevels = new ArrayList(3);
         zoomLevels.add(ZoomManager.FIT_ALL);
         zoomLevels.add(ZoomManager.FIT_WIDTH);
@@ -65,6 +71,15 @@ public class DelegatingZoomManager extends ZoomManager implements ZoomListener
         {
             ((ZoomListener) listeners[i]).zoomChanged(zoom);
         }
+        
+        // TODO: refresh all if global
+        if (editor.getCurrentPage()!=null)
+        {
+        	// force a refresh
+        	((URNRootEditPart)editor.getCurrentPage().getGraphicalViewer().getRootEditPart()).setMode(((URNRootEditPart)editor.getCurrentPage().getGraphicalViewer().getRootEditPart()).getMode());
+        }
+        
+        
     }
     
     /* (non-Javadoc)

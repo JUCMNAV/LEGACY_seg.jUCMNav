@@ -2,17 +2,13 @@ package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LabelFigure;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
@@ -168,8 +164,7 @@ public class ConditionEditPart extends LabelEditPart {
             }
 
             // get color from preferences
-            RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(),GeneralPreferencePage.PREF_CONDITIONLABELCOLOR );
-            labelFigure.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+            labelFigure.setForegroundColor(ColorManager.CONDITIONLABEL);
         }
     }
 

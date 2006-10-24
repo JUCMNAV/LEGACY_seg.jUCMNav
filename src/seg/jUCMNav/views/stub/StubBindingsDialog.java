@@ -57,6 +57,7 @@ import org.eclipse.ui.internal.WorkbenchImages;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
@@ -937,8 +938,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createButtonsForButtonBar(Composite parent) {
-		parent.getParent().setBackground(new Color(null, 255, 255, 255));
-		parent.setBackground(new Color(null, 255, 255, 255));
+		parent.getParent().setBackground(ColorManager.WHITE);
+		parent.setBackground(ColorManager.WHITE);
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}

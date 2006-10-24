@@ -7,7 +7,6 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 import urncore.ComponentKind;
@@ -164,21 +163,19 @@ public class ComponentRefFigure extends RectangleFigure {
      *            should it be filled?
      */
     public void setColors(String lineColor, String fillColor, boolean filled) {
-        RGB color;
         setFill(filled);
 
         if (fillColor == null || fillColor.length() == 0) {
-            fillColor = StringConverter.asString(new RGB(255, 255, 255));
+            setBackgroundColor(ColorManager.FILL);
         }
-        color = StringConverter.asRGB(fillColor);
-        setBackgroundColor(new Color(Display.getCurrent(), color));
+        else
+        	setBackgroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(fillColor)));
 
         if (lineColor == null || lineColor.length() == 0) {
-            lineColor = StringConverter.asString(new RGB(0, 0, 0));
+        	setForegroundColor(ColorManager.LINE);
         }
-
-        color = StringConverter.asRGB(lineColor);
-        setForegroundColor(new Color(Display.getCurrent(), color));
+        else
+        	setForegroundColor(new Color(Display.getCurrent(), StringConverter.asRGB(lineColor)));
     }
 
     /**

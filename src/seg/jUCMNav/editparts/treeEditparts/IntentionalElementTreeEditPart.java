@@ -11,12 +11,12 @@ import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.IntentionalElementComponentEditPolicy;
+import seg.jUCMNav.figures.ColorManager;
 
 /**
  * TreeEditPart for the intentional elements
@@ -85,9 +85,9 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
      */
     protected void refreshVisuals() {
         if (getElement().getRefs().size() == 0)
-            ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
+            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else
-            ((TreeItem) widget).setForeground(new Color(null, 0, 0, 0));
+            ((TreeItem) widget).setForeground(ColorManager.BLACK);
         getImage();
         super.refreshVisuals();
     }

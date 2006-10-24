@@ -16,28 +16,23 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editpolicies.element.NodeConnectionComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.editpolicies.layout.NodeConnectionXYLayoutEditPolicy;
-import seg.jUCMNav.figures.PathNodeFigure;
+import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.util.NodeConnectionLocator;
 import seg.jUCMNav.figures.util.StubConnectionEndpointLocator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
-import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.URNElementPropertySource;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
@@ -165,8 +160,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		targetEndpointLocator.setVDistance(5);
 		targetEndpointLocator.setUDistance(30);
 		endLabel = new Label(Messages.getString("NodeConnectionEditPart.IN") + Integer.toString(index + 1)); //$NON-NLS-1$
-		RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_STUBLABELCOLOR);
-		endLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+		endLabel.setForegroundColor(ColorManager.STUBLABEL);
 		endLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
 		connection.add(endLabel, targetEndpointLocator);
 	}
@@ -185,8 +179,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		targetEndpointLocator.setVDistance(5);
 		targetEndpointLocator.setUDistance(30);
 		startLabel = new Label(Messages.getString("NodeConnectionEditPart.OUT") + Integer.toString(index + 1)); //$NON-NLS-1$
-		RGB rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_STUBLABELCOLOR);
-		startLabel.setForegroundColor(new Color(null, rgb.red, rgb.green, rgb.blue));
+		startLabel.setForegroundColor(ColorManager.STUBLABEL);
 		startLabel.setFont(JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT));
 		connection.add(startLabel, targetEndpointLocator);
 	}
@@ -357,12 +350,12 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 		}
 		
         if (ScenarioUtils.getActiveScenario(getLink())!=null && ScenarioUtils.getTraversalHitCount(getLink())>0) {
-        	getFigure().setForegroundColor(PathNodeFigure.RED);
-        	getFigure().setBackgroundColor(PathNodeFigure.RED);
+        	getFigure().setForegroundColor(ColorManager.TRAVERSAL);
+        	getFigure().setBackgroundColor(ColorManager.TRAVERSAL);
         }
         else {
-        	getFigure().setForegroundColor(PathNodeFigure.BLACK);
-        	getFigure().setBackgroundColor(PathNodeFigure.BLACK);
+        	getFigure().setForegroundColor(ColorManager.LINE);
+        	getFigure().setBackgroundColor(ColorManager.LINE);
         }
         
         if (ScenarioUtils.getActiveScenario(getLink())!=null) 
