@@ -105,7 +105,13 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
     public void notifyChanged(Notification notification) {
         if (notification.getEventType() != Notification.REMOVING_ADAPTER && getRoot()!=null) {
 
+        	try {
             refreshChildren();
+        	} catch(Exception ex) {
+        		System.out.println("quick ugly hack; trying to prevent weird happenings in UI ");
+        		getChildren().clear();
+        		refreshChildren();
+        	}
             refreshVisuals();
             
             // get rid of elements that were deleted. 
@@ -116,6 +122,9 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
             if (notification.getFeature() instanceof EAttributeImpl && ((EAttributeImpl) notification.getFeature()).getName().equals("name")) { //$NON-NLS-1$
                 getParent().refresh();
             }
+            
+    		// force a refresh of colors. 
+    		getText();
 
         }
     }

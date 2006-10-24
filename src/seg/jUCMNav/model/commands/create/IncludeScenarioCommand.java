@@ -18,7 +18,8 @@ import ucm.scenario.ScenarioDef;
 public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 
 	private ScenarioDef parent, child;
-
+	boolean aborted=false;
+	
 	/**
 	 * 
 	 */
@@ -47,6 +48,10 @@ public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
+		if (!canExecute()) {
+			aborted=true; // another command in same compoundcommand invalided our preconditions 
+			return;
+		}
 		testPreConditions();
 		this.parent.getIncludedScenarios().add(child);
 		testPostConditions();
@@ -76,6 +81,8 @@ public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
+		if (aborted)
+			return;
 		testPostConditions();
 		this.parent.getIncludedScenarios().remove(child);
 		testPreConditions();

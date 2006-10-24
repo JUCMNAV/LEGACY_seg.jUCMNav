@@ -142,11 +142,12 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
      */
     protected String getText() {
-    	if (isInherited()) 
-    		((TreeItem) widget).setForeground(DARKGRAY);
-    	else
-    		((TreeItem) widget).setForeground(BLACK);
-    	
+    	if (widget!=null && !widget.isDisposed()) {
+	    	if (isInherited()) 
+	    		((TreeItem) widget).setForeground(DARKGRAY);
+	    	else
+	    		((TreeItem) widget).setForeground(BLACK);
+    	}
     	if (getModel() instanceof ScenarioStartPoint && ((ScenarioStartPoint)getModel()).getStartPoint()!=null)
     		return ((UCMmap)((ScenarioStartPoint)getModel()).getStartPoint().getDiagram()).getName() + "\\" + EObjectClassNameComparator.getSortableElementName(((ScenarioStartPoint)getModel()).getStartPoint());
     	else if (getModel() instanceof ScenarioEndPoint && ((ScenarioEndPoint)getModel()).getEndPoint()!=null)

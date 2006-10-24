@@ -71,10 +71,12 @@ public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEdit
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getStrategiesGroup().getStrategies().size() == 0)
-            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
-        else
-            ((TreeItem) widget).setForeground(ColorManager.BLACK);
+    	if (widget!=null && !widget.isDisposed()) {
+	        if (getStrategiesGroup().getStrategies().size() == 0)
+	            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
+	        else
+	            ((TreeItem) widget).setForeground(ColorManager.BLACK);
+    	}
         getImage();
         super.refreshVisuals();
     }

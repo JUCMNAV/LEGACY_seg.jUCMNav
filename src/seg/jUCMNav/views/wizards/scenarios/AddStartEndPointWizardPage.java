@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.scenarios;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -34,7 +35,7 @@ import urncore.IURNDiagram;
 public class AddStartEndPointWizardPage extends WizardPage {
 	private ISelection selection;
 	private ScenarioDef parent;
-	private PathNode child;
+	private Vector children;
 	private boolean bStartPoint;
 	private List points;
 
@@ -67,6 +68,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 	 */
 	public void createControl(Composite parent) {
 
+		children = new Vector();
 		Composite container = new Composite(parent, SWT.NULL);
 
 		GridLayout layout = new GridLayout();
@@ -80,7 +82,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 
 		initialize();
 
-		points = new List(container, SWT.SINGLE | SWT.BORDER | SWT.SCROLL_LINE);
+		points = new List(container, SWT.MULTI | SWT.BORDER | SWT.SCROLL_LINE);
 		points.setItems(getPossibleChildren());
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -165,7 +167,12 @@ public class AddStartEndPointWizardPage extends WizardPage {
 		if (points.getSelectionIndex() < 0)
 			updateStatus("Please select a point");
 		else {
-			child = (PathNode) getNodes().get(points.getSelectionIndex());
+			children.clear();
+			for (int i = 0; i < points.getSelectionIndices().length; i++) {
+				int index = points.getSelectionIndices()[i];
+				children.add((PathNode)getNodes().get(index));
+			}
+			//child = (PathNode) getNodes().get(points.getSelectionIndex());
 			updateStatus(null);
 		}
 	}
@@ -187,8 +194,8 @@ public class AddStartEndPointWizardPage extends WizardPage {
 	 * 
 	 * @return the child
 	 */
-	public PathNode getSelectedNode() {
-		return child;
+	public Vector getSelectedNodes() {
+		return children;
 	}
 
 	/**

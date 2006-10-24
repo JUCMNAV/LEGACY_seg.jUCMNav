@@ -67,9 +67,12 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 
 	// If selected, set the element in bold.
 	public void setSelected(boolean selected) {
+		
+
 		// bug 411
 		if (widget == null)
 			return;
+		
 		this.selected = selected;
 		if (selected) {
 			((TreeItem) widget).setBackground(GRAY);
@@ -88,10 +91,12 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 	}
 
 	protected String getText() {
-    	if (isInherited()) 
-    		((TreeItem) widget).setForeground(DARKGRAY);
-    	else
-    		((TreeItem) widget).setForeground(BLACK);
+		if (widget!=null && !widget.isDisposed()) {
+	    	if (isInherited()) 
+	    		((TreeItem) widget).setForeground(DARKGRAY);
+	    	else
+	    		((TreeItem) widget).setForeground(BLACK);
+		}
     	
     	return super.getText();
 	}

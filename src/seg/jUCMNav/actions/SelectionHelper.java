@@ -362,14 +362,18 @@ public class SelectionHelper {
         } else if (model instanceof ScenarioDef) {
         	scenario= (ScenarioDef)model;
         	scenariogroup = scenario.getGroup();
-        	ucmspec = scenariogroup.getUcmspec();
-            urnspec = scenariogroup.getUcmspec().getUrnspec();
+        	if (scenariogroup!=null) {
+	        	ucmspec = scenariogroup.getUcmspec();
+	            urnspec = scenariogroup.getUcmspec().getUrnspec();
+        	}
         } else if (model instanceof Initialization) {
         	initialization = (Initialization)model;
         	scenario = initialization.getScenarioDef();
-        	scenariogroup = scenario.getGroup();
-        	ucmspec = scenariogroup.getUcmspec();
-            urnspec = scenariogroup.getUcmspec().getUrnspec();
+        	scenariogroup = scenario.getGroup(); 
+        	if (scenariogroup!=null) {
+	        	ucmspec = scenariogroup.getUcmspec();
+	            urnspec = scenariogroup.getUcmspec().getUrnspec();
+        	}
         } else if (model instanceof GRLspec) {
         	grlspec = ((GRLspec)model);
             urnspec = ((GRLspec)model).getUrnspec();

@@ -91,6 +91,7 @@
          <viewShortcut id="org.eclipse.ui.views.ResourceNavigator"/>
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
+         <viewShortcut id="org.eclipse.ui.views.ProblemView"/>
       </perspectiveExtension>
    </extension>
    <extension

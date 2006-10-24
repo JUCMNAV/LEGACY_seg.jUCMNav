@@ -78,7 +78,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     /**
      * Return the sorted list of component or responsibility definitions.
      */
-    protected List getModelChildren() {
+    public List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals("Included scenarios")) {
         	//list.addAll(root.getIncludedScenarios());

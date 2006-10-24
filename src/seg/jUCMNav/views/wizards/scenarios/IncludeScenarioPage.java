@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.scenarios;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -31,7 +32,7 @@ import ucm.scenario.ScenarioDef;
 public class IncludeScenarioPage extends WizardPage {
 	private ISelection selection;
 	private ScenarioDef parent;
-	private ScenarioDef child;
+	private Vector children;
 	private List scenarios;
 
 	/**
@@ -57,7 +58,7 @@ public class IncludeScenarioPage extends WizardPage {
 	 * Creates the page.
 	 */
 	public void createControl(Composite parent) {
-
+		children = new Vector();
 		Composite container = new Composite(parent, SWT.NULL);
 
 		GridLayout layout = new GridLayout();
@@ -72,7 +73,7 @@ public class IncludeScenarioPage extends WizardPage {
 
 		initialize();
 		
-		scenarios = new List(container, SWT.SINGLE | SWT.BORDER | SWT.SCROLL_LINE);
+		scenarios = new List(container, SWT.MULTI | SWT.BORDER | SWT.SCROLL_LINE);
 		scenarios.setItems(getPossibleChildren());
 		
 	
@@ -139,7 +140,12 @@ public class IncludeScenarioPage extends WizardPage {
 		if (scenarios.getSelectionIndex()<0)
 			updateStatus("Please select a scenario");
 		else {
-			child = (ScenarioDef) ScenarioUtils.getPossibleIncludedScenarios(parent).get(scenarios.getSelectionIndex());
+			children.clear();
+			for (int i = 0; i < scenarios.getSelectionIndices().length; i++) {
+				int index = scenarios.getSelectionIndices()[i];
+				children.add((ScenarioDef) ScenarioUtils.getPossibleIncludedScenarios(parent).get(index));
+			}
+			//child = (ScenarioDef) ScenarioUtils.getPossibleIncludedScenarios(parent).get(scenarios.getSelectionIndex());
 			updateStatus(null);
 		}
 	}
@@ -161,12 +167,12 @@ public class IncludeScenarioPage extends WizardPage {
 	}
 
 	/**
-	 * Returns the child scenario that has been selected. 
+	 * Returns the child scenarios that has been selected. 
 	 * 
-	 * @return the child
+	 * @return the children
 	 */
-	public ScenarioDef getChildScenario() {
-		return child;
+	public Vector getChildScenarios() {
+		return children;
 	}
 
 	/**

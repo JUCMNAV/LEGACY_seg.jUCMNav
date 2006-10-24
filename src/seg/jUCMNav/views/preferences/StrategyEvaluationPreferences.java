@@ -54,7 +54,7 @@ public class StrategyEvaluationPreferences {
 
     /**
      * 
-     * @param width
+     * @param tolerance
      *            the grl evaluation algorithm tolerance
      */
     public static void setTolerance(int tolerance) {

@@ -9,6 +9,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
+import seg.jUCMNav.editparts.strategyTreeEditparts.ScenarioLabelTreeEditPart;
 import seg.jUCMNav.model.commands.delete.DeleteIncludedScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
@@ -37,8 +38,10 @@ public class EvaluationStrategyComponentEditPolicy extends ComponentEditPolicy {
         	if (getHost().getParent().getModel() instanceof String) {
         		// included scenario. 
         		ScenarioDef parent =  (ScenarioDef) getHost().getParent().getParent().getModel();
-        		return new DeleteIncludedScenarioCommand(parent, scenario);
-        	
+        		if (getHost().getParent().getChildren().indexOf(getHost()) >= ((ScenarioLabelTreeEditPart)getHost().getParent()).getModelChildren().size()-((ScenarioDef) getHost().getParent().getParent().getModel()).getIncludedScenarios().size())
+        			return new DeleteIncludedScenarioCommand(parent, scenario);
+        		else
+        			return null;
         	} else {
 	            DeleteScenarioCommand deleteCommand = new DeleteScenarioCommand(scenario);
 	            return deleteCommand;

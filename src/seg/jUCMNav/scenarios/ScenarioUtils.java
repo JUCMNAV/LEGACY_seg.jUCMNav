@@ -303,7 +303,9 @@ public class ScenarioUtils {
 	
 	public static Vector getDefinedInitializations(ScenarioDef def)
 	{
+		
 		Vector initializations = new Vector();
+		if (def.getGroup()==null) return initializations;
 		getDefinedInitializations(def, initializations);
 		
 		Vector uniqueSubsetInitializations = new Vector();

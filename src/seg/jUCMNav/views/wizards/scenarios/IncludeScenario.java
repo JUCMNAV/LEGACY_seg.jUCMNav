@@ -1,9 +1,13 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -54,15 +58,23 @@ public class IncludeScenario extends Wizard {
 	 */
 	public boolean performFinish() {
 		final ScenarioDef parent = page.getParentScenario();
-		final ScenarioDef child = page.getChildScenario();
+		final Vector children = page.getChildScenarios();
 		
 
 		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
+		CompoundCommand cmd = new CompoundCommand();
+		for (Iterator iter = children.iterator(); iter.hasNext();) {
+			ScenarioDef child = (ScenarioDef) iter.next();
+			IncludeScenarioCommand command = new IncludeScenarioCommand(parent, child);
+			if (command.canExecute())
+				cmd.add(command);
+
+			
+		}
 		// use a command to be undoable.
-		IncludeScenarioCommand command = new IncludeScenarioCommand(parent, child);
-		if (command.canExecute())
-			cs.execute(command);
+		if (cmd.canExecute())
+			cs.execute(cmd);
 		
 		return true;
 	}

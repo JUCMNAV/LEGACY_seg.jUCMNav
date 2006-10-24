@@ -1,9 +1,13 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -58,16 +62,24 @@ public class AddStartEndPointWizard extends Wizard {
 	 */
 	public boolean performFinish() {
 		 final ScenarioDef parent = page.getParentScenario();
-		 final PathNode child = page.getSelectedNode();
-				
-		
+		 final Vector children = page.getSelectedNodes();
+
+
 		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-		
-		 // use a command to be undoable.
-		 IncludePathNodeInScenarioCommand command = new IncludePathNodeInScenarioCommand(parent, child);
+
+		 CompoundCommand cmd = new CompoundCommand();
 		 
-		 if (command.canExecute())
-			 cs.execute(command);
+		 for (Iterator iter = children.iterator(); iter.hasNext();) {
+			PathNode child = (PathNode) iter.next();
+			IncludePathNodeInScenarioCommand command = new IncludePathNodeInScenarioCommand(parent, child);
+			if (command.canExecute())
+				cmd.add(command);
+		}
+		 // use a command to be undoable.
+		 
+		 
+		 if (cmd.canExecute())
+			 cs.execute(cmd);
 
 		return true;
 	}
