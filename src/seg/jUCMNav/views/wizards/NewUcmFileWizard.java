@@ -68,6 +68,7 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 	 * will create an operation and run it using wizard as execution context.
 	 */
 	public boolean performFinish() {
+		page.preFinish();
 		final String containerName = page.getContainerName();
 		final String fileName = page.getFileName();
 		IRunnableWithProgress op = new IRunnableWithProgress() {
@@ -108,10 +109,11 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 			throwCoreException(Messages.getString("NewUcmFileWizard.container") + containerName + Messages.getString("NewUcmFileWizard.doesNotExist")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		IContainer container = (IContainer) resource;
+
 		final IFile file = container.getFile(new Path(fileName));
 		try {
             jUCMNavLoader loader = new jUCMNavLoader(workbenchPage, getShell());
-            loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec());                
+            loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(), false, page.overwrite);                
             
 //			InputStream stream = openContentStream();
 //			if (file.exists()) {

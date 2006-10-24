@@ -1,18 +1,32 @@
 package seg.jUCMNav.views.wizards;
 
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.SWT;
-import org.eclipse.core.resources.*;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.events.*;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.views.wizards.importexport.jUCMNavLoader;
 
 /**
  * The settings page for the new wizard; name your file and select where you want to create it.
@@ -24,7 +38,7 @@ public class NewUcmFileWizardPage extends WizardPage {
     private Text containerText;
     private Text fileText;
     private ISelection selection;
-
+    public boolean overwrite=false;
     /**
      * Constructor for SampleNewWizardPage.
      * 
@@ -160,5 +174,19 @@ public class NewUcmFileWizardPage extends WizardPage {
 
     public String getFileName() {
         return fileText.getText();
+    }
+    
+    public void preFinish() {
+        String sFileName = fileText.getText();
+        String sContainer = containerText.getText();
+        jUCMNavLoader loader = new jUCMNavLoader(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), getShell());
+    	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember(new Path(loader.getTargetFilename(sFileName, sContainer, true)));
+        if (resource != null) {
+            overwrite = MessageDialog.openQuestion(getShell(), "File is already in use",
+                   "Filename already in use. Overwrite?");
+            
+        }
+
     }
 }
