@@ -9,16 +9,6 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 
 public class ColorManager {
 
-	public static Color LINE;
-	public static Color SELECTED;
-	public static Color HOVER;
-	public static Color TRAVERSAL;
-	public static Color FILL;
-	public static Color STUBLABEL;
-	public static Color LINKREFLABEL;
-	public static Color CONDITIONLABEL;
-	
-	
 	public static final Color BLACK = new Color(null,0,0,0);
 	public static final Color BLUE = new Color(null, 0,102,204);
 	public static final Color LIGHTBLUE = new Color(null, 145,185,255);
@@ -29,6 +19,18 @@ public class ColorManager {
 	public static final Color VERYDARKGRAY = new Color(null, 100,100,100);
 	public static final Color RED = new Color(null, 255,0,0);
 	public static final Color WHITE = new Color(null, 255,255,255);
+	
+	public static Color LINE;
+	public static Color SELECTED;
+	public static Color HOVER;
+	public static Color TRAVERSAL;
+	public static Color FILL=WHITE;
+	public static Color STUBLABEL;
+	public static Color LINKREFLABEL;
+	public static Color CONDITIONLABEL;
+	
+	
+
 	
 	
 	static {

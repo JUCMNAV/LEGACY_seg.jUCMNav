@@ -155,6 +155,7 @@ public class CodeEditorPage extends WizardPage {
 
 		dialogChanged();
 		setControl(container);
+		codeText.forceFocus();
 
 	}
 

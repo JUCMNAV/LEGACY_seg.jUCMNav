@@ -589,20 +589,30 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processOrFork(UcmEnvironment env, OrFork orfork) throws TraversalException {
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
 
+		NodeConnection toVisit=null;
 		for (Iterator iter = orfork.getSucc().iterator(); iter.hasNext();) {
 			NodeConnection nc = (NodeConnection) iter.next();
 			try {
 				Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
 				if (Boolean.TRUE.equals(result)) {
-					visitNodeConnection(nc);
-					return;
+					if (toVisit!=null)
+						_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\". Taking first option to remain deterministic.", orfork));
+					else 
+						toVisit=nc;
 				} 
 			} catch (IllegalArgumentException e) {
 				throw new TraversalException(e.getMessage(), e);
 			}
 		}
-
-		_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork));
+		
+		if (toVisit!=null) {
+			visitNodeConnection(toVisit);
+		}
+		else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
+			addToWaitingList(orfork);
+		}
+		else
+			_warnings.add(new TraversalWarning("Traversal blocked at Or Fork \"" + orfork.getName() + " (" + orfork.getId() + ")\", where no fork condition evaluates to true.",orfork));
 	}
 
 	/**
@@ -664,20 +674,24 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void processStub(UcmEnvironment env, Stub stub) throws TraversalException {
 		boolean b = false;
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
-		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext() && !b;) {
+		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
 			PluginBinding binding = (PluginBinding) iter.next();
 
 			try {
 				Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
 				if (Boolean.TRUE.equals(result)) {
 					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
-						InBinding inb = (InBinding) iterator.next();
-						incrementHitCount(inb);
-						incrementHitCount(inb.getBinding());
-						if (inb.getStartPoint() != null) {
-							if (!_currentContext.contains(binding))
-								_currentContext.add(binding);
-							pushPathNode(inb.getStartPoint(), false);
+						if (!b) {
+							InBinding inb = (InBinding) iterator.next();
+							incrementHitCount(inb);
+							incrementHitCount(inb.getBinding());
+							if (inb.getStartPoint() != null) {
+								if (!_currentContext.contains(binding))
+									_currentContext.add(binding);
+								pushPathNode(inb.getStartPoint(), false);
+							}
+						} else {
+							_warnings.add(new TraversalWarning("Traversal has multiple alternatives at Stub \"" + stub.getName() + " (" + stub.getId() + ")\". Taking first option to remain deterministic.", stub));
 						}
 						b = true;
 					}
@@ -693,12 +707,14 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		if (!b) {
 			// TODO: semantic variation : no plugins, what do we do?
 			// if we don't find any valid plugins, only follow first out if it exists.
-			if (stub.getSucc().size() == 1) {
+			if (stub.getSucc().size() == 1 && stub.getBindings().size()==0) {
 				NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
 				visitNodeConnection(nc);
+			} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
+				addToWaitingList(stub);
 			} else
-				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"",stub));
-		}
+				_warnings.add(new TraversalWarning("Unable to navigate to a plugin from Stub \"" + stub.getName() + " (" + stub.getId() + ")\"", stub));
+		} 
 	}
 
 	/**
