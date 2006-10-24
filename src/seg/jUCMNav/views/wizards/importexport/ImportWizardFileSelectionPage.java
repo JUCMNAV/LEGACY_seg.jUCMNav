@@ -14,6 +14,8 @@ import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -54,13 +56,17 @@ public class ImportWizardFileSelectionPage extends WizardPage {
     // which extension is chosen in the dropdown list (file type)
     private int iTypeSelectionIndex;
     public boolean overwrite = false;
+
     private boolean bAutolayout;
+    
+    private ISelection selection;
 
     /**
      * @param pageName
      */
-    protected ImportWizardFileSelectionPage(String pageName) {
+    protected ImportWizardFileSelectionPage(String pageName, ISelection selection) {
         super(pageName);
+        this.selection = selection;
         setDescription(Messages.getString("ImportWizardFileSelectionPage.SelectFileImport")); //$NON-NLS-1$
         setTitle(Messages.getString("ImportWizardFileSelectionPage.ImportFile")); //$NON-NLS-1$
     }
@@ -143,6 +149,21 @@ public class ImportWizardFileSelectionPage extends WizardPage {
 
         containerText = new Text(composite, SWT.BORDER | SWT.SINGLE);
         containerText.setText(ImportPreferenceHelper.getProject());
+        if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
+            IStructuredSelection ssel = (IStructuredSelection) selection;
+            if (ssel.size() == 1) {
+            Object obj = ssel.getFirstElement();
+	            if (obj instanceof IResource) {
+	                IContainer container;
+	                if (obj instanceof IContainer)
+	                    container = (IContainer) obj;
+	                else
+	                    container = ((IResource) obj).getParent();
+	                containerText.setText(container.getFullPath().toString());
+	            }
+            }
+        }
+        	
         setContainerName(containerText.getText());
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         containerText.setLayoutData(gd);

@@ -85,7 +85,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
      * Add both pages
      */
     public void addPages() {
-        addPage(new ImportWizardFileSelectionPage(PAGE0));
+        addPage(new ImportWizardFileSelectionPage(PAGE0,selection));
     }
 
     /**
@@ -234,7 +234,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
                     }
                 }
             }
-        }
+        } else 
+        	this.selection =currentSelection;
     }
 
     /**
