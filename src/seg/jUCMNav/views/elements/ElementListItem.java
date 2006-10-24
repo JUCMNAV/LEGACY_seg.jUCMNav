@@ -67,6 +67,7 @@ public class ElementListItem extends CompositeListItem {
                 fireSelected(e);
             }
         });
+        
     }
 
     public void select() {
@@ -124,6 +125,7 @@ public class ElementListItem extends CompositeListItem {
     public void setElementImg(String path){
     	InputStream stream = getClass().getResourceAsStream(path);
         lblIcon.setImage(new Image(Display.getCurrent(), stream));
+        lblIcon.setBackground(ColorManager.WHITE);
         try {
 			stream.close();
 		} catch (IOException e) {

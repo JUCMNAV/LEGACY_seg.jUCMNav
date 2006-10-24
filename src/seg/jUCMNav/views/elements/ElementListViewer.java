@@ -237,7 +237,6 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 	 */
 	public void reveal(Object element) {
 		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -351,6 +350,10 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 	 */
 	public void notifyChanged(Notification notification) {
 		EObject notifier = (EObject) notification.getNotifier();
+		if (list.isDisposed()) {
+			notifier.eAdapters().remove(this);
+			return;
+		}
 
 		if (notifier instanceof RespRef) {
 			RespRef resp = (RespRef) notifier;
@@ -441,6 +444,8 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 				break;
 			}
 		}
+		// bug 392
+		list.pack();
 	}
 
 	/*
@@ -449,6 +454,11 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	public void selectionChanged(SelectionChangedEvent event) {
+		if (list.isDisposed()) {
+			list.removeSelectionChangedListener(this);
+			return;
+		}
+
 		StructuredSelection sel = (StructuredSelection) event.getSelection();
 
 		ArrayList items = new ArrayList();

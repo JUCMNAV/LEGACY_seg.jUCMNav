@@ -27,6 +27,7 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.views.properties.PropertySheetPage;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
@@ -51,6 +52,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 	// private UCMmap input;
 	private UCMNavMultiPageEditor editor;
 
+	PropertySheetPage page;
 	class ElementContentProvider implements IStructuredContentProvider {
 		private List input;
 
@@ -119,7 +121,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 		viewer.addSelectionChangedListener(this);
 		viewer.setContentProvider(new ElementContentProvider());
 		viewer.setLabelProvider(new ElementLabelProvider());
-
+		
 		if (input != null)
 			viewer.setInput(input.getNodes());
 
@@ -193,6 +195,8 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 		// setInput(null);
 		
 		
+		
+		
 	}
 
 	/*
@@ -254,8 +258,10 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 
 	private void setInput(IURNDiagram input) {
 		if (viewer != null) {
-			if (input == null)
+			if (input == null) {
 				viewer.setInput(new ArrayList());
+
+			}
 			else {
 				if (input != this.input)
 					viewer.setInput(input.getNodes());
@@ -287,6 +293,14 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 		StructuredSelection sel = (StructuredSelection) event.getSelection();
 
 		if (event.getSource() instanceof ElementListViewer) {
+			if (page!=null) {
+				try {
+				page.selectionChanged(this, sel);
+				page.refresh();
+				} catch (Throwable T) {
+					
+				}
+			}
 			ArrayList items = new ArrayList();
 			if (editor != null && editor.getCurrentPage() != null) {
 				HashMap registry = (HashMap) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
@@ -367,6 +381,19 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 	 */
 	public void setSelection(ISelection selection) {
 		// TODO Auto-generated method stub
+	}
+	
+	public Object getAdapter(Class adapter) {
+		if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) 
+		{
+            page = new PropertySheetPage();
+            
+            page.setPropertySourceProvider(editor);
+            //page.setRootEntry(new UndoablePropertySheetEntry(editor.getDelegatingCommandStack()));
+            return page;
 
+		}
+		else
+			return super.getAdapter(adapter);
 	}
 }

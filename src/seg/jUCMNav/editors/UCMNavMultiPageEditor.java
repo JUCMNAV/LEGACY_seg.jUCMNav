@@ -34,6 +34,8 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.ui.views.properties.IPropertySourceProvider;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.actionContributors.ActionRegistryManager;
@@ -68,7 +70,7 @@ import urncore.IURNDiagram;
  * @author jkealey
  *  
  */
-public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker {
+public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapter, INavigationLocationProvider, IGotoMarker, IPropertySourceProvider {
     /** the actionregistry shared between all editors */
     private ActionRegistry actionRegistry;
 
@@ -697,5 +699,20 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 
 		
 		
+	}
+
+	public IPropertySource getPropertySource(Object object) {
+		UrnOutlinePage outline;
+		if (getPageCount()==0)
+			outline = (UrnOutlinePage) getAdapter(IContentOutlinePage.class);
+		else
+			outline = (UrnOutlinePage) getEditor(0).getAdapter(IContentOutlinePage.class);
+		
+		if (outline!=null) {
+			EditPart part = (EditPart) outline.getViewer().getEditPartRegistry().get(object);
+			if (part!=null)
+				return (IPropertySource) part.getAdapter(IPropertySource.class);
+		}
+		return null;
 	}
 }
