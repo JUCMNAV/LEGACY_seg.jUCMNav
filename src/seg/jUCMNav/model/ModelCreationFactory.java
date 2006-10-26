@@ -494,7 +494,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setCreated(sDate);
         urnspec.setModified(sDate);
 
-        urnspec.setUrnVersion("0.11"); //$NON-NLS-1$
+        urnspec.setUrnVersion("0.12"); //$NON-NLS-1$
         urnspec.setSpecVersion("0"); //$NON-NLS-1$
 
         // Set the author to the current user
@@ -525,9 +525,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.getUcmspec().getScenarioGroups().add(scenariogroup);
         ScenarioDef scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urnspec, ScenarioDef.class);
         scenariogroup.getScenarios().add(scenario);
-        // I want to remove this. 
-        //urnspec.getUcmspec().getScenarioDefs().add(scenario);
-        
+       
         
         result = urnspec;
         return result;
