@@ -216,7 +216,7 @@ public class URNNamingHelper {
 		}
 
 		if (urn.getUrnVersion() == null || urn.getUrnVersion().length() == 0)
-			urn.setUrnVersion("0.9"); //$NON-NLS-1$
+			urn.setUrnVersion(ModelCreationFactory.URNSPEC_VERSION);
 
 		if (urn.getSpecVersion() == null || urn.getSpecVersion().length() == 0)
 			urn.setSpecVersion("1"); //$NON-NLS-1$

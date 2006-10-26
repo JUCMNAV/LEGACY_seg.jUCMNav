@@ -30,6 +30,7 @@ import org.xml.sax.SAXParseException;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.model.ModelCreationFactory;
 import urn.URNspec;
 
 /**
@@ -203,7 +204,7 @@ public class MultiPageFileManager {
             ver = "1"; //$NON-NLS-1$
         }
         editor.getModel().setSpecVersion(ver);
-        editor.getModel().setUrnVersion("0.9"); //$NON-NLS-1$
+        editor.getModel().setUrnVersion(ModelCreationFactory.URNSPEC_VERSION); 
     }
 
     /**
