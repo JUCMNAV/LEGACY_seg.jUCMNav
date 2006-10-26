@@ -168,7 +168,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	// Vector of PluginBindings
 	protected Vector _currentContext;
 	
-
 	/**
 	 * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
 	 * 
@@ -569,7 +568,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			processWaitingPlaceAndTimer(env, waitingPlace);
 		} else if (pn instanceof Stub) {
 			Stub stub = (Stub) pn;
-			processStub(env, stub);
+			processStub(env, visit.getSourceNodeConnection(), stub);
 		} else if (pn instanceof Connect) {
 			Connect connect = (Connect) pn;
 			processConnect(env, connect);
@@ -682,68 +681,81 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 * @param stub
 	 * @throws TraversalException
 	 */
-	protected void processStub(UcmEnvironment env, Stub stub) throws TraversalException {
+	protected void processStub(UcmEnvironment env, NodeConnection source, Stub stub) throws TraversalException {
 		boolean b = false;
 		// TODO: Semantic variation: All true branches? First only? Error if multiple true? If multiple, in sequence or parallel?
-		
-		Vector toVisit = new Vector();
-		for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
-			PluginBinding binding = (PluginBinding) iter.next();
 
-			try {
-				Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
-				if (Boolean.TRUE.equals(result)) {
-					for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
-						if (b) {
-							if (ScenarioTraversalPreferences.getIsDeterministic())
-								_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-							else
-								_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		if (source != null) {
+
+			Vector toVisit = new Vector();
+			for (Iterator iter = stub.getBindings().iterator(); iter.hasNext();) {
+				PluginBinding binding = (PluginBinding) iter.next();
+
+				try {
+					Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
+					if (Boolean.TRUE.equals(result)) {
+
+						for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
+							InBinding inb = (InBinding) iterator.next();
+							if (inb.getStubEntry()==source)
+								toVisit.add(inb);
 						}
-						toVisit.add(iterator.next());
-
-						b = true;
+						if (binding.getIn().size() == 0)
+							_warnings
+									.add(new TraversalWarning(
+											Messages.getString("DefaultScenarioTraversal.NoBindingsDefined") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisArrow") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+													+ binding.getPlugin().getName()
+													+ Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + binding.getPlugin().getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
 					}
-					if (binding.getIn().size() == 0)
-						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.NoBindingsDefined") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisArrow") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								+ binding.getPlugin().getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + binding.getPlugin().getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
+				} catch (IllegalArgumentException e) {
+					throw new TraversalException(e.getMessage(), e);
 				}
-			} catch (IllegalArgumentException e) {
-				throw new TraversalException(e.getMessage(), e);
 			}
-		}
 
-		if (!b) {
-			// TODO: semantic variation : no plugins, what do we do?
-			// if we don't find any valid plugins, only follow first out if it exists.
-			if (stub.getPred().size()==1 && stub.getSucc().size() == 1 && stub.getBindings().size()==0) {
-				NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
-				visitNodeConnection(nc);
-				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.NoPluginBindingForStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.UsingDefaultPlugin"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
-				addToWaitingList(stub);
-			} else
-				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.UnableToNavigateToPluginFromStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisAndQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		}  else {
-			
-			InBinding inb=null;
-			
-			if (ScenarioTraversalPreferences.getIsDeterministic()) 
-				inb = (InBinding)toVisit.get(0);
-			else {
-				int i = (int) Math.round(Math.random()*(toVisit.size()-1));
-				inb = (InBinding)toVisit.get(i);
+			if (toVisit.size() == 0) {
+				// TODO: semantic variation : no plugins, what do we do?
+				// if we don't find any valid plugins, only follow first out if it exists.
+				if (stub.getPred().size() == 1 && stub.getSucc().size() == 1 && stub.getBindings().size() == 0) {
+					NodeConnection nc = (NodeConnection) stub.getSucc().get(0);
+					visitNodeConnection(nc);
+					_warnings
+							.add(new TraversalWarning(
+									Messages.getString("DefaultScenarioTraversal.NoPluginBindingForStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.UsingDefaultPlugin"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
+					addToWaitingList(stub);
+				} else
+					_warnings
+							.add(new TraversalWarning(
+									Messages.getString("DefaultScenarioTraversal.UnableToNavigateToPluginFromStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisAndQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			} else {
+				if (toVisit.size() > 1) {
+					if (ScenarioTraversalPreferences.getIsDeterministic())
+						_warnings
+								.add(new TraversalWarning(
+										Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					else
+						_warnings
+								.add(new TraversalWarning(
+										Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtStub") + stub.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + stub.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), stub, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				}
+				InBinding inb = null;
 
-			}
-			PluginBinding binding = inb.getBinding();
+				if (ScenarioTraversalPreferences.getIsDeterministic())
+					inb = (InBinding) toVisit.get(0);
+				else {
+					int i = (int) Math.round(Math.random() * (toVisit.size() - 1));
+					inb = (InBinding) toVisit.get(i);
 
-			
-			incrementHitCount(inb);
-			incrementHitCount(inb.getBinding());
-			if (inb.getStartPoint() != null) {
-				if (!_currentContext.contains(binding))
-					_currentContext.add(binding);
-				pushPathNode(inb.getStartPoint(), false);
+				}
+				PluginBinding binding = inb.getBinding();
+
+				incrementHitCount(inb);
+				incrementHitCount(inb.getBinding());
+				if (inb.getStartPoint() != null) {
+					if (!_currentContext.contains(binding))
+						_currentContext.add(binding);
+					pushPathNode(inb.getStartPoint(), false);
+				}
 			}
 		}
 	}
@@ -802,6 +814,22 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected void pushPathNode(PathNode pn, boolean newThread) {
 		// TODO: Semantic Variation: "multithreading" in different stacks.
 		_toVisit.push(new TraversalVisit(pn, _currentContext));
+	}
+	
+	/**
+	 * Push a path node on the to be processed stack. Behaviour might vary if we are asking for a new thread (might be a new stack, depending on the
+	 * implementation).
+	 * 
+	 * @param nc 
+	 * 				originating node connection
+	 * @param pn
+	 *            the pathnode to process
+	 * @param newThread
+	 *            should this be treated in parallel with the other path nodes?
+	 */
+	protected void pushPathNode(NodeConnection nc, PathNode pn, boolean newThread) {
+		// TODO: Semantic Variation: "multithreading" in different stacks.
+		_toVisit.push(new TraversalVisit(nc, pn, _currentContext));
 	}
 	
 
@@ -966,7 +994,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void visitNodeConnection(NodeConnection nc, boolean newThread) throws TraversalException {
 		trackVisit(nc);
-		pushPathNode((PathNode) nc.getTarget(), newThread);
+		pushPathNode(nc, (PathNode) nc.getTarget(), newThread);
 	}
 
 	/**

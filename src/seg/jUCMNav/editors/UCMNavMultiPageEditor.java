@@ -193,7 +193,20 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         
         // clear memory cache 
         ScenarioUtils.releaseEnvironment(model);
+
         
+        // clear markers
+		try {
+
+			IMarker[] existingMarkers = file.findMarkers(IMarker.PROBLEM, true, 3);
+			for (int i = 0; i < existingMarkers.length; i++) {
+				IMarker marker = existingMarkers[i];
+				marker.delete();
+			}
+		} catch (CoreException ex) {
+		}
+		
+		
         // important: always call super implementation of dispose
         super.dispose();
     }

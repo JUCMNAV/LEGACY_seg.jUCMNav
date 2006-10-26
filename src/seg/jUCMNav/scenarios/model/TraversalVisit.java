@@ -5,12 +5,14 @@ import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 
+import ucm.map.NodeConnection;
 import ucm.map.PluginBinding;
 
 public class TraversalVisit {
 
 	private EObject visitedElement;
 	private Vector context;
+	private NodeConnection source;
 	
 	public TraversalVisit(EObject obj) {
 		this.visitedElement = obj;
@@ -28,6 +30,12 @@ public class TraversalVisit {
 		this.context = context; 
 	}		
 
+	public TraversalVisit(NodeConnection source, EObject obj, Vector context) {
+		this.source=source;
+		this.visitedElement = obj;
+		this.context = context; 
+	}	
+	
 	public Vector getContext() {
 		return context;
 	}
@@ -43,6 +51,10 @@ public class TraversalVisit {
 	public void setVisitedElement(EObject visitedElement) {
 		this.visitedElement = visitedElement;
 	}	
+	
+	public NodeConnection getSourceNodeConnection() {
+		return this.source;
+	}
 	
 	public void increaseContext(Vector v)
 	{
