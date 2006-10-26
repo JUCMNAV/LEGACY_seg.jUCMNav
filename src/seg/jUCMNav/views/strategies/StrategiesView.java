@@ -271,6 +271,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
  
 
             // hook viewer
+            if (editor!=null)
+            	editor.getSelectionSynchronizer().removeViewer(viewer);
             multieditor.getSelectionSynchronizer().addViewer(viewer);
             viewer.setContents(multieditor);
                         
