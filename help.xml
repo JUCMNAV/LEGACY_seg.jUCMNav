@@ -6,13 +6,9 @@
             <topic label="The Use Case Maps (UCM) Notation" href="helpcontent/helponline.html#The_Use_Case_Maps_UCM_Notation">
                 <topic label="UCMs in a Nutshell" href="helpcontent/helponline.html#UCMs_in_a_Nutshell" />
                 <topic label="Why Use Case Maps?" href="helpcontent/helponline.html#Why_Use_Case_Maps" />
-                <topic label="Reference" href="helpcontent/helponline.html#Reference" />
             </topic>
-            <topic label="Setup and Installation" href="helpcontent/helponline.html#Setup_and_Installation">
-                <topic label="Download All Prerequisites" href="helpcontent/helponline.html#Download_All_Prerequisites" />
-                <topic label="Install the Applications" href="helpcontent/helponline.html#Install_the_Applications" />
-                <topic label="Launch Eclipse" href="helpcontent/helponline.html#Launch_Eclipse" />
-            </topic>
+			<topic label="The Goal-Oriented Requirements Language (GRL)" href="helpcontent/helponline.html#The_Goal_Oriented_Requirements_L" />
+            <topic label="Reference" href="helpcontent/helponline.html#Reference" />
             <topic label="Quick Tour of Eclipse and jUCMNav" href="helpcontent/helponline.html#Quick_Tour_of_Eclipse_and_jUCMNa">
                 <topic label="Creating Files" href="helpcontent/helponline.html#Creating_Files" />
                 <topic label="Perspectives" href="helpcontent/helponline.html#Perspectives" />
@@ -21,24 +17,26 @@
         </topic>
         <topic label="Part II - Basic Editing" href="helpcontent/helponline.html#Part_II_Basic_Editing">
             <topic label="Keyboard shortcuts" href="helpcontent/helponline.html#Keyboard_shortcuts" />
-            <topic label="Components" href="helpcontent/helponline.html#Components" />
-            <topic label="Creating Paths" href="helpcontent/helponline.html#Creating_Paths" />
-            <topic label="Elements bound to components" href="helpcontent/helponline.html#Elements_bound_to_components" />
-            <topic label="Working with labels" href="helpcontent/helponline.html#Working_with_labels" />
-            <topic label="Forks/Joins" href="helpcontent/helponline.html#Forks_Joins" />
-            <topic label="Conditions" href="helpcontent/helponline.html#Conditions" />
-            <topic label="Deletion" href="helpcontent/helponline.html#Deletion" />
-            <topic label="Waiting places, timers and connects" href="helpcontent/helponline.html#Waiting_places_timers_and_connec" />
+            <topic label="Components (UCM) / Actors (GRL)" href="helpcontent/helponline.html#Components_UCM_Actors_GRL" />
+            <topic label="Creating Paths (UCM)" href="helpcontent/helponline.html#Creating_Paths_UCM" />
+            <topic label="Elements bound to components (UCM) / actors (GRL)" href="helpcontent/helponline.html#Elements_bound_to_components_UCM" />
+            <topic label="Working with labels (UCM/GRL)" href="helpcontent/helponline.html#Working_with_labels_UCM_GRL" />
+            <topic label="Forks/Joins (UCM)" href="helpcontent/helponline.html#Forks_Joins_UCM" />
+            <topic label="Conditions (UCM)" href="helpcontent/helponline.html#Conditions_UCM" />
+            <topic label="Deletion (UCM/GRL)" href="helpcontent/helponline.html#Deletion_UCM_GRL" />
+            <topic label="Waiting places, timers and connects (UCM)" href="helpcontent/helponline.html#Waiting_places_timers_and_connec" />
+            <topic label="Intentional Elements (GRL)" href="helpcontent/helponline.html#Intentional_Elements_GRL" />
+            <topic label="Decomposition, Dependencies, and Contributions (GRL) " href="helpcontent/helponline.html#Decomposition_Dependencies_and_C" />
+			<topic label="Beliefs (GRL)" href="helpcontent/helponline.html#Beliefs_GRL" />
         </topic>
         <topic label="Part III - Advanced Editing" href="helpcontent/helponline.html#Part_III_Advanced_Editing">
             <topic label="Working with Multiple Maps" href="helpcontent/helponline.html#Working_with_Multiple_Maps" />
             <topic label="Zooming and view modes" href="helpcontent/helponline.html#Zooming_and_view_modes" />
             <topic label="Auto-layout" href="helpcontent/helponline.html#Auto_layout" />
             <topic label="Using Stubs" href="helpcontent/helponline.html#Using_Stubs" />
-            <topic label="Exporting Maps" href="helpcontent/helponline.html#Exporting_Maps" />
+            <topic label="Exporting Images" href="helpcontent/helponline.html#Exporting_Images" />
+            <topic label="Import/Export" href="helpcontent/helponline.html#Import_Export"/>
         </topic>
-        <topic label="Part IV - Developer Reference" href="helpcontent/helponline.html#Part_IV_Developer_Reference">
-            <topic label="Javadoc" href="helpcontent/helponline.html#Javadoc" />
-            <topic label="Developer Site" href="helpcontent/helponline.html#Developer_Site" />
-        </topic>
+        <topic label="Part IV - GRL Strategies" href="helpcontent/helponline.html#Part_IV_GRL_Strategies"/>
+		<topic label="Part V - UCM Scenarios" href="helpcontent/helponline.html#Part_V_UCM_Scenarios"/>
 </toc>

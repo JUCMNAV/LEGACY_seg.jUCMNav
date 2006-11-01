@@ -4,7 +4,7 @@
 rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css
 
 #get page, prereqs, etc and convert links
-wget -p -k -nd -E -e "robots=off" http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
+wget -p -k -nd -E -e "robots=off" http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
 
 #prepare temp file
 mv ./Help*.html ./helponline_TMP.html

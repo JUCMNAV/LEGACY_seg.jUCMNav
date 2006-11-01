@@ -1,595 +1,575 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us"> 
 <head>
- <title> HelpOnLine &lt; ProjetSEG &lt; TWiki</title>
- <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/WebRss?skin=rss&amp;contenttype=text/xml" />
+	<title> HelpOnLine &lt; ProjetSEG &lt; UCM</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" /> <meta name="robots" content="noindex" /> <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/WebRss" />
+	<link rel="icon" href="http://cserg0.site.uottawa.ca/twiki/pub/ProjetSEG/WebPreferences/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" href="http://cserg0.site.uottawa.ca/twiki/pub/ProjetSEG/WebPreferences/favicon.ico" type="image/x-icon" />
+	<script type="text/javascript" src="twiki.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	function launchWindow(inWeb, inTopic) {
+		return launchTheWindow("/twiki/bin/view/", inWeb, inTopic, "plain");
+	}
+//]]>
+</script>
+
+
+	<style type="text/css" media="all">
+	.twikiNewLink {
+		color:#0000FF;
+		background-color:#FFFFCE;
+	}
+	.twikiTable {
+		border-collapse:collapse;
+	}
+	.twikiTable td,
+	.twikiTable th {
+		border:thin solid black;
+		margin:0px;
+	}
+	/* to hide Twisty elements: */
+	.twistyHidden { display:none; }
+	.twistyMakeVisible { display:none; }
+</style>
+
 </head>
 <body bgcolor="#ffffff">
-<a name="PageTop"></a>
-<LINK REL="STYLESHEET" HREF="book.css" CHARSET="ISO-8859-1" TYPE="text/css">
-<h1><a name="jUCMNav_Online_Help"> </a> jUCMNav Online Help </h1>
-<em>18 Jul 2005 - 17:38</em>
+<a name="PageTop"></a><LINK REL="STYLESHEET" HREF="book.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<h1><a name="jUCMNav_Online_Help"></a> jUCMNav Online Help </h1>
+<em>01 Nov 2006 - 11:45</em>
+<p />
+<div class="twikiToc"> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#jUCMNav_Online_Help"> jUCMNav Online Help</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_I_Introduction"> Part I - Introduction</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Use_Case_Maps_UCM_Notation"> The Use Case Maps (UCM) Notation</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#UCMs_in_a_Nutshell"> UCMs in a Nutshell</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Why_Use_Case_Maps"> Why Use Case Maps?</a>
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Goal_Oriented_Requirements_L"> The Goal-Oriented Requirements Language  (GRL) </a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Reference"> Reference</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Quick_Tour_of_Eclipse_and_jUCMNa"> Quick Tour of Eclipse and jUCMNav</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Creating_Files"> Creating Files</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Perspectives"> Perspectives</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Views_and_Editor"> Views and Editor</a>
+</li></ul> 
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_II_Basic_Editing"> Part II - Basic Editing</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Keyboard_shortcuts"> Keyboard shortcuts</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Components_UCM_Actors_GRL"> Components  (UCM) / Actors (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Creating_Paths_UCM"> Creating Paths (UCM)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Elements_bound_to_components_UCM"> Elements bound to components (UCM) / actors (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_labels_UCM_GRL"> Working with labels (UCM/GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Forks_Joins_UCM"> Forks/Joins (UCM)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Conditions_UCM"> Conditions (UCM)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Deletion_UCM_GRL"> Deletion (UCM/GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Waiting_places_timers_and_connec"> Waiting places, timers and connects (UCM)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Intentional_Elements_GRL"> Intentional Elements (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Decomposition_Dependencies_and_C"> Decomposition, Dependencies, and Contributions (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Beliefs_GRL"> Beliefs (GRL)</a>
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_III_Advanced_Editing"> Part III - Advanced Editing</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_multiple_diagrams"> Working with multiple diagrams</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Zooming_and_view_modes"> Zooming and view modes</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Auto_layout"> Auto-layout</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Using_Stubs"> Using Stubs</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Exporting_Images"> Exporting Images</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Import_Export"> Import/Export </a>
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_IV_GRL_Strategies"> Part IV GRL Strategies</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_V_UCM_Scenarios"> Part V UCM Scenarios</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Code_and_Condition_Editor"> Code and Condition Editor </a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Variables"> Variables</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#BNF_Grammar"> BNF Grammar</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Examples"> Examples</a>
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Scenario_children"> Scenario children</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Start_Points"> Start Points</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#End_Points"> End Points</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Variable_initializations_precond"> Variable initializations, preconditions and postconditions</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Included_Scenarios"> Included Scenarios</a>
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Executing_a_scenario"> Executing a scenario</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Detecting_Problems"> Detecting Problems </a>
+</li></ul> 
+</li></ul> 
+</li></ul> 
+</li></ul> 
+</div>
+<p />
+<h2><a name="Part_I_Introduction"></a> Part I - Introduction </h2> <ul>
+<li> jUCMNav is a graphical editor for the User Requirements Notation (URN)  which contains the Use Case Maps (UCM) notation and the Goal-Oriented Requirements Language (GRL). 
+</li></ul> 
 <p />
 <p />
-<h2><a name="Part_I_Introduction"> </a> Part I - Introduction </h2>
-<p />
-<h3><a name="The_Use_Case_Maps_UCM_Notation"> </a> The Use Case Maps (UCM) Notation </h3>
-<h4><a name="UCMs_in_a_Nutshell"> </a> UCMs in a Nutshell </h4>
-<ul>
-<li> Use Case Maps
-<ul>
+<h3><a name="The_Use_Case_Maps_UCM_Notation"></a> The Use Case Maps (UCM) Notation </h3>
+<h4><a name="UCMs_in_a_Nutshell"></a> UCMs in a Nutshell </h4> <ul>
+<li> Use Case Maps <ul>
 <li> graphical scenario notation 
-</li>
-<li> causal relationships between responsibilities
-</li>
-<li> scenario elements may (optionally) be allocated to components
-</li>
-</ul>
-</li>
-<li> UCMs model the "what" aspects
-<ul>
+</li> <li> causal relationships between responsibilities
+</li> <li> scenario elements may (optionally) be allocated to components
+</li></ul> 
+</li> <li> UCMs model the "what" aspects <ul>
 <li> functional requirements as scenarios
-</li>
-<li> integration and reusability of scenarios
-</li>
-<li> guidance for architecture and detailed behaviour
-</li>
-</ul>
-</li>
-<li> Performance analysis, conflict detection
-</li>
-</ul>
+</li> <li> integration and reusability of scenarios
+</li> <li> guidance for architecture and detailed behaviour
+</li></ul> 
+</li> <li> Performance analysis, conflict detection
+</li></ul> 
 <p />
-<h4><a name="Why_Use_Case_Maps"> </a><a name="Why_Use_Case_Maps_"> </a> Why Use Case Maps? </h4>
-<ul>
-<li> Bridge the modeling gap between use cases, requirements, and design
-<ul>
+<h4><a name="Why_Use_Case_Maps"></a><a name="Why_Use_Case_Maps_"></a> Why Use Case Maps? </h4> <ul>
+<li> Bridge the modeling gap between use cases, requirements, and design <ul>
 <li> Link behavior and structure in an explicit and visual way
-</li>
-<li> Provide a behavioral framework for making (evaluating) architectural decisions at a high level of design
-</li>
-<li> Characterize the behavior at the architecture level once the architecture is decided
-</li>
-</ul>
-</li>
-<li> Convey a lot of information in a compact form
-</li>
-<li> Use case maps integrate many scenarios
-<ul>
+</li> <li> Provide a behavioral framework for making (evaluating) architectural decisions at a high level of design
+</li> <li> Characterize the behavior at the architecture level once the architecture is decided
+</li></ul> 
+</li> <li> Convey a lot of information in a compact form
+</li> <li> Use case maps integrate many scenarios <ul>
 <li> Enables reasoning about potential undesirable interactions of scenarios 
-</li>
-</ul>
-</li>
-<li> Provide ability to model dynamic systems where scenarios and structures may change at run-time
-<ul>
+</li></ul> 
+</li> <li> Provide ability to model dynamic systems where scenarios and structures may change at run-time <ul>
 <li> E-commerce applications, Web services
-</li>
-<li> Distributed systems based on agents
-</li>
-</ul>
-</li>
-<li> Fairly simple, intuitive, low learning curve 
-</li>
-<li> Document while you design
-</li>
-<li> Effective learning tool for people unfamiliar with the domain
-</li>
-<li> May be transformed (e.g., into MSC/sequence diagrams, performance models, test cases)
-</li>
-</ul>
-<p />
-<h4><a name="Reference"> </a> Reference </h4>
-<ul>
-<li> For an in-depth explanation of the notation, please visit <a href="http://www.usecasemaps.org/" target="_top">UseCaseMaps.org</a>
-</li>
-</ul>
-<p />
-<h3><a name="Setup_and_Installation"> </a> Setup and Installation </h3>
-<h4><a name="Download_All_Prerequisites"> </a> Download All Prerequisites </h4>
-<ul>
-<li> Eclipse
-<ul>
-<li> jUCMNav was developed for 3.0.1
-</li>
-<li> Eclipse 3.1 <strong>should</strong> work, but has not been tested extensively.
-</li>
-<li> <a href="http://download.eclipse.org/eclipse/downloads/drops/R-3.0.1-200409161125/index.php" target="_top">http://download.eclipse.org/eclipse/downloads/drops/R-3.0.1-200409161125/index.php</a>
-</li>
-<li> We recommend you download the Eclipse SDK.
-</li>
-</ul>
-</li>
-<li> The Graphical Editing Framework 
-<ul>
-<li> jUCMNav was developed for GEF 3.0.1
-</li>
-<li> <a href="http://download.eclipse.org/tools/gef/downloads/drops/R-3.0.1-200408311615/index.php" target="_top">http://download.eclipse.org/tools/gef/downloads/drops/R-3.0.1-200408311615/index.php</a>
-</li>
-<li> We recommend you download the SDK or runtime. 
-</li>
-</ul>
-</li>
-<li> The Eclipse Modeling Framework (EMF and SDO)
-<ul>
-<li> jUCMNav was developed for EMF 2.0.1 (yes, 2.0.1 accompanies Eclipse 3.0.1)
-</li>
-<li> <a href="http://download.eclipse.org/tools/emf/scripts/downloads-viewer.php?s=2.0.1/R200409171617" target="_top">http://download.eclipse.org/tools/emf/scripts/downloads-viewer.php?s=2.0.1/R200409171617</a>
-</li>
-<li> We recommend you download the SDK or runtime, but make sure you get EMF and SDO; the plugin will not work otherwise. 
-</li>
-</ul>
-</li>
-<li> jUCMNav
-<ul>
-<li> Go to <a href="http://jkealey.shade.ca:82/jucmnav-builds/seg.jUCMNav/" target="_top">http://jkealey.shade.ca:82/jucmnav-builds/seg.jUCMNav/</a>
-</li>
-<li> Click on the last folder at the bottom of the page (the most recent build)
-</li>
-<li> Download seg.jUCMNav_[version].jar
-</li>
-<li> Save seg.jUCMNav_[version].jar into your .../eclipse/plugins/ folder.
-</li>
-</ul>
-</li>
-<li> [Optional] GraphViz dot
-<ul>
-<li> For autolayout purposes, you may want to download GraphViz dot. 
-</li>
-<li> <a href="http://graphviz.org/Download.php" target="_top">http://graphviz.org/Download.php</a>
-</li>
-</ul>
-</li>
-</ul>
-<p />
-<h4><a name="Install_the_Applications"> </a> Install the Applications </h4>
-<ul>
-<li> Eclipse is installed by extracting it to a directory.
-<ul>
-<li> For example, extract it to c:\eclipse if you are using Windows. 
-</li>
-</ul>
-</li>
-<li> Once Eclipse extracted, extract EMF, GEF and jUCMNav to the same folder.
-<ul>
-<li> The archives are to be extracted in the directory containing the Eclipse folder. The files will be extracted into the plugins subdirectory. (See the archives’ file hierarchy to understand why). 
-</li>
-</ul>
-</li>
-<li> If GraphViz dot was downloaded, follow its setup instructions. 
-</li>
-</ul>
-<p />
-<h4><a name="Launch_Eclipse"> </a> Launch Eclipse </h4>
-<ul>
-<li> It is recommended you run Eclipse with the -clean option (eclipse -clean) as it will load the new plugins appropriately. Sometimes plugins are configured correctly without this option, but you might be missing icons and help files for jUCMNav if you don't. 
-</li>
-<li> If you ever feel Eclipse deserves more ram, know that there are virtual machine arguments that you can pass to achieve this purpose: eclipse -vmargs -Xmx512M will give it 512MB of ram. 
-</li>
-</ul>
+</li> <li> Distributed systems based on agents
+</li></ul> 
+</li> <li> Fairly simple, intuitive, low learning curve 
+</li> <li> Document while you design
+</li> <li> Effective learning tool for people unfamiliar with the domain
+</li> <li> May be transformed (e.g., into MSC/sequence diagrams, performance models, test cases)
+</li></ul> 
 <p />
 <p />
-<h3><a name="Quick_Tour_of_Eclipse_and_jUCMNa"> </a> Quick Tour of Eclipse and jUCMNav </h3>
-<img src="jucmnav_screenshot1.png" alt="jucmnav_screenshot1.png" />
-<h4><a name="Creating_Files"> </a> Creating Files </h4>
+<h3><a name="The_Goal_Oriented_Requirements_L"></a> The Goal-Oriented Requirements Language  (GRL) </h3> <ul>
+<li> TODO
+</li></ul> 
 <p />
-<ul>
-<li> In Eclipse, one must understand that all files and folders must be in projects. You can create a new project by using a wizard: File -&gt; New -&gt; Project. 
-<ul>
+<h3><a name="Reference"></a> Reference </h3> <ul>
+<li> For an in-depth explanation of both notations, which are portions of the User Requirements Notation (URN), please visit <a href="http://www.usecasemaps.org/" target="_top">UseCaseMaps.org</a>
+</li></ul> 
+<p />
+<h3><a name="Quick_Tour_of_Eclipse_and_jUCMNa"></a> Quick Tour of Eclipse and jUCMNav </h3>
+<img alt="jucmnav_screenshot1.png" src="jucmnav_screenshot1.png" />
+<img alt="jucmnav-screenshot2.png" src="jucmnav-screenshot2.png" />
+<p />
+<h4><a name="Creating_Files"></a> Creating Files </h4>
+<p /> <ul>
+<li> In Eclipse, one must understand that all files and folders must be in projects. You can create a new project by using a wizard: File -&gt; New -&gt; Project.  <ul>
 <li> Choose Simple -&gt; Project.
-</li>
-</ul>
-</li>
-<li> Once a project is created, select it and create a new jUCMNav file (*.jucm)
-<ul>
+</li></ul> 
+</li> <li> Once a project is created, select it and create a new jUCMNav file (*.jucm) <ul>
 <li> File -&gt; New -&gt; Other
-</li>
-<li> jUCMNav -&gt; Use Case Map, Click next.
-</li>
-<li> Choose the containing project and name your .jucm file.
-</li>
-<li> Click finish.
-</li>
-</ul>
-</li>
-<li> Later, you can open and close files by using the Navigator view. You can also use the File -&gt; Import wizard to import existing files from the file system into your Eclipse workspace.  
-</li>
-</ul>
+</li> <li> jUCMNav -&gt; Use Case Map, Click next.
+</li> <li> Choose the containing project and name your .jucm file.
+</li> <li> Click finish.
+</li></ul> 
+</li> <li> Later, you can open and close files by using the Navigator view. You can also use the File -&gt; Import wizard to import existing files from the file system into your Eclipse workspace.  
+</li></ul> 
 <p />
-<h4><a name="Perspectives"> </a> Perspectives </h4>
-<ul>
-<li> Now that you have an open file, you might be wondering why your interface does not look exactly like the above screenshot. This is because Eclipse uses perspectives to layout all the windows in the interface. Perspectives can be saved, reset and changed. 
-<ul>
+<h4><a name="Perspectives"></a> Perspectives </h4> <ul>
+<li> Now that you have an open file, you might be wondering why your interface does not look exactly like the above screenshot. This is because Eclipse uses perspectives to layout all the windows in the interface. Perspectives can be saved, reset and changed.  <ul>
 <li> jUCMNav has its own perspective. 
-</li>
-<li> Window -&gt; Open Perspective -&gt; Other
-</li>
-<li> Choose jUCMNav. 
-</li>
-</ul>
-</li>
-<li> Later, you may return to another perspective by using the alternatives presented in the Windows menu bar or by clicking on the &gt;&gt; button at the top right of your screen.
-</li>
-</ul>
+</li> <li> Window -&gt; Open Perspective -&gt; Other
+</li> <li> Choose jUCMNav. 
+</li></ul> 
+</li> <li> Later, you may return to another perspective by using the alternatives presented in the Windows menu bar or by clicking on the &gt;&gt; button at the top right of your screen.
+</li></ul> 
 <p />
-<h4><a name="Views_and_Editor"> </a> Views and Editor </h4>
-<ul>
-<li> Navigator View
-<ul>
+<h4><a name="Views_and_Editor"></a> Views and Editor </h4> <ul>
+<li> Navigator View <ul>
 <li> Top left corner
-</li>
-<li> Contains all the files in your projects. 
-</li>
-</ul>
-</li>
-<li> Editor
-<ul>
+</li> <li> Contains all the files in your projects. 
+</li></ul> 
+</li> <li> Editor <ul>
 <li> Center of the page.
-</li>
-<li> The main location for manipulating Use Case Maps.
-</li>
-<li> When one opens a file, an editor is opened. 
-</li>
-<li> Because one file can contain multiple UCMs, this editor has multiple tabs at the bottom. 
-</li>
-<li> Will be studied in greater depth in further sections.
-</li>
-</ul>
-</li>
-<li> Palette
-<ul>
+</li> <li> The main location for manipulating URN models. 
+</li> <li> When one opens a file, an editor is opened. 
+</li> <li> Because one file can contain multiple UCMs, this editor has multiple tabs at the bottom. 
+</li> <li> Will be studied in greater depth in further sections.
+</li> <li> Double click on the title to use the whole screen to edit your model. 
+</li></ul> 
+</li> <li> Palette <ul>
 <li> There is a collapsible palette inside of the editor, on its right side. 
-</li>
-<li> It can be moved to the left side or collapsed if screen real estate is scarce.
-</li>
-<li> The palette contains elements that can be inserted into a diagram. 
-</li>
-<li> Will be studied in greater depth in further sections.
-</li>
-<li> Press ESC to replace the currently selected tool with the selection tool.
-</li>
-</ul>
-</li>
-<li> Outline View
-<ul>
+</li> <li> It can be moved to the left side or collapsed if screen real estate is scarce.
+</li> <li> The palette contains elements that can be inserted into a diagram. 
+</li> <li> Will be studied in greater depth in further sections.
+</li> <li> Press ESC to replace the currently selected tool with the selection tool.
+</li></ul> 
+</li> <li> Outline View <ul>
 <li> Bottom left corner
-</li>
-<li> Shows an outline of the contents of the URN specification currently loaded editor.
-</li>
-<li> From this view, you will be able to add new use case maps, delete old ones and manipulation component and responsibility definitions. 
-</li>
-<li> Selecting something in the editor will reflect the selection in the outline and vice-versa. 
-</li>
-</ul>
-</li>
-<li> Properties View
-<ul>
-<li> Right side of screen; can be moved elsewhere or closed if you have a small resolution. 
-</li>
-<li> When an element is selected in the Editor, its properties are shown here. 
-</li>
-<li> For complex properties, dialogs or wizards may be offered to simplify the manipulation. 
-</li>
-</ul>
-</li>
-<li> Responsibilities View
-<ul>
-<li> Behind the outline view. 
-</li>
-<li> Shows a list of names/descriptions of responsibilities in the current map. 
-</li>
-<li> [As of writing, not yet implemented]
-</li>
-</ul>
-</li>
-<li> Toolbar 
-<ul>
+</li> <li> Shows an outline of the contents of the URN specification currently loaded editor.
+</li> <li> From this view, you will be able to add/remove UCMs/GRL diagrams and manipulate component, responsibilities, actors, and intentional element definitions. 
+</li> <li> Selecting something in the editor will reflect the selection in the outline and vice-versa. 
+</li> <li> Click on the jUCMNav icon in the outline to toggle to the graphical overview. 
+</li></ul> 
+</li> <li> Scenarios / Strategies view <ul>
+<li> Bottom middle
+</li> <li> Shows the scenarios and strategies that have been defined for this URN model.
+</li> <li> One can switch between design and execution view by using the icons in this view's toolbar
+</li> <li> While in execution view, if we select a scenario or strategy, it will be executed and the results will be visually shown.
+</li></ul> 
+</li> <li> Properties View <ul>
+<li> Bottom right side of screen; can be moved elsewhere if needed, as with any Eclipse view.
+</li> <li> When an element is selected in the Editor, its properties are shown here. 
+</li> <li> For complex properties, dialogs or wizards may be offered to simplify the manipulation. 
+</li></ul> 
+</li> <li> Elements View <ul>
+<li> Behind the Outline view. 
+</li> <li> For UCMs: Shows the names/descriptions of every responsibility in the current map. 
+</li> <li> For GRL: Shows the names/descriptions of every intentional element in the current graph
+</li></ul> 
+</li> <li> Problems View  <ul>
+<li> Behind the Properties view.
+</li> <li> jUCMNav scenarios may generate errors / warnings that are added in this view. 
+</li></ul> 
+</li> <li> Toolbar  <ul>
 <li> At the top of the interface, there is a toolbar of buttons.
-</li>
-<li> It contains a zoom selector, autolayout mechanism, undo-redo buttons and allows you to go back through your navigation history. 
-</li>
-</ul>
-</li>
-</ul>
+</li> <li> It contains a zoom selector, autolayout mechanism, undo-redo buttons and allows you to go back through your navigation history. 
+</li> <li> Furthermore, you may hide some elements/labels, a useful feature when including screenshots in other documents. 
+</li></ul> 
+</li> <li> Preferences <ul>
+<li> Open the Window -&gt; Preferences -&gt; jUCMNav Preferences menu to edit jUCMNav's preferences. 
+</li> <li> Mostly color preferences and algorithm settings
+</li></ul> 
+</li></ul> 
 <p />
 <p />
+<h2><a name="Part_II_Basic_Editing"></a> Part II - Basic Editing </h2>
 <p />
-<p />
-<h2><a name="Part_II_Basic_Editing"> </a> Part II - Basic Editing </h2>
-<p />
-<h3><a name="Keyboard_shortcuts"> </a> Keyboard shortcuts </h3>
-<ul>
+<h3><a name="Keyboard_shortcuts"></a> Keyboard shortcuts </h3> <ul>
 <li> The following text discusses actions that can be performed using the mouse. 
-</li>
-<li> Most of these can be done using the standard GEF editor keyboard shortcuts. 
-</li>
-<li> With an element selected, use the arrow keys to change your selection. Hold the ctrl or select key while using the arrow keys to expand your selection. 
-</li>
-<li> With elements selected, hit the . (period) key. Your arrow keys will now allow you to move the selected elements. Hit enter to confirm the new location. 
-</li>
-<li> Using the . (period) key, you can cycle between move and resize different bounds. For example, select a component, hit period twice and you can resize its right bound using the arrow keys and confirm the new size using enter. 
-</li>
-</ul>
+</li> <li> Most of these can be done using the standard GEF editor keyboard shortcuts. 
+</li> <li> With an element selected, use the arrow keys to change your selection. Hold the ctrl or select key while using the arrow keys to expand your selection. 
+</li> <li> With elements selected, hit the . (period) key. Your arrow keys will now allow you to move the selected elements. Hit enter to confirm the new location. 
+</li> <li> Using the . (period) key, you can cycle between move and resize different bounds. For example, select a component, hit period twice and you can resize its right bound using the arrow keys and confirm the new size using enter. 
+</li></ul> 
 <p />
-<h3><a name="Components"> </a> Components </h3>
-<ul>
-<li> Insertion / Moving
-<ul>
+<h3><a name="Components_UCM_Actors_GRL"></a><a name="Components_UCM_Actors_GRL_"></a> Components  (UCM) / Actors (GRL) </h3> <ul>
+<li> Insertion / Moving <ul>
 <li> To insert a component reference, click on its kind in the palette and click in the editor to insert it.
-</li>
-<li> You may also click and drag when inserting to resize it on creation. 
-</li>
-<li> If you click anywhere on the component reference, it is selected.
-</li>
-<li> Once selected, you can move the component the screen. 
-</li>
-<li> If you click on the bounds of the component, you may resize it. 
-</li>
-</ul>
-</li>
-<li> References versus definitions
-<ul>
+</li> <li> You may also click and drag when inserting to resize it on creation. 
+</li> <li> If you click anywhere on the component reference, it is selected.
+</li> <li> Once selected, you can move the component the screen. 
+</li> <li> If you click on the bounds of the component, you may resize it. 
+</li></ul> 
+</li> <li> References versus definitions <ul>
 <li> When creating a component reference, you also create a new component definition. See the outline view for a list of all components in a file. 
-</li>
-<li> All component references must reference a definition, but not all definitions must have references. 
-</li>
-<li> You can change the definition of a component reference in the properties.
-</li>
-<li> When creating a component, a label will be created automatically.
-</li>
-<li> The label represents the name of the component definition. If you change the name field in the properties, you will change the component definition’s name. All component references in the editor will be updated.
-</li>
-<li> Note that components definitions must have unique names. 
-</li>
-<li> You can also double click on a label to change it directly in the editor. 
-</li>
-</ul>
-</li>
-<li> Other properties
-<ul>
+</li> <li> All component references must reference a definition, but not all definitions must have references. 
+</li> <li> You can change the definition of a component reference in the properties.
+</li> <li> When creating a component, a label will be created automatically.
+</li> <li> The label represents the name of the component definition. If you change the name field in the properties, you will change the component definition’s name. All component references in the editor will be updated.
+</li> <li> Note that components definitions must have unique names. 
+</li> <li> You can also double click on a label to change it directly in the editor. 
+</li></ul> 
+</li> <li> Other properties <ul>
 <li> You can change the fill and line color of components in the properties. All references will be updated. Note that if filled is false, the fill color will be ignored; the component will appear transparent. 
-</li>
-<li> Components can have different kinds. You can change the component kind in the properties. Changing the kind will have a visual impact on the figure. 
-</li>
-<li> One cannot move or resize fixed components. 
-</li>
-</ul>
-</li>
-</ul>
+</li> <li> Components can have different kinds. You can change the component kind in the properties. Changing the kind will have a visual impact on the figure. 
+</li> <li> One cannot move or resize fixed components. 
+</li></ul> 
+</li></ul> 
 <p />
-<h3><a name="Creating_Paths"> </a> Creating Paths </h3>
-<ul>
-<li> Creation
-<ul>
+<h3><a name="Creating_Paths_UCM"></a><a name="Creating_Paths_UCM_"></a> Creating Paths (UCM) </h3> <ul>
+<li> Creation <ul>
 <li> To create a path, select the path tool in the palette. 
-</li>
-<li> Click once in the editor and notice a small path being created.
-</li>
-<li> Notice the end point is selected.
-</li>
-<li> Click elsewhere in the editor. 
-</li>
-<li> The path will be extended. 
-</li>
-<li> Repeat until satisfied and click the selection tool in the palette to disable this behaviour. 
-</li>
-</ul>
-</li>
-<li> Extensions
-<ul>
+</li> <li> Click once in the editor and notice a small path being created.
+</li> <li> Notice the end point is selected.
+</li> <li> Click elsewhere in the editor. 
+</li> <li> The path will be extended. 
+</li> <li> Repeat until satisfied and click the selection tool in the palette to disable this behaviour. 
+</li></ul> 
+</li> <li> Extensions <ul>
 <li> Select a start or end point, choose the path tool in the palette.
-</li>
-<li> Your next click will extend the path.
-</li>
-<li> To insert an empty point on an existing path, click on a node connection with the path tool selected. Notice the new empty point was added and that the path’s empty point is selected. 
-</li>
-</ul>
-</li>
-<li> Inserting path elements
-<ul>
+</li> <li> Your next click will extend the path.
+</li> <li> To insert an empty point on an existing path, click on a node connection with the path tool selected. Notice the new empty point was added and that the path's empty point is selected. 
+</li></ul> 
+</li> <li> Inserting path elements <ul>
 <li> To insert path elements on a path, simply select the path element in the palette and click on the node connection on which it is to be inserted.
-</li>
-<li> As with component references and definitions, the responsibilities that are inserted on a path are references. See the components section for more information about references versus definitions. 
-</li>
-</ul>
-</li>
-</ul>
+</li> <li> As with component references and definitions, the responsibilities that are inserted on a path are references. See the components section for more information about references versus definitions. 
+</li></ul> 
+</li></ul> 
 <p />
-<h3><a name="Elements_bound_to_components"> </a> Elements bound to components </h3>
-<ul>
+<h3><a name="Elements_bound_to_components_UCM"></a> Elements bound to components (UCM) / actors (GRL) </h3> <ul>
 <li> By default, any element moved onto a component is bound to it. 
-</li>
-<li> When bound, elements (components or path nodes) are moved and resized automatically if one moves or resizes the parent. 
-</li>
-<li> If you move a component behind other elements, these will not be bound. Automatic binding occurs when moving elements onto components.
-</li>
-<li> If you wish to bind these other elements to a component, you may use the contextual menu option to do so.
-</li>
-<li> One can bind/unbind an element from its parent using either the contextual menu or property page. 
-</li>
-<li> One can bind/unbind all enclosed elements from a component using the contextual menu. 
-</li>
-<li> Note the special behavior concerning fixed components.
-</li>
-</ul>
+</li> <li> When bound, elements (components or path nodes) are moved and resized automatically if one moves or resizes the parent. 
+</li> <li> If you move a component behind other elements, these will not be bound. Automatic binding occurs when moving elements onto components.
+</li> <li> If you wish to bind these other elements to a component, you may use the contextual menu option to do so.
+</li> <li> One can bind/unbind an element from its parent using either the contextual menu or property page. 
+</li> <li> One can bind/unbind all enclosed elements from a component using the contextual menu. 
+</li> <li> Note the special behavior concerning fixed components.
+</li></ul> 
 <p />
-<h3><a name="Working_with_labels"> </a> Working with labels </h3>
-<ul>
+<h3><a name="Working_with_labels_UCM_GRL"></a><a name="Working_with_labels_UCM_GRL_"></a> Working with labels (UCM/GRL) </h3> <ul>
 <li> Some labels are created automatically when an element is created: start points, end points, responsibilities, stubs and components.
-</li>
-<li> These labels contain the name of the element. 
-</li>
-<li> They can be moved around freely. When the labelled element is moved, the labels will move as well.
-</li>
-<li> You can hide these labels by deleting them (contextual menu or delete key).
-</li>
-<li> The name of the element can be changed directly in the editor by double clicking on the label. 
-</li>
-</ul>
+</li> <li> These labels contain the name of the element. 
+</li> <li> They can be moved around freely. When the labelled element is moved, the labels will move as well.
+</li> <li> You can hide these labels by deleting them (contextual menu or delete key).
+</li> <li> The name of the element can be changed directly in the editor by double clicking on the label. 
+</li></ul> 
 <p />
-<h3><a name="Forks_Joins"> </a> Forks/Joins </h3>
-(discuss from palette, contextual menu or drag &amp; drop)
-<ul>
+<h3><a name="Forks_Joins_UCM"></a><a name="Forks_Joins_UCM_"></a> Forks/Joins (UCM) </h3> <ul>
 <li> To insert a fork or join on a path, you can use the palette and do as you would with any other path node.
-</li>
-<li> You can also use the palette and insert them directly on an empty point.
-</li>
-<li> The contextual menus also allow you to replicate the same behaviour.
-</li>
-<li> It is also possible to drag and drop a start point on a node connection or empty point to form an OR fork. The same is applicable for an dragging an end point on a node connection or empty point and creating an OR join.
-</li>
-<li> If you need to change an OR fork/join into an AND fork/join, use the contextual menu.
-</li>
-<li> Additional branches can be inserted on forks and joins using the contextual menu or by using the same drag and drop technique illustrated above. 
-</li>
-</ul>
+</li> <li> You can also use the palette and insert them directly on an empty point.
+</li> <li> The contextual menus also allow you to replicate the same behaviour.
+</li> <li> It is also possible to drag and drop a start point on a node connection or empty point to form an OR fork. The same is applicable for an dragging an end point on a node connection or empty point and creating an OR join.
+</li> <li> If you need to change an OR fork/join into an AND fork/join, use the contextual menu.
+</li> <li> Additional branches can be inserted on forks and joins using the contextual menu or by using the same drag and drop technique illustrated above. 
+</li></ul> 
 <p />
-<h3><a name="Conditions"> </a> Conditions </h3>
-<ul>
+<h3><a name="Conditions_UCM"></a><a name="Conditions_UCM_"></a> Conditions (UCM) </h3> <ul>
 <li> The node connections exiting OR forks, timers and waits can have conditions that will be illustrated visually.
-</li>
-<li> To insert a condition, select the node connections and modify its properties. You must change the label field to the condition you want to be displayed. The expression field is used for scenario evaluation.
-</li>
-<li> Start points can have pre-conditions and end points, post-conditions. The behaviour is the same. 
-</li>
-<li> To hide a condition label, change its text to an empty string or delete it. 
-</li>
-<li> You can directly edit a condition in the editor. 
-</li>
-</ul>
+</li> <li> To insert a condition, select the node connections and modify its properties. You must change the label field to the condition you want to be displayed. The expression field is used for scenario evaluation.
+</li> <li> Start points can have pre-conditions and end points, post-conditions. The behaviour is the same. 
+</li> <li> To hide a condition label, change its text to an empty string or delete it. 
+</li> <li> See the scenario portion of this guide to learn more about the syntax of conditions in jUCMNav. 
+</li></ul> 
 <p />
-<h3><a name="Deletion"> </a> Deletion </h3>
-<ul>
-<li> You can select a path node and use the contextual menu or press the delete key to remove it from the map. If a component or responsibility reference is deleted, its definition is not affected.
-</li>
-<li> If a stub, join or fork is deleted, the existing branches will be truncated. 
-</li>
-<li> You can delete a portion of a path by deleting its start point or end point. 
-</li>
-<li> If only one entry/exist path subsists for a join/fork, it will be replaced with an empty point.
-</li>
-<li> If no entry paths and no exist paths subsist for a stub, it will be deleted as well. 
-</li>
-<li> You can select multiple elements using your mouse or the select all option and delete them all.
-</li>
-<li> Note that as of writing, you might have to repeat this operation to remove all items from a map. 
-</li>
-</ul>
+<h3><a name="Deletion_UCM_GRL"></a><a name="Deletion_UCM_GRL_"></a> Deletion (UCM/GRL) </h3> <ul>
+<li> You can select a path node and use the contextual menu or press the delete key to remove it from the map. If a reference is deleted, its definition is not affected.
+</li> <li> If a stub, join or fork is deleted, the existing branches will be truncated. 
+</li> <li> You can delete a portion of a path by deleting its start point or end point. 
+</li> <li> If only one entry/exist path subsists for a join/fork, it will be replaced with an empty point.
+</li> <li> If no entry paths and no exist paths subsist for a stub, it will be deleted as well. 
+</li> <li> You can select multiple elements using your mouse or the select all option and delete them all.
+</li> <li> You can delete elements via the outline, but can only delete definitions that have no references. 
+</li></ul> 
 <p />
-<h3><a name="Waiting_places_timers_and_connec"> </a> Waiting places, timers and connects </h3>
-<ul>
+<h3><a name="Waiting_places_timers_and_connec"></a> Waiting places, timers and connects (UCM) </h3> <ul>
 <li> Timers can have a timeout path. Use the context menu to insert a timeout path. It has a special icon to help identify it. 
-</li>
-<li> As mentioned previously, waiting places and timers have conditions. The timeout path condition is the logical opposite of the regular path's condition. Therefore, one cannot add a condition on the timeout path. 
-</li>
-<li> To create a synchronous connection, select both an end point and a starting point, waiting place or timer to choose the connect elements option in the contextual menu.
-</li>
-<li> Once connected, the path elements will move together. If they overlap, simply use the outline to select the one beneath to modify its properties. 
-</li>
-<li> To disconnect the elements afterwards, use the contextual menu.
-</li>
-<li> Asynchronous connections work similarly, but using an empty point and starting point, waiting place or timer. 
-</li>
-<li> Drag and drop also works to create connections, for waiting places and timers only.
-</li>
-</ul>
+</li> <li> As mentioned previously, waiting places and timers have conditions. The timeout path condition is the logical opposite of the regular path's condition. Therefore, one cannot add a condition on the timeout path. 
+</li> <li> To create a synchronous connection, select both an end point and a starting point, waiting place or timer to choose the connect elements option in the contextual menu.
+</li> <li> Once connected, the path elements will move together. If they overlap, simply use the outline to select the one beneath to modify its properties. 
+</li> <li> To disconnect the elements afterwards, use the contextual menu.
+</li> <li> Asynchronous connections work similarly, but using an empty point and starting point, waiting place or timer. 
+</li> <li> Drag and drop also works to create connections, for waiting places and timers only.
+</li></ul> 
 <p />
-<h2><a name="Part_III_Advanced_Editing"> </a> Part III - Advanced Editing </h2>
-<h3><a name="Working_with_Multiple_Maps"> </a> Working with Multiple Maps </h3>
-<ul>
-<li> To create a new map, right click on the URNSpec in the outline view and choose the “Add Use Case Map” option. 
-</li>
-<li> Notice a new map has been added in the outline and a new tab exists at the bottom of the page. 
-</li>
-<li> The new map has been opened in the editor. 
-</li>
-<li> To return to your previous map, click on its tab or its entry in and it will be reopened. 
-</li>
-<li> Furthermore, the toolbar contains a back and next arrow to browse through your navigation history. 
-</li>
-</ul>
-<h3><a name="Zooming_and_view_modes"> </a> Zooming and view modes </h3>
-<ul>
+<h3><a name="Intentional_Elements_GRL"></a><a name="Intentional_Elements_GRL_"></a> Intentional Elements (GRL) </h3> <ul>
+<li> TODO
+</li></ul> 
+<p />
+<h3><a name="Decomposition_Dependencies_and_C"></a> Decomposition, Dependencies, and Contributions (GRL) </h3> <ul>
+<li> TODO
+</li></ul> 
+<p />
+<h3><a name="Beliefs_GRL"></a><a name="Beliefs_GRL_"></a> Beliefs (GRL) </h3> <ul>
+<li> TODO
+</li></ul> 
+<p />
+<h2><a name="Part_III_Advanced_Editing"></a> Part III - Advanced Editing </h2>
+<h3><a name="Working_with_multiple_diagrams"></a> Working with multiple diagrams </h3> <ul>
+<li> To create a new diagram, right click on the URNSpec in the outline view and choose the "Add Use Case Map" or "Add GRL Graph" option.  <ul>
+<li> The contextual menu of a diagram also brings up these options. 
+</li></ul> 
+</li> <li> Notice a new diagram has been added in the outline and a new tab exists at the bottom of the page. 
+</li> <li> The new diagram has been opened in the editor. 
+</li> <li> To return to your previous diagram, click on its tab or its entry in the outline and it will be reopened. 
+</li> <li> Furthermore, the toolbar contains a back and next arrow to browse through your navigation history. 
+</li></ul> 
+<p />
+<h3><a name="Zooming_and_view_modes"></a> Zooming and view modes </h3> <ul>
 <li> There are controls in the toolbar located above the editor. Next to the obvious undo/redo buttons is located the zoom level drop down box. 
-</li>
-<li> Select a zoom level and the editor will be updated.
-</li>
-<li> Note that only the currently opened map will be affected. 
-</li>
-<li> To the right of the zoom level drop down box is the view mode drop down box. 
-</li>
-<li> Using this drop down box, one can choose to hide all empty points from the editor or to hide all empty points and stub labels. 
-</li>
-<li> These modes are useful when exporting images to be included in articles. 
-</li>
-</ul>
-<h3><a name="Auto_layout"> </a> Auto-layout </h3>
-<ul>
+</li> <li> Select a zoom level and the editor will be updated.
+</li> <li> Note that only the currently opened diagram will be affected. 
+</li> <li> To the right of the zoom level drop down box is the view mode drop down box. 
+</li> <li> Using this drop down box, one can choose to hide all empty points from the editor or to hide all empty points and stub labels. 
+</li></ul> 
+<p />
+<h3><a name="Auto_layout"></a> Auto-layout </h3> <ul>
 <li> In the toolbar, there is also a round button. Click on it to open the auto-layout wizard. 
-</li>
-<li> If you have GraphViz dot installed, the wizard will automatically position the path nodes and components in the current map. As of writing, this is only a prototype and its functionality may change so it will not be documented here.
-</li>
-</ul>
-<h3><a name="Using_Stubs"> </a> Using Stubs </h3>
-<img src="notere_02.png" alt="notere_02.png" />
-<ul>
-<li> Stub plugins
-<ul>
-<li> Open a stub’s contextual menu and select the “Edit stub plugins” option.
-</li>
-<li> This view allows you to bind a stub to other maps. 
-</li>
-<li> The left portion of the screen presents a list of possible maps that this stub can be bound to.
-</li>
-<li> If the checkbox next to a map is checked, it is bound to this stub. Note that static stubs can only be bound to one map.
-</li>
-<li> Check one box and observe the plugin tree at the middle of the screen.
-</li>
-</ul>
-</li>
-</ul>
+</li> <li> If you have GraphViz dot installed, the wizard will automatically position the elements of the current diagram. As of writing, this is only a prototype and its functionality may change so it will not be documented here.
+</li></ul> 
 <p />
-<ul>
-<li> Plugin tree 
-<ul>
+<h3><a name="Using_Stubs"></a> Using Stubs </h3>
+<img alt="jucmnav-screenshot3.png" src="jucmnav-screenshot3.png" />
+<p /> <ul>
+<li> Stub plugins <ul>
+<li> Open a stub's contextual menu and select the "Edit stub plugins" option.
+</li> <li> This view allows you to bind a stub to other maps. 
+</li> <li> The left portion of the screen presents a list of possible maps that this stub can be bound to.
+</li> <li> If the checkbox next to a map is checked, it is bound to this stub. Note that static stubs can only be bound to one map.
+</li> <li> Check one box and observe the plugin tree at the middle of the screen.
+</li></ul> 
+</li></ul> 
+<p /> <ul>
+<li> Plugin tree  <ul>
 <li> The plugin tree lists all the current bindings. Click on the binding between a map and the plugin and notice the new panel to the right of the screen.
-</li>
-<li> The top part is for in bindings and the bottom, out bindings. This view presents the different bindings that could be added to the binding tree.
-</li>
-<li> This panel has two columns. To the left are node connections that enter or exit the stub and, to the right, the start points or end points in the plugin map. To associate them, simply select one connection in the left part and a path node in the right part and click the bind (<->) button.
-</li>
-<li> If you ever need to delete this binding, select it in the plugin tree and press the delete button. 
-</li>
-</ul>
-</li>
-</ul>
-<h3><a name="Exporting_Maps"> </a> Exporting Maps </h3>
-<ul>
-<li> To export a map to an image (*.jpg or *.bmp), select a map’s background, open the contextual menu and select the export option.
-</li>
-<li> Alternatively, you could access the same option in the map’s or URNSpec’s contextual menu in the outline or by using the File -&gt; Export menu. 
-</li>
-<li> Select the path where the images should be saved and the file type and press finish.
-</li>
-</ul>
+</li> <li> The top part is for in bindings and the bottom, out bindings. This view presents the different bindings that could be added to the binding tree.
+</li> <li> This panel has two columns. To the left are node connections that enter or exit the stub and, to the right, the start points or end points in the plugin map. To associate them, simply select one connection in the left part and a path node in the right part and click the bind (&lt;-&gt;) button.
+</li> <li> If you ever need to delete this binding, select it in the plugin tree and press the delete button. 
+</li></ul> 
+</li></ul> 
+<p /> <ul>
+<li> Binding condition <ul>
+<li> The bottom right portion of the view defines the condition that must be respected in order for this plugin to be activated. Click on ... to open the pseudo-code editor. 
+</li></ul> 
+</li></ul> 
 <p />
+<h3><a name="Exporting_Images"></a> Exporting Images </h3> <ul>
+<li> To export a diagram to an image (*.jpg, *.gif, or *.bmp), select a diagram background, open the contextual menu and select the export option.
+</li> <li> Alternatively, you could access the same option in the diagram's or URNSpec's contextual menu in the outline or by using the File -&gt; Export -&gt; Export UCM/GRL/URN menu. 
+</li> <li> Choose to export individual diagrams in order to produce diagrams for each individual file. 
+</li> <li> Select the path where the images should be saved, the file type and select the diagrams to export, and press finish.
+</li></ul> 
 <p />
-<h2><a name="Part_IV_Developer_Reference"> </a> Part IV - Developer Reference </h2>
-<em>Note: this section is still being written</em>
-<h3><a name="Javadoc"> </a> Javadoc </h3>
-<ul>
-<li> You may access the Javadoc for jUCMNav <a href="http://jkealey.shade.ca:82/jucmnav-docs/">here</a>. 
-</li>
-</ul>
-<p />
-<h3><a name="Developer_Site"> </a> Developer Site </h3>
-<ul>
-<li> Our development TWiki site is located <a href="http://jkealey.shade.ca:82/twiki/bin/view/ProjetSEG/WebHome">here</a>. 
-</li>
-</ul>
+<h3><a name="Import_Export"></a> Import/Export </h3> <ul>
+<li> jUCMNav's import/export mechanisms are extensible via plugins to jUCMNav. 
+</li> <li> Some example plugins:  <ul>
+<li> Import from UCEd
+</li> <li> Export to DOORS DXL
+</li> <li> Export GRL Strategies 
+</li> <li> Import GRL Catalogues
+</li></ul> 
+</li></ul> 
 <p />
 <p />
 <p />
-<a name="PageBottom"></a>
-</body>
-</html>
+<h2><a name="Part_IV_GRL_Strategies"></a> Part IV GRL Strategies </h2> <ul>
+<li> TODO
+</li></ul> 
+<p />
+<h2><a name="Part_V_UCM_Scenarios"></a> Part V UCM Scenarios </h2> <ul>
+<li> Scenarios execute a UCM model and highlight the traversed path in the diagrams. One can then verify that the traversal matches with the intended behaviour and rectify the situation if this is not the case.
+</li> <li> You first design model by creating scenario groups and scenarios (using the contextual menu) while in the design view. When satisfied, you proceed to the execution view to see the impact of your work when it is simulated. 
+</li></ul> 
+<p />
+<h3><a name="Code_and_Condition_Editor"></a> Code and Condition Editor </h3> <ul>
+<li> Before executing your model, you must insert pseudo-code inside pre/post conditions and inside responsibilities (which change the internal state of the model). 
+</li> <li> If you double-click on a condition or responsibility in the UCM, a pseudo-code editor will be opened. 
+</li> <li> Some conditions are only avaiable via the properties view or the stub bindings view. 
+</li></ul> 
+<p />
+<h4><a name="Variables"></a> Variables </h4> <ul>
+<li> jUCMNav supports Booleans and Integers. (Enumerations are planned but, at time of writing, not yet supported in the tool.)
+</li> <li> You may create these variables via the contextual menu of the Variable item in the Scenarios / Strategies treeview, or via the Create Variable Wizard, which is available in the pseudo-code editor. 
+</li></ul> 
+<p />
+<h4><a name="BNF_Grammar"></a> BNF Grammar </h4> <ul>
+<li> Some of you might be interested in seeing the grammar behind these editors. For others, examples follow. 
+</li> <li> For Conditions:
+</li></ul> 
+<div style="background-color:#eeeeee">
+<pre>
+Expression              := Implication
+Implication             := Disjunction (Implies Disjunction)*
+Disjunction             := Conjunction ((Or | Xor ) Conjunction)*
+Conjunction             := Comparison (And Comparison)*
+Comparison              := BooleanUnit ((Equals| NotEquals) BooleanUnit)*
+Negation                := Not BooleanUnit
+BooleanUnit             := Negation | RelationalExpression | BooleanConstant 
+RelationalExpression    := AdditiveExpression ((GreaterThan | GreaterOrEqualTo | LowerThan | LowerOrEqualTo) AdditiveExpression)?
+AdditiveExpression      := MultiplicativeExpression ((Addition | Substraction) MultiplicativeExpression)*
+MultiplicativeExpression:= UnaryExpression (Multiplication UnaryExpression)*
+UnaryExpression         := (Addition | Substraction)? ("(" Expression ")" | IntegerConstant | Identifier )
+
+And                     := "and" | "&&"
+Or                      := "or" | "||"
+Xor                     := "xor" | "^"
+Implies                 := "=>"
+Equals                  := "=" | "=="
+NotEquals               := "not" | "!"
+Not	                := "/=" | "!="
+GreaterThan             := ">"
+GreaterOrEqualTo        := ">="
+LowerThan               := "<"
+LowerOrEqualTo          := "<="
+Addition                := "+"
+Substraction            := "-"
+Multiplication          := "*"
+IntegerConstant         := ["0"-"9"]+
+BooleanConstant         := "true" | "false"
+Identifier              := ["_","a"-"z","A"-"Z"](["_","a"-"z","A"-"Z", "0"-"9"])*
+</pre>
+</div>
+<p />
+<p /> <ul>
+<li> For responsibilities:
+</li></ul> 
+<p />
+<div style="background-color:#eeeeee">
+<pre>
+ResponsibilityAction   := Statement+
+Statement              := Assignment | CompoundStatement  | IfStatement
+Assignment             := Identifier AssignmentOperator Expression StatementTerminator
+CompoundStatement      := "{" Statement* "}"
+IfStatement            := If Expression Statement (Else Statement)?
+
+AssignmentOperator     := "=" | ":="
+If                     := "if"
+Else                   := "else"
+StatementTerminator    := ";"
+</pre>
+</div>
+<p />
+<h4><a name="Examples"></a> Examples </h4> <ul>
+<li> The astute reader will have discovered that we support (simultaneously) two different notations. jUCMNav offers a Java-like syntax in addition to an SDL-like syntax. 
+</li> <li> The examples that follow use the Java-like syntax but can be trivially converted into the SDL-like syntax by swapping terminals. 
+</li></ul> 
+<p /> <ol>
+<li> Condition Examples
+</li></ol> 
+<div style="background-color:#eeeeee">
+<pre>
+VariableX
+
+VariableX && VariableY
+
+(VariableX && !(VariableX || VariableY)) => true
+
+(IntegerVariableA+IntegerVariableB)*2 <= -10
+
+_x - 3 == 0
+</pre>
+</div> <ul>
+ <li>
+ <ul>
+<li> We do not support division (because we only have integers) 
+</li> <li> We do not support inline assignments in conditions (because the = operator is the comparison operator in the SDL-like syntax)
+</li></ul> 
+</li></ul> 
+<p /> <ol>
+<li> Responsibility Examples
+</li></ol> 
+<div style="background-color:#eeeeee">
+<pre>
+if (-x - 3 == 0)
+   {
+    VariableX=true;
+   }
+else
+   {
+   VariableX=(-x+3 == 0);
+   VariableY=true;
+   }
+
+IntegerVariableB=IntegerVariableB+15;
+</pre>
+</div>
+<h3><a name="Scenario_children"></a> Scenario children </h3>
+<h4><a name="Start_Points"></a> Start Points </h4> <ul>
+<li> Start points are what launches a scenario. The default traversal algorithm executes them sequentially, in the order that they are defined (you can re-order them with the move up / move down contextual menu items). Other algorithms may decide to launch them in parallel. 
+</li></ul> 
+<p />
+<h4><a name="End_Points"></a> End Points </h4> <ul>
+<li> End points are defined as targets for the execution. These are points that must be traversed by the algorithm. Others may also be reached, but this is the minimum set. If they are not reached, errors appear in the Problems view. 
+</li></ul> 
+<p />
+<h4><a name="Variable_initializations_precond"></a> Variable initializations, preconditions and postconditions </h4> <ul>
+<li> Each scenario has a variable initialization wizard that will, simply put, initialize the variables before launching the start points. 
+</li> <li> Scenario preconditions / postconditions are conditions that are evaluated at the scenario level. Once again, errors will appear in the Problems view if they are not true. 
+</li> <li> Start points and end points can also have preconditions and postconditions associated with them. These are disctinct from the scenario level ones. 
+</li> <li> Depending on the algorithm settings defined in the preference page, an invalid precondition can either permanently abort a path or simply block it until the condition becomes true. 
+</li></ul> 
+<p />
+<h4><a name="Included_Scenarios"></a> Included Scenarios </h4> <ul>
+<li> Included scenarios prevent from having to redefine the same elements in multiple scenarios. Scenarios will respect the start points, end points, variable initializations, preconditions and postconditions of the included scenarios. A scenario can override initializations but can only append to the other scenario children.
+</li></ul> 
+<p />
+<h3><a name="Executing_a_scenario"></a> Executing a scenario </h3> <ul>
+<li> To execute a scenario, activate the execution view by clicking on its icon in the scenarios / strategies view. Then, click on a scenario and it will be automatically executed. If you change anything in the map, you may need to use the refresh toolbar button. Select another scenario to execute it.
+</li></ul> 
+<p />
+<h4><a name="Detecting_Problems"></a> Detecting Problems </h4> <ul>
+<li> The traversal algorithm notes problems during the execution of the scenario in the Problems view. Double click on the problem to focus the editor at the appropriate location. Some items have quick fixes (right click on the problem and choose the quick fix operation).
+</li></ul> 
+<p /><a name="TopicEnd"></a>
+<p />
+<p />
+<p />
+</body></html>  
