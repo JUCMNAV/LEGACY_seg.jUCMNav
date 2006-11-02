@@ -80,7 +80,7 @@
             id="seg.jUCMNav.views.wizards.NewUcmFileWizard"
             name="%UseCaseMapGrlGraph"
             preferredPerspectives="seg.jUCMNav.UCMEditor"
-            project="true"/>
+            project="false"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
