@@ -49,11 +49,11 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 
 	protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.add(Messages.getString("ScenarioDefTreeEditPart.IncludedScenarios")); //$NON-NLS-1$
-        list.add(Messages.getString("ScenarioDefTreeEditPart.StartPoints")); //$NON-NLS-1$
-        list.add(Messages.getString("ScenarioDefTreeEditPart.Preconditions")); //$NON-NLS-1$
-        list.add(Messages.getString("ScenarioDefTreeEditPart.EndPoints")); //$NON-NLS-1$
-        list.add(Messages.getString("ScenarioDefTreeEditPart.Postconditions")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioLabelTreeEditPart.StartPoints")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioLabelTreeEditPart.Preconditions")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioLabelTreeEditPart.EndPoints")); //$NON-NLS-1$
+        list.add(Messages.getString("ScenarioLabelTreeEditPart.Postconditions")); //$NON-NLS-1$
         return list;
         }
 	/**
