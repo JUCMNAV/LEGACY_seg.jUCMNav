@@ -19,6 +19,7 @@ import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.gef.ui.parts.TreeViewer;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -30,6 +31,7 @@ import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -184,8 +186,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         getActionRegistry().dispose();
 
         // dispose the ResourceChangeListener
-        IFile file = ((FileEditorInput) getEditorInput()).getFile();
-        file.getWorkspace().removeResourceChangeListener(getResourceTracker());
+        IFile file = null;
+        if (getEditorInput() instanceof FileEditorInput) {
+	        file = ((FileEditorInput) getEditorInput()).getFile();
+	        file.getWorkspace().removeResourceChangeListener(getResourceTracker());
+        }
 
         // stop listening to all maps for name changes
         for (int i = 0; i < model.getUrndef().getSpecDiagrams().size(); i++)
@@ -195,17 +200,19 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         ScenarioUtils.releaseEnvironment(model);
 
         
-        // clear markers
-		try {
-
-			IMarker[] existingMarkers = file.findMarkers(IMarker.PROBLEM, true, 3);
-			for (int i = 0; i < existingMarkers.length; i++) {
-				IMarker marker = existingMarkers[i];
-				marker.delete();
+        if (file!=null) {
+	        
+	        // clear markers
+			try {
+	
+				IMarker[] existingMarkers = file.findMarkers(IMarker.PROBLEM, true, 3);
+				for (int i = 0; i < existingMarkers.length; i++) {
+					IMarker marker = existingMarkers[i];
+					marker.delete();
+				}
+			} catch (CoreException ex) {
 			}
-		} catch (CoreException ex) {
-		}
-		
+        }
 		
         // important: always call super implementation of dispose
         super.dispose();
@@ -467,14 +474,29 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
         //		 read URNspec from input
         try {
-            // we expect IFileEditorInput here,
-            // ClassCassException is catched to force PartInitException
-            IFile file = ((IFileEditorInput) input).getFile();
-
+        	
             // doing this here (even though done in super.init() because we want the following invocation to be able to popup an error message should anything
             // fail.
             setSite(site);
-            setModel(getFileManager().create(file));
+            
+            // we expect IFileEditorInput here,
+            // ClassCassException is catched to force PartInitException
+        	
+        	if (!(input instanceof IFileEditorInput))
+        	{
+        		// File -> Open gives us a JavaFileEditorInput
+        		// we don't want to open it because our scenario warnings are associated to the IFile...  
+        		MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "You cannot use File -> Open to open a jUCMNav file; please use File -> Import -> File System instead.");
+        		this.closeEditor(false);
+        		return;
+        		
+        	} else {
+        		IFile file = ((IFileEditorInput) input).getFile();
+        		setModel(getFileManager().create(file));
+        	}
+
+
+            
 
             // validate URNspec
             if (null == getModel())

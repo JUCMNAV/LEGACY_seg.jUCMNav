@@ -60,39 +60,55 @@ public class MultiPageFileManager {
      * Returns the URNspec object from the specified file.
      * 
      * @param file
-     * @return the ucm object from the specified file
+     * @return the urn object from the specified file
      */
     public URNspec create(IFile file) throws CoreException {
         URNspec urn = null;
-        modelManager = new UrnModelManager();
 
         if (file.exists()) {
-            try {
-                modelManager.load(file.getFullPath());
-            } catch (Exception e) {// SAXParseException
-                if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException)
-                        || ((SAXParseException) ((WrappedException) e).exception()).getLineNumber() >= 0) {
-                    // dont pop error if file is empty (not created by wizard).
-                    ErrorDialog
-                            .openError(
-                                    getEditor().getSite().getShell(),
-                                    Messages.getString("MultiPageFileManager.errorLoadingUCM"), //$NON-NLS-1$
-                                    Messages.getString("MultiPageFileManager.errorOpeningFileCreatingNew") + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-                }
-                modelManager.createURNspec(file.getFullPath());
-            }
-
-            urn = modelManager.getModel();
-            if (null == urn) {
-                throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorLoadingUCM"), null)); //$NON-NLS-1$
-            }
-
+        	urn = create(file.getFullPath());
         }
 
         return urn;
     }
 
+
+    /**
+     * Returns the URNspec object from the specified file.
+     * 
+     * @param filename
+     * @return the urn object from the specified file
+     */
+    public URNspec create(IPath path) throws CoreException {
+        URNspec urn = null;
+        modelManager = new UrnModelManager();
+
+        // if (path.exists()) {
+        try {
+            modelManager.load(path);
+        } catch (Exception e) {// SAXParseException
+            if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException)
+                    || ((SAXParseException) ((WrappedException) e).exception()).getLineNumber() >= 0) {
+                // dont pop error if file is empty (not created by wizard).
+                ErrorDialog
+                        .openError(
+                                getEditor().getSite().getShell(),
+                                Messages.getString("MultiPageFileManager.errorLoadingUCM"), //$NON-NLS-1$
+                                Messages.getString("MultiPageFileManager.errorOpeningFileCreatingNew") + e.getMessage(), new Status(IStatus.ERROR, "seg.jUCMNav", IStatus.ERROR, "", e)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+            }
+            modelManager.createURNspec(path);
+        }
+
+        urn = modelManager.getModel();
+        if (null == urn) {
+            throw new CoreException(new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 0, Messages.getString("MultiPageFileManager.errorLoadingUCM"), null)); //$NON-NLS-1$
+        }
+
+//        }
+
+        return urn;
+    }
     /**
      * Perform a save on the file we are editing.
      * 
