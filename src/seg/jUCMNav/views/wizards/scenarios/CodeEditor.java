@@ -1,11 +1,18 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -14,6 +21,13 @@ import org.eclipse.ui.IWorkbenchWizard;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.transformations.ChangeCodeCommand;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.PathNode;
+import ucm.map.PluginBinding;
+import ucm.map.RespRef;
+import ucm.map.WaitingPlace;
+import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 import urncore.Responsibility;
 
@@ -25,6 +39,7 @@ import urncore.Responsibility;
 public class CodeEditor extends Wizard {
 	private CodeEditorPage page;
 	private ISelection selection;
+	private EObject defaultSelected;
     
     /**
      * The workbench page in which we are working
@@ -45,7 +60,7 @@ public class CodeEditor extends Wizard {
 	 * Adding the page to the wizard.
 	 */
 	public void addPages() {
-		page = new CodeEditorPage(selection);
+		page = new CodeEditorPage(selection, defaultSelected);
 		addPage(page);
 	}
 
@@ -54,20 +69,23 @@ public class CodeEditor extends Wizard {
 	 * will create an operation and run it using wizard as execution context.
 	 */
 	public boolean performFinish() {
-		final Responsibility resp = page.getResponsibility();
-		final Condition cond = page.getCondition();
-		final String code = page.getCode();
+		final HashMap code = page.getAllCode();
 		
 
 		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
-		// change the code using a command to be undoable. 
-		if (page.isResponsibility())
-			cs.execute(new ChangeCodeCommand(resp, code));
-		else
-			cs.execute(new ChangeCodeCommand(cond, code));
-		
+		CompoundCommand cmd = new CompoundCommand();
+		for (Iterator iter = code.keySet().iterator(); iter.hasNext();) {
+			EObject obj = (EObject) iter.next();
+			cmd.add(new ChangeCodeCommand(obj, code.get(obj).toString()));
+		}
+
+		if (cmd.canExecute())
+		{
+			cs.execute(cmd);
+		}
 		return true;
+
 	}
 
 	/** 
@@ -86,8 +104,91 @@ public class CodeEditor extends Wizard {
 	 * 
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	public void init(IWorkbench workbench, IStructuredSelection selection, EObject defaultSelected) {
 		this.selection = selection;
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
+        this.defaultSelected = defaultSelected;
+        
+        
+        if (selection==null) {
+    		Vector v = new Vector();
+    		
+    		// choose which object we are giving it.
+    		if (defaultSelected instanceof Responsibility) {
+    			
+    			Responsibility responsibility = (Responsibility) defaultSelected;
+    			for (Iterator iter = responsibility.getUrndefinition().getResponsibilities().iterator(); iter.hasNext();) {
+					v.add(iter.next());
+					
+				}
+    		} else  if (defaultSelected instanceof RespRef) {
+    			
+    			RespRef respRef = (RespRef) defaultSelected;
+				for (Iterator iter = respRef.getDiagram().getNodes().iterator(); iter.hasNext();) {
+					PathNode pn = (PathNode) iter.next();
+					if (pn instanceof RespRef && !v.contains(((RespRef) pn).getRespDef())) {
+						v.add(((RespRef) pn).getRespDef());
+					}
+				}
+				
+				this.defaultSelected = respRef.getRespDef();
+			} else if (defaultSelected instanceof OrFork || defaultSelected instanceof WaitingPlace) {
+
+				PathNode pn = (PathNode) defaultSelected;
+				for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
+					NodeConnection nc = (NodeConnection) iter.next();
+					if (nc.getCondition()!=null)
+						v.add(nc.getCondition());
+				}
+				
+				this.defaultSelected = null;
+			}
+    		
+    		else if (defaultSelected instanceof Condition) {
+    			Condition cond = (Condition) defaultSelected;
+    			if (cond.eContainer() instanceof NodeConnection) {
+    				NodeConnection connection = (NodeConnection) cond.eContainer();
+    				for (Iterator iter = connection.getSource().getSucc().iterator(); iter.hasNext();) {
+    					NodeConnection conn = (NodeConnection) iter.next();
+    					if (conn.getCondition()!=null) {
+    						v.add(conn.getCondition());
+    					}
+    					
+    				}
+    				
+    			} else if (cond.eContainer() instanceof PluginBinding) {
+    				PluginBinding plug = (PluginBinding)cond.eContainer();
+    			
+    				for (Iterator iter = plug.getStub().getBindings().iterator(); iter.hasNext();) {
+    					PluginBinding pb = (PluginBinding) iter.next();
+    					if (pb.getPrecondition()!=null) {
+    						v.add(pb.getPrecondition());
+    					}
+    					
+    				}
+    								
+    			} else if (cond.eContainer() instanceof ScenarioDef) {
+    				ScenarioDef scenario = (ScenarioDef) cond.eContainer();
+    				if (scenario.getPreconditions().contains(cond)) {
+    					for (Iterator iter = scenario.getPreconditions().iterator(); iter.hasNext();) {
+							v.add(iter.next());
+						}
+    				} else {
+    					for (Iterator iter = scenario.getPostconditions().iterator(); iter.hasNext();) {
+							v.add(iter.next());
+						}
+    				}
+    				
+    			}
+    			else // start/end pre/post condition. 
+    			{
+    				v.add(cond);
+    			}
+    		}
+    		else {
+    			v.add(defaultSelected);
+    		}
+    		this.selection = new StructuredSelection(v);        
+        }
 	}
 }

@@ -76,7 +76,7 @@ public class MultiPageFileManager {
     /**
      * Returns the URNspec object from the specified file.
      * 
-     * @param filename
+     * @param path
      * @return the urn object from the specified file
      */
     public URNspec create(IPath path) throws CoreException {

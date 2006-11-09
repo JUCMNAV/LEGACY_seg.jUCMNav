@@ -23,6 +23,8 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
@@ -44,6 +46,7 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.stub.PluginListDialog;
+import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
@@ -348,6 +351,15 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                     dlg.setMessage(Messages.getString("PathNodeEditPart.SelectParentUCM")); //$NON-NLS-1$
                     dlg.open();
                 }
+        	}
+        	else if (getNode() instanceof OrFork || getNode() instanceof WaitingPlace) {
+	            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	            CodeEditor wizard = new CodeEditor();
+	            
+	            wizard.init(PlatformUI.getWorkbench(), null, getNode());
+	            WizardDialog dialog = new WizardDialog(shell, wizard);
+	            dialog.open();
+    	          		
         	}
 
         }

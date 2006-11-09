@@ -400,7 +400,7 @@ public class JUCMNavCommandTests extends TestCase {
     }
 
     
-    public void testBug481_MergeEndOnSamePath() {
+    public void testBug491_MergeEndOnSamePath() {
     	
     	testAddStubCommand();
     	// Then create a new path in this map to test adding an In/Out Binding.
@@ -416,12 +416,6 @@ public class JUCMNavCommandTests extends TestCase {
     	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)end.getPred().get(0)));
     	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)stub.getSucc().get(1)));
 
-    	
-    	
-    	
-    	
-
-    	
     	
     }
     

@@ -13,7 +13,6 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -645,8 +644,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				CodeEditor wizard = new CodeEditor();
 				PluginBinding plug = (PluginBinding) selectedPluginLabel.getData();
-				StructuredSelection selection = new StructuredSelection(plug.getPrecondition());
-				wizard.init(PlatformUI.getWorkbench(), selection);
+
+				wizard.init(PlatformUI.getWorkbench(), null, plug.getPrecondition());
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.open();
 				refreshCondition();

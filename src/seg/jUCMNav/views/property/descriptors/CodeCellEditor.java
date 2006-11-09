@@ -1,7 +1,7 @@
 package seg.jUCMNav.views.property.descriptors;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.DialogCellEditor;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -62,16 +62,11 @@ public class CodeCellEditor extends DialogCellEditor {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		CodeEditor wizard = new CodeEditor();
 
-		StructuredSelection selection;
 
-		// choose which object we are giving it.
-		if (resp != null)
-			selection = new StructuredSelection(resp);
-		else
-			selection = new StructuredSelection(cond);
+		EObject defaultObj = resp==null?(EObject)cond:(EObject)resp;
 
 		// initialize it
-		wizard.init(PlatformUI.getWorkbench(), selection);
+		wizard.init(PlatformUI.getWorkbench(), null, defaultObj);
 
 		// open it.
 		WizardDialog dialog = new WizardDialog(shell, wizard);

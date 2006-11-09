@@ -2,7 +2,7 @@ package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -102,8 +102,7 @@ public class ConditionEditPart extends LabelEditPart {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         CodeEditor wizard = new CodeEditor();
         
-        StructuredSelection selection = new StructuredSelection(getModel());
-        wizard.init(PlatformUI.getWorkbench(), selection);
+        wizard.init(PlatformUI.getWorkbench(), null, (EObject)getModel());
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
         

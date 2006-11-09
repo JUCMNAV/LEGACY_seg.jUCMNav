@@ -2,7 +2,6 @@ package seg.jUCMNav.actions.scenarios;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -59,7 +58,7 @@ public class EditCodeAction extends URNSelectionAction {
 			obj = sel.getRespDef();
 			return true;
 		case SelectionHelper.RESPONSIBILITYREF:
-			obj = sel.getRespRef().getRespDef();
+			obj = sel.getRespRef();//.getRespDef();
 			return true;
 		}
 		return false;
@@ -74,8 +73,7 @@ public class EditCodeAction extends URNSelectionAction {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		CodeEditor wizard = new CodeEditor();
 
-		StructuredSelection selection = new StructuredSelection(obj);
-		wizard.init(PlatformUI.getWorkbench(), selection);
+		wizard.init(PlatformUI.getWorkbench(), null, obj);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
 

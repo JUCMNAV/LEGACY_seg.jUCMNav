@@ -1,7 +1,6 @@
 package seg.jUCMNav.editparts;
 
 import org.eclipse.gef.Request;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -42,8 +41,7 @@ public class RespRefEditPart extends PathNodeEditPart {
             Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             wizard = new CodeEditor();
             
-            StructuredSelection selection = new StructuredSelection(respRef.getRespDef());
-            wizard.init(PlatformUI.getWorkbench(), selection);
+            wizard.init(PlatformUI.getWorkbench(), null, respRef);
             WizardDialog dialog = new WizardDialog(shell, wizard);
             dialog.open();
         }

@@ -61,7 +61,7 @@ public class AddPrePostConditionAction extends IncludeScenarioAction {
 		cs.execute(command);
 		
 		StructuredSelection selection = new StructuredSelection(command.getCondition());
-		wizard.init(PlatformUI.getWorkbench(), selection);
+		wizard.init(PlatformUI.getWorkbench(), null, command.getCondition());
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
 	}

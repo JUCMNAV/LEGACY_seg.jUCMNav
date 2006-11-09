@@ -30,7 +30,7 @@ public class OpenEditorQuickFix implements IMarkerResolution {
 		CodeEditor wizard = new CodeEditor();
 
 		StructuredSelection selection = new StructuredSelection(cond);
-		wizard.init(PlatformUI.getWorkbench(), selection);
+		wizard.init(PlatformUI.getWorkbench(), null, cond);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();
 	}

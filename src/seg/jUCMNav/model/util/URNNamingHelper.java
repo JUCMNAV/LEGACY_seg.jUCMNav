@@ -28,15 +28,21 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
+import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Timer;
 import ucm.map.UCMmap;
+import ucm.map.WaitingPlace;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
 import urncore.ComponentElement;
+import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -882,6 +888,70 @@ public class URNNamingHelper {
 			return elem.getName();
 	}
 
+	/**
+	 * Returns the label if it is defined or a truncated version of the expression otherwise. 
+	 *  
+	 * @param cond
+	 * @return
+	 */
+	public static String getName(Condition cond) {
+		return getName(cond, cond.getExpression());
+	}
+
+	/**
+	 * Returns the label if it is defined or a truncated version of the expression otherwise. 
+	 * 
+	 * Uses the expression that is passed as a possible replacement for the condition's current expression. 
+	 *  
+	 * @param cond
+	 * @return
+	 */
+	public static String getName(Condition cond, String expression) {
+		String name=null;
+		if (cond.getLabel()!=null && cond.getLabel().length()>0)
+		{
+			name = cond.getLabel();
+		}
+		else
+		{
+			if (cond.eContainer() instanceof PluginBinding) {
+				PluginBinding binding = (PluginBinding) cond.eContainer();
+				name = getName(binding.getStub()) + " <-> " + getName(binding.getPlugin()); 
+			} else if (cond.eContainer() instanceof NodeConnection) {
+				NodeConnection connection = (NodeConnection) cond.eContainer();
+				if (connection.getSource() instanceof Timer) {
+					if (connection.getSource().getSucc().indexOf(connection)==0) 
+						return "Normal path: " + getNameFromExpression(expression);
+					else
+						return "Timeout path: " + getNameFromExpression(expression);
+						
+				}
+				if (connection.getSource() instanceof OrFork || connection.getSource() instanceof WaitingPlace)
+				{
+					return "Branch " + (connection.getSource().getSucc().indexOf(connection)+1) + ": " + getNameFromExpression(expression); 
+				}
+				else  
+					name = getNameFromExpression(expression);
+				
+			} else {
+				name = getNameFromExpression(expression);
+			}
+			
+		}
+		return name;
+	}	
+	private static String getNameFromExpression(String expression) {
+		String name;
+		name = expression;
+		if (name==null)name="";
+		
+		name = name.replace("\r","");
+		name = name.replace('\n', ' ');
+		if (name.length()>40) {
+			name = name.substring(0,37) + "...";
+		}
+		return name;
+	}
 	/**
 	 * Checks to see if the given name is valid, in the given context. calls
 	 * isNameValid(URNspec, UCMmodelElement, String) using the URNspec inferred

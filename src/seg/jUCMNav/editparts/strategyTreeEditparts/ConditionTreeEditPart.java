@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ScenarioConditionComponentEditPolicy;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
@@ -91,6 +92,7 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 	
 
 	public boolean isInherited() {
+		if (getParent()==null)return false;
 		return !((ScenarioDef) getParent().getParent().getModel()).getPreconditions().contains(getModel()) && !((ScenarioDef) getParent().getParent().getModel()).getPostconditions().contains(getModel());
 	}
 	
@@ -99,15 +101,13 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 	 * @return the condition label.
 	 */
 	protected String getText() {
-	   	if (isInherited()) 
-    		((TreeItem) widget).setForeground(DARKGRAY);
-    	else
-    		((TreeItem) widget).setForeground(BLACK);
-	   	
-		if (getCondition().getLabel() == null)
-			return ""; //$NON-NLS-1$
-		else
-			return getCondition().getLabel();
+		if (widget!=null) {
+		   	if (isInherited()) 
+	    		((TreeItem) widget).setForeground(DARKGRAY);
+	    	else
+	    		((TreeItem) widget).setForeground(BLACK);
+		}
+	   	return URNNamingHelper.getName(getCondition());
 	}
 
 }

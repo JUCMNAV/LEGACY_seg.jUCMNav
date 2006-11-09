@@ -17,7 +17,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -376,8 +375,7 @@ public class NodeConnectionEditPart extends AbstractConnectionEditPart {
 				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				CodeEditor wizard = new CodeEditor();
 
-				StructuredSelection selection = new StructuredSelection(getLink().getCondition());
-				wizard.init(PlatformUI.getWorkbench(), selection);
+				wizard.init(PlatformUI.getWorkbench(), null, getLink().getCondition());
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.open();
 			}

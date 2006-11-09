@@ -1,6 +1,8 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,6 +21,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -28,6 +31,7 @@ import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
@@ -35,6 +39,7 @@ import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * The page actually containing the code editor for responsibilities and
@@ -48,6 +53,11 @@ public class CodeEditorPage extends WizardPage {
 	private Condition cond;
 	private URNspec urn;
 	private List variables;
+	private Combo possibilities;
+	
+	private Vector allPossibilities;
+	private EObject defaultSelected;
+	private HashMap code;
 
 	/**
 	 * The selection contains either a responsibility or a condition. Loaded in
@@ -55,13 +65,16 @@ public class CodeEditorPage extends WizardPage {
 	 * 
 	 * @param selection
 	 */
-	public CodeEditorPage(ISelection selection) {
+	public CodeEditorPage(ISelection selection, EObject defaultSelected) {
 		super("wizardPage"); //$NON-NLS-1$
 
 		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
 		// loaded in initialize()
 		this.selection = selection;
+		this.defaultSelected = defaultSelected;
+		this.code = new HashMap();
+		this.allPossibilities = new Vector();
 	}
 
 	/**
@@ -76,10 +89,64 @@ public class CodeEditorPage extends WizardPage {
 		layout.numColumns = 2;
 		layout.verticalSpacing = 5;
 
+		
+		possibilities = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+
+		
+		possibilities.addSelectionListener(new SelectionListener() {
+			
+			public void widgetSelected(SelectionEvent e) {
+				// single click. 
+		
+				if (possibilities.getSelectionIndex()>=0) {
+					EObject o = (EObject) allPossibilities.get(possibilities.getSelectionIndex());
+					if (o!=defaultSelected) {
+						defaultSelected=o;
+						setupText(o);
+
+						
+						if (defaultSelected instanceof Responsibility)
+							resp = (Responsibility) defaultSelected;
+						else
+							cond = (Condition) defaultSelected;						
+					}
+				}
+			}
+		
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// double click. 
+	
+			}
+		
+		});
+		
+		
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan=2;
+		possibilities.setLayoutData(gd);
+		
 		// label over the code box.
 		Label label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("CodeEditorPage.EnterTheCode")); //$NON-NLS-1$
 
+		// label over the variable box
+		label = new Label(container, SWT.NULL);
+		label.setText("Double-click on a variable.");
+		
+
+		
+		
+		// simple multi-line scrollable text-box that grows with box.
+		codeText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+
+		gd = new GridData(GridData.FILL_BOTH);
+		codeText.setLayoutData(gd);
+		codeText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+		
 		
 		// variable list
 		variables = new List(container, SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
@@ -102,25 +169,13 @@ public class CodeEditorPage extends WizardPage {
 		
 		});
 		
-		GridData gd = new GridData(GridData.FILL_VERTICAL);
+		gd = new GridData(GridData.FILL_VERTICAL);
 	
-		gd.verticalSpan=3;
+		gd.verticalSpan=2;
 		gd.widthHint=100;
 		gd.heightHint=200;
 		variables.setLayoutData(gd);
-
 		
-		
-		// simple multi-line scrollable text-box that grows with box.
-		codeText = new Text(container, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-
-		 gd = new GridData(GridData.FILL_BOTH);
-		codeText.setLayoutData(gd);
-		codeText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
 
 
 		// Button to open the new variable wizard.
@@ -145,6 +200,12 @@ public class CodeEditorPage extends WizardPage {
 
 		// 
 		initialize();
+		
+		
+		refreshPossibilityLabels();
+		
+		possibilities.select(allPossibilities.indexOf(defaultSelected));
+		
 		if (isResponsibility()) {
 			setTitle(Messages.getString("CodeEditorPage.ResponsibilityEditor")); //$NON-NLS-1$
 			setDescription(Messages.getString("CodeEditorPage.PleaseEnterResponsibility")); //$NON-NLS-1$
@@ -159,31 +220,55 @@ public class CodeEditorPage extends WizardPage {
 
 	}
 
+	private void refreshPossibilityLabels() {
+		boolean add=possibilities.getItemCount()==0;
+		
+		for (int i=0;i<allPossibilities.size();i++) { 
+			EObject element = (EObject) allPossibilities.get(i);
+			
+			if (element instanceof URNmodelElement)
+			{
+				if (add)
+					possibilities.add(URNNamingHelper.getName((URNmodelElement)element));
+				else {
+					possibilities.setItem(i, URNNamingHelper.getName((URNmodelElement)element));
+				}
+					
+			} else if (element instanceof urncore.Condition)
+			{
+				if (add)
+					possibilities.add(URNNamingHelper.getName((urncore.Condition)element));
+				else {
+					possibilities.setItem(i,URNNamingHelper.getName((urncore.Condition)element, code.get(element).toString()));
+				}
+					
+			}
+			
+}
+	}
+
 	/**
 	 * Tests if the current workbench selection is a suitable container to use.
 	 */
 	private void initialize() {
 		if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (ssel.size() > 1)
-				return;
-			Object obj = ssel.getFirstElement();
-			if (obj instanceof Responsibility) {
-				resp = (Responsibility) obj;
-				if (resp.getExpression() == null)
-					codeText.setText(""); //$NON-NLS-1$
-				else
-					codeText.setText(resp.getExpression());
-			} else if (obj instanceof Condition) {
-				cond = (Condition) obj;
-				if (cond.getExpression() == null)
-					codeText.setText("true"); //$NON-NLS-1$
-				else
-					codeText.setText(cond.getExpression());
-			}
+			
+			
+			initPossibilities(ssel);
+			
+			if (defaultSelected==null) 
+				defaultSelected = (EObject) ssel.getFirstElement();
+			
+			setupText(defaultSelected);
 		}
 		
+		if (defaultSelected instanceof Responsibility)
+			resp = (Responsibility) defaultSelected;
+		else
+			cond = (Condition) defaultSelected;
 		
+		// assuming same of all items in list. 
 		EObject o;
 		if (resp!=null)
 			urn = resp.getUrndefinition().getUrnspec();
@@ -198,7 +283,53 @@ public class CodeEditorPage extends WizardPage {
 			
 		}
 		
+		
 		initVariables();
+	}
+
+	private void setupText(Object obj) {
+		if (obj instanceof Responsibility) {
+			resp = (Responsibility) obj;
+			if (code.get(resp) == null)
+				codeText.setText(""); //$NON-NLS-1$
+			else
+				codeText.setText(code.get(resp).toString());
+		} else if (obj instanceof Condition) {
+			cond = (Condition) obj;
+			if (code.get(cond)== null)
+				codeText.setText("true"); //$NON-NLS-1$
+			else
+				codeText.setText(code.get(cond).toString());
+		}
+	}
+
+	private void initPossibilities(IStructuredSelection ssel) {
+		boolean found = false;
+		for (Iterator iter = ssel.iterator(); iter.hasNext();) {
+			EObject element = (EObject) iter.next();
+			allPossibilities.add(element);
+
+			if (element == defaultSelected)
+				found=true;
+			
+			if (element instanceof Responsibility) {
+				Responsibility r = (Responsibility) element;
+				if (r.getExpression() == null)
+					code.put(element, ""); //$NON-NLS-1$
+				else
+					code.put(element, r.getExpression());
+			} else if (element instanceof Condition) {
+				Condition c = (Condition) element;
+				if (c.getExpression() == null)
+					code.put(element, "true"); //$NON-NLS-1$
+				else
+					code.put(element, c.getExpression());
+			}
+			
+		}
+		
+		// ignore it if it wasn't in the list. 
+		if (!found)defaultSelected=null;
 	}
 
 	private void initVariables() 
@@ -233,8 +364,10 @@ public class CodeEditorPage extends WizardPage {
 			else
 				o = ScenarioUtils.parse(getCode(), ScenarioUtils.getEnvironment(cond), false);
 			
-			if (o instanceof SimpleNode)
+			if (o instanceof SimpleNode) {
+				code.put(defaultSelected, getCode());
 				updateStatus(null);
+			}
 			else
 				updateStatus((String) o);
 		}
@@ -254,6 +387,9 @@ public class CodeEditorPage extends WizardPage {
 			setPageComplete(message == null);
 		else
 			setPageComplete(true);
+		
+		refreshPossibilityLabels();
+		possibilities.setEnabled(isPageComplete());
 			
 	}
 
@@ -291,5 +427,14 @@ public class CodeEditorPage extends WizardPage {
 	 */
 	public String getCode() {
 		return codeText.getText();
+	}
+	
+	/**
+	 * Code for all objects that were passed. Assumed to be always valid.  
+	 * 
+	 * @return
+	 */
+	public HashMap getAllCode() {
+		return code;
 	}
 }

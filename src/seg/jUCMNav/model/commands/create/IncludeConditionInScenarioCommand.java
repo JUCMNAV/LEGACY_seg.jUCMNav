@@ -64,13 +64,13 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	public void execute() {
 		condition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
 		if (clone!=null) {
-			condition.setLabel(clone.getLabel());
+//			condition.setLabel(clone.getLabel());
 			condition.setExpression(clone.getExpression());
 		} else {
-			if (bIsPreCondition)
-				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Precondition")); //$NON-NLS-1$
-			else
-				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Postcondition")); //$NON-NLS-1$
+//			if (bIsPreCondition)
+//				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Precondition")); //$NON-NLS-1$
+//			else
+//				condition.setLabel(Messages.getString("IncludeConditionInScenarioCommand.Postcondition")); //$NON-NLS-1$
 		}
 		redo();
 	}
