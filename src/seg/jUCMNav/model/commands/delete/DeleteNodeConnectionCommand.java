@@ -8,6 +8,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.util.DoesDisconnectImplyDelete;
 import ucm.map.AndFork;
@@ -46,8 +47,10 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
 
             DoesDisconnectImplyDelete verification = new DoesDisconnectImplyDelete(source, in, out);
             add(new DeleteBranchesCommand(source, verification, editpartregistry));
-            if (target instanceof EndPoint)
+            if (target instanceof EndPoint) {
+            	add(new PreDeleteUrnModelElementCommand(target));
                 add(new DeleteStartNCEndCommand((EndPoint) target));
+            }
 
         }
         if (target instanceof Stub || target instanceof OrJoin || target instanceof AndJoin) {
@@ -57,8 +60,10 @@ public class DeleteNodeConnectionCommand extends CompoundCommand {
             DoesDisconnectImplyDelete verification = new DoesDisconnectImplyDelete(target, in, out);
             add(new DeleteBranchesCommand(target, verification, editpartregistry));
 
-            if (source instanceof StartPoint)
+            if (source instanceof StartPoint) {
+            	add(new PreDeleteUrnModelElementCommand(source));
                 add(new DeleteStartNCEndCommand((StartPoint) source));
+            }
 
         }
 
