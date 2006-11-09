@@ -354,8 +354,10 @@ public class CodeEditorPage extends WizardPage {
 	 * Ensures that the pseudo-code is legal (syntax and type checking)
 	 */
 	private void dialogChanged() {
-		if (getCode() == null || getCode().length() == 0)
+		if (getCode() == null || getCode().length() == 0 || getCode().replace("\n", "").replace("\r", "").trim().length()==0) {
+			code.put(defaultSelected, "");
 			updateStatus(null);
+		}
 		else {
 			Object o;
 			
@@ -368,8 +370,9 @@ public class CodeEditorPage extends WizardPage {
 				code.put(defaultSelected, getCode());
 				updateStatus(null);
 			}
-			else
+			else {
 				updateStatus((String) o);
+			}
 		}
 
 	}
