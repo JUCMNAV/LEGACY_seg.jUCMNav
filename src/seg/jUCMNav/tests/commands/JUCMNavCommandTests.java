@@ -41,6 +41,7 @@ import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
 import seg.jUCMNav.model.commands.delete.DisconnectCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
+import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.DividePathCommand;
@@ -50,6 +51,7 @@ import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
+import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.EmptyPoint;
@@ -397,6 +399,32 @@ public class JUCMNavCommandTests extends TestCase {
     	cs.execute(cmd);
     }
 
+    
+    public void testBug481_MergeEndOnSamePath() {
+    	
+    	testAddStubCommand();
+    	// Then create a new path in this map to test adding an In/Out Binding.
+    	testCreatePathCommand();
+    	
+    	Command cmd;
+    	cmd = new AttachBranchCommand(start, stub);
+    	assertTrue("Can't execute AttachBranchCommand with Stub and StartPoint.", cmd.canExecute()); //$NON-NLS-1$
+    	cs.execute(cmd);
+    	
+    
+    	
+    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)end.getPred().get(0)));
+    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)stub.getSucc().get(1)));
+
+    	
+    	
+    	
+    	
+
+    	
+    	
+    }
+    
     public void testAddPluginCommand() {
     	// Add a Stub in the current Path
     	testAddStubCommand();

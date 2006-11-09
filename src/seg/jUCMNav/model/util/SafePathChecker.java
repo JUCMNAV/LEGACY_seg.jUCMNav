@@ -49,7 +49,13 @@ public class SafePathChecker {
      */
     public static boolean isSafeFusion(PathNode joinFromPathNode, NodeConnection joinToNodeConnection) {
         PathNode toNode = (PathNode)joinToNodeConnection.getTarget();
-        return isSafeFusion(joinFromPathNode, toNode);
+        boolean b = isSafeFusion(joinFromPathNode, toNode);
+        if (!b && (joinFromPathNode instanceof EndPoint && toNode instanceof EndPoint))
+        {
+        	toNode = (PathNode)joinToNodeConnection.getSource();
+        	b = isSafeFusion(joinFromPathNode, toNode);
+        }
+        return b;
     }
 
     /**
@@ -62,6 +68,9 @@ public class SafePathChecker {
      * @return true if safe; no illegal loops caused
      */
     public static boolean isSafeFusion(PathNode joinFromPathNode, PathNode joinToPathNode) {
+    	
+    	if (joinFromPathNode == joinToPathNode)
+    		return false;
         // Query for reachable nodes starting from joinToPathNode: if joinFromPathNode is not included in there,
         // the join won't cause a loop.
 
@@ -80,9 +89,9 @@ public class SafePathChecker {
         }
 
         // remove passed start/ends from reachable pathnodes
-        if (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint)
+        while (vReachable.contains(joinFromPathNode) && (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint))
             vReachable.remove(joinFromPathNode);
-        if (joinToPathNode instanceof StartPoint || joinToPathNode instanceof EndPoint)
+        while (vReachable.contains(joinToPathNode) && (joinToPathNode instanceof StartPoint || joinToPathNode instanceof EndPoint))
             vReachable.remove(joinToPathNode);
 
         // count remaining start/ends
@@ -119,9 +128,9 @@ public class SafePathChecker {
             Vector nodes = resp.getPathNodes();
 
             if (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint)
-                return !nodes.contains(joinToPathNode) || isLoopBackToStubAllowed(nc, nodes);
+                return !nodes.contains(joinToPathNode) || (joinToPathNode instanceof Stub && isLoopBackToStubAllowed(nc, nodes));
             else
-                return !nodes.contains(joinFromPathNode) || isLoopBackToStubAllowed(nc, nodes);
+                return !nodes.contains(joinFromPathNode) || (joinFromPathNode instanceof Stub && isLoopBackToStubAllowed(nc, nodes));
 
         } else
             return false;
