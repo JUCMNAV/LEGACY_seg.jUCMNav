@@ -356,9 +356,12 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 	            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 	            CodeEditor wizard = new CodeEditor();
 	            
-	            wizard.init(PlatformUI.getWorkbench(), null, getNode());
-	            WizardDialog dialog = new WizardDialog(shell, wizard);
-	            dialog.open();
+	            // TODO: create conditions if non-existent.  
+	            if (((NodeConnection)getNode().getSucc().get(0)).getCondition()!=null) {
+		            wizard.init(PlatformUI.getWorkbench(), null, getNode());
+		            WizardDialog dialog = new WizardDialog(shell, wizard);
+		            dialog.open();
+	            }
     	          		
         	}
 
