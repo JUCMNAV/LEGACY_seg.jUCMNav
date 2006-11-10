@@ -28,6 +28,7 @@ import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
+import seg.jUCMNav.actions.AddConditionLabelAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -190,6 +191,10 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addLabel")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new AddConditionLabelAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.AddConditionLabel"));  //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new MergeStartEndAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.mergeStartEnd")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);

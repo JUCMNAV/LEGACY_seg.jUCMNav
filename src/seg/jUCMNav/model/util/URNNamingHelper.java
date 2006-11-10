@@ -954,7 +954,7 @@ public class URNNamingHelper {
 	 * 
 	 * @return the name
 	 */
-	private static String getNameFromExpression(String expression) {
+	public static String getNameFromExpression(String expression) {
 		String name;
 		name = expression;
 		if (name==null)name=""; //$NON-NLS-1$

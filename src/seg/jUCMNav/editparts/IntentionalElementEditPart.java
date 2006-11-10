@@ -287,55 +287,57 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 //Get the evaluation value
                 Evaluation evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(getNode().getDef());
                 
-                if (StrategyEvaluationPreferences.getFillElements())
-                {
-                    String color;
-                    if (evaluation.getEvaluation() == 0){
-                        color = "255,255,0"; //$NON-NLS-1$
-                    } else {
-                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
-                        if (evaluation.getEvaluation() < 0){
-                            color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
-                        } else{
-                            color = partial + ",255,0"; //$NON-NLS-1$
-                        }
-                    }
-                    ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
-                }   
-                String text = String.valueOf(evaluation.getEvaluation());
-                if (evaluation.getStrategies() != null){
-                    text = text + "*"; //$NON-NLS-1$
-                }
-                evaluationLabel.setText(text);
-                Point position = getNodeFigure().getLocation();
-                position.y = position.y -16;
-                // position.x = position.x + getNodeFigure().getBounds().width;
-                
-                // Take zoom facrtor into consideration to fix the label position
-                double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
-                position.x = (int) (position.x * zoomLevel);
-                position.y = (int) (position.y * zoomLevel);
-                evaluationLabel.setLocation(position);
-                evaluationLabel.setVisible(true);
-                
-                if (evaluationImg != null) {
-                    evaluationImg.dispose();
-                    evaluationImg = null;
-                }
-                //Set the label icon
-                if (evaluation.getEvaluation() == -100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();     //$NON-NLS-1$
-                } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage(); //$NON-NLS-1$
-                } else if (evaluation.getEvaluation() == 0){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage(); //$NON-NLS-1$
-                } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage(); //$NON-NLS-1$
-                } else if (evaluation.getEvaluation() == 100){
-                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage(); //$NON-NLS-1$
-                } 
-                if (evaluationLabel != null){
-                    evaluationLabel.setIcon(evaluationImg);
+                if (evaluation!=null) {
+	                if (StrategyEvaluationPreferences.getFillElements())
+	                {
+	                    String color;
+	                    if (evaluation.getEvaluation() == 0){
+	                        color = "255,255,0"; //$NON-NLS-1$
+	                    } else {
+	                        int partial = (Math.abs((Math.abs(evaluation.getEvaluation())-100))*255/100);
+	                        if (evaluation.getEvaluation() < 0){
+	                            color = "255," + partial + ",0"; //$NON-NLS-1$ //$NON-NLS-2$
+	                        } else{
+	                            color = partial + ",255,0"; //$NON-NLS-1$
+	                        }
+	                    }
+	                    ((IntentionalElementFigure) figure).setColors("75,75,75", color, true); //$NON-NLS-1$
+	                }   
+	                String text = String.valueOf(evaluation.getEvaluation());
+	                if (evaluation.getStrategies() != null){
+	                    text = text + "*"; //$NON-NLS-1$
+	                }
+	                evaluationLabel.setText(text);
+	                Point position = getNodeFigure().getLocation();
+	                position.y = position.y -16;
+	                // position.x = position.x + getNodeFigure().getBounds().width;
+	                
+	                // Take zoom facrtor into consideration to fix the label position
+	                double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
+	                position.x = (int) (position.x * zoomLevel);
+	                position.y = (int) (position.y * zoomLevel);
+	                evaluationLabel.setLocation(position);
+	                evaluationLabel.setVisible(true);
+	                
+	                if (evaluationImg != null) {
+	                    evaluationImg.dispose();
+	                    evaluationImg = null;
+	                }
+	                //Set the label icon
+	                if (evaluation.getEvaluation() == -100){
+	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();     //$NON-NLS-1$
+	                } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
+	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage(); //$NON-NLS-1$
+	                } else if (evaluation.getEvaluation() == 0){
+	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage(); //$NON-NLS-1$
+	                } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
+	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage(); //$NON-NLS-1$
+	                } else if (evaluation.getEvaluation() == 100){
+	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage(); //$NON-NLS-1$
+	                } 
+	                if (evaluationLabel != null){
+	                    evaluationLabel.setIcon(evaluationImg);
+	                }
                 }
                 refreshConnections();
             }

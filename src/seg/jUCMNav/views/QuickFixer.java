@@ -26,7 +26,7 @@ public class QuickFixer implements IMarkerResolutionGenerator {
        try {
           IEditorPart ed = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 
-          if ((mk.getAttribute("Condition")!=null || mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          if ((mk.getAttribute("Condition")!=null || mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
           {
 			UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ed;
 			Object o = mk.getAttribute("EObject"); //$NON-NLS-1$
