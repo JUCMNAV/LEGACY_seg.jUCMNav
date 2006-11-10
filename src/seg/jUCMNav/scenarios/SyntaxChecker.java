@@ -127,8 +127,8 @@ public class SyntaxChecker {
 	/**
 	 * Returns a vector of TraversalWarnings for all the elements that do not have a valid syntax. 
 	 * 
-	 * @param urn
-	 * @return
+	 * @param urn the urnspec to be analyzed
+	 * @return vector of TraversalWarnings for all the elements that do not have a valid syntax.
 	 */
 	public static Vector verifySyntax(URNspec urn) {
 		Vector errors = new Vector();

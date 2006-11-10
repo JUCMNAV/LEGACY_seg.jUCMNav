@@ -891,8 +891,8 @@ public class URNNamingHelper {
 	/**
 	 * Returns the label if it is defined or a truncated version of the expression otherwise. 
 	 *  
-	 * @param cond
-	 * @return
+	 * @param cond the condition for which to get the name
+	 * @return the name
 	 */
 	public static String getName(Condition cond) {
 		return getName(cond, cond.getExpression());
@@ -903,8 +903,11 @@ public class URNNamingHelper {
 	 * 
 	 * Uses the expression that is passed as a possible replacement for the condition's current expression. 
 	 *  
-	 * @param cond
-	 * @return
+	 * @param cond the condition for which to get the name
+	 * 
+	 * @param expression a proposed expression that replaces cond.getExpression()
+	 * 
+	 * @return the name
 	 */
 	public static String getName(Condition cond, String expression) {
 		String name=null;
@@ -940,6 +943,17 @@ public class URNNamingHelper {
 		}
 		return name;
 	}	
+
+	 
+	/** 
+	 * Returns the label if it is defined or a truncated version of the expression otherwise. 
+	 * 
+	 * Uses the expression that is passed as a possible replacement for the condition's current expression.
+	 * 
+	 * @param expression an expression 
+	 * 
+	 * @return the name
+	 */
 	private static String getNameFromExpression(String expression) {
 		String name;
 		name = expression;

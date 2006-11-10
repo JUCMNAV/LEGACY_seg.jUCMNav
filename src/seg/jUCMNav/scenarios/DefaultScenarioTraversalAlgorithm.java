@@ -108,6 +108,10 @@ public class DefaultScenarioTraversalAlgorithm {
 		this.scenario = scenario;
 		results = new HashMap();
 		warnings = new Vector();
+		
+		if (scenario.getStartPoints().size()==0) {
+			warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.NoStartPointsDefined"), scenario, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+		}
 	}
 
 	/**

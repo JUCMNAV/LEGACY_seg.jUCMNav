@@ -439,7 +439,7 @@ public class CodeEditorPage extends WizardPage {
 	/**
 	 * Code for all objects that were passed. Assumed to be always valid.  
 	 * 
-	 * @return
+	 * @return a hashmap of eobject->string 
 	 */
 	public HashMap getAllCode() {
 		return code;
