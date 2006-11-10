@@ -4,16 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal.QDefaultScenarioTraversal;
@@ -21,12 +15,9 @@ import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
-import ucm.map.EndPoint;
-import ucm.map.StartPoint;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
-import urncore.URNmodelElement;
 
 /**
  * This class invokes the default UCM Scenario traversal algorithm. Its only responsibilities are environment initialization, pre/post condition verifications
@@ -49,7 +40,6 @@ public class DefaultScenarioTraversalAlgorithm {
 	// Vector of EObjects that are visited. 
 	protected Vector visited;
 
-	// TODO: make warnings objects that are then populated into the warnings view.
 	// Vector of Strings
 	protected Vector warnings;
 
@@ -153,64 +143,7 @@ public class DefaultScenarioTraversalAlgorithm {
 
 		traverse_Postconditions(scenario);
 
-		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
-		try {
-
-			IMarker[] existingMarkers = resource.findMarkers(IMarker.PROBLEM, true, 3);
-			for (int i = 0; i < existingMarkers.length; i++) {
-				IMarker marker = existingMarkers[i];
-				marker.delete();
-			}
-		} catch (CoreException ex) {
-			System.out.println(ex);
-		}
-		
-		if (warnings.size() > 0) {
-
-			
-			for (Iterator iter = warnings.iterator(); iter.hasNext();) {
-				TraversalWarning o = (TraversalWarning) iter.next();
-				
-				try {
-					IMarker marker = resource.createMarker(IMarker.PROBLEM);
-					marker.setAttribute(IMarker.SEVERITY, o.getSeverity());
-					marker.setAttribute(IMarker.MESSAGE, o.toString());
-					if (o.getLocation() instanceof URNmodelElement) {
-						URNmodelElement elem = (URNmodelElement) o.getLocation();
-						marker.setAttribute(IMarker.LOCATION, URNNamingHelper.getName(elem));
-						marker.setAttribute("EObject", ((URNmodelElement)o.getLocation()).getId()); //$NON-NLS-1$
-					} else if (o.getLocation()!=null) {
-						marker.setAttribute(IMarker.LOCATION, o.getLocation().toString());
-					}
-					
-					if (o.getCondition()!=null && o.getCondition().eContainer()!=null)
-					{
-						if (o.getCondition().eContainer() instanceof StartPoint) {
-							StartPoint start = (StartPoint)o.getCondition().eContainer();
-							marker.setAttribute("NodePreCondition", start.getId() ); //$NON-NLS-1$
-						} else if (o.getCondition().eContainer() instanceof EndPoint) {
-							EndPoint end = (EndPoint)o.getCondition().eContainer();
-							marker.setAttribute("NodePostCondition", end.getId() ); //$NON-NLS-1$
-						}else if (o.getCondition().eContainer() instanceof ScenarioDef) {
-							ScenarioDef scenario = (ScenarioDef)o.getCondition().eContainer();
-							marker.setAttribute("Scenario", scenario.getId() ); //$NON-NLS-1$
-							marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition())); //$NON-NLS-1$
-							marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition())); //$NON-NLS-1$
-						}
-
-						
-					}
-					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
-				} catch(CoreException ex) 
-				{
-					//System.out.println(ex);
-				}
-				
-			}
-//			throw new TraversalException(b.toString());
-
-		}
+		SyntaxChecker.refreshProblemsView(warnings);
 		
 		if (resp.getError() != null)
 			throw new TraversalException(resp.getError());

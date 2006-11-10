@@ -371,6 +371,10 @@ public class CodeEditorPage extends WizardPage {
 				updateStatus(null);
 			}
 			else {
+				if (!GeneralPreferencePage.getStrictCodeEditor())
+				{
+					code.put(defaultSelected, getCode());
+				}
 				updateStatus((String) o);
 			}
 		}

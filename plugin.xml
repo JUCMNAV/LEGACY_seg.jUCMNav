@@ -56,6 +56,15 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="%AddGrlDiagram"/>
+         <action
+               actionID="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
+               class="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
+               icon="icons/condition.gif"
+               id="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
+               label="Verify Pseudo-Code Syntax"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="Verifies the syntax of all responsibilities and conditions."/>
       </editorContribution>
    </extension>
    <extension

@@ -28,6 +28,7 @@ import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
+import urncore.Responsibility;
 
 /**
  * Utility class for UCM Scenarios.
@@ -97,15 +98,21 @@ public class ScenarioUtils {
 			return evaluate(resp.getRespDef().getExpression(), env, true);
 	}	
 
-	private static boolean isEmptyCondition(Condition cond) {
+	public static boolean isEmptyCondition(Condition cond) {
 		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
 		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond);    //$NON-NLS-1$
 	}
 	
-	private static boolean isEmptyResponsibility(RespRef resp) {
-		return resp == null || resp.getRespDef()==null || resp.getRespDef().getExpression() == null || resp.getRespDef().getExpression().length() == 0;   
+	public static boolean isEmptyResponsibility(RespRef resp) {
+		if (resp==null) 
+			return true;
+		else
+			return isEmptyResponsibility(resp.getRespDef());
 	}
 		
+	public static boolean isEmptyResponsibility(Responsibility resp) {
+		return resp == null || resp.getExpression() == null || resp.getExpression().length() == 0 || resp.getExpression().replace("\n", "").replace("\r", "").trim().length()==0;   
+	}	
 	
 	public static ScenarioDef getActiveScenario(EObject obj)
 	{
@@ -360,7 +367,7 @@ public class ScenarioUtils {
 		if (res!=null)
 			res.incrementHitCount();
 	}
-	
+
 	/**
 	 * Parses a string and returns an error message if is not valid (as a
 	 * string) or a SimpleNode AST of the code if it is. Does both syntax
