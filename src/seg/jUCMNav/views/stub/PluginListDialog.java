@@ -3,6 +3,7 @@ package seg.jUCMNav.views.stub;
 import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -57,19 +58,21 @@ public class PluginListDialog extends ListDialog {
      */
     protected Control createDialogArea(Composite container) {
         container.setBackground(ColorManager.WHITE);
-        setWidthInChars(30);
+        setWidthInChars(50);
         if (input != null)
             setHeightInChars(input.size());
         else
-            setHeightInChars(10);
+            setHeightInChars(15);
         Control toReturn = super.createDialogArea(container);
         toReturn.setBackground(ColorManager.WHITE);
         getTableViewer().getControl().setBackground(ColorManager.LIGHTGRAY);
+        toReturn.pack();
         return toReturn;
     }
 
     protected Control createButtonBar(Composite parent) {
-        return parent;
+    	
+        return super.createButtonBar(parent);
     }
 
     /*
@@ -79,6 +82,7 @@ public class PluginListDialog extends ListDialog {
      */
     protected void okPressed() {
         IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
+        if (selection.size()==0) selection = new StructuredSelection(getTableViewer().getElementAt(0));
         UCMmap map=null;
         if (selection.toList().get(0) instanceof PluginBinding) {
         	map = ((PluginBinding) selection.toList().get(0)).getPlugin();
@@ -107,17 +111,31 @@ public class PluginListDialog extends ListDialog {
      * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
      */
     protected void createButtonsForButtonBar(Composite parent) {
-        parent.setVisible(false);
+
+    	super.createButtonsForButtonBar(parent);
+//    	createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
+//		Button button = getButton(IDialogConstants.CANCEL_ID);
+//		if (button != null)
+//			button.setText(IDialogConstants.CLOSE_LABEL);
+		
+		parent.setBackground(ColorManager.WHITE);
+		parent.getParent().setBackground(ColorManager.WHITE);
+
+		
     }
 
     /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(org.eclipse.swt.widgets.Composite)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.dialogs.SelectionDialog#createMessageArea(org.eclipse.swt.widgets.Composite)
+	 */
     protected Label createMessageArea(Composite composite) {
         Label toReturn = super.createMessageArea(composite);
         toReturn.setBackground(ColorManager.WHITE);
         return toReturn;
     }
+    
+	public  boolean isHelpAvailable() {
+		return false;
+	}
 }
