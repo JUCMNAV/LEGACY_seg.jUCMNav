@@ -21,7 +21,8 @@ public class AddBranchOnStubCommand extends CompoundCommand {
 		this.stub= stub;
 		this.isInBranch=isInBranch;
 		
-		CreatePathCommand cpc = new CreatePathCommand((UCMmap)stub.getDiagram(), stub.getX()-50,stub.getY()-50);
+		CreatePathCommand cpc = new CreatePathCommand((UCMmap)stub.getDiagram(), stub.getX()-(isInBranch?150:50),stub.getY()-50);
+		
 		cpc.createElements();
 		add(cpc);
 		
