@@ -127,7 +127,6 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         manager.add(showStrategiesView);
         manager.add(showDesignView);
 
- 
         
         showPage(ID_DESIGN);
 	}
@@ -419,4 +418,20 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             }            
         }
     }
+    
+	public Object getAdapter(Class adapter) {
+		if (adapter == org.eclipse.ui.views.properties.IPropertySheetPage.class) 
+		{
+			//PropertySheetPage page = new PropertySheetPage();
+            
+            //page.setPropertySourceProvider(multieditor);
+            ////page.setRootEntry(new UndoablePropertySheetEntry(multieditor.getDelegatingCommandStack()));
+            //return page;
+			
+			return multieditor.getAdapter(org.eclipse.ui.views.properties.IPropertySheetPage.class);
+
+		}
+		else
+			return super.getAdapter(adapter);
+	}
 }
