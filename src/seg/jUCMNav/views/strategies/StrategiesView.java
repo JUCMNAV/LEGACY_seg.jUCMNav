@@ -378,7 +378,16 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(false);         
                 }
-            }            	
+            }
+            
+// this is weird, windows move  
+//			try {
+//				PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+//
+//			} catch (PartInitException e) {
+//			} catch (WorkbenchException e) {
+//			}
         } else if (id == ID_STRATEGY) {
             showDesignView.setChecked(false);
             showStrategiesView.setChecked(true);
@@ -415,7 +424,16 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                     ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);         
                 }
-            }            
+            }
+            
+//            this is weird, windows move             
+//			try {
+//				PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactoryExecution.JUCMNAV_PERSPECTIVE_ID,
+//						PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+//
+//			} catch (PartInitException e) {
+//			} catch (WorkbenchException e) {
+//			}            
         }
     }
     
@@ -428,7 +446,11 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             ////page.setRootEntry(new UndoablePropertySheetEntry(multieditor.getDelegatingCommandStack()));
             //return page;
 			
-			return multieditor.getAdapter(org.eclipse.ui.views.properties.IPropertySheetPage.class);
+			if (multieditor!=null)
+				return multieditor.getAdapter(org.eclipse.ui.views.properties.IPropertySheetPage.class);
+			else
+				return super.getAdapter(adapter);
+					
 
 		}
 		else

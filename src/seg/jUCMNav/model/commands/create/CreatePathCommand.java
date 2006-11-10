@@ -88,30 +88,9 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
      * Creates all required elements and invokes redo()
      */
     public void execute() {
-        URNspec urn = diagram.getUrndefinition().getUrnspec();
-        if (start == null)
-            start = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
 
-        // start-----node-----end
-        start.setX(x);
-        start.setY(y);
-
-        node = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
-        node.setX(x + 100);
-        node.setY(y);
-
-        link1 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
-        link1.setSource(start);
-        link1.setTarget(node);
-
-        end = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
-        end.setX(x + 200);
-        end.setY(y);
-
-        link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
-        link2.setSource(node);
-        link2.setTarget(end);
-
+    	if (end==null)
+    		createElements();
         redo();
     }
 
@@ -279,4 +258,37 @@ public class CreatePathCommand extends Command implements JUCMNavCommand {
     public void setY(int y) {
         this.y = y;
     }
+    
+    /**
+     * Creates the elements if they need to be referenced before executing the command. 
+     *
+     */
+    public void createElements()
+    {
+        URNspec urn = diagram.getUrndefinition().getUrnspec();
+        if (start == null)
+            start = (StartPoint) ModelCreationFactory.getNewObject(urn, StartPoint.class);
+
+        // start-----node-----end
+        start.setX(x);
+        start.setY(y);
+
+        node = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
+        node.setX(x + 100);
+        node.setY(y);
+
+        link1 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+        link1.setSource(start);
+        link1.setTarget(node);
+
+        end = (EndPoint) ModelCreationFactory.getNewObject(urn, EndPoint.class);
+        end.setX(x + 200);
+        end.setY(y);
+
+        link2 = (NodeConnection) ModelCreationFactory.getNewObject(urn, NodeConnection.class);
+        link2.setSource(node);
+        link2.setTarget(end);
+    	
+    }
+   
 }

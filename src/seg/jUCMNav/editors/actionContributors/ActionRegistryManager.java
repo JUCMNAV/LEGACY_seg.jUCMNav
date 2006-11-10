@@ -27,6 +27,7 @@ import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
+import seg.jUCMNav.actions.AddBranchOnStubAction;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -219,6 +220,14 @@ public class ActionRegistryManager {
 
         action = new AddBranchAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addBranch")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddBranchOnStubAction(editor, true);
+        action.setText(Messages.getString("ActionRegistryManager.AddIncomingBranch"));  //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new AddBranchOnStubAction(editor, false);
+        action.setText(Messages.getString("ActionRegistryManager.AddOutgoingBranch")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddTimeoutPathAction(editor);

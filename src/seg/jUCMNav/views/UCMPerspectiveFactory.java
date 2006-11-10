@@ -39,6 +39,7 @@ public class UCMPerspectiveFactory implements IPerspectiveFactory {
 		bottomRight.addView(IPageLayout.ID_PROP_SHEET);
 		bottomRight.addView(IPageLayout.ID_PROBLEM_VIEW);
 
+		layout.addPerspectiveShortcut(UCMPerspectiveFactoryExecution.JUCMNAV_PERSPECTIVE_ID);
 	}
 
 }

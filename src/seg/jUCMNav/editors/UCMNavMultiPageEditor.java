@@ -33,6 +33,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -50,6 +51,7 @@ import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.OpenEditorQuickFix;
 import seg.jUCMNav.views.QuickFixer;
+import seg.jUCMNav.views.UCMPerspectiveFactory;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
@@ -525,6 +527,14 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         // delegated to the registry manager.
         getActionRegistryManager().createActions(this, getSite().getKeyBindingService(), getDelegatingZoomManager());
 
+		try {
+			//IDE.openEditor(page, file, true);
+			PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+
+		} catch (PartInitException e) {
+		} catch (WorkbenchException e) {
+		}
     }
 
     /**
