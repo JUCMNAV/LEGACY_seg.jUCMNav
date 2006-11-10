@@ -61,7 +61,7 @@
                class="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
                icon="icons/condition.gif"
                id="seg.jUCMNav.actions.scenarios.VerifySyntaxActionDelegate"
-               label="Verify Pseudo-Code Syntax"
+               label="%VerifyPseudoCodeSyntax"
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="Verifies the syntax of all responsibilities and conditions."/>
