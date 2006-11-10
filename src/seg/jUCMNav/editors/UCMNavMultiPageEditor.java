@@ -26,6 +26,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.INavigationLocation;
 import org.eclipse.ui.INavigationLocationProvider;
 import org.eclipse.ui.ISelectionListener;
@@ -47,6 +48,8 @@ import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNElementFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.OpenEditorQuickFix;
+import seg.jUCMNav.views.QuickFixer;
 import seg.jUCMNav.views.outline.UrnOutlinePage;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
@@ -723,8 +726,23 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 							getMultiPageTabManager().getSelectionListener().selectionChanged(this, new StructuredSelection(part));
 							outline.getViewer().select(part);
 							// part.setSelected(EditPart.SELECTED_PRIMARY);
-
+							//return; // work is done. 
 						}
+				}
+				
+				
+				
+				// if found nothing, see if we have a quick fix.
+				
+				QuickFixer fixer = new QuickFixer();
+				IMarkerResolution [] resolutions = fixer.getResolutions(marker);
+				
+				if (resolutions.length>0)
+				{
+					// we don't want to automatically run any other quick fix than this one. 
+					if (resolutions[0] instanceof OpenEditorQuickFix) {
+						resolutions[0].run(marker);
+					}
 				}
 				
 			}

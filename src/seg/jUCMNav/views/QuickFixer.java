@@ -10,6 +10,8 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.util.URNElementFinder;
 import ucm.map.EndPoint;
+import ucm.map.NodeConnection;
+import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
@@ -24,7 +26,7 @@ public class QuickFixer implements IMarkerResolutionGenerator {
        try {
           IEditorPart ed = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 
-          if ((mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          if ((mk.getAttribute("Condition")!=null || mk.getAttribute("NodePreCondition")!=null || mk.getAttribute("NodePostCondition")!=null || mk.getAttribute("Scenario")!=null) && mk.exists() && ed instanceof UCMNavMultiPageEditor) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
           {
 			UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) ed;
 			Object o = mk.getAttribute("EObject"); //$NON-NLS-1$
@@ -40,6 +42,18 @@ public class QuickFixer implements IMarkerResolutionGenerator {
 						cond = ((StartPoint)element).getPrecondition();
 
 					}
+					else if (mk.getAttribute("Condition")!=null) //$NON-NLS-1$
+					{
+						Integer i;
+						if (mk.getAttribute("ConditionIndex")!=null && mk.getAttribute("ConditionIndex") instanceof Integer) { //$NON-NLS-1$ //$NON-NLS-2$
+							i = (Integer) mk.getAttribute("ConditionIndex"); //$NON-NLS-1$
+						}
+						else
+							i = new Integer(0);
+						
+						cond = ((NodeConnection) ((PathNode)element).getSucc().get(i.intValue())).getCondition();
+
+					}					
 					else if (mk.getAttribute("NodePostCondition")!=null) //$NON-NLS-1$
 					{
 						cond = ((EndPoint)element).getPostcondition();

@@ -2,14 +2,14 @@
 package seg.jUCMNav.scenarios.parser;
 public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants, jUCMNavParserConstants {/*@bgen(jjtree)*/
   protected static JJTjUCMNavParserState jjtree = new JJTjUCMNavParserState();public static void main(String args[]) {
-    System.out.println("Reading from standard input...");
+    System.out.println("Reading from standard input..."); //$NON-NLS-1$
     jUCMNavParser t = new jUCMNavParser(System.in);
     try {
       SimpleNode n = t.Start();
-      n.dump("");
-      System.out.println("Thank you.");
+      n.dump(""); //$NON-NLS-1$
+      System.out.println("Thank you."); //$NON-NLS-1$
     } catch (Exception e) {
-      System.out.println("Oops.");
+      System.out.println("Oops."); //$NON-NLS-1$
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
@@ -45,7 +45,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
       jjtree.closeNodeScope(jjtn000, true);
     }
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
   static final public SimpleNode StartResponsibility() throws ParseException {
@@ -91,7 +91,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
       jjtree.closeNodeScope(jjtn000, true);
     }
     }
-    throw new Error("Missing return statement in function");
+    throw new Error("Missing return statement in function"); //$NON-NLS-1$
   }
 
   static final public void Statement() throws ParseException {
@@ -927,9 +927,9 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   public jUCMNavParser(java.io.InputStream stream) {
     if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
+      System.out.println("ERROR: Second call to constructor of static parser.  You must"); //$NON-NLS-1$
+      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false"); //$NON-NLS-1$
+      System.out.println("       during parser generation."); //$NON-NLS-1$
       throw new Error();
     }
     jj_initialized_once = true;
@@ -953,9 +953,9 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   public jUCMNavParser(java.io.Reader stream) {
     if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
+      System.out.println("ERROR: Second call to constructor of static parser.  You must"); //$NON-NLS-1$
+      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false"); //$NON-NLS-1$
+      System.out.println("       during parser generation."); //$NON-NLS-1$
       throw new Error();
     }
     jj_initialized_once = true;
@@ -979,9 +979,9 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   public jUCMNavParser(jUCMNavParserTokenManager tm) {
     if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  You must");
-      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
+      System.out.println("ERROR: Second call to constructor of static parser.  You must"); //$NON-NLS-1$
+      System.out.println("       either use ReInit() or set the JavaCC option STATIC to false"); //$NON-NLS-1$
+      System.out.println("       during parser generation."); //$NON-NLS-1$
       throw new Error();
     }
     jj_initialized_once = true;

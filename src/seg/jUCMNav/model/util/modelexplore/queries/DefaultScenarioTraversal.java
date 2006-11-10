@@ -538,7 +538,12 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		_currentContext = new Vector();
 		_currentContext.addAll(visit.getContext());
 		
-		trackVisit(pn);
+		try {
+			trackVisit(pn);
+		}catch(TraversalException ex) {
+			_warnings.add(new TraversalWarning(ex.getMessage(), pn, IMarker.SEVERITY_ERROR));
+			return;
+		}
 
 		if (pn instanceof StartPoint) {
 			StartPoint start = (StartPoint) pn;
@@ -598,15 +603,16 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
 						if (ScenarioTraversalPreferences.getIsDeterministic())
-							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), orfork,IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingFirstOptionToRemainDeterministic"), nc.getCondition(),IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						else
-							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), orfork, IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalHasMultipleAlternativesAtOrFork") + orfork.getName() + Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + orfork.getId() + Messages.getString("DefaultScenarioTraversal.TakingAnyOptionNonDeterministic"), nc.getCondition(), IMarker.SEVERITY_INFO)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					}
 					
 					toVisit.add(nc);
 				} 
 			} catch (IllegalArgumentException e) {
-				throw new TraversalException(e.getMessage(), e);
+				_warnings.add(new TraversalWarning(e.getMessage(), nc.getCondition(), IMarker.SEVERITY_ERROR));
+				//throw new TraversalException(e.getMessage(), e);
 			}
 		}
 		
@@ -649,7 +655,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		try {
 			ScenarioUtils.evaluate(resp, env);
 		} catch (IllegalArgumentException e) {
-			throw new TraversalException(e.getMessage(), e);
+			//throw new TraversalException(e.getMessage(), e);
+			_warnings.add(new TraversalWarning(e.getMessage(), resp, IMarker.SEVERITY_ERROR));
 		}
 
 		visitOnlySucc(resp);
@@ -708,7 +715,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 													+ Messages.getString("DefaultScenarioTraversal.OpenParenthesis") + binding.getPlugin().getId() + Messages.getString("DefaultScenarioTraversal.CloseParenthesisQuote"), stub, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$
 					}
 				} catch (IllegalArgumentException e) {
-					throw new TraversalException(e.getMessage(), e);
+					//throw new TraversalException(e.getMessage(), e);
+					_warnings.add(new TraversalWarning(e.getMessage(), stub, IMarker.SEVERITY_ERROR));
 				}
 			}
 
@@ -798,7 +806,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					addToWaitingList(pn);
 			}
 		} catch (IllegalArgumentException e) {
-			throw new TraversalException(e.getMessage(), e);
+			//throw new TraversalException(e.getMessage(), e);
+			_warnings.add(new TraversalWarning(e.getMessage(), pn, IMarker.SEVERITY_ERROR));
 		}
 	}
 
@@ -907,7 +916,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				return false;
 			}
 		} catch (IllegalArgumentException e) {
-			throw new TraversalException(e.getMessage(), e);
+			//throw new TraversalException(e.getMessage(), e);
+			_warnings.add(new TraversalWarning(e.getMessage(), cond, IMarker.SEVERITY_ERROR));
 		}
 
 		return true;

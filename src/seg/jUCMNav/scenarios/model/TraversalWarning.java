@@ -3,6 +3,7 @@ package seg.jUCMNav.scenarios.model;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
+import ucm.map.NodeConnection;
 import urncore.Condition;
 
 public class TraversalWarning {
@@ -23,6 +24,13 @@ public class TraversalWarning {
 		this.msg=msg;
 		this.location=location;
 		setWarning();
+		if (location instanceof Condition) {
+			setCondition((Condition)location);
+			this.location = location.eContainer();
+			if (this.location instanceof NodeConnection) {
+				this.location = ((NodeConnection)this.location).getSource();
+			}			
+		}
 	}
 	
 	public TraversalWarning(String msg, int severity) {
@@ -36,6 +44,14 @@ public class TraversalWarning {
 		this.msg=msg;
 		this.location=location;
 		this.severity = severity;
+		
+		if (this.location instanceof Condition) {
+			setCondition((Condition)this.location);
+			this.location = this.location.eContainer();
+			if (this.location instanceof NodeConnection) {
+				this.location = ((NodeConnection)this.location).getSource();
+			}
+		}
 	}
 	
 

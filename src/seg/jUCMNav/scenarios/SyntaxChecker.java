@@ -185,14 +185,26 @@ public class SyntaxChecker {
 						} else if (o.getCondition().eContainer() instanceof EndPoint) {
 							EndPoint end = (EndPoint)o.getCondition().eContainer();
 							marker.setAttribute("NodePostCondition", end.getId() ); //$NON-NLS-1$
+						} else if (o.getCondition().eContainer() instanceof NodeConnection) {
+							NodeConnection ncx = (NodeConnection)o.getCondition().eContainer();
+							PathNode pn = (PathNode) ncx.getSource();
+							marker.setAttribute("Condition", pn.getId() ); //$NON-NLS-1$
+							for (int i=0;i<pn.getSucc().size();i++) {
+								NodeConnection nc = (NodeConnection) pn.getSucc().get(i);
+								if (nc.getCondition() == o.getCondition()) {
+									marker.setAttribute("ConditionIndex", i ); //$NON-NLS-1$
+								}
+							}
 						}else if (o.getCondition().eContainer() instanceof ScenarioDef) {
 							ScenarioDef scenario = (ScenarioDef)o.getCondition().eContainer();
 							marker.setAttribute("Scenario", scenario.getId() ); //$NON-NLS-1$
 							marker.setAttribute("ScenarioPreConditionIndex", scenario.getPreconditions().indexOf(o.getCondition())); //$NON-NLS-1$
 							marker.setAttribute("ScenarioPostConditionIndex", scenario.getPostconditions().indexOf(o.getCondition())); //$NON-NLS-1$
 						}
-
-						
+					}
+					else  if (o.getLocation() instanceof OrFork || o.getLocation() instanceof WaitingPlace ) {
+							PathNode pn = (PathNode)o.getLocation();
+							marker.setAttribute("Condition", pn.getId() ); //$NON-NLS-1$							
 					}
 					resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
 				} catch(CoreException ex) 

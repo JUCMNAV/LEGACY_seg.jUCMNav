@@ -24,41 +24,41 @@ public interface jUCMNavParserConstants {
   int DEFAULT = 0;
 
   String[] tokenImage = {
-    "<EOF>",
-    "\" \"",
-    "\"\\t\"",
-    "\"\\n\"",
-    "\"\\r\"",
-    "<token of kind 5>",
-    "<token of kind 6>",
-    "\"{\"",
-    "\"}\"",
-    "\"=>\"",
-    "\"(\"",
-    "\")\"",
-    "\">\"",
-    "\">=\"",
-    "\"<\"",
-    "\"<=\"",
-    "\"+\"",
-    "\"-\"",
-    "\"*\"",
-    "<AND>",
-    "<OR>",
-    "<XOR>",
-    "\"=\"",
-    "\"==\"",
-    "<NOTEQUALS>",
-    "<NOT>",
-    "\":=\"",
-    "\"if\"",
-    "\"else\"",
-    "\";\"",
-    "<BOOLEAN>",
-    "<INTEGER>",
-    "<IDENTIFIER>",
-    "<LETTER>",
-    "<DIGIT>",
+    "<EOF>", //$NON-NLS-1$
+    "\" \"", //$NON-NLS-1$
+    "\"\\t\"", //$NON-NLS-1$
+    "\"\\n\"", //$NON-NLS-1$
+    "\"\\r\"", //$NON-NLS-1$
+    "<token of kind 5>", //$NON-NLS-1$
+    "<token of kind 6>", //$NON-NLS-1$
+    "\"{\"", //$NON-NLS-1$
+    "\"}\"", //$NON-NLS-1$
+    "\"=>\"", //$NON-NLS-1$
+    "\"(\"", //$NON-NLS-1$
+    "\")\"", //$NON-NLS-1$
+    "\">\"", //$NON-NLS-1$
+    "\">=\"", //$NON-NLS-1$
+    "\"<\"", //$NON-NLS-1$
+    "\"<=\"", //$NON-NLS-1$
+    "\"+\"", //$NON-NLS-1$
+    "\"-\"", //$NON-NLS-1$
+    "\"*\"", //$NON-NLS-1$
+    "<AND>", //$NON-NLS-1$
+    "<OR>", //$NON-NLS-1$
+    "<XOR>", //$NON-NLS-1$
+    "\"=\"", //$NON-NLS-1$
+    "\"==\"", //$NON-NLS-1$
+    "<NOTEQUALS>", //$NON-NLS-1$
+    "<NOT>", //$NON-NLS-1$
+    "\":=\"", //$NON-NLS-1$
+    "\"if\"", //$NON-NLS-1$
+    "\"else\"", //$NON-NLS-1$
+    "\";\"", //$NON-NLS-1$
+    "<BOOLEAN>", //$NON-NLS-1$
+    "<INTEGER>", //$NON-NLS-1$
+    "<IDENTIFIER>", //$NON-NLS-1$
+    "<LETTER>", //$NON-NLS-1$
+    "<DIGIT>", //$NON-NLS-1$
   };
 
 }

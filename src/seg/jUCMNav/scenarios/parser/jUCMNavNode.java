@@ -37,14 +37,14 @@ public class jUCMNavNode extends SimpleNode {
 
     public void dump(String prefix) {
         if (m_text != null && m_text.length() > 0)
-            System.out.println(toString(prefix) + "[" + m_text + "]");
+            System.out.println(toString(prefix) + "[" + m_text + "]"); //$NON-NLS-1$ //$NON-NLS-2$
         else
             System.out.println(toString(prefix));
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
                 SimpleNode n = (SimpleNode) children[i];
                 if (n != null) {
-                    n.dump(prefix + " ");
+                    n.dump(prefix + " "); //$NON-NLS-1$
                 }
             }
         }
@@ -53,16 +53,16 @@ public class jUCMNavNode extends SimpleNode {
     public void dumpEvaluation(String prefix, UcmEnvironment env) {
         Object eval =  UcmExpressionEvaluator.evaluate(this, env);
         if (eval == jUCMNavType.VOID)
-            eval="";
+            eval=""; //$NON-NLS-1$
         if (m_text != null && m_text.length() > 0)
-            System.out.println(toString(prefix) + "[" + m_text + "] == " + eval);
+            System.out.println(toString(prefix) + "[" + m_text + "] == " + eval); //$NON-NLS-1$ //$NON-NLS-2$
         else
-            System.out.println(toString(prefix)+  " == " + eval);
+            System.out.println(toString(prefix)+  " == " + eval); //$NON-NLS-1$
         if (children != null) {
             for (int i = 0; i < children.length; ++i) {
                 SimpleNode n = (SimpleNode) children[i];
                 if (n != null) {
-                    n.dumpEvaluation(prefix + " ", env);
+                    n.dumpEvaluation(prefix + " ", env); //$NON-NLS-1$
                 }
             }
         }

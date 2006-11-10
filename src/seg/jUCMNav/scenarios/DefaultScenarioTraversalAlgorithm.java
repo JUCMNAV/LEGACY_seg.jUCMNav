@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal.QDefaultScenarioTraversal;
@@ -109,7 +110,7 @@ public class DefaultScenarioTraversalAlgorithm {
 		results = new HashMap();
 		warnings = new Vector();
 		
-		if (scenario.getStartPoints().size()==0) {
+		if (ScenarioUtils.getDefinedStartPoints(scenario).size()==0) {
 			warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.NoStartPointsDefined"), scenario, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		}
 	}
@@ -196,18 +197,20 @@ public class DefaultScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					if (res instanceof Boolean) {
+						if (Boolean.FALSE.equals(res)) {
+							
+							TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Postcondition") + URNNamingHelper.getName(cond) + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario, IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							warning.setCondition(cond);
+							warnings.add(warning);
+						}
+					} else
+						throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
 				} catch (IllegalArgumentException e) {
-					throw new TraversalException(e.getMessage(), e);
+					//throw new TraversalException(e.getMessage(), e);
+					warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.ScenarioPostcondition") + " " + URNNamingHelper.getName(cond) + ": " + e.getMessage(), cond, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
-				if (res instanceof Boolean) {
-					if (Boolean.FALSE.equals(res)) {
-						
-						TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Postcondition") + cond.getLabel() + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario, IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						warning.setCondition(cond);
-						warnings.add(warning);
-					}
-				} else
-					throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
+
 
 			}
 
@@ -232,17 +235,19 @@ public class DefaultScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					if (res instanceof Boolean) {
+						if (Boolean.FALSE.equals(res)) {
+							TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Precondition") + URNNamingHelper.getName(cond) + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario,IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+							warning.setCondition(cond);
+							warnings.add(warning);
+						}
+					} else
+						throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
+					
 				} catch (IllegalArgumentException e) {
-					throw new TraversalException(e.getMessage(), e);
+					//throw new TraversalException(e.getMessage(), e);
+					warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.ScenarioPrecondition") + " " + URNNamingHelper.getName(cond) + ": " + e.getMessage(), cond, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
-				if (res instanceof Boolean) {
-					if (Boolean.FALSE.equals(res)) {
-						TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Precondition") + cond.getLabel() + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario,IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						warning.setCondition(cond);
-						warnings.add(warning);
-					}
-				} else
-					throw new TraversalException(Messages.getString("DefaultScenarioTraversalAlgorithm.UnexpectedResult")); //$NON-NLS-1$
 
 			}
 
