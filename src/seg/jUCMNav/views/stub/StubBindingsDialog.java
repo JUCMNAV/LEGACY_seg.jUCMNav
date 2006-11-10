@@ -15,6 +15,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -394,6 +396,31 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				handleTreeBindingsSelected((TreeItem) e.item);
 			}
 		});
+		
+		treeBindings.addKeyListener(new KeyListener() {
+
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == SWT.DEL) {
+					delete();
+				} else if ((e.stateMask == SWT.CTRL) && ( (e.keyCode == 'z') || (e.keyCode == 'Z')))
+				{
+					if (btUndo.isEnabled())
+						undo();
+					
+				}	else if ((e.stateMask == SWT.CTRL) && ( (e.keyCode == 'y') || (e.keyCode == 'Y')))
+				{
+					if (btRedo.isEnabled())
+						redo();
+					
+				}			
+			}
+
+			public void keyReleased(KeyEvent e) {
+
+			}
+			
+		});
+		
 
 		pluginListSection.setClient(sectionClient);
 
