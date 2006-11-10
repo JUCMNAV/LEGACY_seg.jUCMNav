@@ -82,23 +82,17 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     public List getModelChildren() {
         ArrayList list = new ArrayList();
         if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
-        	//list.addAll(root.getIncludedScenarios());
         	list.addAll(ScenarioUtils.getDefinedIncludedScenarios(root));
         } else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
-        	//list.addAll(root.getStartPoints());
         	list.addAll(ScenarioUtils.getDefinedStartPoints(root));
 		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
-//			list.addAll(root.getInitializations());
-//			list.addAll(root.getPreconditions());
-			list.addAll(ScenarioUtils.getDefinedInitializations(root));
 			list.addAll(ScenarioUtils.getDefinedPreconditions(root));
+		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Initializations"))) { //$NON-NLS-1$
+			list.addAll(ScenarioUtils.getDefinedInitializations(root));
 		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
-			//list.addAll(root.getEndPoints());
 			list.addAll(ScenarioUtils.getDefinedEndPoints(root));
 		} else if (getLabel().equals(Messages.getString("ScenarioLabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
-//			list.addAll(root.getPostconditions());
 			list.addAll(ScenarioUtils.getDefinedPostconditions(root));
-			
 		}
         
         return list;

@@ -109,9 +109,17 @@ public class ScenarioUtils {
 		else
 			return isEmptyResponsibility(resp.getRespDef());
 	}
+	
+	public static boolean isEmptyResponsibility(String code) {
+		return code == null || code.length() == 0 ||  code.replace("\n", "").replace("\r", "").trim().length()==0;    //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
+		
 		
 	public static boolean isEmptyResponsibility(Responsibility resp) {
-		return resp == null || resp.getExpression() == null || resp.getExpression().length() == 0 || resp.getExpression().replace("\n", "").replace("\r", "").trim().length()==0;   
+		if (resp == null)
+			return true;
+		else
+			return isEmptyResponsibility(resp.getExpression());
 	}	
 	
 	public static ScenarioDef getActiveScenario(EObject obj)

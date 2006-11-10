@@ -916,19 +916,19 @@ public class URNNamingHelper {
 		{
 			if (cond.eContainer() instanceof PluginBinding) {
 				PluginBinding binding = (PluginBinding) cond.eContainer();
-				name = getName(binding.getStub()) + " <-> " + getName(binding.getPlugin()); 
+				name = getName(binding.getStub()) + " <-> " + getName(binding.getPlugin());  //$NON-NLS-1$
 			} else if (cond.eContainer() instanceof NodeConnection) {
 				NodeConnection connection = (NodeConnection) cond.eContainer();
 				if (connection.getSource() instanceof Timer) {
 					if (connection.getSource().getSucc().indexOf(connection)==0) 
-						return "Normal path: " + getNameFromExpression(expression);
+						return Messages.getString("URNNamingHelper.NormalPath") + getNameFromExpression(expression); //$NON-NLS-1$
 					else
-						return "Timeout path: " + getNameFromExpression(expression);
+						return Messages.getString("URNNamingHelper.TimeoutPath") + getNameFromExpression(expression); //$NON-NLS-1$
 						
 				}
 				if (connection.getSource() instanceof OrFork || connection.getSource() instanceof WaitingPlace)
 				{
-					return "Branch " + (connection.getSource().getSucc().indexOf(connection)+1) + ": " + getNameFromExpression(expression); 
+					return Messages.getString("URNNamingHelper.Branch") + (connection.getSource().getSucc().indexOf(connection)+1) + Messages.getString("URNNamingHelper.ColonSpace") + getNameFromExpression(expression);  //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				else  
 					name = getNameFromExpression(expression);
@@ -943,12 +943,12 @@ public class URNNamingHelper {
 	private static String getNameFromExpression(String expression) {
 		String name;
 		name = expression;
-		if (name==null)name="";
+		if (name==null)name=""; //$NON-NLS-1$
 		
-		name = name.replace("\r","");
+		name = name.replace("\r",""); //$NON-NLS-1$ //$NON-NLS-2$
 		name = name.replace('\n', ' ');
 		if (name.length()>40) {
-			name = name.substring(0,37) + "...";
+			name = name.substring(0,37) + "..."; //$NON-NLS-1$
 		}
 		return name;
 	}

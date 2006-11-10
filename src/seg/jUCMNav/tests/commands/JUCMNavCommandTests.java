@@ -413,8 +413,8 @@ public class JUCMNavCommandTests extends TestCase {
     	
     
     	
-    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)end.getPred().get(0)));
-    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)stub.getSucc().get(1)));
+    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)end.getPred().get(0))); //$NON-NLS-1$
+    	assertFalse("Should not be able to merge end point with its own path.", SafePathChecker.isSafeFusion(end, (NodeConnection)stub.getSucc().get(1))); //$NON-NLS-1$
 
     	
     }

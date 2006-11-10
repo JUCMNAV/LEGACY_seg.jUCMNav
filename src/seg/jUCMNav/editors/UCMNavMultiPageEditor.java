@@ -486,7 +486,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         	{
         		// File -> Open gives us a JavaFileEditorInput
         		// we don't want to open it because our scenario warnings are associated to the IFile...  
-        		MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", "You cannot use File -> Open to open a jUCMNav file; please use File -> Import -> File System instead.");
+        		MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("UCMNavMultiPageEditor.Error"), Messages.getString("UCMNavMultiPageEditor.CannotUseFileOpen")); //$NON-NLS-1$ //$NON-NLS-2$
         		this.closeEditor(false);
         		return;
         		

@@ -131,7 +131,7 @@ public class CodeEditorPage extends WizardPage {
 
 		// label over the variable box
 		label = new Label(container, SWT.NULL);
-		label.setText("Double-click on a variable.");
+		label.setText(Messages.getString("CodeEditorPage.DoubleClickOnVariable")); //$NON-NLS-1$
 		
 
 		
@@ -354,8 +354,8 @@ public class CodeEditorPage extends WizardPage {
 	 * Ensures that the pseudo-code is legal (syntax and type checking)
 	 */
 	private void dialogChanged() {
-		if (getCode() == null || getCode().length() == 0 || getCode().replace("\n", "").replace("\r", "").trim().length()==0) {
-			code.put(defaultSelected, "");
+		if (resp!=null && ScenarioUtils.isEmptyResponsibility(getCode())) {
+			code.put(defaultSelected, ""); //$NON-NLS-1$
 			updateStatus(null);
 		}
 		else {

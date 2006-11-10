@@ -96,7 +96,7 @@ public class ModelCreationFactory implements CreationFactory {
     public static int DEFAULT_UCM_COMPONENT_WIDTH = 100;
     public static int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static int DEFAULT_GRL_COMPONENT_WIDTH = 200;
-    public static String URNSPEC_VERSION="0.912";
+    public static String URNSPEC_VERSION="0.912"; //$NON-NLS-1$
     
     
     private Object preDefinedDefinition;
