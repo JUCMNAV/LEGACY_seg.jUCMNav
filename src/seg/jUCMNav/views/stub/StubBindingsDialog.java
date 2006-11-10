@@ -166,7 +166,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	private Object selectedItem;
 
 	// The text field for the condition expression of a PluginBinding.
-	private Text txtExpCondition;
+	private Label txtExpCondition;
 
 	// The text field for the label of a PluginBinding
 	private Text txtLabelCondition;
@@ -649,7 +649,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		lblExpCondition.setLayoutData(g);
 		// lblExpCondition.setBackground(new Color(null, 232, 247, 255));
 
-		txtExpCondition = toolkit.createText(compCondition, "true", SWT.BORDER|SWT.READ_ONLY); //$NON-NLS-1$
+		txtExpCondition = toolkit.createLabel(compCondition, "true"); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = true;
 		g.grabExcessVerticalSpace = true;
