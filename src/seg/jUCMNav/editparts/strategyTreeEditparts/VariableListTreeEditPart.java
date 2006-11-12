@@ -23,12 +23,14 @@ import ucm.UCMspec;
  */
 public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     
+	private boolean isEnumerations;
     /**
      * @param model
      *          The UCMspec model
      */
-    public VariableListTreeEditPart(UCMspec model) {
+    public VariableListTreeEditPart(UCMspec model, boolean isEnumerations) {
         super(model);
+        this.isEnumerations=isEnumerations;
     }
 
     /**
@@ -69,7 +71,10 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        list.addAll(getUCMspec().getVariables());
+        if (isEnumerations)
+        	list.addAll(getUCMspec().getEnumerationTypes());
+        else
+        	list.addAll(getUCMspec().getVariables());        	
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -82,6 +87,13 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
      * @return the URNspec name.
      */
     protected String getText() {
-        return Messages.getString("VariableListTreeEditPart.Variables"); //$NON-NLS-1$
+    	if (isEnumerations)
+    		return "Enumerations";
+    	else
+    		return Messages.getString("VariableListTreeEditPart.Variables"); //$NON-NLS-1$
     }
+
+	public boolean isEnumerations() {
+		return isEnumerations;
+	}
 }

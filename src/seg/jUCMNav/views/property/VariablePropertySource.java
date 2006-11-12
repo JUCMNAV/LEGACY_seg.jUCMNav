@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Variable;
 import urn.URNspec;
 
@@ -27,6 +28,28 @@ public class VariablePropertySource extends URNElementPropertySource {
 		super(obj);
 	}
 
+	/**
+	 * Given the property id, return the contained value
+	 */
+	public Object getPropertyValue(Object id) {
+
+		// int propertyid = Integer.parseInt((String) id);
+		// EStructuralFeature feature =
+		// object.eClass().getEStructuralFeature(propertyid);
+		PropertyID propertyid = (PropertyID) id;
+		EStructuralFeature feature = propertyid.getFeature();
+		if (feature.getName() == "type") {
+			Object result = getFeature(propertyid, feature);
+			result = returnPropertyValue(feature, result);
+			if (result.equals(ScenarioUtils.sTypeEnumeration) &&  ((Variable)getEditableValue()).getEnumerationType()!=null)
+				result = ((Variable)getEditableValue()).getEnumerationType().getName();
+			return result != null ? result : ""; //$NON-NLS-1$
+		}
+		else 
+			return super.getPropertyValue(id);
+		
+	}
+	
 	public void setPropertyValue(Object id, Object value) {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
@@ -45,7 +68,7 @@ public class VariablePropertySource extends URNElementPropertySource {
             } else if (++i % 2 == 1) { // because refreshed twice.
                 MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", message); //$NON-NLS-1$
             }
-
+            
         } else {
             super.setPropertyValue(id, value);
         }	}

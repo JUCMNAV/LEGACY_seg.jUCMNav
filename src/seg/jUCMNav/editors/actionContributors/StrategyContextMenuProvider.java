@@ -89,6 +89,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
         
+        action = getActionRegistry().getAction(AddVariableAction.ADDENUMERATIONVARIABLE);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);    
+                
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);              

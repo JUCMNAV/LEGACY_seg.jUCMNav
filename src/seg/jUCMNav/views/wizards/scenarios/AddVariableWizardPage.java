@@ -112,8 +112,6 @@ public class AddVariableWizardPage extends WizardPage {
 		
 		btnType = new Button(composite, SWT.RADIO);
 		btnType.setText(Messages.getString("AddVariableWizardPage.Enumeration")); //$NON-NLS-1$
-		// TODO: enable enumerations
-		btnType.setEnabled(false);
 		btnType.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (!ScenarioUtils.sTypeEnumeration.equals(sType)) {

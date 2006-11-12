@@ -50,6 +50,7 @@ import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import ucm.performance.PerformanceFactory;
 import ucm.performance.Workload;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -299,6 +300,8 @@ public class ModelCreationFactory implements CreationFactory {
             	((ScenarioEndPoint)result).setEnabled(true);
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
+            } else if (targetClass.equals(EnumerationType.class)) {
+                result = ucmscenariofactory.createEnumerationType();
             } else if (targetClass.equals(Variable.class)) {
                 result = ucmscenariofactory.createVariable();
                 ((Variable)result).setType(definition.toString());

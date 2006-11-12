@@ -89,6 +89,11 @@ public class URNElementPropertySource extends EObjectPropertySource {
         		intDescriptor(descriptors, attr, propertyid);
         	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeBoolean))
         		booleanDescriptor(descriptors, attr, propertyid);
+        	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeEnumeration))
+        	{
+        		if (((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null)
+        			enumerationDescriptor(descriptors, propertyid, ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","));
+        	}
         		
         		
         } else {
@@ -105,6 +110,20 @@ public class URNElementPropertySource extends EObjectPropertySource {
         Class enumer = type.getInstanceClass();
         String[] values = getEnumerationValues(enumer);
         //String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
+        String name = propertyid.getFeature().getName();
+        ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
+        pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
+        descriptors.add(pd);
+
+    }
+    
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void enumerationDescriptor(Collection descriptors, PropertyID propertyid, String[] values) {
+        EClassifier type = getFeatureType(propertyid.getFeature());
+        Class enumer = type.getInstanceClass();
         String name = propertyid.getFeature().getName();
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
         pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
@@ -308,7 +327,18 @@ public class URNElementPropertySource extends EObjectPropertySource {
 				if (list.get(i).equals(((EvaluationStrategy) getEditableValue()).getGroup()))
 					result = new Integer(i);
 			}
-		}        
+		}    
+		else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
+			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",");
+			String value = super.returnPropertyValue(feature, result)!=null?super.returnPropertyValue(feature, result).toString():"";
+			for (int i=0;i<values.length;i++)
+			{
+				if (values[i].equalsIgnoreCase(value))
+					return new Integer(i);
+			}
+
+			return new Integer(0);
+		}
         else if (result instanceof AbstractEnumerator) {
             // if this is an EMF enumeration
             int i = getEnumerationIndex((AbstractEnumerator) result);
@@ -361,6 +391,15 @@ public class URNElementPropertySource extends EObjectPropertySource {
             }
 
             setReferencedObject(propertyid, feature, result);
+        } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
+        
+			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",");
+            int selectedIndex = ((Integer) value).intValue();
+            String selectedString = values[selectedIndex];
+            result = selectedString;
+            
+            setReferencedObject(propertyid, feature, result);
+        	
         } else if (getFeatureType(feature).getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef) {
 
                 Vector list = new Vector(((ScenarioDef)getEditableValue()).getGroup().getUcmspec().getScenarioGroups());

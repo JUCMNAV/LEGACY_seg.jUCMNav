@@ -11,6 +11,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
@@ -47,6 +48,15 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
         add(new CleanRelationshipsCommand(var));
     }
     
+    /**
+     * 
+     * @param et
+     *            the EnumerationType to be deleted.
+     */
+    public PreDeleteUrnModelElementCommand(EnumerationType et) {
+        this.element = et;
+        add(new CleanRelationshipsCommand(et));
+    }
     /**
      * 
      * @param init

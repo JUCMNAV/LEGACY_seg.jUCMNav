@@ -9,6 +9,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Variable;
 import urn.URNspec;
 
@@ -24,6 +25,8 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     private Variable var;
     private String type;
     private String name;
+    private EnumerationType enumerationType;
+    
     /**
      * 
      */
@@ -40,7 +43,9 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
         setLabel(Messages.getString("CreateVariableCommand.CreateVariable")); //$NON-NLS-1$
     }
 
-    
+    public void setEnumerationType(EnumerationType enumerationType) {
+		this.enumerationType = enumerationType;
+	}
     /**
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
@@ -63,6 +68,9 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
+        if (enumerationType!=null)
+        	var.setEnumerationType(enumerationType);
+
         urn.getUcmspec().getVariables().add(var);
         testPostConditions();
     }
@@ -92,6 +100,8 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
     public void undo() {
         testPostConditions();
         urn.getUcmspec().getVariables().remove(var);
+        if (enumerationType!=null)
+        	var.setEnumerationType(null);
         testPreConditions();
     }
 }

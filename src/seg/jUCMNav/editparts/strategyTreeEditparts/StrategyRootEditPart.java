@@ -32,6 +32,7 @@ public class StrategyRootEditPart extends AbstractTreeEditPart {
         ArrayList l = new ArrayList();
         l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec());
         l.add(((UCMNavMultiPageEditor) getModel()).getModel().getGrlspec());
+        l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getEnumerationTypes());
         l.add(((UCMNavMultiPageEditor) getModel()).getModel().getUcmspec().getVariables());
         return l;
     }

@@ -174,7 +174,16 @@ public class DefaultScenarioTraversalAlgorithm {
 		
 		for (Iterator iter = ScenarioUtils.getDefinedInitializations(root).iterator(); iter.hasNext();) {
 			Initialization init = (Initialization) iter.next();
-			ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true); //$NON-NLS-1$ //$NON-NLS-2$
+			try {
+				ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true); //$NON-NLS-1$ //$NON-NLS-2$
+			} catch (Exception ex) {
+				if (init.getVariable().getEnumerationType()!=null) {
+					warnings.add(new TraversalWarning(init.getVariable().getEnumerationType().getName() + ": This enumeration does not contain a value named " + init.getValue()));
+				}
+				else {
+					warnings.add(new TraversalWarning(ex.getMessage(), init, IMarker.SEVERITY_ERROR));
+				}
+			}
 		}
 	}
 

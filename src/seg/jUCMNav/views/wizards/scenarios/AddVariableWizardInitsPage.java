@@ -47,6 +47,8 @@ public class AddVariableWizardInitsPage extends WizardPage {
 
 	private Table scenarios;
 	
+	public String[] enum_values;
+	
 	private TableViewer viewer; 
 	
 	/**
@@ -130,11 +132,19 @@ public class AddVariableWizardInitsPage extends WizardPage {
 
 	public void setupInitializations() {
 		initializations = new HashMap();
-		for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup group = (ScenarioGroup) iter.next();
-			for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
-				ScenarioDef scenario = (ScenarioDef) iterator.next();
-				viewer.refresh(scenario);
+		if (viewer!=null) {
+			for (Iterator iter = urn.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+				ScenarioGroup group = (ScenarioGroup) iter.next();
+				for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+					ScenarioDef scenario = (ScenarioDef) iterator.next();
+					viewer.refresh(scenario);
+				}
+			}
+		
+			for (int i = 0; i <  viewer.getTable().getItems().length; i++) {
+				TableItem item =  viewer.getTable().getItems()[i];
+				item.setChecked(getInitialization((ScenarioDef)item.getData())!=null);
+				
 			}
 		}
 	}
@@ -169,15 +179,35 @@ public class AddVariableWizardInitsPage extends WizardPage {
 		viewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(Object element, String property) {
 				
-				if (getVariableType().equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof ComboBoxCellEditor) {
-					viewer.getCellEditors()[2].dispose();
-					viewer.getCellEditors()[2] = new TextCellEditor(parent);
-					viewer.getCellEditors()[2].setValue(getValue(element, property));
-				} else if (!getVariableType().equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof TextCellEditor) {
-					viewer.getCellEditors()[2].dispose();
-					viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, boolean_values, SWT.READ_ONLY);
+				if (property.equals(titles[2])) {
+					if (getVariableType().equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof ComboBoxCellEditor) {
+						viewer.getCellEditors()[2].dispose();
+						viewer.getCellEditors()[2] = new TextCellEditor(parent);
+					} else if (!getVariableType().equals(ScenarioUtils.sTypeInteger)) {
+						if (viewer.getCellEditors()[2] instanceof TextCellEditor) {
+							viewer.getCellEditors()[2].dispose();
+							if (getVariableType().equals(ScenarioUtils.sTypeBoolean))
+								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, boolean_values, SWT.READ_ONLY);
+							else
+								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, enum_values, SWT.READ_ONLY);
+
+						} else {
+							ComboBoxCellEditor cbce = (ComboBoxCellEditor) viewer.getCellEditors()[2];
+							// make sure we have correct values.
+							if (getVariableType().equals(ScenarioUtils.sTypeBoolean)) {
+								if (cbce.getItems() != boolean_values)
+									cbce.setItems(boolean_values);
+							} else {
+								if (cbce.getItems() != enum_values)
+									cbce.setItems(enum_values);
+							}
+						}
+
+					}
 					viewer.getCellEditors()[2].setValue(getValue(element, property));
 				}
+
+
 				return (property.equals(titles[2]));
 			}
 
@@ -190,12 +220,19 @@ public class AddVariableWizardInitsPage extends WizardPage {
 					if (getInitialization((ScenarioDef) element) != null) {
 						if (getVariableType().equals(ScenarioUtils.sTypeInteger))
 							return getInitialization((ScenarioDef) element);
-						else
+						else if (getVariableType().equals(ScenarioUtils.sTypeBoolean))
 							return getInitialization((ScenarioDef) element).equals(boolean_values[0]) ? new Integer(0) : new Integer(1);
+						else {
+							for (int i=0;i<enum_values.length;i++) {
+								if (getInitialization((ScenarioDef) element).equals(enum_values[i]))
+									return new Integer(i);
+							}
+							return new Integer(0);
+						}
 					} else {
 						if (getVariableType().equals(ScenarioUtils.sTypeInteger))
 							return "0"; //$NON-NLS-1$
-						else
+						else 
 							return Integer.valueOf(0);
 					}
 				}
@@ -223,9 +260,11 @@ public class AddVariableWizardInitsPage extends WizardPage {
 					}
 					
 				}
-				else {
+				else if (getVariableType().equals(ScenarioUtils.sTypeBoolean)) {
 					setInitialization(data, boolean_values[((Integer) value).intValue()]);
 				}
+				else
+					setInitialization(data, enum_values[((Integer) value).intValue()]);
 
 				viewer.refresh(data);
 			}
@@ -296,7 +335,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 		for (int i = 0; i < titles.length; i++) {
 			TableColumn column = new TableColumn(scenarios, SWT.NONE);
 			column.setText(titles[i]);
-			column.setWidth(100);
+			column.setWidth(125);
 		}
 
 		return tableViewer;
@@ -333,6 +372,9 @@ public class AddVariableWizardInitsPage extends WizardPage {
 			}
 			else if (getVariableType().equals(ScenarioUtils.sTypeInteger)) {
 				initializations.put(scenario, "0"); //$NON-NLS-1$
+			} else
+			{
+				initializations.put(scenario, enum_values[0]); //$NON-NLS-1$
 			}
 		}
 	}

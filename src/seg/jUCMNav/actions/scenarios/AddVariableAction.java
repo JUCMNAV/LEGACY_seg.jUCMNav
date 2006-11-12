@@ -6,6 +6,7 @@ package seg.jUCMNav.actions.scenarios;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -14,10 +15,12 @@ import org.eclipse.ui.PlatformUI;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
+import seg.jUCMNav.editparts.strategyTreeEditparts.EnumerationTypeTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.VariableListTreeEditPart;
 import seg.jUCMNav.model.commands.create.CreateVariableCommand;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.wizards.scenarios.AddVariableWizard;
+import seg.jUCMNav.views.wizards.scenarios.EditEnumerationsWizard;
 
 /**
  * Creates a global variable to the UCMspec
@@ -53,6 +56,7 @@ public class AddVariableAction extends URNSelectionAction {
         else if (ScenarioUtils.sTypeEnumeration.equals(type)) {
         	setId(ADDENUMERATIONVARIABLE);
         	setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ISR16.gif")); //$NON-NLS-1$
+        	wizard=true;
         } else
         {
         	wizard=true;
@@ -68,7 +72,18 @@ public class AddVariableAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getUCMspec()!=null && getSelectedObjects().size()==1 && (getSelectedObjects().get(0) instanceof VariableListTreeEditPart);
+        if (! (sel.getUrnspec() != null && sel.getUCMspec()!=null && getSelectedObjects().size()==1 ))
+        	return false;
+        
+        if (getSelectedObjects().get(0) instanceof VariableListTreeEditPart)
+        {
+			VariableListTreeEditPart part = (VariableListTreeEditPart) getSelectedObjects().get(0);
+			return !(getId().equals(ADDENUMERATIONVARIABLE) ^ part.isEnumerations()); 
+        }
+        else 
+        	return (getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart) && getId().equals(ADDENUMERATIONVARIABLE);
+
+
     }
     
     /**
@@ -89,12 +104,22 @@ public class AddVariableAction extends URNSelectionAction {
     public void run() {
     	if (wizard) {
     		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-    		AddVariableWizard wizard = new AddVariableWizard();
-
+    		
+    		Wizard _wizard;
     		StructuredSelection selection = new StructuredSelection(getSelectedObjects());
-    		wizard.init(PlatformUI.getWorkbench(), selection);
-    		WizardDialog dialog = new WizardDialog(shell, wizard);
-    		dialog.open();
+
+    		if (ScenarioUtils.sTypeEnumeration.equals(type)) {
+	    		_wizard = new EditEnumerationsWizard();
+	    		((EditEnumerationsWizard)_wizard).init(PlatformUI.getWorkbench(), selection);
+    		}
+    		else {
+	    		 _wizard = new AddVariableWizard();
+
+	    		((AddVariableWizard)_wizard).init(PlatformUI.getWorkbench(), selection);
+
+    		}
+    		WizardDialog dialog = new WizardDialog(shell, _wizard);
+    		dialog.open();    			
 
     	}
     	else

@@ -14,6 +14,7 @@ import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -74,6 +75,15 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 	public RemoveURNmodelElementCommand(Variable var) {
 		this.element = var;
 	}
+	/**
+	 * 
+	 * @param et
+	 *            the EnumerationType to be deleted.
+	 */
+	public RemoveURNmodelElementCommand(EnumerationType et) {
+		this.element = et;
+	}
+	
 	
 	/**
 	 * 
@@ -166,6 +176,14 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			if (aborted)
 				return;
 			ucmspec = var.getUcmspec();
+			index = ucmspec.getVariables().indexOf(element);
+		} else if (element instanceof EnumerationType) {
+			EnumerationType et = (EnumerationType) element;
+			aborted = et.getUcmspec() == null;
+			if (aborted)
+				return;
+			ucmspec = et.getUcmspec();	
+			index = ucmspec.getEnumerationTypes().indexOf(element);
 		} else if (element instanceof ScenarioStartPoint) {
 			ScenarioStartPoint pt = (ScenarioStartPoint) element;
 			aborted = pt.getScenarioDef() == null;
@@ -238,6 +256,9 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 		} else if (element instanceof Variable) {
 			Variable var = (Variable) element;
 			var.setUcmspec(null);
+		} else if (element instanceof EnumerationType) {
+			EnumerationType et = (EnumerationType) element;
+			et.setUcmspec(null);
 		} else if (element instanceof ScenarioStartPoint) {
 			ScenarioStartPoint pt = (ScenarioStartPoint) element;
 			pt.setScenarioDef(null);
@@ -288,7 +309,12 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			diagram.getContRefs().add(ref);
 		} else if (element instanceof Variable) {
 			Variable var = (Variable) element;
-			var.setUcmspec(ucmspec);
+			//var.setUcmspec(ucmspec);
+			ucmspec.getVariables().add(index, var);
+		} else if (element instanceof EnumerationType) {
+			EnumerationType et = (EnumerationType) element;
+			//et.setUcmspec(ucmspec);
+			ucmspec.getEnumerationTypes().add(index, et);
 		} else if (element instanceof ScenarioStartPoint) {
 			ScenarioStartPoint pt = (ScenarioStartPoint) element;
 			//pt.setScenarioDef(scenario);

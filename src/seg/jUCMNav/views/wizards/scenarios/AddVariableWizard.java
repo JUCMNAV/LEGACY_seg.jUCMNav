@@ -100,7 +100,10 @@ public class AddVariableWizard extends Wizard {
 		 CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 		 CompoundCommand command = new CompoundCommand();
 		 
-		 command.add(new CreateVariableCommand(page.urn, page.getVariableType(), page.getVariableName()));
+		 CreateVariableCommand createCmd = new CreateVariableCommand(page.urn, page.getVariableType(), page.getVariableName());
+		 if (page.getVariableType()==ScenarioUtils.sTypeEnumeration)
+			 createCmd.setEnumerationType(page2.getSelectedEnumerationType());
+		 command.add(createCmd);
 		 
 		 for (Iterator iter = page3.getInitializations().keySet().iterator(); iter.hasNext();) {
 			ScenarioDef scenario = (ScenarioDef) iter.next();
@@ -112,6 +115,11 @@ public class AddVariableWizard extends Wizard {
 			 cs.execute(command);
 
 		return true;
+	}
+	
+	public boolean performCancel() {
+		page2.undoAll();
+		return super.performCancel();
 	}
 
 	/**
@@ -137,4 +145,6 @@ public class AddVariableWizard extends Wizard {
 		this.selection = selection;
 		this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 	}
+	
+	
 }

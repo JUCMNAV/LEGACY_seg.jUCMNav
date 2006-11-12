@@ -327,6 +327,10 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.NewVariableWizard")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeEnumeration); //$NON-NLS-1$
+        action.setText("Edit Enumerations");
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditCodeAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.Edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   

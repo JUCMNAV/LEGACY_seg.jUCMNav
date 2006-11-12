@@ -48,6 +48,7 @@ import urn.URNspec;
  */
 public class ScenarioInitializationsPage extends WizardPage {
 	private String[] boolean_values = { "true", "false" }; //$NON-NLS-1$ //$NON-NLS-2$
+	private String[] enum_values;
 	private int commandCount;
 	private HashMap initializations;
 	private ScenarioDef parent;
@@ -81,17 +82,40 @@ public class ScenarioInitializationsPage extends WizardPage {
 	private void attachCellEditors(final TableViewer viewer, final Composite parent) {
 		viewer.setCellModifier(new ICellModifier() {
 			public boolean canModify(Object element, String property) {
-				if (((Variable) element).getType().equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof ComboBoxCellEditor) {
-					viewer.getCellEditors()[2].dispose();
-					viewer.getCellEditors()[2] = new TextCellEditor(parent);
-					viewer.getCellEditors()[2].setValue(getValue(element, property));
-				} else if (!((Variable) element).getType().equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof TextCellEditor) {
-					viewer.getCellEditors()[2].dispose();
-					viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, boolean_values, SWT.READ_ONLY);
+				String type = ((Variable) element).getType();
+				
+				if (property.equals(titles[2])) {
+					if (type.equals(ScenarioUtils.sTypeInteger) && viewer.getCellEditors()[2] instanceof ComboBoxCellEditor) {
+						viewer.getCellEditors()[2].dispose();
+						viewer.getCellEditors()[2] = new TextCellEditor(parent);
+					} else if (!type.equals(ScenarioUtils.sTypeInteger)) {
+						if (viewer.getCellEditors()[2] instanceof TextCellEditor) {
+							viewer.getCellEditors()[2].dispose();
+							if (type.equals(ScenarioUtils.sTypeBoolean))
+								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, boolean_values, SWT.READ_ONLY);
+							else
+								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, enum_values, SWT.READ_ONLY);
+
+						} else {
+							ComboBoxCellEditor cbce = (ComboBoxCellEditor) viewer.getCellEditors()[2];
+							// make sure we have correct values.
+							if (type.equals(ScenarioUtils.sTypeBoolean)) {
+								if (cbce.getItems() != boolean_values)
+									cbce.setItems(boolean_values);
+							} else {
+								enum_values = ((Variable)element).getEnumerationType().getValues().split(",");
+								if (cbce.getItems() != enum_values)
+									cbce.setItems(enum_values);
+							}
+						}
+
+					}
 					viewer.getCellEditors()[2].setValue(getValue(element, property));
 				}
+
+
 				return (property.equals(titles[2]));
-			}
+			}			
 
 			public Object getValue(Object element, String property) {
 				if (property.equals(titles[0]))
@@ -102,8 +126,16 @@ public class ScenarioInitializationsPage extends WizardPage {
 					if (getInitialization((Variable) element) != null) {
 						if (((Variable) element).getType().equals(ScenarioUtils.sTypeInteger))
 							return getInitialization((Variable) element).getValue();
-						else
+						else if (((Variable)element).getType().equals(ScenarioUtils.sTypeBoolean))
 							return getInitialization((Variable) element).getValue().equals(boolean_values[0]) ? new Integer(0) : new Integer(1);
+						else {
+							enum_values = ((Variable)element).getEnumerationType().getValues().split(",");
+							for (int i=0;i<enum_values.length;i++) {
+								if (getInitialization((Variable) element).getValue().equals(enum_values[i]))
+									return new Integer(i);
+							}
+							return new Integer(0);
+						}
 					} else {
 						if (((Variable) element).getType().equals(ScenarioUtils.sTypeInteger))
 							return "0"; //$NON-NLS-1$
@@ -138,10 +170,13 @@ public class ScenarioInitializationsPage extends WizardPage {
 					}
 					
 				}
-				else {
+				else if (data.getType().equals(ScenarioUtils.sTypeBoolean)) {
 					if (!getInitialization(data).getValue().equals(boolean_values[((Integer) value).intValue()]))
 						command = new ChangeCodeCommand(getInitialization(data), boolean_values[((Integer) value).intValue()]);
 				}
+				else
+					command = new ChangeCodeCommand(getInitialization(data), enum_values[((Integer) value).intValue()]);
+
 
 				if (command!=null && getInitialization(data)!=null)
 					execute(command);

@@ -210,7 +210,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 		String name = attr.getName().toLowerCase();
 		if (name.indexOf("color") >= 0) { //$NON-NLS-1$
 			pd = new ColorPropertyDescriptor(propertyid, attr.getName());
-		} else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion") || (name.equals("type") && "Variable".equals(propertyid.getEClass().getName()))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+		} else if (name.equals("id") || name.equals("created") || name.equals("modified") || name.equals("nextglobalid") || name.equals("urnversion") || name.equals("specversion") || (name.equals("type") && "Variable".equals(propertyid.getEClass().getName())) || (name.equals("values") && "EnumerationType".equals(propertyid.getEClass().getName()))) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 			CustomTextPropertyDescriptor text = new CustomTextPropertyDescriptor(propertyid, attr.getName());
 			text.setReadOnly(true);
 			pd = text;

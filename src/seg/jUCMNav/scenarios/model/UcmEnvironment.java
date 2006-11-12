@@ -21,6 +21,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
     private HashMap declarations;
     private HashMap enumerations;
     private HashMap valuations;
+    
     private URNspec urn;
     private Notifier target;
 
@@ -53,6 +54,12 @@ public class UcmEnvironment implements Adapter, Cloneable{
             throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
         return (String[]) type;
     }
+    
+    public boolean doesEnumerationExist(String var) {
+    	var = var.toLowerCase();
+        Object type = enumerations.get(var);
+        return type!=null;
+    }
 
     public void checkVariableDoesNotExist(SimpleNode root) {
         checkVariableDoesNotExist(root.getText());
@@ -72,10 +79,43 @@ public class UcmEnvironment implements Adapter, Cloneable{
     public jUCMNavType checkVariableExists(String var) {
     	var = var.toLowerCase();
         Object type = declarations.get(var);
-        if (type == null || !(type instanceof jUCMNavType))
-            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
+        if (type == null || !(type instanceof jUCMNavType)) {
+        	for (Iterator iter = enumerations.keySet().iterator(); iter.hasNext();) {
+				String enumName = (String) iter.next();
+				String [] values = (String []) enumerations.get(enumName);
+				
+				for (int i = 0; i < values.length; i++) {
+					String val = values[i];
+					if (val.equalsIgnoreCase(var))
+					{
+						if (type==null)
+							type = new jUCMNavType(jUCMNavType.ENUMERATION+enumName);
+						else
+							((jUCMNavType)type).addEnumerationType(jUCMNavType.ENUMERATION+enumName);
+					}
+					
+				}
+			}
+        	if (type==null)
+        		throw new IllegalArgumentException(Messages.getString("UcmEnvironment.VariableSpace") + var + Messages.getString("UcmEnvironment.IsNotDefined")); //$NON-NLS-1$ //$NON-NLS-2$
+        	
+        }
         return (jUCMNavType) type;
     }
+    public void checkEnumerationValueExists(String enumName, String value) {
+    	enumName = enumName.toLowerCase();
+    	value = value.toUpperCase();
+        String[] values = (String[]) enumerations.get(enumName);
+        boolean found=false;
+        for (int i=0;i<values.length;i++) {
+        	if (values[i].equalsIgnoreCase(value))
+        		found=true;
+        }
+        	
+        if (!found)
+            throw new IllegalArgumentException("Enumeration value " + value + " does not exist in enumeration."); 
+        
+    }    
 
     public void clearValuations() {
     	valuations.clear();
@@ -134,7 +174,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
     	value = value.toLowerCase();
         checkEnumerationExists(enumName);
         checkVariableDoesNotExist(var);
-        checkVariableExists(value);
+        checkEnumerationValueExists(enumName, value);
 
         declarations.put(var, new jUCMNavType(jUCMNavType.ENUMERATION + enumName));
         valuations.put(var, value);
@@ -190,7 +230,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
         if (notification.getNotifier() instanceof UCMspec) {
         	int featureId = notification.getFeatureID(UCMspec.class);
 
-			if (featureId == UcmPackage.UC_MSPEC__VARIABLES) {
+			if (featureId == UcmPackage.UC_MSPEC__VARIABLES || featureId == UcmPackage.UC_MSPEC__ENUMERATION_TYPES) {
 				registerUCMspec((UCMspec)notification.getNotifier());
 			}
         } else if (notification.getNotifier() instanceof Variable) {
@@ -276,8 +316,17 @@ public class UcmEnvironment implements Adapter, Cloneable{
 					else
 						this.registerInteger(name);
 				} else {
-					//	TODO: implement enumerations
-					System.out.println("TODO: implement enumerations"); //$NON-NLS-1$
+					if (var.getEnumerationType()!=null) {
+						// using ID instead of name because we don't guarantee uniqueness.
+						if (!doesEnumerationExist(var.getEnumerationType().getId()))
+							this.registerEnumeration(var.getEnumerationType().getId(), var.getEnumerationType().getValues().split(","));
+	
+						if (oldValuations.containsKey(name))
+							this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());
+						else
+							this.registerEnumerationInstance(var.getEnumerationType().getId(), name);
+					}
+							
 				}
 				
 			}

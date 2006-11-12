@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.SelectionHelper;
 import seg.jUCMNav.actions.URNSelectionAction;
+import seg.jUCMNav.editparts.strategyTreeEditparts.EnumerationTypeTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.VariableListTreeEditPart;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateScenarioGroupCommand;
@@ -39,7 +40,7 @@ public class AddScenarioGroupAction extends URNSelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getUCMspec()!=null && sel.getScenarioGroup()==null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart);
+        return sel.getUrnspec() != null && sel.getUCMspec()!=null && sel.getScenarioGroup()==null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart) && !(getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart);
     }
     
     /**

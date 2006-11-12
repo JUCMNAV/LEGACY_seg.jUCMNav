@@ -13,6 +13,7 @@ import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import ucm.UCMspec;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -64,10 +65,12 @@ public class StrategyTreeEditPartFactory implements EditPartFactory {
 			return new ScenarioDefTreeEditPart((ScenarioDef) model);
 		} else if (model instanceof Variable) {
 			return new VariableTreeEditPart((Variable)model);
+		} else if (model instanceof EnumerationType) {
+			return new EnumerationTypeTreeEditPart((EnumerationType)model);
 		} else if (model instanceof Initialization) {
 			return new VariableInitializationTreeEditPart((Initialization)model);
 		} else if (model instanceof EList) {
-			return new VariableListTreeEditPart(urn.getUcmspec());
+			return new VariableListTreeEditPart(urn.getUcmspec(),urn.getUcmspec().getEnumerationTypes()==model);
 		} else if (model instanceof ScenarioStartPoint) {
 			return new ScenarioPathNodeTreeEditPart((ScenarioStartPoint)model);
 		} else if (model instanceof ScenarioEndPoint) {

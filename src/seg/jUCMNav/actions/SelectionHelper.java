@@ -39,6 +39,7 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
@@ -374,6 +375,10 @@ public class SelectionHelper {
 	        	ucmspec = scenariogroup.getUcmspec();
 	            urnspec = scenariogroup.getUcmspec().getUrnspec();
         	}
+        } else if (model instanceof EnumerationType) {
+        	EnumerationType et = (EnumerationType)model;
+        	ucmspec = et.getUcmspec();
+            urnspec = et.getUcmspec().getUrnspec();
         } else if (model instanceof GRLspec) {
         	grlspec = ((GRLspec)model);
             urnspec = ((GRLspec)model).getUrnspec();

@@ -14,12 +14,14 @@ import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildComma
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
+import seg.jUCMNav.model.commands.delete.DeleteVariableCommand;
 import ucm.map.ComponentRef;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
@@ -88,6 +90,16 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 		this.element = var;
 	}
 
+	/**
+	 * 
+	 * @param et
+	 *            the EnumerationType to be cleaned.
+	 */
+	public CleanRelationshipsCommand(EnumerationType et) {
+		this.element = et;
+	}
+
+	
 	/**
 	 * 
 	 * @param init
@@ -263,7 +275,6 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	 *            the Variable to be cleaned.
 	 */
 	private void build(Variable var) {
-
 		// Sadly, metamodel sets Variable - Initialization link as unidirectional. 
 		// Delete Variable initializations
 		for (Iterator iter = var.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
@@ -278,8 +289,20 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			}
 		}
 
-		// TODO: Delete Timer Variable
 	}
+	
+	/**
+	 * 
+	 * @param et
+	 *            the EnumerationType to be cleaned.
+	 */
+	private void build(EnumerationType et) {
+
+		for (Iterator iter = et.getInstances().iterator(); iter.hasNext();) {
+			Variable var = (Variable) iter.next();
+			add(new DeleteVariableCommand(var));
+		}
+	}	
 
 	/**
 	 * 
@@ -361,6 +384,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			build((ScenarioEndPoint) element);
 		else if (element instanceof Initialization)
 			build((Initialization) element);
+		else if (element instanceof EnumerationType)
+			build((EnumerationType) element);		
 
 	}
 
