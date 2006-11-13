@@ -41,9 +41,9 @@ public class AddBranchOnStubAction extends URNSelectionAction {
         switch (sel.getSelectionType()) {
         case SelectionHelper.STUB:
         	if (isInBranch)
-        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
+        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")); //$NON-NLS-1$
         	else 
-        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
+        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")); //$NON-NLS-1$
             break;
         default:
             return false;
