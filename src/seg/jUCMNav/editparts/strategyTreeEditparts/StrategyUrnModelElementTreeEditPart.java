@@ -108,6 +108,7 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
         	try {
             refreshChildren();
         	} catch(Exception ex) {
+        		// Bug 475: should be resolved but leaving code here as defense in depth. 
         		System.out.println("quick ugly hack; trying to prevent weird happenings in UI ");
         		getChildren().clear();
         		refreshChildren();

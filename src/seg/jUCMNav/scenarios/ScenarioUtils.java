@@ -230,14 +230,15 @@ public class ScenarioUtils {
 	}
 	private static void getDefinedStartPoints(ScenarioDef def, Vector startPoints)
 	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+		for (Iterator iter = getDefinedIncludedScenarios(def).iterator(); iter.hasNext();) {
 			ScenarioDef scenario = (ScenarioDef) iter.next();
 			getDefinedStartPoints(scenario, startPoints);
 		}
 		
 		for (Iterator iter = def.getStartPoints().iterator(); iter.hasNext();) {
 			ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
-			startPoints.add(pt);
+			if (!startPoints.contains(pt))
+				startPoints.add(pt);
 		}
 	}
 	
@@ -273,7 +274,8 @@ public class ScenarioUtils {
 		
 		for (Iterator iter = def.getEndPoints().iterator(); iter.hasNext();) {
 			ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
-			endPoints.add(pt);
+			if (!endPoints.contains(pt))
+				endPoints.add(pt);
 		}
 	}
 	
@@ -348,7 +350,8 @@ public class ScenarioUtils {
 		
 		for (Iterator iter = def.getInitializations().iterator(); iter.hasNext();) {
 			Initialization cond = (Initialization) iter.next();
-			initializations.add(cond);
+			if (!initializations.contains(cond))
+				initializations.add(cond);
 		}
 	}		
 	public static int getTraversalHitCount(EObject obj) {
