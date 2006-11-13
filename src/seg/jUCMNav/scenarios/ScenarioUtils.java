@@ -252,7 +252,8 @@ public class ScenarioUtils {
 		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
 			ScenarioDef scenario = (ScenarioDef) iter.next();
 			getDefinedIncludedScenarios(scenario, scenarios);
-			scenarios.add(scenario);
+			if (!scenarios.contains(scenario))
+				scenarios.add(scenario);
 		}
 		
 	}	

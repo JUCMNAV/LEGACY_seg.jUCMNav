@@ -85,10 +85,18 @@ public class DuplicateAction extends IncludeScenarioAction {
 			
 			// this will give us the behaviour we want for inherited elements.
 			
-			if (child instanceof ScenarioDef)
-			{
-				scenario = (ScenarioDef) child;
-				this.child=null;
+			if (child instanceof ScenarioDef) {
+
+				EditPart part = (EditPart)list.get(0);
+				if (part.getParent()!=null && part.getParent().getParent()!=null && part.getParent().getParent().getModel() instanceof ScenarioDef)
+					{
+					// included scenario
+					this.child=null;
+					}
+				else {
+					scenario = (ScenarioDef) child;
+					this.child=null;					
+				}
 			} 
 			else if (child instanceof ScenarioGroup)
 			{
