@@ -1,5 +1,8 @@
 package seg.jUCMNav.actions.scenarios;
 
+import grl.EvaluationStrategy;
+import grl.StrategiesGroup;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +16,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.DuplicateCommand;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
+import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import urncore.Condition;
 
@@ -25,6 +29,9 @@ public class DuplicateAction extends IncludeScenarioAction {
 
 	public static final String DUPLICATEACTION = "seg.jUCMNav.DuplicateAction"; //$NON-NLS-1$
 	private EObject child;
+	private ScenarioGroup group;
+	private EvaluationStrategy strategy;
+	private StrategiesGroup group2;
 
 	/**
 	 * @param part
@@ -39,18 +46,21 @@ public class DuplicateAction extends IncludeScenarioAction {
 	 * True if we've selected something with code. 	 */
 	protected boolean calculateEnabled() {
 		initScenario();
-		return scenario!=null && child!=null;
+		return scenario!=null || child!=null || group!=null || strategy!=null || group2!=null;
 	}
 	
 	protected void initScenario() {
 		scenario=null;
 		child=null;
+		group=null;
+		strategy=null;
+		group2=null;
 		List list = getSelectedObjects();
 		if (list.size()==0 || list.size()>1 || !(list.get(0) instanceof EditPart) || !(((EditPart)list.get(0)).getModel() instanceof EObject)) return;
 		
 	
 		child = (EObject) ((EditPart)list.get(0)).getModel();
-		if (!(child instanceof ScenarioStartPoint || child instanceof ScenarioEndPoint || child instanceof Condition))
+		if (!(child instanceof ScenarioStartPoint || child instanceof ScenarioEndPoint || child instanceof Condition || child instanceof ScenarioGroup || child instanceof ScenarioDef || child instanceof EvaluationStrategy || child instanceof StrategiesGroup))
 			child=null;
 
 		if (child!=null)
@@ -71,11 +81,30 @@ public class DuplicateAction extends IncludeScenarioAction {
 //				ScenarioEndPoint point = (ScenarioEndPoint) child;
 //				scenario = point.getScenarioDef();
 //			}
-		
+
+			
 			// this will give us the behaviour we want for inherited elements.
-			EditPart part = (EditPart)list.get(0);
-			if (part.getParent()!=null && part.getParent().getParent()!=null && part.getParent().getParent().getModel() instanceof ScenarioDef)
-				scenario = (ScenarioDef)part.getParent().getParent().getModel();
+			
+			if (child instanceof ScenarioDef)
+			{
+				scenario = (ScenarioDef) child;
+				this.child=null;
+			} 
+			else if (child instanceof ScenarioGroup)
+			{
+				this.group = (ScenarioGroup)child;
+				this.child=null;
+			} else if (child instanceof EvaluationStrategy) {
+				this.strategy=(EvaluationStrategy)child;
+				this.child=null;
+			} else if (child instanceof StrategiesGroup) {
+				this.group2=(StrategiesGroup)child;
+				this.child=null;
+			}else {
+				EditPart part = (EditPart)list.get(0);
+				if (part.getParent()!=null && part.getParent().getParent()!=null && part.getParent().getParent().getModel() instanceof ScenarioDef)
+					scenario = (ScenarioDef)part.getParent().getParent().getModel();
+			}
 		}
 
 	}
@@ -89,8 +118,21 @@ public class DuplicateAction extends IncludeScenarioAction {
 
 		UCMNavMultiPageEditor editor = ((UCMNavMultiPageEditor)getWorkbenchPart());
 		CommandStack cs = editor.getDelegatingCommandStack();
-		DuplicateCommand command = new DuplicateCommand(scenario, child);
-		cs.execute(command);
+		
+		DuplicateCommand command=null;
+		if (child!=null && scenario!=null)
+			command = new DuplicateCommand(scenario, child);
+		else if (scenario!=null)
+			command = new DuplicateCommand(scenario);
+		else if (group!=null)
+			command = new DuplicateCommand(group);
+		else if (strategy!=null)
+			command = new DuplicateCommand(strategy);
+		else if (group2!=null)
+			command = new DuplicateCommand(group2);		
+
+		if (command!=null)
+			cs.execute(command);
 
 	}
 

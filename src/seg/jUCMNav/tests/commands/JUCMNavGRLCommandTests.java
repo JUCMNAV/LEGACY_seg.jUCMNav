@@ -474,9 +474,10 @@ public class JUCMNavGRLCommandTests extends TestCase {
     
     public void testCreateStrategyCommand(){
         testCreateStrategiesGroupCommand();
-        strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urnspec, EvaluationStrategy.class);
+        //strategy = (EvaluationStrategy)ModelCreationFactory.getNewObject(urnspec, EvaluationStrategy.class);
         
         Command cmd = new CreateStrategyCommand(urnspec, strategiesgroup);
+        strategy = ((CreateStrategyCommand)cmd).getStrategy();
         assertTrue("Can't execute CreateStrategyCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);          
     }

@@ -20,7 +20,7 @@ public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 
 	private ScenarioDef parent, child;
 	boolean aborted=false;
-	
+	boolean isInCompoundCommand=false;
 	/**
 	 * 
 	 */
@@ -29,12 +29,21 @@ public class IncludeScenarioCommand extends Command implements JUCMNavCommand {
 		this.child = child;
 		setLabel(Messages.getString("IncludeScenarioCommand.IncludeScenario")); //$NON-NLS-1$
 	}
-
+	/**
+	 * 
+	 */
+	public IncludeScenarioCommand(ScenarioDef parent, ScenarioDef child, boolean isInCompoundCommand) {
+		this.parent = parent;
+		this.child = child;
+		setLabel(Messages.getString("IncludeScenarioCommand.IncludeScenario")); //$NON-NLS-1$
+		this.isInCompoundCommand = isInCompoundCommand;
+	}
+	
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return  parent != null && child != null && ScenarioUtils.getPossibleIncludedScenarios(parent).contains(child);
+		return  parent != null && child != null && (isInCompoundCommand || ScenarioUtils.getPossibleIncludedScenarios(parent).contains(child));
 	}
 
 	/**

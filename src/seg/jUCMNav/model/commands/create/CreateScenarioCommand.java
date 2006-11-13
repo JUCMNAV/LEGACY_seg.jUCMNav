@@ -34,6 +34,19 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 	}
 
 	/**
+	 * 
+	 */
+	public CreateScenarioCommand(URNspec urn, ScenarioGroup group, boolean createNow) {
+		this.urn = urn;
+		this.group = group;
+		setLabel(Messages.getString("CreateScenarioCommand.CreateScenario")); //$NON-NLS-1$
+		if (createNow)
+		{
+			this.scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urn, ScenarioDef.class);
+		}
+			
+	}
+	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
@@ -44,7 +57,8 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-		scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urn, ScenarioDef.class);
+		if (this.scenario==null)
+			this.scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urn, ScenarioDef.class);
 		redo();
 	}
 
@@ -86,4 +100,8 @@ public class CreateScenarioCommand extends Command implements JUCMNavCommand {
 		group.getScenarios().remove(scenario);
 		testPreConditions();
 	}
+	public ScenarioDef getScenario() {
+		return scenario;
+	}
+
 }

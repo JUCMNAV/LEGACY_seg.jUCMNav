@@ -50,6 +50,13 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 		this.clone = clone;
 	}	
+	public IncludeConditionInScenarioCommand(ScenarioDef parent, boolean bIsPreCondition, Condition clone, URNspec urn) {
+		this.parent = parent;
+		this.bIsPreCondition = bIsPreCondition;
+		setLabel(Messages.getString("IncludeConditionInScenarioCommand.IncludePrePostInScenario")); //$NON-NLS-1$
+		this.urn = urn;
+		this.clone = clone;
+	}		
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()
@@ -64,7 +71,7 @@ public class IncludeConditionInScenarioCommand extends Command implements JUCMNa
 	public void execute() {
 		condition = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
 		if (clone!=null) {
-//			condition.setLabel(clone.getLabel());
+			condition.setLabel(clone.getLabel());
 			condition.setExpression(clone.getExpression());
 		} else {
 //			if (bIsPreCondition)

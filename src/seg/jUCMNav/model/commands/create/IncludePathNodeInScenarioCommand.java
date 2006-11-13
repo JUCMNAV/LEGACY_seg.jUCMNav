@@ -39,6 +39,12 @@ public class IncludePathNodeInScenarioCommand extends Command implements JUCMNav
 		setLabel(Messages.getString("IncludePathNodeInScenarioCommand.IncludeStartEndPointInScenario")); //$NON-NLS-1$
 		urn = parent.getGroup().getUcmspec().getUrnspec();
 	}
+	public IncludePathNodeInScenarioCommand(ScenarioDef parent, PathNode child, URNspec urn) {
+		this.parent = parent;
+		this.child = child;
+		setLabel(Messages.getString("IncludePathNodeInScenarioCommand.IncludeStartEndPointInScenario")); //$NON-NLS-1$
+		this.urn =urn;
+	}
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()

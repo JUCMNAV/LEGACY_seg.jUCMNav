@@ -40,6 +40,9 @@ public class CreateStrategyCommand extends Command implements JUCMNavCommand {
         return urn != null && group != null;
     }
 
+    public EvaluationStrategy getStrategy() {
+		return strategy;
+	}
     /**
      * @see org.eclipse.gef.commands.Command#execute()
      */
