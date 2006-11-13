@@ -72,7 +72,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 		
 
 		// bug 411
-		if (widget == null)
+		if (!checkTreeItem())
 			return;
 		
 		this.selected = selected;
