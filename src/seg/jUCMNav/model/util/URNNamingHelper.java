@@ -827,7 +827,7 @@ public class URNNamingHelper {
 	 *            the element to name. (a componentref or respref)
 	 * @param name
 	 *            the proposed name.
-	 * @return true if unused
+	 * @return an empty string if unused
 	 */
 	public static String isNameValid(URNspec urn, URNmodelElement elem, String name) {
 		String message = ""; //$NON-NLS-1$
@@ -975,7 +975,7 @@ public class URNNamingHelper {
 	 *            the element to check.
 	 * @param name
 	 *            the proposed name
-	 * @return true if unused
+	 * @return an empty string if unused
 	 */
 	public static String isNameValid(URNmodelElement elem, String name) {
 		EObject parent = elem;

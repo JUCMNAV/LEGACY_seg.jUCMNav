@@ -70,6 +70,8 @@ public class CodeEditor extends Wizard {
 	 */
 	public boolean performFinish() {
 		final HashMap code = page.getAllCode();
+		final HashMap labels = page.getAllLabels();
+		final HashMap descriptions = page.getAllDescriptions();
 		
 
 		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
@@ -77,7 +79,7 @@ public class CodeEditor extends Wizard {
 		CompoundCommand cmd = new CompoundCommand();
 		for (Iterator iter = code.keySet().iterator(); iter.hasNext();) {
 			EObject obj = (EObject) iter.next();
-			cmd.add(new ChangeCodeCommand(obj, code.get(obj).toString()));
+			cmd.add(new ChangeCodeCommand(obj, code.get(obj).toString(), labels.get(obj).toString(), descriptions.get(obj).toString()));
 		}
 
 		if (cmd.canExecute())

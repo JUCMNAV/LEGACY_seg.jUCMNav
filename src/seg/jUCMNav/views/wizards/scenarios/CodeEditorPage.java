@@ -48,6 +48,10 @@ import urncore.URNmodelElement;
  */
 public class CodeEditorPage extends WizardPage {
 	private Text codeText;
+	private Text labelText;
+	private Label labelLabel;
+	private Text descriptionText;
+	
 	private ISelection selection;
 	private Responsibility resp;
 	private Condition cond;
@@ -58,6 +62,14 @@ public class CodeEditorPage extends WizardPage {
 	private Vector allPossibilities;
 	private EObject defaultSelected;
 	private HashMap code;
+	private HashMap labels;
+	private HashMap descriptions;
+	
+	private ModifyListener modifyListener = new ModifyListener() {
+		public void modifyText(ModifyEvent e) {
+			dialogChanged();
+		}
+	};
 
 	/**
 	 * The selection contains either a responsibility or a condition. Loaded in
@@ -74,6 +86,8 @@ public class CodeEditorPage extends WizardPage {
 		this.selection = selection;
 		this.defaultSelected = defaultSelected;
 		this.code = new HashMap();
+		this.labels = new HashMap();
+		this.descriptions = new HashMap();
 		this.allPossibilities = new Vector();
 	}
 
@@ -120,13 +134,37 @@ public class CodeEditorPage extends WizardPage {
 		
 		});
 		
-		
+
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan=2;
 		possibilities.setLayoutData(gd);
+
+		
+		labelLabel = new Label(container, SWT.NULL);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan=2;
+		labelLabel.setLayoutData(gd);	
+		
+		labelText = new Text(container, SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan=2;
+		labelText.setLayoutData(gd);
+		labelText.addModifyListener(modifyListener);
+		
+		Label label = new Label(container, SWT.NULL);
+		label.setText("Description:");	
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan=2;
+		label.setLayoutData(gd);	
+		
+		descriptionText = new Text(container, SWT.BORDER);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan=2;
+		descriptionText.setLayoutData(gd);
+		descriptionText.addModifyListener(modifyListener);				
 		
 		// label over the code box.
-		Label label = new Label(container, SWT.NULL);
+		label = new Label(container, SWT.NULL);
 		label.setText(Messages.getString("CodeEditorPage.EnterTheCode")); //$NON-NLS-1$
 
 		// label over the variable box
@@ -141,11 +179,7 @@ public class CodeEditorPage extends WizardPage {
 
 		gd = new GridData(GridData.FILL_BOTH);
 		codeText.setLayoutData(gd);
-		codeText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
+		codeText.addModifyListener(modifyListener);
 		
 		
 		// variable list
@@ -228,18 +262,23 @@ public class CodeEditorPage extends WizardPage {
 			
 			if (element instanceof URNmodelElement)
 			{
+				String name = URNNamingHelper.getName((URNmodelElement)element);
+				if (labels.get(element)!=null) name = labels.get(element).toString();
+				
 				if (add)
-					possibilities.add(URNNamingHelper.getName((URNmodelElement)element));
+					possibilities.add(name);
 				else {
-					possibilities.setItem(i, URNNamingHelper.getName((URNmodelElement)element));
+					possibilities.setItem(i, name);
 				}
 					
 			} else if (element instanceof urncore.Condition)
 			{
+				
+				
 				if (add)
-					possibilities.add(URNNamingHelper.getName((urncore.Condition)element));
+					possibilities.add(labels.get(element)!=null ?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element));
 				else {
-					possibilities.setItem(i,URNNamingHelper.getName((urncore.Condition)element, code.get(element).toString()));
+					possibilities.setItem(i,labels.get(element)!=null ?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element, code.get(element).toString()));
 				}
 					
 			}
@@ -288,19 +327,57 @@ public class CodeEditorPage extends WizardPage {
 	}
 
 	private void setupText(Object obj) {
+		codeText.removeModifyListener(modifyListener);
+		labelText.removeModifyListener(modifyListener);
+		descriptionText.removeModifyListener(modifyListener);
+		
 		if (obj instanceof Responsibility) {
 			resp = (Responsibility) obj;
 			if (code.get(resp) == null)
 				codeText.setText(""); //$NON-NLS-1$
 			else
 				codeText.setText(code.get(resp).toString());
+			
+			labelLabel.setText("Name:");
+			
+			if (labels.get(resp)==null)
+				labelText.setText("");
+			else
+				labelText.setText(labels.get(resp).toString());
+				
+			if (descriptions.get(resp)==null)
+				descriptionText.setText("");
+			else
+				descriptionText.setText(descriptions.get(resp).toString());		
+			
 		} else if (obj instanceof Condition) {
 			cond = (Condition) obj;
+		
 			if (code.get(cond)== null)
 				codeText.setText("true"); //$NON-NLS-1$
 			else
 				codeText.setText(code.get(cond).toString());
+			
+			labelLabel.setText("Label:");
+			
+			if (labels.get(cond)!=null) {
+				labelText.setText(labels.get(cond).toString());
+			}else {
+				if (cond.getLabel()==null)
+					labelText.setText("");
+				else
+					labelText.setText(cond.getLabel());
+			}
+			if (cond.getDescription()==null)
+				descriptionText.setText("");
+			else
+				descriptionText.setText(cond.getDescription());
+
 		}
+		codeText.addModifyListener(modifyListener);
+		labelText.addModifyListener(modifyListener);
+		descriptionText.addModifyListener(modifyListener);
+
 	}
 
 	private void initPossibilities(IStructuredSelection ssel) {
@@ -318,12 +395,34 @@ public class CodeEditorPage extends WizardPage {
 					code.put(element, ""); //$NON-NLS-1$
 				else
 					code.put(element, r.getExpression());
+				
+				if (r.getName() == null)
+					labels.put(element, "");
+				else
+					labels.put(element, r.getName());
+					
+				if (r.getDescription() == null)
+					descriptions.put(element, "");
+				else
+					descriptions.put(element, r.getDescription());
+				
 			} else if (element instanceof Condition) {
 				Condition c = (Condition) element;
 				if (c.getExpression() == null)
 					code.put(element, "true"); //$NON-NLS-1$
 				else
 					code.put(element, c.getExpression());
+				
+				
+				if (c.getLabel() == null)
+					labels.put(element, "");
+				else
+					labels.put(element, c.getLabel());
+					
+				if (c.getDescription() == null)
+					descriptions.put(element, "");
+				else
+					descriptions.put(element, c.getDescription());				
 			}
 			
 		}
@@ -354,6 +453,20 @@ public class CodeEditorPage extends WizardPage {
 	 * Ensures that the pseudo-code is legal (syntax and type checking)
 	 */
 	private void dialogChanged() {
+		if (isResponsibility())
+		{
+			String msg = URNNamingHelper.isNameValid(resp, labelText.getText());
+			if (msg.length()>0) {
+				updateStatus(msg);
+				setPageComplete(false);
+				return;
+				
+			}
+		}
+	
+		labels.put(defaultSelected, labelText.getText());
+		descriptions.put(defaultSelected, descriptionText.getText());
+		
 		if (resp!=null && ScenarioUtils.isEmptyResponsibility(getCode())) {
 			code.put(defaultSelected, ""); //$NON-NLS-1$
 			updateStatus(null);
@@ -444,4 +557,22 @@ public class CodeEditorPage extends WizardPage {
 	public HashMap getAllCode() {
 		return code;
 	}
+	
+	/**
+	 * Labels for conditions, names for responsibilities.   Assumed to be always valid.  
+	 * 
+	 * @return a hashmap of eobject->string 
+	 */
+	public HashMap getAllLabels() {
+		return labels;
+	}
+	
+	/**
+	 * Descriptions for all objects that were passed. Assumed to be always valid.  
+	 * 
+	 * @return a hashmap of eobject->string 
+	 */
+	public HashMap getAllDescriptions() {
+		return descriptions;
+	}	
 }

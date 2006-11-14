@@ -17,10 +17,14 @@ import urncore.Responsibility;
 public class ChangeCodeCommand extends Command implements JUCMNavCommand {
     private EObject elem;
     private String code, oldCode;
+    private String name, oldName;
+    private String description, oldDescription;
+    private boolean extendedFeatures;
 
     public ChangeCodeCommand(EObject obj, String newcode) {
     	this.elem = obj;
     	this.code = newcode;
+    	this.extendedFeatures=false;
     	
         if (elem instanceof Responsibility )
             setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
@@ -29,6 +33,21 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
         else if (elem instanceof Initialization)
         	setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
     }
+    
+    public ChangeCodeCommand(EObject obj, String newcode, String newlabel, String newDescription) {
+    	this.elem = obj;
+    	this.code = newcode;
+    	this.extendedFeatures=true;
+    	this.name = newlabel;
+    	this.description = newDescription;
+    	
+        if (elem instanceof Responsibility )
+            setLabel(Messages.getString("ChangeCodeCommand.ChangeResponsibilityCode")); //$NON-NLS-1$
+        else if (elem instanceof Condition)
+        	setLabel(Messages.getString("ChangeCodeCommand.ChangeCondition")); //$NON-NLS-1$
+        else if (elem instanceof Initialization)
+        	setLabel(Messages.getString("ChangeCodeCommand.ChangeInitialization")); //$NON-NLS-1$
+    }    
 
 
     /**
@@ -37,8 +56,12 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
     public void execute() {
         if (elem instanceof Responsibility) {
             oldCode = ((Responsibility)elem).getExpression();
+            oldName = ((Responsibility)elem).getName();
+            oldDescription = ((Responsibility)elem).getDescription();
         } else if (elem instanceof Condition) {
         	oldCode = ((Condition) elem).getExpression();
+        	oldName = ((Condition)elem).getLabel();
+        	oldDescription = ((Condition)elem).getDescription();
         } else if (elem instanceof Initialization) {
         	oldCode =  ((Initialization)elem).getValue();
         }
@@ -56,8 +79,17 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
 
         if (elem instanceof Responsibility) {
             ((Responsibility)elem).setExpression(code);
+            if (extendedFeatures) {
+            	((Responsibility)elem).setName(name);
+            	((Responsibility)elem).setDescription(description);
+            }
+            	
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(code);
+            if (extendedFeatures) {
+            	((Condition)elem).setLabel(name);
+            	((Condition)elem).setDescription(description);
+            }        	
         } else if (elem instanceof Initialization) {
         	((Initialization) elem).setValue(code);
         }
@@ -93,8 +125,16 @@ public class ChangeCodeCommand extends Command implements JUCMNavCommand {
 
         if (elem instanceof Responsibility) {
             ((Responsibility)elem).setExpression(oldCode);
+            if (extendedFeatures) {
+            	((Responsibility)elem).setName(oldName);
+            	((Responsibility)elem).setDescription(oldDescription);
+            }            
         } else if (elem instanceof Condition) {
         	((Condition) elem).setExpression(oldCode);
+            if (extendedFeatures) {
+            	((Condition)elem).setLabel(oldName);
+            	((Condition)elem).setDescription(oldDescription);
+            }          	
         } else if (elem instanceof Initialization) {
         	((Initialization) elem).setValue(oldCode);
         }
