@@ -100,11 +100,13 @@ public class EvaluationStrategyManager {
     }
     public synchronized int getEvaluation(IntentionalElement elem){
         Evaluation temp = (Evaluation)evaluations.get(elem);
-        if (temp == null  && strategy.getGrlspec()!=null && strategy.getGrlspec().getUrnspec()!=null){
+        if (temp == null  && strategy!=null && strategy.getGrlspec()!=null && strategy.getGrlspec().getUrnspec()!=null){
             temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
+            return temp.getEvaluation();
         }
-        return temp.getEvaluation();
+        else return 0;
+        
     }
     
     public synchronized Evaluation getEvaluationObject(IntentionalElement elem){

@@ -16,8 +16,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.FreeformLayeredPane;
+import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -111,7 +114,15 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(50,16);
-        ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+        
+
+        try {
+        	((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(evaluationLabel);
+        } catch (Exception ex) {
+        	System.out.println("problem with scaling grl evaluation label");
+        	// bug 435: old code.. hoping new code is more robust
+        	((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+        }
         return fig;
     }
 
@@ -127,7 +138,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
                 evaluationImg.dispose();
                 evaluationImg = null;
             }
-            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
+            // bug 435: ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
+            ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
             if (getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null)
                 ((IntentionalElementRef) getNode()).getDef().eAdapters().remove(this);
         }
@@ -314,8 +326,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                
 	                // Take zoom facrtor into consideration to fix the label position
 	                double zoomLevel = ((ZoomManager) ((ScrollingGraphicalViewer) getViewer()).getProperty(ZoomManager.class.toString())).getZoom();
-	                position.x = (int) (position.x * zoomLevel);
-	                position.y = (int) (position.y * zoomLevel);
+	                
+//	                position.x = (int) (position.x * zoomLevel);
+//	                position.y = (int) (position.y * zoomLevel);
 	                evaluationLabel.setLocation(position);
 	                evaluationLabel.setVisible(true);
 	                

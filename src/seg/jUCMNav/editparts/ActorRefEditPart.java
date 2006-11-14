@@ -7,8 +7,11 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.GRLGraph;
 
+import org.eclipse.draw2d.FreeformLayeredPane;
+import org.eclipse.draw2d.FreeformViewport;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.ScalableFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -82,7 +85,13 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setSize(50,16);
         evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage(); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
-        ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+        try {
+        	((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(evaluationLabel);
+        } catch (Exception ex) {
+        	System.out.println("problem with scaling grl evaluation label");
+        	// bug 435: old code.. hoping new code is more robust.
+        	((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+        }
 
         return new ActorFigure();
     }
@@ -99,7 +108,8 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
                 evaluationImg = null;
             }
             evaluationLabel.setVisible(false);
-            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
+            //((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
+            ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
             if (getActorRef().getContDef() != null){
                 getActorRef().getContDef().eAdapters().remove(this);
             }
