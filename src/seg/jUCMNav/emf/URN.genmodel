@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\jktest\Desktop\URN_12.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\jktest\Desktop\URN_13.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -454,7 +454,6 @@
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/Timer">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/Timer/timeoutPath"/>
-        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/Timer/timerVar"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/AndFork">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/AndFork/orientation"/>
@@ -469,6 +468,8 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/ucmspec"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/enumerationType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/initializations"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioDef">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/group"/>

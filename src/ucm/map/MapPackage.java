@@ -2583,22 +2583,13 @@ public interface MapPackage extends EPackage {
     int TIMER__TIMEOUT_PATH = WAITING_PLACE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Timer Var</b></em>' reference.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-    int TIMER__TIMER_VAR = WAITING_PLACE_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Timer</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int TIMER_FEATURE_COUNT = WAITING_PLACE_FEATURE_COUNT + 2;
+    int TIMER_FEATURE_COUNT = WAITING_PLACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.AndForkImpl <em>And Fork</em>}' class.
@@ -3796,17 +3787,6 @@ public interface MapPackage extends EPackage {
     EReference getTimer_TimeoutPath();
 
 	/**
-	 * Returns the meta object for the reference '{@link ucm.map.Timer#getTimerVar <em>Timer Var</em>}'.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Timer Var</em>'.
-	 * @see ucm.map.Timer#getTimerVar()
-	 * @see #getTimer()
-	 * @generated
-	 */
-    EReference getTimer_TimerVar();
-
-	/**
 	 * Returns the meta object for class '{@link ucm.map.AndFork <em>And Fork</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4396,14 +4376,6 @@ public interface MapPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TIMER__TIMEOUT_PATH = eINSTANCE.getTimer_TimeoutPath();
-
-		/**
-		 * The meta object literal for the '<em><b>Timer Var</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TIMER__TIMER_VAR = eINSTANCE.getTimer_TimerVar();
 
 		/**
 		 * The meta object literal for the '{@link ucm.map.impl.AndForkImpl <em>And Fork</em>}' class.

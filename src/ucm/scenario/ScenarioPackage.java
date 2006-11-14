@@ -173,13 +173,22 @@ public interface ScenarioPackage extends EPackage {
 	int VARIABLE__ENUMERATION_TYPE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Initializations</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE__INITIALIZATIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Variable</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int VARIABLE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
+    int VARIABLE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
 
 	/**
@@ -1004,6 +1013,17 @@ public interface ScenarioPackage extends EPackage {
 	EReference getVariable_EnumerationType();
 
 	/**
+	 * Returns the meta object for the reference list '{@link ucm.scenario.Variable#getInitializations <em>Initializations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Initializations</em>'.
+	 * @see ucm.scenario.Variable#getInitializations()
+	 * @see #getVariable()
+	 * @generated
+	 */
+	EReference getVariable_Initializations();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1058,6 +1078,14 @@ public interface ScenarioPackage extends EPackage {
 		 * @generated
 		 */
 		EReference VARIABLE__ENUMERATION_TYPE = eINSTANCE.getVariable_EnumerationType();
+
+		/**
+		 * The meta object literal for the '<em><b>Initializations</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VARIABLE__INITIALIZATIONS = eINSTANCE.getVariable_Initializations();
 
 		/**
 		 * The meta object literal for the '{@link ucm.scenario.impl.ScenarioDefImpl <em>Def</em>}' class.
@@ -1227,7 +1255,7 @@ public interface ScenarioPackage extends EPackage {
 		 */
 		EReference INITIALIZATION__VARIABLE = eINSTANCE.getInitialization_Variable();
 
-			/**
+		/**
 		 * The meta object literal for the '{@link ucm.scenario.impl.ScenarioStartPointImpl <em>Start Point</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->

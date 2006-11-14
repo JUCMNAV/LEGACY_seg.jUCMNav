@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import urncore.*;
+
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;

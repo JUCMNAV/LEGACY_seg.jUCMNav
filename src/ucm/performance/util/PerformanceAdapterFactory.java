@@ -12,6 +12,8 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import ucm.map.PathNode;
+import ucm.performance.*;
+
 import ucm.performance.ActiveResource;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;

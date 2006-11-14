@@ -24,7 +24,6 @@ import ucm.scenario.Variable;
  * The following features are implemented:
  * <ul>
  *   <li>{@link ucm.map.impl.TimerImpl#getTimeoutPath <em>Timeout Path</em>}</li>
- *   <li>{@link ucm.map.impl.TimerImpl#getTimerVar <em>Timer Var</em>}</li>
  * </ul>
  * </p>
  *
@@ -40,16 +39,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 	 * @ordered
 	 */
     protected NodeConnection timeoutPath = null;
-
-	/**
-	 * The cached value of the '{@link #getTimerVar() <em>Timer Var</em>}' reference.
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getTimerVar()
-	 * @generated
-	 * @ordered
-	 */
-    protected Variable timerVar = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -109,44 +98,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Variable getTimerVar() {
-		if (timerVar != null && timerVar.eIsProxy()) {
-			InternalEObject oldTimerVar = (InternalEObject)timerVar;
-			timerVar = (Variable)eResolveProxy(oldTimerVar);
-			if (timerVar != oldTimerVar) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
-			}
-		}
-		return timerVar;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public Variable basicGetTimerVar() {
-		return timerVar;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
-    public void setTimerVar(Variable newTimerVar) {
-		Variable oldTimerVar = timerVar;
-		timerVar = newTimerVar;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.TIMER__TIMER_VAR, oldTimerVar, timerVar));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -155,9 +106,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 			case MapPackage.TIMER__TIMEOUT_PATH:
 				if (resolve) return getTimeoutPath();
 				return basicGetTimeoutPath();
-			case MapPackage.TIMER__TIMER_VAR:
-				if (resolve) return getTimerVar();
-				return basicGetTimerVar();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -171,9 +119,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		switch (featureID) {
 			case MapPackage.TIMER__TIMEOUT_PATH:
 				setTimeoutPath((NodeConnection)newValue);
-				return;
-			case MapPackage.TIMER__TIMER_VAR:
-				setTimerVar((Variable)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -189,9 +134,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 			case MapPackage.TIMER__TIMEOUT_PATH:
 				setTimeoutPath((NodeConnection)null);
 				return;
-			case MapPackage.TIMER__TIMER_VAR:
-				setTimerVar((Variable)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -205,8 +147,6 @@ public class TimerImpl extends WaitingPlaceImpl implements Timer {
 		switch (featureID) {
 			case MapPackage.TIMER__TIMEOUT_PATH:
 				return timeoutPath != null;
-			case MapPackage.TIMER__TIMER_VAR:
-				return timerVar != null;
 		}
 		return super.eIsSet(featureID);
 	}

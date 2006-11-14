@@ -852,15 +852,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EReference getTimer_TimerVar() {
-		return (EReference)timerEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @generated
-	 */
     public EClass getAndFork() {
 		return andForkEClass;
 	}
@@ -1007,7 +998,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		timerEClass = createEClass(TIMER);
 		createEReference(timerEClass, TIMER__TIMEOUT_PATH);
-		createEReference(timerEClass, TIMER__TIMER_VAR);
 
 		andForkEClass = createEClass(AND_FORK);
 		createEAttribute(andForkEClass, AND_FORK__ORIENTATION);
@@ -1151,7 +1141,6 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		initEClass(timerEClass, Timer.class, "Timer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTimer_TimeoutPath(), this.getNodeConnection(), null, "timeoutPath", null, 0, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getTimer_TimerVar(), theScenarioPackage.getVariable(), null, "timerVar", null, 1, 1, Timer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(andForkEClass, AndFork.class, "AndFork", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAndFork_Orientation(), ecorePackage.getEString(), "orientation", null, 0, 1, AndFork.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

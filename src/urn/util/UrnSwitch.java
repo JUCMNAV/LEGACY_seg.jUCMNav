@@ -11,6 +11,8 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import urn.*;
+
 import urn.URNlink;
 import urn.URNspec;
 import urn.UrnPackage;
