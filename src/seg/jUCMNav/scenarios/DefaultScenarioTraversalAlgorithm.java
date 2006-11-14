@@ -178,7 +178,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				ScenarioUtils.evaluate(init.getVariable().getName() + "=" + init.getValue() + ";", env, true); //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (Exception ex) {
 				if (init.getVariable().getEnumerationType()!=null) {
-					warnings.add(new TraversalWarning(init.getVariable().getEnumerationType().getName() + ": This enumeration does not contain a value named " + init.getValue()));
+					warnings.add(new TraversalWarning(init.getVariable().getEnumerationType().getName() + Messages.getString("DefaultScenarioTraversalAlgorithm.ColonThisEnumerationDoesNotContainAValueNamed") + init.getValue())); //$NON-NLS-1$
 				}
 				else {
 					warnings.add(new TraversalWarning(ex.getMessage(), init, IMarker.SEVERITY_ERROR));

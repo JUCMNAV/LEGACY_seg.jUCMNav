@@ -152,7 +152,7 @@ public class CodeEditorPage extends WizardPage {
 		labelText.addModifyListener(modifyListener);
 		
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Description:");	
+		label.setText(Messages.getString("CodeEditorPage.Description"));	 //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan=2;
 		label.setLayoutData(gd);	
@@ -338,15 +338,15 @@ public class CodeEditorPage extends WizardPage {
 			else
 				codeText.setText(code.get(resp).toString());
 			
-			labelLabel.setText("Name:");
+			labelLabel.setText(Messages.getString("CodeEditorPage.Name")); //$NON-NLS-1$
 			
 			if (labels.get(resp)==null)
-				labelText.setText("");
+				labelText.setText(""); //$NON-NLS-1$
 			else
 				labelText.setText(labels.get(resp).toString());
 				
 			if (descriptions.get(resp)==null)
-				descriptionText.setText("");
+				descriptionText.setText(""); //$NON-NLS-1$
 			else
 				descriptionText.setText(descriptions.get(resp).toString());		
 			
@@ -358,18 +358,18 @@ public class CodeEditorPage extends WizardPage {
 			else
 				codeText.setText(code.get(cond).toString());
 			
-			labelLabel.setText("Label:");
+			labelLabel.setText(Messages.getString("CodeEditorPage.Label")); //$NON-NLS-1$
 			
 			if (labels.get(cond)!=null) {
 				labelText.setText(labels.get(cond).toString());
 			}else {
 				if (cond.getLabel()==null)
-					labelText.setText("");
+					labelText.setText(""); //$NON-NLS-1$
 				else
 					labelText.setText(cond.getLabel());
 			}
 			if (cond.getDescription()==null)
-				descriptionText.setText("");
+				descriptionText.setText(""); //$NON-NLS-1$
 			else
 				descriptionText.setText(cond.getDescription());
 
@@ -397,12 +397,12 @@ public class CodeEditorPage extends WizardPage {
 					code.put(element, r.getExpression());
 				
 				if (r.getName() == null)
-					labels.put(element, "");
+					labels.put(element, ""); //$NON-NLS-1$
 				else
 					labels.put(element, r.getName());
 					
 				if (r.getDescription() == null)
-					descriptions.put(element, "");
+					descriptions.put(element, ""); //$NON-NLS-1$
 				else
 					descriptions.put(element, r.getDescription());
 				
@@ -415,12 +415,12 @@ public class CodeEditorPage extends WizardPage {
 				
 				
 				if (c.getLabel() == null)
-					labels.put(element, "");
+					labels.put(element, ""); //$NON-NLS-1$
 				else
 					labels.put(element, c.getLabel());
 					
 				if (c.getDescription() == null)
-					descriptions.put(element, "");
+					descriptions.put(element, ""); //$NON-NLS-1$
 				else
 					descriptions.put(element, c.getDescription());				
 			}

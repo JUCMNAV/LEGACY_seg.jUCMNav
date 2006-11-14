@@ -88,7 +88,7 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
      */
     protected String getText() {
     	if (isEnumerations)
-    		return "Enumerations";
+    		return Messages.getString("VariableListTreeEditPart.Enumerations"); //$NON-NLS-1$
     	else
     		return Messages.getString("VariableListTreeEditPart.Variables"); //$NON-NLS-1$
     }

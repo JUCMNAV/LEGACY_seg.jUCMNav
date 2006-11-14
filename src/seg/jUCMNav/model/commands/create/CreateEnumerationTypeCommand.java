@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.create;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.EnumerationType;
@@ -30,7 +31,7 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
         this.urn = urn;
         this.name = name;
         this.values = values;
-        setLabel("Create Enumeration Type");
+        setLabel(Messages.getString("CreateEnumerationTypeCommand.CreateEnumerationType")); //$NON-NLS-1$
     }
 
     /**
@@ -38,8 +39,8 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
      */
     public CreateEnumerationTypeCommand(URNspec urn) {
         this.urn = urn;
-        this.values = "DEFAULT";
-        setLabel("Create Enumeration Type");
+        this.values = Messages.getString("CreateEnumerationTypeCommand.DEFAULT"); //$NON-NLS-1$
+        setLabel(Messages.getString("CreateEnumerationTypeCommand.CreateEnumerationType")); //$NON-NLS-1$
     }
 
 

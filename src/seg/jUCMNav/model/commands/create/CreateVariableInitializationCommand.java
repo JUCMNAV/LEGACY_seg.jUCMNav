@@ -104,7 +104,7 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
 			else if (var.getType().equals(ScenarioUtils.sTypeInteger))
 				init.setValue("0"); //$NON-NLS-1$
 			else{
-				init.setValue(var.getEnumerationType().getValues().split(",")[0]);
+				init.setValue(var.getEnumerationType().getValues().split(",")[0]); //$NON-NLS-1$
 			}
 		} else {
 			init.setValue(this.value);

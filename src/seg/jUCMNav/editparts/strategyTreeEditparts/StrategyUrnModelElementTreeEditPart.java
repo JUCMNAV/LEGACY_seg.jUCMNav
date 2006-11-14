@@ -109,7 +109,7 @@ public class StrategyUrnModelElementTreeEditPart extends AbstractTreeEditPart im
             refreshChildren();
         	} catch(Exception ex) {
         		// Bug 475: should be resolved but leaving code here as defense in depth. 
-        		System.out.println("quick ugly hack; trying to prevent weird happenings in UI ");
+        		System.out.println("quick ugly hack; trying to prevent weird happenings in UI "); //$NON-NLS-1$
         		getChildren().clear();
         		refreshChildren();
         	}

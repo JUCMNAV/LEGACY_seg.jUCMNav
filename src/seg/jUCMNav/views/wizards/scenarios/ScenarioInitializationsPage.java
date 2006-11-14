@@ -94,7 +94,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 							if (type.equals(ScenarioUtils.sTypeBoolean))
 								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, boolean_values, SWT.READ_ONLY);
 							else {
-								enum_values = ((Variable)element).getEnumerationType().getValues().split(",");
+								enum_values = ((Variable)element).getEnumerationType().getValues().split(","); //$NON-NLS-1$
 								viewer.getCellEditors()[2] = new ComboBoxCellEditor(parent, enum_values, SWT.READ_ONLY);
 							}
 
@@ -106,7 +106,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 									cbce.setItems(boolean_values);
 							} else {
 
-								enum_values = ((Variable)element).getEnumerationType().getValues().split(",");
+								enum_values = ((Variable)element).getEnumerationType().getValues().split(","); //$NON-NLS-1$
 								if (cbce.getItems() != enum_values)
 									cbce.setItems(enum_values);
 							}
@@ -132,7 +132,7 @@ public class ScenarioInitializationsPage extends WizardPage {
 						else if (((Variable)element).getType().equals(ScenarioUtils.sTypeBoolean))
 							return getInitialization((Variable) element).getValue().equals(boolean_values[0]) ? new Integer(0) : new Integer(1);
 						else {
-							enum_values = ((Variable)element).getEnumerationType().getValues().split(",");
+							enum_values = ((Variable)element).getEnumerationType().getValues().split(","); //$NON-NLS-1$
 							for (int i=0;i<enum_values.length;i++) {
 								if (getInitialization((Variable) element)!=null && getInitialization((Variable) element).getValue()!=null && getInitialization((Variable) element).getValue().equals(enum_values[i]))
 									return new Integer(i);

@@ -107,7 +107,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		layout.verticalSpacing = 5;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("Please select an enumeration: ");
+		label.setText(Messages.getString("AddVariableWizardEnumsPage.PleaseSelectAnEnumeration")); //$NON-NLS-1$
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
@@ -127,7 +127,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		
 
 		btnNewEnumeration = new Button(container, SWT.NULL);
-		btnNewEnumeration.setText("New Enumeration");
+		btnNewEnumeration.setText(Messages.getString("AddVariableWizardEnumsPage.NewEnumeration")); //$NON-NLS-1$
 		btnNewEnumeration.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				execute(new CreateEnumerationTypeCommand(urn));
@@ -138,11 +138,11 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		});
 		
 		btnDeleteEnumeration = new Button(container, SWT.NULL);
-		btnDeleteEnumeration.setText("Delete selected enumeration");
+		btnDeleteEnumeration.setText(Messages.getString("AddVariableWizardEnumsPage.DeleteSelectedEnumeration")); //$NON-NLS-1$
 		btnDeleteEnumeration.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (MessageDialogWithToggle.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Delete Enumeration Type",
-						"Are you sure you wish to delete this enumeration type?")) {
+				if (MessageDialogWithToggle.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("AddVariableWizardEnumsPage.DeleteEnumerationType"), //$NON-NLS-1$
+						Messages.getString("AddVariableWizardEnumsPage.AreYouSureYouWishToDeleteThisEnumerationType"))) { //$NON-NLS-1$
 					execute(new DeleteEnumerationTypeCommand((EnumerationType) urn.getUcmspec().getEnumerationTypes().get(possibilities.getSelectionIndex())));
 					refreshPossibilityLabels();
 					dialogChanged();
@@ -152,7 +152,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 				
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("You can optionally modify the selected enumeration by using the fields below."); 
+		label.setText(Messages.getString("AddVariableWizardEnumsPage.ModifySelectedEnumeration"));  //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);
@@ -167,7 +167,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		enumerationName.setLayoutData(gd);
 		
 		label = new Label(container, SWT.NULL);
-		label.setText("Enumeration values (enter one value per line)"); 
+		label.setText(Messages.getString("AddVariableWizardEnumsPage.EnumerationValuesOnePerLine"));  //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);
@@ -193,7 +193,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		enumerationName.removeModifyListener(modifyListener);
 		enumerationValues.removeModifyListener(modifyListener);
 		if (myEnum==null) {
-			enumerationName.setText("");
+			enumerationName.setText(""); //$NON-NLS-1$
 		}
 		else {
 			enumerationName.setText(myEnum.getName());
@@ -205,10 +205,10 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		
 		
 		if (myEnum==null || myEnum.getValues()==null || myEnum.getValues().length()==0) {
-			enumerationValues.setText("");
+			enumerationValues.setText(""); //$NON-NLS-1$
 		}
 		else {
-			enumerationValues.setText(myEnum.getValues().replace(",", "\n"));
+			enumerationValues.setText(myEnum.getValues().replace(",", "\n")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		enumerationName.addModifyListener(modifyListener);
 		enumerationValues.addModifyListener(modifyListener);
@@ -252,12 +252,12 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 	private void dialogChanged() {
 		if (possibilities.getSelectionIndex()<0) {
 			if (getWizard() instanceof AddVariableWizard)
-				updateStatus("Please select this variable's enumeration type");
+				updateStatus(Messages.getString("AddVariableWizardEnumsPage.PleaseSelectThisVariablesEnumerationType")); //$NON-NLS-1$
 			else
 				updateStatus(null);
 			return;
 		}
-		String [] values = enumerationValues.getText().split("\n");
+		String [] values = enumerationValues.getText().split("\n"); //$NON-NLS-1$
 		Vector v = new Vector();
 		for (int i = 0; i < values.length; i++) {
 			if (values[i].trim().length()>0)
@@ -266,7 +266,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		
 		boolean err = v.size()==0;
 		if (err)
-			updateStatus("Please enter at least one value for this enumeration.");  
+			updateStatus(Messages.getString("AddVariableWizardEnumsPage.PleaseEnterAtLeastOneValue"));   //$NON-NLS-1$
 		else {
 		// verify uniqueness
 			for (int i = 0; i < v.size() / 2; i++) {
@@ -275,7 +275,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 			}
 
 			if (err) {
-				updateStatus("Please enter unique values.");
+				updateStatus(Messages.getString("AddVariableWizardEnumsPage.PleaseEnterUniqueValues")); //$NON-NLS-1$
 			}
 			else {
 				// everything okay.

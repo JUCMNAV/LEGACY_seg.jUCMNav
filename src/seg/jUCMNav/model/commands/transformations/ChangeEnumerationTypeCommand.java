@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.scenario.EnumerationType;
 
@@ -20,10 +21,10 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
     public ChangeEnumerationTypeCommand(EnumerationType elem, String newName, Vector newValues) {
     	this.elem = elem;
     	this.name = newName;
-    	String tmp="";
+    	String tmp=""; //$NON-NLS-1$
     	for (Iterator iter = newValues.iterator(); iter.hasNext();) {
 			String str = (String) iter.next();
-			tmp+="," + str;
+			tmp+="," + str; //$NON-NLS-1$
 		}
     	
     	if (tmp.length()>0)
@@ -32,7 +33,7 @@ public class ChangeEnumerationTypeCommand extends Command implements JUCMNavComm
     		this.values = tmp;
     	
     	
-    	setLabel("Change Enumeration Type");
+    	setLabel(Messages.getString("ChangeEnumerationTypeCommand.ChangeEnumerationType")); //$NON-NLS-1$
     }
 
 

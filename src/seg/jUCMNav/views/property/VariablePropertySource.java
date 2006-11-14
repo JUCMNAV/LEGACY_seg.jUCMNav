@@ -38,7 +38,7 @@ public class VariablePropertySource extends URNElementPropertySource {
 		// object.eClass().getEStructuralFeature(propertyid);
 		PropertyID propertyid = (PropertyID) id;
 		EStructuralFeature feature = propertyid.getFeature();
-		if (feature.getName() == "type") {
+		if (feature.getName() == "type") { //$NON-NLS-1$
 			Object result = getFeature(propertyid, feature);
 			result = returnPropertyValue(feature, result);
 			if (result.equals(ScenarioUtils.sTypeEnumeration) &&  ((Variable)getEditableValue()).getEnumerationType()!=null)

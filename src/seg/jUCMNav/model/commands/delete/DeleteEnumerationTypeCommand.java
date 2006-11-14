@@ -5,6 +5,7 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
 import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import ucm.scenario.EnumerationType;
@@ -22,7 +23,7 @@ public class DeleteEnumerationTypeCommand extends CompoundCommand {
      *          the Variable to delete
      */
     public DeleteEnumerationTypeCommand(EnumerationType et) {
-        setLabel("Delete enumeration type");
+        setLabel(Messages.getString("DeleteEnumerationTypeCommand.DeleteEnumerationType")); //$NON-NLS-1$
         add(new PreDeleteUrnModelElementCommand(et));
         add(new RemoveURNmodelElementCommand(et));
     }

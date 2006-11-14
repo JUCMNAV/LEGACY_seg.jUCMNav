@@ -113,7 +113,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
         }
         	
         if (!found)
-            throw new IllegalArgumentException("Enumeration value " + value + " does not exist in enumeration."); 
+            throw new IllegalArgumentException(Messages.getString("UcmEnvironment.EnumerationValue") + value + Messages.getString("UcmEnvironment.DoesNotExistInEnumeration"));  //$NON-NLS-1$ //$NON-NLS-2$
         
     }    
 
@@ -319,7 +319,7 @@ public class UcmEnvironment implements Adapter, Cloneable{
 					if (var.getEnumerationType()!=null) {
 						// using ID instead of name because we don't guarantee uniqueness.
 						if (!doesEnumerationExist(var.getEnumerationType().getId()))
-							this.registerEnumeration(var.getEnumerationType().getId(), var.getEnumerationType().getValues().split(","));
+							this.registerEnumeration(var.getEnumerationType().getId(), var.getEnumerationType().getValues().split(",")); //$NON-NLS-1$
 	
 						if (oldValuations.containsKey(name))
 							this.registerEnumerationInstance(var.getEnumerationType().getId(), name, oldValuations.get(name).toString());

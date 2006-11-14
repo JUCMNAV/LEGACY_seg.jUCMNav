@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.SelectionHelper;
 
 /**
@@ -32,7 +33,7 @@ public class EditEnumerationsWizard extends Wizard {
 	public EditEnumerationsWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("Edit Enumerations");
+		this.setWindowTitle(Messages.getString("EditEnumerationsWizard.EditEnumerations")); //$NON-NLS-1$
 
 	}
 

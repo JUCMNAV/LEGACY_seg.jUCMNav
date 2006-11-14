@@ -119,7 +119,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         try {
         	((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(evaluationLabel);
         } catch (Exception ex) {
-        	System.out.println("problem with scaling grl evaluation label");
+        	System.out.println("problem with scaling grl evaluation label"); //$NON-NLS-1$
         	// bug 435: old code.. hoping new code is more robust
         	((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
         }

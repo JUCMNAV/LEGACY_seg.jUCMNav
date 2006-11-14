@@ -92,7 +92,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
         	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeEnumeration))
         	{
         		if (((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null)
-        			enumerationDescriptor(descriptors, propertyid, ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","));
+        			enumerationDescriptor(descriptors, propertyid, ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",")); //$NON-NLS-1$
         	}
         		
         		
@@ -329,8 +329,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
 			}
 		}    
 		else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
-			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",");
-			String value = super.returnPropertyValue(feature, result)!=null?super.returnPropertyValue(feature, result).toString():"";
+			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
+			String value = super.returnPropertyValue(feature, result)!=null?super.returnPropertyValue(feature, result).toString():""; //$NON-NLS-1$
 			for (int i=0;i<values.length;i++)
 			{
 				if (values[i].equalsIgnoreCase(value))
@@ -393,7 +393,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             setReferencedObject(propertyid, feature, result);
         } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
         
-			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",");
+			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
             int selectedIndex = ((Integer) value).intValue();
             String selectedString = values[selectedIndex];
             result = selectedString;

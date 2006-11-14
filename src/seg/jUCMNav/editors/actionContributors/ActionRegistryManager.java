@@ -328,7 +328,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);
         
         action = new AddVariableAction((IWorkbenchPart)editor, ScenarioUtils.sTypeEnumeration); //$NON-NLS-1$
-        action.setText("Edit Enumerations");
+        action.setText(Messages.getString("ActionRegistryManager.EditEnumerations")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditCodeAction((IWorkbenchPart)editor);
