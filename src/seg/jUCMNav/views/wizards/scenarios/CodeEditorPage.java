@@ -263,7 +263,7 @@ public class CodeEditorPage extends WizardPage {
 			if (element instanceof URNmodelElement)
 			{
 				String name = URNNamingHelper.getName((URNmodelElement)element);
-				if (labels.get(element)!=null) name = labels.get(element).toString();
+				if (labels.get(element)!=null && labels.get(element).toString().length()>0) name = labels.get(element).toString();
 				
 				if (add)
 					possibilities.add(name);
@@ -276,9 +276,9 @@ public class CodeEditorPage extends WizardPage {
 				
 				
 				if (add)
-					possibilities.add(labels.get(element)!=null ?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element));
+					possibilities.add(labels.get(element)!=null && labels.get(element).toString().length()>0?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element));
 				else {
-					possibilities.setItem(i,labels.get(element)!=null ?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element, code.get(element).toString()));
+					possibilities.setItem(i,labels.get(element)!=null && labels.get(element).toString().length()>0 ?labels.get(element).toString() :URNNamingHelper.getName((urncore.Condition)element, code.get(element).toString()));
 				}
 					
 			}
