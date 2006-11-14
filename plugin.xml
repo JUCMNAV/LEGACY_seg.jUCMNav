@@ -240,6 +240,13 @@
             id="seg.jUCMNav.ExportCSV"
             name="%ExportCSV"
             useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportURNHTML"
+            extension="html"
+            id="seg.jUCMNav.ExportURNHTML"
+            name="%ExportHTML"
+            postExporter="seg.jUCMNav.ExportHTML"
+            useStream="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">
