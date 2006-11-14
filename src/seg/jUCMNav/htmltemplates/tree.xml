@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/xsl" href="xmlTree.xsl"?>
+<!DOCTYPE note [
+<!ELEMENT tree (branch+)>
+<!ELEMENT branch (branchText,(branch|leaf)*)>
+<!ATTLIST branch id CDATA #REQUIRED>
+<!ATTLIST branch branchLink CDATA #REQUIRED>
+<!ATTLIST branch baseX CDATA #REQUIRED>
+<!ATTLIST branch baseY CDATA #REQUIRED>
+<!ELEMENT branchText (#PCDATA)>
+<!ELEMENT leaf (leafText,link,baseX,baseY)>
+<!ELEMENT leafText (#PCDATA)>
+<!ELEMENT link (#PCDATA)>
+<!ELEMENT baseX (#PCDATA)>
+<!ELEMENT baseY (#PCDATA)>
+]>
+<tree>
+	<branch id="UCM" branchlink="notRedirect" baseX="0" baseY="0">
+		<branchText>UCM</branchText>
+	</branch>
+	<branch id="GRL" branchlink="notRedirect" baseX="0" baseY="0">
+		<branchText>GRL</branchText>
+	</branch>
+</tree>

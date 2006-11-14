@@ -83,6 +83,8 @@
                   </enumeration>
                   <enumeration value="model instance">
                   </enumeration>
+                  <enumeration value="html">
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>

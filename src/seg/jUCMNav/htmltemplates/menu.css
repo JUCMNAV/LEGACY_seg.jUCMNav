@@ -1,0 +1,59 @@
+.gurtl0norm {
+	padding: 0px;
+	font: bold 1px Arial, Tahoma, Verdana, Geneva, Helvetica, sans-serif;
+	text-decoration: none;
+	text-align: center;
+	border: 0px;
+	cursor: hand;
+	background: white;
+}
+.gurtl0over {
+	padding: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font: bold 1px Arial, Tahoma, Verdana, Geneva, Helvetica, sans-serif;
+	text-decoration: none;
+	text-align: center;
+	border: 0px;
+	background: white;
+	cursor: hand;
+}
+.gurtl0clck {
+	padding: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font: bold 1px Arial, Tahoma, Verdana, Geneva, Helvetica, sans-serif;
+	text-decoration: none;
+	text-align: center;
+	border: 1px;
+	background: white;
+	cursor: hand;
+}
+.gurtl1norm, .gurtl1over, .gurtl1clck  {
+	padding: 1px;
+	border-bottom: 1px outset #EEEEEE;
+	border-left: 1px outset #EEEEEE;
+	border-right: 1px outset #EEEEEE;
+	background: white;
+	cursor: hand;
+	filter: alpha(opacity=85);
+}
+.gurtl1norm .t {
+	padding: 2px;
+	border: 1px solid white;
+	font: 12px Arial, Tahoma, Verdana, Geneva, Helvetica, sans-serif;
+	color: black;
+}
+.gurtl1over .t, .gurtl1clck .t {
+	padding: 2px;
+	padding-top: 3px;
+	padding-bottom: 1px;
+	border: 1px inset #EEEEEE;
+	font: 12px Arial, Tahoma, Verdana, Geneva, Helvetica, sans-serif;
+	color: black;
+}
+.gurtl2norm, .gurtl2over, .gurtl2clck {
+	padding: 2px;
+	border: 1px outset #EEEEEE;
+	background: white;
+}

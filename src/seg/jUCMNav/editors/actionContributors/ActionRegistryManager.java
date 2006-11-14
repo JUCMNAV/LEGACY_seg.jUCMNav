@@ -51,6 +51,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -189,6 +190,10 @@ public class ActionRegistryManager {
 
         action = new AddLabelAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addLabel")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddDirectionArrow(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addDirectionArrow")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
         action = new AddConditionLabelAction(editor);

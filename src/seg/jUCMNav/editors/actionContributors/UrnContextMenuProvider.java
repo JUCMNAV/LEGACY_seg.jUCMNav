@@ -35,6 +35,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 
@@ -83,6 +84,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddLabelAction.ADDLABEL);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        action = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
@@ -189,10 +194,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditURNLinksAction.EDITURNLINKS);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
-        	manager.appendToGroup(GEFActionConstants.GROUP_REST, action);    
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
     }
 
