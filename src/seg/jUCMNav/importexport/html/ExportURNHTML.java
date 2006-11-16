@@ -15,7 +15,7 @@ import org.eclipse.emf.common.util.EList;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.extensionpoints.IURNExport;
-import seg.jUCMNav.importexport.ExportImageJPG;
+import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
@@ -42,7 +42,7 @@ public class ExportURNHTML implements IURNExport {
 				String imgPath = createImgPath(filename, diagramName);
 				
 				// export the image file
-				(new ExportImageJPG()).export(pane, imgPath); 
+				(new ExportImageGIF()).export(pane, imgPath); 
 	            
 				// export the index pages 
 	            String htmlPath = getPath(filename);
@@ -207,7 +207,7 @@ public class ExportURNHTML implements IURNExport {
         
         // Add "\img" into the path
         imgDirectoryPath = getPath(htmlPath) + "img";
-        newPath = imgDirectoryPath + File.separator + diagramName + ".jpg";
+        newPath = imgDirectoryPath + File.separator + diagramName + ".gif";
         // Create img directory
         File imgDirectory = new File(imgDirectoryPath);
         if (!imgDirectory.exists()) {
@@ -273,7 +273,7 @@ public class ExportURNHTML implements IURNExport {
                 int left = 30;
                 
                 sb.append("<div align=\"left\" style=\"position:absolute; top:" + top + "px; left:" + left + "px;\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) + 
-                        "<br/><img src=\"img/" + diagramName + ".jpg\" border=\"0\" style=\"position:absolute; top:" + top + "px; left:0px;\" />\n");
+                        "<br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"position:absolute; top:" + top + "px; left:0px;\" />\n");
                 sb.append("<script language=\"JavaScript\">\n");
                 sb.append("<!--\n");
                 
@@ -308,7 +308,7 @@ public class ExportURNHTML implements IURNExport {
                                     String pluginDiagramName = ExportWizard.getDiagramName(childMap);
                                     
                                     sb.append("[map('" + pluginDiagramName.substring(pluginDiagramName.lastIndexOf("-") + 1) + 
-                                            "'), '" + pluginDiagramName + ".html', [thumbnails('" + pluginDiagramName + ".jpg')]]\n");
+                                            "'), '" + pluginDiagramName + ".html', [thumbnails('" + pluginDiagramName + ".gif')]]\n");
                                     
                                     if (bindIter.hasNext()) {
                                         sb.append(",");
