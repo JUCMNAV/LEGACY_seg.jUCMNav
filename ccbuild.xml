@@ -102,14 +102,14 @@ this file is kept here with the information necessary for a good build by cruise
 		
 
 
-		<!--<condition property="jucmnav.version" value="2.2.${buildtime}">
+		<condition property="jucmnav.version" value="2.2.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
-		-->
 
-		 <property name="jucmnav.version" value="2.2.2" /> 
+
+<!--		 <property name="jucmnav.version" value="2.2.2" /> -->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
