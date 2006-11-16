@@ -35,6 +35,7 @@ import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
 import seg.jUCMNav.actions.AddOrForkAction;
 import seg.jUCMNav.actions.AddOrJoinAction;
+import seg.jUCMNav.actions.AddResponsibility;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.BindChildren;
 import seg.jUCMNav.actions.BindWithParent;
@@ -199,6 +200,10 @@ public class ActionRegistryManager {
 
         action = new AddEmptyPoint(editor);
         action.setText(Messages.getString("ActionRegistryManager.addEmptyPoint")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
+        action = new AddResponsibility(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addResponsibility")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new AddConditionLabelAction(editor);
