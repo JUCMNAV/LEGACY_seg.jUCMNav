@@ -36,6 +36,7 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.AddDirectionArrow;
+import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 
@@ -88,6 +89,10 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
         action = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

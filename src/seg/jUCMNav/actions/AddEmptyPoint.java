@@ -6,35 +6,35 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
-import ucm.map.DirectionArrow;
+import ucm.map.EmptyPoint;
 import ucm.map.PathNode;
 import urn.URNspec;
 
 /**
- * Adds a Direction arrow to Node Connection or replace an empty point by a direction arrow
+ * Adds an Empty Point to a Node Connection or Replace a Drection Arrow.
  * 
  * @author Ali
  */
-public class AddDirectionArrow extends URNSelectionAction {
-    public static final String ADDDIRECTIONARROW= "seg.jUCMNav.CovertToArrow"; //$NON-NLS-1$
+public class AddEmptyPoint extends URNSelectionAction {
+    public static final String ADDEMPTYPOINT= "seg.jUCMNav.AddEmptyPoint"; //$NON-NLS-1$
     
 
     /**
      * @param part
      */
-    public AddDirectionArrow(IWorkbenchPart part) {
+    public AddEmptyPoint(IWorkbenchPart part) {
         super(part);
-        setId(ADDDIRECTIONARROW);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif")); //$NON-NLS-1$
+        setId(ADDEMPTYPOINT);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected a stub.
+     * True if we select a direction arrow or a node connection.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
-        case SelectionHelper.EMPTYPOINT:
+        case SelectionHelper.DIRECTIONARROW:
               return true;
         case SelectionHelper.NODECONNECTION:
             return true;
@@ -43,23 +43,23 @@ public class AddDirectionArrow extends URNSelectionAction {
     }
     
     /**
-     * Returns the appropriate direction arrow creation command, given the current selection.
+     * Returns the appropriate Empty Point creation command, given the current selection.
      */
     
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        PathNode newDirectionArrow = getNewDirectionArrow(sel.getUrnspec());
+        PathNode newEmptyPoint = getNewEmptyPoint(sel.getUrnspec());
         Command comm;
         
         
         switch (sel.getSelectionType()) {
 
-        case SelectionHelper.EMPTYPOINT:
-           comm = new ReplaceEmptyPointCommand(sel.getEmptypoint(),newDirectionArrow);         
+        case SelectionHelper.DIRECTIONARROW:
+           comm = new ReplaceEmptyPointCommand(sel.getDirectionarrow(),newEmptyPoint);         
             return comm;
 
         case SelectionHelper.NODECONNECTION:
-            comm = new SplitLinkCommand(sel.getMap(), newDirectionArrow, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y ) ;         
+            comm = new SplitLinkCommand(sel.getMap(), newEmptyPoint, sel.getNodeconnection(), sel.getNodeconnectionMiddle().x, sel.getNodeconnectionMiddle().y ) ;         
              return comm;
              
         default:
@@ -70,10 +70,10 @@ public class AddDirectionArrow extends URNSelectionAction {
     
     /**
      * @param urn
-     * @return a direction arrow
+     * @return an Empty Point
      */
-    protected PathNode getNewDirectionArrow(URNspec urn) {
-        return (DirectionArrow) ModelCreationFactory.getNewObject(urn, DirectionArrow.class);
+    protected PathNode getNewEmptyPoint(URNspec urn) {
+        return (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
     }
 
 }

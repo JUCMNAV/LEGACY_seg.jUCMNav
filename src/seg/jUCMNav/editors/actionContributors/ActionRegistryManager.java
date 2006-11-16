@@ -29,6 +29,7 @@ import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
+import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
 import seg.jUCMNav.actions.AddMapAction;
@@ -196,6 +197,10 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addDirectionArrow")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
+        action = new AddEmptyPoint(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addEmptyPoint")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddConditionLabelAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.AddConditionLabel"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
