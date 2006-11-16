@@ -19,7 +19,7 @@ import ucm.scenario.EnumerationType;
 public class DeleteEnumerationTypeCommand extends CompoundCommand {
 
     /**
-     * @param var
+     * @param et
      *          the Variable to delete
      */
     public DeleteEnumerationTypeCommand(EnumerationType et) {

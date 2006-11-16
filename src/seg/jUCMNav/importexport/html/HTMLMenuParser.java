@@ -187,7 +187,7 @@ public class HTMLMenuParser {
      * Add new ucm menu to the given node's children
      * 
      * @param htmlMenuItem
-     * @param node
+     * @param parent
      */
     private void addUCMMenu(HTMLMenuItem htmlMenuItem, Element parent) {
         NodeList branchList = parent.getElementsByTagName(BRANCH);

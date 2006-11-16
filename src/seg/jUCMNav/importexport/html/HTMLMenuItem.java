@@ -41,7 +41,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param baseX
+     * @param _baseX
      */
     public void setBaseX(int _baseX) {
         baseX = _baseX;
@@ -55,7 +55,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param baseY
+     * @param _baseY
      */
     public void setBaseY(int _baseY) {
         baseY = _baseY;
@@ -69,7 +69,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param leafText
+     * @param _leafText
      */
     public void setLeafText(String _leafText) {
         leafText = _leafText.trim();
@@ -83,7 +83,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param link
+     * @param _link
      */
     public void setLink(String _link) {
         link = _link;
@@ -97,7 +97,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param type
+     * @param _type
      */
     public void setType(String _type) {
         type = _type;
@@ -125,7 +125,7 @@ public class HTMLMenuItem {
     }
 
     /**
-     * @param diagramName the diagramName to set
+     * @param _diagramName the diagramName to set
      */
     public void setDiagramName(String _diagramName) {
         diagramName = _diagramName;

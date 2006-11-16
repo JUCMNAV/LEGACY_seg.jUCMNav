@@ -43,7 +43,7 @@ public class CreateLabelCommand extends Command implements JUCMNavCommand {
     /**
      * Create a label for elem.
      * 
-     * @param elem
+     * @param cond
      *            a PathNode or ComponentRef
      */
     public CreateLabelCommand(Condition cond) {
