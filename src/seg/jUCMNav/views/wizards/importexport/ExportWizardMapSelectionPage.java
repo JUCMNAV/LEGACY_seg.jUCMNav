@@ -224,10 +224,10 @@ public class ExportWizardMapSelectionPage extends WizardPage {
                 if (selected.indexOf(diagram)>=0) {
                     vIndices.add(new Integer(i));
                 }
-                lstMaps.add(((ExportWizard) getWizard()).getDiagramName(diagram));
+                lstMaps.add(ExportWizard.getDiagramName(diagram));
             }
             else if (!v.contains(diagram.getUrndefinition().getUrnspec())) {
-                lstMaps.add(((ExportWizard) getWizard()).getFilePrefix(diagram));
+                lstMaps.add(ExportWizard.getFilePrefix(diagram));
                 v.add(diagram.getUrndefinition().getUrnspec());
             }
             i++;
@@ -281,7 +281,7 @@ public class ExportWizardMapSelectionPage extends WizardPage {
             //Vector selected = ((ExportWizard) getWizard()).getSelectedDiagrams();
             //Used any of the selected diagrams because we just need the file prefix
             if (mapsToExport.size()>0){
-                txtFilenamePrefix.setText(((ExportWizard) getWizard()).getFilePrefix((IURNDiagram)mapsToExport.get(0)));
+                txtFilenamePrefix.setText(ExportWizard.getFilePrefix((IURNDiagram)mapsToExport.get(0)));
             }
         }
         fillTypeDropDown();

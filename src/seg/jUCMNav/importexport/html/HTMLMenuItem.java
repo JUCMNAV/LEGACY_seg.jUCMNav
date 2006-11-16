@@ -1,4 +1,4 @@
-package seg.jUCMNav.importexport;
+package seg.jUCMNav.importexport.html;
 
 import urncore.IURNDiagram;
 

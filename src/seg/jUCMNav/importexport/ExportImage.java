@@ -1,6 +1,8 @@
 package seg.jUCMNav.importexport;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SWTGraphics;
@@ -44,14 +46,32 @@ public abstract class ExportImage implements IUseCaseMapExport {
     }
 
     public void export(IFigure pane, String path) {
-        // not used.
+
+    	FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(path);
+			export(pane, fos);
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		} finally {
+			// close the stream
+			if (fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+    	 
+    	 
     }
 
     /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
-     */
+	 * (non-Javadoc)
+	 * 
+	 * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
+	 */
     public void export(IURNDiagram diagram, FileOutputStream fos) {
         // not used.
     }

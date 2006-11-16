@@ -183,13 +183,6 @@
             mode="image"
             name="%ExportGIF"
             useStream="true"/>
-      <exporter
-            class="seg.jUCMNav.importexport.ExportHTML"
-            extension="html"
-            id="seg.jUCMNav.ExportHTML"
-            mode="html"
-            name="%ExportHTML"
-            useStream="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -241,12 +234,11 @@
             name="%ExportCSV"
             useStream="false"/>
       <exporter
-            class="seg.jUCMNav.importexport.ExportURNHTML"
+            class="seg.jUCMNav.importexport.html.ExportURNHTML"
             extension="html"
-            id="seg.jUCMNav.ExportURNHTML"
+            id="seg.jUCMNav.ExportURN_HTML"
             name="%ExportHTML"
-            postExporter="seg.jUCMNav.ExportHTML"
-            useStream="true"/>
+            useStream="false"/>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">

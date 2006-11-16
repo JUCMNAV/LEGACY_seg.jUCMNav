@@ -19,6 +19,7 @@ import grl.IntentionalElementType;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import seg.jUCMNav.Messages;
@@ -59,7 +60,7 @@ public class ExportDXL implements IURNExport {
     /**
      * Not used.
      */
-    public void export(URNspec urn, FileOutputStream fos) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
         // TODO Auto-generated method stub
 
     }
@@ -67,7 +68,7 @@ public class ExportDXL implements IURNExport {
     /**
      * Export the URNspec to the given filename in DXL format.
      */
-    public void export(URNspec urn, String filename) throws InvocationTargetException {
+    public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
         this.filename = filename;
         try {
             fos = new FileOutputStream(filename);

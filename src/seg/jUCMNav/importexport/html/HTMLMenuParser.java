@@ -1,4 +1,4 @@
-package seg.jUCMNav.importexport;
+package seg.jUCMNav.importexport.html;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -303,7 +303,7 @@ public class HTMLMenuParser {
                     // prepare the html menu item
                     htmlMenuItem.reset();
 
-                    String childDiagramName = new ExportWizard().getDiagramName(childDiagram);
+                    String childDiagramName = ExportWizard.getDiagramName(childDiagram);
                     htmlMenuItem.setDiagramName(childDiagramName);
                     htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
                     htmlMenuItem.setLeafText(childDiagramName.substring(childDiagramName.lastIndexOf("-") + 1));

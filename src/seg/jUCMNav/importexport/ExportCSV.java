@@ -11,6 +11,7 @@ import grl.IntentionalElement;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import seg.jUCMNav.extensionpoints.IURNExport;
@@ -34,7 +35,7 @@ public class ExportCSV implements IURNExport {
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.extensionpoints.IURNExport#export(urn.URNspec, java.io.FileOutputStream)
 	 */
-	public void export(URNspec urn, FileOutputStream fos)
+	public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos)
 			throws InvocationTargetException {
 		// Not Used
 	}
@@ -42,7 +43,7 @@ public class ExportCSV implements IURNExport {
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.extensionpoints.IURNExport#export(urn.URNspec, java.lang.String)
 	 */
-	public void export(URNspec urn, String filename)
+	public void export(URNspec urn, HashMap mapDiagrams, String filename)
 			throws InvocationTargetException {
         this.filename = filename;
         try {
