@@ -70,14 +70,14 @@ public class HTMLMenuParser {
      * @param _xmlPath
      */
     private HTMLMenuParser(String _xmlPath) {
-        this.xmlFullPath = _xmlPath + xmlFileName;
+        this.xmlFullPath = _xmlPath + ExportURNHTML.PAGES_LOCATION + xmlFileName;
     }
 
     public static HTMLMenuParser getParser(String _xmlPath) {
         if (parser == null) {
             parser = new HTMLMenuParser(_xmlPath);
         } else {
-            parser.xmlFullPath = _xmlPath + xmlFileName;
+            parser.xmlFullPath = _xmlPath + ExportURNHTML.PAGES_LOCATION + xmlFileName;
         }
 
         return parser;

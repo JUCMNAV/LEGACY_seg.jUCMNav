@@ -24,7 +24,9 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 
 public class ExportURNHTML implements IURNExport {
-
+    public static String PAGES_LOCATION = "pages" + File.separator;
+    public static String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; 
+    
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
     	// not used
 
@@ -97,70 +99,62 @@ public class ExportURNHTML implements IURNExport {
 
             // Generate the main page
             srcFile = "htmltemplates/main.html";
-            desFile = htmlPath + "main.html";
+            desFile = htmlPath + PAGES_LOCATION + "main.html";
             copy(srcFile, desFile);
 
             // Generate the menu page
             srcFile = "htmltemplates/menu.html";
-            desFile = htmlPath + "menu.html";
+            desFile = htmlPath + PAGES_LOCATION + "menu.html";
             copy(srcFile, desFile);
 
             // Generate the xml tree css file
             srcFile = "htmltemplates/xmlTree.css";
-            desFile = htmlPath + "xmlTree.css";
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.css";
             copy(srcFile, desFile);
 
             // Generate the report css file
             srcFile = "htmltemplates/report.css";
-            desFile = htmlPath + "report.css";
+            desFile = htmlPath + PAGES_LOCATION + "report.css";
             copy(srcFile, desFile);
             
             // Generate the menu css file
             srcFile = "htmltemplates/menu.css";
-            desFile = htmlPath + "menu.css";
+            desFile = htmlPath + PAGES_LOCATION + "menu.css";
             copy(srcFile, desFile);
-
-            // Generate the tree dtd file
-            // merged dtd into xml due to path issue when parsing
-            /*
-            srcFile = "htmltemplates/tree.dtd";
-            desFile = htmlPath + "tree.dtd";
-            copy(srcFile, desFile);
-            */
 
             // Generate the xml tree java script file
             srcFile = "htmltemplates/xmlTree.js";
-            desFile = htmlPath + "xmlTree.js";
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.js";
             copy(srcFile, desFile);
             
             // Generate the menu java script file
             srcFile = "htmltemplates/menu.js";
-            desFile = htmlPath + "menu.js";
+            desFile = htmlPath + PAGES_LOCATION + "menu.js";
             copy(srcFile, desFile);
 
             // Generate the tree xsl file
             srcFile = "htmltemplates/xmlTree.xsl";
-            desFile = htmlPath + "xmlTree.xsl";
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.xsl";
             copy(srcFile, desFile);
 
             // Generate the closed.gif file
             srcFile = "htmltemplates/closed.gif";
-            desFile = htmlPath + "closed.gif";
+            desFile = htmlPath + PAGES_LOCATION + "closed.gif";
             copy(srcFile, desFile);
 
             // Generate the doc.gif file
             srcFile = "htmltemplates/doc.gif";
-            desFile = htmlPath + "doc.gif";
+            desFile = htmlPath + PAGES_LOCATION + "doc.gif";
             copy(srcFile, desFile);
 
             // Generate the open.gif file
             srcFile = "htmltemplates/open.gif";
-            desFile = htmlPath + "open.gif";
+            desFile = htmlPath + PAGES_LOCATION + "open.gif";
             copy(srcFile, desFile);
             
             // Generate the open.gif file
             srcFile = "htmltemplates/LogoFinal.gif";
-            desFile = htmlPath + "LogoFinal.gif";
+            desFile = htmlPath + PAGES_LOCATION + "LogoFinal.gif";
             copy(srcFile, desFile);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -199,22 +193,19 @@ public class ExportURNHTML implements IURNExport {
      * @return the path of exported html file
      */
     private String createImgPath(String htmlPath, String diagramName) {
-
-
-        String newPath = "";
+        String imgFilePath = "";
         String imgDirectoryPath = "";
-
         
         // Add "\img" into the path
-        imgDirectoryPath = getPath(htmlPath) + "img";
-        newPath = imgDirectoryPath + File.separator + diagramName + ".gif";
+        imgDirectoryPath = getPath(htmlPath) + IMAGES_LOCATION;
+        imgFilePath = imgDirectoryPath + diagramName + ".gif";
         // Create img directory
         File imgDirectory = new File(imgDirectoryPath);
         if (!imgDirectory.exists()) {
             imgDirectory.mkdirs();
         }
 
-        return newPath;
+        return imgFilePath;
     }
     
     /**
@@ -369,7 +360,7 @@ public class ExportURNHTML implements IURNExport {
             sb.append("</body>\n");
             sb.append("</html>\n");
 
-            fos = new FileOutputStream(directory + diagramName + ".html");
+            fos = new FileOutputStream(directory + PAGES_LOCATION + diagramName + ".html");
             bos = new BufferedOutputStream(fos);
             
             bos.write(sb.toString().getBytes(), 0, sb.length());
