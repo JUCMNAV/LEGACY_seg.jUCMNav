@@ -281,8 +281,6 @@
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/variables"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="enumerationType" eType="#//scenario/EnumerationType"
           eOpposite="#//scenario/EnumerationType/instances"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="initializations" upperBound="-1"
-          eType="#//scenario/Initialization" eOpposite="#//scenario/Initialization/variable"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ScenarioDef" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -326,7 +324,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="scenarioDef" lowerBound="1"
           eType="#//scenario/ScenarioDef" transient="true" eOpposite="#//scenario/ScenarioDef/initializations"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
-          eType="#//scenario/Variable" eOpposite="#//scenario/Variable/initializations"/>
+          eType="#//scenario/Variable"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ScenarioStartPoint">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>

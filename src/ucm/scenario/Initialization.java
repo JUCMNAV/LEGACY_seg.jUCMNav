@@ -83,7 +83,6 @@ public interface Initialization extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Variable</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.Variable#getInitializations <em>Initializations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Variable</em>' reference isn't clear,
@@ -93,8 +92,7 @@ public interface Initialization extends EObject {
 	 * @return the value of the '<em>Variable</em>' reference.
 	 * @see #setVariable(Variable)
 	 * @see ucm.scenario.ScenarioPackage#getInitialization_Variable()
-	 * @see ucm.scenario.Variable#getInitializations
-	 * @model opposite="initializations" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	Variable getVariable();

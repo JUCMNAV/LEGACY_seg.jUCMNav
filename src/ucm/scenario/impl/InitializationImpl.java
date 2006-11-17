@@ -176,33 +176,11 @@ public class InitializationImpl extends EObjectImpl implements Initialization {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetVariable(Variable newVariable, NotificationChain msgs) {
+	public void setVariable(Variable newVariable) {
 		Variable oldVariable = variable;
 		variable = newVariable;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ScenarioPackage.INITIALIZATION__VARIABLE, oldVariable, newVariable);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setVariable(Variable newVariable) {
-		if (newVariable != variable) {
-			NotificationChain msgs = null;
-			if (variable != null)
-				msgs = ((InternalEObject)variable).eInverseRemove(this, ScenarioPackage.VARIABLE__INITIALIZATIONS, Variable.class, msgs);
-			if (newVariable != null)
-				msgs = ((InternalEObject)newVariable).eInverseAdd(this, ScenarioPackage.VARIABLE__INITIALIZATIONS, Variable.class, msgs);
-			msgs = basicSetVariable(newVariable, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.INITIALIZATION__VARIABLE, newVariable, newVariable));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ScenarioPackage.INITIALIZATION__VARIABLE, oldVariable, variable));
 	}
 
 	/**
@@ -216,10 +194,6 @@ public class InitializationImpl extends EObjectImpl implements Initialization {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetScenarioDef((ScenarioDef)otherEnd, msgs);
-			case ScenarioPackage.INITIALIZATION__VARIABLE:
-				if (variable != null)
-					msgs = ((InternalEObject)variable).eInverseRemove(this, ScenarioPackage.VARIABLE__INITIALIZATIONS, Variable.class, msgs);
-				return basicSetVariable((Variable)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -233,8 +207,6 @@ public class InitializationImpl extends EObjectImpl implements Initialization {
 		switch (featureID) {
 			case ScenarioPackage.INITIALIZATION__SCENARIO_DEF:
 				return basicSetScenarioDef(null, msgs);
-			case ScenarioPackage.INITIALIZATION__VARIABLE:
-				return basicSetVariable(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

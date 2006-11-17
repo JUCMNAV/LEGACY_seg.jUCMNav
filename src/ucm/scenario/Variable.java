@@ -26,7 +26,6 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.scenario.Variable#getType <em>Type</em>}</li>
  *   <li>{@link ucm.scenario.Variable#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.Variable#getEnumerationType <em>Enumeration Type</em>}</li>
- *   <li>{@link ucm.scenario.Variable#getInitializations <em>Initializations</em>}</li>
  * </ul>
  * </p>
  *
@@ -117,23 +116,5 @@ public interface Variable extends UCMmodelElement {
 	 * @generated
 	 */
 	void setEnumerationType(EnumerationType value);
-
-	/**
-	 * Returns the value of the '<em><b>Initializations</b></em>' reference list.
-	 * The list contents are of type {@link ucm.scenario.Initialization}.
-	 * It is bidirectional and its opposite is '{@link ucm.scenario.Initialization#getVariable <em>Variable</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initializations</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Initializations</em>' reference list.
-	 * @see ucm.scenario.ScenarioPackage#getVariable_Initializations()
-	 * @see ucm.scenario.Initialization#getVariable
-	 * @model type="ucm.scenario.Initialization" opposite="variable"
-	 * @generated
-	 */
-	EList getInitializations();
 
 } // Variable

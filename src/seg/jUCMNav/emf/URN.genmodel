@@ -468,8 +468,6 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/ucmspec"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/enumerationType"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference ucm.ecore#//scenario/Variable/initializations"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//scenario/ScenarioDef">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//scenario/ScenarioDef/group"/>

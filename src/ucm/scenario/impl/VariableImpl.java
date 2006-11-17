@@ -38,7 +38,6 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.scenario.impl.VariableImpl#getType <em>Type</em>}</li>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.scenario.impl.VariableImpl#getEnumerationType <em>Enumeration Type</em>}</li>
- *   <li>{@link ucm.scenario.impl.VariableImpl#getInitializations <em>Initializations</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,16 +73,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 	 * @ordered
 	 */
 	protected EnumerationType enumerationType = null;
-
-	/**
-	 * The cached value of the '{@link #getInitializations() <em>Initializations</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getInitializations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList initializations = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -230,18 +219,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList getInitializations() {
-		if (initializations == null) {
-			initializations = new EObjectWithInverseResolvingEList(Initialization.class, this, ScenarioPackage.VARIABLE__INITIALIZATIONS, ScenarioPackage.INITIALIZATION__VARIABLE);
-		}
-		return initializations;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case ScenarioPackage.VARIABLE__UCMSPEC:
@@ -252,8 +229,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				if (enumerationType != null)
 					msgs = ((InternalEObject)enumerationType).eInverseRemove(this, ScenarioPackage.ENUMERATION_TYPE__INSTANCES, EnumerationType.class, msgs);
 				return basicSetEnumerationType((EnumerationType)otherEnd, msgs);
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				return ((InternalEList)getInitializations()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -269,8 +244,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return basicSetUcmspec(null, msgs);
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				return basicSetEnumerationType(null, msgs);
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				return ((InternalEList)getInitializations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -302,8 +275,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				if (resolve) return getEnumerationType();
 				return basicGetEnumerationType();
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				return getInitializations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -323,10 +294,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return;
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				setEnumerationType((EnumerationType)newValue);
-				return;
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				getInitializations().clear();
-				getInitializations().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -348,9 +315,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				setEnumerationType((EnumerationType)null);
 				return;
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				getInitializations().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -368,8 +332,6 @@ public class VariableImpl extends UCMmodelElementImpl implements Variable {
 				return getUcmspec() != null;
 			case ScenarioPackage.VARIABLE__ENUMERATION_TYPE:
 				return enumerationType != null;
-			case ScenarioPackage.VARIABLE__INITIALIZATIONS:
-				return initializations != null && !initializations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
