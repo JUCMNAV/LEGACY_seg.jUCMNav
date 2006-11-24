@@ -514,7 +514,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					incrementHitCount(binding.getStubExit());
 					incrementHitCount(binding);
 					incrementHitCount(binding.getBinding());
-					pushPathNode((PathNode) binding.getStubExit().getTarget(), outbindings.size() > 1);
+					// must give NC or else doesn't work with two consecutive stubs. 
+					pushPathNode(binding.getStubExit(), (PathNode) binding.getStubExit().getTarget(), outbindings.size() > 1);
 				}
 			}
 
