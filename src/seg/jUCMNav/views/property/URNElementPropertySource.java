@@ -17,12 +17,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
+import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import seg.jUCMNav.views.property.descriptors.MetadataPropertyDescriptor;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
@@ -39,6 +41,7 @@ import urncore.Condition;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
 import urncore.Label;
+import urncore.Metadata;
 import urncore.URNmodelElement;
 
 /**
@@ -46,7 +49,7 @@ import urncore.URNmodelElement;
  * Both ComponentRefs and PathNodes are bound to the parent.
  * 
  * @author jkealey, etremblay
- *  
+ * 
  */
 public class URNElementPropertySource extends EObjectPropertySource {
 
@@ -67,7 +70,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
             componentRefDescriptor(descriptors, attr, propertyid);
         } else if (type.getInstanceClass() == Workload.class) {
             workloadDescriptor(descriptors, propertyid);
-        } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label) && attr.getUpperBound()!=-1) { // not a list. 
+        } else if (type.getInstanceClass() == Condition.class && !(getEditableValue() instanceof Label) && attr.getUpperBound() != -1) { // not a list.
             if (getEditableValue() instanceof NodeConnection) {
                 NodeConnection nc = (NodeConnection) getEditableValue();
                 // only on node connections that follow an or fork or a waitingplace/timer
@@ -79,26 +82,44 @@ public class URNElementPropertySource extends EObjectPropertySource {
         } else if (type.getInstanceClass().getSuperclass() == AbstractEnumerator.class) {
             // these are enums created by EMF
             enumerationDescriptor(descriptors, propertyid);
-        } else if (type.getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef){
-        	scenarioGroupDescriptor(descriptors, propertyid);
-        } else if (type.getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy){
-        	strategyGroupDescriptor(descriptors, propertyid);
-        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")){ //$NON-NLS-1$
-        	Initialization init = (Initialization)getEditableValue();
-        	if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
-        		intDescriptor(descriptors, attr, propertyid);
-        	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeBoolean))
-        		booleanDescriptor(descriptors, attr, propertyid);
-        	else if (init.getVariable()!=null && init.getVariable().getType().equals(ScenarioUtils.sTypeEnumeration))
-        	{
-        		if (((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null)
-        			enumerationDescriptor(descriptors, propertyid, ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(",")); //$NON-NLS-1$
-        	}
-        		
-        		
+        } else if (type.getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef) {
+            scenarioGroupDescriptor(descriptors, propertyid);
+        } else if (type.getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy) {
+            strategyGroupDescriptor(descriptors, propertyid);
+        } else if (getEditableValue() instanceof Initialization && attr.getName().equals("value")) { //$NON-NLS-1$
+            Initialization init = (Initialization) getEditableValue();
+            if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeInteger))
+                intDescriptor(descriptors, attr, propertyid);
+            else if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeBoolean))
+                booleanDescriptor(descriptors, attr, propertyid);
+            else if (init.getVariable() != null && init.getVariable().getType().equals(ScenarioUtils.sTypeEnumeration)) {
+                if (((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null)
+                    enumerationDescriptor(descriptors, propertyid, ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(
+                            ",")); //$NON-NLS-1$
+            }
+        } else if (type.getInstanceClass() == Metadata.class) {
+            metadataDescriptor(descriptors, attr, propertyid);
         } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
+    }
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void metadataDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        PropertyDescriptor pd;
+        String name = attr.getName().toLowerCase();
+        if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof URNmodelElement) { //$NON-NLS-1$
+            // urn model elements have metadata
+            pd = new MetadataPropertyDescriptor(propertyid, (URNmodelElement) getEditableValue());
+            pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
+        } else {
+            pd = new TextPropertyDescriptor(propertyid, attr.getName());
+        }
+
+        descriptors.add(pd);
     }
 
     /**
@@ -109,14 +130,14 @@ public class URNElementPropertySource extends EObjectPropertySource {
         EClassifier type = getFeatureType(propertyid.getFeature());
         Class enumer = type.getInstanceClass();
         String[] values = getEnumerationValues(enumer);
-        //String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
+        // String name = enumer.getName().substring(enumer.getName().lastIndexOf('.') + 1);
         String name = propertyid.getFeature().getName();
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
         pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$
         descriptors.add(pd);
 
     }
-    
+
     /**
      * @param descriptors
      * @param propertyid
@@ -180,7 +201,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
         pd = new PropertyDescriptor(propertyid, propertyid.getFeature().getName());
 
-        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy")); //$NON-NLS-1$
         pd.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
                 return ""; //$NON-NLS-1$
@@ -191,13 +212,13 @@ public class URNElementPropertySource extends EObjectPropertySource {
     }
 
     /**
-     * Creates a drop down list for scenario groups. 
+     * Creates a drop down list for scenario groups.
      * 
      * @param descriptors
      * @param propertyid
      */
     private void scenarioGroupDescriptor(Collection descriptors, PropertyID propertyid) {
-        if (((ScenarioDef) getEditableValue()).getGroup() == null || ((ScenarioDef) getEditableValue()).getGroup().getUcmspec()==null)
+        if (((ScenarioDef) getEditableValue()).getGroup() == null || ((ScenarioDef) getEditableValue()).getGroup().getUcmspec() == null)
             return;
         URNspec urn = ((ScenarioDef) getEditableValue()).getGroup().getUcmspec().getUrnspec();
         Vector list;
@@ -209,24 +230,23 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((ScenarioGroup) list.get(i));
             if (values[i] == null)
-                values[i] = Messages.getString("URNElementPropertySource.unnamed");  //$NON-NLS-1$
+                values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy")); //$NON-NLS-1$
         descriptors.add(pd);
 
     }
-    
-    
+
     /**
-     * Creates a drop down list for strategy groups. 
+     * Creates a drop down list for strategy groups.
      * 
      * @param descriptors
      * @param propertyid
      */
     private void strategyGroupDescriptor(Collection descriptors, PropertyID propertyid) {
-        if (((EvaluationStrategy) getEditableValue()).getGroup() == null || ((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec()==null)
+        if (((EvaluationStrategy) getEditableValue()).getGroup() == null || ((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec() == null)
             return;
         URNspec urn = ((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec().getUrnspec();
         Vector list;
@@ -238,28 +258,28 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((StrategiesGroup) list.get(i));
             if (values[i] == null)
-                values[i] = Messages.getString("URNElementPropertySource.unnamed");  //$NON-NLS-1$
+                values[i] = Messages.getString("URNElementPropertySource.unnamed"); //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "group", values); //$NON-NLS-1$
-        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy"));  //$NON-NLS-1$
+        pd.setCategory(Messages.getString("URNElementPropertySource.ScenarioStrategy")); //$NON-NLS-1$
         descriptors.add(pd);
 
     }
-        
+
     protected Object returnPropertyValue(EStructuralFeature feature, Object result) {
         if (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IURNContainerRef.class
                 && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IURNContainerRef)) {
-            //&& feature.getName().toLowerCase().indexOf("parent") >= 0) {
+            // && feature.getName().toLowerCase().indexOf("parent") >= 0) {
             Vector list = ParentFinder.getPossibleParents((URNmodelElement) getEditableValue());
             Collections.sort(list, new EObjectClassNameComparator());
 
             for (int i = 0; i < list.size(); i++) {
                 IURNContainerRef parent;
                 if (getEditableValue() instanceof IURNContainerRef)
-                    parent = (IURNContainerRef)((IURNContainerRef) getEditableValue()).getParent();
+                    parent = (IURNContainerRef) ((IURNContainerRef) getEditableValue()).getParent();
                 else
-                    parent = (IURNContainerRef)((IURNNode) getEditableValue()).getContRef();
+                    parent = (IURNContainerRef) ((IURNNode) getEditableValue()).getContRef();
                 if (list.get(i).equals(parent))
                     result = new Integer(i + 1);
             }
@@ -267,21 +287,21 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 result = new Integer(0);
 
         } else if (getFeatureType(feature).getInstanceClass() == Workload.class) {
-        	StartPoint pt=null;
-        	
+            StartPoint pt = null;
+
             if (result == null) {
-            	if (getEditableValue() instanceof StartPoint) 
-            		pt = (StartPoint)getEditableValue();
-	        	if (getEditableValue() instanceof ScenarioStartPoint) 
-	        		pt = ((ScenarioStartPoint)getEditableValue()).getStartPoint();
-           
-	        	if (pt!=null) {
-	                URNspec urn = pt.getDiagram().getUrndefinition().getUrnspec();
-	                result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
-	        	}
+                if (getEditableValue() instanceof StartPoint)
+                    pt = (StartPoint) getEditableValue();
+                if (getEditableValue() instanceof ScenarioStartPoint)
+                    pt = ((ScenarioStartPoint) getEditableValue()).getStartPoint();
+
+                if (pt != null) {
+                    URNspec urn = pt.getDiagram().getUrndefinition().getUrnspec();
+                    result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
+                }
             }
-            if (result!=null)
-            result = new URNElementPropertySource((EObject) result);
+            if (result != null)
+                result = new URNElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == Condition.class) {
             if (result == null) {
                 URNspec urn;
@@ -291,55 +311,51 @@ public class URNElementPropertySource extends EObjectPropertySource {
                     urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
                 result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
-                
+
                 if (getEditableValue() instanceof NodeConnection) {
-                	
-                	NodeConnection connection = (NodeConnection) getEditableValue();
-                	if (connection.getSource() instanceof WaitingPlace) {
-                		((Condition)result).setExpression("false"); //$NON-NLS-1$
-                	}
-					((Condition)result).setNodeConnection(connection);
-                }
-                else if (getEditableValue() instanceof StartPoint)
-                	((Condition)result).setStartPoint((StartPoint)getEditableValue());
+
+                    NodeConnection connection = (NodeConnection) getEditableValue();
+                    if (connection.getSource() instanceof WaitingPlace) {
+                        ((Condition) result).setExpression("false"); //$NON-NLS-1$
+                    }
+                    ((Condition) result).setNodeConnection(connection);
+                } else if (getEditableValue() instanceof StartPoint)
+                    ((Condition) result).setStartPoint((StartPoint) getEditableValue());
                 else if (getEditableValue() instanceof EndPoint)
-                	((Condition)result).setEndPoint((EndPoint)getEditableValue());
+                    ((Condition) result).setEndPoint((EndPoint) getEditableValue());
 
                 // TODO: any other cases where we should initialize it?
-                
-            } 
+
+            }
             result = new URNElementPropertySource((EObject) result);
         } else if (getFeatureType(feature).getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef) {
             URNspec urn = ((ScenarioDef) getEditableValue()).getGroup().getUcmspec().getUrnspec();
             Vector list = new Vector(urn.getUcmspec().getScenarioGroups());
-            
+
             Collections.sort(list, new EObjectClassNameComparator());
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).equals(((ScenarioDef) getEditableValue()).getGroup()))
                     result = new Integer(i);
             }
-		} else if (getFeatureType(feature).getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy) {
-			URNspec urn = ((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec().getUrnspec();
-			Vector list = new Vector(urn.getGrlspec().getGroups());
+        } else if (getFeatureType(feature).getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy) {
+            URNspec urn = ((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec().getUrnspec();
+            Vector list = new Vector(urn.getGrlspec().getGroups());
 
-			Collections.sort(list, new EObjectClassNameComparator());
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).equals(((EvaluationStrategy) getEditableValue()).getGroup()))
-					result = new Integer(i);
-			}
-		}    
-		else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
-			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
-			String value = super.returnPropertyValue(feature, result)!=null?super.returnPropertyValue(feature, result).toString():""; //$NON-NLS-1$
-			for (int i=0;i<values.length;i++)
-			{
-				if (values[i].equalsIgnoreCase(value))
-					return new Integer(i);
-			}
+            Collections.sort(list, new EObjectClassNameComparator());
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals(((EvaluationStrategy) getEditableValue()).getGroup()))
+                    result = new Integer(i);
+            }
+        } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
+            String[] values = ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
+            String value = super.returnPropertyValue(feature, result) != null ? super.returnPropertyValue(feature, result).toString() : ""; //$NON-NLS-1$
+            for (int i = 0; i < values.length; i++) {
+                if (values[i].equalsIgnoreCase(value))
+                    return new Integer(i);
+            }
 
-			return new Integer(0);
-		}
-        else if (result instanceof AbstractEnumerator) {
+            return new Integer(0);
+        } else if (result instanceof AbstractEnumerator) {
             // if this is an EMF enumeration
             int i = getEnumerationIndex((AbstractEnumerator) result);
             result = new Integer(i);
@@ -391,29 +407,29 @@ public class URNElementPropertySource extends EObjectPropertySource {
             }
 
             setReferencedObject(propertyid, feature, result);
-        } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization)getEditableValue()).getVariable().getEnumerationType()!=null && ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues()!=null){ //$NON-NLS-1$)
-        
-			String[] values = ((Initialization)getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
+        } else if ((getEditableValue() instanceof Initialization && feature.getName().equals("value")) && ((Initialization) getEditableValue()).getVariable().getEnumerationType() != null && ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues() != null) { //$NON-NLS-1$)
+
+            String[] values = ((Initialization) getEditableValue()).getVariable().getEnumerationType().getValues().split(","); //$NON-NLS-1$
             int selectedIndex = ((Integer) value).intValue();
             String selectedString = values[selectedIndex];
             result = selectedString;
-            
+
             setReferencedObject(propertyid, feature, result);
-        	
+
         } else if (getFeatureType(feature).getInstanceClass() == ScenarioGroup.class && getEditableValue() instanceof ScenarioDef) {
 
-                Vector list = new Vector(((ScenarioDef)getEditableValue()).getGroup().getUcmspec().getScenarioGroups());
-                Collections.sort(list, new EObjectClassNameComparator());
-                result = list.get(((Integer) value).intValue());
-                setReferencedObject(propertyid, feature, result);
+            Vector list = new Vector(((ScenarioDef) getEditableValue()).getGroup().getUcmspec().getScenarioGroups());
+            Collections.sort(list, new EObjectClassNameComparator());
+            result = list.get(((Integer) value).intValue());
+            setReferencedObject(propertyid, feature, result);
         } else if (getFeatureType(feature).getInstanceClass() == StrategiesGroup.class && getEditableValue() instanceof EvaluationStrategy) {
 
-            Vector list = new Vector(((EvaluationStrategy)getEditableValue()).getGroup().getGrlspec().getGroups());
+            Vector list = new Vector(((EvaluationStrategy) getEditableValue()).getGroup().getGrlspec().getGroups());
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
         } else if (getEditableValue() instanceof Initialization && getFeatureType(feature).getInstanceClass() == String.class && value instanceof Boolean) {
-        	super.setPropertyValue(id, ((Boolean)value).toString());
+            super.setPropertyValue(id, ((Boolean) value).toString());
         } else
             super.setPropertyValue(id, value);
     }

@@ -53,6 +53,7 @@ import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.NodeLabel;
 import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * This class will help reduce redundant code in all action classes. When given a selection, it parses it and gives utility functions to return its type and
@@ -163,6 +164,7 @@ public class SelectionHelper {
     
     private UCMspec ucmspec;
     private GRLspec grlspec;
+    private URNmodelElement urnelem;
     
     public SelectionHelper(List selection) {
         setSelection(selection);
@@ -432,6 +434,10 @@ public class SelectionHelper {
         		urnspec = element.getGrlspec().getUrnspec();
         	}
         }
+        
+        if (model instanceof URNmodelElement) {
+            urnelem = (URNmodelElement) model;
+        }
     }
 
     /**
@@ -657,5 +663,9 @@ public class SelectionHelper {
 
 	public Condition getCondition() {
 		return condition;
-	}     
+	}
+    
+    public URNmodelElement getUCMmodelElement() {
+        return urnelem;
+    }
 }

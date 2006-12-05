@@ -68,6 +68,7 @@ import urncore.ComponentLabel;
 import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.IURNNode;
+import urncore.Metadata;
 import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
@@ -307,6 +308,8 @@ public class ModelCreationFactory implements CreationFactory {
                 ((Variable)result).setType(definition.toString());
             } else if (targetClass.equals(Initialization.class)) {
                 result = ucmscenariofactory.createInitialization();
+            } else if (targetClass.equals(Metadata.class)) {
+                result = urncorefactory.createMetadata();
             } else {
                 // complex creations
                 if (targetClass.equals(UCMmap.class)) {

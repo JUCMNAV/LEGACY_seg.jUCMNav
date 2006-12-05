@@ -54,6 +54,7 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.AddDirectionArrow;
+import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -384,7 +385,11 @@ public class ActionRegistryManager {
         
         action = new DuplicateAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);    
+        addEditPartAction((SelectionAction) action);
+        
+        action = new EditMetadataAction((IWorkbenchPart)editor);
+        action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);   
 
     }
 
