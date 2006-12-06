@@ -105,6 +105,8 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         left.setY(right.getY() - 50);
         left.setContRef(ParentFinder.getPossibleParent(left));
 
+        connect.setContRef(null);
+        
         testPostConditions();
     }
 
@@ -163,7 +165,7 @@ public class DisconnectCommand extends Command implements JUCMNavCommand {
         left.setY(right.getY());
 
         left.setContRef(right.getContRef());
-
+        connect.setContRef(right.getContRef());
         testPreConditions();
     }
 

@@ -91,6 +91,7 @@ public class JUCMNavCommandTests extends TestCase {
     private UCMNavMultiPageEditor editor;
     private EndPoint end;
     private PathNode fork;
+    private Connect connect;
     private UCMmap map;
     private UCMmodelElement pathNodeWithLabel;
     private StartPoint start;
@@ -419,6 +420,26 @@ public class JUCMNavCommandTests extends TestCase {
     	
     }
     
+    public void testBug511_DisconnectSaveProblem() {
+    	
+    	testSetConstraintComponentRefCommand();
+    	testConnectCommand();
+    	
+        Command cmd = new SetConstraintCommand(connect, 100, 100);
+        assertTrue("Can't execute SetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        // disconnect
+        cmd = new DisconnectCommand((PathNode)((NodeConnection)connect.getSucc().get(0)).getTarget());
+        assertTrue("Can't execute DisconnectCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+    	
+        // the bug occurs here. technically this file could not be reloaded when saved because the connect is still bound to the parent. 
+        assertTrue("Connect should not be bound to parent as it no longer exists.",connect.getContRef()==null );
+    	
+    }
+    
     public void testAddPluginCommand() {
     	// Add a Stub in the current Path
     	testAddStubCommand();
@@ -516,6 +537,7 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute ConnectCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
+        connect = ((ConnectCommand)cmd).getConnect();
     }
 
     /**

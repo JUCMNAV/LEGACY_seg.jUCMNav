@@ -169,4 +169,8 @@ public class ConnectCommand extends Command implements JUCMNavCommand {
 
     }
 
+	public Connect getConnect() {
+		return connect;
+	}
+
 }
