@@ -47,6 +47,7 @@
   <!-- This target runs the test suite. Any actions that need to happen after all -->
   <!-- the tests have been run should go here. -->
   <target name="run" depends="init,suite,cleanup">
+  	<echo>Testing jUCMNav</echo>
     <ant target="collect" antfile="${library-file}" dir="${eclipse-home}">
       <property name="includes" value="seg*.xml"/>
       <property name="output-file" value="${plugin-name}.xml"/>
