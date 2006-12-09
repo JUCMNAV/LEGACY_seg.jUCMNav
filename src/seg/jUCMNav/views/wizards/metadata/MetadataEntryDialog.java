@@ -8,6 +8,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -42,16 +43,30 @@ public class MetadataEntryDialog extends Dialog {
     }
 
     private void createControlButtons() {
-        Button okButton = new Button(shell, SWT.PUSH);
+        Composite buttonComp = new Composite(shell, SWT.NONE);
+        GridData gridData = new GridData();
+        gridData.horizontalSpan = 2;
+        buttonComp.setLayoutData(gridData);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 2;
+        buttonComp.setLayout(layout);
+        
+        Button okButton = new Button(buttonComp, SWT.PUSH);
         okButton.setText(Messages.getString("MetadataEditorPage.button_ok"));
+        gridData = new GridData();
+        gridData.widthHint = 50;
+        okButton.setLayoutData(gridData);
         okButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 shell.close();
             }
         });
 
-        Button cancelButton = new Button(shell, SWT.PUSH);
+        Button cancelButton = new Button(buttonComp, SWT.PUSH);
         cancelButton.setText(Messages.getString("MetadataEditorPage.button_cancel"));
+        gridData = new GridData();
+        gridData.widthHint = 50;
+        cancelButton.setLayoutData(gridData);
         cancelButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 values = null;
@@ -70,10 +85,14 @@ public class MetadataEntryDialog extends Dialog {
             values = new String[labels.length];
 
         for (int i = 0; i < labels.length; i++) {
-            Label label = new Label(shell, SWT.RIGHT);
-            label.setText(labels[i]);
-            Text text = new Text(shell, SWT.BORDER);
+            Label label = new Label(shell, SWT.LEFT);
+            label.setText(labels[i] + ": ");
             GridData gridData = new GridData();
+            gridData.widthHint = 30;
+            label.setLayoutData(gridData);
+            
+            Text text = new Text(shell, SWT.BORDER);
+            gridData = new GridData();
             gridData.widthHint = 200;
             text.setLayoutData(gridData);
             if (values[i] != null) {
