@@ -20,9 +20,7 @@ public class MetadataPropertyDescriptor extends PropertyDescriptor {
      * Property descriptor for a urnmodelelement.
      * 
      * @param id
-     *            the PropertyID
-     * @param resp
-     *            the responsibility
+     * @param urnelem
      */
     public MetadataPropertyDescriptor(Object id, URNmodelElement urnelem) {
         super(id, Messages.getString("MetadataPropertyDescriptor.metadata")); //$NON-NLS-1$

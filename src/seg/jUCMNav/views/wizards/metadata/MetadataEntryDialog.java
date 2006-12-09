@@ -150,8 +150,7 @@ public class MetadataEntryDialog extends Dialog {
     /**
      * Opens the dialog in the given state. Sets <code>Text</code> widget contents and dialog behaviour accordingly.
      * 
-     * @param dialogState
-     *            int The state the dialog should be opened in.
+     * @return values of the edited metadata
      */
     public String[] open() {
         createTextWidgets();
