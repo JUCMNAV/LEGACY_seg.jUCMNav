@@ -39,7 +39,7 @@ public class EditMetadataAction extends URNSelectionAction {
         boolean enable = false;
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        obj = sel.getUCMmodelElement();
+        obj = sel.getURNmodelElement();
         if (obj != null) {
             enable = true;
         }

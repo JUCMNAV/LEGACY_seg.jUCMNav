@@ -665,7 +665,7 @@ public class SelectionHelper {
 		return condition;
 	}
     
-    public URNmodelElement getUCMmodelElement() {
+    public URNmodelElement getURNmodelElement() {
         return urnelem;
     }
 }

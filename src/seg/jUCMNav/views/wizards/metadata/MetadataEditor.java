@@ -1,5 +1,8 @@
 package seg.jUCMNav.views.wizards.metadata;
 
+import grl.IntentionalElement;
+import grl.IntentionalElementRef;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -22,8 +25,12 @@ import org.eclipse.ui.IWorkbenchWizard;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
+import ucm.map.ComponentRef;
+import ucm.map.RespRef;
 import urn.URNspec;
+import urncore.ComponentElement;
 import urncore.Metadata;
+import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -101,7 +108,19 @@ public class MetadataEditor extends Wizard {
     public void init(IWorkbench workbench, IStructuredSelection selection, EObject defaultSelected) {
         this.selection = selection;
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
-        this.defaultSelected = defaultSelected;
+
+        if (defaultSelected instanceof RespRef) {
+            Responsibility resp = ((RespRef) defaultSelected).getRespDef();
+            this.defaultSelected = resp;
+        } else if (defaultSelected instanceof IntentionalElementRef) {
+            IntentionalElement intentionalElem = ((IntentionalElementRef) defaultSelected).getDef();
+            this.defaultSelected = intentionalElem;
+        } else if (defaultSelected instanceof ComponentRef) {
+            ComponentElement compElem = (ComponentElement) ((ComponentRef) defaultSelected).getContDef();
+            this.defaultSelected = compElem;
+        } else {
+            this.defaultSelected = defaultSelected;
+        }
 
         if (selection == null) {
             Vector v = new Vector();
@@ -122,14 +141,33 @@ public class MetadataEditor extends Wizard {
 
                 if (urn != null) {
                     TreeIterator urnIter = urn.eAllContents();
-                    int i = 0;
                     while (urnIter.hasNext()) {
                         Object obj = urnIter.next();
 
                         if (obj instanceof URNmodelElement) {
-                            i++;
                             URNmodelElement urnelem = (URNmodelElement) obj;
-                            v.add(urnelem);
+
+                            if (urnelem instanceof RespRef) {
+                                Responsibility resp = ((RespRef) urnelem).getRespDef();
+
+                                if (resp != null && !v.contains(resp)) {
+                                    v.add(resp);
+                                }
+                            } else if (urnelem instanceof IntentionalElementRef) {
+                                IntentionalElement intentionalElem = ((IntentionalElementRef) urnelem).getDef();
+
+                                if (intentionalElem != null && !v.contains(intentionalElem)) {
+                                    v.add(intentionalElem);
+                                }
+                            } else if (urnelem instanceof ComponentRef) {
+                                ComponentElement compElem = (ComponentElement) ((ComponentRef) urnelem).getContDef();
+
+                                if (compElem != null && !v.contains(compElem)) {
+                                    v.add(compElem);
+                                }
+                            } else {
+                                v.add(urnelem);
+                            }
                         }
                     }
                 }

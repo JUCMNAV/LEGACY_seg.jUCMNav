@@ -28,6 +28,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -57,9 +58,13 @@ public class MetadataEditorPage extends WizardPage {
     private ISelection selection;
     private URNmodelElement urnelem;
     private URNspec urn;
+    private Label typeLabel;
+    private Label elementLabel;
+    private Combo typeOfElements;
     private Combo possibilities;
 
     private Vector allPossibilities;
+    private Vector selectedPossibilities;
     private EObject defaultSelected;
     private HashMap metadataMap;
     private String[] copyBuffer;
@@ -131,6 +136,7 @@ public class MetadataEditorPage extends WizardPage {
         this.defaultSelected = defaultSelected;
         this.metadataMap = new HashMap();
         this.allPossibilities = new Vector();
+        this.selectedPossibilities = new Vector();
     }
 
     private void checkButtonStatus() {
@@ -139,6 +145,16 @@ public class MetadataEditorPage extends WizardPage {
             buttonEdit.setEnabled(true);
             buttonRemove.setEnabled(true);
         } else {
+            buttonEdit.setEnabled(false);
+            buttonRemove.setEnabled(false);
+        }
+        
+        if (possibilities.getItemCount() > 0) {
+            buttonAdd.setEnabled(true);
+            buttonRemoveAll.setEnabled(true);
+        } else {
+            buttonAdd.setEnabled(false);
+            buttonRemoveAll.setEnabled(false);
             buttonEdit.setEnabled(false);
             buttonRemove.setEnabled(false);
         }
@@ -156,13 +172,59 @@ public class MetadataEditorPage extends WizardPage {
         layout.numColumns = 5;
         layout.verticalSpacing = 5;
 
+        typeLabel = new Label(container, SWT.NONE);
+        typeLabel.setText(Messages.getString("MetadataEditorPage.typeLabel"));
+        
+        typeOfElements = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+        typeOfElements.addSelectionListener(new SelectionListener() {
+            public void widgetSelected(SelectionEvent e) {
+                // single click.
+                metadataTable.removeAll();
+                
+                if (typeOfElements.getSelectionIndex() >= 0) {
+                    refreshPossibilityLabels();
+                    
+                    if (possibilities.getItemCount() > 0) {
+                        possibilities.select(0);
+    
+                        EObject o = (EObject) selectedPossibilities.get(0);
+                        if (o != defaultSelected) {
+                            defaultSelected = o;
+                            setupMetadata(o);
+    
+                            urnelem = (URNmodelElement) defaultSelected;
+                        }
+                    } else {
+                        defaultSelected = null;
+                        urnelem = null;
+                    }
+                }
+                
+                checkButtonStatus();
+            }
+
+            public void widgetDefaultSelected(SelectionEvent e) {
+                // double click.
+            }
+        });
+
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd.horizontalSpan = 5;
+        gd.widthHint = 150;
+        typeOfElements.setLayoutData(gd);
+        
+        elementLabel = new Label(container, SWT.NONE);
+        elementLabel.setText(Messages.getString("MetadataEditorPage.urnelemLabel"));
+        
         possibilities = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
+        possibilities.setVisibleItemCount(25);
         possibilities.addSelectionListener(new SelectionListener() {
             public void widgetSelected(SelectionEvent e) {
                 // single click.
-
+                metadataTable.removeAll();
+                
                 if (possibilities.getSelectionIndex() >= 0) {
-                    EObject o = (EObject) allPossibilities.get(possibilities.getSelectionIndex());
+                    EObject o = (EObject) selectedPossibilities.get(possibilities.getSelectionIndex());
                     if (o != defaultSelected) {
                         defaultSelected = o;
                         setupMetadata(o);
@@ -176,12 +238,11 @@ public class MetadataEditorPage extends WizardPage {
 
             public void widgetDefaultSelected(SelectionEvent e) {
                 // double click.
-
             }
 
         });
 
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = 5;
         gd.widthHint = 250;
         possibilities.setLayoutData(gd);
@@ -257,8 +318,12 @@ public class MetadataEditorPage extends WizardPage {
 
         initialize();
 
+        initTypeOfElementsLabels();
+        typeOfElements.select(0);
         refreshPossibilityLabels();
-        possibilities.select(allPossibilities.indexOf(defaultSelected));
+        if (possibilities.getItemCount() > 0) {
+            possibilities.select(selectedPossibilities.indexOf(defaultSelected));
+        }
 
         setTitle(Messages.getString("MetadataEditorPage.title")); //$NON-NLS-1$
 
@@ -338,14 +403,22 @@ public class MetadataEditorPage extends WizardPage {
             public void menuShown(MenuEvent e) {
                 Menu menu = (Menu) e.widget;
                 MenuItem[] items = menu.getItems();
-                int count = metadataTable.getSelectionCount();
-
-                items[1].setEnabled(true); // new
-                items[2].setEnabled(count != 0); // edit
-                items[3].setEnabled(count != 0); // copy
-                items[4].setEnabled(copyBuffer != null); // paste
-                items[5].setEnabled(count != 0); // remove
-                items[7].setEnabled(metadataTable.getItemCount() != 0); // find
+                int pcount = possibilities.getItemCount();
+                int scount = metadataTable.getSelectionCount();
+                
+                if (pcount > 0) {
+                    items[0].setEnabled(true); // new
+                    items[2].setEnabled(scount > 0); // edit
+                    items[3].setEnabled(scount > 0); // copy
+                    items[4].setEnabled(copyBuffer != null); // paste
+                    items[5].setEnabled(scount > 0); // remove
+                } else {
+                    items[0].setEnabled(false); // new
+                    items[2].setEnabled(false); // edit
+                    items[3].setEnabled(false); // copy
+                    items[4].setEnabled(false); // paste
+                    items[5].setEnabled(false); // remove
+                }
             }
         });
 
@@ -451,24 +524,34 @@ public class MetadataEditorPage extends WizardPage {
 
     }
 
-    private void refreshPossibilityLabels() {
-        boolean add = possibilities.getItemCount() == 0;
+    private void initTypeOfElementsLabels() {
+        for (int i = 0; i < URNmodelElementType.urnElementTypeNames.length; i++) {
+            typeOfElements.add((String) URNmodelElementType.urnElementTypeNames[i]);
+        }
+    }
 
+    private void refreshPossibilityLabels() {
+        selectedPossibilities.clear();
         for (int i = 0; i < allPossibilities.size(); i++) {
             EObject element = (EObject) allPossibilities.get(i);
 
-            if (element instanceof URNmodelElement) {
-                URNmodelElement curUrnelem = (URNmodelElement) element;
-                String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")";
-
-                if (add)
-                    possibilities.add(name);
-                else {
-                    possibilities.setItem(i, name);
-                }
-
+            Class choosedType = (Class) URNmodelElementType.urnElementTypes.get(typeOfElements.getItem(typeOfElements.getSelectionIndex()));
+            if (choosedType.isInstance(element)) {
+                selectedPossibilities.add(element);
             }
+        }
 
+        EObject[] pArray = (EObject[]) selectedPossibilities.toArray(new EObject[0]);
+        Arrays.sort(pArray, new EObjectComparator());
+
+        possibilities.removeAll();
+        selectedPossibilities.clear();
+        for (int i = 0; i < pArray.length; i++) {
+            URNmodelElement curUrnelem = (URNmodelElement) pArray[i];
+            String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")";
+
+            selectedPossibilities.add(curUrnelem);
+            possibilities.add(name);
         }
     }
 
@@ -485,31 +568,30 @@ public class MetadataEditorPage extends WizardPage {
             }
 
             setupMetadata(defaultSelected);
-        }
 
-        if (defaultSelected instanceof URNmodelElement) {
-            urnelem = (URNmodelElement) defaultSelected;
-        }
+            if (defaultSelected instanceof URNmodelElement) {
+                urnelem = (URNmodelElement) defaultSelected;
+            }
 
-        EObject o;
-        if (urnelem != null) {
-            o = urnelem.eContainer();
+            EObject o;
+            if (urnelem != null) {
+                o = urnelem.eContainer();
 
-            while (o != null) {
-                if (o instanceof URNspec) {
-                    urn = (URNspec) o;
+                while (o != null) {
+                    if (o instanceof URNspec) {
+                        urn = (URNspec) o;
+                    }
+
+                    o = o.eContainer();
                 }
-
-                o = o.eContainer();
             }
         }
-
     }
 
     private void setupMetadata(Object obj) {
         // Remove related listeners on metadataTable in here
 
-        if (obj instanceof URNmodelElement) {
+        if (obj != null && obj instanceof URNmodelElement) {
             urnelem = (URNmodelElement) obj;
 
             // put urnelem into metadata table
@@ -520,7 +602,7 @@ public class MetadataEditorPage extends WizardPage {
                 metadataArray = (Metadata[]) metadataMap.get(urnelem);
             } else {
                 EList metadataList = urnelem.getMetadata();
-                metadataArray = (Metadata[]) metadataList.toArray();
+                metadataArray = (Metadata[]) metadataList.toArray(new Metadata[0]);
             }
 
             String[][] tableInfo = new String[metadataArray.length][metadataTable.getColumnCount()];
@@ -544,6 +626,8 @@ public class MetadataEditorPage extends WizardPage {
                 TableItem item = new TableItem(metadataTable, SWT.NONE);
                 item.setText(tableInfo[i]);
             }
+        } else {
+            metadataTable.removeAll();
         }
 
         // Restore listeners on metadataTable in here
@@ -576,14 +660,11 @@ public class MetadataEditorPage extends WizardPage {
         while (iter.hasNext()) {
             EObject element = (EObject) iter.next();
             eobjs[index++] = element;
-
+            
             if (element == defaultSelected) {
                 found = true;
             }
         }
-
-        // According to what to sort?
-        // Arrays.sort(eobjs, new EObjectComparator());
 
         for (int i = 0; i < eobjs.length; i++) {
             allPossibilities.add(eobjs[i]);
