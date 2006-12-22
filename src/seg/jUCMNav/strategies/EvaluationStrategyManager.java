@@ -104,6 +104,9 @@ public class EvaluationStrategyManager {
             temp = (Evaluation)ModelCreationFactory.getNewObject(strategy.getGrlspec().getUrnspec(), Evaluation.class);
             evaluations.put(elem, temp);
             return temp.getEvaluation();
+        } else if (temp != null)
+        {
+        	return temp.getEvaluation();
         }
         else return 0;
         
