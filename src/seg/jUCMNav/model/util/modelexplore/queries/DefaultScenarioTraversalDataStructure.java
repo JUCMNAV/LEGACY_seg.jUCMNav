@@ -57,6 +57,13 @@ public class DefaultScenarioTraversalDataStructure {
 	// last TraversalVisit returned by getNextVisit 
 	protected TraversalVisit _lastPopped;
 	
+	// the next ID that will be given to a new thread. 
+	protected int _nextThreadID;
+	
+	// the thread ID that will be re-used if no new thread is asked. 
+	protected int _currentThreadID;
+	
+	
 	public DefaultScenarioTraversalDataStructure() {
 		_visited = new Vector();
 		_toVisit = new Stack();
@@ -64,7 +71,8 @@ public class DefaultScenarioTraversalDataStructure {
 		_waitList = new LinkedList();
 		_consecutiveReblocks =0;
 		_lastPopped=null;
-		
+		_nextThreadID=1;
+		_currentThreadID=0;
 	}
 	/**
 	 * Adds an element to the waiting list. Assuming elements have no memory for simplicity.  
@@ -88,7 +96,7 @@ public class DefaultScenarioTraversalDataStructure {
 		}
 		
 		if (!alreadyExists)
-			_waitList.offer(new TraversalVisit(pn, _currentContext));
+			_waitList.offer(new TraversalVisit(pn, _currentContext, _currentThreadID));
 		
 		if (_lastPopped!=null && pn == _lastPopped.getVisitedElement())
 			_consecutiveReblocks++;
@@ -139,10 +147,13 @@ public class DefaultScenarioTraversalDataStructure {
 		if (_toVisit.size()>0)
 		{
 			_lastPopped=(TraversalVisit) _toVisit.pop();
-			
+			_currentContext = _lastPopped.getContext();
+			_currentThreadID = _lastPopped.getThreadID();
 			
 			// removes instances of the same path node from the waiting list since we're processing the node. 
 			cleanWaitingList();
+			
+			_lastPopped.increaseContext(_currentContext);
 			
 			// return the unblocked node
 			return _lastPopped;
@@ -162,6 +173,7 @@ public class DefaultScenarioTraversalDataStructure {
 				_lastPopped=visit;
 				NodeConnection nc = (NodeConnection) ((Timer)visit.getVisitedElement()).getSucc().get(1);
 				_currentContext = visit.getContext();
+				_currentThreadID = visit.getThreadID();
 				visitNodeConnection(nc);
 				
 			} else { 
@@ -185,78 +197,6 @@ public class DefaultScenarioTraversalDataStructure {
 			return _lastPopped;
 		}
 		
-	
-//		
-//		
-//		// TODO: rewrite completely. 
-//		int lastAttempt = Integer.MAX_VALUE;
-//
-//		while ((_toVisit.size() > 0 || _waitList.size() > 0)) {
-//			if (_waitList.size() > 0 && _toVisit.size() < lastAttempt) {
-//				int sz = _waitList.size();
-//
-//				
-//				processNode(env, (TraversalVisit) _waitList.poll());
-//
-//				if (sz == _waitList.size())
-//					// was not able to make any progress.
-//					lastAttempt = _toVisit.size();
-//				else
-//					// made progress
-//					lastAttempt = Integer.MAX_VALUE;
-//			}
-//
-//			if (_toVisit.size() > 0) {
-//
-//				// TODO: this is invalid. it removes all instances from the stack.
-//				// if we hit another path that finds a node that is already on the waiting list, process it immediately, and remove it from the to process list.
-////				while (_waitList.contains(_toVisit.peek())) {
-////				_waitList.remove(_toVisit.peek());
-////			}
-//				
-//				// TODO: semantic variation. we are removing one instance, implying waiting place has memory.
-//				// Remove all for no memory. 
-//				PathNode peeking = (PathNode) ((TraversalVisit)_toVisit.peek()).getVisitedElement();
-//				TraversalVisit toRemove = null;
-//				for (Iterator iter = _waitList.iterator(); iter.hasNext();) {
-//					TraversalVisit visit = (TraversalVisit) iter.next();
-//					if (visit.getVisitedElement().equals(peeking)) {
-//						toRemove = visit;
-//						break;
-//					}
-//				}
-//
-//				if (toRemove!=null)
-//					_waitList.remove(toRemove);
-//				
-//				processNode(env, (TraversalVisit) _toVisit.pop());
-//
-//			} else {
-//				// TODO: this is invalid. it doesn't check to see any other blocked elements, it boots the next one out, which may still work.
-//				// if we don't have anything to do in the toVisit queue and our last attempt at processing the _waitList failed, we've got to boot one element
-//				// out.
-//				if (lastAttempt == 0 && _waitList.size() > 0) {
-//					TraversalVisit visit = (TraversalVisit)_waitList.peek();
-//					
-//					// if it is a timer, force the timeout path.
-//					if (visit.getVisitedElement() instanceof Timer && ((Timer) visit.getVisitedElement()).getSucc().size() == 2) {
-//						visit = (TraversalVisit) _waitList.poll();
-//						NodeConnection nc = (NodeConnection) ((Timer)visit.getVisitedElement()).getSucc().get(1);
-//						_currentContext = visit.getContext();
-//						visitNodeConnection(nc);
-//					} else { // otherwise (and join for example), kick the element out of our list.
-//						_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.TraversalBlockedOn") + visit.getVisitedElement().toString(),visit.getVisitedElement(),IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-//
-//						// kick out of waiting list because this is just a
-//						// warning
-//						_waitList.poll();
-//					}
-//
-//				}
-//			}
-//		}
-//		
-		
 	}
 	
 	
@@ -278,12 +218,21 @@ public class DefaultScenarioTraversalDataStructure {
 			TraversalVisit visit = (TraversalVisit) iter.next();
 			if (visit.getVisitedElement().equals(peeking)) {
 				toRemove = visit;
+				
 				break;
 			}
 		}
 
-		if (toRemove!=null)
+		
+		
+		if (toRemove!=null) {
+			// otherwise we lose what was already queued
+
+			toRemove.increaseContext(_currentContext);
+			_currentContext = (Vector) toRemove.getContext().clone();
+
 			_waitList.remove(toRemove);
+		}
 	}
 	
 	
@@ -351,7 +300,9 @@ public class DefaultScenarioTraversalDataStructure {
 	protected void pushPathNode(NodeConnection nc, PathNode pn, boolean newThread) {
 		// TODO: Semantic Variation: "multithreading" in different stacks.
 		_consecutiveReblocks=0;
-		_toVisit.push(new TraversalVisit(nc, pn, _currentContext));
+		if (newThread)
+			_currentThreadID = _nextThreadID++;
+		_toVisit.push(new TraversalVisit(nc, pn, _currentContext, _currentThreadID));
 	}
 	
 
@@ -368,7 +319,10 @@ public class DefaultScenarioTraversalDataStructure {
 	protected void pushPathNode(PathNode pn, boolean newThread) {
 		// TODO: Semantic Variation: "multithreading" in different stacks.
 		_consecutiveReblocks=0;		
-		_toVisit.push(new TraversalVisit(pn, _currentContext));
+		if (newThread)
+			_currentThreadID = _nextThreadID++;
+
+		_toVisit.push(new TraversalVisit(pn, _currentContext, _currentThreadID));
 	}
 	
 	/**
@@ -431,7 +385,9 @@ public class DefaultScenarioTraversalDataStructure {
 		TraversalVisit toRemove=null;
 		for (Iterator iterator = _waitList.iterator(); iterator.hasNext();) {
 			TraversalVisit visit = (TraversalVisit) iterator.next();
-			if (visit.getVisitedElement().equals(nc.getTarget())) { 
+			if (visit.getVisitedElement().equals(nc.getTarget())) {
+				_currentThreadID = visit.getThreadID();
+				
 				incrementHitCount(nc.getTarget());
 				NodeConnection nc2 = (NodeConnection) nc.getTarget().getSucc().get(0);
 				
@@ -468,7 +424,8 @@ public class DefaultScenarioTraversalDataStructure {
 		// TODO: semantic variation: maybe we don't want all invocations of this method to run paths in parallel.
 		for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
 			NodeConnection nc = (NodeConnection) iter.next();
-			visitNodeConnection(nc, true);
+			//visitNodeConnection(nc, true);
+			visitNodeConnection(nc, pn.getSucc().size()!=1);
 		}
 	}
 

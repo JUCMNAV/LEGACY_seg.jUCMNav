@@ -288,7 +288,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 
 			if (!blocked)
-				_traversalData.visitNodeConnection(out);
+				_traversalData.visitNodeConnection(out,true); // new: we're generating a new thread id for the continuation path. 
 
 		} else
 			_error = Messages.getString("DefaultScenarioTraversal.TraversalError"); //$NON-NLS-1$
