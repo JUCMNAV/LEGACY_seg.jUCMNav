@@ -22,10 +22,10 @@ public class TraversalVisit {
 	public TraversalVisit(EObject obj, int threadID) {
 		this.visitedElement = obj;
 		this.context = null;
-		if (isValidParentComponent() && getParentComponent()!=null)
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-		else
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
+//		if (isValidParentComponent() && getParentComponent()!=null)
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
+//		else
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
 			
 	}
 	
@@ -34,20 +34,20 @@ public class TraversalVisit {
 		this.context = new Vector();
 		this.context.add(binding);
 		this.threadID = threadID;
-		if (isValidParentComponent() && getParentComponent()!=null)
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-		else
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
+//		if (isValidParentComponent() && getParentComponent()!=null)
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
+//		else
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
 	}	
 	
 	public TraversalVisit(EObject obj, Vector context, int threadID) {
 		this.visitedElement = obj;
 		this.context = context; 
 		this.threadID = threadID;
-		if (isValidParentComponent() && getParentComponent()!=null)
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-		else
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
+//		if (isValidParentComponent() && getParentComponent()!=null)
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
+//		else
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
 	}		
 
 	public TraversalVisit(NodeConnection source, EObject obj, Vector context, int threadID) {
@@ -55,10 +55,10 @@ public class TraversalVisit {
 		this.visitedElement = obj;
 		this.context = context; 
 		this.threadID = threadID;
-		if (isValidParentComponent() && getParentComponent()!=null)
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-		else
-			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
+//		if (isValidParentComponent() && getParentComponent()!=null)
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
+//		else
+//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
 	}	
 	
 	public Vector getContext() {
