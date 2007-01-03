@@ -19,27 +19,6 @@ public class TraversalVisit {
 	private int threadID;
 	private ComponentElement parent;
 	
-	public TraversalVisit(EObject obj, int threadID) {
-		this.visitedElement = obj;
-		this.context = null;
-//		if (isValidParentComponent() && getParentComponent()!=null)
-//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-//		else
-//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
-			
-	}
-	
-	public TraversalVisit(EObject obj, PluginBinding binding, int threadID) {
-		this.visitedElement = obj;
-		this.context = new Vector();
-		this.context.add(binding);
-		this.threadID = threadID;
-//		if (isValidParentComponent() && getParentComponent()!=null)
-//			System.out.println("ThreadID: " + threadID + ", " + obj.toString() + ", " + getParentComponent().toString());
-//		else
-//			System.out.println("ThreadID: " + threadID + ", " + obj.toString());
-	}	
-	
 	public TraversalVisit(EObject obj, Vector context, int threadID) {
 		this.visitedElement = obj;
 		this.context = context; 

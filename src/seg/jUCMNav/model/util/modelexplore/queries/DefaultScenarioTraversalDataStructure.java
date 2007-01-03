@@ -31,6 +31,7 @@ import ucm.scenario.ScenarioStartPoint;
  * - keep track of what has been visited
  * - keep track of different threads
  * 
+ * TODO: refine interface to offer public interface. 
  *   
  * @author jkealey
  *
@@ -64,7 +65,7 @@ public class DefaultScenarioTraversalDataStructure {
 	protected int _currentThreadID;
 	
 	
-	public DefaultScenarioTraversalDataStructure() {
+	protected DefaultScenarioTraversalDataStructure() {
 		_visited = new Vector();
 		_toVisit = new Stack();
 		_results = new HashMap();
@@ -79,7 +80,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 *  
 	 * @param pn
 	 */
-	public void addToWaitingList(PathNode pn) {
+	protected void addToWaitingList(PathNode pn) {
 		// TODO: semantic variation: do we add doubles? does join have memory?
 		// our implementation: and-joins do not have memory so doubles are not valid. 
 		boolean alreadyExists=false;
@@ -104,12 +105,39 @@ public class DefaultScenarioTraversalDataStructure {
 	}
 	
 	/**
+	 * Returns the number of times that we have given a node in {@link #getNextVisit()} that ended up 
+	 * getting pushed back into the waiting list by {@link #addToWaitingList(PathNode)}
+	 * 
+	 */
+	protected int getConsecutiveReblocks() {
+		return _consecutiveReblocks;
+	}
+	
+	/**
 	 * Returns the current plug-in binding context.
 	 *  
 	 * @return A vector of pluginbindings that were traversed to get to here. 
 	 */
-	public Vector getCurrentContext() {
+	protected Vector getCurrentContext() {
 		return _currentContext;
+	}
+	
+	/**
+	 * Returns the current (or last used) threadID. 
+	 * 
+	 * @return and integer representing the thread number. 
+	 */
+	protected int getCurrentThreadID() {
+		return _currentThreadID;
+	}
+	
+	/**
+	 * Returns the next threadID to be used. 
+	 * 
+	 * @return and integer representing the thread number. 
+	 */
+	protected int getNextThreadID() {
+		return _nextThreadID;
 	}
 	
 	/**
@@ -118,7 +146,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 *            the pathnode, nodeconnection or other eobject.
 	 * @return Number of times the traversal algorithm has gone to this element.
 	 */
-	public int getHitCount(EObject o) {
+	protected int getHitCount(EObject o) {
 		TraversalResult result;
 		if (!_results.containsKey(o))
 			_results.put(o, new TraversalResult());
@@ -133,7 +161,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * 
 	 * @return the next PathNode
 	 */
-	public TraversalVisit getNextVisit() throws TraversalException {
+	protected TraversalVisit getNextVisit() throws TraversalException {
 		
 		// nothing to do
 		if (_toVisit.size()==0 && _waitList.size()==0) {
@@ -194,11 +222,66 @@ public class DefaultScenarioTraversalDataStructure {
 		{
 			// no, try the next on the waiting list
 			_lastPopped = (TraversalVisit) _waitList.poll();
+			_currentContext = _lastPopped.getContext();
+			_currentThreadID = _lastPopped.getThreadID();
+
 			return _lastPopped;
 		}
 		
 	}
-	
+
+	/**
+	 * Returns the status of a certain thread. 
+	 * 
+	 * Given a ThreadID, returns:
+	 * -2 thread sanity check error
+	 * -1 if the thread never existed
+	 * 0 if the thread is dead
+	 * 1 if the thread is alive and running
+	 * 2 if the thread is blocked in the waiting list
+	 * 
+	 * @return the thread status
+	 */
+	protected int getThreadState(int threadID)
+	{
+		if (threadID<=0 || threadID>=_nextThreadID)
+			return -1;
+		
+		boolean error=false;
+		boolean inNormalList=false;
+		boolean inWaitList=false;
+		
+		for (Iterator iter = _toVisit.iterator(); iter.hasNext();) {
+			TraversalVisit element = (TraversalVisit) iter.next();
+			if (element.getThreadID()==threadID) {
+				
+				if (inNormalList)
+					error=true;
+				
+				inNormalList=true;
+			}
+		}
+		for (Iterator iter = _waitList.iterator(); iter.hasNext();) {
+			TraversalVisit element = (TraversalVisit) iter.next();
+			if (element.getThreadID()==threadID) {
+				
+				if (inWaitList || inNormalList) // if we already have it
+					error=true;
+				
+				inWaitList=true;
+			}
+		}
+		
+		if (error)
+			return -2;
+		else if (inNormalList)
+			return 1;
+		else if (inWaitList)
+			return 2;
+		else
+			return 0;
+		
+	}
 	
 	protected TraversalVisit forceWaitingListPoll() {
 		_consecutiveReblocks=0;
@@ -241,7 +324,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * 
 	 * @return a vector containing the end points that were visited. 
 	 */
-	public Vector getReachedEndPoints() {
+	protected Vector getReachedEndPoints() {
 		Vector reachedEndPoints = new Vector();
 		for (Iterator iter = _visited.iterator(); iter.hasNext();) {
 			EObject element = (EObject) iter.next();
@@ -255,7 +338,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * The traversal results for each EObject
 	 * @return HashMap of EObject -> TraversalResults 
 	 */
-	public HashMap getResults() {
+	protected HashMap getResults() {
 		return _results;
 	}
 	
@@ -264,7 +347,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * 
 	 * @return a sequence of visited pathnodes/nodeconnections
 	 */
-	public Vector getVisited() {
+	protected Vector getVisited() {
 		return _visited;
 	}
 
@@ -274,7 +357,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 *            the pathnode, nodeconnection or other eobject.
 	 * @return increment the counter for the number of times the traversal algo. has gone through this element.
 	 */
-	public int incrementHitCount(EObject o) {
+	protected int incrementHitCount(EObject o) {
 		TraversalResult result;
 		if (!_results.containsKey(o))
 			_results.put(o, new TraversalResult());
@@ -331,7 +414,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @param startPoints
 	 *            Vector of ScenarioStartPoints or StartPoints
 	 */
-	public String seedAlgorithm(Vector startPoints) {
+	protected String seedAlgorithm(Vector startPoints) {
 		for (int i = startPoints.size() - 1; i >= 0; i--) {
 			_currentContext = new Vector();
 			if (startPoints.get(i) instanceof StartPoint)
@@ -351,7 +434,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 *  
 	 * @param ctx A vector of pluginbindings that were traversed to get to here.
 	 */
-	public void setCurrentContext(Vector ctx) {
+	protected void setCurrentContext(Vector ctx) {
 		_currentContext = ctx;
 	}
 	
@@ -363,7 +446,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @throws TraversalException
 	 *             if an infinite loop is detected.
 	 */
-	public void trackVisit(EObject o) throws TraversalException {
+	protected void trackVisit(EObject o) throws TraversalException {
 		_visited.add(o);
 
 		int count = incrementHitCount(o);
@@ -395,7 +478,8 @@ public class DefaultScenarioTraversalDataStructure {
 				if (visit.getContext()!=null)
 					getCurrentContext().addAll(visit.getContext());
 
-				visitNodeConnection(nc2);
+				// technically, this should not be a new thread, but it simplifies the MSC generation algorithm
+				visitNodeConnection(nc2, true);
 				alreadyExists=true;
 				toRemove=visit;
 				// assuming only one instance. 
@@ -482,5 +566,7 @@ public class DefaultScenarioTraversalDataStructure {
 			visitOnlySucc(pn);
 		}
 	}
+	
+
 	
 }

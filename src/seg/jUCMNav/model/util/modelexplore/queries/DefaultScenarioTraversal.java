@@ -203,8 +203,14 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processAllNodes(UcmEnvironment env) throws TraversalException {
 
+		Vector threadList = new Vector(); 
 		TraversalVisit nextNode = null;
+		for (int i=1;i< _traversalData.getNextThreadID();i++) {
+			System.out.println("New thread started: " + i);
+			threadList.add(new Integer(i));
+		}
 
+		
 		// while no errors and while we have something to do
 		do {
 			boolean retry = false;
@@ -226,16 +232,78 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			} while (retry); // repeat until we stop kicking nodes out of the waiting list
 
 			
-			if (nextNode != null && _error == null)
+			if (nextNode != null && _error == null) {
+				int fromThread = _traversalData.getNextThreadID();
 				processNode(env, nextNode);
+				int toThread = _traversalData.getNextThreadID();
+				Vector newlyAdded = new Vector();
+				Vector newlyDied = new Vector();
+				// was not blocked. 
+				if (_traversalData.getConsecutiveReblocks()==0)
+				{
+					if (!nextNode.isValidParentComponent())
+						_warnings.add(new TraversalWarning("Element is associated with multiple parent components.", nextNode.getVisitedElement(), IMarker.SEVERITY_ERROR));
+
+					
+					if (nextNode.isValidParentComponent() && nextNode.getParentComponent()!=null)
+						System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString() + ", " + nextNode.getParentComponent().toString());
+					else
+						System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString());
+					
+					for (int i=fromThread;i<toThread;i++) {
+						System.out.println("New thread started: " + i);
+						newlyAdded.add(new Integer(i));
+						threadList.add(new Integer(i));
+					}
+					
+					for (Iterator iter = threadList.iterator(); iter.hasNext();) {
+						Integer i = (Integer) iter.next();
+						int status = _traversalData.getThreadState(i.intValue());
+						if (status < 0)
+							_warnings.add(new TraversalWarning("ThreadID sanity check error (" + status + ") for ThreadID " +i.intValue(), IMarker.SEVERITY_ERROR));  
+						else if (status==0) {
+							System.out.println("Thread died: " + i.intValue());
+							newlyDied.add(i);
+						}
+							
+					}
+					threadList.removeAll(newlyDied);
+					
+					// thread switch. 
+					if (nextNode.getThreadID()!=_traversalData.getCurrentThreadID()) {
+						
+						if (newlyDied.size()>0 && newlyAdded.size()>0 && (newlyDied.size()==1 ^ newlyAdded.size()==1))
+						{
+							if (newlyDied.size()>newlyAdded.size())
+								System.out.println("And-Join from threads " + arrayToString(newlyDied.toArray(), ",") + " to thread " + newlyAdded.get(0).toString() );
+							else // implicit because of xor in previous if : if (newlyDied.size()>newlyAdded.size())
+								System.out.println("And-Fork from thread " +  newlyDied.get(0).toString()  + " to threads " + arrayToString(newlyAdded.toArray(), ","));
+								
+						}
+						else
+							System.out.println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")");
+					}
+				}
+			}
 			else
 				break;
 
 		} while (true);
 		
-		
-
 	}
+	public static String arrayToString(Object[] a, String separator) {
+	    StringBuffer result = new StringBuffer();
+	    if (a.length > 0) {
+	        result.append(a[0].toString());
+	        for (int i=1; i<a.length; i++) {
+	            result.append(separator);
+	            result.append(a[i].toString());
+	        }
+	    }
+	    return result.toString();
+	}
+	
+
 
 	/**
 	 * Processes an and fork.
