@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.importexport.msc.MscTraversalListener;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
@@ -27,7 +28,7 @@ import urncore.Condition;
  * @author jkealey
  * 
  */
-public class DefaultScenarioTraversalAlgorithm {
+public class ScenarioTraversalAlgorithm {
 
 	// Environment in which to run scenario.
 	protected UcmEnvironment env;
@@ -43,6 +44,9 @@ public class DefaultScenarioTraversalAlgorithm {
 
 	// Vector of Strings
 	protected Vector warnings;
+	
+	// list of ITraversalListeners
+	protected ScenarioTraversalListenerList traversalListeners;
 
 	/**
 	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, ScenarioDef)}
@@ -52,7 +56,7 @@ public class DefaultScenarioTraversalAlgorithm {
 	 * @param scenario
 	 *            the scenario to be run.
 	 */
-	public DefaultScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioDef scenario) {
+	public ScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioDef scenario) {
 		init(env, scenario);
 	}
 
@@ -113,6 +117,15 @@ public class DefaultScenarioTraversalAlgorithm {
 		if (ScenarioUtils.getDefinedStartPoints(scenario).size()==0) {
 			warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.NoStartPointsDefined"), scenario, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		}
+		
+
+		Vector listeners = new Vector();
+
+		// TODO: Load a list of listeners from extension point and preference store. 
+		listeners.add(new MscTraversalListener());
+		
+		traversalListeners = new ScenarioTraversalListenerList(listeners, warnings);
+
 	}
 
 	/**
@@ -127,13 +140,15 @@ public class DefaultScenarioTraversalAlgorithm {
 		// initialize all variables recursively
 		traverse_Initializations(scenario);
 
+		traversalListeners.traversalStarted(env, scenario);
+		
 		// test preconditions in a second step.
 		traverse_Preconditions(scenario);
 
 		// TODO: Load proper algorithm from plugin extensions / properties.
 		// execute the other algorithm
 		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal().new QDefaultScenarioTraversal(env, ScenarioUtils.getDefinedStartPoints(scenario),
-				ScenarioUtils.getDefinedEndPoints(scenario));
+				ScenarioUtils.getDefinedEndPoints(scenario), traversalListeners);
 		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.getInstance().run(qry);
 
 		// memorize our results.
@@ -148,6 +163,8 @@ public class DefaultScenarioTraversalAlgorithm {
 
 		traverse_Postconditions(scenario);
 
+		traversalListeners.traversalEnded(env, scenario);
+		
 		SyntaxChecker.refreshProblemsView(warnings);
 		
 		if (resp.getError() != null)
@@ -155,6 +172,7 @@ public class DefaultScenarioTraversalAlgorithm {
 
 
 	}
+
 
 	/**
 	 * Initializes the environment with the given scenario, recursively.
@@ -206,6 +224,8 @@ public class DefaultScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					traversalListeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(res));
+					
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
 							
@@ -244,6 +264,7 @@ public class DefaultScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					traversalListeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(res));
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
 							TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Precondition") + URNNamingHelper.getName(cond) + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario,IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

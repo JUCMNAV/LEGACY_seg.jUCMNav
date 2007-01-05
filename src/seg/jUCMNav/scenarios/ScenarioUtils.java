@@ -60,7 +60,7 @@ public class ScenarioUtils {
 	public static void clearTraversalResults(UcmEnvironment env) {
 		if (traversals.containsKey(env))
 		{
-			DefaultScenarioTraversalAlgorithm results = (DefaultScenarioTraversalAlgorithm) traversals.get(env);
+			ScenarioTraversalAlgorithm results = (ScenarioTraversalAlgorithm) traversals.get(env);
 			results.clearTraversalResults();
 		}
 		if (activeScenario.containsKey(env)) {
@@ -366,7 +366,7 @@ public class ScenarioUtils {
 		UcmEnvironment env = getEnvironment(obj);
 		if (traversals.containsKey(env))
 		{
-			DefaultScenarioTraversalAlgorithm results = (DefaultScenarioTraversalAlgorithm) traversals.get(env);
+			ScenarioTraversalAlgorithm results = (ScenarioTraversalAlgorithm) traversals.get(env);
 			return results.getTraversalResults(obj);
 		}
 		else 
@@ -477,7 +477,7 @@ public class ScenarioUtils {
 			activeScenario.put(initial, scenario);
 			UcmEnvironment forTraversal = (UcmEnvironment) initial.clone();
 			
-			DefaultScenarioTraversalAlgorithm algo = new DefaultScenarioTraversalAlgorithm(forTraversal, scenario);
+			ScenarioTraversalAlgorithm algo = new ScenarioTraversalAlgorithm(forTraversal, scenario);
 			traversals.put(initial, algo);
 
 			algo.traverse();

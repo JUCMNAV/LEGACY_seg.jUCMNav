@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.scenarios.ScenarioTraversalListenerList;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
@@ -64,8 +65,9 @@ public class DefaultScenarioTraversalDataStructure {
 	// the thread ID that will be re-used if no new thread is asked. 
 	protected int _currentThreadID;
 	
+	protected ScenarioTraversalListenerList _listeners;
 	
-	protected DefaultScenarioTraversalDataStructure() {
+	public DefaultScenarioTraversalDataStructure(ScenarioTraversalListenerList listeners) {
 		_visited = new Vector();
 		_toVisit = new Stack();
 		_results = new HashMap();
@@ -74,13 +76,15 @@ public class DefaultScenarioTraversalDataStructure {
 		_lastPopped=null;
 		_nextThreadID=1;
 		_currentThreadID=0;
+		_listeners = listeners;
 	}
+	
 	/**
 	 * Adds an element to the waiting list. Assuming elements have no memory for simplicity.  
 	 *  
 	 * @param pn
 	 */
-	protected void addToWaitingList(PathNode pn) {
+	public void addToWaitingList(PathNode pn) {
 		// TODO: semantic variation: do we add doubles? does join have memory?
 		// our implementation: and-joins do not have memory so doubles are not valid. 
 		boolean alreadyExists=false;
@@ -96,8 +100,12 @@ public class DefaultScenarioTraversalDataStructure {
 			}
 		}
 		
-		if (!alreadyExists)
-			_waitList.offer(new TraversalVisit(pn, _currentContext, _currentThreadID));
+		
+		if (!alreadyExists) {
+			TraversalVisit visit = new TraversalVisit(pn, _currentContext, _currentThreadID);
+			_waitList.offer(visit);
+			_listeners.pathNodeBlocked(visit);
+		}
 		
 		if (_lastPopped!=null && pn == _lastPopped.getVisitedElement())
 			_consecutiveReblocks++;
@@ -193,6 +201,7 @@ public class DefaultScenarioTraversalDataStructure {
 		if (_consecutiveReblocks>=_waitList.size()){
 			// yes, we have tried all of them; abort the next one. 
 
+			// TODO: look for timeout paths first, then go for hard abort.  
 			TraversalVisit visit = (TraversalVisit)_waitList.peek();
 			
 			// if it is a timer, force the timeout path.
@@ -203,7 +212,8 @@ public class DefaultScenarioTraversalDataStructure {
 				_currentContext = visit.getContext();
 				_currentThreadID = visit.getThreadID();
 				visitNodeConnection(nc);
-				
+
+				_listeners.timerTimeout(visit);
 			} else { 
 				// otherwise (and join for example), kick the element out of our list.
 
@@ -285,7 +295,9 @@ public class DefaultScenarioTraversalDataStructure {
 	
 	protected TraversalVisit forceWaitingListPoll() {
 		_consecutiveReblocks=0;
-		return (TraversalVisit) _waitList.poll();
+		TraversalVisit visit = (TraversalVisit) _waitList.poll();
+		_listeners.pathNodeAborted(visit);
+		return visit;
 	}
 	
 	/**
@@ -385,7 +397,15 @@ public class DefaultScenarioTraversalDataStructure {
 		_consecutiveReblocks=0;
 		if (newThread)
 			_currentThreadID = _nextThreadID++;
-		_toVisit.push(new TraversalVisit(nc, pn, _currentContext, _currentThreadID));
+
+		TraversalVisit visit = new TraversalVisit(nc, pn, _currentContext, _currentThreadID);
+
+		_toVisit.push(visit);
+		
+		if (newThread)
+		{
+			_listeners.newThreadStarted(visit);
+		}
 	}
 	
 
@@ -401,11 +421,18 @@ public class DefaultScenarioTraversalDataStructure {
 	 */
 	protected void pushPathNode(PathNode pn, boolean newThread) {
 		// TODO: Semantic Variation: "multithreading" in different stacks.
-		_consecutiveReblocks=0;		
-		if (newThread)
+		_consecutiveReblocks=0;
+		
+		if (newThread) 
 			_currentThreadID = _nextThreadID++;
 
-		_toVisit.push(new TraversalVisit(pn, _currentContext, _currentThreadID));
+		TraversalVisit visit = new TraversalVisit(pn, _currentContext, _currentThreadID); 
+		_toVisit.push(visit);
+		
+		if (newThread)
+		{
+			_listeners.newThreadStarted(visit);
+		}
 	}
 	
 	/**
@@ -504,7 +531,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @param pn
 	 * @throws TraversalException
 	 */
-	protected void visitAllSucc(PathNode pn) throws TraversalException {
+	public void visitAllSucc(PathNode pn) throws TraversalException {
 		// TODO: semantic variation: maybe we don't want all invocations of this method to run paths in parallel.
 		for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
 			NodeConnection nc = (NodeConnection) iter.next();
@@ -519,7 +546,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @param nc
 	 * @throws TraversalException
 	 */
-	protected void visitNodeConnection(NodeConnection nc) throws TraversalException {
+	public void visitNodeConnection(NodeConnection nc) throws TraversalException {
 		visitNodeConnection(nc, false);
 	}
 
@@ -532,7 +559,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @param newThread
 	 * @throws TraversalException
 	 */
-	protected void visitNodeConnection(NodeConnection nc, boolean newThread) throws TraversalException {
+	public void visitNodeConnection(NodeConnection nc, boolean newThread) throws TraversalException {
 		trackVisit(nc);
 		pushPathNode(nc, (PathNode) nc.getTarget(), newThread);
 	}
@@ -545,7 +572,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @throws TraversalException
 	 * @return an error if one occurred, null otherwise.
 	 */
-	protected String visitOnlySucc(PathNode pn) throws TraversalException {
+	public String visitOnlySucc(PathNode pn) throws TraversalException {
 		if (pn.getSucc().size() == 1) {
 			NodeConnection nc = (NodeConnection) pn.getSucc().get(0);
 			visitNodeConnection(nc);
@@ -561,7 +588,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @param pn
 	 * @throws TraversalException
 	 */
-	protected void visitOnlySuccIfExists(PathNode pn) throws TraversalException {
+	public void visitOnlySuccIfExists(PathNode pn) throws TraversalException {
 		if (pn.getSucc().size() == 1) {
 			visitOnlySucc(pn);
 		}

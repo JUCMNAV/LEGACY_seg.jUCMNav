@@ -13,6 +13,7 @@ import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
 import seg.jUCMNav.model.util.modelexplore.QueryObject;
 import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
+import seg.jUCMNav.scenarios.ScenarioTraversalListenerList;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
@@ -43,7 +44,6 @@ import urncore.Condition;
 /**
  * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
  * 
- * TODO: resp repetition count
  * 
  * @author jkealey
  * 
@@ -58,6 +58,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		// StartPoints / ScenarioStartPoints
 		protected Vector _StartPathNodes;
 
+		// list of ITraversalListeners 
+		protected ScenarioTraversalListenerList _listeners;
+		
 		/**
 		 * 
 		 * @param startNodes
@@ -65,11 +68,12 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		 * @param endNodes
 		 *            the set of end points that must be reached.
 		 */
-		public QDefaultScenarioTraversal(UcmEnvironment env, Vector startNodes, Vector endNodes) {
+		public QDefaultScenarioTraversal(UcmEnvironment env, Vector startNodes, Vector endNodes, ScenarioTraversalListenerList listeners) {
 			this._queryType = QueryObject.DEFAULTSCENARIOTRAVERSAL;
 			_StartPathNodes = startNodes;
 			_EndPathNodes = endNodes;
 			_env = env;
+			_listeners = listeners;
 
 		}
 
@@ -83,6 +87,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 		public Vector getStartPathNodes() {
 			return _StartPathNodes;
+		}
+
+		public ScenarioTraversalListenerList getTraversalListeners() {
+			return _listeners;
 		}
 
 	}
@@ -148,6 +156,13 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	// Vector of Strings
 	protected Vector _warnings;
 	
+	// list of ITraversalListeners 
+	protected ScenarioTraversalListenerList _listeners;
+	
+	// current visit
+	protected TraversalVisit _currentVisit;
+	
+
 	/**
 	 * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
 	 * 
@@ -157,7 +172,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	}
 
 
-
+	public ScenarioTraversalListenerList getTraversalListeners() {
+		return _listeners;
+	}
 
 
 	/**
@@ -203,13 +220,15 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processAllNodes(UcmEnvironment env) throws TraversalException {
 
+
+        
 		Vector threadList = new Vector(); 
 		TraversalVisit nextNode = null;
 		for (int i=1;i< _traversalData.getNextThreadID();i++) {
-			System.out.println("New thread started: " + i);
+			//System.out.println("New thread started: " + i);
 			threadList.add(new Integer(i));
 		}
-
+		
 		
 		// while no errors and while we have something to do
 		do {
@@ -236,54 +255,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				int fromThread = _traversalData.getNextThreadID();
 				processNode(env, nextNode);
 				int toThread = _traversalData.getNextThreadID();
-				Vector newlyAdded = new Vector();
-				Vector newlyDied = new Vector();
-				// was not blocked. 
-				if (_traversalData.getConsecutiveReblocks()==0)
-				{
-					if (!nextNode.isValidParentComponent())
-						_warnings.add(new TraversalWarning("Element is associated with multiple parent components.", nextNode.getVisitedElement(), IMarker.SEVERITY_ERROR));
 
-					
-					if (nextNode.isValidParentComponent() && nextNode.getParentComponent()!=null)
-						System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString() + ", " + nextNode.getParentComponent().toString());
-					else
-						System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString());
-					
-					for (int i=fromThread;i<toThread;i++) {
-						System.out.println("New thread started: " + i);
-						newlyAdded.add(new Integer(i));
-						threadList.add(new Integer(i));
-					}
-					
-					for (Iterator iter = threadList.iterator(); iter.hasNext();) {
-						Integer i = (Integer) iter.next();
-						int status = _traversalData.getThreadState(i.intValue());
-						if (status < 0)
-							_warnings.add(new TraversalWarning("ThreadID sanity check error (" + status + ") for ThreadID " +i.intValue(), IMarker.SEVERITY_ERROR));  
-						else if (status==0) {
-							System.out.println("Thread died: " + i.intValue());
-							newlyDied.add(i);
-						}
-							
-					}
-					threadList.removeAll(newlyDied);
-					
-					// thread switch. 
-					if (nextNode.getThreadID()!=_traversalData.getCurrentThreadID()) {
-						
-						if (newlyDied.size()>0 && newlyAdded.size()>0 && (newlyDied.size()==1 ^ newlyAdded.size()==1))
-						{
-							if (newlyDied.size()>newlyAdded.size())
-								System.out.println("And-Join from threads " + arrayToString(newlyDied.toArray(), ",") + " to thread " + newlyAdded.get(0).toString() );
-							else // implicit because of xor in previous if : if (newlyDied.size()>newlyAdded.size())
-								System.out.println("And-Fork from thread " +  newlyDied.get(0).toString()  + " to threads " + arrayToString(newlyAdded.toArray(), ","));
-								
-						}
-						else
-							System.out.println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")");
-					}
-				}
+				notifyListeners(threadList, nextNode, fromThread, toThread);
 			}
 			else
 				break;
@@ -291,18 +264,77 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		} while (true);
 		
 	}
-	public static String arrayToString(Object[] a, String separator) {
-	    StringBuffer result = new StringBuffer();
-	    if (a.length > 0) {
-	        result.append(a[0].toString());
-	        for (int i=1; i<a.length; i++) {
-	            result.append(separator);
-	            result.append(a[i].toString());
-	        }
-	    }
-	    return result.toString();
+
+
+	/**
+	 * Notifies listeners of thread happenings. 
+	 * 
+	 * @param threadList the currently active thread list. 
+	 * @param nextNode the TraversalVisit that was just executed
+	 * @param fromThread the topmost thread id 
+	 * @param toThread
+	 */
+	protected void notifyListeners(Vector threadList, TraversalVisit nextNode, int fromThread, int toThread) {
+		// was not blocked. 
+		if (_traversalData.getConsecutiveReblocks()==0)
+		{
+			_listeners.pathNodeVisited(nextNode);
+			Vector newlyAdded = new Vector();
+			Vector newlyDied = new Vector();
+
+			if (!nextNode.isValidParentComponent())
+				_warnings.add(new TraversalWarning("Element is associated with multiple parent components.", nextNode.getVisitedElement(), IMarker.SEVERITY_ERROR));
+
+			
+//			if (nextNode.isValidParentComponent() && nextNode.getParentComponent()!=null)
+//				System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString() + ", " + nextNode.getParentComponent().toString());
+//			else
+//				System.out.println("Consumed on ThreadID: " + nextNode.getThreadID() + ", " + nextNode.getVisitedElement().toString());
+			
+			for (int i=fromThread;i<toThread;i++) {
+				// now in data structure so that we can send a traversalvisit
+				// _listeners.newThreadStarted(visit) - nextNode here is not the new thread. 
+//				System.out.println("New thread started: " + i);
+				newlyAdded.add(new Integer(i));
+				threadList.add(new Integer(i));
+			}
+			
+			// cannot be found inside the data structure as a "dead" node could be pushed back onto the list
+			for (Iterator iter = threadList.iterator(); iter.hasNext();) {
+				Integer i = (Integer) iter.next();
+				int status = _traversalData.getThreadState(i.intValue());
+				if (status < 0)
+					_warnings.add(new TraversalWarning("ThreadID sanity check error (" + status + ") for ThreadID " +i.intValue(), IMarker.SEVERITY_ERROR));  
+				else if (status==0) {
+					//System.out.println("Thread died: " + i.intValue());
+					_listeners.threadDied(i.intValue());
+					newlyDied.add(i);
+				}
+					
+			}
+			threadList.removeAll(newlyDied);
+			
+			// thread switch. 
+			if (nextNode.getThreadID()!=_traversalData.getCurrentThreadID()) {
+				
+				if (newlyDied.size()>0 && newlyAdded.size()>0 && (newlyDied.size()==1 ^ newlyAdded.size()==1))
+				{
+					if (newlyDied.size()>newlyAdded.size()) {
+						//System.out.println("And-Join from threads " + ArrayAndListUtils.listToString(newlyDied, ",") + " to thread " + newlyAdded.get(0).toString() );
+						_listeners.threadsMerged(newlyDied, ((Integer) newlyAdded.get(0)).intValue());
+					}
+					else { // implicit because of xor in previous if : if (newlyDied.size()>newlyAdded.size())
+						//System.out.println("And-Fork from thread " +  newlyDied.get(0).toString()  + " to threads " + ArrayAndListUtils.listToString(newlyAdded, ","));
+						_listeners.threadSplit(((Integer) newlyDied.get(0)).intValue(), newlyAdded);
+					}
+						
+				}
+				else
+					System.out.println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")");
+			}
+		}
 	}
-	
+
 
 
 	/**
@@ -463,6 +495,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 *             fatal error throw exceptions
 	 */
 	protected void processNode(UcmEnvironment env, TraversalVisit visit) throws TraversalException {
+		_listeners.pathNodeAttempted(visit);
 		PathNode pn = (PathNode) visit.getVisitedElement();
 		_traversalData.setCurrentContext(new Vector());
 		_traversalData.getCurrentContext().addAll(visit.getContext());
@@ -529,6 +562,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			NodeConnection nc = (NodeConnection) iter.next();
 			try {
 				Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
+				_listeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(nc.getCondition())?"true":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+				
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
 						if (ScenarioTraversalPreferences.getIsDeterministic())
@@ -587,6 +622,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 				// loop repetition count time. 
 				for ( int i=0; i<resp.getRepetitionCount();i++) {
 					ScenarioUtils.evaluate(resp, env);
+					if (!ScenarioUtils.isEmptyResponsibility(resp))
+						_listeners.codeExecuted(resp.getRespDef().getExpression(), env);
 				}
 			}
 			else {
@@ -638,6 +675,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 				try {
 					Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
+					_listeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(binding.getPrecondition())?"true":binding.getPrecondition().getExpression(), Boolean.TRUE.equals(result));
 					if (Boolean.TRUE.equals(result)) {
 
 						for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
@@ -721,6 +759,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			// not using default behaviour. want to make sure we are blocked
 			if (nc.getCondition()==null) result=Boolean.FALSE;
 			
+			_listeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(nc.getCondition())?"false":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+			
 			if (Boolean.TRUE.equals(result)) {
 				_traversalData.visitNodeConnection(nc);
 			} else {
@@ -730,12 +770,17 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					//TODO: Semantic Variation. What do we do if both conditions are true at the same time?
 					nc =  (NodeConnection) pn.getSucc().get(1);
 					result = ScenarioUtils.evaluate(nc.getCondition(), env);
+
 					// not using default behaviour. want to make sure we are blocked
 					if (nc.getCondition()==null) result=Boolean.FALSE;
 
+					_listeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(nc.getCondition())?"false":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+					
 					// if we can take the timeout path
-					if (Boolean.TRUE.equals(result))
+					if (Boolean.TRUE.equals(result)) {
+						_listeners.timerTimeout(_currentVisit);
 						_traversalData.visitNodeConnection(nc);
+					}
 					else
 						_traversalData.addToWaitingList(pn);
 						
@@ -758,9 +803,10 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
 	 */
 	public QueryResponse runImpl(QueryRequest q) {
-		_traversalData = new DefaultScenarioTraversalDataStructure();
 		_error = null;
 		_warnings = new Vector();
+		_listeners = ((QDefaultScenarioTraversal) q).getTraversalListeners();
+		_traversalData = new DefaultScenarioTraversalDataStructure(_listeners);
 
 		if (((QDefaultScenarioTraversal) q).getStartPathNodes() != null) {
 			Vector startPoints = ((QDefaultScenarioTraversal) q).getStartPathNodes();
@@ -797,6 +843,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected boolean testCondition(UcmEnvironment env, Condition cond, Boolean expected, String errorMessage) throws TraversalException {
 		try {
 			Object result = ScenarioUtils.evaluate(cond, env);
+			_listeners.conditionEvaluated(ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(result));
 			if (!expected.equals(result)) {
 				TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);
 				warning.setCondition(cond);
@@ -839,5 +886,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			}
 		}
 	}
+	
+	
+
+
 
 }
