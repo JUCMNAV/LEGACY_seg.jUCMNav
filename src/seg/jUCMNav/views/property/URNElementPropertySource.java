@@ -34,6 +34,7 @@ import ucm.map.WaitingPlace;
 import ucm.performance.Workload;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import urn.URNspec;
@@ -109,11 +110,19 @@ public class URNElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void metadataDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        PropertyDescriptor pd;
+        PropertyDescriptor pd = null;
         String name = attr.getName().toLowerCase();
         if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof URNmodelElement) { //$NON-NLS-1$
             // urn model elements have metadata
             pd = new MetadataPropertyDescriptor(propertyid, (URNmodelElement) getEditableValue());
+            pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
+        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioStartPoint) {
+            // urn model elements have metadata
+            pd = new MetadataPropertyDescriptor(propertyid, ((ScenarioStartPoint) getEditableValue()).getStartPoint());
+            pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
+        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioEndPoint) {
+            // urn model elements have metadata
+            pd = new MetadataPropertyDescriptor(propertyid, ((ScenarioEndPoint) getEditableValue()).getEndPoint());
             pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
         } else {
             pd = new TextPropertyDescriptor(propertyid, attr.getName());
