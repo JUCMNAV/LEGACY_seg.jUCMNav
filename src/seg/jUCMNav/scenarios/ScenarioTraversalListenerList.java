@@ -27,11 +27,11 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		this._warnings = warnings;
 	}
 
-	public void conditionEvaluated(String condition, boolean result) {
+	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {
-				listener.conditionEvaluated(condition, result);
+				listener.conditionEvaluated(visit, condition, result);
 
 			} catch (Exception ex) {
 				_warnings.add(new TraversalWarning(ex.toString()));
@@ -193,11 +193,11 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
 	}
 
-	public void codeExecuted(String code, UcmEnvironment env) {
+	public void codeExecuted(TraversalVisit visit, String code) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {
-				listener.codeExecuted(code, env);
+				listener.codeExecuted(visit, code);
 
 			} catch (Exception ex) {
 				_warnings.add(new TraversalWarning(ex.toString()));

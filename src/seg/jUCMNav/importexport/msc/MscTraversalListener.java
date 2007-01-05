@@ -1,29 +1,46 @@
 package seg.jUCMNav.importexport.msc;
 
+import grl.EvaluationStrategy;
+import grl.StrategiesGroup;
+
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
+import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
+import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
+import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.util.ArrayAndListUtils;
+import seg.jUCMNav.model.util.URNNamingHelper;
+import seg.jUCMNav.model.util.URNmodelElementIDComparator;
+import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
@@ -33,12 +50,31 @@ import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
+import ucm.map.Stub;
 import ucm.map.UCMmap;
+import ucm.map.WaitingPlace;
+import ucm.scenario.EnumerationType;
+import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioEndPoint;
+import ucm.scenario.ScenarioGroup;
+import ucm.scenario.ScenarioStartPoint;
+import ucm.scenario.Variable;
 import urn.URNspec;
+import urncore.ComponentElement;
+import urncore.Condition;
+import urncore.IURNContainerRef;
+import urncore.Metadata;
+import urncore.Responsibility;
+import urncore.URNmodelElement;
 
 /**
  * A traversal listener that will generate MSCs.
+ * 
+ * TODO: waiting places that are unblocked by conditions -> waiting place with continuation condition TODO: synchronous connects -> empty responsibility TODO:
+ * in/out binding traversal -> synchronous connect or responsibility TODO: filter unused definitions (resp/comp) + scenario groups.
+ * 
+ * TODO: timeouts
  * 
  * @author jkealey
  * 
@@ -46,10 +82,17 @@ import urn.URNspec;
 public class MscTraversalListener implements ITraversalListener {
 
 	protected CommandStack cs;
+	protected ScenarioDef currentDestScenario;
 	protected UCMmap currentMap;
-	protected ScenarioDef currentScenario;
+	protected ScenarioDef currentSrcScenario;
+
+	protected HashMap htComponentRefs;
+	protected HashMap htComponents;
+	protected HashMap htResponsibilities;
 	protected HashMap htScenarioToMap;
+
 	protected HashMap htThreadEnd;
+
 	protected HashMap htThreadStart;
 	protected URNspec urnspec;
 
@@ -59,16 +102,201 @@ public class MscTraversalListener implements ITraversalListener {
 		urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
 		cs = new CommandStack();
 
+		// get rid of default scenario/scenariogroup
+		Command cmd = new DeleteScenarioCommand((ScenarioDef) ((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0)).getScenarios().get(0));
+		cs.execute(cmd);
+		cmd = new DeleteStrategiesGroupCommand((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(0));
+		cs.execute(cmd);
+		cmd = new DeleteStrategyCommand((EvaluationStrategy) urnspec.getGrlspec().getStrategies().get(0));
+		cs.execute(cmd);
+		cmd = new DeleteStrategiesGroupCommand((StrategiesGroup) urnspec.getGrlspec().getGroups().get(0));
+		cs.execute(cmd);
 	}
 
-	public void codeExecuted(String code, UcmEnvironment env) {
-		System.out.println("Executed code: " + code);
+	protected void addMetaData(URNmodelElement pn, String name, String value) {
+		Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
+		data.setName(name);
+		data.setValue(value);
+		pn.getMetadata().add(data);
 
 	}
 
-	public void conditionEvaluated(String condition, boolean result) {
-		System.out.println("Condition (" + condition + ") evaluated to " + result);
+	protected void cloneComponents(ScenarioDef scenario) {
+		htComponents = new HashMap();
 
+		for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getComponents().iterator(); iter.hasNext();) {
+			ComponentElement c = (ComponentElement) iter.next();
+			ComponentElement clone = (ComponentElement) EcoreUtil.copy(c);
+			clone.setUrndefinition(urnspec.getUrndef());
+
+			resetCloneId(clone);
+
+			htComponents.put(c, clone);
+		}
+	}
+
+	protected void cloneResponsibilities(ScenarioDef scenario) {
+		htResponsibilities = new HashMap();
+
+		for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getResponsibilities().iterator(); iter.hasNext();) {
+			Responsibility r = (Responsibility) iter.next();
+			Responsibility clone = (Responsibility) EcoreUtil.copy(r);
+			clone.setUrndefinition(urnspec.getUrndef());
+
+			resetCloneId(clone);
+
+			htResponsibilities.put(r, clone);
+		}
+
+		// Responsibility condition = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
+		// condition.setName("Condition");
+		// condition.setUrndefinition(urnspec.getUrndef());
+		// htResponsibilities.put("Condition", condition);
+	}
+
+	protected void cloneScenario(ScenarioDef src) {
+		int index = src.getGroup().getUcmspec().getScenarioGroups().indexOf(src.getGroup());
+
+		ScenarioDef dest = (ScenarioDef) EcoreUtil.copy(src);
+		resetCloneId(dest);
+		dest.setGroup((ScenarioGroup) urnspec.getUcmspec().getScenarioGroups().get(index));
+
+		dest.getStartPoints().clear();
+		dest.getEndPoints().clear();
+		dest.getInitializations().clear();
+		dest.getIncludedScenarios().clear();
+		dest.getPreconditions().clear();
+		dest.getPostconditions().clear();
+
+		for (Iterator iter = ScenarioUtils.getDefinedInitializations(src).iterator(); iter.hasNext();) {
+			Initialization srcinit = (Initialization) iter.next();
+			Initialization destinit = (Initialization) EcoreUtil.copy(srcinit);
+			index = srcinit.getVariable().getUcmspec().getVariables().indexOf(srcinit.getVariable());
+			destinit.setVariable((Variable) urnspec.getUcmspec().getVariables().get(index));
+			destinit.setScenarioDef(dest);
+		}
+
+		currentDestScenario = dest;
+	}
+
+	protected void cloneScenarioDataModel(ScenarioDef scenario) {
+
+		for (Iterator iter = scenario.getGroup().getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup c = (ScenarioGroup) iter.next();
+			ScenarioGroup clone = (ScenarioGroup) EcoreUtil.copy(c);
+			clone.setUcmspec(urnspec.getUcmspec());
+			clone.getScenarios().clear();
+			resetCloneId(clone);
+		}
+
+		for (Iterator iter = scenario.getGroup().getUcmspec().getEnumerationTypes().iterator(); iter.hasNext();) {
+			EnumerationType c = (EnumerationType) iter.next();
+			EnumerationType clone = (EnumerationType) EcoreUtil.copy(c);
+			clone.setUcmspec(urnspec.getUcmspec());
+			resetCloneId(clone);
+		}
+		for (Iterator iter = scenario.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
+			Variable c = (Variable) iter.next();
+			Variable clone = (Variable) EcoreUtil.copy(c);
+			clone.setUcmspec(urnspec.getUcmspec());
+			resetCloneId(clone);
+		}
+		for (int i = 0; i < scenario.getGroup().getUcmspec().getVariables().size(); i++) {
+			Variable src = (Variable) scenario.getGroup().getUcmspec().getVariables().get(i);
+			Variable dest = (Variable) urnspec.getUcmspec().getVariables().get(i);
+
+			EnumerationType srctype = src.getEnumerationType();
+			if (srctype != null) {
+				int index = srctype.getUcmspec().getEnumerationTypes().indexOf(srctype);
+				dest.setEnumerationType((EnumerationType) dest.getUcmspec().getEnumerationTypes().get(index));
+			}
+		}
+	}
+
+	public void codeExecuted(TraversalVisit visit, String code) {
+		// is null in scenario initializations
+		if (visit == null)
+			System.out.println("Executed code: " + code);
+		else
+			System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
+
+	}
+
+	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result) {
+		Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
+		cond.setExpression(condition);
+
+		// is null in scenario pre/post conditions
+		if (visit == null) {
+			System.out.println("Condition (" + condition + ") evaluated to " + result);
+
+			if (currentMap.getNodes().size() == 0)
+				currentDestScenario.getPreconditions().add(cond);
+			else
+				currentDestScenario.getPostconditions().add(cond);
+		} else {
+			System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
+
+			// don't show tautologies or ignored conditions (paths that were not taken)
+			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
+				WaitingPlace wait = createWaitingPlace(visit);
+				NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
+				nc.setCondition(cond);
+
+				// RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+				// respref.setLabel(null);
+				//				
+				// addMetaData(respref.getRespDef(), "condition", condition);
+				// addMetaData(respref.getRespDef(), "value", Boolean.valueOf(result).toString());
+				//					
+				// extendPathAndInsert(visit, respref, true);
+
+			}
+		}
+	}
+
+	private RespRef createRespRef(TraversalVisit visit) {
+		Responsibility def = null;
+		if (visit.getVisitedElement() instanceof RespRef)
+			def = (Responsibility) htResponsibilities.get(((RespRef) visit.getVisitedElement()).getRespDef());
+		else {
+			def = (Responsibility) htResponsibilities.get(visit.getVisitedElement().getClass());
+
+			// we haven't seen an element of this type before. create a responsibility for it!
+			if (def == null) {
+				def = (Responsibility) ModelCreationFactory.getNewObject(urnspec, Responsibility.class);
+				def.setName(visit.getVisitedElement().getClass().getInterfaces()[0].getSimpleName());
+				def.setUrndefinition(urnspec.getUrndef());
+				htResponsibilities.put(visit.getVisitedElement().getClass(), def);
+			}
+		}
+		RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class, 0, def);
+		extendPathAndInsert(visit, respref, true);
+
+		if (visit.getParentComponent() != null) {
+			IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(visit.getParentComponent());
+			if (comp == null) {
+				// create a new reference
+				comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, 0, htComponents.get(visit.getParentComponent()));
+				// outside for autolayout
+				comp.setX(-1000);
+				comp.setY(-1000);
+				AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
+				cs.execute(cmd);
+
+				htComponentRefs.put(visit.getParentComponent(), comp);
+			}
+			respref.setContRef(comp);
+		}
+		return respref;
+	}
+
+	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
+		WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
+
+		extendPathAndInsert(visit, wait, true);
+
+		return wait;
 	}
 
 	protected PathNode extendPath(int threadID, boolean fromEnd) {
@@ -80,7 +308,7 @@ public class MscTraversalListener implements ITraversalListener {
 			cs.execute(cmd);
 			return end;
 		} else {
-			StartPoint start= (StartPoint) htThreadStart.get(new Integer(threadID));
+			StartPoint start = (StartPoint) htThreadStart.get(new Integer(threadID));
 			ExtendPathCommand cmd = new ExtendPathCommand(currentMap, start, start.getX() - 100, start.getY());
 			cs.execute(cmd);
 			return start;
@@ -131,16 +359,30 @@ public class MscTraversalListener implements ITraversalListener {
 	public void pathNodeBlocked(TraversalVisit visit) {
 		System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
+		// TODO: no, we want to add a waiting place if we block and continue because of condition instead of path.
+		// PathNode n = (PathNode) visit.getVisitedElement();
+		// if (n instanceof WaitingPlace) {
+		//			
+		// createWaitingPlace(visit);
+		// }
+
 	}
 
 	public void pathNodeVisited(TraversalVisit visit) {
 		System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		if (!(visit.getVisitedElement() instanceof EmptyPoint || visit.getVisitedElement() instanceof DirectionArrow || visit.getVisitedElement() instanceof OrJoin || visit.getVisitedElement() instanceof OrFork)) {
-			RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
-	
-			extendPathAndInsert(visit, respref, true);
+		PathNode n = (PathNode) visit.getVisitedElement();
+		if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
+				|| n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
+
+			createRespRef(visit);
 		}
+	}
+
+	private void resetCloneId(URNmodelElement clone) {
+		String name = clone.getName();
+		URNNamingHelper.setElementNameAndID(urnspec, clone);
+		clone.setName(name);
 	}
 
 	public void threadDied(int threadId) {
@@ -203,7 +445,42 @@ public class MscTraversalListener implements ITraversalListener {
 
 	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
 		System.out.println("Traversal ended: " + scenario.toString());
-		//
+
+		Vector startPoints = new Vector();
+		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
+			PathNode pn = (PathNode) iter.next();
+			if (pn instanceof StartPoint) {
+				startPoints.add(pn);
+			} else if (pn instanceof EndPoint) {
+				ScenarioEndPoint sep = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioEndPoint.class);
+				sep.setEndPoint((EndPoint) pn);
+				sep.setScenarioDef(currentDestScenario);
+				sep.setEnabled(true);
+			}
+
+		}
+		Collections.sort(startPoints, new URNmodelElementIDComparator());
+
+		for (Iterator iter = startPoints.iterator(); iter.hasNext();) {
+			StartPoint pn = (StartPoint) iter.next();
+			ScenarioStartPoint ssp = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioStartPoint.class);
+			ssp.setStartPoint(pn);
+			ssp.setScenarioDef(currentDestScenario);
+			ssp.setEnabled(true);
+		}
+
+		CompoundCommand compound = new CompoundCommand();
+		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup g = (ScenarioGroup) iter.next();
+
+			// if is in use, won't delete.
+			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
+			if (cmd.canExecute())
+				compound.add(cmd);
+		}
+		cs.execute(compound);
+
+		// TODO: get rid of unused definitions.
 
 		try {
 			UrnModelManager manager = new UrnModelManager();
@@ -224,18 +501,32 @@ public class MscTraversalListener implements ITraversalListener {
 
 		htThreadEnd = new HashMap();
 		htThreadStart = new HashMap();
+		htComponentRefs = new HashMap();
 
-		currentScenario = scenario;
+		if (htResponsibilities == null) {
+			cloneResponsibilities(scenario);
+		}
+
+		if (htComponents == null) {
+			cloneComponents(scenario);
+		}
+
+		currentSrcScenario = scenario;
 
 		// first scenario
 		if (htScenarioToMap.size() == 0) {
 			htScenarioToMap.put(scenario, (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0));
+
+			cloneScenarioDataModel(scenario);
+
 		} else if (!htScenarioToMap.containsKey(scenario)) { // new scenario
 			CreateMapCommand cmd = new CreateMapCommand(urnspec);
 			cs.execute(cmd);
 
 			htScenarioToMap.put(scenario, cmd.getMap());
 		}
+
+		cloneScenario(scenario);
 
 		currentMap = (UCMmap) htScenarioToMap.get(scenario);
 	}

@@ -102,6 +102,11 @@ public class ScenarioUtils {
 		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
 		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond);    //$NON-NLS-1$
 	}
+
+	public static boolean isEmptyCondition(String cond) {
+		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
+		return cond == null || cond.length() == 0 || "true".equals(cond);    //$NON-NLS-1$
+	}	
 	
 	public static boolean isEmptyResponsibility(RespRef resp) {
 		if (resp==null) 

@@ -14,8 +14,8 @@ import ucm.scenario.ScenarioDef;
  */
 public interface ITraversalListener {
 
-	public void codeExecuted(String code, UcmEnvironment env);
-	public void conditionEvaluated(String condition, boolean result );
+	public void codeExecuted(TraversalVisit visit, String code);
+	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result );
 	public void newThreadStarted(TraversalVisit visit);
 	public void pathNodeAborted(TraversalVisit visit);
 	public void pathNodeAttempted(TraversalVisit visit);

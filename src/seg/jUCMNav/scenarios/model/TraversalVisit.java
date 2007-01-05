@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
-import urncore.ComponentElement;
 import urncore.IURNContainer;
 
 public class TraversalVisit {
@@ -17,7 +16,7 @@ public class TraversalVisit {
 	private Vector context;
 	private NodeConnection source;
 	private int threadID;
-	private ComponentElement parent;
+	
 	
 	public TraversalVisit(EObject obj, Vector context, int threadID) {
 		this.visitedElement = obj;
