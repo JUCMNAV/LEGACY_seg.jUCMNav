@@ -23,6 +23,7 @@ import seg.jUCMNav.importexport.ExportLayoutDOT;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
+import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.AutoLayoutCommandComparator;
@@ -213,8 +214,14 @@ public class AutoLayoutWizard extends Wizard {
 					// we've got lower left x, y, upper right x, y
 					Command resize = new SetConstraintBoundContainerRefCompoundCommand(compRef, PADDING + Integer.parseInt(coords[0]), pageHeight
 							- Integer.parseInt(coords[3]), Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
-							- Integer.parseInt(coords[1]));
+							- Integer.parseInt(coords[1])-10);
 					cmd.add(resize);
+					if (compRef.getParent()!=null) {
+						SetConstraintContainerRefCommand cmd2 = new SetConstraintContainerRefCommand(compRef, PADDING + Integer.parseInt(coords[0]), pageHeight
+						- Integer.parseInt(coords[3])+40, Integer.parseInt(coords[2]) - Integer.parseInt(coords[0]), Integer.parseInt(coords[3])
+						- Integer.parseInt(coords[1])-40);
+						cmd.add(cmd2);
+					}
 				} else if (line.matches("\\s*graph \\[bb=\"\"];")) { // ex: //$NON-NLS-1$
 					// graph
 					// [bb=""];

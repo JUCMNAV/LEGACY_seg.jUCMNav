@@ -24,7 +24,7 @@ import urncore.URNmodelElement;
  * 
  */
 public class ExportLayoutDOT implements IUseCaseMapExport {
-
+	static int id = 0;
 	/**
 	 * Recursive method that builds a DOT cluster using the ComponentRef
 	 * bindings.
@@ -35,13 +35,13 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 	 *            where to write the output.
 	 */
 	private static void buildCluster(IURNContainerRef compRef, StringBuffer dot) {
-		int id = 0;
-		dot.append("subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + ((URNmodelElement) compRef).getId() + "{\r\n"); //$NON-NLS-1$ //$NON-NLS-2$
-
+		
+		dot.append("subgraph " + AutoLayoutPreferences.COMPONENTPREFIX + ((URNmodelElement) compRef).getId() + " {\r\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		//dot.append(" label=\""+((URNmodelElement)compRef.getContDef()).getName()+"\"\r\n");
 		// ensure visibility
 		// dot.append("cheaptrick[shape=\"none\",label=\"\"];\n");
 
-		dot.append("CheapTrick" + id++ + " [pos=\"\", width=\"1\", height=\"1\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
+		dot.append("CheapTrick" + id++ + " [pos=\"\", width=\"1\", height=\"0.01\"];\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IURNContainerRef child;
 		for (int i = 0; i < compRef.getChildren().size(); i++) {
@@ -51,10 +51,10 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 		for (int i = 0; i < compRef.getNodes().size(); i++) {
 			URNmodelElement node = (URNmodelElement) compRef.getNodes().get(i);
 
-			dot.append(AutoLayoutPreferences.PATHNODEPREFIX + node.getId() + ";\n"); //$NON-NLS-1$
+			dot.append(AutoLayoutPreferences.PATHNODEPREFIX + node.getId() + " ;\n"); //$NON-NLS-1$
 		}
 
-		dot.append("}\n"); //$NON-NLS-1$
+		dot.append("} \n"); //$NON-NLS-1$
 	}
 
 	/**
@@ -129,6 +129,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 	 *      java.io.FileOutputStream)
 	 */
 	public void export(IURNDiagram diagram, FileOutputStream fos) {
+		id=0;
 		if (diagram instanceof UCMmap) {
 			String contents = convertUCMToDot((UCMmap) diagram);
 			try {

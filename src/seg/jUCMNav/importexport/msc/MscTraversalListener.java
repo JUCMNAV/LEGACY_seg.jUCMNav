@@ -286,9 +286,14 @@ public class MscTraversalListener implements ITraversalListener {
 		RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class, 0, def);
 		extendPathAndInsert(visit, respref, true);
 
+		setComponentRef(respref, visit);
+		return respref;
+	}
+
+	protected void setComponentRef(PathNode pn, TraversalVisit visit) {
 		if (visit.getParentComponentRef() != null) {
 			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
-			respref.setContRef(comp);
+			pn.setContRef(comp);
 			
 			// bind parents. 
 			for (int i=1;i<visit.getParentComponentRefs().size();i++)
@@ -302,7 +307,6 @@ public class MscTraversalListener implements ITraversalListener {
 			}
 
 		}
-		return respref;
 	}
 
 	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
@@ -373,7 +377,7 @@ public class MscTraversalListener implements ITraversalListener {
 		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
 		cs.execute(cmd);
 		cmd.getStart().setName(((PathNode)visit.getVisitedElement()).getName());
-		cmd.getStart().setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+		setComponentRef(cmd.getStart(), visit);
 		
 		htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());
 		htThreadEnd.put(new Integer(visit.getThreadID()), cmd.getEnd());
@@ -421,6 +425,9 @@ public class MscTraversalListener implements ITraversalListener {
 		{
 			PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
 			pn.setName(n.getName());
+
+			setComponentRef(pn, visit);
+
 		}
 	}
 
