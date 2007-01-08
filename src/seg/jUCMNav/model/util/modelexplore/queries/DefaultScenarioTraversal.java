@@ -497,7 +497,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processNode(UcmEnvironment env, TraversalVisit visit) throws TraversalException {
 		_listeners.pathNodeAttempted(visit);
-		PathNode pn = (PathNode) visit.getVisitedElement();
+		PathNode pn = visit.getVisitedElement();
 		_traversalData.setCurrentContext(new Vector());
 		_traversalData.getCurrentContext().addAll(visit.getContext());
 		

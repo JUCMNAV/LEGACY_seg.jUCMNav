@@ -61,20 +61,30 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
-import urncore.ComponentElement;
+import urncore.Component;
+import urncore.ComponentKind;
 import urncore.Condition;
+import urncore.IURNContainer;
 import urncore.IURNContainerRef;
 import urncore.Metadata;
+import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
  * A traversal listener that will generate MSCs.
  * 
- * TODO: waiting places that are unblocked by conditions -> waiting place with continuation condition TODO: synchronous connects -> empty responsibility TODO:
- * in/out binding traversal -> synchronous connect or responsibility TODO: filter unused definitions (resp/comp) + scenario groups.
+ * TODO: synchronous connects -> empty responsibility 
+ * 
+ * TODO: in/out binding traversal -> synchronous connect or responsibility 
+ * 
+ * TODO: filter unused definitions (resp/comp) + scenario groups.
  * 
  * TODO: timeouts
+ * 
+ * TODO: andfork should have stub name if concurrency is started by endpoint. 
+ *  
+ * TODO: bind pathnodes to components to help autolayout, or add options to autolayout to do that on its own. 
  * 
  * @author jkealey
  * 
@@ -95,7 +105,10 @@ public class MscTraversalListener implements ITraversalListener {
 
 	protected HashMap htThreadStart;
 	protected URNspec urnspec;
-
+	
+	protected TraversalVisit lastUnblocked;
+	
+	
 	public MscTraversalListener() {
 
 		htScenarioToMap = new HashMap();
@@ -125,10 +138,9 @@ public class MscTraversalListener implements ITraversalListener {
 		htComponents = new HashMap();
 
 		for (Iterator iter = scenario.getGroup().getUcmspec().getUrnspec().getUrndef().getComponents().iterator(); iter.hasNext();) {
-			ComponentElement c = (ComponentElement) iter.next();
-			ComponentElement clone = (ComponentElement) EcoreUtil.copy(c);
+			Component c = (Component) iter.next();
+			Component clone = (Component) EcoreUtil.copy(c);
 			clone.setUrndefinition(urnspec.getUrndef());
-
 			resetCloneId(clone);
 
 			htComponents.put(c, clone);
@@ -240,6 +252,7 @@ public class MscTraversalListener implements ITraversalListener {
 			// don't show tautologies or ignored conditions (paths that were not taken)
 			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
 				WaitingPlace wait = createWaitingPlace(visit);
+				wait.setName((visit.getVisitedElement()).getName());
 				NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
 				nc.setCondition(cond);
 
@@ -273,22 +286,39 @@ public class MscTraversalListener implements ITraversalListener {
 		RespRef respref = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class, 0, def);
 		extendPathAndInsert(visit, respref, true);
 
-		if (visit.getParentComponent() != null) {
-			IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(visit.getParentComponent());
-			if (comp == null) {
-				// create a new reference
-				comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, 0, htComponents.get(visit.getParentComponent()));
-				// outside for autolayout
-				comp.setX(-1000);
-				comp.setY(-1000);
-				AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
-				cs.execute(cmd);
-
-				htComponentRefs.put(visit.getParentComponent(), comp);
-			}
+		if (visit.getParentComponentRef() != null) {
+			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
 			respref.setContRef(comp);
+			
+			// bind parents. 
+			for (int i=1;i<visit.getParentComponentRefs().size();i++)
+			{
+				IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
+				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i-1)).getContDef();
+				IURNContainerRef parent = addCompRefIfAbsent(origparent);
+				IURNContainerRef child = addCompRefIfAbsent(origchild);
+				if (parent!=child)
+					child.setParent(parent);
+			}
+
 		}
 		return respref;
+	}
+
+	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
+		IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
+		if (comp == null) {
+			// create a new reference
+			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component)def).getKind().getValue(), htComponents.get(def));
+			// outside for autolayout
+			comp.setX(-1000);
+			comp.setY(-1000);
+			AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
+			cs.execute(cmd);
+
+			htComponentRefs.put(def, comp);
+		}
+		return comp;
 	}
 
 	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
@@ -329,6 +359,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 		ReplaceEmptyPointCommand cmd2 = new ReplaceEmptyPointCommand(empty, pn);
 		cs.execute(cmd2);
+		
 		return extremity;
 	}
 
@@ -341,7 +372,9 @@ public class MscTraversalListener implements ITraversalListener {
 
 		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
 		cs.execute(cmd);
-
+		cmd.getStart().setName(((PathNode)visit.getVisitedElement()).getName());
+		cmd.getStart().setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+		
 		htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());
 		htThreadEnd.put(new Integer(visit.getThreadID()), cmd.getEnd());
 	}
@@ -367,15 +400,27 @@ public class MscTraversalListener implements ITraversalListener {
 		// }
 
 	}
+	
+	public void pathNodeUnblocked(TraversalVisit visit) {
+		System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+
+		lastUnblocked = visit;
+	}
 
 	public void pathNodeVisited(TraversalVisit visit) {
 		System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
-		PathNode n = (PathNode) visit.getVisitedElement();
+		PathNode n = visit.getVisitedElement();
 		if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
 				|| n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
 
 			createRespRef(visit);
+		} 
+		
+		if (n instanceof EndPoint)
+		{
+			PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
+			pn.setName(n.getName());
 		}
 	}
 
@@ -395,7 +440,12 @@ public class MscTraversalListener implements ITraversalListener {
 
 		AndJoin andjoin = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
 		StartPoint sp = (StartPoint) extendPathAndInsert(newThreadID, andjoin, false);
-
+		
+		if (lastUnblocked!=null) {
+			andjoin.setName(lastUnblocked.getVisitedElement().getName());
+			NodeLabel lbl = (NodeLabel) ModelCreationFactory.getNewObject(urnspec, NodeLabel.class);
+			lbl.setNode(andjoin);
+		}
 		for (int i = 0; i < oldThreadIDs.size(); i++) {
 			Integer threadID = (Integer) oldThreadIDs.get(i);
 			EndPoint ep = (EndPoint) htThreadEnd.get(threadID);
@@ -446,6 +496,16 @@ public class MscTraversalListener implements ITraversalListener {
 	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
 		System.out.println("Traversal ended: " + scenario.toString());
 
+		cleanupScenarios();
+
+		// TODO: get rid of unused definitions.
+
+		saveModel();
+
+	}
+
+
+	private void cleanupScenarios() {
 		Vector startPoints = new Vector();
 		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
 			PathNode pn = (PathNode) iter.next();
@@ -479,9 +539,9 @@ public class MscTraversalListener implements ITraversalListener {
 				compound.add(cmd);
 		}
 		cs.execute(compound);
+	}
 
-		// TODO: get rid of unused definitions.
-
+	private void saveModel() {
 		try {
 			UrnModelManager manager = new UrnModelManager();
 
@@ -493,7 +553,6 @@ public class MscTraversalListener implements ITraversalListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {

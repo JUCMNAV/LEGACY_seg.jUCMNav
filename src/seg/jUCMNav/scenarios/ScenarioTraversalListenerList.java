@@ -82,6 +82,20 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		}
 	}
 
+	public void pathNodeUnblocked(TraversalVisit visit) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.pathNodeUnblocked(visit);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	
 	public void pathNodeVisited(TraversalVisit visit) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();

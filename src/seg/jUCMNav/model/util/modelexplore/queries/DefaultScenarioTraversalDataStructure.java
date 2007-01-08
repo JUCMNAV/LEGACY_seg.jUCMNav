@@ -170,7 +170,7 @@ public class DefaultScenarioTraversalDataStructure {
 	 * @return the next PathNode
 	 */
 	protected TraversalVisit getNextVisit() throws TraversalException {
-		
+
 		// nothing to do
 		if (_toVisit.size()==0 && _waitList.size()==0) {
 			_lastPopped=null;
@@ -235,6 +235,7 @@ public class DefaultScenarioTraversalDataStructure {
 			_currentContext = _lastPopped.getContext();
 			_currentThreadID = _lastPopped.getThreadID();
 
+			_listeners.pathNodeUnblocked(_lastPopped);
 			return _lastPopped;
 		}
 		
@@ -307,7 +308,7 @@ public class DefaultScenarioTraversalDataStructure {
 	protected void cleanWaitingList() {
 		// TODO: semantic variation. we are removing one instance, implying waiting place has memory.
 		// Remove all for no memory. 
-		PathNode peeking = (PathNode) _lastPopped.getVisitedElement();
+		PathNode peeking =  _lastPopped.getVisitedElement();
 		TraversalVisit toRemove = null;
 		for (Iterator iter = _waitList.iterator(); iter.hasNext();) {
 			TraversalVisit visit = (TraversalVisit) iter.next();
@@ -507,6 +508,9 @@ public class DefaultScenarioTraversalDataStructure {
 
 				// technically, this should not be a new thread, but it simplifies the MSC generation algorithm
 				visitNodeConnection(nc2, true);
+				
+				_listeners.pathNodeUnblocked(visit);
+				
 				alreadyExists=true;
 				toRemove=visit;
 				// assuming only one instance. 
