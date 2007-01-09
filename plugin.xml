@@ -65,6 +65,15 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="Verifies the syntax of all responsibilities and conditions."/>
+         <action
+               actionID="seg.jUCMNav.actions.MakeWellFormedAction"
+               class="seg.jUCMNav.actions.UCMActionDelegate"
+               icon="icons/StategyView16.gif"
+               id="seg.jUCMNav.MakeWellFormed"
+               label="Linearize Concurrency"
+               menubarPath="seg.jUCMnav/ext"
+               style="push"
+               tooltip="Linearize Concurrency"/>
       </editorContribution>
    </extension>
    <extension

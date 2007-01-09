@@ -34,6 +34,7 @@ import urn.URNspec;
  */
 public class DividePathCommand extends CompoundCommand {
 
+	private PathNode newNode;
     /**
      * add a new internally created fork/join on a node connection, attaching a passed branch
      * 
@@ -116,7 +117,7 @@ public class DividePathCommand extends CompoundCommand {
      */
     private void createAndInsert(PathNode startOrEnd, PathNode empty, boolean isOrDivision) {
         URNspec urn = startOrEnd.getDiagram().getUrndefinition().getUrnspec();
-        PathNode newNode=null;
+        newNode=null;
 
         if (startOrEnd instanceof StartPoint) {
 
@@ -151,4 +152,8 @@ public class DividePathCommand extends CompoundCommand {
         add(new AttachBranchCommand(startOrEnd, toInsert));
     }
 
+    public PathNode getNewNode() 
+    {
+    	return newNode;
+    }
 }

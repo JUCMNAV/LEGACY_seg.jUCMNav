@@ -133,5 +133,9 @@ public class DoMergeCommand extends Command implements JUCMNavCommand {
         assert map.getConnections().contains(prevConn) && map.getConnections().contains(nextConn) : "post connection problem "; //$NON-NLS-1$
 
     }
+    
+    public EmptyPoint getNewEmptyPoint() {
+    	return newEmptyPoint;
+    }
 
 }

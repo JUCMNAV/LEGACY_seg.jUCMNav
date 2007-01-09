@@ -29,6 +29,7 @@ import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
+import seg.jUCMNav.model.commands.transformations.MakeWellFormedCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
@@ -504,6 +505,20 @@ public class MscTraversalListener implements ITraversalListener {
 
 			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
 					.getFullPath().removeLastSegments(1).append("__msctemp.jucm");
+			manager.createURNspec(path, urnspec);
+			manager.save(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		cs.execute(new MakeWellFormedCommand(urnspec));
+		
+		try {
+			UrnModelManager manager = new UrnModelManager();
+
+			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+					.getFullPath().removeLastSegments(1).append("__msctemp2.jucm");
 			manager.createURNspec(path, urnspec);
 			manager.save(path);
 		} catch (IOException e) {
