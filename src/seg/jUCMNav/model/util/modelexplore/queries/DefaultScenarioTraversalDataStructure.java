@@ -34,6 +34,8 @@ import ucm.scenario.ScenarioStartPoint;
  * 
  * TODO: refine interface to offer public interface. 
  *   
+ * TODO: we are currently losing the source node connection when popping and pushing back. 
+ * 
  * @author jkealey
  *
  */

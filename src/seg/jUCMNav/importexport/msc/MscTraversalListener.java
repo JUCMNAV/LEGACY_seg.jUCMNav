@@ -23,6 +23,7 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.create.CreatePathCommand;
+import seg.jUCMNav.model.commands.delete.DeleteComponentRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategiesGroupCommand;
 import seg.jUCMNav.model.commands.delete.DeleteStrategyCommand;
@@ -30,7 +31,7 @@ import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
-import seg.jUCMNav.model.util.ArrayAndListUtils;
+import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.URNmodelElementIDComparator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -51,6 +52,7 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import ucm.scenario.EnumerationType;
@@ -62,7 +64,6 @@ import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Component;
-import urncore.ComponentKind;
 import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
@@ -84,8 +85,6 @@ import urncore.URNmodelElement;
  * 
  * TODO: andfork should have stub name if concurrency is started by endpoint. 
  *  
- * TODO: bind pathnodes to components to help autolayout, or add options to autolayout to do that on its own. 
- * 
  * @author jkealey
  * 
  */
@@ -104,9 +103,9 @@ public class MscTraversalListener implements ITraversalListener {
 	protected HashMap htThreadEnd;
 
 	protected HashMap htThreadStart;
-	protected URNspec urnspec;
-	
 	protected TraversalVisit lastUnblocked;
+	
+	protected URNspec urnspec;
 	
 	
 	public MscTraversalListener() {
@@ -126,12 +125,90 @@ public class MscTraversalListener implements ITraversalListener {
 		cs.execute(cmd);
 	}
 
+	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
+		IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
+		if (comp == null && def!=null) {
+			// create a new reference
+			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component)def).getKind().getValue(), htComponents.get(def));
+			// outside for autolayout
+			comp.setX(-1000);
+			comp.setY(-1000);
+			AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
+			cs.execute(cmd);
+
+			htComponentRefs.put(def, comp);
+		}
+		return comp;
+	}
+
 	protected void addMetaData(URNmodelElement pn, String name, String value) {
 		Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
 		data.setName(name);
 		data.setValue(value);
 		pn.getMetadata().add(data);
 
+	}
+
+	protected void cleanupComponentRefs() {
+		cs.execute(new TrimEmptyNodeCommand(currentMap));
+		
+		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
+			PathNode pn = (PathNode) iter.next();
+			if (pn instanceof AndFork) {
+				pn.setContRef(((NodeConnection)pn.getPred().get(0)).getSource().getContRef());
+			}
+			else if (pn instanceof AndJoin) {
+				pn.setContRef(((NodeConnection)pn.getSucc().get(0)).getTarget().getContRef());
+			}
+		}
+		
+		Vector toDelete = new Vector();
+		for (Iterator iter = currentMap.getContRefs().iterator(); iter.hasNext();) {
+			ComponentRef container = (ComponentRef) iter.next();
+			if (container.getChildren().size()==0 && container.getNodes().size()==0) {
+				toDelete.add(container);
+			}
+		}
+		for (Iterator iter = toDelete.iterator(); iter.hasNext();) {
+			ComponentRef container= (ComponentRef) iter.next();
+			cs.execute(new DeleteComponentRefCommand(container));
+		}
+	}
+
+	private void cleanupScenarios() {
+		Vector startPoints = new Vector();
+		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
+			PathNode pn = (PathNode) iter.next();
+			if (pn instanceof StartPoint) {
+				startPoints.add(pn);
+			} else if (pn instanceof EndPoint) {
+				ScenarioEndPoint sep = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioEndPoint.class);
+				sep.setEndPoint((EndPoint) pn);
+				sep.setScenarioDef(currentDestScenario);
+				sep.setEnabled(true);
+			}
+
+		}
+		Collections.sort(startPoints, new URNmodelElementIDComparator());
+
+		for (Iterator iter = startPoints.iterator(); iter.hasNext();) {
+			StartPoint pn = (StartPoint) iter.next();
+			ScenarioStartPoint ssp = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioStartPoint.class);
+			ssp.setStartPoint(pn);
+			ssp.setScenarioDef(currentDestScenario);
+			ssp.setEnabled(true);
+		}
+
+		CompoundCommand compound = new CompoundCommand();
+		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup g = (ScenarioGroup) iter.next();
+
+			// if is in use, won't delete.
+			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
+			if (cmd.canExecute())
+				compound.add(cmd);
+		}
+		cs.execute(compound);
 	}
 
 	protected void cloneComponents(ScenarioDef scenario) {
@@ -191,6 +268,7 @@ public class MscTraversalListener implements ITraversalListener {
 		currentDestScenario = dest;
 	}
 
+
 	protected void cloneScenarioDataModel(ScenarioDef scenario) {
 
 		for (Iterator iter = scenario.getGroup().getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
@@ -227,32 +305,41 @@ public class MscTraversalListener implements ITraversalListener {
 
 	public void codeExecuted(TraversalVisit visit, String code) {
 		// is null in scenario initializations
-		if (visit == null)
-			System.out.println("Executed code: " + code);
-		else
-			System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
+//		if (visit == null)
+//			System.out.println("Executed code: " + code);
+//		else
+//			System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
 
 	}
 
-	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result) {
+	public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result) {
+		String condition = original_condition==null || original_condition.getExpression()==null ?Boolean.toString(result):original_condition.getExpression();
+		
 		Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
 		cond.setExpression(condition);
 
 		// is null in scenario pre/post conditions
 		if (visit == null) {
-			System.out.println("Condition (" + condition + ") evaluated to " + result);
+			//System.out.println("Condition (" + condition + ") evaluated to " + result);
 
 			if (currentMap.getNodes().size() == 0)
 				currentDestScenario.getPreconditions().add(cond);
 			else
 				currentDestScenario.getPostconditions().add(cond);
 		} else {
-			System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
+			//System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
 
 			// don't show tautologies or ignored conditions (paths that were not taken)
 			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
 				WaitingPlace wait = createWaitingPlace(visit);
-				wait.setName((visit.getVisitedElement()).getName());
+				
+				
+				if (original_condition!=null && original_condition.getLabel()!=null && original_condition.getLabel().length()>0)
+					wait.setName(original_condition.getLabel());
+				else
+					wait.setName((visit.getVisitedElement()).getName());
+				
+				wait.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
 				NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
 				nc.setCondition(cond);
 
@@ -290,41 +377,13 @@ public class MscTraversalListener implements ITraversalListener {
 		return respref;
 	}
 
-	protected void setComponentRef(PathNode pn, TraversalVisit visit) {
-		if (visit.getParentComponentRef() != null) {
-			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
-			pn.setContRef(comp);
-			
-			// bind parents. 
-			for (int i=1;i<visit.getParentComponentRefs().size();i++)
-			{
-				IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
-				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i-1)).getContDef();
-				IURNContainerRef parent = addCompRefIfAbsent(origparent);
-				IURNContainerRef child = addCompRefIfAbsent(origchild);
-				if (parent!=child)
-					child.setParent(parent);
-			}
+	private Timer createTimer(TraversalVisit visit) {
+		Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
 
-		}
+		extendPathAndInsert(visit, timer, true);
+
+		return timer;
 	}
-
-	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
-		IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
-		if (comp == null) {
-			// create a new reference
-			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component)def).getKind().getValue(), htComponents.get(def));
-			// outside for autolayout
-			comp.setX(-1000);
-			comp.setY(-1000);
-			AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
-			cs.execute(cmd);
-
-			htComponentRefs.put(def, comp);
-		}
-		return comp;
-	}
-
 	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
 		WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
 
@@ -372,7 +431,7 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void newThreadStarted(TraversalVisit visit) {
-		System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
+		//System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
 
 		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
 		cs.execute(cmd);
@@ -384,17 +443,17 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void pathNodeAborted(TraversalVisit visit) {
-		System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 	}
 
 	public void pathNodeAttempted(TraversalVisit visit) {
-		System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 	}
-
+	
 	public void pathNodeBlocked(TraversalVisit visit) {
-		System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		// TODO: no, we want to add a waiting place if we block and continue because of condition instead of path.
 		// PathNode n = (PathNode) visit.getVisitedElement();
@@ -404,15 +463,16 @@ public class MscTraversalListener implements ITraversalListener {
 		// }
 
 	}
-	
+
 	public void pathNodeUnblocked(TraversalVisit visit) {
-		System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		lastUnblocked = visit;
+		
 	}
 
 	public void pathNodeVisited(TraversalVisit visit) {
-		System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		PathNode n = visit.getVisitedElement();
 		if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
@@ -429,6 +489,7 @@ public class MscTraversalListener implements ITraversalListener {
 			setComponentRef(pn, visit);
 
 		}
+
 	}
 
 	private void resetCloneId(URNmodelElement clone) {
@@ -437,13 +498,46 @@ public class MscTraversalListener implements ITraversalListener {
 		clone.setName(name);
 	}
 
+	private void saveModel() {
+		try {
+			UrnModelManager manager = new UrnModelManager();
+
+			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+					.getFullPath().removeLastSegments(1).append("__msctemp.jucm");
+			manager.createURNspec(path, urnspec);
+			manager.save(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	protected void setComponentRef(PathNode pn, TraversalVisit visit) {
+		if (visit.getParentComponentRef() != null) {
+			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
+			pn.setContRef(comp);
+			
+			// bind parents. 
+			for (int i=1;i<visit.getParentComponentRefs().size();i++)
+			{
+				IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
+				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i-1)).getContDef();
+				IURNContainerRef parent = addCompRefIfAbsent(origparent);
+				IURNContainerRef child = addCompRefIfAbsent(origchild);
+				if (parent!=child)
+					child.setParent(parent);
+			}
+
+		}
+	}
+
 	public void threadDied(int threadId) {
-		System.out.println("Thread " + threadId + " died");
+		//System.out.println("Thread " + threadId + " died");
 
 	}
 
 	public void threadsMerged(List oldThreadIDs, int newThreadID) {
-		System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
+	//	System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
 
 		AndJoin andjoin = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
 		StartPoint sp = (StartPoint) extendPathAndInsert(newThreadID, andjoin, false);
@@ -472,7 +566,7 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void threadSplit(int oldThreadID, List newThreadIDs) {
-		System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
+		//System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
 
 		AndFork andfork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
 		EndPoint ep = (EndPoint) extendPathAndInsert(oldThreadID, andfork, true);
@@ -495,75 +589,34 @@ public class MscTraversalListener implements ITraversalListener {
 
 	}
 
+
 	public void timerTimeout(TraversalVisit visit) {
-		System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		//System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		if (visit.getVisitedElement() instanceof Timer) {
+			Timer timer = createTimer(visit);
+			timer.setName(visit.getVisitedElement().getName() + " Timeout");
+			addMetaData(timer, "ID", visit.getVisitedElement().getId());
+			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
+			cond.setExpression("true");
+			((NodeConnection)timer.getSucc().get(0)).setCondition(cond);
+		}
 
 	}
 
 	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
-		System.out.println("Traversal ended: " + scenario.toString());
+		//System.out.println("Traversal ended: " + scenario.toString());
 
 		cleanupScenarios();
 
 		// TODO: get rid of unused definitions.
 
+		cleanupComponentRefs();		
 		saveModel();
 
 	}
 
-
-	private void cleanupScenarios() {
-		Vector startPoints = new Vector();
-		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
-			PathNode pn = (PathNode) iter.next();
-			if (pn instanceof StartPoint) {
-				startPoints.add(pn);
-			} else if (pn instanceof EndPoint) {
-				ScenarioEndPoint sep = (ScenarioEndPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioEndPoint.class);
-				sep.setEndPoint((EndPoint) pn);
-				sep.setScenarioDef(currentDestScenario);
-				sep.setEnabled(true);
-			}
-
-		}
-		Collections.sort(startPoints, new URNmodelElementIDComparator());
-
-		for (Iterator iter = startPoints.iterator(); iter.hasNext();) {
-			StartPoint pn = (StartPoint) iter.next();
-			ScenarioStartPoint ssp = (ScenarioStartPoint) ModelCreationFactory.getNewObject(urnspec, ScenarioStartPoint.class);
-			ssp.setStartPoint(pn);
-			ssp.setScenarioDef(currentDestScenario);
-			ssp.setEnabled(true);
-		}
-
-		CompoundCommand compound = new CompoundCommand();
-		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup g = (ScenarioGroup) iter.next();
-
-			// if is in use, won't delete.
-			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
-			if (cmd.canExecute())
-				compound.add(cmd);
-		}
-		cs.execute(compound);
-	}
-
-	private void saveModel() {
-		try {
-			UrnModelManager manager = new UrnModelManager();
-
-			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-					.getFullPath().removeLastSegments(1).append("__msctemp.jucm");
-			manager.createURNspec(path, urnspec);
-			manager.save(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
-		System.out.println("Traversal started: " + scenario.toString());
+		//System.out.println("Traversal started: " + scenario.toString());
 
 		htThreadEnd = new HashMap();
 		htThreadStart = new HashMap();

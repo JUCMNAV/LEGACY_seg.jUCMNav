@@ -9,6 +9,7 @@ import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.scenario.ScenarioDef;
+import urncore.Condition;
 
 /**
  * Contains a list of ITraversalListeners and the boilerplate code to notify them all.
@@ -27,7 +28,7 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		this._warnings = warnings;
 	}
 
-	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result) {
+	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {

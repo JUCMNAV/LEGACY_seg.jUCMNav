@@ -563,7 +563,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			NodeConnection nc = (NodeConnection) iter.next();
 			try {
 				Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
-				_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?"true":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+				_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
 				
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
@@ -676,7 +676,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 				try {
 					Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
-					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(binding.getPrecondition())?"true":binding.getPrecondition().getExpression(), Boolean.TRUE.equals(result));
+					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(binding.getPrecondition())?null:binding.getPrecondition(), Boolean.TRUE.equals(result));
 					if (Boolean.TRUE.equals(result)) {
 
 						for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
@@ -760,7 +760,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 			// not using default behaviour. want to make sure we are blocked
 			if (nc.getCondition()==null) result=Boolean.FALSE;
 			
-			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?"false":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
 			
 			if (Boolean.TRUE.equals(result)) {
 				_traversalData.visitNodeConnection(nc);
@@ -775,7 +775,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 					// not using default behaviour. want to make sure we are blocked
 					if (nc.getCondition()==null) result=Boolean.FALSE;
 
-					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?"false":nc.getCondition().getExpression(), Boolean.TRUE.equals(result));
+					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
 					
 					// if we can take the timeout path
 					if (Boolean.TRUE.equals(result)) {
@@ -844,7 +844,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	protected boolean testCondition(UcmEnvironment env, Condition cond, Boolean expected, String errorMessage) throws TraversalException {
 		try {
 			Object result = ScenarioUtils.evaluate(cond, env);
-			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(result));
+			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond)?null:cond, Boolean.TRUE.equals(result));
 			if (!expected.equals(result)) {
 				TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);
 				warning.setCondition(cond);

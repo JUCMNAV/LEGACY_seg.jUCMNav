@@ -224,7 +224,7 @@ public class ScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
-					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(res));
+					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond)?null:cond, Boolean.TRUE.equals(res));
 					
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
@@ -264,7 +264,7 @@ public class ScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
-					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond)?"true":cond.getExpression(), Boolean.TRUE.equals(res));
+					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond)?null:cond, Boolean.TRUE.equals(res));
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
 							TraversalWarning warning = new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.Precondition") + URNNamingHelper.getName(cond) + Messages.getString("DefaultScenarioTraversalAlgorithm.IsFalse") + cond.getExpression() + Messages.getString("DefaultScenarioTraversalAlgorithm.EvaluatesToFalse"), scenario,IMarker.SEVERITY_ERROR); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

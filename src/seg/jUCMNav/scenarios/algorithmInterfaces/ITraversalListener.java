@@ -5,6 +5,7 @@ import java.util.List;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.scenario.ScenarioDef;
+import urncore.Condition;
 
 /**
  * Interface to be implemented by scenario traversal listeners. 
@@ -29,7 +30,7 @@ public interface ITraversalListener {
 	 * @param condition What condition did we evaluate?
 	 * @param result Was it true or false?
 	 */
-	public void conditionEvaluated(TraversalVisit visit, String condition, boolean result );
+	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result );
 	
 	/**
 	 * When traversing this element, we started a new thread. The ThreadID can be obtained by querying the TraversalVisit. 
