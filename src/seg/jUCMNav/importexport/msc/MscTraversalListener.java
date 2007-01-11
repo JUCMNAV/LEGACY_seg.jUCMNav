@@ -76,16 +76,16 @@ import urncore.URNmodelElement;
 /**
  * A traversal listener that will generate MSCs.
  * 
- * TODO: synchronous connects -> empty responsibility 
+ * TODO: synchronous connects -> empty responsibility
  * 
- * TODO: in/out binding traversal -> synchronous connect or responsibility 
+ * TODO: in/out binding traversal -> synchronous connect or responsibility
  * 
  * TODO: filter unused definitions (resp/comp) + scenario groups.
  * 
  * TODO: timeouts
  * 
- * TODO: andfork should have stub name if concurrency is started by endpoint. 
- *  
+ * TODO: andfork should have stub name if concurrency is started by endpoint.
+ * 
  * @author jkealey
  * 
  */
@@ -105,14 +105,15 @@ public class MscTraversalListener implements ITraversalListener {
 
 	protected HashMap htThreadStart;
 	protected TraversalVisit lastUnblocked;
-	
+
 	protected URNspec urnspec;
-	
-	
+
 	public MscTraversalListener() {
 
 		htScenarioToMap = new HashMap();
 		urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+		urnspec.setDescription(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
+
 		cs = new CommandStack();
 
 		// get rid of default scenario/scenariogroup
@@ -128,9 +129,10 @@ public class MscTraversalListener implements ITraversalListener {
 
 	private IURNContainerRef addCompRefIfAbsent(IURNContainer def) {
 		IURNContainerRef comp = (IURNContainerRef) htComponentRefs.get(def);
-		if (comp == null && def!=null) {
+		if (comp == null && def != null) {
 			// create a new reference
-			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component)def).getKind().getValue(), htComponents.get(def));
+			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component) def).getKind().getValue(), htComponents
+					.get(def));
 			// outside for autolayout
 			comp.setX(-1000);
 			comp.setY(-1000);
@@ -152,26 +154,25 @@ public class MscTraversalListener implements ITraversalListener {
 
 	protected void cleanupComponentRefs() {
 		cs.execute(new TrimEmptyNodeCommand(currentMap));
-		
+
 		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
 			PathNode pn = (PathNode) iter.next();
 			if (pn instanceof AndFork) {
-				pn.setContRef(((NodeConnection)pn.getPred().get(0)).getSource().getContRef());
-			}
-			else if (pn instanceof AndJoin) {
-				pn.setContRef(((NodeConnection)pn.getSucc().get(0)).getTarget().getContRef());
+				pn.setContRef(((NodeConnection) pn.getPred().get(0)).getSource().getContRef());
+			} else if (pn instanceof AndJoin) {
+				pn.setContRef(((NodeConnection) pn.getSucc().get(0)).getTarget().getContRef());
 			}
 		}
-		
+
 		Vector toDelete = new Vector();
 		for (Iterator iter = currentMap.getContRefs().iterator(); iter.hasNext();) {
 			ComponentRef container = (ComponentRef) iter.next();
-			if (container.getChildren().size()==0 && container.getNodes().size()==0) {
+			if (container.getChildren().size() == 0 && container.getNodes().size() == 0) {
 				toDelete.add(container);
 			}
 		}
 		for (Iterator iter = toDelete.iterator(); iter.hasNext();) {
-			ComponentRef container= (ComponentRef) iter.next();
+			ComponentRef container = (ComponentRef) iter.next();
 			cs.execute(new DeleteComponentRefCommand(container));
 		}
 	}
@@ -269,7 +270,6 @@ public class MscTraversalListener implements ITraversalListener {
 		currentDestScenario = dest;
 	}
 
-
 	protected void cloneScenarioDataModel(ScenarioDef scenario) {
 
 		for (Iterator iter = scenario.getGroup().getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
@@ -306,40 +306,40 @@ public class MscTraversalListener implements ITraversalListener {
 
 	public void codeExecuted(TraversalVisit visit, String code) {
 		// is null in scenario initializations
-//		if (visit == null)
-//			System.out.println("Executed code: " + code);
-//		else
-//			System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
+		// if (visit == null)
+		// System.out.println("Executed code: " + code);
+		// else
+		// System.out.println("Executed code: " + code + " in thread " + visit.getThreadID());
 
 	}
 
 	public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result) {
-		String condition = original_condition==null || original_condition.getExpression()==null ?Boolean.toString(result):original_condition.getExpression();
-		
+		String condition = original_condition == null || original_condition.getExpression() == null ? Boolean.toString(result) : original_condition
+				.getExpression();
+
 		Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
 		cond.setExpression(condition);
 
 		// is null in scenario pre/post conditions
 		if (visit == null) {
-			//System.out.println("Condition (" + condition + ") evaluated to " + result);
+			// System.out.println("Condition (" + condition + ") evaluated to " + result);
 
 			if (currentMap.getNodes().size() == 0)
 				currentDestScenario.getPreconditions().add(cond);
 			else
 				currentDestScenario.getPostconditions().add(cond);
 		} else {
-			//System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
+			// System.out.println("Condition (" + condition + ") evaluated to " + result + " in thread " + visit.getThreadID());
 
 			// don't show tautologies or ignored conditions (paths that were not taken)
 			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
 				WaitingPlace wait = createWaitingPlace(visit);
-				
-				
-				if (original_condition!=null && original_condition.getLabel()!=null && original_condition.getLabel().length()>0)
+
+				if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
 					wait.setName(original_condition.getLabel());
 				else
 					wait.setName((visit.getVisitedElement()).getName());
-				
+
 				wait.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
 				NodeConnection nc = (NodeConnection) wait.getSucc().get(0);
 				nc.setCondition(cond);
@@ -385,6 +385,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 		return timer;
 	}
+
 	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
 		WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
 
@@ -423,7 +424,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 		ReplaceEmptyPointCommand cmd2 = new ReplaceEmptyPointCommand(empty, pn);
 		cs.execute(cmd2);
-		
+
 		return extremity;
 	}
 
@@ -432,29 +433,29 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void newThreadStarted(TraversalVisit visit) {
-		//System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
+		// System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
 
 		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
 		cs.execute(cmd);
-		cmd.getStart().setName(((PathNode)visit.getVisitedElement()).getName());
+		cmd.getStart().setName(((PathNode) visit.getVisitedElement()).getName());
 		setComponentRef(cmd.getStart(), visit);
-		
+
 		htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());
 		htThreadEnd.put(new Integer(visit.getThreadID()), cmd.getEnd());
 	}
 
 	public void pathNodeAborted(TraversalVisit visit) {
-		//System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Aborted node in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 	}
 
 	public void pathNodeAttempted(TraversalVisit visit) {
-		//System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 	}
-	
+
 	public void pathNodeBlocked(TraversalVisit visit) {
-		//System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Node could not continue and was blocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		// TODO: no, we want to add a waiting place if we block and continue because of condition instead of path.
 		// PathNode n = (PathNode) visit.getVisitedElement();
@@ -466,24 +467,23 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void pathNodeUnblocked(TraversalVisit visit) {
-		//System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Node was unblocked in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		lastUnblocked = visit;
-		
+
 	}
 
 	public void pathNodeVisited(TraversalVisit visit) {
-		//System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Node was traversed successfully in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
 		PathNode n = visit.getVisitedElement();
 		if (!(n instanceof EmptyPoint || n instanceof DirectionArrow || n instanceof OrJoin || n instanceof OrFork || n instanceof Connect
 				|| n instanceof StartPoint || n instanceof EndPoint || n instanceof Stub || n instanceof AndFork || n instanceof AndJoin || n instanceof WaitingPlace)) {
 
 			createRespRef(visit);
-		} 
-		
-		if (n instanceof EndPoint)
-		{
+		}
+
+		if (n instanceof EndPoint) {
 			PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
 			pn.setName(n.getName());
 
@@ -511,9 +511,9 @@ public class MscTraversalListener implements ITraversalListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		cs.execute(new MakeWellFormedCommand(urnspec));
-		
+
 		try {
 			UrnModelManager manager = new UrnModelManager();
 
@@ -525,21 +525,27 @@ public class MscTraversalListener implements ITraversalListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+				.getLocation().removeLastSegments(1).append("__msctemp.xml");
+
+		MscGenerator gen = new MscGenerator(urnspec);
+		gen.save(path);
+
 	}
 
 	protected void setComponentRef(PathNode pn, TraversalVisit visit) {
 		if (visit.getParentComponentRef() != null) {
 			IURNContainerRef comp = addCompRefIfAbsent(visit.getParentComponentDef());
 			pn.setContRef(comp);
-			
-			// bind parents. 
-			for (int i=1;i<visit.getParentComponentRefs().size();i++)
-			{
+
+			// bind parents.
+			for (int i = 1; i < visit.getParentComponentRefs().size(); i++) {
 				IURNContainer origparent = ((ComponentRef) visit.getParentComponentRefs().get(i)).getContDef();
-				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i-1)).getContDef();
+				IURNContainer origchild = ((ComponentRef) visit.getParentComponentRefs().get(i - 1)).getContDef();
 				IURNContainerRef parent = addCompRefIfAbsent(origparent);
 				IURNContainerRef child = addCompRefIfAbsent(origchild);
-				if (parent!=child)
+				if (parent != child)
 					child.setParent(parent);
 			}
 
@@ -547,17 +553,17 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void threadDied(int threadId) {
-		//System.out.println("Thread " + threadId + " died");
+		// System.out.println("Thread " + threadId + " died");
 
 	}
 
 	public void threadsMerged(List oldThreadIDs, int newThreadID) {
-	//	System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
+		// System.out.println("Threads " + ArrayAndListUtils.listToString(oldThreadIDs, ",") + " were merged into thread " + newThreadID);
 
 		AndJoin andjoin = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
 		StartPoint sp = (StartPoint) extendPathAndInsert(newThreadID, andjoin, false);
-		
-		if (lastUnblocked!=null) {
+
+		if (lastUnblocked != null) {
 			andjoin.setName(lastUnblocked.getVisitedElement().getName());
 			NodeLabel lbl = (NodeLabel) ModelCreationFactory.getNewObject(urnspec, NodeLabel.class);
 			lbl.setNode(andjoin);
@@ -581,7 +587,7 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	public void threadSplit(int oldThreadID, List newThreadIDs) {
-		//System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
+		// System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
 
 		AndFork andfork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
 		EndPoint ep = (EndPoint) extendPathAndInsert(oldThreadID, andfork, true);
@@ -604,34 +610,33 @@ public class MscTraversalListener implements ITraversalListener {
 
 	}
 
-
 	public void timerTimeout(TraversalVisit visit) {
-		//System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+		// System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 		if (visit.getVisitedElement() instanceof Timer) {
 			Timer timer = createTimer(visit);
 			timer.setName(visit.getVisitedElement().getName() + " Timeout");
 			addMetaData(timer, "ID", visit.getVisitedElement().getId());
 			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
 			cond.setExpression("true");
-			((NodeConnection)timer.getSucc().get(0)).setCondition(cond);
+			((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
 		}
 
 	}
 
 	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
-		//System.out.println("Traversal ended: " + scenario.toString());
+		// System.out.println("Traversal ended: " + scenario.toString());
 
 		cleanupScenarios();
 
 		// TODO: get rid of unused definitions.
 
-		cleanupComponentRefs();		
+		cleanupComponentRefs();
 		saveModel();
 
 	}
 
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
-		//System.out.println("Traversal started: " + scenario.toString());
+		// System.out.println("Traversal started: " + scenario.toString());
 
 		htThreadEnd = new HashMap();
 		htThreadStart = new HashMap();
@@ -650,6 +655,9 @@ public class MscTraversalListener implements ITraversalListener {
 		// first scenario
 		if (htScenarioToMap.size() == 0) {
 			htScenarioToMap.put(scenario, (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0));
+
+			urnspec.setName(scenario.getGroup().getUcmspec().getUrnspec().getName());
+			urnspec.setSpecVersion(scenario.getGroup().getUcmspec().getUrnspec().getSpecVersion());
 
 			cloneScenarioDataModel(scenario);
 
