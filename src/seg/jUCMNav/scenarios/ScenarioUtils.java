@@ -19,6 +19,7 @@ import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
+import ucm.UCMspec;
 import ucm.map.RespRef;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -127,11 +128,11 @@ public class ScenarioUtils {
 			return isEmptyResponsibility(resp.getExpression());
 	}	
 	
-	public static ScenarioDef getActiveScenario(EObject obj)
+	public static EObject getActiveScenario(EObject obj)
 	{
 		UcmEnvironment initial = getEnvironment(obj);
 		if (activeScenario.containsKey(initial))
-			return (ScenarioDef) activeScenario.get(initial);
+			return (EObject) activeScenario.get(initial); // can be ScenarioDef, ScenarioGroup or UCMspec
 		else
 			return null;
 	}
@@ -471,6 +472,11 @@ public class ScenarioUtils {
 	
 	public static void setActiveScenario(ScenarioDef scenario)
 	{
+		traverse(scenario);
+		
+	}
+
+	protected static void traverse(EObject scenario) {
 		try {
 			if (scenario==null) {
 				System.out.println("Use clearActiveScenario instead"); //$NON-NLS-1$
@@ -482,7 +488,15 @@ public class ScenarioUtils {
 			activeScenario.put(initial, scenario);
 			UcmEnvironment forTraversal = (UcmEnvironment) initial.clone();
 			
-			ScenarioTraversalAlgorithm algo = new ScenarioTraversalAlgorithm(forTraversal, scenario);
+			ScenarioTraversalAlgorithm algo=null;
+			if (scenario instanceof ScenarioDef)
+				algo = new ScenarioTraversalAlgorithm(forTraversal, (ScenarioDef) scenario);
+			else if (scenario instanceof ScenarioGroup)
+				algo = new ScenarioTraversalAlgorithm(forTraversal, (ScenarioGroup) scenario);
+			else if (scenario instanceof UCMspec)
+				algo = new ScenarioTraversalAlgorithm(forTraversal, (UCMspec) scenario);
+			
+			assert algo!=null;
 			traversals.put(initial, algo);
 
 			algo.traverse();
@@ -492,8 +506,14 @@ public class ScenarioUtils {
 		} catch (TraversalException e) {
 			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
 		}
-		
 	}
-		
 	
+	public static void setActiveScenario(ScenarioGroup group)
+	{
+		traverse(group);
+	}		
+	public static void setActiveScenario(UCMspec ucm)
+	{
+		traverse(ucm);
+	}	
 }

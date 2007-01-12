@@ -23,6 +23,7 @@ import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
+import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 
 /**
@@ -131,6 +132,10 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);            
 
         action = getActionRegistry().getAction(AddPrePostConditionAction.ADDPOSTCONDITIONACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+        action = getActionRegistry().getAction(RunAllScenariosAction.RUNALLSCENARIOS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
         

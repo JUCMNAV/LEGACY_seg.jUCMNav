@@ -14,4 +14,9 @@ public class TraversalResult {
 	public void incrementHitCount() {
 		hitCount++;
 	}
+	
+	
+	public void merge (TraversalResult res) {
+		hitCount += res.getHitCount();
+	}
 }

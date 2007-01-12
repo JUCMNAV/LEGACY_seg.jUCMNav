@@ -68,6 +68,7 @@ import seg.jUCMNav.actions.scenarios.DuplicateAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 import seg.jUCMNav.actions.scenarios.IncludeScenarioAction;
 import seg.jUCMNav.actions.scenarios.MoveAction;
+import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 
@@ -394,6 +395,10 @@ public class ActionRegistryManager {
         
         action = new EditMetadataAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);   
+
+        action = new RunAllScenariosAction((IWorkbenchPart)editor);
+        action.setText("Run all scenarios in Group");
         addEditPartAction((SelectionAction) action);   
 
     }
