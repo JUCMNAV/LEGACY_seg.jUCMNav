@@ -50,6 +50,8 @@ this file is kept here with the information necessary for a good build by cruise
 		<include name="org.eclipse.swt*.jar" />
 		<include name="org.eclipse.ui*.jar" />
 		<include name="org.eclipse.update*.jar" />
+		<include name="../lib/jdom.jar" />
+
 	</patternset>
 	
 	<target name="testenv" depends="init">
@@ -76,7 +78,7 @@ this file is kept here with the information necessary for a good build by cruise
 		<property name="updatesite.features" value="${updatesite.destination}/features" />
 		<property name="updatesite.plugins" value="${updatesite.destination}/plugins" />
 
-		<condition property="env.ECLIPSE_HOME" value="c:/jason/eclipse/">
+		<condition property="env.ECLIPSE_HOME" value="C:/work/cruisecontrol/testing/test-eclipse/eclipse">
 			<and>
 				<!-- If on windows, set a default ECLIPSE_HOME to c:/eclipse, don't overwrite if existing -->
 				<os family="windows" />
