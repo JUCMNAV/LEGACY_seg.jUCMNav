@@ -50,10 +50,10 @@ this file is kept here with the information necessary for a good build by cruise
 		<include name="org.eclipse.swt*.jar" />
 		<include name="org.eclipse.ui*.jar" />
 		<include name="org.eclipse.update*.jar" />
-		<include name="../lib/jdom.jar" />
-
 	</patternset>
-	
+	<patternset id="jucmnav.lib.classpath">
+		<include name="lib/*.jar" />
+	</patternset>	
 	<target name="testenv" depends="init">
 		<echo>Eclipse Home: ${eclipsehome}</echo>
 		<fileset id="test.classpath" dir="${eclipsehome}/plugins/">
@@ -61,6 +61,11 @@ this file is kept here with the information necessary for a good build by cruise
 		</fileset>
 		<property name="testcp" refid="test.classpath" />
 		<echo>Classpath: ${testcp}</echo>
+		<fileset id="test.lib.classpath" dir="${basedir}/">
+			<patternset refid="jucmnav.lib.classpath" />
+		</fileset>
+		<property name="testlibcp" refid="test.lib.classpath" />
+		<echo>Lib Classpath: ${testlibcp}</echo>
 	</target>
 
 	<target name="init" depends="properties">
@@ -166,6 +171,9 @@ this file is kept here with the information necessary for a good build by cruise
 				<fileset dir="${eclipsehome}/plugins/">
 					<patternset refid="jucmnav.classpath" />
 				</fileset>
+				<fileset dir="${basedir}/">
+					<patternset refid="jucmnav.lib.classpath" />
+				</fileset>
 			</classpath>
 			<src path="src/"			/>
 			</javac>
@@ -214,6 +222,9 @@ this file is kept here with the information necessary for a good build by cruise
 				
 				<fileset dir="${eclipsehome}/plugins/">
 					<patternset refid="jucmnav.classpath" />
+				</fileset>
+				<fileset dir="${basedir}/">
+					<patternset refid="jucmnav.lib.classpath" />
 				</fileset>
 			</classpath>
 	</javadoc>
