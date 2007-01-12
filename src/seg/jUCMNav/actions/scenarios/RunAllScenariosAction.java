@@ -3,6 +3,8 @@
  */
 package seg.jUCMNav.actions.scenarios;
 
+import java.util.Iterator;
+
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
@@ -15,6 +17,7 @@ import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.EnumerationTypeTreeEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.VariableListTreeEditPart;
 import seg.jUCMNav.scenarios.ScenarioUtils;
+import ucm.scenario.ScenarioGroup;
 
 /**
  * Runs all scenarios in a group, or all scenarios if the top level folder is selected. 
@@ -40,14 +43,28 @@ public class RunAllScenariosAction extends SelectionAction {
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getUCMspec()!=null && sel.getScenario()==null && (sel.getScenarioGroup()!=null || (sel.getScenarioGroup()==null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart) && !(getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart)));
+        boolean b = sel.getUrnspec() != null && sel.getUCMspec()!=null && sel.getScenario()==null && (sel.getScenarioGroup()!=null || (sel.getScenarioGroup()==null && getSelectedObjects().size()==1 && !(getSelectedObjects().get(0) instanceof VariableListTreeEditPart) && !(getSelectedObjects().get(0) instanceof EnumerationTypeTreeEditPart)));
+        if (!b)  return false;
+        
+        if (sel.getScenarioGroup() != null)
+			return sel.getScenarioGroup().getScenarios().size() > 0;
+		else {
+			for (Iterator iter = sel.getUCMspec().getScenarioGroups().iterator(); iter.hasNext();) {
+				ScenarioGroup group  = (ScenarioGroup) iter.next();
+				if (group.getScenarios().size()>0)
+					return true;
+			}
+			
+			return false;
+		}
     }
     
 
-    /** Runs all the scenarios
-     * 
-     *
-     */
+    /**
+	 * Runs all the scenarios
+	 * 
+	 * 
+	 */
     public void run() {
     	UCMNavMultiPageEditor multieditor = (UCMNavMultiPageEditor) getWorkbenchPart();
     	SelectionHelper sel = new SelectionHelper(getSelectedObjects());
