@@ -504,7 +504,7 @@ public class MscTraversalListener implements ITraversalListener {
 			UrnModelManager manager = new UrnModelManager();
 
 			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-					.getFullPath().removeLastSegments(1).append("__msctemp.jucm");
+					.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucm");
 			manager.createURNspec(path, urnspec);
 			manager.save(path);
 		} catch (IOException e) {
@@ -518,7 +518,7 @@ public class MscTraversalListener implements ITraversalListener {
 			UrnModelManager manager = new UrnModelManager();
 
 			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-					.getFullPath().removeLastSegments(1).append("__msctemp2.jucm");
+					.getFullPath().removeLastSegments(1).append("__msctemp2_" + currentSrcScenario.getName() + ".jucm");
 			manager.createURNspec(path, urnspec);
 			manager.save(path);
 		} catch (IOException e) {
@@ -527,9 +527,10 @@ public class MscTraversalListener implements ITraversalListener {
 		}
 
 		IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-				.getLocation().removeLastSegments(1).append("__msctemp.xml");
+				.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucmscenarios");
 
-		MscGenerator gen = new MscGenerator(urnspec);
+		//MscGenerator gen = new MscGenerator(urnspec);
+		ScenarioGenerator gen = new ScenarioGenerator(urnspec);
 		gen.save(path);
 
 	}

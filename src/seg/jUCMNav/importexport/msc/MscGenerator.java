@@ -370,7 +370,7 @@ public class MscGenerator {
 		for (Iterator iter = map.getContRefs().iterator(); iter.hasNext();) {
 			ComponentRef element = (ComponentRef) iter.next();
 			// TODO: do something with role, it changes the name as well (name_role) 
-			instances.addContent(new Element("instance").setAttribute("id", "I" + element.getId()).setAttribute("name",  getDef(element).getName()).setAttribute("component", getDef(element).getName()).setAttribute("role", "").setAttribute("desc", getDef(element).getDescription()));
+			instances.addContent(new Element("instance").setAttribute("id", "I" + element.getId()).setAttribute("name",  fix(getDef(element).getName())).setAttribute("component", fix(getDef(element).getName())).setAttribute("role", "").setAttribute("desc", fix(getDef(element).getDescription())));
 		}
 		scenario.addContent(instances);
 	}

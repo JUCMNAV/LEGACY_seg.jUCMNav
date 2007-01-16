@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.importexport.msc.MscTraversalListener;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
@@ -196,7 +197,7 @@ public class ScenarioTraversalAlgorithm {
 		Vector listeners = new Vector();
 
 		// TODO: Load a list of listeners from extension point and preference store.
-		//listeners.add(new MscTraversalListener());
+		listeners.add(new MscTraversalListener());
 
 		traversalListeners = new ScenarioTraversalListenerList(listeners, warnings);
 		
