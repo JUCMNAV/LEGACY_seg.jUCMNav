@@ -3,17 +3,11 @@ package seg.jUCMNav.importexport.msc;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+import seg.jUCMNav.editors.resourceManagement.UcmScenariosModelManager;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
@@ -28,7 +22,6 @@ import ucm.map.StartPoint;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
-import ucm.map.impl.MapPackageImpl;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
@@ -375,6 +368,8 @@ public class ScenarioGenerator {
 			ComponentRef element = (ComponentRef) iter.next();
 			instance = f.createInstance();
 			setIdNameDesc(element, instance);
+			// refs have no useful names. 
+			instance.setName(((ComponentElement)element.getContDef()).getName());
 			instance.setScenario(scenario);
 			hmCompRefToInstance.put(element, instance);
 		}
@@ -408,66 +403,12 @@ public class ScenarioGenerator {
 		}
 	}
 	
-	/**
-     * Returns the resource containing the UCM. Uses lazy initialization.
-     * 
-     * @param path
-     * @return resource containing the UCM
-     */
-    public Resource getResource(IPath path) {
-        ResourceSet resSet = getResourceSet();
-        Resource resource = resSet.getResource(URI.createPlatformResourceURI(path.toString()), true);
-        
-        return resource;
-    }
-
-    /**
-     * Creates a resource to contain the UCM. The resource file does not exist yet.
-     * 
-     * @param path
-     * @return resource to contain the UCM
-     */
-    private Resource createResource(IPath path) {
-        ResourceSet resSet = getResourceSet();
-        Resource resource = resSet.createResource(URI.createPlatformResourceURI(path.toString()));
-        return resource;
-    }
-
-    /**
-     * Returns the resource set.
-     * 
-     * @return the resource set
-     */
-    private ResourceSet getResourceSet() {
-        // Initialize the ucm package
-        MapPackageImpl.init();
-        // Register the XMI resource factory for the .ucm extension
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map m = reg.getExtensionToFactoryMap();
-        m.put("jucmscenarios", new XMIResourceFactoryImpl()); 
-        // Obtain a new resource set
-        return new ResourceSetImpl();
-    }
+	
     
 	public void save(IPath path)
 	{
-		try {
-	        Resource resource = createResource(path);
-	        Map options = new HashMap();
-	        options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
-	        // latin 1
-	        options.put(XMIResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
-	                
-	        resource.getContents().add(getScenarioDocument());
-	        resource.save(options);
-			
-//		    XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-//			FileWriter writer = new FileWriter(path.toOSString());
-//			outputter.output(getScenarioDocument(), writer);
-//			writer.close();
-		} catch (java.io.IOException e) {
-		    e.printStackTrace();
-		}
+			UcmScenariosModelManager mgr = new UcmScenariosModelManager();
+			mgr.createScenarioSpec(path, getScenarioDocument());
 	}
 	
 	private Instance getInstance(ComponentRef comp) {
