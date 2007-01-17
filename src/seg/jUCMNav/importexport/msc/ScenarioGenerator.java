@@ -37,6 +37,7 @@ import ucmscenarios.UcmscenariosFactory;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Condition;
+import urncore.Metadata;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
@@ -78,20 +79,18 @@ public class ScenarioGenerator {
 			this.hmCompDefToComponent = new HashMap();
 			this.hmCompRefToInstance = new HashMap();
 
-//            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
-  //          String sDate = df.format(new Date());
-
             scenariospec = f.createScenarioSpec();
 
-			// TODO: read dates/specversion/naem from original URNspec
             scenariospec.setCreated(urnspec.getCreated());
             scenariospec.setModified(urnspec.getModified());
             scenariospec.setName(urnspec.getName());
             scenariospec.setSpecVersion(urnspec.getSpecVersion());
             scenariospec.setDescription(urnspec.getDescription());
-
-            // TODO: find filename. 
-            scenariospec.setFilename("");
+            
+            
+            
+            // TODO: stop using temporary field. 
+            scenariospec.setFilename(urnspec.getAuthor());
             
             // urnspec has no ID
             //scenariospec.setId("");
@@ -179,7 +178,7 @@ public class ScenarioGenerator {
 		{
 			// multiple paths started in parallel
 			Parallel par = f.createParallel();
-			seq.setParent(par);
+			par.setSequence(seq);
 
 			for (int i=0;i<in.getStartPoints().size();i++) {
 				ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
@@ -232,14 +231,14 @@ public class ScenarioGenerator {
 				if (i>0 && oldCompRef!=compRef) {
 					addMessage(seq, index, oldCompRef, compRef);
 				}
-				break;
+			//	break;
 			} else if (pn instanceof AndJoin) {
 				// stop here.
 				compRef = (ComponentRef)pn.getContRef();
 				if (i>0 && oldCompRef!=compRef) {
 					addMessage(seq, index, oldCompRef, compRef);
 				}
-				break;
+				//break;
 			}
 				
 			if (i>0 && oldCompRef!=compRef) {
@@ -271,18 +270,36 @@ public class ScenarioGenerator {
 		Event action = f.createEvent();
 
 		setIdNameDesc(pn, action);
-
+		ComponentRef compRef = (ComponentRef)pn.getContRef();
+		action.setInstance(getInstance(compRef));
+		action.setSequence(seq);
+		
 		if (pn instanceof StartPoint)
 			action.setType(EventType.START_POINT_LITERAL);
 		else if (pn instanceof EndPoint) 
 			action.setType(EventType.END_POINT_LITERAL);
-		else if (pn instanceof Timer)
+		else if (pn instanceof Timer) {
+			action.setType(EventType.TIMER_SET_LITERAL);
+			action.setName(getMetaData(pn, "name"));
+			action = f.createEvent();
 			action.setType(EventType.TIMEOUT_LITERAL);
+			setIdNameDesc(pn, action);
+			compRef = (ComponentRef)pn.getContRef();
+			action.setInstance(getInstance(compRef));
+			action.setSequence(seq);
+			
+		}
 		
-		ComponentRef compRef = (ComponentRef)pn.getContRef();
-		action.setInstance(getInstance(compRef));
-		action.setSequence(seq);
+
 		return compRef;
+	}
+	private String getMetaData(PathNode pn, String name) {
+		for (Iterator iter = pn.getMetadata().iterator(); iter.hasNext();) {
+			Metadata md = (Metadata) iter.next();
+			if (name.equalsIgnoreCase(md.getName()))
+				return md.getValue();
+		}
+		return null;
 	}
 	private ComponentRef addCondition(Sequence seq, WaitingPlace wp)
 	{
@@ -321,6 +338,7 @@ public class ScenarioGenerator {
 		
 		Parallel par = f.createParallel();
 		par.setSequence(seq);
+		par.setName(fork.getName());
 		ComponentRef compRef = (ComponentRef)fork.getContRef();
 		
 		for (int i=0;i<fork.getSucc().size();i++) {

@@ -112,7 +112,9 @@ public class MscTraversalListener implements ITraversalListener {
 
 		htScenarioToMap = new HashMap();
 		urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
-		urnspec.setDescription(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
+		
+		// TODO: find a better way to store this information. URNspec should have metadata. 
+		urnspec.setAuthor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
 
 		cs = new CommandStack();
 
@@ -201,6 +203,10 @@ public class MscTraversalListener implements ITraversalListener {
 			ssp.setEnabled(true);
 		}
 
+	
+	}
+
+	private void cleanupScenarioGroups() {
 		CompoundCommand compound = new CompoundCommand();
 		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
 			ScenarioGroup g = (ScenarioGroup) iter.next();
@@ -616,7 +622,9 @@ public class MscTraversalListener implements ITraversalListener {
 		if (visit.getVisitedElement() instanceof Timer) {
 			Timer timer = createTimer(visit);
 			timer.setName(visit.getVisitedElement().getName() + " Timeout");
+			
 			addMetaData(timer, "ID", visit.getVisitedElement().getId());
+			addMetaData(timer, "Name", visit.getVisitedElement().getName());
 			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
 			cond.setExpression("true");
 			((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
@@ -629,16 +637,24 @@ public class MscTraversalListener implements ITraversalListener {
 
 		cleanupScenarios();
 
+		cleanupComponentRefs();
+	}
+	
+	public void traversalEnded() {
+		cleanupScenarioGroups();
+		
+
 		// TODO: get rid of unused definitions.
 
-		cleanupComponentRefs();
-		saveModel();
 
+		saveModel();
 	}
 
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
 		// System.out.println("Traversal started: " + scenario.toString());
+		URNspec old = scenario.getGroup().getUcmspec().getUrnspec();
 
+		
 		htThreadEnd = new HashMap();
 		htThreadStart = new HashMap();
 		htComponentRefs = new HashMap();
@@ -655,17 +671,24 @@ public class MscTraversalListener implements ITraversalListener {
 
 		// first scenario
 		if (htScenarioToMap.size() == 0) {
-			htScenarioToMap.put(scenario, (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0));
-
-			urnspec.setName(scenario.getGroup().getUcmspec().getUrnspec().getName());
-			urnspec.setSpecVersion(scenario.getGroup().getUcmspec().getUrnspec().getSpecVersion());
+			UCMmap map =  (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(0);
+			htScenarioToMap.put(scenario, map);
+			map.setName(scenario.getName());
+			map.setDescription(scenario.getDescription());
+			
+			urnspec.setCreated(old.getCreated());
+			urnspec.setDescription(old.getDescription());
+			urnspec.setModified(old.getModified());
+			urnspec.setName(old.getName());
+			urnspec.setSpecVersion(old.getSpecVersion());
 
 			cloneScenarioDataModel(scenario);
 
 		} else if (!htScenarioToMap.containsKey(scenario)) { // new scenario
 			CreateMapCommand cmd = new CreateMapCommand(urnspec);
 			cs.execute(cmd);
-
+			cmd.getMap().setName(scenario.getName());
+			cmd.getMap().setDescription(scenario.getDescription());
 			htScenarioToMap.put(scenario, cmd.getMap());
 		}
 

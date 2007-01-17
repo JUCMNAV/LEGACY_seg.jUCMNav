@@ -165,6 +165,21 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		}
 
 	}
+	
+
+	public void traversalEnded() {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.traversalEnded();
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+
+	}
 
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {

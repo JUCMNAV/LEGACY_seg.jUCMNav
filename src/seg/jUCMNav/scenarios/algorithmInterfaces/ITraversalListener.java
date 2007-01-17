@@ -76,5 +76,6 @@ public interface ITraversalListener {
 	public void threadSplit(int oldThreadID, List newThreadIDs);
 	public void timerTimeout(TraversalVisit visit);
 	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario);
+	public void traversalEnded();
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario);
 }

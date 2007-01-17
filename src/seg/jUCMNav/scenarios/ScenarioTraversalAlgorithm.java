@@ -239,6 +239,9 @@ public class ScenarioTraversalAlgorithm {
 			// not going to happen.
 		}
 
+		
+		traversalListeners.traversalEnded();
+		
 		// always display warnings, even if we abort.
 		SyntaxChecker.refreshProblemsView(warnings);
 
