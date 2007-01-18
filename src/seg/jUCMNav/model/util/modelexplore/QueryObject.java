@@ -15,6 +15,8 @@ package seg.jUCMNav.model.util.modelexplore;
 public abstract class QueryObject {
     // Fields
     public static final String FINDREACHABLEENDPOINTS = "FINDREACHABLEENDPOINTS"; //$NON-NLS-1$
+    
+    public static final String FINDRESPONSIBILITIES = "FINDRESPONSIBILITIES"; //$NON-NLS-1$
 
     public static final String FINDREACHABLESTARTPOINTS = "FINDREACHABLESTARTPOINTS"; //$NON-NLS-1$
 

@@ -5,6 +5,7 @@ import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DeletionPathFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.ResponsibilityFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
 
 /**
@@ -34,6 +35,8 @@ public class GraphExplorer {
     private static DeletionPathFinder _deletionPathFinder;
     
     private static DefaultScenarioTraversal _defaultScenarioTraversal;
+    
+    private static ResponsibilityFinder _responsibilityFinder;
 
     /**
      * Singleton pattern.
@@ -47,6 +50,7 @@ public class GraphExplorer {
         _splineFinder = new ConnectionSplineFinder();
         _deletionPathFinder = new DeletionPathFinder();
         _defaultScenarioTraversal = new DefaultScenarioTraversal();
+        _responsibilityFinder = new ResponsibilityFinder();
 
         // setup query processing chain
         _chainHead = _spFinder;
@@ -55,7 +59,8 @@ public class GraphExplorer {
         _rnFinder.addChain(_splineFinder);
         _splineFinder.addChain(_deletionPathFinder);
         _deletionPathFinder.addChain(_defaultScenarioTraversal);
-        _defaultScenarioTraversal.addChain(null);
+        _defaultScenarioTraversal.addChain(_responsibilityFinder);
+        _responsibilityFinder.addChain(null);
     }
 
     /**

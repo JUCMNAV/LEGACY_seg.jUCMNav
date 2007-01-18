@@ -622,6 +622,7 @@ public class MscTraversalListener implements ITraversalListener {
 		if (visit.getVisitedElement() instanceof Timer) {
 			Timer timer = createTimer(visit);
 			timer.setName(visit.getVisitedElement().getName() + " Timeout");
+			setComponentRef(timer, visit);
 			
 			addMetaData(timer, "ID", visit.getVisitedElement().getId());
 			addMetaData(timer, "Name", visit.getVisitedElement().getName());
