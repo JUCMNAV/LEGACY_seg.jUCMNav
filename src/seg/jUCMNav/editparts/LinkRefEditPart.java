@@ -36,6 +36,7 @@ import seg.jUCMNav.editpolicies.feedback.ConnectionFeedbackEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import seg.jUCMNav.views.property.LinkRefPropertySource;
 import urncore.IURNDiagram;
 
@@ -288,14 +289,19 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
             Contribution contrib = (Contribution)getLinkRef().getLink();
             if (contrib.isCorrelation()){
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CORRELATION);
-            }else {
+            } else {
                 getLinkRefFigure().setType(LinkRefConnection.TYPE_CONTRIBUTION);
             }
             
             //Set the contribution Label
             String type = contrib.getContribution().getName();
             if (!type.equals("Unknown")){ //$NON-NLS-1$
-                contributionLabel.setText(type);
+            	
+                if (GeneralPreferencePage.getGrlTextVisible()) {
+                	contributionLabel.setText(type);
+                } else {
+                	contributionLabel.setText(""); //$NON-NLS-1$
+                }
                 
                 if (img != null) {
                     img.dispose();
@@ -315,7 +321,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                 } else if (type.equals("Break")){ //$NON-NLS-1$
                     img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage(); //$NON-NLS-1$
                 }
-                if (img != null){
+                if (img != null && GeneralPreferencePage.getGrlIconVisible()){
                     contributionLabel.setIcon(img);
                 }
                 contributionLabel.setVisible(true);                

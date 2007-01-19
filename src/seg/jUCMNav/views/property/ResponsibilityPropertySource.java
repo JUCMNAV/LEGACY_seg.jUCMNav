@@ -14,6 +14,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.RespRef;
@@ -123,7 +124,7 @@ public class ResponsibilityPropertySource extends URNElementPropertySource {
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory("Reference"); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
         descriptors.add(pd);
 
     }

@@ -172,7 +172,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		gd.horizontalSpan = 2;
 		label.setLayoutData(gd);
 
-		enumerationValues = new Text(container, SWT.BORDER | SWT.MULTI);
+		enumerationValues = new Text(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		enumerationValues.setLayoutData(gd);

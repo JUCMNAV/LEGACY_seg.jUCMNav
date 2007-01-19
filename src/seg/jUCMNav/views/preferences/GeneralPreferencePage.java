@@ -31,6 +31,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
+    public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
+    public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -66,8 +68,14 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);
         
+        BooleanFieldEditor grl_iconvisible = new BooleanFieldEditor(PREF_GRLICONVISIBLE, Messages.getString("GeneralPreferencePage.ShowGrlContribIcons"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(grl_iconvisible);
+        BooleanFieldEditor grl_textvisible = new BooleanFieldEditor(PREF_GRLTEXTVISIBLE, Messages.getString("GeneralPreferencePage.ShowGrlContribText"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(grl_textvisible);
+
         BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR, Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
+
     }
 
     /**
@@ -92,6 +100,20 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_STRICTCODEEDITOR); 
     }    
     
+    /**
+     * @return boolean TRUE if GRL contribution icons should be visible. 
+     */
+    public static boolean getGrlIconVisible(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLICONVISIBLE); 
+    }    
+    
+    /**
+     * @return boolean TRUE if GRL contribution text should be visible. 
+     */
+    public static boolean getGrlTextVisible(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLTEXTVISIBLE); 
+    }    
+
     public boolean performOk() {
     	
     	boolean b  = super.performOk();

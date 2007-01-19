@@ -26,6 +26,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
@@ -162,11 +163,11 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((IntentionalElement) list.get(i));
             if (values[i] == null)
-                values[i] = "[unnamed]"; //$NON-NLS-1$
+                values[i] = Messages.getString("IntentionalElementPropertySource.Unnamed");  //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
-        pd.setCategory("Reference"); //$NON-NLS-1$
+        pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$ 
         descriptors.add(pd);
 
     }
