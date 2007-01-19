@@ -1,18 +1,10 @@
 package seg.jUCMNav.editors.resourceManagement;
 
-import java.io.IOException;
-import java.util.HashMap;
+import java.io.File;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -28,60 +20,7 @@ import urn.URNspec;
  * 
  * @author Etienne Tremblay
  */
-public class UrnModelManager {
-    /**
-     * For the purpose of the simple editor, a file can only contain a UCM. In EMF, a resource provides the way to have access to the model content.
-     */
-    private Resource resource = null;
-
-    /**
-     * Gives access to the top level model element contained in the resource.
-     */
-    private URNspec model = null;
-
-    /**
-     * Returns the resource containing the UCM. Uses lazy initialization.
-     * 
-     * @param path
-     * @return resource containing the UCM
-     */
-    public Resource getResource(IPath path) {
-        if (resource == null) {
-
-            ResourceSet resSet = getResourceSet();
-            resource = resSet.getResource(URI.createPlatformResourceURI(path.toString()), true);
-        }
-        return resource;
-    }
-
-    /**
-     * Creates a resource to contain the UCM. The resource file does not exist yet.
-     * 
-     * @param path
-     * @return resource to contain the UCM
-     */
-    private Resource createResource(IPath path) {
-        ResourceSet resSet = getResourceSet();
-        resource = resSet.createResource(URI.createPlatformResourceURI(path.toString()));
-        return resource;
-    }
-
-    /**
-     * Returns the resource set.
-     * 
-     * @return the resource set
-     */
-    private ResourceSet getResourceSet() {
-        // Initialize the ucm package
-        MapPackageImpl.init();
-        // Register the XMI resource factory for the .ucm extension
-        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-        Map m = reg.getExtensionToFactoryMap();
-        m.put(Messages.getString("UrnModelManager.ucmExtension"), new XMIResourceFactoryImpl()); //$NON-NLS-1$
-        // Obtain a new resource set
-        return new ResourceSetImpl();
-    }
-
+public class UrnModelManager extends EmfModelManager {
     /**
      * Creates a new URNspec.
      * 
@@ -109,44 +48,35 @@ public class UrnModelManager {
         resource.getContents().add(urnspec);
         return urnspec;
     }
-
+    
     /**
-     * Loads the content of the model from the file.
+     * Creates a new URNspec.
      * 
      * @param path
+     * @return a new URNspec
      */
-    public void load(IPath path) throws IOException {
-        getResource(path);
-        Map options = new HashMap();
-        
-        options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
-        resource.load(options);
+    public URNspec createURNspec(File path) {
+        createResource(path);
+
+        URNspec urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+
+        resource.getContents().add(urnspec);
+        return urnspec;
     }
 
     /**
-     * reloads the content of the model from the file.
+     * Creates a new URNspec.
      * 
      * @param path
+     * @param urnspec
+     * @return a new URNspec
      */
-    public void reload(IPath path) throws IOException {
-        getResource(path).unload();
-        load(path);
+    public URNspec createURNspec(File path, URNspec urnspec) {
+        createResource(path);
+        resource.getContents().add(urnspec);
+        return urnspec;
     }
 
-    /**
-     * Saves the content of the model to the file.
-     * 
-     * @param path
-     */
-    public void save(IPath path) throws IOException {
-        getResource(path);
-        Map options = new HashMap();
-        options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
-        // latin 1
-        options.put(XMIResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
-                
-        resource.save(options);
-    }
 
     /**
      * Gets the top level model elements.
@@ -164,10 +94,20 @@ public class UrnModelManager {
             }
 
             // clean the loaded file to make sure its semantics are valid. 
-            URNNamingHelper.sanitizeURNspec(model);
-            URNReferencerChecker.sanitizeReferences(model);
+            URNNamingHelper.sanitizeURNspec((URNspec) model);
+            URNReferencerChecker.sanitizeReferences((URNspec) model);
         }
-        return model;
+        return (URNspec) model;
     }
+
+	protected String getFileExtension() {
+		return Messages.getString("UrnModelManager.ucmExtension"); //$NON-NLS-1$
+	}
+
+	protected void init() {
+	    // Initialize the ucm package
+	    MapPackageImpl.init();
+		
+	}
 
 }

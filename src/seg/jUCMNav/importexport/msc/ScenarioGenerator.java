@@ -1,12 +1,11 @@
 package seg.jUCMNav.importexport.msc;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
-
-import org.eclipse.core.runtime.IPath;
 
 import seg.jUCMNav.editors.resourceManagement.UcmScenariosModelManager;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
@@ -75,6 +74,7 @@ public class ScenarioGenerator {
 	
 	private URNspec urnspec;
 
+	
 	public ScenarioGenerator(URNspec urnspec) {
 		this.urnspec = urnspec;
 
@@ -604,7 +604,7 @@ public class ScenarioGenerator {
 
 	}
 
-	public void save(IPath path) {
+	public void save(File path) {
 		UcmScenariosModelManager mgr = new UcmScenariosModelManager();
 		mgr.createScenarioSpec(path, getScenarioDocument());
 	}

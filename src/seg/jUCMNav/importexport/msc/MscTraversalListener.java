@@ -3,6 +3,7 @@ package seg.jUCMNav.importexport.msc;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,13 +11,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
@@ -105,14 +103,20 @@ public class MscTraversalListener implements ITraversalListener {
 	protected TraversalVisit lastUnblocked;
 
 	protected URNspec urnspec;
+	
+	protected String filename;
+	protected String whenToSave;
 
-	public MscTraversalListener() {
-
+	public MscTraversalListener(String originalFilename, String newFilename, String whenToSave) {
+		this.filename = newFilename;
+		this.whenToSave = whenToSave;
+		
 		htScenarioToMap = new HashMap();
 		urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
 		
 		// TODO: find a better way to store this information. URNspec should have metadata. 
-		urnspec.setAuthor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
+		//urnspec.setAuthor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
+		urnspec.setAuthor(originalFilename);
 
 		cs = new CommandStack();
 
@@ -572,36 +576,47 @@ public class MscTraversalListener implements ITraversalListener {
 	}
 
 	private void saveModel() {
-		try {
-			UrnModelManager manager = new UrnModelManager();
-
-			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-					.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucm");
-			manager.createURNspec(path, urnspec);
-			manager.save(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		File path = new File(filename);
+		
+		if (whenToSave.equals("1")) {
+			try {
+				UrnModelManager manager = new UrnModelManager();
+	
+	//			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+	//					.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucm");
+				
+				manager.createURNspec(path, urnspec);
+				manager.save(path);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
 		}
 
 		cs.execute(new MakeWellFormedCommand(urnspec));
 
-		try {
-			UrnModelManager manager = new UrnModelManager();
-
-			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-					.getFullPath().removeLastSegments(1).append("__msctemp2_" + currentSrcScenario.getName() + ".jucm");
-			manager.createURNspec(path, urnspec);
-			manager.save(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (whenToSave.equals("2")) {
+			try {
+				UrnModelManager manager = new UrnModelManager();
+	
+	//			IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+	//					.getFullPath().removeLastSegments(1).append("__msctemp2_" + currentSrcScenario.getName() + ".jucm");
+	
+				manager.createURNspec(path, urnspec);
+				manager.save(path);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
 		}
 
-		IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
-				.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucmscenarios");
+//		IPath path = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile()
+//				.getFullPath().removeLastSegments(1).append("__msctemp_" + currentSrcScenario.getName() + ".jucmscenarios");
 
 		//MscGenerator gen = new MscGenerator(urnspec);
+		
 		ScenarioGenerator gen = new ScenarioGenerator(urnspec);
 		gen.save(path);
 

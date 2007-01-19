@@ -472,11 +472,14 @@ public class ScenarioUtils {
 	
 	public static void setActiveScenario(ScenarioDef scenario)
 	{
-		traverse(scenario);
-		
+		traverse(scenario, null);
+	}
+	public static void setActiveScenario(ScenarioDef scenario, Vector listeners)
+	{
+		traverse(scenario, listeners);
 	}
 
-	protected static void traverse(EObject scenario) {
+	protected static void traverse(EObject scenario, Vector listeners) {
 		try {
 			if (scenario==null) {
 				System.out.println("Use clearActiveScenario instead"); //$NON-NLS-1$
@@ -498,6 +501,9 @@ public class ScenarioUtils {
 			
 			assert algo!=null;
 			traversals.put(initial, algo);
+			
+			if (listeners!=null)
+				algo.addListeners(listeners);
 
 			algo.traverse();
 			
@@ -510,10 +516,22 @@ public class ScenarioUtils {
 	
 	public static void setActiveScenario(ScenarioGroup group)
 	{
-		traverse(group);
-	}		
+		traverse(group, null);
+	}	
+	
+	public static void setActiveScenario(ScenarioGroup group, Vector listeners)
+	{
+		traverse(group, listeners);
+	}	
 	public static void setActiveScenario(UCMspec ucm)
 	{
-		traverse(ucm);
+		traverse(ucm, null);
+	}
+	
+	public static void setActiveScenario(UCMspec ucm,  Vector listeners)
+	{
+		traverse(ucm, listeners);
 	}	
+	
+	
 }

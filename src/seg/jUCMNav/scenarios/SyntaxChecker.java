@@ -146,7 +146,7 @@ public class SyntaxChecker {
 	 * @param warnings
 	 */
 	public static void refreshProblemsView(Vector warnings) {
-		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
 		UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		IFile resource = ((FileEditorInput) editor.getEditorInput()).getFile();
 		try {

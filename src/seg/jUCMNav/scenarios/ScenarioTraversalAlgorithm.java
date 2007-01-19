@@ -8,7 +8,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.importexport.msc.MscTraversalListener;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
@@ -55,6 +54,8 @@ public class ScenarioTraversalAlgorithm {
 
 	// can use ucmspec instead of scenario
 	protected UCMspec ucmspec;
+
+	protected Vector listeners;
 
 	/**
 	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, ScenarioDef)}
@@ -147,6 +148,7 @@ public class ScenarioTraversalAlgorithm {
 		this.ucmspec = null;
 		results = new HashMap();
 		warnings = new Vector();
+		listeners = new Vector();
 
 	}
 
@@ -165,6 +167,7 @@ public class ScenarioTraversalAlgorithm {
 		this.ucmspec = null;
 		results = new HashMap();
 		warnings = new Vector();
+		listeners = new Vector();
 
 	}
 
@@ -183,9 +186,16 @@ public class ScenarioTraversalAlgorithm {
 		this.ucmspec = ucmspec;
 		results = new HashMap();
 		warnings = new Vector();
+		listeners = new Vector();
 
 	}
 
+	
+	public void addListeners(Vector newListeners)
+	{
+		this.listeners.addAll(newListeners);
+	}
+	
 	/**
 	 * Execute the scenario in its environment. - Perform initializations - Verify preconditions - Execute the traversal algorithm - Verify postconditions -
 	 * Temporary: Show warnings. Caller should build warnings using {@link #getWarnings()}
@@ -194,10 +204,6 @@ public class ScenarioTraversalAlgorithm {
 	 *             fatal errors are returned as traversal exceptions.
 	 */
 	public void traverse() throws TraversalException {
-		Vector listeners = new Vector();
-
-		// TODO: Load a list of listeners from extension point and preference store.
-		listeners.add(new MscTraversalListener());
 
 		traversalListeners = new ScenarioTraversalListenerList(listeners, warnings);
 		

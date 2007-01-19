@@ -36,6 +36,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         AutoLayoutPreferences.createPreferences();
         ScenarioTraversalPreferences.createPreferences();
         StrategyEvaluationPreferences.createPreferences();
+        ScenarioExportPreferences.createPreferences();
 
     }
 

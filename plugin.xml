@@ -65,15 +65,6 @@
                menubarPath="seg.jUCMnav/ext"
                style="push"
                tooltip="Verifies the syntax of all responsibilities and conditions."/>
-         <action
-               actionID="seg.jUCMNav.actions.MakeWellFormedAction"
-               class="seg.jUCMNav.actions.UCMActionDelegate"
-               icon="icons/StategyView16.gif"
-               id="seg.jUCMNav.MakeWellFormed"
-               label="Linearize Concurrency"
-               menubarPath="seg.jUCMnav/ext"
-               style="push"
-               tooltip="Linearize Concurrency"/>
       </editorContribution>
    </extension>
    <extension
@@ -214,6 +205,11 @@
             class="seg.jUCMNav.views.preferences.StrategyEvaluationPreferencePage"
             id="seg.jUCMNav.views.preferences.StrategyEvaluationPreferencePage"
             name="%GrlStrategyEvaluationAlgorithm"/>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
+            id="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
+            name="Scenario Export Preferences"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
@@ -247,6 +243,12 @@
             extension="html"
             id="seg.jUCMNav.ExportURN_HTML"
             name="%ExportHTML"
+            useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.msc.ExportMSC"
+            extension="jucmscenarios"
+            id="seg.jUCMNav.ExportScenarios"
+            name="Export Scenarios (*.jucmscenarios or *.jucm (see Preferences))"
             useStream="false"/>
    </extension>
    <extension

@@ -35,6 +35,7 @@ import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
 import seg.jUCMNav.editparts.URNRootEditPart;
 import seg.jUCMNav.extensionpoints.IURNExport;
+import seg.jUCMNav.extensionpoints.IURNExportPrePostHooks;
 import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
 import seg.jUCMNav.importexport.UCMExportExtensionPointHelper;
 import seg.jUCMNav.importexport.URNExportExtensionPointHelper;
@@ -106,12 +107,15 @@ public class ExportWizard extends Wizard implements IExportWizard {
      * The diagrams that should be selected by default.
      */
     protected Vector selectedDiagrams;
+    
+    protected Vector postHooks;
 
     /**
      * Initialize preferences.
      */
     public ExportWizard() {
         ExportPreferenceHelper.createPreferences();
+
     }
 
     /**
@@ -148,6 +152,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
      */
     private boolean doFinish(IProgressMonitor monitor) throws Exception {
         boolean b = ((ExportWizardMapSelectionPage) getPage(PAGE1)).finish();
+        postHooks = new Vector();
 
         if (b) {
             // vector which will be filled with already exported URNspecs
@@ -272,7 +277,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // get exporter
             IURNExport exporter = (IURNExport) URNExportExtensionPointHelper.getExporter(id);
-
+            if (exporter instanceof IURNExportPrePostHooks) {
+				IURNExportPrePostHooks hooks = (IURNExportPrePostHooks) exporter;
+				hooks.preHook(editor);
+            }
+            	
             HashMap mapDiagrams = new HashMap();
             for (Iterator iter = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
 				IURNDiagram diag = (IURNDiagram) iter.next();
@@ -314,6 +323,19 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             }
 
+            
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                fos=null;
+            }
+            if (exporter instanceof IURNExportPrePostHooks) {
+    			postHooks.add(exporter);
+            }
+            
 //        } catch (InvocationTargetException e) {
 //            Throwable realException = e.getTargetException();
 //            IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
@@ -331,6 +353,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
                 }
             }
         }
+        
+        
+
+
     }
 
     /**
@@ -491,6 +517,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
         try {
             ((ExportWizardMapSelectionPage) getPage(PAGE1)).preFinish();
             getContainer().run(true, false, op);
+            for (Iterator iter = postHooks.iterator(); iter.hasNext();) {
+				IURNExportPrePostHooks hook = (IURNExportPrePostHooks) iter.next();
+				hook.postHook(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
+
+			}            
             closedOpenedEditors();
 
         } catch (InterruptedException e) {
