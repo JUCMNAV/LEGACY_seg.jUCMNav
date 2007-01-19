@@ -8,6 +8,8 @@ import seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
@@ -28,6 +30,20 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		this._warnings = warnings;
 	}
 
+	public void codeExecuted(TraversalVisit visit, String code) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.codeExecuted(visit, code);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+		
+	}
+
 	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
@@ -42,11 +58,65 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
 	}
 
+	public void drillDown(TraversalVisit visit, InBinding inb) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.drillDown(visit, inb);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void drillUp(TraversalVisit visit, OutBinding outb) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.drillUp(visit, outb);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.leftWaitingPlace(visit, becauseOfCondition);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}		
+	}
+
+	
 	public void newThreadStarted(TraversalVisit visit) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {
 				listener.newThreadStarted(visit);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+
+	}
+
+	public void pathNodeAborted(TraversalVisit visit) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.pathNodeAborted(visit);
 
 			} catch (Exception ex) {
 				_warnings.add(new TraversalWarning(ex.toString()));
@@ -95,8 +165,8 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 			}
 		}
 	}
-
 	
+
 	public void pathNodeVisited(TraversalVisit visit) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
@@ -124,20 +194,6 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		}
 	}
 
-	public void threadSplit(int oldThreadID, List newThreadIDs) {
-		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-			ITraversalListener listener = (ITraversalListener) iter.next();
-			try {
-				listener.threadSplit(oldThreadID, newThreadIDs);
-
-			} catch (Exception ex) {
-				_warnings.add(new TraversalWarning(ex.toString()));
-				ex.printStackTrace();
-			}
-		}
-
-	}
-
 	public void threadsMerged(List oldThreadIDs, int newThreadID) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
@@ -152,11 +208,11 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
 	}
 
-	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
+	public void threadSplit(int oldThreadID, List newThreadIDs) {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {
-				listener.traversalEnded(env, scenario);
+				listener.threadSplit(oldThreadID, newThreadIDs);
 
 			} catch (Exception ex) {
 				_warnings.add(new TraversalWarning(ex.toString()));
@@ -165,13 +221,40 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 		}
 
 	}
-	
+
+	public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.timerTimeout(visit,  becauseOfCondition);
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+
+	}
 
 	public void traversalEnded() {
 		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
 			ITraversalListener listener = (ITraversalListener) iter.next();
 			try {
 				listener.traversalEnded();
+
+			} catch (Exception ex) {
+				_warnings.add(new TraversalWarning(ex.toString()));
+				ex.printStackTrace();
+			}
+		}
+
+	}
+
+	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
+		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
+			ITraversalListener listener = (ITraversalListener) iter.next();
+			try {
+				listener.traversalEnded(env, scenario);
 
 			} catch (Exception ex) {
 				_warnings.add(new TraversalWarning(ex.toString()));
@@ -195,46 +278,6 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
 
 	}
 
-	public void pathNodeAborted(TraversalVisit visit) {
-		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-			ITraversalListener listener = (ITraversalListener) iter.next();
-			try {
-				listener.pathNodeAborted(visit);
 
-			} catch (Exception ex) {
-				_warnings.add(new TraversalWarning(ex.toString()));
-				ex.printStackTrace();
-			}
-		}
-
-	}
-
-	public void timerTimeout(TraversalVisit visit) {
-		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-			ITraversalListener listener = (ITraversalListener) iter.next();
-			try {
-				listener.timerTimeout(visit);
-
-			} catch (Exception ex) {
-				_warnings.add(new TraversalWarning(ex.toString()));
-				ex.printStackTrace();
-			}
-		}
-
-	}
-
-	public void codeExecuted(TraversalVisit visit, String code) {
-		for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-			ITraversalListener listener = (ITraversalListener) iter.next();
-			try {
-				listener.codeExecuted(visit, code);
-
-			} catch (Exception ex) {
-				_warnings.add(new TraversalWarning(ex.toString()));
-				ex.printStackTrace();
-			}
-		}
-		
-	}
 
 }

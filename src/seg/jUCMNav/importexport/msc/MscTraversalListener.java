@@ -46,9 +46,11 @@ import ucm.map.Connect;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
+import ucm.map.InBinding;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
+import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
@@ -78,11 +80,7 @@ import urncore.URNmodelElement;
  * 
  * TODO: synchronous connects -> empty responsibility
  * 
- * TODO: in/out binding traversal -> synchronous connect or responsibility
- * 
  * TODO: filter unused definitions (resp/comp) + scenario groups.
- * 
- * TODO: timeouts
  * 
  * TODO: andfork should have stub name if concurrency is started by endpoint.
  * 
@@ -179,6 +177,19 @@ public class MscTraversalListener implements ITraversalListener {
 		}
 	}
 
+	private void cleanupScenarioGroups() {
+		CompoundCommand compound = new CompoundCommand();
+		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+			ScenarioGroup g = (ScenarioGroup) iter.next();
+
+			// if is in use, won't delete.
+			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
+			if (cmd.canExecute())
+				compound.add(cmd);
+		}
+		cs.execute(compound);
+	}
+
 	private void cleanupScenarios() {
 		Vector startPoints = new Vector();
 		for (Iterator iter = currentMap.getNodes().iterator(); iter.hasNext();) {
@@ -204,19 +215,6 @@ public class MscTraversalListener implements ITraversalListener {
 		}
 
 	
-	}
-
-	private void cleanupScenarioGroups() {
-		CompoundCommand compound = new CompoundCommand();
-		for (Iterator iter = urnspec.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup g = (ScenarioGroup) iter.next();
-
-			// if is in use, won't delete.
-			DeleteStrategiesGroupCommand cmd = new DeleteStrategiesGroupCommand(g);
-			if (cmd.canExecute())
-				compound.add(cmd);
-		}
-		cs.execute(compound);
 	}
 
 	protected void cloneComponents(ScenarioDef scenario) {
@@ -362,6 +360,16 @@ public class MscTraversalListener implements ITraversalListener {
 		}
 	}
 
+	private DirectionArrow createDirectionArrow(TraversalVisit visit) {
+		DirectionArrow da = (DirectionArrow) ModelCreationFactory.getNewObject(urnspec, DirectionArrow.class);
+
+		extendPathAndInsert(visit, da, true);
+		
+		
+
+		return da;
+	}
+
 	private RespRef createRespRef(TraversalVisit visit) {
 		Responsibility def = null;
 		if (visit.getVisitedElement() instanceof RespRef)
@@ -391,13 +399,29 @@ public class MscTraversalListener implements ITraversalListener {
 
 		return timer;
 	}
-
 	private WaitingPlace createWaitingPlace(TraversalVisit visit) {
 		WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
 
 		extendPathAndInsert(visit, wait, true);
 
 		return wait;
+	}
+	
+	public void drillDown(TraversalVisit visit, InBinding inb) {
+		DirectionArrow arrow = createDirectionArrow(visit);
+		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+		addMetaData(arrow, "type", "Connect_Start");
+		arrow.setId(inb.getStartPoint().getId());
+		arrow.setName(inb.getStartPoint().getName());
+	}
+
+	public void drillUp(TraversalVisit visit, OutBinding outb) {
+		DirectionArrow arrow = createDirectionArrow(visit);
+		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+		addMetaData(arrow, "type", "Connect_End");
+		arrow.setId(outb.getEndPoint().getId());
+		arrow.setName(outb.getEndPoint().getName());
+		
 	}
 
 	protected PathNode extendPath(int threadID, boolean fromEnd) {
@@ -438,6 +462,11 @@ public class MscTraversalListener implements ITraversalListener {
 		return extendPathAndInsert(visit.getThreadID(), pn, fromEnd);
 	}
 
+	public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition) {
+		
+		// not used
+	}
+
 	public void newThreadStarted(TraversalVisit visit) {
 		// System.out.println("Started thread " + visit.getThreadID() + " at: " + visit.getVisitedElement());
 
@@ -458,6 +487,20 @@ public class MscTraversalListener implements ITraversalListener {
 	public void pathNodeAttempted(TraversalVisit visit) {
 		// System.out.println("Node is being attempted in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
 
+		if (visit.getVisitedElement() instanceof WaitingPlace)
+		{
+			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
+			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
+
+			// avoid duplicates when re-queued. 
+			if (!(pn instanceof DirectionArrow))
+			{
+				DirectionArrow arrow = createDirectionArrow(visit);
+				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+				addMetaData(arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter");
+				addMetaData(arrow, "name", visit.getVisitedElement().getName());
+			}
+		}
 	}
 
 	public void pathNodeBlocked(TraversalVisit visit) {
@@ -488,6 +531,20 @@ public class MscTraversalListener implements ITraversalListener {
 
 			createRespRef(visit);
 		}
+		
+		if (n instanceof WaitingPlace) {
+			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
+			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
+
+			// avoid duplicates when re-queued. 
+			if (!(pn instanceof Timer))
+			{
+				DirectionArrow arrow = createDirectionArrow(visit);
+				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+				addMetaData(arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave");
+				addMetaData(arrow, "name", n.getName());
+			}
+		}
 
 		if (n instanceof EndPoint) {
 			PathNode pn = (PathNode) htThreadEnd.get(new Integer(visit.getThreadID()));
@@ -495,6 +552,15 @@ public class MscTraversalListener implements ITraversalListener {
 
 			setComponentRef(pn, visit);
 
+		}
+		
+		if (n instanceof Connect)
+		{
+			DirectionArrow arrow = createDirectionArrow(visit);
+			arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+			addMetaData(arrow, "type", "Trigger_End");
+			arrow.setId(n.getId());
+			arrow.setName(n.getName());			
 		}
 
 	}
@@ -589,10 +655,11 @@ public class MscTraversalListener implements ITraversalListener {
 			cs.execute(cmd);
 		}
 
+		
 		htThreadStart.put(new Integer(newThreadID), andjoin);
 
 	}
-
+	
 	public void threadSplit(int oldThreadID, List newThreadIDs) {
 		// System.out.println("Thread " + oldThreadID + " was split into threads " + ArrayAndListUtils.listToString(newThreadIDs, ","));
 
@@ -617,8 +684,9 @@ public class MscTraversalListener implements ITraversalListener {
 
 	}
 
-	public void timerTimeout(TraversalVisit visit) {
+	public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition) {
 		// System.out.println("Timer timeout in thread " + visit.getThreadID() + ": " + visit.getVisitedElement());
+
 		if (visit.getVisitedElement() instanceof Timer) {
 			Timer timer = createTimer(visit);
 			timer.setName(visit.getVisitedElement().getName() + " Timeout");
@@ -633,14 +701,6 @@ public class MscTraversalListener implements ITraversalListener {
 
 	}
 
-	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
-		// System.out.println("Traversal ended: " + scenario.toString());
-
-		cleanupScenarios();
-
-		cleanupComponentRefs();
-	}
-	
 	public void traversalEnded() {
 		cleanupScenarioGroups();
 		
@@ -649,6 +709,14 @@ public class MscTraversalListener implements ITraversalListener {
 
 
 		saveModel();
+	}
+
+	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario) {
+		// System.out.println("Traversal ended: " + scenario.toString());
+
+		cleanupScenarios();
+
+		cleanupComponentRefs();
 	}
 
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
@@ -698,4 +766,5 @@ public class MscTraversalListener implements ITraversalListener {
 		currentMap = (UCMmap) htScenarioToMap.get(scenario);
 	}
 
+	
 }

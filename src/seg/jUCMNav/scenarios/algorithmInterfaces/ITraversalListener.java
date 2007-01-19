@@ -4,6 +4,8 @@ import java.util.List;
 
 import seg.jUCMNav.scenarios.model.TraversalVisit;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import ucm.map.InBinding;
+import ucm.map.OutBinding;
 import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
@@ -32,6 +34,12 @@ public interface ITraversalListener {
 	 */
 	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result );
 	
+	public void drillDown(TraversalVisit visit, InBinding inb);
+	
+	public void drillUp(TraversalVisit visit, OutBinding outb);
+	
+	public void leftWaitingPlace(TraversalVisit visit, boolean becauseOfCondition);
+	
 	/**
 	 * When traversing this element, we started a new thread. The ThreadID can be obtained by querying the TraversalVisit. 
 	 * 
@@ -52,19 +60,16 @@ public interface ITraversalListener {
 	 * @param visit The node that is being attempted. 
 	 */
 	public void pathNodeAttempted(TraversalVisit visit);
-	
 	/**
 	 * We are blocking a node by pushing it into our waiting list. 
 	 * @param visit The node being blocked. 
 	 */
 	public void pathNodeBlocked(TraversalVisit visit);
-	
 	/**
 	 * We are unblocking a node, pulling it out of the waiting list. This can either mean it was unblocked by some other traversal element or we are attempting it and might push it back onto the waiting list.   
 	 * @param visit The node being unblocked. 
 	 */
 	public void pathNodeUnblocked(TraversalVisit visit);
-	
 	/**
 	 * We have successfully traversed this element. 
 	 * 
@@ -72,10 +77,16 @@ public interface ITraversalListener {
 	 */
 	public void pathNodeVisited(TraversalVisit visit);
 	public void threadDied(int threadID);
+	
 	public void threadsMerged(List oldThreadIDs, int newThreadID );
+	
 	public void threadSplit(int oldThreadID, List newThreadIDs);
-	public void timerTimeout(TraversalVisit visit);
-	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario);
+	public void timerTimeout(TraversalVisit visit, boolean becauseOfCondition);
+	
+	
 	public void traversalEnded();
+	public void traversalEnded(UcmEnvironment env, ScenarioDef scenario);
 	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario);
+	
+	
 }

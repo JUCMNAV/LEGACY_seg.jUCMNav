@@ -215,7 +215,7 @@ public class DefaultScenarioTraversalDataStructure {
 				_currentThreadID = visit.getThreadID();
 				visitNodeConnection(nc);
 
-				_listeners.timerTimeout(visit);
+				_listeners.timerTimeout(visit, false);
 			} else { 
 				// otherwise (and join for example), kick the element out of our list.
 
@@ -500,7 +500,8 @@ public class DefaultScenarioTraversalDataStructure {
 			TraversalVisit visit = (TraversalVisit) iterator.next();
 			if (visit.getVisitedElement().equals(nc.getTarget())) {
 				_currentThreadID = visit.getThreadID();
-				
+				_consecutiveReblocks=0;
+
 				incrementHitCount(nc.getTarget());
 				NodeConnection nc2 = (NodeConnection) nc.getTarget().getSucc().get(0);
 				
@@ -512,7 +513,8 @@ public class DefaultScenarioTraversalDataStructure {
 				visitNodeConnection(nc2, true);
 				
 				_listeners.pathNodeUnblocked(visit);
-				
+				_listeners.leftWaitingPlace(visit, false);
+				_listeners.pathNodeVisited(visit);
 				alreadyExists=true;
 				toRemove=visit;
 				// assuming only one instance. 
