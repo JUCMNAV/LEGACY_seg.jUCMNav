@@ -88,7 +88,9 @@ public class DefaultScenarioTraversalDataStructure {
 	 */
 	public void addToWaitingList(PathNode pn) {
 		// TODO: semantic variation: do we add doubles? does join have memory?
-		// our implementation: and-joins do not have memory so doubles are not valid. 
+		// our implementation: and-joins do not have memory so doubles are not valid.
+		
+		decrementHitCount(pn);
 		boolean alreadyExists=false;
 		for (Iterator iterator = _waitList.iterator(); iterator.hasNext();) {
 			TraversalVisit visit = (TraversalVisit) iterator.next();
@@ -381,6 +383,23 @@ public class DefaultScenarioTraversalDataStructure {
 		result.incrementHitCount();
 
 		return result.getHitCount();
+	}
+	
+	/**
+	 * 
+	 * @param o
+	 *            the pathnode, nodeconnection or other eobject.
+	 * @return decrements the external counter for the number of times the traversal algo. has gone through this element.
+	 */
+	protected int decrementHitCount(EObject o) {
+		TraversalResult result;
+		if (!_results.containsKey(o))
+			_results.put(o, new TraversalResult());
+
+		result = (TraversalResult) _results.get(o);
+		result.decrementHitCount();
+
+		return result.getExternalHitCount();
 	}
 
 	

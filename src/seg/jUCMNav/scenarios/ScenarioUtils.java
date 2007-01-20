@@ -363,7 +363,7 @@ public class ScenarioUtils {
 	public static int getTraversalHitCount(EObject obj) {
 		TraversalResult res = getTraversalResults(obj);
 		if (res!=null)
-			return res.getHitCount();
+			return res.getExternalHitCount();
 		else
 			return 0;
 	}
