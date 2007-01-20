@@ -2,6 +2,9 @@ package seg.jUCMNav.views.stub;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -12,6 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.figures.ColorManager;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
@@ -84,14 +88,15 @@ public class PluginListDialog extends ListDialog {
         IStructuredSelection selection = (IStructuredSelection) getTableViewer().getSelection();
         if (selection.size()==0) selection = new StructuredSelection(getTableViewer().getElementAt(0));
         UCMmap map=null;
-        if (selection.toList().get(0) instanceof PluginBinding) {
+        EObject selectedItem = (EObject) selection.toList().get(0) ; 
+        if (selectedItem instanceof PluginBinding) {
         	map = ((PluginBinding) selection.toList().get(0)).getPlugin();
-        } else if (selection.toList().get(0) instanceof OutBinding)
+        } else if (selectedItem instanceof OutBinding)
     	{
 			OutBinding binding = (OutBinding) selection.toList().get(0);
 			map = (UCMmap) binding.getBinding().getStub().getDiagram();
     	
-    	}else if (selection.toList().get(0) instanceof InBinding)
+    	}else if (selectedItem instanceof InBinding)
     	{
     		InBinding binding = (InBinding) selection.toList().get(0);
 			map = (UCMmap) binding.getBinding().getStub().getDiagram();
@@ -99,8 +104,21 @@ public class PluginListDialog extends ListDialog {
         	 
         
 
-        if (map != null)
+        if (map != null) {
             editor.setActivePage(map);
+            
+            GraphicalViewer viewer = ((UcmEditor)editor.getCurrentPage()).getGraphicalViewer();
+            if (selectedItem instanceof InBinding) {
+				InBinding binding = (InBinding) selectedItem;
+				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+            	
+            } else if (selectedItem instanceof OutBinding) {
+				OutBinding binding = (OutBinding) selectedItem;
+				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+            }
+            
+            
+        }
 
         super.okPressed();
     }

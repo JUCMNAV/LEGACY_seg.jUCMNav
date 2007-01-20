@@ -92,6 +92,7 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
                 Long modificationTime = (Long)res.getSessionProperty(timestamp);
                 //Verify that the refresh on the editor have not been done before
                 if ((modificationTime == null) || (res.getModificationStamp() != modificationTime.longValue())){
+                	if ( PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null) return false;
                     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
                     IEditorReference[] edref = page.getEditorReferences();
                     String filename = delta.getResource().getName();

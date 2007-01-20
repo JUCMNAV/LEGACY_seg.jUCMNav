@@ -19,8 +19,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.DragTracker;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.NodeEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -28,6 +30,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editpolicies.element.PathNodeComponentEditPolicy;
 import seg.jUCMNav.editpolicies.feedback.PathNodeNonResizableEditPolicy;
 import seg.jUCMNav.editpolicies.layout.PathNodeXYLayoutEditPolicy;
@@ -331,14 +334,23 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             	
 				if (activeBindings.size() == 1 && getNode() instanceof StartPoint) {
                     // if only one plugin, open it.
-                    UCMmap map = (UCMmap)((InBinding) activeBindings.get(0)).getBinding().getStub().getDiagram();
-                    if (map != null)
+					InBinding binding = ((InBinding) activeBindings.get(0));
+                    UCMmap map = (UCMmap)binding.getBinding().getStub().getDiagram();
+                    if (map != null) {
                         ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+                        GraphicalViewer viewer = ((UcmEditor)((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage()).getGraphicalViewer();
+           				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+                    }
                 } else if (activeBindings.size() == 1 && getNode() instanceof EndPoint) {
                     // if only one plugin, open it.
-                    UCMmap map = (UCMmap)((OutBinding) activeBindings.get(0)).getBinding().getStub().getDiagram();
-                    if (map != null)
+                	OutBinding binding = ((OutBinding) activeBindings.get(0));
+                    UCMmap map = (UCMmap)binding.getBinding().getStub().getDiagram();
+                    if (map != null) {
                         ((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().setActivePage(map);
+                        GraphicalViewer viewer = ((UcmEditor)((UCMConnectionOnBottomRootEditPart) getRoot()).getMultiPageEditor().getCurrentPage()).getGraphicalViewer();
+           				viewer.select((EditPart)viewer.getEditPartRegistry().get(binding.getBinding().getStub()));
+
+                    }
                 }  else if (activeBindings.size() > 1) {
                     // if multiple plugins, bring up selection window
                     if (dlg != null) {
