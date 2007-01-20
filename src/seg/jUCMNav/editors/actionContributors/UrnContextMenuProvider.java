@@ -27,6 +27,7 @@ import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
+import seg.jUCMNav.actions.DuplicateMapAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportImageAction;
@@ -210,10 +211,15 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
         
-        action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
+        action = getActionRegistry().getAction(DuplicateMapAction.DUPLICATEMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
+        action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        
+   
     }
 
     /**

@@ -29,6 +29,7 @@ import seg.jUCMNav.actions.AddBeliefAction;
 import seg.jUCMNav.actions.AddBranchAction;
 import seg.jUCMNav.actions.AddBranchOnStubAction;
 import seg.jUCMNav.actions.AddConditionLabelAction;
+import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.AddEmptyPoint;
 import seg.jUCMNav.actions.AddGrlGraphAction;
 import seg.jUCMNav.actions.AddLabelAction;
@@ -43,6 +44,7 @@ import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.CutPathAction;
 import seg.jUCMNav.actions.DisconnectAction;
 import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
+import seg.jUCMNav.actions.DuplicateMapAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportImageAction;
@@ -54,7 +56,6 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
-import seg.jUCMNav.actions.AddDirectionArrow;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
@@ -308,10 +309,7 @@ public class ActionRegistryManager {
         action = new ImportAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.import")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
-        
-        action = new EditStubPluginsAction((IWorkbenchPart) editor);
-        action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);  
+
 
         action = new EditURNLinksAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.editURNLinks"));  //$NON-NLS-1$
@@ -393,13 +391,24 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new DuplicateMapAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new EditMetadataAction((IWorkbenchPart)editor);
         action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);   
 
         action = new RunAllScenariosAction((IWorkbenchPart)editor);
         action.setText("Run all scenarios in Group");
-        addEditPartAction((SelectionAction) action);   
+        addEditPartAction((SelectionAction) action); 
+        
+        
+        // keep at bottom
+        action = new EditStubPluginsAction((IWorkbenchPart) editor);
+        action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);  
+
 
     }
 

@@ -27,6 +27,7 @@ import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 import seg.jUCMNav.model.commands.create.CreateMapCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLGraphCommand;
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
+import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
 import urncore.IURNDiagram;
 
 /**
@@ -162,10 +163,15 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             stkUrnSpec.execute(command);
             return;
-        }else if (command instanceof CreateGrlGraphCommand){
+        } else if (command instanceof CreateGrlGraphCommand){
             lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
             stkUrnSpec.execute(command);
             return;
+        } else if (command instanceof DuplicateMapCommand) {
+            lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
+        	stkUrnSpec.execute(command);
+  
+            return;        	
         }
 
         if (null != currentCommandStack) {
@@ -326,6 +332,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             }else if (command instanceof CreateGrlGraphCommand) {
                 lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
+            } else if (command instanceof DuplicateMapCommand){
+                lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
             }
 
             stkUrnSpec.redo();
@@ -394,6 +402,8 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
                 lastAffectedDiagram = ((CreateMapCommand) command).getMap();
             } else if (command instanceof CreateGrlGraphCommand){
                 lastAffectedDiagram = ((CreateGrlGraphCommand) command).getDiagram();
+            } else if (command instanceof DuplicateMapCommand){
+                lastAffectedDiagram = ((DuplicateMapCommand) command).getNewDiagram();
             }
 
             stkUrnSpec.undo();
