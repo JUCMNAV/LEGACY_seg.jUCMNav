@@ -33,10 +33,12 @@ public class ParentFinder {
         IURNContainerRef parent;
         if (child instanceof IURNContainerRef) {
             IURNContainerRef cr = (IURNContainerRef) child;
+            if (cr.getDiagram()==null) return null;
             assert cr.getDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
             parent = ParentFinder.findParent(cr.getDiagram(), cr, cr.getX(), cr.getY(), cr.getWidth(), cr.getHeight());
         } else {
             IURNNode p = (IURNNode) child;
+            if (p.getDiagram()==null) return null;
             assert p.getDiagram() != null : Messages.getString("ParentFinder.shouldBeInModel"); //$NON-NLS-1$
             parent = ParentFinder.findParent(p.getDiagram(), p.getX(), p.getY());
         }
@@ -50,7 +52,7 @@ public class ParentFinder {
      * @return vector of possible parents
      */
     public static Vector getPossibleParents(URNmodelElement child) {
-
+    	
         Vector parents = new Vector();
         IURNContainerRef parent = getPossibleParent(child);
         while (parent != null) {
