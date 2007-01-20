@@ -413,7 +413,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                         r = new Ray(list.getFirstPoint(), list.getMidpoint());
                     }
 
-                    double angle = Math.atan2((double) r.y, (double) r.x);
+                    double angle = Math.atan2(r.y, r.x);
 
                     ((Rotateable) nodeFigure).rotate(angle - Math.PI);
                 }
@@ -482,7 +482,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
                         r = new Ray(list.getMidpoint(), list.getLastPoint());
                     }
 
-                    double angle = Math.atan2((double) r.y, (double) r.x);
+                    double angle = Math.atan2(r.y, r.x);
 
                     ((Rotateable) nodeFigure).rotate(angle - Math.PI);
                 }

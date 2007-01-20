@@ -2,13 +2,14 @@ package seg.jUCMNav.actions;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
+
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.PathNode;
-import urn.URNspec;
 import ucm.map.RespRef;
+import urn.URNspec;
 
 /**
  * Adds a label to a PathNode or ComponentRef.
@@ -51,7 +52,7 @@ public class AddResponsibility extends URNSelectionAction {
     
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        PathNode newResponsibility = (PathNode)getNewResponsibility(sel.getUrnspec());
+        PathNode newResponsibility = getNewResponsibility(sel.getUrnspec());
         Command comm;
         
         

@@ -254,7 +254,7 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 		ArrayList items = new ArrayList();
 
 		for (Iterator i = l.iterator(); i.hasNext();) {
-			Object ref = (Object) i.next();
+			Object ref = i.next();
 			ElementListItem item = (ElementListItem) findItem(ref);
 			items.add(item);
 		}

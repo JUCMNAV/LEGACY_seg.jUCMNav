@@ -108,7 +108,7 @@ public class LinkRefPropertySource extends URNElementPropertySource {
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
-            element = (ElementLink)((LinkRef) object).getLink();
+            element = ((LinkRef) object).getLink();
         } else {
             super.setPropertyValue(id, value);
         }

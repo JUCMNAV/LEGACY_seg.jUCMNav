@@ -14,8 +14,8 @@ import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.Condition;
-import urncore.Responsibility;
 import urncore.IURNDiagram;
+import urncore.Responsibility;
 
 /**
  * Verifies that references have definitions; if not, creates them. To be used on Component and Responsibility references.

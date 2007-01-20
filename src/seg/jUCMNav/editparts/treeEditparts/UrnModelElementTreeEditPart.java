@@ -152,9 +152,9 @@ public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements
      */
     public IURNDiagram getContainingMap() {
         if (getModel() instanceof IURNNode) {
-            return (IURNDiagram)(((IURNNode) getModel()).getDiagram());
+            return (((IURNNode) getModel()).getDiagram());
         } else if (getModel() instanceof IURNContainerRef) {
-            return (IURNDiagram)(((IURNContainerRef) getModel()).getDiagram());
+            return (((IURNContainerRef) getModel()).getDiagram());
         } else if (getModel() instanceof IURNDiagram) {
             return (IURNDiagram) getModel();
         } else

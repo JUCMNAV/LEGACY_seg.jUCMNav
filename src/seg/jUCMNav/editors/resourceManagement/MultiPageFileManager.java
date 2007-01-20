@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IFileEditorInput;
@@ -118,7 +119,7 @@ public class MultiPageFileManager {
         try {
             IFile file = ((IFileEditorInput) getEditor().getEditorInput()).getFile();
             if (file.exists()
-                    || MessageDialogWithToggle.openConfirm(getEditor().getSite().getShell(),
+                    || MessageDialog.openConfirm(getEditor().getSite().getShell(),
                             Messages.getString("MultiPageFileManager.createFile"), Messages.getString("MultiPageFileManager.theFile") + file.getName() //$NON-NLS-1$ //$NON-NLS-2$
                                     + Messages.getString("MultiPageFileManager.doesntExistClickOk"))) { //$NON-NLS-1$
                 String sDate;

@@ -9,8 +9,8 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.EmptyPoint;
-import ucm.map.UCMmap;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * This compound command deletes empty nodes/directionarrows that still have their original name and don't have a label.

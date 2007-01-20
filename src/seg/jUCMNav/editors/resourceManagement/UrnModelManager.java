@@ -30,7 +30,7 @@ public class UrnModelManager extends EmfModelManager {
     public URNspec createURNspec(IPath path) {
         createResource(path);
 
-        URNspec urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+        URNspec urnspec = ModelCreationFactory.getNewURNspec();
 
         resource.getContents().add(urnspec);
         return urnspec;
@@ -58,7 +58,7 @@ public class UrnModelManager extends EmfModelManager {
     public URNspec createURNspec(File path) {
         createResource(path);
 
-        URNspec urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+        URNspec urnspec = ModelCreationFactory.getNewURNspec();
 
         resource.getContents().add(urnspec);
         return urnspec;

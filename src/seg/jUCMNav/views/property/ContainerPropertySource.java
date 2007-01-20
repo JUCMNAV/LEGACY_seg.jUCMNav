@@ -48,7 +48,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
     public ContainerPropertySource(EObject obj) {
         super(obj);
         if ((object instanceof IURNContainerRef) && ((IURNContainerRef) object).getContDef() != null) {
-            comp = (IURNContainer)((IURNContainerRef) object).getContDef();
+            comp = ((IURNContainerRef) object).getContDef();
         }
     }
 
@@ -230,7 +230,7 @@ public class ContainerPropertySource extends URNElementPropertySource {
             Collections.sort(list, new EObjectClassNameComparator());
             result = list.get(((Integer) value).intValue());
             setReferencedObject(propertyid, feature, result);
-            comp = (IURNContainer)((IURNContainerRef) object).getContDef();
+            comp = ((IURNContainerRef) object).getContDef();
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 

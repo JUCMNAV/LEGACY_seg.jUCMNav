@@ -103,7 +103,7 @@ public class AutoLayoutWizard extends Wizard {
 			ostream.close();
 			istream = new BufferedInputStream(p.getInputStream());
 		} catch (Exception e) {
-			Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
+			Status status = new Status(IStatus.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
 			ErrorDialog.openError(getShell(), Messages.getString("AutoLayoutWizard.autoLayoutError"), //$NON-NLS-1$
 					Messages.getString("AutoLayoutWizard.errorOccured"), //$NON-NLS-1$
 					status, IStatus.ERROR | IStatus.WARNING);
@@ -134,7 +134,7 @@ public class AutoLayoutWizard extends Wizard {
 			}
 
 		} catch (Exception e) {
-			Status status = new Status(Status.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
+			Status status = new Status(IStatus.ERROR, "seg.jUCMNav", 1, e.toString(), e); //$NON-NLS-1$
 			ErrorDialog
 					.openError(
 							getShell(),
@@ -180,7 +180,7 @@ public class AutoLayoutWizard extends Wizard {
 
 			// ex: graph [bb="0,0,192,212"]; (for the digraph)
 			if (line.matches("\\s*digraph " + AutoLayoutPreferences.MAPPREFIX + "\\d+\\s*\\{")) { //$NON-NLS-1$ //$NON-NLS-2$
-				IURNDiagram temp = (IURNDiagram) URNElementFinder.findMap(usecasemap.getUrndefinition().getUrnspec(), line.substring(
+				IURNDiagram temp = URNElementFinder.findMap(usecasemap.getUrndefinition().getUrnspec(), line.substring(
 						line.indexOf(AutoLayoutPreferences.MAPPREFIX) + AutoLayoutPreferences.MAPPREFIX.length(), line.lastIndexOf('{')).trim());
 				if (!usecasemap.equals(temp)) {
 					throw new Exception(Messages.getString("AutoLayoutWizard.invalidMap") //$NON-NLS-1$

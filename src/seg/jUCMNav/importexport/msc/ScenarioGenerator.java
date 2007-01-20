@@ -406,7 +406,7 @@ public class ScenarioGenerator {
 				// inverse order by convention
 				for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
 					ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
-					StartPoint sp = (StartPoint) ssp.getStartPoint();
+					StartPoint sp = ssp.getStartPoint();
 
 					Sequence seq2 = f.createSequence();
 					// TODO: we assume they are in parallel but we may run into merged paths from different scenario start points
@@ -435,7 +435,7 @@ public class ScenarioGenerator {
 			// inverse order by convention
 			for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
 				ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
-				StartPoint sp = (StartPoint) ssp.getStartPoint();
+				StartPoint sp = ssp.getStartPoint();
 
 				Sequence seq2 = f.createSequence();
 
@@ -535,7 +535,7 @@ public class ScenarioGenerator {
 	}
 
 	private Responsibility getDef(RespRef element) {
-		return ((Responsibility) element.getRespDef());
+		return (element.getRespDef());
 	}
 
 	private Instance getInstance(ComponentRef comp) {

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
@@ -141,7 +142,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		btnDeleteEnumeration.setText(Messages.getString("AddVariableWizardEnumsPage.DeleteSelectedEnumeration")); //$NON-NLS-1$
 		btnDeleteEnumeration.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (MessageDialogWithToggle.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("AddVariableWizardEnumsPage.DeleteEnumerationType"), //$NON-NLS-1$
+				if (MessageDialog.openConfirm(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), Messages.getString("AddVariableWizardEnumsPage.DeleteEnumerationType"), //$NON-NLS-1$
 						Messages.getString("AddVariableWizardEnumsPage.AreYouSureYouWishToDeleteThisEnumerationType"))) { //$NON-NLS-1$
 					execute(new DeleteEnumerationTypeCommand((EnumerationType) urn.getUcmspec().getEnumerationTypes().get(possibilities.getSelectionIndex())));
 					refreshPossibilityLabels();
@@ -225,7 +226,7 @@ public class AddVariableWizardEnumsPage extends WizardPage {
 		possibilities.removeAll();
 		for (int i = 0; i < urn.getUcmspec().getEnumerationTypes().size(); i++) {
 			EnumerationType element = (EnumerationType)urn.getUcmspec().getEnumerationTypes().get(i);
-			possibilities.add(URNNamingHelper.getName((URNmodelElement) element));
+			possibilities.add(URNNamingHelper.getName(element));
 		}
 		if (currentlySelectedIndex<0)
 			currentlySelectedIndex=0;

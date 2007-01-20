@@ -286,9 +286,9 @@ public class URNElementPropertySource extends EObjectPropertySource {
             for (int i = 0; i < list.size(); i++) {
                 IURNContainerRef parent;
                 if (getEditableValue() instanceof IURNContainerRef)
-                    parent = (IURNContainerRef) ((IURNContainerRef) getEditableValue()).getParent();
+                    parent = ((IURNContainerRef) getEditableValue()).getParent();
                 else
-                    parent = (IURNContainerRef) ((IURNNode) getEditableValue()).getContRef();
+                    parent = ((IURNNode) getEditableValue()).getContRef();
                 if (list.get(i).equals(parent))
                     result = new Integer(i + 1);
             }
@@ -306,7 +306,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
 
                 if (pt != null) {
                     URNspec urn = pt.getDiagram().getUrndefinition().getUrnspec();
-                    result = (Workload) ModelCreationFactory.getNewObject(urn, Workload.class);
+                    result = ModelCreationFactory.getNewObject(urn, Workload.class);
                 }
             }
             if (result != null)
@@ -319,7 +319,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
                 else
                     urn = ((PathNode) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
 
-                result = (Condition) ModelCreationFactory.getNewObject(urn, Condition.class);
+                result = ModelCreationFactory.getNewObject(urn, Condition.class);
 
                 if (getEditableValue() instanceof NodeConnection) {
 
@@ -382,7 +382,7 @@ public class URNElementPropertySource extends EObjectPropertySource {
     private int getEnumerationIndex(AbstractEnumerator result) {
         String[] values = getEnumerationValues(result.getClass());
         for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(((AbstractEnumerator) result).getName()))
+            if (values[i].equals((result).getName()))
                 return i;
         }
         return -1;

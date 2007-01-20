@@ -305,7 +305,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         
         if ((event.getSource() instanceof TreeViewer) && (multieditor != null)){
             for (Iterator j = sel.iterator(); j.hasNext();) {
-                Object obj = (Object) j.next();
+                Object obj = j.next();
                 if (obj instanceof EvaluationStategyTreeEditPart){
                     if (currentSelection != null){
                         currentSelection.setSelected(false);

@@ -62,9 +62,9 @@ import seg.jUCMNav.editors.palette.UcmPaletteRoot;
 import seg.jUCMNav.editors.palette.tools.PathToolEntry;
 import seg.jUCMNav.editparts.ComponentRefEditPart;
 import seg.jUCMNav.editparts.LabelEditPart;
-import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editparts.NodeConnectionEditPart;
 import seg.jUCMNav.editparts.PathNodeEditPart;
+import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editpolicies.layout.MapXYLayoutEditPolicy;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EndPointFigure;
@@ -136,7 +136,7 @@ public class ProgressTests extends TestCase {
             }
         } else
             getGraphicalViewer().deselectAll();
-        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu((getGraphicalViewer().getContextMenu()));
         IContributionItem contrib = ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).find(id);
         if (contrib instanceof ActionContributionItem) {
             return ((ActionContributionItem) contrib).getAction();
@@ -314,7 +314,7 @@ public class ProgressTests extends TestCase {
         super.setUp();
 
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
+        IProject testproject = workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 
@@ -387,7 +387,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("Unable to build create request", cr); //$NON-NLS-1$
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.
-        Command cmd = (Command) getMapEditPart(0).getCommand(cr);
+        Command cmd = getMapEditPart(0).getCommand(cr);
         assertNotNull("Can't get command to obtain a new ComponentRef", cmd); //$NON-NLS-1$
 
         // execute the command, adding the componentref to the model
@@ -539,7 +539,7 @@ public class ProgressTests extends TestCase {
         ComponentRef cr = (ComponentRef) getMap().getContRefs().get(2);
 
         Vector v = getAttributeDescriptor(cr, "parent"); //$NON-NLS-1$
-        String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
+        String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("Parent not option in property values", "ParentTest (8)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -583,7 +583,7 @@ public class ProgressTests extends TestCase {
 
         // create a property source on the large component ref
         Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
-        String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
+        String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -631,7 +631,7 @@ public class ProgressTests extends TestCase {
         ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
-        String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
+        String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("Parent not option in property values", "ParentTest (8)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -671,7 +671,7 @@ public class ProgressTests extends TestCase {
         ((ComponentElement)parent.getContDef()).setName("ParentTest"); //$NON-NLS-1$
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
-        String[] values = (String[]) ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
+        String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
         assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -1150,7 +1150,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("no action found", action); //$NON-NLS-1$
         action.run();
 
-        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu(((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()));
+        ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).buildContextMenu((getGraphicalViewer().getContextMenu()));
         IContributionItem contrib = ((UrnContextMenuProvider) getGraphicalViewer().getContextMenu()).find(ActionFactory.DELETE.getId());
         if (contrib instanceof ActionContributionItem) {
             action = ((ActionContributionItem) contrib).getAction();
@@ -1665,7 +1665,7 @@ public class ProgressTests extends TestCase {
         assertNotNull("Unable to build create request", cr); //$NON-NLS-1$
 
         // create a command using this CreateRequest. Note that this is a compound command that not only creates the component but positions it properly.
-        Command cmd = (Command) getMapEditPart(0).getCommand(cr);
+        Command cmd = getMapEditPart(0).getCommand(cr);
         assertNotNull("Can't get command to obtain a new StartPoint", cmd); //$NON-NLS-1$
 
         // execute the command, adding the StartPoint to the model

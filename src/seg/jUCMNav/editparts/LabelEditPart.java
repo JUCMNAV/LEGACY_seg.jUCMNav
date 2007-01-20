@@ -112,7 +112,7 @@ public class LabelEditPart extends ModelElementEditPart {
         if (!isActive()) {
             modelElement.eAdapters().add(this);
             if (modelElement instanceof IURNContainerRef && ((IURNContainerRef) modelElement).getContDef() != null) {
-                comp = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
+                comp = ((IURNContainerRef) modelElement).getContDef();
                 comp.eAdapters().add(this);
             } else if (modelElement instanceof RespRef && ((RespRef) modelElement).getRespDef() != null) {
                 resp = ((RespRef) modelElement).getRespDef();
@@ -274,7 +274,7 @@ public class LabelEditPart extends ModelElementEditPart {
                 if (modelElement instanceof IURNContainerRef) {
                     if (comp != null)
                         comp.eAdapters().remove(this);
-                    comp = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
+                    comp = ((IURNContainerRef) modelElement).getContDef();
                     if (comp != null)
                         comp.eAdapters().add(this);
                 }
@@ -455,7 +455,7 @@ public class LabelEditPart extends ModelElementEditPart {
         LabelFigure labelFigure = getLabelFigure();
 
         if (modelElement instanceof IURNContainerRef) { // use definition
-            IURNContainer componentElement = (IURNContainer) ((IURNContainerRef) modelElement).getContDef();
+            IURNContainer componentElement = ((IURNContainerRef) modelElement).getContDef();
             if (componentElement != null)
                 labelFigure.setEditableText(((URNmodelElement) componentElement).getName());
             // componentref labels are in bold.

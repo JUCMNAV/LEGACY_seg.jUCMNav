@@ -518,7 +518,7 @@ public class URNNamingHelper {
 			}
 			// if that didn't work, try adding -1, -2, -3 ... until it works.
 			while (htNames.containsKey(elem.getName().toLowerCase())) {
-				elem.setName(initialName); //$NON-NLS-1$
+				elem.setName(initialName); 
 				// setElementNameAndID(urn, elem);
 				elem.setName(elem.getName() + "-" + (i++)); //$NON-NLS-1$
 			}

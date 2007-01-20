@@ -9,6 +9,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -124,7 +125,7 @@ public class NewUcmFileWizardPage extends WizardPage {
     private void handleBrowse() {
         ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false, Messages
                 .getString("NewUcmFileWizardPage.selectNewFileContainer")); //$NON-NLS-1$
-        if (dialog.open() == ContainerSelectionDialog.OK) {
+        if (dialog.open() == Window.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {
                 containerText.setText(((Path) result[0]).toOSString());

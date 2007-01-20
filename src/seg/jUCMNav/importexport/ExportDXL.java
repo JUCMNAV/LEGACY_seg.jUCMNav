@@ -229,7 +229,7 @@ public class ExportDXL implements IURNExport {
             write(element.getName());
             write(QUOTES_COMMA);
 
-            ComponentKind kind = ((Component)element).getKind();
+            ComponentKind kind = (element).getKind();
             String kindString = kind.getName();
             write(QUOTES);
             write(kindString);

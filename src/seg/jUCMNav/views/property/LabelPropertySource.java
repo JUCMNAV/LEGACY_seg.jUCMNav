@@ -37,7 +37,7 @@ public class LabelPropertySource extends URNElementPropertySource {
                 referencePS = new ContainerPropertySource(cl.getContRef());
         } else if (obj instanceof NodeLabel) {
             NodeLabel nl = (NodeLabel) obj;
-            IURNNode pn = (IURNNode)nl.getNode();
+            IURNNode pn = nl.getNode();
             if (pn.getDiagram() != null) {
                 if (pn instanceof RespRef)
                     referencePS = new ResponsibilityPropertySource(pn);

@@ -186,7 +186,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 		String name = attr.getName().toLowerCase();
 		if (name.equals("fixed") || name.equals("filled")) { //$NON-NLS-1$ //$NON-NLS-2$
 			pd.setCategory(Messages.getString("EObjectPropertySource.appearance")); //$NON-NLS-1$
-		} else if (name.equals("enabled")) { //$NON-NLS-1$ //$NON-NLS-2$
+		} else if (name.equals("enabled")) { //$NON-NLS-1$ 
 			pd.setCategory(Messages.getString("EObjectPropertySource.ScenarioStrategy")); //$NON-NLS-1$
 		} else if (object.eClass() != propertyid.getEClass()) {
 			pd.setCategory(Messages.getString("EObjectPropertySource.reference")); //$NON-NLS-1$
@@ -342,7 +342,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 		} else if (result instanceof Boolean) {
 			// result = ((Boolean) result).booleanValue() ? new Integer(1) : new
 			// Integer(0);
-			result = (Boolean) result;
+			result = result;
 		} else if (feature.getName().toLowerCase().indexOf("color") >= 0) { //$NON-NLS-1$
 			if (result == null || ((String) result).length() == 0)
 				result = new RGB(0, 0, 0);

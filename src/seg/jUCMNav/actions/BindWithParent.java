@@ -63,13 +63,13 @@ public class BindWithParent extends URNSelectionAction {
                         IURNContainerRef child = (IURNContainerRef) p.getModel();
                         if (child.getDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent((IURNDiagram)child.getDiagram(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
+                        else if (null == ParentFinder.findParent(child.getDiagram(), child, child.getX(), child.getY(), child.getWidth(), child.getHeight()))
                             return false; // #4 failed for ComponentRefs
                     } else if (p.getModel() instanceof IURNNode) {
                         IURNNode child = (IURNNode) p.getModel();
                         if (child.getDiagram() == null)
                             return false;
-                        else if (null == ParentFinder.findParent((IURNDiagram)child.getDiagram(), child.getX(), child.getY()))
+                        else if (null == ParentFinder.findParent(child.getDiagram(), child.getX(), child.getY()))
                             return false; // #4 failed for PathNodes
                     }
                 }
@@ -96,13 +96,13 @@ public class BindWithParent extends URNSelectionAction {
 
             // find the child and parent and create a new command to bind them together
             child = (URNmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+            parent = ParentFinder.getPossibleParent(child);
             cmd = new ContainerRefBindChildCommand(parent, child);
 
             // do the same for all other model elements.
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 child = (URNmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+                parent = ParentFinder.getPossibleParent(child);
 
                 cmd = cmd.chain(new ContainerRefBindChildCommand(parent, child));
             }

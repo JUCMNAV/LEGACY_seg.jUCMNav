@@ -35,7 +35,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public void activate() {
         if (!isActive()) {
-            ((ScenarioDef) root).eAdapters().add(this);
+            (root).eAdapters().add(this);
         }
 
         setFlag(FLAG_ACTIVE, true);
@@ -55,7 +55,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     public void deactivate() {
         if (isActive()) {
-            ((ScenarioDef) root).eAdapters().add(this);
+            (root).eAdapters().add(this);
         }
         List c = getChildren();
         for (int i = 0; i < c.size(); i++) {

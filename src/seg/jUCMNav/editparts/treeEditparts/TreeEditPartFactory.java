@@ -69,7 +69,7 @@ public class TreeEditPartFactory implements EditPartFactory {
         else if (model instanceof IntentionalElementRef)
             return new IntentionalElementRefTreeEditPart((IntentionalElementRef) model);
         else if (model instanceof IntentionalElement)
-            return new IntentionalElementTreeEditPart((IntentionalElement) model);
+            return new IntentionalElementTreeEditPart(model);
         else if (model instanceof Belief)
             return new BeliefTreeEditPart((Belief) model);
         else if (model instanceof ActorRef)
@@ -77,7 +77,7 @@ public class TreeEditPartFactory implements EditPartFactory {
         else if (model instanceof Actor)
             return new ActorTreeEditPart((Actor)model);
         else if (model instanceof ElementLink)
-            return new ElementLinkTreeEditPart((ElementLink)model);
+            return new ElementLinkTreeEditPart(model);
         else
             return null;
     }

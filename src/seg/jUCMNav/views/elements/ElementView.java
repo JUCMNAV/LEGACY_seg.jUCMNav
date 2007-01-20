@@ -240,7 +240,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 	private void setEditor(IWorkbenchPartReference partRef) {
 		if (partRef.getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
 			setEditor((UCMNavMultiPageEditor) partRef.getPage().getActiveEditor());
-			setInput((IURNDiagram) ((UrnEditor) editor.getCurrentPage()).getModel());
+			setInput((editor.getCurrentPage()).getModel());
 		}
 	}
 
@@ -280,7 +280,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 
 		if (getSite().getPage().getActiveEditor() instanceof UCMNavMultiPageEditor) {
 			setEditor((UCMNavMultiPageEditor) getSite().getPage().getActiveEditor());
-			setInput((IURNDiagram) ((UrnEditor) editor.getCurrentPage()).getModel());
+			setInput((editor.getCurrentPage()).getModel());
 		}
 	}
 
@@ -306,7 +306,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 				HashMap registry = (HashMap) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
 
 				for (Iterator i = sel.iterator(); i.hasNext();) {
-					Object obj = (Object) i.next();
+					Object obj = i.next();
 					if ((obj instanceof RespRef) || (obj instanceof IntentionalElementRef)) {
 						IURNNode ref = (IURNNode) obj;
 						EditPart part = (EditPart) registry.get(ref);
@@ -341,7 +341,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 	 * @see seg.jUCMNav.editors.IPageChangeListener#pageChanged()
 	 */
 	public void pageChanged() {
-		setInput((IURNDiagram) ((UrnEditor) editor.getCurrentPage()).getModel());
+		setInput((editor.getCurrentPage()).getModel());
 	}
 
 	/*

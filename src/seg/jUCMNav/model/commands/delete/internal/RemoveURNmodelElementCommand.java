@@ -148,8 +148,8 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			aborted = node.getDiagram() == null;
 			if (aborted)
 				return;
-			diagram = (IURNDiagram) node.getDiagram();
-			parent = (IURNContainerRef) node.getContRef();
+			diagram = node.getDiagram();
+			parent = node.getContRef();
 			if (node instanceof RespRef) {
 				RespRef ref = (RespRef) node;
 				definition = ref.getRespDef();
@@ -160,11 +160,11 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 
 		} else if (element instanceof IURNContainerRef) {
 			IURNContainerRef ref = (IURNContainerRef) element;
-			diagram = (IURNDiagram) ref.getDiagram();
+			diagram = ref.getDiagram();
 			aborted = diagram == null;
 			if (aborted)
 				return;
-			parent = (IURNContainerRef) ref.getParent();
+			parent = ref.getParent();
 			if (ref.getContDef() instanceof ComponentElement) {
 				definition = (ComponentElement) ref.getContDef();
 			} else if (ref.getContDef() instanceof Actor) {

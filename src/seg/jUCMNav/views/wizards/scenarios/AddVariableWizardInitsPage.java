@@ -374,7 +374,7 @@ public class AddVariableWizardInitsPage extends WizardPage {
 				initializations.put(scenario, "0"); //$NON-NLS-1$
 			} else
 			{
-				initializations.put(scenario, enum_values[0]); //$NON-NLS-1$
+				initializations.put(scenario, enum_values[0]); 
 			}
 		}
 	}

@@ -125,7 +125,7 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * We always want to be editing a URNspec
      */
     public UCMNavMultiPageEditor() {
-        setModel((URNspec) ModelCreationFactory.getNewURNspec());
+        setModel(ModelCreationFactory.getNewURNspec());
         ColorManager.refresh();
     }
 

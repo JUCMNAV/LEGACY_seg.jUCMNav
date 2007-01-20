@@ -14,8 +14,8 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.MapComponentEditPolicy;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.map.Connect;
-import ucm.map.UCMmap;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * TreeEditPart for the Map.

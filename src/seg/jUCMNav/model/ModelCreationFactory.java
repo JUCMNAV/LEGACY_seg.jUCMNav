@@ -315,7 +315,7 @@ public class ModelCreationFactory implements CreationFactory {
                 if (targetClass.equals(UCMmap.class)) {
                     // create a map
                     result = mapfactory.createUCMmap();
-                    URNNamingHelper.setElementNameAndID(urn, (UCMmap) result);
+                    URNNamingHelper.setElementNameAndID(urn, result);
 
                 } else if (targetClass.equals(ComponentRef.class)) {
                     // create the component ref
@@ -398,7 +398,7 @@ public class ModelCreationFactory implements CreationFactory {
                 } else if (targetClass.equals(GRLGraph.class)) {
                     // create a map
                     result = grlfactory.createGRLGraph();
-                    URNNamingHelper.setElementNameAndID(urn, (GRLGraph) result);
+                    URNNamingHelper.setElementNameAndID(urn, result);
                 } else if (targetClass.equals(IntentionalElementRef.class)) {
                     // create the intentional Element ref
                     result = grlfactory.createIntentionalElementRef();
@@ -517,7 +517,7 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
 
         // add the new map to the UCMspec
-        urnspec.getUrndef().getSpecDiagrams().add((UCMmap) getNewObject(urnspec, UCMmap.class));
+        urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));
 
         // Create a Strategy and Strategy Group
         StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);

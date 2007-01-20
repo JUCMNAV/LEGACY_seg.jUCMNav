@@ -82,12 +82,12 @@ public class UnbindFromParent extends URNSelectionAction {
             IURNContainerRef parent;
 
             child = (URNmodelElement) ((EditPart) getSelectedObjects().get(0)).getModel();
-            parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+            parent = ParentFinder.getPossibleParent(child);
             cmd = new ContainerRefUnbindChildCommand(parent, child);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 child = (URNmodelElement) ((EditPart) getSelectedObjects().get(i)).getModel();
-                parent = (IURNContainerRef)ParentFinder.getPossibleParent(child);
+                parent = ParentFinder.getPossibleParent(child);
                 cmd = cmd.chain(new ContainerRefUnbindChildCommand(parent, child));
             }
 

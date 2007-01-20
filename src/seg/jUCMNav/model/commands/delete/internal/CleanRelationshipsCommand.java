@@ -159,7 +159,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			add(new RemoveLinkedInfoCommand(element));
 		}
 		if (pn.getContRef() != null)
-			add(new ContainerRefUnbindChildCommand((ComponentRef) pn.getContRef(), pn));
+			add(new ContainerRefUnbindChildCommand(pn.getContRef(), pn));
 
 		if (pn instanceof StartPoint) {
 			for (Iterator iter = ((StartPoint) pn).getScenarioStartPoints().iterator(); iter.hasNext();) {
@@ -201,7 +201,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
 
 		if (cr.getParent() != null)
-			add(new ContainerRefUnbindChildCommand((ComponentRef) cr.getParent(), cr));
+			add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 			add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
 
 		if (cr.getParent() != null)
-			add(new ContainerRefUnbindChildCommand((ActorRef) cr.getParent(), cr));
+			add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	 */
 	private void build(GRLNode ref) {
 		if (ref.getContRef() != null) {
-			add(new ContainerRefUnbindChildCommand((ActorRef) ref.getContRef(), ref));
+			add(new ContainerRefUnbindChildCommand(ref.getContRef(), ref));
 		}
 	}
 

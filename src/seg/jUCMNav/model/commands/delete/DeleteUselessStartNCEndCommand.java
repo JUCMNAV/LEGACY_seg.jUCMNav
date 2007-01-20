@@ -6,10 +6,10 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 
 /**
  * Given a next global id, removes all Start-nc-End that were created afterwards.

@@ -112,7 +112,7 @@ public class MscTraversalListener implements ITraversalListener {
 		this.whenToSave = whenToSave;
 		
 		htScenarioToMap = new HashMap();
-		urnspec = (URNspec) ModelCreationFactory.getNewURNspec();
+		urnspec = ModelCreationFactory.getNewURNspec();
 		
 		// TODO: find a better way to store this information. URNspec should have metadata. 
 		//urnspec.setAuthor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getTitle());
@@ -476,7 +476,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 		CreatePathCommand cmd = new CreatePathCommand(currentMap, 0, visit.getThreadID() * 100);
 		cs.execute(cmd);
-		cmd.getStart().setName(((PathNode) visit.getVisitedElement()).getName());
+		cmd.getStart().setName((visit.getVisitedElement()).getName());
 		setComponentRef(cmd.getStart(), visit);
 
 		htThreadStart.put(new Integer(visit.getThreadID()), cmd.getStart());

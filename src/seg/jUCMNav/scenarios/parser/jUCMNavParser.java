@@ -5,7 +5,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
     System.out.println("Reading from standard input..."); //$NON-NLS-1$
     jUCMNavParser t = new jUCMNavParser(System.in);
     try {
-      SimpleNode n = t.Start();
+      SimpleNode n = jUCMNavParser.Start();
       n.dump(""); //$NON-NLS-1$
       System.out.println("Thank you."); //$NON-NLS-1$
     } catch (Exception e) {
@@ -943,7 +943,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   static public void ReInit(java.io.InputStream stream) {
     jj_input_stream.ReInit(stream, 1, 1);
-    token_source.ReInit(jj_input_stream);
+    jUCMNavParserTokenManager.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jjtree.reset();
@@ -969,7 +969,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   static public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
-    token_source.ReInit(jj_input_stream);
+    jUCMNavParserTokenManager.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jjtree.reset();
@@ -1004,7 +1004,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
   static final private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    else token = token.next = jUCMNavParserTokenManager.getNextToken();
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
@@ -1017,7 +1017,7 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
 
   static final public Token getNextToken() {
     if (token.next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    else token = token.next = jUCMNavParserTokenManager.getNextToken();
     jj_ntk = -1;
     jj_gen++;
     return token;
@@ -1027,14 +1027,14 @@ public class jUCMNavParser/*@bgen(jjtree)*/implements jUCMNavParserTreeConstants
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
-      else t = t.next = token_source.getNextToken();
+      else t = t.next = jUCMNavParserTokenManager.getNextToken();
     }
     return t;
   }
 
   static final private int jj_ntk() {
     if ((jj_nt=token.next) == null)
-      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
+      return (jj_ntk = (token.next=jUCMNavParserTokenManager.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }

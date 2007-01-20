@@ -36,8 +36,8 @@ public class SetConstraintCommand extends CompoundCommand {
             for (Iterator iter = node.getPred().iterator(); iter.hasNext();) {
                 IURNConnection nc = (IURNConnection) iter.next();
                 if (nc.getSource() instanceof Connect) {
-                    add(new MoveNodeCommand((PathNode)nc.getSource(), x, y));
-                    add(new MoveNodeCommand((PathNode)((NodeConnection) nc.getSource().getPred().get(0)).getSource(), x, y));
+                    add(new MoveNodeCommand(nc.getSource(), x, y));
+                    add(new MoveNodeCommand(((NodeConnection) nc.getSource().getPred().get(0)).getSource(), x, y));
                 }
             }
         }
@@ -45,8 +45,8 @@ public class SetConstraintCommand extends CompoundCommand {
             for (Iterator iter = node.getSucc().iterator(); iter.hasNext();) {
                 IURNConnection nc = (IURNConnection) iter.next();
                 if (nc.getTarget() instanceof Connect) {
-                    add(new MoveNodeCommand((PathNode)nc.getTarget(), x, y));
-                    add(new MoveNodeCommand((PathNode)((NodeConnection) nc.getTarget().getSucc().get(0)).getTarget(), x, y));
+                    add(new MoveNodeCommand(nc.getTarget(), x, y));
+                    add(new MoveNodeCommand(((NodeConnection) nc.getTarget().getSucc().get(0)).getTarget(), x, y));
                 }
             }
         }

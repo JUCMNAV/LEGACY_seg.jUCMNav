@@ -76,7 +76,7 @@ public class SetConstraintContainerRefCommand extends Command implements JUCMNav
      * Remembers the current and new parent, according to the destination location.
      */
     private void setParents() {
-        oldParent = (IURNContainerRef)compRef.getParent();
+        oldParent = compRef.getParent();
         newParent = ParentFinder.findParent(compRef.getDiagram(), compRef, newX, newY, newWidth, newHeight);
     }
 

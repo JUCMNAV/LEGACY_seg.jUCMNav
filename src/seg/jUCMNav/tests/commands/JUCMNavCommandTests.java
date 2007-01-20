@@ -66,9 +66,9 @@ import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentElement;
+import urncore.IURNDiagram;
 import urncore.Label;
 import urncore.Responsibility;
-import urncore.IURNDiagram;
 import urncore.UCMmodelElement;
 
 /**
@@ -112,7 +112,7 @@ public class JUCMNavCommandTests extends TestCase {
         super.setUp();
 
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
+        IProject testproject = workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 
@@ -548,7 +548,7 @@ public class JUCMNavCommandTests extends TestCase {
         testSetConstraintBoundComponentRefCompoundCommand();
         testCreatePathCommand();
 
-        pathNodeWithLabel = (UCMmodelElement) end;
+        pathNodeWithLabel = end;
 
         CreateLabelCommand cmd = new CreateLabelCommand(pathNodeWithLabel);
         cmd.setDeltaX(50);
@@ -557,7 +557,7 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Can't execute CreateLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        componentRefWithLabel = (UCMmodelElement) compRef;
+        componentRefWithLabel = compRef;
 
         cmd = new CreateLabelCommand(componentRefWithLabel);
         cmd.setDeltaX(0);
@@ -670,14 +670,14 @@ public class JUCMNavCommandTests extends TestCase {
 
         DeleteLabelCommand cmd = new DeleteLabelCommand();
         cmd.setModelElement(pathNodeWithLabel);
-        cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
+        cmd.setLabel(((PathNode) pathNodeWithLabel).getLabel());
 
         assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new DeleteLabelCommand();
         cmd.setModelElement(componentRefWithLabel);
-        cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
+        cmd.setLabel(((ComponentRef) componentRefWithLabel).getLabel());
 
         assertTrue("Can't execute testDeleteLabelCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
@@ -979,14 +979,14 @@ public class JUCMNavCommandTests extends TestCase {
         testCreateLabelCommand();
 
         LabelSetConstraintCommand cmd = new LabelSetConstraintCommand();
-        cmd.setLabel((Label) ((PathNode) pathNodeWithLabel).getLabel());
+        cmd.setLabel(((PathNode) pathNodeWithLabel).getLabel());
         cmd.setNewPosition(75, 75);
 
         assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
         cmd = new LabelSetConstraintCommand();
-        cmd.setLabel((Label) ((ComponentRef) componentRefWithLabel).getLabel());
+        cmd.setLabel(((ComponentRef) componentRefWithLabel).getLabel());
         cmd.setNewPosition(25, 25);
 
         assertTrue("Can't execute LabelSetConstraintCommand.", cmd.canExecute()); //$NON-NLS-1$

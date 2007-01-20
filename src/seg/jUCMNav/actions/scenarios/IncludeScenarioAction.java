@@ -50,7 +50,7 @@ public class IncludeScenarioAction extends URNSelectionAction {
 		List list = getSelectedObjects();
 		ArrayList list2 = new ArrayList();
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			Object object = (Object) iter.next();
+			Object object = iter.next();
 		
 			if (object instanceof ScenarioLabelTreeEditPart)
 				list2.add(((ScenarioLabelTreeEditPart)object).getParent());

@@ -218,7 +218,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		ec.setLayoutData(td);
 
 		// Connect map section
-		mapSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
+		mapSection = toolkit.createSection(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		mapSection.setText(Messages.getString("StubBindingsDialog.selectPluginMaps")); //$NON-NLS-1$
 		td = new TableWrapData(TableWrapData.FILL);
 		td.colspan = 1;
@@ -265,7 +265,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		mapSection.setClient(mapClient);
 
 		// Plugin List section
-		pluginListSection = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR);
+		pluginListSection = toolkit.createSection(form.getBody(), ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 1;
 		td.grabHorizontal = true;

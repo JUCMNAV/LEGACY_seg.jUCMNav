@@ -11,13 +11,13 @@ import seg.jUCMNav.model.commands.delete.internal.DeleteOutBindingCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 
 /**
  * Given a PathNode, NodeConnection or Map, removes anything to do with Stub-Plugin bindings.

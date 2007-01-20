@@ -144,7 +144,7 @@ public class IncludeScenarioPage extends WizardPage {
 			children.clear();
 			for (int i = 0; i < scenarios.getSelectionIndices().length; i++) {
 				int index = scenarios.getSelectionIndices()[i];
-				children.add((ScenarioDef) ScenarioUtils.getPossibleIncludedScenarios(parent).get(index));
+				children.add(ScenarioUtils.getPossibleIncludedScenarios(parent).get(index));
 			}
 			//child = (ScenarioDef) ScenarioUtils.getPossibleIncludedScenarios(parent).get(scenarios.getSelectionIndex());
 			updateStatus(null);

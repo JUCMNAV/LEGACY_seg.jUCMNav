@@ -5,10 +5,10 @@ import java.util.Iterator;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import ucm.map.InBinding;
-import ucm.map.UCMmap;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**

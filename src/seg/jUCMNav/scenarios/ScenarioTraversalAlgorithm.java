@@ -352,7 +352,7 @@ public class ScenarioTraversalAlgorithm {
 
 				Object res = null;
 				try {
-					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
 					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res));
 
 					if (res instanceof Boolean) {
@@ -394,7 +394,7 @@ public class ScenarioTraversalAlgorithm {
 
 				Object res = null;
 				try {
-					res = (Object) ScenarioUtils.evaluate(cond.getExpression(), env, false);
+					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
 					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res));
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {

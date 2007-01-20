@@ -19,10 +19,10 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerR
 import ucm.map.PathNode;
 import urncore.ComponentLabel;
 import urncore.Condition;
-import urncore.Label;
-import urncore.NodeLabel;
 import urncore.IURNContainerRef;
 import urncore.IURNNode;
+import urncore.Label;
+import urncore.NodeLabel;
 
 /**
  * @author Jean-François Roy

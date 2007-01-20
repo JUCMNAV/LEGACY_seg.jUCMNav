@@ -469,7 +469,7 @@ public class SelectionHelper {
         // just set the URNspec.
         if (selection.size() > 2) {
             for (Iterator iter = selection.iterator(); iter.hasNext();) {
-                Object element = (Object) iter.next();
+                Object element = iter.next();
                 if (element instanceof EditPart && ((EditPart) element).getModel() != null) {
                     Object model = ((EditPart) element).getModel();
                     if (model instanceof URNspec)

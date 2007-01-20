@@ -101,14 +101,14 @@ public class MultiPageTabManager {
             IURNDiagram g = getDiagram(i);
             if (g instanceof UCMmap){
                 UcmEditor u = new UcmEditor(getEditor());
-                u.setModel((UCMmap)getDiagram(i));
+                u.setModel(getDiagram(i));
                 addPage(u, editor.getEditorInput());
                 editor.getMultiPageCommandStackListener().addCommandStack(u.getCommandStack());
                 setPageText(getPageCount() - 1, ((UCMmap)getDiagram(i)).getName());
             }
             else if (g instanceof GRLGraph){
                 GrlEditor grl = new GrlEditor(getEditor());
-                grl.setModel((GRLGraph)getDiagram(i));
+                grl.setModel(getDiagram(i));
                 addPage(grl, editor.getEditorInput());
                 editor.getMultiPageCommandStackListener().addCommandStack(grl.getCommandStack());
                 setPageText(getPageCount() - 1, ((GRLGraph)getDiagram(i)).getName());

@@ -115,7 +115,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
             // generate the path.
             String path = ImportPreferenceHelper.getPath();
 
-            IURNImport importer = (IURNImport) URNImportExtensionPointHelper.getImporter(id);
+            IURNImport importer = URNImportExtensionPointHelper.getImporter(id);
 
             autolayoutDiagrams = new Vector();
             if (URNImportExtensionPointHelper.isUseStream(id)) {

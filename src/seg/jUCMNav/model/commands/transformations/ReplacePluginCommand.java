@@ -11,12 +11,12 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.EndPoint;
 import ucm.map.InBinding;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**

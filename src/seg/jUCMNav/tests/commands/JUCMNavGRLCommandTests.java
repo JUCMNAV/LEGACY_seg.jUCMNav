@@ -111,7 +111,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
         testBindings = true;
         
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject testproject = (IProject) workspaceRoot.getProject("jUCMNav-GRL-tests"); //$NON-NLS-1$
+        IProject testproject = workspaceRoot.getProject("jUCMNav-GRL-tests"); //$NON-NLS-1$
         if (!testproject.exists())
             testproject.create(null);
 

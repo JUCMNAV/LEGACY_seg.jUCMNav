@@ -171,7 +171,7 @@ public class AddStartEndPointWizardPage extends WizardPage {
 			children.clear();
 			for (int i = 0; i < points.getSelectionIndices().length; i++) {
 				int index = points.getSelectionIndices()[i];
-				children.add((PathNode)getNodes().get(index));
+				children.add(getNodes().get(index));
 			}
 			//child = (PathNode) getNodes().get(points.getSelectionIndex());
 			updateStatus(null);

@@ -175,7 +175,7 @@ public abstract class UrnEditor extends GraphicalEditorWithFlyoutPalette {
 
             sharedKeyHandler.put(KeyStroke.getPressed(SWT.F2, 0), getActionRegistry().getAction(GEFActionConstants.DIRECT_EDIT));
 
-            sharedKeyHandler.put(KeyStroke.getPressed((char) 1, (int) 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
+            sharedKeyHandler.put(KeyStroke.getPressed((char) 1, 'a', SWT.CTRL), getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId()));
 
             sharedKeyHandler.put(KeyStroke.getReleased(SWT.ESC, SWT.ESC, 0), getActionRegistry()
                     .getAction(SelectDefaultPaletteToolAction.SETDEFAULTPALETTETOOL));

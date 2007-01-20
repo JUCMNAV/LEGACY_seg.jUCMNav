@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 /**
@@ -116,7 +117,7 @@ public abstract class EmfModelManager {
 	    getResource(path);
 	    Map options = new HashMap();
 	    
-	    options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
+	    options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
 	    resource.load(options);
 	}
 
@@ -129,7 +130,7 @@ public abstract class EmfModelManager {
 	    getResource(path);
 	    Map options = new HashMap();
 	    
-	    options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
+	    options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
 	    resource.load(options);
 	}
 
@@ -161,9 +162,9 @@ public abstract class EmfModelManager {
 	public void save(IPath path) throws IOException {
 	    getResource(path);
 	    Map options = new HashMap();
-	    options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
+	    options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
 	    // latin 1
-	    options.put(XMIResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
+	    options.put(XMLResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
 	            
 	    resource.save(options);
 	}
@@ -176,9 +177,9 @@ public abstract class EmfModelManager {
 	public void save(File path) throws IOException {
 	    getResource(path);
 	    Map options = new HashMap();
-	    options.put(XMIResource.OPTION_DECLARE_XML, Boolean.TRUE);
+	    options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
 	    // latin 1
-	    options.put(XMIResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
+	    options.put(XMLResource.OPTION_ENCODING, "ISO-8859-1"); //$NON-NLS-1$
 	            
 	    resource.save(options);
 	}

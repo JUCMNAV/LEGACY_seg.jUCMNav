@@ -125,7 +125,7 @@ public class ExportCSV implements IURNExport {
             write(COMMA);
             write(strategy.getAuthor());         
             writeEvaluations(strategy);
-            write(END_LINE); //$NON-NLS-1$
+            write(END_LINE); 
         }
     }
     

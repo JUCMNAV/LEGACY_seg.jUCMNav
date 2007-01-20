@@ -431,7 +431,7 @@ public class MetadataEditorPage extends WizardPage {
         MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
         dialog.setTitle(Messages.getString("MetadataEntryDialog.title_add"));
         dialog.setLabels(columnNames);
-        String[] data = (String[]) dialog.open();
+        String[] data = dialog.open();
 
         if (data != null) {
             TableItem item = new TableItem(metadataTable, SWT.NONE);
@@ -526,7 +526,7 @@ public class MetadataEditorPage extends WizardPage {
 
     private void initTypeOfElementsLabels() {
         for (int i = 0; i < URNmodelElementType.urnElementTypeNames.length; i++) {
-            typeOfElements.add((String) URNmodelElementType.urnElementTypeNames[i]);
+            typeOfElements.add(URNmodelElementType.urnElementTypeNames[i]);
         }
     }
 

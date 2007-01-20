@@ -83,8 +83,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see org.eclipse.gef.EditPart#activate()
      */
     public void activate() {
-        if (!isActive() && getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null){
-            ((IntentionalElementRef)getNode()).getDef().eAdapters().add(this);
+        if (!isActive() && getNode() instanceof IntentionalElementRef && (getNode()).getDef() != null){
+            (getNode()).getDef().eAdapters().add(this);
         }
         
         // listen to reference
@@ -140,8 +140,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             }
             // bug 435: ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
-            if (getNode() instanceof IntentionalElementRef && ((IntentionalElementRef) getNode()).getDef() != null)
-                ((IntentionalElementRef) getNode()).getDef().eAdapters().remove(this);
+            if (getNode() instanceof IntentionalElementRef && (getNode()).getDef() != null)
+                (getNode()).getDef().eAdapters().remove(this);
         }
         super.deactivate();
 
@@ -284,9 +284,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         setText();
 
         // set information for specific drawing
-        if (((IntentionalElementRef)getNode()).getDef() != null && 
-                (((IntentionalElementRef)getNode()).getDef() instanceof IntentionalElement)) {
-            IntentionalElement elem = ((IntentionalElementRef)getNode()).getDef();
+        if ((getNode()).getDef() != null && 
+                ((getNode()).getDef() instanceof IntentionalElement)) {
+            IntentionalElement elem = (getNode()).getDef();
             ((IntentionalElementFigure) figure).setType(elem.getType().getValue());
             //Set the line color and fill color. Option only available in design view
             if (getParent()==null || !((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){

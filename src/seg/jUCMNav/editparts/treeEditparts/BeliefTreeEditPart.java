@@ -3,14 +3,14 @@
  */
 package seg.jUCMNav.editparts.treeEditparts;
 
+import grl.Belief;
+
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.GRLNodeComponentEditPolicy;
-
-import grl.Belief;
 
 /**
  * TreeEditPart for the Beliefs

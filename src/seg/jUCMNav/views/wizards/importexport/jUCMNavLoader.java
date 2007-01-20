@@ -236,7 +236,7 @@ public class jUCMNavLoader {
              */
             private void doAutolayout(UCMNavMultiPageEditor editor, int i) throws InvocationTargetException {
                 UrnEditor urneditor = (UrnEditor) editor.getEditor(i);
-                AutoLayoutWizard wizard = new AutoLayoutWizard(urneditor, (IURNDiagram) urneditor.getModel());
+                AutoLayoutWizard wizard = new AutoLayoutWizard(urneditor, urneditor.getModel());
 
                 // use settings saved in preferences.
                 if (wizard.canFinish()) {

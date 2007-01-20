@@ -2,6 +2,7 @@ package seg.jUCMNav.actions;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
+
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;

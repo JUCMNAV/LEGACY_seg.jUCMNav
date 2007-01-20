@@ -7,9 +7,9 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.ComponentRef;
-import ucm.map.UCMmap;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Responsibility;

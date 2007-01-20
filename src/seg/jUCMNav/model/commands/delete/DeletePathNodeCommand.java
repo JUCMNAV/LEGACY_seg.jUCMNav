@@ -13,10 +13,10 @@ import seg.jUCMNav.model.commands.transformations.CutPathCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 
 /**
  * Deletes a PathNode from the model. Uses many commands from the internal package because some deletions are very complex and impact multiple other UCM

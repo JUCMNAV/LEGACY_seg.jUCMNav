@@ -108,7 +108,7 @@ public class MoveNodeCommand extends Command implements JUCMNavCommand {
      * Remembers the current and new parent, according to the destination location.
      */
     private void setParents() {
-        oldParent = (IURNContainerRef) node.getContRef();
+        oldParent = node.getContRef();
         if (node.getDiagram() != null ) {
             newParent = ParentFinder.findParent(node.getDiagram(), newX, newY);
         }

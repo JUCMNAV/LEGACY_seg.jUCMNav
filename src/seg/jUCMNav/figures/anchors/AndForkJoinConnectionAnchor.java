@@ -52,7 +52,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
      * We do this to have better movement feedback than static assignments. (Similar to UCMNav)
      */
     public Point getLocation(Point reference) {
-        IFigure figure = (IFigure) getOwner();
+        IFigure figure = getOwner();
         // the rotated line.
         Polygon subfig = ((Polygon) figure.getChildren().get(0));
         int minPoint = -1;
@@ -119,7 +119,7 @@ public class AndForkJoinConnectionAnchor extends AbstractConnectionAnchor {
      * @return the point in the list that is closest to fromPoint
      */
     private int getClosestPoint(PointList list, Point fromPoint) {
-        IFigure figure = (IFigure) getOwner();
+        IFigure figure = getOwner();
 
         double minDist = Double.MAX_VALUE;
         int minPoint = -1;

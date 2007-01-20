@@ -60,7 +60,7 @@ public class BindChildren extends URNSelectionAction {
                         IURNContainerRef cr = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
                         if (cr.getDiagram() == null)
                             return false;
-                        else if (ParentFinder.findNewChildren((IURNDiagram)cr.getDiagram(), cr).size() == 0) {
+                        else if (ParentFinder.findNewChildren(cr.getDiagram(), cr).size() == 0) {
                             return false; // #4 failed
                         }
                     }
@@ -85,13 +85,13 @@ public class BindChildren extends URNSelectionAction {
 
             // get the selected parent, find its new children and create a command
             parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(0)).getModel();
-            children = ParentFinder.findNewChildren((IURNDiagram)parent.getDiagram(), parent);
+            children = ParentFinder.findNewChildren(parent.getDiagram(), parent);
             cmd = new ContainerRefBindChildCommand(parent, children);
 
             for (int i = 1; i < getSelectedObjects().size(); i++) {
                 //get the selected parent, find its new children and create a command
                 parent = (IURNContainerRef) ((EditPart) getSelectedObjects().get(i)).getModel();
-                children = ParentFinder.findNewChildren((IURNDiagram)parent.getDiagram(), parent);
+                children = ParentFinder.findNewChildren(parent.getDiagram(), parent);
                 cmd = cmd.chain(new ContainerRefBindChildCommand(parent, children));
             }
 

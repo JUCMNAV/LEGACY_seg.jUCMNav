@@ -13,9 +13,9 @@ import org.eclipse.gef.LayerConstants;
 import seg.jUCMNav.figures.anchors.AndForkJoinConnectionAnchor;
 import seg.jUCMNav.figures.router.UCMConnectionRouter;
 import ucm.map.AndFork;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 
 /**
  * EditPart for AndJoins and AndForks. Manages connection anchors for these two elements.
@@ -62,7 +62,7 @@ public class AndForkJoinEditPart extends PathNodeEditPart implements AnchorListe
         // when one anchor is moved, we must inform the others as we are using mutually exclusive locations. 
         for (Iterator iter = toRefresh.iterator(); iter.hasNext();) {
             NodeConnection element = (NodeConnection) iter.next();
-            AndForkJoinConnectionAnchor anch = ((AndForkJoinConnectionAnchor) getAnchor(element));
+            AndForkJoinConnectionAnchor anch = (getAnchor(element));
             if (anch != anchor)
                 anch.ancestorMoved(getFigure());
         }

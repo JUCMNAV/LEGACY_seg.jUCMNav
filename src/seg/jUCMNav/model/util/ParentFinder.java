@@ -236,7 +236,7 @@ public class ParentFinder {
                 System.out.println(Messages.getString("ParentFinder.circularBinding")); //$NON-NLS-1$
                 return false;
             } else
-                parent = (IURNContainerRef) parent.getParent();
+                parent = parent.getParent();
         }
         return true;
     }

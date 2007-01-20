@@ -50,9 +50,9 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
         if (editor.getCurrentPage() != null) {
             if (editor.getCurrentPage() instanceof UrnEditor)
             {
-                IURNDiagram map = ((IURNDiagram)((UrnEditor) editor.getCurrentPage()).getModel());
+                IURNDiagram map = ((editor.getCurrentPage()).getModel());
     
-                AutoLayoutWizard wizard = new AutoLayoutWizard((UrnEditor)editor.getCurrentPage(), map);
+                AutoLayoutWizard wizard = new AutoLayoutWizard(editor.getCurrentPage(), map);
     
                 WizardDialog dialog = new WizardDialog(editor.getSite().getShell(), wizard);
     

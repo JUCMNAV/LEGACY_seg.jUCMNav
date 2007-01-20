@@ -26,10 +26,10 @@ public class JUCMNavFigure {
     public static Dimension getDimension(Object modelElement) {
         if (modelElement instanceof EndPoint) {
             if (((EndPoint) modelElement).getSucc().size() == 0)
-                return EndPointFigure.getDefaultDimension();
+                return PathNodeFigure.getDefaultDimension();
             else
                 // if connected to startpoint, avoids overlapping (figure grows anyways)
-                return EndPointFigure.getDefaultDimension().getCopy().scale(EndPointFigure.RESIZEFACTOR + 0.5);
+                return PathNodeFigure.getDefaultDimension().getCopy().scale(EndPointFigure.RESIZEFACTOR + 0.5);
         } else if (modelElement instanceof Stub) {
             return StubFigure.getDefaultDimension();
         } else if (modelElement instanceof AndFork || modelElement instanceof AndJoin) {

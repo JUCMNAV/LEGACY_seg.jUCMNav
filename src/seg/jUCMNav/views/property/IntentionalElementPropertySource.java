@@ -302,7 +302,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             setReferencedObject(propertyid, feature, result);
             CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand((IntentionalElementRef) getEditableValue());
             createCmd.execute();
-            def = (IntentionalElement)((IntentionalElementRef) object).getDef();
+            def = ((IntentionalElementRef) object).getDef();
         } else if (feature.getContainerClass() == Evaluation.class) {
             //The feature should be a int
             if (feature.getEType().getInstanceClass() == int.class) {

@@ -11,11 +11,11 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.PathNode;
+import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.Condition;
 import urncore.NodeLabel;
@@ -91,7 +91,7 @@ public class TransmogrifyForkOrJoinCommand extends Command implements JUCMNavCom
             if (_oldNode instanceof OrFork)
                 _outConditions.add(nc.getCondition());
             else if (_newNode instanceof OrFork)
-                _outConditions.add((Condition) ModelCreationFactory.getNewObject(urn, Condition.class));
+                _outConditions.add(ModelCreationFactory.getNewObject(urn, Condition.class));
         }
 
         _oldLabel = _oldNode.getLabel();

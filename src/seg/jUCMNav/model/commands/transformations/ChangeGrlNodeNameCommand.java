@@ -41,7 +41,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
      */
     public void execute() {
         if (elem instanceof IntentionalElementRef) {
-            oldName = ((IntentionalElement)((IntentionalElementRef) elem).getDef()).getName();
+            oldName = (((IntentionalElementRef) elem).getDef()).getName();
         } else if (elem instanceof Belief) {
             oldName = ((Belief) elem).getDescription();
         } 
@@ -65,7 +65,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
      * @return true or false - uniqueness of name
      */
     private boolean verifyUniqueness(String name) {
-        return URNNamingHelper.isNameValid((URNmodelElement) elem, name).length() == 0;
+        return URNNamingHelper.isNameValid(elem, name).length() == 0;
     }
     
     /**
@@ -97,7 +97,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         testPreConditions();
 
         if (elem instanceof IntentionalElementRef) {
-            ((IntentionalElement)((IntentionalElementRef) elem).getDef()).setName(name);
+            (((IntentionalElementRef) elem).getDef()).setName(name);
         } else if (elem instanceof Belief) {
             ((Belief) elem).setDescription(name);
         } 
@@ -111,7 +111,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
         testPostConditions();
 
         if (elem instanceof IntentionalElementRef) {
-            ((IntentionalElement)((IntentionalElementRef) elem).getDef()).setName(oldName);
+            (((IntentionalElementRef) elem).getDef()).setName(oldName);
         } else if (elem instanceof Belief) {
             ((Belief) elem).setDescription(oldName);
         } 

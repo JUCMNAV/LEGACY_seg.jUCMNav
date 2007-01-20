@@ -131,7 +131,7 @@ public class ExportLayoutDOT implements IUseCaseMapExport {
 	public void export(IURNDiagram diagram, FileOutputStream fos) {
 		id=0;
 		if (diagram instanceof UCMmap) {
-			String contents = convertUCMToDot((UCMmap) diagram);
+			String contents = convertUCMToDot(diagram);
 			try {
 				fos.write(contents.getBytes());
 			} catch (Exception ex) {

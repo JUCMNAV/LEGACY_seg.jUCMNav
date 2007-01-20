@@ -200,7 +200,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             }
 
             // get exporter
-            IUseCaseMapExport exporter = (IUseCaseMapExport) UCMExportExtensionPointHelper.getExporter(id);
+            IUseCaseMapExport exporter = UCMExportExtensionPointHelper.getExporter(id);
 
             // save it
             if (UCMExportExtensionPointHelper.getMode(id).equals("image")) { //$NON-NLS-1$
@@ -214,9 +214,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
             } else {
                 // model instance
                 if (UCMExportExtensionPointHelper.isUseStream(id)) {
-                    exporter.export((IURNDiagram) editor.getModel(), fos);
+                    exporter.export(editor.getModel(), fos);
                 } else {
-                    exporter.export((IURNDiagram) editor.getModel(), genericPath.toOSString());
+                    exporter.export(editor.getModel(), genericPath.toOSString());
                 }
             }
 
@@ -276,7 +276,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
             UCMNavMultiPageEditor editor = (UCMNavMultiPageEditor) mapsToEditor.get(diagram);
 
             // get exporter
-            IURNExport exporter = (IURNExport) URNExportExtensionPointHelper.getExporter(id);
+            IURNExport exporter = URNExportExtensionPointHelper.getExporter(id);
             if (exporter instanceof IURNExportPrePostHooks) {
 				IURNExportPrePostHooks hooks = (IURNExportPrePostHooks) exporter;
 				hooks.preHook(editor);

@@ -34,7 +34,7 @@ public class UcmScenariosModelManager extends EmfModelManager  {
     public ScenarioSpec createScenarioSpec(IPath path) {
         createResource(path);
 
-        ScenarioSpec spec = (ScenarioSpec) ucmscenarios.UcmscenariosFactory.eINSTANCE.createScenarioSpec();
+        ScenarioSpec spec = ucmscenarios.UcmscenariosFactory.eINSTANCE.createScenarioSpec();
 
         resource.getContents().add(spec);
         return spec;
@@ -68,7 +68,7 @@ public class UcmScenariosModelManager extends EmfModelManager  {
     public ScenarioSpec createScenarioSpec(File path) {
         createResource(path);
 
-        ScenarioSpec spec = (ScenarioSpec) ucmscenarios.UcmscenariosFactory.eINSTANCE.createScenarioSpec();
+        ScenarioSpec spec = ucmscenarios.UcmscenariosFactory.eINSTANCE.createScenarioSpec();
 
         resource.getContents().add(spec);
         return spec;

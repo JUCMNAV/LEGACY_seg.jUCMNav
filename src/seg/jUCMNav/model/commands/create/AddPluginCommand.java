@@ -5,9 +5,9 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import ucm.map.UCMmap;
 import ucm.map.PluginBinding;
 import ucm.map.Stub;
+import ucm.map.UCMmap;
 import urn.URNspec;
 
 /**

@@ -9,9 +9,9 @@ import seg.jUCMNav.model.util.SafePathChecker;
 import ucm.map.ComponentRef;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
-import ucm.map.UCMmap;
 import ucm.map.NodeConnection;
 import ucm.map.StartPoint;
+import ucm.map.UCMmap;
 
 /**
  * Will merge a start point and end point into an empty point located at x,y;
