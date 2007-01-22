@@ -36,25 +36,23 @@ import urncore.ComponentKind;
 public class UcmPaletteRoot extends PaletteRoot {
 
     /** Default palette size. */
-    private static final int DEFAULT_PALETTE_SIZE = 125;
+    protected static final int DEFAULT_PALETTE_SIZE = 125;
 
     /** pinned open */
-    private static final int DEFAULT_PALETTE_STATE = 4;
+    protected static final int DEFAULT_PALETTE_STATE = 4;
 
     /** Preference ID used to persist the palette location. */
-    private static final String PALETTE_DOCK_LOCATION = "jUCMNAVPaletteFactory.Location"; //$NON-NLS-1$
+    protected static final String PALETTE_DOCK_LOCATION = "jUCMNAVPaletteFactory.Location"; //$NON-NLS-1$
 
     /** Preference ID used to persist the palette size. */
-    private static final String PALETTE_SIZE = "jUCMNAVPaletteFactory.Size"; //$NON-NLS-1$
+    protected static final String PALETTE_SIZE = "jUCMNAVPaletteFactory.Size"; //$NON-NLS-1$
 
     /** Preference ID used to persist the flyout palette's state. */
-    private static final String PALETTE_STATE = "jUCMNAVPaletteFactory.State"; //$NON-NLS-1$
+    protected static final String PALETTE_STATE = "jUCMNAVPaletteFactory.State"; //$NON-NLS-1$
 
     // to obtain URNspec
-    private UCMNavMultiPageEditor parent;
+    protected UCMNavMultiPageEditor parent;
 
-    // we need to pass this to ModelCreationFactory
-    private URNspec urn;
 
     /**
      * Creates a new UcmPaletteRoot instance. To be called by the palette or anything else that might not be recreated when a save-as is done.
@@ -72,23 +70,11 @@ public class UcmPaletteRoot extends PaletteRoot {
         buildPalette();
     }
 
-    /**
-     * Creates a new UcmPaletteRoot instance.
-     */
-    public UcmPaletteRoot(URNspec urn) {
-        // create root
-        super();
-
-        // we need to pass a urnspec to our ModelCreationFactory
-        this.urn = urn;
-
-        buildPalette();
-    }
 
     /**
      *  Builds the palette entries. 
      */
-    private void buildPalette() {
+    protected void buildPalette() {
         // a group of default control tools
         PaletteGroup controls = new PaletteGroup(Messages.getString("UcmPaletteRoot.controls")); //$NON-NLS-1$
         add(controls);
@@ -263,10 +249,8 @@ public class UcmPaletteRoot extends PaletteRoot {
      * @return Returns the URNspec associated with this palette. 
      */
     public URNspec getURNspec() {
-        if (parent != null)
-            return parent.getModel();
-        else
-            return urn;
+        assert parent!=null;
+        return parent.getModel();
     }
 
 }

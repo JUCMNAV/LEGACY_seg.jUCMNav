@@ -50,15 +50,12 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         PointList points = new PointList();
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
             
-            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
-            points.addPoint(r.getTopRight().x, r.getCenter().y);
-            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
+//            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+//            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
+//            points.addPoint(r.getTopRight().x, r.getCenter().y);
+//            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
             
             //Draw the half circle at the left
             graphics.drawArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
@@ -70,32 +67,16 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             graphics.drawArc(r.getBottomLeft().x + r.width*1/5, r.getBottom().y - r.height*1/16, r.width*3/5, r.height*2/16, 0, 185);
             break;
         case IntentionalElementType.GOAL:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
             graphics.drawRoundRectangle(r, 50, 50);
             break;
         case IntentionalElementType.TASK:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
-
-            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-            points.addPoint(r.getTopRight().x, r.getCenter().y);
-            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-            points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
-            points.addPoint(r.getTopLeft().x, r.getCenter().y);
-            points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+            fillTaskPoints(r, points);
             
             graphics.drawPolygon(points);
             break;
         case IntentionalElementType.RESSOURCE:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
             graphics.drawRectangle(r);
             break;
         default:
@@ -106,20 +87,35 @@ public class IntentionalElementFigure extends GrlNodeFigure {
 
     }
 
+    private void setupBounds(Rectangle r) {
+        r.x += lineWidth / 2;
+        r.y += lineWidth / 2;
+        r.width -= lineWidth;
+        r.height -= lineWidth;
+    }
+
+    private void fillTaskPoints(Rectangle r, PointList points) {
+        setupBounds(r);
+
+        points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+        points.addPoint(r.getTopRight().x, r.getCenter().y);
+        points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
+        points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
+        points.addPoint(r.getTopLeft().x, r.getCenter().y);
+        points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+    }
+
     protected void fillShape(Graphics graphics){
         Rectangle r = getBounds().getCopy();
         PointList points = new PointList();
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
 
-            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
-            points.addPoint(r.getTopRight().x, r.getCenter().y);
-            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
+//            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+//            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
+//            points.addPoint(r.getTopRight().x, r.getCenter().y);
+//            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
             
             //Fill the half circle at the left
             graphics.fillArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
@@ -135,32 +131,16 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             graphics.fillArc(r.getBottomLeft().x + r.width*1/5, r.getBottom().y - r.height*1/16, r.width*3/5, r.height*2/16, 0, 185);
             break;
         case IntentionalElementType.GOAL:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
             graphics.fillRoundRectangle(r, 50, 50);
             break;
         case IntentionalElementType.TASK:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
-
-            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-            points.addPoint(r.getTopRight().x, r.getCenter().y);
-            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-            points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
-            points.addPoint(r.getTopLeft().x, r.getCenter().y);
-            points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+            fillTaskPoints(r, points);
             
             graphics.fillPolygon(points);
             break;
         case IntentionalElementType.RESSOURCE:
-            r.x += lineWidth / 2;
-            r.y += lineWidth / 2;
-            r.width -= lineWidth;
-            r.height -= lineWidth;
+            setupBounds(r);
             graphics.fillRectangle(r);
             break;
         default:

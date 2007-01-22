@@ -843,6 +843,26 @@ public class ProgressTests extends TestCase {
      */
     public void testReqElemAndFork3() {
 
+        Vector v = testReqElemFork3_setup();
+
+        IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
+        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
+
+        // run it to see if it doesn't crash the app!
+        action.run();
+
+        int i = 0;
+        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
+            PathNode element = (PathNode) iter.next();
+            if (element instanceof StartPoint) {
+                i++;
+            }
+        }
+
+        assertEquals("should only have one start point left!", 1, i); //$NON-NLS-1$
+    }
+
+    private Vector testReqElemFork3_setup() {
         // create a simple path
         Command cmd = new CreatePathCommand(getMap(), 100, 200);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
@@ -875,22 +895,7 @@ public class ProgressTests extends TestCase {
         Vector v = new Vector();
         v.add(ep);
         v.add(sp);
-
-        IAction action = getAction(v, AddAndForkAction.ADDANDFORK);
-        assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$
-
-        // run it to see if it doesn't crash the app!
-        action.run();
-
-        int i = 0;
-        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
-            PathNode element = (PathNode) iter.next();
-            if (element instanceof StartPoint) {
-                i++;
-            }
-        }
-
-        assertEquals("should only have one start point left!", 1, i); //$NON-NLS-1$
+        return v;
     }
 
     /**
@@ -1418,38 +1423,7 @@ public class ProgressTests extends TestCase {
      * Author: jkealey
      */
     public void testReqElemOrFork3() {
-        // create a simple path
-        Command cmd = new CreatePathCommand(getMap(), 100, 200);
-        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
-
-        // and another.
-        cmd = new CreatePathCommand(getMap(), 200, 300);
-        getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);
-
-        // get an emptypoint and a start point, from the other path.
-        EmptyPoint ep = null;
-        StartPoint sp = null;
-        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
-            PathNode element = (PathNode) iter.next();
-            if (element instanceof EmptyPoint) {
-                ep = (EmptyPoint) element;
-                break;
-            }
-        }
-        assertNotNull("no empty point found", ep); //$NON-NLS-1$
-        for (Iterator iter = getMap().getNodes().iterator(); iter.hasNext();) {
-            PathNode element = (PathNode) iter.next();
-            if (element instanceof StartPoint && ((NodeConnection) element.getSucc().get(0)).getTarget() != ep) {
-                sp = (StartPoint) element;
-                break;
-            }
-        }
-        assertNotNull("no start point found", sp); //$NON-NLS-1$
-
-        // select the empty point and see if the action is in the contextual menu
-        Vector v = new Vector();
-        v.add(ep);
-        v.add(sp);
+        Vector v = testReqElemFork3_setup();
 
         IAction action = getAction(v, AddOrForkAction.ADDORFORK);
         assertNotNull("Action not found in contextual menu!", action); //$NON-NLS-1$

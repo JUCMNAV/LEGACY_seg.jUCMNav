@@ -13,12 +13,12 @@ import org.eclipse.draw2d.geometry.Transform;
 public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
 
     // the actual rotated lines.
-    private Polygon edge1;
-    private Polygon edge2;
+    protected Polygon edge1;
+    protected Polygon edge2;
 
     // the original lines.
-    private PointList enpoints1;
-    private PointList enpoints2;
+    protected PointList enpoints1;
+    protected PointList enpoints2;
 
     /**
      * Simply an X that can be rotated.
