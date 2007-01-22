@@ -24,7 +24,6 @@ import urncore.Condition;
  */
 public class DeleteScenarioCommand extends CompoundCommand {
 
-	private ScenarioDef scenario;
     public DeleteScenarioCommand(ScenarioDef scenario) {
         setLabel(Messages.getString("DeleteScenarioCommand.DeleteScenario"));   //$NON-NLS-1$
         
@@ -64,7 +63,6 @@ public class DeleteScenarioCommand extends CompoundCommand {
 		}
         
         add(new RemoveScenarioCommand(scenario));
-        this.scenario = scenario;
         
         
     }

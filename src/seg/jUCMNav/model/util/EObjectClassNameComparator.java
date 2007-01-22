@@ -4,6 +4,7 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.IntentionalElementRef;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import org.eclipse.emf.ecore.EObject;
@@ -20,7 +21,12 @@ import urncore.ComponentElement;
  * @author jkealey
  *  
  */
-public class EObjectClassNameComparator implements Comparator {
+public class EObjectClassNameComparator implements Comparator, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Sorts alphabetically by class name, except for DirectionArrows and EmptyPoints that are put at the end. Then, if still equal, sorts using

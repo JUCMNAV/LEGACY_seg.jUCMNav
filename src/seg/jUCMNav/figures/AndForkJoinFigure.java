@@ -13,11 +13,11 @@ import org.eclipse.draw2d.geometry.Transform;
  *  
  */
 public class AndForkJoinFigure extends PathNodeFigure implements Rotateable {
-    protected static int DEFAULT_HEIGHT = 16;
+    protected static final int DEFAULT_HEIGHT = 16;
 
     // default size is not the real width/height.
     // see getPreferredSize()
-    protected static int DEFAULT_WIDTH = 16;
+    protected static final int DEFAULT_WIDTH = 16;
 
     /**
      * @return Returns the default dimension.

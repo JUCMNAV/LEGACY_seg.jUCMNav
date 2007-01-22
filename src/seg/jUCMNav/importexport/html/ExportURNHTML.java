@@ -24,8 +24,8 @@ import urn.URNspec;
 import urncore.IURNDiagram;
 
 public class ExportURNHTML implements IURNExport {
-    public static String PAGES_LOCATION = "pages" + File.separator;
-    public static String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; 
+    public static final String PAGES_LOCATION = "pages" + File.separator;
+    public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; 
     
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
     	// not used

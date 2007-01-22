@@ -5,7 +5,6 @@ import java.util.Vector;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -32,7 +31,6 @@ import seg.jUCMNav.model.commands.transformations.ChangeEnumerationTypeCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.scenario.EnumerationType;
 import urn.URNspec;
-import urncore.URNmodelElement;
 
 /**
  * The page to select an enumeration, create new ones, modify their values.

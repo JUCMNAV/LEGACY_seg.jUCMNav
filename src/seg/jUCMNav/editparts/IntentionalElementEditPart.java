@@ -6,7 +6,6 @@ package seg.jUCMNav.editparts;
 import grl.Decomposition;
 import grl.ElementLink;
 import grl.Evaluation;
-import grl.GRLGraph;
 import grl.GrlPackage;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
@@ -60,7 +59,6 @@ import urncore.IURNNode;
  */
 public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeEditPart{
 
-    private GRLGraph diagram;
     
     private Label evaluationLabel;
     
@@ -69,12 +67,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     /**
      * 
      * @param model the intentional element ref to draw
-     * @param graph the graph in which it is contained. 
      */
-    public IntentionalElementEditPart(IURNNode model, GRLGraph graph) {
+    public IntentionalElementEditPart(IURNNode model) {
         super();
         setModel(model);
-        this.diagram = graph;
     }
 
     /**
@@ -273,6 +269,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
+        if (evaluationLabel==null)return;
         // The position of the current figure
         Point location = new Point(getNode().getX(), getNode().getY());
         // its size (the width of the elements should always be 2 the height of them
@@ -348,9 +345,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                } else if (evaluation.getEvaluation() == 100){
 	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage(); //$NON-NLS-1$
 	                } 
-	                if (evaluationLabel != null){
-	                    evaluationLabel.setIcon(evaluationImg);
-	                }
+                    evaluationLabel.setIcon(evaluationImg);
                 }
                 refreshConnections();
             }
@@ -380,9 +375,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         }
     }
     
-    public void setDiagram(GRLGraph graph){
-        diagram = graph;
-    }
+
     
     /**
      * Sets the label's text, given its referenced model element.

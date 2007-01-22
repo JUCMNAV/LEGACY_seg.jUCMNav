@@ -144,10 +144,11 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         else if (getModel() instanceof DirectionArrow)
             figure = new DirectionArrowFigure();
 
+        assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
+        
     	figure.setForegroundColor(ColorManager.LINE);
     	figure.setColor(ColorManager.LINE);
 
-        assert figure != null : "cannot map model element to figure in PathNodeEditPart.createFigure()"; //$NON-NLS-1$
 
         return figure;
     }
@@ -315,7 +316,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
             	if (getNode() instanceof StartPoint) {
             		StartPoint start = (StartPoint) getNode();
             		bindings = start.getInBindings();
-            	} else if (getNode() instanceof EndPoint) {
+            	} else {// if (getNode() instanceof EndPoint) {
             		EndPoint start = (EndPoint) getNode();
             		bindings = start.getOutBindings();
             	}

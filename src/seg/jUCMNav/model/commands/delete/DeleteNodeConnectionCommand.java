@@ -31,10 +31,8 @@ import ucm.map.UCMmap;
  */
 public class DeleteNodeConnectionCommand extends CompoundCommand {
 
-    private NodeConnection nc;
 
     public DeleteNodeConnectionCommand(NodeConnection nc, Map editpartregistry) {
-        this.nc = nc;
         PathNode source = (PathNode)nc.getSource();
         PathNode target = (PathNode)nc.getTarget();
         

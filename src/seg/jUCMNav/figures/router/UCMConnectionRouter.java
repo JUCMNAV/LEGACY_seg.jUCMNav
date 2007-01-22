@@ -131,7 +131,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
     private void drawSpline(SplineConnection source) {
         // refresh spline
         QFindSpline qReachableConnections = new ConnectionSplineFinder().new QFindSpline(source.getLink());
-        ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.getInstance().run(qReachableConnections);
+        ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.run(qReachableConnections);
         Vector vReachable = rReachableConnections.getConnections();
         if (vReachable.size() > 0) {
             PointList pts = new PointList();
@@ -260,11 +260,13 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
                     }
                 }
             } else if (notifier instanceof UCMmap) {
-                UCMmap pg = (UCMmap) notifier;
+
 
                 switch (type) {
                 case Notification.ADD:
                     registerListeners(getPathgraph());
+                    refreshConnections(); // might not be necessary; adding to replace fallthrough that was there before
+                    break;
                 case Notification.REMOVE:
                     /*
                      * if (feature.getName().equals("pathNodes")) { System.out.println("added or removed pathnodes"); } else if
@@ -304,7 +306,7 @@ public class UCMConnectionRouter extends AbstractRouter implements Adapter {
      *            the query returning the spline to refresh
      */
     private void refreshConnections(ConnectionSplineFinder.QFindSpline qSpline) {
-        ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.getInstance().run(qSpline);
+        ConnectionSplineFinder.RSpline rReachableConnections = (ConnectionSplineFinder.RSpline) GraphExplorer.run(qSpline);
         Vector vReachable = rReachableConnections.getConnections();
 
         for (Iterator iter = vReachable.iterator(); iter.hasNext();) {

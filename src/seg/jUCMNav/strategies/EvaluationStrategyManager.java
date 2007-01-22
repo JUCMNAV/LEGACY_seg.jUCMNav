@@ -29,7 +29,7 @@ import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
  */
 public class EvaluationStrategyManager {
     
-    private class EvaluationCalculation{
+    private static class EvaluationCalculation{
         public IntentionalElement element;
         public int linkCalc;
         public int totalLinkDest;

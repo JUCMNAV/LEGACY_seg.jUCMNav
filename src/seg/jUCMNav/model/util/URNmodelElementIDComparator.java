@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import urncore.URNmodelElement;
@@ -10,7 +11,12 @@ import urncore.URNmodelElement;
  * @author jkealey
  *  
  */
-public class URNmodelElementIDComparator implements Comparator {
+public class URNmodelElementIDComparator implements Comparator, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Sorts items by ascending ID. 

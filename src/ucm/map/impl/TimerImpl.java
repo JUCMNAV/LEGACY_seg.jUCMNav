@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import ucm.map.MapPackage;
 import ucm.map.NodeConnection;
 import ucm.map.Timer;
-import ucm.scenario.Variable;
 
 /**
  * <!-- begin-user-doc -->

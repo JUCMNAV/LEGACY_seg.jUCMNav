@@ -448,6 +448,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
                     e.printStackTrace();
                 }
 
+                if (editor==null)return;
                 // add all maps.
                 this.mapsToExport.addAll(editor.getModel().getUrndef().getSpecDiagrams());
                 for (Iterator iterator = editor.getModel().getUrndef().getSpecDiagrams().iterator(); iterator.hasNext();) {

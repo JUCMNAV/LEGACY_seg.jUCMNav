@@ -11,7 +11,19 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import ucmscenarios.*;
+import ucmscenarios.Component;
+import ucmscenarios.Condition;
+import ucmscenarios.Event;
+import ucmscenarios.Instance;
+import ucmscenarios.Message;
+import ucmscenarios.ModelElement;
+import ucmscenarios.Parallel;
+import ucmscenarios.ScenarioDef;
+import ucmscenarios.ScenarioGroup;
+import ucmscenarios.ScenarioSpec;
+import ucmscenarios.Sequence;
+import ucmscenarios.SequenceElement;
+import ucmscenarios.UcmscenariosPackage;
 
 /**
  * <!-- begin-user-doc -->

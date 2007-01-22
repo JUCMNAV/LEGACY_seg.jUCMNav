@@ -32,8 +32,8 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
         Set exclusions = ((QFindReachableStartPoints) qr).getExclusions();
         int direction = ((QFindReachableStartPoints) qr).getDirection();
 
-        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode, exclusions, direction);
-        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
+        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder.QFindReachableNodes(startNode, exclusions, direction);
+        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qrn);
 
         // extract vector of all reachable nodes
         Vector vReachableNodes = reachableNodes.getNodes();
@@ -52,7 +52,7 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
         return r;
     }
 
-    public class QFindReachableStartPoints extends QueryRequest {
+    public static class QFindReachableStartPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
         PathNode _StartPathNode;
         Set _exclusions;
@@ -79,7 +79,7 @@ public class StartPointFinder extends AbstractQueryProcessor implements IQueryPr
 
     }
 
-    public class RReachableStartPoints extends QueryResponse {
+    public static class RReachableStartPoints extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
 

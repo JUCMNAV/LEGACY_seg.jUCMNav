@@ -11,7 +11,6 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
 

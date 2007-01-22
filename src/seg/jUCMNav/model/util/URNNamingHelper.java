@@ -65,7 +65,7 @@ import urncore.URNmodelElement;
 public class URNNamingHelper {
 
 	// to be used for shorthands or other mappings
-	public static Hashtable htPrefixes;
+	public static final Hashtable htPrefixes;
 
 	static {
 		htPrefixes = new Hashtable();
@@ -727,7 +727,7 @@ public class URNNamingHelper {
 	
 	public static String cleanVariableName(String proposedName)
 	{
-		proposedName = proposedName.toString().replaceAll("[^\\w]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
+		proposedName = proposedName.replaceAll("[^\\w]", "_"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (proposedName.length()>0 && proposedName.charAt(0)>='0' && proposedName.charAt(0)<='9')
 			proposedName = "_" + proposedName.substring(1); //$NON-NLS-1$
 		return proposedName;
@@ -840,7 +840,6 @@ public class URNNamingHelper {
 		}
 		if (!getName(elem).equalsIgnoreCase(name)) {
 			if (elem instanceof ComponentRef || elem instanceof Component) {
-				ComponentRef ref = (ComponentRef) elem;
 				if (URNNamingHelper.doesComponentNameExists(urn, name)) {
 					message = Messages.getString("URNNamingHelper.compNameExist"); //$NON-NLS-1$
 				}

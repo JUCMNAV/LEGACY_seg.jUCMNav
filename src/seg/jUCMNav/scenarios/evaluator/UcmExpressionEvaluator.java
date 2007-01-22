@@ -7,16 +7,6 @@ import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParserTreeConstants;
 
 public class UcmExpressionEvaluator {
-
-    UcmEnvironment env;
-    SimpleNode root;
-
-    public UcmExpressionEvaluator(SimpleNode root, UcmEnvironment env) {
-        this.root = root;
-        this.env = env;
-
-    }
-
     public static Object evaluate(SimpleNode root, UcmEnvironment env) {
         switch (root.getId()) {
         case jUCMNavParserTreeConstants.JJTSTART:
@@ -202,9 +192,9 @@ public class UcmExpressionEvaluator {
             return new Integer(result);
         }
         case jUCMNavParserTreeConstants.JJTBOOLEANCONSTANT:
-            return new Boolean(Boolean.parseBoolean(root.getText()));
+            return Boolean.valueOf(root.getText());
         case jUCMNavParserTreeConstants.JJTINTEGERCONSTANT:
-            return new Integer(Integer.parseInt(root.getText()));
+            return Integer.valueOf(root.getText());
         case jUCMNavParserTreeConstants.JJTIDENTIFIER:
             return env.getValue(root.getText());
         case jUCMNavParserTreeConstants.JJTEXCLUSIVEDISJUNCTION:

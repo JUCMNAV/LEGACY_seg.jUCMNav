@@ -226,8 +226,8 @@ public class MakeWellFormedCommand extends CompoundCommand {
 			exclusions.remove(nc);
 			exclusions.addAll(andjoin.getSucc()); // stop it from going further.
 
-			QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(andfork, exclusions, QFindReachableNodes.DIRECTION_FORWARD);
-			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+			QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(andfork, exclusions, QFindReachableNodes.DIRECTION_FORWARD);
+			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 			Vector vReachable = rReachableNodes.getNodes();
 			if (vReachable.contains(andjoin))
 				usedBranches.add(nc);

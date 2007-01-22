@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.scenarios;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
@@ -77,9 +78,9 @@ public class CodeEditor extends Wizard {
 		CommandStack cs = ((UCMNavMultiPageEditor)workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
 		CompoundCommand cmd = new CompoundCommand();
-		for (Iterator iter = code.keySet().iterator(); iter.hasNext();) {
-			EObject obj = (EObject) iter.next();
-			cmd.add(new ChangeCodeCommand(obj, code.get(obj).toString(), labels.get(obj).toString(), descriptions.get(obj).toString()));
+		for (Iterator iter = code.entrySet().iterator(); iter.hasNext();) {
+			Map.Entry entry = (Map.Entry) iter.next();
+			cmd.add(new ChangeCodeCommand((EObject)entry.getKey(), entry.getValue().toString(), labels.get(entry.getKey()).toString(), descriptions.get(entry.getKey()).toString()));
 		}
 
 		if (cmd.canExecute())

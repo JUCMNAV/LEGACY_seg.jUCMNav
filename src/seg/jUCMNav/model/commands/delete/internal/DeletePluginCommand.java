@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
-import ucm.map.Stub;
 import ucm.map.UCMmap;
 import urn.URNspec;
 
@@ -20,9 +19,6 @@ public class DeletePluginCommand extends CompoundCommand {
 
     // The PluginBinding to delete.
     private PluginBinding oldPlugin;
-
-    // The stub owner of the PluginBinding to delete.
-    private Stub stub;
 
     // The map of the PluginBinding
     private UCMmap oldMap;
@@ -63,7 +59,6 @@ public class DeletePluginCommand extends CompoundCommand {
      *  
      */
     private void build() {
-        stub = oldPlugin.getStub();
         oldMap = oldPlugin.getPlugin();
         if (urnSpec == null)
             urnSpec = oldMap.getUrndefinition().getUrnspec();

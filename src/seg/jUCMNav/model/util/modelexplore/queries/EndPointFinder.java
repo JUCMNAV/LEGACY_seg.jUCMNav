@@ -30,8 +30,8 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
         Set exclusions = ((QFindReachableEndPoints) qr).getExclusions();
         int direction = ((QFindReachableEndPoints) qr).getDirection();
 
-        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder().new QFindReachableNodes(startNode, exclusions, direction);
-        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qrn);
+        ReachableNodeFinder.QFindReachableNodes qrn = new ReachableNodeFinder.QFindReachableNodes(startNode, exclusions, direction);
+        ReachableNodeFinder.RReachableNodes reachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qrn);
 
         // extract vector of all reachable nodes
         Vector vReachableNodes = reachableNodes.getNodes();
@@ -50,7 +50,7 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
         return r;
     }
 
-    public class QFindReachableEndPoints extends QueryRequest {
+    public static class QFindReachableEndPoints extends QueryRequest {
         // Finds reachable start points from a PathNode
         PathNode _StartPathNode;
         Set _exclusions;
@@ -77,7 +77,7 @@ public class EndPointFinder extends AbstractQueryProcessor implements IQueryProc
 
     }
 
-    public class RReachableEndPoints extends QueryResponse {
+    public static class RReachableEndPoints extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
 

@@ -5,7 +5,6 @@ package seg.jUCMNav.model.commands.transformations;
 
 import grl.Belief;
 import grl.GRLNode;
-import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
@@ -13,7 +12,6 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
-import urncore.URNmodelElement;
 
 
 /**

@@ -50,7 +50,7 @@ import urncore.Condition;
  */
 public class DefaultScenarioTraversal extends AbstractQueryProcessor implements IQueryProcessorChain {
 
-	public class QDefaultScenarioTraversal extends QueryRequest {
+	public static class QDefaultScenarioTraversal extends QueryRequest {
 		// EndPoints / ScenarioEndPoints
 		protected Vector _EndPathNodes;
 		protected UcmEnvironment _env;
@@ -95,7 +95,7 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	}
 
-	public class RTraversalSequence extends QueryResponse {
+	public static class RTraversalSequence extends QueryResponse {
 		protected String error;
 		protected HashMap results;
 		/* Data structure (query response) for passing a list of EObjects */
@@ -438,7 +438,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 * @throws TraversalException
 	 */
 	protected void processEndPoint(UcmEnvironment env, EndPoint end) throws TraversalException {
-		Condition post = end.getPostcondition();
 
 		// TODO: semantic variation: if an end point's traversal context includes multiple plugin bindings, should both are fired. should the same behaviour apply when two different instances of the same plugin binding exist? (stub has two inputs connected to two start points in the plugin map, stub has one output, both inputs are triggered seperately and come back up at the same place. is the out fired once (as is now) or twice?)
 				

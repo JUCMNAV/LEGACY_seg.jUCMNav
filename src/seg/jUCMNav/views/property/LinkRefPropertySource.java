@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -45,7 +43,6 @@ public class LinkRefPropertySource extends URNElementPropertySource {
      */
     protected Vector addSpecificProperties() {
         Iterator it;
-        EClass cls = object.eClass();
         Collection descriptors = new Vector();
 
         if (element != null) {
@@ -61,19 +58,6 @@ public class LinkRefPropertySource extends URNElementPropertySource {
         return (Vector) descriptors;
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see seg.jUCMNav.views.EObjectPropertySource#addPropertyToDescriptor(java.util.Collection, org.eclipse.emf.ecore.EStructuralFeature,
-     *      org.eclipse.emf.ecore.EClass)
-     */
-    public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
-        EClassifier type = getFeatureType(attr);
-
-        PropertyID propertyid = new PropertyID(c, attr);
-
-        super.addPropertyToDescriptor(descriptors, attr, c);
-    }
     
     /**
      * @param propertyid

@@ -28,14 +28,12 @@ import urn.URNspec;
 public class CreateElementLinkCommand extends CompoundCommand {
 
     IntentionalElement src, dest;
-    URNspec urn;
     ElementLink link;
     /**
      * 
      */
     public CreateElementLinkCommand(URNspec urn, IntentionalElement source, ElementLink link) {
         this.src = source;
-        this.urn = urn;
         this.link = link;
         
         if (link instanceof Dependency){

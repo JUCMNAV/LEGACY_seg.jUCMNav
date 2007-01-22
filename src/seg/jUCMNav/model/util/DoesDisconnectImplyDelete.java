@@ -19,8 +19,6 @@ import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
-import ucm.map.UCMmap;
-import urn.URNspec;
 
 /**
  * This is a helper class that helps decide whether or not the disconnection of the passed branches from the fork/join/stub/timer should cause it to be deleted
@@ -61,9 +59,6 @@ public class DoesDisconnectImplyDelete {
 
     private Vector ncInToRemove, ncOutToRemove;
 
-    // the pathgraph that contains the node.
-    private UCMmap pg;
-
     // if this is false, we're only removing branches.
     private boolean shouldDeleteNode = true;
 
@@ -72,9 +67,6 @@ public class DoesDisconnectImplyDelete {
 
     // the pathnode to be deleted.
     private PathNode toDelete;
-
-    // the URNspec which contains all the elements
-    private URNspec urn;
 
     /**
      * @param toDelete
@@ -208,8 +200,8 @@ public class DoesDisconnectImplyDelete {
         }
 
         // run the query of reachable nodes.
-        QFindReachableNodes qry = new ReachableNodeFinder().new QFindReachableNodes(toDelete, exclusions, direction);
-        ReachableNodeFinder.RReachableNodes resp = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qry);
+        QFindReachableNodes qry = new ReachableNodeFinder.QFindReachableNodes(toDelete, exclusions, direction);
+        ReachableNodeFinder.RReachableNodes resp = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qry);
         Vector vReachable = resp.getNodes();
 
         // iterate through the collection, looking to see if we can reach a start/end.

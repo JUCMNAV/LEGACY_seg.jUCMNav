@@ -8,7 +8,6 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -41,7 +40,6 @@ import urn.URNspec;
 public class AddVariableWizardInitsPage extends WizardPage {
 	private String[] boolean_values = { "true", "false" }; //$NON-NLS-1$ //$NON-NLS-2$
 	private HashMap initializations;
-	private ISelection selection;
 	private String[] titles = { Messages.getString("AddVariableWizardInitsPage.Scenario"), Messages.getString("AddVariableWizardInitsPage.ScenarioGroup"), Messages.getString("AddVariableWizardInitsPage.Initialization") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	private URNspec urn;
 

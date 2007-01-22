@@ -101,7 +101,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         }
     }
 
-    public class QFindReachableNodes extends QueryRequest {
+    public static class QFindReachableNodes extends QueryRequest {
         public static final int DIRECTION_BOTH = 0;
         public static final int DIRECTION_REVERSE = 1;
         public static final int DIRECTION_FORWARD = 2;
@@ -144,7 +144,7 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         }
     }
 
-    public class RReachableNodes extends QueryResponse {
+    public static class RReachableNodes extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
         private Vector connections;

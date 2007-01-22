@@ -50,7 +50,6 @@ public class NodeConnectionLocator extends ConnectionLocator {
             child.setPoints(child.getPoints());
             target.setBounds(getNewBounds(prefSize, center));
         } else if (target instanceof PolygonDecoration && getConnection() instanceof LinkRefConnection){ 
-            Dimension prefSize = target.getPreferredSize();
             PointList points = getConnection().getPoints();
             
             PolygonDecoration depend = (PolygonDecoration)target;

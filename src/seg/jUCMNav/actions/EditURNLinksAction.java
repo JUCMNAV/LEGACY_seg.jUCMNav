@@ -6,9 +6,7 @@ package seg.jUCMNav.actions;
 import grl.Actor;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.urnlinks.URNLinksDialog;
@@ -81,8 +79,8 @@ public class EditURNLinksAction extends URNSelectionAction {
      * @see org.eclipse.jface.action.IAction#run()
      */
     public void run() {
-        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        URNLinksDialog d = new URNLinksDialog(getCommandStack(), element);
+        // TODO: should be launched by something else than constructor. 
+        new URNLinksDialog(getCommandStack(), element);
     }
 
 }

@@ -30,7 +30,6 @@ public class ExportCSV implements IURNExport {
     public static final String END_LINE = "\n"; //$NON-NLS-1$
 
     private FileOutputStream fos = null;
-    private String filename;
     
 	/* (non-Javadoc)
 	 * @see seg.jUCMNav.extensionpoints.IURNExport#export(urn.URNspec, java.io.FileOutputStream)
@@ -45,7 +44,6 @@ public class ExportCSV implements IURNExport {
 	 */
 	public void export(URNspec urn, HashMap mapDiagrams, String filename)
 			throws InvocationTargetException {
-        this.filename = filename;
         try {
             fos = new FileOutputStream(filename);
    

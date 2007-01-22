@@ -5,7 +5,6 @@ package seg.jUCMNav.editparts;
 
 import grl.Actor;
 import grl.ActorRef;
-import grl.GRLGraph;
 
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.FreeformViewport;
@@ -38,8 +37,6 @@ import seg.jUCMNav.views.property.ContainerPropertySource;
  */
 public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
 
-    private GRLGraph diagram;
-    
     private Label evaluationLabel;
     
     private Image evaluationImg;
@@ -47,10 +44,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
     /**
      * Constructor of the edit part
      */
-    public ActorRefEditPart(ActorRef model, GRLGraph graph) {
+    public ActorRefEditPart(ActorRef model) {
         super();
         setModel(model);
-        this.diagram = graph;
     }
 
     /**

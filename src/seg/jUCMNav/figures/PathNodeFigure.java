@@ -14,8 +14,8 @@ import org.eclipse.swt.graphics.Color;
 public abstract class PathNodeFigure extends Figure {
 
     // default sizes
-    protected static int DEFAULT_HEIGHT = 24;
-    protected static int DEFAULT_WIDTH = 24;
+    protected static final int DEFAULT_HEIGHT = 24;
+    protected static final int DEFAULT_WIDTH = 24;
     
     /**
      * Override this method if you your figure is not of the default size. This method is invoked to know where to insert labels by default.

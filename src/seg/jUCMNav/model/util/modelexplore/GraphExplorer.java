@@ -20,8 +20,6 @@ import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
  *  
  */
 public class GraphExplorer {
-    private static GraphExplorer _instance;
-
     private static StartPointFinder _spFinder;
 
     private static EndPointFinder _epFinder;
@@ -38,11 +36,8 @@ public class GraphExplorer {
     
     private static ResponsibilityFinder _responsibilityFinder;
 
-    /**
-     * Singleton pattern.
-     *  
-     */
-    private GraphExplorer() {
+    
+    static {
         // instantiate
         _spFinder = new StartPointFinder();
         _epFinder = new EndPointFinder();
@@ -63,15 +58,6 @@ public class GraphExplorer {
         _responsibilityFinder.addChain(null);
     }
 
-    /**
-     * @return the sole instance of GraphExplorer
-     */
-    public static GraphExplorer getInstance() {
-        if (_instance == null)
-            _instance = new GraphExplorer();
-
-        return _instance;
-    }
 
     /**
      * Passes through the static chain of query processors and tries to execute the given request.
@@ -80,7 +66,7 @@ public class GraphExplorer {
      *            the query
      * @return its response
      */
-    public QueryResponse run(QueryRequest qr) {
+    public static QueryResponse run(QueryRequest qr) {
         return _chainHead.sendToChain(qr);
     }
 }

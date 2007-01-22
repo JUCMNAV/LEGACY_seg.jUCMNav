@@ -15,7 +15,7 @@ import seg.jUCMNav.extensionpoints.IURNExport;
  */
 public class URNExportExtensionPointHelper extends ExportExtensionPointHelper {
 
-    protected static String sExtensionPoint = "seg.jUCMNav.URNExport"; //$NON-NLS-1$
+    protected static final String sExtensionPoint = "seg.jUCMNav.URNExport"; //$NON-NLS-1$
 
     /* Facade for ExportExtensionPointHelper */
     protected static IConfigurationElement getExportConfigurationElement(String id) {

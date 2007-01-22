@@ -20,7 +20,7 @@ public class EndPointFigure extends PathNodeFigure implements Rotateable {
     private boolean offset;
 
     // by how much to scale when connected to start point.
-    public static double RESIZEFACTOR = 1.4;
+    public static final double RESIZEFACTOR = 1.4;
 
     /**
      * A simple line, as wide as the bounds.

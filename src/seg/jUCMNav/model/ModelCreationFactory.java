@@ -94,11 +94,11 @@ public class ModelCreationFactory implements CreationFactory {
     private Class targetClass;
     private int type;
     private URNspec urn;
-    public static int DEFAULT_UCM_COMPONENT_HEIGHT = 100;
-    public static int DEFAULT_UCM_COMPONENT_WIDTH = 100;
-    public static int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
-    public static int DEFAULT_GRL_COMPONENT_WIDTH = 200;
-    public static String URNSPEC_VERSION="0.913"; //$NON-NLS-1$
+    public static final int DEFAULT_UCM_COMPONENT_HEIGHT = 100;
+    public static final int DEFAULT_UCM_COMPONENT_WIDTH = 100;
+    public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
+    public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
+    public static final String URNSPEC_VERSION="0.913"; //$NON-NLS-1$
     
     
     private Object preDefinedDefinition;
@@ -482,8 +482,6 @@ public class ModelCreationFactory implements CreationFactory {
      * @return a new URN spec
      */
     public static URNspec getNewURNspec() {
-        MapFactory factory = MapFactory.eINSTANCE;
-
         URNspec result = null;
 
         // create the URN spec

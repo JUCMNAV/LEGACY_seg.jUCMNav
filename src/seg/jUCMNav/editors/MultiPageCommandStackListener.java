@@ -1,7 +1,5 @@
 package seg.jUCMNav.editors;
 
-import grl.GRLGraph;
-
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.Iterator;
@@ -89,7 +87,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
                 UrnEditor u = null;
                 if (diagramChanged instanceof UCMmap){
                     u = new UcmEditor(this.editor);
-                } else if(diagramChanged instanceof GRLGraph){
+                } else { // if(diagramChanged instanceof GRLGraph){
                     u = new GrlEditor(this.editor);
                 } 
                 u.setModel(diagramChanged);

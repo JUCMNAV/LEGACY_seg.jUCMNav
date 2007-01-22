@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -12,8 +13,12 @@ import ucm.map.PathNode;
  * @author jkealey
  *  
  */
-public class PathNodeDistanceComparator implements Comparator {
+public class PathNodeDistanceComparator implements Comparator, Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     // the reference point
     private Point from;
 

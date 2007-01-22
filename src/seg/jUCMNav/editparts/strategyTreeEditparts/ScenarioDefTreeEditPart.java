@@ -25,14 +25,12 @@ import ucm.scenario.ScenarioGroup;
  */
 public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
-	private boolean selected;
 
 	/**
 	 * @param model
 	 */
 	public ScenarioDefTreeEditPart(ScenarioDef model) {
 		super(model);
-		selected = false;
 	}
 
 	/**
@@ -75,7 +73,6 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 		if (!checkTreeItem())
 			return;
 		
-		this.selected = selected;
 		if (selected) {
 			((TreeItem) widget).setBackground(GRAY);
 		} else {

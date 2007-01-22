@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions.scenarios;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -19,7 +18,6 @@ import seg.jUCMNav.views.wizards.scenarios.ScenarioInitializations;
 public class VariableInitializationsAction extends IncludeScenarioAction {
 
 	public static final String VARIABLEINITIALIZATIONS = "seg.jUCMNav.VariableInitializationsAction"; //$NON-NLS-1$
-	private EObject obj;
 
 	/**
 	 * @param part

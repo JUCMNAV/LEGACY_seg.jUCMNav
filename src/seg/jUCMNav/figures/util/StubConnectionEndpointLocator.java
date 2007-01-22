@@ -34,7 +34,6 @@ public class StubConnectionEndpointLocator implements Locator {
     private Connection conn;
     private int uDistance;
     private int vDistance;
-    private static Rectangle figureBounds;
 
     /**
      * Transposes the location if the connection point is along the top or bottom of its owner figure.
@@ -56,7 +55,6 @@ public class StubConnectionEndpointLocator implements Locator {
         conn = c;
         uDistance = 14;
         vDistance = 4;
-        figureBounds = new Rectangle();
     }
 
     /*
@@ -201,7 +199,7 @@ public class StubConnectionEndpointLocator implements Locator {
 
         conn.getPoints().getPoint(startPoint, startPointPosition);
         conn.getPoints().getPoint(endPoint, endPointPosition);
-        IFigure connOwner = getConnectionOwner();
+//        IFigure connOwner = getConnectionOwner();
 
         int quadrant;
 //      start of modifications jkealey 
@@ -241,6 +239,7 @@ public class StubConnectionEndpointLocator implements Locator {
         Point figurePoint = new Point(startPoint.x + (uDistance * cos) + figureWidth * ((cos - 1) / 2),
                 (int) (startPoint.y + cos * uDistance * tan + vDistance + yShift));
 
+        Rectangle figureBounds = new Rectangle();
         figureBounds.setSize(transposer.t(figureSize));
         figureBounds.setLocation(transposer.t(figurePoint));
         figure.setBounds(figureBounds);

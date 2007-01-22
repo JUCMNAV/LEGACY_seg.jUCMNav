@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import seg.jUCMNav.Messages;
 import ucm.map.Connect;
 import ucm.map.NodeConnection;
-import ucm.map.PathNode;
 import urncore.IURNConnection;
 import urncore.IURNNode;
 

@@ -39,7 +39,6 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.Variable;
-import urn.URNspec;
 
 /**
  * The page actually containing the code for initializing variables.
@@ -54,7 +53,6 @@ public class ScenarioInitializationsPage extends WizardPage {
 	private ScenarioDef parent;
 	private ISelection selection;
 	private String[] titles = { Messages.getString("ScenarioInitializationsPage.Variable"), Messages.getString("ScenarioInitializationsPage.Type"), Messages.getString("ScenarioInitializationsPage.Initialization") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	private URNspec urn;
 
 	private Table variables;
 	
@@ -351,7 +349,6 @@ public class ScenarioInitializationsPage extends WizardPage {
 			Object obj = ssel.getFirstElement();
 			if (obj instanceof ScenarioDef) {
 				parent = (ScenarioDef) obj;
-				urn = parent.getGroup().getUcmspec().getUrnspec();
 
 				initializations = new HashMap();
 				for (Iterator iter = parent.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {

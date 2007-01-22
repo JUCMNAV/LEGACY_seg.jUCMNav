@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -32,7 +31,6 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.IPageChangeListener;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
-import seg.jUCMNav.editors.UrnEditor;
 import ucm.map.RespRef;
 import urncore.IURNDiagram;
 import urncore.IURNNode;
@@ -45,15 +43,12 @@ import urncore.IURNNode;
  */
 public class ElementView extends ViewPart implements IPartListener2, ISelectionChangedListener, IPageChangeListener, ISelectionProvider {
 	private ElementListViewer viewer;
-	private Action action1;
-	private Action action2;
-	private Action doubleClickAction;
 	private IURNDiagram input;
 	// private UCMmap input;
 	private UCMNavMultiPageEditor editor;
 
 	PropertySheetPage page;
-	class ElementContentProvider implements IStructuredContentProvider {
+	static class ElementContentProvider implements IStructuredContentProvider {
 		private List input;
 
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -75,7 +70,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 		}
 	}
 
-	class ElementLabelProvider extends LabelProvider implements ITableLabelProvider {
+	static class ElementLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			String toReturn = null;
 			if (obj instanceof RespRef) {
@@ -301,7 +296,7 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 					
 				}
 			}
-			ArrayList items = new ArrayList();
+			//ArrayList items = new ArrayList();
 			if (editor != null && editor.getCurrentPage() != null) {
 				HashMap registry = (HashMap) editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry();
 

@@ -32,8 +32,6 @@ import ucm.map.UCMmap;
  */
 public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 
-	private UCMmap map;
-
 	/**
 	 * This compound command restructures and forks/joins so that they are closer to a linearizable form. If you have a join with three in branches, two of
 	 * which come from the same fork, the command will group these two into a new join that flows into the existing one.
@@ -42,8 +40,6 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 	 *            the map to clean
 	 */
 	public SimplifyForksAndJoinsCommand(UCMmap map) {
-		this.map = map;
-
 		simplifyComplexAndForks(map);
 		simplifyComplexAndJoins(map);
 
@@ -144,8 +140,8 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 
 			flowPoints[i] = new Vector();
 			// 1) look at all incoming paths and go in forward path direction down to end piont
-			QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(andfork, exclusions, QFindReachableNodes.DIRECTION_FORWARD);
-			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+			QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(andfork, exclusions, QFindReachableNodes.DIRECTION_FORWARD);
+			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 			Vector vReachable = rReachableNodes.getNodes();
 
 			// keep only forks and start point.
@@ -181,8 +177,8 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 
 			flowPoints[i] = new Vector();
 			// 1) look at all incoming paths and go in inverse path direction back up to start point
-			QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(andjoin, exclusions, QFindReachableNodes.DIRECTION_REVERSE);
-			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+			QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(andjoin, exclusions, QFindReachableNodes.DIRECTION_REVERSE);
+			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 			Vector vReachable = rReachableNodes.getNodes();
 
 			// keep only forks and start point.

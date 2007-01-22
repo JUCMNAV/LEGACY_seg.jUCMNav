@@ -590,7 +590,7 @@ public class SelectionHelper {
             selectionType = EVALUATIONGROUP;
         else if (strategy != null)
             selectionType = EVALUATIONSTRATEGY;
-        else if (group != null)
+        else if (scenariogroup != null)
             selectionType = SCENARIOGROUP;
         else if (initialization!=null)
         	selectionType = INITIALIZATION;

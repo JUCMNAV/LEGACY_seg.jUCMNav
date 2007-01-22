@@ -102,9 +102,15 @@ public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPoli
                 } else
                     node = (PathNode) (((LabelEditPart) child).getURNmodelElement());
 
-                int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
-                x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
-                y = node.getY() - ((Rectangle) constraint).y - (dim.height + height / 2);
+                if (node==null)
+                {
+                    x=0;
+                    y=0;
+                } else {
+                    int height = ((PathNodeEditPart) getHost().getRoot().getViewer().getEditPartRegistry().get(node)).getFigure().getBounds().getCopy().height;
+                    x = node.getX() - ((Rectangle) constraint).x - (dim.width / 2);
+                    y = node.getY() - ((Rectangle) constraint).y - (dim.height + height / 2);
+                }
 
             } else {
                 // unknown label

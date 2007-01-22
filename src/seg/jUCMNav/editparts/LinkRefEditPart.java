@@ -329,7 +329,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                 contributionLabel.setVisible(false);
             }
         } else if (getLinkRef().getLink() instanceof Dependency){
-            Dependency depend = (Dependency)getLinkRef().getLink();
+            //Dependency depend = (Dependency)getLinkRef().getLink();
             getLinkRefFigure().setType(LinkRefConnection.TYPE_DEPENDENCY);
         }
         

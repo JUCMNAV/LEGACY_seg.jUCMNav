@@ -42,8 +42,6 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
 		// filename always ends with jucmscenarios
-		String exportTo = filename;
-		
 		if (!ScenarioExportPreferences.getExportType().equalsIgnoreCase("0"))
 			filename = filename.substring(0, filename.length()-"jucmscenarios".length()) + "jucm";
 		

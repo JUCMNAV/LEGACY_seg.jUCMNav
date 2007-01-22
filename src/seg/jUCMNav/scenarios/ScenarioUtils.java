@@ -42,7 +42,7 @@ public class ScenarioUtils {
 	private static HashMap environments;
 	// static reference to jUCMNavParser. can't have more than one reference to
 	// the parser in the whole application.
-	public static jUCMNavParser parser = new jUCMNavParser(new StringReader("true")); //$NON-NLS-1$
+	public static final jUCMNavParser parser = new jUCMNavParser(new StringReader("true")); //$NON-NLS-1$
 	public static final String sTypeBoolean = "boolean"; //$NON-NLS-1$
 	public static final String sTypeEnumeration = "enumeration"; //$NON-NLS-1$
 	public static final String sTypeInteger = "integer"; //$NON-NLS-1$
@@ -101,7 +101,7 @@ public class ScenarioUtils {
 
 	public static boolean isEmptyCondition(Condition cond) {
 		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
-		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond);    //$NON-NLS-1$
+		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond.getExpression());    //$NON-NLS-1$
 	}
 
 	public static boolean isEmptyCondition(String cond) {

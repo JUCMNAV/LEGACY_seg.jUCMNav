@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -8,7 +9,12 @@ import java.util.Comparator;
  * @author jkealey
  *  
  */
-public class LongAsStringComparator implements Comparator {
+public class LongAsStringComparator implements Comparator, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Uses Long.parseLong on arguments.toString() to compare. 

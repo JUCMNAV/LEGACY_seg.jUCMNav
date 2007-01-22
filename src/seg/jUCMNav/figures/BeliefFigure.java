@@ -5,7 +5,6 @@ package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
@@ -17,8 +16,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class BeliefFigure extends GrlNodeFigure {
  
     // default sizes
-    protected static int DEFAULT_HEIGHT = 50;
-    protected static int DEFAULT_WIDTH = 100;
+    protected final static int DEFAULT_HEIGHT = 50;
+    protected final static int DEFAULT_WIDTH = 100;
    
     /**
      * Override this method if your figure is not of the default size.
@@ -45,7 +44,6 @@ public class BeliefFigure extends GrlNodeFigure {
      */
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        PointList points = new PointList();
         r.x += lineWidth / 2;
         r.y += lineWidth / 2;
         r.width -= lineWidth;
@@ -58,7 +56,6 @@ public class BeliefFigure extends GrlNodeFigure {
      */
     protected void fillShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        PointList points = new PointList();
         r.x += lineWidth / 2;
         r.y += lineWidth / 2;
         r.width -= lineWidth;

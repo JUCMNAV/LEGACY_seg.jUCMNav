@@ -124,7 +124,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
      * @return a command that adds a new IntentionalElementRef on the Graph and moves/resizes it into place.
      */ 
     private Command handleCreateGrlNode(CreateRequest request, Rectangle constraint) {
-        Command createCommand;
+        Command createCommand=null;
         Command create = null;
         GRLNode node = null;
         if (request.getNewObject() instanceof IntentionalElementRef){
@@ -145,7 +145,8 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
         SetConstraintCommand move  = new SetConstraintCommand(node, constraint.x, constraint.y);
 
         // after creation, move and resize the node;
-        createCommand = create.chain(move);
+        if (create!=null)
+            createCommand = create.chain(move);
 
         return createCommand;
     }

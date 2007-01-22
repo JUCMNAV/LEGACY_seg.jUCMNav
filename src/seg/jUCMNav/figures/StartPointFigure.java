@@ -65,10 +65,7 @@ public class StartPointFigure extends PathNodeFigure {
     	}
         else {
     		setForegroundColor(ColorManager.LINE);
-            if (hover)
-                setColor(ColorManager.LINE);
-            else
-                setColor(ColorManager.LINE);    		
+            setColor(ColorManager.LINE);
         }
 	}
 

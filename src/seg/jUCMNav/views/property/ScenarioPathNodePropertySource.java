@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -24,7 +23,6 @@ public class ScenarioPathNodePropertySource extends URNElementPropertySource {
 
 	// reference to the startpoint/endpoint.
 	private PathNode node = null;
-	int i;
 
 	/**
 	 * @param obj
@@ -44,9 +42,7 @@ public class ScenarioPathNodePropertySource extends URNElementPropertySource {
 	 * @see seg.jUCMNav.views.EObjectPropertySource#addSpecificProperties()
 	 */
 	protected Vector addSpecificProperties() {
-		i = 0;
 		Iterator it;
-		EClass cls = object.eClass();
 		Collection descriptors = new Vector();
 
 		if (node != null) {

@@ -74,12 +74,12 @@ public class SafePathChecker {
         // Query for reachable nodes starting from joinToPathNode: if joinFromPathNode is not included in there,
         // the join won't cause a loop.
 
-        QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(joinToPathNode);
-        ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+        QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(joinToPathNode);
+        ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
         Vector vReachable = rReachableNodes.getNodes();
 
-        ReachableNodeFinder.QFindReachableNodes qReachableNodes2 = new ReachableNodeFinder().new QFindReachableNodes(joinFromPathNode);
-        ReachableNodeFinder.RReachableNodes rReachableNodes2 = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes2);
+        ReachableNodeFinder.QFindReachableNodes qReachableNodes2 = new ReachableNodeFinder.QFindReachableNodes(joinFromPathNode);
+        ReachableNodeFinder.RReachableNodes rReachableNodes2 = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes2);
         Vector vReachable2 = rReachableNodes2.getNodes();
 
         if (!vReachable.containsAll(vReachable2)) {
@@ -124,7 +124,7 @@ public class SafePathChecker {
 
             // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops.
             QFindSpline qry = new DeletionPathFinder().new QFindSpline(nc);
-            DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.getInstance().run(qry);
+            DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.run(qry);
             Vector nodes = resp.getPathNodes();
 
             if (joinFromPathNode instanceof StartPoint || joinFromPathNode instanceof EndPoint)

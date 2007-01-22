@@ -11,7 +11,6 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefBindChildCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import urncore.IURNContainerRef;
-import urncore.IURNDiagram;
 
 /**
  * Binds the selected elements with their respective parents, if they are unbound. For more details see calculateEnabled.

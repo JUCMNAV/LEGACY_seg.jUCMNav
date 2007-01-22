@@ -52,8 +52,6 @@ public class GrlPaletteRoot extends PaletteRoot {
     // to obtain URNspec
     private UCMNavMultiPageEditor parent;
 
-    // we need to pass this to ModelCreationFactory
-    private URNspec urn;
 
     /**
      * Creates a new GrlPaletteRoot.
@@ -220,10 +218,8 @@ public class GrlPaletteRoot extends PaletteRoot {
      * @return Returns the URNspec associated with this palette. 
      */
     public URNspec getURNspec() {
-        if (parent != null)
-            return parent.getModel();
-        else
-            return urn;
+        assert parent!=null;
+        return parent.getModel();
     }
 
 }

@@ -245,6 +245,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
         if (multieditor != editor){
             multieditor = editor;
             EvaluationStrategyManager.getInstance().setMultieditor(editor);
+            if (multieditor==null)return;
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
             
             multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
@@ -270,8 +271,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
  
 
             // hook viewer
-            if (editor!=null)
-            	editor.getSelectionSynchronizer().removeViewer(viewer);
+            editor.getSelectionSynchronizer().removeViewer(viewer);
             multieditor.getSelectionSynchronizer().addViewer(viewer);
             viewer.setContents(multieditor);
                         

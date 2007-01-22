@@ -2,7 +2,6 @@
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
@@ -26,7 +25,7 @@ public class ActorFigure extends GrlNodeFigure {
      */
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        PointList points = new PointList();
+        
 
         r.x += lineWidth / 2;
         r.y += lineWidth / 2;
@@ -45,7 +44,6 @@ public class ActorFigure extends GrlNodeFigure {
      */
     protected void fillShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        PointList points = new PointList();
 
         r.x += lineWidth / 2;
         r.y += lineWidth / 2;

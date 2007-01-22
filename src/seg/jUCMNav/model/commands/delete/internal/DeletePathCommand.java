@@ -46,7 +46,7 @@ public class DeletePathCommand extends CompoundCommand {
 
         // we want to make sure we aren't merging elements on the same deletion path to cause illegal loops.
         QFindSpline qry = new DeletionPathFinder().new QFindSpline(ncSeed);
-        DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.getInstance().run(qry);
+        DeletionPathFinder.RSpline resp = (DeletionPathFinder.RSpline) GraphExplorer.run(qry);
         Vector nodes = resp.getPathNodes();
         Vector connections = resp.getConnections();
 

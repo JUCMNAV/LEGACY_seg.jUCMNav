@@ -10,12 +10,24 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucmscenarios.*;
+import ucmscenarios.Component;
+import ucmscenarios.Condition;
+import ucmscenarios.Event;
+import ucmscenarios.EventType;
+import ucmscenarios.Instance;
+import ucmscenarios.Message;
+import ucmscenarios.ModelElement;
+import ucmscenarios.Parallel;
+import ucmscenarios.ScenarioDef;
+import ucmscenarios.ScenarioGroup;
+import ucmscenarios.ScenarioSpec;
+import ucmscenarios.Sequence;
+import ucmscenarios.SequenceElement;
+import ucmscenarios.UcmscenariosFactory;
+import ucmscenarios.UcmscenariosPackage;
 
 /**
  * <!-- begin-user-doc -->

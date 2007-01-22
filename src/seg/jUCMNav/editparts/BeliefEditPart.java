@@ -4,7 +4,6 @@
 package seg.jUCMNav.editparts;
 
 import grl.Belief;
-import grl.GRLGraph;
 
 import java.util.List;
 
@@ -36,17 +35,14 @@ import urncore.IURNNode;
  */
 public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
 
-    private GRLGraph diagram;
     
     /**
      * Constructor for the Belief edit part
      * @param model the Belief to draw
-     * @param graph the graph in which it is contained. 
      */
-    public BeliefEditPart(IURNNode model, GRLGraph graph) {
+    public BeliefEditPart(IURNNode model) {
         super();
         setModel(model);
-        this.diagram = graph;
     }
 
 

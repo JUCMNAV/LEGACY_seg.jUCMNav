@@ -49,7 +49,6 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -173,7 +172,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 	// The text field for the description of a PluginBinding
 	private Text txtDescCondition;
-	private Hyperlink btUpdateLink;
+
 	private boolean preventUpdate;
 
 	public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {

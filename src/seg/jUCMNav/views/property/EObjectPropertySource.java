@@ -342,7 +342,7 @@ public class EObjectPropertySource implements IPropertySource2 {
 		} else if (result instanceof Boolean) {
 			// result = ((Boolean) result).booleanValue() ? new Integer(1) : new
 			// Integer(0);
-			result = result;
+			//result = result;
 		} else if (feature.getName().toLowerCase().indexOf("color") >= 0) { //$NON-NLS-1$
 			if (result == null || ((String) result).length() == 0)
 				result = new RGB(0, 0, 0);

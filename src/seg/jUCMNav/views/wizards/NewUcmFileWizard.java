@@ -3,7 +3,6 @@ package seg.jUCMNav.views.wizards;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -108,9 +107,9 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 		if (resource==null || !resource.exists() || !(resource instanceof IContainer)) {
 			throwCoreException(Messages.getString("NewUcmFileWizard.container") + containerName + Messages.getString("NewUcmFileWizard.doesNotExist")); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		IContainer container = (IContainer) resource;
+		//IContainer container = (IContainer) resource;
 
-		final IFile file = container.getFile(new Path(fileName));
+		//final IFile file = container.getFile(new Path(fileName));
 		try {
             jUCMNavLoader loader = new jUCMNavLoader(workbenchPage, getShell());
             loader.createAndOpenFile(fileName, containerName, ModelCreationFactory.getNewURNspec(), false, page.overwrite);                
@@ -123,18 +122,21 @@ public class NewUcmFileWizard extends Wizard implements INewWizard {
 //			}
 //			stream.close();
 //		} catch (IOException e) {
-        }catch (InvocationTargetException e){}
+        }catch (InvocationTargetException e){
+            e.printStackTrace();
+        }
 		monitor.worked(1);
 		monitor.setTaskName(Messages.getString("NewUcmFileWizard.openingForEditing")); //$NON-NLS-1$
 		getShell().getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					//IDE.openEditor(page, file, true);
 					PlatformUI.getWorkbench().showPerspective(UCMPerspectiveFactory.JUCMNAV_PERSPECTIVE_ID,
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 
 				} catch (PartInitException e) {
+                    e.printStackTrace();
 				} catch (WorkbenchException e) {
 				}
 			}

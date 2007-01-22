@@ -5,7 +5,6 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import seg.jUCMNav.figures.ResponsibilityFigure;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -18,8 +17,6 @@ import ucm.map.UCMmap;
  */
 public class RespRefEditPart extends PathNodeEditPart {
     private CodeEditor wizard;
-
-    private ResponsibilityFigure figure;
 
     /**
      * Creates a respref editpart.

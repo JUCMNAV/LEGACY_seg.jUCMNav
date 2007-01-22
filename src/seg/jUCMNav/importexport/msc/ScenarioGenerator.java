@@ -95,8 +95,8 @@ public class ScenarioGenerator {
 			HashSet ncs = new HashSet();
 			ncs.addAll(fork.getSucc());
 			ncs.remove(fork.getSucc().get(i));
-			QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(fork, ncs, QFindReachableNodes.DIRECTION_FORWARD);
-			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+			QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(fork, ncs, QFindReachableNodes.DIRECTION_FORWARD);
+			ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 			Vector vReachable = rReachableNodes.getNodes();
 
 			if (common == null)
@@ -277,8 +277,8 @@ public class ScenarioGenerator {
 	}
 
 	private ComponentRef addPath(Sequence seq, PathNode start, PathNode stopAtNode) {
-		QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(start, new HashSet(), QFindReachableNodes.DIRECTION_FORWARD);
-		ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+		QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(start, new HashSet(), QFindReachableNodes.DIRECTION_FORWARD);
+		ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 		Vector vReachable = rReachableNodes.getNodes();
 		ComponentRef initialCompRef = (ComponentRef) start.getContRef();
 		ComponentRef compRef = null;
@@ -334,9 +334,9 @@ public class ScenarioGenerator {
 			if (pn instanceof AndFork || pn instanceof AndJoin)
 				continue;
 
-			QFindResponsibilities qReachableResponsibilities = new ResponsibilityFinder().new QFindResponsibilities(pn, new HashSet(),
+			QFindResponsibilities qReachableResponsibilities = new ResponsibilityFinder.QFindResponsibilities(pn, new HashSet(),
 					QFindResponsibilities.DIRECTION_FORWARD, false);
-			ResponsibilityFinder.RNextResponsibilities rReachableResponsibilities = (ResponsibilityFinder.RNextResponsibilities) GraphExplorer.getInstance()
+			ResponsibilityFinder.RNextResponsibilities rReachableResponsibilities = (ResponsibilityFinder.RNextResponsibilities) GraphExplorer
 					.run(qReachableResponsibilities);
 			Vector vResponsibilities = rReachableResponsibilities.getNodes();
 
@@ -426,9 +426,9 @@ public class ScenarioGenerator {
 
 			for (int i = 0; i < in.getStartPoints().size(); i++) {
 				ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
-				QFindReachableNodes qReachableNodes = new ReachableNodeFinder().new QFindReachableNodes(ssp.getStartPoint(), new HashSet(),
+				QFindReachableNodes qReachableNodes = new ReachableNodeFinder.QFindReachableNodes(ssp.getStartPoint(), new HashSet(),
 						QFindReachableNodes.DIRECTION_FORWARD);
-				ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.getInstance().run(qReachableNodes);
+				ReachableNodeFinder.RReachableNodes rReachableNodes = (ReachableNodeFinder.RReachableNodes) GraphExplorer.run(qReachableNodes);
 				reachable[i] = rReachableNodes.getNodes();
 			}
 

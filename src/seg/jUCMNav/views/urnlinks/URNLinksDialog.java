@@ -74,7 +74,6 @@ public class URNLinksDialog {
     
     //Vector used to keep current element in the UCMElement combo box
     private Vector ucmelements;
-    private String currentElementType;
     private URNmodelElement toElement;
     
     private Vector urnlinks;
@@ -291,7 +290,6 @@ public class URNLinksDialog {
      */
     private void setUcmElementType(String type){
         ucmelements = new Vector();
-        currentElementType = type;
         if (type.equals(COMPONENT)){
             for (Iterator it = urn.getUrndef().getComponents().iterator(); it.hasNext();){
                 ComponentElement comp = (ComponentElement)it.next();

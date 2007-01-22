@@ -52,7 +52,7 @@ public class StubEditPart extends PathNodeEditPart {
      */
     protected IFigure createFigure() {
         Stub stub = (Stub) getModel();
-        figure = new StubFigure(stub.isDynamic());
+        figure = new StubFigure();
         return figure;
     }
 
@@ -78,11 +78,13 @@ public class StubEditPart extends PathNodeEditPart {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshNodeConnection(nc);
             }
+            break;
         case MapPackage.STUB__SUCC:
             for (Iterator iter = ((Stub) getModel()).getSucc().iterator(); iter.hasNext();) {
                 NodeConnection nc = (NodeConnection) iter.next();
                 refreshNodeConnection(nc);
             }
+            break;
         }
 
         super.notifyChanged(notification);

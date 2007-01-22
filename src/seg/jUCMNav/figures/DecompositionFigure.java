@@ -20,8 +20,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class DecompositionFigure extends Shape {
 
     // default sizes
-    protected static int DEFAULT_HEIGHT = 25;
-    protected static int DEFAULT_WIDTH = 25;
+    protected static final int DEFAULT_HEIGHT = 25;
+    protected static final int DEFAULT_WIDTH = 25;
 
     protected ConnectionAnchor anchor;
     

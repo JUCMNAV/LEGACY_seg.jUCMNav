@@ -34,7 +34,7 @@ import urncore.IURNNode;
  */
 public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
-    private class EvaluationCalculation{
+    private static class EvaluationCalculation{
         public IntentionalElement element;
         public int linkCalc;
         public int totalLinkDest;

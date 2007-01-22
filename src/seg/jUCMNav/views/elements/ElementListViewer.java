@@ -181,7 +181,7 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 	 * @see org.eclipse.jface.viewers.StructuredViewer#getSelectionFromWidget()
 	 */
 	protected List getSelectionFromWidget() {
-		StructuredSelection sel = (StructuredSelection) list.getSelection();
+		//StructuredSelection sel = (StructuredSelection) list.getSelection();
 		ArrayList li = new ArrayList();
 		// for (Iterator i = sel.iterator(); i.hasNext();) {
 		// Widget item = (Widget) i.next();
@@ -334,12 +334,13 @@ public class ElementListViewer extends StructuredViewer implements Adapter, ISel
 					ref.getDef().eAdapters().add(this);
 				}
 			}
-		}
+		
 
-		if (list.size() > 0) {
-			IURNNode node = (IURNNode) list.get(0);
-			node.getDiagram().eAdapters().add(this);
-		}
+    		if (list.size() > 0) {
+    			IURNNode node = (IURNNode) list.get(0);
+    			node.getDiagram().eAdapters().add(this);
+    		}
+        }
 		refresh();
 	}
 

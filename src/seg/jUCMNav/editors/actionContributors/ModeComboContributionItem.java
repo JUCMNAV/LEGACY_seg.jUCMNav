@@ -39,7 +39,6 @@ public class ModeComboContributionItem extends ContributionItem {
 	private ToolItem toolitem;
 	private IWorkbenchPage service;
 	private IPartListener partListener;
-	private ISelectionListener selectionListener;
 
 	// should mode be local to current editor only?
 	private static boolean local = false;
@@ -64,7 +63,7 @@ public class ModeComboContributionItem extends ContributionItem {
 		// this.part = part;
 		service = partService;
 		Assert.isNotNull(partService);
-		partService.addSelectionListener(selectionListener = new ISelectionListener() {
+		partService.addSelectionListener(new ISelectionListener() {
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				if (part instanceof UCMNavMultiPageEditor && ((UCMNavMultiPageEditor) part).getActivePage() >= 0) {
 					ModeComboContributionItem.this.part = (URNRootEditPart) (((UCMNavMultiPageEditor) part).getCurrentPage().getGraphicalViewer()

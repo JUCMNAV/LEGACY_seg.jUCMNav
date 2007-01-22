@@ -58,7 +58,7 @@ public class MultiPageEditorLocation extends NavigationLocation {
 	 */
 	public boolean mergeInto(INavigationLocation currentLocation) {
 		if (currentLocation instanceof MultiPageEditorLocation) {
-			if (((MultiPageEditorLocation) currentLocation).getCurrentGraphID() == currentGraphID)
+			if (((MultiPageEditorLocation) currentLocation).getCurrentGraphID()!=null && ((MultiPageEditorLocation) currentLocation).getCurrentGraphID().equals(currentGraphID))
 				return true;
 		}
 		return false;

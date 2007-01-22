@@ -10,7 +10,6 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
-import urn.URNspec;
 
 /**
  * @author Jean-François Roy
@@ -51,8 +50,6 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
      */
     public void redo() {
         testPreConditions();
-
-        URNspec urnspec = graph.getUrndefinition().getUrnspec();
   
         graph.getNodes().add(belief);
         
@@ -85,8 +82,6 @@ public class AddBeliefCommand extends Command implements JUCMNavCommand {
      */
     public void undo() {
         testPostConditions();
-
-        URNspec urnspec = graph.getUrndefinition().getUrnspec();
         
         graph.getNodes().remove(belief);
 

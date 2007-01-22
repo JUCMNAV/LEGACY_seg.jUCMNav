@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.wizards.metadata;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import org.eclipse.emf.ecore.EObject;
@@ -12,8 +13,13 @@ import urncore.URNmodelElement;
  * 
  * @author pchen
  */
-public class EObjectComparator implements Comparator {
+public class EObjectComparator implements Comparator, Serializable {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * Constructs a EObjectComparator
      * 

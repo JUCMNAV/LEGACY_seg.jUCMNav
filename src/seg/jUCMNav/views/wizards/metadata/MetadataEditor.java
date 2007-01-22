@@ -5,6 +5,7 @@ import grl.IntentionalElementRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
@@ -75,9 +76,9 @@ public class MetadataEditor extends Wizard {
         CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 
         CompoundCommand cmd = new CompoundCommand();
-        for (Iterator iter = metadataMap.keySet().iterator(); iter.hasNext();) {
-            EObject obj = (EObject) iter.next();
-            cmd.add(new ChangeMetadataCommand(obj, (Metadata[]) metadataMap.get(obj)));
+        for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[])entry.getValue()));
         }
 
         if (cmd.canExecute()) {

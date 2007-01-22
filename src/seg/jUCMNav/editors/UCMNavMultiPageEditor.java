@@ -533,7 +533,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 
 		} catch (PartInitException e) {
+            // ignore
 		} catch (WorkbenchException e) {
+            // ignore
 		}
     }
 

@@ -1,9 +1,7 @@
 package seg.jUCMNav.actions.scenarios;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -24,7 +22,7 @@ public class AddPrePostConditionAction extends IncludeScenarioAction {
 	public static final String ADDPRECONDITIONACTION = "seg.jUCMNav.AddPreConditionAction"; //$NON-NLS-1$
 	public static final String ADDPOSTCONDITIONACTION = "seg.jUCMNav.AddPostConditionAction"; //$NON-NLS-1$
 	private boolean isPreCondition;
-	private EObject obj;
+
 
 	/**
 	 * @param part
@@ -60,7 +58,6 @@ public class AddPrePostConditionAction extends IncludeScenarioAction {
 		IncludeConditionInScenarioCommand command = new IncludeConditionInScenarioCommand(scenario, isPreCondition);
 		cs.execute(command);
 		
-		StructuredSelection selection = new StructuredSelection(command.getCondition());
 		wizard.init(PlatformUI.getWorkbench(), null, command.getCondition());
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

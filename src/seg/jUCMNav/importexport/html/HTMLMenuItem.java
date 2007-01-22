@@ -9,8 +9,8 @@ import urncore.IURNDiagram;
  * 
  */
 public class HTMLMenuItem {
-    public static String TYPE_UCM = "UCM";
-    public static String TYPE_GRL = "GRL";
+    public static final String TYPE_UCM = "UCM";
+    public static final String TYPE_GRL = "GRL";
 
     private static String diagramName = "";
     private static String type = "";

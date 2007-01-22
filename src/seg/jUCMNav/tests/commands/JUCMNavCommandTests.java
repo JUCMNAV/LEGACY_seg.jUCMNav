@@ -2,6 +2,7 @@ package seg.jUCMNav.tests.commands;
 
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
+import java.util.Random;
 
 import junit.framework.TestCase;
 
@@ -67,7 +68,6 @@ import ucm.map.WaitingPlace;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.IURNDiagram;
-import urncore.Label;
 import urncore.Responsibility;
 import urncore.UCMmodelElement;
 
@@ -90,7 +90,6 @@ public class JUCMNavCommandTests extends TestCase {
     private CommandStack cs;
     private UCMNavMultiPageEditor editor;
     private EndPoint end;
-    private PathNode fork;
     private Connect connect;
     private UCMmap map;
     private UCMmodelElement pathNodeWithLabel;
@@ -882,9 +881,11 @@ public class JUCMNavCommandTests extends TestCase {
     public void testExtendPathCommand() {
         testCreatePathCommand();
         Command cmd;
+        Random r = new Random();
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
-            cmd = new ExtendPathCommand(map, end, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+            
+            cmd = new ExtendPathCommand(map, end, r.nextInt(1000), r.nextInt(1000));
             assertTrue("Can't execute ExtendPathCommand with end.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }
@@ -892,7 +893,7 @@ public class JUCMNavCommandTests extends TestCase {
         // can extend the start point as well
         for (int i = 0; i < 5; i++) {
             // will have to remove randomness (by seeding) when we start serializing
-            cmd = new ExtendPathCommand(map, start, (int) (Math.random() * 1000), (int) (Math.random() * 1000));
+            cmd = new ExtendPathCommand(map, start,  r.nextInt(1000),  r.nextInt(1000));
             assertTrue("Can't execute ExtendPathCommand with start.", cmd.canExecute()); //$NON-NLS-1$
             cs.execute(cmd);
         }

@@ -104,7 +104,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
     //SAXParser function
     public void startElement(String namespaceURI, String lName, String qName, 
             Attributes attrs) throws SAXException {
-        if (qName == "grl-catalog"){//Root element //$NON-NLS-1$
+        if ("grl-catalog".equals(qName)){//Root element //$NON-NLS-1$
             //Create a new GRLGraph in the urnspec
             CreateGrlGraphCommand graphCmd = new CreateGrlGraphCommand(urn);
             
@@ -121,7 +121,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else{
                 throw new SAXException("Could not create a GrlGraph"); //$NON-NLS-1$
             }
-        } else if (qName == "intentional-element"){  //$NON-NLS-1$
+        } else if ("intentional-element".equals(qName)){  //$NON-NLS-1$
             //Create the intentional element 
             IntentionalElementType type = IntentionalElementType.get(attrs.getValue("type")); //$NON-NLS-1$
             IntentionalElementRef ref = (IntentionalElementRef)ModelCreationFactory.getNewObject(urn,IntentionalElementRef.class, type.getValue());
@@ -146,7 +146,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             }else{
                 throw new SAXException("Could not create IntentionalElementRef " + attrs.getValue("name")); //$NON-NLS-1$ //$NON-NLS-2$
             }
-        } else if (qName == "dependency"){  //$NON-NLS-1$
+        } else if ("dependency".equals(qName)){  //$NON-NLS-1$
             //Create a dependency between the 2 elements
             IntentionalElement dependee = (IntentionalElement)map.get(attrs.getValue("dependeeid")); //$NON-NLS-1$
             IntentionalElement depender = (IntentionalElement)map.get(attrs.getValue("dependerid")); //$NON-NLS-1$
@@ -165,7 +165,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create Dependency"); //$NON-NLS-1$
             }
-        } else if (qName == "decomposition"){  //$NON-NLS-1$
+        } else if ("decomposition".equals(qName)){  //$NON-NLS-1$
             //Create a decomposition between the 2 elements
             IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid")); //$NON-NLS-1$
             IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid")); //$NON-NLS-1$
@@ -184,7 +184,7 @@ public class ImportGRLCatalog extends DefaultHandler implements IURNImport {
             } else {
                 throw new SAXException("Could not create Decomposition"); //$NON-NLS-1$
             }
-        } else if (qName == "contribution"){  //$NON-NLS-1$
+        } else if ("contribution".equals(qName)){  //$NON-NLS-1$
             //Create a contribution between the 2 elements
             IntentionalElement src = (IntentionalElement)map.get(attrs.getValue("srcid")); //$NON-NLS-1$
             IntentionalElement dest = (IntentionalElement)map.get(attrs.getValue("destid")); //$NON-NLS-1$

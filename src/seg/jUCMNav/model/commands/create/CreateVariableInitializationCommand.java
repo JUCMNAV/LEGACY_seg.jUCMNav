@@ -91,10 +91,12 @@ public class CreateVariableInitializationCommand extends Command implements JUCM
 			}
 		}
 		
-		init = (Initialization) ModelCreationFactory.getNewObject(var.getUcmspec().getUrnspec(), Initialization.class);
+        assert var!=null : "unable to find variable " + varName;  //$NON-NLS-1$
+
+        init = (Initialization) ModelCreationFactory.getNewObject(var.getUcmspec().getUrnspec(), Initialization.class);
 		
 
-		assert var!=null : "unable to find variable " + varName;  //$NON-NLS-1$
+
 			
 		
 		

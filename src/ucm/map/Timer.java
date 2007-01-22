@@ -6,7 +6,6 @@
  */
 package ucm.map;
 
-import ucm.scenario.Variable;
 
 /**
  * <!-- begin-user-doc -->

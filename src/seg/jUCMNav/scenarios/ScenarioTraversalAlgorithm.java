@@ -2,6 +2,7 @@ package seg.jUCMNav.scenarios;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.resources.IMarker;
@@ -275,9 +276,9 @@ public class ScenarioTraversalAlgorithm {
 
 		// TODO: Load proper algorithm from plugin extensions / properties.
 		// execute the other algorithm
-		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal().new QDefaultScenarioTraversal(env, ScenarioUtils.getDefinedStartPoints(scenario),
+		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal.QDefaultScenarioTraversal(env, ScenarioUtils.getDefinedStartPoints(scenario),
 				ScenarioUtils.getDefinedEndPoints(scenario), traversalListeners);
-		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.getInstance().run(qry);
+		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.run(qry);
 
 		// memorize our results.
 		if (ucmspec==null && scenariogroup==null)
@@ -285,10 +286,10 @@ public class ScenarioTraversalAlgorithm {
 		else {
 			HashMap thisresult = resp.getResults();
 			// we want to memorize the sum of all visits. we don't care about getVisited() for now. 
-			for (Iterator iter = thisresult.keySet().iterator(); iter.hasNext();) {
-				EObject o = (EObject) iter.next();
-				TraversalResult r = createTraversalResults(o);
-				r.merge((TraversalResult)thisresult.get(o));
+			for (Iterator iter = thisresult.entrySet().iterator(); iter.hasNext();) {
+				Map.Entry entry = (Map.Entry) iter.next();
+				TraversalResult r = createTraversalResults((EObject)entry.getKey());
+				r.merge((TraversalResult)entry.getValue());
 			}
 		}
 		visited = resp.getVisited();

@@ -123,7 +123,7 @@ public class ElementListItem extends CompositeListItem {
      *          The image to set. Default image is the responsibility image
      */
     public void setElementImg(String path){
-    	InputStream stream = getClass().getResourceAsStream(path);
+    	InputStream stream = ElementListItem.class.getResourceAsStream(path);
         lblIcon.setImage(new Image(Display.getCurrent(), stream));
         lblIcon.setBackground(ColorManager.WHITE);
         try {

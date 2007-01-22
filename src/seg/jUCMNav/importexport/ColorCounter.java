@@ -16,4 +16,13 @@ public class ColorCounter implements Comparable {
 	public int compareTo(Object o) {
 		return ((ColorCounter) o).count - count;
 	}
+    public boolean equals(Object obj) {
+        if (obj instanceof ColorCounter)
+            return ((ColorCounter) obj).count == this.count;
+        else
+            return super.equals(obj);
+    }
+    public int hashCode() {
+        return count;
+    }
 }

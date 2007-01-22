@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import urncore.IURNContainerRef;
@@ -10,7 +11,12 @@ import urncore.IURNContainerRef;
  * @author jkealey
  *  
  */
-public class SpecificationComponentRefAreaComparator implements Comparator {
+public class SpecificationComponentRefAreaComparator implements Comparator, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Sort by ascending area size.

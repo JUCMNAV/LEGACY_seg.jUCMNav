@@ -24,8 +24,8 @@ import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 public class URNmodelElementType {
-    public static HashMap urnElementTypes = new HashMap();
-    public static String[] urnElementTypeNames = new String[] {
+    public static final HashMap urnElementTypes = new HashMap();
+    public static final String[] urnElementTypeNames = new String[] {
         "All",
         "Actor",
         "Element Link",

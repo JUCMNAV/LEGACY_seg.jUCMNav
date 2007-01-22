@@ -782,6 +782,9 @@ public class ProgressTests extends TestCase {
             }
         }
 
+        assertTrue("can't find sp", sp!=null);
+        assertTrue("can't find ep", ep!=null);
+        
         // move one
         Command cmd = new SetConstraintCommand(sp, 85, 148);
         getGraphicalViewer().getEditDomain().getCommandStack().execute(cmd);

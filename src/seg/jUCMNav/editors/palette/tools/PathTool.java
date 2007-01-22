@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -43,23 +42,23 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
     /**
      * <code>ENDPOINT</code>: State value when an EndPoint is selected.
      */
-    private final int ENDPOINT = 0;
+    private static final int ENDPOINT = 0;
     /**
      * <code>STARTPOINT</code>: State value when a StartPoint is selected.
      */
-    private final int STARTPOINT = 1;
+    private static final int STARTPOINT = 1;
     /**
      * <code>NOSELECT</code>: State value when the map is selected.
      */
-    private final int NOSELECT = 2;
+    private static final int NOSELECT = 2;
     /**
      * <code>EMPTYPOINT</code>: State value when an empty point is selected.
      */
-    private final int EMPTYPOINT = 3;
+    private static final int EMPTYPOINT = 3;
     /**
      * <code>CONNECTION</code>: State value when the cursor is over a connection.
      */
-    private final int CONNECTION = 4;
+    private static final int CONNECTION = 4;
 
     /**
      * <code>state</code>: The state value for the tool.
@@ -76,10 +75,6 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
      */
     private EditPart target;
 
-    /**
-     * <code>targetRequest</code>: The request the tool should return from its state.
-     */
-    private Request targetRequest;
 
     /**
      * <code>selected</code>: The selected editpart in the editpart viewer.
@@ -104,13 +99,6 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
         this.urn = urn;
     }
 
-    /***********************************************************************************************************************************************************
-     * Saves the target request.
-     */
-    protected void setTargetRequest(Request req) {
-        targetRequest = req;
-        super.setTargetRequest(req);
-    }
 
     /**
      * This method is called each time we need to change the target editpart of the tool. This method updates the state of the tool and recreate the target
@@ -325,8 +313,8 @@ public class PathTool extends CreationTool implements ISelectionChangedListener 
      * @return The endpoint of the path.
      */
     private PathNode findEndPoint(PathNode start) {
-        QFindReachableEndPoints qry = new EndPointFinder().new QFindReachableEndPoints(start, null, QFindReachableNodes.DIRECTION_FORWARD);
-        EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.getInstance().run(qry);
+        QFindReachableEndPoints qry = new EndPointFinder.QFindReachableEndPoints(start, null, QFindReachableNodes.DIRECTION_FORWARD);
+        EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.run(qry);
         Vector vEndPoints = resp.getNodes();
 
         if (vEndPoints.size() > 0)

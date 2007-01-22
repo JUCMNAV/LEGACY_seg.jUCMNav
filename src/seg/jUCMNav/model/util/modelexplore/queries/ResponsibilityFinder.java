@@ -117,7 +117,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         }
     }
 
-    public class QFindResponsibilities extends QueryRequest {
+    public static class QFindResponsibilities extends QueryRequest {
         public static final int DIRECTION_BOTH = 0;
         public static final int DIRECTION_REVERSE = 1;
         public static final int DIRECTION_FORWARD = 2;
@@ -169,7 +169,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         }
     }
 
-    public class RNextResponsibilities extends QueryResponse {
+    public static class RNextResponsibilities extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
         private Vector connections;

@@ -73,7 +73,6 @@ public class ContainerPropertySource extends URNElementPropertySource {
     protected Vector addSpecificProperties() {
         i = 0;
         Iterator it;
-        EClass cls = object.eClass();
         Collection descriptors = new Vector();
 
         if (comp != null) {

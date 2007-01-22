@@ -1,7 +1,6 @@
 package seg.jUCMNav.views;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution;
@@ -29,7 +28,6 @@ public class OpenEditorQuickFix implements IMarkerResolution {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		CodeEditor wizard = new CodeEditor();
 
-		StructuredSelection selection = new StructuredSelection(cond);
 		wizard.init(PlatformUI.getWorkbench(), null, cond);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.open();

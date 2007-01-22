@@ -146,6 +146,8 @@ public class LabelFeedbackEditPolicy extends GraphicalEditPolicy {
 
             }
 
+            if (pt2==null) return;
+            
             // calculate the differences.
             int diffx = pt.x - pt2.x;
             int diffy = pt.y - pt2.y;

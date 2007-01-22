@@ -13,7 +13,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteActorRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
-import urn.URNspec;
 
 /**
  * This class unlink reference and definition of IntentionalElements, Actors and Links. 
@@ -27,10 +26,9 @@ public class DeleteGRLGraphRefDefLinksCommand extends CompoundCommand {
     // the graph to delete
     private GRLGraph graph;
 
-    // the URNspec in which it is contained
-    private URNspec urn;
+
     
-    private int position;
+
    
     /**
      * @param diagram

@@ -22,14 +22,12 @@ import seg.jUCMNav.figures.ColorManager;
  */
 public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
-	private boolean selected;
 
 	/**
 	 * @param model
 	 */
 	public EvaluationStategyTreeEditPart(EvaluationStrategy model) {
 		super(model);
-		selected = false;
 	}
 
 	/**
@@ -58,7 +56,6 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 		// bug 411
 		if (widget == null)
 			return;
-		this.selected = selected;
 		if (selected) {
 			((TreeItem) widget).setBackground(ColorManager.LIGHTGRAY);
 		} else {

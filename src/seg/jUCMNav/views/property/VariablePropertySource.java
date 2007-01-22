@@ -54,7 +54,6 @@ public class VariablePropertySource extends URNElementPropertySource {
         PropertyID propertyid = (PropertyID) id;
         EStructuralFeature feature = propertyid.getFeature();
 
-        Object result = getPropertyValue(id);
         URNspec urn = getVariable().getUcmspec().getUrnspec();
 
         

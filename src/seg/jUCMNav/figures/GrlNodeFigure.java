@@ -30,8 +30,8 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     protected static final int LABEL_PADDING_Y = 10;
 
     // default sizes
-    protected static int DEFAULT_HEIGHT = 50;
-    protected static int DEFAULT_WIDTH = 100;
+    protected static final int DEFAULT_HEIGHT = 50;
+    protected static final int DEFAULT_WIDTH = 100;
 
     /** The inner TextFlow **/
     protected TextFlow textFlow;

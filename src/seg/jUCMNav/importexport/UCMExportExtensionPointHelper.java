@@ -15,7 +15,7 @@ import seg.jUCMNav.extensionpoints.IUseCaseMapExport;
  */
 public class UCMExportExtensionPointHelper extends ExportExtensionPointHelper {
 
-    protected static String sExtensionPoint = "seg.jUCMNav.UseCaseMapExport"; //$NON-NLS-1$
+    protected static final String sExtensionPoint = "seg.jUCMNav.UseCaseMapExport"; //$NON-NLS-1$
 
     /* Facade for ExportExtensionPointHelper */
     protected static IExtension[] getExportExtensions() {

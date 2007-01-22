@@ -15,11 +15,7 @@ import ucm.map.UCMmap;
  */
 public class AddBranchOnStubCommand extends CompoundCommand {
 
-	private boolean isInBranch;
-	private Stub stub;
 	public AddBranchOnStubCommand(Stub stub, boolean isInBranch) {
-		this.stub= stub;
-		this.isInBranch=isInBranch;
 		
 		CreatePathCommand cpc = new CreatePathCommand((UCMmap)stub.getDiagram(), stub.getX()-(isInBranch?150:50),stub.getY()-50);
 		

@@ -23,19 +23,14 @@ public class StubFigure extends PathNodeFigure {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    // if dynamic, used dotted line.
-    private boolean dynamic = false;
-
     // the lozenge.
     private Polygon mainFigure;
 
     /**
-     * @param dynamic
-     *            is this stub dynamic? if so, use a dotted line.
+    * Creates the stub's figure. 
      */
-    public StubFigure(boolean dynamic) {
+    public StubFigure() {
         super();
-        this.dynamic = dynamic;
     }
 
     /**
@@ -82,7 +77,6 @@ public class StubFigure extends PathNodeFigure {
      * @param dynamic
      */
     public void setDynamic(boolean dynamic) {
-        this.dynamic = dynamic;
         if (dynamic == true) {
             /*
              * Line width to 2 only works under platform 3.0.2 or above: https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853

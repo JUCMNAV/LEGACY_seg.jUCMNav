@@ -3,7 +3,6 @@ package seg.jUCMNav.scenarios.parser;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import seg.jUCMNav.scenarios.model.jUCMNavType;
-
 public class jUCMNavTypeChecker {
 
 

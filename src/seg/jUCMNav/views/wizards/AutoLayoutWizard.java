@@ -51,7 +51,7 @@ public class AutoLayoutWizard extends Wizard {
 
 	private IURNDiagram map;
 	private UrnEditor editor;
-	public static int PADDING=50;
+	public static final int PADDING=50;
 	
 	public AutoLayoutWizard(UrnEditor editor, IURNDiagram map) {
 		this.map = map;
@@ -86,7 +86,13 @@ public class AutoLayoutWizard extends Wizard {
 					builder.append(s + "\n"); //$NON-NLS-1$
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			} finally {
+			    try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
 		}
 		// System.out.println(builder.toString());
@@ -206,7 +212,7 @@ public class AutoLayoutWizard extends Wizard {
 									line.lastIndexOf('{')).trim() + Messages.getString("AutoLayoutWizard.inMap")); //$NON-NLS-1$
 
 				line = reader.readLine();
-
+				if (line==null) break;
 				// ex: graph [bb="0,0,192,212"];
 				if (line.matches("\\s*graph \\[bb=\"\\d+,\\d+,\\d+,\\d+\"];")) { //$NON-NLS-1$
 					String subline = line.substring(line.indexOf("\"") + 1, line.lastIndexOf("\"")); //$NON-NLS-1$ //$NON-NLS-2$

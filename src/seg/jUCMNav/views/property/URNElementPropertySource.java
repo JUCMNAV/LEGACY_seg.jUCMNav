@@ -152,8 +152,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void enumerationDescriptor(Collection descriptors, PropertyID propertyid, String[] values) {
-        EClassifier type = getFeatureType(propertyid.getFeature());
-        Class enumer = type.getInstanceClass();
+        //EClassifier type = getFeatureType(propertyid.getFeature());
+        //Class enumer = type.getInstanceClass();
         String name = propertyid.getFeature().getName();
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
         pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$

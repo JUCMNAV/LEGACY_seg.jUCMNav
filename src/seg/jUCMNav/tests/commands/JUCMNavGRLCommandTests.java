@@ -371,7 +371,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
     public void testCreateAllLinkRefCommand(){
         //Create 2 diagrams, add 3 elements with references in each them and create link between the elements
         Command cmd = new CreateGrlGraphCommand(urnspec);
-        GRLGraph graph2 = ((CreateGrlGraphCommand)cmd).getDiagram();
+        //GRLGraph graph2 = ((CreateGrlGraphCommand)cmd).getDiagram();
         assertTrue("Can't execute CreateGrlGraphCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);    
         
@@ -391,7 +391,7 @@ public class JUCMNavGRLCommandTests extends TestCase {
 
         //Create links between elements
         Contribution contrib = (Contribution)ModelCreationFactory.getNewObject(urnspec, Contribution.class);
-        Decomposition decomp = (Decomposition)ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
+//        Decomposition decomp = (Decomposition)ModelCreationFactory.getNewObject(urnspec, Decomposition.class);
         
         cmd = new CreateElementLinkCommand(urnspec, ref1.getDef(), contrib);
         ((CreateElementLinkCommand)cmd).setTarget(ref2.getDef());

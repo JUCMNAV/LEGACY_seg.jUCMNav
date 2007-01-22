@@ -176,7 +176,7 @@ public class jUCMNavLoader {
         }
 		final Vector autolayout = temp;
         
-        final boolean lastEditor = onlyLastEditor;
+//        final boolean lastEditor = onlyLastEditor;
 
 		String filename = getTargetFilename(originalFileName, newProject, overwrite);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();

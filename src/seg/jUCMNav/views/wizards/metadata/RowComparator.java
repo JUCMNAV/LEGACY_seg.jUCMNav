@@ -1,5 +1,6 @@
 package seg.jUCMNav.views.wizards.metadata;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -7,7 +8,11 @@ import java.util.Comparator;
  * 
  * @author pchen
  */
-public class RowComparator implements Comparator {
+public class RowComparator implements Comparator, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private int column;
 
     /**

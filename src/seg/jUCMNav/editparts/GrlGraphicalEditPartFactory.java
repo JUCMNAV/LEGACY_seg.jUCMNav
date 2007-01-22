@@ -41,13 +41,13 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
             return new GrlGraphEditPart((GRLGraph)model);
         }
         else if(model instanceof IntentionalElementRef){
-            return new IntentionalElementEditPart((IntentionalElementRef)model, graph);
+            return new IntentionalElementEditPart((IntentionalElementRef)model);
         }
         else if (model instanceof Belief){
-            return new BeliefEditPart((Belief)model,graph);
+            return new BeliefEditPart((Belief)model);
         }
         else if (model instanceof ActorRef){
-            return new ActorRefEditPart((ActorRef)model,graph);
+            return new ActorRefEditPart((ActorRef)model);
         }
         else if(model instanceof Label){
             return new LabelEditPart((Label)model);

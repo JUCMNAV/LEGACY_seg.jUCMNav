@@ -23,7 +23,6 @@ public class UcmEnvironment implements Adapter, Cloneable{
     private HashMap valuations;
     
     private URNspec urn;
-    private Notifier target;
 
     public UcmEnvironment() {
         declarations = new HashMap();
@@ -257,7 +256,6 @@ public class UcmEnvironment implements Adapter, Cloneable{
 	}
 
 	public void setTarget(Notifier arg0) {
-		target = arg0;
 		refresh();
 	}
 
@@ -273,19 +271,20 @@ public class UcmEnvironment implements Adapter, Cloneable{
 		}
 	
 		this.urn = ucmspec.getUrnspec();
-		target = ucmspec;
 		refresh();
 
 		if (this.urn!=null && !urn.getUcmspec().eAdapters().contains(this)) {
 			urn.getUcmspec().eAdapters().add(this);
 		}
+        
+        if (this.urn!=null) {
 		
-		for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
-			Variable var = (Variable) iter.next();
-			if (!var.eAdapters().contains(this))
-				var.eAdapters().add(this);
-		}	
-		
+    		for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
+    			Variable var = (Variable) iter.next();
+    			if (!var.eAdapters().contains(this))
+    				var.eAdapters().add(this);
+    		}	
+        }
 		// TODO: remove unused ones. 
 	}
 

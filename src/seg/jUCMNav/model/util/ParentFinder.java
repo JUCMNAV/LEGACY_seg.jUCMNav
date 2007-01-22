@@ -196,8 +196,6 @@ public class ParentFinder {
      * @return vector with new children of the compRef
      */
     public static Vector findNewChildren(IURNDiagram diagram, IURNContainerRef compRef) {
-        Rectangle rectMoved = new Rectangle(compRef.getX(), compRef.getY(), compRef.getWidth(), compRef.getHeight());
-
         Vector v = new Vector();
         v.addAll(diagram.getContRefs());
         v.addAll(diagram.getNodes());

@@ -1,6 +1,5 @@
 package seg.jUCMNav.editpolicies.element;
 
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
@@ -68,7 +67,7 @@ public class PathNodeComponentEditPolicy extends ComponentEditPolicy {
             // CutPathAction on PathNode.
             return cp;
         }
-        if (request.getType() == REQ_CREATE) {
+        if (request.getType() == REQ_CREATE && request instanceof CreateRequest) {
             Object newObjectType = null;
             if (((CreateRequest) request).getNewObject() != null)
                 newObjectType = ((CreateRequest) request).getNewObjectType();

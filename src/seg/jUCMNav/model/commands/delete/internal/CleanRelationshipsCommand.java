@@ -366,6 +366,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	private void build() {
 		if (element instanceof UCMmap)
 			build((UCMmap) element);
+        else if (element instanceof GRLGraph)
+            build((GRLGraph) element);
 		else if (element instanceof ComponentRef)
 			build((ComponentRef) element);
 		else if (element instanceof ActorRef)

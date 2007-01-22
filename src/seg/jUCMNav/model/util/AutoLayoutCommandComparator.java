@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
@@ -10,7 +11,12 @@ import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerR
  * @author jkealey
  * 
  */
-public class AutoLayoutCommandComparator implements Comparator {
+public class AutoLayoutCommandComparator implements Comparator, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     /**
      * Puts SetConstraintBoundContainerRefCompoundCommand before SetConstraintCommand
