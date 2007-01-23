@@ -28,7 +28,7 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
-     * @param model
+     * @param model the strategy group
      */
     public StrategiesGroupTreeEditPart(StrategiesGroup model) {
         super(model);
@@ -41,6 +41,10 @@ public class StrategiesGroupTreeEditPart extends StrategyUrnModelElementTreeEdit
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
     }
     
+    /**
+     * 
+     * @return the strategy group
+     */
     public StrategiesGroup getStrategiesGroup(){
         return (StrategiesGroup)getModel();
     }

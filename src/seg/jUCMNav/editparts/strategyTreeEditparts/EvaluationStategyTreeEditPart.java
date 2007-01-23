@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import grl.EvaluationStrategy;
@@ -37,12 +34,16 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
 	}
 
+    /**
+     * 
+     * @return the evaluation strategy
+     */
 	public EvaluationStrategy getEvaluationStrategy() {
 		return (EvaluationStrategy) getModel();
 	}
 
 	/**
-	 * Returns the icon
+	 * @return the icon for an evaluation strategy. 
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
@@ -51,7 +52,9 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 		return super.getImage();
 	}
 
-	// If selected, set the element in bold.
+	/** 
+     * If selected, set the element in bold.
+	 */
 	public void setSelected(boolean selected) {
 		// bug 411
 		if (widget == null)

@@ -26,7 +26,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
     private final UCMNavMultiPageEditor editor;
 
     /**
-     * @param editor
+     * @param editor jUCMNav
      */
     MultiPageCommandStackListener(UCMNavMultiPageEditor editor) {
         this.editor = editor;
@@ -47,6 +47,7 @@ public class MultiPageCommandStackListener implements CommandStackListener {
 
     /**
      * What should be done when the stack changes.
+     * @param event the command stack changed event. 
      * 
      * @see org.eclipse.gef.commands.CommandStackListener#commandStackChanged(java.util.EventObject)
      */
@@ -76,7 +77,9 @@ public class MultiPageCommandStackListener implements CommandStackListener {
     }
 
     /** 
-     * @param event
+     * Updates the editor when a new page is added/removed. Keeps the open editors in synch with the omdel.  
+     * 
+     * @param event the command stack changed event. 
      */
     private void commandStackVerifyPages(EventObject event) {
         if (this.editor.getPageCount() != this.editor.getModel().getUrndef().getSpecDiagrams().size() && event.getSource() instanceof DelegatingCommandStack) {

@@ -37,20 +37,6 @@ public class ConditionEditPart extends LabelEditPart {
 
     }
 
-    // jkealey: Removed during cleanup; I don't think we need to listen to conditions as they don't hold any condition relevant properties. leaving just in case
-    // until next cleanup; see dactivate() as well. 
-    //
-    //    public void activate() {
-    //        if (!isActive()) {
-    //            if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
-    //                NodeConnection nc = ((Condition) modelElement).getNodeConnection();
-    //                if (nc != null)
-    //                    nc.eAdapters().add(this);
-    //            }
-    //        }
-    //        super.activate();
-    //    }
-
     /**
      * Places labels on the screen given their size, the model element's position and the deltax/y.
      * 
@@ -73,16 +59,6 @@ public class ConditionEditPart extends LabelEditPart {
 
     }
 
-    //    public void deactivate() {
-    //        if (isActive()) {
-    //            if (modelElement instanceof Condition && ((Condition) modelElement).getNodeConnection() != null) {
-    //                NodeConnection nc = ((Condition) modelElement).getNodeConnection();
-    //                if (nc != null)
-    //                    nc.eAdapters().remove(this);
-    //            }
-    //        }
-    //        super.deactivate();
-    //    }
 
     /**
      * Returns the node connection; no check to see if we are actually linking to a node connection
@@ -106,24 +82,6 @@ public class ConditionEditPart extends LabelEditPart {
         WizardDialog dialog = new WizardDialog(shell, wizard);
         dialog.open();
         
-        // no longer doing direct edit. 
-    	
-//        LabelFigure figure = (LabelFigure) getFigure();
-//
-//        // remove surrounding []
-//        figure.setEditableText(figure.getEditableText().substring(1, figure.getEditableText().length() - 1));
-//
-//        if (manager == null) {
-//
-//            ICellEditorValidator validator = new ICellEditorValidator() {
-//                public String isValid(Object value) {
-//                    return ""; //$NON-NLS-1$
-//                }
-//            };
-//
-//            manager = new ExtendedDirectEditManager(this, TextCellEditor.class, new LabelCellEditorLocator(figure), figure, validator);
-//        }
-//        manager.show();
     }
 
     /**

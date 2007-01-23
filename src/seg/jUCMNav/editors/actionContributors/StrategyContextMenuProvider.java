@@ -27,7 +27,7 @@ import seg.jUCMNav.actions.scenarios.RunAllScenariosAction;
 import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 
 /**
- * This class build the context menu for the Strategy view
+ * This class builds the context menu for the Strategy/scenario view
  * 
  * @author Jean-François Roy, jkealey
  *
@@ -46,8 +46,8 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         setActionRegistry(registry);
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+    /**
+     * Looks up a set of actions in the action registry. If they are enabled, adds them to the correct groups.
      */
     public void buildContextMenu(IMenuManager menu) {
         GEFActionConstants.addStandardActionGroups(menu);

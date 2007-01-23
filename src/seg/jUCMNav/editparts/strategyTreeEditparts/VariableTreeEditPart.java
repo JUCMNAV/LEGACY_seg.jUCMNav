@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     
     /**
      * @param model
-     *          The UCMspec model
+     *          The Variable model
      */
     public VariableTreeEditPart(Variable model) {
         super(model);
@@ -63,7 +60,7 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
     }
     
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with the variable. 
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
@@ -88,6 +85,10 @@ public class VariableTreeEditPart extends StrategyUrnModelElementTreeEditPart {
         return list;
     }
 
+    /**
+     * 
+     * @return the variable
+     */
     private Variable getVariable(){
         return (Variable)getModel();
     }

@@ -32,15 +32,16 @@ import seg.jUCMNav.views.property.ContainerPropertySource;
 
 /**
  * Edit part for the Actor Ref, who listen for changes in both ref and def
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
 
     private Label evaluationLabel;
-    
+
     private Image evaluationImg;
-    
+
     /**
      * Constructor of the edit part
      */
@@ -54,15 +55,17 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
-    public void activate() {       
+    public void activate() {
         if (!isActive() && getActorRef().getContDef() != null)
             getActorRef().getContDef().eAdapters().add(this);
 
         // listen to reference
         super.activate();
     }
-    
-    /* (non-Javadoc)
+
+    /**
+     * Creates edit policies
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -70,7 +73,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new ComponentFeedbackEditPolicy());
     }
 
-    /* (non-Javadoc)
+    /**
+     * Creates the figure for actor refs, and also adds evaluation labels / icons to the background.
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createFigure()
      */
     protected IFigure createFigure() {
@@ -78,15 +83,16 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setForegroundColor(ColorManager.LINKREFLABEL);
         evaluationLabel.setVisible(false);
 
-        evaluationLabel.setSize(50,16);
+        evaluationLabel.setSize(50, 16);
         evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage(); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         try {
-        	((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).add(evaluationLabel);
+            ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
+                    .getChildren().get(0)).add(evaluationLabel);
         } catch (Exception ex) {
-        	System.out.println("problem with scaling grl evaluation label"); //$NON-NLS-1$
-        	// bug 435: old code.. hoping new code is more robust.
-        	((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
+            System.out.println("problem with scaling grl evaluation label"); //$NON-NLS-1$
+            // bug 435: old code.. hoping new code is more robust.
+            ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().add(evaluationLabel);
         }
 
         return new ActorFigure();
@@ -98,23 +104,24 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      * @see org.eclipse.gef.EditPart#deactivate()
      */
     public void deactivate() {
-        if (isActive()){
+        if (isActive()) {
             if (evaluationImg != null) {
                 evaluationImg.dispose();
                 evaluationImg = null;
             }
             evaluationLabel.setVisible(false);
-            //((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
-            ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
-            if (getActorRef().getContDef() != null){
+            // ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
+            ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
+                    .getChildren().get(0)).remove(evaluationLabel);
+            if (getActorRef().getContDef() != null) {
                 getActorRef().getContDef().eAdapters().remove(this);
             }
         }
-         
-        //stop listenening to reference
+
+        // stop listenening to reference
         super.deactivate();
     }
-    
+
     /**
      * 
      * @return the actor ref to draw
@@ -122,16 +129,16 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
     private ActorRef getActorRef() {
         return (ActorRef) getModel();
     }
-    
+
     /**
      * @return The node's figure
      */
     public ActorFigure getActorFigure() {
         return (ActorFigure) getFigure();
     }
-    
+
     /**
-     * @return a ContainerPropertySource 
+     * @return a ContainerPropertySource
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null) {
@@ -139,7 +146,10 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         }
         return propertySource;
     }
-    /* (non-Javadoc)
+
+    /**
+     * refresh and notify part.
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -150,8 +160,9 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
-    /* 
-     * (non-Javadoc)
+    /**
+     * Refreshes {@link ActorFigure} and accompanying labels.
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
@@ -163,30 +174,30 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         figure.setBounds(bounds);
         figure.setLocation(location);
 
-        try{
+        try {
             // set information for specific drawing
             if (getActorRef().getContDef() instanceof Actor) {
                 Actor actor = (Actor) getActorRef().getContDef();
-                if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
+                if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                     ((ActorFigure) figure).setColors(actor.getLineColor(), actor.getFillColor(), actor.isFilled());
-                } else { 
+                } else {
                     ((ActorFigure) figure).setColors("75,75,75", actor.getFillColor(), actor.isFilled()); //$NON-NLS-1$
                 }
-                
+
             }
-            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
+            if (!((GrlConnectionOnBottomRootEditPart) getRoot()).isStrategyView()) {
                 evaluationLabel.setVisible(false);
             } else {
-                //Calculate the actor evaluation
+                // Calculate the actor evaluation
                 evaluationLabel.setText(calculateEvaluation());
                 evaluationLabel.setLocation(getActorFigure().getLocation());
                 evaluationLabel.setVisible(true);
             }
-        } catch (NullPointerException e){} //if the figure have been deleted, the root edit part is not accessible anymore
-        
+        } catch (NullPointerException e) {
+        } // if the figure have been deleted, the root edit part is not accessible anymore
 
-        //   Make the label recenter itself.
-        figure.validate(); 
+        // Make the label recenter itself.
+        figure.validate();
 
         // notify parent container of changed position & location
         // if this line is removed, the XYLayoutManager used by the parent container
@@ -195,9 +206,13 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         if (getParent() != null)
             (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
-    
-    public String calculateEvaluation(){
-        return String.valueOf(EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor)getActorRef().getContDef())));
+
+    /**
+     * 
+     * @return the evaluation to be displayed in the label. 
+     */
+    public String calculateEvaluation() {
+        return String.valueOf(EvaluationStrategyManager.getInstance().getActorEvaluation(((Actor) getActorRef().getContDef())));
     }
 
 }

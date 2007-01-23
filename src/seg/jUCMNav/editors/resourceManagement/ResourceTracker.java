@@ -51,8 +51,10 @@ public class ResourceTracker implements IResourceChangeListener, IResourceDeltaV
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /** 
+     * Closes the editor for deleted files. 
+     * 
+     * If a file is moved, updates the editors. 
      * 
      * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
      */

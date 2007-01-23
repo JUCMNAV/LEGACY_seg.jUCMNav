@@ -60,6 +60,7 @@ public class PathNodeTreeEditPart extends UrnModelElementTreeEditPart {
     }
 
     /**
+     * @return the path node
      */
     protected PathNode getPathNode() {
         return (PathNode) getModel();

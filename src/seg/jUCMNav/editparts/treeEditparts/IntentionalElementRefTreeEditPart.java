@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.IntentionalElementRef;
@@ -59,7 +56,7 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
     }
 
     /**
-     * return the intentionalElementRef associate with this edit part
+     * return the intentionalElementRef associated with this edit part
      */
     protected IntentionalElementRef getIntentionalElementRef() {
         return (IntentionalElementRef) getModel();

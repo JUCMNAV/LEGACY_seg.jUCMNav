@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import ucm.scenario.ScenarioDef;
 import urncore.Condition;
 
 /**
- * This class is the root edit part for a variable.
+ * This class is the root edit part for a pre/post condition.
  * 
  * @author jkealey
  * 
@@ -27,7 +24,7 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
 	/**
 	 * @param model
-	 *            The UCMspec model
+	 *            the pre/post condition 
 	 */
 	public ConditionTreeEditPart(Condition model) {
 		super(model);
@@ -66,7 +63,7 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 	}
 
 	/**
-	 * @return the icon associated with URNspec
+	 * @return the icon associated with condition
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
@@ -85,12 +82,19 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 		return list;
 	}
 
+    /**
+     * 
+     * @return the condition
+     */
 	private Condition getCondition() {
 		return (Condition) getModel();
 	}
 
-	
-
+    /**
+     * Is this condition inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this condition inherited from another scenario?
+     */
 	public boolean isInherited() {
 		if (getParent()==null)return false;
 		return !((ScenarioDef) getParent().getParent().getModel()).getPreconditions().contains(getModel()) && !((ScenarioDef) getParent().getParent().getModel()).getPostconditions().contains(getModel());
@@ -98,6 +102,7 @@ public class ConditionTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 	
 	
 	/**
+     * Uses {@link URNNamingHelper} to return the condition's label. Inherited (@see {@link #isInherited()} elements are grayed out. 
 	 * @return the condition label.
 	 */
 	protected String getText() {

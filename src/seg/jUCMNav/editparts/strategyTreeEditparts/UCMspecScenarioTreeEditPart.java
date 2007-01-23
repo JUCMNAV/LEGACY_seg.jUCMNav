@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -56,7 +53,7 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with the UCMspec
      */
     protected Image getImage() {
         if (super.getImage() == null)
@@ -65,7 +62,7 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * @return the sorted list of Scenario Group
+     * @return the sorted list of Scenario Groups
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
@@ -74,12 +71,16 @@ public class UCMspecScenarioTreeEditPart extends StrategyUrnModelElementTreeEdit
         return list;
     }
 
+    /**
+     * 
+     * @return the UCMspec
+     */
     private UCMspec getUCMspec(){
         return (UCMspec)getModel();
     }
     
     /**
-     * @return the URNspec name.
+     * @return the UCMspec name.
      */
     protected String getText() {
         return Messages.getString("UCMspecScenarioTreeEditPart.UcmScenarios"); //$NON-NLS-1$

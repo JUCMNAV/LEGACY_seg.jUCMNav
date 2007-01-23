@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -16,21 +13,24 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import ucm.UCMspec;
 
 /**
- * This class is the root edit part for the variables, but actually listens to the UCMspec.  
+ * This class is the root edit part for the variables/enumeration lists, but actually listens to the UCMspec.
  * 
  * @author jkealey
- *
+ * 
  */
 public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPart {
-    
-	private boolean isEnumerations;
+
+    private boolean isEnumerations;
+
     /**
      * @param model
-     *          The UCMspec model
+     *            The UCMspec model
+     * @param isEnumerations
+     *            is this the enumeration list (true) or the variable list (false)
      */
     public VariableListTreeEditPart(UCMspec model, boolean isEnumerations) {
         super(model);
-        this.isEnumerations=isEnumerations;
+        this.isEnumerations = isEnumerations;
     }
 
     /**
@@ -52,48 +52,56 @@ public class VariableListTreeEditPart extends StrategyUrnModelElementTreeEditPar
      */
     public void deactivate() {
         if (isActive()) {
-        	getUCMspec().eAdapters().remove(this);
+            getUCMspec().eAdapters().remove(this);
         }
         super.deactivate();
     }
-    
+
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with the variable list
      */
     protected Image getImage() {
         if (super.getImage() == null)
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/folder16.gif")).createImage()); //$NON-NLS-1$
         return super.getImage();
     }
-    
+
     /**
      * @return the sorted list of Variables
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         if (isEnumerations)
-        	list.addAll(getUCMspec().getEnumerationTypes());
+            list.addAll(getUCMspec().getEnumerationTypes());
         else
-        	list.addAll(getUCMspec().getVariables());        	
+            list.addAll(getUCMspec().getVariables());
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
 
-    private UCMspec getUCMspec(){
-        return (UCMspec)getModel();
-    }
-    
     /**
-     * @return the URNspec name.
+     * @return the label for the folder containg variables or enumerations name.
      */
     protected String getText() {
-    	if (isEnumerations)
-    		return Messages.getString("VariableListTreeEditPart.Enumerations"); //$NON-NLS-1$
-    	else
-    		return Messages.getString("VariableListTreeEditPart.Variables"); //$NON-NLS-1$
+        if (isEnumerations)
+            return Messages.getString("VariableListTreeEditPart.Enumerations"); //$NON-NLS-1$
+        else
+            return Messages.getString("VariableListTreeEditPart.Variables"); //$NON-NLS-1$
     }
 
-	public boolean isEnumerations() {
-		return isEnumerations;
-	}
+    /**
+     * 
+     * @return the UCMspec
+     */
+    private UCMspec getUCMspec() {
+        return (UCMspec) getModel();
+    }
+
+    /**
+     * 
+     * @return  is this the enumeration list (true) or the variable list (false)
+     */
+    public boolean isEnumerations() {
+        return isEnumerations;
+    }
 }

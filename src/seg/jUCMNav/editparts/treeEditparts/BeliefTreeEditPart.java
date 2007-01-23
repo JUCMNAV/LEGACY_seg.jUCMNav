@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.Belief;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editors;
 
 import java.util.EventObject;

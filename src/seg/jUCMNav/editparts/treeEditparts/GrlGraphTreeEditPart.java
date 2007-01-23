@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.GRLGraph;
@@ -64,6 +61,10 @@ public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
         return list;
     }
 
+    /**
+     * 
+     * @return the GRLGraph
+     */
     public GRLGraph getGraph(){
         return ((GRLGraph) getModel());
     }

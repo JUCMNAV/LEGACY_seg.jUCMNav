@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import org.eclipse.draw2d.geometry.Point;

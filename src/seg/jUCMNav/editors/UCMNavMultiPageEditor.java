@@ -57,6 +57,7 @@ import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import urn.URNspec;
 import urncore.IURNDiagram;
+import urncore.URNmodelElement;
 
 
 /**
@@ -688,8 +689,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         target = newTarget;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates a {@link MultiPageEditorLocation}
      * 
      * @see org.eclipse.ui.INavigationLocationProvider#createEmptyNavigationLocation()
      */
@@ -697,8 +698,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         return new MultiPageEditorLocation(this);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Creates a {@link MultiPageEditorLocation}
      * 
      * @see org.eclipse.ui.INavigationLocationProvider#createNavigationLocation()
      */
@@ -716,6 +717,11 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
         setActivePage(pageIndex);
     }
 
+    /**
+     * If the marker has an EObject attribute, the value is its {@link URNmodelElement} ID. We try to find it in the {@link URNspec} and select it in the UI. 
+     * 
+     * Otherwise, we look at its resolutions and if a code editor must be opened to fix it (via a {@link OpenEditorQuickFix}), we open the code editor. 
+     */
 	public void gotoMarker(IMarker marker) {
 		try {
 			if (!marker.exists())
@@ -766,6 +772,9 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
 		
 	}
 
+    /**
+     * Return's the outline's property source.  
+     */
 	public IPropertySource getPropertySource(Object object) {
 		UrnOutlinePage outline;
 		if (getPageCount()==0)

@@ -14,13 +14,19 @@ import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 
 /**
- * This class is simply here because the root of our strategy (GRLspec) / scenario (UCMspec)
+ * This class is simply here because the root of our strategy (GRLspec) / scenario (UCMspec) is already used. 
+ * 
+ * Why not use a URNspec? I'm not sure, I think we may be using it elsewhere, but can't confirm. 
  * 
  * @author jfroy, jkealey
  *  
  */
 public class StrategyRootEditPart extends AbstractTreeEditPart {
 
+    /**
+     * 
+     * @param editor
+     */
     public StrategyRootEditPart(UCMNavMultiPageEditor editor) {
         super(editor);
     }
@@ -47,6 +53,11 @@ public class StrategyRootEditPart extends AbstractTreeEditPart {
     		return getParent().getRoot();
     }
     
+    /**
+     * Refreshes the scenarios. 
+     *  
+     * @param ucmspec
+     */
     public void refreshScenarioTreeView(UCMspec ucmspec) {
     	for (Iterator iter = ucmspec.getScenarioGroups().iterator(); iter.hasNext();) {
 			ScenarioGroup group = (ScenarioGroup) iter.next();

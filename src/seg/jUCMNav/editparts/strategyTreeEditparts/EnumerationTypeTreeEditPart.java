@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
 
     /**
-     * Listens to Variable
+     * Listens to an enumeration type. 
      * 
      * @see org.eclipse.gef.EditPart#activate()
      */
@@ -50,7 +47,7 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * Stops listening to the variable. 
+     * Stops listening to the enumeration type. 
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
@@ -62,7 +59,7 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with the enumeration type
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
@@ -72,7 +69,7 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-	 * Variables have no children.
+	 * Enumeration Types have no children.
 	 * 
 	 * @return empty list
 	 */
@@ -81,12 +78,16 @@ public class EnumerationTypeTreeEditPart extends StrategyUrnModelElementTreeEdit
         return list;
     }
 
+    /**
+     * 
+     * @return the enumeration type
+     */
     private EnumerationType getEnumerationType(){
         return (EnumerationType)getModel();
     }
     
     /**
-     * @return the URNspec name.
+     * @return the enumeration type name.
      */
     protected String getText() {
         return getEnumerationType().getName();

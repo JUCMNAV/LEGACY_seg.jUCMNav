@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.Belief;
@@ -46,7 +43,9 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
     }
 
 
-    /* (non-Javadoc)
+    /**
+     * Creates edit policies. 
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -56,7 +55,9 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new BeliefNodeEditPolicy());
     }
 
-    /* (non-Javadoc)
+    /**
+     * Creates the belief's figures. 
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createFigure()
      */
     protected IFigure createFigure() {
@@ -80,16 +81,16 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         return new DragPathNodeTracker(this);
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
      */
     protected List getModelSourceConnections() {
         return getBelief().getSucc();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
      */
     protected List getModelTargetConnections() {
@@ -135,7 +136,8 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
         return getNodeFigure().getConnectionAnchor();
     }
     
-    /* (non-Javadoc)
+    /** 
+     * Be notified that a change has occurred. 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -148,7 +150,9 @@ public class BeliefEditPart extends GrlNodeEditPart implements NodeEditPart {
             ((URNDiagramEditPart) getParent()).notifyChanged(notification);
     }
 
-    /* (non-Javadoc)
+    /**
+     * Refresh the {@link BeliefFigure}. 
+     * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {

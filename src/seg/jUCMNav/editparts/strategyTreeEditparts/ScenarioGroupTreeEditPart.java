@@ -27,7 +27,7 @@ import ucm.scenario.ScenarioGroup;
 public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
     /**
-     * @param model
+     * @param model the group
      */
     public ScenarioGroupTreeEditPart(ScenarioGroup model) {
         super(model);
@@ -40,12 +40,16 @@ public class ScenarioGroupTreeEditPart extends StrategyUrnModelElementTreeEditPa
         installEditPolicy(EditPolicy.COMPONENT_ROLE, new StrategiesGroupComponentEditPolicy());
     }
     
+    /**
+     * 
+     * @return the scenario group
+     */
     public ScenarioGroup getScenarioGroup(){
         return (ScenarioGroup)getModel();
     }
     
     /**
-     * Returns the icon 
+     * Returns the icon for a scenario group. 
      */
     protected Image getImage() {
         if (super.getImage() == null) {       

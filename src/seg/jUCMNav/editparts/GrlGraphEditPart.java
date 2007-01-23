@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.GRLGraph;
@@ -22,16 +19,23 @@ import urncore.IURNNode;
 
 
 /**
+ * The edit part for the GRL Graph
+ * 
  * @author Jean-François Roy
  *
  */
 public class GrlGraphEditPart extends URNDiagramEditPart {
 
+    /**
+     * 
+     * @param graph the GRL graph
+     */
     public GrlGraphEditPart(GRLGraph graph){
         super(graph);
     }
 
-    /* (non-Javadoc)
+    /** 
+     * Create edit policies
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -69,7 +73,6 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
      */
-
     protected List getModelChildren() {
         List list = getComponents();
         list.addAll(getNodes());
@@ -103,7 +106,8 @@ public class GrlGraphEditPart extends URNDiagramEditPart {
         return list;
     }
 
-    /* (non-Javadoc)
+    /** 
+     * Refresh its children when something changes. 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {

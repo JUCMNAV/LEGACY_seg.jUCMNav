@@ -50,7 +50,7 @@ public class MultiPageFileManager {
 
     /**
      * 
-     * @param editor
+     * @param editor jUCMNav
      */
     public MultiPageFileManager(UCMNavMultiPageEditor editor) {
         this.editor = editor;
@@ -59,7 +59,7 @@ public class MultiPageFileManager {
     /**
      * Returns the URNspec object from the specified file.
      * 
-     * @param file
+     * @param file the file to create
      * @return the urn object from the specified file
      */
     public URNspec create(IFile file) throws CoreException {
@@ -76,7 +76,7 @@ public class MultiPageFileManager {
     /**
      * Returns the URNspec object from the specified file.
      * 
-     * @param path
+     * @param path the file to create
      * @return the urn object from the specified file
      */
     public URNspec create(IPath path) throws CoreException {
@@ -89,7 +89,7 @@ public class MultiPageFileManager {
         } catch (Exception e) {// SAXParseException
             if (!(e instanceof WrappedException) || !(((WrappedException) e).exception() instanceof SAXParseException)
                     || ((SAXParseException) ((WrappedException) e).exception()).getLineNumber() >= 0) {
-                // dont pop error if file is empty (not created by wizard).
+                // don't pop error if file is empty (not created by wizard).
                 ErrorDialog
                         .openError(
                                 getEditor().getSite().getShell(),

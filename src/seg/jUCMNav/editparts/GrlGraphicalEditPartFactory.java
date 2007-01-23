@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.ActorRef;
@@ -16,22 +13,24 @@ import org.eclipse.gef.EditPartFactory;
 import urncore.Label;
 
 /**
+ * Edit Part factory for the GRL model elements. 
+ * 
  * @author Jean-François Roy
  *
  */
 public class GrlGraphicalEditPartFactory implements EditPartFactory {
 
     private GRLGraph graph;
-    
-    public GrlGraphicalEditPartFactory(){
-        super();
-    }
-    
+
+    /**
+     * 
+     * @param graph the GRL graph
+     */
     public GrlGraphicalEditPartFactory(GRLGraph graph){
         this.graph = graph;
     }
     
-    /* 
+    /**
      * Create new instances of edit part for the model elements
      * 
      * @see org.eclipse.gef.EditPartFactory#createEditPart(org.eclipse.gef.EditPart, java.lang.Object)

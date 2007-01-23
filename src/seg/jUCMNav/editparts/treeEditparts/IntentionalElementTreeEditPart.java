@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.IntentionalElement;

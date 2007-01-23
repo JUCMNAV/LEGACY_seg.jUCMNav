@@ -136,7 +136,7 @@ public class UcmEditor extends UrnEditor {
     /**
      * Sets the map to be manipulated by this editor
      * 
-     * @param m
+     * @param m the {@link UCMmap}
      */
     public void setModel(IURNDiagram m) {
         mapModel = (UCMmap) m;

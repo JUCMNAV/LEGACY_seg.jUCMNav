@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -56,7 +53,7 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
     }
     
     /**
-     * Stops listening to the variable. 
+     * Stops listening to the Initialization. 
      * 
      * @see org.eclipse.gef.EditPart#deactivate()
      */
@@ -68,7 +65,7 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
     }
     
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with the Initialization
      */
     protected Image getImage() {
 		if (super.getImage() == null) {
@@ -93,20 +90,34 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
         return list;
     }
 
+    /**
+     * 
+     * @return the Initialization
+     */
     private Initialization getInitialization() {
     	return (Initialization)getModel();
     }
+    
+    /**
+     * 
+     * @return the Variable associated with the Initialization
+     */
     private Variable getVariable(){
         return getInitialization().getVariable();
     }
     
 
+    /**
+     * Is this element inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this element inherited from another scenario?
+     */
 	private boolean isInherited() {
 		return !((ScenarioDef) getParent().getParent().getModel()).getInitializations().contains(getModel());
 	}
     
     /**
-     * @return the Initialization name.
+     * @return the Initialization name. Inherited elements are grayed out {@link #isInherited()}
      */
     protected String getText() {
     	

@@ -114,10 +114,12 @@ public class DelegatingCommandStack extends CommandStack implements CommandStack
             currentCommandStack.dispose();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.eclipse.gef.commands.CommandStack#execute(org.eclipse.gef.commands.Command)
+     * If the command adds or removes a new diagram, it executes the command in a special stack that will refresh the UI properly.   
+     * 
+     * TODO: refactor to recurse on compound commands. Only the delete commands currently work in compound commands. all of the commands that add/remove a map should share a common interface. 
+     * 
      */
     public void execute(Command command) {
         if (command instanceof CompoundCommand) {

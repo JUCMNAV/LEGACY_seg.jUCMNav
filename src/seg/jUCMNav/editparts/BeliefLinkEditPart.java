@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.BeliefLink;
@@ -82,7 +79,7 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
     protected IPropertySource propertySource = null;
 
     /**
-     * 
+     * The BeliefLink edit part
      */
     public BeliefLinkEditPart(BeliefLink link, IURNDiagram diagram) {
         super();
@@ -104,7 +101,9 @@ public class BeliefLinkEditPart extends AbstractConnectionEditPart {
         super.activate();
     }
     
-    /* (non-Javadoc)
+    /**
+     * Creates edit policies. 
+     * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {

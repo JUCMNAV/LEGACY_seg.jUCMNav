@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.Contribution;
@@ -111,7 +108,7 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
     private Label decompLabel, contributionLabel;
     
     /**
-     * 
+     * The Edit Part for LinkRefs
      */
     public LinkRefEditPart(LinkRef link, IURNDiagram diagram) {
         super();
@@ -137,7 +134,8 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
         super.activate();
     }
     
-    /* (non-Javadoc)
+    /** 
+     * Create Edit Policies
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {

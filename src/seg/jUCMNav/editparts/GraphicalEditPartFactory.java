@@ -15,7 +15,7 @@ import urncore.Condition;
 import urncore.Label;
 
 /**
- * This is where all EditParts are created.
+ * This is where all the UCM EditParts are created.
  * Once GEF detects the creation of a model object, the method createEditPart is called with this object
  * 
  * @author Etienne Tremblay
@@ -23,11 +23,13 @@ import urncore.Label;
 public class GraphicalEditPartFactory implements EditPartFactory {
 	// the root map for this factory. 
 	private UCMmap root;
-	
-	public GraphicalEditPartFactory(){
-		super();
-	}
-	
+
+
+    /**
+     * Creates edit parts that all share the same UCMmap as a root element. 
+     * 
+     * @param root
+     */
 	public GraphicalEditPartFactory(UCMmap root){
 		this.root = root;
 	}

@@ -1,9 +1,7 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import grl.GRLspec;
+import grl.StrategiesGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +15,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 
 /**
- * This class is the root edit part for the stategies view. 
+ * This class is one of the top level edit parts for the stategies view. 
  * 
  * @author Jean-François Roy
  *
@@ -57,7 +55,7 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * @return the icon associated with URNspec
+     * @return the icon associated with GRLspec
      */
     protected Image getImage() {
         if (super.getImage() == null)
@@ -66,7 +64,7 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
     }
     
     /**
-     * @return the sorted list of Strategy Group
+     * @return the sorted list of {@link StrategiesGroup}
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
@@ -75,12 +73,16 @@ public class GRLspecStrategyTreeEditPart extends StrategyUrnModelElementTreeEdit
         return list;
     }
 
+    /**
+     * 
+     * @return the GRLspec
+     */
     private GRLspec getGRLspec(){
         return (GRLspec)getModel();
     }
     
     /**
-     * @return the URNspec name.
+     * @return the label for the folder containing evaluation strategies. 
      */
     protected String getText() {
         return Messages.getString("GRLspecStrategyTreeEditPart.grlEvaluationStrategies"); //$NON-NLS-1$

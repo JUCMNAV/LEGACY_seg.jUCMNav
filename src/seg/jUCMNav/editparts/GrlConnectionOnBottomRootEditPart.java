@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import java.util.Iterator;
@@ -48,8 +45,8 @@ public class GrlConnectionOnBottomRootEditPart extends URNRootEditPart {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Sets the mode (what is shown (all / versus filtered view)) for all children. 
      * 
      * @see seg.jUCMNav.editparts.URNRootEditPart#setMode(int)
      */

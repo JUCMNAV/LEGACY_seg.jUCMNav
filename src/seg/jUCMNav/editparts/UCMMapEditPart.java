@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import java.util.ArrayList;
@@ -27,6 +24,8 @@ import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 
 /**
+ * 
+ * Edit part for a UCMmap 
  * @author Jean-François Roy
  *
  */
@@ -190,7 +189,8 @@ public class UCMMapEditPart extends URNDiagramEditPart {
     }
     
     /**
-     * (non-Javadoc)
+     *
+     * Setup the connection router  
      * 
      * @see org.eclipse.gef.editparts.AbstractEditPart#registerVisuals()
      */

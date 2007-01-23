@@ -5,7 +5,6 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.views.properties.IPropertySource;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -23,50 +22,30 @@ import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 
 /**
- * TreeEditPart for PathNodes
+ * TreeEditPart for scenario start/end points. 
  * 
- * @author TremblaE
+ * @author jkealey
  * 
  */
 public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
 	/**
 	 * @param model
-	 *            the pathnode
-	 */
-	public ScenarioPathNodeTreeEditPart(ScenarioStartPoint model) {
-		super(model);
-	}
-
-	/**
-	 * @param model
-	 *            the pathnode
+	 *           the scenario start point
 	 */
 	public ScenarioPathNodeTreeEditPart(ScenarioEndPoint model) {
 		super(model);
 	}
 
 	/**
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 * @param model
+	 *            the scenario start point 
 	 */
-	protected void createEditPolicies() {
-    	if (!isInherited()) 
-    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioPathNodeComponentEditPolicy()); // deletion
+	public ScenarioPathNodeTreeEditPart(ScenarioStartPoint model) {
+		super(model);
 	}
 
-	public boolean isInherited() {
-		return isInheritedStartPoint() || isInheritedEndPoint();
-	}
-
-	protected boolean isInheritedEndPoint() {
-		return getModel() instanceof ScenarioEndPoint && !((ScenarioDef) getParent().getParent().getModel()).getEndPoints().contains(getModel());
-	}
-
-	protected boolean isInheritedStartPoint() {
-		return getModel() instanceof ScenarioStartPoint && !((ScenarioDef) getParent().getParent().getModel()).getStartPoints().contains(getModel());
-	}
-	
-    /**
+	/**
      * Listens to the model element.
      * 
      * @see org.eclipse.gef.EditPart#activate()
@@ -77,6 +56,15 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
             getPathNode().eAdapters().add(this);
         super.activate();
     }
+
+    
+    /**
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+	 */
+	protected void createEditPolicies() {
+    	if (!isInherited()) 
+    		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ScenarioPathNodeComponentEditPolicy()); // deletion
+	}
 
     /**
      * 
@@ -90,25 +78,8 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
         }
         super.deactivate();
     }
-    
 
-	/**
-	 * When setting widgets, uses a lighter colour for inherited variables.
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractTreeEditPart#setWidget(org.eclipse.swt.widgets.Widget)
-	 */
-	public void setWidget(Widget widget) {
-		super.setWidget(widget);
-		// TODO
-		// if (widget instanceof TreeItem) {
-		// if (getModel() instanceof EmptyPoint || getModel() instanceof
-		// DirectionArrow)
-		// ((TreeItem) widget).setForeground(new Color(null, 150, 150, 150));
-		// }
-
-	}
-
-	/**
+    /**
 	 * Returns an image representing the PathNode.
 	 */
 	protected Image getImage() {
@@ -126,7 +97,20 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
 	}
 	
     /**
-     * Returns a ContainerPropertySource
+     * 
+     * @return the actual {@link StartPoint} or {@link EndPoint} 
+     */
+	private PathNode getPathNode() {
+		PathNode node = null;
+		if (getModel() instanceof ScenarioStartPoint)
+			node = ((ScenarioStartPoint) getModel()).getStartPoint();
+		else if (getModel() instanceof ScenarioEndPoint)
+			node = ((ScenarioEndPoint) getModel()).getEndPoint();
+		return node;
+	}
+
+    /**
+     * @return a {@link ScenarioPathNodePropertySource}
      * 
      * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#getPropertySource()
      */
@@ -137,7 +121,9 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
         return propertySource;
     }
     
-    /**
+
+
+	/**
      * Returns the textual string associated with this element.
      * 
      * @see seg.jUCMNav.model.util.EObjectClassNameComparator
@@ -156,14 +142,32 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
     	else
     		return ""; //$NON-NLS-1$
     }
+	
+    /**
+     * Is this element inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this element inherited from another scenario?
+     */
+	public boolean isInherited() {
+		return isInheritedStartPoint() || isInheritedEndPoint();
+	}
+    
+    /**
+     * Is this element inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this element inherited from another scenario?
+     */
+	protected boolean isInheritedEndPoint() {
+		return getModel() instanceof ScenarioEndPoint && !((ScenarioDef) getParent().getParent().getModel()).getEndPoints().contains(getModel());
+	}
 
-	private PathNode getPathNode() {
-		PathNode node = null;
-		if (getModel() instanceof ScenarioStartPoint)
-			node = ((ScenarioStartPoint) getModel()).getStartPoint();
-		else if (getModel() instanceof ScenarioEndPoint)
-			node = ((ScenarioEndPoint) getModel()).getEndPoint();
-		return node;
+    /**
+     * Is this element inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this element inherited from another scenario?
+     */
+	protected boolean isInheritedStartPoint() {
+		return getModel() instanceof ScenarioStartPoint && !((ScenarioDef) getParent().getParent().getModel()).getStartPoints().contains(getModel());
 	}
 	
 }

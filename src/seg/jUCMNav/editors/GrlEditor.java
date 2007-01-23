@@ -140,7 +140,7 @@ public class GrlEditor extends UrnEditor {
     /**
      * Set the model of this editor
      * 
-     * @param model
+     * @param model a {@link GRLGraph}
      */
     public void setModel(IURNDiagram model){
         graphModel = (GRLGraph)model;

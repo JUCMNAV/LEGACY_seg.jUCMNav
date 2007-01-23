@@ -20,10 +20,14 @@ import ucm.scenario.ScenarioDef;
  */
 public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPart {
 
+    /**
+     * The parent. 
+     */
     private ScenarioDef root;
 
     /**
-     * @param model
+     * @param model the child
+     * @param root the scenario
      */
     public ScenarioLabelTreeEditPart(Object model, ScenarioDef root) {
         super(model);
@@ -77,7 +81,7 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
     }
 
     /**
-     * Return the sorted list of component or responsibility definitions.
+     * @return the list of scenario children depending on the folder type. uses {@link ScenarioUtils}.   
      */
     public List getModelChildren() {
         ArrayList list = new ArrayList();
@@ -112,26 +116,10 @@ public class ScenarioLabelTreeEditPart extends StrategyUrnModelElementTreeEditPa
      */
     protected String getText() {
     	return (String) getModel();
-//        if (getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) { //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
-//        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) { //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.responsibilityDef"); //$NON-NLS-1$
-//        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))){ //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.intentionalElementDefs"); //$NON-NLS-1$
-//        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))){ //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.actorDefs"); //$NON-NLS-1$
-//        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
-//        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
-//            return Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
-//        }
-//        else
-//            return null;
-
     }
 
     /**
-     * Returns the icon 
+     * Returns the icon for the folder. 
      */
     protected Image getImage() {
         if (super.getImage() == null) {       

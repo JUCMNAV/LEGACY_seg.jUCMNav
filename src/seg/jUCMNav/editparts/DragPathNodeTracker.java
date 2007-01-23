@@ -17,7 +17,7 @@ public class DragPathNodeTracker extends DragEditPartsTracker {
     private List exclusionSet;
 
     /**
-     * @param sourceEditPart
+     * @param sourceEditPart what are we dragging. 
      */
     public DragPathNodeTracker(EditPart sourceEditPart) {
         super(sourceEditPart);

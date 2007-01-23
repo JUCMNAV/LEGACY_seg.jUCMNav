@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioGroup;
 
 /**
- * TreeEditPart for Scenarios in the strategies view
+ * TreeEditPart for a scenario in the strategies view
  * 
  * @author jkealey
  * 
@@ -27,7 +24,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 
 
 	/**
-	 * @param model
+	 * @param model the scenario
 	 */
 	public ScenarioDefTreeEditPart(ScenarioDef model) {
 		super(model);
@@ -41,10 +38,17 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
     		installEditPolicy(EditPolicy.COMPONENT_ROLE, new EvaluationStrategyComponentEditPolicy());
 	}
 
+    /**
+     * 
+     * @return the scenario
+     */
 	public ScenarioDef getScenarioDef() {
 		return (ScenarioDef) getModel();
 	}
 
+    /**
+     * Returns all the children of a scenario (folders for start/end poitns, pre/post conditions, initializations and included scenarios). 
+     */
 	protected List getModelChildren() {
         ArrayList list = new ArrayList();
         list.add(Messages.getString("ScenarioLabelTreeEditPart.IncludedScenarios")); //$NON-NLS-1$
@@ -55,8 +59,9 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
         list.add(Messages.getString("ScenarioLabelTreeEditPart.Postconditions")); //$NON-NLS-1$
         return list;
         }
-	/**
-	 * Returns the icon
+	
+    /**
+	 * Returns the icon for the {@link ScenarioDef}
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
@@ -65,7 +70,9 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 		return super.getImage();
 	}
 
-	// If selected, set the element in bold.
+	/**
+     * If selected, set the background color. 
+	 */
 	public void setSelected(boolean selected) {
 		
 
@@ -82,6 +89,11 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 	}
 	
 
+    /**
+     * Is this scenario inherited from another scenario? This depends on the edit part and not the model instance; the model instance is not duplicated, the edit part is. 
+     *  
+     * @return Is this scenario inherited from another scenario?
+     */
 	private boolean isInherited() {
 		if (getParent().getModel() instanceof ScenarioGroup)
 			return false;
@@ -89,6 +101,9 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 			return getParent().getChildren().indexOf(this) < ((ScenarioLabelTreeEditPart)getParent()).getModelChildren().size()-((ScenarioDef) getParent().getParent().getModel()).getIncludedScenarios().size();
 	}
 
+    /** 
+     * Returns the scenario's name and sets the label as grayed out if it is inherited {@link #isInherited()}
+     */
 	protected String getText() {
 		if (widget!=null && !widget.isDisposed()) {
 	    	if (isInherited()) 

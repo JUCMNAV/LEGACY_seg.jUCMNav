@@ -1,6 +1,3 @@
- /**
- * 
- */
 package seg.jUCMNav.editparts;
 
 import grl.Decomposition;
@@ -87,7 +84,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         super.activate();
     }
     
-    /* (non-Javadoc)
+    /**  
+     * Create the edit policies. 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
@@ -98,7 +96,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     }
 
     /** 
-     * Create the GrlNode figure
+     * Create the GrlNode figure and associated evaluation labels. 
      * 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#createFigure()
      */
@@ -153,6 +151,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         return new DragPathNodeTracker(this);
     }
 
+    /**
+     * 
+     * @return the intentional element. 
+     */
     private IntentionalElementRef getNode(){
         return (IntentionalElementRef) getModel();
     }
@@ -174,16 +176,16 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         return propertySource;
     }
    
-    /*
-     * (non-Javadoc)
+    /**
+     * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
      */
     protected List getModelSourceConnections() {
         return getNode().getSucc();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * 
      * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
      */
     protected List getModelTargetConnections() {
@@ -229,7 +231,7 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
         return getNodeFigure().getConnectionAnchor();
     }
     
-    /* (non-Javadoc)
+    /**
      * @see seg.jUCMNav.editparts.ModelElementEditPart#notifyChanged(org.eclipse.emf.common.notify.Notification)
      */
     public void notifyChanged(Notification notification) {
@@ -265,7 +267,8 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
     }
     
     
-    /* (non-Javadoc)
+    /**
+     * Refresh the figure and its associated labels. 
      * @see seg.jUCMNav.editparts.ModelElementEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
@@ -365,6 +368,9 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 //            (getLayer(URNRootEditPart.COMPONENT_LAYER)).setConstraint(figure, bounds);
     }
     
+    /**
+     * Refresh the successor edit parts. 
+     */
     private void refreshConnections(){
         for (Iterator iter = getNode().getSucc().iterator(); iter.hasNext();) {
             IURNConnection connect = (IURNConnection) iter.next();
@@ -374,8 +380,6 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
             }
         }
     }
-    
-
     
     /**
      * Sets the label's text, given its referenced model element.
