@@ -12,7 +12,7 @@ import ucm.map.RespRef;
 import urn.URNspec;
 
 /**
- * Adds a label to a PathNode or ComponentRef.
+ * Inserts a responsibility on a node connection or replacing an empty point/direction arrow. 
  * 
  * @author Ali
  */
@@ -49,7 +49,6 @@ public class AddResponsibility extends URNSelectionAction {
     /**
      * Returns the appropriate responsibility creation command, given the current selection.
      */
-    
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         PathNode newResponsibility = getNewResponsibility(sel.getUrnspec());

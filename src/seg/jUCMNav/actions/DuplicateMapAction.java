@@ -8,7 +8,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.transformations.DuplicateMapCommand;
 
 /**
- * Duplicates a map. 
+ * Duplicates a UCM map / GRL graph and its contents. 
  * 
  * @author jkealey
  *  
@@ -27,7 +27,7 @@ public class DuplicateMapAction extends URNSelectionAction {
     }
 
     /**
-     * Returns true if selected (end||empty) && (start||wait||timer)
+     * Returns true if selected is a ucm map or grl graph
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -42,6 +42,9 @@ public class DuplicateMapAction extends URNSelectionAction {
 
     }
 
+    /**
+     * @return a {@link DuplicateMapCommand}
+     */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {

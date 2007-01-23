@@ -7,30 +7,31 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
+import urn.URNspec;
 
 /**
- * Opens the ExportImageWizard with the current selection (diagram or URNspec)
+ * Opens the {@link ExportWizard} with the current selection (diagram or {@link URNspec})
  * 
- * jkealey: could be modified to allow exporting when anything in a map is selected, not just the background.
+ * Could allow exporting when anything in a map is selected, not just the background.
  * 
  * @author jkealey
  * 
  */
-public class ExportImageAction extends URNSelectionAction {
+public class ExportAction extends URNSelectionAction {
 
-    public static final String EXPORTBITMAP = "seg.jUCMNav.EXPORTBITMAP"; //$NON-NLS-1$
+    public static final String EXPORT = "seg.jUCMNav.EXPORT"; //$NON-NLS-1$
 
     /**
      * @param part
      */
-    public ExportImageAction(IWorkbenchPart part) {
+    public ExportAction(IWorkbenchPart part) {
         super(part);
-        setId(EXPORTBITMAP);
+        setId(EXPORT);
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/export.gif")); //$NON-NLS-1$
     }
 
     /**
-     * True if we've selected a Map or URNSpec
+     * True if we've selected a Map or URNSpec 
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -45,8 +46,8 @@ public class ExportImageAction extends URNSelectionAction {
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Opens the {@link ExportWizard}
      * 
      * @see org.eclipse.jface.action.Action#run()
      */

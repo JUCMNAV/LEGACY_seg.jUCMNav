@@ -80,7 +80,7 @@ public class ScenarioExportPreferences {
 
     /**
      * 
-     * @param b
+     * @param what
      *            should we export all scenarios (all) or the last run (last)
      */
     public static void setExportAll(String what) {

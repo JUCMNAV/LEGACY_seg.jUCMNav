@@ -39,6 +39,9 @@ public class DisconnectAction extends URNSelectionAction {
         }
     }
 
+    /**
+     * @return a {@link DisconnectCommand}
+     */
     protected Command getCommand() {
         return new DisconnectCommand((PathNode) ((EditPart) getSelectedObjects().get(0)).getModel());
     }

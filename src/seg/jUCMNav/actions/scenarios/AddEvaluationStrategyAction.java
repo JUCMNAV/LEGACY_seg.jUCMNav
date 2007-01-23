@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.actions.scenarios;
 
 import org.eclipse.gef.commands.Command;
@@ -13,6 +10,8 @@ import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.create.CreateStrategyCommand;
 
 /**
+ * Adds an evaluation strategy in a strategy group.
+ *  
  * @author Jean-François Roy
  *
  */
@@ -21,7 +20,9 @@ public class AddEvaluationStrategyAction extends URNSelectionAction {
     public static final String ADDEVALUATIONSTRATEGY = "Add Evaluation Strategy"; //$NON-NLS-1$
     
     /**
-     * @param part
+     * Adds an evaluation strategy in a strategy group.
+     * 
+     * @param part jucmnav
      */
     public AddEvaluationStrategyAction(IWorkbenchPart part) {
         super(part);
@@ -39,7 +40,9 @@ public class AddEvaluationStrategyAction extends URNSelectionAction {
     }
 
     /**
-     * We need to return the command to be execute
+     * We need to return the command to be executed. 
+     * 
+     * @see seg.jUCMNav.model.commands.create.CreateStrategyCommand
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

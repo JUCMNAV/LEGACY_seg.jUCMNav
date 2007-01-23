@@ -19,8 +19,8 @@ public class UCMActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor target;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Memorize the active editor if it is a {@link UCMNavMultiPageEditor} 
      * 
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
@@ -32,8 +32,8 @@ public class UCMActionDelegate implements IEditorActionDelegate {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Run the action that we are given inthe current editor. 
      * 
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */

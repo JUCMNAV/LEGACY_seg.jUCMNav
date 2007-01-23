@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head></head>
+<body bgcolor="white">
+Actions to be added in the action registry that have something to do metadata. 
+
+<h2>Package Specification</h2>
+<p>
+This package is very similar to its parent, with the exception that it groups elements related to metadata actions. 
+</p>
+<p>
+Almost all classes located in this package extend the org.gef.ui.actions.SelectionAction class. Actions can manipulate the model or simply perform any general task. All actions located in this package are registered in the Action Registry associated with our editor. After being registered in the action registry, actions are not only available for our editor but also for other workbench parts, such as views or toolbars. Classes in this package are mainly used in our editor’s context menu provider and its action bar contributor. For example, the show/hide label action available in a path node or component’s context menu is defined here. 
+</p>
+<p>
+It is recommended that any new action subclass the URNSelectionAction class. Furthermore, most actions make use of the SelectionHelper. This class acts as a bridge between a List of EditParts and a particular selection of model elements. Furthermore, many actions make use of SafePathChecker to ensure they don't create illegal loops. 
+</p>
+<p>
+A good example action is the AddOrForkAction. It demonstrates use of setting an image descriptor, using SafePathChecker and the SelectionHelper. 
+</p>
+
+<h2>Related Documentation</h2>
+For overviews, tutorials, examples, guides, and tool documentation, please see:
+@see seg.jUCMNav.actions
+@see seg.jUCMNav.actions.AddOrForkAction
+@see seg.jUCMNav.actions.URNSelectionAction
+@see seg.jUCMNav.actions.SelectionHelper
+@see seg.jUCMNav.model.util.SafePathChecker
+</body>
+</html>

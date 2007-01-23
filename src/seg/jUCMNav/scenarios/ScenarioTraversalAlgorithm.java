@@ -177,8 +177,8 @@ public class ScenarioTraversalAlgorithm {
 	 * 
 	 * @param env
 	 *            the environment in which to run the scenario
-	 * @param scenario
-	 *            the scenario to be executed.
+	 * @param ucmspec
+	 *            run all scenarios in ucmspec
 	 */
 	public void init(UcmEnvironment env, UCMspec ucmspec) {
 		this.env = env;

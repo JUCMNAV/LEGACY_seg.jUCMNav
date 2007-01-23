@@ -30,7 +30,7 @@ public class AddDirectionArrow extends URNSelectionAction {
     }
 
     /**
-     * True if we've selected a stub.
+     * True if we've selected an empty point or a node connection. 
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -46,7 +46,6 @@ public class AddDirectionArrow extends URNSelectionAction {
     /**
      * Returns the appropriate direction arrow creation command, given the current selection.
      */
-    
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         PathNode newDirectionArrow = getNewDirectionArrow(sel.getUrnspec());
@@ -70,7 +69,9 @@ public class AddDirectionArrow extends URNSelectionAction {
     }
     
     /**
-     * @param urn
+     * Creates a new direction arrow. 
+     *  
+     * @param urn the URNspec in which to create it 
      * @return a direction arrow
      */
     protected PathNode getNewDirectionArrow(URNspec urn) {

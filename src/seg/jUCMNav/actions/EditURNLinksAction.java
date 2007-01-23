@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.actions;
 
 import grl.Actor;
@@ -73,10 +70,9 @@ public class EditURNLinksAction extends URNSelectionAction {
         return false;
     }
     
-    /*
-     * (non-Javadoc)
+    /**
+     * Launches a {@link URNLinksDialog}
      * 
-     * @see org.eclipse.jface.action.IAction#run()
      */
     public void run() {
         // TODO: should be launched by something else than constructor. 

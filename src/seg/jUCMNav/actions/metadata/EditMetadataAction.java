@@ -24,7 +24,10 @@ public class EditMetadataAction extends URNSelectionAction {
     private EObject obj;
 
     /**
+     * Opens the Metadata editor.
+     * 
      * @param part
+     *            the UCMNavMultiPageEditor
      */
     public EditMetadataAction(IWorkbenchPart part) {
         super(part);
@@ -47,9 +50,10 @@ public class EditMetadataAction extends URNSelectionAction {
         return enable;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Opens the Metadata editor.
      * 
+     * @see seg.jUCMNav.views.wizards.metadata.MetadataEditor
      * @see org.eclipse.jface.action.IAction#run()
      */
     public void run() {

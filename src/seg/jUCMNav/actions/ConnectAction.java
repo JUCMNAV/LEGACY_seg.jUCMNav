@@ -45,6 +45,9 @@ public class ConnectAction extends URNSelectionAction {
 
     }
 
+    /**
+     * @return a {@link ConnectCommand}
+     */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {

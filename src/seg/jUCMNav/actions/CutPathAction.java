@@ -38,10 +38,8 @@ public class CutPathAction extends URNSelectionAction {
         setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/cut_edit.gif")); //$NON-NLS-1$
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+    /**
+     * Delegates the decision to {@link CutPathCommand#canExecute(Object)}
      */
     protected boolean calculateEnabled() {
         if (getSelectedObjects().isEmpty())
@@ -59,6 +57,9 @@ public class CutPathAction extends URNSelectionAction {
         return true;
     }
 
+    /**
+     * Asks the selected edit parts to return their commands via a request. Cut Path is one of the only actions that follows this model. 
+     */
     protected Command getCommand() {
         List editparts = getSelectedObjects();
         CompoundCommand cc = new CompoundCommand();

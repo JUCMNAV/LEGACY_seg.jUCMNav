@@ -24,6 +24,9 @@ public abstract class TransmogrifyForkOrJoinAction extends URNSelectionAction {
         super(part);
     }
 
+    /**
+     * @return a {@link TransmogrifyForkOrJoinCommand}
+     */
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);

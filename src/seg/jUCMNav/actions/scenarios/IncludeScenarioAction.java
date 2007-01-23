@@ -26,61 +26,67 @@ import ucm.scenario.ScenarioDef;
  */
 public class IncludeScenarioAction extends URNSelectionAction {
 
-	public static final String INCLUDESCENARIO = "seg.jUCMNav.IncludeScenario"; //$NON-NLS-1$
+    public static final String INCLUDESCENARIO = "seg.jUCMNav.IncludeScenario"; //$NON-NLS-1$
 
-	protected ScenarioDef scenario;
+    protected ScenarioDef scenario;
 
-	/**
-	 * @param part
-	 */
-	public IncludeScenarioAction(IWorkbenchPart part) {
-		super(part);
-		setId(INCLUDESCENARIO);
-		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
-	}
+    /**
+     * @param part
+     */
+    public IncludeScenarioAction(IWorkbenchPart part) {
+        super(part);
+        setId(INCLUDESCENARIO);
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
+    }
 
-	/**
-	 * True if we've selected something with code. 	 */
-	protected boolean calculateEnabled() {
-		initScenario();
-		return scenario!=null && ScenarioUtils.getPossibleIncludedScenarios(scenario).size()>0;
-	}
+    /**
+     * Can include a scenario if there are scenarios left that can be added without causing recursive loops.
+     */
+    protected boolean calculateEnabled() {
+        initScenario();
+        return scenario != null && ScenarioUtils.getPossibleIncludedScenarios(scenario).size() > 0;
+    }
 
-	protected void initScenario() {
-		List list = getSelectedObjects();
-		ArrayList list2 = new ArrayList();
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			Object object = iter.next();
-		
-			if (object instanceof ScenarioLabelTreeEditPart)
-				list2.add(((ScenarioLabelTreeEditPart)object).getParent());
-			else
-				list2.add(object);
-		}
-		SelectionHelper sel = new SelectionHelper(list2);
-		switch (sel.getSelectionType()) {
-		case SelectionHelper.SCENARIO:
-			scenario = sel.getScenario();
-			break;
-		default: 
-			scenario = null;
-		}
-	}
+    /**
+     * Allows us to include a scenario inside another one even if we have selected an element in the tree which is not associated to a model element (the
+     * multiple folders that contain the children of a scenario).
+     * 
+     */
+    protected void initScenario() {
+        List list = getSelectedObjects();
+        ArrayList list2 = new ArrayList();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Object object = iter.next();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.action.IAction#run()
-	 */
-	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		IncludeScenario wizard = new IncludeScenario();
+            if (object instanceof ScenarioLabelTreeEditPart)
+                list2.add(((ScenarioLabelTreeEditPart) object).getParent());
+            else
+                list2.add(object);
+        }
+        SelectionHelper sel = new SelectionHelper(list2);
+        switch (sel.getSelectionType()) {
+        case SelectionHelper.SCENARIO:
+            scenario = sel.getScenario();
+            break;
+        default:
+            scenario = null;
+        }
+    }
 
-		StructuredSelection selection = new StructuredSelection(scenario);
-		wizard.init(PlatformUI.getWorkbench(), selection);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.open();
+    /**
+     * Opens the include scenario wizard.
+     * 
+     * @see org.eclipse.jface.action.IAction#run()
+     */
+    public void run() {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        IncludeScenario wizard = new IncludeScenario();
 
-	}
+        StructuredSelection selection = new StructuredSelection(scenario);
+        wizard.init(PlatformUI.getWorkbench(), selection);
+        WizardDialog dialog = new WizardDialog(shell, wizard);
+        dialog.open();
+
+    }
 
 }

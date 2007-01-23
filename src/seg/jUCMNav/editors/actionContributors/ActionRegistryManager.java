@@ -47,7 +47,7 @@ import seg.jUCMNav.actions.DisconnectTimeoutPathAction;
 import seg.jUCMNav.actions.DuplicateMapAction;
 import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
-import seg.jUCMNav.actions.ExportImageAction;
+import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.ImportAction;
 import seg.jUCMNav.actions.MakeWellFormedAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
@@ -302,7 +302,7 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
-        action = new ExportImageAction(editor);
+        action = new ExportAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.exportImage")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 

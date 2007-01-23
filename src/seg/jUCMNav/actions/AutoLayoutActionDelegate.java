@@ -22,16 +22,16 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor editor;
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
+     * Sets the {@link UCMNavMultiPageEditor}. 
+     * 
      */
     public void setActiveEditor(IAction action, IEditorPart targetEditor) {
         editor = (UCMNavMultiPageEditor) targetEditor;
     }
 
-    /*
+    /**
      * (non-Javadoc)
      * 
      * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
@@ -41,10 +41,8 @@ public class AutoLayoutActionDelegate implements IEditorActionDelegate {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+    /**
+     *  Launches the {@link AutoLayoutWizard}
      */
     public void run(IAction action) {
         if (editor.getCurrentPage() != null) {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
@@ -11,6 +8,7 @@ import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.model.commands.create.CreateGrlGraphCommand;
 
 /**
+ * Adds a GRL graph to the current URNspec. 
  * @author Jean-François Roy
  *
  */
@@ -33,7 +31,7 @@ public class AddGrlGraphAction extends URNSelectionAction {
     }
     
     /**
-     * We need to return the command to be execute
+     * @return a {@link CreateGrlGraphCommand}
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

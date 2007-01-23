@@ -44,7 +44,7 @@ public class UcmScenariosModelManager extends EmfModelManager  {
      * Creates a new ScenarioSpec.
      * 
      * @param path
-     * @param urnspec
+     * @param spec
      * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(IPath path, ScenarioSpec spec) {
@@ -78,7 +78,7 @@ public class UcmScenariosModelManager extends EmfModelManager  {
      * Creates a new ScenarioSpec.
      * 
      * @param path
-     * @param urnspec
+     * @param spec
      * @return a new ScenarioSpec
      */
     public ScenarioSpec createScenarioSpec(File path, ScenarioSpec spec) {

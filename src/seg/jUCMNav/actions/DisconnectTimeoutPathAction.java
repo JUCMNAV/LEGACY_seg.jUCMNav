@@ -42,10 +42,9 @@ public class DisconnectTimeoutPathAction extends URNSelectionAction {
             return false;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Returns a command to disconnect the timeout path. 
      * 
-     * @see seg.jUCMNav.actions.UCMSelectionAction#getCommand()
      */
     protected Command getCommand() {
         Vector in = new Vector();

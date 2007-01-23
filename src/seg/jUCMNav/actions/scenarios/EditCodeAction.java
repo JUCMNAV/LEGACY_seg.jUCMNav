@@ -64,8 +64,8 @@ public class EditCodeAction extends URNSelectionAction {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Open's the code editor. 
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */

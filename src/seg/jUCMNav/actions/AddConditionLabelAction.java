@@ -38,6 +38,8 @@ public class AddConditionLabelAction extends URNSelectionAction {
 
     /**
      * can only add labels if none already exist.
+     * 
+     * @return true, if calculate enabled
      */
     protected boolean calculateEnabled() {
         List parts = getSelectedObjects();
@@ -67,6 +69,9 @@ public class AddConditionLabelAction extends URNSelectionAction {
         return false;
     }
 
+    /**
+     * @return a {@link CreateLabelCommand} adapted to the situation. 
+     */
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);

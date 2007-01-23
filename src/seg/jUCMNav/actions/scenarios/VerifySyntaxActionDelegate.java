@@ -20,8 +20,8 @@ public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
 
     private UCMNavMultiPageEditor editor;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Set the active editor to a new instance of a {@link seg.jUCMNav.editors.UCMNavMultiPageEditor}. 
      * 
      * @see org.eclipse.ui.IEditorActionDelegate#setActiveEditor(org.eclipse.jface.action.IAction, org.eclipse.ui.IEditorPart)
      */
@@ -39,8 +39,8 @@ public class VerifySyntaxActionDelegate implements IEditorActionDelegate {
 
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Runs {@link seg.jUCMNav.scenarios.SyntaxChecker#verifySyntax(urn.URNspec)} and updates the problem view. 
      * 
      * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
      */

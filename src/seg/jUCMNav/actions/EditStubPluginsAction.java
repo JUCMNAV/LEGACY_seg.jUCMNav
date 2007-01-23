@@ -42,8 +42,8 @@ public class EditStubPluginsAction extends URNSelectionAction {
         return false;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Open the {@link StubBindingsDialog}
      * 
      * @see org.eclipse.jface.action.IAction#run()
      */

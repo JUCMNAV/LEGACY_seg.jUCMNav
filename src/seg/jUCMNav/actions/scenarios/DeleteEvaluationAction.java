@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.actions.scenarios;
 
 import grl.Evaluation;
@@ -19,13 +16,16 @@ import seg.jUCMNav.model.commands.delete.DeleteEvaluationCommand;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 
 /**
+ * Deletes a user evaluation.
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class DeleteEvaluationAction extends URNSelectionAction {
 
     public static final String DELETEEVALUATION = Messages.getString("DeleteEvaluationAction.DeleteUserEvaluation"); //$NON-NLS-1$
     private Evaluation evaluation;
+
     /**
      * @param part
      */
@@ -43,20 +43,20 @@ public class DeleteEvaluationAction extends URNSelectionAction {
         if (sel.getSelectionType() == SelectionHelper.INTENTIONALELEMENTREF) {
             IntentionalElementRef selection = sel.getIntentionalelementref();
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
-            if (strategy != null){
+            if (strategy != null) {
                 evaluation = EvaluationStrategyManager.getInstance().getEvaluationObject(selection.getDef());
-                if (evaluation.getStrategies() == strategy){
+                if (evaluation.getStrategies() == strategy) {
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
     /**
      * @return Builds the command to delete the evaluation
      */
     protected Command getCommand() {
-        return  new DeleteEvaluationCommand(evaluation);
+        return new DeleteEvaluationCommand(evaluation);
     }
 }

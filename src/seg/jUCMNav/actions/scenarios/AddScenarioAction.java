@@ -13,17 +13,20 @@ import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.create.CreateScenarioCommand;
 
 /**
- * Adds a scenario. 
+ * Adds a scenario to a scenario group.
  * 
  * @author jkealey
- *
+ * 
  */
 public class AddScenarioAction extends URNSelectionAction {
 
     public static final String ADDSCENARIO = "Add Scenario"; //$NON-NLS-1$
-    
+
     /**
+     * Adds a scenario to a scenario group.
+     * 
      * @param part
+     *            jUCMnav
      */
     public AddScenarioAction(IWorkbenchPart part) {
         super(part);
@@ -33,19 +36,19 @@ public class AddScenarioAction extends URNSelectionAction {
     }
 
     /**
-     * We need to have a EvaluationGroup.
+     * We need to have a Scenario Group selected.
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        return sel.getUrnspec() != null && sel.getScenarioGroup() != null && sel.getScenario()==null;
+        return sel.getUrnspec() != null && sel.getScenarioGroup() != null && sel.getScenario() == null;
     }
 
     /**
-     * We need to return the command to be execute
+     * Returns a {@link seg.jUCMNav.model.commands.create.CreateScenarioCommand}
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
-        
+
         CreateScenarioCommand create = new CreateScenarioCommand(sel.getUrnspec(), sel.getScenarioGroup());
 
         return create;

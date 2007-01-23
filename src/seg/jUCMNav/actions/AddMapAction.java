@@ -32,6 +32,9 @@ public class AddMapAction extends URNSelectionAction {
         return sel.getUrnspec() != null;
     }
 
+    /**
+     * @return a {@link CreateMapCommand}
+     */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 

@@ -44,7 +44,7 @@ public class AddScenarioGroupAction extends URNSelectionAction {
     }
     
     /**
-     * We need to return the command to be execute
+     * Creates a new scenario group. 
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

@@ -24,6 +24,8 @@ public class TransmogrifyAndForkOrJoinAction extends TransmogrifyForkOrJoinActio
 
     /**
      * Conditions for enabling: selection contains exactly 1 item and it's an and fork or and join.
+     * 
+     * Sets the image descriptor. 
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

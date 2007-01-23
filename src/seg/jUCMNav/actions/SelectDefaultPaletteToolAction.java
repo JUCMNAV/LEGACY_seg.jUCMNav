@@ -20,20 +20,24 @@ public class SelectDefaultPaletteToolAction extends URNSelectionAction {
         setId(SETDEFAULTPALETTETOOL);
         setAccelerator(SWT.ESC);
     }
-    
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.actions.UCMSelectionAction#calculateEnabled()
+
+    /**
+     * Always enabled.
+     * 
+     * @see seg.jUCMNav.actions.URNSelectionAction#calculateEnabled()
      */
     protected boolean calculateEnabled() {
         return true;
     }
-    
-    /* (non-Javadoc)
-     * @see seg.jUCMNav.actions.UCMSelectionAction#run()
+
+    /**
+     * Reverts the palette to the default tool and deselects the seleciton.  
+     * 
+     * @see seg.jUCMNav.actions.URNSelectionAction#run()
      */
     public void run() {
-     // this one is already done by the framework. 
-     ((UCMNavMultiPageEditor)getWorkbenchPart()).getCurrentPage().getEditDomain().getPaletteViewer().setActiveTool(null);
-     ((UCMNavMultiPageEditor)getWorkbenchPart()).getCurrentPage().getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
+        // this one is already done by the framework.
+        ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage().getEditDomain().getPaletteViewer().setActiveTool(null);
+        ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage().getGraphicalViewer().setSelection(StructuredSelection.EMPTY);
     }
 }

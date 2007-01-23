@@ -50,6 +50,9 @@ public class AddLabelAction extends URNSelectionAction {
         return false;
     }
 
+    /**
+     * @return a {@link CreateLabelCommand}
+     */
     protected Command getCommand() {
         List parts = getSelectedObjects();
         EditPart part = (EditPart) parts.get(0);

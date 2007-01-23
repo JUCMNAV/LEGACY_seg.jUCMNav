@@ -33,15 +33,17 @@ public class DeleteAction extends org.eclipse.gef.ui.actions.DeleteAction {
      */
     public void run() {
         URNspec urn = ((UCMNavMultiPageEditor) getWorkbenchPart()).getModel();
-        int nextGlobalID = Integer.parseInt(urn.getNextGlobalID());
-        Command cmd = createDeleteSmallPaths(nextGlobalID);
+        Command cmd = createDeleteSmallPaths();
         if (cmd == null || !cmd.canExecute())
             execute(createDeleteCommand(getSelectedObjects()));
         else
             execute(createDeleteCommand(getSelectedObjects()).chain(cmd));
     }
 
-    private Command createDeleteSmallPaths(int nextGlobalID) {
+    /**
+     * @return a new {@link DeleteUselessStartNCEndCommand}.  
+     */
+    private Command createDeleteSmallPaths() {
         UrnEditor editor = ((UCMNavMultiPageEditor) getWorkbenchPart()).getCurrentPage();
         if (editor == null || !(editor.getModel() instanceof UCMmap))
             return null;

@@ -59,7 +59,9 @@ import urncore.URNmodelElement;
  * This class will help reduce redundant code in all action classes. When given a selection, it parses it and gives utility functions to return its type and
  * allows for easy access to the concerned model elements by encapsulating the casts and other management overhead.
  * 
- * Created on 28-May-2005
+ * The general concept is to set the type to the exact selection and infer some variables (such as the URNspec) from the given selection.
+ *  
+ * Not the most elegant of classes, but helps simplify everything outside of it :)
  * 
  * @author jkealey
  * 
@@ -590,12 +592,12 @@ public class SelectionHelper {
             selectionType = EVALUATIONGROUP;
         else if (strategy != null)
             selectionType = EVALUATIONSTRATEGY;
+        else if (scenario != null)
+            selectionType = SCENARIO;           
         else if (scenariogroup != null)
             selectionType = SCENARIOGROUP;
         else if (initialization!=null)
         	selectionType = INITIALIZATION;
-        else if (scenario != null)
-            selectionType = SCENARIO;        
         else if (grlgraph != null)
             selectionType = GRLGRAPH;        
         else if (urnspec != null)

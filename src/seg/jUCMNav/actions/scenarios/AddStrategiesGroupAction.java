@@ -16,6 +16,8 @@ import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.CreateStrategiesGroupCommand;
 
 /**
+ * Creates a new strategies group.
+ * 
  * @author Jean-François Roy
  *
  */
@@ -41,7 +43,7 @@ public class AddStrategiesGroupAction extends URNSelectionAction {
     }
     
     /**
-     * We need to return the command to be execute
+     * Returns a new {@link CreateStrategiesGroupCommand}
      */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());

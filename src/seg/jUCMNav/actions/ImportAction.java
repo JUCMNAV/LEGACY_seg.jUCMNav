@@ -7,9 +7,10 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.wizards.importexport.ImportWizard;
+import urn.URNspec;
 
 /**
- * Opens the ImportWizard with the current selection (diagram or URNspec)
+ * Opens the {@link ImportWizard} with the current selection (diagram or {@link URNspec})
  * 
  * @author Jean-Francois Roy
  * 
@@ -28,7 +29,7 @@ public class ImportAction extends URNSelectionAction {
     }
 
     /**
-     * True if we've selected a Map or URNSpec
+     * True if we've selected a Map or URNSpec 
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
@@ -43,8 +44,8 @@ public class ImportAction extends URNSelectionAction {
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Launches the {@link ImportWizard}
      * 
      * @see org.eclipse.jface.action.Action#run()
      */

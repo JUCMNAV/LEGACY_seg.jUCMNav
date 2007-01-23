@@ -12,7 +12,7 @@ import ucm.map.PathNode;
 import urn.URNspec;
 
 /**
- * Adds an Empty Point to a Node Connection or Replace a Drection Arrow.
+ * Adds an Empty Point to a Node Connection or replaces a Direction Arrow.
  * 
  * @author Ali
  */
@@ -46,7 +46,6 @@ public class AddEmptyPoint extends URNSelectionAction {
     /**
      * Returns the appropriate Empty Point creation command, given the current selection.
      */
-    
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         PathNode newEmptyPoint = getNewEmptyPoint(sel.getUrnspec());
@@ -70,6 +69,8 @@ public class AddEmptyPoint extends URNSelectionAction {
     }
     
     /**
+     * Creates a new empty point. 
+     * 
      * @param urn
      * @return an Empty Point
      */

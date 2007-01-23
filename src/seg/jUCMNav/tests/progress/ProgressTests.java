@@ -54,7 +54,7 @@ import seg.jUCMNav.actions.AddOrJoinAction;
 import seg.jUCMNav.actions.AddTimeoutPathAction;
 import seg.jUCMNav.actions.ConnectAction;
 import seg.jUCMNav.actions.DisconnectAction;
-import seg.jUCMNav.actions.ExportImageAction;
+import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UcmEditor;
 import seg.jUCMNav.editors.actionContributors.UrnContextMenuProvider;
@@ -1984,7 +1984,7 @@ public class ProgressTests extends TestCase {
     public void testReqExportBitmap2() {
         Vector v = new Vector();
         v.add(getMap());
-        IAction action = getAction(v, ExportImageAction.EXPORTBITMAP);
+        IAction action = getAction(v, ExportAction.EXPORT);
 
         assertNotNull("action is null", action); //$NON-NLS-1$
 

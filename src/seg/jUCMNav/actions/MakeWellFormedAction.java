@@ -10,6 +10,8 @@ import seg.jUCMNav.model.commands.transformations.MakeWellFormedCommand;
 /**
  * Transforms concurrency (only considers and-fork/and-join) into a well-formed graph that can be linearized. 
  * 
+ * Is only meant to be used for debugging purposes for the scenario export. 
+ * 
  * @author jkealey
  */
 public class MakeWellFormedAction extends URNSelectionAction {
@@ -25,13 +27,16 @@ public class MakeWellFormedAction extends URNSelectionAction {
     }
 
     /**
-     * If you have a URNspec or Map selected.
+     *  Always enabled when you have something selected.  
      */
     protected boolean calculateEnabled() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         return sel.getUrnspec() != null;
     }
 
+    /**
+     * @return a {@link MakeWellFormedCommand}
+     */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
 

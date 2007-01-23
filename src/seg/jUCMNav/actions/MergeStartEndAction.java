@@ -25,6 +25,9 @@ public class MergeStartEndAction extends URNSelectionAction {
         setId(MERGESTARTEND);
     }
 
+    /**
+     * @return a {@link MergeStartEndCommand}
+     */
     protected Command getCommand() {
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
