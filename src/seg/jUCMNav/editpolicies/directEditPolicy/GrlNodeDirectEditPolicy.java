@@ -19,13 +19,14 @@ import seg.jUCMNav.model.commands.transformations.ChangeGrlNodeNameCommand;
  * Based on LabelDirectEditPolicy
  * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
 
     private String oldValue;
 
-    /* (non-Javadoc)
+    /**
+     * @return a {@link ChangeGrlNodeNameCommand}
      * @see org.eclipse.gef.editpolicies.DirectEditPolicy#getDirectEditCommand(org.eclipse.gef.requests.DirectEditRequest)
      */
     protected Command getDirectEditCommand(DirectEditRequest request) {
@@ -35,7 +36,9 @@ public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
         return cmd;
     }
 
-    /* (non-Javadoc)
+    /**
+     * handles the name change.
+     * 
      * @see org.eclipse.gef.editpolicies.DirectEditPolicy#showCurrentEditValue(org.eclipse.gef.requests.DirectEditRequest)
      */
     protected void showCurrentEditValue(DirectEditRequest request) {
@@ -43,7 +46,7 @@ public class GrlNodeDirectEditPolicy extends DirectEditPolicy {
         GrlNodeEditPart lblPart = (GrlNodeEditPart) getHost();
         lblPart.handleNameChange(value);
     }
-    
+
     /**
      * @param request
      *            Saves the initial text value so that if the user's changes are not committed then

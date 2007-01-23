@@ -10,7 +10,7 @@ import org.eclipse.draw2d.geometry.Transform;
  * 
  * @author Etienne Tremblay
  */
-public class ResponsibilityFigure extends PathNodeFigure implements Rotateable {
+public class ResponsibilityFigure extends PathNodeFigure implements IRotateable {
 
     // the actual rotated lines.
     protected Polygon edge1;

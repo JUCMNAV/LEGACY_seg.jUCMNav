@@ -11,7 +11,7 @@ import org.eclipse.draw2d.geometry.Transform;
  * 
  * @author Etienne Tremblay, Jordan McManus
  */
-public class EndPointFigure extends PathNodeFigure implements Rotateable {
+public class EndPointFigure extends PathNodeFigure implements IRotateable {
 
     private Polygon mainFigure;
     private PointList edges;

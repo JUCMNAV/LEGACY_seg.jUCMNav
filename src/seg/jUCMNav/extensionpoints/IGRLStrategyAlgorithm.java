@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.extensionpoints;
 
 import grl.Actor;

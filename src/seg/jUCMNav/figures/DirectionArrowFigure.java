@@ -7,7 +7,7 @@ import org.eclipse.draw2d.geometry.PointList;
  * 
  * @author Jordan McManus
  */
-public class DirectionArrowFigure extends ResponsibilityFigure implements Rotateable {
+public class DirectionArrowFigure extends ResponsibilityFigure implements IRotateable {
 
 
     /**

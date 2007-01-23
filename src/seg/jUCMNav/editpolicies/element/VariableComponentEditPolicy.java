@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editpolicies.element;
 
 import org.eclipse.gef.commands.Command;

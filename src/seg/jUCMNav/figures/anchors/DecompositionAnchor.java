@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.figures.anchors;
 
 import org.eclipse.draw2d.AbstractConnectionAnchor;

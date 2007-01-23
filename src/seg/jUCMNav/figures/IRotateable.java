@@ -5,7 +5,7 @@ package seg.jUCMNav.figures;
  * 
  * @author Jordan McManus
  */
-public interface Rotateable {
+public interface IRotateable {
 
     public void rotate(double angle);
 }

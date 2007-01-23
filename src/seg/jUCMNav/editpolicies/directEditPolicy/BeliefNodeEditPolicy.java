@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editpolicies.directEditPolicy;
 
 import grl.Belief;
@@ -29,14 +26,17 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
         super();
     }
 
-    /* (non-Javadoc)
+    /* 
+     * Not implemented  
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
         return null;
     }
 
-    /* (non-Javadoc)
+    /**
+     * @return a {@link AddBeliefLinkCommand}
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
@@ -50,7 +50,7 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
     }
 
     /* Not implemented
-     * (non-Javadoc)
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectTargetCommand(ReconnectRequest request) {
@@ -58,7 +58,7 @@ public class BeliefNodeEditPolicy extends GraphicalNodeEditPolicy {
     }
 
     /* Not implemented
-     * (non-Javadoc)
+     *
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectSourceCommand(ReconnectRequest request) {

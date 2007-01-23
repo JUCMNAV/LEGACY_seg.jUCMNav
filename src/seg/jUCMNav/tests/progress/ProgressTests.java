@@ -68,7 +68,7 @@ import seg.jUCMNav.editparts.URNDiagramEditPart;
 import seg.jUCMNav.editpolicies.layout.MapXYLayoutEditPolicy;
 import seg.jUCMNav.figures.DirectionArrowFigure;
 import seg.jUCMNav.figures.EndPointFigure;
-import seg.jUCMNav.figures.Rotateable;
+import seg.jUCMNav.figures.IRotateable;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
@@ -1189,9 +1189,9 @@ public class ProgressTests extends TestCase {
     public void testReqElemDirectionArrow2() {
         // yeah, really lazy testing.
         DirectionArrowFigure df = new DirectionArrowFigure();
-        assertTrue("direction arrow not rotatable", df instanceof Rotateable); //$NON-NLS-1$
+        assertTrue("direction arrow not rotatable", df instanceof IRotateable); //$NON-NLS-1$
         EndPointFigure epf = new EndPointFigure();
-        assertTrue("end point not rotatable", epf instanceof Rotateable); //$NON-NLS-1$
+        assertTrue("end point not rotatable", epf instanceof IRotateable); //$NON-NLS-1$
 
     }
 

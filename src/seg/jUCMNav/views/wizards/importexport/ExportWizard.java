@@ -277,6 +277,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
             // get exporter
             IURNExport exporter = URNExportExtensionPointHelper.getExporter(id);
+            
+            // TODO: this should be before we get to this point, in the same thread as the UI. 
             if (exporter instanceof IURNExportPrePostHooks) {
 				IURNExportPrePostHooks hooks = (IURNExportPrePostHooks) exporter;
 				hooks.preHook(editor);

@@ -1,12 +1,8 @@
-/**
- * 
- */
 package seg.jUCMNav.editpolicies.layout;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
@@ -30,36 +26,20 @@ import urncore.NodeLabel;
  */
 public abstract class AbstractDiagramXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
-    /**
-     * Not used.
-     * 
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
-     */
-    protected Command createAddCommand(EditPart child, Object constraint) {
-        return null;
-    }
 
-    /* (non-Javadoc)
+    /** 
+     * Handles moving/resizing of Graph children.
      * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
      */
     protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /* (non-Javadoc)
+    /** 
+     * Hnaldes dropping of elements from palette. 
      * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
      */
     protected abstract Command getCreateCommand(CreateRequest request);
-
-    /**
-     * Not used.
-     * 
-     * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
-     */
-    protected Command getDeleteDependantCommand(Request request) {
-        return null;
-    }
     
     /**
      * Moves a label. Doesn't move it if its path not is being moved as well. Moves PathNode conditions as well. Keeps the label centered on its location.

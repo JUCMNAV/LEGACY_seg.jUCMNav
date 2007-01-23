@@ -42,7 +42,7 @@ import seg.jUCMNav.figures.EndPointFigure;
 import seg.jUCMNav.figures.OrForkJoinFigure;
 import seg.jUCMNav.figures.PathNodeFigure;
 import seg.jUCMNav.figures.ResponsibilityFigure;
-import seg.jUCMNav.figures.Rotateable;
+import seg.jUCMNav.figures.IRotateable;
 import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
@@ -416,7 +416,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
                     double angle = Math.atan2(r.y, r.x);
 
-                    ((Rotateable) nodeFigure).rotate(angle - Math.PI);
+                    ((IRotateable) nodeFigure).rotate(angle - Math.PI);
                 }
             }
         }
@@ -485,7 +485,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
                     double angle = Math.atan2(r.y, r.x);
 
-                    ((Rotateable) nodeFigure).rotate(angle - Math.PI);
+                    ((IRotateable) nodeFigure).rotate(angle - Math.PI);
                 }
             }
         }
@@ -541,9 +541,9 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         figure.setBounds(bounds);
 
         // rotate it if necessary.
-        if (!(getNode() instanceof AndJoin) && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getPred().size() > 0) {
+        if (!(getNode() instanceof AndJoin) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
-        } else if (getNode() instanceof AndJoin && nodeFigure instanceof Rotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+        } else if (getNode() instanceof AndJoin && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 

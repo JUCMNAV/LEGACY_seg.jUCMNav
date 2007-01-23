@@ -32,12 +32,6 @@ import urncore.Label;
  */
 public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolicy {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart, java.lang.Object)
-     */
-    protected Command createAddCommand(EditPart child, Object constraint) {
-        return null;
-    }
     
     /**
      * Returns a command to be executed when the palette tries to create something

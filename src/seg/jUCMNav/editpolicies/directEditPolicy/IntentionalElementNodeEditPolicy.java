@@ -29,7 +29,9 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         super();
     }
 
-    /* (non-Javadoc)
+    /**
+     * @return an {@link AddBeliefLinkCommand} or a {@link CreateElementLinkCommand}
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCompleteCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
@@ -42,7 +44,9 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         return cmd;
     }
 
-    /* (non-Javadoc)
+    /**
+     * @return a {@link CreateElementLinkCommand}
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
@@ -55,7 +59,7 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
         return null;
     }
 
-    /* (non-Javadoc)
+    /* not implemented
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectTargetCommand(ReconnectRequest request) {
@@ -66,7 +70,7 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
 
     }
 
-    /* (non-Javadoc)
+    /* not implemented
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectSourceCommand(ReconnectRequest request) {

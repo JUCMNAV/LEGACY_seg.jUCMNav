@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.figures;
 
 import grl.IntentionalElementType;

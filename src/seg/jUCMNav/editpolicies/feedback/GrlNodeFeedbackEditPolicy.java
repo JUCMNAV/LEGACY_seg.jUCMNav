@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.editpolicies.feedback;
 
 import org.eclipse.draw2d.Shape;

@@ -1,4 +1,3 @@
-
 package seg.jUCMNav.figures;
 
 import org.eclipse.draw2d.Graphics;
