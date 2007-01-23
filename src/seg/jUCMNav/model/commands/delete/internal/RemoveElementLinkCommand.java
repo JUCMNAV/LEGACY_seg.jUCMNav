@@ -13,16 +13,18 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
+ * Removes an ElementLink from a GRLGraph.
+ * 
  * @author Jean-François Roy
- *
+ * 
  */
 public class RemoveElementLinkCommand extends Command implements JUCMNavCommand {
 
     ElementLink link;
     URNspec urn;
     IntentionalElement src, dest;
-    boolean aborted=false;
-    
+    boolean aborted = false;
+
     /**
      * 
      */
@@ -40,43 +42,49 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
         src = link.getSrc();
         redo();
     }
-    
+
     public boolean canExecute() {
-    	return urn!=null && urn.getGrlspec()!=null && urn.getGrlspec().getLinks().contains(link); 
+        return urn != null && urn.getGrlspec() != null && urn.getGrlspec().getLinks().contains(link);
     }
-    
-    public ElementLink getElementLink(){
+
+    public ElementLink getElementLink() {
         return link;
     }
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
     public void redo() {
-    	aborted = !canExecute();
-    	if (aborted)return;
+        aborted = !canExecute();
+        if (aborted)
+            return;
         testPreConditions();
         urn.getGrlspec().getLinks().remove(link);
-        
+
         link.setDest(null);
         link.setSrc(null);
 
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert link != null && urn != null: "Pre something is null"; //$NON-NLS-1$
+        assert link != null && urn != null : "Pre something is null"; //$NON-NLS-1$
 
         assert urn.getGrlspec().getLinks().contains(link) : "Pre urn contain link"; //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
-        assert link != null && urn != null: "Post something is null"; //$NON-NLS-1$
+        assert link != null && urn != null : "Post something is null"; //$NON-NLS-1$
 
         assert !urn.getGrlspec().getLinks().contains(link) : "Post urn contain link"; //$NON-NLS-1$
     }
@@ -85,10 +93,11 @@ public class RemoveElementLinkCommand extends Command implements JUCMNavCommand 
      * @see org.eclipse.gef.commands.Command#undo()
      */
     public void undo() {
-    	if (aborted)return;
+        if (aborted)
+            return;
         testPostConditions();
         urn.getGrlspec().getLinks().add(link);
-        
+
         link.setDest(dest);
         link.setSrc(src);
         testPreConditions();

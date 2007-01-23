@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.views.property;
 
 import grl.ElementLink;
@@ -19,6 +16,8 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
+ * Property source for LinkRefs
+ * 
  * @author Jean-François Roy
  *
  */

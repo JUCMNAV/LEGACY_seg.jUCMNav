@@ -12,6 +12,8 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
+ * Removes an evaluation strategy from its group. 
+ * 
  * @author Jean-François Roy
  *
  */

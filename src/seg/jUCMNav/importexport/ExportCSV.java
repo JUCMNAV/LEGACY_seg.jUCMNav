@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.importexport;
 
 import grl.Actor;
@@ -19,7 +16,7 @@ import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import urn.URNspec;
 
 /**
- * Export the GRL strategies in the cvs (comma-separated values)
+ * Export the GRL strategies in the csv (comma-separated values)
  * 
  * @author jfroy
  *

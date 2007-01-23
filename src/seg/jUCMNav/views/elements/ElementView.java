@@ -48,7 +48,14 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 	private UCMNavMultiPageEditor editor;
 
 	PropertySheetPage page;
-	static class ElementContentProvider implements IStructuredContentProvider {
+    
+    /**
+     * Container for the elements in the view. 
+     * 
+     * @author etremblay
+     *
+     */
+	protected static class ElementContentProvider implements IStructuredContentProvider {
 		private List input;
 
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -70,7 +77,12 @@ public class ElementView extends ViewPart implements IPartListener2, ISelectionC
 		}
 	}
 
-	static class ElementLabelProvider extends LabelProvider implements ITableLabelProvider {
+    /**
+     * Returns the labels for the various list elements. 
+     * @author etremblay
+     *
+     */
+    protected static class ElementLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			String toReturn = null;
 			if (obj instanceof RespRef) {

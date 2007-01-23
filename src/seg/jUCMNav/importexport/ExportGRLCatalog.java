@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.importexport;
 
 import grl.Contribution;

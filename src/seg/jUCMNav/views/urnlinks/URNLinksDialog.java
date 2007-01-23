@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.views.urnlinks;
 
 import grl.Actor;
@@ -35,6 +32,9 @@ import urncore.UCMmodelElement;
 import urncore.URNmodelElement;
 
 /**
+ * 
+ * The dialog box to define links between UCM/GRL.
+ *  
  * @author Jean-François Roy
  *
  */

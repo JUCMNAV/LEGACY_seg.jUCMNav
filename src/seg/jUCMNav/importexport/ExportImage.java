@@ -67,11 +67,7 @@ public abstract class ExportImage implements IUseCaseMapExport {
     	 
     }
 
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see seg.jUCMNav.extensionpoints.IUseCaseMapExport#export(ucm.map.Map, java.io.FileOutputStream)
-	 */
+
     public void export(IURNDiagram diagram, FileOutputStream fos) {
         // not used.
     }

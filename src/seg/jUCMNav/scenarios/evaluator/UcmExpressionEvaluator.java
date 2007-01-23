@@ -6,6 +6,12 @@ import seg.jUCMNav.scenarios.model.jUCMNavType;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParserTreeConstants;
 
+/**
+ * Evaluates a parsed jjtree in a certain {@link UcmEnvironment}
+ * 
+ * @author jkealey
+ *
+ */
 public class UcmExpressionEvaluator {
     public static Object evaluate(SimpleNode root, UcmEnvironment env) {
         switch (root.getId()) {

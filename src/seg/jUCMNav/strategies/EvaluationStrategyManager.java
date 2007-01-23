@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
@@ -29,17 +26,7 @@ import seg.jUCMNav.model.commands.create.AddEvaluationCommand;
  */
 public class EvaluationStrategyManager {
     
-    private static class EvaluationCalculation{
-        public IntentionalElement element;
-        public int linkCalc;
-        public int totalLinkDest;
-        
-        public EvaluationCalculation(IntentionalElement element, int totalLink){
-            this.element = element;
-            this.totalLinkDest = totalLink;
-            linkCalc = 0;
-        }
-    }
+
     private UCMNavMultiPageEditor multieditor;
     
     private static EvaluationStrategyManager instance;

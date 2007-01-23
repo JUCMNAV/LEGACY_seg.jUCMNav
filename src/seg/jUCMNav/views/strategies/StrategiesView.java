@@ -40,6 +40,13 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import ucm.scenario.ScenarioDef;
 
+/**
+ * 
+ * The strategy/scenario design/execution view. 
+ * 
+ * @author Jean-François Roy, jkealey
+ *
+ */
 public class StrategiesView extends ViewPart implements IPartListener2, ISelectionChangedListener{
 	private TreeViewer viewer;
 

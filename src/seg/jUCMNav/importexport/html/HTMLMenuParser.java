@@ -2,11 +2,8 @@ package seg.jUCMNav.importexport.html;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,7 +28,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
@@ -112,7 +108,7 @@ public class HTMLMenuParser {
             String desFile = xmlFullPath;
 
             try {
-                copy(srcFile, desFile);
+                ExportURNHTML.copy(srcFile, desFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -444,28 +440,5 @@ public class HTMLMenuParser {
         }
     }
 
-    /**
-     * Copies src file to dst file. If the dst file does not exist, it is created.
-     * 
-     * @param srcPath
-     * @param dstPath
-     * @throws IOException
-     */
-    private void copy(String srcPath, String dstPath) throws IOException {
-        Class location = JUCMNavPlugin.class;
-
-        InputStream in = location.getResourceAsStream(srcPath);
-        OutputStream out = new FileOutputStream(new File(dstPath));
-
-        // Transfer bytes from in to out
-        int bufLen = 1024 * 8;
-        byte[] buf = new byte[bufLen];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
-
-        in.close();
-        out.close();
-    }
+   
 }

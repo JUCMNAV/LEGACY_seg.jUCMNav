@@ -101,6 +101,12 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         }
     }
 
+    /**
+     * Query to find the reachable nodes. 
+     * 
+     * @author jkealey
+     *
+     */
     public static class QFindReachableNodes extends QueryRequest {
         public static final int DIRECTION_BOTH = 0;
         public static final int DIRECTION_REVERSE = 1;
@@ -144,6 +150,11 @@ public class ReachableNodeFinder extends AbstractQueryProcessor implements IQuer
         }
     }
 
+    /**
+     * Response that indicates the reached nodes and node connections. 
+     * @author jkealey
+     *
+     */
     public static class RReachableNodes extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;

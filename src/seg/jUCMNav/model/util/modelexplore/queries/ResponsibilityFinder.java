@@ -21,23 +21,23 @@ import ucm.map.StartPoint;
 import ucm.map.WaitingPlace;
 
 /**
- * Query processor for finding the next / previous responsibility on the path, including forks/joins. 
+ * Query processor for finding the next / previous responsibility on the path, including forks/joins.
  * 
- * One can define a set of node connections that must not be traversed to find additional node connections and a traversal direciton. 
+ * One can define a set of node connections that must not be traversed to find additional node connections and a traversal direciton.
  * 
- * Behaves likes a ReachableNodeFinder, but stops at the next RespRef. 
+ * Behaves likes a ReachableNodeFinder, but stops at the next RespRef.
  * 
  * @author jpdaigle, jkealey
- *  
+ * 
  */
 public class ResponsibilityFinder extends AbstractQueryProcessor implements IQueryProcessorChain {
 
     private Vector _visitedNodes;
     private Vector _visitedNodeConnections;
-    
-    // if true, stop at respref only. otherwise, stop at waiting place and timer too (in addition to start/end)   
+
+    // if true, stop at respref only. otherwise, stop at waiting place and timer too (in addition to start/end)
     private boolean bOnlyRespRef;
-    
+
     public ResponsibilityFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDRESPONSIBILITIES };
     }
@@ -48,7 +48,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
     public QueryResponse runImpl(QueryRequest q) {
         _visitedNodes = new Vector();
         _visitedNodeConnections = new Vector();
-        
+
         if (((QFindResponsibilities) q).getStartPathNode() != null) {
             // call recursive function processNode with the start node
             Set exclusions = ((QFindResponsibilities) q).getExclusionSet();
@@ -65,7 +65,6 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         return r;
     }
 
-    
     /**
      * 
      * @param n
@@ -84,18 +83,19 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             // visit this node!
             _visitedNodes.add(n);
 
-            // stop at resprefs, don't stop at first one ! 
-            if ((n instanceof RespRef || (!this.bOnlyRespRef && (n instanceof WaitingPlace || n instanceof StartPoint || n instanceof EndPoint))) && _visitedNodes.size()>1)
-            	return;
-            
+            // stop at resprefs, don't stop at first one !
+            if ((n instanceof RespRef || (!this.bOnlyRespRef && (n instanceof WaitingPlace || n instanceof StartPoint || n instanceof EndPoint)))
+                    && _visitedNodes.size() > 1)
+                return;
+
             Vector toVisit = new Vector();
 
             EList links = n.getPred();
             for (int i = 0; direction != QFindResponsibilities.DIRECTION_FORWARD && i < links.size(); i++) {
                 // add the connection's source to the list
-                PathNode node = (PathNode)((NodeConnection) links.get(i)).getSource();
+                PathNode node = (PathNode) ((NodeConnection) links.get(i)).getSource();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
-                	_visitedNodeConnections.add(links.get(i));
+                    _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
             }
@@ -103,9 +103,9 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             links = n.getSucc();
             for (int i = 0; direction != QFindResponsibilities.DIRECTION_REVERSE && i < links.size(); i++) {
                 // add the connection's target to the list
-                PathNode node = (PathNode)((NodeConnection) links.get(i)).getTarget();
+                PathNode node = (PathNode) ((NodeConnection) links.get(i)).getTarget();
                 if (!exclusions.contains(links.get(i)) && !(node instanceof Connect)) {
-                	_visitedNodeConnections.add(links.get(i));
+                    _visitedNodeConnections.add(links.get(i));
                     toVisit.add(node);
                 }
             }
@@ -117,6 +117,12 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         }
     }
 
+    /**
+     * Query to find reachable responsibilities (and possibily waiting places, timers, end points, and start points)
+     * 
+     * @author jkealey
+     * 
+     */
     public static class QFindResponsibilities extends QueryRequest {
         public static final int DIRECTION_BOTH = 0;
         public static final int DIRECTION_REVERSE = 1;
@@ -141,8 +147,8 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
          *            A set of node connections that must not be traversed
          * @param direction
          *            the direction of traversal; both sides, following the directed graph or opposite the directed graph.
-         * @param onlyRespRef 
-         * 			if true, will only stop at respref; otherwise also stops at waiting place / timer.            
+         * @param onlyRespRef
+         *            if true, will only stop at respref; otherwise also stops at waiting place / timer.
          */
         public QFindResponsibilities(PathNode startNode, Set nodeConnectionExclusionSet, int direction, boolean onlyRespRef) {
             this._queryType = QueryObject.FINDRESPONSIBILITIES;
@@ -163,20 +169,26 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         public int getDirection() {
             return _Direction;
         }
-        
+
         public boolean getOnlyRespRef() {
-        	return _onlyRespRef;
+            return _onlyRespRef;
         }
     }
 
+    /**
+     * Response indicating the reached responsibilities (and possibily waiting places, timers, end points, and start points). 
+     * @author jkealey
+     *
+     */
     public static class RNextResponsibilities extends QueryResponse {
         /* Data structure (query response) for passing a vector of nodes */
         private Vector nodes;
         private Vector connections;
         private boolean onlyRespRef;
+
         public RNextResponsibilities(boolean onlyRespRef) {
             this._queryType = QueryObject.FINDRESPONSIBILITIES;
-            this.onlyRespRef=onlyRespRef;
+            this.onlyRespRef = onlyRespRef;
         }
 
         /**
@@ -193,21 +205,20 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         public void setNodes(Vector nodes) {
             this.nodes = new Vector();
             for (Iterator iter = nodes.iterator(); iter.hasNext();) {
-				PathNode pn = (PathNode) iter.next();
-				if (pn instanceof RespRef || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint)))
-					this.nodes.add(pn);
-				
-				
-			}
+                PathNode pn = (PathNode) iter.next();
+                if (pn instanceof RespRef || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint)))
+                    this.nodes.add(pn);
+
+            }
         }
 
-		public Vector getConnections() {
-			return connections;
-		}
+        public Vector getConnections() {
+            return connections;
+        }
 
-		public void setConnections(Vector connections) {
-			this.connections = connections;
-		}
+        public void setConnections(Vector connections) {
+            this.connections = connections;
+        }
     }
 
 }

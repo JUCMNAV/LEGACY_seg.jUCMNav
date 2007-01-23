@@ -14,6 +14,7 @@ import seg.jUCMNav.model.commands.JUCMNavCommand;
 import urn.URNspec;
 
 /**
+ * Creates a new strategy. 
  * @author Jean-François Roy
  *
  */

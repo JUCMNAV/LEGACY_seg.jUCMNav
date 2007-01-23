@@ -50,6 +50,12 @@ import urncore.Condition;
  */
 public class DefaultScenarioTraversal extends AbstractQueryProcessor implements IQueryProcessorChain {
 
+    /**
+     * Query to start a traversal. 
+     * 
+     * @author jkealey
+     *
+     */
 	public static class QDefaultScenarioTraversal extends QueryRequest {
 		// EndPoints / ScenarioEndPoints
 		protected Vector _EndPathNodes;
@@ -95,6 +101,12 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	}
 
+    /**
+     * Encapsulates traversal results, errors and warnings. 
+     *  
+     * @author jkealey
+     *
+     */
 	public static class RTraversalSequence extends QueryResponse {
 		protected String error;
 		protected HashMap results;

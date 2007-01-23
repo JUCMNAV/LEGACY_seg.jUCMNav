@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.model.commands.changeConstraints;
 
 import grl.LinkRef;

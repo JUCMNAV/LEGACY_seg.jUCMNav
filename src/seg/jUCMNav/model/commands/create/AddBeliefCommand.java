@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.model.commands.create;
 
 import grl.Belief;
@@ -12,6 +9,8 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 
 /**
+ * 
+ * Adds a belief to a {@link GRLGraph}
  * @author Jean-François Roy
  *
  */

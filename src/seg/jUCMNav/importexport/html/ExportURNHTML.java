@@ -1,5 +1,7 @@
 package seg.jUCMNav.importexport.html;
 
+import grl.GRLGraph;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +15,6 @@ import java.util.Iterator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.EList;
 
-import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.extensionpoints.IURNExport;
 import seg.jUCMNav.importexport.ExportImageGIF;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
@@ -23,6 +24,12 @@ import ucm.map.impl.StubImpl;
 import urn.URNspec;
 import urncore.IURNDiagram;
 
+/**
+ * Export an HTML suite from a URNspec.
+ *  
+ * @author pchen
+ *
+ */
 public class ExportURNHTML implements IURNExport {
     public static final String PAGES_LOCATION = "pages" + File.separator;
     public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; 
@@ -32,6 +39,10 @@ public class ExportURNHTML implements IURNExport {
 
     }
 
+    /**
+     * Export an HTML suite from this URNspec. 
+     * 
+     */
     public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
         	FileOutputStream imgFos = null;
         	
@@ -58,7 +69,7 @@ public class ExportURNHTML implements IURNExport {
 	            htmlMenuItem.reset();
 	            
 	            htmlMenuItem.setDiagramName(diagramName);
-	            if (diagramName.indexOf("GRLGraph") > -1) {
+	            if (diagram instanceof GRLGraph) {
 	                htmlMenuItem.setType(HTMLMenuItem.TYPE_GRL);
 	            } else {
 	                htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
@@ -88,7 +99,7 @@ public class ExportURNHTML implements IURNExport {
     /**
      * Create index html pages used in exporting UCM/GRL maps to html pages.
      * 
-     * @param htmlPath
+     * @param htmlPath the export directory
      */
     private void createIndexPages(String htmlPath) {
         try {
@@ -164,12 +175,12 @@ public class ExportURNHTML implements IURNExport {
     /**
      * Copies src file to dst file. If the dst file does not exist, it is created.
      * 
-     * @param srcPath
-     * @param dstPath
-     * @throws IOException
+     * @param srcPath source path
+     * @param dstPath destination path
+     * @throws IOException 
      */
-    private void copy(String srcPath, String dstPath) throws IOException {
-        Class location = JUCMNavPlugin.class;
+    protected static void copy(String srcPath, String dstPath) throws IOException {
+        Class location = ExportURNHTML.class;
 
         InputStream in = location.getResourceAsStream(srcPath);
         OutputStream out = new FileOutputStream(new File(dstPath));
@@ -189,7 +200,7 @@ public class ExportURNHTML implements IURNExport {
     /**
      * Create path of exported image files when exporting UCM/GRL maps to html pages.
      * 
-     * @param htmlPath
+     * @param htmlPath the root target directory
      * @return the path of exported html file
      */
     private String createImgPath(String htmlPath, String diagramName) {

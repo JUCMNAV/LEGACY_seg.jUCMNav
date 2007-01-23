@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.model.commands.create;
 
 import grl.Belief;

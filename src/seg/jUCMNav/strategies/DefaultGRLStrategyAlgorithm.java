@@ -34,6 +34,11 @@ import urncore.IURNNode;
  */
 public class DefaultGRLStrategyAlgorithm implements IGRLStrategyAlgorithm {
     
+    /**
+     * Data container object used by the propagation mechanism. 
+     * @author Jean-François Roy
+     *
+     */
     private static class EvaluationCalculation{
         public IntentionalElement element;
         public int linkCalc;
