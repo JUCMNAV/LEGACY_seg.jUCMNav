@@ -7,12 +7,19 @@ import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParserTreeConstants;
 
 /**
- * Evaluates a parsed jjtree in a certain {@link UcmEnvironment}
+ * Evaluates a parsed javacc/jjtree in a certain {@link UcmEnvironment}
  * 
  * @author jkealey
  *
  */
 public class UcmExpressionEvaluator {
+    /**
+     * Evaluates a parsed javacc/jjtree in a certain {@link UcmEnvironment}
+     * 
+     * @param root the result of a javacc/jjtree parsing
+     * @param env the environment
+     * @return the parsed result (Boolean, Integer, {@link jUCMNavType}, null)
+     */
     public static Object evaluate(SimpleNode root, UcmEnvironment env) {
         switch (root.getId()) {
         case jUCMNavParserTreeConstants.JJTSTART:
@@ -222,6 +229,15 @@ public class UcmExpressionEvaluator {
 
     }
 
+    
+    /**
+     * Applies boolean operations represented in the parsed object tree using Java constructs.
+     *  
+     * @param operation  a {@link jUCMNavParserTreeConstants} representing a boolean operator
+     * @param result the first parameter
+     * @param result2 the second parameter
+     * @return the boolean result
+     */
     private static boolean applyBooleanOperation(int operation, boolean result, boolean result2) {
         switch (operation) {
         case jUCMNavParserTreeConstants.JJTEXCLUSIVEDISJUNCTION: {

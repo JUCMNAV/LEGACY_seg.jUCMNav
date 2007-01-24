@@ -13,6 +13,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal.QDefaultScenarioTraversal;
+import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
@@ -30,7 +31,7 @@ import urncore.Condition;
  * @author jkealey
  * 
  */
-public class ScenarioTraversalAlgorithm {
+public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 
 	// Environment in which to run scenario.
 	protected UcmEnvironment env;
@@ -56,43 +57,20 @@ public class ScenarioTraversalAlgorithm {
 	// can use ucmspec instead of scenario
 	protected UCMspec ucmspec;
 
+    // a vector of ITraversalListeners. 
 	protected Vector listeners;
 
 	/**
-	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, ScenarioDef)}
+	 * Creates the traversal algorithm. Must be initialized with {@link #init(UcmEnvironment, ScenarioDef)}, {@link #init(UcmEnvironment, ScenarioGroup)}, or {@link #init(UcmEnvironment, UCMspec)}. 
 	 * 
-	 * @param env
-	 *            environment in which to run the scenario
-	 * @param scenario
-	 *            the scenario to be run.
 	 */
-	public ScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioDef scenario) {
-		init(env, scenario);
+	public ScenarioTraversalAlgorithm() {
+        // initialized in init()
+        results = new HashMap();
+        warnings = new Vector();
+        listeners = new Vector();
 	}
 
-	/**
-	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, ScenarioGroup)}
-	 * 
-	 * @param env
-	 *            environment in which to run the scenario
-	 * @param group
-	 *            the scenario group to be run.
-	 */
-	public ScenarioTraversalAlgorithm(UcmEnvironment env, ScenarioGroup group) {
-		init(env, group);
-	}
-
-	/**
-	 * Initializes the traversal algorithm. Can be re-used after with {@link #init(UcmEnvironment, UCMspec)}
-	 * 
-	 * @param env
-	 *            environment in which to run the scenario
-	 * @param ucm
-	 *            the ucmspec to be run.
-	 */
-	public ScenarioTraversalAlgorithm(UcmEnvironment env, UCMspec ucm) {
-		init(env, ucm);
-	}
 
 	/**
 	 * Erase any traversal results we may have obtained.
@@ -134,76 +112,48 @@ public class ScenarioTraversalAlgorithm {
 			return null;
 	}
 
-	/**
-	 * Initialize the algorithm.
-	 * 
-	 * @param env
-	 *            the environment in which to run the scenario
-	 * @param scenario
-	 *            the scenario to be executed.
-	 */
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#init(seg.jUCMNav.scenarios.model.UcmEnvironment, ucm.scenario.ScenarioDef)
+     */
 	public void init(UcmEnvironment env, ScenarioDef scenario) {
 		this.env = env;
 		this.scenario = scenario;
 		this.scenariogroup = null;
 		this.ucmspec = null;
-		results = new HashMap();
-		warnings = new Vector();
-		listeners = new Vector();
-
 	}
 
-	/**
-	 * Initialize the algorithm.
-	 * 
-	 * @param env
-	 *            the environment in which to run the scenario
-	 * @param group
-	 *            the scenario group to be executed.
-	 */
-	public void init(UcmEnvironment env, ScenarioGroup group) {
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#init(seg.jUCMNav.scenarios.model.UcmEnvironment, ucm.scenario.ScenarioGroup)
+     */
+    public void init(UcmEnvironment env, ScenarioGroup group) {
 		this.env = env;
 		this.scenariogroup = group;
 		this.scenario = null;
 		this.ucmspec = null;
-		results = new HashMap();
-		warnings = new Vector();
-		listeners = new Vector();
-
 	}
 
-	/**
-	 * Initialize the algorithm.
-	 * 
-	 * @param env
-	 *            the environment in which to run the scenario
-	 * @param ucmspec
-	 *            run all scenarios in ucmspec
-	 */
-	public void init(UcmEnvironment env, UCMspec ucmspec) {
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#init(seg.jUCMNav.scenarios.model.UcmEnvironment, ucm.UCMspec)
+     */
+    public void init(UcmEnvironment env, UCMspec ucmspec) {
 		this.env = env;
 		this.scenariogroup = null;
 		this.scenario = null;
 		this.ucmspec = ucmspec;
-		results = new HashMap();
-		warnings = new Vector();
-		listeners = new Vector();
-
 	}
 
 	
-	public void addListeners(Vector newListeners)
+    /* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#addListeners(java.util.Vector)
+     */
+    public void addListeners(Vector newListeners)
 	{
 		this.listeners.addAll(newListeners);
 	}
 	
-	/**
-	 * Execute the scenario in its environment. - Perform initializations - Verify preconditions - Execute the traversal algorithm - Verify postconditions -
-	 * Temporary: Show warnings. Caller should build warnings using {@link #getWarnings()}
-	 * 
-	 * @throws TraversalException
-	 *             fatal errors are returned as traversal exceptions.
-	 */
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#traverse()
+     */
 	public void traverse() throws TraversalException {
 
 		traversalListeners = new ScenarioTraversalListenerList(listeners, warnings);
@@ -258,6 +208,13 @@ public class ScenarioTraversalAlgorithm {
 
 	}
 
+    /**
+     * Traverse a scenario. 
+     * 
+     * @param scenario the scenario
+     * @return the results
+     * @throws TraversalException
+     */
 	protected DefaultScenarioTraversal.RTraversalSequence traverse_scenario(ScenarioDef scenario) throws TraversalException {
 
 		if (ScenarioUtils.getDefinedStartPoints(scenario).size() == 0) {
@@ -420,20 +377,16 @@ public class ScenarioTraversalAlgorithm {
 
 	}
 
-	/**
-	 * The warnings accumulated during the execution.
-	 * 
-	 * @return A vector of String instances.
-	 */
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#getWarnings()
+     */
 	public Vector getWarnings() {
 		return warnings;
 	}
 
-	/**
-	 * The results of the traversal.
-	 * 
-	 * @return A HashMap of EObject -> TraversalResult.
-	 */
+	/* (non-Javadoc)
+     * @see seg.jUCMNav.scenarios.IScenarioTraversalAlgorithm#getResults()
+     */
 	public HashMap getResults() {
 		return results;
 	}

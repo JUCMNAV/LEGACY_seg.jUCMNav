@@ -12,10 +12,13 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PlatformUI;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
+import seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener;
 import seg.jUCMNav.scenarios.evaluator.UcmExpressionEvaluator;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import seg.jUCMNav.scenarios.model.jUCMNavType;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.scenarios.parser.jUCMNavParser;
 import seg.jUCMNav.scenarios.parser.jUCMNavTypeChecker;
@@ -49,6 +52,11 @@ public class ScenarioUtils {
 
 	private static HashMap traversals = new HashMap();
 
+    /**
+     * Flush any traversal results associated with this element. 
+     *  
+     * @param obj an object in a URNspec 
+     */
 	public static void clearActiveScenario(EObject obj)
 	{
 		UcmEnvironment initial = getEnvironment(obj);
@@ -58,6 +66,11 @@ public class ScenarioUtils {
 
 	}
 
+    /**
+     * Flush any traversal results associated with this environment. 
+     * 
+     * @param env the environment
+     */
 	public static void clearTraversalResults(UcmEnvironment env) {
 		if (traversals.containsKey(env))
 		{
@@ -70,17 +83,13 @@ public class ScenarioUtils {
 
 	}
 
-	public static Object evaluate(String code, UcmEnvironment env, boolean isResponsibility) 
-	{
-		Object res = parse(code, env, isResponsibility);
-		if (res instanceof String)
-			throw new IllegalArgumentException(res.toString());
-		else if (res instanceof SimpleNode)
-			return UcmExpressionEvaluator.evaluate((SimpleNode)res, env);
-		else 
-			return res;
-	}
-	
+    /**
+     * Evaluate this condition in an environment. Can throw an {@link IllegalArgumentException}.  
+     * 
+     * @param cond the condition 
+     * @param env the environment 
+     * @return  the boolean result. 
+     */
 	public static Object evaluate(Condition cond, UcmEnvironment env) 
 	{
 		if (isEmptyCondition(cond)) {
@@ -90,6 +99,13 @@ public class ScenarioUtils {
 			return evaluate(cond.getExpression(), env, false);
 	}
 	
+    /**
+     * Evaluate this responsibility in an environment. Can throw an {@link IllegalArgumentException}.  
+     * 
+     * @param resp the responsibility 
+     * @param env the environment 
+     * @return  the result of the valuation, should be {@link jUCMNavType#VOID}.  
+     */    
 	public static Object evaluate(RespRef resp, UcmEnvironment env) 
 	{
 		if (isEmptyResponsibility(resp)) {
@@ -97,37 +113,33 @@ public class ScenarioUtils {
 		}
 		else
 			return evaluate(resp.getRespDef().getExpression(), env, true);
+	}
+	
+    /**
+     * Evaluate this code in an environment.  Can throw an {@link IllegalArgumentException}.  
+     * 
+     * @param code the code
+     * @param env the environment
+     * @param isResponsibility is it a responsibility (true) or a condition (false)
+     * @return the result of the evaluation
+     */
+	public static Object evaluate(String code, UcmEnvironment env, boolean isResponsibility) 
+	{
+		Object res = parse(code, env, isResponsibility);
+		if (res instanceof String)
+			throw new IllegalArgumentException(res.toString());
+		else if (res instanceof SimpleNode)
+			return UcmExpressionEvaluator.evaluate((SimpleNode)res, env);
+		else 
+			return res;
 	}	
 
-	public static boolean isEmptyCondition(Condition cond) {
-		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
-		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond.getExpression());    //$NON-NLS-1$
-	}
-
-	public static boolean isEmptyCondition(String cond) {
-		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
-		return cond == null || cond.length() == 0 || "true".equals(cond);    //$NON-NLS-1$
-	}	
-	
-	public static boolean isEmptyResponsibility(RespRef resp) {
-		if (resp==null) 
-			return true;
-		else
-			return isEmptyResponsibility(resp.getRespDef());
-	}
-	
-	public static boolean isEmptyResponsibility(String code) {
-		return code == null || code.length() == 0 ||  code.replace("\n", "").replace("\r", "").trim().length()==0;    //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-	}
-		
-		
-	public static boolean isEmptyResponsibility(Responsibility resp) {
-		if (resp == null)
-			return true;
-		else
-			return isEmptyResponsibility(resp.getExpression());
-	}	
-	
+    /**
+     * Returns the last run {@link ScenarioDef}, {@link ScenarioGroup} or {@link UCMspec} in the jucm file containing obj.  
+     * 
+     * @param obj an object for which an environment is associated.  
+     * @return the last run element. 
+     */
 	public static EObject getActiveScenario(EObject obj)
 	{
 		UcmEnvironment initial = getEnvironment(obj);
@@ -155,8 +167,214 @@ public class ScenarioUtils {
 			}
 		}
 		return list;
+	}	
+	
+    /**
+     * Get all {@link ScenarioEndPoint} (recursively) that are related this scenario (inherited first, then defined). 
+     * 
+     * @param def the scenario
+     * @return a List of   {@link ScenarioEndPoint}
+     */
+	public static Vector getDefinedEndPoints(ScenarioDef def)
+	{
+		Vector endPoints = new Vector();
+		getDefinedEndPoints(def, endPoints);
+		return endPoints;
 	}
 	
+    /**
+     * Get all {@link ScenarioEndPoint} (recursively) that are related to this scenario(inherited first, then defined).
+     * 
+     * @param def the scenario
+     * @param endPoints where to insert the found {@link ScenarioEndPoint}
+     */
+	private static void getDefinedEndPoints(ScenarioDef def, Vector endPoints)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedEndPoints(scenario, endPoints);
+		}
+		
+		for (Iterator iter = def.getEndPoints().iterator(); iter.hasNext();) {
+			ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
+			if (!endPoints.contains(pt))
+				endPoints.add(pt);
+		}
+	}
+		
+	
+    /**
+     * Get all the included scenarios (recursively)that are related to this scenario
+     * @param def the scenario
+     * @return the list of {@link ScenarioDef}
+     */
+	public static Vector getDefinedIncludedScenarios(ScenarioDef def)
+	{
+		Vector scenarios = new Vector();
+		getDefinedIncludedScenarios(def, scenarios);
+		return scenarios;
+	}    
+    
+    /**
+     * Get all the included scenarios (recursively)that are related to this scenario
+     * @param def the scenario
+     * @param scenarios where to insert the found {@link ScenarioDef}s
+     */
+	private static void getDefinedIncludedScenarios(ScenarioDef def, Vector scenarios)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedIncludedScenarios(scenario, scenarios);
+			if (!scenarios.contains(scenario))
+				scenarios.add(scenario);
+		}
+	}
+
+    /**
+     * Gets all the related variable {@link Initialization}s (recursively). Filters out any inherited duplicates to show only the last one.  
+     * @param def the scenario 
+     * @return the list of {@link Initialization}s
+     */
+	public static Vector getDefinedInitializations(ScenarioDef def)
+	{
+		
+		Vector initializations = new Vector();
+		if (def.getGroup()==null) return initializations;
+		getDefinedInitializations(def, initializations);
+		
+		Vector uniqueSubsetInitializations = new Vector();
+		for (Iterator iter = def.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
+			Variable var = (Variable) iter.next();
+			// only add last occurrence
+			for (int i=initializations.size()-1;i>=0;i--) {
+				Initialization init = (Initialization) initializations.get(i);
+				if (init.getVariable() == var) {
+					uniqueSubsetInitializations.add(init);
+					break;
+				}
+			}
+			
+		}
+		return uniqueSubsetInitializations;
+	}
+	
+    /**
+     * Gets all the related variable {@link Initialization}s (recursively). Filters out any inherited duplicates to show only the last one.  
+     * @param def the scenario 
+     * param initializations where to store the found {@link Initialization}s
+     */
+	private static void getDefinedInitializations(ScenarioDef def, Vector initializations)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedInitializations(scenario, initializations);
+		}
+		
+		for (Iterator iter = def.getInitializations().iterator(); iter.hasNext();) {
+			Initialization cond = (Initialization) iter.next();
+			if (!initializations.contains(cond))
+				initializations.add(cond);
+		}
+	}
+    
+    /**
+     * Gets all the related scenario post conditions (recursively). 
+     *  
+     * @param def the scenario
+     * @return a list of {@link Condition}s
+     */
+	public static Vector getDefinedPostconditions(ScenarioDef def)
+	{
+		Vector postconditions = new Vector();
+		getDefinedPostconditions(def, postconditions);
+		return postconditions;
+	}
+	
+    /**
+     * Gets all the related scenario post conditions (recursively). 
+     *  
+     * @param def the scenario
+     * param postconditions where to add the found {@link Condition}s
+     */
+	private static void getDefinedPostconditions(ScenarioDef def, Vector postconditions)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedPostconditions(scenario, postconditions);
+		}
+		
+		for (Iterator iter = def.getPostconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+			if (!postconditions.contains(cond))
+				postconditions.add(cond);
+		}
+	}
+	
+    /**
+     * Gets all the related scenario pre conditions (recursively). 
+     *  
+     * @param def the scenario
+     * @return a list of {@link Condition}s
+     */    
+	public static Vector getDefinedPreconditions(ScenarioDef def)
+	{
+		Vector preconditions = new Vector();
+		getDefinedPreconditions(def, preconditions);
+		return preconditions;
+	}
+	
+    /**
+     * Gets all the related scenario pre conditions (recursively). 
+     *  
+     * @param def the scenario
+     * param postconditions where to add the found {@link Condition}s
+     */
+	private static void getDefinedPreconditions(ScenarioDef def, Vector preconditions)
+	{
+		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedPreconditions(scenario, preconditions);
+		}
+		
+		for (Iterator iter = def.getPreconditions().iterator(); iter.hasNext();) {
+			Condition cond = (Condition) iter.next();
+			if (!preconditions.contains(cond))
+				preconditions.add(cond);
+		}
+	}
+    
+    /**
+     * Get all {@link ScenarioStartPoint} (recursively) that are related this scenario (inherited first, then defined). 
+     * 
+     * @param def the scenario
+     * @return a List of   {@link ScenarioStartPoint}
+     */
+	public static Vector getDefinedStartPoints(ScenarioDef def)
+	{
+		Vector startPoints = new Vector();
+		getDefinedStartPoints(def, startPoints);
+		return startPoints;
+	}
+	
+    /**
+     * Get all {@link ScenarioStartPoint} (recursively) that are related to this scenario (inherited first, then defined).
+     * 
+     * @param def the scenario
+     * @param startPoints where to insert the found {@link ScenarioStartPoint}
+     */
+	private static void getDefinedStartPoints(ScenarioDef def, Vector startPoints)
+	{
+		for (Iterator iter = getDefinedIncludedScenarios(def).iterator(); iter.hasNext();) {
+			ScenarioDef scenario = (ScenarioDef) iter.next();
+			getDefinedStartPoints(scenario, startPoints);
+		}
+		
+		for (Iterator iter = def.getStartPoints().iterator(); iter.hasNext();) {
+			ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
+			if (!startPoints.contains(pt))
+				startPoints.add(pt);
+		}
+	}
 	/**
 	 * Return the UcmEnvironment associated with this object from the global
 	 * cache.
@@ -180,7 +398,8 @@ public class ScenarioUtils {
 		} else
 			return getEnvironment(object.eContainer());
 
-	}
+	}	
+
 	/**
 	 * Global UcmEnvironment cache.
 	 * 
@@ -192,7 +411,6 @@ public class ScenarioUtils {
 
 		return environments;
 	}
-	
 	/**
 	 * Returns all scenarios that we may include into the given parent. Will not
 	 * cause any circular references.
@@ -217,6 +435,11 @@ public class ScenarioUtils {
 		return list;
 	}
 	
+    /**
+     * Gets the list of scenarios that it would be possible to include, without recursing. Used in a context where recursion would cause an infinite loop.  
+     * @param parent the scenario 
+     * @return the list of possible {@link ScenarioDef}
+     */
 	private static List getPossibleIncludedScenariosNonRecursive(ScenarioDef parent) {
 		if (parent.getGroup()==null)
 			return new ArrayList();
@@ -227,147 +450,25 @@ public class ScenarioUtils {
 		return list;
 	
 	}
-	
-	public static Vector getDefinedStartPoints(ScenarioDef def)
-	{
-		Vector startPoints = new Vector();
-		getDefinedStartPoints(def, startPoints);
-		return startPoints;
-	}
-	private static void getDefinedStartPoints(ScenarioDef def, Vector startPoints)
-	{
-		for (Iterator iter = getDefinedIncludedScenarios(def).iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedStartPoints(scenario, startPoints);
-		}
-		
-		for (Iterator iter = def.getStartPoints().iterator(); iter.hasNext();) {
-			ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
-			if (!startPoints.contains(pt))
-				startPoints.add(pt);
-		}
-	}
-	
-	public static Vector getDefinedIncludedScenarios(ScenarioDef def)
-	{
-		Vector scenarios = new Vector();
-		getDefinedIncludedScenarios(def, scenarios);
-		return scenarios;
-	}
-	private static void getDefinedIncludedScenarios(ScenarioDef def, Vector scenarios)
-	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedIncludedScenarios(scenario, scenarios);
-			if (!scenarios.contains(scenario))
-				scenarios.add(scenario);
-		}
-		
-	}	
-
-	public static Vector getDefinedEndPoints(ScenarioDef def)
-	{
-		Vector endPoints = new Vector();
-		getDefinedEndPoints(def, endPoints);
-		return endPoints;
-	}
-	private static void getDefinedEndPoints(ScenarioDef def, Vector endPoints)
-	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedEndPoints(scenario, endPoints);
-		}
-		
-		for (Iterator iter = def.getEndPoints().iterator(); iter.hasNext();) {
-			ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
-			if (!endPoints.contains(pt))
-				endPoints.add(pt);
-		}
-	}
-	
-	public static Vector getDefinedPreconditions(ScenarioDef def)
-	{
-		Vector preconditions = new Vector();
-		getDefinedPreconditions(def, preconditions);
-		return preconditions;
-	}
-	private static void getDefinedPreconditions(ScenarioDef def, Vector preconditions)
-	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedPreconditions(scenario, preconditions);
-		}
-		
-		for (Iterator iter = def.getPreconditions().iterator(); iter.hasNext();) {
-			Condition cond = (Condition) iter.next();
-			if (!preconditions.contains(cond))
-				preconditions.add(cond);
-		}
-	}	
-	
-	public static Vector getDefinedPostconditions(ScenarioDef def)
-	{
-		Vector postconditions = new Vector();
-		getDefinedPostconditions(def, postconditions);
-		return postconditions;
-	}
-	private static void getDefinedPostconditions(ScenarioDef def, Vector postconditions)
-	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedPostconditions(scenario, postconditions);
-		}
-		
-		for (Iterator iter = def.getPostconditions().iterator(); iter.hasNext();) {
-			Condition cond = (Condition) iter.next();
-			if (!postconditions.contains(cond))
-				postconditions.add(cond);
-		}
-	}	
-	
-	public static Vector getDefinedInitializations(ScenarioDef def)
-	{
-		
-		Vector initializations = new Vector();
-		if (def.getGroup()==null) return initializations;
-		getDefinedInitializations(def, initializations);
-		
-		Vector uniqueSubsetInitializations = new Vector();
-		for (Iterator iter = def.getGroup().getUcmspec().getVariables().iterator(); iter.hasNext();) {
-			Variable var = (Variable) iter.next();
-			// only add last occurrence
-			for (int i=initializations.size()-1;i>=0;i--) {
-				Initialization init = (Initialization) initializations.get(i);
-				if (init.getVariable() == var) {
-					uniqueSubsetInitializations.add(init);
-					break;
-				}
-			}
-			
-		}
-		return uniqueSubsetInitializations;
-	}
-	private static void getDefinedInitializations(ScenarioDef def, Vector initializations)
-	{
-		for (Iterator iter = def.getIncludedScenarios().iterator(); iter.hasNext();) {
-			ScenarioDef scenario = (ScenarioDef) iter.next();
-			getDefinedInitializations(scenario, initializations);
-		}
-		
-		for (Iterator iter = def.getInitializations().iterator(); iter.hasNext();) {
-			Initialization cond = (Initialization) iter.next();
-			if (!initializations.contains(cond))
-				initializations.add(cond);
-		}
-	}		
+    
+    /**
+     * 
+     * @param obj an object
+     * @return the number of times the traversal engine passed through it. 
+     */
 	public static int getTraversalHitCount(EObject obj) {
 		TraversalResult res = getTraversalResults(obj);
 		if (res!=null)
 			return res.getExternalHitCount();
 		else
 			return 0;
-	}
-
+	}	
+	
+    /**
+     * 
+     * @param obj an object
+     * @return the {@link TraversalResult} of a certain object. 
+     */
 	private static TraversalResult getTraversalResults(EObject obj) {
 		UcmEnvironment env = getEnvironment(obj);
 		if (traversals.containsKey(env))
@@ -378,12 +479,59 @@ public class ScenarioUtils {
 		else 
 			return null;
 	}
+    
 	
-	public static void incrementTraversalHitCount(EObject obj) {
-		TraversalResult res = getTraversalResults(obj);
-		
-		if (res!=null)
-			res.incrementHitCount();
+	/**
+     * Is this condition null, empty or a default "true"
+     * @param cond the condition 
+     * @return true if it is. 
+	 */
+	public static boolean isEmptyCondition(Condition cond) {
+		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
+		return cond == null || cond.getExpression() == null || cond.getExpression().length() == 0 || "true".equals(cond.getExpression());    //$NON-NLS-1$
+	}
+    
+    /**
+     * Is this condition null, empty or a default "true"
+     * @param cond the condition 
+     * @return true if it is. 
+     */
+	public static boolean isEmptyCondition(String cond) {
+		//		 "true" is the default for most conditions. don't want to load the big infrastructure.
+		return cond == null || cond.length() == 0 || "true".equals(cond);    //$NON-NLS-1$
+	}	
+    
+    /**
+     * Is this responsibilitiy null or empty?
+     * @param resp the responsibility
+     * @return true if it is. 
+     */
+	public static boolean isEmptyResponsibility(Responsibility resp) {
+		if (resp == null)
+			return true;
+		else
+			return isEmptyResponsibility(resp.getExpression());
+	}
+
+    /**
+     * Is this responsibilitiy null or empty?
+     * @param resp the responsibility
+     * @return true if it is. 
+     */
+    public static boolean isEmptyResponsibility(RespRef resp) {
+		if (resp==null) 
+			return true;
+		else
+			return isEmptyResponsibility(resp.getRespDef());
+	}
+	
+    /**
+     * Is this responsibilitiy null or empty?
+     * @param code the code
+     * @return true if it is. 
+     */
+	public static boolean isEmptyResponsibility(String code) {
+		return code == null || code.length() == 0 ||  code.replace("\n", "").replace("\r", "").trim().length()==0;    //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/**
@@ -470,15 +618,75 @@ public class ScenarioUtils {
 	}
 	
 	
+    /**
+     * Set the active scenario, no extra listeners. 
+     * 
+     * @param scenario the scenario
+     */
 	public static void setActiveScenario(ScenarioDef scenario)
 	{
 		traverse(scenario, null);
 	}
+    
+    /**
+     * Set the active scenario, with the extra listeners passed.  
+     * 
+     * @param scenario the scenario
+     * @param listeners the extra {@link ITraversalListener}
+     */
 	public static void setActiveScenario(ScenarioDef scenario, Vector listeners)
 	{
 		traverse(scenario, listeners);
 	}
 
+    /**
+     * Set the active scenario group, no extra listeners. 
+     * 
+     * @param group the scenario group
+     */
+	public static void setActiveScenario(ScenarioGroup group)
+	{
+		traverse(group, null);
+	}
+	
+    /**
+     * Set the active scenario group, with the extra listeners passed.  
+     * 
+     * @param group the scenario group
+     * @param listeners the extra {@link ITraversalListener}
+     */    
+	public static void setActiveScenario(ScenarioGroup group, Vector listeners)
+	{
+		traverse(group, listeners);
+	}	
+	
+    /**
+     * Set the active ucmspec, no extra listeners. 
+     * 
+     * @param ucm the ucmspec
+     */
+	public static void setActiveScenario(UCMspec ucm)
+	{
+		traverse(ucm, null);
+	}	
+    
+    /**
+     * Set the active ucmspec, with the extra listeners passed.  
+     * 
+     * @param ucm the ucmspec
+     * @param listeners the extra {@link ITraversalListener}
+     */
+	public static void setActiveScenario(UCMspec ucm,  Vector listeners)
+	{
+		traverse(ucm, listeners);
+	}
+	
+    /**
+     * Traverse the active secenario. 
+     *  
+     * @param scenario the {@link ScenarioDef}, {@link ScenarioGroup}, or {@link UCMspec}
+     * @param listeners an optional list of extra {@link ITraversalListener} to add. 
+     */
 	protected static void traverse(EObject scenario, Vector listeners) {
 		try {
 			if (scenario==null) {
@@ -491,17 +699,20 @@ public class ScenarioUtils {
 			activeScenario.put(initial, scenario);
 			UcmEnvironment forTraversal = (UcmEnvironment) initial.clone();
 			
-			ScenarioTraversalAlgorithm algo=null;
+			IScenarioTraversalAlgorithm algo=new ScenarioTraversalAlgorithm();
 			if (scenario instanceof ScenarioDef)
-				algo = new ScenarioTraversalAlgorithm(forTraversal, (ScenarioDef) scenario);
+				algo.init(forTraversal, (ScenarioDef) scenario);
 			else if (scenario instanceof ScenarioGroup)
-				algo = new ScenarioTraversalAlgorithm(forTraversal, (ScenarioGroup) scenario);
+				algo.init(forTraversal, (ScenarioGroup) scenario);
 			else if (scenario instanceof UCMspec)
-				algo = new ScenarioTraversalAlgorithm(forTraversal, (UCMspec) scenario);
-			
-			assert algo!=null;
+				algo.init(forTraversal, (UCMspec) scenario);
+            else
+                System.out.println("undefined initialization");
+            
 			traversals.put(initial, algo);
 			
+            // TODO: add listeners from extension point
+            
 			if (listeners!=null)
 				algo.addListeners(listeners);
 
@@ -512,25 +723,6 @@ public class ScenarioUtils {
 		} catch (TraversalException e) {
 			MessageDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Error", e.getMessage()); //$NON-NLS-1$
 		}
-	}
-	
-	public static void setActiveScenario(ScenarioGroup group)
-	{
-		traverse(group, null);
-	}	
-	
-	public static void setActiveScenario(ScenarioGroup group, Vector listeners)
-	{
-		traverse(group, listeners);
-	}	
-	public static void setActiveScenario(UCMspec ucm)
-	{
-		traverse(ucm, null);
-	}
-	
-	public static void setActiveScenario(UCMspec ucm,  Vector listeners)
-	{
-		traverse(ucm, listeners);
 	}	
 	
 	
