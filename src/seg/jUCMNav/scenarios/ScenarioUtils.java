@@ -74,7 +74,7 @@ public class ScenarioUtils {
 	public static void clearTraversalResults(UcmEnvironment env) {
 		if (traversals.containsKey(env))
 		{
-			ScenarioTraversalAlgorithm results = (ScenarioTraversalAlgorithm) traversals.get(env);
+            IScenarioTraversalAlgorithm results = (IScenarioTraversalAlgorithm) traversals.get(env);
 			results.clearTraversalResults();
 		}
 		if (activeScenario.containsKey(env)) {
@@ -473,7 +473,7 @@ public class ScenarioUtils {
 		UcmEnvironment env = getEnvironment(obj);
 		if (traversals.containsKey(env))
 		{
-			ScenarioTraversalAlgorithm results = (ScenarioTraversalAlgorithm) traversals.get(env);
+            IScenarioTraversalAlgorithm results = (IScenarioTraversalAlgorithm) traversals.get(env);
 			return results.getTraversalResults(obj);
 		}
 		else 

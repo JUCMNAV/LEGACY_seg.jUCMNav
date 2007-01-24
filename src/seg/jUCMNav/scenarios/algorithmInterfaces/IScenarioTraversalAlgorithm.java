@@ -3,7 +3,10 @@ package seg.jUCMNav.scenarios.algorithmInterfaces;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.eclipse.emf.ecore.EObject;
+
 import seg.jUCMNav.scenarios.model.TraversalException;
+import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
 import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
@@ -48,6 +51,24 @@ public interface IScenarioTraversalAlgorithm {
      */
     public abstract void addListeners(Vector newListeners);
 
+    
+
+    /**
+     * Erase any traversal results we may have obtained.
+     */
+    public void clearTraversalResults();
+
+
+    /**
+     * Returns the traversal result for a certain element.
+     * 
+     * @param obj
+     *            the elemetn
+     * @return the traversal result or null if it does not exist.
+     */
+    public TraversalResult getTraversalResults(EObject obj);
+    
+    
     /**
      * Execute the scenario in its environment. - Perform initializations - Verify preconditions - Execute the traversal algorithm - Verify postconditions -
      * Temporary: Show warnings. Caller should build warnings using {@link #getWarnings()}

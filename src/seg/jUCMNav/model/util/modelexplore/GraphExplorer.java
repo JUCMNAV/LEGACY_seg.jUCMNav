@@ -1,12 +1,13 @@
 package seg.jUCMNav.model.util.modelexplore;
 
 import seg.jUCMNav.model.util.modelexplore.queries.ConnectionSplineFinder;
-import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
 import seg.jUCMNav.model.util.modelexplore.queries.DeletionPathFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.EndPointFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ResponsibilityFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.StartPointFinder;
+import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.AbstractScenarioTraversal;
+import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.DefaultScenarioTraversal;
 
 /**
  * 
@@ -32,7 +33,7 @@ public class GraphExplorer {
 
     private static DeletionPathFinder _deletionPathFinder;
     
-    private static DefaultScenarioTraversal _defaultScenarioTraversal;
+    private static AbstractScenarioTraversal _defaultScenarioTraversal;
     
     private static ResponsibilityFinder _responsibilityFinder;
 
@@ -44,6 +45,8 @@ public class GraphExplorer {
         _rnFinder = new ReachableNodeFinder();
         _splineFinder = new ConnectionSplineFinder();
         _deletionPathFinder = new DeletionPathFinder();
+        
+        // TODO: load from extension point preferences
         _defaultScenarioTraversal = new DefaultScenarioTraversal();
         _responsibilityFinder = new ResponsibilityFinder();
 

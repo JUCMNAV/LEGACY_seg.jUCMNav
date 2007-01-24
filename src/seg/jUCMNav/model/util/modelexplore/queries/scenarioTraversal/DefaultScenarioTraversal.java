@@ -1,19 +1,12 @@
-package seg.jUCMNav.model.util.modelexplore.queries;
+package seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
-import seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor;
 import seg.jUCMNav.model.util.modelexplore.IQueryProcessorChain;
-import seg.jUCMNav.model.util.modelexplore.QueryObject;
-import seg.jUCMNav.model.util.modelexplore.QueryRequest;
-import seg.jUCMNav.model.util.modelexplore.QueryResponse;
-import seg.jUCMNav.scenarios.ScenarioTraversalListenerList;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalVisit;
@@ -38,8 +31,6 @@ import ucm.map.StartPoint;
 import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.WaitingPlace;
-import ucm.scenario.ScenarioEndPoint;
-import urncore.Condition;
 
 /**
  * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
@@ -48,147 +39,9 @@ import urncore.Condition;
  * @author jkealey
  * 
  */
-public class DefaultScenarioTraversal extends AbstractQueryProcessor implements IQueryProcessorChain {
+public class DefaultScenarioTraversal extends AbstractScenarioTraversal implements IQueryProcessorChain {
 
-    /**
-     * Query to start a traversal. 
-     * 
-     * @author jkealey
-     *
-     */
-	public static class QDefaultScenarioTraversal extends QueryRequest {
-		// EndPoints / ScenarioEndPoints
-		protected Vector _EndPathNodes;
-		protected UcmEnvironment _env;
-
-		// list of ITraversalListeners 
-		protected ScenarioTraversalListenerList _listeners;
-
-		// StartPoints / ScenarioStartPoints
-		protected Vector _StartPathNodes;
-		
-		/**
-		 * 
-		 * @param startNodes
-		 *            the starting point for traversal.
-		 * @param endNodes
-		 *            the set of end points that must be reached.
-		 */
-		public QDefaultScenarioTraversal(UcmEnvironment env, Vector startNodes, Vector endNodes, ScenarioTraversalListenerList listeners) {
-			this._queryType = QueryObject.DEFAULTSCENARIOTRAVERSAL;
-			_StartPathNodes = startNodes;
-			_EndPathNodes = endNodes;
-			_env = env;
-			_listeners = listeners;
-
-		}
-
-		public Vector getEndPathNodes() {
-			return _EndPathNodes;
-		}
-
-		public UcmEnvironment getEnvironment() {
-			return _env;
-		}
-
-		public Vector getStartPathNodes() {
-			return _StartPathNodes;
-		}
-
-		public ScenarioTraversalListenerList getTraversalListeners() {
-			return _listeners;
-		}
-
-	}
-
-    /**
-     * Encapsulates traversal results, errors and warnings. 
-     *  
-     * @author jkealey
-     *
-     */
-	public static class RTraversalSequence extends QueryResponse {
-		protected String error;
-		protected HashMap results;
-		/* Data structure (query response) for passing a list of EObjects */
-		protected Vector visited;
-		protected Vector warnings;
-
-		public RTraversalSequence() {
-			this._queryType = QueryObject.DEFAULTSCENARIOTRAVERSAL;
-		}
-
-		public String getError() {
-			return error;
-		}
-
-		public HashMap getResults() {
-			return results;
-		}
-
-		/**
-		 * @return Returns the nodes.
-		 */
-		public Vector getVisited() {
-			return visited;
-		}
-
-		public Vector getWarnings() {
-			return warnings;
-		}
-
-		public void setError(String error) {
-			this.error = error;
-		}
-
-		public void setResults(HashMap results) {
-			this.results = results;
-		}
-
-		/**
-		 * @param visited
-		 *            The nodes / node connections to set.
-		 */
-		public void setVisited(Vector visited) {
-			this.visited = visited;
-		}
-
-		public void setWarnings(Vector warnings) {
-			this.warnings = warnings;
-		}
-
-	}
-
-
-	// current visit
-	protected TraversalVisit _currentVisit;
-
-	// fatal error
-	protected String _error;
-	
-	// list of ITraversalListeners 
-	protected ScenarioTraversalListenerList _listeners;
-	
-	protected DefaultScenarioTraversalDataStructure _traversalData;
-	
-	// Vector of Strings
-	protected Vector _warnings;
-	
-
-	/**
-	 * Query processor representing the sequence of elements traversed by the scenario traversal algorithm.
-	 * 
-	 */
-	public DefaultScenarioTraversal() {
-		this._answerQueryTypes = new String[] { QueryObject.DEFAULTSCENARIOTRAVERSAL };
-	}
-
-
-	public ScenarioTraversalListenerList getTraversalListeners() {
-		return _listeners;
-	}
-
-
+   
 	/**
 	 * Notifies listeners of thread happenings. 
 	 * 
@@ -259,40 +112,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	}
 
 	/**
-	 * Executes the traversal.
-	 * 
-	 * @param env
-	 *            the ucm environment in which to execute the code.
-	 * @param startPoints
-	 *            the list of start points / scenario start points to initialize the traversal.
-	 * 
-	 * @param endPoints
-	 *            the list of end points /scenario end points that must be reached.
-	 */
-	protected void process(UcmEnvironment env, Vector startPoints, Vector endPoints) {
-
-		
-		// initialize the stacks with the start points.
-		_error = _traversalData.seedAlgorithm(startPoints);
-		if (_error != null)
-			return;
-
-		try {
-			processAllNodes(env);
-
-			// find reached end points. must create new vector here (or clone _visited) because we are modifying it in verifyEndPoints
-			Vector reachedEndPoints = _traversalData.getReachedEndPoints();
-
-			// verify that the reached end points match the expected ones.
-			verifyEndPoints(endPoints, reachedEndPoints);
-		} catch (Exception e) {
-			_error = Messages.getString("DefaultScenarioTraversal.ExceptionOccurred") + e.getMessage(); //$NON-NLS-1$
-		}
-
-	}
-
-
-	/**
 	 * Schedules the nodes according to what is in the stacks.
 	 * 
 	 * @param env
@@ -302,8 +121,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	 */
 	protected void processAllNodes(UcmEnvironment env) throws TraversalException {
 
-
-        
 		Vector threadList = new Vector(); 
 		TraversalVisit nextNode = null;
 		for (int i=1;i< _traversalData.getNextThreadID();i++) {
@@ -353,8 +170,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an and fork.
 	 * 
-	 * @param env
-	 * @param andfork
+	 * @param env the environment 
+	 * @param andfork the andfork to process
 	 * @throws TraversalException
 	 */
 	protected void processAndFork(UcmEnvironment env, AndFork andfork) throws TraversalException {
@@ -365,8 +182,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an and join.
 	 * 
-	 * @param env
-	 * @param andjoin
+	 * @param env the environment
+	 * @param andjoin the and join to process
 	 * @throws TraversalException
 	 */
 	protected void processAndJoin(UcmEnvironment env, AndJoin andjoin) throws TraversalException {
@@ -411,9 +228,9 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 
 	/**
 	 * Processes a connect element.
-	 * 
-	 * @param env
-	 * @param connect
+	 *  
+	 * @param env the environment
+	 * @param connect the connect to process
 	 * @throws TraversalException
 	 */
 	protected void processConnect(UcmEnvironment env, Connect connect) throws TraversalException {
@@ -432,8 +249,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an empty point or direction arrow.
 	 * 
-	 * @param env
-	 * @param pn
+	 * @param env the environment
+	 * @param pn the empty point to process
 	 * @throws TraversalException
 	 */
 	protected void processEmptyPoint(UcmEnvironment env, PathNode pn) throws TraversalException {
@@ -445,8 +262,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an end point.
 	 * 
-	 * @param env
-	 * @param end
+	 * @param env the environment
+	 * @param end the end point to process
 	 * @throws TraversalException
 	 */
 	protected void processEndPoint(UcmEnvironment env, EndPoint end) throws TraversalException {
@@ -563,8 +380,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an or fork.
 	 * 
-	 * @param env
-	 * @param orfork
+	 * @param env the environment
+	 * @param orfork the or fork to process
 	 * @throws TraversalException
 	 */
 	protected void processOrFork(UcmEnvironment env, OrFork orfork) throws TraversalException {
@@ -611,8 +428,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes an or join
 	 * 
-	 * @param env
-	 * @param orjoin
+	 * @param env the environment
+	 * @param orjoin the or join to process
 	 * @throws TraversalException
 	 */
 	protected void processOrJoin(UcmEnvironment env, OrJoin orjoin) throws TraversalException {
@@ -622,8 +439,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes a responsibility.
 	 * 
-	 * @param env
-	 * @param resp
+	 * @param env the environment
+	 * @param resp the respref to process
 	 * @throws TraversalException
 	 */
 	protected void processRespRef(UcmEnvironment env, RespRef resp) throws TraversalException {
@@ -653,8 +470,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Proccesses a start point
 	 * 
-	 * @param env
-	 * @param start
+	 * @param env the environment
+	 * @param start the start point to process
 	 * @throws TraversalException
 	 */
 	protected void processStartPoint(UcmEnvironment env, StartPoint start) throws TraversalException {
@@ -672,8 +489,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes a stub.
 	 * 
-	 * @param env
-	 * @param stub
+	 * @param env the environment
+	 * @param stub the stub to process
 	 * @throws TraversalException
 	 */
 	protected void processStub(UcmEnvironment env, NodeConnection source, Stub stub) throws TraversalException {
@@ -763,8 +580,8 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 	/**
 	 * Processes a waiting place or timer (which is a waiting place)
 	 * 
-	 * @param env
-	 * @param pn
+	 * @param env the environment
+	 * @param pn the waiting place or timer to process
 	 * @throws TraversalException
 	 */
 	protected void processWaitingPlaceAndTimer(UcmEnvironment env, WaitingPlace pn) throws TraversalException {
@@ -808,99 +625,6 @@ public class DefaultScenarioTraversal extends AbstractQueryProcessor implements 
 		} catch (IllegalArgumentException e) {
 			//throw new TraversalException(e.getMessage(), e);
 			_warnings.add(new TraversalWarning(e.getMessage(), pn, IMarker.SEVERITY_ERROR));
-		}
-	}
-
-
-	
-
-	/**
-	 * Initialize using {@link QDefaultScenarioTraversal} , run {@link #process(UcmEnvironment, Vector, Vector)} and prepare {@link RTraversalSequence}
-	 * 
-	 * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
-	 */
-	public QueryResponse runImpl(QueryRequest q) {
-		_error = null;
-		_warnings = new Vector();
-		_listeners = ((QDefaultScenarioTraversal) q).getTraversalListeners();
-		_traversalData = new DefaultScenarioTraversalDataStructure(_listeners);
-
-		if (((QDefaultScenarioTraversal) q).getStartPathNodes() != null) {
-			Vector startPoints = ((QDefaultScenarioTraversal) q).getStartPathNodes();
-			Vector endPoints = ((QDefaultScenarioTraversal) q).getEndPathNodes();
-			process(((QDefaultScenarioTraversal) q).getEnvironment(), startPoints, endPoints);
-		}
-
-		// Return a response containing the visited node list
-		RTraversalSequence r = new RTraversalSequence();
-		r.setVisited(_traversalData.getVisited());
-		r.setError(_error);
-		r.setWarnings(_warnings);
-		r.setResults(_traversalData.getResults());
-		return r;
-	}
-
-
-
-	/**
-	 * Helper method that tests to see if a condition evaluates to what is expected.
-	 * 
-	 * @param env
-	 *            the environment in which the condition is to be evaluated
-	 * @param cond
-	 *            the condition
-	 * @param expected
-	 *            the expected result (Boolean.TRUE or Boolean.FALSE)
-	 * @param errorMessage
-	 *            the error message to be added to the warnings if is not what is expected
-	 * @return true if is what is expected, false otherwise.
-	 * @throws TraversalException
-	 *             if a parsing error occurs
-	 */
-	protected boolean testCondition(UcmEnvironment env, Condition cond, Boolean expected, String errorMessage) throws TraversalException {
-		try {
-			Object result = ScenarioUtils.evaluate(cond, env);
-			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond)?null:cond, Boolean.TRUE.equals(result));
-			if (!expected.equals(result)) {
-				TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);
-				warning.setCondition(cond);
-				_warnings.add(warning);
-				return false;
-			}
-		} catch (IllegalArgumentException e) {
-			//throw new TraversalException(e.getMessage(), e);
-			_warnings.add(new TraversalWarning(e.getMessage(), cond, IMarker.SEVERITY_ERROR));
-		}
-
-		return true;
-	}
-
-
-	/**
-	 * Verify that the expected end points match the reached end points.
-	 * 
-	 * @param expectedEndPoints
-	 *            Vector of ScenarioEndPoints or EndPoints
-	 * @param reachedEndPoints
-	 *            Vector of EndPoints
-	 */
-	protected void verifyEndPoints(Vector expectedEndPoints, Vector reachedEndPoints) {
-		for (Iterator iter = expectedEndPoints.iterator(); iter.hasNext();) {
-			EObject obj = (EObject) iter.next();
-			EndPoint pt = null;
-			if (obj instanceof EndPoint)
-				pt = (EndPoint) obj;
-			else if (obj instanceof ScenarioEndPoint) {
-				if (((ScenarioEndPoint) obj).isEnabled())
-					pt = ((ScenarioEndPoint) obj).getEndPoint();
-			}
-
-			if (pt != null && !reachedEndPoints.contains(pt)) {
-				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.ScenariosShouldHaveReachedEndPoint") + pt.toString(),pt,IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
-			} else {
-				// so that we can find multiple instances
-				reachedEndPoints.remove(pt);
-			}
 		}
 	}
 	

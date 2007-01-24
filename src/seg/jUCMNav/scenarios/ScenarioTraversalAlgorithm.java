@@ -11,8 +11,8 @@ import org.eclipse.emf.ecore.EObject;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
-import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal;
-import seg.jUCMNav.model.util.modelexplore.queries.DefaultScenarioTraversal.QDefaultScenarioTraversal;
+import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.ScenarioTraversalQuery;
+import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.ScenarioTraversalResponse;
 import seg.jUCMNav.scenarios.algorithmInterfaces.IScenarioTraversalAlgorithm;
 import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
@@ -75,7 +75,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 	/**
 	 * Erase any traversal results we may have obtained.
 	 */
-	protected void clearTraversalResults() {
+	public void clearTraversalResults() {
 		results.clear();
 	}
 
@@ -104,7 +104,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 	 *            the elemetn
 	 * @return the traversal result or null if it does not exist.
 	 */
-	protected TraversalResult getTraversalResults(EObject obj) {
+	public TraversalResult getTraversalResults(EObject obj) {
 		if (results.containsKey(obj)) {
 			TraversalResult count = (TraversalResult) results.get(obj);
 			return count;
@@ -158,7 +158,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 
 		traversalListeners = new ScenarioTraversalListenerList(listeners, warnings);
 		
-		DefaultScenarioTraversal.RTraversalSequence resp = null;
+		ScenarioTraversalResponse resp = null;
 		UcmEnvironment initenv = env;
 		try {
 			if (ucmspec != null) {
@@ -215,13 +215,11 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
      * @return the results
      * @throws TraversalException
      */
-	protected DefaultScenarioTraversal.RTraversalSequence traverse_scenario(ScenarioDef scenario) throws TraversalException {
+	protected ScenarioTraversalResponse traverse_scenario(ScenarioDef scenario) throws TraversalException {
 
 		if (ScenarioUtils.getDefinedStartPoints(scenario).size() == 0) {
 			warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversalAlgorithm.NoStartPointsDefined"), scenario, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		}
-
-
 
 		// initialize all variables recursively
 		traverse_Initializations(scenario);
@@ -233,9 +231,9 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 
 		// TODO: Load proper algorithm from plugin extensions / properties.
 		// execute the other algorithm
-		QDefaultScenarioTraversal qry = new DefaultScenarioTraversal.QDefaultScenarioTraversal(env, ScenarioUtils.getDefinedStartPoints(scenario),
+		ScenarioTraversalQuery qry = new ScenarioTraversalQuery(env, ScenarioUtils.getDefinedStartPoints(scenario),
 				ScenarioUtils.getDefinedEndPoints(scenario), traversalListeners);
-		DefaultScenarioTraversal.RTraversalSequence resp = (DefaultScenarioTraversal.RTraversalSequence) GraphExplorer.run(qry);
+        ScenarioTraversalResponse resp = (ScenarioTraversalResponse) GraphExplorer.run(qry);
 
 		// memorize our results.
 		if (ucmspec==null && scenariogroup==null)
