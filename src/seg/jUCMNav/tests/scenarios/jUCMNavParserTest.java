@@ -32,7 +32,7 @@ public class jUCMNavParserTest extends TestCase {
         super.setUp();
         shouldFail = false;
 
-        env = new UcmEnvironment();
+        env = new UcmEnvironment(null);
         env.registerBoolean("jason", true); //$NON-NLS-1$
         env.registerBoolean("kealey", true); //$NON-NLS-1$
         env.registerBoolean("daigle", true); //$NON-NLS-1$

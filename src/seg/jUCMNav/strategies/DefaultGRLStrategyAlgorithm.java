@@ -1,6 +1,3 @@
-/**
- * 
- */
 package seg.jUCMNav.strategies;
 
 import grl.Actor;
