@@ -94,7 +94,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
      *  
      * @return Is this scenario inherited from another scenario?
      */
-	private boolean isInherited() {
+	public boolean isInherited() {
 		if (getParent().getModel() instanceof ScenarioGroup)
 			return false;
 		else 

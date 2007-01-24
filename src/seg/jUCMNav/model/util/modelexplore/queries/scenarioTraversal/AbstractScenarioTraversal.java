@@ -88,7 +88,7 @@ public abstract class AbstractScenarioTraversal extends AbstractQueryProcessor {
     protected abstract void processAllNodes(UcmEnvironment env) throws TraversalException;
 
     /**
-     * Initialize using {@link QDefaultScenarioTraversal} , run {@link #process(UcmEnvironment, Vector, Vector)} and prepare {@link RTraversalSequence}
+     * Initialize using {@link ScenarioTraversalQuery} , run {@link #process(UcmEnvironment, Vector, Vector)} and prepare {@link ScenarioTraversalResponse}
      * 
      * @see seg.jUCMNav.model.util.modelexplore.AbstractQueryProcessor#runImpl(seg.jUCMNav.model.util.modelexplore.QueryRequest)
      */
