@@ -104,4 +104,8 @@ public class CreateVariableCommand extends Command implements JUCMNavCommand {
         	var.setEnumerationType(null);
         testPreConditions();
     }
+
+    public Variable getVar() {
+        return var;
+    }
 }

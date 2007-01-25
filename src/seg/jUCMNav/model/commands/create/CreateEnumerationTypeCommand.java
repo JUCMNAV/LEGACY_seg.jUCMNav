@@ -97,4 +97,8 @@ public class CreateEnumerationTypeCommand extends Command implements JUCMNavComm
         urn.getUcmspec().getEnumerationTypes().remove(enumerationType);
         testPreConditions();
     }
+
+    public EnumerationType getEnumerationType() {
+        return enumerationType;
+    }
 }

@@ -540,7 +540,7 @@ public class ProgressTests extends TestCase {
 
         Vector v = getAttributeDescriptor(cr, "parent"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("Parent not option in property values", "ParentTest (8)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Parent not option in property values", "ParentTest (10)", values[2]); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -632,7 +632,7 @@ public class ProgressTests extends TestCase {
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("Parent not option in property values", "ParentTest (8)".equals(values[2])); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("Parent not option in property values", "ParentTest (10)", values[2]); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**

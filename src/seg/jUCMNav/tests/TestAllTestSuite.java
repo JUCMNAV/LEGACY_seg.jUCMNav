@@ -5,6 +5,7 @@ import junit.framework.TestSuite;
 import seg.jUCMNav.tests.commands.JUCMNavCommandTests;
 import seg.jUCMNav.tests.commands.JUCMNavGRLCommandTests;
 import seg.jUCMNav.tests.progress.ProgressTests;
+import seg.jUCMNav.tests.scenarios.ScenarioTraversalTests;
 import seg.jUCMNav.tests.scenarios.jUCMNavParserTest;
 
 /**
@@ -21,6 +22,7 @@ public class TestAllTestSuite {
         suite.addTestSuite(JUCMNavGRLCommandTests.class);
         suite.addTestSuite(jUCMNavParserTest.class);
         suite.addTestSuite(ProgressTests.class);
+        suite.addTestSuite(ScenarioTraversalTests.class);
         return suite;
     }
 

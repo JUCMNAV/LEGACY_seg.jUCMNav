@@ -268,7 +268,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	 */
 	protected void processEndPoint(UcmEnvironment env, EndPoint end) throws TraversalException {
 
-		// TODO: semantic variation: if an end point's traversal context includes multiple plugin bindings, should both are fired. should the same behaviour apply when two different instances of the same plugin binding exist? (stub has two inputs connected to two start points in the plugin map, stub has one output, both inputs are triggered seperately and come back up at the same place. is the out fired once (as is now) or twice?)
+		// TODO: semantic variation: if an end point's traversal context includes multiple plugin bindings, should both be fired. should the same behaviour apply when two different instances of the same plugin binding exist? (stub has two inputs connected to two start points in the plugin map, stub has one output, both inputs are triggered seperately and come back up at the same place. is the out fired once (as is now) or twice?)
 				
 		
 		// TODO: semantic variation: if postcondition is false, should we continue processing?
@@ -444,8 +444,6 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	 * @throws TraversalException
 	 */
 	protected void processRespRef(UcmEnvironment env, RespRef resp) throws TraversalException {
-		// TODO: Repetition count
-
 		try {
 			if (resp.getRepetitionCount()>0)
 			{

@@ -10,11 +10,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -26,6 +28,7 @@ import seg.jUCMNav.model.commands.changeConstraints.LabelSetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintBoundContainerRefCompoundCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintCommand;
 import seg.jUCMNav.model.commands.changeConstraints.SetConstraintContainerRefCommand;
+import seg.jUCMNav.model.commands.create.AddBranchCommand;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
@@ -41,6 +44,7 @@ import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteResponsibilityCommand;
 import seg.jUCMNav.model.commands.delete.DisconnectCommand;
+import seg.jUCMNav.model.commands.delete.internal.DeletePathCommand;
 import seg.jUCMNav.model.commands.delete.internal.DeleteStartNCEndCommand;
 import seg.jUCMNav.model.commands.transformations.AttachBranchCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
@@ -50,19 +54,25 @@ import seg.jUCMNav.model.commands.transformations.ExtendPathCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.SplitLinkCommand;
+import seg.jUCMNav.model.commands.transformations.TransmogrifyForkOrJoinCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
 import seg.jUCMNav.model.util.ParentFinder;
 import seg.jUCMNav.model.util.SafePathChecker;
+import ucm.map.AndFork;
+import ucm.map.AndJoin;
 import ucm.map.ComponentRef;
 import ucm.map.Connect;
 import ucm.map.EmptyPoint;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
+import ucm.map.OrFork;
+import ucm.map.OrJoin;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
+import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
 import urn.URNspec;
@@ -85,31 +95,48 @@ public class JUCMNavCommandTests extends TestCase {
 
         junit.textui.TestRunner.run(JUCMNavCommandTests.class);
     }
-    private UCMmodelElement componentRefWithLabel;
-    private ComponentRef compRef;
-    private CommandStack cs;
-    private UCMNavMultiPageEditor editor;
-    private EndPoint end;
-    private Connect connect;
-    private UCMmap map;
-    private UCMmodelElement pathNodeWithLabel;
-    private StartPoint start;
+    public UCMmodelElement componentRefWithLabel;
+    public ComponentRef compRef;
+    public CommandStack cs;
+    public UCMNavMultiPageEditor editor;
+    public EndPoint end;
+    public RespRef resp;
     
-    private Stub stub;
-    private PluginBinding plugin;
-
+    public Connect connect;
+    public UCMmap map;
+    public UCMmodelElement pathNodeWithLabel;
+    public StartPoint start;
+    
+    public Stub stub;
+    public PluginBinding plugin;
+    public PathNode fork;
+    
     // during teardown, if testBindings==true, call verifyBindings()
-    private boolean testBindings;
-    private IFile testfile;
+    public boolean testBindings;
+    public IFile testfile;
 
-    private URNspec urnspec;
+    public URNspec urnspec;
 
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
 
+        initjucmnav();
+
+        ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
+        Command cmd = new AddContainerRefCommand(map, backgroundBindingChecker);
+        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
+        assertTrue("Can't execute SetConstraintBoundContainerRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        testBindings = true;
+    }
+
+    public void initjucmnav() throws CoreException, PartInitException {
         IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
         IProject testproject = workspaceRoot.getProject("jUCMNav-tests"); //$NON-NLS-1$
         if (!testproject.exists())
@@ -140,22 +167,12 @@ public class JUCMNavCommandTests extends TestCase {
 
         //cs = new CommandStack();
         cs = editor.getDelegatingCommandStack();
-
-        ComponentRef backgroundBindingChecker = (ComponentRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class);
-        Command cmd = new AddContainerRefCommand(map, backgroundBindingChecker);
-        assertTrue("Can't execute AddComponentCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-        cmd = new SetConstraintBoundContainerRefCompoundCommand(backgroundBindingChecker, -1000, -1000, 5000, 5000);
-        assertTrue("Can't execute SetConstraintBoundContainerRefCompoundCommand.", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
-
-        testBindings = true;
     }
 
     /*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         super.tearDown();
 
         /**
@@ -217,35 +234,35 @@ public class JUCMNavCommandTests extends TestCase {
         editor.closeEditor(false);
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testAddBranchCommand() {
-//        testAddForkOnConnectionCommand();
-//        AndFork fork;
-//        int i = 0;
-//        // find empty point.
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof AndFork)) {
-//            i++;
-//        }
-//        assertTrue("No and forks exist for AddBranchCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//        fork = (AndFork) pathgraph.getPathNodes().get(i);
-//
-//        Command cmd = new AddBranchCommand(fork);
-//        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        // test adding a timeout path.
-//        Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
-//        cmd = new SplitLinkCommand(pathgraph, timer, (NodeConnection) pathgraph.getNodeConnections().get(0), 149, 875);
-//        assertTrue("Can't execute SplitLinkCommand", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        cmd = new AddBranchCommand(timer);
-//        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testAddBranchCommand() {
+        testAddForkOnConnectionCommand();
+        AndFork fork;
+        int i = 0;
+        // find empty point.
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof AndFork)) {
+            i++;
+        }
+        assertTrue("No and forks exist for AddBranchCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        fork = (AndFork) map.getNodes().get(i);
+
+        Command cmd = new AddBranchCommand(fork);
+        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        // test adding a timeout path.
+        Timer timer = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
+        cmd = new SplitLinkCommand(map, timer, (NodeConnection) map.getConnections().get(0), 149, 875);
+        assertTrue("Can't execute SplitLinkCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        cmd = new AddBranchCommand(timer);
+        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
 
     /**
      * 
@@ -261,55 +278,61 @@ public class JUCMNavCommandTests extends TestCase {
         testBindings = false;
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testAddForkOnConnectionCommand() {
-//        testExtendPathCommand();
-//        Command cmd;
-//        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
-//        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
-//        assertTrue("Can't execute AddForkOnConnectionCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//        fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
-//        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
-//        assertTrue("Can't execute AddForkOnConnectionCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//    }
-//
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testAddForkOnEmptyPointCommand() {
-//        testExtendPathCommand();
-//        EmptyPoint pt;
-//        int i = 0;
-//        // find empty point.
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
-//            i++;
-//        }
-//        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//
-//        Command cmd;
-//        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
-//        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-//        assertTrue("Can't execute AddForkOnEmptyPointCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        // find another empty point.
-//        i = 0;
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
-//            i++;
-//        }
-//        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//
-//        fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
-//        cmd = new AddForkOrJoinCompoundCommand(fork, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-//        assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testAddForkOnConnectionCommand() {
+        testExtendPathCommand();
+        Command cmd;
+        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+        cmd = new DividePathCommand(fork, (NodeConnection) map.getConnections().get(0), 150, 39);
+        //cmd = new AddForkOrJoinCompoundCommand(fork, map, (NodeConnection) map.getConnections().get(0), 150, 39);
+        assertTrue("Can't execute DividePathCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        
+        fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
+        cmd = new DividePathCommand(fork, (NodeConnection) map.getConnections().get(0), 30, 457);
+        //cmd = new AddForkOrJoinCompoundCommand(fork, map, (NodeConnection) map.getConnections().get(2), 30, 457);
+        assertTrue("Can't execute DividePathCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
+
+    /**
+     * 
+     *  
+     */
+    public void testAddForkOnEmptyPointCommand() {
+        testExtendPathCommand();
+        EmptyPoint pt;
+        int i = 0;
+        // find empty point.
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+
+        Command cmd;
+        fork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+        cmd = new DividePathCommand(fork, (EmptyPoint) map.getNodes().get(i));
+        //cmd = new AddForkOrJoinCompoundCommand(fork, map, (EmptyPoint) map.getNodes().get(i));
+        assertTrue("Can't execute DividePathCommand with orfork.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        // find another empty point.
+        i = 0;
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for testAddForkOnEmptyPointCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+
+        fork = (AndFork) ModelCreationFactory.getNewObject(urnspec, AndFork.class);
+        cmd = new DividePathCommand(fork, (EmptyPoint) map.getNodes().get(i));
+        //cmd = new AddForkOrJoinCompoundCommand(fork, map, (EmptyPoint) map.getNodes().get(i));
+        assertTrue("Can't execute AddForkOnEmptyPointCommand with andfork.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
     
     public void testAddStubCommand() {
     	testExtendPathCommand();
@@ -337,55 +360,59 @@ public class JUCMNavCommandTests extends TestCase {
     	
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testAddJoinOnConnectionCommand() {
-//        testExtendPathCommand();
-//        Command cmd;
-//        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
-//        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(0), 150, 39);
-//        assertTrue("Can't execute AddJoinOnConnectionCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
-//        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (NodeConnection) pathgraph.getNodeConnections().get(2), 30, 457);
-//        assertTrue("Can't execute AddJoinOnConnectionCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testAddJoinOnConnectionCommand() {
+        testExtendPathCommand();
+        Command cmd;
+        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+        cmd = new DividePathCommand(join,(NodeConnection) map.getConnections().get(0), 150, 39);
+        //cmd = new AddForkOrJoinCompoundCommand(join, map, (NodeConnection) map.getConnections().get(0), 150, 39);
+        assertTrue("Can't execute DividePathCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
+        cmd = new DividePathCommand(join,(NodeConnection) map.getConnections().get(2), 30, 457);
+        //cmd = new AddForkOrJoinCompoundCommand(join, map, (NodeConnection) map.getConnections().get(2), 30, 457);
+        assertTrue("Can't execute DividePathCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testAddJoinOnEmptyPointCommand() {
-//        testExtendPathCommand();
-//        EmptyPoint pt;
-//        int i = 0;
-//        // find empty point.
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
-//            i++;
-//        }
-//        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//
-//        Command cmd;
-//        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
-//        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-//        assertTrue("Can't execute AddJoinOnEmptyPointCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        // find another empty point.
-//        i = 0;
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EmptyPoint)) {
-//            i++;
-//        }
-//        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//
-//        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
-//        cmd = new AddForkOrJoinCompoundCommand(join, pathgraph, (EmptyPoint) pathgraph.getPathNodes().get(i));
-//        assertTrue("Can't execute AddJoinOnEmptyPointCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testAddJoinOnEmptyPointCommand() {
+        testExtendPathCommand();
+        EmptyPoint pt;
+        int i = 0;
+        // find empty point.
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+
+        Command cmd;
+        PathNode join = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+        cmd = new DividePathCommand(join, (EmptyPoint) map.getNodes().get(i));
+        //cmd = new AddForkOrJoinCompoundCommand(join, map, (EmptyPoint) map.getNodes().get(i));
+        assertTrue("Can't execute DividePathCommand with orjoin.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        // find another empty point.
+        i = 0;
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EmptyPoint)) {
+            i++;
+        }
+        assertTrue("No empty points exist for AddJoinOnEmptyPointCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+
+        join = (AndJoin) ModelCreationFactory.getNewObject(urnspec, AndJoin.class);
+        cmd = new DividePathCommand(join, (EmptyPoint) map.getNodes().get(i));
+        //cmd = new AddForkOrJoinCompoundCommand(join, map, (EmptyPoint) map.getNodes().get(i));
+        assertTrue("Can't execute DividePathCommand with andjoin.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
 
     public void testAddOutBindingCommand() {
     	testAddPluginCommand();
@@ -765,39 +792,39 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testDeletePathCommand() {
-//        testAddBranchCommand();
-//        StartPoint start;
-//        EndPoint end;
-//        int i = 0;
-//        // find start point.
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof StartPoint)) {
-//            i++;
-//        }
-//        assertTrue("No start points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//        start = (StartPoint) pathgraph.getPathNodes().get(i);
-//
-//        Command cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-//        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        i = 0;
-//        // find end point.
-//        while (i < pathgraph.getPathNodes().size() && !(pathgraph.getPathNodes().get(i) instanceof EndPoint)) {
-//            i++;
-//        }
-//        assertTrue("No end points exist for DeletePathCommand!", i < pathgraph.getPathNodes().size()); //$NON-NLS-1$
-//        end = (EndPoint) pathgraph.getPathNodes().get(i);
-//
-//        cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
-//        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testDeletePathCommand() {
+        testAddBranchCommand();
+        StartPoint start;
+        EndPoint end;
+        int i = 0;
+        // find start point.
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof StartPoint)) {
+            i++;
+        }
+        assertTrue("No start points exist for DeletePathCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        start = (StartPoint) map.getNodes().get(i);
+
+        Command cmd = new DeletePathCommand(start, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        i = 0;
+        // find end point.
+        while (i < map.getNodes().size() && !(map.getNodes().get(i) instanceof EndPoint)) {
+            i++;
+        }
+        assertTrue("No end points exist for DeletePathCommand!", i < map.getNodes().size()); //$NON-NLS-1$
+        end = (EndPoint) map.getNodes().get(i);
+
+        cmd = new DeletePathCommand(end, editor.getCurrentPage().getGraphicalViewer().getEditPartRegistry());
+        assertTrue("Can't execute DeletePathCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+    }
 
     /**
      * 
@@ -899,77 +926,83 @@ public class JUCMNavCommandTests extends TestCase {
         }
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testForkPathsCommand() {
-//        testCreatePathCommand();
-//
-//        // add a second path
-//        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-//        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-//        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        EmptyPoint ep = null;
-//        OrFork newFork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
-//
-//        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
-//        for (int i = 0; (i < pathgraph.getPathNodes().size()) && (ep == null); i++) {
-//            if (pathgraph.getPathNodes().get(i) instanceof EmptyPoint) {
-//                ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
-//            }
-//        }
-//        assertTrue("Can't find an EmptyPoint on path", ep != null); //$NON-NLS-1$
-//
-//        cmd = new ForkPathsCommand(ep, newStart, newFork);
-//        assertTrue("Couldn't create ForkPathsCommand", cmd != null); //$NON-NLS-1$
-//        assertTrue("ForkPathsCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
-//
-//        cs.execute(cmd);
-//
-//        boolean isForkInPath = false;
-//        for (int i = 0; (i < pathgraph.getPathNodes().size()) && (isForkInPath == false); i++) {
-//            if (pathgraph.getPathNodes().get(i) == newFork) {
-//                isForkInPath = true;
-//            }
-//        }
-//
-//        assertTrue("Can't find new fork on path", isForkInPath); //$NON-NLS-1$
-//
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testForkPathsCommand() {
+        testCreatePathCommand();
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testJoinPathsCommand() {
-//        testCreatePathCommand();
-//
-//        // add a second path
-//        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
-//        Command cmd = new CreatePathCommand(pathgraph, newStart, 654, 17);
-//        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        EmptyPoint ep = null;
-//        OrJoin newJoin = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
-//
-//        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
-//        for (int i = 0; (i < pathgraph.getPathNodes().size()) && (ep == null); i++) {
-//            if (pathgraph.getPathNodes().get(i) instanceof EmptyPoint) {
-//                ep = (EmptyPoint) pathgraph.getPathNodes().get(i);
-//            }
-//        }
-//        assertTrue("Can't find an EmptyPoint on 2nd path", ep != null); //$NON-NLS-1$
-//
-//        cmd = new JoinPathsCommand(ep, end, newJoin);
-//        assertTrue("Couldn't create JoinPathsCommand", cmd != null); //$NON-NLS-1$
-//        assertTrue("JoinPathsCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
-//
-//        cs.execute(cmd);
-//    }
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(map, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        EmptyPoint ep = null;
+        //OrFork newFork = (OrFork) ModelCreationFactory.getNewObject(urnspec, OrFork.class);
+
+        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
+        for (int i = 0; (i < map.getNodes().size()) && (ep == null); i++) {
+            if (map.getNodes().get(i) instanceof EmptyPoint) {
+                ep = (EmptyPoint) map.getNodes().get(i);
+            }
+        }
+        assertTrue("Can't find an EmptyPoint on path", ep != null); //$NON-NLS-1$
+
+        cmd = new DividePathCommand(newStart, ep, true);
+        //cmd = new ForkPathsCommand(ep, newStart, newFork);
+        //assertTrue("Couldn't create ForkPathsCommand", cmd != null); //$NON-NLS-1$
+        assertTrue("DividePathCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        OrFork newFork = (OrFork) ((DividePathCommand)cmd).getNewNode();
+
+        boolean isForkInPath = false;
+        for (int i = 0; (i < map.getNodes().size()) && (isForkInPath == false); i++) {
+            if (map.getNodes().get(i) == newFork) {
+                isForkInPath = true;
+            }
+        }
+
+        assertTrue("Can't find new fork on path", isForkInPath); //$NON-NLS-1$
+
+    }
+
+    /**
+     * 
+     *  
+     */
+    public void testJoinPathsCommand() {
+        testCreatePathCommand();
+
+        // add a second path
+        StartPoint newStart = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
+        Command cmd = new CreatePathCommand(map, newStart, 654, 17);
+        assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        EmptyPoint ep = null;
+        OrJoin newJoin = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
+
+        // This is a hack - I'm not sure it's getting an EmptyPoint from the *correct* path!
+        for (int i = 0; (i < map.getNodes().size()) && (ep == null); i++) {
+            if (map.getNodes().get(i) instanceof EmptyPoint) {
+                ep = (EmptyPoint) map.getNodes().get(i);
+            }
+        }
+        assertTrue("Can't find an EmptyPoint on 2nd path", ep != null); //$NON-NLS-1$
+
+        cmd = new DividePathCommand(newJoin, ep);
+        //cmd = new JoinPathsCommand(ep, end, newJoin);
+        //assertTrue("Couldn't create JoinPathsCommand", cmd != null); //$NON-NLS-1$
+        assertTrue("DividePathCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        cmd = new AttachBranchCommand(newStart, newJoin);
+        assertTrue("AttachBranchCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
 
 
     /**
@@ -1084,38 +1117,39 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testSplitLinkCommand() {
-        testCutPathCommand();
+        //testCutPathCommand();
+        testExtendPathCommand();
         NodeConnection nc = (NodeConnection) end.getPred().get(0);
-        RespRef resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
-        Command cmd = new SplitLinkCommand(map, resp, nc, 55, 86);
+        this.resp = (RespRef) ModelCreationFactory.getNewObject(urnspec, RespRef.class);
+        Command cmd = new SplitLinkCommand(map, this.resp, nc, 55, 86);
         assertTrue("Can't execute SplitLinkCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
     }
 
-//    /**
-//     * 
-//     *  
-//     */
-//    public void testTransmogrifyForkOrJoinCommand() {
-//        testAddForkOnEmptyPointCommand();
-//
-//        assertTrue("Initial AndFork not created!", fork instanceof AndFork); //$NON-NLS-1$
-//
-//        Command cmd = new TransmogrifyForkOrJoinCommand(fork, pathgraph);
-//        assertTrue("Transmogrify can't execute!", cmd.canExecute()); //$NON-NLS-1$
-//        cs.execute(cmd);
-//
-//        // Find the first fork in the pathgraph (hack)
-//        PathNode newFork = null;
-//        for (int i = 0; (i < pathgraph.getPathNodes().size()) && (newFork == null); i++) {
-//            if ((pathgraph.getPathNodes().get(i) instanceof OrFork) || (pathgraph.getPathNodes().get(i) instanceof AndFork))
-//                newFork = (PathNode) pathgraph.getPathNodes().get(i);
-//        }
-//
-//        assertTrue("Can't locate a fork in the pathgraph", newFork != null); //$NON-NLS-1$
-//        assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork); //$NON-NLS-1$
-//    }
+    /**
+     * 
+     *  
+     */
+    public void testTransmogrifyForkOrJoinCommand() {
+        testAddForkOnEmptyPointCommand();
+
+        assertTrue("Initial AndFork not created!", fork instanceof AndFork); //$NON-NLS-1$
+
+        Command cmd = new TransmogrifyForkOrJoinCommand(fork, map);
+        assertTrue("Transmogrify can't execute!", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+
+        // Find the first fork in the map (hack)
+        PathNode newFork = null;
+        for (int i = 0; (i < map.getNodes().size()) && (newFork == null); i++) {
+            if ((map.getNodes().get(i) instanceof OrFork) || (map.getNodes().get(i) instanceof AndFork))
+                newFork = (PathNode) map.getNodes().get(i);
+        }
+
+        assertTrue("Can't locate a fork in the map", newFork != null); //$NON-NLS-1$
+        assertTrue("Transmogrification of Fork failed!", newFork instanceof OrFork); //$NON-NLS-1$
+    }
 
     /**
      * This method will go through all of the path nodes and component ref in all the maps and verify that they are all bound as they should be. will be usefull
