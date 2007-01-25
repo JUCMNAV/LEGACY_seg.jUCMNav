@@ -9,23 +9,23 @@ import urncore.IURNDiagram;
  * 
  */
 public class HTMLMenuItem {
-    public static final String TYPE_UCM = "UCM";
-    public static final String TYPE_GRL = "GRL";
+    public static final String TYPE_UCM = "UCM"; //$NON-NLS-1$
+    public static final String TYPE_GRL = "GRL"; //$NON-NLS-1$
 
-    private static String diagramName = "";
-    private static String type = "";
-    private static String leafText = "";
-    private static String link = "";
+    private static String diagramName = ""; //$NON-NLS-1$
+    private static String type = ""; //$NON-NLS-1$
+    private static String leafText = ""; //$NON-NLS-1$
+    private static String link = ""; //$NON-NLS-1$
     private static int baseX = 0;
     private static int baseY = 0;
 
     private IURNDiagram diagram = null;
 
     public void reset() {
-        diagramName = "";
-        type = "";
-        leafText = "";
-        link = "";
+        diagramName = ""; //$NON-NLS-1$
+        type = ""; //$NON-NLS-1$
+        leafText = ""; //$NON-NLS-1$
+        link = ""; //$NON-NLS-1$
         baseX = 0;
         baseY = 0;
 

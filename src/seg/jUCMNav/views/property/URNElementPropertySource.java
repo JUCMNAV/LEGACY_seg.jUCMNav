@@ -116,11 +116,11 @@ public class URNElementPropertySource extends EObjectPropertySource {
             // urn model elements have metadata
             pd = new MetadataPropertyDescriptor(propertyid, (URNmodelElement) getEditableValue());
             pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
-        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioStartPoint) {
+        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioStartPoint) { //$NON-NLS-1$
             // urn model elements have metadata
             pd = new MetadataPropertyDescriptor(propertyid, ((ScenarioStartPoint) getEditableValue()).getStartPoint());
             pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$
-        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioEndPoint) {
+        } else if (name.indexOf("metadata") >= 0 && getEditableValue() instanceof ScenarioEndPoint) { //$NON-NLS-1$
             // urn model elements have metadata
             pd = new MetadataPropertyDescriptor(propertyid, ((ScenarioEndPoint) getEditableValue()).getEndPoint());
             pd.setCategory(Messages.getString("URNElementPropertySource.metadata")); //$NON-NLS-1$

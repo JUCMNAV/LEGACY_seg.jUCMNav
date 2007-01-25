@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.resourceManagement.UcmScenariosModelManager;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
@@ -123,9 +124,9 @@ public class ScenarioGenerator {
 	private void addComponentDefinitions(ScenarioSpec scenarios) {
 
 		ucmscenarios.Component comp = f.createComponent();
-		comp.setId("C0");
-		comp.setName("Environment");
-		comp.setDescription("The external environment.");
+		comp.setId("C0"); //$NON-NLS-1$
+		comp.setName(Messages.getString("ScenarioGenerator.Environment")); //$NON-NLS-1$
+		comp.setDescription(Messages.getString("ScenarioGenerator.TheExternalEnvironment")); //$NON-NLS-1$
 		comp.setScenarioSpec(scenarios);
 
 		_environmentComponent = comp;
@@ -142,9 +143,9 @@ public class ScenarioGenerator {
 
 	private void addComponentReferences(ucmscenarios.ScenarioDef scenario, UCMmap map) {
 		Instance instance = f.createInstance();
-		instance.setId("I0");
-		instance.setName("Environment");
-		instance.setDescription("The external environment.");
+		instance.setId("I0"); //$NON-NLS-1$
+		instance.setName(Messages.getString("ScenarioGenerator.Environment")); //$NON-NLS-1$
+		instance.setDescription(Messages.getString("ScenarioGenerator.TheExternalEnvironment")); //$NON-NLS-1$
 		instance.setScenario(scenario);
 		instance.setDefinition(_environmentComponent);
 		_lastEnvironmentInstance = instance;
@@ -218,17 +219,17 @@ public class ScenarioGenerator {
 		else if (pn instanceof Timer) {
 			action.setType(EventType.TIMEOUT_LITERAL);
 		} else if (pn instanceof DirectionArrow) {
-			EventType type = EventType.get(getMetaData(pn, "type"));
+			EventType type = EventType.get(getMetaData(pn, "type")); //$NON-NLS-1$
 			action.setType(type);
 			
 			if (type == EventType.WP_ENTER_LITERAL)
-				action.setName(getMetaData(pn, "name") + " ENTER");
+				action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceEnter")); //$NON-NLS-1$ //$NON-NLS-2$
 			else if (type == EventType.WP_LEAVE_LITERAL)
-				action.setName(getMetaData(pn, "name") + " LEAVE");
+				action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceLeave")); //$NON-NLS-1$ //$NON-NLS-2$
 			else if (type == EventType.TIMER_SET_LITERAL)
-				action.setName(getMetaData(pn, "name") + " SET");
+				action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
 			else if (type == EventType.TIMER_RESET_LITERAL)
-				action.setName(getMetaData(pn, "name") + " RESET");
+				action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
 				
 		}
 		action.setSequence(seq);
@@ -243,11 +244,11 @@ public class ScenarioGenerator {
 		Message msg = f.createMessage();
 
 		//msg.setId("M" + ++msgId);
-		msg.setId(src.getId() + "_" + target.getId());
+		msg.setId(src.getId() + "_" + target.getId()); //$NON-NLS-1$
 		
 		
 		if (target instanceof Timer) {
-			msg.setName("Set " + getMetaData(target, "name"));
+			msg.setName(Messages.getString("ScenarioGenerator.SetSpace") + getMetaData(target, "name")); //$NON-NLS-1$ //$NON-NLS-2$
 			msg.setDescription(target.getDescription());
 		}
 		if (target instanceof EndPoint || target instanceof WaitingPlace) {
@@ -259,8 +260,8 @@ public class ScenarioGenerator {
 			msg.setDescription(getDef((RespRef)target).getDescription());
 		}
 		else { 
-			msg.setName("msg");
-			msg.setDescription("synthetic message");
+			msg.setName(Messages.getString("ScenarioGenerator.DefaultMessageName")); //$NON-NLS-1$
+			msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
 		}
 
 		msg.setSource(getInstance(from));
@@ -308,7 +309,7 @@ public class ScenarioGenerator {
 			if (pn instanceof RespRef) {
 				compRef = addDo(seq, (RespRef) pn);
 			} else if (pn instanceof DirectionArrow) {
-				EventType type = EventType.get(getMetaData(pn, "type"));
+				EventType type = EventType.get(getMetaData(pn, "type")); //$NON-NLS-1$
 				// these types are ignored. 
 				if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL || type == EventType.TRIGGER_END_LITERAL)
 					continue;
@@ -326,7 +327,7 @@ public class ScenarioGenerator {
 
 				processedPathNodes.put(pn, new Object[] { seq, new Integer(seq.getChildren().size()) });
 			} else {
-				System.out.println("unexpected pathnode");
+				System.out.println("unexpected pathnode"); //$NON-NLS-1$
 				continue;
 			}
 
@@ -516,7 +517,7 @@ public class ScenarioGenerator {
 
 	private String fix(String s) {
 		if (s == null)
-			return "";
+			return ""; //$NON-NLS-1$
 		else
 			return s;
 	}
@@ -548,9 +549,9 @@ public class ScenarioGenerator {
 
 	private String getLabel(Condition cond) {
 		if (cond.getLabel() != null && cond.getLabel().length() > 0)
-			return "[" + cond.getLabel() + "]";
+			return "[" + cond.getLabel() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 		else
-			return "[" + cond.getExpression() + "]";
+			return "[" + cond.getExpression() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private String getMetaData(PathNode pn, String name) {
@@ -559,7 +560,7 @@ public class ScenarioGenerator {
 			if (name.equalsIgnoreCase(md.getName()))
 				return md.getValue();
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public ScenarioSpec getScenarioDocument() {

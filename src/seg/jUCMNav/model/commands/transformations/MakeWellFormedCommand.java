@@ -7,6 +7,7 @@ import java.util.Vector;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
@@ -40,7 +41,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 	private CommandStack cs;
 
 	public MakeWellFormedCommand(URNspec urn) {
-		setLabel("Make a UCM well formed");
+		setLabel(Messages.getString("MakeWellFormedCommand.MakeUCMWellFormed")); //$NON-NLS-1$
 		maps = new Vector();
 		for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
 			UCMmap map = (UCMmap) iter.next();
@@ -49,7 +50,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 	}
 
 	public MakeWellFormedCommand(UCMmap map) {
-		setLabel("Make a UCM well formed");
+		setLabel(Messages.getString("MakeWellFormedCommand.MakeUCMWellFormed")); //$NON-NLS-1$
 		maps = new Vector();
 		maps.add(map);
 	}

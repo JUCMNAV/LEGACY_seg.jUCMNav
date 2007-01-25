@@ -42,8 +42,8 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 	public void export(URNspec urn, HashMap mapDiagrams, String filename) throws InvocationTargetException {
 
 		// filename always ends with jucmscenarios
-		if (!ScenarioExportPreferences.getExportType().equalsIgnoreCase("0"))
-			filename = filename.substring(0, filename.length()-"jucmscenarios".length()) + "jucm";
+		if (!ScenarioExportPreferences.getExportType().equalsIgnoreCase("0")) //$NON-NLS-1$
+			filename = filename.substring(0, filename.length()-"jucmscenarios".length()) + "jucm"; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		Collection c = mapDiagrams.values();
 		
@@ -56,7 +56,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 		// TODO: find original filename
 		v.add(new MscTraversalListener(this.oldFilename, this.newFilename, ScenarioExportPreferences.getExportType()));
 
-		if (ScenarioExportPreferences.getExportAll().equalsIgnoreCase("all"))
+		if (ScenarioExportPreferences.getExportAll().equalsIgnoreCase("all")) //$NON-NLS-1$
 			ScenarioUtils.setActiveScenario(urn.getUcmspec(), v);
 		else {
 			EObject eo = ScenarioUtils.getActiveScenario(urn);
@@ -91,7 +91,7 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 				IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 
 				if (desc == null)
-					desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor("xml.xml");
+					desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor("xml.xml"); //$NON-NLS-1$
 				page.openEditor(new FileEditorInput(file), desc.getId());
 			}
 			

@@ -36,7 +36,7 @@ public class MetadataEntryDialog extends Dialog {
     private void addTextListener(final Text text) {
         text.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
-                Integer index = (Integer) (text.getData("index"));
+                Integer index = (Integer) (text.getData("index")); //$NON-NLS-1$
                 values[index.intValue()] = text.getText();
             }
         });
@@ -52,7 +52,7 @@ public class MetadataEntryDialog extends Dialog {
         buttonComp.setLayout(layout);
         
         Button okButton = new Button(buttonComp, SWT.PUSH);
-        okButton.setText(Messages.getString("MetadataEditorPage.button_ok"));
+        okButton.setText(Messages.getString("MetadataEditorPage.button_ok")); //$NON-NLS-1$
         gridData = new GridData();
         gridData.widthHint = 50;
         okButton.setLayoutData(gridData);
@@ -63,7 +63,7 @@ public class MetadataEntryDialog extends Dialog {
         });
 
         Button cancelButton = new Button(buttonComp, SWT.PUSH);
-        cancelButton.setText(Messages.getString("MetadataEditorPage.button_cancel"));
+        cancelButton.setText(Messages.getString("MetadataEditorPage.button_cancel")); //$NON-NLS-1$
         gridData = new GridData();
         gridData.widthHint = 50;
         cancelButton.setLayoutData(gridData);
@@ -86,7 +86,7 @@ public class MetadataEntryDialog extends Dialog {
 
         for (int i = 0; i < labels.length; i++) {
             Label label = new Label(shell, SWT.LEFT);
-            label.setText(labels[i] + ": ");
+            label.setText(labels[i] + ": "); //$NON-NLS-1$
             GridData gridData = new GridData();
             gridData.widthHint = 30;
             label.setLayoutData(gridData);
@@ -98,7 +98,7 @@ public class MetadataEntryDialog extends Dialog {
             if (values[i] != null) {
                 text.setText(values[i]);
             }
-            text.setData("index", new Integer(i));
+            text.setData("index", new Integer(i)); //$NON-NLS-1$
             addTextListener(text);
         }
     }

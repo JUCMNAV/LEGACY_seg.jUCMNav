@@ -90,7 +90,7 @@ public class UcmScenariosModelManager extends EmfModelManager  {
      * Returns the ScenarioSpec serialization filename. 
      */
     protected String getFileExtension() {
-    	return "jucmscenarios"; 
+    	return "jucmscenarios";  //$NON-NLS-1$
 
     }
 

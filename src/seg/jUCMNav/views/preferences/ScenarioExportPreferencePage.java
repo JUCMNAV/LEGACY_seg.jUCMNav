@@ -8,6 +8,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 
 /**
  * Preference page for scenario export
@@ -34,23 +35,23 @@ public class ScenarioExportPreferencePage extends FieldEditorPreferencePage impl
     protected void createFieldEditors() {
         // Initialize all field editors.
 
-    	String[][] values = { { "Export *.jucmscenarios (to be converted to MSC and others)", "0" }, 
-                { "Export linearized *.jucm file" , "1" },
-                { "Export well-formed linearized *.jucm file" , "2" } 
+    	String[][] values = { { Messages.getString("ScenarioExportPreferencePage.ExportJucmScenarios"), "0" },  //$NON-NLS-1$ //$NON-NLS-2$
+                { Messages.getString("ScenarioExportPreferencePage.ExportLinearizedJucm") , "1" }, //$NON-NLS-1$ //$NON-NLS-2$
+                { Messages.getString("ScenarioExportPreferencePage.ExportWellFormedJucm") , "2" }  //$NON-NLS-1$ //$NON-NLS-2$
         }; 
 
-        RadioGroupFieldEditor type = new RadioGroupFieldEditor(ScenarioExportPreferences.PREF_EXPORTTYPE, "Export type ", 1, values, getFieldEditorParent()); 
+        RadioGroupFieldEditor type = new RadioGroupFieldEditor(ScenarioExportPreferences.PREF_EXPORTTYPE, Messages.getString("ScenarioExportPreferencePage.ExportType"), 1, values, getFieldEditorParent());  //$NON-NLS-1$
         addField(type);
         
     	
-        String[][] values2 = { { "All scenarios", "all" }, 
-                { "Last run scenario only" , "last" }        }; 
+        String[][] values2 = { { Messages.getString("ScenarioExportPreferencePage.AllScenarios"), "all" },  //$NON-NLS-1$ //$NON-NLS-2$
+                { Messages.getString("ScenarioExportPreferencePage.LastRunScenario") , "last" }        };  //$NON-NLS-1$ //$NON-NLS-2$
         
-        RadioGroupFieldEditor what = new RadioGroupFieldEditor(ScenarioExportPreferences.PREF_EXPORTALL, "Export what? ", 1, values2, getFieldEditorParent());
+        RadioGroupFieldEditor what = new RadioGroupFieldEditor(ScenarioExportPreferences.PREF_EXPORTALL, Messages.getString("ScenarioExportPreferencePage.ExportWhat"), 1, values2, getFieldEditorParent()); //$NON-NLS-1$
         addField(what);
         
         
-        BooleanFieldEditor openAfterExport = new BooleanFieldEditor(ScenarioExportPreferences.PREF_OPENAFTEREXPORT, "Automatically open editor after export?", getFieldEditorParent());  
+        BooleanFieldEditor openAfterExport = new BooleanFieldEditor(ScenarioExportPreferences.PREF_OPENAFTEREXPORT, Messages.getString("ScenarioExportPreferencePage.AutoOpenAfterExport"), getFieldEditorParent());   //$NON-NLS-1$
         addField(openAfterExport);        
         
     }

@@ -7,6 +7,7 @@ import grl.LinkRef;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.InBinding;
@@ -65,7 +66,7 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
      *
      */
 	private void init() {
-    	setLabel("Duplicate Diagram");
+    	setLabel(Messages.getString("DuplicateMapCommand.DuplicateDiagram")); //$NON-NLS-1$
     	
 		if (oldDiagram!=null)
         	urn = oldDiagram.getUrndefinition().getUrnspec();

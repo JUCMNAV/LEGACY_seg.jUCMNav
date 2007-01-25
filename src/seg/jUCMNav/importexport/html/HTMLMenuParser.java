@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.views.wizards.importexport.ExportWizard;
 import ucm.map.UCMmap;
 import ucm.map.impl.PluginBindingImpl;
@@ -43,22 +44,22 @@ import urncore.IURNDiagram;
 public class HTMLMenuParser {
     private static HTMLMenuParser parser = null;
 
-    private String xmlFullPath = "";
+    private String xmlFullPath = ""; //$NON-NLS-1$
     private Document xmlDocument = null;
     private ArrayList selectedMaps = new ArrayList();
 
-    private static String xmlFileName = "tree.xml";
-    private static String TREE = "tree";
-    private static String BRANCH = "branch";
-    private static String BRANCH_ID = "id";
-    private static String BRANCH_LINK = "branchlink";
-    private static String BRANCH_TEXT = "branchText";
+    private static String xmlFileName = "tree.xml"; //$NON-NLS-1$
+    private static String TREE = "tree"; //$NON-NLS-1$
+    private static String BRANCH = "branch"; //$NON-NLS-1$
+    private static String BRANCH_ID = "id"; //$NON-NLS-1$
+    private static String BRANCH_LINK = "branchlink"; //$NON-NLS-1$
+    private static String BRANCH_TEXT = "branchText"; //$NON-NLS-1$
 
-    private static String LEAF = "leaf";
-    private static String LEAF_TEXT = "leafText";
-    private static String LINK = "link";
-    private static String BASE_X = "baseX";
-    private static String BASE_Y = "baseY";
+    private static String LEAF = "leaf"; //$NON-NLS-1$
+    private static String LEAF_TEXT = "leafText"; //$NON-NLS-1$
+    private static String LINK = "link"; //$NON-NLS-1$
+    private static String BASE_X = "baseX"; //$NON-NLS-1$
+    private static String BASE_Y = "baseY"; //$NON-NLS-1$
 
     /**
      * Initialize HTMLMenuParser
@@ -104,7 +105,7 @@ public class HTMLMenuParser {
             // Create the menu xml file
             File xmlFile = new File(xmlFullPath);
 
-            String srcFile = "htmltemplates/" + xmlFileName;
+            String srcFile = "htmltemplates/" + xmlFileName; //$NON-NLS-1$
             String desFile = xmlFullPath;
 
             try {
@@ -302,8 +303,8 @@ public class HTMLMenuParser {
                     String childDiagramName = ExportWizard.getDiagramName(childDiagram);
                     htmlMenuItem.setDiagramName(childDiagramName);
                     htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
-                    htmlMenuItem.setLeafText(childDiagramName.substring(childDiagramName.lastIndexOf("-") + 1));
-                    htmlMenuItem.setLink(childDiagramName + ".html");
+                    htmlMenuItem.setLeafText(childDiagramName.substring(childDiagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
+                    htmlMenuItem.setLink(childDiagramName + ".html"); //$NON-NLS-1$
                     htmlMenuItem.setBaseX(-1);
                     htmlMenuItem.setBaseY(-1);
                     htmlMenuItem.setDiagram(childDiagram);
@@ -406,12 +407,12 @@ public class HTMLMenuParser {
             if (childNode.getNodeType() == Node.ELEMENT_NODE) {
                 branch = (Element) childNode;
                 
-                String emptyText = "";
+                String emptyText = ""; //$NON-NLS-1$
                 String bid = branch.getAttribute(BRANCH_ID);
                 if (bid.equals(HTMLMenuItem.TYPE_UCM)) {
-                    emptyText = "(no ucm maps)";
+                    emptyText = Messages.getString("HTMLMenuParser.NoUCMs"); //$NON-NLS-1$
                 } else if (bid.equals(HTMLMenuItem.TYPE_GRL)) {
-                    emptyText = "(no grl maps)";
+                    emptyText = Messages.getString("HTMLMenuParser.NoGRLs"); //$NON-NLS-1$
                 }
                 
                 if (branch.getElementsByTagName(LEAF).getLength() <= 0 && 
@@ -422,13 +423,13 @@ public class HTMLMenuParser {
                     leafText.setTextContent(emptyText);
 
                     Element link = xmlDocument.createElement(LINK);
-                    link.setTextContent("main.html");
+                    link.setTextContent("main.html"); //$NON-NLS-1$
 
                     Element baseX = xmlDocument.createElement(BASE_X);
-                    baseX.setTextContent("0");
+                    baseX.setTextContent("0"); //$NON-NLS-1$
 
                     Element baseY = xmlDocument.createElement(BASE_Y);
-                    baseY.setTextContent("0");
+                    baseY.setTextContent("0"); //$NON-NLS-1$
                     
                     leaf.appendChild(leafText);
                     leaf.appendChild(link);

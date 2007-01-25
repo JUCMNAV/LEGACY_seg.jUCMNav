@@ -45,9 +45,9 @@ public class PluginLabelProvider implements ILabelProvider {
     	if (element instanceof PluginBinding)
     		return ((PluginBinding) element).getPlugin().getName();
     	else if (element instanceof OutBinding)
-    		return ((UCMmap)((OutBinding) element).getBinding().getStub().getDiagram()).getName() + ": " + ((OutBinding) element).getBinding().getStub().getName();
+    		return ((UCMmap)((OutBinding) element).getBinding().getStub().getDiagram()).getName() + ": " + ((OutBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
     	else // inbinding
-    		return ((UCMmap)((InBinding) element).getBinding().getStub().getDiagram()).getName()+ ": " + ((InBinding) element).getBinding().getStub().getName();
+    		return ((UCMmap)((InBinding) element).getBinding().getStub().getDiagram()).getName()+ ": " + ((InBinding) element).getBinding().getStub().getName(); //$NON-NLS-1$
 
     }
 

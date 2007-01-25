@@ -16,6 +16,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.resourceManagement.UrnModelManager;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.create.AddContainerRefCommand;
@@ -414,7 +415,7 @@ public class MscTraversalListener implements ITraversalListener {
 	public void drillDown(TraversalVisit visit, InBinding inb) {
 		DirectionArrow arrow = createDirectionArrow(visit);
 		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-		addMetaData(arrow, "type", "Connect_Start");
+		addMetaData(arrow, "type", "Connect_Start"); //$NON-NLS-1$ //$NON-NLS-2$
 		arrow.setId(inb.getStartPoint().getId());
 		arrow.setName(inb.getStartPoint().getName());
 	}
@@ -422,7 +423,7 @@ public class MscTraversalListener implements ITraversalListener {
 	public void drillUp(TraversalVisit visit, OutBinding outb) {
 		DirectionArrow arrow = createDirectionArrow(visit);
 		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-		addMetaData(arrow, "type", "Connect_End");
+		addMetaData(arrow, "type", "Connect_End"); //$NON-NLS-1$ //$NON-NLS-2$
 		arrow.setId(outb.getEndPoint().getId());
 		arrow.setName(outb.getEndPoint().getName());
 		
@@ -501,8 +502,8 @@ public class MscTraversalListener implements ITraversalListener {
 			{
 				DirectionArrow arrow = createDirectionArrow(visit);
 				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-				addMetaData(arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter");
-				addMetaData(arrow, "name", visit.getVisitedElement().getName());
+				addMetaData(arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addMetaData(arrow, "name", visit.getVisitedElement().getName()); //$NON-NLS-1$
 			}
 		}
 	}
@@ -545,8 +546,8 @@ public class MscTraversalListener implements ITraversalListener {
 			{
 				DirectionArrow arrow = createDirectionArrow(visit);
 				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-				addMetaData(arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave");
-				addMetaData(arrow, "name", n.getName());
+				addMetaData(arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				addMetaData(arrow, "name", n.getName()); //$NON-NLS-1$
 			}
 		}
 
@@ -562,7 +563,7 @@ public class MscTraversalListener implements ITraversalListener {
 		{
 			DirectionArrow arrow = createDirectionArrow(visit);
 			arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-			addMetaData(arrow, "type", "Trigger_End");
+			addMetaData(arrow, "type", "Trigger_End"); //$NON-NLS-1$ //$NON-NLS-2$
 			arrow.setId(n.getId());
 			arrow.setName(n.getName());			
 		}
@@ -578,7 +579,7 @@ public class MscTraversalListener implements ITraversalListener {
 	private void saveModel() {
 		File path = new File(filename);
 		
-		if (whenToSave.equals("1")) {
+		if (whenToSave.equals("1")) { //$NON-NLS-1$
 			try {
 				UrnModelManager manager = new UrnModelManager();
 	
@@ -596,7 +597,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 		cs.execute(new MakeWellFormedCommand(urnspec));
 
-		if (whenToSave.equals("2")) {
+		if (whenToSave.equals("2")) { //$NON-NLS-1$
 			try {
 				UrnModelManager manager = new UrnModelManager();
 	
@@ -704,13 +705,13 @@ public class MscTraversalListener implements ITraversalListener {
 
 		if (visit.getVisitedElement() instanceof Timer) {
 			Timer timer = createTimer(visit);
-			timer.setName(visit.getVisitedElement().getName() + " Timeout");
+			timer.setName(visit.getVisitedElement().getName() + Messages.getString("MscTraversalListener.SpaceTimeout")); //$NON-NLS-1$
 			setComponentRef(timer, visit);
 			
-			addMetaData(timer, "ID", visit.getVisitedElement().getId());
-			addMetaData(timer, "Name", visit.getVisitedElement().getName());
+			addMetaData(timer, "ID", visit.getVisitedElement().getId()); //$NON-NLS-1$
+			addMetaData(timer, "Name", visit.getVisitedElement().getName()); //$NON-NLS-1$
 			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
-			cond.setExpression("true");
+			cond.setExpression("true"); //$NON-NLS-1$
 			((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
 		}
 

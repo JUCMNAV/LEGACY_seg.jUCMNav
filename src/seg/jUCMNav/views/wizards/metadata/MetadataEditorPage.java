@@ -53,7 +53,7 @@ public class MetadataEditorPage extends WizardPage {
     private Shell shell;
     private Composite container;
     private Table metadataTable;
-    private static final String[] columnNames = { Messages.getString("MetadataEditorPage.column1"), Messages.getString("MetadataEditorPage.column2") };
+    private static final String[] columnNames = { Messages.getString("MetadataEditorPage.column1"), Messages.getString("MetadataEditorPage.column2") }; //$NON-NLS-1$ //$NON-NLS-2$
 
     private ISelection selection;
     private URNmodelElement urnelem;
@@ -173,7 +173,7 @@ public class MetadataEditorPage extends WizardPage {
         layout.verticalSpacing = 5;
 
         typeLabel = new Label(container, SWT.NONE);
-        typeLabel.setText(Messages.getString("MetadataEditorPage.typeLabel"));
+        typeLabel.setText(Messages.getString("MetadataEditorPage.typeLabel")); //$NON-NLS-1$
         
         typeOfElements = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
         typeOfElements.addSelectionListener(new SelectionListener() {
@@ -214,7 +214,7 @@ public class MetadataEditorPage extends WizardPage {
         typeOfElements.setLayoutData(gd);
         
         elementLabel = new Label(container, SWT.NONE);
-        elementLabel.setText(Messages.getString("MetadataEditorPage.urnelemLabel"));
+        elementLabel.setText(Messages.getString("MetadataEditorPage.urnelemLabel")); //$NON-NLS-1$
         
         possibilities = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
         possibilities.setVisibleItemCount(25);
@@ -342,7 +342,7 @@ public class MetadataEditorPage extends WizardPage {
 
         // New
         MenuItem item = new MenuItem(popUpMenu, SWT.CASCADE);
-        item.setText(Messages.getString("MetadataEditorPage.popup_new"));
+        item.setText(Messages.getString("MetadataEditorPage.popup_new")); //$NON-NLS-1$
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 newEntry();
@@ -353,7 +353,7 @@ public class MetadataEditorPage extends WizardPage {
 
         // Edit
         item = new MenuItem(popUpMenu, SWT.CASCADE);
-        item.setText(Messages.getString("MetadataEditorPage.popup_edit"));
+        item.setText(Messages.getString("MetadataEditorPage.popup_edit")); //$NON-NLS-1$
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 TableItem[] items = metadataTable.getSelection();
@@ -365,7 +365,7 @@ public class MetadataEditorPage extends WizardPage {
 
         // Copy
         item = new MenuItem(popUpMenu, SWT.CASCADE);
-        item.setText(Messages.getString("MetadataEditorPage.popup_copy"));
+        item.setText(Messages.getString("MetadataEditorPage.popup_copy")); //$NON-NLS-1$
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 TableItem[] items = metadataTable.getSelection();
@@ -377,7 +377,7 @@ public class MetadataEditorPage extends WizardPage {
 
         // Paste
         item = new MenuItem(popUpMenu, SWT.CASCADE);
-        item.setText(Messages.getString("MetadataEditorPage.popup_paste"));
+        item.setText(Messages.getString("MetadataEditorPage.popup_paste")); //$NON-NLS-1$
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 pasteEntry();
@@ -386,7 +386,7 @@ public class MetadataEditorPage extends WizardPage {
 
         // Remove
         item = new MenuItem(popUpMenu, SWT.CASCADE);
-        item.setText(Messages.getString("MetadataEditorPage.popup_remove"));
+        item.setText(Messages.getString("MetadataEditorPage.popup_remove")); //$NON-NLS-1$
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
                 TableItem[] items = metadataTable.getSelection();
@@ -429,7 +429,7 @@ public class MetadataEditorPage extends WizardPage {
 
     private void newEntry() {
         MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
-        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_add"));
+        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_add")); //$NON-NLS-1$
         dialog.setLabels(columnNames);
         String[] data = dialog.open();
 
@@ -463,7 +463,7 @@ public class MetadataEditorPage extends WizardPage {
 
     private void editEntry(TableItem item) {
         MetadataEntryDialog dialog = new MetadataEntryDialog(shell);
-        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_edit"));
+        dialog.setTitle(Messages.getString("MetadataEntryDialog.title_edit")); //$NON-NLS-1$
         dialog.setLabels(columnNames);
         String[] values = new String[metadataTable.getColumnCount()];
 
@@ -548,7 +548,7 @@ public class MetadataEditorPage extends WizardPage {
         selectedPossibilities.clear();
         for (int i = 0; i < pArray.length; i++) {
             URNmodelElement curUrnelem = (URNmodelElement) pArray[i];
-            String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")";
+            String name = URNNamingHelper.getName(curUrnelem) + " (" + curUrnelem.getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 
             selectedPossibilities.add(curUrnelem);
             possibilities.add(name);

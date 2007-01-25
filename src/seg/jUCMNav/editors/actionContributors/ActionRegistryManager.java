@@ -49,7 +49,6 @@ import seg.jUCMNav.actions.EditStubPluginsAction;
 import seg.jUCMNav.actions.EditURNLinksAction;
 import seg.jUCMNav.actions.ExportAction;
 import seg.jUCMNav.actions.ImportAction;
-import seg.jUCMNav.actions.MakeWellFormedAction;
 import seg.jUCMNav.actions.MergeStartEndAction;
 import seg.jUCMNav.actions.SelectDefaultPaletteToolAction;
 import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
@@ -294,9 +293,9 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addMap")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-        action = new MakeWellFormedAction(editor);
-        action.setText("Transform URN so that concurrency is linearizable (well-formed).");
-        addEditPartAction((SelectionAction) action);
+//        action = new MakeWellFormedAction(editor);
+//        action.setText("Transform URN so that concurrency is linearizable (well-formed).");
+//        addEditPartAction((SelectionAction) action);
         
         action = new DirectEditAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.edit")); //$NON-NLS-1$
@@ -400,7 +399,7 @@ public class ActionRegistryManager {
         addEditPartAction((SelectionAction) action);   
 
         action = new RunAllScenariosAction(editor);
-        action.setText("Run all scenarios in Group");
+        action.setText(Messages.getString("ActionRegistryManager.RunAllScenariosInGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action); 
         
         

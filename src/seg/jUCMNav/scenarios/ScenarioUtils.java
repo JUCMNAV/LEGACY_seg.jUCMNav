@@ -707,7 +707,7 @@ public class ScenarioUtils {
 			else if (scenario instanceof UCMspec)
 				algo.init(forTraversal, (UCMspec) scenario);
             else
-                System.out.println("undefined initialization");
+                System.out.println("undefined initialization"); //$NON-NLS-1$
             
 			traversals.put(initial, algo);
 			

@@ -435,7 +435,7 @@ public class JUCMNavCommandTests extends TestCase {
 
     	
         // the bug occurs here. technically this file could not be reloaded when saved because the connect is still bound to the parent. 
-        assertTrue("Connect should not be bound to parent as it no longer exists.",connect.getContRef()==null );
+        assertTrue("Connect should not be bound to parent as it no longer exists.",connect.getContRef()==null ); //$NON-NLS-1$
     	
     }
     

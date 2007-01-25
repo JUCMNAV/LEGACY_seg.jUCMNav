@@ -12,8 +12,8 @@ import seg.jUCMNav.JUCMNavPlugin;
  */
 public class ScenarioExportPreferences {
 
-    public final static String DEFAULT_EXPORTTYPE = "0";
-    public final static String DEFAULT_EXPORTALL = "all";
+    public final static String DEFAULT_EXPORTTYPE = "0"; //$NON-NLS-1$
+    public final static String DEFAULT_EXPORTALL = "all"; //$NON-NLS-1$
     public final static boolean DEFAULT_OPENAFTEREXPORT = true;
 
     public final static String PREF_EXPORTTYPE = "seg.jUCMNav.ScenarioExport.ExportType"; //$NON-NLS-1$

@@ -10,6 +10,7 @@ import grl.StrategiesGroup;
 
 import java.util.HashMap;
 
+import seg.jUCMNav.Messages;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
 import ucm.performance.PerfMeasure;
@@ -26,25 +27,25 @@ import urncore.URNmodelElement;
 public class URNmodelElementType {
     public static final HashMap urnElementTypes = new HashMap();
     public static final String[] urnElementTypeNames = new String[] {
-        "All",
-        "Actor",
-        "Element Link",
-        "Evaluation Strategy",
-        "GRL Graph",
-        "GRL Node",
-        "Intentional Element",
-        "Strategies Group",
-        "Component",
-        "Enumeration",
-        "Path Node",
-        "Perf Measure",
-        "Response Time Req",
-        "Responsibility",
-        "Scenario",
-        "Scenario Group",
-        "UCM Map",
-        "Variable",
-        "Workload"
+        Messages.getString("URNmodelElementType.All"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Actor"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.ElementLink"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.EvaluationStrategy"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.GrlGraph"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.GrlNode"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.IntentionalElement"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.StrategiesGroup"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Component"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Enumeration"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.PathNode"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.PerfMeasure"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.ResponseTimeReq"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Responsibility"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.ScenarioGroup"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.UcmMap"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Variable"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.Workload") //$NON-NLS-1$
     };
 
     static {

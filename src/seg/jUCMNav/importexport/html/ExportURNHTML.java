@@ -31,8 +31,8 @@ import urncore.IURNDiagram;
  *
  */
 public class ExportURNHTML implements IURNExport {
-    public static final String PAGES_LOCATION = "pages" + File.separator;
-    public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator; 
+    public static final String PAGES_LOCATION = "pages" + File.separator; //$NON-NLS-1$
+    public static final String IMAGES_LOCATION = PAGES_LOCATION + "img" + File.separator;  //$NON-NLS-1$
     
     public void export(URNspec urn, HashMap mapDiagrams, FileOutputStream fos) throws InvocationTargetException {
     	// not used
@@ -74,8 +74,8 @@ public class ExportURNHTML implements IURNExport {
 	            } else {
 	                htmlMenuItem.setType(HTMLMenuItem.TYPE_UCM);
 	            }
-	            htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1));
-	            htmlMenuItem.setLink(diagramName + ".html");
+	            htmlMenuItem.setLeafText(diagramName.substring(diagramName.lastIndexOf("-") + 1)); //$NON-NLS-1$
+	            htmlMenuItem.setLink(diagramName + ".html"); //$NON-NLS-1$
 	            htmlMenuItem.setBaseX(-pane.getBounds().x);
 	            htmlMenuItem.setBaseY(-pane.getBounds().y);
 	            htmlMenuItem.setDiagram(diagram);
@@ -104,68 +104,68 @@ public class ExportURNHTML implements IURNExport {
     private void createIndexPages(String htmlPath) {
         try {
             // Generate the index page
-            String srcFile = "htmltemplates/index.html";
-            String desFile = htmlPath + "index.html";
+            String srcFile = "htmltemplates/index.html"; //$NON-NLS-1$
+            String desFile = htmlPath + "index.html"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the main page
-            srcFile = "htmltemplates/main.html";
-            desFile = htmlPath + PAGES_LOCATION + "main.html";
+            srcFile = "htmltemplates/main.html"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "main.html"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the menu page
-            srcFile = "htmltemplates/menu.html";
-            desFile = htmlPath + PAGES_LOCATION + "menu.html";
+            srcFile = "htmltemplates/menu.html"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "menu.html"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the xml tree css file
-            srcFile = "htmltemplates/xmlTree.css";
-            desFile = htmlPath + PAGES_LOCATION + "xmlTree.css";
+            srcFile = "htmltemplates/xmlTree.css"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.css"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the report css file
-            srcFile = "htmltemplates/report.css";
-            desFile = htmlPath + PAGES_LOCATION + "report.css";
+            srcFile = "htmltemplates/report.css"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "report.css"; //$NON-NLS-1$
             copy(srcFile, desFile);
             
             // Generate the menu css file
-            srcFile = "htmltemplates/menu.css";
-            desFile = htmlPath + PAGES_LOCATION + "menu.css";
+            srcFile = "htmltemplates/menu.css"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "menu.css"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the xml tree java script file
-            srcFile = "htmltemplates/xmlTree.js";
-            desFile = htmlPath + PAGES_LOCATION + "xmlTree.js";
+            srcFile = "htmltemplates/xmlTree.js"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.js"; //$NON-NLS-1$
             copy(srcFile, desFile);
             
             // Generate the menu java script file
-            srcFile = "htmltemplates/menu.js";
-            desFile = htmlPath + PAGES_LOCATION + "menu.js";
+            srcFile = "htmltemplates/menu.js"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "menu.js"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the tree xsl file
-            srcFile = "htmltemplates/xmlTree.xsl";
-            desFile = htmlPath + PAGES_LOCATION + "xmlTree.xsl";
+            srcFile = "htmltemplates/xmlTree.xsl"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "xmlTree.xsl"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the closed.gif file
-            srcFile = "htmltemplates/closed.gif";
-            desFile = htmlPath + PAGES_LOCATION + "closed.gif";
+            srcFile = "htmltemplates/closed.gif"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "closed.gif"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the doc.gif file
-            srcFile = "htmltemplates/doc.gif";
-            desFile = htmlPath + PAGES_LOCATION + "doc.gif";
+            srcFile = "htmltemplates/doc.gif"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "doc.gif"; //$NON-NLS-1$
             copy(srcFile, desFile);
 
             // Generate the open.gif file
-            srcFile = "htmltemplates/open.gif";
-            desFile = htmlPath + PAGES_LOCATION + "open.gif";
+            srcFile = "htmltemplates/open.gif"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "open.gif"; //$NON-NLS-1$
             copy(srcFile, desFile);
             
             // Generate the open.gif file
-            srcFile = "htmltemplates/LogoFinal.gif";
-            desFile = htmlPath + PAGES_LOCATION + "LogoFinal.gif";
+            srcFile = "htmltemplates/LogoFinal.gif"; //$NON-NLS-1$
+            desFile = htmlPath + PAGES_LOCATION + "LogoFinal.gif"; //$NON-NLS-1$
             copy(srcFile, desFile);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -204,12 +204,12 @@ public class ExportURNHTML implements IURNExport {
      * @return the path of exported html file
      */
     private String createImgPath(String htmlPath, String diagramName) {
-        String imgFilePath = "";
-        String imgDirectoryPath = "";
+        String imgFilePath = ""; //$NON-NLS-1$
+        String imgDirectoryPath = ""; //$NON-NLS-1$
         
         // Add "\img" into the path
         imgDirectoryPath = getPath(htmlPath) + IMAGES_LOCATION;
-        imgFilePath = imgDirectoryPath + diagramName + ".gif";
+        imgFilePath = imgDirectoryPath + diagramName + ".gif"; //$NON-NLS-1$
         // Create img directory
         File imgDirectory = new File(imgDirectoryPath);
         if (!imgDirectory.exists()) {
@@ -226,7 +226,7 @@ public class ExportURNHTML implements IURNExport {
      * @return the directory path
      */
     private String getPath(String fullPath) {
-        String directoryPath = "";
+        String directoryPath = ""; //$NON-NLS-1$
         
         int indexOfLastSlash = fullPath.lastIndexOf(File.separator);
         
@@ -249,20 +249,20 @@ public class ExportURNHTML implements IURNExport {
         String diagramName = ExportWizard.getDiagramName(diagram);
         try {
             StringBuffer sb = new StringBuffer();
-            sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n");
-            sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
-            sb.append("<head>\n");
-            sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n");
-            sb.append("<title>URN Map</title>\n");
-            sb.append("<script language=JavaScript src=\"menu.js\"></script>\n");
-            sb.append("<link href=\"menu.css\" rel=stylesheet>\n");
-            sb.append("<style>\n");
-            sb.append("body {\n");
-            sb.append("font: 11px Arial,Verdana,Helvetica,sans-serif;\n");
-            sb.append("}\n");
-            sb.append("</style>\n");
-            sb.append("</head>\n");
-            sb.append("<body>\n");
+            sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n"); //$NON-NLS-1$
+            sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"); //$NON-NLS-1$
+            sb.append("<head>\n"); //$NON-NLS-1$
+            sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"); //$NON-NLS-1$
+            sb.append("<title>URN</title>\n"); //$NON-NLS-1$
+            sb.append("<script language=JavaScript src=\"menu.js\"></script>\n"); //$NON-NLS-1$
+            sb.append("<link href=\"menu.css\" rel=stylesheet>\n"); //$NON-NLS-1$
+            sb.append("<style>\n"); //$NON-NLS-1$
+            sb.append("body {\n"); //$NON-NLS-1$
+            sb.append("font: 11px Arial,Verdana,Helvetica,sans-serif;\n"); //$NON-NLS-1$
+            sb.append("}\n"); //$NON-NLS-1$
+            sb.append("</style>\n"); //$NON-NLS-1$
+            sb.append("</head>\n"); //$NON-NLS-1$
+            sb.append("<body>\n"); //$NON-NLS-1$
 
             boolean hasStub = false;
             Iterator nodeIter = null;
@@ -274,10 +274,10 @@ public class ExportURNHTML implements IURNExport {
                 int top = 20;
                 int left = 30;
                 
-                sb.append("<div align=\"left\" style=\"position:absolute; top:" + top + "px; left:" + left + "px;\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) + 
-                        "<br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"position:absolute; top:" + top + "px; left:0px;\" />\n");
-                sb.append("<script language=\"JavaScript\">\n");
-                sb.append("<!--\n");
+                sb.append("<div align=\"left\" style=\"position:absolute; top:" + top + "px; left:" + left + "px;\">" + diagramName.substring(diagramName.lastIndexOf("-") + 1) +  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+                        "<br/><img src=\"img/" + diagramName + ".gif\" border=\"0\" style=\"position:absolute; top:" + top + "px; left:0px;\" />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                sb.append("<script language=\"JavaScript\">\n"); //$NON-NLS-1$
+                sb.append("<!--\n"); //$NON-NLS-1$
                 
                 int numOfStub = 0;
                 while (nodeIter.hasNext()) {
@@ -292,8 +292,8 @@ public class ExportURNHTML implements IURNExport {
                         Iterator bindIter = null;
                         if (!bindings.isEmpty()) {
                             
-                            sb.append("var stubHierarchy" + numOfStub + " = [\n");
-                            sb.append("['', null,\n");
+                            sb.append("var stubHierarchy" + numOfStub + " = [\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("['', null,\n"); //$NON-NLS-1$
 
                             int height = 15;
                             int width = 15;
@@ -309,51 +309,51 @@ public class ExportURNHTML implements IURNExport {
                                     // get plugin diagram file name
                                     String pluginDiagramName = ExportWizard.getDiagramName(childMap);
                                     
-                                    sb.append("[map('" + pluginDiagramName.substring(pluginDiagramName.lastIndexOf("-") + 1) + 
-                                            "'), '" + pluginDiagramName + ".html', [thumbnails('" + pluginDiagramName + ".gif')]]\n");
+                                    sb.append("[map('" + pluginDiagramName.substring(pluginDiagramName.lastIndexOf("-") + 1) +  //$NON-NLS-1$ //$NON-NLS-2$
+                                            "'), '" + pluginDiagramName + ".html', [thumbnails('" + pluginDiagramName + ".gif')]]\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                     
                                     if (bindIter.hasNext()) {
-                                        sb.append(",");
+                                        sb.append(","); //$NON-NLS-1$
                                     }
                                 }
                             }
                             // end while
                             
-                            sb.append("]\n");
-                            sb.append("]\n");
+                            sb.append("]\n"); //$NON-NLS-1$
+                            sb.append("]\n"); //$NON-NLS-1$
                             
-                            sb.append("var stubConfig" + numOfStub + " = [\n");
-                            sb.append("{\n");
-                            sb.append("'height' :  " + height + ",\n");
-                            sb.append("'width' :  " + width + ",\n");
-                            sb.append("'firstX' :  " + (stub.getX() + menuItem.getBaseX() - width/2) + ",\n");
-                            sb.append("'firstY' :  " + (stub.getY() + menuItem.getBaseY() + top - height/2) + ",\n");
-                            sb.append("'nextX' :  " + "0,\n");
-                            sb.append("'hideAfter' :  " +  "200,\n");
-                            sb.append("'css' :  " + "'gurtl0',\n");
-                            sb.append("'trace' :  " + "true\n");
-                            sb.append("},\n");
+                            sb.append("var stubConfig" + numOfStub + " = [\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("{\n"); //$NON-NLS-1$
+                            sb.append("'height' :  " + height + ",\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'width' :  " + width + ",\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstX' :  " + (stub.getX() + menuItem.getBaseX() - width/2) + ",\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstY' :  " + (stub.getY() + menuItem.getBaseY() + top - height/2) + ",\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'nextX' :  " + "0,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'hideAfter' :  " +  "200,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'css' :  " + "'gurtl0',\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'trace' :  " + "true\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("},\n"); //$NON-NLS-1$
                             
-                            sb.append("{");
-                            sb.append("'height' :  " + "23,\n");
-                            sb.append("'width' :  " + "120,\n");
-                            sb.append("'firstY' :  " + "5,\n");
-                            sb.append("'firstX' :  " + "-55,\n");
-                            sb.append("'nextY' :  " + "-1,\n");
-                            sb.append("'target' :  " + "'_self',\n");
-                            sb.append("'css' :  " + "'gurtl1'\n");
-                            sb.append("},\n");
+                            sb.append("{"); //$NON-NLS-1$
+                            sb.append("'height' :  " + "23,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'width' :  " + "120,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstY' :  " + "5,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstX' :  " + "-55,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'nextY' :  " + "-1,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'target' :  " + "'_self',\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'css' :  " + "'gurtl1'\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("},\n"); //$NON-NLS-1$
                             
-                            sb.append("{");
-                            sb.append("'width' :  " + "174,\n");
-                            sb.append("'height' :  " + "117,\n");
-                            sb.append("'firstY' :  " + "0,\n");
-                            sb.append("'firstX' :  " + "120,\n");
-                            sb.append("'css' :  " + "'gurtl2'\n");
-                            sb.append("}\n");
-                            sb.append("];\n");
+                            sb.append("{"); //$NON-NLS-1$
+                            sb.append("'width' :  " + "174,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'height' :  " + "117,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstY' :  " + "0,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'firstX' :  " + "120,\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("'css' :  " + "'gurtl2'\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                            sb.append("}\n"); //$NON-NLS-1$
+                            sb.append("];\n"); //$NON-NLS-1$
                             
-                            sb.append("new menu (stubHierarchy" + numOfStub + ", stubConfig" + numOfStub + ");\n");
+                            sb.append("new menu (stubHierarchy" + numOfStub + ", stubConfig" + numOfStub + ");\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                         } else {
                             // System.out.println("No binds existing.");
                         }
@@ -361,17 +361,17 @@ public class ExportURNHTML implements IURNExport {
                 }
                 // end while
                 
-                sb.append("//-->\n");
-                sb.append("</script>\n");
+                sb.append("//-->\n"); //$NON-NLS-1$
+                sb.append("</script>\n"); //$NON-NLS-1$
             } else {
                 // System.out.println("No nodes existing.");
             }
             
-            sb.append("</div>\n");
-            sb.append("</body>\n");
-            sb.append("</html>\n");
+            sb.append("</div>\n"); //$NON-NLS-1$
+            sb.append("</body>\n"); //$NON-NLS-1$
+            sb.append("</html>\n"); //$NON-NLS-1$
 
-            fos = new FileOutputStream(directory + PAGES_LOCATION + diagramName + ".html");
+            fos = new FileOutputStream(directory + PAGES_LOCATION + diagramName + ".html"); //$NON-NLS-1$
             bos = new BufferedOutputStream(fos);
             
             bos.write(sb.toString().getBytes(), 0, sb.length());

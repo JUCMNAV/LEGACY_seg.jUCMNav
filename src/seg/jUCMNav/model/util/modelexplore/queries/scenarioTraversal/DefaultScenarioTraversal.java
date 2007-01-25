@@ -59,7 +59,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 			Vector newlyDied = new Vector();
 
 			if (!nextNode.isValidParentComponent())
-				_warnings.add(new TraversalWarning("Element is associated with multiple parent components.", nextNode.getVisitedElement(), IMarker.SEVERITY_ERROR));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.ElementHasMultipleParents"), nextNode.getVisitedElement(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 
 			
 //			if (nextNode.isValidParentComponent() && nextNode.getParentComponent()!=null)
@@ -80,7 +80,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 				Integer i = (Integer) iter.next();
 				int status = _traversalData.getThreadState(i.intValue());
 				if (status < 0)
-					_warnings.add(new TraversalWarning("ThreadID sanity check error (" + status + ") for ThreadID " +i.intValue(), IMarker.SEVERITY_ERROR));  
+					_warnings.add(new TraversalWarning("ThreadID sanity check error (" + status + ") for ThreadID " +i.intValue(), IMarker.SEVERITY_ERROR));   //$NON-NLS-1$ //$NON-NLS-2$
 				else if (status==0) {
 					//System.out.println("Thread died: " + i.intValue());
 					_listeners.threadDied(i.intValue());
@@ -106,7 +106,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 						
 				}
 				else
-					System.out.println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")");
+					System.out.println("DEBUG: not supposed to happen (new thread count: " + newlyAdded.size() + ", old thread count: " + newlyDied.size() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		} 
 	}
@@ -457,7 +457,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 				}
 			}
 			else {
-				_warnings.add(new TraversalWarning("Ignoring responsibility because of repetition count.", resp, IMarker.SEVERITY_INFO));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.IgnoringResponsibility"), resp, IMarker.SEVERITY_INFO)); //$NON-NLS-1$
 			}
 		} catch (IllegalArgumentException e) {
 			//throw new TraversalException(e.getMessage(), e);

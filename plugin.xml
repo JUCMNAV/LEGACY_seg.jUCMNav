@@ -64,7 +64,7 @@
                label="%VerifyPseudoCodeSyntax"
                menubarPath="seg.jUCMnav/ext"
                style="push"
-               tooltip="Verifies the syntax of all responsibilities and conditions."/>
+               tooltip="%VerifySyntax"/>
       </editorContribution>
    </extension>
    <extension
@@ -209,7 +209,7 @@
             category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
             class="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
             id="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
-            name="Scenario Export Preferences"/>
+            name="%ScenarioExportPreferences"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
@@ -248,7 +248,7 @@
             class="seg.jUCMNav.importexport.msc.ExportMSC"
             extension="jucmscenarios"
             id="seg.jUCMNav.ExportScenarios"
-            name="Export Scenarios (*.jucmscenarios or *.jucm (see Preferences))"
+            name="%ExportScenarios"
             useStream="false"/>
    </extension>
    <extension

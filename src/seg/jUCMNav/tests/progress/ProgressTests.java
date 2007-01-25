@@ -782,8 +782,8 @@ public class ProgressTests extends TestCase {
             }
         }
 
-        assertTrue("can't find sp", sp!=null);
-        assertTrue("can't find ep", ep!=null);
+        assertTrue("can't find sp", sp!=null); //$NON-NLS-1$
+        assertTrue("can't find ep", ep!=null); //$NON-NLS-1$
         
         // move one
         Command cmd = new SetConstraintCommand(sp, 85, 148);
