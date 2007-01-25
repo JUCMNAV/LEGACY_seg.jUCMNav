@@ -34,7 +34,8 @@ import urn.URNspec;
  */
 public class DividePathCommand extends CompoundCommand {
 
-	private PathNode newNode;
+    private PathNode newNode;
+
     /**
      * add a new internally created fork/join on a node connection, attaching a passed branch
      * 
@@ -53,7 +54,7 @@ public class DividePathCommand extends CompoundCommand {
     public DividePathCommand(PathNode startOrEnd, NodeConnection ncTarget, int x, int y, boolean isOrDivision) {
         URNspec urn = startOrEnd.getDiagram().getUrndefinition().getUrnspec();
         EmptyPoint empty = (EmptyPoint) ModelCreationFactory.getNewObject(urn, EmptyPoint.class);
-        add(new SplitLinkCommand((UCMmap)startOrEnd.getDiagram(), empty, ncTarget, x, y));
+        add(new SplitLinkCommand((UCMmap) startOrEnd.getDiagram(), empty, ncTarget, x, y));
 
         createAndInsert(startOrEnd, empty, isOrDivision);
         setLabel(Messages.getString("DividePathCommand.dividePath")); //$NON-NLS-1$
@@ -87,8 +88,27 @@ public class DividePathCommand extends CompoundCommand {
      *            its y coordinate
      */
     public DividePathCommand(PathNode newForkJoin, NodeConnection nc, int x, int y) {
-        add(new SplitLinkCommand((UCMmap)nc.getDiagram(), newForkJoin, nc, x, y));
+        add(new SplitLinkCommand((UCMmap) nc.getDiagram(), newForkJoin, nc, x, y));
         add(new AddBranchCommand(newForkJoin, true));
+    }
+
+    /**
+     * add a new passed fork/join on a node connection, attaching an existing branch.
+     * 
+     * @param newForkJoin
+     *            the fork/join to add.
+     * @param nc
+     *            the node connection on which it should be added
+     * @param x
+     *            its x coordinate
+     * @param y
+     *            its y coordinate
+     * @param startOrEnd
+     *            the existing branch              
+     */
+    public DividePathCommand(PathNode newForkJoin, NodeConnection nc, int x, int y, PathNode startOrEnd) {
+        add(new SplitLinkCommand((UCMmap) nc.getDiagram(), newForkJoin, nc, x, y));
+        add(new AttachBranchCommand(startOrEnd, newForkJoin));
     }
 
     /**
@@ -105,6 +125,21 @@ public class DividePathCommand extends CompoundCommand {
     }
 
     /**
+     * add a new passed fork/join on an emptypoint/direction arrow, attaching an existing branch
+     * 
+     * @param newForkJoin
+     *            the fork/join to add.
+     * @param ep
+     *            the empty point / direction arrow to be replaced
+     * @param startOrEnd
+     *            the existing branch
+     */
+    public DividePathCommand(PathNode newForkJoin, PathNode ep, PathNode startOrEnd) {
+        add(new ReplaceEmptyPointCommand(ep, newForkJoin));
+        add(new AttachBranchCommand(startOrEnd, newForkJoin));
+    }
+
+    /**
      * Create the new fork/join and call replaceAndAddBranch()
      * 
      * @param startOrEnd
@@ -117,7 +152,7 @@ public class DividePathCommand extends CompoundCommand {
      */
     private void createAndInsert(PathNode startOrEnd, PathNode empty, boolean isOrDivision) {
         URNspec urn = startOrEnd.getDiagram().getUrndefinition().getUrnspec();
-        newNode=null;
+        newNode = null;
 
         if (startOrEnd instanceof StartPoint) {
 
@@ -152,8 +187,7 @@ public class DividePathCommand extends CompoundCommand {
         add(new AttachBranchCommand(startOrEnd, toInsert));
     }
 
-    public PathNode getNewNode() 
-    {
-    	return newNode;
+    public PathNode getNewNode() {
+        return newNode;
     }
 }

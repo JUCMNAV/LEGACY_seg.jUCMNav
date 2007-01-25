@@ -110,6 +110,7 @@ public class JUCMNavCommandTests extends TestCase {
     public Stub stub;
     public PluginBinding plugin;
     public PathNode fork;
+    public WaitingPlace wait;
     
     // during teardown, if testBindings==true, call verifyBindings()
     public boolean testBindings;
@@ -956,11 +957,11 @@ public class JUCMNavCommandTests extends TestCase {
         assertTrue("DividePathCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        OrFork newFork = (OrFork) ((DividePathCommand)cmd).getNewNode();
+        fork = (OrFork) ((DividePathCommand)cmd).getNewNode();
 
         boolean isForkInPath = false;
         for (int i = 0; (i < map.getNodes().size()) && (isForkInPath == false); i++) {
-            if (map.getNodes().get(i) == newFork) {
+            if (map.getNodes().get(i) == fork) {
                 isForkInPath = true;
             }
         }
@@ -981,6 +982,7 @@ public class JUCMNavCommandTests extends TestCase {
         Command cmd = new CreatePathCommand(map, newStart, 654, 17);
         assertTrue("Can't execute CreatePathCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
+        EndPoint newEnd = ((CreatePathCommand)cmd).getEnd(); 
 
         EmptyPoint ep = null;
         OrJoin newJoin = (OrJoin) ModelCreationFactory.getNewObject(urnspec, OrJoin.class);
@@ -993,15 +995,12 @@ public class JUCMNavCommandTests extends TestCase {
         }
         assertTrue("Can't find an EmptyPoint on 2nd path", ep != null); //$NON-NLS-1$
 
-        cmd = new DividePathCommand(newJoin, ep);
+        cmd = new DividePathCommand(newJoin, ep, newEnd);
         //cmd = new JoinPathsCommand(ep, end, newJoin);
         //assertTrue("Couldn't create JoinPathsCommand", cmd != null); //$NON-NLS-1$
         assertTrue("DividePathCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        cmd = new AttachBranchCommand(newStart, newJoin);
-        assertTrue("AttachBranchCommand can't execute", cmd.canExecute()); //$NON-NLS-1$
-        cs.execute(cmd);
     }
 
 
@@ -1057,13 +1056,31 @@ public class JUCMNavCommandTests extends TestCase {
      */
     public void testReplaceEmptyPointCommand() {
         testCreatePathCommand();
-        WaitingPlace wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
+        wait = (WaitingPlace) ModelCreationFactory.getNewObject(urnspec, WaitingPlace.class);
         EmptyPoint empty = (EmptyPoint) ((NodeConnection) start.getSucc().get(0)).getTarget();
         Command cmd = new ReplaceEmptyPointCommand(empty, wait);
         assertTrue("Can't execute ReplaceEmptyPointCommand.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
     }
 
+
+    /**
+     * 
+     *  
+     */
+    public void testReplaceEmptyPointCommand2() {
+        testCreatePathCommand();
+        wait = (Timer) ModelCreationFactory.getNewObject(urnspec, Timer.class);
+        EmptyPoint empty = (EmptyPoint) ((NodeConnection) start.getSucc().get(0)).getTarget();
+        Command cmd = new ReplaceEmptyPointCommand(empty, wait);
+        assertTrue("Can't execute ReplaceEmptyPointCommand.", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+        
+        cmd = new AddBranchCommand(wait);
+        assertTrue("Can't execute AddBranchCommand", cmd.canExecute()); //$NON-NLS-1$
+        cs.execute(cmd);
+    }
+    
     /**
      * 
      *  
