@@ -4,75 +4,75 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/seg.jUCMNav/src"
     modelPluginID="seg.jUCMNav" modelName="UCMscenarios" importerID="org.eclipse.emf.importer.rose">
   <foreignModel>C:\Documents and Settings\jktest\Desktop\documents\uo\maitrise2\msc\Scenarios.mdl</foreignModel>
-  <genPackages prefix="Ucmscenarios" disposableProviderFactory="true" ecorePackage="Scenarios.ecore#/">
-    <genEnums ecoreEnum="Scenarios.ecore#//EventType">
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/StartPoint"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Responsibility"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/EndPoint"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/WP_Enter"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/WP_Leave"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Connect_Start"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Connect_End"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Trigger_End"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Timer_Set"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Timer_Reset"/>
-      <genEnumLiterals ecoreEnumLiteral="Scenarios.ecore#//EventType/Timeout"/>
+  <genPackages prefix="Ucmscenarios" disposableProviderFactory="true" ecorePackage="ucmscenarios.ecore#/">
+    <genEnums ecoreEnum="ucmscenarios.ecore#//EventType">
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/StartPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Responsibility"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/EndPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/WP_Enter"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/WP_Leave"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Connect_Start"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Connect_End"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Trigger_End"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Timer_Set"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Timer_Reset"/>
+      <genEnumLiterals ecoreEnumLiteral="ucmscenarios.ecore#//EventType/Timeout"/>
     </genEnums>
-    <genClasses ecoreClass="Scenarios.ecore#//ScenarioSpec">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ScenarioSpec/filename"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ScenarioSpec/created"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ScenarioSpec/modified"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ScenarioSpec/specVersion"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioSpec/components"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioSpec/groups"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//ScenarioSpec">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ScenarioSpec/filename"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ScenarioSpec/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ScenarioSpec/modified"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ScenarioSpec/specVersion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioSpec/components"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioSpec/groups"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//ScenarioDef">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioDef/group"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioDef/instances"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioDef/children"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//ScenarioDef">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioDef/group"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioDef/instances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioDef/children"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Component">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//Component/scenarioSpec"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Component/instances"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Component">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Component/scenarioSpec"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Component/instances"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//ScenarioGroup">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioGroup/scenarioSpec"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//ScenarioGroup/scenarios"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//ScenarioGroup">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioGroup/scenarioSpec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//ScenarioGroup/scenarios"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Sequence">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//Sequence/parent"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Sequence/children"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Sequence">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Sequence/parent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Sequence/children"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Parallel">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Parallel/children"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Parallel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Parallel/children"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Instance">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//Instance/scenario"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Instance/definition"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Instance/elements"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Instance/sent"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Instance/received"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Instance">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Instance/scenario"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Instance/definition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Instance/elements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Instance/sent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Instance/received"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//SequenceElement">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//SequenceElement/parentScenario"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Scenarios.ecore#//SequenceElement/sequence"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//SequenceElement/instance"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//SequenceElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//SequenceElement/parentScenario"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucmscenarios.ecore#//SequenceElement/sequence"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//SequenceElement/instance"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Event">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//Event/type"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Event">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//Event/type"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Message">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Message/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Scenarios.ecore#//Message/target"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Message">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Message/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucmscenarios.ecore#//Message/target"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//ModelElement">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ModelElement/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ModelElement/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//ModelElement/description"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//ModelElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ModelElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ModelElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//ModelElement/description"/>
     </genClasses>
-    <genClasses ecoreClass="Scenarios.ecore#//Condition">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//Condition/expression"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Scenarios.ecore#//Condition/label"/>
+    <genClasses ecoreClass="ucmscenarios.ecore#//Condition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//Condition/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucmscenarios.ecore#//Condition/label"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
