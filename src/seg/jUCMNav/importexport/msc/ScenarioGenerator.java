@@ -488,7 +488,7 @@ public class ScenarioGenerator {
 
 			addPath(out, in, map);
 
-			if (_lastEnvironmentInstance.getSent().size() == 0 && _lastEnvironmentInstance.getReceived().size() == 0) {
+			if (_lastEnvironmentInstance.getSent().size() == 0 && _lastEnvironmentInstance.getReceived().size() == 0 && _lastEnvironmentInstance.getElements().size()==0) {
 				_lastEnvironmentInstance.setDefinition(null);
 				_lastEnvironmentInstance.setScenario(null);
 			}
