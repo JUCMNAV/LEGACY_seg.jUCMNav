@@ -4,6 +4,8 @@
 package seg.jUCMNav.model.commands.delete;
 
 import grl.ElementLink;
+import grl.Evaluation;
+import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 
 import java.util.Iterator;
@@ -57,6 +59,21 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
         }
     }
     
+    //TODO Fix delete Evaluations. 
+    // A modification is required in the metamodel to implement a bidirectional links between Intentional Elements and Evaluations (instead of unidirectional). 
+    //Should access the evaluation to delete using this association.
+    private void deleteEvaluations() {
+    	for(Iterator it = element.getGrlspec().getStrategies().iterator(); it.hasNext();){
+    		EvaluationStrategy strategy = (EvaluationStrategy)it.next();
+    		for(Iterator itEval = strategy.getEvaluations().iterator(); itEval.hasNext(); ){
+    			Evaluation eval = (Evaluation)itEval.next();
+    			if (eval.getIntElement().equals(element))
+    			{
+    				add(new DeleteEvaluationCommand(eval));
+    			}
+    		}
+    	}
+    }
     /**
      * Late building
      */
@@ -79,6 +96,7 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
             URNlink link = (URNlink)it.next();
             add(new DeleteURNlinkCommand(link));
         }
+        deleteEvaluations();
         //Delete all the ElementLink associate with the IntentionalElement
         deleteElementLink();
         add(new RemoveIntentionalElementCommand(element));
