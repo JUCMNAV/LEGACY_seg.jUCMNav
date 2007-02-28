@@ -31,7 +31,7 @@ import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 /**
  * This class builds the context menu for the Strategy/scenario view
  * 
- * @author Jean-Fran�ois Roy, jkealey
+ * @author Jean-François Roy, jkealey
  *
  */
 public class StrategyContextMenuProvider extends ContextMenuProvider {
