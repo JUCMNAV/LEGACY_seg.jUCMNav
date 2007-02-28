@@ -40,6 +40,8 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
+import seg.jUCMNav.actions.performance.CreateResourceAction;  //_js_
+import seg.jUCMNav.actions.performance.ManageDemandAction;  //_js_
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 
@@ -218,8 +220,16 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
-   
+
+        //_js_
+        action = getActionRegistry().getAction(CreateResourceAction.CREATERESOURCEACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        //_js_
+        action = getActionRegistry().getAction(ManageDemandAction.MANAGEDEMANDACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
     }
 
     /**

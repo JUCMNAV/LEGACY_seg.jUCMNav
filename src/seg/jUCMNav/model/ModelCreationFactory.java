@@ -48,8 +48,12 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
+import ucm.performance.Demand; //_js_
 import ucm.performance.PerformanceFactory;
 import ucm.performance.Workload;
+import ucm.performance.PassiveResource;	// _js_
+import ucm.performance.ProcessingResource;	// _js_
+import ucm.performance.ExternalOperation;	// _js_
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -270,6 +274,14 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createOutBinding();
             } else if (targetClass.equals(Workload.class)) {
                 result = performancefactory.createWorkload();
+            } else if (targetClass.equals(PassiveResource.class)) {	// _js_
+                result = performancefactory.createPassiveResource();
+            } else if (targetClass.equals(ProcessingResource.class)) {	// _js_
+                result = performancefactory.createProcessingResource();
+            } else if (targetClass.equals(ExternalOperation.class)) {	// _js_
+                result = performancefactory.createExternalOperation();
+            } else if (targetClass.equals(Demand.class)) {	// _js_
+                result = performancefactory.createDemand();
             } else if (targetClass.equals(Connect.class)) {
                 result = mapfactory.createConnect();
             } else if (targetClass.equals(Decomposition.class)) {

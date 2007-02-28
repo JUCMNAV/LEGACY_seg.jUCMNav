@@ -12,6 +12,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
+import seg.jUCMNav.actions.performance.CreateResourceAction; //_js_
+import seg.jUCMNav.actions.performance.ManageDemandAction; //_js_
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -29,7 +31,7 @@ import seg.jUCMNav.actions.scenarios.VariableInitializationsAction;
 /**
  * This class builds the context menu for the Strategy/scenario view
  * 
- * @author Jean-François Roy, jkealey
+ * @author Jean-Franï¿½ois Roy, jkealey
  *
  */
 public class StrategyContextMenuProvider extends ContextMenuProvider {
@@ -138,7 +140,17 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(RunAllScenariosAction.RUNALLSCENARIOS);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
+        //_js_
+        action = getActionRegistry().getAction(CreateResourceAction.CREATERESOURCEACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+		//_js_
+        action = getActionRegistry().getAction(ManageDemandAction.MANAGEDEMANDACTION);
+        if (action.isEnabled())
+            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
         action = getActionRegistry().getAction(EditMetadataAction.EDITMETADATAACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);

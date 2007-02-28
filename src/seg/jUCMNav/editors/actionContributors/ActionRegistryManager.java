@@ -56,6 +56,8 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
+import seg.jUCMNav.actions.performance.CreateResourceAction; //_js_
+import seg.jUCMNav.actions.performance.ManageDemandAction; //_js_
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;
@@ -402,6 +404,15 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.RunAllScenariosInGroup")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action); 
         
+		//_js_
+        action = new CreateResourceAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.CreateResourceAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action); 
+        
+		//_js_
+        action = new ManageDemandAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ManageDemandAction")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action); 
         
         // keep at bottom
         action = new EditStubPluginsAction(editor);
