@@ -27,7 +27,14 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
     private Demand demand;
     
     /**
-     * @param component 
+     * @param urn
+     * 		containing URN specification
+     * @param resource
+     * 		to be associated with the demand
+     * @param quantity
+     * 		quantity of the resource
+     * @param responsibility
+     * 		requesting the resource
      * 
      */
     public CreateDemandCommand(URNspec urn, GeneralResource resource, double quantity, Responsibility responsibility) {

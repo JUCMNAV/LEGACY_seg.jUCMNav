@@ -25,7 +25,12 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     private String description;
     
     /**
-     * @param component 
+     * @param urn
+     * 		containing URN specification
+     * @param opTime
+     * 		to be associated with the external resource
+     * @param description
+     * 		of the external resource
      * 
      */
     public CreateExternalOperationCommand(URNspec urn, double opTime, String description) {

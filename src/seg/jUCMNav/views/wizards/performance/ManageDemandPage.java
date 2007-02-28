@@ -44,12 +44,10 @@ public class ManageDemandPage extends WizardPage {
 	private Composite container;
 	private Label typeLabel;
 	private EObject defaultSelected;
-//	private Combo componentsList;
 	private URNspec spec;
 	private Component[] components;
 	private Combo allcomponents;
 	private Composite selectInOut;
-//	private IStructuredSelection ssel;
 	private Responsibility responsibility;
 	private List inList;
 	private Composite buttons;
@@ -65,11 +63,10 @@ public class ManageDemandPage extends WizardPage {
 
 
 	/**
-	 * The selection contains ...
+	 *
 	 * @param workbenchPage 
-	 * 
-	 * @param selection
 	 * @param defaultSelected
+	 * 		responsibility for which demand will be managed
 	 */
 	public ManageDemandPage(IWorkbenchPage workbenchPage, EObject defaultSelected) {
 		super("wizardPage"); //$NON-NLS-1$
