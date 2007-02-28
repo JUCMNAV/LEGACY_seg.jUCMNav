@@ -31,7 +31,7 @@ public class CreateResourceActiveExternal extends WizardPage {
 
 	private Text descriptionText;
 
-	private String descrip;
+	private String descrip = null;
 
 	/**
 	 * The selection contains urn model elements. Loaded in
@@ -87,9 +87,10 @@ public class CreateResourceActiveExternal extends WizardPage {
 	/**
 	 * Disabling/Enabling the NEXT button by override of canFlipToNextPage. _js_
 	 */
-	/*
-	 * public boolean canFlipToNextPage() { return false; }
-	 */
+	public boolean canFlipToNextPage() {
+		return false;
+	}
+
 	/**
 	 * 
 	 */
@@ -99,7 +100,7 @@ public class CreateResourceActiveExternal extends WizardPage {
 			msg = "Please Enter a Description";
 			descrip = null;
 		} else {
-			if ((descrip.length() == 0) && (descriptionText.getText().toString().length() != 0)) {
+			if ((descrip != null) && (descrip.length() == 0) && (descriptionText.getText().toString().length() != 0)) {
 				msg = null;
 			}
 			descrip = descriptionText.getText().toString();

@@ -1,13 +1,12 @@
 /**
  * 
  */
-package seg.jUCMNav.model.commands.create;
+package seg.jUCMNav.model.commands.delete;
 
 import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
-import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
@@ -15,18 +14,16 @@ import urn.URNspec;
 import urncore.Responsibility;
 
 /**
- * This command creates a demand (responsibility)
+ * This command deletes a demand (for a responsibility)
  * 
  * @author jack
  * 
  */
-public class CreateDemandCommand extends Command implements JUCMNavCommand {
+public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 
 	private URNspec urn;
 
 	private GeneralResource resource;
-
-	private double quantity;
 
 	private Responsibility responsibility;
 
@@ -37,35 +34,29 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 *            containing URN specification
 	 * @param resource
 	 *            to be associated with the demand
-	 * @param quantity
-	 *            quantity of the resource
 	 * @param responsibility
 	 *            requesting the resource
 	 * 
 	 */
-	public CreateDemandCommand(URNspec urn, GeneralResource resource, double quantity, Responsibility responsibility) {
+	public DeleteDemandCommand(URNspec urn, GeneralResource resource, Demand demand, Responsibility responsibility) {
 		this.urn = urn;
 		this.resource = resource;
-		this.quantity = quantity;
+		this.demand = demand;
 		this.responsibility = responsibility;
-		// setLabel(Messages.getString("CreateDemandCommand.CreateDemand"));
-		// //$NON-NLS-1$
-		setLabel("Create Demand command");
+		setLabel("Delete Demand");
 	}
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return (urn != null) && (responsibility != null) && (resource != null);
+		return (urn != null) && (responsibility != null) && (resource != null && demand != null);
 	}
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-
-		demand = (Demand) ModelCreationFactory.getNewObject(urn, Demand.class);
 		redo();
 	}
 
@@ -75,10 +66,10 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 */
 	public void redo() {
 		testPreConditions();
-		demand.setResource(resource);
-		demand.setQuantity(quantity);
-		demand.setResponsibility(responsibility);
-		responsibility.getDemands().add(demand);
+		responsibility.getDemands().remove(demand);
+		resource.getDemands().remove(demand);
+		demand.setResource(null);
+		demand.setResponsibility(null);
 		testPostConditions();
 	}
 
@@ -88,11 +79,10 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPostConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) : "post not null"; //$NON-NLS-1$
-		assert urn.getUcmspec().getResources().contains(resource) : "post Resource not in model"; //$NON-NLS-1$
-		// assert responsibility.getDemands().contains(resource) : "post demand
-		// not in Responsibility"; //$NON-NLS-1$
-		assert isResourceInDemands(responsibility, resource) : "post demand not in Responsibility"; //$NON-NLS-1$
+		assert (urn != null) && (resource != null) && (responsibility != null) : "post not null";
+		assert urn.getUcmspec().getResources().contains(resource) : "post Resource disappeared from model";
+		assert !responsibility.getDemands().contains(demand) : "post Demand still in Responsibility";
+		assert !isResourceInDemands(responsibility, resource) : "pre Resource still in Demand";
 	}
 
 	public boolean isResourceInDemands(Responsibility responsibility, GeneralResource res) {
@@ -114,9 +104,10 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPreConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) : "pre not null"; //$NON-NLS-1$
-		assert urn.getUcmspec().getResources().contains(resource) : "pre Resource not in model"; //$NON-NLS-1$
-		assert !responsibility.getDemands().contains(resource) : "pre Demand already in Responsibility"; //$NON-NLS-1$
+		assert (urn != null) && (resource != null) && (responsibility != null) && (demand != null) : "pre not null";
+		assert urn.getUcmspec().getResources().contains(resource) : "pre Resource not in model";
+		assert responsibility.getDemands().contains(demand) : "pre Demand not in Responsibility";
+		assert isResourceInDemands(responsibility, resource) : "pre Resource not in Demand";
 	}
 
 	/**
@@ -125,9 +116,10 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	public void undo() {
 		testPostConditions();
 		responsibility.getDemands().remove(demand);
-		demand.setResponsibility(null);
-		demand.setQuantity(0.0);
-		demand.setResource(null);
+		demand.setResponsibility(responsibility);
+		demand.setResource(resource);
+		resource.getDemands().add(demand);
+		responsibility.getDemands().add(demand);
 		testPreConditions();
 	}
 

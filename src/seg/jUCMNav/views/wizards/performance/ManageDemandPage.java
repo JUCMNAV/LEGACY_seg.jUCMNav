@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.CreateDemandCommand;
+import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
 import ucm.map.RespRef;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
@@ -34,39 +35,57 @@ import urncore.Component;
 import urncore.Responsibility;
 
 /**
- * The page that actually manages responsibilities' demands (resources) 
+ * The page that actually manages responsibilities' demands (resources)
  * 
  * @author jack
  */
 public class ManageDemandPage extends WizardPage {
 
 	private Shell shell;
+
 	private Composite container;
+
 	private Label typeLabel;
+
 	private EObject defaultSelected;
+
 	private URNspec spec;
+
 	private Component[] components;
+
 	private Combo allcomponents;
+
 	private Composite selectInOut;
+
 	private Responsibility responsibility;
+
 	private List inList;
+
 	private Composite buttons;
+
 	private Button left;
+
 	private Button right;
+
 	private List availList;
+
 	private GeneralResource[] availResources;
+
 	private GeneralResource[] boundResources;
+
 	private Demand[] demands;
+
 	private double quantity;
+
 	private IWorkbenchPage workbenchPage;
+
 	private GeneralResource resToManage;
 
-
 	/**
-	 *
-	 * @param workbenchPage 
+	 * 
+	 * @param workbenchPage
 	 * @param defaultSelected
-	 * 		responsibility for which demand will be managed
+	 *            responsibility for which demand will be managed
 	 */
 	public ManageDemandPage(IWorkbenchPage workbenchPage, EObject defaultSelected) {
 		super("wizardPage"); //$NON-NLS-1$
@@ -135,9 +154,6 @@ public class ManageDemandPage extends WizardPage {
 		availList.setSize(150, 120);
 		availList.addSelectionListener(availListListener);
 
-		// dialogChanged();
-		// setControl(container);
-
 		initialize();
 		setTitle("Resource Type");
 		setControl(container);
@@ -168,21 +184,19 @@ public class ManageDemandPage extends WizardPage {
 	};
 
 	private void removeRes() {
-//		int idx = inList.getSelectionIndex();
-//		GeneralResource resToRemove = boundResources[inList.getSelectionIndex()];
-//		responsibility.getDemands().remove(resToRemove);
-		responsibility.getDemands().remove(resToManage);
-		int itemToRemove = -1;
+		Demand itemToRemove = null;
 		int i = 0;
+		int itemToRemoveIndex = 0;
 		for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
 			Demand dem = (Demand) demand.next();
 			if (dem.getResource().equals(resToManage)) {
-				itemToRemove = i;
-			}				
+				itemToRemove = dem;
+				itemToRemoveIndex = i;
+			}
 			i++;
 		}
-		if (itemToRemove != -1) {
-			responsibility.getDemands().remove(itemToRemove);	
+		if (itemToRemove != null) {
+			removeResCmd(itemToRemove);
 			updateLists();
 		}
 	}
@@ -221,7 +235,19 @@ public class ManageDemandPage extends WizardPage {
 		// use a command to be undoable.
 		if (command.canExecute())
 			cs.execute(command);
-		}
+	}
+
+	public void removeResCmd(Demand demandToRemove) {
+		CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+		CompoundCommand command = new CompoundCommand();
+
+		DeleteDemandCommand deleteCmd = new DeleteDemandCommand(spec, resToManage, demandToRemove, responsibility);
+		command.add(deleteCmd);
+
+		// use a command to be undoable.
+		if (command.canExecute())
+			cs.execute(command);
+	}
 
 	/**
 	 * Ensures that the selection is legal
@@ -247,6 +273,7 @@ public class ManageDemandPage extends WizardPage {
 		}
 		updateLists();
 	}
+
 	private void updateLists() {
 		GeneralResource res;
 		if (spec != null) {
@@ -267,7 +294,7 @@ public class ManageDemandPage extends WizardPage {
 			for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
 				Demand adem = (Demand) checkDem.next();
 				GeneralResource agen = adem.getResource();
-				found = found | agen.equals(res);
+				found = found || agen.equals(res);
 			}
 			if (!found) {
 				if (res instanceof PassiveResource) {

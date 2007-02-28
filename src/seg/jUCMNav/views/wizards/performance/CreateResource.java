@@ -106,7 +106,7 @@ public class CreateResource extends Wizard {
 					return super.getNextPage(page);
 				} else {
 					return page5Passive; // _js_ this should set "component"
-											// ...
+					// ...
 				}
 			} else
 				return page2QueryActiveType;
@@ -149,9 +149,11 @@ public class CreateResource extends Wizard {
 						couldFinish = true;
 					}
 				} else if (page2QueryActiveType.getType() == CreateResourceQueryType.sActiveExternal) {
-					test4 = page4ActiveExternal.getDescription().toString();
-					if (page4ActiveExternal.getDescription().toString().length() != 0) {
-						couldFinish = true;
+					// test4 = page4ActiveExternal.getDescription().toString();
+					if (page4ActiveExternal.getDescription() != null) {
+						if (page4ActiveExternal.getDescription().toString().length() != 0) {
+							couldFinish = true;
+						}
 					}
 				}
 			}
