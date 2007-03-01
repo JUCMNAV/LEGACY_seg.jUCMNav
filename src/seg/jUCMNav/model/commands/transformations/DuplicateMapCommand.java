@@ -10,6 +10,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import ucm.map.InBinding;
 import ucm.map.OutBinding;
 import ucm.map.PluginBinding;
@@ -185,6 +186,9 @@ public class DuplicateMapCommand extends Command implements JUCMNavCommand {
           	
         }
 
+        // clean ID problems
+        URNNamingHelper.sanitizeURNspec(urn);
+        
         testPostConditions();
     }
 
