@@ -12,6 +12,8 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import ucm.map.PathNode;
+import ucm.performance.*;
+
 import ucm.performance.ActiveResource;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
@@ -37,335 +39,335 @@ import urncore.URNmodelElement;
  * @generated
  */
 public class PerformanceAdapterFactory extends AdapterFactoryImpl {
-	/**
-	 * The cached model package.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached model package.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected static PerformancePackage modelPackage;
 
-	/**
-	 * Creates an instance of the adapter factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates an instance of the adapter factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public PerformanceAdapterFactory() {
-		if (modelPackage == null) {
-			modelPackage = PerformancePackage.eINSTANCE;
-		}
-	}
+        if (modelPackage == null) {
+            modelPackage = PerformancePackage.eINSTANCE;
+        }
+    }
 
-	/**
-	 * Returns whether this factory is applicable for the type of the object.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns whether this factory is applicable for the type of the object.
+     * <!-- begin-user-doc -->
      * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
      * <!-- end-user-doc -->
-	 * @return whether this factory is applicable for the type of the object.
-	 * @generated
-	 */
+     * @return whether this factory is applicable for the type of the object.
+     * @generated
+     */
     public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
-			return true;
-		}
-		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
-		}
-		return false;
-	}
+        if (object == modelPackage) {
+            return true;
+        }
+        if (object instanceof EObject) {
+            return ((EObject)object).eClass().getEPackage() == modelPackage;
+        }
+        return false;
+    }
 
-	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
-	 * <!-- begin-user-doc -->
+    /**
+     * The switch the delegates to the <code>createXXX</code> methods.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected PerformanceSwitch modelSwitch =
-		new PerformanceSwitch() {
-			public Object caseTimestamp(Timestamp object) {
-				return createTimestampAdapter();
-			}
-			public Object caseResponseTimeReq(ResponseTimeReq object) {
-				return createResponseTimeReqAdapter();
-			}
-			public Object caseWorkload(Workload object) {
-				return createWorkloadAdapter();
-			}
-			public Object caseGeneralResource(GeneralResource object) {
-				return createGeneralResourceAdapter();
-			}
-			public Object casePerfMeasure(PerfMeasure object) {
-				return createPerfMeasureAdapter();
-			}
-			public Object casePerfValue(PerfValue object) {
-				return createPerfValueAdapter();
-			}
-			public Object caseActiveResource(ActiveResource object) {
-				return createActiveResourceAdapter();
-			}
-			public Object casePassiveResource(PassiveResource object) {
-				return createPassiveResourceAdapter();
-			}
-			public Object caseExternalOperation(ExternalOperation object) {
-				return createExternalOperationAdapter();
-			}
-			public Object caseProcessingResource(ProcessingResource object) {
-				return createProcessingResourceAdapter();
-			}
-			public Object caseDemand(Demand object) {
-				return createDemandAdapter();
-			}
-			public Object caseURNmodelElement(URNmodelElement object) {
-				return createURNmodelElementAdapter();
-			}
-			public Object caseUCMmodelElement(UCMmodelElement object) {
-				return createUCMmodelElementAdapter();
-			}
-			public Object caseIURNNode(IURNNode object) {
-				return createIURNNodeAdapter();
-			}
-			public Object casePathNode(PathNode object) {
-				return createPathNodeAdapter();
-			}
-			public Object defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+        new PerformanceSwitch() {
+            public Object caseTimestamp(Timestamp object) {
+                return createTimestampAdapter();
+            }
+            public Object caseResponseTimeReq(ResponseTimeReq object) {
+                return createResponseTimeReqAdapter();
+            }
+            public Object caseWorkload(Workload object) {
+                return createWorkloadAdapter();
+            }
+            public Object caseGeneralResource(GeneralResource object) {
+                return createGeneralResourceAdapter();
+            }
+            public Object casePerfMeasure(PerfMeasure object) {
+                return createPerfMeasureAdapter();
+            }
+            public Object casePerfValue(PerfValue object) {
+                return createPerfValueAdapter();
+            }
+            public Object caseActiveResource(ActiveResource object) {
+                return createActiveResourceAdapter();
+            }
+            public Object casePassiveResource(PassiveResource object) {
+                return createPassiveResourceAdapter();
+            }
+            public Object caseExternalOperation(ExternalOperation object) {
+                return createExternalOperationAdapter();
+            }
+            public Object caseProcessingResource(ProcessingResource object) {
+                return createProcessingResourceAdapter();
+            }
+            public Object caseDemand(Demand object) {
+                return createDemandAdapter();
+            }
+            public Object caseURNmodelElement(URNmodelElement object) {
+                return createURNmodelElementAdapter();
+            }
+            public Object caseUCMmodelElement(UCMmodelElement object) {
+                return createUCMmodelElementAdapter();
+            }
+            public Object caseIURNNode(IURNNode object) {
+                return createIURNNodeAdapter();
+            }
+            public Object casePathNode(PathNode object) {
+                return createPathNodeAdapter();
+            }
+            public Object defaultCase(EObject object) {
+                return createEObjectAdapter();
+            }
+        };
 
-	/**
-	 * Creates an adapter for the <code>target</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates an adapter for the <code>target</code>.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param target the object to adapt.
-	 * @return the adapter for the <code>target</code>.
-	 * @generated
-	 */
+     * @param target the object to adapt.
+     * @return the adapter for the <code>target</code>.
+     * @generated
+     */
     public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
-	}
+        return (Adapter)modelSwitch.doSwitch((EObject)target);
+    }
 
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.Timestamp <em>Timestamp</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.Timestamp <em>Timestamp</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.Timestamp
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.Timestamp
+     * @generated
+     */
     public Adapter createTimestampAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.ResponseTimeReq <em>Response Time Req</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.ResponseTimeReq <em>Response Time Req</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.ResponseTimeReq
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.ResponseTimeReq
+     * @generated
+     */
     public Adapter createResponseTimeReqAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.Workload <em>Workload</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.Workload <em>Workload</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.Workload
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.Workload
+     * @generated
+     */
     public Adapter createWorkloadAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.GeneralResource <em>General Resource</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.GeneralResource <em>General Resource</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.GeneralResource
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.GeneralResource
+     * @generated
+     */
     public Adapter createGeneralResourceAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.PerfMeasure <em>Perf Measure</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.PerfMeasure <em>Perf Measure</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.PerfMeasure
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.PerfMeasure
+     * @generated
+     */
     public Adapter createPerfMeasureAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.PerfValue <em>Perf Value</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.PerfValue <em>Perf Value</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.PerfValue
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.PerfValue
+     * @generated
+     */
     public Adapter createPerfValueAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.ActiveResource <em>Active Resource</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.ActiveResource <em>Active Resource</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.ActiveResource
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.ActiveResource
+     * @generated
+     */
     public Adapter createActiveResourceAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.PassiveResource <em>Passive Resource</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.PassiveResource <em>Passive Resource</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.PassiveResource
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.PassiveResource
+     * @generated
+     */
     public Adapter createPassiveResourceAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.ExternalOperation <em>External Operation</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.ExternalOperation <em>External Operation</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.ExternalOperation
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.ExternalOperation
+     * @generated
+     */
     public Adapter createExternalOperationAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.ProcessingResource <em>Processing Resource</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.ProcessingResource <em>Processing Resource</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.ProcessingResource
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.ProcessingResource
+     * @generated
+     */
     public Adapter createProcessingResourceAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.performance.Demand <em>Demand</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.performance.Demand <em>Demand</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.performance.Demand
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.performance.Demand
+     * @generated
+     */
     public Adapter createDemandAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.URNmodelElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.URNmodelElement
+     * @generated
+     */
     public Adapter createURNmodelElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.UCMmodelElement <em>UC Mmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.UCMmodelElement <em>UC Mmodel Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.UCMmodelElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.UCMmodelElement
+     * @generated
+     */
     public Adapter createUCMmodelElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNNode
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNNode
+     * @generated
+     */
     public Adapter createIURNNodeAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link ucm.map.PathNode <em>Path Node</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link ucm.map.PathNode <em>Path Node</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ucm.map.PathNode
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see ucm.map.PathNode
+     * @generated
+     */
     public Adapter createPathNodeAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for the default case.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for the default case.
+     * <!-- begin-user-doc -->
      * This default implementation returns null.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @generated
+     */
     public Adapter createEObjectAdapter() {
-		return null;
-	}
+        return null;
+    }
 
 } //PerformanceAdapterFactory

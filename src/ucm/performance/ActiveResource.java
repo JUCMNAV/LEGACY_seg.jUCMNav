@@ -24,31 +24,31 @@ package ucm.performance;
  * @generated
  */
 public interface ActiveResource extends GeneralResource {
-	/**
-	 * Returns the value of the '<em><b>Op Time</b></em>' attribute.
-	 * The default value is <code>"0.0"</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Op Time</b></em>' attribute.
+     * The default value is <code>"0.0"</code>.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Op Time</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Op Time</em>' attribute.
-	 * @see #setOpTime(double)
-	 * @see ucm.performance.PerformancePackage#getActiveResource_OpTime()
-	 * @model default="0.0"
-	 * @generated
-	 */
+     * @return the value of the '<em>Op Time</em>' attribute.
+     * @see #setOpTime(double)
+     * @see ucm.performance.PerformancePackage#getActiveResource_OpTime()
+     * @model default="0.0"
+     * @generated
+     */
     double getOpTime();
 
-	/**
-	 * Sets the value of the '{@link ucm.performance.ActiveResource#getOpTime <em>Op Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.performance.ActiveResource#getOpTime <em>Op Time</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Op Time</em>' attribute.
-	 * @see #getOpTime()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Op Time</em>' attribute.
+     * @see #getOpTime()
+     * @generated
+     */
     void setOpTime(double value);
 
 } // ActiveResource

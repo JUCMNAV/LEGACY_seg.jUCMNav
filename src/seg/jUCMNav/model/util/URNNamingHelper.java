@@ -331,6 +331,11 @@ public class URNNamingHelper {
 			findConflicts(htIDs, htVariableNames, IDConflicts, VariableNameConflicts, (URNmodelElement) iterator.next());
 		}		
 
+        // look at all resources
+        for (Iterator iterator = urn.getUcmspec().getResources().iterator(); iterator.hasNext();) {
+            findConflicts(htIDs, null, IDConflicts, null, (URNmodelElement) iterator.next());
+        }   
+        
 		// look at all maps
 		for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
 			IURNDiagram g = (IURNDiagram) iter.next();

@@ -37,244 +37,244 @@ import ucm.map.Stub;
  * @generated
  */
 public class StubImpl extends PathNodeImpl implements Stub {
-	/**
-	 * The default value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isDynamic()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isDynamic()
+     * @generated
+     * @ordered
+     */
     protected static final boolean DYNAMIC_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isDynamic()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isDynamic()
+     * @generated
+     * @ordered
+     */
     protected boolean dynamic = DYNAMIC_EDEFAULT;
 
-	/**
-	 * The default value of the '{@link #isShared() <em>Shared</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #isShared() <em>Shared</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isShared()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isShared()
+     * @generated
+     * @ordered
+     */
     protected static final boolean SHARED_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isShared() <em>Shared</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #isShared() <em>Shared</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isShared()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isShared()
+     * @generated
+     * @ordered
+     */
     protected boolean shared = SHARED_EDEFAULT;
 
-	/**
-	 * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getBindings()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getBindings()
+     * @generated
+     * @ordered
+     */
     protected EList bindings = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected StubImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return MapPackage.Literals.STUB;
-	}
+        return MapPackage.Literals.STUB;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean isDynamic() {
-		return dynamic;
-	}
+        return dynamic;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setDynamic(boolean newDynamic) {
-		boolean oldDynamic = dynamic;
-		dynamic = newDynamic;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__DYNAMIC, oldDynamic, dynamic));
-	}
+        boolean oldDynamic = dynamic;
+        dynamic = newDynamic;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__DYNAMIC, oldDynamic, dynamic));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean isShared() {
-		return shared;
-	}
+        return shared;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setShared(boolean newShared) {
-		boolean oldShared = shared;
-		shared = newShared;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__SHARED, oldShared, shared));
-	}
+        boolean oldShared = shared;
+        shared = newShared;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__SHARED, oldShared, shared));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getBindings() {
-		if (bindings == null) {
-			bindings = new EObjectContainmentWithInverseEList(PluginBinding.class, this, MapPackage.STUB__BINDINGS, MapPackage.PLUGIN_BINDING__STUB);
-		}
-		return bindings;
-	}
+        if (bindings == null) {
+            bindings = new EObjectContainmentWithInverseEList(PluginBinding.class, this, MapPackage.STUB__BINDINGS, MapPackage.PLUGIN_BINDING__STUB);
+        }
+        return bindings;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MapPackage.STUB__BINDINGS:
-				return ((InternalEList)getBindings()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__BINDINGS:
+                return ((InternalEList)getBindings()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MapPackage.STUB__BINDINGS:
-				return ((InternalEList)getBindings()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__BINDINGS:
+                return ((InternalEList)getBindings()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MapPackage.STUB__DYNAMIC:
-				return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
-			case MapPackage.STUB__SHARED:
-				return isShared() ? Boolean.TRUE : Boolean.FALSE;
-			case MapPackage.STUB__BINDINGS:
-				return getBindings();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__DYNAMIC:
+                return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
+            case MapPackage.STUB__SHARED:
+                return isShared() ? Boolean.TRUE : Boolean.FALSE;
+            case MapPackage.STUB__BINDINGS:
+                return getBindings();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MapPackage.STUB__DYNAMIC:
-				setDynamic(((Boolean)newValue).booleanValue());
-				return;
-			case MapPackage.STUB__SHARED:
-				setShared(((Boolean)newValue).booleanValue());
-				return;
-			case MapPackage.STUB__BINDINGS:
-				getBindings().clear();
-				getBindings().addAll((Collection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__DYNAMIC:
+                setDynamic(((Boolean)newValue).booleanValue());
+                return;
+            case MapPackage.STUB__SHARED:
+                setShared(((Boolean)newValue).booleanValue());
+                return;
+            case MapPackage.STUB__BINDINGS:
+                getBindings().clear();
+                getBindings().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MapPackage.STUB__DYNAMIC:
-				setDynamic(DYNAMIC_EDEFAULT);
-				return;
-			case MapPackage.STUB__SHARED:
-				setShared(SHARED_EDEFAULT);
-				return;
-			case MapPackage.STUB__BINDINGS:
-				getBindings().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__DYNAMIC:
+                setDynamic(DYNAMIC_EDEFAULT);
+                return;
+            case MapPackage.STUB__SHARED:
+                setShared(SHARED_EDEFAULT);
+                return;
+            case MapPackage.STUB__BINDINGS:
+                getBindings().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MapPackage.STUB__DYNAMIC:
-				return dynamic != DYNAMIC_EDEFAULT;
-			case MapPackage.STUB__SHARED:
-				return shared != SHARED_EDEFAULT;
-			case MapPackage.STUB__BINDINGS:
-				return bindings != null && !bindings.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.STUB__DYNAMIC:
+                return dynamic != DYNAMIC_EDEFAULT;
+            case MapPackage.STUB__SHARED:
+                return shared != SHARED_EDEFAULT;
+            case MapPackage.STUB__BINDINGS:
+                return bindings != null && !bindings.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (dynamic: ");
-		result.append(dynamic);
-		result.append(", shared: ");
-		result.append(shared);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (dynamic: ");
+        result.append(dynamic);
+        result.append(", shared: ");
+        result.append(shared);
+        result.append(')');
+        return result.toString();
+    }
 
 } //StubImpl

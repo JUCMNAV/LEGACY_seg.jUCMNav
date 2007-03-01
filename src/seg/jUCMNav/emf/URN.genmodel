@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\jktest\Desktop\URN_13.mdl</foreignModel>
+  <foreignModel>C:\temp\URN_14.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -362,9 +362,7 @@
       <genClasses ecoreClass="ucm.ecore#//performance/PassiveResource">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/PassiveResource/component"/>
       </genClasses>
-      <genClasses ecoreClass="ucm.ecore#//performance/ExternalOperation">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/ExternalOperation/description"/>
-      </genClasses>
+      <genClasses ecoreClass="ucm.ecore#//performance/ExternalOperation"/>
       <genClasses ecoreClass="ucm.ecore#//performance/ProcessingResource">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/ProcessingResource/kind"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/ProcessingResource/components"/>

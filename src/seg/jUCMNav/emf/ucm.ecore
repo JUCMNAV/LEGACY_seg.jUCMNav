@@ -88,7 +88,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="respTime" upperBound="-1"
           eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/duration"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GeneralResource">
+    <eClassifiers xsi:type="ecore:EClass" name="GeneralResource" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/resources"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="demands" upperBound="-1"
@@ -123,9 +123,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="ecore:EClass urncore.ecore#//ComponentElement"
           eOpposite="urncore.ecore#//ComponentElement/resource"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ExternalOperation" eSuperTypes="#//performance/ActiveResource">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExternalOperation" eSuperTypes="#//performance/ActiveResource"/>
     <eClassifiers xsi:type="ecore:EClass" name="ProcessingResource" eSuperTypes="#//performance/ActiveResource">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//performance/DeviceKind"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"

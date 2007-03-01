@@ -27,132 +27,132 @@ import ucm.map.MapPackage;
  * @generated
  */
 public class LoopImpl extends PathNodeImpl implements Loop {
-	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getOrientation()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getOrientation()
+     * @generated
+     * @ordered
+     */
     protected static final String ORIENTATION_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getOrientation()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getOrientation()
+     * @generated
+     * @ordered
+     */
     protected String orientation = ORIENTATION_EDEFAULT;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected LoopImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return MapPackage.Literals.LOOP;
-	}
+        return MapPackage.Literals.LOOP;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String getOrientation() {
-		return orientation;
-	}
+        return orientation;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setOrientation(String newOrientation) {
-		String oldOrientation = orientation;
-		orientation = newOrientation;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.LOOP__ORIENTATION, oldOrientation, orientation));
-	}
+        String oldOrientation = orientation;
+        orientation = newOrientation;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.LOOP__ORIENTATION, oldOrientation, orientation));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MapPackage.LOOP__ORIENTATION:
-				return getOrientation();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case MapPackage.LOOP__ORIENTATION:
+                return getOrientation();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MapPackage.LOOP__ORIENTATION:
-				setOrientation((String)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case MapPackage.LOOP__ORIENTATION:
+                setOrientation((String)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MapPackage.LOOP__ORIENTATION:
-				setOrientation(ORIENTATION_EDEFAULT);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.LOOP__ORIENTATION:
+                setOrientation(ORIENTATION_EDEFAULT);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MapPackage.LOOP__ORIENTATION:
-				return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.LOOP__ORIENTATION:
+                return ORIENTATION_EDEFAULT == null ? orientation != null : !ORIENTATION_EDEFAULT.equals(orientation);
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (orientation: ");
-		result.append(orientation);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (orientation: ");
+        result.append(orientation);
+        result.append(')');
+        return result.toString();
+    }
 
 } //LoopImpl

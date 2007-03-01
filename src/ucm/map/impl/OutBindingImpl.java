@@ -36,332 +36,332 @@ import ucm.map.PluginBinding;
  * @generated
  */
 public class OutBindingImpl extends EObjectImpl implements OutBinding {
-	/**
-	 * The cached value of the '{@link #getEndPoint() <em>End Point</em>}' reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getEndPoint() <em>End Point</em>}' reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getEndPoint()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getEndPoint()
+     * @generated
+     * @ordered
+     */
     protected EndPoint endPoint = null;
 
-	/**
-	 * The cached value of the '{@link #getStubExit() <em>Stub Exit</em>}' reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getStubExit() <em>Stub Exit</em>}' reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getStubExit()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getStubExit()
+     * @generated
+     * @ordered
+     */
     protected NodeConnection stubExit = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected OutBindingImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return MapPackage.Literals.OUT_BINDING;
-	}
+        return MapPackage.Literals.OUT_BINDING;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public PluginBinding getBinding() {
-		if (eContainerFeatureID != MapPackage.OUT_BINDING__BINDING) return null;
-		return (PluginBinding)eContainer();
-	}
+        if (eContainerFeatureID != MapPackage.OUT_BINDING__BINDING) return null;
+        return (PluginBinding)eContainer();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetBinding(PluginBinding newBinding, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newBinding, MapPackage.OUT_BINDING__BINDING, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newBinding, MapPackage.OUT_BINDING__BINDING, msgs);
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setBinding(PluginBinding newBinding) {
-		if (newBinding != eInternalContainer() || (eContainerFeatureID != MapPackage.OUT_BINDING__BINDING && newBinding != null)) {
-			if (EcoreUtil.isAncestor(this, newBinding))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newBinding != null)
-				msgs = ((InternalEObject)newBinding).eInverseAdd(this, MapPackage.PLUGIN_BINDING__OUT, PluginBinding.class, msgs);
-			msgs = basicSetBinding(newBinding, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__BINDING, newBinding, newBinding));
-	}
+        if (newBinding != eInternalContainer() || (eContainerFeatureID != MapPackage.OUT_BINDING__BINDING && newBinding != null)) {
+            if (EcoreUtil.isAncestor(this, newBinding))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newBinding != null)
+                msgs = ((InternalEObject)newBinding).eInverseAdd(this, MapPackage.PLUGIN_BINDING__OUT, PluginBinding.class, msgs);
+            msgs = basicSetBinding(newBinding, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__BINDING, newBinding, newBinding));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EndPoint getEndPoint() {
-		if (endPoint != null && endPoint.eIsProxy()) {
-			InternalEObject oldEndPoint = (InternalEObject)endPoint;
-			endPoint = (EndPoint)eResolveProxy(oldEndPoint);
-			if (endPoint != oldEndPoint) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.OUT_BINDING__END_POINT, oldEndPoint, endPoint));
-			}
-		}
-		return endPoint;
-	}
+        if (endPoint != null && endPoint.eIsProxy()) {
+            InternalEObject oldEndPoint = (InternalEObject)endPoint;
+            endPoint = (EndPoint)eResolveProxy(oldEndPoint);
+            if (endPoint != oldEndPoint) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.OUT_BINDING__END_POINT, oldEndPoint, endPoint));
+            }
+        }
+        return endPoint;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EndPoint basicGetEndPoint() {
-		return endPoint;
-	}
+        return endPoint;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain basicSetEndPoint(EndPoint newEndPoint, NotificationChain msgs) {
-		EndPoint oldEndPoint = endPoint;
-		endPoint = newEndPoint;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__END_POINT, oldEndPoint, newEndPoint);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+        EndPoint oldEndPoint = endPoint;
+        endPoint = newEndPoint;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__END_POINT, oldEndPoint, newEndPoint);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setEndPoint(EndPoint newEndPoint) {
-		if (newEndPoint != endPoint) {
-			NotificationChain msgs = null;
-			if (endPoint != null)
-				msgs = ((InternalEObject)endPoint).eInverseRemove(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
-			if (newEndPoint != null)
-				msgs = ((InternalEObject)newEndPoint).eInverseAdd(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
-			msgs = basicSetEndPoint(newEndPoint, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__END_POINT, newEndPoint, newEndPoint));
-	}
+        if (newEndPoint != endPoint) {
+            NotificationChain msgs = null;
+            if (endPoint != null)
+                msgs = ((InternalEObject)endPoint).eInverseRemove(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
+            if (newEndPoint != null)
+                msgs = ((InternalEObject)newEndPoint).eInverseAdd(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
+            msgs = basicSetEndPoint(newEndPoint, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__END_POINT, newEndPoint, newEndPoint));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NodeConnection getStubExit() {
-		if (stubExit != null && stubExit.eIsProxy()) {
-			InternalEObject oldStubExit = (InternalEObject)stubExit;
-			stubExit = (NodeConnection)eResolveProxy(oldStubExit);
-			if (stubExit != oldStubExit) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.OUT_BINDING__STUB_EXIT, oldStubExit, stubExit));
-			}
-		}
-		return stubExit;
-	}
+        if (stubExit != null && stubExit.eIsProxy()) {
+            InternalEObject oldStubExit = (InternalEObject)stubExit;
+            stubExit = (NodeConnection)eResolveProxy(oldStubExit);
+            if (stubExit != oldStubExit) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.OUT_BINDING__STUB_EXIT, oldStubExit, stubExit));
+            }
+        }
+        return stubExit;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NodeConnection basicGetStubExit() {
-		return stubExit;
-	}
+        return stubExit;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain basicSetStubExit(NodeConnection newStubExit, NotificationChain msgs) {
-		NodeConnection oldStubExit = stubExit;
-		stubExit = newStubExit;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__STUB_EXIT, oldStubExit, newStubExit);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+        NodeConnection oldStubExit = stubExit;
+        stubExit = newStubExit;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__STUB_EXIT, oldStubExit, newStubExit);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setStubExit(NodeConnection newStubExit) {
-		if (newStubExit != stubExit) {
-			NotificationChain msgs = null;
-			if (stubExit != null)
-				msgs = ((InternalEObject)stubExit).eInverseRemove(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
-			if (newStubExit != null)
-				msgs = ((InternalEObject)newStubExit).eInverseAdd(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
-			msgs = basicSetStubExit(newStubExit, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__STUB_EXIT, newStubExit, newStubExit));
-	}
+        if (newStubExit != stubExit) {
+            NotificationChain msgs = null;
+            if (stubExit != null)
+                msgs = ((InternalEObject)stubExit).eInverseRemove(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
+            if (newStubExit != null)
+                msgs = ((InternalEObject)newStubExit).eInverseAdd(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
+            msgs = basicSetStubExit(newStubExit, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.OUT_BINDING__STUB_EXIT, newStubExit, newStubExit));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetBinding((PluginBinding)otherEnd, msgs);
-			case MapPackage.OUT_BINDING__END_POINT:
-				if (endPoint != null)
-					msgs = ((InternalEObject)endPoint).eInverseRemove(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
-				return basicSetEndPoint((EndPoint)otherEnd, msgs);
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				if (stubExit != null)
-					msgs = ((InternalEObject)stubExit).eInverseRemove(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
-				return basicSetStubExit((NodeConnection)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetBinding((PluginBinding)otherEnd, msgs);
+            case MapPackage.OUT_BINDING__END_POINT:
+                if (endPoint != null)
+                    msgs = ((InternalEObject)endPoint).eInverseRemove(this, MapPackage.END_POINT__OUT_BINDINGS, EndPoint.class, msgs);
+                return basicSetEndPoint((EndPoint)otherEnd, msgs);
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                if (stubExit != null)
+                    msgs = ((InternalEObject)stubExit).eInverseRemove(this, MapPackage.NODE_CONNECTION__OUT_BINDINGS, NodeConnection.class, msgs);
+                return basicSetStubExit((NodeConnection)otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				return basicSetBinding(null, msgs);
-			case MapPackage.OUT_BINDING__END_POINT:
-				return basicSetEndPoint(null, msgs);
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				return basicSetStubExit(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                return basicSetBinding(null, msgs);
+            case MapPackage.OUT_BINDING__END_POINT:
+                return basicSetEndPoint(null, msgs);
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                return basicSetStubExit(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				return eInternalContainer().eInverseRemove(this, MapPackage.PLUGIN_BINDING__OUT, PluginBinding.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                return eInternalContainer().eInverseRemove(this, MapPackage.PLUGIN_BINDING__OUT, PluginBinding.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				return getBinding();
-			case MapPackage.OUT_BINDING__END_POINT:
-				if (resolve) return getEndPoint();
-				return basicGetEndPoint();
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				if (resolve) return getStubExit();
-				return basicGetStubExit();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                return getBinding();
+            case MapPackage.OUT_BINDING__END_POINT:
+                if (resolve) return getEndPoint();
+                return basicGetEndPoint();
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                if (resolve) return getStubExit();
+                return basicGetStubExit();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				setBinding((PluginBinding)newValue);
-				return;
-			case MapPackage.OUT_BINDING__END_POINT:
-				setEndPoint((EndPoint)newValue);
-				return;
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				setStubExit((NodeConnection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                setBinding((PluginBinding)newValue);
+                return;
+            case MapPackage.OUT_BINDING__END_POINT:
+                setEndPoint((EndPoint)newValue);
+                return;
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                setStubExit((NodeConnection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				setBinding((PluginBinding)null);
-				return;
-			case MapPackage.OUT_BINDING__END_POINT:
-				setEndPoint((EndPoint)null);
-				return;
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				setStubExit((NodeConnection)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                setBinding((PluginBinding)null);
+                return;
+            case MapPackage.OUT_BINDING__END_POINT:
+                setEndPoint((EndPoint)null);
+                return;
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                setStubExit((NodeConnection)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case MapPackage.OUT_BINDING__BINDING:
-				return getBinding() != null;
-			case MapPackage.OUT_BINDING__END_POINT:
-				return endPoint != null;
-			case MapPackage.OUT_BINDING__STUB_EXIT:
-				return stubExit != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case MapPackage.OUT_BINDING__BINDING:
+                return getBinding() != null;
+            case MapPackage.OUT_BINDING__END_POINT:
+                return endPoint != null;
+            case MapPackage.OUT_BINDING__STUB_EXIT:
+                return stubExit != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //OutBindingImpl

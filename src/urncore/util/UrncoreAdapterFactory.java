@@ -11,6 +11,8 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
+import urncore.*;
+
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
@@ -43,437 +45,437 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class UrncoreAdapterFactory extends AdapterFactoryImpl {
-	/**
-	 * The cached model package.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached model package.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected static UrncorePackage modelPackage;
 
-	/**
-	 * Creates an instance of the adapter factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates an instance of the adapter factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public UrncoreAdapterFactory() {
-		if (modelPackage == null) {
-			modelPackage = UrncorePackage.eINSTANCE;
-		}
-	}
+        if (modelPackage == null) {
+            modelPackage = UrncorePackage.eINSTANCE;
+        }
+    }
 
-	/**
-	 * Returns whether this factory is applicable for the type of the object.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns whether this factory is applicable for the type of the object.
+     * <!-- begin-user-doc -->
      * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
      * <!-- end-user-doc -->
-	 * @return whether this factory is applicable for the type of the object.
-	 * @generated
-	 */
+     * @return whether this factory is applicable for the type of the object.
+     * @generated
+     */
     public boolean isFactoryForType(Object object) {
-		if (object == modelPackage) {
-			return true;
-		}
-		if (object instanceof EObject) {
-			return ((EObject)object).eClass().getEPackage() == modelPackage;
-		}
-		return false;
-	}
+        if (object == modelPackage) {
+            return true;
+        }
+        if (object instanceof EObject) {
+            return ((EObject)object).eClass().getEPackage() == modelPackage;
+        }
+        return false;
+    }
 
-	/**
-	 * The switch the delegates to the <code>createXXX</code> methods.
-	 * <!-- begin-user-doc -->
+    /**
+     * The switch the delegates to the <code>createXXX</code> methods.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected UrncoreSwitch modelSwitch =
-		new UrncoreSwitch() {
-			public Object caseURNdefinition(URNdefinition object) {
-				return createURNdefinitionAdapter();
-			}
-			public Object caseResponsibility(Responsibility object) {
-				return createResponsibilityAdapter();
-			}
-			public Object caseComponentRegular(ComponentRegular object) {
-				return createComponentRegularAdapter();
-			}
-			public Object caseComponentElement(ComponentElement object) {
-				return createComponentElementAdapter();
-			}
-			public Object casePool(Pool object) {
-				return createPoolAdapter();
-			}
-			public Object caseComponent(Component object) {
-				return createComponentAdapter();
-			}
-			public Object caseComponentType(ComponentType object) {
-				return createComponentTypeAdapter();
-			}
-			public Object caseDynamicResponsibility(DynamicResponsibility object) {
-				return createDynamicResponsibilityAdapter();
-			}
-			public Object caseUCMmodelElement(UCMmodelElement object) {
-				return createUCMmodelElementAdapter();
-			}
-			public Object caseGRLmodelElement(GRLmodelElement object) {
-				return createGRLmodelElementAdapter();
-			}
-			public Object caseNodeLabel(NodeLabel object) {
-				return createNodeLabelAdapter();
-			}
-			public Object caseLabel(Label object) {
-				return createLabelAdapter();
-			}
-			public Object caseComponentLabel(ComponentLabel object) {
-				return createComponentLabelAdapter();
-			}
-			public Object caseCondition(Condition object) {
-				return createConditionAdapter();
-			}
-			public Object caseIURNDiagram(IURNDiagram object) {
-				return createIURNDiagramAdapter();
-			}
-			public Object caseURNmodelElement(URNmodelElement object) {
-				return createURNmodelElementAdapter();
-			}
-			public Object caseIURNNode(IURNNode object) {
-				return createIURNNodeAdapter();
-			}
-			public Object caseIURNContainerRef(IURNContainerRef object) {
-				return createIURNContainerRefAdapter();
-			}
-			public Object caseIURNContainer(IURNContainer object) {
-				return createIURNContainerAdapter();
-			}
-			public Object caseIURNConnection(IURNConnection object) {
-				return createIURNConnectionAdapter();
-			}
-			public Object caseMetadata(Metadata object) {
-				return createMetadataAdapter();
-			}
-			public Object defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+        new UrncoreSwitch() {
+            public Object caseURNdefinition(URNdefinition object) {
+                return createURNdefinitionAdapter();
+            }
+            public Object caseResponsibility(Responsibility object) {
+                return createResponsibilityAdapter();
+            }
+            public Object caseComponentRegular(ComponentRegular object) {
+                return createComponentRegularAdapter();
+            }
+            public Object caseComponentElement(ComponentElement object) {
+                return createComponentElementAdapter();
+            }
+            public Object casePool(Pool object) {
+                return createPoolAdapter();
+            }
+            public Object caseComponent(Component object) {
+                return createComponentAdapter();
+            }
+            public Object caseComponentType(ComponentType object) {
+                return createComponentTypeAdapter();
+            }
+            public Object caseDynamicResponsibility(DynamicResponsibility object) {
+                return createDynamicResponsibilityAdapter();
+            }
+            public Object caseUCMmodelElement(UCMmodelElement object) {
+                return createUCMmodelElementAdapter();
+            }
+            public Object caseGRLmodelElement(GRLmodelElement object) {
+                return createGRLmodelElementAdapter();
+            }
+            public Object caseNodeLabel(NodeLabel object) {
+                return createNodeLabelAdapter();
+            }
+            public Object caseLabel(Label object) {
+                return createLabelAdapter();
+            }
+            public Object caseComponentLabel(ComponentLabel object) {
+                return createComponentLabelAdapter();
+            }
+            public Object caseCondition(Condition object) {
+                return createConditionAdapter();
+            }
+            public Object caseIURNDiagram(IURNDiagram object) {
+                return createIURNDiagramAdapter();
+            }
+            public Object caseURNmodelElement(URNmodelElement object) {
+                return createURNmodelElementAdapter();
+            }
+            public Object caseIURNNode(IURNNode object) {
+                return createIURNNodeAdapter();
+            }
+            public Object caseIURNContainerRef(IURNContainerRef object) {
+                return createIURNContainerRefAdapter();
+            }
+            public Object caseIURNContainer(IURNContainer object) {
+                return createIURNContainerAdapter();
+            }
+            public Object caseIURNConnection(IURNConnection object) {
+                return createIURNConnectionAdapter();
+            }
+            public Object caseMetadata(Metadata object) {
+                return createMetadataAdapter();
+            }
+            public Object defaultCase(EObject object) {
+                return createEObjectAdapter();
+            }
+        };
 
-	/**
-	 * Creates an adapter for the <code>target</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates an adapter for the <code>target</code>.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param target the object to adapt.
-	 * @return the adapter for the <code>target</code>.
-	 * @generated
-	 */
+     * @param target the object to adapt.
+     * @return the adapter for the <code>target</code>.
+     * @generated
+     */
     public Adapter createAdapter(Notifier target) {
-		return (Adapter)modelSwitch.doSwitch((EObject)target);
-	}
+        return (Adapter)modelSwitch.doSwitch((EObject)target);
+    }
 
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.URNdefinition <em>UR Ndefinition</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.URNdefinition <em>UR Ndefinition</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.URNdefinition
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.URNdefinition
+     * @generated
+     */
     public Adapter createURNdefinitionAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Responsibility <em>Responsibility</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Responsibility <em>Responsibility</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Responsibility
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Responsibility
+     * @generated
+     */
     public Adapter createResponsibilityAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.ComponentRegular <em>Component Regular</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.ComponentRegular <em>Component Regular</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.ComponentRegular
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.ComponentRegular
+     * @generated
+     */
     public Adapter createComponentRegularAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.ComponentElement <em>Component Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.ComponentElement <em>Component Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.ComponentElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.ComponentElement
+     * @generated
+     */
     public Adapter createComponentElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Pool <em>Pool</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Pool <em>Pool</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Pool
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Pool
+     * @generated
+     */
     public Adapter createPoolAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Component <em>Component</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Component <em>Component</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Component
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Component
+     * @generated
+     */
     public Adapter createComponentAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.ComponentType <em>Component Type</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.ComponentType <em>Component Type</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.ComponentType
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.ComponentType
+     * @generated
+     */
     public Adapter createComponentTypeAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.DynamicResponsibility <em>Dynamic Responsibility</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.DynamicResponsibility <em>Dynamic Responsibility</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.DynamicResponsibility
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.DynamicResponsibility
+     * @generated
+     */
     public Adapter createDynamicResponsibilityAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.UCMmodelElement <em>UC Mmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.UCMmodelElement <em>UC Mmodel Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.UCMmodelElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.UCMmodelElement
+     * @generated
+     */
     public Adapter createUCMmodelElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.GRLmodelElement <em>GR Lmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.GRLmodelElement <em>GR Lmodel Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.GRLmodelElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.GRLmodelElement
+     * @generated
+     */
     public Adapter createGRLmodelElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.NodeLabel <em>Node Label</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.NodeLabel <em>Node Label</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.NodeLabel
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.NodeLabel
+     * @generated
+     */
     public Adapter createNodeLabelAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Label <em>Label</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Label <em>Label</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Label
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Label
+     * @generated
+     */
     public Adapter createLabelAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.ComponentLabel <em>Component Label</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.ComponentLabel <em>Component Label</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.ComponentLabel
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.ComponentLabel
+     * @generated
+     */
     public Adapter createComponentLabelAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Condition <em>Condition</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Condition <em>Condition</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Condition
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Condition
+     * @generated
+     */
     public Adapter createConditionAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNDiagram <em>IURN Diagram</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNDiagram <em>IURN Diagram</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNDiagram
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNDiagram
+     * @generated
+     */
     public Adapter createIURNDiagramAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.URNmodelElement
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.URNmodelElement
+     * @generated
+     */
     public Adapter createURNmodelElementAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNNode <em>IURN Node</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNNode
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNNode
+     * @generated
+     */
     public Adapter createIURNNodeAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNContainerRef <em>IURN Container Ref</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNContainerRef
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNContainerRef
+     * @generated
+     */
     public Adapter createIURNContainerRefAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNContainer <em>IURN Container</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNContainer <em>IURN Container</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNContainer
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNContainer
+     * @generated
+     */
     public Adapter createIURNContainerAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.IURNConnection <em>IURN Connection</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.IURNConnection <em>IURN Connection</em>}'.
+     * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.IURNConnection
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.IURNConnection
+     * @generated
+     */
     public Adapter createIURNConnectionAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for an object of class '{@link urncore.Metadata <em>Metadata</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for an object of class '{@link urncore.Metadata <em>Metadata</em>}'.
+     * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see urncore.Metadata
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @see urncore.Metadata
+     * @generated
+     */
 	public Adapter createMetadataAdapter() {
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Creates a new adapter for the default case.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates a new adapter for the default case.
+     * <!-- begin-user-doc -->
      * This default implementation returns null.
      * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @generated
-	 */
+     * @return the new adapter.
+     * @generated
+     */
     public Adapter createEObjectAdapter() {
-		return null;
-	}
+        return null;
+    }
 
 } //UrncoreAdapterFactory

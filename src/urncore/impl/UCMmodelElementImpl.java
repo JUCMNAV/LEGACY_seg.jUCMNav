@@ -21,22 +21,22 @@ import urncore.UrncorePackage;
  * @generated
  */
 public abstract class UCMmodelElementImpl extends URNmodelElementImpl implements UCMmodelElement {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected UCMmodelElementImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return UrncorePackage.Literals.UC_MMODEL_ELEMENT;
-	}
+        return UrncorePackage.Literals.UC_MMODEL_ELEMENT;
+    }
 
 } //UCMmodelElementImpl
