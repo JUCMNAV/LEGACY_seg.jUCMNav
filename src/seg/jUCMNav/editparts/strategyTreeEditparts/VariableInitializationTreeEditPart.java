@@ -113,6 +113,7 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
      * @return Is this element inherited from another scenario?
      */
 	private boolean isInherited() {
+        if (getParent()==null || getParent().getParent()==null) return false;
 		return !((ScenarioDef) getParent().getParent().getModel()).getInitializations().contains(getModel());
 	}
     
