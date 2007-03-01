@@ -45,6 +45,15 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 		this.responsibility = responsibility;
 		setLabel("Delete Demand");
 	}
+    
+    public DeleteDemandCommand(Demand demand) {
+        this.demand = demand;
+        this.resource = demand.getResource();
+        this.responsibility = demand.getResponsibility();
+        
+        if (demand.getResource()!=null && demand.getResource().getUcmspec()!=null)
+            this.urn = demand.getResource().getUcmspec().getUrnspec();
+    }
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#canExecute()

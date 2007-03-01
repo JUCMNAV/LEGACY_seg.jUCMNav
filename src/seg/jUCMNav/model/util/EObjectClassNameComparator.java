@@ -13,13 +13,14 @@ import ucm.map.ComponentRef;
 import ucm.map.DirectionArrow;
 import ucm.map.EmptyPoint;
 import ucm.map.RespRef;
+import ucm.performance.Demand;
 import urncore.ComponentElement;
 
 /**
  * Orders EObjects by class name then by element name.
  * 
  * @author jkealey
- *  
+ * 
  */
 public class EObjectClassNameComparator implements Comparator, Serializable {
 
@@ -38,9 +39,9 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
     public int compare(Object arg0, Object arg1) {
 
         try {
-        	if (arg0 instanceof String && arg1 instanceof String)
-        		return ((String)arg0).compareTo((String)arg1);
-        	
+            if (arg0 instanceof String && arg1 instanceof String)
+                return ((String) arg0).compareTo((String) arg1);
+
             // sort by classes first
             int i = compareClass((EObject) arg0, (EObject) arg1);
 
@@ -57,8 +58,8 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
     }
 
     /**
-     * Returns a name to be used in the sort procedure. ComponentRefs/RespRefs/IntentionalElementRefs use definition name, others uses the "name" attribute if it exists and the class
-     * name otherwise.
+     * Returns a name to be used in the sort procedure. ComponentRefs/RespRefs/IntentionalElementRefs use definition name, others uses the "name" attribute if
+     * it exists and the class name otherwise.
      * 
      * @param o
      *            the object for which to obtain the name
@@ -71,13 +72,18 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
         // but have to deal with special cases
 
         if (o instanceof ComponentRef && ((ComponentRef) o).getContDef() != null) {
-            s = ((ComponentElement)((ComponentRef) o).getContDef()).getName();
+            s = ((ComponentElement) ((ComponentRef) o).getContDef()).getName();
         } else if (o instanceof ActorRef && ((ActorRef) o).getContDef() != null) {
-            s = ((Actor)((ActorRef) o).getContDef()).getName();
+            s = ((Actor) ((ActorRef) o).getContDef()).getName();
         } else if (o instanceof RespRef && ((RespRef) o).getRespDef() != null) {
             s = ((RespRef) o).getRespDef().getName();
         } else if (o instanceof IntentionalElementRef && ((IntentionalElementRef) o).getDef() != null) {
             s = ((IntentionalElementRef) o).getDef().getName();
+        } else if (o instanceof Demand) {
+            if (((Demand)o).getResponsibility()!=null)
+                s = getSortableElementName(((Demand)o).getResponsibility());
+            else
+                s =  o.eClass().getName();
         } else {
             try {
                 Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$
@@ -85,7 +91,7 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
                     s = ""; //$NON-NLS-1$
                 else
                     s = name.toString();
-            } catch (IllegalArgumentException ex) {
+            } catch (Exception ex) {
                 s = o.eClass().getName();
             }
 
@@ -93,10 +99,10 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
 
         try {
             Object id = o.eGet(o.eClass().getEStructuralFeature("id")); //$NON-NLS-1$
-            if (id != null){
+            if (id != null) {
                 s += " (" + id.toString() + ")"; //$NON-NLS-1$ //$NON-NLS-2$ 
             }
-        } catch (IllegalArgumentException ex) {
+        } catch (Exception ex) {
         }
 
         return s;

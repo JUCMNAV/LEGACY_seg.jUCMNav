@@ -17,6 +17,8 @@ import ucm.map.PathNode;
 import ucm.map.RespRef;
 import ucm.map.Stub;
 import ucm.map.UCMmap;
+import ucm.performance.Demand;
+import ucm.performance.GeneralResource;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Responsibility;
@@ -78,6 +80,10 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new ActorTreeEditPart((Actor)model);
         else if (model instanceof ElementLink)
             return new ElementLinkTreeEditPart(model);
+        else if (model instanceof GeneralResource) 
+            return new GeneralResourceTreeEditPart((GeneralResource)model);
+        else if (model instanceof Demand)
+            return new DemandTreeEditPart((Demand)model);
         else
             return null;
     }

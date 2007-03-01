@@ -39,6 +39,7 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         if (!isActive()) {
             ((EObject) root.getUrndef()).eAdapters().add(this);
             ((EObject) root.getGrlspec()).eAdapters().add(this);
+            ((EObject) root.getUcmspec()).eAdapters().add(this);
         }
 
         setFlag(FLAG_ACTIVE, true);
@@ -60,6 +61,7 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         if (isActive()) {
             ((EObject) root.getUrndef()).eAdapters().remove(this);
             ((EObject) root.getGrlspec()).eAdapters().remove(this);
+            ((EObject) root.getUcmspec()).eAdapters().remove(this);
         }
         List c = getChildren();
         for (int i = 0; i < c.size(); i++) {
@@ -96,6 +98,7 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
+            list.add("Resources");
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.actorDefs")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs"));  //$NON-NLS-1$
@@ -108,7 +111,10 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
 		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
 
-		}               
+		} else if (getLabel().equals("Resources"))
+        {
+		    list.addAll(root.getUrndef().getUrnspec().getUcmspec().getResources());
+        }
         
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
@@ -139,6 +145,8 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             return Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
+        } else if (getLabel().equals("Resources")) {
+            return getLabel();
         }
         else
             return null;
@@ -161,6 +169,8 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif")).createImage()); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals("Resources")) 
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
 
         return super.getImage();
     }

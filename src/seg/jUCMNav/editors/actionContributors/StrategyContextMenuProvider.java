@@ -12,8 +12,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
-import seg.jUCMNav.actions.performance.CreateResourceAction; //_js_
-import seg.jUCMNav.actions.performance.ManageDemandAction; //_js_
+import seg.jUCMNav.actions.performance.CreateResourceAction;
+import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
 import seg.jUCMNav.actions.scenarios.AddPrePostConditionAction;
 import seg.jUCMNav.actions.scenarios.AddScenarioAction;

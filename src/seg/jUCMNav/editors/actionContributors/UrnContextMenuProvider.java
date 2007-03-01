@@ -40,8 +40,8 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
-import seg.jUCMNav.actions.performance.CreateResourceAction;  //_js_
-import seg.jUCMNav.actions.performance.ManageDemandAction;  //_js_
+import seg.jUCMNav.actions.performance.CreateResourceAction;
+import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.scenarios.DeleteEvaluationAction;
 import seg.jUCMNav.actions.scenarios.EditCodeAction;
 
