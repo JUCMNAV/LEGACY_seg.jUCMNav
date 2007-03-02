@@ -97,6 +97,18 @@ public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
+        
+        // HACK: GET RID OF THIS. Replace with intermediate object. 
+        if (getResource() instanceof PassiveResource) {
+            PassiveResource passiveResource = (PassiveResource) getResource();
+            if (passiveResource.getComponent()!=null)
+                list.add(passiveResource.getComponent());
+            
+        } else if (getResource() instanceof ProcessingResource) {
+            ProcessingResource processingResource = (ProcessingResource) getResource();
+            list.addAll(processingResource.getComponents());
+        }
+        // END OF HACK
         if (getResource()!=null)
             list.addAll(getResource().getDemands());
 
