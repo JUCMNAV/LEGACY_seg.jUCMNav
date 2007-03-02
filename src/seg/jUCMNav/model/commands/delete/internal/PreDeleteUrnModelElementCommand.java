@@ -10,6 +10,7 @@ import ucm.map.ComponentRef;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.UCMmap;
+import ucm.performance.GeneralResource;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioEndPoint;
@@ -131,5 +132,15 @@ public class PreDeleteUrnModelElementCommand extends CompoundCommand {
         add(new CleanRelationshipsCommand(ref));
         add(new DisconnectGRLNodeCommand(ref));
 
+    }
+    
+    /**
+     * 
+     * @param resx
+     *            the GeneralResource to be deleted.
+     */
+    public PreDeleteUrnModelElementCommand(GeneralResource resx) {
+    
+        add(new CleanRelationshipsCommand(resx));
     }
 }

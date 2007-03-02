@@ -2,6 +2,8 @@ package seg.jUCMNav.model.commands.delete;
 
 import org.eclipse.gef.commands.CompoundCommand;
 
+import seg.jUCMNav.model.commands.delete.internal.PreDeleteUrnModelElementCommand;
+import seg.jUCMNav.model.commands.delete.internal.RemoveURNmodelElementCommand;
 import ucm.performance.GeneralResource;
 
 /**
@@ -16,7 +18,9 @@ public class DeleteGeneralResourceCommand extends CompoundCommand {
         
         setLabel("Delete Resource");
 
-        // TODO: 
+        add(new PreDeleteUrnModelElementCommand(resx));
+        add(new RemoveURNmodelElementCommand(resx));
+        
         
     }
 }

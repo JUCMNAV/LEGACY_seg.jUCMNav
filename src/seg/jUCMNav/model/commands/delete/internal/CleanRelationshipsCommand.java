@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
+import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
 import seg.jUCMNav.model.commands.delete.DeleteURNlinkCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableCommand;
@@ -21,6 +22,8 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.performance.Demand;
+import ucm.performance.GeneralResource;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -145,6 +148,15 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 		this.element = pn;
 	}
 
+    
+    /**
+     * 
+     * @param resx
+     *            the GeneralResource to be cleaned.
+     */
+    public CleanRelationshipsCommand(GeneralResource resx) {
+        this.element = resx;
+    }
 	/**
 	 * 
 	 * @param pn
@@ -331,6 +343,21 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	private void build(ScenarioEndPoint pt) {
 		add(new RemoveLinkedInfoCommand(pt));
 	}
+    
+    /**
+     * 
+     * @param resx
+     *            the GeneralResource to be cleaned.
+     */
+    private void build(GeneralResource resx) {
+        for (Iterator iter = resx.getDemands().iterator(); iter.hasNext();) {
+            Demand demand = (Demand) iter.next();
+            DeleteDemandCommand cmd = new DeleteDemandCommand(demand);
+            if (cmd.canExecute())
+                add (cmd);
+        }
+        add(new RemoveLinkedInfoCommand(resx));
+    }
 
 	/**
 	 * Returns true even if no commands exist.

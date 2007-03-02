@@ -28,6 +28,8 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	private Responsibility responsibility;
 
 	private Demand demand;
+    private boolean aborted;
+    
 
 	/**
 	 * @param urn
@@ -66,6 +68,8 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
+        aborted = !urn.getUcmspec().getResources().contains(resource);
+        
 		redo();
 	}
 
@@ -74,6 +78,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
 	public void redo() {
+        if (aborted)return;
 		testPreConditions();
 		responsibility.getDemands().remove(demand);
 		resource.getDemands().remove(demand);
@@ -123,6 +128,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
 	public void undo() {
+        if (aborted)return;
 		testPostConditions();
 		responsibility.getDemands().remove(demand);
 		demand.setResponsibility(responsibility);

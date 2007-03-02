@@ -14,6 +14,7 @@ import ucm.UCMspec;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
+import ucm.performance.GeneralResource;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -138,6 +139,15 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 	public RemoveURNmodelElementCommand(GRLNode node) {
 		this.element = node;
 	}
+    /**
+     * 
+     * @param resx
+     *            the GeneralResource to be deleted.
+     */
+    public RemoveURNmodelElementCommand(GeneralResource resx) {
+        this.element = resx;
+    }
+
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#execute()
@@ -222,7 +232,13 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 				index = scenario.getPostconditions().indexOf(cond);
 			}
 
-		}		
+		} else if (element instanceof GeneralResource) {
+            GeneralResource generalResource = (GeneralResource) element;		
+            aborted = generalResource.getUcmspec()==null;
+            if (aborted)return;
+            ucmspec = generalResource.getUcmspec();
+            index = ucmspec.getResources().indexOf(generalResource);
+        }
 
 		redo();
 	}
@@ -275,7 +291,10 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 			else
 				cond.setScenarioDefPost(null);
 			
-		}
+        } else if (element instanceof GeneralResource) {
+            GeneralResource resx = (GeneralResource) element;
+            resx.setUcmspec(null);
+        }
 
 		testPostConditions();
 	}
@@ -337,8 +356,13 @@ public class RemoveURNmodelElementCommand extends Command implements JUCMNavComm
 				//cond.setScenarioDefPost(scenario);
 				scenario.getPostconditions().add(index, cond);
 			}
-			
-		}
+
+        } else if (element instanceof GeneralResource) {
+            GeneralResource resx = (GeneralResource) element;
+            resx.setUcmspec(ucmspec);
+        }
+
+        
 		testPreConditions();
 	}
 

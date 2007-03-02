@@ -2,6 +2,9 @@ package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.GRLGraph;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 
@@ -12,12 +15,16 @@ import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.StartPoint;
 import ucm.map.UCMmap;
+import ucm.performance.GeneralResource;
+import ucm.performance.PassiveResource;
+import ucm.performance.ProcessingResource;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
 import ucm.scenario.ScenarioEndPoint;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
+import urncore.ComponentElement;
 import urncore.Condition;
 
 /**
@@ -43,6 +50,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private PathNode scenarioPathNode;
     private ScenarioDef scenario;
     private EnumerationType enumType;
+    private List components; // Single ComponentElement or list of ComponentRegular 
     
 
     /**
@@ -128,6 +136,14 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     
     /**
      * 
+     * @param resx
+     *            the GeneralResource to be cleaned.
+     */
+    public RemoveLinkedInfoCommand(GeneralResource resx) {
+        this.element = resx;
+    }  
+    /**
+     * 
      * @see org.eclipse.gef.commands.Command#execute()
      */
     public void execute() {
@@ -141,6 +157,17 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         	this.scenario = ((Initialization)element).getScenarioDef();
         else if (element instanceof Variable)
         	this.enumType = ((Variable)element).getEnumerationType();
+        else if (element instanceof GeneralResource) {
+            this.components = new ArrayList();
+            if (element instanceof PassiveResource) {
+                PassiveResource passiveResource = (PassiveResource) element;
+                if (passiveResource.getComponent()!=null)
+                    this.components.add(passiveResource.getComponent());
+            } else if (element instanceof ProcessingResource) {
+                ProcessingResource processingResource = (ProcessingResource) element;
+                this.components.addAll(processingResource.getComponents());
+            }
+        }
         redo();
     }
 
@@ -159,7 +186,16 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         	((Initialization)element).setScenarioDef(null);
         else if (element instanceof Variable)
         	((Variable)element).setEnumerationType(null);
-
+        else if (element instanceof GeneralResource) {
+            this.components = new ArrayList();
+            if (element instanceof PassiveResource) {
+                PassiveResource passiveResource = (PassiveResource) element;
+                passiveResource.setComponent(null);
+            } else if (element instanceof ProcessingResource) {
+                ProcessingResource processingResource = (ProcessingResource) element;
+                processingResource.getComponents().clear();
+            }
+        }
         testPostConditions();
 
     }
@@ -180,7 +216,18 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         	((Initialization)element).setScenarioDef(scenario);
         else if (element instanceof Variable)
         	((Variable)element).setEnumerationType(enumType);
-        
+        else if (element instanceof GeneralResource) {
+            if (element instanceof PassiveResource) {
+                PassiveResource passiveResource = (PassiveResource) element;
+                if (this.components.size()==0)
+                    passiveResource.setComponent(null);
+                else
+                    passiveResource.setComponent((ComponentElement)this.components.get(0));
+            } else if (element instanceof ProcessingResource) {
+                ProcessingResource processingResource = (ProcessingResource) element;
+                processingResource.getComponents().addAll(this.components);
+            }
+        }
         testPreConditions();
     }
 
@@ -189,7 +236,9 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert element != null : "pre something is null"; //$NON-NLS-1$
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization || element instanceof Variable) : "pre invalid class"; //$NON-NLS-1$
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
+        
+
     }
 
     /**
@@ -199,6 +248,21 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         assert element != null : "post something is null"; //$NON-NLS-1$
         if (condition != null && element instanceof NodeConnection)
             assert ((NodeConnection) element).getCondition() == null : "post condition not removed"; //$NON-NLS-1$
+        
+        if (element instanceof PassiveResource) {
+            PassiveResource passiveResource = (PassiveResource) element;
+            assert passiveResource.getComponent() == null : "post still linked";
+        } else if (element instanceof ProcessingResource) {
+            ProcessingResource processingResource = (ProcessingResource) element;
+            assert processingResource.getComponents().size()==0 : "post still linked";
+        }
+        
+        if (element instanceof GeneralResource)
+        {
+            GeneralResource resource = (GeneralResource) element;
+            assert resource.getDemands().size()==0 : "post still linked";
+        }
+        
     }
 
 }
