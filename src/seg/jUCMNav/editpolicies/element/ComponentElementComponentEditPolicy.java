@@ -5,6 +5,8 @@ import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteComponentElementCommand;
+import seg.jUCMNav.model.commands.delete.RemoveResourceFromComponentCommand;
+import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import urncore.ComponentElement;
 
 /**
@@ -14,19 +16,30 @@ import urncore.ComponentElement;
  */
 public class ComponentElementComponentEditPolicy extends ComponentEditPolicy {
 
+    ComponentTreeWrapper wrapper;
+    
+    public ComponentElementComponentEditPolicy(ComponentTreeWrapper wrapper) {
+        this.wrapper=wrapper;    
+    }
+    
     /**
-     * Return a DeleteComponentElementCommand
+     * Return a DeleteComponentElementCommand or a RemoveResourceFromComponenCommand
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object comp = getHost().getModel();
         if (comp instanceof ComponentElement) {
-
             ComponentElement elem = (ComponentElement) comp;
-            if (elem.getContRefs().size() == 0) {
-                DeleteComponentElementCommand deleteCommand = new DeleteComponentElementCommand(elem);
+            
+            if (wrapper==null) {
+                if (elem.getContRefs().size() == 0) {
+                    DeleteComponentElementCommand deleteCommand = new DeleteComponentElementCommand(elem);
+                    return deleteCommand;
+                } else
+                    return null;
+            } else {
+                RemoveResourceFromComponentCommand deleteCommand = new RemoveResourceFromComponentCommand(wrapper.getComp(), wrapper.getResx());
                 return deleteCommand;
-            } else
-                return null;
+            }
         }
 
         return null;

@@ -1,6 +1,7 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
@@ -11,9 +12,11 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ResourceComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
+import urncore.ComponentElement;
 
 /**
  * TreeEditPart for resources
@@ -98,17 +101,19 @@ public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
         
-        // HACK: GET RID OF THIS. Replace with intermediate object. 
         if (getResource() instanceof PassiveResource) {
             PassiveResource passiveResource = (PassiveResource) getResource();
             if (passiveResource.getComponent()!=null)
-                list.add(passiveResource.getComponent());
+                list.add(new ComponentTreeWrapper(passiveResource.getComponent(), passiveResource));
             
         } else if (getResource() instanceof ProcessingResource) {
             ProcessingResource processingResource = (ProcessingResource) getResource();
-            list.addAll(processingResource.getComponents());
+            for (Iterator iter = list.iterator(); iter.hasNext();) {
+                ComponentElement comp = (ComponentElement) iter.next();
+                list.add(new ComponentTreeWrapper(comp, processingResource));
+            }
         }
-        // END OF HACK
+
         if (getResource()!=null)
             list.addAll(getResource().getDemands());
 

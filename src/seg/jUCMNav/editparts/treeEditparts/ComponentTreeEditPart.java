@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.editpolicies.element.ComponentElementComponentEditPolicy;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
@@ -19,12 +20,24 @@ import urncore.ComponentKind;
  */
 public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
 
+    private ComponentTreeWrapper wrapper;
+    
     /**
      * @param model
      *            the component definition
      */
     public ComponentTreeEditPart(ComponentElement model) {
         super(model);
+    }
+    
+    /**
+     * 
+     * @param model
+     * the resx-component wrapper
+     */
+    public ComponentTreeEditPart(ComponentTreeWrapper model) {
+         super(model.getComp());
+         this.wrapper =model;
     }
 
     /**
@@ -75,7 +88,7 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentElementComponentEditPolicy());
+        installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentElementComponentEditPolicy(wrapper));
     }
 
     /**
@@ -84,7 +97,7 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getComp().getContRefs().size() == 0)
+        if (getComp().getContRefs().size() == 0 && wrapper==null)
             ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
         else
             ((TreeItem) widget).setForeground(ColorManager.BLACK);

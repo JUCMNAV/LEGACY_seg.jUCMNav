@@ -12,6 +12,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
+import seg.jUCMNav.model.wrappers.ComponentTreeWrapper;
 import ucm.map.ComponentRef;
 import ucm.map.PathNode;
 import ucm.map.RespRef;
@@ -64,6 +65,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new LabelTreeEditPart(model, urn);
         else if (model instanceof ComponentElement)
             return new ComponentTreeEditPart((ComponentElement) model);
+        else if (model instanceof ComponentTreeWrapper) 
+            return new ComponentTreeEditPart((ComponentTreeWrapper) model);
         else if (model instanceof Responsibility)
             return new ResponsibilityTreeEditPart((Responsibility) model);
         else if (model instanceof GRLGraph)

@@ -158,6 +158,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         else if (element instanceof Variable)
         	this.enumType = ((Variable)element).getEnumerationType();
         else if (element instanceof GeneralResource) {
+            // TODO: could use RemoveResourceFromComponentCommand
+            
             this.components = new ArrayList();
             if (element instanceof PassiveResource) {
                 PassiveResource passiveResource = (PassiveResource) element;
