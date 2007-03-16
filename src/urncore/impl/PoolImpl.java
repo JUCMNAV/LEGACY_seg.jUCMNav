@@ -39,331 +39,331 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class PoolImpl extends ComponentElementImpl implements Pool {
-    /**
-     * The default value of the '{@link #isOfComponents() <em>Of Components</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #isOfComponents() <em>Of Components</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isOfComponents()
-     * @generated
-     * @ordered
-     */
+	 * @see #isOfComponents()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean OF_COMPONENTS_EDEFAULT = false;
 
-    /**
-     * The cached value of the '{@link #isOfComponents() <em>Of Components</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #isOfComponents() <em>Of Components</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isOfComponents()
-     * @generated
-     * @ordered
-     */
+	 * @see #isOfComponents()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean ofComponents = OF_COMPONENTS_EDEFAULT;
 
-    /**
-     * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getContent() <em>Content</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getContent()
-     * @generated
-     * @ordered
-     */
+	 * @see #getContent()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String CONTENT_EDEFAULT = null;
 
-    /**
-     * The cached value of the '{@link #getContent() <em>Content</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getContent() <em>Content</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getContent()
-     * @generated
-     * @ordered
-     */
+	 * @see #getContent()
+	 * @generated
+	 * @ordered
+	 */
     protected String content = CONTENT_EDEFAULT;
 
-    /**
-     * The cached value of the '{@link #getComponentType() <em>Component Type</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getComponentType() <em>Component Type</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getComponentType()
-     * @generated
-     * @ordered
-     */
+	 * @see #getComponentType()
+	 * @generated
+	 * @ordered
+	 */
     protected ComponentType componentType = null;
 
-    /**
-     * The cached value of the '{@link #getDynResponsibilities() <em>Dyn Responsibilities</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getDynResponsibilities() <em>Dyn Responsibilities</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDynResponsibilities()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDynResponsibilities()
+	 * @generated
+	 * @ordered
+	 */
     protected EList dynResponsibilities = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected PoolImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return UrncorePackage.Literals.POOL;
-    }
+		return UrncorePackage.Literals.POOL;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isOfComponents() {
-        return ofComponents;
-    }
+		return ofComponents;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setOfComponents(boolean newOfComponents) {
-        boolean oldOfComponents = ofComponents;
-        ofComponents = newOfComponents;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__OF_COMPONENTS, oldOfComponents, ofComponents));
-    }
+		boolean oldOfComponents = ofComponents;
+		ofComponents = newOfComponents;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__OF_COMPONENTS, oldOfComponents, ofComponents));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String getContent() {
-        return content;
-    }
+		return content;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setContent(String newContent) {
-        String oldContent = content;
-        content = newContent;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__CONTENT, oldContent, content));
-    }
+		String oldContent = content;
+		content = newContent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__CONTENT, oldContent, content));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ComponentType getComponentType() {
-        if (componentType != null && componentType.eIsProxy()) {
-            InternalEObject oldComponentType = (InternalEObject)componentType;
-            componentType = (ComponentType)eResolveProxy(oldComponentType);
-            if (componentType != oldComponentType) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.POOL__COMPONENT_TYPE, oldComponentType, componentType));
-            }
-        }
-        return componentType;
-    }
+		if (componentType != null && componentType.eIsProxy()) {
+			InternalEObject oldComponentType = (InternalEObject)componentType;
+			componentType = (ComponentType)eResolveProxy(oldComponentType);
+			if (componentType != oldComponentType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.POOL__COMPONENT_TYPE, oldComponentType, componentType));
+			}
+		}
+		return componentType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ComponentType basicGetComponentType() {
-        return componentType;
-    }
+		return componentType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetComponentType(ComponentType newComponentType, NotificationChain msgs) {
-        ComponentType oldComponentType = componentType;
-        componentType = newComponentType;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__COMPONENT_TYPE, oldComponentType, newComponentType);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		ComponentType oldComponentType = componentType;
+		componentType = newComponentType;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__COMPONENT_TYPE, oldComponentType, newComponentType);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setComponentType(ComponentType newComponentType) {
-        if (newComponentType != componentType) {
-            NotificationChain msgs = null;
-            if (componentType != null)
-                msgs = ((InternalEObject)componentType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
-            if (newComponentType != null)
-                msgs = ((InternalEObject)newComponentType).eInverseAdd(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
-            msgs = basicSetComponentType(newComponentType, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__COMPONENT_TYPE, newComponentType, newComponentType));
-    }
+		if (newComponentType != componentType) {
+			NotificationChain msgs = null;
+			if (componentType != null)
+				msgs = ((InternalEObject)componentType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
+			if (newComponentType != null)
+				msgs = ((InternalEObject)newComponentType).eInverseAdd(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
+			msgs = basicSetComponentType(newComponentType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.POOL__COMPONENT_TYPE, newComponentType, newComponentType));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getDynResponsibilities() {
-        if (dynResponsibilities == null) {
-            dynResponsibilities = new EObjectWithInverseResolvingEList(DynamicResponsibility.class, this, UrncorePackage.POOL__DYN_RESPONSIBILITIES, UrncorePackage.DYNAMIC_RESPONSIBILITY__POOL);
-        }
-        return dynResponsibilities;
-    }
+		if (dynResponsibilities == null) {
+			dynResponsibilities = new EObjectWithInverseResolvingEList(DynamicResponsibility.class, this, UrncorePackage.POOL__DYN_RESPONSIBILITIES, UrncorePackage.DYNAMIC_RESPONSIBILITY__POOL);
+		}
+		return dynResponsibilities;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                if (componentType != null)
-                    msgs = ((InternalEObject)componentType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
-                return basicSetComponentType((ComponentType)otherEnd, msgs);
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                return ((InternalEList)getDynResponsibilities()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				if (componentType != null)
+					msgs = ((InternalEObject)componentType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__POOLS, ComponentType.class, msgs);
+				return basicSetComponentType((ComponentType)otherEnd, msgs);
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				return ((InternalEList)getDynResponsibilities()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                return basicSetComponentType(null, msgs);
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                return ((InternalEList)getDynResponsibilities()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				return basicSetComponentType(null, msgs);
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				return ((InternalEList)getDynResponsibilities()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case UrncorePackage.POOL__OF_COMPONENTS:
-                return isOfComponents() ? Boolean.TRUE : Boolean.FALSE;
-            case UrncorePackage.POOL__CONTENT:
-                return getContent();
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                if (resolve) return getComponentType();
-                return basicGetComponentType();
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                return getDynResponsibilities();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__OF_COMPONENTS:
+				return isOfComponents() ? Boolean.TRUE : Boolean.FALSE;
+			case UrncorePackage.POOL__CONTENT:
+				return getContent();
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				if (resolve) return getComponentType();
+				return basicGetComponentType();
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				return getDynResponsibilities();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case UrncorePackage.POOL__OF_COMPONENTS:
-                setOfComponents(((Boolean)newValue).booleanValue());
-                return;
-            case UrncorePackage.POOL__CONTENT:
-                setContent((String)newValue);
-                return;
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                setComponentType((ComponentType)newValue);
-                return;
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                getDynResponsibilities().clear();
-                getDynResponsibilities().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__OF_COMPONENTS:
+				setOfComponents(((Boolean)newValue).booleanValue());
+				return;
+			case UrncorePackage.POOL__CONTENT:
+				setContent((String)newValue);
+				return;
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				setComponentType((ComponentType)newValue);
+				return;
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				getDynResponsibilities().clear();
+				getDynResponsibilities().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case UrncorePackage.POOL__OF_COMPONENTS:
-                setOfComponents(OF_COMPONENTS_EDEFAULT);
-                return;
-            case UrncorePackage.POOL__CONTENT:
-                setContent(CONTENT_EDEFAULT);
-                return;
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                setComponentType((ComponentType)null);
-                return;
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                getDynResponsibilities().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__OF_COMPONENTS:
+				setOfComponents(OF_COMPONENTS_EDEFAULT);
+				return;
+			case UrncorePackage.POOL__CONTENT:
+				setContent(CONTENT_EDEFAULT);
+				return;
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				setComponentType((ComponentType)null);
+				return;
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				getDynResponsibilities().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case UrncorePackage.POOL__OF_COMPONENTS:
-                return ofComponents != OF_COMPONENTS_EDEFAULT;
-            case UrncorePackage.POOL__CONTENT:
-                return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
-            case UrncorePackage.POOL__COMPONENT_TYPE:
-                return componentType != null;
-            case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
-                return dynResponsibilities != null && !dynResponsibilities.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case UrncorePackage.POOL__OF_COMPONENTS:
+				return ofComponents != OF_COMPONENTS_EDEFAULT;
+			case UrncorePackage.POOL__CONTENT:
+				return CONTENT_EDEFAULT == null ? content != null : !CONTENT_EDEFAULT.equals(content);
+			case UrncorePackage.POOL__COMPONENT_TYPE:
+				return componentType != null;
+			case UrncorePackage.POOL__DYN_RESPONSIBILITIES:
+				return dynResponsibilities != null && !dynResponsibilities.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (ofComponents: ");
-        result.append(ofComponents);
-        result.append(", content: ");
-        result.append(content);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (ofComponents: ");
+		result.append(ofComponents);
+		result.append(", content: ");
+		result.append(content);
+		result.append(')');
+		return result.toString();
+	}
 
 } //PoolImpl

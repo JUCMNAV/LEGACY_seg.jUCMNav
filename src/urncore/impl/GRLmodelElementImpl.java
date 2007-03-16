@@ -21,22 +21,22 @@ import urncore.UrncorePackage;
  * @generated
  */
 public abstract class GRLmodelElementImpl extends URNmodelElementImpl implements GRLmodelElement {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected GRLmodelElementImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return UrncorePackage.Literals.GR_LMODEL_ELEMENT;
-    }
+		return UrncorePackage.Literals.GR_LMODEL_ELEMENT;
+	}
 
 } //GRLmodelElementImpl

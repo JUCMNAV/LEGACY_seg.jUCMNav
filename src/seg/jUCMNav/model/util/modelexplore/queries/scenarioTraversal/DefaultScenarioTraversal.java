@@ -445,10 +445,18 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	 */
 	protected void processRespRef(UcmEnvironment env, RespRef resp) throws TraversalException {
 		try {
-			if (resp.getRepetitionCount()>0)
+			// First convert the repetitionCount String attribute to an int.
+			int repCount;
+			try {
+				repCount=Integer.parseInt(resp.getRepetitionCount());
+			} catch (NumberFormatException e) {
+				_warnings.add(new TraversalWarning(Messages.getString("Repetition count value not an int. Assumed a value of 1."), resp, IMarker.SEVERITY_INFO));
+				repCount = 1;
+			}
+			if (repCount>0)
 			{
 				// loop repetition count time. 
-				for ( int i=0; i<resp.getRepetitionCount();i++) {
+				for ( int i=0; i<repCount;i++) {
 					ScenarioUtils.evaluate(resp, env);
 					if (!ScenarioUtils.isEmptyResponsibility(resp))
 						_listeners.codeExecuted(_currentVisit, resp.getRespDef().getExpression());

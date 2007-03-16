@@ -41,231 +41,231 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class EndPointImpl extends PathNodeImpl implements EndPoint {
-    /**
-     * The cached value of the '{@link #getOutBindings() <em>Out Bindings</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getOutBindings() <em>Out Bindings</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getOutBindings()
-     * @generated
-     * @ordered
-     */
+	 * @see #getOutBindings()
+	 * @generated
+	 * @ordered
+	 */
     protected EList outBindings = null;
 
-    /**
-     * The cached value of the '{@link #getPostcondition() <em>Postcondition</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getPostcondition() <em>Postcondition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPostcondition()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPostcondition()
+	 * @generated
+	 * @ordered
+	 */
     protected Condition postcondition = null;
 
-    /**
-     * The cached value of the '{@link #getScenarioEndPoints() <em>Scenario End Points</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getScenarioEndPoints() <em>Scenario End Points</em>}' reference list.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @see #getScenarioEndPoints()
-     * @generated
-     * @ordered
-     */
+	 * @see #getScenarioEndPoints()
+	 * @generated
+	 * @ordered
+	 */
 	protected EList scenarioEndPoints = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EndPointImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.END_POINT;
-    }
+		return MapPackage.Literals.END_POINT;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getOutBindings() {
-        if (outBindings == null) {
-            outBindings = new EObjectWithInverseResolvingEList(OutBinding.class, this, MapPackage.END_POINT__OUT_BINDINGS, MapPackage.OUT_BINDING__END_POINT);
-        }
-        return outBindings;
-    }
+		if (outBindings == null) {
+			outBindings = new EObjectWithInverseResolvingEList(OutBinding.class, this, MapPackage.END_POINT__OUT_BINDINGS, MapPackage.OUT_BINDING__END_POINT);
+		}
+		return outBindings;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Condition getPostcondition() {
-        return postcondition;
-    }
+		return postcondition;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetPostcondition(Condition newPostcondition, NotificationChain msgs) {
-        Condition oldPostcondition = postcondition;
-        postcondition = newPostcondition;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.END_POINT__POSTCONDITION, oldPostcondition, newPostcondition);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Condition oldPostcondition = postcondition;
+		postcondition = newPostcondition;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.END_POINT__POSTCONDITION, oldPostcondition, newPostcondition);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setPostcondition(Condition newPostcondition) {
-        if (newPostcondition != postcondition) {
-            NotificationChain msgs = null;
-            if (postcondition != null)
-                msgs = ((InternalEObject)postcondition).eInverseRemove(this, UrncorePackage.CONDITION__END_POINT, Condition.class, msgs);
-            if (newPostcondition != null)
-                msgs = ((InternalEObject)newPostcondition).eInverseAdd(this, UrncorePackage.CONDITION__END_POINT, Condition.class, msgs);
-            msgs = basicSetPostcondition(newPostcondition, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.END_POINT__POSTCONDITION, newPostcondition, newPostcondition));
-    }
+		if (newPostcondition != postcondition) {
+			NotificationChain msgs = null;
+			if (postcondition != null)
+				msgs = ((InternalEObject)postcondition).eInverseRemove(this, UrncorePackage.CONDITION__END_POINT, Condition.class, msgs);
+			if (newPostcondition != null)
+				msgs = ((InternalEObject)newPostcondition).eInverseAdd(this, UrncorePackage.CONDITION__END_POINT, Condition.class, msgs);
+			msgs = basicSetPostcondition(newPostcondition, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.END_POINT__POSTCONDITION, newPostcondition, newPostcondition));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public EList getScenarioEndPoints() {
-        if (scenarioEndPoints == null) {
-            scenarioEndPoints = new EObjectWithInverseResolvingEList(ScenarioEndPoint.class, this, MapPackage.END_POINT__SCENARIO_END_POINTS, ScenarioPackage.SCENARIO_END_POINT__END_POINT);
-        }
-        return scenarioEndPoints;
-    }
+		if (scenarioEndPoints == null) {
+			scenarioEndPoints = new EObjectWithInverseResolvingEList(ScenarioEndPoint.class, this, MapPackage.END_POINT__SCENARIO_END_POINTS, ScenarioPackage.SCENARIO_END_POINT__END_POINT);
+		}
+		return scenarioEndPoints;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                return ((InternalEList)getOutBindings()).basicAdd(otherEnd, msgs);
-            case MapPackage.END_POINT__POSTCONDITION:
-                if (postcondition != null)
-                    msgs = ((InternalEObject)postcondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.END_POINT__POSTCONDITION, null, msgs);
-                return basicSetPostcondition((Condition)otherEnd, msgs);
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                return ((InternalEList)getScenarioEndPoints()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				return ((InternalEList)getOutBindings()).basicAdd(otherEnd, msgs);
+			case MapPackage.END_POINT__POSTCONDITION:
+				if (postcondition != null)
+					msgs = ((InternalEObject)postcondition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.END_POINT__POSTCONDITION, null, msgs);
+				return basicSetPostcondition((Condition)otherEnd, msgs);
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return ((InternalEList)getScenarioEndPoints()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                return ((InternalEList)getOutBindings()).basicRemove(otherEnd, msgs);
-            case MapPackage.END_POINT__POSTCONDITION:
-                return basicSetPostcondition(null, msgs);
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                return ((InternalEList)getScenarioEndPoints()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				return ((InternalEList)getOutBindings()).basicRemove(otherEnd, msgs);
+			case MapPackage.END_POINT__POSTCONDITION:
+				return basicSetPostcondition(null, msgs);
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return ((InternalEList)getScenarioEndPoints()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                return getOutBindings();
-            case MapPackage.END_POINT__POSTCONDITION:
-                return getPostcondition();
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                return getScenarioEndPoints();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				return getOutBindings();
+			case MapPackage.END_POINT__POSTCONDITION:
+				return getPostcondition();
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return getScenarioEndPoints();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                getOutBindings().clear();
-                getOutBindings().addAll((Collection)newValue);
-                return;
-            case MapPackage.END_POINT__POSTCONDITION:
-                setPostcondition((Condition)newValue);
-                return;
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                getScenarioEndPoints().clear();
-                getScenarioEndPoints().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				getOutBindings().clear();
+				getOutBindings().addAll((Collection)newValue);
+				return;
+			case MapPackage.END_POINT__POSTCONDITION:
+				setPostcondition((Condition)newValue);
+				return;
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				getScenarioEndPoints().clear();
+				getScenarioEndPoints().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                getOutBindings().clear();
-                return;
-            case MapPackage.END_POINT__POSTCONDITION:
-                setPostcondition((Condition)null);
-                return;
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                getScenarioEndPoints().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				getOutBindings().clear();
+				return;
+			case MapPackage.END_POINT__POSTCONDITION:
+				setPostcondition((Condition)null);
+				return;
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				getScenarioEndPoints().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.END_POINT__OUT_BINDINGS:
-                return outBindings != null && !outBindings.isEmpty();
-            case MapPackage.END_POINT__POSTCONDITION:
-                return postcondition != null;
-            case MapPackage.END_POINT__SCENARIO_END_POINTS:
-                return scenarioEndPoints != null && !scenarioEndPoints.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.END_POINT__OUT_BINDINGS:
+				return outBindings != null && !outBindings.isEmpty();
+			case MapPackage.END_POINT__POSTCONDITION:
+				return postcondition != null;
+			case MapPackage.END_POINT__SCENARIO_END_POINTS:
+				return scenarioEndPoints != null && !scenarioEndPoints.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //EndPointImpl

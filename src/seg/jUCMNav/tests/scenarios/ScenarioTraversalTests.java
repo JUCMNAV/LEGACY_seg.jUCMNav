@@ -178,7 +178,7 @@ public class ScenarioTraversalTests extends TestCase {
 
         tester.testSplitLinkCommand();
         tester.resp.getRespDef().setExpression("i=i+1;");
-        tester.resp.setRepetitionCount(10);
+        tester.resp.setRepetitionCount("10");
         tester.start.setPrecondition(getCondition("i<25"));
         tester.end.setPostcondition(getCondition("i>=25"));
 

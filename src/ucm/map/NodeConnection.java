@@ -31,95 +31,95 @@ import urncore.IURNConnection;
  * @generated
  */
 public interface NodeConnection extends IURNConnection {
-    /**
-     * Returns the value of the '<em><b>Probability</b></em>' attribute.
-     * The default value is <code>"1.0"</code>.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Probability</b></em>' attribute.
+	 * The default value is <code>"1.0"</code>.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Probability</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Probability</em>' attribute.
-     * @see #setProbability(double)
-     * @see ucm.map.MapPackage#getNodeConnection_Probability()
-     * @model default="1.0"
-     * @generated
-     */
+	 * @return the value of the '<em>Probability</em>' attribute.
+	 * @see #setProbability(double)
+	 * @see ucm.map.MapPackage#getNodeConnection_Probability()
+	 * @model default="1.0"
+	 * @generated
+	 */
     double getProbability();
 
-    /**
-     * Sets the value of the '{@link ucm.map.NodeConnection#getProbability <em>Probability</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.map.NodeConnection#getProbability <em>Probability</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Probability</em>' attribute.
-     * @see #getProbability()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Probability</em>' attribute.
+	 * @see #getProbability()
+	 * @generated
+	 */
     void setProbability(double value);
 
-    /**
-     * Returns the value of the '<em><b>In Bindings</b></em>' reference list.
-     * The list contents are of type {@link ucm.map.InBinding}.
-     * It is bidirectional and its opposite is '{@link ucm.map.InBinding#getStubEntry <em>Stub Entry</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>In Bindings</b></em>' reference list.
+	 * The list contents are of type {@link ucm.map.InBinding}.
+	 * It is bidirectional and its opposite is '{@link ucm.map.InBinding#getStubEntry <em>Stub Entry</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>In Bindings</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>In Bindings</em>' reference list.
-     * @see ucm.map.MapPackage#getNodeConnection_InBindings()
-     * @see ucm.map.InBinding#getStubEntry
-     * @model type="ucm.map.InBinding" opposite="stubEntry"
-     * @generated
-     */
+	 * @return the value of the '<em>In Bindings</em>' reference list.
+	 * @see ucm.map.MapPackage#getNodeConnection_InBindings()
+	 * @see ucm.map.InBinding#getStubEntry
+	 * @model type="ucm.map.InBinding" opposite="stubEntry"
+	 * @generated
+	 */
     EList getInBindings();
 
-    /**
-     * Returns the value of the '<em><b>Out Bindings</b></em>' reference list.
-     * The list contents are of type {@link ucm.map.OutBinding}.
-     * It is bidirectional and its opposite is '{@link ucm.map.OutBinding#getStubExit <em>Stub Exit</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Out Bindings</b></em>' reference list.
+	 * The list contents are of type {@link ucm.map.OutBinding}.
+	 * It is bidirectional and its opposite is '{@link ucm.map.OutBinding#getStubExit <em>Stub Exit</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Out Bindings</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Out Bindings</em>' reference list.
-     * @see ucm.map.MapPackage#getNodeConnection_OutBindings()
-     * @see ucm.map.OutBinding#getStubExit
-     * @model type="ucm.map.OutBinding" opposite="stubExit"
-     * @generated
-     */
+	 * @return the value of the '<em>Out Bindings</em>' reference list.
+	 * @see ucm.map.MapPackage#getNodeConnection_OutBindings()
+	 * @see ucm.map.OutBinding#getStubExit
+	 * @model type="ucm.map.OutBinding" opposite="stubExit"
+	 * @generated
+	 */
     EList getOutBindings();
 
-    /**
-     * Returns the value of the '<em><b>Condition</b></em>' containment reference.
-     * It is bidirectional and its opposite is '{@link urncore.Condition#getNodeConnection <em>Node Connection</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Condition</b></em>' containment reference.
+	 * It is bidirectional and its opposite is '{@link urncore.Condition#getNodeConnection <em>Node Connection</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Condition</em>' containment reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Condition</em>' containment reference.
-     * @see #setCondition(Condition)
-     * @see ucm.map.MapPackage#getNodeConnection_Condition()
-     * @see urncore.Condition#getNodeConnection
-     * @model opposite="nodeConnection" containment="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Condition</em>' containment reference.
+	 * @see #setCondition(Condition)
+	 * @see ucm.map.MapPackage#getNodeConnection_Condition()
+	 * @see urncore.Condition#getNodeConnection
+	 * @model opposite="nodeConnection" containment="true"
+	 * @generated
+	 */
     Condition getCondition();
 
-    /**
-     * Sets the value of the '{@link ucm.map.NodeConnection#getCondition <em>Condition</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.map.NodeConnection#getCondition <em>Condition</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Condition</em>' containment reference.
-     * @see #getCondition()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Condition</em>' containment reference.
+	 * @see #getCondition()
+	 * @generated
+	 */
     void setCondition(Condition value);
 
 } // NodeConnection

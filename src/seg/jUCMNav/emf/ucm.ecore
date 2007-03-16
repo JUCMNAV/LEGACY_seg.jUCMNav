@@ -88,7 +88,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="respTime" upperBound="-1"
           eType="#//performance/PerfMeasure" eOpposite="#//performance/PerfMeasure/duration"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GeneralResource" eSuperTypes="urncore.ecore#//UCMmodelElement">
+    <eClassifiers xsi:type="ecore:EClass" name="GeneralResource" abstract="true" eSuperTypes="urncore.ecore#//UCMmodelElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="ucmspec" lowerBound="1"
           eType="#//UCMspec" transient="true" eOpposite="#//UCMspec/resources"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="demands" upperBound="-1"
@@ -115,7 +115,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="perfMeasure" lowerBound="1"
           eType="#//performance/PerfMeasure" transient="true" eOpposite="#//performance/PerfMeasure/perfValues"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ActiveResource" eSuperTypes="#//performance/GeneralResource">
+    <eClassifiers xsi:type="ecore:EClass" name="ActiveResource" abstract="true" eSuperTypes="#//performance/GeneralResource">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="opTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
           defaultValueLiteral="0.0"/>
     </eClassifiers>
@@ -158,7 +158,9 @@
           eType="#//map/NodeConnection" eOpposite="#//map/NodeConnection/inBindings"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RespRef" eSuperTypes="#//map/PathNode">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="repetitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="repetitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="hostDemand" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="respDef" lowerBound="1"
           eType="ecore:EClass urncore.ecore#//Responsibility" eOpposite="urncore.ecore#//Responsibility/respRefs"/>
     </eClassifiers>
@@ -193,6 +195,8 @@
           defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="shared" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="repetitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="1"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="bindings" upperBound="-1"
           eType="#//map/PluginBinding" containment="true" eOpposite="#//map/PluginBinding/stub"/>
     </eClassifiers>
@@ -234,9 +238,10 @@
         <details key="documentation" value="A plugin refers to a Map that can be substituted  to the parent stub. The binding between the plugin and its  parent stub is defined by the in-connections, the  out-connections, and the instance-values. "/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="repetitionCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
           defaultValueLiteral="1.0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="transaction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="in" lowerBound="1" upperBound="-1"
           eType="#//map/InBinding" containment="true" eOpposite="#//map/InBinding/binding"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="out" lowerBound="1" upperBound="-1"

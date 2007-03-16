@@ -44,348 +44,348 @@ import urncore.impl.UCMmodelElementImpl;
  * @generated
  */
 public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure {
-    /**
-     * The default value of the '{@link #getMeasure() <em>Measure</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getMeasure() <em>Measure</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getMeasure()
-     * @generated
-     * @ordered
-     */
+	 * @see #getMeasure()
+	 * @generated
+	 * @ordered
+	 */
     protected static final PerfAttribute MEASURE_EDEFAULT = PerfAttribute.DELAY_LITERAL;
 
-    /**
-     * The cached value of the '{@link #getMeasure() <em>Measure</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getMeasure() <em>Measure</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getMeasure()
-     * @generated
-     * @ordered
-     */
+	 * @see #getMeasure()
+	 * @generated
+	 * @ordered
+	 */
     protected PerfAttribute measure = MEASURE_EDEFAULT;
 
-    /**
-     * The cached value of the '{@link #getPerfValues() <em>Perf Values</em>}' containment reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getPerfValues() <em>Perf Values</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPerfValues()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPerfValues()
+	 * @generated
+	 * @ordered
+	 */
     protected EList perfValues = null;
 
-    /**
-     * The cached value of the '{@link #getDuration() <em>Duration</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDuration()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDuration()
+	 * @generated
+	 * @ordered
+	 */
     protected Workload duration = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected PerfMeasureImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return PerformancePackage.Literals.PERF_MEASURE;
-    }
+		return PerformancePackage.Literals.PERF_MEASURE;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public PerfAttribute getMeasure() {
-        return measure;
-    }
+		return measure;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setMeasure(PerfAttribute newMeasure) {
-        PerfAttribute oldMeasure = measure;
-        measure = newMeasure == null ? MEASURE_EDEFAULT : newMeasure;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__MEASURE, oldMeasure, measure));
-    }
+		PerfAttribute oldMeasure = measure;
+		measure = newMeasure == null ? MEASURE_EDEFAULT : newMeasure;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__MEASURE, oldMeasure, measure));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public UCMspec getUcmspec() {
-        if (eContainerFeatureID != PerformancePackage.PERF_MEASURE__UCMSPEC) return null;
-        return (UCMspec)eContainer();
-    }
+		if (eContainerFeatureID != PerformancePackage.PERF_MEASURE__UCMSPEC) return null;
+		return (UCMspec)eContainer();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain basicSetUcmspec(UCMspec newUcmspec, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newUcmspec, PerformancePackage.PERF_MEASURE__UCMSPEC, msgs);
-        return msgs;
-    }
+		msgs = eBasicSetContainer((InternalEObject)newUcmspec, PerformancePackage.PERF_MEASURE__UCMSPEC, msgs);
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setUcmspec(UCMspec newUcmspec) {
-        if (newUcmspec != eInternalContainer() || (eContainerFeatureID != PerformancePackage.PERF_MEASURE__UCMSPEC && newUcmspec != null)) {
-            if (EcoreUtil.isAncestor(this, newUcmspec))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eInternalContainer() != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newUcmspec != null)
-                msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
-            msgs = basicSetUcmspec(newUcmspec, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__UCMSPEC, newUcmspec, newUcmspec));
-    }
+		if (newUcmspec != eInternalContainer() || (eContainerFeatureID != PerformancePackage.PERF_MEASURE__UCMSPEC && newUcmspec != null)) {
+			if (EcoreUtil.isAncestor(this, newUcmspec))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newUcmspec != null)
+				msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
+			msgs = basicSetUcmspec(newUcmspec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__UCMSPEC, newUcmspec, newUcmspec));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getPerfValues() {
-        if (perfValues == null) {
-            perfValues = new EObjectContainmentWithInverseEList(PerfValue.class, this, PerformancePackage.PERF_MEASURE__PERF_VALUES, PerformancePackage.PERF_VALUE__PERF_MEASURE);
-        }
-        return perfValues;
-    }
+		if (perfValues == null) {
+			perfValues = new EObjectContainmentWithInverseEList(PerfValue.class, this, PerformancePackage.PERF_MEASURE__PERF_VALUES, PerformancePackage.PERF_VALUE__PERF_MEASURE);
+		}
+		return perfValues;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Workload getDuration() {
-        if (duration != null && duration.eIsProxy()) {
-            InternalEObject oldDuration = (InternalEObject)duration;
-            duration = (Workload)eResolveProxy(oldDuration);
-            if (duration != oldDuration) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PERF_MEASURE__DURATION, oldDuration, duration));
-            }
-        }
-        return duration;
-    }
+		if (duration != null && duration.eIsProxy()) {
+			InternalEObject oldDuration = (InternalEObject)duration;
+			duration = (Workload)eResolveProxy(oldDuration);
+			if (duration != oldDuration) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PERF_MEASURE__DURATION, oldDuration, duration));
+			}
+		}
+		return duration;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Workload basicGetDuration() {
-        return duration;
-    }
+		return duration;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetDuration(Workload newDuration, NotificationChain msgs) {
-        Workload oldDuration = duration;
-        duration = newDuration;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__DURATION, oldDuration, newDuration);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Workload oldDuration = duration;
+		duration = newDuration;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__DURATION, oldDuration, newDuration);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDuration(Workload newDuration) {
-        if (newDuration != duration) {
-            NotificationChain msgs = null;
-            if (duration != null)
-                msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
-            if (newDuration != null)
-                msgs = ((InternalEObject)newDuration).eInverseAdd(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
-            msgs = basicSetDuration(newDuration, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__DURATION, newDuration, newDuration));
-    }
+		if (newDuration != duration) {
+			NotificationChain msgs = null;
+			if (duration != null)
+				msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+			if (newDuration != null)
+				msgs = ((InternalEObject)newDuration).eInverseAdd(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+			msgs = basicSetDuration(newDuration, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__DURATION, newDuration, newDuration));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                if (eInternalContainer() != null)
-                    msgs = eBasicRemoveFromContainer(msgs);
-                return basicSetUcmspec((UCMspec)otherEnd, msgs);
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                return ((InternalEList)getPerfValues()).basicAdd(otherEnd, msgs);
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                if (duration != null)
-                    msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
-                return basicSetDuration((Workload)otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetUcmspec((UCMspec)otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				return ((InternalEList)getPerfValues()).basicAdd(otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				if (duration != null)
+					msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+				return basicSetDuration((Workload)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                return basicSetUcmspec(null, msgs);
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                return ((InternalEList)getPerfValues()).basicRemove(otherEnd, msgs);
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                return basicSetDuration(null, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				return basicSetUcmspec(null, msgs);
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				return ((InternalEList)getPerfValues()).basicRemove(otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				return basicSetDuration(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-        switch (eContainerFeatureID) {
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                return eInternalContainer().eInverseRemove(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
-        }
-        return super.eBasicRemoveFromContainerFeature(msgs);
-    }
+		switch (eContainerFeatureID) {
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				return eInternalContainer().eInverseRemove(this, UcmPackage.UC_MSPEC__PERF_MEASURES, UCMspec.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__MEASURE:
-                return getMeasure();
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                return getUcmspec();
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                return getPerfValues();
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                if (resolve) return getDuration();
-                return basicGetDuration();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__MEASURE:
+				return getMeasure();
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				return getUcmspec();
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				return getPerfValues();
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				if (resolve) return getDuration();
+				return basicGetDuration();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__MEASURE:
-                setMeasure((PerfAttribute)newValue);
-                return;
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                setUcmspec((UCMspec)newValue);
-                return;
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                getPerfValues().clear();
-                getPerfValues().addAll((Collection)newValue);
-                return;
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                setDuration((Workload)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__MEASURE:
+				setMeasure((PerfAttribute)newValue);
+				return;
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				setUcmspec((UCMspec)newValue);
+				return;
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				getPerfValues().clear();
+				getPerfValues().addAll((Collection)newValue);
+				return;
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				setDuration((Workload)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__MEASURE:
-                setMeasure(MEASURE_EDEFAULT);
-                return;
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                setUcmspec((UCMspec)null);
-                return;
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                getPerfValues().clear();
-                return;
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                setDuration((Workload)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__MEASURE:
+				setMeasure(MEASURE_EDEFAULT);
+				return;
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				setUcmspec((UCMspec)null);
+				return;
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				getPerfValues().clear();
+				return;
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				setDuration((Workload)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PerformancePackage.PERF_MEASURE__MEASURE:
-                return measure != MEASURE_EDEFAULT;
-            case PerformancePackage.PERF_MEASURE__UCMSPEC:
-                return getUcmspec() != null;
-            case PerformancePackage.PERF_MEASURE__PERF_VALUES:
-                return perfValues != null && !perfValues.isEmpty();
-            case PerformancePackage.PERF_MEASURE__DURATION:
-                return duration != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case PerformancePackage.PERF_MEASURE__MEASURE:
+				return measure != MEASURE_EDEFAULT;
+			case PerformancePackage.PERF_MEASURE__UCMSPEC:
+				return getUcmspec() != null;
+			case PerformancePackage.PERF_MEASURE__PERF_VALUES:
+				return perfValues != null && !perfValues.isEmpty();
+			case PerformancePackage.PERF_MEASURE__DURATION:
+				return duration != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (measure: ");
-        result.append(measure);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (measure: ");
+		result.append(measure);
+		result.append(')');
+		return result.toString();
+	}
 
 } //PerfMeasureImpl

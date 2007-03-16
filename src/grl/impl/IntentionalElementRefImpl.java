@@ -34,294 +34,294 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * @generated
  */
 public class IntentionalElementRefImpl extends GRLNodeImpl implements IntentionalElementRef {
-    /**
-     * The default value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCriticality()
-     * @generated
-     * @ordered
-     */
+	 * @see #getCriticality()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Criticality CRITICALITY_EDEFAULT = Criticality.NONE_LITERAL;
 
-    /**
-     * The cached value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getCriticality() <em>Criticality</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCriticality()
-     * @generated
-     * @ordered
-     */
+	 * @see #getCriticality()
+	 * @generated
+	 * @ordered
+	 */
     protected Criticality criticality = CRITICALITY_EDEFAULT;
 
-    /**
-     * The default value of the '{@link #getPriority() <em>Priority</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The default value of the '{@link #getPriority() <em>Priority</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPriority()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPriority()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Priority PRIORITY_EDEFAULT = Priority.NONE_LITERAL;
 
-    /**
-     * The cached value of the '{@link #getPriority() <em>Priority</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getPriority() <em>Priority</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPriority()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPriority()
+	 * @generated
+	 * @ordered
+	 */
     protected Priority priority = PRIORITY_EDEFAULT;
 
-    /**
-     * The cached value of the '{@link #getDef() <em>Def</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getDef() <em>Def</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getDef()
-     * @generated
-     * @ordered
-     */
+	 * @see #getDef()
+	 * @generated
+	 * @ordered
+	 */
     protected IntentionalElement def = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected IntentionalElementRefImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return GrlPackage.Literals.INTENTIONAL_ELEMENT_REF;
-    }
+		return GrlPackage.Literals.INTENTIONAL_ELEMENT_REF;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Criticality getCriticality() {
-        return criticality;
-    }
+		return criticality;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setCriticality(Criticality newCriticality) {
-        Criticality oldCriticality = criticality;
-        criticality = newCriticality == null ? CRITICALITY_EDEFAULT : newCriticality;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY, oldCriticality, criticality));
-    }
+		Criticality oldCriticality = criticality;
+		criticality = newCriticality == null ? CRITICALITY_EDEFAULT : newCriticality;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY, oldCriticality, criticality));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Priority getPriority() {
-        return priority;
-    }
+		return priority;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setPriority(Priority newPriority) {
-        Priority oldPriority = priority;
-        priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY, oldPriority, priority));
-    }
+		Priority oldPriority = priority;
+		priority = newPriority == null ? PRIORITY_EDEFAULT : newPriority;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY, oldPriority, priority));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement getDef() {
-        if (def != null && def.eIsProxy()) {
-            InternalEObject oldDef = (InternalEObject)def;
-            def = (IntentionalElement)eResolveProxy(oldDef);
-            if (def != oldDef) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, oldDef, def));
-            }
-        }
-        return def;
-    }
+		if (def != null && def.eIsProxy()) {
+			InternalEObject oldDef = (InternalEObject)def;
+			def = (IntentionalElement)eResolveProxy(oldDef);
+			if (def != oldDef) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, oldDef, def));
+			}
+		}
+		return def;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntentionalElement basicGetDef() {
-        return def;
-    }
+		return def;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetDef(IntentionalElement newDef, NotificationChain msgs) {
-        IntentionalElement oldDef = def;
-        def = newDef;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, oldDef, newDef);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IntentionalElement oldDef = def;
+		def = newDef;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, oldDef, newDef);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDef(IntentionalElement newDef) {
-        if (newDef != def) {
-            NotificationChain msgs = null;
-            if (def != null)
-                msgs = ((InternalEObject)def).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
-            if (newDef != null)
-                msgs = ((InternalEObject)newDef).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
-            msgs = basicSetDef(newDef, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, newDef, newDef));
-    }
+		if (newDef != def) {
+			NotificationChain msgs = null;
+			if (def != null)
+				msgs = ((InternalEObject)def).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
+			if (newDef != null)
+				msgs = ((InternalEObject)newDef).eInverseAdd(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
+			msgs = basicSetDef(newDef, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.INTENTIONAL_ELEMENT_REF__DEF, newDef, newDef));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                if (def != null)
-                    msgs = ((InternalEObject)def).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
-                return basicSetDef((IntentionalElement)otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				if (def != null)
+					msgs = ((InternalEObject)def).eInverseRemove(this, GrlPackage.INTENTIONAL_ELEMENT__REFS, IntentionalElement.class, msgs);
+				return basicSetDef((IntentionalElement)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                return basicSetDef(null, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				return basicSetDef(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
-                return getCriticality();
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
-                return getPriority();
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                if (resolve) return getDef();
-                return basicGetDef();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+				return getCriticality();
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+				return getPriority();
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				if (resolve) return getDef();
+				return basicGetDef();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
-                setCriticality((Criticality)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
-                setPriority((Priority)newValue);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                setDef((IntentionalElement)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+				setCriticality((Criticality)newValue);
+				return;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+				setPriority((Priority)newValue);
+				return;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				setDef((IntentionalElement)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
-                setCriticality(CRITICALITY_EDEFAULT);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
-                setPriority(PRIORITY_EDEFAULT);
-                return;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                setDef((IntentionalElement)null);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+				setCriticality(CRITICALITY_EDEFAULT);
+				return;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+				setPriority(PRIORITY_EDEFAULT);
+				return;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				setDef((IntentionalElement)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
-                return criticality != CRITICALITY_EDEFAULT;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
-                return priority != PRIORITY_EDEFAULT;
-            case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
-                return def != null;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__CRITICALITY:
+				return criticality != CRITICALITY_EDEFAULT;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__PRIORITY:
+				return priority != PRIORITY_EDEFAULT;
+			case GrlPackage.INTENTIONAL_ELEMENT_REF__DEF:
+				return def != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (criticality: ");
-        result.append(criticality);
-        result.append(", priority: ");
-        result.append(priority);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (criticality: ");
+		result.append(criticality);
+		result.append(", priority: ");
+		result.append(priority);
+		result.append(')');
+		return result.toString();
+	}
 
 } //IntentionalElementRefImpl

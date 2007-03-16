@@ -23,22 +23,22 @@ import ucm.performance.PerformancePackage;
  * @generated
  */
 public class ExternalOperationImpl extends ActiveResourceImpl implements ExternalOperation {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected ExternalOperationImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return PerformancePackage.Literals.EXTERNAL_OPERATION;
-    }
+		return PerformancePackage.Literals.EXTERNAL_OPERATION;
+	}
 
 } //ExternalOperationImpl

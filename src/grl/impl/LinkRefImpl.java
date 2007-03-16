@@ -46,456 +46,456 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class LinkRefImpl extends EObjectImpl implements LinkRef {
-    /**
-     * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSource() <em>Source</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSource()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSource()
+	 * @generated
+	 * @ordered
+	 */
     protected IURNNode source = null;
 
-    /**
-     * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getTarget()
-     * @generated
-     * @ordered
-     */
+	 * @see #getTarget()
+	 * @generated
+	 * @ordered
+	 */
     protected IURNNode target = null;
 
-    /**
-     * The cached value of the '{@link #getLink() <em>Link</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getLink() <em>Link</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getLink()
-     * @generated
-     * @ordered
-     */
+	 * @see #getLink()
+	 * @generated
+	 * @ordered
+	 */
     protected ElementLink link = null;
 
-    /**
-     * The cached value of the '{@link #getBendpoints() <em>Bendpoints</em>}' containment reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getBendpoints() <em>Bendpoints</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getBendpoints()
-     * @generated
-     * @ordered
-     */
+	 * @see #getBendpoints()
+	 * @generated
+	 * @ordered
+	 */
     protected EList bendpoints = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected LinkRefImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return GrlPackage.Literals.LINK_REF;
-    }
+		return GrlPackage.Literals.LINK_REF;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNNode getSource() {
-        if (source != null && source.eIsProxy()) {
-            InternalEObject oldSource = (InternalEObject)source;
-            source = (IURNNode)eResolveProxy(oldSource);
-            if (source != oldSource) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__SOURCE, oldSource, source));
-            }
-        }
-        return source;
-    }
+		if (source != null && source.eIsProxy()) {
+			InternalEObject oldSource = (InternalEObject)source;
+			source = (IURNNode)eResolveProxy(oldSource);
+			if (source != oldSource) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__SOURCE, oldSource, source));
+			}
+		}
+		return source;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNNode basicGetSource() {
-        return source;
-    }
+		return source;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetSource(IURNNode newSource, NotificationChain msgs) {
-        IURNNode oldSource = source;
-        source = newSource;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__SOURCE, oldSource, newSource);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IURNNode oldSource = source;
+		source = newSource;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__SOURCE, oldSource, newSource);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setSource(IURNNode newSource) {
-        if (newSource != source) {
-            NotificationChain msgs = null;
-            if (source != null)
-                msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
-            if (newSource != null)
-                msgs = ((InternalEObject)newSource).eInverseAdd(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
-            msgs = basicSetSource(newSource, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__SOURCE, newSource, newSource));
-    }
+		if (newSource != source) {
+			NotificationChain msgs = null;
+			if (source != null)
+				msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
+			if (newSource != null)
+				msgs = ((InternalEObject)newSource).eInverseAdd(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
+			msgs = basicSetSource(newSource, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__SOURCE, newSource, newSource));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNNode getTarget() {
-        if (target != null && target.eIsProxy()) {
-            InternalEObject oldTarget = (InternalEObject)target;
-            target = (IURNNode)eResolveProxy(oldTarget);
-            if (target != oldTarget) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__TARGET, oldTarget, target));
-            }
-        }
-        return target;
-    }
+		if (target != null && target.eIsProxy()) {
+			InternalEObject oldTarget = (InternalEObject)target;
+			target = (IURNNode)eResolveProxy(oldTarget);
+			if (target != oldTarget) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__TARGET, oldTarget, target));
+			}
+		}
+		return target;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNNode basicGetTarget() {
-        return target;
-    }
+		return target;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetTarget(IURNNode newTarget, NotificationChain msgs) {
-        IURNNode oldTarget = target;
-        target = newTarget;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__TARGET, oldTarget, newTarget);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		IURNNode oldTarget = target;
+		target = newTarget;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__TARGET, oldTarget, newTarget);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setTarget(IURNNode newTarget) {
-        if (newTarget != target) {
-            NotificationChain msgs = null;
-            if (target != null)
-                msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
-            if (newTarget != null)
-                msgs = ((InternalEObject)newTarget).eInverseAdd(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
-            msgs = basicSetTarget(newTarget, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__TARGET, newTarget, newTarget));
-    }
+		if (newTarget != target) {
+			NotificationChain msgs = null;
+			if (target != null)
+				msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
+			if (newTarget != null)
+				msgs = ((InternalEObject)newTarget).eInverseAdd(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
+			msgs = basicSetTarget(newTarget, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__TARGET, newTarget, newTarget));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IURNDiagram getDiagram() {
-        if (eContainerFeatureID != GrlPackage.LINK_REF__DIAGRAM) return null;
-        return (IURNDiagram)eContainer();
-    }
+		if (eContainerFeatureID != GrlPackage.LINK_REF__DIAGRAM) return null;
+		return (IURNDiagram)eContainer();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain basicSetDiagram(IURNDiagram newDiagram, NotificationChain msgs) {
-        msgs = eBasicSetContainer((InternalEObject)newDiagram, GrlPackage.LINK_REF__DIAGRAM, msgs);
-        return msgs;
-    }
+		msgs = eBasicSetContainer((InternalEObject)newDiagram, GrlPackage.LINK_REF__DIAGRAM, msgs);
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setDiagram(IURNDiagram newDiagram) {
-        if (newDiagram != eInternalContainer() || (eContainerFeatureID != GrlPackage.LINK_REF__DIAGRAM && newDiagram != null)) {
-            if (EcoreUtil.isAncestor(this, newDiagram))
-                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-            NotificationChain msgs = null;
-            if (eInternalContainer() != null)
-                msgs = eBasicRemoveFromContainer(msgs);
-            if (newDiagram != null)
-                msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
-            msgs = basicSetDiagram(newDiagram, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__DIAGRAM, newDiagram, newDiagram));
-    }
+		if (newDiagram != eInternalContainer() || (eContainerFeatureID != GrlPackage.LINK_REF__DIAGRAM && newDiagram != null)) {
+			if (EcoreUtil.isAncestor(this, newDiagram))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newDiagram != null)
+				msgs = ((InternalEObject)newDiagram).eInverseAdd(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
+			msgs = basicSetDiagram(newDiagram, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__DIAGRAM, newDiagram, newDiagram));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ElementLink getLink() {
-        if (link != null && link.eIsProxy()) {
-            InternalEObject oldLink = (InternalEObject)link;
-            link = (ElementLink)eResolveProxy(oldLink);
-            if (link != oldLink) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__LINK, oldLink, link));
-            }
-        }
-        return link;
-    }
+		if (link != null && link.eIsProxy()) {
+			InternalEObject oldLink = (InternalEObject)link;
+			link = (ElementLink)eResolveProxy(oldLink);
+			if (link != oldLink) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.LINK_REF__LINK, oldLink, link));
+			}
+		}
+		return link;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ElementLink basicGetLink() {
-        return link;
-    }
+		return link;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetLink(ElementLink newLink, NotificationChain msgs) {
-        ElementLink oldLink = link;
-        link = newLink;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__LINK, oldLink, newLink);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		ElementLink oldLink = link;
+		link = newLink;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__LINK, oldLink, newLink);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setLink(ElementLink newLink) {
-        if (newLink != link) {
-            NotificationChain msgs = null;
-            if (link != null)
-                msgs = ((InternalEObject)link).eInverseRemove(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
-            if (newLink != null)
-                msgs = ((InternalEObject)newLink).eInverseAdd(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
-            msgs = basicSetLink(newLink, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__LINK, newLink, newLink));
-    }
+		if (newLink != link) {
+			NotificationChain msgs = null;
+			if (link != null)
+				msgs = ((InternalEObject)link).eInverseRemove(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
+			if (newLink != null)
+				msgs = ((InternalEObject)newLink).eInverseAdd(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
+			msgs = basicSetLink(newLink, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.LINK_REF__LINK, newLink, newLink));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getBendpoints() {
-        if (bendpoints == null) {
-            bendpoints = new EObjectContainmentWithInverseEList(LinkRefBendpoint.class, this, GrlPackage.LINK_REF__BENDPOINTS, GrlPackage.LINK_REF_BENDPOINT__LINKREF);
-        }
-        return bendpoints;
-    }
+		if (bendpoints == null) {
+			bendpoints = new EObjectContainmentWithInverseEList(LinkRefBendpoint.class, this, GrlPackage.LINK_REF__BENDPOINTS, GrlPackage.LINK_REF_BENDPOINT__LINKREF);
+		}
+		return bendpoints;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                if (source != null)
-                    msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
-                return basicSetSource((IURNNode)otherEnd, msgs);
-            case GrlPackage.LINK_REF__TARGET:
-                if (target != null)
-                    msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
-                return basicSetTarget((IURNNode)otherEnd, msgs);
-            case GrlPackage.LINK_REF__DIAGRAM:
-                if (eInternalContainer() != null)
-                    msgs = eBasicRemoveFromContainer(msgs);
-                return basicSetDiagram((IURNDiagram)otherEnd, msgs);
-            case GrlPackage.LINK_REF__LINK:
-                if (link != null)
-                    msgs = ((InternalEObject)link).eInverseRemove(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
-                return basicSetLink((ElementLink)otherEnd, msgs);
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                return ((InternalEList)getBendpoints()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				if (source != null)
+					msgs = ((InternalEObject)source).eInverseRemove(this, UrncorePackage.IURN_NODE__SUCC, IURNNode.class, msgs);
+				return basicSetSource((IURNNode)otherEnd, msgs);
+			case GrlPackage.LINK_REF__TARGET:
+				if (target != null)
+					msgs = ((InternalEObject)target).eInverseRemove(this, UrncorePackage.IURN_NODE__PRED, IURNNode.class, msgs);
+				return basicSetTarget((IURNNode)otherEnd, msgs);
+			case GrlPackage.LINK_REF__DIAGRAM:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetDiagram((IURNDiagram)otherEnd, msgs);
+			case GrlPackage.LINK_REF__LINK:
+				if (link != null)
+					msgs = ((InternalEObject)link).eInverseRemove(this, GrlPackage.ELEMENT_LINK__REFS, ElementLink.class, msgs);
+				return basicSetLink((ElementLink)otherEnd, msgs);
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				return ((InternalEList)getBendpoints()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                return basicSetSource(null, msgs);
-            case GrlPackage.LINK_REF__TARGET:
-                return basicSetTarget(null, msgs);
-            case GrlPackage.LINK_REF__DIAGRAM:
-                return basicSetDiagram(null, msgs);
-            case GrlPackage.LINK_REF__LINK:
-                return basicSetLink(null, msgs);
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                return ((InternalEList)getBendpoints()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				return basicSetSource(null, msgs);
+			case GrlPackage.LINK_REF__TARGET:
+				return basicSetTarget(null, msgs);
+			case GrlPackage.LINK_REF__DIAGRAM:
+				return basicSetDiagram(null, msgs);
+			case GrlPackage.LINK_REF__LINK:
+				return basicSetLink(null, msgs);
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				return ((InternalEList)getBendpoints()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-        switch (eContainerFeatureID) {
-            case GrlPackage.LINK_REF__DIAGRAM:
-                return eInternalContainer().eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
-        }
-        return super.eBasicRemoveFromContainerFeature(msgs);
-    }
+		switch (eContainerFeatureID) {
+			case GrlPackage.LINK_REF__DIAGRAM:
+				return eInternalContainer().eInverseRemove(this, UrncorePackage.IURN_DIAGRAM__CONNECTIONS, IURNDiagram.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                if (resolve) return getSource();
-                return basicGetSource();
-            case GrlPackage.LINK_REF__TARGET:
-                if (resolve) return getTarget();
-                return basicGetTarget();
-            case GrlPackage.LINK_REF__DIAGRAM:
-                return getDiagram();
-            case GrlPackage.LINK_REF__LINK:
-                if (resolve) return getLink();
-                return basicGetLink();
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                return getBendpoints();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				if (resolve) return getSource();
+				return basicGetSource();
+			case GrlPackage.LINK_REF__TARGET:
+				if (resolve) return getTarget();
+				return basicGetTarget();
+			case GrlPackage.LINK_REF__DIAGRAM:
+				return getDiagram();
+			case GrlPackage.LINK_REF__LINK:
+				if (resolve) return getLink();
+				return basicGetLink();
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				return getBendpoints();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                setSource((IURNNode)newValue);
-                return;
-            case GrlPackage.LINK_REF__TARGET:
-                setTarget((IURNNode)newValue);
-                return;
-            case GrlPackage.LINK_REF__DIAGRAM:
-                setDiagram((IURNDiagram)newValue);
-                return;
-            case GrlPackage.LINK_REF__LINK:
-                setLink((ElementLink)newValue);
-                return;
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                getBendpoints().clear();
-                getBendpoints().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				setSource((IURNNode)newValue);
+				return;
+			case GrlPackage.LINK_REF__TARGET:
+				setTarget((IURNNode)newValue);
+				return;
+			case GrlPackage.LINK_REF__DIAGRAM:
+				setDiagram((IURNDiagram)newValue);
+				return;
+			case GrlPackage.LINK_REF__LINK:
+				setLink((ElementLink)newValue);
+				return;
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				getBendpoints().clear();
+				getBendpoints().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                setSource((IURNNode)null);
-                return;
-            case GrlPackage.LINK_REF__TARGET:
-                setTarget((IURNNode)null);
-                return;
-            case GrlPackage.LINK_REF__DIAGRAM:
-                setDiagram((IURNDiagram)null);
-                return;
-            case GrlPackage.LINK_REF__LINK:
-                setLink((ElementLink)null);
-                return;
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                getBendpoints().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				setSource((IURNNode)null);
+				return;
+			case GrlPackage.LINK_REF__TARGET:
+				setTarget((IURNNode)null);
+				return;
+			case GrlPackage.LINK_REF__DIAGRAM:
+				setDiagram((IURNDiagram)null);
+				return;
+			case GrlPackage.LINK_REF__LINK:
+				setLink((ElementLink)null);
+				return;
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				getBendpoints().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case GrlPackage.LINK_REF__SOURCE:
-                return source != null;
-            case GrlPackage.LINK_REF__TARGET:
-                return target != null;
-            case GrlPackage.LINK_REF__DIAGRAM:
-                return getDiagram() != null;
-            case GrlPackage.LINK_REF__LINK:
-                return link != null;
-            case GrlPackage.LINK_REF__BENDPOINTS:
-                return bendpoints != null && !bendpoints.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case GrlPackage.LINK_REF__SOURCE:
+				return source != null;
+			case GrlPackage.LINK_REF__TARGET:
+				return target != null;
+			case GrlPackage.LINK_REF__DIAGRAM:
+				return getDiagram() != null;
+			case GrlPackage.LINK_REF__LINK:
+				return link != null;
+			case GrlPackage.LINK_REF__BENDPOINTS:
+				return bendpoints != null && !bendpoints.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //LinkRefImpl

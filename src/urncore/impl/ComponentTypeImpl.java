@@ -39,286 +39,286 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class ComponentTypeImpl extends ComponentRegularImpl implements ComponentType {
-    /**
-     * The cached value of the '{@link #getSubType() <em>Sub Type</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSubType() <em>Sub Type</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSubType()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSubType()
+	 * @generated
+	 * @ordered
+	 */
     protected EList subType = null;
 
-    /**
-     * The cached value of the '{@link #getSuperType() <em>Super Type</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getSuperType() <em>Super Type</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSuperType()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSuperType()
+	 * @generated
+	 * @ordered
+	 */
     protected ComponentType superType = null;
 
-    /**
-     * The cached value of the '{@link #getInstances() <em>Instances</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getInstances() <em>Instances</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInstances()
-     * @generated
-     * @ordered
-     */
+	 * @see #getInstances()
+	 * @generated
+	 * @ordered
+	 */
     protected EList instances = null;
 
-    /**
-     * The cached value of the '{@link #getPools() <em>Pools</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getPools() <em>Pools</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPools()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPools()
+	 * @generated
+	 * @ordered
+	 */
     protected EList pools = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected ComponentTypeImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return UrncorePackage.Literals.COMPONENT_TYPE;
-    }
+		return UrncorePackage.Literals.COMPONENT_TYPE;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getSubType() {
-        if (subType == null) {
-            subType = new EObjectWithInverseResolvingEList(ComponentType.class, this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE);
-        }
-        return subType;
-    }
+		if (subType == null) {
+			subType = new EObjectWithInverseResolvingEList(ComponentType.class, this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE);
+		}
+		return subType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ComponentType getSuperType() {
-        if (superType != null && superType.eIsProxy()) {
-            InternalEObject oldSuperType = (InternalEObject)superType;
-            superType = (ComponentType)eResolveProxy(oldSuperType);
-            if (superType != oldSuperType) {
-                if (eNotificationRequired())
-                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, oldSuperType, superType));
-            }
-        }
-        return superType;
-    }
+		if (superType != null && superType.eIsProxy()) {
+			InternalEObject oldSuperType = (InternalEObject)superType;
+			superType = (ComponentType)eResolveProxy(oldSuperType);
+			if (superType != oldSuperType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, oldSuperType, superType));
+			}
+		}
+		return superType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ComponentType basicGetSuperType() {
-        return superType;
-    }
+		return superType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetSuperType(ComponentType newSuperType, NotificationChain msgs) {
-        ComponentType oldSuperType = superType;
-        superType = newSuperType;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, oldSuperType, newSuperType);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		ComponentType oldSuperType = superType;
+		superType = newSuperType;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, oldSuperType, newSuperType);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setSuperType(ComponentType newSuperType) {
-        if (newSuperType != superType) {
-            NotificationChain msgs = null;
-            if (superType != null)
-                msgs = ((InternalEObject)superType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
-            if (newSuperType != null)
-                msgs = ((InternalEObject)newSuperType).eInverseAdd(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
-            msgs = basicSetSuperType(newSuperType, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, newSuperType, newSuperType));
-    }
+		if (newSuperType != superType) {
+			NotificationChain msgs = null;
+			if (superType != null)
+				msgs = ((InternalEObject)superType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
+			if (newSuperType != null)
+				msgs = ((InternalEObject)newSuperType).eInverseAdd(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
+			msgs = basicSetSuperType(newSuperType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_TYPE__SUPER_TYPE, newSuperType, newSuperType));
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getInstances() {
-        if (instances == null) {
-            instances = new EObjectWithInverseResolvingEList(Component.class, this, UrncorePackage.COMPONENT_TYPE__INSTANCES, UrncorePackage.COMPONENT__TYPE);
-        }
-        return instances;
-    }
+		if (instances == null) {
+			instances = new EObjectWithInverseResolvingEList(Component.class, this, UrncorePackage.COMPONENT_TYPE__INSTANCES, UrncorePackage.COMPONENT__TYPE);
+		}
+		return instances;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getPools() {
-        if (pools == null) {
-            pools = new EObjectWithInverseResolvingEList(Pool.class, this, UrncorePackage.COMPONENT_TYPE__POOLS, UrncorePackage.POOL__COMPONENT_TYPE);
-        }
-        return pools;
-    }
+		if (pools == null) {
+			pools = new EObjectWithInverseResolvingEList(Pool.class, this, UrncorePackage.COMPONENT_TYPE__POOLS, UrncorePackage.POOL__COMPONENT_TYPE);
+		}
+		return pools;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                return ((InternalEList)getSubType()).basicAdd(otherEnd, msgs);
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                if (superType != null)
-                    msgs = ((InternalEObject)superType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
-                return basicSetSuperType((ComponentType)otherEnd, msgs);
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                return ((InternalEList)getInstances()).basicAdd(otherEnd, msgs);
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                return ((InternalEList)getPools()).basicAdd(otherEnd, msgs);
-        }
-        return super.eInverseAdd(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				return ((InternalEList)getSubType()).basicAdd(otherEnd, msgs);
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				if (superType != null)
+					msgs = ((InternalEObject)superType).eInverseRemove(this, UrncorePackage.COMPONENT_TYPE__SUB_TYPE, ComponentType.class, msgs);
+				return basicSetSuperType((ComponentType)otherEnd, msgs);
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				return ((InternalEList)getInstances()).basicAdd(otherEnd, msgs);
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				return ((InternalEList)getPools()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                return ((InternalEList)getSubType()).basicRemove(otherEnd, msgs);
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                return basicSetSuperType(null, msgs);
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                return ((InternalEList)getInstances()).basicRemove(otherEnd, msgs);
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                return ((InternalEList)getPools()).basicRemove(otherEnd, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				return ((InternalEList)getSubType()).basicRemove(otherEnd, msgs);
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				return basicSetSuperType(null, msgs);
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				return ((InternalEList)getInstances()).basicRemove(otherEnd, msgs);
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				return ((InternalEList)getPools()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                return getSubType();
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                if (resolve) return getSuperType();
-                return basicGetSuperType();
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                return getInstances();
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                return getPools();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				return getSubType();
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				if (resolve) return getSuperType();
+				return basicGetSuperType();
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				return getInstances();
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				return getPools();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                getSubType().clear();
-                getSubType().addAll((Collection)newValue);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                setSuperType((ComponentType)newValue);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                getInstances().clear();
-                getInstances().addAll((Collection)newValue);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                getPools().clear();
-                getPools().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				getSubType().clear();
+				getSubType().addAll((Collection)newValue);
+				return;
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				setSuperType((ComponentType)newValue);
+				return;
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				getInstances().clear();
+				getInstances().addAll((Collection)newValue);
+				return;
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				getPools().clear();
+				getPools().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                getSubType().clear();
-                return;
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                setSuperType((ComponentType)null);
-                return;
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                getInstances().clear();
-                return;
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                getPools().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				getSubType().clear();
+				return;
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				setSuperType((ComponentType)null);
+				return;
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				getInstances().clear();
+				return;
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				getPools().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
-                return subType != null && !subType.isEmpty();
-            case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
-                return superType != null;
-            case UrncorePackage.COMPONENT_TYPE__INSTANCES:
-                return instances != null && !instances.isEmpty();
-            case UrncorePackage.COMPONENT_TYPE__POOLS:
-                return pools != null && !pools.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case UrncorePackage.COMPONENT_TYPE__SUB_TYPE:
+				return subType != null && !subType.isEmpty();
+			case UrncorePackage.COMPONENT_TYPE__SUPER_TYPE:
+				return superType != null;
+			case UrncorePackage.COMPONENT_TYPE__INSTANCES:
+				return instances != null && !instances.isEmpty();
+			case UrncorePackage.COMPONENT_TYPE__POOLS:
+				return pools != null && !pools.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ComponentTypeImpl

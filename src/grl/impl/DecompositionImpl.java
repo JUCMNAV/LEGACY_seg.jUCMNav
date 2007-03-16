@@ -21,22 +21,22 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public class DecompositionImpl extends ElementLinkImpl implements Decomposition {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected DecompositionImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return GrlPackage.Literals.DECOMPOSITION;
-    }
+		return GrlPackage.Literals.DECOMPOSITION;
+	}
 
 } //DecompositionImpl

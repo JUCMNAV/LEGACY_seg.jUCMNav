@@ -31,141 +31,141 @@ import ucm.scenario.Variable;
  * @generated
  */
 public class ScenarioFactoryImpl extends EFactoryImpl implements ScenarioFactory {
-    /**
-     * Creates the default factory implementation.
-     * <!-- begin-user-doc -->
+	/**
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public static ScenarioFactory init() {
-        try {
-            ScenarioFactory theScenarioFactory = (ScenarioFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/scenario.ecore"); 
-            if (theScenarioFactory != null) {
-                return theScenarioFactory;
-            }
-        }
-        catch (Exception exception) {
-            EcorePlugin.INSTANCE.log(exception);
-        }
-        return new ScenarioFactoryImpl();
-    }
+		try {
+			ScenarioFactory theScenarioFactory = (ScenarioFactory)EPackage.Registry.INSTANCE.getEFactory("http:///ucm/scenario.ecore"); 
+			if (theScenarioFactory != null) {
+				return theScenarioFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new ScenarioFactoryImpl();
+	}
 
-    /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
+	/**
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case ScenarioPackage.VARIABLE: return createVariable();
-            case ScenarioPackage.SCENARIO_DEF: return createScenarioDef();
-            case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
-            case ScenarioPackage.ENUMERATION_TYPE: return createEnumerationType();
-            case ScenarioPackage.INITIALIZATION: return createInitialization();
-            case ScenarioPackage.SCENARIO_START_POINT: return createScenarioStartPoint();
-            case ScenarioPackage.SCENARIO_END_POINT: return createScenarioEndPoint();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case ScenarioPackage.VARIABLE: return createVariable();
+			case ScenarioPackage.SCENARIO_DEF: return createScenarioDef();
+			case ScenarioPackage.SCENARIO_GROUP: return createScenarioGroup();
+			case ScenarioPackage.ENUMERATION_TYPE: return createEnumerationType();
+			case ScenarioPackage.INITIALIZATION: return createInitialization();
+			case ScenarioPackage.SCENARIO_START_POINT: return createScenarioStartPoint();
+			case ScenarioPackage.SCENARIO_END_POINT: return createScenarioEndPoint();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioGroup createScenarioGroup() {
-        ScenarioGroupImpl scenarioGroup = new ScenarioGroupImpl();
-        return scenarioGroup;
-    }
+		ScenarioGroupImpl scenarioGroup = new ScenarioGroupImpl();
+		return scenarioGroup;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public EnumerationType createEnumerationType() {
-        EnumerationTypeImpl enumerationType = new EnumerationTypeImpl();
-        return enumerationType;
-    }
+		EnumerationTypeImpl enumerationType = new EnumerationTypeImpl();
+		return enumerationType;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Initialization createInitialization() {
-        InitializationImpl initialization = new InitializationImpl();
-        return initialization;
-    }
+		InitializationImpl initialization = new InitializationImpl();
+		return initialization;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public ScenarioStartPoint createScenarioStartPoint() {
-        ScenarioStartPointImpl scenarioStartPoint = new ScenarioStartPointImpl();
-        return scenarioStartPoint;
-    }
+		ScenarioStartPointImpl scenarioStartPoint = new ScenarioStartPointImpl();
+		return scenarioStartPoint;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public ScenarioEndPoint createScenarioEndPoint() {
-        ScenarioEndPointImpl scenarioEndPoint = new ScenarioEndPointImpl();
-        return scenarioEndPoint;
-    }
+		ScenarioEndPointImpl scenarioEndPoint = new ScenarioEndPointImpl();
+		return scenarioEndPoint;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Variable createVariable() {
-        VariableImpl variable = new VariableImpl();
-        return variable;
-    }
+		VariableImpl variable = new VariableImpl();
+		return variable;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public ScenarioDef createScenarioDef() {
-        ScenarioDefImpl scenarioDef = new ScenarioDefImpl();
-        return scenarioDef;
-    }
+		ScenarioDefImpl scenarioDef = new ScenarioDefImpl();
+		return scenarioDef;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ScenarioPackage getScenarioPackage() {
-        return (ScenarioPackage)getEPackage();
-    }
+		return (ScenarioPackage)getEPackage();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
+	 * @deprecated
+	 * @generated
+	 */
     public static ScenarioPackage getPackage() {
-        return ScenarioPackage.eINSTANCE;
-    }
+		return ScenarioPackage.eINSTANCE;
+	}
 
 } //ScenarioFactoryImpl

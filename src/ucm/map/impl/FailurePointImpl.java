@@ -21,22 +21,22 @@ import ucm.map.MapPackage;
  * @generated
  */
 public class FailurePointImpl extends PathNodeImpl implements FailurePoint {
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected FailurePointImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.FAILURE_POINT;
-    }
+		return MapPackage.Literals.FAILURE_POINT;
+	}
 
 } //FailurePointImpl

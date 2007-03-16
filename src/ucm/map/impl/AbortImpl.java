@@ -30,99 +30,99 @@ import urncore.Condition;
  * @generated
  */
 public class AbortImpl extends PathNodeImpl implements Abort {
-    /**
-     * The cached value of the '{@link #getCondition() <em>Condition</em>}' reference list.
-     * <!-- begin-user-doc -->
+	/**
+	 * The cached value of the '{@link #getCondition() <em>Condition</em>}' reference list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getCondition()
-     * @generated
-     * @ordered
-     */
+	 * @see #getCondition()
+	 * @generated
+	 * @ordered
+	 */
     protected EList condition = null;
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected AbortImpl() {
-        super();
-    }
+		super();
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected EClass eStaticClass() {
-        return MapPackage.Literals.ABORT;
-    }
+		return MapPackage.Literals.ABORT;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList getCondition() {
-        if (condition == null) {
-            condition = new EObjectResolvingEList(Condition.class, this, MapPackage.ABORT__CONDITION);
-        }
-        return condition;
-    }
+		if (condition == null) {
+			condition = new EObjectResolvingEList(Condition.class, this, MapPackage.ABORT__CONDITION);
+		}
+		return condition;
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case MapPackage.ABORT__CONDITION:
-                return getCondition();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case MapPackage.ABORT__CONDITION:
+				return getCondition();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case MapPackage.ABORT__CONDITION:
-                getCondition().clear();
-                getCondition().addAll((Collection)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case MapPackage.ABORT__CONDITION:
+				getCondition().clear();
+				getCondition().addAll((Collection)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public void eUnset(int featureID) {
-        switch (featureID) {
-            case MapPackage.ABORT__CONDITION:
-                getCondition().clear();
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.ABORT__CONDITION:
+				getCondition().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
-    /**
-     * <!-- begin-user-doc -->
+	/**
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
 	public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case MapPackage.ABORT__CONDITION:
-                return condition != null && !condition.isEmpty();
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case MapPackage.ABORT__CONDITION:
+				return condition != null && !condition.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //AbortImpl

@@ -37,262 +37,262 @@ import urncore.UCMmodelElement;
  * @generated
  */
 public interface Workload extends UCMmodelElement {
-    /**
-     * Returns the value of the '<em><b>Closed</b></em>' attribute.
-     * The default value is <code>"false"</code>.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Closed</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Closed</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Closed</em>' attribute.
-     * @see #setClosed(boolean)
-     * @see ucm.performance.PerformancePackage#getWorkload_Closed()
-     * @model default="false"
-     * @generated
-     */
+	 * @return the value of the '<em>Closed</em>' attribute.
+	 * @see #setClosed(boolean)
+	 * @see ucm.performance.PerformancePackage#getWorkload_Closed()
+	 * @model default="false"
+	 * @generated
+	 */
     boolean isClosed();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#isClosed <em>Closed</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#isClosed <em>Closed</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Closed</em>' attribute.
-     * @see #isClosed()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Closed</em>' attribute.
+	 * @see #isClosed()
+	 * @generated
+	 */
     void setClosed(boolean value);
 
-    /**
-     * Returns the value of the '<em><b>Arrival Pattern</b></em>' attribute.
-     * The literals are from the enumeration {@link ucm.performance.ArrivalProcess}.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Arrival Pattern</b></em>' attribute.
+	 * The literals are from the enumeration {@link ucm.performance.ArrivalProcess}.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Arrival Pattern</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Arrival Pattern</em>' attribute.
-     * @see ucm.performance.ArrivalProcess
-     * @see #setArrivalPattern(ArrivalProcess)
-     * @see ucm.performance.PerformancePackage#getWorkload_ArrivalPattern()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Arrival Pattern</em>' attribute.
+	 * @see ucm.performance.ArrivalProcess
+	 * @see #setArrivalPattern(ArrivalProcess)
+	 * @see ucm.performance.PerformancePackage#getWorkload_ArrivalPattern()
+	 * @model
+	 * @generated
+	 */
     ArrivalProcess getArrivalPattern();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getArrivalPattern <em>Arrival Pattern</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getArrivalPattern <em>Arrival Pattern</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Arrival Pattern</em>' attribute.
-     * @see ucm.performance.ArrivalProcess
-     * @see #getArrivalPattern()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Arrival Pattern</em>' attribute.
+	 * @see ucm.performance.ArrivalProcess
+	 * @see #getArrivalPattern()
+	 * @generated
+	 */
     void setArrivalPattern(ArrivalProcess value);
 
-    /**
-     * Returns the value of the '<em><b>Arrival Param1</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Arrival Param1</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Arrival Param1</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Arrival Param1</em>' attribute.
-     * @see #setArrivalParam1(double)
-     * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam1()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Arrival Param1</em>' attribute.
+	 * @see #setArrivalParam1(double)
+	 * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam1()
+	 * @model
+	 * @generated
+	 */
     double getArrivalParam1();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam1 <em>Arrival Param1</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam1 <em>Arrival Param1</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Arrival Param1</em>' attribute.
-     * @see #getArrivalParam1()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Arrival Param1</em>' attribute.
+	 * @see #getArrivalParam1()
+	 * @generated
+	 */
     void setArrivalParam1(double value);
 
-    /**
-     * Returns the value of the '<em><b>Arrival Param2</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Arrival Param2</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Arrival Param2</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Arrival Param2</em>' attribute.
-     * @see #setArrivalParam2(double)
-     * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam2()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Arrival Param2</em>' attribute.
+	 * @see #setArrivalParam2(double)
+	 * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam2()
+	 * @model
+	 * @generated
+	 */
     double getArrivalParam2();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam2 <em>Arrival Param2</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam2 <em>Arrival Param2</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Arrival Param2</em>' attribute.
-     * @see #getArrivalParam2()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Arrival Param2</em>' attribute.
+	 * @see #getArrivalParam2()
+	 * @generated
+	 */
     void setArrivalParam2(double value);
 
-    /**
-     * Returns the value of the '<em><b>External Delay</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>External Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>External Delay</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>External Delay</em>' attribute.
-     * @see #setExternalDelay(double)
-     * @see ucm.performance.PerformancePackage#getWorkload_ExternalDelay()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>External Delay</em>' attribute.
+	 * @see #setExternalDelay(double)
+	 * @see ucm.performance.PerformancePackage#getWorkload_ExternalDelay()
+	 * @model
+	 * @generated
+	 */
     double getExternalDelay();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getExternalDelay <em>External Delay</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getExternalDelay <em>External Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>External Delay</em>' attribute.
-     * @see #getExternalDelay()
-     * @generated
-     */
+	 * @param value the new value of the '<em>External Delay</em>' attribute.
+	 * @see #getExternalDelay()
+	 * @generated
+	 */
     void setExternalDelay(double value);
 
-    /**
-     * Returns the value of the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Value</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Value</em>' attribute.
-     * @see #setValue(double)
-     * @see ucm.performance.PerformancePackage#getWorkload_Value()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Value</em>' attribute.
+	 * @see #setValue(double)
+	 * @see ucm.performance.PerformancePackage#getWorkload_Value()
+	 * @model
+	 * @generated
+	 */
     double getValue();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getValue <em>Value</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getValue <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Value</em>' attribute.
-     * @see #getValue()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Value</em>' attribute.
+	 * @see #getValue()
+	 * @generated
+	 */
     void setValue(double value);
 
-    /**
-     * Returns the value of the '<em><b>Coeff Var Seq</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Coeff Var Seq</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Coeff Var Seq</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Coeff Var Seq</em>' attribute.
-     * @see #setCoeffVarSeq(double)
-     * @see ucm.performance.PerformancePackage#getWorkload_CoeffVarSeq()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Coeff Var Seq</em>' attribute.
+	 * @see #setCoeffVarSeq(double)
+	 * @see ucm.performance.PerformancePackage#getWorkload_CoeffVarSeq()
+	 * @model
+	 * @generated
+	 */
     double getCoeffVarSeq();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getCoeffVarSeq <em>Coeff Var Seq</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getCoeffVarSeq <em>Coeff Var Seq</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Coeff Var Seq</em>' attribute.
-     * @see #getCoeffVarSeq()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Coeff Var Seq</em>' attribute.
+	 * @see #getCoeffVarSeq()
+	 * @generated
+	 */
     void setCoeffVarSeq(double value);
 
-    /**
-     * Returns the value of the '<em><b>Population</b></em>' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Population</b></em>' attribute.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Population</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Population</em>' attribute.
-     * @see #setPopulation(int)
-     * @see ucm.performance.PerformancePackage#getWorkload_Population()
-     * @model
-     * @generated
-     */
+	 * @return the value of the '<em>Population</em>' attribute.
+	 * @see #setPopulation(int)
+	 * @see ucm.performance.PerformancePackage#getWorkload_Population()
+	 * @model
+	 * @generated
+	 */
     int getPopulation();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getPopulation <em>Population</em>}' attribute.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getPopulation <em>Population</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Population</em>' attribute.
-     * @see #getPopulation()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Population</em>' attribute.
+	 * @see #getPopulation()
+	 * @generated
+	 */
     void setPopulation(int value);
 
-    /**
-     * Returns the value of the '<em><b>Start Point</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Start Point</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ucm.map.StartPoint#getWorkload <em>Workload</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Start Point</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Start Point</em>' container reference.
-     * @see #setStartPoint(StartPoint)
-     * @see ucm.performance.PerformancePackage#getWorkload_StartPoint()
-     * @see ucm.map.StartPoint#getWorkload
-     * @model opposite="workload" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Start Point</em>' container reference.
+	 * @see #setStartPoint(StartPoint)
+	 * @see ucm.performance.PerformancePackage#getWorkload_StartPoint()
+	 * @see ucm.map.StartPoint#getWorkload
+	 * @model opposite="workload" required="true"
+	 * @generated
+	 */
     StartPoint getStartPoint();
 
-    /**
-     * Sets the value of the '{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}' container reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}' container reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Start Point</em>' container reference.
-     * @see #getStartPoint()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Start Point</em>' container reference.
+	 * @see #getStartPoint()
+	 * @generated
+	 */
     void setStartPoint(StartPoint value);
 
-    /**
-     * Returns the value of the '<em><b>Resp Time</b></em>' reference list.
-     * The list contents are of type {@link ucm.performance.PerfMeasure}.
-     * It is bidirectional and its opposite is '{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Resp Time</b></em>' reference list.
+	 * The list contents are of type {@link ucm.performance.PerfMeasure}.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Resp Time</em>' reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Resp Time</em>' reference list.
-     * @see ucm.performance.PerformancePackage#getWorkload_RespTime()
-     * @see ucm.performance.PerfMeasure#getDuration
-     * @model type="ucm.performance.PerfMeasure" opposite="duration"
-     * @generated
-     */
+	 * @return the value of the '<em>Resp Time</em>' reference list.
+	 * @see ucm.performance.PerformancePackage#getWorkload_RespTime()
+	 * @see ucm.performance.PerfMeasure#getDuration
+	 * @model type="ucm.performance.PerfMeasure" opposite="duration"
+	 * @generated
+	 */
     EList getRespTime();
 
 } // Workload

@@ -29,88 +29,88 @@ import urncore.URNmodelElement;
  * @generated
  */
 public interface URNlink extends EObject {
-    /**
-     * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
-     * It is bidirectional and its opposite is '{@link urn.URNspec#getUrnLinks <em>Urn Links</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>Urnspec</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link urn.URNspec#getUrnLinks <em>Urn Links</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Urnspec</em>' container reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>Urnspec</em>' container reference.
-     * @see #setUrnspec(URNspec)
-     * @see urn.UrnPackage#getURNlink_Urnspec()
-     * @see urn.URNspec#getUrnLinks
-     * @model opposite="urnLinks" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>Urnspec</em>' container reference.
+	 * @see #setUrnspec(URNspec)
+	 * @see urn.UrnPackage#getURNlink_Urnspec()
+	 * @see urn.URNspec#getUrnLinks
+	 * @model opposite="urnLinks" required="true"
+	 * @generated
+	 */
     URNspec getUrnspec();
 
-    /**
-     * Sets the value of the '{@link urn.URNlink#getUrnspec <em>Urnspec</em>}' container reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link urn.URNlink#getUrnspec <em>Urnspec</em>}' container reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Urnspec</em>' container reference.
-     * @see #getUrnspec()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Urnspec</em>' container reference.
+	 * @see #getUrnspec()
+	 * @generated
+	 */
     void setUrnspec(URNspec value);
 
-    /**
-     * Returns the value of the '<em><b>From Elem</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>From Elem</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getFromLinks <em>From Links</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>From Elem</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>From Elem</em>' reference.
-     * @see #setFromElem(URNmodelElement)
-     * @see urn.UrnPackage#getURNlink_FromElem()
-     * @see urncore.URNmodelElement#getFromLinks
-     * @model opposite="fromLinks" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>From Elem</em>' reference.
+	 * @see #setFromElem(URNmodelElement)
+	 * @see urn.UrnPackage#getURNlink_FromElem()
+	 * @see urncore.URNmodelElement#getFromLinks
+	 * @model opposite="fromLinks" required="true"
+	 * @generated
+	 */
     URNmodelElement getFromElem();
 
-    /**
-     * Sets the value of the '{@link urn.URNlink#getFromElem <em>From Elem</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link urn.URNlink#getFromElem <em>From Elem</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>From Elem</em>' reference.
-     * @see #getFromElem()
-     * @generated
-     */
+	 * @param value the new value of the '<em>From Elem</em>' reference.
+	 * @see #getFromElem()
+	 * @generated
+	 */
     void setFromElem(URNmodelElement value);
 
-    /**
-     * Returns the value of the '<em><b>To Elem</b></em>' reference.
-     * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
-     * <!-- begin-user-doc -->
+	/**
+	 * Returns the value of the '<em><b>To Elem</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link urncore.URNmodelElement#getToLinks <em>To Links</em>}'.
+	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>To Elem</em>' reference isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-     * @return the value of the '<em>To Elem</em>' reference.
-     * @see #setToElem(URNmodelElement)
-     * @see urn.UrnPackage#getURNlink_ToElem()
-     * @see urncore.URNmodelElement#getToLinks
-     * @model opposite="toLinks" required="true"
-     * @generated
-     */
+	 * @return the value of the '<em>To Elem</em>' reference.
+	 * @see #setToElem(URNmodelElement)
+	 * @see urn.UrnPackage#getURNlink_ToElem()
+	 * @see urncore.URNmodelElement#getToLinks
+	 * @model opposite="toLinks" required="true"
+	 * @generated
+	 */
     URNmodelElement getToElem();
 
-    /**
-     * Sets the value of the '{@link urn.URNlink#getToElem <em>To Elem</em>}' reference.
-     * <!-- begin-user-doc -->
+	/**
+	 * Sets the value of the '{@link urn.URNlink#getToElem <em>To Elem</em>}' reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>To Elem</em>' reference.
-     * @see #getToElem()
-     * @generated
-     */
+	 * @param value the new value of the '<em>To Elem</em>' reference.
+	 * @see #getToElem()
+	 * @generated
+	 */
     void setToElem(URNmodelElement value);
 
 } // URNlink
