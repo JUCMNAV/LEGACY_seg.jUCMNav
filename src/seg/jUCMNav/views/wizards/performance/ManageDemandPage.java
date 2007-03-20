@@ -298,25 +298,21 @@ public class ManageDemandPage extends WizardPage {
 			}
 			if (!found) {
 				if (res instanceof PassiveResource) {
-					availList.add(((PassiveResource) res).getComponent().getName() + " (Passive Resource)");
+					availList.add(((PassiveResource) res).getName() + " (Passive Resource)");
 				} else if (res instanceof ProcessingResource) {
-					for (Iterator comp = ((ProcessingResource) res).getComponents().iterator(); comp.hasNext();) {
-						availList.add(((Component) comp.next()).getName() + " (Processing Resource)");
-					}
+				    availList.add(((ProcessingResource) res).getName() + " (Processing Resource)");
 				} else if (res instanceof ExternalOperation) {
-					availList.add(((ExternalOperation) res).getDescription() + " (External Operation)");
+					availList.add(((ExternalOperation) res).getName() + " (External Operation)");
 				}
 				availResources[indexRes] = res;
 				indexRes++;
 			} else {
 				if (res instanceof PassiveResource) {
-					inList.add(((PassiveResource) res).getComponent().getName() + " (Passive Resource)");
+					inList.add(((PassiveResource) res).getName() + " (Passive Resource)");
 				} else if (res instanceof ProcessingResource) {
-					for (Iterator comp = ((ProcessingResource) res).getComponents().iterator(); comp.hasNext();) {
-						inList.add(((Component) comp.next()).getName() + " (Processing Resource)");
-					}
+				    inList.add(((ProcessingResource) res).getName() + " (Processing Resource)");
 				} else if (res instanceof ExternalOperation) {
-					inList.add(((ExternalOperation) res).getDescription() + " (External Operation)");
+					inList.add(((ExternalOperation) res).getName() + " (External Operation)");
 				}
 				boundResources[indexDem] = res;
 				indexDem++;
