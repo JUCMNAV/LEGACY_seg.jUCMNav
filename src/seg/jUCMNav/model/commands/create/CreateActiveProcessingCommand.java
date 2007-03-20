@@ -23,19 +23,22 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
 
     private URNspec urn;
     private ProcessingResource processingResource;
-    private Component component;
+    private Component[] components;
     private double opTime;
     private DeviceKind deviceKind;
+    private String name;
     
     /**
-     * @param component 
+     * @param name 
+     * @param components 
      * 
      */
-    public CreateActiveProcessingCommand(URNspec urn, Component component, double opTime, DeviceKind deviceKind) {
+    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, double opTime, DeviceKind deviceKind) {
         this.urn = urn;
-        this.component = component;
+        this.components = components;
         this.opTime = opTime;
         this.deviceKind = deviceKind;
+        this.name = name;
         setLabel(Messages.getString("CreateActiveProcessingCommand.CreateActiveProcessingResource")); //$NON-NLS-1$
     }
 
@@ -43,8 +46,7 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-    	// this requires no resources currently set to this component -> implies prior use of "delete" _js_
-        return (urn != null) && (component != null) && (component.getResource() == null);
+	return (urn != null) ; // components are not mandatory
     }
     
     /**
@@ -63,8 +65,12 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
     public void redo() {
         testPreConditions();
         urn.getUcmspec().getResources().add(processingResource);
-    	component.setHost(processingResource);
-    	processingResource.getComponents().add(component);
+        processingResource.setName(name);
+        for (int i = 0; i < components.length; i++) {
+	    Component comp = components[i];
+            comp.setHost(processingResource);
+            processingResource.getComponents().add(comp);    	    
+	}
     	processingResource.setKind(deviceKind);
     	processingResource.setOpTime(opTime);
         testPostConditions();
@@ -92,10 +98,14 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
     public void undo() {
         testPostConditions();
         urn.getUcmspec().getResources().remove(processingResource);
-        component.setHost(null);
-        processingResource.getComponents().remove(component);
-    	processingResource.setKind(null);
+        for (int i = 0; i < components.length; i++) {
+	    Component comp = components[i];
+	    comp.setHost(null);
+            processingResource.getComponents().remove(comp);
+	}
+        processingResource.setKind(null);
     	processingResource.setOpTime(0.0);
+    	processingResource.setName(null);
         testPreConditions();
     }
 

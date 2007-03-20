@@ -52,18 +52,8 @@ public class CreateResourceAction extends URNSelectionAction {
 				enable = true;
 			}
 		}
-/*
-		if (obj instanceof ComponentRef) {
-			if (((Component) ((ComponentRef) obj).getContDef()).getResource() == null) {
-				enable = true;
-			}
-		} else if (obj instanceof ComponentRefImpl) {
-			if (((Component) ((ComponentRefImpl) obj).getContDef()).getResource() == null) {
-				enable = true;
-			}
-		}
-*/
-		return enable;
+
+		return false;  // The Resource Manager should be used instead.  js
 	}
 
 	/**

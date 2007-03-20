@@ -23,14 +23,17 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
     private URNspec urn;
     private PassiveResource passiveResource;
     private Component component;
+    private String name;
     
     /**
+     * @param name 
      * @param component 
      * 
      */
-    public CreatePassiveResourceCommand(URNspec urn, Component component) {
+    public CreatePassiveResourceCommand(URNspec urn, String name, Component component) {
         this.urn = urn;
         this.component = component;
+        this.name = name;
         setLabel(Messages.getString("CreatePassiveResourceCommand.CreatePassiveResource")); //$NON-NLS-1$
     }
 
@@ -38,7 +41,7 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        return (urn != null) && (component != null) && (component.getResource() == null);
+        return (urn != null) ; // passive resources need not be bound to components
     }
     
     /**
@@ -56,9 +59,12 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
     public void redo() {
         testPreConditions();
         urn.getUcmspec().getResources().add(passiveResource);
-    	component.setResource(passiveResource);
-    	passiveResource.setComponent(component);
-        testPostConditions();
+        if (component != null) {
+            component.setResource(passiveResource);
+            passiveResource.setComponent(component);
+        }
+        passiveResource.setName(name);
+    	testPostConditions();
     }
     
     /* (non-Javadoc)
@@ -83,8 +89,11 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
      */
     public void undo() {
         testPostConditions();
-        passiveResource.setComponent(null);
-        component.setResource(null);
+        passiveResource.setName(null);
+        if (passiveResource.getComponent() != null) {
+            passiveResource.setComponent(null);
+            component.setResource(null);            
+        }
         urn.getUcmspec().getResources().remove(passiveResource);
         testPreConditions();
     }

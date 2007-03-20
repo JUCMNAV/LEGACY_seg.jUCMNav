@@ -23,20 +23,23 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     private ExternalOperation externalOperation;
     private double opTime;
     private String description;
+    private String name;
     
     /**
      * @param urn
      * 		containing URN specification
+     * @param name 
      * @param opTime
      * 		to be associated with the external resource
      * @param description
      * 		of the external resource
      * 
      */
-    public CreateExternalOperationCommand(URNspec urn, double opTime, String description) {
+    public CreateExternalOperationCommand(URNspec urn, String name, double opTime, String description) {
         this.urn = urn;
         this.opTime = opTime;
         this.description = description;
+        this.name = name;
         setLabel(Messages.getString("CreateExternalOperationCommand.CreateActiveProcessingResource")); //$NON-NLS-1$
     }
 
@@ -64,6 +67,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     public void redo() {
         testPreConditions();
         urn.getUcmspec().getResources().add(externalOperation);
+        externalOperation.setName(name);
     	externalOperation.setDescription(description);
     	externalOperation.setOpTime(opTime);
         testPostConditions();
@@ -81,8 +85,8 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPreConditions() {
-        assert (urn != null) && (urn.getUcmspec() != null) && (urn.getUcmspec().getResources() != null): "pre not null"; //$NON-NLS-1$
-        assert !urn.getUcmspec().getResources().contains(externalOperation) : "pre passiveResource not in model"; //$NON-NLS-1$
+	assert (urn != null) && (urn.getUcmspec() != null): "pre not null"; //$NON-NLS-1$
+        assert !urn.getUcmspec().getResources().contains(externalOperation) : "pre externalOperation not in model"; //$NON-NLS-1$
     }
 
     /**
@@ -92,6 +96,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
         testPostConditions();
     	externalOperation.setOpTime(0.0);
     	externalOperation.setDescription(null);
+    	externalOperation.setName(null);
         urn.getUcmspec().getResources().remove(externalOperation);
         testPreConditions();
     }
