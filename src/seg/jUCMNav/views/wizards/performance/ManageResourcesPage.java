@@ -159,11 +159,14 @@ public class ManageResourcesPage extends WizardPage {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
 		delResource();
+		deleteButton.setEnabled(false);
 		resTypePassive.setEnabled(false);
 		resTypeProcessing.setEnabled(false);
 		resTypeExternal.setEnabled(false);
 
-		availableResources.select(1);
+		if (availableResources.getItemCount() != 0) {
+			availableResources.select(1);		    
+		}
 		availableResources.setEnabled(true);
 		initialize();
 		if (availableResources.getItemCount() != 0) {
@@ -751,16 +754,17 @@ public class ManageResourcesPage extends WizardPage {
     }
     
     public void delResource() {
-//	 assuming all has been set for processing at this point _js_
-	CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-	CompoundCommand command = new CompoundCommand();
-	GeneralResource genRes = resources[availableResources.getSelectionIndex()];
-	DeleteResourceCommand deleteCmd = new DeleteResourceCommand(workbenchPage, urn, genRes);
-	command.add(deleteCmd);
+	if (availableResources.getSelectionIndex() != -1) {
+	    CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+	    CompoundCommand command = new CompoundCommand();
+	    GeneralResource genRes = resources[availableResources.getSelectionIndex()];
+	    DeleteResourceCommand deleteCmd = new DeleteResourceCommand(workbenchPage, urn, genRes);
+	    command.add(deleteCmd);
 
-	// use a command to be undoable.
-	if (command.canExecute())
-	    cs.execute(command);
+	    // use a command to be undoable.
+	    if (command.canExecute())
+		cs.execute(command);
+	}
     }
     
     public void addResource() {

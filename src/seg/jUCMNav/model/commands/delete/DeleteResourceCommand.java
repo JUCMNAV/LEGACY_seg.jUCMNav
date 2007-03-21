@@ -98,9 +98,9 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	}	
     }
     public void deleteDemands() {
-	demands = new Demand[passiveResource.getDemands().size()];
+	demands = new Demand[genRes.getDemands().size()];
 	int i = 0;
-	boolean test = (passiveResource.getDemands().size() > 0);
+	boolean test = (genRes.getDemands().size() > 0);
 	cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 	command = new CompoundCommand();
 	for (Iterator dem = genRes.getDemands().iterator(); test;) {
@@ -108,7 +108,7 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	    test = dem.hasNext(); // ugly but it failed elsewhere otherwise
 	    demands[i] = aDemand;
 	    i++;
-	    DeleteDemandCommand deleteCmd = new DeleteDemandCommand(urn, passiveResource, aDemand, aDemand.getResponsibility());
+	    DeleteDemandCommand deleteCmd = new DeleteDemandCommand(urn, genRes, aDemand, aDemand.getResponsibility());
 	    command.add(deleteCmd);	    
 	}
 	// use a command to be undoable.
@@ -209,17 +209,19 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	deviceKind = processingResource.getKind();
 	name = processingResource.getName();
 	opTime = processingResource.getOpTime();
+	// get a copy
 	int i = 0;
-	int test1 = processingResource.getComponents().size();
-	boolean test = (processingResource.getComponents().size() > 0);
-	for (Iterator comp = ((EList)processingResource.getComponents()).iterator(); test;) {
+	for (Iterator comp = processingResource.getComponents().iterator(); comp.hasNext();) {
 	    Component acomp = (Component) comp.next();
-	    test = comp.hasNext();
 	    components[i] = acomp;
 	    i++;
-//	    acomp.setHost(null);
+	}
+	// remove from owner
+	for (int j = 0; j < components.length; j++) {
+	    Component acomp = components[j];
 	    processingResource.getComponents().remove(acomp);
 	}
+//	    acomp.setHost(null);
 	urn.getUcmspec().getResources().remove(processingResource);
 //	processingResource.setKind(null);
 //	processingResource.setOpTime(0.0);
