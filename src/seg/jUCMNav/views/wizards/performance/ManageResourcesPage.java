@@ -154,7 +154,7 @@ public class ManageResourcesPage extends WizardPage {
 	blank1.setText("");
 
 	deleteButton = new Button(container, SWT.PUSH);
-	deleteButton.setText("DELETE");
+	deleteButton.setText("Delete");
 	deleteButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
@@ -176,7 +176,7 @@ public class ManageResourcesPage extends WizardPage {
 	// when hit, delete this resource
 
 	updateResourceButton = new Button(container, SWT.PUSH);
-	updateResourceButton.setText("UPDATE");
+	updateResourceButton.setText("Update");
 	updateResourceButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
@@ -195,7 +195,7 @@ public class ManageResourcesPage extends WizardPage {
 	});
 
 	newButton = new Button(container, SWT.PUSH);
-	newButton.setText("NEW");
+	newButton.setText("New");
 	// create new editable entry; value mandatory; selection impossible; cancel enabled
 	newButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
@@ -233,7 +233,7 @@ public class ManageResourcesPage extends WizardPage {
 	});
 
 	addButton = new Button(container, SWT.PUSH);
-	addButton.setText("ADD");
+	addButton.setText("Add");
 	addButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
@@ -291,7 +291,7 @@ public class ManageResourcesPage extends WizardPage {
 	});
 
 	resTypeExternal = new Button(cv, SWT.RADIO);
-	resTypeExternal.setText("Active External");
+	resTypeExternal.setText("Active External Operation");
 	resTypeExternal.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		if (resTypeExternal.getSelection()) {
