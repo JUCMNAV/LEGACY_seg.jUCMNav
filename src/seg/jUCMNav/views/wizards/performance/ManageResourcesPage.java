@@ -272,6 +272,7 @@ public class ManageResourcesPage extends WizardPage {
 	resTypePassive.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		if (resTypePassive.getSelection()) {
+		    opTimeValue.setText("");
 		    opTimeValue.setEnabled(false);
 		    availableKinds.setEnabled(false);
 		    availableComponents.setEnabled(true); // SINGLE
@@ -534,7 +535,7 @@ public class ManageResourcesPage extends WizardPage {
 	    resTypeProcessing.setSelection(false);
 	    resTypeExternal.setSelection(false);
 
-	    opTimeValue.setText("0.0"); // just for aesthetics
+	    opTimeValue.setText(""); // just for aesthetics
 	    opTimeValue.setEnabled(false);
 
 	    availableKinds.setEnabled(false);
