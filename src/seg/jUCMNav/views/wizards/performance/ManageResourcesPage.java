@@ -72,6 +72,8 @@ public class ManageResourcesPage extends WizardPage {
     private Button addButton;
     private boolean containsErrors = false;
     private IWorkbenchPage workbenchPage;
+    private boolean creationMode = false;
+    private boolean updating = false;
 
     /**
          * The selection contains urn model elements. Loaded in
@@ -121,12 +123,14 @@ public class ManageResourcesPage extends WizardPage {
 
 	    public void widgetSelected(SelectionEvent e) {
 		// there exists some resources already
+		updating = true;
 		if (availableResources.getSelectionIndex() >= 0) {
 		    updateForSelection();
 		    deleteButton.setEnabled(true);
 		    updateResourceButton.setEnabled(false);
-		    dialogChanged();
+//		    dialogChanged();
 		}
+		updating = false;
 	    }
 	});
 
@@ -158,22 +162,18 @@ public class ManageResourcesPage extends WizardPage {
 	deleteButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
+		updating = true;
 		delResource();
+		initialize();
 		deleteButton.setEnabled(false);
 		resTypePassive.setEnabled(false);
 		resTypeProcessing.setEnabled(false);
 		resTypeExternal.setEnabled(false);
-
-		if (availableResources.getItemCount() != 0) {
-			availableResources.select(1);		    
-		}
 		availableResources.setEnabled(true);
-		initialize();
 		if (availableResources.getItemCount() != 0) {
 		    updateForSelection();    
 		}
-		
-		
+		updating = false;		
 	    }
 	});
 	// when hit, delete this resource
@@ -183,6 +183,7 @@ public class ManageResourcesPage extends WizardPage {
 	updateResourceButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
+		updating = true;
 		updateResource();
 		resTypePassive.setEnabled(false);
 		resTypeProcessing.setEnabled(false);
@@ -194,6 +195,7 @@ public class ManageResourcesPage extends WizardPage {
 		if (availableResources.getItemCount() != 0) {
 		    updateForSelection();    
 		}
+		updating = false;
 	    }
 	});
 
@@ -203,6 +205,8 @@ public class ManageResourcesPage extends WizardPage {
 	newButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
+		updating = true;
+		creationMode = true;
 		resTypePassive.setEnabled(true);
 		resTypePassive.setSelection(true);
 		resTypeProcessing.setEnabled(true);
@@ -231,7 +235,8 @@ public class ManageResourcesPage extends WizardPage {
 		availableComponents.setEnabled(true);
 
 		description.setText("new resource description");
-
+		description.setEnabled(false);
+		updating = false;
 	    }
 	});
 
@@ -240,8 +245,10 @@ public class ManageResourcesPage extends WizardPage {
 	addButton.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		// should be active only when resource is selected
+		updating = true;
 		// add
 		addResource();
+		creationMode = false;
 		resTypePassive.setEnabled(false);
 		resTypeProcessing.setEnabled(false);
 		resTypeExternal.setEnabled(false);
@@ -250,6 +257,7 @@ public class ManageResourcesPage extends WizardPage {
 		availableResources.setEnabled(true);
 		initialize();
 		updateForSelection();
+		updating = false;
 	    }
 	});
 
@@ -286,6 +294,9 @@ public class ManageResourcesPage extends WizardPage {
 	resTypeProcessing.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		if (resTypeProcessing.getSelection()) {
+		    if (opTimeValue.getText().compareTo("") == 0) {
+			opTimeValue.setText("0.0");
+		    }
 		    opTimeValue.setEnabled(true);
 		    availableKinds.setEnabled(true);
 		    availableComponents.setEnabled(true); // MULTI
@@ -299,6 +310,9 @@ public class ManageResourcesPage extends WizardPage {
 	resTypeExternal.addSelectionListener(new SelectionAdapter() {
 	    public void widgetSelected(SelectionEvent e) {
 		if (resTypeExternal.getSelection()) {
+		    if (opTimeValue.getText().compareTo("") == 0) {
+			opTimeValue.setText("0.0");
+		    }
 		    opTimeValue.setEnabled(true);
 		    availableKinds.setEnabled(false);
 		    availableComponents.setEnabled(false);
@@ -320,7 +334,7 @@ public class ManageResourcesPage extends WizardPage {
 	opTimeValue.setText("0.0");
 	GridData gd5 = new GridData();
 	gd5.horizontalSpan = 4;
-	// gd5.widthHint = 50;
+	gd5.widthHint = 50;
 	opTimeValue.setLayoutData(gd5);
 	opTimeValue.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
@@ -396,9 +410,7 @@ public class ManageResourcesPage extends WizardPage {
 	    resTypePassive.setEnabled(false);
 	    resTypeProcessing.setEnabled(false);
 	}
-
-	// setTitle("Resource Type");
-	// dialogChanged();
+	dialogChanged();
 	setControl(container);
 
     }
@@ -407,6 +419,7 @@ public class ManageResourcesPage extends WizardPage {
          * 
          */
     private void dialogChanged() {
+	if (!updating) {
 	if (resTypePassive.getSelection()) {
 	    if (availableComponents.getSelectionCount() > 1) {  // Passive resources can bound to one (1) component at most
 		setErrorMessage("At most one (1) component may be bound to a passive resource");
@@ -431,22 +444,21 @@ public class ManageResourcesPage extends WizardPage {
 		setErrorMessage(null);
 		containsErrors = false;
 	    }
-	} else {
-	    System.out.println("Unexpected circumstance.");
 	}
 
 	// a resource is being created
-	if (resTypePassive.isEnabled() && resTypeProcessing.isEnabled() && resTypeExternal.isEnabled()) {
+	if (creationMode) {
 	    addButton.setEnabled(!containsErrors);
-	    // a resource is being modified
-	} else {
-	    if (availableResources.getItemCount() != 0) {
+	// a resource is being modified
+	} else if (availableResources.getItemCount() != 0) {
+		if (availableResources.getSelectionIndex() != -1) {
 		if (hasChanged(resources[availableResources.getSelectionIndex()]) && !containsErrors) {
 		    deleteButton.setEnabled(false);
 		    updateResourceButton.setEnabled(true);
 		} else {
 		    deleteButton.setEnabled(true);
 		    updateResourceButton.setEnabled(false);
+		}
 		}
 	    }
 	}

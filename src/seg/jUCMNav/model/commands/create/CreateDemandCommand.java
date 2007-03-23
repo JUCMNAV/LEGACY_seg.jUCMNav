@@ -10,7 +10,7 @@ import org.eclipse.gef.commands.Command;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
-import ucm.performance.GeneralResource;
+import ucm.performance.ExternalOperation;
 import urn.URNspec;
 import urncore.Responsibility;
 
@@ -24,7 +24,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 
 	private URNspec urn;
 
-	private GeneralResource resource;
+	private ExternalOperation externalOperation;
 
 	private double quantity;
 
@@ -35,17 +35,17 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	/**
 	 * @param urn
 	 *            containing URN specification
-	 * @param resource
+	 * @param extOp
 	 *            to be associated with the demand
 	 * @param quantity
-	 *            quantity of the resource
+	 *            quantity of the externalOperation
 	 * @param responsibility
-	 *            requesting the resource
+	 *            requesting the externalOperation
 	 * 
 	 */
-	public CreateDemandCommand(URNspec urn, GeneralResource resource, double quantity, Responsibility responsibility) {
+	public CreateDemandCommand(URNspec urn, ExternalOperation extOp, double quantity, Responsibility responsibility) {
 		this.urn = urn;
-		this.resource = resource;
+		this.externalOperation = extOp;
 		this.quantity = quantity;
 		this.responsibility = responsibility;
 		// setLabel(Messages.getString("CreateDemandCommand.CreateDemand"));
@@ -57,7 +57,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return (urn != null) && (responsibility != null) && (resource != null);
+		return (urn != null) && (responsibility != null) && (externalOperation != null);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 */
 	public void redo() {
 		testPreConditions();
-		demand.setResource(resource);
+		demand.setResource(externalOperation);
 		demand.setQuantity(quantity);
 		demand.setResponsibility(responsibility);
 		responsibility.getDemands().add(demand);
@@ -88,21 +88,21 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPostConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) : "post not null"; //$NON-NLS-1$
-		assert urn.getUcmspec().getResources().contains(resource) : "post Resource not in model"; //$NON-NLS-1$
-		// assert responsibility.getDemands().contains(resource) : "post demand
+		assert (urn != null) && (externalOperation != null) && (responsibility != null) : "post not null"; //$NON-NLS-1$
+		assert urn.getUcmspec().getResources().contains(externalOperation) : "post Resource not in model"; //$NON-NLS-1$
+		// assert responsibility.getDemands().contains(externalOperation) : "post demand
 		// not in Responsibility"; //$NON-NLS-1$
-		assert isResourceInDemands(responsibility, resource) : "post demand not in Responsibility"; //$NON-NLS-1$
+		assert isResourceInDemands(responsibility, externalOperation) : "post demand not in Responsibility"; //$NON-NLS-1$
 	}
 
-	public boolean isResourceInDemands(Responsibility responsibility, GeneralResource res) {
+	public boolean isResourceInDemands(Responsibility responsibility, ExternalOperation extOp) {
 		boolean found;
-		GeneralResource resource;
+		ExternalOperation externalOperation;
 		found = false;
-		if ((res != null) || (responsibility != null)) {
+		if ((extOp != null) || (responsibility != null)) {
 			for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
-				resource = (GeneralResource) ((Demand) demand.next()).getResource();
-				found = found || resource.equals(res);
+				externalOperation = (ExternalOperation) ((Demand) demand.next()).getResource();
+				found = found || externalOperation.equals(extOp);
 			}
 		}
 		return found;
@@ -114,9 +114,9 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPreConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) : "pre not null"; //$NON-NLS-1$
-		assert urn.getUcmspec().getResources().contains(resource) : "pre Resource not in model"; //$NON-NLS-1$
-		assert !responsibility.getDemands().contains(resource) : "pre Demand already in Responsibility"; //$NON-NLS-1$
+		assert (urn != null) && (externalOperation != null) && (responsibility != null) : "pre not null"; //$NON-NLS-1$
+		assert urn.getUcmspec().getResources().contains(externalOperation) : "pre Resource not in model"; //$NON-NLS-1$
+		assert !responsibility.getDemands().contains(externalOperation) : "pre Demand already in Responsibility"; //$NON-NLS-1$
 	}
 
 	/**

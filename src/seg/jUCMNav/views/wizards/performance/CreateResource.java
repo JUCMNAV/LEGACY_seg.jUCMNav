@@ -65,11 +65,6 @@ public class CreateResource extends Wizard {
 	// because...
 	URNspec urn;
 
-	/*
-	 * resources should be "manageable" from responsibilities (Demand) component
-	 * refs (binding to) (futur) resource folder in outline
-	 */
-
 	/**
 	 * The workbench page1QueryResType in which we are working
 	 */

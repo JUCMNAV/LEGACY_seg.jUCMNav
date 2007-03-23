@@ -9,7 +9,7 @@ import org.eclipse.gef.commands.Command;
 
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
-import ucm.performance.GeneralResource;
+import ucm.performance.ExternalOperation;
 import urn.URNspec;
 import urncore.Responsibility;
 
@@ -23,7 +23,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 
 	private URNspec urn;
 
-	private GeneralResource resource;
+	private ExternalOperation externalOpn;
 
 	private Responsibility responsibility;
 
@@ -34,15 +34,15 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	/**
 	 * @param urn
 	 *            containing URN specification
-	 * @param resource
+	 * @param externalOpn
 	 *            to be associated with the demand
 	 * @param responsibility
-	 *            requesting the resource
+	 *            requesting the externalOpn
 	 * 
 	 */
-	public DeleteDemandCommand(URNspec urn, GeneralResource resource, Demand demand, Responsibility responsibility) {
+	public DeleteDemandCommand(URNspec urn, ExternalOperation extOp, Demand demand, Responsibility responsibility) {
 		this.urn = urn;
-		this.resource = resource;
+		this.externalOpn = extOp;
 		this.demand = demand;
 		this.responsibility = responsibility;
 		setLabel("Delete Demand");
@@ -50,7 +50,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
     
     public DeleteDemandCommand(Demand demand) {
         this.demand = demand;
-        this.resource = demand.getResource();
+        this.externalOpn = (ExternalOperation) demand.getResource();
         this.responsibility = demand.getResponsibility();
         
         if (demand.getResource()!=null && demand.getResource().getUcmspec()!=null)
@@ -61,14 +61,14 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
 	public boolean canExecute() {
-		return (urn != null) && (responsibility != null) && (resource != null && demand != null);
+		return (urn != null) && (responsibility != null) && (externalOpn != null && demand != null);
 	}
 
 	/**
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
 	public void execute() {
-        aborted = !urn.getUcmspec().getResources().contains(resource);
+        aborted = !urn.getUcmspec().getResources().contains(externalOpn);
         
 		redo();
 	}
@@ -81,7 +81,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
         if (aborted)return;
 		testPreConditions();
 		responsibility.getDemands().remove(demand);
-		resource.getDemands().remove(demand);
+		externalOpn.getDemands().remove(demand);
 		demand.setResource(null);
 		demand.setResponsibility(null);
 		testPostConditions();
@@ -93,20 +93,20 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPostConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) : "post not null";
-		assert urn.getUcmspec().getResources().contains(resource) : "post Resource disappeared from model";
+		assert (urn != null) && (externalOpn != null) && (responsibility != null) : "post null";
+		assert urn.getUcmspec().getResources().contains(externalOpn) : "post ExternalOperation not in model";
 		assert !responsibility.getDemands().contains(demand) : "post Demand still in Responsibility";
-		assert !isResourceInDemands(responsibility, resource) : "pre Resource still in Demand";
+		assert !isResourceInDemands(responsibility, externalOpn) : "pre Resource still in Demand";
 	}
 
-	public boolean isResourceInDemands(Responsibility responsibility, GeneralResource res) {
+	public boolean isResourceInDemands(Responsibility responsibility, ExternalOperation extOp) {
 		boolean found;
-		GeneralResource resource;
+		ExternalOperation externOpn;
 		found = false;
-		if ((res != null) || (responsibility != null)) {
+		if ((extOp != null) || (responsibility != null)) {
 			for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
-				resource = (GeneralResource) ((Demand) demand.next()).getResource();
-				found = found || resource.equals(res);
+				externOpn = (ExternalOperation) ((Demand) demand.next()).getResource();
+				found = found || externOpn.equals(extOp);
 			}
 		}
 		return found;
@@ -118,10 +118,10 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPreConditions() {
-		assert (urn != null) && (resource != null) && (responsibility != null) && (demand != null) : "pre not null";
-		assert urn.getUcmspec().getResources().contains(resource) : "pre Resource not in model";
+		assert (urn != null) && (externalOpn != null) && (responsibility != null) && (demand != null) : "pre null";
+		assert urn.getUcmspec().getResources().contains(externalOpn) : "pre ExternalOperation not in model";
 		assert responsibility.getDemands().contains(demand) : "pre Demand not in Responsibility";
-		assert isResourceInDemands(responsibility, resource) : "pre Resource not in Demand";
+		assert isResourceInDemands(responsibility, externalOpn) : "pre Resource not in Demand";
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 		testPostConditions();
 		responsibility.getDemands().remove(demand);
 		demand.setResponsibility(responsibility);
-		demand.setResource(resource);
-		resource.getDemands().add(demand);
+		demand.setResource(externalOpn);
+		externalOpn.getDemands().add(demand);
 		responsibility.getDemands().add(demand);
 		testPreConditions();
 	}

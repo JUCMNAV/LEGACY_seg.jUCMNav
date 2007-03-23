@@ -5,7 +5,6 @@ package seg.jUCMNav.model.commands.delete;
 
 import java.util.Iterator;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -98,17 +97,15 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	}	
     }
     public void deleteDemands() {
-	demands = new Demand[genRes.getDemands().size()];
+	demands = new Demand[externalOperation.getDemands().size()];
 	int i = 0;
-	boolean test = (genRes.getDemands().size() > 0);
 	cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 	command = new CompoundCommand();
-	for (Iterator dem = genRes.getDemands().iterator(); test;) {
+	for (Iterator dem = externalOperation.getDemands().iterator(); dem.hasNext();) {
 	    Demand aDemand = (Demand) dem.next();
-	    test = dem.hasNext(); // ugly but it failed elsewhere otherwise
 	    demands[i] = aDemand;
 	    i++;
-	    DeleteDemandCommand deleteCmd = new DeleteDemandCommand(urn, genRes, aDemand, aDemand.getResponsibility());
+	    DeleteDemandCommand deleteCmd = new DeleteDemandCommand(urn, (ExternalOperation) externalOperation, aDemand, aDemand.getResponsibility());
 	    command.add(deleteCmd);	    
 	}
 	// use a command to be undoable.
@@ -123,7 +120,6 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
     
     public void redoPassive() {
 	testPreConditions();
-	deleteDemands();
 	name = passiveResource.getName();
 	component = (Component)passiveResource.getComponent();
 	if (component != null) {
@@ -143,7 +139,6 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	    passiveResource.setComponent(component);
 	}
 	passiveResource.setName(name);
-	undeleteDemands();
 	testPreConditions();
     }
 
@@ -204,7 +199,6 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 
     public void redoProcessing() {
 	testPreConditions();
-	deleteDemands();
 	components = new Component[processingResource.getComponents().size()];
 	deviceKind = processingResource.getKind();
 	name = processingResource.getName();
@@ -226,7 +220,6 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 //	processingResource.setKind(null);
 //	processingResource.setOpTime(0.0);
 //	processingResource.setName(null);
-	undeleteDemands();
 	testPostConditions();
     }
 

@@ -34,8 +34,6 @@ import ucm.map.RespRef;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
-import ucm.performance.PassiveResource;
-import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
@@ -75,9 +73,9 @@ public class ManageDemandPage extends WizardPage {
 
     private List availList;
 
-    private GeneralResource[] availResources;
+    private ExternalOperation[] availExternOpns;
 
-    private GeneralResource[] boundResources;
+    private ExternalOperation[] boundExternOpns;
 
     private Demand[] demands;
 
@@ -87,7 +85,7 @@ public class ManageDemandPage extends WizardPage {
 
     private IWorkbenchPage workbenchPage;
 
-    private GeneralResource resToManage;
+    private ExternalOperation extOp;
 
     private Canvas cv;
 
@@ -108,7 +106,7 @@ public class ManageDemandPage extends WizardPage {
 	this.defaultSelected = defaultSelected;
 
 	setTitle("Manage Demand");
-	setDescription("Define resources to be associated to a responsibility");
+	setDescription("Specify external operations required by a responsibility");
 
     }
 
@@ -123,13 +121,13 @@ public class ManageDemandPage extends WizardPage {
 	container.setLayout(containerLayout);
 
 	Label lin = new Label(container, SWT.NULL);
-	lin.setText("assigned resources");
+	lin.setText("Required External Operations");
 
 	Label blank1 = new Label(container, SWT.NULL);
 	blank1.setText("");
 
 	Label lavail = new Label(container, SWT.NULL);
-	lavail.setText("available resources");
+	lavail.setText("Available External Operations");
 
 	inList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
 	inList.setSize(150, 150);
@@ -205,7 +203,6 @@ public class ManageDemandPage extends WizardPage {
 	});
 
 	initialize();
-	setTitle("Resource Type");
 	setControl(container);
 
     }
@@ -228,15 +225,15 @@ public class ManageDemandPage extends WizardPage {
 
     private void inListChanged() {
 	if (inList.getSelectionIndex() != -1) {
-	    resToManage = boundResources[inList.getSelectionIndex()];
+	    extOp = boundExternOpns[inList.getSelectionIndex()];
 	    right.setEnabled(true);
 	    availList.deselectAll();
 	    left.setEnabled(false);
 	    boolean found = false;
 	    for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
 		Demand adem = (Demand) checkDem.next();
-		GeneralResource agen = adem.getResource();
-		if (agen.equals(resToManage)) {
+		ExternalOperation agen = (ExternalOperation) adem.getResource();
+		if (agen.equals(extOp)) {
 		    selectedDemand = adem;
 		    found = true;
 		}
@@ -264,7 +261,7 @@ public class ManageDemandPage extends WizardPage {
 	int itemToRemoveIndex = 0;
 	for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
 	    Demand dem = (Demand) demand.next();
-	    if (dem.getResource().equals(resToManage)) {
+	    if (dem.getResource().equals(extOp)) {
 		itemToRemove = dem;
 		itemToRemoveIndex = i;
 	    }
@@ -284,7 +281,7 @@ public class ManageDemandPage extends WizardPage {
 
     private void availListChanged() {
 	if (availList.getSelectionIndex() != -1) {
-	    resToManage = availResources[availList.getSelectionIndex()];
+	    extOp = availExternOpns[availList.getSelectionIndex()];
 	    left.setEnabled(true);
 	    inList.deselectAll();
 	    right.setEnabled(false);
@@ -306,7 +303,7 @@ public class ManageDemandPage extends WizardPage {
 	CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 	CompoundCommand command = new CompoundCommand();
 
-	CreateDemandCommand createCmd = new CreateDemandCommand(spec, resToManage, quantity, responsibility);
+	CreateDemandCommand createCmd = new CreateDemandCommand(spec, extOp, quantity, responsibility);
 	command.add(createCmd);
 
 	// use a command to be undoable.
@@ -318,7 +315,7 @@ public class ManageDemandPage extends WizardPage {
 	CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 	CompoundCommand command = new CompoundCommand();
 
-	DeleteDemandCommand deleteCmd = new DeleteDemandCommand(spec, resToManage, demandToRemove, responsibility);
+	DeleteDemandCommand deleteCmd = new DeleteDemandCommand(spec, extOp, demandToRemove, responsibility);
 	command.add(deleteCmd);
 
 	// use a command to be undoable.
@@ -331,10 +328,6 @@ public class ManageDemandPage extends WizardPage {
          */
     private void dialogChanged() {
 
-	// if (invalid choices made and/or values entered)
-	// updateStatus("Please Select The Type of Resource");
-	// else
-	// updateStatus(null);
 
     }
 
@@ -352,12 +345,12 @@ public class ManageDemandPage extends WizardPage {
     }
 
     private void updateLists() {
-	GeneralResource res;
+	GeneralResource genRes;
 	if (spec != null) {
-	    availResources = new GeneralResource[spec.getUrndef().getUrnspec().getUcmspec().getResources().size()];
+	    availExternOpns = new ExternalOperation[spec.getUrndef().getUrnspec().getUcmspec().getResources().size()];
 	}
 	if (responsibility != null) {
-	    boundResources = new GeneralResource[responsibility.getDemands().size()];
+	    boundExternOpns = new ExternalOperation[responsibility.getDemands().size()];
 	}
 	int indexRes = 0;
 	int indexDem = 0;
@@ -365,34 +358,24 @@ public class ManageDemandPage extends WizardPage {
 	availList.removeAll();
 	boolean found;
 	for (Iterator resource = spec.getUrndef().getUrnspec().getUcmspec().getResources().iterator(); resource.hasNext();) {
-	    res = (GeneralResource) resource.next();
-	    // if availResources[i] not already in demand! _js_
-	    found = false;
-	    for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
-		Demand adem = (Demand) checkDem.next();
-		GeneralResource agen = adem.getResource();
-		found = found || agen.equals(res);
-	    }
-	    if (!found) {
-		if (res instanceof PassiveResource) {
-		    availList.add(((PassiveResource) res).getName() + " (Passive Resource)");
-		} else if (res instanceof ProcessingResource) {
-		    availList.add(((ProcessingResource) res).getName() + " (Processing Resource)");
-		} else if (res instanceof ExternalOperation) {
-		    availList.add(((ExternalOperation) res).getName() + " (External Operation)");
+	    genRes = (GeneralResource) resource.next();
+	    if (genRes instanceof ExternalOperation) {
+		ExternalOperation externOpn = (ExternalOperation) genRes;
+		found = false;
+		for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
+		    Demand adem = (Demand) checkDem.next();
+		    ExternalOperation agen = (ExternalOperation) adem.getResource();
+		    found = found || agen.equals(externOpn);
 		}
-		availResources[indexRes] = res;
-		indexRes++;
-	    } else {
-		if (res instanceof PassiveResource) {
-		    inList.add(((PassiveResource) res).getName() + " (Passive Resource)");
-		} else if (res instanceof ProcessingResource) {
-		    inList.add(((ProcessingResource) res).getName() + " (Processing Resource)");
-		} else if (res instanceof ExternalOperation) {
-		    inList.add(((ExternalOperation) res).getName() + " (External Operation)");
+		if (!found) {
+		    availList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+		    availExternOpns[indexRes] = externOpn;
+		    indexRes++;
+		} else {
+		    inList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+		    boundExternOpns[indexDem] = externOpn;
+		    indexDem++;
 		}
-		boundResources[indexDem] = res;
-		indexDem++;
 	    }
 	}
 	inList.deselectAll();
@@ -412,8 +395,8 @@ public class ManageDemandPage extends WizardPage {
 	setPageComplete(message == null);
     }
 
-    private GeneralResource getResource() {
-	return resToManage;
+    private ExternalOperation getResource() {
+	return extOp;
     }
 
     private double getQuantity() {
