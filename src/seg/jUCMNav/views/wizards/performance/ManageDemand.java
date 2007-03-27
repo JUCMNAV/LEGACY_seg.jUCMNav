@@ -49,7 +49,7 @@ public class ManageDemand extends Wizard {
 	 * TODO: cannot finish until can undo all, i.e. compound command _js_
 	 */
 	public boolean canFinish() {
-		return false;
+		return true;
 	}
 
 	/**
