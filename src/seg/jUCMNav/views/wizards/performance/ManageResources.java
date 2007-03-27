@@ -64,7 +64,7 @@ public class ManageResources extends Wizard {
 	}
 
 	public boolean canFinish() {
-	    return false;
+	    return true;
 	}
 	/**
 	 * This method is called when 'Finish' button is pressed in the wizard. We
