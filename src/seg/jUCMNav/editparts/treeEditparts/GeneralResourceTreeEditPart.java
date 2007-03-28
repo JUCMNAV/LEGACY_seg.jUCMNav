@@ -87,10 +87,28 @@ public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
      * @see org.eclipse.gef.editparts.AbstractTreeEditPart#refreshVisuals()
      */
     protected void refreshVisuals() {
-        if (getResource().getDemands().size() == 0)
-            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
-        else
+    	GeneralResource res = getResource();
+
+    	boolean isUsed = (res.getPerfMeasures().size() != 0); // Is the resource used?
+
+    	if (!isUsed){
+    		if (res instanceof PassiveResource) {
+    			PassiveResource passiveResource = (PassiveResource) res;
+    			isUsed = (passiveResource.getComponent()!=null);
+    		} else if (res instanceof ProcessingResource) {
+    			ProcessingResource processingResource = (ProcessingResource) res;
+    			isUsed = (processingResource.getComponents().size() != 0);
+    		}
+    		else if (res instanceof ucm.performance.ExternalOperation) {
+    			ucm.performance.ExternalOperation externalOperation = (ucm.performance.ExternalOperation) res;
+    			isUsed = (externalOperation.getDemands().size() != 0);
+    		}
+    	}
+                        	
+        if (isUsed)
             ((TreeItem) widget).setForeground(ColorManager.BLACK);
+        else
+            ((TreeItem) widget).setForeground(ColorManager.DARKGRAY);
 
         super.refreshVisuals();
     }
@@ -100,23 +118,24 @@ public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected List getModelChildren() {
         ArrayList list = new ArrayList();
-        
-        if (getResource() instanceof PassiveResource) {
-            PassiveResource passiveResource = (PassiveResource) getResource();
+    	GeneralResource res = getResource();
+    	
+        if (res instanceof PassiveResource) {
+            PassiveResource passiveResource = (PassiveResource) res;
             if (passiveResource.getComponent()!=null)
                 list.add(new ComponentTreeWrapper(passiveResource.getComponent(), passiveResource));
             
-        } else if (getResource() instanceof ProcessingResource) {
-            ProcessingResource processingResource = (ProcessingResource) getResource();
+        } else if (res instanceof ProcessingResource) {
+            ProcessingResource processingResource = (ProcessingResource) res;
             for (Iterator iter = list.iterator(); iter.hasNext();) {
                 ComponentElement comp = (ComponentElement) iter.next();
                 list.add(new ComponentTreeWrapper(comp, processingResource));
             }
+        } else if (res instanceof ucm.performance.ExternalOperation) {
+			ucm.performance.ExternalOperation externalOperation = (ucm.performance.ExternalOperation) res;
+			list.addAll(externalOperation.getDemands());
         }
-
-        if (getResource()!=null)
-            list.addAll(getResource().getDemands());
-
+        
         return list;
     }
 }

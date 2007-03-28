@@ -189,13 +189,31 @@ public interface MapPackage extends EPackage {
     int PATH_NODE__LABEL = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATH_NODE__PERF_MTRIG = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATH_NODE__PERF_MEND = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>Path Node</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int PATH_NODE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
+    int PATH_NODE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.AndJoinImpl <em>And Join</em>}' class.
@@ -323,6 +341,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int AND_JOIN__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AND_JOIN__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AND_JOIN__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
@@ -562,6 +598,24 @@ public interface MapPackage extends EPackage {
     int RESP_REF__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESP_REF__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESP_REF__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Repetition Count</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -725,6 +779,24 @@ public interface MapPackage extends EPackage {
     int LOOP__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -868,6 +940,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int OR_JOIN__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OR_JOIN__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OR_JOIN__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
@@ -1015,6 +1105,24 @@ public interface MapPackage extends EPackage {
     int OR_FORK__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OR_FORK__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OR_FORK__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1158,6 +1266,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int CONNECT__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECT__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The number of structural features of the '<em>Connect</em>' class.
@@ -1378,6 +1504,24 @@ public interface MapPackage extends EPackage {
     int WAITING_PLACE__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WAITING_PLACE__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WAITING_PLACE__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Wait Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1521,6 +1665,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int STUB__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUB__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUB__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The feature id for the '<em><b>Dynamic</b></em>' attribute.
@@ -1695,6 +1857,24 @@ public interface MapPackage extends EPackage {
     int END_POINT__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int END_POINT__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Out Bindings</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1856,6 +2036,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int START_POINT__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int START_POINT__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The feature id for the '<em><b>Workload</b></em>' containment reference.
@@ -2146,6 +2344,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int ABORT__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABORT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABORT__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The feature id for the '<em><b>Condition</b></em>' reference list.
@@ -2583,6 +2799,24 @@ public interface MapPackage extends EPackage {
     int TIMER__LABEL = WAITING_PLACE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TIMER__PERF_MTRIG = WAITING_PLACE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TIMER__PERF_MEND = WAITING_PLACE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Wait Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2737,6 +2971,24 @@ public interface MapPackage extends EPackage {
     int AND_FORK__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AND_FORK__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AND_FORK__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2882,6 +3134,24 @@ public interface MapPackage extends EPackage {
     int EMPTY_POINT__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_POINT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_POINT__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The number of structural features of the '<em>Empty Point</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3018,6 +3288,24 @@ public interface MapPackage extends EPackage {
     int FAILURE_POINT__LABEL = PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FAILURE_POINT__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FAILURE_POINT__PERF_MEND = PATH_NODE__PERF_MEND;
+
+	/**
 	 * The number of structural features of the '<em>Failure Point</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3152,6 +3440,24 @@ public interface MapPackage extends EPackage {
 	 * @ordered
 	 */
     int DIRECTION_ARROW__LABEL = PATH_NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIRECTION_ARROW__PERF_MTRIG = PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIRECTION_ARROW__PERF_MEND = PATH_NODE__PERF_MEND;
 
 	/**
 	 * The number of structural features of the '<em>Direction Arrow</em>' class.
@@ -3524,6 +3830,28 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 */
     EClass getPathNode();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ucm.map.PathNode#getPerfMTrig <em>Perf MTrig</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Perf MTrig</em>'.
+	 * @see ucm.map.PathNode#getPerfMTrig()
+	 * @see #getPathNode()
+	 * @generated
+	 */
+	EReference getPathNode_PerfMTrig();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ucm.map.PathNode#getPerfMEnd <em>Perf MEnd</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Perf MEnd</em>'.
+	 * @see ucm.map.PathNode#getPerfMEnd()
+	 * @see #getPathNode()
+	 * @generated
+	 */
+	EReference getPathNode_PerfMEnd();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.map.EndPoint <em>End Point</em>}'.
@@ -4194,6 +4522,22 @@ public interface MapPackage extends EPackage {
 		 * @generated
 		 */
 		EClass PATH_NODE = eINSTANCE.getPathNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Perf MTrig</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATH_NODE__PERF_MTRIG = eINSTANCE.getPathNode_PerfMTrig();
+
+		/**
+		 * The meta object literal for the '<em><b>Perf MEnd</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PATH_NODE__PERF_MEND = eINSTANCE.getPathNode_PerfMEnd();
 
 		/**
 		 * The meta object literal for the '{@link ucm.map.impl.EndPointImpl <em>End Point</em>}' class.

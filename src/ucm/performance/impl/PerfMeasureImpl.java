@@ -20,6 +20,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.UCMspec;
 import ucm.UcmPackage;
+import ucm.map.MapPackage;
+import ucm.map.PathNode;
+
+import ucm.performance.GeneralResource;
 import ucm.performance.PerfAttribute;
 import ucm.performance.PerfMeasure;
 import ucm.performance.PerfValue;
@@ -38,6 +42,9 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getPerfValues <em>Perf Values</em>}</li>
  *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getResource <em>Resource</em>}</li>
+ *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getTrigger <em>Trigger</em>}</li>
+ *   <li>{@link ucm.performance.impl.PerfMeasureImpl#getEnd <em>End</em>}</li>
  * </ul>
  * </p>
  *
@@ -83,6 +90,36 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 	 * @ordered
 	 */
     protected Workload duration = null;
+
+	/**
+	 * The cached value of the '{@link #getResource() <em>Resource</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResource()
+	 * @generated
+	 * @ordered
+	 */
+	protected GeneralResource resource = null;
+
+	/**
+	 * The cached value of the '{@link #getTrigger() <em>Trigger</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTrigger()
+	 * @generated
+	 * @ordered
+	 */
+	protected PathNode trigger = null;
+
+	/**
+	 * The cached value of the '{@link #getEnd() <em>End</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnd()
+	 * @generated
+	 * @ordered
+	 */
+	protected PathNode end = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -226,14 +263,194 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 		if (newDuration != duration) {
 			NotificationChain msgs = null;
 			if (duration != null)
-				msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+				msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESPONSE_TIME, Workload.class, msgs);
 			if (newDuration != null)
-				msgs = ((InternalEObject)newDuration).eInverseAdd(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+				msgs = ((InternalEObject)newDuration).eInverseAdd(this, PerformancePackage.WORKLOAD__RESPONSE_TIME, Workload.class, msgs);
 			msgs = basicSetDuration(newDuration, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__DURATION, newDuration, newDuration));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GeneralResource getResource() {
+		if (resource != null && resource.eIsProxy()) {
+			InternalEObject oldResource = (InternalEObject)resource;
+			resource = (GeneralResource)eResolveProxy(oldResource);
+			if (resource != oldResource) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PERF_MEASURE__RESOURCE, oldResource, resource));
+			}
+		}
+		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GeneralResource basicGetResource() {
+		return resource;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetResource(GeneralResource newResource, NotificationChain msgs) {
+		GeneralResource oldResource = resource;
+		resource = newResource;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__RESOURCE, oldResource, newResource);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResource(GeneralResource newResource) {
+		if (newResource != resource) {
+			NotificationChain msgs = null;
+			if (resource != null)
+				msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, GeneralResource.class, msgs);
+			if (newResource != null)
+				msgs = ((InternalEObject)newResource).eInverseAdd(this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, GeneralResource.class, msgs);
+			msgs = basicSetResource(newResource, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__RESOURCE, newResource, newResource));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PathNode getTrigger() {
+		if (trigger != null && trigger.eIsProxy()) {
+			InternalEObject oldTrigger = (InternalEObject)trigger;
+			trigger = (PathNode)eResolveProxy(oldTrigger);
+			if (trigger != oldTrigger) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PERF_MEASURE__TRIGGER, oldTrigger, trigger));
+			}
+		}
+		return trigger;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PathNode basicGetTrigger() {
+		return trigger;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetTrigger(PathNode newTrigger, NotificationChain msgs) {
+		PathNode oldTrigger = trigger;
+		trigger = newTrigger;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__TRIGGER, oldTrigger, newTrigger);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTrigger(PathNode newTrigger) {
+		if (newTrigger != trigger) {
+			NotificationChain msgs = null;
+			if (trigger != null)
+				msgs = ((InternalEObject)trigger).eInverseRemove(this, MapPackage.PATH_NODE__PERF_MTRIG, PathNode.class, msgs);
+			if (newTrigger != null)
+				msgs = ((InternalEObject)newTrigger).eInverseAdd(this, MapPackage.PATH_NODE__PERF_MTRIG, PathNode.class, msgs);
+			msgs = basicSetTrigger(newTrigger, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__TRIGGER, newTrigger, newTrigger));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PathNode getEnd() {
+		if (end != null && end.eIsProxy()) {
+			InternalEObject oldEnd = (InternalEObject)end;
+			end = (PathNode)eResolveProxy(oldEnd);
+			if (end != oldEnd) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.PERF_MEASURE__END, oldEnd, end));
+			}
+		}
+		return end;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PathNode basicGetEnd() {
+		return end;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetEnd(PathNode newEnd, NotificationChain msgs) {
+		PathNode oldEnd = end;
+		end = newEnd;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__END, oldEnd, newEnd);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnd(PathNode newEnd) {
+		if (newEnd != end) {
+			NotificationChain msgs = null;
+			if (end != null)
+				msgs = ((InternalEObject)end).eInverseRemove(this, MapPackage.PATH_NODE__PERF_MEND, PathNode.class, msgs);
+			if (newEnd != null)
+				msgs = ((InternalEObject)newEnd).eInverseAdd(this, MapPackage.PATH_NODE__PERF_MEND, PathNode.class, msgs);
+			msgs = basicSetEnd(newEnd, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.PERF_MEASURE__END, newEnd, newEnd));
 	}
 
 	/**
@@ -251,8 +468,20 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 				return ((InternalEList)getPerfValues()).basicAdd(otherEnd, msgs);
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				if (duration != null)
-					msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESP_TIME, Workload.class, msgs);
+					msgs = ((InternalEObject)duration).eInverseRemove(this, PerformancePackage.WORKLOAD__RESPONSE_TIME, Workload.class, msgs);
 				return basicSetDuration((Workload)otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				if (resource != null)
+					msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, GeneralResource.class, msgs);
+				return basicSetResource((GeneralResource)otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				if (trigger != null)
+					msgs = ((InternalEObject)trigger).eInverseRemove(this, MapPackage.PATH_NODE__PERF_MTRIG, PathNode.class, msgs);
+				return basicSetTrigger((PathNode)otherEnd, msgs);
+			case PerformancePackage.PERF_MEASURE__END:
+				if (end != null)
+					msgs = ((InternalEObject)end).eInverseRemove(this, MapPackage.PATH_NODE__PERF_MEND, PathNode.class, msgs);
+				return basicSetEnd((PathNode)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -270,6 +499,12 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 				return ((InternalEList)getPerfValues()).basicRemove(otherEnd, msgs);
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				return basicSetDuration(null, msgs);
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				return basicSetResource(null, msgs);
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				return basicSetTrigger(null, msgs);
+			case PerformancePackage.PERF_MEASURE__END:
+				return basicSetEnd(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -303,6 +538,15 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				if (resolve) return getDuration();
 				return basicGetDuration();
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				if (resolve) return getResource();
+				return basicGetResource();
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				if (resolve) return getTrigger();
+				return basicGetTrigger();
+			case PerformancePackage.PERF_MEASURE__END:
+				if (resolve) return getEnd();
+				return basicGetEnd();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -327,6 +571,15 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				setDuration((Workload)newValue);
 				return;
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				setResource((GeneralResource)newValue);
+				return;
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				setTrigger((PathNode)newValue);
+				return;
+			case PerformancePackage.PERF_MEASURE__END:
+				setEnd((PathNode)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -350,6 +603,15 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				setDuration((Workload)null);
 				return;
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				setResource((GeneralResource)null);
+				return;
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				setTrigger((PathNode)null);
+				return;
+			case PerformancePackage.PERF_MEASURE__END:
+				setEnd((PathNode)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -369,6 +631,12 @@ public class PerfMeasureImpl extends UCMmodelElementImpl implements PerfMeasure 
 				return perfValues != null && !perfValues.isEmpty();
 			case PerformancePackage.PERF_MEASURE__DURATION:
 				return duration != null;
+			case PerformancePackage.PERF_MEASURE__RESOURCE:
+				return resource != null;
+			case PerformancePackage.PERF_MEASURE__TRIGGER:
+				return trigger != null;
+			case PerformancePackage.PERF_MEASURE__END:
+				return end != null;
 		}
 		return super.eIsSet(featureID);
 	}

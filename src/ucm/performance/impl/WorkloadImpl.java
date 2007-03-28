@@ -42,7 +42,7 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getCoeffVarSeq <em>Coeff Var Seq</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getPopulation <em>Population</em>}</li>
  *   <li>{@link ucm.performance.impl.WorkloadImpl#getStartPoint <em>Start Point</em>}</li>
- *   <li>{@link ucm.performance.impl.WorkloadImpl#getRespTime <em>Resp Time</em>}</li>
+ *   <li>{@link ucm.performance.impl.WorkloadImpl#getResponseTime <em>Response Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,7 +97,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double ARRIVAL_PARAM1_EDEFAULT = 0.0;
+    protected static final String ARRIVAL_PARAM1_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getArrivalParam1() <em>Arrival Param1</em>}' attribute.
@@ -107,7 +107,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected double arrivalParam1 = ARRIVAL_PARAM1_EDEFAULT;
+    protected String arrivalParam1 = ARRIVAL_PARAM1_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getArrivalParam2() <em>Arrival Param2</em>}' attribute.
@@ -117,7 +117,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double ARRIVAL_PARAM2_EDEFAULT = 0.0;
+    protected static final String ARRIVAL_PARAM2_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getArrivalParam2() <em>Arrival Param2</em>}' attribute.
@@ -127,7 +127,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected double arrivalParam2 = ARRIVAL_PARAM2_EDEFAULT;
+    protected String arrivalParam2 = ARRIVAL_PARAM2_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getExternalDelay() <em>External Delay</em>}' attribute.
@@ -137,7 +137,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double EXTERNAL_DELAY_EDEFAULT = 0.0;
+    protected static final String EXTERNAL_DELAY_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getExternalDelay() <em>External Delay</em>}' attribute.
@@ -147,7 +147,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected double externalDelay = EXTERNAL_DELAY_EDEFAULT;
+    protected String externalDelay = EXTERNAL_DELAY_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -157,7 +157,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double VALUE_EDEFAULT = 0.0;
+    protected static final String VALUE_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -167,7 +167,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected double value = VALUE_EDEFAULT;
+    protected String value = VALUE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getCoeffVarSeq() <em>Coeff Var Seq</em>}' attribute.
@@ -177,7 +177,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double COEFF_VAR_SEQ_EDEFAULT = 0.0;
+    protected static final String COEFF_VAR_SEQ_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getCoeffVarSeq() <em>Coeff Var Seq</em>}' attribute.
@@ -187,7 +187,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected double coeffVarSeq = COEFF_VAR_SEQ_EDEFAULT;
+    protected String coeffVarSeq = COEFF_VAR_SEQ_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPopulation() <em>Population</em>}' attribute.
@@ -197,7 +197,7 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final int POPULATION_EDEFAULT = 0;
+    protected static final String POPULATION_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getPopulation() <em>Population</em>}' attribute.
@@ -207,17 +207,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 	 * @generated
 	 * @ordered
 	 */
-    protected int population = POPULATION_EDEFAULT;
+    protected String population = POPULATION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getRespTime() <em>Resp Time</em>}' reference list.
+	 * The cached value of the '{@link #getResponseTime() <em>Response Time</em>}' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getRespTime()
+	 * <!-- end-user-doc -->
+	 * @see #getResponseTime()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList respTime = null;
+	protected EList responseTime = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -284,17 +284,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getArrivalParam1() {
+    public String getArrivalParam1() {
 		return arrivalParam1;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setArrivalParam1(double newArrivalParam1) {
-		double oldArrivalParam1 = arrivalParam1;
+	public void setArrivalParam1(String newArrivalParam1) {
+		String oldArrivalParam1 = arrivalParam1;
 		arrivalParam1 = newArrivalParam1;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__ARRIVAL_PARAM1, oldArrivalParam1, arrivalParam1));
@@ -305,17 +305,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getArrivalParam2() {
+    public String getArrivalParam2() {
 		return arrivalParam2;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setArrivalParam2(double newArrivalParam2) {
-		double oldArrivalParam2 = arrivalParam2;
+	public void setArrivalParam2(String newArrivalParam2) {
+		String oldArrivalParam2 = arrivalParam2;
 		arrivalParam2 = newArrivalParam2;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__ARRIVAL_PARAM2, oldArrivalParam2, arrivalParam2));
@@ -326,17 +326,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getExternalDelay() {
+    public String getExternalDelay() {
 		return externalDelay;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setExternalDelay(double newExternalDelay) {
-		double oldExternalDelay = externalDelay;
+	public void setExternalDelay(String newExternalDelay) {
+		String oldExternalDelay = externalDelay;
 		externalDelay = newExternalDelay;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__EXTERNAL_DELAY, oldExternalDelay, externalDelay));
@@ -347,17 +347,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getValue() {
+    public String getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setValue(double newValue) {
-		double oldValue = value;
+	public void setValue(String newValue) {
+		String oldValue = value;
 		value = newValue;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__VALUE, oldValue, value));
@@ -368,17 +368,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getCoeffVarSeq() {
+    public String getCoeffVarSeq() {
 		return coeffVarSeq;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setCoeffVarSeq(double newCoeffVarSeq) {
-		double oldCoeffVarSeq = coeffVarSeq;
+	public void setCoeffVarSeq(String newCoeffVarSeq) {
+		String oldCoeffVarSeq = coeffVarSeq;
 		coeffVarSeq = newCoeffVarSeq;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__COEFF_VAR_SEQ, oldCoeffVarSeq, coeffVarSeq));
@@ -389,17 +389,17 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public int getPopulation() {
+    public String getPopulation() {
 		return population;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setPopulation(int newPopulation) {
-		int oldPopulation = population;
+	public void setPopulation(String newPopulation) {
+		String oldPopulation = population;
 		population = newPopulation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.WORKLOAD__POPULATION, oldPopulation, population));
@@ -448,14 +448,14 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getRespTime() {
-		if (respTime == null) {
-			respTime = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, PerformancePackage.WORKLOAD__RESP_TIME, PerformancePackage.PERF_MEASURE__DURATION);
+	public EList getResponseTime() {
+		if (responseTime == null) {
+			responseTime = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, PerformancePackage.WORKLOAD__RESPONSE_TIME, PerformancePackage.PERF_MEASURE__DURATION);
 		}
-		return respTime;
+		return responseTime;
 	}
 
 	/**
@@ -469,8 +469,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetStartPoint((StartPoint)otherEnd, msgs);
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				return ((InternalEList)getRespTime()).basicAdd(otherEnd, msgs);
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				return ((InternalEList)getResponseTime()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -484,8 +484,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 		switch (featureID) {
 			case PerformancePackage.WORKLOAD__START_POINT:
 				return basicSetStartPoint(null, msgs);
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				return ((InternalEList)getRespTime()).basicRemove(otherEnd, msgs);
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				return ((InternalEList)getResponseTime()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -515,21 +515,21 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 			case PerformancePackage.WORKLOAD__ARRIVAL_PATTERN:
 				return getArrivalPattern();
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM1:
-				return new Double(getArrivalParam1());
+				return getArrivalParam1();
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM2:
-				return new Double(getArrivalParam2());
+				return getArrivalParam2();
 			case PerformancePackage.WORKLOAD__EXTERNAL_DELAY:
-				return new Double(getExternalDelay());
+				return getExternalDelay();
 			case PerformancePackage.WORKLOAD__VALUE:
-				return new Double(getValue());
+				return getValue();
 			case PerformancePackage.WORKLOAD__COEFF_VAR_SEQ:
-				return new Double(getCoeffVarSeq());
+				return getCoeffVarSeq();
 			case PerformancePackage.WORKLOAD__POPULATION:
-				return new Integer(getPopulation());
+				return getPopulation();
 			case PerformancePackage.WORKLOAD__START_POINT:
 				return getStartPoint();
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				return getRespTime();
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				return getResponseTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -548,29 +548,29 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 				setArrivalPattern((ArrivalProcess)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM1:
-				setArrivalParam1(((Double)newValue).doubleValue());
+				setArrivalParam1((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM2:
-				setArrivalParam2(((Double)newValue).doubleValue());
+				setArrivalParam2((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__EXTERNAL_DELAY:
-				setExternalDelay(((Double)newValue).doubleValue());
+				setExternalDelay((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__VALUE:
-				setValue(((Double)newValue).doubleValue());
+				setValue((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__COEFF_VAR_SEQ:
-				setCoeffVarSeq(((Double)newValue).doubleValue());
+				setCoeffVarSeq((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__POPULATION:
-				setPopulation(((Integer)newValue).intValue());
+				setPopulation((String)newValue);
 				return;
 			case PerformancePackage.WORKLOAD__START_POINT:
 				setStartPoint((StartPoint)newValue);
 				return;
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				getRespTime().clear();
-				getRespTime().addAll((Collection)newValue);
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				getResponseTime().clear();
+				getResponseTime().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -610,8 +610,8 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 			case PerformancePackage.WORKLOAD__START_POINT:
 				setStartPoint((StartPoint)null);
 				return;
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				getRespTime().clear();
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				getResponseTime().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -629,21 +629,21 @@ public class WorkloadImpl extends UCMmodelElementImpl implements Workload {
 			case PerformancePackage.WORKLOAD__ARRIVAL_PATTERN:
 				return arrivalPattern != ARRIVAL_PATTERN_EDEFAULT;
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM1:
-				return arrivalParam1 != ARRIVAL_PARAM1_EDEFAULT;
+				return ARRIVAL_PARAM1_EDEFAULT == null ? arrivalParam1 != null : !ARRIVAL_PARAM1_EDEFAULT.equals(arrivalParam1);
 			case PerformancePackage.WORKLOAD__ARRIVAL_PARAM2:
-				return arrivalParam2 != ARRIVAL_PARAM2_EDEFAULT;
+				return ARRIVAL_PARAM2_EDEFAULT == null ? arrivalParam2 != null : !ARRIVAL_PARAM2_EDEFAULT.equals(arrivalParam2);
 			case PerformancePackage.WORKLOAD__EXTERNAL_DELAY:
-				return externalDelay != EXTERNAL_DELAY_EDEFAULT;
+				return EXTERNAL_DELAY_EDEFAULT == null ? externalDelay != null : !EXTERNAL_DELAY_EDEFAULT.equals(externalDelay);
 			case PerformancePackage.WORKLOAD__VALUE:
-				return value != VALUE_EDEFAULT;
+				return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
 			case PerformancePackage.WORKLOAD__COEFF_VAR_SEQ:
-				return coeffVarSeq != COEFF_VAR_SEQ_EDEFAULT;
+				return COEFF_VAR_SEQ_EDEFAULT == null ? coeffVarSeq != null : !COEFF_VAR_SEQ_EDEFAULT.equals(coeffVarSeq);
 			case PerformancePackage.WORKLOAD__POPULATION:
-				return population != POPULATION_EDEFAULT;
+				return POPULATION_EDEFAULT == null ? population != null : !POPULATION_EDEFAULT.equals(population);
 			case PerformancePackage.WORKLOAD__START_POINT:
 				return getStartPoint() != null;
-			case PerformancePackage.WORKLOAD__RESP_TIME:
-				return respTime != null && !respTime.isEmpty();
+			case PerformancePackage.WORKLOAD__RESPONSE_TIME:
+				return responseTime != null && !responseTime.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

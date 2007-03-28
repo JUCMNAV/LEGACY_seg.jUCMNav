@@ -191,6 +191,24 @@ public interface PerformancePackage extends EPackage {
     int TIMESTAMP__LABEL = MapPackage.PATH_NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Perf MTrig</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TIMESTAMP__PERF_MTRIG = MapPackage.PATH_NODE__PERF_MTRIG;
+
+	/**
+	 * The feature id for the '<em><b>Perf MEnd</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TIMESTAMP__PERF_MEND = MapPackage.PATH_NODE__PERF_MEND;
+
+	/**
 	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -490,13 +508,13 @@ public interface PerformancePackage extends EPackage {
     int WORKLOAD__START_POINT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
-	 * The feature id for the '<em><b>Resp Time</b></em>' reference list.
+	 * The feature id for the '<em><b>Response Time</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int WORKLOAD__RESP_TIME = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
+	int WORKLOAD__RESPONSE_TIME = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Workload</em>' class.
@@ -572,22 +590,40 @@ public interface PerformancePackage extends EPackage {
     int GENERAL_RESOURCE__METADATA = UrncorePackage.UC_MMODEL_ELEMENT__METADATA;
 
 	/**
+	 * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERAL_RESOURCE__MULTIPLICITY = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Sched Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERAL_RESOURCE__SCHED_POLICY = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GENERAL_RESOURCE__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 0;
+    int GENERAL_RESOURCE__UCMSPEC = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * The feature id for the '<em><b>Perf Measures</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int GENERAL_RESOURCE__DEMANDS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 1;
+	int GENERAL_RESOURCE__PERF_MEASURES = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>General Resource</em>' class.
@@ -596,7 +632,7 @@ public interface PerformancePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int GENERAL_RESOURCE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 2;
+    int GENERAL_RESOURCE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ucm.performance.impl.PerfMeasureImpl <em>Perf Measure</em>}' class.
@@ -699,13 +735,40 @@ public interface PerformancePackage extends EPackage {
     int PERF_MEASURE__DURATION = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Resource</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERF_MEASURE__RESOURCE = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Trigger</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERF_MEASURE__TRIGGER = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>End</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERF_MEASURE__END = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Perf Measure</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int PERF_MEASURE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int PERF_MEASURE_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link ucm.performance.impl.PerfValueImpl <em>Perf Value</em>}' class.
@@ -845,6 +908,24 @@ public interface PerformancePackage extends EPackage {
     int ACTIVE_RESOURCE__METADATA = GENERAL_RESOURCE__METADATA;
 
 	/**
+	 * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVE_RESOURCE__MULTIPLICITY = GENERAL_RESOURCE__MULTIPLICITY;
+
+	/**
+	 * The feature id for the '<em><b>Sched Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTIVE_RESOURCE__SCHED_POLICY = GENERAL_RESOURCE__SCHED_POLICY;
+
+	/**
 	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -854,13 +935,13 @@ public interface PerformancePackage extends EPackage {
     int ACTIVE_RESOURCE__UCMSPEC = GENERAL_RESOURCE__UCMSPEC;
 
 	/**
-	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * The feature id for the '<em><b>Perf Measures</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int ACTIVE_RESOURCE__DEMANDS = GENERAL_RESOURCE__DEMANDS;
+	int ACTIVE_RESOURCE__PERF_MEASURES = GENERAL_RESOURCE__PERF_MEASURES;
 
 	/**
 	 * The feature id for the '<em><b>Op Time</b></em>' attribute.
@@ -945,6 +1026,24 @@ public interface PerformancePackage extends EPackage {
     int PASSIVE_RESOURCE__METADATA = GENERAL_RESOURCE__METADATA;
 
 	/**
+	 * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PASSIVE_RESOURCE__MULTIPLICITY = GENERAL_RESOURCE__MULTIPLICITY;
+
+	/**
+	 * The feature id for the '<em><b>Sched Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PASSIVE_RESOURCE__SCHED_POLICY = GENERAL_RESOURCE__SCHED_POLICY;
+
+	/**
 	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -954,13 +1053,13 @@ public interface PerformancePackage extends EPackage {
     int PASSIVE_RESOURCE__UCMSPEC = GENERAL_RESOURCE__UCMSPEC;
 
 	/**
-	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * The feature id for the '<em><b>Perf Measures</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int PASSIVE_RESOURCE__DEMANDS = GENERAL_RESOURCE__DEMANDS;
+	int PASSIVE_RESOURCE__PERF_MEASURES = GENERAL_RESOURCE__PERF_MEASURES;
 
 	/**
 	 * The feature id for the '<em><b>Component</b></em>' reference.
@@ -1045,6 +1144,24 @@ public interface PerformancePackage extends EPackage {
     int EXTERNAL_OPERATION__METADATA = ACTIVE_RESOURCE__METADATA;
 
 	/**
+	 * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_OPERATION__MULTIPLICITY = ACTIVE_RESOURCE__MULTIPLICITY;
+
+	/**
+	 * The feature id for the '<em><b>Sched Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_OPERATION__SCHED_POLICY = ACTIVE_RESOURCE__SCHED_POLICY;
+
+	/**
 	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1054,13 +1171,13 @@ public interface PerformancePackage extends EPackage {
     int EXTERNAL_OPERATION__UCMSPEC = ACTIVE_RESOURCE__UCMSPEC;
 
 	/**
-	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * The feature id for the '<em><b>Perf Measures</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int EXTERNAL_OPERATION__DEMANDS = ACTIVE_RESOURCE__DEMANDS;
+	int EXTERNAL_OPERATION__PERF_MEASURES = ACTIVE_RESOURCE__PERF_MEASURES;
 
 	/**
 	 * The feature id for the '<em><b>Op Time</b></em>' attribute.
@@ -1072,13 +1189,22 @@ public interface PerformancePackage extends EPackage {
     int EXTERNAL_OPERATION__OP_TIME = ACTIVE_RESOURCE__OP_TIME;
 
 	/**
+	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    int EXTERNAL_OPERATION__DEMANDS = ACTIVE_RESOURCE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>External Operation</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int EXTERNAL_OPERATION_FEATURE_COUNT = ACTIVE_RESOURCE_FEATURE_COUNT + 0;
+    int EXTERNAL_OPERATION_FEATURE_COUNT = ACTIVE_RESOURCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link ucm.performance.impl.ProcessingResourceImpl <em>Processing Resource</em>}' class.
@@ -1145,6 +1271,24 @@ public interface PerformancePackage extends EPackage {
     int PROCESSING_RESOURCE__METADATA = ACTIVE_RESOURCE__METADATA;
 
 	/**
+	 * The feature id for the '<em><b>Multiplicity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESSING_RESOURCE__MULTIPLICITY = ACTIVE_RESOURCE__MULTIPLICITY;
+
+	/**
+	 * The feature id for the '<em><b>Sched Policy</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESSING_RESOURCE__SCHED_POLICY = ACTIVE_RESOURCE__SCHED_POLICY;
+
+	/**
 	 * The feature id for the '<em><b>Ucmspec</b></em>' container reference.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1154,13 +1298,13 @@ public interface PerformancePackage extends EPackage {
     int PROCESSING_RESOURCE__UCMSPEC = ACTIVE_RESOURCE__UCMSPEC;
 
 	/**
-	 * The feature id for the '<em><b>Demands</b></em>' reference list.
+	 * The feature id for the '<em><b>Perf Measures</b></em>' reference list.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int PROCESSING_RESOURCE__DEMANDS = ACTIVE_RESOURCE__DEMANDS;
+	int PROCESSING_RESOURCE__PERF_MEASURES = ACTIVE_RESOURCE__PERF_MEASURES;
 
 	/**
 	 * The feature id for the '<em><b>Op Time</b></em>' attribute.
@@ -1513,15 +1657,15 @@ public interface PerformancePackage extends EPackage {
     EReference getWorkload_StartPoint();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.performance.Workload#getRespTime <em>Resp Time</em>}'.
+	 * Returns the meta object for the reference list '{@link ucm.performance.Workload#getResponseTime <em>Response Time</em>}'.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Resp Time</em>'.
-	 * @see ucm.performance.Workload#getRespTime()
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Response Time</em>'.
+	 * @see ucm.performance.Workload#getResponseTime()
 	 * @see #getWorkload()
 	 * @generated
 	 */
-    EReference getWorkload_RespTime();
+	EReference getWorkload_ResponseTime();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.performance.GeneralResource <em>General Resource</em>}'.
@@ -1532,6 +1676,28 @@ public interface PerformancePackage extends EPackage {
 	 * @generated
 	 */
     EClass getGeneralResource();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucm.performance.GeneralResource#getMultiplicity <em>Multiplicity</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Multiplicity</em>'.
+	 * @see ucm.performance.GeneralResource#getMultiplicity()
+	 * @see #getGeneralResource()
+	 * @generated
+	 */
+	EAttribute getGeneralResource_Multiplicity();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ucm.performance.GeneralResource#getSchedPolicy <em>Sched Policy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sched Policy</em>'.
+	 * @see ucm.performance.GeneralResource#getSchedPolicy()
+	 * @see #getGeneralResource()
+	 * @generated
+	 */
+	EAttribute getGeneralResource_SchedPolicy();
 
 	/**
 	 * Returns the meta object for the container reference '{@link ucm.performance.GeneralResource#getUcmspec <em>Ucmspec</em>}'.
@@ -1545,15 +1711,15 @@ public interface PerformancePackage extends EPackage {
     EReference getGeneralResource_Ucmspec();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ucm.performance.GeneralResource#getDemands <em>Demands</em>}'.
+	 * Returns the meta object for the reference list '{@link ucm.performance.GeneralResource#getPerfMeasures <em>Perf Measures</em>}'.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Demands</em>'.
-	 * @see ucm.performance.GeneralResource#getDemands()
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Perf Measures</em>'.
+	 * @see ucm.performance.GeneralResource#getPerfMeasures()
 	 * @see #getGeneralResource()
 	 * @generated
 	 */
-    EReference getGeneralResource_Demands();
+	EReference getGeneralResource_PerfMeasures();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.performance.PerfMeasure <em>Perf Measure</em>}'.
@@ -1608,6 +1774,39 @@ public interface PerformancePackage extends EPackage {
 	 * @generated
 	 */
     EReference getPerfMeasure_Duration();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.performance.PerfMeasure#getResource <em>Resource</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resource</em>'.
+	 * @see ucm.performance.PerfMeasure#getResource()
+	 * @see #getPerfMeasure()
+	 * @generated
+	 */
+	EReference getPerfMeasure_Resource();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.performance.PerfMeasure#getTrigger <em>Trigger</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Trigger</em>'.
+	 * @see ucm.performance.PerfMeasure#getTrigger()
+	 * @see #getPerfMeasure()
+	 * @generated
+	 */
+	EReference getPerfMeasure_Trigger();
+
+	/**
+	 * Returns the meta object for the reference '{@link ucm.performance.PerfMeasure#getEnd <em>End</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>End</em>'.
+	 * @see ucm.performance.PerfMeasure#getEnd()
+	 * @see #getPerfMeasure()
+	 * @generated
+	 */
+	EReference getPerfMeasure_End();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.performance.PerfValue <em>Perf Value</em>}'.
@@ -1736,6 +1935,17 @@ public interface PerformancePackage extends EPackage {
 	 * @generated
 	 */
     EClass getExternalOperation();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ucm.performance.ExternalOperation#getDemands <em>Demands</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Demands</em>'.
+	 * @see ucm.performance.ExternalOperation#getDemands()
+	 * @see #getExternalOperation()
+	 * @generated
+	 */
+	EReference getExternalOperation_Demands();
 
 	/**
 	 * Returns the meta object for class '{@link ucm.performance.ProcessingResource <em>Processing Resource</em>}'.
@@ -2051,12 +2261,12 @@ public interface PerformancePackage extends EPackage {
 		EReference WORKLOAD__START_POINT = eINSTANCE.getWorkload_StartPoint();
 
 		/**
-		 * The meta object literal for the '<em><b>Resp Time</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Response Time</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference WORKLOAD__RESP_TIME = eINSTANCE.getWorkload_RespTime();
+		EReference WORKLOAD__RESPONSE_TIME = eINSTANCE.getWorkload_ResponseTime();
 
 		/**
 		 * The meta object literal for the '{@link ucm.performance.impl.GeneralResourceImpl <em>General Resource</em>}' class.
@@ -2069,6 +2279,22 @@ public interface PerformancePackage extends EPackage {
 		EClass GENERAL_RESOURCE = eINSTANCE.getGeneralResource();
 
 		/**
+		 * The meta object literal for the '<em><b>Multiplicity</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GENERAL_RESOURCE__MULTIPLICITY = eINSTANCE.getGeneralResource_Multiplicity();
+
+		/**
+		 * The meta object literal for the '<em><b>Sched Policy</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GENERAL_RESOURCE__SCHED_POLICY = eINSTANCE.getGeneralResource_SchedPolicy();
+
+		/**
 		 * The meta object literal for the '<em><b>Ucmspec</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2077,12 +2303,12 @@ public interface PerformancePackage extends EPackage {
 		EReference GENERAL_RESOURCE__UCMSPEC = eINSTANCE.getGeneralResource_Ucmspec();
 
 		/**
-		 * The meta object literal for the '<em><b>Demands</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Perf Measures</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GENERAL_RESOURCE__DEMANDS = eINSTANCE.getGeneralResource_Demands();
+		EReference GENERAL_RESOURCE__PERF_MEASURES = eINSTANCE.getGeneralResource_PerfMeasures();
 
 		/**
 		 * The meta object literal for the '{@link ucm.performance.impl.PerfMeasureImpl <em>Perf Measure</em>}' class.
@@ -2125,6 +2351,30 @@ public interface PerformancePackage extends EPackage {
 		 * @generated
 		 */
 		EReference PERF_MEASURE__DURATION = eINSTANCE.getPerfMeasure_Duration();
+
+		/**
+		 * The meta object literal for the '<em><b>Resource</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PERF_MEASURE__RESOURCE = eINSTANCE.getPerfMeasure_Resource();
+
+		/**
+		 * The meta object literal for the '<em><b>Trigger</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PERF_MEASURE__TRIGGER = eINSTANCE.getPerfMeasure_Trigger();
+
+		/**
+		 * The meta object literal for the '<em><b>End</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PERF_MEASURE__END = eINSTANCE.getPerfMeasure_End();
 
 		/**
 		 * The meta object literal for the '{@link ucm.performance.impl.PerfValueImpl <em>Perf Value</em>}' class.
@@ -2229,6 +2479,14 @@ public interface PerformancePackage extends EPackage {
 		 * @generated
 		 */
 		EClass EXTERNAL_OPERATION = eINSTANCE.getExternalOperation();
+
+		/**
+		 * The meta object literal for the '<em><b>Demands</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXTERNAL_OPERATION__DEMANDS = eINSTANCE.getExternalOperation_Demands();
 
 		/**
 		 * The meta object literal for the '{@link ucm.performance.impl.ProcessingResourceImpl <em>Processing Resource</em>}' class.

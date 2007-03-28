@@ -26,7 +26,6 @@ package ucm.performance;
 public interface ActiveResource extends GeneralResource {
 	/**
 	 * Returns the value of the '<em><b>Op Time</b></em>' attribute.
-	 * The default value is <code>"0.0"</code>.
 	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Op Time</em>' attribute isn't clear,
@@ -34,21 +33,21 @@ public interface ActiveResource extends GeneralResource {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Op Time</em>' attribute.
-	 * @see #setOpTime(double)
+	 * @see #setOpTime(String)
 	 * @see ucm.performance.PerformancePackage#getActiveResource_OpTime()
-	 * @model default="0.0"
+	 * @model
 	 * @generated
 	 */
-    double getOpTime();
+    String getOpTime();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.ActiveResource#getOpTime <em>Op Time</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Op Time</em>' attribute.
 	 * @see #getOpTime()
 	 * @generated
 	 */
-    void setOpTime(double value);
+	void setOpTime(String value);
 
 } // ActiveResource

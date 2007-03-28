@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import ucm.performance.Demand;
+import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
 import ucm.performance.PerformancePackage;
 import urncore.Responsibility;
@@ -44,7 +45,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double QUANTITY_EDEFAULT = 0.0;
+    protected static final String QUANTITY_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getQuantity() <em>Quantity</em>}' attribute.
@@ -54,7 +55,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	 * @generated
 	 * @ordered
 	 */
-    protected double quantity = QUANTITY_EDEFAULT;
+    protected String quantity = QUANTITY_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getResource() <em>Resource</em>}' reference.
@@ -64,7 +65,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	 * @generated
 	 * @ordered
 	 */
-    protected GeneralResource resource = null;
+    protected ExternalOperation resource = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -89,17 +90,17 @@ public class DemandImpl extends EObjectImpl implements Demand {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getQuantity() {
+    public String getQuantity() {
 		return quantity;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setQuantity(double newQuantity) {
-		double oldQuantity = quantity;
+	public void setQuantity(String newQuantity) {
+		String oldQuantity = quantity;
 		quantity = newQuantity;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.DEMAND__QUANTITY, oldQuantity, quantity));
@@ -151,10 +152,10 @@ public class DemandImpl extends EObjectImpl implements Demand {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public GeneralResource getResource() {
+    public ExternalOperation getResource() {
 		if (resource != null && resource.eIsProxy()) {
 			InternalEObject oldResource = (InternalEObject)resource;
-			resource = (GeneralResource)eResolveProxy(oldResource);
+			resource = (ExternalOperation)eResolveProxy(oldResource);
 			if (resource != oldResource) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, PerformancePackage.DEMAND__RESOURCE, oldResource, resource));
@@ -168,17 +169,17 @@ public class DemandImpl extends EObjectImpl implements Demand {
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public GeneralResource basicGetResource() {
+    public ExternalOperation basicGetResource() {
 		return resource;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public NotificationChain basicSetResource(GeneralResource newResource, NotificationChain msgs) {
-		GeneralResource oldResource = resource;
+	public NotificationChain basicSetResource(ExternalOperation newResource, NotificationChain msgs) {
+		ExternalOperation oldResource = resource;
 		resource = newResource;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PerformancePackage.DEMAND__RESOURCE, oldResource, newResource);
@@ -189,16 +190,16 @@ public class DemandImpl extends EObjectImpl implements Demand {
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setResource(GeneralResource newResource) {
+	public void setResource(ExternalOperation newResource) {
 		if (newResource != resource) {
 			NotificationChain msgs = null;
 			if (resource != null)
-				msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, GeneralResource.class, msgs);
+				msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.EXTERNAL_OPERATION__DEMANDS, ExternalOperation.class, msgs);
 			if (newResource != null)
-				msgs = ((InternalEObject)newResource).eInverseAdd(this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, GeneralResource.class, msgs);
+				msgs = ((InternalEObject)newResource).eInverseAdd(this, PerformancePackage.EXTERNAL_OPERATION__DEMANDS, ExternalOperation.class, msgs);
 			msgs = basicSetResource(newResource, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -219,8 +220,8 @@ public class DemandImpl extends EObjectImpl implements Demand {
 				return basicSetResponsibility((Responsibility)otherEnd, msgs);
 			case PerformancePackage.DEMAND__RESOURCE:
 				if (resource != null)
-					msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, GeneralResource.class, msgs);
-				return basicSetResource((GeneralResource)otherEnd, msgs);
+					msgs = ((InternalEObject)resource).eInverseRemove(this, PerformancePackage.EXTERNAL_OPERATION__DEMANDS, ExternalOperation.class, msgs);
+				return basicSetResource((ExternalOperation)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -261,7 +262,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PerformancePackage.DEMAND__QUANTITY:
-				return new Double(getQuantity());
+				return getQuantity();
 			case PerformancePackage.DEMAND__RESPONSIBILITY:
 				return getResponsibility();
 			case PerformancePackage.DEMAND__RESOURCE:
@@ -279,13 +280,13 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PerformancePackage.DEMAND__QUANTITY:
-				setQuantity(((Double)newValue).doubleValue());
+				setQuantity((String)newValue);
 				return;
 			case PerformancePackage.DEMAND__RESPONSIBILITY:
 				setResponsibility((Responsibility)newValue);
 				return;
 			case PerformancePackage.DEMAND__RESOURCE:
-				setResource((GeneralResource)newValue);
+				setResource((ExternalOperation)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -305,7 +306,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 				setResponsibility((Responsibility)null);
 				return;
 			case PerformancePackage.DEMAND__RESOURCE:
-				setResource((GeneralResource)null);
+				setResource((ExternalOperation)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -319,7 +320,7 @@ public class DemandImpl extends EObjectImpl implements Demand {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PerformancePackage.DEMAND__QUANTITY:
-				return quantity != QUANTITY_EDEFAULT;
+				return QUANTITY_EDEFAULT == null ? quantity != null : !QUANTITY_EDEFAULT.equals(quantity);
 			case PerformancePackage.DEMAND__RESPONSIBILITY:
 				return getResponsibility() != null;
 			case PerformancePackage.DEMAND__RESOURCE:

@@ -2,7 +2,6 @@ package seg.jUCMNav.views.wizards.performance;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -40,7 +39,7 @@ public class CreateResourceActive extends WizardPage {
 
 	private EObject defaultSelected;
 
-	private double opTime;
+	private String opTime;
 
 	private boolean opTimeValid;
 
@@ -152,7 +151,7 @@ public class CreateResourceActive extends WizardPage {
 		String s;
 		if (opTimeText.getText() != "") {
 			if (opTimeText.getText().matches("[0-9]+.[0-9]+")) {
-				opTime = StringConverter.asDouble(opTimeText.getText().toString());
+				opTime = opTimeText.getText().toString();
 				opTimeValid = true;
 			} else {
 				opTimeValid = false;
@@ -191,7 +190,7 @@ public class CreateResourceActive extends WizardPage {
 		return sType;
 	}
 
-	public double getOpTime() {
+	public String getOpTime() {
 		return opTime;
 	}
 }

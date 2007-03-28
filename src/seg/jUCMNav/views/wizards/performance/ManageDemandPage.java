@@ -45,365 +45,341 @@ import urncore.Responsibility;
  */
 public class ManageDemandPage extends WizardPage {
 
-    private Shell shell;
+	private Shell shell;
+	private Composite container;
+	private Label typeLabel;
+	private EObject defaultSelected;
+	private URNspec spec;
+	private Component[] components;
+	private Combo allcomponents;
+	private Composite selectInOut;
+	private Responsibility responsibility;
+	private List inList;
+	private Composite buttons;
+	private Button left;
+	private Button right;
+	private List availList;
+	private ExternalOperation[] availExternOpns;
+	private ExternalOperation[] boundExternOpns;
+	private Demand[] demands;
+	private Demand selectedDemand = null;
+	private String quantity;
+	private IWorkbenchPage workbenchPage;
+	private ExternalOperation extOp;
+	private Canvas cv;
+	private Text demand;
+	Button updateButton;
 
-    private Composite container;
+	/**
+	 * 
+	 * @param workbenchPage
+	 * @param defaultSelected
+	 *                responsibility for which demand will be managed
+	 */
+	public ManageDemandPage(IWorkbenchPage workbenchPage, EObject defaultSelected) {
+		super("wizardPage"); //$NON-NLS-1$
+		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+		this.workbenchPage = workbenchPage;
+		this.defaultSelected = defaultSelected;
 
-    private Label typeLabel;
+		setTitle("Manage Demand");
+		setDescription("Specify external operations required by a responsibility");
 
-    private EObject defaultSelected;
+	}
 
-    private URNspec spec;
+	/**
+	 * Creates the page.
+	 */
+	public void createControl(Composite parent) {
+		container = new Composite(parent, SWT.NULL);
+		shell = container.getShell();
+		GridLayout containerLayout = new GridLayout();
+		containerLayout.numColumns = 3;
+		container.setLayout(containerLayout);
 
-    private Component[] components;
+		Label lin = new Label(container, SWT.NULL);
+		lin.setText("Required External Operations");
 
-    private Combo allcomponents;
+		Label blank1 = new Label(container, SWT.NULL);
+		blank1.setText("");
 
-    private Composite selectInOut;
+		Label lavail = new Label(container, SWT.NULL);
+		lavail.setText("Available External Operations");
 
-    private Responsibility responsibility;
+		inList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
+		inList.setSize(150, 150);
+		inList.addSelectionListener(inListListener);
+		GridData gd1 = new GridData();
+		gd1.horizontalSpan = 1;
+		gd1.heightHint = 200;
+		gd1.widthHint = 200;
+		inList.setLayoutData(gd1);
 
-    private List inList;
+		cv = new Canvas(container, SWT.NULL);
+		GridData gd9 = new GridData();
+		gd9.horizontalSpan = 1;
+		cv.setLayoutData(gd9);
+		cv.setLayout(new FillLayout(SWT.VERTICAL));
 
-    private Composite buttons;
+		left = new Button(cv, SWT.Activate);
+		left.setText("< add <");
+		left.setEnabled(false);
+		left.addSelectionListener(leftBtnListener);
 
-    private Button left;
+		right = new Button(cv, SWT.Activate);
+		right.setText("> remove >");
+		right.setEnabled(false);
+		right.addSelectionListener(rightBtnListener);
 
-    private Button right;
+		// avail:
+		availList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
+		availList.setSize(150, 150);
+		availList.addSelectionListener(availListListener);
+		GridData gd2 = new GridData();
+		gd2.horizontalSpan = 1;
+		gd2.heightHint = 200;
+		gd2.widthHint = 200;
+		availList.setLayoutData(gd2);
 
-    private List availList;
+		Label demandLabel = new Label(container, SWT.NULL);
+		GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
+		gd3.horizontalSpan = 3;
+		demandLabel.setLayoutData(gd3);
+		demandLabel.setText("demand: ");
+		demand = new Text(container, SWT.BORDER);
+		GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
+		gd4.horizontalSpan = 1;
+		demand.setLayoutData(gd4);
+		demand.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				boolean changed = false;
+				String qtyString = selectedDemand.getQuantity();
+				String qtyUser = demand.getText().toString();
+				if (!qtyString.equals(qtyUser)) {
+					changed = true;
+				}
+				if (isValid(qtyUser) != null) {
+					setErrorMessage("quantity value must be real");
+				} else {
+					setErrorMessage(null);
+					updateButton.setEnabled(changed);
+				}
+			}
+		});
 
-    private ExternalOperation[] availExternOpns;
-
-    private ExternalOperation[] boundExternOpns;
-
-    private Demand[] demands;
-
-    private Demand selectedDemand = null;
-
-    private double quantity;
-
-    private IWorkbenchPage workbenchPage;
-
-    private ExternalOperation extOp;
-
-    private Canvas cv;
-
-    private Text demand;
-
-    Button updateButton;
-
-    /**
-         * 
-         * @param workbenchPage
-         * @param defaultSelected
-         *                responsibility for which demand will be managed
-         */
-    public ManageDemandPage(IWorkbenchPage workbenchPage, EObject defaultSelected) {
-	super("wizardPage"); //$NON-NLS-1$
-	this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
-	this.workbenchPage = workbenchPage;
-	this.defaultSelected = defaultSelected;
-
-	setTitle("Manage Demand");
-	setDescription("Specify external operations required by a responsibility");
-
-    }
-
-    /**
-         * Creates the page.
-         */
-    public void createControl(Composite parent) {
-	container = new Composite(parent, SWT.NULL);
-	shell = container.getShell();
-	GridLayout containerLayout = new GridLayout();
-	containerLayout.numColumns = 3;
-	container.setLayout(containerLayout);
-
-	Label lin = new Label(container, SWT.NULL);
-	lin.setText("Required External Operations");
-
-	Label blank1 = new Label(container, SWT.NULL);
-	blank1.setText("");
-
-	Label lavail = new Label(container, SWT.NULL);
-	lavail.setText("Available External Operations");
-
-	inList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
-	inList.setSize(150, 150);
-	inList.addSelectionListener(inListListener);
-	GridData gd1 = new GridData();
-	gd1.horizontalSpan = 1;
-	gd1.heightHint = 200;
-	gd1.widthHint = 200;
-	inList.setLayoutData(gd1);
-
-	cv = new Canvas(container, SWT.NULL);
-	GridData gd9 = new GridData();
-	gd9.horizontalSpan = 1;
-	cv.setLayoutData(gd9);
-	cv.setLayout(new FillLayout(SWT.VERTICAL));
-
-	left = new Button(cv, SWT.Activate);
-	left.setText("< add <");
-	left.setEnabled(false);
-	left.addSelectionListener(leftBtnListener);
-
-	right = new Button(cv, SWT.Activate);
-	right.setText("> remove >");
-	right.setEnabled(false);
-	right.addSelectionListener(rightBtnListener);
-
-	// avail:
-	availList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
-	availList.setSize(150, 150);
-	availList.addSelectionListener(availListListener);
-	GridData gd2 = new GridData();
-	gd2.horizontalSpan = 1;
-	gd2.heightHint = 200;
-	gd2.widthHint = 200;
-	availList.setLayoutData(gd2);
-
-	Label demandLabel = new Label(container, SWT.NULL);
-	GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
-	gd3.horizontalSpan = 3;
-	demandLabel.setLayoutData(gd3);
-	demandLabel.setText("demand: ");
-	demand = new Text(container, SWT.BORDER);
-	GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
-	gd4.horizontalSpan = 1;
-	demand.setLayoutData(gd4);
-	demand.addModifyListener(new ModifyListener() {
-	    public void modifyText(ModifyEvent e) {
-		boolean changed = false;
-		double qty = selectedDemand.getQuantity();
-		String qtyString = "" + qty;
-		String qtyUser = demand.getText().toString();
-		if (!qtyString.equals(qtyUser)) {
-		    changed = true;
-		}
-		if (isValid(qtyUser) != null) {
-		    setErrorMessage("quantity value must be real");
-		} else {
-		    setErrorMessage(null);
-		    updateButton.setEnabled(changed);
-		}
-	    }
-	});
-
-	updateButton = new Button(container, SWT.PUSH);
-	updateButton.setText("Update");
-	updateButton.setEnabled(false);
-	updateButton.addSelectionListener(new SelectionAdapter() {
-	    public void widgetSelected(SelectionEvent e) {
-		double newQty = Double.parseDouble(demand.getText());
-		selectedDemand.setQuantity(newQty);
+		updateButton = new Button(container, SWT.PUSH);
+		updateButton.setText("Update");
 		updateButton.setEnabled(false);
-	    }
-	});
+		updateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				String newQty = demand.getText();
+				selectedDemand.setQuantity(newQty);
+				updateButton.setEnabled(false);
+			}
+		});
 
-	initialize();
-	setControl(container);
+		initialize();
+		setControl(container);
 
-    }
-
-    public String isValid(Object value) {
-	double doubleValue = -1;
-	try {
-	    doubleValue = Double.parseDouble(value.toString());
-	    return null;
-	} catch (NumberFormatException exc) {
-	    return "Messages.getString(\"EObjectPropertySource.notValidNumber\"); //$NON-NLS-1$"; // Ouch. _js_
 	}
-    }
 
-    private SelectionListener inListListener = new SelectionAdapter() {
-	public void widgetSelected(SelectionEvent e) {
-	    inListChanged();
-	}
-    };
-
-    private void inListChanged() {
-	if (inList.getSelectionIndex() != -1) {
-	    extOp = boundExternOpns[inList.getSelectionIndex()];
-	    right.setEnabled(true);
-	    availList.deselectAll();
-	    left.setEnabled(false);
-	    boolean found = false;
-	    for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
-		Demand adem = (Demand) checkDem.next();
-		ExternalOperation agen = (ExternalOperation) adem.getResource();
-		if (agen.equals(extOp)) {
-		    selectedDemand = adem;
-		    found = true;
+	public String isValid(Object value) {
+		double doubleValue = -1;
+		try {
+			doubleValue = Double.parseDouble(value.toString());
+			return null;
+		} catch (NumberFormatException exc) {
+			return "Messages.getString(\"EObjectPropertySource.notValidNumber\"); //$NON-NLS-1$"; // Ouch. _js_
 		}
-	    }
-	    if (found) {
-		demand.setText("" + selectedDemand.getQuantity());
-	    }
-	    demand.setEnabled(true);
-	} else {
-	    right.setEnabled(false);
-	    demand.setEnabled(false);
-	    updateButton.setEnabled(false);
 	}
-    }
 
-    private SelectionListener rightBtnListener = new SelectionAdapter() {
-	public void widgetSelected(SelectionEvent e) {
-	    removeRes();
-	}
-    };
-
-    private void removeRes() {
-	Demand itemToRemove = null;
-	int i = 0;
-	int itemToRemoveIndex = 0;
-	for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
-	    Demand dem = (Demand) demand.next();
-	    if (dem.getResource().equals(extOp)) {
-		itemToRemove = dem;
-		itemToRemoveIndex = i;
-	    }
-	    i++;
-	}
-	if (itemToRemove != null) {
-	    removeResCmd(itemToRemove);
-	    updateLists();
-	}
-    }
-
-    private SelectionListener availListListener = new SelectionAdapter() {
-	public void widgetSelected(SelectionEvent e) {
-	    availListChanged();
-	}
-    };
-
-    private void availListChanged() {
-	if (availList.getSelectionIndex() != -1) {
-	    extOp = availExternOpns[availList.getSelectionIndex()];
-	    left.setEnabled(true);
-	    inList.deselectAll();
-	    right.setEnabled(false);
-	    demand.setEnabled(false);
-	    updateButton.setEnabled(false);
-	} else {
-	    left.setEnabled(false);
-	}
-    }
-
-    private SelectionListener leftBtnListener = new SelectionAdapter() {
-	public void widgetSelected(SelectionEvent e) {
-	    createResCmd();
-	    updateLists();
-	}
-    };
-
-    public void createResCmd() {
-	CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-	CompoundCommand command = new CompoundCommand();
-
-	CreateDemandCommand createCmd = new CreateDemandCommand(spec, extOp, quantity, responsibility);
-	command.add(createCmd);
-
-	// use a command to be undoable.
-	if (command.canExecute())
-	    cs.execute(command);
-    }
-
-    public void removeResCmd(Demand demandToRemove) {
-	CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
-	CompoundCommand command = new CompoundCommand();
-
-	DeleteDemandCommand deleteCmd = new DeleteDemandCommand(spec, extOp, demandToRemove, responsibility);
-	command.add(deleteCmd);
-
-	// use a command to be undoable.
-	if (command.canExecute())
-	    cs.execute(command);
-    }
-
-    /**
-         * Ensures that the selection is legal
-         */
-    private void dialogChanged() {
-
-
-    }
-
-    /**
-         * Tests if the current workbench selection is a suitable container to use.
-         */
-    private void initialize() {
-	if (defaultSelected != null) {
-	    if (defaultSelected instanceof RespRef) {
-		responsibility = ((RespRef) defaultSelected).getRespDef();
-		spec = responsibility.getUrndefinition().getUrnspec();
-	    }
-	}
-	updateLists();
-    }
-
-    private void updateLists() {
-	GeneralResource genRes;
-	if (spec != null) {
-	    availExternOpns = new ExternalOperation[spec.getUrndef().getUrnspec().getUcmspec().getResources().size()];
-	}
-	if (responsibility != null) {
-	    boundExternOpns = new ExternalOperation[responsibility.getDemands().size()];
-	}
-	int indexRes = 0;
-	int indexDem = 0;
-	inList.removeAll();
-	availList.removeAll();
-	boolean found;
-	for (Iterator resource = spec.getUrndef().getUrnspec().getUcmspec().getResources().iterator(); resource.hasNext();) {
-	    genRes = (GeneralResource) resource.next();
-	    if (genRes instanceof ExternalOperation) {
-		ExternalOperation externOpn = (ExternalOperation) genRes;
-		found = false;
-		for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
-		    Demand adem = (Demand) checkDem.next();
-		    ExternalOperation agen = (ExternalOperation) adem.getResource();
-		    found = found || agen.equals(externOpn);
+	private SelectionListener inListListener = new SelectionAdapter() {
+		public void widgetSelected(SelectionEvent e) {
+			inListChanged();
 		}
-		if (!found) {
-		    availList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
-		    availExternOpns[indexRes] = externOpn;
-		    indexRes++;
+	};
+
+	private void inListChanged() {
+		if (inList.getSelectionIndex() != -1) {
+			extOp = boundExternOpns[inList.getSelectionIndex()];
+			right.setEnabled(true);
+			availList.deselectAll();
+			left.setEnabled(false);
+			boolean found = false;
+			for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
+				Demand adem = (Demand) checkDem.next();
+				ExternalOperation agen = (ExternalOperation) adem.getResource();
+				if (agen.equals(extOp)) {
+					selectedDemand = adem;
+					found = true;
+				}
+			}
+			if (found) {
+				demand.setText("" + selectedDemand.getQuantity());
+			}
+			demand.setEnabled(true);
 		} else {
-		    inList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
-		    boundExternOpns[indexDem] = externOpn;
-		    indexDem++;
+			right.setEnabled(false);
+			demand.setEnabled(false);
+			updateButton.setEnabled(false);
 		}
-	    }
 	}
-	inList.deselectAll();
-	inListChanged();
-	availList.deselectAll();
-	availListChanged();
-    }
 
-    /**
-         * Updates the status of the window
-         * 
-         * @param message
-         *                the error message or null if no error message.
-         */
-    private void updateStatus(String message) {
-	setErrorMessage(message);
-	setPageComplete(message == null);
-    }
+	private SelectionListener rightBtnListener = new SelectionAdapter() {
+		public void widgetSelected(SelectionEvent e) {
+			removeRes();
+		}
+	};
 
-    private ExternalOperation getResource() {
-	return extOp;
-    }
+	private void removeRes() {
+		Demand itemToRemove = null;
+		int i = 0;
+		int itemToRemoveIndex = 0;
+		for (Iterator demand = responsibility.getDemands().iterator(); demand.hasNext();) {
+			Demand dem = (Demand) demand.next();
+			if (dem.getResource().equals(extOp)) {
+				itemToRemove = dem;
+				itemToRemoveIndex = i;
+			}
+			i++;
+		}
+		if (itemToRemove != null) {
+			removeResCmd(itemToRemove);
+			updateLists();
+		}
+	}
 
-    private double getQuantity() {
-	return quantity;
-    }
+	private SelectionListener availListListener = new SelectionAdapter() {
+		public void widgetSelected(SelectionEvent e) {
+			availListChanged();
+		}
+	};
 
-    private Responsibility getResponsibility() {
-	return responsibility;
-    }
+	private void availListChanged() {
+		if (availList.getSelectionIndex() != -1) {
+			extOp = availExternOpns[availList.getSelectionIndex()];
+			left.setEnabled(true);
+			inList.deselectAll();
+			right.setEnabled(false);
+			demand.setEnabled(false);
+			updateButton.setEnabled(false);
+		} else {
+			left.setEnabled(false);
+		}
+	}
+
+	private SelectionListener leftBtnListener = new SelectionAdapter() {
+		public void widgetSelected(SelectionEvent e) {
+			createResCmd();
+			updateLists();
+		}
+	};
+
+	public void createResCmd() {
+		CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+		CompoundCommand command = new CompoundCommand();
+
+		CreateDemandCommand createCmd = new CreateDemandCommand(spec, extOp, quantity, responsibility);
+		command.add(createCmd);
+
+		// use a command to be undoable.
+		if (command.canExecute())
+			cs.execute(command);
+	}
+
+	public void removeResCmd(Demand demandToRemove) {
+		CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
+		CompoundCommand command = new CompoundCommand();
+
+		DeleteDemandCommand deleteCmd = new DeleteDemandCommand(spec, extOp, demandToRemove, responsibility);
+		command.add(deleteCmd);
+
+		// use a command to be undoable.
+		if (command.canExecute())
+			cs.execute(command);
+	}
+
+	/**
+	 * Ensures that the selection is legal
+	 */
+	private void dialogChanged() {
+
+
+	}
+
+	/**
+	 * Tests if the current workbench selection is a suitable container to use.
+	 */
+	private void initialize() {
+		if (defaultSelected != null) {
+			if (defaultSelected instanceof RespRef) {
+				responsibility = ((RespRef) defaultSelected).getRespDef();
+				spec = responsibility.getUrndefinition().getUrnspec();
+			}
+		}
+		updateLists();
+	}
+
+	private void updateLists() {
+		GeneralResource genRes;
+		if (spec != null) {
+			availExternOpns = new ExternalOperation[spec.getUrndef().getUrnspec().getUcmspec().getResources().size()];
+		}
+		if (responsibility != null) {
+			boundExternOpns = new ExternalOperation[responsibility.getDemands().size()];
+		}
+		int indexRes = 0;
+		int indexDem = 0;
+		inList.removeAll();
+		availList.removeAll();
+		boolean found;
+		for (Iterator resource = spec.getUrndef().getUrnspec().getUcmspec().getResources().iterator(); resource.hasNext();) {
+			genRes = (GeneralResource) resource.next();
+			if (genRes instanceof ExternalOperation) {
+				ExternalOperation externOpn = (ExternalOperation) genRes;
+				found = false;
+				for (Iterator checkDem = responsibility.getDemands().iterator(); checkDem.hasNext();) {
+					Demand adem = (Demand) checkDem.next();
+					ExternalOperation agen = (ExternalOperation) adem.getResource();
+					found = found || agen.equals(externOpn);
+				}
+				if (!found) {
+					availList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+					availExternOpns[indexRes] = externOpn;
+					indexRes++;
+				} else {
+					inList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+					boundExternOpns[indexDem] = externOpn;
+					indexDem++;
+				}
+			}
+		}
+		inList.deselectAll();
+		inListChanged();
+		availList.deselectAll();
+		availListChanged();
+	}
+
+	/**
+	 * Updates the status of the window
+	 * 
+	 * @param message
+	 *                the error message or null if no error message.
+	 */
+	private void updateStatus(String message) {
+		setErrorMessage(message);
+		setPageComplete(message == null);
+	}
+
+	private ExternalOperation getResource() {
+		return extOp;
+	}
+
+	private String getQuantity() {
+		return quantity;
+	}
+
+	private Responsibility getResponsibility() {
+		return responsibility;
+	}
 }

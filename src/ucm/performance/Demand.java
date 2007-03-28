@@ -38,22 +38,22 @@ public interface Demand extends EObject {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Quantity</em>' attribute.
-	 * @see #setQuantity(double)
+	 * @see #setQuantity(String)
 	 * @see ucm.performance.PerformancePackage#getDemand_Quantity()
 	 * @model
 	 * @generated
 	 */
-    double getQuantity();
+    String getQuantity();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Demand#getQuantity <em>Quantity</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Quantity</em>' attribute.
 	 * @see #getQuantity()
 	 * @generated
 	 */
-    void setQuantity(double value);
+	void setQuantity(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Responsibility</b></em>' container reference.
@@ -85,7 +85,7 @@ public interface Demand extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Resource</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.GeneralResource#getDemands <em>Demands</em>}'.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.ExternalOperation#getDemands <em>Demands</em>}'.
 	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Resource</em>' reference isn't clear,
@@ -93,22 +93,22 @@ public interface Demand extends EObject {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Resource</em>' reference.
-	 * @see #setResource(GeneralResource)
+	 * @see #setResource(ExternalOperation)
 	 * @see ucm.performance.PerformancePackage#getDemand_Resource()
-	 * @see ucm.performance.GeneralResource#getDemands
+	 * @see ucm.performance.ExternalOperation#getDemands
 	 * @model opposite="demands" required="true"
 	 * @generated
 	 */
-    GeneralResource getResource();
+    ExternalOperation getResource();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Demand#getResource <em>Resource</em>}' reference.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Resource</em>' reference.
 	 * @see #getResource()
 	 * @generated
 	 */
-    void setResource(GeneralResource value);
+	void setResource(ExternalOperation value);
 
 } // Demand

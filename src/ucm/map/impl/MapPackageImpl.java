@@ -615,6 +615,24 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPathNode_PerfMTrig() {
+		return (EReference)pathNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPathNode_PerfMEnd() {
+		return (EReference)pathNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -983,6 +1001,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		createEReference(stubEClass, STUB__BINDINGS);
 
 		pathNodeEClass = createEClass(PATH_NODE);
+		createEReference(pathNodeEClass, PATH_NODE__PERF_MTRIG);
+		createEReference(pathNodeEClass, PATH_NODE__PERF_MEND);
 
 		endPointEClass = createEClass(END_POINT);
 		createEReference(endPointEClass, END_POINT__OUT_BINDINGS);
@@ -1054,8 +1074,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 
 		// Obtain other dependent packages
 		UrncorePackage theUrncorePackage = (UrncorePackage)EPackage.Registry.INSTANCE.getEPackage(UrncorePackage.eNS_URI);
-		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 		PerformancePackage thePerformancePackage = (PerformancePackage)EPackage.Registry.INSTANCE.getEPackage(PerformancePackage.eNS_URI);
+		ScenarioPackage theScenarioPackage = (ScenarioPackage)EPackage.Registry.INSTANCE.getEPackage(ScenarioPackage.eNS_URI);
 
 		// Add supertypes to classes
 		andJoinEClass.getESuperTypes().add(this.getPathNode());
@@ -1128,6 +1148,8 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEReference(getStub_Bindings(), this.getPluginBinding(), this.getPluginBinding_Stub(), "bindings", null, 0, -1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pathNodeEClass, PathNode.class, "PathNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPathNode_PerfMTrig(), thePerformancePackage.getPerfMeasure(), thePerformancePackage.getPerfMeasure_Trigger(), "perfMTrig", null, 0, -1, PathNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPathNode_PerfMEnd(), thePerformancePackage.getPerfMeasure(), thePerformancePackage.getPerfMeasure_End(), "perfMEnd", null, 0, -1, PathNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(endPointEClass, EndPoint.class, "EndPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEndPoint_OutBindings(), this.getOutBinding(), this.getOutBinding_EndPoint(), "outBindings", null, 0, -1, EndPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

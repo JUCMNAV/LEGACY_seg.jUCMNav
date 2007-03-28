@@ -37,7 +37,7 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
     private String name;
     private Component component;
     private Component[] components;
-    private double opTime;
+    private String opTime;
     private DeviceKind deviceKind;
     private String description;
     private Demand[] demands;

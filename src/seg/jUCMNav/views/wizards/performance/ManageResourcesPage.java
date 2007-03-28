@@ -572,8 +572,7 @@ public class ManageResourcesPage extends WizardPage {
 	    resTypeProcessing.setSelection(true);
 	    resTypeExternal.setSelection(false);
 	    opTimeValue.setEnabled(true);
-	    double optval = ((ProcessingResource) element).getOpTime();
-	    String optvalString = "" + optval + "";
+	    String optvalString = ((ProcessingResource) element).getOpTime();
 	    opTimeValue.setText(optvalString);
 	    availableKinds.setEnabled(true);
 	    for (int i = 0; i < availableKinds.getItemCount(); i++) {
@@ -605,8 +604,7 @@ public class ManageResourcesPage extends WizardPage {
 	    resTypeProcessing.setSelection(false);
 	    resTypeExternal.setSelection(true);
 	    opTimeValue.setEnabled(true);
-	    double optval = ((ExternalOperation) element).getOpTime();
-	    String optvalString = "" + optval + "";
+	    String optvalString = ((ExternalOperation) element).getOpTime();
 	    opTimeValue.setText(optvalString);
 	    availableKinds.setEnabled(false);
 	    availableComponents.deselectAll();
@@ -633,8 +631,7 @@ public class ManageResourcesPage extends WizardPage {
 	    }
 	    // Processing Resource
 	} else if (element instanceof ProcessingResource) {
-	    double optval = ((ProcessingResource) element).getOpTime();
-	    String optvalString = "" + optval;
+		String optvalString = ((ProcessingResource) element).getOpTime();
 	    String optvalUser = opTimeValue.getText().toString();
 	    if (!optvalString.equals(optvalUser)) {
 		changed = true;
@@ -672,8 +669,7 @@ public class ManageResourcesPage extends WizardPage {
 	    } // we could check for newly bound components  but cardinality and missing should suffice
 	// External Operation
 	} else if (element instanceof ExternalOperation) {
-	    double optval = ((ExternalOperation) element).getOpTime();
-	    String optvalString = "" + optval;
+		String optvalString = ((ExternalOperation) element).getOpTime();
 	    String optvalUser = opTimeValue.getText().toString();
 	    if (!optvalString.equals(optvalUser)) {
 		changed = true;
@@ -744,7 +740,7 @@ public class ManageResourcesPage extends WizardPage {
 	    }
 	} else if (resTypeProcessing.getSelection()) {
 	    DeviceKind deviceKind = intToKind(availableKinds.getSelectionIndex());
-	    double opTime = Double.parseDouble(opTimeValue.getText());
+	    String opTime = opTimeValue.getText();
 	    int[] indices = availableComponents.getSelectionIndices();
 	    components = new Component[indices.length];
 	    for (int i = 0; i < indices.length; i++) {
@@ -754,7 +750,7 @@ public class ManageResourcesPage extends WizardPage {
 	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind);
 	    command.add(createCmd);
 	} else if (resTypeExternal.getSelection()) {
-	    double opTime = Double.parseDouble(opTimeValue.getText());
+		String opTime = opTimeValue.getText();
 	    String descripString = description.getText();
 	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString);
 	    command.add(createCmd);
@@ -799,7 +795,7 @@ public class ManageResourcesPage extends WizardPage {
 	    }
 	} else if (resTypeProcessing.getSelection()) {
 	    DeviceKind deviceKind = intToKind(availableKinds.getSelectionIndex());
-	    double opTime = Double.parseDouble(opTimeValue.getText());
+	    String opTime = opTimeValue.getText();
 	    int[] indices = availableComponents.getSelectionIndices();
 	    components = new Component[indices.length];
 	    for (int i = 0; i < indices.length; i++) {
@@ -809,7 +805,7 @@ public class ManageResourcesPage extends WizardPage {
 	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind);
 	    command.add(createCmd);
 	} else if (resTypeExternal.getSelection()) {
-	    double opTime = Double.parseDouble(opTimeValue.getText());
+		String opTime = opTimeValue.getText();
 	    String descripString = description.getText();
 	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString);
 	    command.add(createCmd);

@@ -253,18 +253,24 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         
         if (element instanceof PassiveResource) {
             PassiveResource passiveResource = (PassiveResource) element;
-            assert passiveResource.getComponent() == null : "post still linked";
+            assert passiveResource.getComponent() == null : "passive resource still linked";
         } else if (element instanceof ProcessingResource) {
             ProcessingResource processingResource = (ProcessingResource) element;
-            assert processingResource.getComponents().size()==0 : "post still linked";
+            assert processingResource.getComponents().size()==0 : "processing resource still linked";
         }
         
+        if (element instanceof ucm.performance.ExternalOperation)
+        {
+        	ucm.performance.ExternalOperation exOp = (ucm.performance.ExternalOperation) element;
+            assert exOp.getDemands().size()==0 : "external operation still linked";
+        }
+
         if (element instanceof GeneralResource)
         {
-            GeneralResource resource = (GeneralResource) element;
-            assert resource.getDemands().size()==0 : "post still linked";
+        	GeneralResource resource = (GeneralResource) element;
+            assert resource.getPerfMeasures().size()==0 : "performance measures still linked";
         }
-        
+
     }
 
 }

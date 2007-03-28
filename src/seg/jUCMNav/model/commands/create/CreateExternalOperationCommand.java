@@ -21,7 +21,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
 
     private URNspec urn;
     private ExternalOperation externalOperation;
-    private double opTime;
+    private String opTime;
     private String description;
     private String name;
     
@@ -35,7 +35,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      * 		of the external resource
      * 
      */
-    public CreateExternalOperationCommand(URNspec urn, String name, double opTime, String description) {
+    public CreateExternalOperationCommand(URNspec urn, String name, String opTime, String description) {
         this.urn = urn;
         this.opTime = opTime;
         this.description = description;
@@ -94,7 +94,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      */
     public void undo() {
         testPostConditions();
-    	externalOperation.setOpTime(0.0);
+    	externalOperation.setOpTime("0.0");
     	externalOperation.setDescription(null);
     	externalOperation.setName(null);
         urn.getUcmspec().getResources().remove(externalOperation);

@@ -35,7 +35,7 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 	 * @generated
 	 * @ordered
 	 */
-    protected static final double OP_TIME_EDEFAULT = 0.0;
+    protected static final String OP_TIME_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getOpTime() <em>Op Time</em>}' attribute.
@@ -45,7 +45,7 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 	 * @generated
 	 * @ordered
 	 */
-    protected double opTime = OP_TIME_EDEFAULT;
+    protected String opTime = OP_TIME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -70,17 +70,17 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
      * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public double getOpTime() {
+    public String getOpTime() {
 		return opTime;
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public void setOpTime(double newOpTime) {
-		double oldOpTime = opTime;
+	public void setOpTime(String newOpTime) {
+		String oldOpTime = opTime;
 		opTime = newOpTime;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.ACTIVE_RESOURCE__OP_TIME, oldOpTime, opTime));
@@ -94,7 +94,7 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return new Double(getOpTime());
+				return getOpTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -107,7 +107,7 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				setOpTime(((Double)newValue).doubleValue());
+				setOpTime((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -135,7 +135,7 @@ public abstract class ActiveResourceImpl extends GeneralResourceImpl implements 
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case PerformancePackage.ACTIVE_RESOURCE__OP_TIME:
-				return opTime != OP_TIME_EDEFAULT;
+				return OP_TIME_EDEFAULT == null ? opTime != null : !OP_TIME_EDEFAULT.equals(opTime);
 		}
 		return super.eIsSet(featureID);
 	}

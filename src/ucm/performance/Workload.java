@@ -28,7 +28,7 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.performance.Workload#getCoeffVarSeq <em>Coeff Var Seq</em>}</li>
  *   <li>{@link ucm.performance.Workload#getPopulation <em>Population</em>}</li>
  *   <li>{@link ucm.performance.Workload#getStartPoint <em>Start Point</em>}</li>
- *   <li>{@link ucm.performance.Workload#getRespTime <em>Resp Time</em>}</li>
+ *   <li>{@link ucm.performance.Workload#getResponseTime <em>Response Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -102,22 +102,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Arrival Param1</em>' attribute.
-	 * @see #setArrivalParam1(double)
+	 * @see #setArrivalParam1(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam1()
 	 * @model
 	 * @generated
 	 */
-    double getArrivalParam1();
+    String getArrivalParam1();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam1 <em>Arrival Param1</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Arrival Param1</em>' attribute.
 	 * @see #getArrivalParam1()
 	 * @generated
 	 */
-    void setArrivalParam1(double value);
+	void setArrivalParam1(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Arrival Param2</b></em>' attribute.
@@ -128,22 +128,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Arrival Param2</em>' attribute.
-	 * @see #setArrivalParam2(double)
+	 * @see #setArrivalParam2(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_ArrivalParam2()
 	 * @model
 	 * @generated
 	 */
-    double getArrivalParam2();
+    String getArrivalParam2();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getArrivalParam2 <em>Arrival Param2</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Arrival Param2</em>' attribute.
 	 * @see #getArrivalParam2()
 	 * @generated
 	 */
-    void setArrivalParam2(double value);
+	void setArrivalParam2(String value);
 
 	/**
 	 * Returns the value of the '<em><b>External Delay</b></em>' attribute.
@@ -154,22 +154,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>External Delay</em>' attribute.
-	 * @see #setExternalDelay(double)
+	 * @see #setExternalDelay(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_ExternalDelay()
 	 * @model
 	 * @generated
 	 */
-    double getExternalDelay();
+    String getExternalDelay();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getExternalDelay <em>External Delay</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>External Delay</em>' attribute.
 	 * @see #getExternalDelay()
 	 * @generated
 	 */
-    void setExternalDelay(double value);
+	void setExternalDelay(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Value</b></em>' attribute.
@@ -180,22 +180,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(double)
+	 * @see #setValue(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_Value()
 	 * @model
 	 * @generated
 	 */
-    double getValue();
+    String getValue();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getValue <em>Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Value</em>' attribute.
 	 * @see #getValue()
 	 * @generated
 	 */
-    void setValue(double value);
+	void setValue(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Coeff Var Seq</b></em>' attribute.
@@ -206,22 +206,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Coeff Var Seq</em>' attribute.
-	 * @see #setCoeffVarSeq(double)
+	 * @see #setCoeffVarSeq(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_CoeffVarSeq()
 	 * @model
 	 * @generated
 	 */
-    double getCoeffVarSeq();
+    String getCoeffVarSeq();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getCoeffVarSeq <em>Coeff Var Seq</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Coeff Var Seq</em>' attribute.
 	 * @see #getCoeffVarSeq()
 	 * @generated
 	 */
-    void setCoeffVarSeq(double value);
+	void setCoeffVarSeq(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Population</b></em>' attribute.
@@ -232,22 +232,22 @@ public interface Workload extends UCMmodelElement {
      * </p>
      * <!-- end-user-doc -->
 	 * @return the value of the '<em>Population</em>' attribute.
-	 * @see #setPopulation(int)
+	 * @see #setPopulation(String)
 	 * @see ucm.performance.PerformancePackage#getWorkload_Population()
 	 * @model
 	 * @generated
 	 */
-    int getPopulation();
+    String getPopulation();
 
 	/**
 	 * Sets the value of the '{@link ucm.performance.Workload#getPopulation <em>Population</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Population</em>' attribute.
 	 * @see #getPopulation()
 	 * @generated
 	 */
-    void setPopulation(int value);
+	void setPopulation(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Start Point</b></em>' container reference.
@@ -278,21 +278,21 @@ public interface Workload extends UCMmodelElement {
     void setStartPoint(StartPoint value);
 
 	/**
-	 * Returns the value of the '<em><b>Resp Time</b></em>' reference list.
+	 * Returns the value of the '<em><b>Response Time</b></em>' reference list.
 	 * The list contents are of type {@link ucm.performance.PerfMeasure}.
 	 * It is bidirectional and its opposite is '{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}'.
 	 * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Resp Time</em>' reference list isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-	 * @return the value of the '<em>Resp Time</em>' reference list.
-	 * @see ucm.performance.PerformancePackage#getWorkload_RespTime()
+	 * <p>
+	 * If the meaning of the '<em>Response Time</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Response Time</em>' reference list.
+	 * @see ucm.performance.PerformancePackage#getWorkload_ResponseTime()
 	 * @see ucm.performance.PerfMeasure#getDuration
 	 * @model type="ucm.performance.PerfMeasure" opposite="duration"
 	 * @generated
 	 */
-    EList getRespTime();
+	EList getResponseTime();
 
 } // Workload

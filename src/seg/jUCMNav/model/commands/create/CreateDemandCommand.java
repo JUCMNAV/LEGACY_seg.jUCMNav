@@ -26,7 +26,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 
 	private ExternalOperation externalOperation;
 
-	private double quantity;
+	private String quantity;
 
 	private Responsibility responsibility;
 
@@ -43,7 +43,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 	 *            requesting the externalOperation
 	 * 
 	 */
-	public CreateDemandCommand(URNspec urn, ExternalOperation extOp, double quantity, Responsibility responsibility) {
+	public CreateDemandCommand(URNspec urn, ExternalOperation extOp, String quantity, Responsibility responsibility) {
 		this.urn = urn;
 		this.externalOperation = extOp;
 		this.quantity = quantity;
@@ -126,7 +126,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 		testPostConditions();
 		responsibility.getDemands().remove(demand);
 		demand.setResponsibility(null);
-		demand.setQuantity(0.0);
+		demand.setQuantity("0.0");
 		demand.setResource(null);
 		testPreConditions();
 	}

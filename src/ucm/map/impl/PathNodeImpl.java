@@ -20,6 +20,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import ucm.map.MapPackage;
 import ucm.map.PathNode;
+import ucm.performance.PerfMeasure;
+import ucm.performance.PerformancePackage;
+
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -42,6 +45,8 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.PathNodeImpl#getSucc <em>Succ</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getPred <em>Pred</em>}</li>
  *   <li>{@link ucm.map.impl.PathNodeImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link ucm.map.impl.PathNodeImpl#getPerfMTrig <em>Perf MTrig</em>}</li>
+ *   <li>{@link ucm.map.impl.PathNodeImpl#getPerfMEnd <em>Perf MEnd</em>}</li>
  * </ul>
  * </p>
  *
@@ -127,6 +132,26 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 	 * @ordered
 	 */
     protected NodeLabel label = null;
+
+	/**
+	 * The cached value of the '{@link #getPerfMTrig() <em>Perf MTrig</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPerfMTrig()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList perfMTrig = null;
+
+	/**
+	 * The cached value of the '{@link #getPerfMEnd() <em>Perf MEnd</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPerfMEnd()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList perfMEnd = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -361,6 +386,30 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getPerfMTrig() {
+		if (perfMTrig == null) {
+			perfMTrig = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, MapPackage.PATH_NODE__PERF_MTRIG, PerformancePackage.PERF_MEASURE__TRIGGER);
+		}
+		return perfMTrig;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList getPerfMEnd() {
+		if (perfMEnd == null) {
+			perfMEnd = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, MapPackage.PATH_NODE__PERF_MEND, PerformancePackage.PERF_MEASURE__END);
+		}
+		return perfMEnd;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case MapPackage.PATH_NODE__DIAGRAM:
@@ -379,6 +428,10 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 				if (label != null)
 					msgs = ((InternalEObject)label).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MapPackage.PATH_NODE__LABEL, null, msgs);
 				return basicSetLabel((NodeLabel)otherEnd, msgs);
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				return ((InternalEList)getPerfMTrig()).basicAdd(otherEnd, msgs);
+			case MapPackage.PATH_NODE__PERF_MEND:
+				return ((InternalEList)getPerfMEnd()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -400,6 +453,10 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 				return ((InternalEList)getPred()).basicRemove(otherEnd, msgs);
 			case MapPackage.PATH_NODE__LABEL:
 				return basicSetLabel(null, msgs);
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				return ((InternalEList)getPerfMTrig()).basicRemove(otherEnd, msgs);
+			case MapPackage.PATH_NODE__PERF_MEND:
+				return ((InternalEList)getPerfMEnd()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -439,6 +496,10 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 				return getPred();
 			case MapPackage.PATH_NODE__LABEL:
 				return getLabel();
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				return getPerfMTrig();
+			case MapPackage.PATH_NODE__PERF_MEND:
+				return getPerfMEnd();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -473,6 +534,14 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 			case MapPackage.PATH_NODE__LABEL:
 				setLabel((NodeLabel)newValue);
 				return;
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				getPerfMTrig().clear();
+				getPerfMTrig().addAll((Collection)newValue);
+				return;
+			case MapPackage.PATH_NODE__PERF_MEND:
+				getPerfMEnd().clear();
+				getPerfMEnd().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -505,6 +574,12 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 			case MapPackage.PATH_NODE__LABEL:
 				setLabel((NodeLabel)null);
 				return;
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				getPerfMTrig().clear();
+				return;
+			case MapPackage.PATH_NODE__PERF_MEND:
+				getPerfMEnd().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -530,6 +605,10 @@ public abstract class PathNodeImpl extends UCMmodelElementImpl implements PathNo
 				return pred != null && !pred.isEmpty();
 			case MapPackage.PATH_NODE__LABEL:
 				return label != null;
+			case MapPackage.PATH_NODE__PERF_MTRIG:
+				return perfMTrig != null && !perfMTrig.isEmpty();
+			case MapPackage.PATH_NODE__PERF_MEND:
+				return perfMEnd != null && !perfMEnd.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

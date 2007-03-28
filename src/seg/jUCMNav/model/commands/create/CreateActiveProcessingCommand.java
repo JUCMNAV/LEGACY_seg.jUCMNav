@@ -24,7 +24,7 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
     private URNspec urn;
     private ProcessingResource processingResource;
     private Component[] components;
-    private double opTime;
+    private String opTime;
     private DeviceKind deviceKind;
     private String name;
     
@@ -33,7 +33,7 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
      * @param components 
      * 
      */
-    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, double opTime, DeviceKind deviceKind) {
+    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, String opTime, DeviceKind deviceKind) {
         this.urn = urn;
         this.components = components;
         this.opTime = opTime;
@@ -104,7 +104,7 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
             processingResource.getComponents().remove(comp);
 	}
         processingResource.setKind(null);
-    	processingResource.setOpTime(0.0);
+    	processingResource.setOpTime("0.0");
     	processingResource.setName(null);
         testPreConditions();
     }

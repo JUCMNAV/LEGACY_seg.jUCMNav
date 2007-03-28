@@ -23,6 +23,7 @@ import ucm.UCMspec;
 import ucm.UcmPackage;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
+import ucm.performance.PerfMeasure;
 import ucm.performance.PerformancePackage;
 
 import urncore.impl.UCMmodelElementImpl;
@@ -34,8 +35,10 @@ import urncore.impl.UCMmodelElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getMultiplicity <em>Multiplicity</em>}</li>
+ *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getSchedPolicy <em>Sched Policy</em>}</li>
  *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getUcmspec <em>Ucmspec</em>}</li>
- *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getDemands <em>Demands</em>}</li>
+ *   <li>{@link ucm.performance.impl.GeneralResourceImpl#getPerfMeasures <em>Perf Measures</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,14 +46,54 @@ import urncore.impl.UCMmodelElementImpl;
  */
 public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements GeneralResource {
 	/**
-	 * The cached value of the '{@link #getDemands() <em>Demands</em>}' reference list.
+	 * The default value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-	 * @see #getDemands()
+	 * <!-- end-user-doc -->
+	 * @see #getMultiplicity()
 	 * @generated
 	 * @ordered
 	 */
-    protected EList demands = null;
+	protected static final String MULTIPLICITY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMultiplicity()
+	 * @generated
+	 * @ordered
+	 */
+	protected String multiplicity = MULTIPLICITY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSchedPolicy()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SCHED_POLICY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSchedPolicy()
+	 * @generated
+	 * @ordered
+	 */
+	protected String schedPolicy = SCHED_POLICY_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPerfMeasures() <em>Perf Measures</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPerfMeasures()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList perfMeasures = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,6 +111,48 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
     protected EClass eStaticClass() {
 		return PerformancePackage.Literals.GENERAL_RESOURCE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getMultiplicity() {
+		return multiplicity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMultiplicity(String newMultiplicity) {
+		String oldMultiplicity = multiplicity;
+		multiplicity = newMultiplicity;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY, oldMultiplicity, multiplicity));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getSchedPolicy() {
+		return schedPolicy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSchedPolicy(String newSchedPolicy) {
+		String oldSchedPolicy = schedPolicy;
+		schedPolicy = newSchedPolicy;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY, oldSchedPolicy, schedPolicy));
 	}
 
 	/**
@@ -113,14 +198,14 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-    public EList getDemands() {
-		if (demands == null) {
-			demands = new EObjectWithInverseResolvingEList(Demand.class, this, PerformancePackage.GENERAL_RESOURCE__DEMANDS, PerformancePackage.DEMAND__RESOURCE);
+	public EList getPerfMeasures() {
+		if (perfMeasures == null) {
+			perfMeasures = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, PerformancePackage.PERF_MEASURE__RESOURCE);
 		}
-		return demands;
+		return perfMeasures;
 	}
 
 	/**
@@ -134,8 +219,8 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetUcmspec((UCMspec)otherEnd, msgs);
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return ((InternalEList)getDemands()).basicAdd(otherEnd, msgs);
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				return ((InternalEList)getPerfMeasures()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -149,8 +234,8 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 		switch (featureID) {
 			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
 				return basicSetUcmspec(null, msgs);
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return ((InternalEList)getDemands()).basicRemove(otherEnd, msgs);
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				return ((InternalEList)getPerfMeasures()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -175,10 +260,14 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+				return getMultiplicity();
+			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+				return getSchedPolicy();
 			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
 				return getUcmspec();
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return getDemands();
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				return getPerfMeasures();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -190,12 +279,18 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+				setMultiplicity((String)newValue);
+				return;
+			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+				setSchedPolicy((String)newValue);
+				return;
 			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
 				setUcmspec((UCMspec)newValue);
 				return;
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				getDemands().clear();
-				getDemands().addAll((Collection)newValue);
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				getPerfMeasures().clear();
+				getPerfMeasures().addAll((Collection)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -208,11 +303,17 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+				setMultiplicity(MULTIPLICITY_EDEFAULT);
+				return;
+			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+				setSchedPolicy(SCHED_POLICY_EDEFAULT);
+				return;
 			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
 				setUcmspec((UCMspec)null);
 				return;
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				getDemands().clear();
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				getPerfMeasures().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -225,12 +326,33 @@ public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements
 	 */
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+				return MULTIPLICITY_EDEFAULT == null ? multiplicity != null : !MULTIPLICITY_EDEFAULT.equals(multiplicity);
+			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+				return SCHED_POLICY_EDEFAULT == null ? schedPolicy != null : !SCHED_POLICY_EDEFAULT.equals(schedPolicy);
 			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
 				return getUcmspec() != null;
-			case PerformancePackage.GENERAL_RESOURCE__DEMANDS:
-				return demands != null && !demands.isEmpty();
+			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+				return perfMeasures != null && !perfMeasures.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (multiplicity: ");
+		result.append(multiplicity);
+		result.append(", schedPolicy: ");
+		result.append(schedPolicy);
+		result.append(')');
+		return result.toString();
 	}
 
 } //GeneralResourceImpl

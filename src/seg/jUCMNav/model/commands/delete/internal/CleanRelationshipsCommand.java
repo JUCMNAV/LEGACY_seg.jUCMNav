@@ -350,12 +350,17 @@ public class CleanRelationshipsCommand extends CompoundCommand {
      *            the GeneralResource to be cleaned.
      */
     private void build(GeneralResource resx) {
-        for (Iterator iter = resx.getDemands().iterator(); iter.hasNext();) {
-            Demand demand = (Demand) iter.next();
-            DeleteDemandCommand cmd = new DeleteDemandCommand(demand);
-            if (cmd.canExecute())
-                add (cmd);
-        }
+    	// TODO: Needs to be revised, especially for PerfMeasures(Daniel)
+    	if (resx instanceof ucm.performance.ExternalOperation) {
+    		ucm.performance.ExternalOperation extOp = (ucm.performance.ExternalOperation) resx; 
+
+    		for (Iterator iter = extOp.getDemands().iterator(); iter.hasNext();) {
+    			Demand demand = (Demand) iter.next();
+    			DeleteDemandCommand cmd = new DeleteDemandCommand(demand);
+    			if (cmd.canExecute())
+    				add (cmd);
+    		}
+    	}
         add(new RemoveLinkedInfoCommand(resx));
     }
 

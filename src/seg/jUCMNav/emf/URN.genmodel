@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\damyot.damyotlap\My Documents\work\jucmnav\URN_15.mdl</foreignModel>
+  <foreignModel>C:\Documents and Settings\damyot.damyotlap\My Documents\work\jucmnav\URN_16.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -336,17 +336,27 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/coeffVarSeq"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/Workload/population"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/Workload/startPoint"/>
-        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/Workload/respTime"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/Workload/responseTime"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/GeneralResource">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/GeneralResource/multiplicity"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/GeneralResource/schedPolicy"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/GeneralResource/ucmspec"/>
-        <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/GeneralResource/demands"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/GeneralResource/perfMeasures"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/PerfMeasure">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/PerfMeasure/measure"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/ucmspec"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/perfValues"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/duration"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/resource"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/trigger"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/PerfMeasure/end"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/PerfValue">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/PerfValue/value"/>
@@ -362,7 +372,10 @@
       <genClasses ecoreClass="ucm.ecore#//performance/PassiveResource">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/PassiveResource/component"/>
       </genClasses>
-      <genClasses ecoreClass="ucm.ecore#//performance/ExternalOperation"/>
+      <genClasses ecoreClass="ucm.ecore#//performance/ExternalOperation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//performance/ExternalOperation/demands"/>
+      </genClasses>
       <genClasses ecoreClass="ucm.ecore#//performance/ProcessingResource">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//performance/ProcessingResource/kind"/>
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//performance/ProcessingResource/components"/>
@@ -417,7 +430,12 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/repetitionCount"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/Stub/bindings"/>
       </genClasses>
-      <genClasses ecoreClass="ucm.ecore#//map/PathNode"/>
+      <genClasses ecoreClass="ucm.ecore#//map/PathNode">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/PathNode/perfMTrig"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference ucm.ecore#//map/PathNode/perfMEnd"/>
+      </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/EndPoint">
         <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/outBindings"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/EndPoint/postcondition"/>

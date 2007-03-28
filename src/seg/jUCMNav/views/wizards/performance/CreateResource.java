@@ -179,12 +179,12 @@ public class CreateResource extends Wizard {
 				command.add(createCmd);
 			} else if (page2QueryActiveType.getType() == CreateResourceQueryType.sActiveProcessing) {
 				DeviceKind deviceKind = page3ActiveProcessing.getDeviceKind();
-				double opTime = page2QueryActiveType.getOpTime();
+				String opTime = page2QueryActiveType.getOpTime();
 				CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, null, components, opTime, deviceKind); // this class should disappear... js
 				command.add(createCmd);
 			} else if (page2QueryActiveType.getType() == CreateResourceQueryType.sActiveExternal) {
 				String description = page4ActiveExternal.getDescription();
-				double opTime = page2QueryActiveType.getOpTime();
+				String opTime = page2QueryActiveType.getOpTime();
 				CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, null, opTime, description); // this class should disappear... js
 				command.add(createCmd);
 			} else {

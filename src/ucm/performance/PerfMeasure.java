@@ -9,6 +9,8 @@ package ucm.performance;
 import org.eclipse.emf.common.util.EList;
 
 import ucm.UCMspec;
+import ucm.map.PathNode;
+
 import urncore.UCMmodelElement;
 
 /**
@@ -23,6 +25,9 @@ import urncore.UCMmodelElement;
  *   <li>{@link ucm.performance.PerfMeasure#getUcmspec <em>Ucmspec</em>}</li>
  *   <li>{@link ucm.performance.PerfMeasure#getPerfValues <em>Perf Values</em>}</li>
  *   <li>{@link ucm.performance.PerfMeasure#getDuration <em>Duration</em>}</li>
+ *   <li>{@link ucm.performance.PerfMeasure#getResource <em>Resource</em>}</li>
+ *   <li>{@link ucm.performance.PerfMeasure#getTrigger <em>Trigger</em>}</li>
+ *   <li>{@link ucm.performance.PerfMeasure#getEnd <em>End</em>}</li>
  * </ul>
  * </p>
  *
@@ -109,7 +114,7 @@ public interface PerfMeasure extends UCMmodelElement {
 
 	/**
 	 * Returns the value of the '<em><b>Duration</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ucm.performance.Workload#getRespTime <em>Resp Time</em>}'.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.Workload#getResponseTime <em>Response Time</em>}'.
 	 * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Duration</em>' reference isn't clear,
@@ -119,8 +124,8 @@ public interface PerfMeasure extends UCMmodelElement {
 	 * @return the value of the '<em>Duration</em>' reference.
 	 * @see #setDuration(Workload)
 	 * @see ucm.performance.PerformancePackage#getPerfMeasure_Duration()
-	 * @see ucm.performance.Workload#getRespTime
-	 * @model opposite="respTime"
+	 * @see ucm.performance.Workload#getResponseTime
+	 * @model opposite="responseTime"
 	 * @generated
 	 */
     Workload getDuration();
@@ -134,5 +139,89 @@ public interface PerfMeasure extends UCMmodelElement {
 	 * @generated
 	 */
     void setDuration(Workload value);
+
+	/**
+	 * Returns the value of the '<em><b>Resource</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.performance.GeneralResource#getPerfMeasures <em>Perf Measures</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Resource</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Resource</em>' reference.
+	 * @see #setResource(GeneralResource)
+	 * @see ucm.performance.PerformancePackage#getPerfMeasure_Resource()
+	 * @see ucm.performance.GeneralResource#getPerfMeasures
+	 * @model opposite="perfMeasures"
+	 * @generated
+	 */
+	GeneralResource getResource();
+
+	/**
+	 * Sets the value of the '{@link ucm.performance.PerfMeasure#getResource <em>Resource</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Resource</em>' reference.
+	 * @see #getResource()
+	 * @generated
+	 */
+	void setResource(GeneralResource value);
+
+	/**
+	 * Returns the value of the '<em><b>Trigger</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.map.PathNode#getPerfMTrig <em>Perf MTrig</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Trigger</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Trigger</em>' reference.
+	 * @see #setTrigger(PathNode)
+	 * @see ucm.performance.PerformancePackage#getPerfMeasure_Trigger()
+	 * @see ucm.map.PathNode#getPerfMTrig
+	 * @model opposite="perfMTrig"
+	 * @generated
+	 */
+	PathNode getTrigger();
+
+	/**
+	 * Sets the value of the '{@link ucm.performance.PerfMeasure#getTrigger <em>Trigger</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Trigger</em>' reference.
+	 * @see #getTrigger()
+	 * @generated
+	 */
+	void setTrigger(PathNode value);
+
+	/**
+	 * Returns the value of the '<em><b>End</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ucm.map.PathNode#getPerfMEnd <em>Perf MEnd</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>End</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>End</em>' reference.
+	 * @see #setEnd(PathNode)
+	 * @see ucm.performance.PerformancePackage#getPerfMeasure_End()
+	 * @see ucm.map.PathNode#getPerfMEnd
+	 * @model opposite="perfMEnd"
+	 * @generated
+	 */
+	PathNode getEnd();
+
+	/**
+	 * Sets the value of the '{@link ucm.performance.PerfMeasure#getEnd <em>End</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>End</em>' reference.
+	 * @see #getEnd()
+	 * @generated
+	 */
+	void setEnd(PathNode value);
 
 } // PerfMeasure
