@@ -22,6 +22,7 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
 import urncore.ComponentElement;
 import urncore.Responsibility;
+import ucm.map.RespRef;
 import urncore.URNmodelElement;
 
 public class URNmodelElementType {
@@ -41,6 +42,7 @@ public class URNmodelElementType {
         Messages.getString("URNmodelElementType.PerfMeasure"), //$NON-NLS-1$
         Messages.getString("URNmodelElementType.ResponseTimeReq"), //$NON-NLS-1$
         Messages.getString("URNmodelElementType.Responsibility"), //$NON-NLS-1$
+        Messages.getString("URNmodelElementType.RespRef"), //$NON-NLS-1$
         Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
         Messages.getString("URNmodelElementType.ScenarioGroup"), //$NON-NLS-1$
         Messages.getString("URNmodelElementType.UcmMap"), //$NON-NLS-1$
@@ -63,10 +65,11 @@ public class URNmodelElementType {
         urnElementTypes.put(urnElementTypeNames[11], PerfMeasure.class);
         urnElementTypes.put(urnElementTypeNames[12], ResponseTimeReq.class);
         urnElementTypes.put(urnElementTypeNames[13], Responsibility.class);
-        urnElementTypes.put(urnElementTypeNames[14], ScenarioDef.class);
-        urnElementTypes.put(urnElementTypeNames[15], ScenarioGroup.class);
-        urnElementTypes.put(urnElementTypeNames[16], UCMmap.class);
-        urnElementTypes.put(urnElementTypeNames[17], Variable.class);
-        urnElementTypes.put(urnElementTypeNames[18], Workload.class);
+        urnElementTypes.put(urnElementTypeNames[14], RespRef.class);
+        urnElementTypes.put(urnElementTypeNames[15], ScenarioDef.class);
+        urnElementTypes.put(urnElementTypeNames[16], ScenarioGroup.class);
+        urnElementTypes.put(urnElementTypeNames[17], UCMmap.class);
+        urnElementTypes.put(urnElementTypeNames[18], Variable.class);
+        urnElementTypes.put(urnElementTypeNames[19], Workload.class);
     }
 }

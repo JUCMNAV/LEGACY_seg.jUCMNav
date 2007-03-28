@@ -27,11 +27,9 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.metadata.ChangeMetadataCommand;
 import ucm.map.ComponentRef;
-import ucm.map.RespRef;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Metadata;
-import urncore.Responsibility;
 import urncore.URNmodelElement;
 
 /**
@@ -110,10 +108,11 @@ public class MetadataEditor extends Wizard {
         this.selection = selection;
         this.workbenchPage = workbench.getActiveWorkbenchWindow().getActivePage();
 
-        if (defaultSelected instanceof RespRef) {
-            Responsibility resp = ((RespRef) defaultSelected).getRespDef();
-            this.defaultSelected = resp;
-        } else if (defaultSelected instanceof IntentionalElementRef) {
+        // This code prevents the addition of metadata on *references* to intentional elements
+        // and components. This was also prevented for responsibility references in the past
+        // but this had to be allowed for CSM export. 
+        // Daniel is actually not sure why this should be prevented...
+        if (defaultSelected instanceof IntentionalElementRef) {
             IntentionalElement intentionalElem = ((IntentionalElementRef) defaultSelected).getDef();
             this.defaultSelected = intentionalElem;
         } else if (defaultSelected instanceof ComponentRef) {
@@ -148,13 +147,11 @@ public class MetadataEditor extends Wizard {
                         if (obj instanceof URNmodelElement) {
                             URNmodelElement urnelem = (URNmodelElement) obj;
 
-                            if (urnelem instanceof RespRef) {
-                                Responsibility resp = ((RespRef) urnelem).getRespDef();
-
-                                if (resp != null && !v.contains(resp)) {
-                                    v.add(resp);
-                                }
-                            } else if (urnelem instanceof IntentionalElementRef) {
+                            // This code prevents the addition of metadata on *references* to intentional elements
+                            // and components. This was also prevented for responsibility references in the past
+                            // but this had to be allowed for CSM export. 
+                            // Daniel is actually not sure why this should be prevented...
+                            if (urnelem instanceof IntentionalElementRef) {
                                 IntentionalElement intentionalElem = ((IntentionalElementRef) urnelem).getDef();
 
                                 if (intentionalElem != null && !v.contains(intentionalElem)) {
