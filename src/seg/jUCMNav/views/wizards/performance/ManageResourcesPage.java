@@ -60,6 +60,8 @@ public class ManageResourcesPage extends WizardPage {
     private GeneralResource[] resources;
     private Text resName;
     private Text description;
+    private Text multiplicity;
+    private Text schedPolicy;
     private Text opTimeValue;
     private Component[] componentsInSpec;
     private Button resTypePassive;
@@ -141,9 +143,9 @@ public class ManageResourcesPage extends WizardPage {
 	resNameLabel.setText("Name");
 
 	resName = new Text(container, SWT.BORDER);
-	GridData gd11 = new GridData(GridData.FILL_HORIZONTAL);
-	gd11.horizontalSpan = 4;
-	resName.setLayoutData(gd11);
+	GridData gd2 = new GridData(GridData.FILL_HORIZONTAL);
+	gd2.horizontalSpan = 4;
+	resName.setLayoutData(gd2);
 	resName.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		dialogChanged();
@@ -270,9 +272,9 @@ public class ManageResourcesPage extends WizardPage {
 	type.setText("Type");
 
 	cv = new Canvas(container, SWT.NULL);
-	GridData gd9 = new GridData();
-	gd9.horizontalSpan = 4;
-	cv.setLayoutData(gd9);
+	GridData gd3 = new GridData();
+	gd3.horizontalSpan = 4;
+	cv.setLayoutData(gd3);
 	cv.setLayout(new FillLayout(SWT.VERTICAL));
 
 	resTypePassive = new Button(cv, SWT.RADIO);
@@ -332,10 +334,10 @@ public class ManageResourcesPage extends WizardPage {
 	// text with double
 
 	opTimeValue.setText("0.0");
-	GridData gd5 = new GridData();
-	gd5.horizontalSpan = 4;
-	gd5.widthHint = 50;
-	opTimeValue.setLayoutData(gd5);
+	GridData gd4 = new GridData();
+	gd4.horizontalSpan = 4;
+	gd4.widthHint = 50;
+	opTimeValue.setLayoutData(gd4);
 	opTimeValue.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		dialogChanged();
@@ -349,9 +351,9 @@ public class ManageResourcesPage extends WizardPage {
 	kindLabel.setText("Kind");
 
 	availableKinds = new Combo(container, SWT.DROP_DOWN | SWT.READ_ONLY);
-	GridData gd6 = new GridData(GridData.FILL_HORIZONTAL);
-	gd6.horizontalSpan = 4;
-	availableKinds.setLayoutData(gd6);
+	GridData gd5 = new GridData(GridData.FILL_HORIZONTAL);
+	gd5.horizontalSpan = 4;
+	availableKinds.setLayoutData(gd5);
 	availableKinds.addSelectionListener(new SelectionListener() {
 	    public void widgetSelected(SelectionEvent e) {
 		dialogChanged();
@@ -368,10 +370,10 @@ public class ManageResourcesPage extends WizardPage {
 	compLabel.setText("Components");
 
 	Canvas cv2 = new Canvas(container, SWT.BORDER);
-	GridData gd10 = new GridData(GridData.FILL_HORIZONTAL);
-	gd10.horizontalSpan = 4;
-	gd10.heightHint = 100;
-	cv2.setLayoutData(gd10);
+	GridData gd6 = new GridData(GridData.FILL_HORIZONTAL);
+	gd6.horizontalSpan = 4;
+	gd6.heightHint = 100;
+	cv2.setLayoutData(gd6);
 	cv2.setLayout(new FillLayout(SWT.VERTICAL));
 
 	availableComponents = new List(cv2, SWT.MULTI | SWT.READ_ONLY | SWT.V_SCROLL);
@@ -391,14 +393,51 @@ public class ManageResourcesPage extends WizardPage {
 	descLabel.setText("Description");
 
 	description = new Text(container, SWT.BORDER);
-	GridData gd8 = new GridData(GridData.FILL_HORIZONTAL);
-	gd8.horizontalSpan = 4;
-	description.setLayoutData(gd8);
+	GridData gd7 = new GridData(GridData.FILL_HORIZONTAL);
+	gd7.horizontalSpan = 4;
+	description.setLayoutData(gd7);
 	description.addModifyListener(new ModifyListener() {
 	    public void modifyText(ModifyEvent e) {
 		dialogChanged();
 	    }
 	});
+
+	// //////////////////////////////////////////////////////////////////////////////////////////////
+	// Multplicity
+
+	Label multLabel = new Label(container, SWT.NULL);
+	multLabel.setText("Multiplicity");
+
+	multiplicity = new Text(container, SWT.BORDER);
+	multiplicity.setText("");
+	GridData gd8 = new GridData();
+	gd8.horizontalSpan = 4;
+	gd8.widthHint = 50;
+	multiplicity.setLayoutData(gd8);
+	multiplicity.addModifyListener(new ModifyListener() {
+	    public void modifyText(ModifyEvent e) {
+		dialogChanged();
+	    }
+	});
+
+	// //////////////////////////////////////////////////////////////////////////////////////////////
+	// Description (if Active External)
+
+	Label schedPolLabel = new Label(container, SWT.NULL);
+	schedPolLabel.setText("Sched Policy");
+
+	schedPolicy = new Text(container, SWT.BORDER);
+	schedPolicy.setText("");
+	GridData gd9 = new GridData();
+	gd9.horizontalSpan = 4;
+	gd9.widthHint = 50;
+	schedPolicy.setLayoutData(gd9);
+	schedPolicy.addModifyListener(new ModifyListener() {
+	    public void modifyText(ModifyEvent e) {
+		dialogChanged();
+	    }
+	});
+
 
 	initialize();
 	if (availableResources.getItemCount() == 0) {
@@ -429,7 +468,7 @@ public class ManageResourcesPage extends WizardPage {
 		containsErrors = false;
 	    }
 	} else if (resTypeProcessing.getSelection()) { // opTime must be a valid double
-	    if (isValid(opTimeValue.getText()) != null) {
+	    if (isValidDouble(opTimeValue.getText()) != null) {
 		setErrorMessage("opTime value must be real");
 		containsErrors = true;
 	    } else {
@@ -437,13 +476,21 @@ public class ManageResourcesPage extends WizardPage {
 		containsErrors = false;
 	    }
 	} else if (resTypeExternal.getSelection()) {
-	    if (isValid(opTimeValue.getText()) != null) {
+	    if (isValidDouble(opTimeValue.getText()) != null) {
 		setErrorMessage("opTime value must be real");
 		containsErrors = true;
 	    } else {
 		setErrorMessage(null);
 		containsErrors = false;
 	    }
+	}
+	
+	if ((multiplicity.getText().compareTo("") != 0) && (isValidInteger(multiplicity.getText()) != null)) { // multiplicity must be an integer
+	    setErrorMessage("multiplicity value must be an integer");
+	    containsErrors = true;
+	} else {
+	    setErrorMessage(null);
+	    containsErrors = false;
 	}
 
 	// a resource is being created
@@ -612,6 +659,16 @@ public class ManageResourcesPage extends WizardPage {
 	    description.setEnabled(true);
 	    description.setText(((ExternalOperation) element).getDescription());
 	}
+	if (element.getMultiplicity() != null) {
+	    multiplicity.setText(element.getMultiplicity());    
+	} else {
+	    multiplicity.setText("");
+	}
+	if (element.getSchedPolicy() != null) {
+	    schedPolicy.setText(element.getSchedPolicy());    
+	} else {
+	    schedPolicy.setText("");
+	}
 	resTypePassive.setEnabled(false);
 	resTypeProcessing.setEnabled(false);
 	resTypeExternal.setEnabled(false);
@@ -682,7 +739,17 @@ public class ManageResourcesPage extends WizardPage {
 		}
 	    }
 	}
-	if ( element.getName().compareTo(resName.getText()) != 0) {
+	if (element.getName().compareTo(resName.getText()) != 0) {
+	    changed = true;
+	}
+	if ((element.getMultiplicity() != null) && (element.getMultiplicity().compareTo(multiplicity.getText()) != 0)) {
+	    changed = true;
+	} else if (multiplicity.getText().compareTo("") != 0) {
+	    changed = true;
+	}
+	if ((element.getSchedPolicy() != null) && (element.getSchedPolicy().compareTo(schedPolicy.getText()) != 0)) {
+	    changed = true;
+	} else if (schedPolicy.getText().compareTo("") != 0) {
 	    changed = true;
 	}
 	return changed;
@@ -691,7 +758,7 @@ public class ManageResourcesPage extends WizardPage {
     /**
          * Dealing with "double" in text widget
          */
-    public String isValid(Object value) {
+    public String isValidDouble(Object value) {
 	double doubleValue = -1;
 	try {
 	    doubleValue = Double.parseDouble(value.toString());
@@ -701,6 +768,19 @@ public class ManageResourcesPage extends WizardPage {
 	}
     }
 
+    /**
+     * Dealing with "integer" in text widget
+     */
+    public String isValidInteger(Object value) {
+	int intValue = 0;
+	try {
+	    intValue = Integer.parseInt(value.toString());
+	    return null;
+	} catch (NumberFormatException e) {
+	    return "Messages.getString(\"EObjectPropertySource.notValidNumber\"); //$NON-NLS-1$"; // Ouch. _js_
+	}
+    }
+    
     /**
          * Updates the status of the window
          * 
@@ -724,18 +804,20 @@ public class ManageResourcesPage extends WizardPage {
 	GeneralResource genRes = resources[availableResources.getSelectionIndex()];
 	DeleteResourceCommand deleteCmd = new DeleteResourceCommand(workbenchPage, urn, genRes);
 	command.add(deleteCmd);
-
+		
 	Component[] components;
 	String name = resName.getText();
+	String multiplicityStr = multiplicity.getText();
+	String schedPolicyStr = schedPolicy.getText();
 	// double testDouble;
 	if (resTypePassive.getSelection()) {
 	    int selectedComp = availableComponents.getSelectionCount();
 	    if (selectedComp == 1) {
 		Component component = componentsInSpec[availableComponents.getSelectionIndex()];
-		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, component);
+		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, component, multiplicityStr, schedPolicyStr);
 		command.add(createCmd);
 	    } else {
-		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, null);
+		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, null, multiplicityStr, schedPolicyStr);
 		command.add(createCmd);
 	    }
 	} else if (resTypeProcessing.getSelection()) {
@@ -747,19 +829,21 @@ public class ManageResourcesPage extends WizardPage {
 		int test4 = indices[i];
 		components[i] = componentsInSpec[indices[i]];
 	    }
-	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind);
+	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind, multiplicityStr, schedPolicyStr);
 	    command.add(createCmd);
 	} else if (resTypeExternal.getSelection()) {
 		String opTime = opTimeValue.getText();
 	    String descripString = description.getText();
-	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString);
+	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString, multiplicityStr, schedPolicyStr);
 	    command.add(createCmd);
 	} else {
 	    System.out.println("No type has been chosen!");
 	}
+
 	// use a command to be undoable.
 	if (command.canExecute())
 	    cs.execute(command);
+
     }
     
     public void delResource() {
@@ -782,15 +866,17 @@ public class ManageResourcesPage extends WizardPage {
 	CompoundCommand command = new CompoundCommand();
 	Component[] components;
 	String name = resName.getText();
+	String multiplicityStr = multiplicity.getText();
+	String schedPolicyStr = schedPolicy.getText();
 	// double testDouble;
 	if (resTypePassive.getSelection()) {
 	    int selectedComp = availableComponents.getSelectionCount();
 	    if (selectedComp == 1) {
 		Component component = componentsInSpec[availableComponents.getSelectionIndex()];
-		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, component);
+		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, component, multiplicityStr, schedPolicyStr);
 		command.add(createCmd);
 	    } else {
-		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, null);
+		CreatePassiveResourceCommand createCmd = new CreatePassiveResourceCommand(urn, name, null, multiplicityStr, schedPolicyStr);
 		command.add(createCmd);
 	    }
 	} else if (resTypeProcessing.getSelection()) {
@@ -802,12 +888,12 @@ public class ManageResourcesPage extends WizardPage {
 		int test4 = indices[i];
 		components[i] = componentsInSpec[indices[i]];
 	    }
-	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind);
+	    CreateActiveProcessingCommand createCmd = new CreateActiveProcessingCommand(urn, name, components, opTime, deviceKind, multiplicityStr, schedPolicyStr);
 	    command.add(createCmd);
 	} else if (resTypeExternal.getSelection()) {
 		String opTime = opTimeValue.getText();
 	    String descripString = description.getText();
-	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString);
+	    CreateExternalOperationCommand createCmd = new CreateExternalOperationCommand(urn, name, opTime, descripString, multiplicityStr, schedPolicyStr);
 	    command.add(createCmd);
 	} else {
 	    System.out.println("No type has been chosen!");

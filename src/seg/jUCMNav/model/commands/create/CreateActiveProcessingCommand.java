@@ -27,18 +27,24 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
     private String opTime;
     private DeviceKind deviceKind;
     private String name;
+    private String multiplicity;
+    private String schedPolicy;
     
     /**
      * @param name 
      * @param components 
+     * @param schedPolicyStr 
+     * @param multiplicityStr 
      * 
      */
-    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, String opTime, DeviceKind deviceKind) {
+    public CreateActiveProcessingCommand(URNspec urn, String name, Component[] components, String opTime, DeviceKind deviceKind, String multiplicityStr, String schedPolicyStr) {
         this.urn = urn;
         this.components = components;
         this.opTime = opTime;
         this.deviceKind = deviceKind;
         this.name = name;
+        this.multiplicity = multiplicityStr;
+        this.schedPolicy = schedPolicyStr;
         setLabel(Messages.getString("CreateActiveProcessingCommand.CreateActiveProcessingResource")); //$NON-NLS-1$
     }
 
@@ -73,6 +79,8 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
 	}
     	processingResource.setKind(deviceKind);
     	processingResource.setOpTime(opTime);
+    	processingResource.setMultiplicity(multiplicity);
+    	processingResource.setSchedPolicy(schedPolicy);
         testPostConditions();
     }
     
@@ -106,6 +114,8 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
         processingResource.setKind(null);
     	processingResource.setOpTime("0.0");
     	processingResource.setName(null);
+    	processingResource.setMultiplicity(null);
+    	processingResource.setSchedPolicy(null);    	
         testPreConditions();
     }
 

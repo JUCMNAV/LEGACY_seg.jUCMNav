@@ -12,7 +12,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
-import seg.jUCMNav.actions.performance.CreateResourceAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
 import seg.jUCMNav.actions.scenarios.AddEvaluationStrategyAction;
@@ -139,11 +138,6 @@ public class StrategyContextMenuProvider extends ContextMenuProvider {
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
         
         action = getActionRegistry().getAction(RunAllScenariosAction.RUNALLSCENARIOS);
-        if (action.isEnabled())
-            menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
-
-        //_js_
-        action = getActionRegistry().getAction(CreateResourceAction.CREATERESOURCEACTION);
         if (action.isEnabled())
             menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
 

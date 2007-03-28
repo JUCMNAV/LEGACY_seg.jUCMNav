@@ -24,16 +24,22 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
     private PassiveResource passiveResource;
     private Component component;
     private String name;
+    private String multiplicity;
+    private String schedPolicy;
     
     /**
      * @param name 
      * @param component 
+     * @param schedPolicy 
+     * @param multiplicity 
      * 
      */
-    public CreatePassiveResourceCommand(URNspec urn, String name, Component component) {
+    public CreatePassiveResourceCommand(URNspec urn, String name, Component component, String multiplicity, String schedPolicy) {
         this.urn = urn;
         this.component = component;
         this.name = name;
+        this.multiplicity = multiplicity;
+        this.schedPolicy = schedPolicy;
         setLabel(Messages.getString("CreatePassiveResourceCommand.CreatePassiveResource")); //$NON-NLS-1$
     }
 
@@ -64,6 +70,8 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
             passiveResource.setComponent(component);
         }
         passiveResource.setName(name);
+        passiveResource.setMultiplicity(multiplicity);
+        passiveResource.setSchedPolicy(schedPolicy);
     	testPostConditions();
     }
     
@@ -90,6 +98,8 @@ public class CreatePassiveResourceCommand extends Command implements JUCMNavComm
     public void undo() {
         testPostConditions();
         passiveResource.setName(null);
+        passiveResource.setMultiplicity(null);
+        passiveResource.setSchedPolicy(null);
         if (passiveResource.getComponent() != null) {
             passiveResource.setComponent(null);
             component.setResource(null);            

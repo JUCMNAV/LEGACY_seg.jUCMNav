@@ -24,6 +24,8 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     private String opTime;
     private String description;
     private String name;
+    private String multiplicity;
+    private String schedPolicy;
     
     /**
      * @param urn
@@ -33,13 +35,17 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      * 		to be associated with the external resource
      * @param description
      * 		of the external resource
+     * @param schedPolicyStr 
+     * @param multiplicityStr 
      * 
      */
-    public CreateExternalOperationCommand(URNspec urn, String name, String opTime, String description) {
+    public CreateExternalOperationCommand(URNspec urn, String name, String opTime, String description, String multiplicityStr, String schedPolicyStr) {
         this.urn = urn;
         this.opTime = opTime;
         this.description = description;
         this.name = name;
+        this.multiplicity = multiplicityStr;
+        this.schedPolicy = schedPolicyStr;
         setLabel(Messages.getString("CreateExternalOperationCommand.CreateActiveProcessingResource")); //$NON-NLS-1$
     }
 
@@ -68,6 +74,8 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
         testPreConditions();
         urn.getUcmspec().getResources().add(externalOperation);
         externalOperation.setName(name);
+        externalOperation.setMultiplicity(multiplicity);
+        externalOperation.setSchedPolicy(schedPolicy);
     	externalOperation.setDescription(description);
     	externalOperation.setOpTime(opTime);
         testPostConditions();
@@ -97,6 +105,8 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
     	externalOperation.setOpTime("0.0");
     	externalOperation.setDescription(null);
     	externalOperation.setName(null);
+        externalOperation.setMultiplicity(null);
+        externalOperation.setSchedPolicy(null);
         urn.getUcmspec().getResources().remove(externalOperation);
         testPreConditions();
     }
