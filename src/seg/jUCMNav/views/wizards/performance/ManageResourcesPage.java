@@ -438,7 +438,7 @@ public class ManageResourcesPage extends WizardPage {
 	    }
 	});
 
-
+	updating = true;
 	initialize();
 	if (availableResources.getItemCount() == 0) {
 	    deleteButton.setEnabled(false);
@@ -450,6 +450,7 @@ public class ManageResourcesPage extends WizardPage {
 	    resTypeProcessing.setEnabled(false);
 	}
 	dialogChanged();
+	updating = false;
 	setControl(container);
 
     }
@@ -742,14 +743,10 @@ public class ManageResourcesPage extends WizardPage {
 	if (element.getName().compareTo(resName.getText()) != 0) {
 	    changed = true;
 	}
-	if ((element.getMultiplicity() != null) && (element.getMultiplicity().compareTo(multiplicity.getText()) != 0)) {
-	    changed = true;
-	} else if (multiplicity.getText().compareTo("") != 0) {
+	if (element.getMultiplicity().compareTo(multiplicity.getText()) != 0) {
 	    changed = true;
 	}
-	if ((element.getSchedPolicy() != null) && (element.getSchedPolicy().compareTo(schedPolicy.getText()) != 0)) {
-	    changed = true;
-	} else if (schedPolicy.getText().compareTo("") != 0) {
+	if (element.getSchedPolicy().compareTo(schedPolicy.getText()) != 0) {
 	    changed = true;
 	}
 	return changed;
