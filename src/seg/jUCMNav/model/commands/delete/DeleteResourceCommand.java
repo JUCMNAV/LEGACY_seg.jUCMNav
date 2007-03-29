@@ -3,7 +3,9 @@
  */
 package seg.jUCMNav.model.commands.delete;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -17,6 +19,7 @@ import ucm.performance.DeviceKind;
 import ucm.performance.ExternalOperation;
 import ucm.performance.GeneralResource;
 import ucm.performance.PassiveResource;
+import ucm.performance.PerfMeasure;
 import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.Component;
@@ -44,6 +47,8 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
     private IWorkbenchPage workbenchPage;
     private CommandStack cs;
     private CompoundCommand command;
+    private List perfMeasures;
+    private List disconnectedPM;
 
     /**
      * Deleting one of the three (3) types of resource
@@ -62,6 +67,7 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	} else if (genRes instanceof ExternalOperation) {
 	    externalOperation = (ExternalOperation) genRes;
 	}
+	this.perfMeasures = genRes.getPerfMeasures();
 	setLabel("Delete Resource");
     }
 
@@ -78,6 +84,17 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
     }
 
     public void redo() {
+	// disconnect PerfMeasures
+	disconnectedPM = new ArrayList();
+	if (perfMeasures != null) {
+	    for (Iterator pmIter = perfMeasures.iterator(); pmIter.hasNext();) {
+		PerfMeasure pm = (PerfMeasure) pmIter.next();
+		if (pm.getResource() == genRes) {
+		    pm.setResource(null);
+		    disconnectedPM.add(pm);
+		}
+	    }
+	}
 	if (genRes instanceof PassiveResource) {
 	    redoPassive();
 	} else if (genRes instanceof ProcessingResource) {
@@ -94,7 +111,13 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	    undoProcessing();
 	} else if (genRes instanceof ExternalOperation) {
 	    undoExternal();
-	}	
+	}
+	// reconnect PerfMeasures
+	genRes.getPerfMeasures().addAll(perfMeasures);
+	for (Iterator pmIter = disconnectedPM.iterator(); pmIter.hasNext();) {
+	    PerfMeasure pm = (PerfMeasure) pmIter.next();
+	    pm.setResource(genRes);
+	}
     }
     public void deleteDemands() {
 	demands = new Demand[externalOperation.getDemands().size()];

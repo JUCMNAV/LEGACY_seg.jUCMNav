@@ -51,6 +51,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
     private ScenarioDef scenario;
     private EnumerationType enumType;
     private List components; // Single ComponentElement or list of ComponentRegular 
+    private List perfMeasures;
     
 
     /**
@@ -169,6 +170,8 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 this.components.addAll(processingResource.getComponents());
             }
+            this.perfMeasures = new ArrayList();
+            this.perfMeasures.addAll(((GeneralResource)element).getPerfMeasures());
         }
         redo();
     }
@@ -189,7 +192,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         else if (element instanceof Variable)
         	((Variable)element).setEnumerationType(null);
         else if (element instanceof GeneralResource) {
-            this.components = new ArrayList();
+//            this.components = new ArrayList(); // This looks too destructive.  JS
             if (element instanceof PassiveResource) {
                 PassiveResource passiveResource = (PassiveResource) element;
                 passiveResource.setComponent(null);
@@ -197,6 +200,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().clear();
             }
+            ((GeneralResource)element).getPerfMeasures().clear();
         }
         testPostConditions();
 
@@ -229,6 +233,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
                 ProcessingResource processingResource = (ProcessingResource) element;
                 processingResource.getComponents().addAll(this.components);
             }
+            ((GeneralResource)element).getPerfMeasures().addAll(this.perfMeasures);
         }
         testPreConditions();
     }

@@ -24,6 +24,7 @@ import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
+import ucm.performance.PerfMeasure;
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -361,6 +362,20 @@ public class CleanRelationshipsCommand extends CompoundCommand {
     				add (cmd);
     		}
     	}
+    	for (Iterator iter = resx.getPerfMeasures().iterator(); iter.hasNext();) {
+	    PerfMeasure perfMeasure = (PerfMeasure) iter.next();
+	    // assuming a PerfMeasure can exist without a GeneralResource:
+	    if (perfMeasure.getResource() != null) {
+		perfMeasure.setResource(null);
+	    }
+	    // else:
+	    /*
+	    DeletePerfMeasureCommand delPerfMeasureCmd = new DeletePerfMeasureCommand(perfMeasure);
+	    if (delPerfMeasureCmd.canExecute()) {
+		add(delPerfMeasureCmd);
+	    }
+	    */
+	}
         add(new RemoveLinkedInfoCommand(resx));
     }
 
@@ -396,31 +411,30 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 	 * redirects to the appropriate build method.
 	 */
 	private void build() {
-		if (element instanceof UCMmap)
-			build((UCMmap) element);
-        else if (element instanceof GRLGraph)
-            build((GRLGraph) element);
-		else if (element instanceof ComponentRef)
-			build((ComponentRef) element);
-		else if (element instanceof ActorRef)
-			build((ActorRef) element);
-		else if (element instanceof NodeConnection)
-			build((NodeConnection) element);
-		else if (element instanceof PathNode)
-			build((PathNode) element);
-		else if (element instanceof IntentionalElementRef)
-			build((IntentionalElementRef) element);
-		else if (element instanceof Variable)
-			build((Variable) element);
-		else if (element instanceof ScenarioStartPoint)
-			build((ScenarioStartPoint) element);
-		else if (element instanceof ScenarioEndPoint)
-			build((ScenarioEndPoint) element);
-		else if (element instanceof Initialization)
-			build((Initialization) element);
-		else if (element instanceof EnumerationType)
-			build((EnumerationType) element);		
-
+	    if (element instanceof UCMmap)
+		build((UCMmap) element);
+	    else if (element instanceof GRLGraph)
+		build((GRLGraph) element);
+	    else if (element instanceof ComponentRef)
+		build((ComponentRef) element);
+	    else if (element instanceof ActorRef)
+		build((ActorRef) element);
+	    else if (element instanceof NodeConnection)
+		build((NodeConnection) element);
+	    else if (element instanceof PathNode)
+		build((PathNode) element);
+	    else if (element instanceof IntentionalElementRef)
+		build((IntentionalElementRef) element);
+	    else if (element instanceof Variable)
+		build((Variable) element);
+	    else if (element instanceof ScenarioStartPoint)
+		build((ScenarioStartPoint) element);
+	    else if (element instanceof ScenarioEndPoint)
+		build((ScenarioEndPoint) element);
+	    else if (element instanceof Initialization)
+		build((Initialization) element);
+	    else if (element instanceof EnumerationType)
+		build((EnumerationType) element);
 	}
 
 }
