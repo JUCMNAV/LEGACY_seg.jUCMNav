@@ -215,7 +215,7 @@ public class ManageDemandPage extends WizardPage {
 				}
 			}
 			if (found) {
-				demand.setText("" + selectedDemand.getQuantity());
+				demand.setText(selectedDemand.getQuantity());
 			}
 			demand.setEnabled(true);
 		} else {
@@ -278,7 +278,7 @@ public class ManageDemandPage extends WizardPage {
 	public void createResCmd() {
 		CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 		CompoundCommand command = new CompoundCommand();
-
+		quantity = "0";
 		CreateDemandCommand createCmd = new CreateDemandCommand(spec, extOp, quantity, responsibility);
 		command.add(createCmd);
 
