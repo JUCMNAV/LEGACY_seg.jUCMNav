@@ -58,6 +58,8 @@ import org.eclipse.ui.internal.WorkbenchImages;
 import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.figures.ColorManager;
+import seg.jUCMNav.model.commands.change.ChangePluginBindingProbCommand;
+import seg.jUCMNav.model.commands.change.ChangePluginBindingTransCommand;
 import seg.jUCMNav.model.commands.create.AddInBindingCommand;
 import seg.jUCMNav.model.commands.create.AddOutBindingCommand;
 import seg.jUCMNav.model.commands.create.AddPluginCommand;
@@ -68,6 +70,7 @@ import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
+import seg.jUCMNav.views.wizards.InputNumberDialog;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
@@ -175,9 +178,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 	private boolean preventUpdate;
 
+	private Button btChangeProb;
+	
+	private Button btChangeTrans;
+	
+	private Shell parentShell;
+	
 	public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
 		super(parentShell);
 		this.cmdStack = cmdStack;
+		this.parentShell = parentShell;
 		setShellStyle(SWT.SHELL_TRIM | SWT.APPLICATION_MODAL);
 	}
 
@@ -260,6 +270,34 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				handleCreateMap();
 			}
 		});
+
+		btChangeProb = new Button(mapClient, SWT.PUSH);
+		btChangeProb.setText("Change Probability"); //$NON-NLS-1$
+		btChangeProb.addMouseListener(new MouseAdapter() {
+			public void mouseDown(MouseEvent e) {
+			    double newProb2 = ((PluginBinding)selectedItem).getProbability();
+			    InputNumberDialog ind = new InputNumberDialog(parentShell, "Probability", ""+newProb2);
+			    Double newProb = ind.getValue();
+			    if (newProb != null) {
+				ChangePluginBindingProbCommand changeProb = new ChangePluginBindingProbCommand(((PluginBinding)selectedItem), newProb.doubleValue());
+				    execute(changeProb);
+				    btChangeProb.setEnabled(false);
+			    }
+			}
+		});
+		btChangeProb.setEnabled(false);
+
+		btChangeTrans = new Button(mapClient, SWT.PUSH);
+		btChangeTrans.setText("Toggle Transaction"); //$NON-NLS-1$
+		btChangeTrans.addMouseListener(new MouseAdapter() {
+			public void mouseDown(MouseEvent e) {
+			    boolean val = !((PluginBinding)selectedItem).isTransaction();
+			    ChangePluginBindingTransCommand changeTrans = new ChangePluginBindingTransCommand(((PluginBinding) selectedItem), val);
+			    execute(changeTrans);
+			    btChangeTrans.setEnabled(false);
+			}
+		});
+		btChangeTrans.setEnabled(false);
 
 		mapSection.setClient(mapClient);
 
@@ -899,21 +937,42 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				selectedItem = data;
 				// Refresh the add bindings view with the correct plugin.
 				setSelectedPluginView((PluginBinding) data);
+				btChangeProb.setEnabled(false);
+				btChangeTrans.setEnabled(false);
+				btDelete.setEnabled(true);
 			} else if (data instanceof InBinding || data instanceof OutBinding) {
 				selectedItem = data;
 				// show the binding
 				setSelectedPluginView((PluginBinding) source.getParentItem().getParentItem().getData());
-			} else {
+				btChangeProb.setEnabled(false);
+				btChangeTrans.setEnabled(false);
+				btDelete.setEnabled(true);
+			} else if (data instanceof Double) {
+			    	selectedItem = (PluginBinding) source.getParentItem().getParentItem().getData();
+			    	btChangeProb.setEnabled(true);
+				btChangeTrans.setEnabled(false);
 				setSelectedPluginView(null); // Erase the binding view
 				btDelete.setEnabled(false);
+			} else if (data instanceof Boolean) {
+			    	selectedItem = (PluginBinding) source.getParentItem().getParentItem().getData();
+			    	btChangeTrans.setEnabled(true);
+			    	btChangeProb.setEnabled(false);
+				setSelectedPluginView(null); // Erase the binding view
+				btDelete.setEnabled(false);
+			} else {
+    				setSelectedPluginView(null); // Erase the binding view
+				btDelete.setEnabled(false);
+				btChangeProb.setEnabled(false);
+				btChangeTrans.setEnabled(false);
 				return;
 			}
-			btDelete.setEnabled(true);
 		} else {
 			if (source.getParentItem() != null) {
 				setSelectedPluginView((PluginBinding) source.getParentItem().getData());
 			}
 			btDelete.setEnabled(false);
+			btChangeProb.setEnabled(false);
+			btChangeTrans.setEnabled(false);
 		}
 	}
 
@@ -1317,7 +1376,18 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			images.add(image);
 			item.setImage(image);
 			item.setData(binding);
-
+			// Add probability & transaction
+			subLabelItem = new TreeItem(item, SWT.NULL);
+			subLabelItem.setText("parameters");
+			subItem = new TreeItem(subLabelItem, SWT.NULL);
+			subItem.setText("probability: " + binding.getProbability());
+			Double dbl = new Double(binding.getProbability());
+			subItem.setData(dbl); // I just want the probability though... JS
+			subItem = new TreeItem(subLabelItem, SWT.NULL);
+			subItem.setText("transaction: " + binding.isTransaction());
+			Boolean trans = new Boolean(binding.isTransaction());
+			subItem.setData(trans); // I just want the transaction value though... JS
+			
 			// Then add a label for InBindings under this item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$
