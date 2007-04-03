@@ -40,6 +40,10 @@ public class MakeWellFormedCommand extends CompoundCommand {
 	private Vector maps;
 	private CommandStack cs;
 
+    /**
+     * Will ensure that all maps in the URNspec are well-formed. 
+     * @param urn the URNSpec
+     */
 	public MakeWellFormedCommand(URNspec urn) {
 		setLabel(Messages.getString("MakeWellFormedCommand.MakeUCMWellFormed")); //$NON-NLS-1$
 		maps = new Vector();
@@ -49,17 +53,26 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		}
 	}
 
+    /**
+     * Will ensure that the passed map is well-formed
+     * @param map the map
+     */
 	public MakeWellFormedCommand(UCMmap map) {
 		setLabel(Messages.getString("MakeWellFormedCommand.MakeUCMWellFormed")); //$NON-NLS-1$
 		maps = new Vector();
 		maps.add(map);
 	}
 
+    /**
+     * Can this command be executed?
+     */
 	public boolean canExecute() {
-
 		return true;
 	}
 
+    /**
+     * Run the command. 
+     */
 	public void execute() {
 		cs = new CommandStack();
 		for (Iterator iter = maps.iterator(); iter.hasNext();) {
@@ -68,12 +81,19 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		}
 	}
 
+    /**
+     * This command can never be undone. 
+     */
 	public boolean canUndo() {
-
 		return false;
 	}
 
+    /**
+     * Fix a single map
+     * @param map the map
+     */
 	protected void modify(UCMmap map) {
+        // find all and-joins
 		Vector andjoins = SimplifyForksAndJoinsCommand.findAndJoins(map, false);
 		HashSet completedFlowPoints = new HashSet();
 
@@ -85,26 +105,39 @@ public class MakeWellFormedCommand extends CompoundCommand {
 			if (andjoin.getDiagram() == null)
 				continue;
 
+            // on all incoming branches, look at the preceeding flow point (fork/join) 
 			Vector[] flowPoints = SimplifyForksAndJoinsCommand.findUpstreamFlowPoints(andjoin);
 
+            // do they share the same one?
 			PathNode commonFlowPoint = SimplifyForksAndJoinsCommand.findCommonSource(flowPoints);
 
 			if (commonFlowPoint != null) {
 				// b. If the fork is the same for all branches, graph is well-nested and continues. Marks fork as complete.
 				completedFlowPoints.add(commonFlowPoint);
 			} else {
+                // find the most recent common fork
 				PathNode mostRecentForkCommonToAllBranches = findMostRecentCommonSource(andjoin, flowPoints);
+                // find all in between
 				Vector toBeFixed = findUpstreamIntermediateFlowPoints(andjoin, flowPoints, mostRecentForkCommonToAllBranches);
+                // fix the intermediate forks. 
 				fixUpstreamFlowPoints(map, andjoin, toBeFixed, completedFlowPoints);
 			}
 		}
 		
+        // will restructure forks and joins so that they become well nested
 		cs.execute(new SimplifyForksAndJoinsCommand(map));
 	}
 
 	
 
-	
+	/**
+     * Find all intermediate and-forks between mostRecentForkCommonToAllBranches and andjoin. 
+     * 
+     * @param andjoin the last element
+     * @param flowPoints the set of all forks/joins in between
+     * @param mostRecentForkCommonToAllBranches the first element
+     * @return
+	 */
 	private Vector findUpstreamIntermediateFlowPoints(AndJoin andjoin, Vector[] flowPoints, PathNode mostRecentForkCommonToAllBranches) {
 		Vector toBeFixed = new Vector();
 		for (int i = 0; i < andjoin.getPred().size(); i++) {
@@ -125,7 +158,12 @@ public class MakeWellFormedCommand extends CompoundCommand {
 	}
 	
 	
-
+	/**
+     * Identifies the and-fork closest to the specified and-join for which it is possible to reach all of the and-join's incoming branches.  
+     * @param andjoin the andjoin
+     * @param flowPoints all forks/joins that can be found by going upstream on all andjoin's incoming branches
+     * @return
+	 */
 	private PathNode findMostRecentCommonSource(AndJoin andjoin, Vector[] flowPoints) {
 		Vector commonForks = new Vector(flowPoints[0]);
 		for (int i = 1; i < andjoin.getPred().size(); i++)
@@ -135,10 +173,14 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		return mostRecentForkCommonToAllBranches;
 	}
 
-	
-	
-	
-	
+
+    /**
+     * Fixes intermediate flow points. 
+     * @param map the containing map
+     * @param andjoin the and join
+     * @param toBeFixed the list of intermediate and-forks
+     * @param completedFlowPoints the list of elements we have already processed. 
+     */
 	private void fixUpstreamFlowPoints(UCMmap map, AndJoin andjoin, Vector toBeFixed, HashSet completedFlowPoints) {
 		for (Iterator iterator = toBeFixed.iterator(); iterator.hasNext();) {
 
@@ -147,11 +189,13 @@ public class MakeWellFormedCommand extends CompoundCommand {
 			// System.out.println("Fixing : " + andfork.toString());
 			Vector usedBranches = new Vector();
 			Vector unusedBranches = new Vector();
+            // which branches lead to and-join
 			classifyBranches(andjoin, andfork, usedBranches, unusedBranches);
 
 			// System.out.println("Unused branches: " + unusedBranches.size());
 			// System.out.println("Used branches: " + usedBranches.size());
 
+            // all of them
 			if (unusedBranches.size() == 0) {
 				// System.out.println("Fork is okay");
 				continue;
@@ -160,18 +204,33 @@ public class MakeWellFormedCommand extends CompoundCommand {
 			NodeConnection source = (NodeConnection) andfork.getPred().get(0);
 			NodeConnection target = (NodeConnection) andjoin.getSucc().get(0);
 
+            // delete the intermediate and-fork and attach the used branches before it 
 			IURNContainerRef  compRef = moveUsedBranchesBeforeFork(map, andfork, source, usedBranches, completedFlowPoints);
 
+            // attach the non-used branches after the and-join
 			moveUnusedBranchesAfterJoin(map, compRef, target, unusedBranches, completedFlowPoints);
 
 		}
 	}
 
+    /**
+     * Delete the intermediate and-fork and attach the used branches before it
+     * @param map the map
+     * @param andfork the intermediate and-fork
+     * @param source where should the branches be moved
+     * @param usedBranches the branches that should be moved before it
+     * @param completedFlowPoints the set of processed elements
+     * @return the fork's container 
+     */
 	private IURNContainerRef moveUsedBranchesBeforeFork(UCMmap map, AndFork andfork, NodeConnection source, Vector usedBranches, HashSet completedFlowPoints) {
 		IURNContainerRef compRef = andfork.getContRef();
+        
+        // delete intermediate fork
 		DeletePathNodeCommand cmd = new DeletePathNodeCommand(andfork, null);
 		cs.execute(cmd);
-		EndPoint end = (EndPoint) source.getTarget();
+
+        // merge first usedBranch with old fork input
+        EndPoint end = (EndPoint) source.getTarget();
 		StartPoint start = (StartPoint) ((NodeConnection) usedBranches.get(0)).getSource();
 
 		MergeStartEndCommand mergecmd = new MergeStartEndCommand(map, start, end, start.getX(), start.getY());
@@ -179,6 +238,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 
 		AndFork newAndFork = null;
 
+        // add 2nd branch, creating new fork. 
 		if (usedBranches.size() > 1) {
 			start = (StartPoint) ((NodeConnection) usedBranches.get(1)).getSource();
 			DividePathCommand cmd2 = new DividePathCommand(start, mergecmd.getNewEmptyPoint(), false);
@@ -190,7 +250,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
 			
 		}
 
-		// might not have any
+		// attach rest of branches; might not have any
 		for (int i = 2; i < usedBranches.size(); i++) {
 			start = (StartPoint) ((NodeConnection) usedBranches.get(i)).getSource();
 			AttachBranchCommand cmd2 = new AttachBranchCommand(start, newAndFork);
@@ -201,14 +261,25 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		return compRef;
 	}
 
+    /**
+     * Attach the non-used branches in parallel after the and-join
+     * @param map the map
+     * @param compRef the new forks's container
+     * @param target where should the branches be moved
+     * @param unusedBranches which branches should be moved
+     * @param completedFlowPoints the set of processed elements
+     */
 	private void moveUnusedBranchesAfterJoin(UCMmap map, IURNContainerRef compRef, NodeConnection target, Vector unusedBranches, HashSet completedFlowPoints) {
-		StartPoint start = (StartPoint) ((NodeConnection) unusedBranches.get(0)).getSource();
+
+        // attach first branch
+        StartPoint start = (StartPoint) ((NodeConnection) unusedBranches.get(0)).getSource();
 		DividePathCommand cmd2 = new DividePathCommand(start, target, start.getX(), start.getY(), false);
 		cs.execute(cmd2);
 		AndFork newAndFork = (AndFork) cmd2.getNewNode();
 		assert newAndFork != null;
 		newAndFork.setContRef(compRef);
 		
+        // attach all other branches
 		for (int i = 1; i < unusedBranches.size(); i++) {
 			start = (StartPoint) ((NodeConnection) unusedBranches.get(i)).getSource();
 			AttachBranchCommand cmd3 = new AttachBranchCommand(start, newAndFork);
@@ -218,6 +289,14 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		completedFlowPoints.add(newAndFork);
 	}
 
+    /**
+     * Mark all branches that were taken that got to the join.
+     * 
+     * @param andjoin the target node
+     * @param andfork the source node
+     * @param usedBranches insert the used branches here 
+     * @param unusedBranches insert the unused branches here. 
+     */
 	private void classifyBranches(AndJoin andjoin, AndFork andfork, Vector usedBranches, Vector unusedBranches) {
 		// ii. For each fork, mark all branches that were taken that got to the join.
 		for (int i = 0; i < andfork.getSucc().size(); i++) {

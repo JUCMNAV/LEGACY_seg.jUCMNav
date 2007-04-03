@@ -108,6 +108,13 @@ public class MscTraversalListener implements ITraversalListener {
 	protected String filename;
 	protected String whenToSave;
 
+    /**
+     * Create a new traversal listener. Will set the stage for the listener. Creates a new blank URNspec. 
+     * 
+     * @param originalFilename the original filename
+     * @param newFilename the new filename
+     * @param whenToSave "0" is the final ucmscenarios model instance, "1" means before making it well-formed, "2" means after making it well-formed.  
+     */
 	public MscTraversalListener(String originalFilename, String newFilename, String whenToSave) {
 		this.filename = newFilename;
 		this.whenToSave = whenToSave;
@@ -735,7 +742,11 @@ public class MscTraversalListener implements ITraversalListener {
 		cleanupComponentRefs();
 	}
 
-	public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
+
+    /**
+     * We are about to start traversing scenario in the environment env. 
+     */
+    public void traversalStarted(UcmEnvironment env, ScenarioDef scenario) {
 		// System.out.println("Traversal started: " + scenario.toString());
 		URNspec old = scenario.getGroup().getUcmspec().getUrnspec();
 
