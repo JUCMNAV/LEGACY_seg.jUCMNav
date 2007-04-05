@@ -48,4 +48,14 @@ public class ChangePluginBindingProbCommand extends Command implements JUCMNavCo
 	assert pluginBinding != null : "Pre Plugin Binding is null";
 	assert pluginBinding.getProbability() == oldProbability : "Pre newProbability changed";
     }
+    
+    public double getProbability() {
+	return newProbability;
+    }
+    public void setProbability(double probability) {
+	this.newProbability = probability;
+    }
+    public PluginBinding getPluginBinding() {
+	return pluginBinding;
+    }
 }

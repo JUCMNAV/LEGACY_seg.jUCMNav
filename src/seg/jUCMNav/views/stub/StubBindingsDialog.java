@@ -70,7 +70,6 @@ import seg.jUCMNav.model.commands.delete.internal.DeletePluginCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeDescriptionCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeLabelNameCommand;
 import seg.jUCMNav.model.commands.transformations.ReplacePluginCommand;
-import seg.jUCMNav.views.wizards.InputNumberDialog;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
 import ucm.UcmPackage;
 import ucm.map.EndPoint;
@@ -178,16 +177,16 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 	private boolean preventUpdate;
 
-	private Button btChangeProb;
-	
+	// The text field and Double for the probability of a PluginBinding
+	private Text txtProbability;
+	private Double probability;
+	private Label txtTransaction;
 	private Button btChangeTrans;
-	
-	private Shell parentShell;
-	
+	private Button okButton;
+
 	public StubBindingsDialog(Shell parentShell, CommandStack cmdStack) {
 		super(parentShell);
 		this.cmdStack = cmdStack;
-		this.parentShell = parentShell;
 		setShellStyle(SWT.SHELL_TRIM | SWT.APPLICATION_MODAL);
 	}
 
@@ -270,34 +269,6 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				handleCreateMap();
 			}
 		});
-
-		btChangeProb = new Button(mapClient, SWT.PUSH);
-		btChangeProb.setText("Change Probability"); //$NON-NLS-1$
-		btChangeProb.addMouseListener(new MouseAdapter() {
-			public void mouseDown(MouseEvent e) {
-			    double newProb2 = ((PluginBinding)selectedItem).getProbability();
-			    InputNumberDialog ind = new InputNumberDialog(parentShell, "Probability", ""+newProb2);
-			    Double newProb = ind.getValue();
-			    if (newProb != null) {
-				ChangePluginBindingProbCommand changeProb = new ChangePluginBindingProbCommand(((PluginBinding)selectedItem), newProb.doubleValue());
-				    execute(changeProb);
-				    btChangeProb.setEnabled(false);
-			    }
-			}
-		});
-		btChangeProb.setEnabled(false);
-
-		btChangeTrans = new Button(mapClient, SWT.PUSH);
-		btChangeTrans.setText("Toggle Transaction"); //$NON-NLS-1$
-		btChangeTrans.addMouseListener(new MouseAdapter() {
-			public void mouseDown(MouseEvent e) {
-			    boolean val = !((PluginBinding)selectedItem).isTransaction();
-			    ChangePluginBindingTransCommand changeTrans = new ChangePluginBindingTransCommand(((PluginBinding) selectedItem), val);
-			    execute(changeTrans);
-			    btChangeTrans.setEnabled(false);
-			}
-		});
-		btChangeTrans.setEnabled(false);
 
 		mapSection.setClient(mapClient);
 
@@ -737,6 +708,52 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 		});
 
+		// Transaction:  label, value & button to toggle the value
+		Label lblTransaction = toolkit.createLabel(compCondition, "Transaction:"); //$NON-NLS-1$
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = false;
+		g.grabExcessVerticalSpace = true;
+		lblTransaction.setLayoutData(g);
+
+		txtTransaction = toolkit.createLabel(compCondition, "" + true); //$NON-NLS-1$
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		txtTransaction.setLayoutData(g);		
+
+		btChangeTrans = new Button(compCondition, SWT.PUSH);
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = false;
+		g.grabExcessVerticalSpace = true;
+		btChangeTrans.setLayoutData(g);
+		btChangeTrans.setText("Toggle"); //$NON-NLS-1$
+		btChangeTrans.addMouseListener(new MouseAdapter() {
+			public void mouseDown(MouseEvent e) {
+				handleUpdateTransaction();
+			}
+		});
+
+		// Probability:  label & value(double)
+		Label lblProbability = toolkit.createLabel(compCondition, "Probability:"); //$NON-NLS-1$
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = false;
+		g.grabExcessVerticalSpace = true;
+		lblProbability.setLayoutData(g);
+
+		txtProbability = toolkit.createText(compCondition, "", SWT.BORDER); //$NON-NLS-1$
+		g = new GridData();
+		g.grabExcessHorizontalSpace = true;
+		g.grabExcessVerticalSpace = true;
+		g.horizontalSpan=1;
+		g.widthHint=50;
+		txtProbability.setLayoutData(g);
+		txtProbability.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent event) {
+				handleUpdateProbability();
+			}
+		});
+
+
 		// btUpdateLink = toolkit.createHyperlink(compCondition,
 		// Messages.getString("StubBindingsDialog.Update"), SWT.NONE);
 		// //$NON-NLS-1$
@@ -813,9 +830,78 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			txtExpCondition.setEnabled(false);
 			txtDescCondition.setEnabled(false);
 		}
+		refreshOthers();
 		this.preventUpdate = false;
 	}
 
+	/**
+	 * Listener when the probability value is modified.
+	 *
+	 */
+	protected void handleUpdateProbability() {
+		if (this.preventUpdate)
+			return;
+		PluginBinding pluginBinding = selectedPluginBinding();
+		try {
+			probability = new Double(txtProbability.getText());
+			ChangePluginBindingProbCommand changeProb = new ChangePluginBindingProbCommand(pluginBinding, probability.doubleValue());
+			execute(changeProb,false);
+			refreshOthers();
+			okButton.setEnabled(true);
+		} catch (Exception e) {
+			okButton.setEnabled(false);
+		}
+	}	
+
+	/**
+	 * Listener when the Transaction value is changed (by the toggle button)
+	 *
+	 */
+	protected void handleUpdateTransaction() {
+		if (this.preventUpdate)
+			return;
+		PluginBinding pluginBinding = selectedPluginBinding();
+		boolean val = !pluginBinding.isTransaction();
+		ChangePluginBindingTransCommand changeTrans = new ChangePluginBindingTransCommand(pluginBinding, val);
+		execute(changeTrans, false);
+		refreshCondition();
+	}
+
+	/**
+	 * Displays value of Transaction and Probability for the selected PluginBinding
+	 *
+	 */
+	private void refreshOthers() {
+		PluginBinding pluginBinding = selectedPluginBinding();
+		if (pluginBinding != null) {
+			this.preventUpdate = true;
+			txtTransaction.setText("" + pluginBinding.isTransaction());
+			txtProbability.setText("" + pluginBinding.getProbability());
+			this.preventUpdate = false;			
+		}
+	}
+
+	/**
+	 * Determines the addressed Plugin Binding based on currently selected item.
+	 *  
+	 * @return
+	 * 	the currently selected Plugin Binding
+	 */
+	private PluginBinding selectedPluginBinding() {
+		PluginBinding plug ;
+		if (selectedItem instanceof PluginBinding) {
+			plug = (PluginBinding)selectedItem;
+		} else if (selectedItem instanceof InBinding) {
+			plug = ((InBinding)selectedItem).getBinding();
+		} else if (selectedItem instanceof OutBinding) {
+			plug = ((OutBinding)selectedItem).getBinding();
+		} else {
+			System.err.println("Unexpected Context:  What's the selected item?");
+			plug = null;
+		}
+		return plug;
+	}
+	
 	/**
 	 * Delete the selected item in the tree view. This will delete it in the
 	 * model too with a command.
@@ -850,6 +936,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// Refresh the add bindings view with nothing since the plugin was
 			// deleted.
 			setSelectedPluginView(out.getBinding());
+		} else {
+			System.err.println("Unexpected Context:  What's the selected item?");
 		}
 	}
 
@@ -937,42 +1025,21 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				selectedItem = data;
 				// Refresh the add bindings view with the correct plugin.
 				setSelectedPluginView((PluginBinding) data);
-				btChangeProb.setEnabled(false);
-				btChangeTrans.setEnabled(false);
-				btDelete.setEnabled(true);
 			} else if (data instanceof InBinding || data instanceof OutBinding) {
 				selectedItem = data;
 				// show the binding
 				setSelectedPluginView((PluginBinding) source.getParentItem().getParentItem().getData());
-				btChangeProb.setEnabled(false);
-				btChangeTrans.setEnabled(false);
-				btDelete.setEnabled(true);
-			} else if (data instanceof Double) {
-			    	selectedItem = (PluginBinding) source.getParentItem().getParentItem().getData();
-			    	btChangeProb.setEnabled(true);
-				btChangeTrans.setEnabled(false);
-				setSelectedPluginView(null); // Erase the binding view
-				btDelete.setEnabled(false);
-			} else if (data instanceof Boolean) {
-			    	selectedItem = (PluginBinding) source.getParentItem().getParentItem().getData();
-			    	btChangeTrans.setEnabled(true);
-			    	btChangeProb.setEnabled(false);
-				setSelectedPluginView(null); // Erase the binding view
-				btDelete.setEnabled(false);
 			} else {
-    				setSelectedPluginView(null); // Erase the binding view
+				setSelectedPluginView(null); // Erase the binding view
 				btDelete.setEnabled(false);
-				btChangeProb.setEnabled(false);
-				btChangeTrans.setEnabled(false);
 				return;
 			}
+			btDelete.setEnabled(true);
 		} else {
 			if (source.getParentItem() != null) {
 				setSelectedPluginView((PluginBinding) source.getParentItem().getData());
 			}
 			btDelete.setEnabled(false);
-			btChangeProb.setEnabled(false);
-			btChangeTrans.setEnabled(false);
 		}
 	}
 
@@ -1024,7 +1091,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	protected void createButtonsForButtonBar(Composite parent) {
 		parent.getParent().setBackground(ColorManager.WHITE);
 		parent.setBackground(ColorManager.WHITE);
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		okButton = createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
@@ -1073,6 +1140,36 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 				getCommandStack().redo();
 				return;
+			}
+		}
+
+		/*
+		 * TODO: seek to enhance the kludge by looking further back into the command stack (instead of stopping at the very last command)
+		 */
+		// avoid duplicate entries for plugin binding probabiliy
+		if (getCommandStack().getUndoCommand() instanceof ChangePluginBindingProbCommand && command instanceof ChangePluginBindingProbCommand) {
+			ChangePluginBindingProbCommand changeProbability1 = (ChangePluginBindingProbCommand) getCommandStack().getUndoCommand();
+			ChangePluginBindingProbCommand changeProbability2 = (ChangePluginBindingProbCommand) command;
+			if (changeProbability1.getPluginBinding() == changeProbability2.getPluginBinding()) {
+				getCommandStack().undo();
+				changeProbability1.setProbability(changeProbability2.getProbability());
+				getCommandStack().redo();
+				return;			
+			}
+		}
+
+		/*
+		 * TODO: seek to enhance the kludge by looking further back into the command stack (instead of stopping at the very last command)
+		 */
+		// avoid duplicate entries for plugin binding transaction
+		if (getCommandStack().getUndoCommand() instanceof ChangePluginBindingTransCommand && command instanceof ChangePluginBindingTransCommand) {
+			ChangePluginBindingTransCommand changeTransaction1 = (ChangePluginBindingTransCommand) getCommandStack().getUndoCommand();
+			ChangePluginBindingTransCommand changeTransaction2 = (ChangePluginBindingTransCommand) command;
+			if (changeTransaction1.getPluginBinding() == changeTransaction2.getPluginBinding()) {
+				getCommandStack().undo();
+				changeTransaction1.setTransaction(changeTransaction2.getTransaction());
+				getCommandStack().redo();
+				return;			
 			}
 		}
 		
@@ -1376,18 +1473,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			images.add(image);
 			item.setImage(image);
 			item.setData(binding);
-			// Add probability & transaction
-			subLabelItem = new TreeItem(item, SWT.NULL);
-			subLabelItem.setText("parameters");
-			subItem = new TreeItem(subLabelItem, SWT.NULL);
-			subItem.setText("probability: " + binding.getProbability());
-			Double dbl = new Double(binding.getProbability());
-			subItem.setData(dbl); // I just want the probability though... JS
-			subItem = new TreeItem(subLabelItem, SWT.NULL);
-			subItem.setText("transaction: " + binding.isTransaction());
-			Boolean trans = new Boolean(binding.isTransaction());
-			subItem.setData(trans); // I just want the transaction value though... JS
-			
+
 			// Then add a label for InBindings under this item
 			subLabelItem = new TreeItem(item, SWT.NULL);
 			subLabelItem.setText(Messages.getString("StubBindingsDialog.inBindings")); //$NON-NLS-1$

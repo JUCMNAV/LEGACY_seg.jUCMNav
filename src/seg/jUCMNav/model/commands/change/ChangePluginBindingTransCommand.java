@@ -50,4 +50,14 @@ public class ChangePluginBindingTransCommand extends Command implements JUCMNavC
 	boolean oldValue = pluginBinding.isTransaction(); 
 	assert oldValue == this.oldTransaction : "Pre Transaction changed";
     }
+    
+    public boolean getTransaction() {
+	    return newTransaction;
+    }
+    public void setTransaction(boolean transaction) {
+	    this.newTransaction = transaction;
+    }
+    public PluginBinding getPluginBinding() {
+	    return pluginBinding;
+    }
 }
