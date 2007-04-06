@@ -179,7 +179,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 	// The text field and Double for the probability of a PluginBinding
 	private Text txtProbability;
-	private Double probability;
+	private Label lblProbabilityValid;
 	private Label txtTransaction;
 	private Button btChangeTrans;
 	private Button okButton;
@@ -753,6 +753,12 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 		});
 
+		lblProbabilityValid = toolkit.createLabel(compCondition, "");
+		g = new GridData(GridData.FILL_BOTH);
+		g.grabExcessHorizontalSpace = false;
+		g.grabExcessVerticalSpace = true;
+		lblProbabilityValid.setLayoutData(g);
+
 
 		// btUpdateLink = toolkit.createHyperlink(compCondition,
 		// Messages.getString("StubBindingsDialog.Update"), SWT.NONE);
@@ -830,7 +836,6 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			txtExpCondition.setEnabled(false);
 			txtDescCondition.setEnabled(false);
 		}
-		refreshOthers();
 		this.preventUpdate = false;
 	}
 
@@ -842,14 +847,21 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		if (this.preventUpdate)
 			return;
 		PluginBinding pluginBinding = selectedPluginBinding();
-		try {
-			probability = new Double(txtProbability.getText());
-			ChangePluginBindingProbCommand changeProb = new ChangePluginBindingProbCommand(pluginBinding, probability.doubleValue());
-			execute(changeProb,false);
-			refreshOthers();
-			okButton.setEnabled(true);
-		} catch (Exception e) {
-			okButton.setEnabled(false);
+		if (pluginBinding != null) {
+			try {
+				Double probability = new Double(txtProbability.getText());
+				if (pluginBinding.getProbability() != probability.doubleValue()) {
+					ChangePluginBindingProbCommand changeProb = new ChangePluginBindingProbCommand(pluginBinding, probability.doubleValue());
+					execute(changeProb, false);
+				}
+				okButton.setEnabled(true);
+				lblProbabilityValid.setText("");
+				lblProbabilityValid.setBackground(ColorManager.WHITE);
+			} catch (Exception e) {
+				okButton.setEnabled(false);
+				lblProbabilityValid.setText("INVALID");
+				lblProbabilityValid.setBackground(ColorManager.RED);
+			}
 		}
 	}	
 
@@ -864,19 +876,34 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		boolean val = !pluginBinding.isTransaction();
 		ChangePluginBindingTransCommand changeTrans = new ChangePluginBindingTransCommand(pluginBinding, val);
 		execute(changeTrans, false);
-		refreshCondition();
+		refreshTransaction();
 	}
 
 	/**
-	 * Displays value of Transaction and Probability for the selected PluginBinding
+	 * Displays value of Transaction for the selected PluginBinding
 	 *
 	 */
-	private void refreshOthers() {
+	private void refreshTransaction() {
 		PluginBinding pluginBinding = selectedPluginBinding();
 		if (pluginBinding != null) {
 			this.preventUpdate = true;
 			txtTransaction.setText("" + pluginBinding.isTransaction());
+			this.preventUpdate = false;			
+		}
+	}
+
+	/**
+	 * Displays value of Probability for the selected PluginBinding
+	 *
+	 */
+	private void refreshProbability() {
+		PluginBinding pluginBinding = selectedPluginBinding();
+		if (pluginBinding != null) {
+			this.preventUpdate = true;
 			txtProbability.setText("" + pluginBinding.getProbability());
+			lblProbabilityValid.setText("");
+			lblProbabilityValid.setBackground(ColorManager.WHITE);
+			okButton.setEnabled(true);
 			this.preventUpdate = false;			
 		}
 	}
@@ -1621,6 +1648,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 
 			refreshCondition();
+			refreshTransaction();
+			refreshProbability();
 		} else {
 			selectedPluginLabel.setText(Messages.getString("StubBindingsDialog.noPluginSelected")); //$NON-NLS-1$
 			selectedPluginLabel.setFont(new Font(null, new FontData("", 8, SWT.BOLD))); //$NON-NLS-1$
