@@ -184,13 +184,16 @@ public class TraversalVisit {
             return true;
         else {
             boolean b = false;
+            IURNContainerRef compRef = null;
             for (Iterator iter = context.iterator(); iter.hasNext();) {
                 PluginBinding binding = (PluginBinding) iter.next();
                 if (binding.getStub().getContRef() != null) {
-                    if (b)
+                    if (b && compRef != binding.getStub().getContRef())
                         return false;
-                    else
+                    else {
                         b = true;
+                        compRef = binding.getStub().getContRef();
+                    }
                 }
             }
 
