@@ -122,6 +122,9 @@ public class VariableInitializationTreeEditPart extends StrategyUrnModelElementT
      */
     protected String getText() {
     	
+        if (widget == null)
+            return "";
+        
     	if (isInherited()) 
     		((TreeItem) widget).setForeground(DARKGRAY);
     	else
