@@ -120,6 +120,7 @@ public class ScenarioGenerator {
 
         }
 
+        common.remove(fork);
         // at this point, common contains only the path nodes that are common to all of the and-fork's branches
 
         // create all subbranches, stopping at the common and-join if it exists.
@@ -127,7 +128,7 @@ public class ScenarioGenerator {
             NodeConnection nc = (NodeConnection) fork.getSucc().get(i);
             Sequence subseq = f.createSequence();
 
-            ComponentRef branchCompRef = addPath(subseq, (PathNode) nc.getTarget(), common.size() == 0 ? null : (PathNode) common.lastElement());
+            ComponentRef branchCompRef = addPath(subseq, (PathNode) nc.getTarget(), common.size() == 0 ? null : (PathNode) common.firstElement());
             subseq.setParent(par);
         }
         return compRef;
@@ -276,7 +277,6 @@ public class ScenarioGenerator {
                 action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
             else if (type == EventType.TIMER_RESET_LITERAL)
                 action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
-
         }
         action.setSequence(seq);
         return compRef;
@@ -568,7 +568,6 @@ public class ScenarioGenerator {
                 addPath(seq2, sp, null);
 
                 // look to see if was merged in other path.
-                // **** jkealey: start not sure if this code is actually still used.
                 //for (int j = i - 1; j < in.getStartPoints().size(); j++) {
                 for (int j=0;j<i;j++) {
                     //if (j<0 || j==i)break;
@@ -585,6 +584,7 @@ public class ScenarioGenerator {
                         Integer location_pos = (Integer) location[1];
 
                         location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
+                        //location_seq.getChildren().add(location_pos.intValue(), seq2);
 
                         // update for next
                         location[1] = new Integer(location_pos.intValue() + 1);
@@ -592,7 +592,6 @@ public class ScenarioGenerator {
                     }
 
                 }
-                // **** jkealey: end not sure if this code is actually still used.
 
                 // nope, not merged!
                 if (seq2.getSequence() == null)
