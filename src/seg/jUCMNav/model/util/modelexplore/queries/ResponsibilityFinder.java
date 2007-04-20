@@ -13,6 +13,7 @@ import seg.jUCMNav.model.util.modelexplore.QueryObject;
 import seg.jUCMNav.model.util.modelexplore.QueryRequest;
 import seg.jUCMNav.model.util.modelexplore.QueryResponse;
 import ucm.map.Connect;
+import ucm.map.DirectionArrow;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -37,6 +38,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
 
     // if true, stop at respref only. otherwise, stop at waiting place and timer too (in addition to start/end)
     private boolean bOnlyRespRef;
+    private boolean bIncludeDirectionArrow;
 
     public ResponsibilityFinder() {
         this._answerQueryTypes = new String[] { QueryObject.FINDRESPONSIBILITIES };
@@ -53,13 +55,14 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             // call recursive function processNode with the start node
             Set exclusions = ((QFindResponsibilities) q).getExclusionSet();
             this.bOnlyRespRef = ((QFindResponsibilities) q).getOnlyRespRef();
+            this.bIncludeDirectionArrow =  ((QFindResponsibilities) q).getIncludeDirectionArrows();
             if (exclusions == null)
                 exclusions = Collections.EMPTY_SET;
             processNode(((QFindResponsibilities) q).getStartPathNode(), exclusions, ((QFindResponsibilities) q).getDirection());
         }
 
         // Return a response containing the visited node list
-        RNextResponsibilities r = new RNextResponsibilities(this.bOnlyRespRef);
+        RNextResponsibilities r = new RNextResponsibilities(this.bOnlyRespRef, this.bIncludeDirectionArrow);
         r.setNodes(_visitedNodes);
         r.setConnections(_visitedNodeConnections);
         return r;
@@ -84,7 +87,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             _visitedNodes.add(n);
 
             // stop at resprefs, don't stop at first one !
-            if ((n instanceof RespRef || (!this.bOnlyRespRef && (n instanceof WaitingPlace || n instanceof StartPoint || n instanceof EndPoint)))
+            if ((n instanceof RespRef || (!this.bOnlyRespRef && (n instanceof WaitingPlace || n instanceof StartPoint || n instanceof EndPoint || (n instanceof DirectionArrow && bIncludeDirectionArrow))))
                     && _visitedNodes.size() > 1)
                 return;
 
@@ -132,11 +135,13 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         private Set _ExclusionSet;
         private int _Direction = 0;
         private boolean _onlyRespRef;
+        private boolean _includeDirectionArrow;
 
-        public QFindResponsibilities(PathNode startNode, boolean onlyRespRef) {
+        public QFindResponsibilities(PathNode startNode, boolean onlyRespRef, boolean includeDirectionArrow) {
             this._queryType = QueryObject.FINDRESPONSIBILITIES;
             _StartPathNode = startNode;
             _onlyRespRef = onlyRespRef;
+            _includeDirectionArrow = includeDirectionArrow;
         }
 
         /**
@@ -150,12 +155,13 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
          * @param onlyRespRef
          *            if true, will only stop at respref; otherwise also stops at waiting place / timer.
          */
-        public QFindResponsibilities(PathNode startNode, Set nodeConnectionExclusionSet, int direction, boolean onlyRespRef) {
+        public QFindResponsibilities(PathNode startNode, Set nodeConnectionExclusionSet, int direction, boolean onlyRespRef, boolean includeDirectionArrow) {
             this._queryType = QueryObject.FINDRESPONSIBILITIES;
             _StartPathNode = startNode;
             _ExclusionSet = nodeConnectionExclusionSet;
             _Direction = direction;
             _onlyRespRef = onlyRespRef;
+            _includeDirectionArrow = includeDirectionArrow;
         }
 
         public PathNode getStartPathNode() {
@@ -173,6 +179,9 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         public boolean getOnlyRespRef() {
             return _onlyRespRef;
         }
+        public boolean getIncludeDirectionArrows() {
+            return _includeDirectionArrow;
+        }
     }
 
     /**
@@ -185,10 +194,12 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
         private Vector nodes;
         private Vector connections;
         private boolean onlyRespRef;
+        private boolean includeDirectionArrows;
 
-        public RNextResponsibilities(boolean onlyRespRef) {
+        public RNextResponsibilities(boolean onlyRespRef, boolean includeDirectionArrows) {
             this._queryType = QueryObject.FINDRESPONSIBILITIES;
             this.onlyRespRef = onlyRespRef;
+            this.includeDirectionArrows = includeDirectionArrows;
         }
 
         /**
@@ -206,7 +217,7 @@ public class ResponsibilityFinder extends AbstractQueryProcessor implements IQue
             this.nodes = new Vector();
             for (Iterator iter = nodes.iterator(); iter.hasNext();) {
                 PathNode pn = (PathNode) iter.next();
-                if (pn instanceof RespRef || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint)))
+                if (pn instanceof RespRef || (!onlyRespRef && (pn instanceof WaitingPlace || pn instanceof EndPoint || pn instanceof StartPoint || (pn instanceof DirectionArrow && includeDirectionArrows))))
                     this.nodes.add(pn);
 
             }

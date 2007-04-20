@@ -334,6 +334,34 @@ public class ScenarioGenerator {
         } else if (target instanceof RespRef) {
             msg.setName(getDef((RespRef) target).getName());
             msg.setDescription(getDef((RespRef) target).getDescription());
+        } else if (target instanceof DirectionArrow) {
+            // at this point, we know what thet next element is, but we've got to name it according to something relevant 
+            QFindResponsibilities qReachableResponsibilities = new ResponsibilityFinder.QFindResponsibilities(target, new HashSet(),
+                    QFindResponsibilities.DIRECTION_FORWARD, false, false);
+            ResponsibilityFinder.RNextResponsibilities rReachableResponsibilities = (ResponsibilityFinder.RNextResponsibilities) GraphExplorer
+                    .run(qReachableResponsibilities);
+            Vector vResponsibilities = rReachableResponsibilities.getNodes();
+
+            int count = 0;
+            PathNode target2 = null;
+            for (int j = 0; j < vResponsibilities.size(); j++) {
+                PathNode next = (PathNode) vResponsibilities.get(j);
+                ComponentRef nextCompRef = (ComponentRef) next.getContRef();
+                if (nextCompRef == target.getContRef()) {
+                    count++;
+                    target2=next;
+                }
+            }
+
+            
+            if (count == 1) {
+                msg.setName(target2.getName());
+                msg.setDescription(target2.getDescription());
+
+            } else {
+                msg.setName(Messages.getString("ScenarioGenerator.DefaultMessageName")); //$NON-NLS-1$
+                msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
+            }
         } else {
             msg.setName(Messages.getString("ScenarioGenerator.DefaultMessageName")); //$NON-NLS-1$
             msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
@@ -432,7 +460,7 @@ public class ScenarioGenerator {
             // infer messages to be sent.
             // find the next responsibilities
             QFindResponsibilities qReachableResponsibilities = new ResponsibilityFinder.QFindResponsibilities(pn, new HashSet(),
-                    QFindResponsibilities.DIRECTION_FORWARD, false);
+                    QFindResponsibilities.DIRECTION_FORWARD, false, true);
             ResponsibilityFinder.RNextResponsibilities rReachableResponsibilities = (ResponsibilityFinder.RNextResponsibilities) GraphExplorer
                     .run(qReachableResponsibilities);
             Vector vResponsibilities = rReachableResponsibilities.getNodes();
@@ -500,7 +528,8 @@ public class ScenarioGenerator {
                 par.setSequence(seq);
 
                 // inverse order by convention
-                for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+                //for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+                for (int i=0;i<in.getStartPoints().size();i++) {
                     ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
                     StartPoint sp = ssp.getStartPoint();
 
@@ -529,7 +558,8 @@ public class ScenarioGenerator {
             }
 
             // inverse order by convention
-            for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+            //for (int i = in.getStartPoints().size() - 1; i >= 0; i--) {
+            for (int i=0;i<in.getStartPoints().size();i++) {
                 ScenarioStartPoint ssp = (ScenarioStartPoint) in.getStartPoints().get(i);
                 StartPoint sp = ssp.getStartPoint();
 
@@ -539,7 +569,9 @@ public class ScenarioGenerator {
 
                 // look to see if was merged in other path.
                 // **** jkealey: start not sure if this code is actually still used.
-                for (int j = i + 1; j < in.getStartPoints().size(); j++) {
+                //for (int j = i - 1; j < in.getStartPoints().size(); j++) {
+                for (int j=0;j<i;j++) {
+                    //if (j<0 || j==i)break;
                     Vector curr = (Vector) reachable[i].clone();
                     curr.retainAll(reachable[j]);
 
