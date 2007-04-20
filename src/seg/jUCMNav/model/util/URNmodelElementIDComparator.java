@@ -32,7 +32,7 @@ public class URNmodelElementIDComparator implements Comparator, Serializable {
         		URNmodelElement element1 = (URNmodelElement) arg1;
 				URNmodelElement element0 = (URNmodelElement) arg0;
 				
-				return element0.getId().compareTo(element1.getId());
+				return element1.getId().compareTo(element0.getId());
         	}
         	else
         		return 0;

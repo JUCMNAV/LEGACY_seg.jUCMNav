@@ -74,7 +74,7 @@ public class ScenarioGenerator {
     private ScenarioSpec scenariospec;
 
     private URNspec urnspec;
-
+    
     public ScenarioGenerator(URNspec urnspec) {
         this.urnspec = urnspec;
 
@@ -339,14 +339,20 @@ public class ScenarioGenerator {
             msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
         }
 
+        // the message MUST be added later or else we'll get serialization errors
         msg.setSource(getInstance(from));
         msg.setTarget(getInstance(to));
 
         if (element != null) {
+
             if (index < 0)
                 element.getChildren().add(msg);
             else
                 element.getChildren().add(index, msg);
+        } else
+        {
+            // this is normal for queued messages
+            //System.out.println("Creating a message but we have no element to add it to!");
         }
 
         return msg;
@@ -373,6 +379,16 @@ public class ScenarioGenerator {
         for (int i = 0; i < vReachable.size(); i++) {
             PathNode pn = (PathNode) vReachable.get(i);
 
+            // add queued messages
+            if (queuedMessages.containsKey(pn)) {
+                ArrayList msgs = (ArrayList) queuedMessages.get(pn);
+                for (Iterator iter = msgs.iterator(); iter.hasNext();) {
+                    Message msg = (Message) iter.next();
+                    msg.setSequence(seq);
+                }
+                msgs.clear();
+            }
+            
             // stop when subbranch is done
             if (pn == stopAtNode)
                 break;
@@ -382,14 +398,7 @@ public class ScenarioGenerator {
                 continue;
             }
 
-            // add queued messages
-            if (queuedMessages.containsKey(pn)) {
-                ArrayList msgs = (ArrayList) queuedMessages.get(pn);
-                for (Iterator iter = msgs.iterator(); iter.hasNext();) {
-                    Message msg = (Message) iter.next();
-                    msg.setSequence(seq);
-                }
-            }
+
 
             if (pn instanceof RespRef) {
                 compRef = addDo(seq, (RespRef) pn);

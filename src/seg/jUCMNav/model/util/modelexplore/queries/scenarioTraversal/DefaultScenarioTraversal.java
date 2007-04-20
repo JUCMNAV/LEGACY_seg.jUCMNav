@@ -284,7 +284,9 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 					OutBinding outbinding = (OutBinding) iterator.next();
 					if (outbinding.getEndPoint().equals(end))
 					{
-						outbindings.add(outbinding);
+                        // TODO: semantic variation: fire duplicates?
+						if (!outbindings.contains(outbinding))
+						    outbindings.add(outbinding);
 					}
 				}
 			}
