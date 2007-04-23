@@ -323,7 +323,7 @@ public class MscTraversalListener implements ITraversalListener {
 
 	}
 
-	public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result) {
+	public void conditionEvaluated(TraversalVisit visit, Condition original_condition, boolean result, boolean isPreCondition) {
 		String condition = original_condition == null || original_condition.getExpression() == null ? Boolean.toString(result) : original_condition
 				.getExpression();
 
@@ -344,7 +344,8 @@ public class MscTraversalListener implements ITraversalListener {
 			// don't show tautologies or ignored conditions (paths that were not taken)
 			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
 				WaitingPlace wait = createWaitingPlace(visit);
-
+                if(isPreCondition)
+                    MetadataHelper.addMetaData(urnspec, wait, "isPreCondition", "true");
 				if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
 					wait.setName(original_condition.getLabel());
 				else

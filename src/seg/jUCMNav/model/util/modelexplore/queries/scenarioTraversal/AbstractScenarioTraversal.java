@@ -133,9 +133,30 @@ public abstract class AbstractScenarioTraversal extends AbstractQueryProcessor {
      *             if a parsing error occurs
      */
     protected boolean testCondition(UcmEnvironment env, Condition cond, Boolean expected, String errorMessage) throws TraversalException {
+        return testCondition(env, cond, expected, errorMessage, false);
+    }
+    
+    /**
+     * Helper method that tests to see if a condition evaluates to what is expected.
+     * 
+     * @param env
+     *            the environment in which the condition is to be evaluated
+     * @param cond
+     *            the condition
+     * @param expected
+     *            the expected result (Boolean.TRUE or Boolean.FALSE)
+     * @param errorMessage
+     *            the error message to be added to the warnings if is not what is expected
+     * @param isPreCondition
+     *          is this a start point's precondition?            
+     * @return true if is what is expected, false otherwise.
+     * @throws TraversalException
+     *             if a parsing error occurs
+     */
+    protected boolean testCondition(UcmEnvironment env, Condition cond, Boolean expected, String errorMessage, boolean isPreCondition) throws TraversalException {
         try {
             Object result = ScenarioUtils.evaluate(cond, env);
-            _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(result));
+            _listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(result), isPreCondition);
             if (!expected.equals(result)) {
                 TraversalWarning warning = new TraversalWarning(errorMessage, cond.eContainer(), IMarker.SEVERITY_ERROR);
                 warning.setCondition(cond);
@@ -149,6 +170,7 @@ public abstract class AbstractScenarioTraversal extends AbstractQueryProcessor {
 
         return true;
     }
+    
 
     /**
      * Verify that the expected end points match the reached end points.

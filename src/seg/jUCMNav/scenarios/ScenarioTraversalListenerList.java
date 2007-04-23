@@ -56,11 +56,11 @@ public class ScenarioTraversalListenerList implements ITraversalListener {
     /* (non-Javadoc)
      * @see seg.jUCMNav.scenarios.algorithmInterfaces.ITraversalListener#conditionEvaluated(seg.jUCMNav.scenarios.model.TraversalVisit, urncore.Condition, boolean)
      */
-    public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result) {
+    public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result, boolean isPreCondition) {
         for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
             ITraversalListener listener = (ITraversalListener) iter.next();
             try {
-                listener.conditionEvaluated(visit, condition, result);
+                listener.conditionEvaluated(visit, condition, result, isPreCondition);
 
             } catch (Exception ex) {
                 _warnings.add(new TraversalWarning(ex.toString()));

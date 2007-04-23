@@ -394,7 +394,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 			NodeConnection nc = (NodeConnection) iter.next();
 			try {
 				Object result = ScenarioUtils.evaluate(nc.getCondition(), env);
-				_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
+				_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result), false);
 				
 				if (Boolean.TRUE.equals(result)) {
 					if (toVisit.size()!=0) {
@@ -485,7 +485,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 	protected void processStartPoint(UcmEnvironment env, StartPoint start) throws TraversalException {
 		// TODO: semantic variation: if the pre-condition is invalid, should we proceed anyways?
 		if (testCondition(env, start.getPrecondition(), Boolean.TRUE, Messages.getString("DefaultScenarioTraversal.PreconditionToStartPoint") + start.getName() + Messages.getString("DefaultScenarioTraversal.QuoteOpenParenthesis") + start.getId() //$NON-NLS-1$ //$NON-NLS-2$
-				+ Messages.getString("DefaultScenarioTraversal.ParenthesisDidNotEvaluateToTrue"))) { //$NON-NLS-1$
+				+ Messages.getString("DefaultScenarioTraversal.ParenthesisDidNotEvaluateToTrue"), true)) { //$NON-NLS-1$
 
 			_traversalData.visitOnlySucc(start);
 		} else if (ScenarioTraversalPreferences.getIsPatientOnPreconditions()) {
@@ -513,7 +513,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 
 				try {
 					Object result = ScenarioUtils.evaluate(binding.getPrecondition(), env);
-					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(binding.getPrecondition())?null:binding.getPrecondition(), Boolean.TRUE.equals(result));
+					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(binding.getPrecondition())?null:binding.getPrecondition(), Boolean.TRUE.equals(result), false);
 					if (Boolean.TRUE.equals(result)) {
 
 						for (Iterator iterator = binding.getIn().iterator(); iterator.hasNext();) {
@@ -600,7 +600,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 			// not using default behaviour. want to make sure we are blocked
 			if (nc.getCondition()==null) result=Boolean.FALSE;
 			
-			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
+			_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result), false);
 			
 			if (Boolean.TRUE.equals(result)) {
 				_listeners.leftWaitingPlace(_currentVisit, true);
@@ -616,7 +616,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 					// not using default behaviour. want to make sure we are blocked
 					if (nc.getCondition()==null) result=Boolean.FALSE;
 
-					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result));
+					_listeners.conditionEvaluated(_currentVisit, ScenarioUtils.isEmptyCondition(nc.getCondition())?null:nc.getCondition(), Boolean.TRUE.equals(result), false);
 					
 					// if we can take the timeout path
 					if (Boolean.TRUE.equals(result)) {

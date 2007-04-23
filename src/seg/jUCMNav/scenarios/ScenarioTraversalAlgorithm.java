@@ -309,7 +309,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
-					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res));
+					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res), false);
 
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
@@ -351,7 +351,7 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 				Object res = null;
 				try {
 					res = ScenarioUtils.evaluate(cond.getExpression(), env, false);
-					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res));
+					traversalListeners.conditionEvaluated(null, ScenarioUtils.isEmptyCondition(cond) ? null : cond, Boolean.TRUE.equals(res), true);
 					if (res instanceof Boolean) {
 						if (Boolean.FALSE.equals(res)) {
 							TraversalWarning warning = new TraversalWarning(

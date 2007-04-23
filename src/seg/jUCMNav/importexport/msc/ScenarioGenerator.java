@@ -213,7 +213,23 @@ public class ScenarioGenerator {
         condition.setExpression(cond.getExpression());
 
         condition.setInstance(getInstance(compRef));
-        condition.setSequence(seq);
+        
+        
+        // add preconditions before start point. 
+        if (MetadataHelper.getMetaData(wp, "isPreCondition")!=null && "true".equalsIgnoreCase(MetadataHelper.getMetaData(wp, "isPreCondition")))
+        {
+            if (seq.getChildren().size()>0 && seq.getChildren().get(seq.getChildren().size()-1) instanceof Event) {
+                Event event = (Event) seq.getChildren().get(seq.getChildren().size()-1);
+                if (event.getType() == EventType.START_POINT_LITERAL)
+                    seq.getChildren().add(seq.getChildren().size()-1, condition);
+                else 
+                    condition.setSequence(seq);
+                
+            }
+        }
+        else 
+            condition.setSequence(seq);
+        
 
         return compRef;
 
@@ -430,7 +446,7 @@ public class ScenarioGenerator {
 
                 processedPathNodes.put(pn, new Object[] { seq, new Integer(seq.getChildren().size()) });
             } else {
-                System.out.println("unexpected pathnode"); //$NON-NLS-1$
+                //System.out.println("unexpected pathnode"); //$NON-NLS-1$
                 continue;
             }
 
@@ -640,7 +656,6 @@ public class ScenarioGenerator {
                 Object model = (Object) iterator.next();
                 // if parallel 
                 // if timer reset at end of child sequence, move it outside after the parallel
-
                 if (model instanceof Parallel) {
                     Parallel parallel = (Parallel) model;
                     for (Iterator it = parallel.getChildren().iterator(); it.hasNext();) {
@@ -655,7 +670,10 @@ public class ScenarioGenerator {
                     }
                 
                 }
+                
             }
+            
+            
             scenario.setGroup(out);
 
         }

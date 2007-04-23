@@ -31,8 +31,9 @@ public interface ITraversalListener {
 	 * @param visit Where did we run the code? If is null, this is a scenario pre/post condition. 
 	 * @param condition What condition did we evaluate?
 	 * @param result Was it true or false?
+     * @param isPreCondition is this a start point's precondition?
 	 */
-	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result );
+	public void conditionEvaluated(TraversalVisit visit, Condition condition, boolean result, boolean isPreCondition);
 	
     /**
      * We are going from a stub to a plugin. 
