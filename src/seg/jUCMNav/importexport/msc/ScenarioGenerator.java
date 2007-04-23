@@ -408,9 +408,13 @@ public class ScenarioGenerator {
             } else if (pn instanceof DirectionArrow) {
                 EventType type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
                 // these types are ignored.
-                if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL || type == EventType.TRIGGER_END_LITERAL) {
+                if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL) { // || type == EventType.TRIGGER_END_LITERAL) {
                     //continue;
                     compRef =  (ComponentRef) pn.getContRef();
+                }
+                else if (type == EventType.TRIGGER_END_LITERAL) {
+                    //compRef =  (ComponentRef) pn.getContRef();
+                    continue;
                 }
                 else
                     compRef = addDoSimple(seq, pn);
