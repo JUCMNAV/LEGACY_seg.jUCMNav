@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.resourceManagement.UcmScenariosModelManager;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ResponsibilityFinder;
@@ -41,7 +42,6 @@ import ucmscenarios.UcmscenariosFactory;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.Condition;
-import urncore.Metadata;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
@@ -266,18 +266,21 @@ public class ScenarioGenerator {
         else if (pn instanceof Timer) {
             action.setType(EventType.TIMEOUT_LITERAL);
         } else if (pn instanceof DirectionArrow) {
-            EventType type = EventType.get(getMetaData(pn, "type")); //$NON-NLS-1$
+            EventType type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
             action.setType(type);
 
             if (type == EventType.WP_ENTER_LITERAL)
-                action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceEnter")); //$NON-NLS-1$ //$NON-NLS-2$
-            else if (type == EventType.WP_LEAVE_LITERAL)
-                action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceLeave")); //$NON-NLS-1$ //$NON-NLS-2$
+                action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceEnter")); //$NON-NLS-1$ //$NON-NLS-2$
+            else if (type == EventType.WP_LEAVE_LITERAL) {
+                action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceLeave")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
             else if (type == EventType.TIMER_SET_LITERAL)
-                action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
-            else if (type == EventType.TIMER_RESET_LITERAL)
-                action.setName(getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
+                action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceSet")); //$NON-NLS-1$ //$NON-NLS-2$
+            else if (type == EventType.TIMER_RESET_LITERAL) {
+                action.setName(MetadataHelper.getMetaData(pn, "name") + Messages.getString("ScenarioGenerator.SpaceReset")); //$NON-NLS-1$ //$NON-NLS-2$
+            }
         }
+        
         action.setSequence(seq);
         return compRef;
     }
@@ -325,43 +328,15 @@ public class ScenarioGenerator {
         msg.setId(src.getId() + "_" + target.getId()); //$NON-NLS-1$
 
         if (target instanceof Timer) {
-            msg.setName(Messages.getString("ScenarioGenerator.SetSpace") + getMetaData(target, "name")); //$NON-NLS-1$ //$NON-NLS-2$
+            msg.setName(Messages.getString("ScenarioGenerator.SetSpace") + MetadataHelper.getMetaData(target, "name")); //$NON-NLS-1$ //$NON-NLS-2$
             msg.setDescription(target.getDescription());
         }
-        if (target instanceof EndPoint || target instanceof WaitingPlace) {
+        if (target instanceof EndPoint || target instanceof WaitingPlace || target instanceof DirectionArrow) {
             msg.setName(target.getName());
             msg.setDescription(target.getDescription());
         } else if (target instanceof RespRef) {
             msg.setName(getDef((RespRef) target).getName());
             msg.setDescription(getDef((RespRef) target).getDescription());
-        } else if (target instanceof DirectionArrow) {
-            // at this point, we know what thet next element is, but we've got to name it according to something relevant 
-            QFindResponsibilities qReachableResponsibilities = new ResponsibilityFinder.QFindResponsibilities(target, new HashSet(),
-                    QFindResponsibilities.DIRECTION_FORWARD, false, false);
-            ResponsibilityFinder.RNextResponsibilities rReachableResponsibilities = (ResponsibilityFinder.RNextResponsibilities) GraphExplorer
-                    .run(qReachableResponsibilities);
-            Vector vResponsibilities = rReachableResponsibilities.getNodes();
-
-            int count = 0;
-            PathNode target2 = null;
-            for (int j = 0; j < vResponsibilities.size(); j++) {
-                PathNode next = (PathNode) vResponsibilities.get(j);
-                ComponentRef nextCompRef = (ComponentRef) next.getContRef();
-                if (nextCompRef == target.getContRef()) {
-                    count++;
-                    target2=next;
-                }
-            }
-
-            
-            if (count == 1) {
-                msg.setName(target2.getName());
-                msg.setDescription(target2.getDescription());
-
-            } else {
-                msg.setName(Messages.getString("ScenarioGenerator.DefaultMessageName")); //$NON-NLS-1$
-                msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
-            }
         } else {
             msg.setName(Messages.getString("ScenarioGenerator.DefaultMessageName")); //$NON-NLS-1$
             msg.setDescription(Messages.getString("ScenarioGenerator.DefaultMessageDescription")); //$NON-NLS-1$
@@ -431,10 +406,12 @@ public class ScenarioGenerator {
             if (pn instanceof RespRef) {
                 compRef = addDo(seq, (RespRef) pn);
             } else if (pn instanceof DirectionArrow) {
-                EventType type = EventType.get(getMetaData(pn, "type")); //$NON-NLS-1$
+                EventType type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
                 // these types are ignored.
-                if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL || type == EventType.TRIGGER_END_LITERAL)
-                    continue;
+                if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL || type == EventType.TRIGGER_END_LITERAL) {
+                    //continue;
+                    compRef =  (ComponentRef) pn.getContRef();
+                }
                 else
                     compRef = addDoSimple(seq, pn);
 
@@ -583,8 +560,8 @@ public class ScenarioGenerator {
                         Sequence location_seq = (Sequence) location[0];
                         Integer location_pos = (Integer) location[1];
 
-                        location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
-                        //location_seq.getChildren().add(location_pos.intValue(), seq2);
+                        //location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
+                        location_seq.getChildren().add(location_pos.intValue(), seq2);
 
                         // update for next
                         location[1] = new Integer(location_pos.intValue() + 1);
@@ -654,6 +631,27 @@ public class ScenarioGenerator {
 
             boolean b = addScenario(element, scenario);
 
+            
+            for (Iterator iterator = processedPathNodes.values().iterator(); iterator.hasNext();) {
+                Object model = (Object) iterator.next();
+                // if parallel 
+                // if timer reset at end of child sequence, move it outside after the parallel
+
+                if (model instanceof Parallel) {
+                    Parallel parallel = (Parallel) model;
+                    for (Iterator it = parallel.getChildren().iterator(); it.hasNext();) {
+                        Sequence child = (Sequence) it.next();
+                        if (child.getChildren().size()>0 && child.getChildren().get(child.getChildren().size()-1) instanceof Event ){
+                            Event ev = (Event)child.getChildren().get(child.getChildren().size()-1);
+                            if (ev.getType() == EventType.TIMER_RESET_LITERAL) {
+                                ev.setSequence(null);
+                                parallel.getSequence().getChildren().add(parallel.getSequence().getChildren().indexOf(parallel)+1,ev);
+                            }
+                        }
+                    }
+                
+                }
+            }
             scenario.setGroup(out);
 
         }
@@ -741,23 +739,6 @@ public class ScenarioGenerator {
             return "[" + cond.getExpression() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    /**
-     * Returns the value of the metadata or an empty string if none is found.
-     * 
-     * @param pn
-     *            the element containing metadata
-     * @param name
-     *            the metadata key
-     * @return the metadata value
-     */
-    private String getMetaData(PathNode pn, String name) {
-        for (Iterator iter = pn.getMetadata().iterator(); iter.hasNext();) {
-            Metadata md = (Metadata) iter.next();
-            if (name.equalsIgnoreCase(md.getName()))
-                return md.getValue();
-        }
-        return ""; //$NON-NLS-1$
-    }
 
     /**
      * Returns the target scenario; caches the result for future calls.

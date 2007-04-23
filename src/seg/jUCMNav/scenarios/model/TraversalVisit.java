@@ -184,15 +184,16 @@ public class TraversalVisit {
             return true;
         else {
             boolean b = false;
-            IURNContainerRef compRef = null;
+            //IURNContainerRef compRef = null;
+            IURNContainer compDef = null;
             for (Iterator iter = context.iterator(); iter.hasNext();) {
                 PluginBinding binding = (PluginBinding) iter.next();
                 if (binding.getStub().getContRef() != null) {
-                    if (b && compRef != binding.getStub().getContRef())
+                    if (b && compDef != binding.getStub().getContRef().getContDef())
                         return false;
                     else {
                         b = true;
-                        compRef = binding.getStub().getContRef();
+                        compDef = binding.getStub().getContRef().getContDef();
                     }
                 }
             }

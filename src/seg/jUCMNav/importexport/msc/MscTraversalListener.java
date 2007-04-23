@@ -32,6 +32,7 @@ import seg.jUCMNav.model.commands.transformations.MakeWellFormedCommand;
 import seg.jUCMNav.model.commands.transformations.MergeStartEndCommand;
 import seg.jUCMNav.model.commands.transformations.ReplaceEmptyPointCommand;
 import seg.jUCMNav.model.commands.transformations.TrimEmptyNodeCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.URNmodelElementIDComparator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
@@ -69,7 +70,6 @@ import urncore.Component;
 import urncore.Condition;
 import urncore.IURNContainer;
 import urncore.IURNContainerRef;
-import urncore.Metadata;
 import urncore.NodeLabel;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
@@ -156,13 +156,7 @@ public class MscTraversalListener implements ITraversalListener {
 		return comp;
 	}
 
-	protected void addMetaData(URNmodelElement pn, String name, String value) {
-		Metadata data = (Metadata) ModelCreationFactory.getNewObject(urnspec, Metadata.class);
-		data.setName(name);
-		data.setValue(value);
-		pn.getMetadata().add(data);
 
-	}
 
 	protected void cleanupComponentRefs() {
 		cs.execute(new TrimEmptyNodeCommand(currentMap));
@@ -421,8 +415,13 @@ public class MscTraversalListener implements ITraversalListener {
 	
 	public void drillDown(TraversalVisit visit, InBinding inb) {
 		DirectionArrow arrow = createDirectionArrow(visit);
-		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-		addMetaData(arrow, "type", "Connect_Start"); //$NON-NLS-1$ //$NON-NLS-2$
+		
+        if (inb.getStartPoint().getContRef()==null)
+            arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
+        else
+            arrow.setContRef(addCompRefIfAbsent(inb.getStartPoint().getContRef().getContDef()));
+            
+		MetadataHelper.addMetaData(urnspec, arrow, "type", "Connect_Start"); //$NON-NLS-1$ //$NON-NLS-2$
 		arrow.setId(inb.getStartPoint().getId());
 		arrow.setName(inb.getStartPoint().getName());
 	}
@@ -430,7 +429,7 @@ public class MscTraversalListener implements ITraversalListener {
 	public void drillUp(TraversalVisit visit, OutBinding outb) {
 		DirectionArrow arrow = createDirectionArrow(visit);
 		arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-		addMetaData(arrow, "type", "Connect_End"); //$NON-NLS-1$ //$NON-NLS-2$
+        MetadataHelper.addMetaData(urnspec, arrow, "type", "Connect_End"); //$NON-NLS-1$ //$NON-NLS-2$
 		arrow.setId(outb.getEndPoint().getId());
 		arrow.setName(outb.getEndPoint().getName());
 		
@@ -503,14 +502,16 @@ public class MscTraversalListener implements ITraversalListener {
 		{
 			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
 			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
+            String data = MetadataHelper.getMetaData(pn, "type");
 
 			// avoid duplicates when re-queued. 
-			if (!(pn instanceof DirectionArrow))
+			if (data==null || !(data.equals("Timer_Set") || data.equals("WP_Enter")))
 			{
 				DirectionArrow arrow = createDirectionArrow(visit);
 				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-				addMetaData(arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				addMetaData(arrow, "name", visit.getVisitedElement().getName()); //$NON-NLS-1$
+                arrow.setName(visit.getVisitedElement().getName());
+                MetadataHelper.addMetaData(urnspec, arrow, "type", visit.getVisitedElement() instanceof Timer ? "Timer_Set" : "WP_Enter"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                MetadataHelper.addMetaData(urnspec, arrow, "name", visit.getVisitedElement().getName()); //$NON-NLS-1$
 			}
 		}
 	}
@@ -552,9 +553,10 @@ public class MscTraversalListener implements ITraversalListener {
 			if (!(pn instanceof Timer))
 			{
 				DirectionArrow arrow = createDirectionArrow(visit);
+                arrow.setName(n.getName());
 				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-				addMetaData(arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				addMetaData(arrow, "name", n.getName()); //$NON-NLS-1$
+                MetadataHelper.addMetaData(urnspec, arrow, "type", n instanceof Timer? "Timer_Reset": "WP_Leave"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                MetadataHelper.addMetaData(urnspec, arrow, "name", n.getName()); //$NON-NLS-1$
 			}
 		}
 
@@ -570,9 +572,9 @@ public class MscTraversalListener implements ITraversalListener {
 		{
 			DirectionArrow arrow = createDirectionArrow(visit);
 			arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
-			addMetaData(arrow, "type", "Trigger_End"); //$NON-NLS-1$ //$NON-NLS-2$
+            MetadataHelper.addMetaData(urnspec, arrow, "type", "Trigger_End"); //$NON-NLS-1$ //$NON-NLS-2$
 			arrow.setId(n.getId());
-			arrow.setName(n.getName());			
+			arrow.setName(((PathNode)((NodeConnection)n.getPred().get(0)).getSource()).getName());			
 		}
 
 	}
@@ -715,8 +717,8 @@ public class MscTraversalListener implements ITraversalListener {
 			timer.setName(visit.getVisitedElement().getName() + Messages.getString("MscTraversalListener.SpaceTimeout")); //$NON-NLS-1$
 			setComponentRef(timer, visit);
 			
-			addMetaData(timer, "ID", visit.getVisitedElement().getId()); //$NON-NLS-1$
-			addMetaData(timer, "Name", visit.getVisitedElement().getName()); //$NON-NLS-1$
+            MetadataHelper.addMetaData(urnspec, timer, "ID", visit.getVisitedElement().getId()); //$NON-NLS-1$
+            MetadataHelper.addMetaData(urnspec, timer, "Name", visit.getVisitedElement().getName()); //$NON-NLS-1$
 			Condition cond = (Condition) ModelCreationFactory.getNewObject(urnspec, Condition.class);
 			cond.setExpression("true"); //$NON-NLS-1$
 			((NodeConnection) timer.getSucc().get(0)).setCondition(cond);
