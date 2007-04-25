@@ -20,7 +20,7 @@ import ucm.map.UCMmap;
 /**
  * TreeEditPart for the Map.
  * 
- * @author TremblaE
+ * @author TremblaE, gunterm
  */
 public class MapTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -65,7 +65,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
     /**
      * @return the map being represented.
      */
-    private UCMmap getMap() {
+    protected UCMmap getMap() {
         return ((UCMmap) getModel());
     }
 

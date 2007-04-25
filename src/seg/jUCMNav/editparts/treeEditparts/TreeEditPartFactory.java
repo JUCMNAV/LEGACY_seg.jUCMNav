@@ -22,12 +22,13 @@ import ucm.performance.Demand;
 import ucm.performance.GeneralResource;
 import urn.URNspec;
 import urncore.ComponentElement;
+import urncore.Concern;
 import urncore.Responsibility;
 
 /**
  * The EditPartFactory associated with the outline treeview.
  * 
- * @author TremblaE
+ * @author TremblaE, gunterm
  *  
  */
 public class TreeEditPartFactory implements EditPartFactory {
@@ -87,6 +88,8 @@ public class TreeEditPartFactory implements EditPartFactory {
             return new GeneralResourceTreeEditPart((GeneralResource)model);
         else if (model instanceof Demand)
             return new DemandTreeEditPart((Demand)model);
+        else if (model instanceof Concern)
+            return new ConcernTreeEditPart((Concern) model);
         else
             return null;
     }

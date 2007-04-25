@@ -13,7 +13,7 @@ import urn.URNspec;
 /**
  * The TreeEditPart associated with URNspec.
  * 
- * @author Etienne Tremblay, jkealey
+ * @author Etienne Tremblay, jkealey, gunterm
  */
 public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -73,6 +73,7 @@ public class URNspecTreeEditPart extends UrnModelElementTreeEditPart {
         //Instead of having all type of definition in the main category, we divided defs in grl and ucm
         list.add(Messages.getString("URNspecTreeEditPart.ucmDefs")); //$NON-NLS-1$
         list.add(Messages.getString("URNspecTreeEditPart.grlDefs")); //$NON-NLS-1$
+        list.add(Messages.getString("URNspecTreeEditPart.concerns")); //$NON-NLS-1$
         
         return list;
 

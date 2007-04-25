@@ -16,13 +16,13 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import urn.URNspec;
 
 /**
- * Editpart for textual strings used in the outline such as "Components" and "Responsibilities"
+ * Editpart for textual strings used in the outline such as "Components", "Responsibilities", and "Concerns"
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
-    private URNspec root;
+    protected URNspec root;
 
     /**
      * @param model
@@ -98,7 +98,7 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
-            list.add("Resources");
+            list.add(Messages.getString("LabelTreeEditPart.resources")); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.actorDefs")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs"));  //$NON-NLS-1$
@@ -111,10 +111,11 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
 		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
 
-		} else if (getLabel().equals("Resources"))
+		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
         {
 		    list.addAll(root.getUrndef().getUrnspec().getUcmspec().getResources());
-        }
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
+		    list.addAll(root.getUrndef().getConcerns());
         
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
@@ -145,7 +146,9 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             return Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
-        } else if (getLabel().equals("Resources")) {
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) { //$NON-NLS-1$
+            return getLabel();
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) { //$NON-NLS-1$
             return getLabel();
         }
         else
@@ -169,8 +172,10 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif")).createImage()); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals("Resources")) 
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.resources")))  //$NON-NLS-1$
             setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.concerns")))  //$NON-NLS-1$
+            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Concern16.gif")).createImage()); //$NON-NLS-1$
 
         return super.getImage();
     }

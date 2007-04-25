@@ -5,6 +5,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -20,7 +21,7 @@ import urncore.IURNNode;
  * 
  * Handles disposal of image.
  * 
- * @author TremblaE
+ * @author TremblaE, gunterm
  */
 public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements Adapter {
 
@@ -173,5 +174,24 @@ public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements
      */
     public void setImage(Image image) {
         this.image = image;
+    }
+    
+    /**
+     * @param ancestor is the {@link UrnModelElementTreeEditPart} for which it should be determined whether it 
+     *    is an ancestor in the tree hierachy above and including this {@link UrnModelElementTreeEditPart} 
+     *    (i.e. whether the model of the ancestor appears in the tree hierarchy)
+     * @return true if the model of the ancestor can be found in the tree hierarchy, false if it cannot be found
+     */
+    public boolean isAncestor(EditPart ancestor) {
+    	if (ancestor.getModel() == this.getModel())
+    		return true;
+    	else {
+    		// the second clause makes sure that we are not checking beyond the part of the tree that contains 
+    		// only UrnModelElementTreeEditParts (because the root of the tree has a different type)
+    		if (getParent() == null || !(getParent() instanceof UrnModelElementTreeEditPart))
+    			return false;
+    		else
+    			return ((UrnModelElementTreeEditPart) getParent()).isAncestor(ancestor);
+    	}
     }
 }

@@ -13,7 +13,7 @@ import urn.URNspec;
 /**
  * Creates a new plugin binding between a stub and a map. Doesn't check to see if should be valid.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public class AddPluginCommand extends Command implements JUCMNavCommand {
 
@@ -65,8 +65,11 @@ public class AddPluginCommand extends Command implements JUCMNavCommand {
     public void redo() {
         testPreConditions();
 
-        stub.getBindings().add(plugin);
+        // first assign the pluginbinding to the map and then to the stub (this ensures that when 
+        // the stub is notified about a change in its plugins, the map is already associated with 
+        // the plugin) - this is important for the Concern outline!
         map.getParentStub().add(plugin);
+        stub.getBindings().add(plugin);
 
         testPostConditions();
     }
