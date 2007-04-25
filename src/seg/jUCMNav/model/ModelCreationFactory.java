@@ -69,6 +69,7 @@ import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
+import urncore.Concern;
 import urncore.Condition;
 import urncore.GRLmodelElement;
 import urncore.IURNNode;
@@ -469,6 +470,10 @@ public class ModelCreationFactory implements CreationFactory {
                     ((Belief) result).setAuthor(GeneralPreferencePage.getAuthor());
                     // New belief description should be set to "" by default (because we use it in the description
                     ((Belief) result).setDescription(""); //$NON-NLS-1$
+                } else if (targetClass.equals(Concern.class)) {
+                	// create a concern
+                    result = urncorefactory.createConcern();
+                    URNNamingHelper.setElementNameAndID(urn, result);
                 } else {
                     System.out.println("Unknown class passed to ModelCreationFactory"); //$NON-NLS-1$
                 }

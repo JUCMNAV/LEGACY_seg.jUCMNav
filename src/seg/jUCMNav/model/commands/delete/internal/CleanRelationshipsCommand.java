@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.changeConstraints.ContainerRefUnbindChildCommand;
+import seg.jUCMNav.model.commands.concerns.AssignConcernDiagramCommand;
 import seg.jUCMNav.model.commands.delete.DeleteBindingsCommand;
 import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
 import seg.jUCMNav.model.commands.delete.DeleteScenarioPathNodeCommand;
@@ -33,15 +34,17 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.ScenarioStartPoint;
 import ucm.scenario.Variable;
 import urn.URNlink;
+import urncore.Concern;
+import urncore.IURNDiagram;
 
 /**
  * Removes all invisible relationships related to a Connection, Node or
- * ContainerRef, .
+ * ContainerRef, ..., Concern
  * 
  * Performance information, Strategy information, Plugin-Binding information,
  * ContainerRef Binding information.
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  * 
  */
 public class CleanRelationshipsCommand extends CompoundCommand {
@@ -158,6 +161,34 @@ public class CleanRelationshipsCommand extends CompoundCommand {
     public CleanRelationshipsCommand(GeneralResource resx) {
         this.element = resx;
     }
+    
+    /**
+     * @param concern to be cleaned
+     */
+    public CleanRelationshipsCommand(Concern concern) {
+        this.element = concern;
+    }
+    
+	/**
+	 * @param concern to be cleaned
+	 */
+	private void build(Concern concern) {
+		// remove diagrams assigned to concern
+		for (Iterator it = concern.getSpecDiagrams().iterator(); it.hasNext();) {
+			IURNDiagram diagram = (IURNDiagram) it.next();
+			add(new AssignConcernDiagramCommand(diagram, null));
+		}
+		// Delete URNLinks
+		for (Iterator it = concern.getToLinks().iterator(); it.hasNext();) {
+			URNlink link = (URNlink) it.next();
+			add(new DeleteURNlinkCommand(link));
+		}
+		for (Iterator it = concern.getFromLinks().iterator(); it.hasNext();) {
+			URNlink link = (URNlink) it.next();
+			add(new DeleteURNlinkCommand(link));
+		}
+	}
+    
 	/**
 	 * 
 	 * @param pn
@@ -435,6 +466,8 @@ public class CleanRelationshipsCommand extends CompoundCommand {
 		build((Initialization) element);
 	    else if (element instanceof EnumerationType)
 		build((EnumerationType) element);
+	    else if (element instanceof Concern)
+	    	build((Concern) element);
 	}
 
 }

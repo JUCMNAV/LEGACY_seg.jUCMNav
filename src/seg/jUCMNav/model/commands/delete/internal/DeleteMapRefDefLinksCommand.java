@@ -12,6 +12,7 @@ import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.ComponentElement;
+import urncore.Concern;
 import urncore.Responsibility;
 
 /**
@@ -19,7 +20,7 @@ import urncore.Responsibility;
  * 
  * Intended to be used only by DeleteMapCommand, as PluginBindings might subsist.   
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  *  
  */
 public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavCommand {
@@ -34,6 +35,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
     private URNspec urn;
     
     private int mapPosition;
+    
+    // undo information: the concern assigned to the map
+    private Concern concern;
     
 
     /**
@@ -69,6 +73,7 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             if (node instanceof RespRef)
                 htReferences.put(node, ((RespRef) node).getRespDef());
         }
+        concern = getMap().getConcern();
         
         mapPosition = getMap().getUrndefinition().getSpecDiagrams().indexOf(getMap());
         redo();
@@ -98,6 +103,8 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef(null);
         }
+        
+        map.setConcern(null);
         
         testPostConditions();
     }
@@ -145,8 +152,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
         for (Iterator iter = map.getNodes().iterator(); iter.hasNext();) {
             PathNode node = (PathNode) iter.next();
             if (node instanceof RespRef)
-                assert ((RespRef) node).getRespDef() != null : "post respref doesn't reference definition"; //$NON-NLS-1$
+                assert ((RespRef) node).getRespDef() != null : "pre respref doesn't reference definition"; //$NON-NLS-1$
         }
+        assert getMap().getConcern() == concern : "pre concern assigned"; //$NON-NLS-1$
     }
 
     /**
@@ -171,6 +179,9 @@ public class DeleteMapRefDefLinksCommand extends Command implements JUCMNavComma
             if (node instanceof RespRef)
                 ((RespRef) node).setRespDef((Responsibility) htReferences.get(node));
         }
+        
+        map.setConcern(concern);
+        
         testPreConditions();
     }
 

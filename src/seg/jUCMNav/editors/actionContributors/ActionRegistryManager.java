@@ -55,6 +55,7 @@ import seg.jUCMNav.actions.TransmogrifyAndForkOrJoinAction;
 import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
+import seg.jUCMNav.actions.concerns.ManageConcernsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
@@ -77,7 +78,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  *  
  */
 public class ActionRegistryManager {
@@ -394,6 +395,10 @@ public class ActionRegistryManager {
         
         action = new DuplicateMapAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.Duplicate")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+
+        action = new ManageConcernsAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.ManageConcern")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
         action = new EditMetadataAction(editor);

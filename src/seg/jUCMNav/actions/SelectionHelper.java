@@ -46,6 +46,7 @@ import ucm.scenario.ScenarioGroup;
 import urn.URNspec;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
+import urncore.Concern;
 import urncore.Condition;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
@@ -63,7 +64,7 @@ import urncore.URNmodelElement;
  *  
  * Not the most elegant of classes, but helps simplify everything outside of it :)
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  * 
  */
 public class SelectionHelper {
@@ -123,6 +124,9 @@ public class SelectionHelper {
     public static final int ACTOR = 207;
     public static final int INTENTIONALELEMENT = 208;
     
+    //Concerns
+    public static final int CONCERN = 300;
+    
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
@@ -163,6 +167,9 @@ public class SelectionHelper {
     private LinkRef linkref;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
+    
+    //internal variable for Concern
+    private Concern concern;
     
     private UCMspec ucmspec;
     private GRLspec grlspec;
@@ -335,7 +342,10 @@ public class SelectionHelper {
             actor = (Actor) model;
         else if (model instanceof ActorRef)
             actorref = (ActorRef) model;
-        else if (model instanceof OrFork)
+        else if (model instanceof Concern) {
+            concern = (Concern) model;
+            urnspec = concern.getUrndefinition().getUrnspec();
+        } else if (model instanceof OrFork)
             orfork = (OrFork) model;
         else if (model instanceof AndFork)
             andfork = (AndFork) model;
@@ -599,7 +609,9 @@ public class SelectionHelper {
         else if (initialization!=null)
         	selectionType = INITIALIZATION;
         else if (grlgraph != null)
-            selectionType = GRLGRAPH;        
+            selectionType = GRLGRAPH;
+        else if (concern != null)
+            selectionType = CONCERN;
         else if (urnspec != null)
             selectionType = URNSPEC;
         else
@@ -645,6 +657,10 @@ public class SelectionHelper {
     
     public EvaluationStrategy getEvaluationStrategy(){
         return strategy;
+    }
+
+    public Concern getConcern(){
+        return concern;
     }
     
     public ScenarioGroup getScenarioGroup(){
