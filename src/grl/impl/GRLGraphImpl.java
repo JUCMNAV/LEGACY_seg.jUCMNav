@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import urncore.Concern;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -40,6 +41,7 @@ import urncore.impl.GRLmodelElementImpl;
  *   <li>{@link grl.impl.GRLGraphImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link grl.impl.GRLGraphImpl#getConnections <em>Connections</em>}</li>
+ *   <li>{@link grl.impl.GRLGraphImpl#getConcern <em>Concern</em>}</li>
  * </ul>
  * </p>
  *
@@ -75,6 +77,16 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 	 * @ordered
 	 */
     protected EList connections = null;
+
+	/**
+	 * The cached value of the '{@link #getConcern() <em>Concern</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConcern()
+	 * @generated
+	 * @ordered
+	 */
+	protected Concern concern = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -176,6 +188,66 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Concern getConcern() {
+		if (concern != null && concern.eIsProxy()) {
+			InternalEObject oldConcern = (InternalEObject)concern;
+			concern = (Concern)eResolveProxy(oldConcern);
+			if (concern != oldConcern) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, GrlPackage.GRL_GRAPH__CONCERN, oldConcern, concern));
+			}
+		}
+		return concern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Concern basicGetConcern() {
+		return concern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetConcern(Concern newConcern, NotificationChain msgs) {
+		Concern oldConcern = concern;
+		concern = newConcern;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_GRAPH__CONCERN, oldConcern, newConcern);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConcern(Concern newConcern) {
+		if (newConcern != concern) {
+			NotificationChain msgs = null;
+			if (concern != null)
+				msgs = ((InternalEObject)concern).eInverseRemove(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+			if (newConcern != null)
+				msgs = ((InternalEObject)newConcern).eInverseAdd(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+			msgs = basicSetConcern(newConcern, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GrlPackage.GRL_GRAPH__CONCERN, newConcern, newConcern));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case GrlPackage.GRL_GRAPH__URNDEFINITION:
@@ -188,6 +260,10 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return ((InternalEList)getContRefs()).basicAdd(otherEnd, msgs);
 			case GrlPackage.GRL_GRAPH__CONNECTIONS:
 				return ((InternalEList)getConnections()).basicAdd(otherEnd, msgs);
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				if (concern != null)
+					msgs = ((InternalEObject)concern).eInverseRemove(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+				return basicSetConcern((Concern)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -207,6 +283,8 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return ((InternalEList)getContRefs()).basicRemove(otherEnd, msgs);
 			case GrlPackage.GRL_GRAPH__CONNECTIONS:
 				return ((InternalEList)getConnections()).basicRemove(otherEnd, msgs);
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				return basicSetConcern(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -239,6 +317,9 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return getContRefs();
 			case GrlPackage.GRL_GRAPH__CONNECTIONS:
 				return getConnections();
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				if (resolve) return getConcern();
+				return basicGetConcern();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -265,6 +346,9 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				getConnections().clear();
 				getConnections().addAll((Collection)newValue);
 				return;
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				setConcern((Concern)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -288,6 +372,9 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 			case GrlPackage.GRL_GRAPH__CONNECTIONS:
 				getConnections().clear();
 				return;
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				setConcern((Concern)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -307,6 +394,8 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				return contRefs != null && !contRefs.isEmpty();
 			case GrlPackage.GRL_GRAPH__CONNECTIONS:
 				return connections != null && !connections.isEmpty();
+			case GrlPackage.GRL_GRAPH__CONCERN:
+				return concern != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -323,6 +412,7 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				case GrlPackage.GRL_GRAPH__NODES: return UrncorePackage.IURN_DIAGRAM__NODES;
 				case GrlPackage.GRL_GRAPH__CONT_REFS: return UrncorePackage.IURN_DIAGRAM__CONT_REFS;
 				case GrlPackage.GRL_GRAPH__CONNECTIONS: return UrncorePackage.IURN_DIAGRAM__CONNECTIONS;
+				case GrlPackage.GRL_GRAPH__CONCERN: return UrncorePackage.IURN_DIAGRAM__CONCERN;
 				default: return -1;
 			}
 		}
@@ -341,6 +431,7 @@ public class GRLGraphImpl extends GRLmodelElementImpl implements GRLGraph {
 				case UrncorePackage.IURN_DIAGRAM__NODES: return GrlPackage.GRL_GRAPH__NODES;
 				case UrncorePackage.IURN_DIAGRAM__CONT_REFS: return GrlPackage.GRL_GRAPH__CONT_REFS;
 				case UrncorePackage.IURN_DIAGRAM__CONNECTIONS: return GrlPackage.GRL_GRAPH__CONNECTIONS;
+				case UrncorePackage.IURN_DIAGRAM__CONCERN: return GrlPackage.GRL_GRAPH__CONCERN;
 				default: return -1;
 			}
 		}

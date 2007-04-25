@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link urncore.IURNDiagram#getNodes <em>Nodes</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link urncore.IURNDiagram#getConnections <em>Connections</em>}</li>
+ *   <li>{@link urncore.IURNDiagram#getConcern <em>Concern</em>}</li>
  * </ul>
  * </p>
  *
@@ -110,5 +111,33 @@ public interface IURNDiagram extends EObject {
 	 * @generated
 	 */
     EList getConnections();
+
+	/**
+	 * Returns the value of the '<em><b>Concern</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link urncore.Concern#getSpecDiagrams <em>Spec Diagrams</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Concern</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Concern</em>' reference.
+	 * @see #setConcern(Concern)
+	 * @see urncore.UrncorePackage#getIURNDiagram_Concern()
+	 * @see urncore.Concern#getSpecDiagrams
+	 * @model opposite="specDiagrams"
+	 * @generated
+	 */
+	Concern getConcern();
+
+	/**
+	 * Sets the value of the '{@link urncore.IURNDiagram#getConcern <em>Concern</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Concern</em>' reference.
+	 * @see #getConcern()
+	 * @generated
+	 */
+	void setConcern(Concern value);
 
 } // SpecificationDiagram

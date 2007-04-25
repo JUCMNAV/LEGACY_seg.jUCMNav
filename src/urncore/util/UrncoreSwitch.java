@@ -267,6 +267,13 @@ public class UrncoreSwitch {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UrncorePackage.CONCERN: {
+				Concern concern = (Concern)theEObject;
+				Object result = caseConcern(concern);
+				if (result == null) result = caseURNmodelElement(concern);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -583,6 +590,21 @@ public class UrncoreSwitch {
 	 * @generated
 	 */
 	public Object caseMetadata(Metadata object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpretting the object as an instance of '<em>Concern</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpretting the object as an instance of '<em>Concern</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public Object caseConcern(Concern object) {
 		return null;
 	}
 

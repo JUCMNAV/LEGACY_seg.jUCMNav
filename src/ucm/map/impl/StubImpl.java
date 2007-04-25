@@ -31,6 +31,7 @@ import ucm.map.Stub;
  *   <li>{@link ucm.map.impl.StubImpl#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#isShared <em>Shared</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#getRepetitionCount <em>Repetition Count</em>}</li>
+ *   <li>{@link ucm.map.impl.StubImpl#isPointcut <em>Pointcut</em>}</li>
  *   <li>{@link ucm.map.impl.StubImpl#getBindings <em>Bindings</em>}</li>
  * </ul>
  * </p>
@@ -97,6 +98,26 @@ public class StubImpl extends PathNodeImpl implements Stub {
 	 * @ordered
 	 */
 	protected String repetitionCount = REPETITION_COUNT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPointcut()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean POINTCUT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isPointcut() <em>Pointcut</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isPointcut()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean pointcut = POINTCUT_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getBindings() <em>Bindings</em>}' containment reference list.
@@ -206,6 +227,27 @@ public class StubImpl extends PathNodeImpl implements Stub {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isPointcut() {
+		return pointcut;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPointcut(boolean newPointcut) {
+		boolean oldPointcut = pointcut;
+		pointcut = newPointcut;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.STUB__POINTCUT, oldPointcut, pointcut));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case MapPackage.STUB__BINDINGS:
@@ -240,6 +282,8 @@ public class StubImpl extends PathNodeImpl implements Stub {
 				return isShared() ? Boolean.TRUE : Boolean.FALSE;
 			case MapPackage.STUB__REPETITION_COUNT:
 				return getRepetitionCount();
+			case MapPackage.STUB__POINTCUT:
+				return isPointcut() ? Boolean.TRUE : Boolean.FALSE;
 			case MapPackage.STUB__BINDINGS:
 				return getBindings();
 		}
@@ -261,6 +305,9 @@ public class StubImpl extends PathNodeImpl implements Stub {
 				return;
 			case MapPackage.STUB__REPETITION_COUNT:
 				setRepetitionCount((String)newValue);
+				return;
+			case MapPackage.STUB__POINTCUT:
+				setPointcut(((Boolean)newValue).booleanValue());
 				return;
 			case MapPackage.STUB__BINDINGS:
 				getBindings().clear();
@@ -286,6 +333,9 @@ public class StubImpl extends PathNodeImpl implements Stub {
 			case MapPackage.STUB__REPETITION_COUNT:
 				setRepetitionCount(REPETITION_COUNT_EDEFAULT);
 				return;
+			case MapPackage.STUB__POINTCUT:
+				setPointcut(POINTCUT_EDEFAULT);
+				return;
 			case MapPackage.STUB__BINDINGS:
 				getBindings().clear();
 				return;
@@ -306,6 +356,8 @@ public class StubImpl extends PathNodeImpl implements Stub {
 				return shared != SHARED_EDEFAULT;
 			case MapPackage.STUB__REPETITION_COUNT:
 				return REPETITION_COUNT_EDEFAULT == null ? repetitionCount != null : !REPETITION_COUNT_EDEFAULT.equals(repetitionCount);
+			case MapPackage.STUB__POINTCUT:
+				return pointcut != POINTCUT_EDEFAULT;
 			case MapPackage.STUB__BINDINGS:
 				return bindings != null && !bindings.isEmpty();
 		}
@@ -327,6 +379,8 @@ public class StubImpl extends PathNodeImpl implements Stub {
 		result.append(shared);
 		result.append(", repetitionCount: ");
 		result.append(repetitionCount);
+		result.append(", pointcut: ");
+		result.append(pointcut);
 		result.append(')');
 		return result.toString();
 	}

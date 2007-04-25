@@ -6,6 +6,8 @@
  */
 package grl.impl;
 
+import grl.*;
+
 import grl.Actor;
 import grl.ActorRef;
 import grl.Belief;

@@ -23,6 +23,7 @@ import urn.URNspec;
  *   <li>{@link urncore.URNdefinition#getResponsibilities <em>Responsibilities</em>}</li>
  *   <li>{@link urncore.URNdefinition#getComponents <em>Components</em>}</li>
  *   <li>{@link urncore.URNdefinition#getSpecDiagrams <em>Spec Diagrams</em>}</li>
+ *   <li>{@link urncore.URNdefinition#getConcerns <em>Concerns</em>}</li>
  * </ul>
  * </p>
  *
@@ -112,5 +113,23 @@ public interface URNdefinition extends EObject {
 	 * @generated
 	 */
     EList getSpecDiagrams();
+
+	/**
+	 * Returns the value of the '<em><b>Concerns</b></em>' containment reference list.
+	 * The list contents are of type {@link urncore.Concern}.
+	 * It is bidirectional and its opposite is '{@link urncore.Concern#getUrndefinition <em>Urndefinition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Concerns</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Concerns</em>' containment reference list.
+	 * @see urncore.UrncorePackage#getURNdefinition_Concerns()
+	 * @see urncore.Concern#getUrndefinition
+	 * @model type="urncore.Concern" opposite="urndefinition" containment="true"
+	 * @generated
+	 */
+	EList getConcerns();
 
 } // URNdefinition

@@ -1712,13 +1712,22 @@ public interface MapPackage extends EPackage {
 	int STUB__REPETITION_COUNT = PATH_NODE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Pointcut</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STUB__POINTCUT = PATH_NODE_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Bindings</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int STUB__BINDINGS = PATH_NODE_FEATURE_COUNT + 3;
+    int STUB__BINDINGS = PATH_NODE_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Stub</em>' class.
@@ -1727,7 +1736,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int STUB_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 4;
+    int STUB_FEATURE_COUNT = PATH_NODE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.EndPointImpl <em>End Point</em>}' class.
@@ -2201,13 +2210,22 @@ public interface MapPackage extends EPackage {
     int UC_MMAP__CONNECTIONS = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Concern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UC_MMAP__CONCERN = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Parent Stub</b></em>' reference list.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 4;
+    int UC_MMAP__PARENT_STUB = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>UC Mmap</em>' class.
@@ -2216,7 +2234,7 @@ public interface MapPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 5;
+    int UC_MMAP_FEATURE_COUNT = UrncorePackage.UC_MMODEL_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link ucm.map.impl.AbortImpl <em>Abort</em>}' class.
@@ -3822,6 +3840,17 @@ public interface MapPackage extends EPackage {
     EReference getStub_Bindings();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Pointcut</em>'.
+	 * @see ucm.map.Stub#isPointcut()
+	 * @see #getStub()
+	 * @generated
+	 */
+	EAttribute getStub_Pointcut();
+
+	/**
 	 * Returns the meta object for class '{@link ucm.map.PathNode <em>Path Node</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4512,6 +4541,14 @@ public interface MapPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STUB__BINDINGS = eINSTANCE.getStub_Bindings();
+
+		/**
+		 * The meta object literal for the '<em><b>Pointcut</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STUB__POINTCUT = eINSTANCE.getStub_Pointcut();
 
 		/**
 		 * The meta object literal for the '{@link ucm.map.impl.PathNodeImpl <em>Path Node</em>}' class.

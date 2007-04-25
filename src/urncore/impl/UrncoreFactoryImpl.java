@@ -83,6 +83,7 @@ public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
 			case UrncorePackage.COMPONENT_LABEL: return createComponentLabel();
 			case UrncorePackage.CONDITION: return createCondition();
 			case UrncorePackage.METADATA: return createMetadata();
+			case UrncorePackage.CONCERN: return createConcern();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -218,6 +219,16 @@ public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
 	public Metadata createMetadata() {
 		MetadataImpl metadata = new MetadataImpl();
 		return metadata;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Concern createConcern() {
+		ConcernImpl concern = new ConcernImpl();
+		return concern;
 	}
 
 	/**

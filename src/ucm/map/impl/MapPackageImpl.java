@@ -601,7 +601,16 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 	 * @generated
 	 */
     public EReference getStub_Bindings() {
-		return (EReference)stubEClass.getEStructuralFeatures().get(3);
+		return (EReference)stubEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStub_Pointcut() {
+		return (EAttribute)stubEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -998,6 +1007,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		createEAttribute(stubEClass, STUB__DYNAMIC);
 		createEAttribute(stubEClass, STUB__SHARED);
 		createEAttribute(stubEClass, STUB__REPETITION_COUNT);
+		createEAttribute(stubEClass, STUB__POINTCUT);
 		createEReference(stubEClass, STUB__BINDINGS);
 
 		pathNodeEClass = createEClass(PATH_NODE);
@@ -1145,6 +1155,7 @@ public class MapPackageImpl extends EPackageImpl implements MapPackage {
 		initEAttribute(getStub_Dynamic(), ecorePackage.getEBoolean(), "dynamic", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStub_Shared(), ecorePackage.getEBoolean(), "shared", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStub_RepetitionCount(), ecorePackage.getEString(), "repetitionCount", "1", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStub_Pointcut(), ecorePackage.getEBoolean(), "pointcut", "false", 0, 1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStub_Bindings(), this.getPluginBinding(), this.getPluginBinding_Stub(), "bindings", null, 0, -1, Stub.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pathNodeEClass, PathNode.class, "PathNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

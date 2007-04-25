@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import ucm.map.MapPackage;
 import ucm.map.PluginBinding;
 import ucm.map.UCMmap;
+import urncore.Concern;
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;
@@ -41,6 +42,7 @@ import urncore.impl.UCMmodelElementImpl;
  *   <li>{@link ucm.map.impl.UCMmapImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getContRefs <em>Cont Refs</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getConnections <em>Connections</em>}</li>
+ *   <li>{@link ucm.map.impl.UCMmapImpl#getConcern <em>Concern</em>}</li>
  *   <li>{@link ucm.map.impl.UCMmapImpl#getParentStub <em>Parent Stub</em>}</li>
  * </ul>
  * </p>
@@ -77,6 +79,16 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 	 * @ordered
 	 */
     protected EList connections = null;
+
+	/**
+	 * The cached value of the '{@link #getConcern() <em>Concern</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConcern()
+	 * @generated
+	 * @ordered
+	 */
+	protected Concern concern = null;
 
 	/**
 	 * The cached value of the '{@link #getParentStub() <em>Parent Stub</em>}' reference list.
@@ -185,6 +197,66 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 
 	/**
 	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Concern getConcern() {
+		if (concern != null && concern.eIsProxy()) {
+			InternalEObject oldConcern = (InternalEObject)concern;
+			concern = (Concern)eResolveProxy(oldConcern);
+			if (concern != oldConcern) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MapPackage.UC_MMAP__CONCERN, oldConcern, concern));
+			}
+		}
+		return concern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Concern basicGetConcern() {
+		return concern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetConcern(Concern newConcern, NotificationChain msgs) {
+		Concern oldConcern = concern;
+		concern = newConcern;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, MapPackage.UC_MMAP__CONCERN, oldConcern, newConcern);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConcern(Concern newConcern) {
+		if (newConcern != concern) {
+			NotificationChain msgs = null;
+			if (concern != null)
+				msgs = ((InternalEObject)concern).eInverseRemove(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+			if (newConcern != null)
+				msgs = ((InternalEObject)newConcern).eInverseAdd(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+			msgs = basicSetConcern(newConcern, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MapPackage.UC_MMAP__CONCERN, newConcern, newConcern));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -212,6 +284,10 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return ((InternalEList)getContRefs()).basicAdd(otherEnd, msgs);
 			case MapPackage.UC_MMAP__CONNECTIONS:
 				return ((InternalEList)getConnections()).basicAdd(otherEnd, msgs);
+			case MapPackage.UC_MMAP__CONCERN:
+				if (concern != null)
+					msgs = ((InternalEObject)concern).eInverseRemove(this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, Concern.class, msgs);
+				return basicSetConcern((Concern)otherEnd, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicAdd(otherEnd, msgs);
 		}
@@ -233,6 +309,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return ((InternalEList)getContRefs()).basicRemove(otherEnd, msgs);
 			case MapPackage.UC_MMAP__CONNECTIONS:
 				return ((InternalEList)getConnections()).basicRemove(otherEnd, msgs);
+			case MapPackage.UC_MMAP__CONCERN:
+				return basicSetConcern(null, msgs);
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return ((InternalEList)getParentStub()).basicRemove(otherEnd, msgs);
 		}
@@ -267,6 +345,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return getContRefs();
 			case MapPackage.UC_MMAP__CONNECTIONS:
 				return getConnections();
+			case MapPackage.UC_MMAP__CONCERN:
+				if (resolve) return getConcern();
+				return basicGetConcern();
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return getParentStub();
 		}
@@ -295,6 +376,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				getConnections().clear();
 				getConnections().addAll((Collection)newValue);
 				return;
+			case MapPackage.UC_MMAP__CONCERN:
+				setConcern((Concern)newValue);
+				return;
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				getParentStub().clear();
 				getParentStub().addAll((Collection)newValue);
@@ -322,6 +406,9 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 			case MapPackage.UC_MMAP__CONNECTIONS:
 				getConnections().clear();
 				return;
+			case MapPackage.UC_MMAP__CONCERN:
+				setConcern((Concern)null);
+				return;
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				getParentStub().clear();
 				return;
@@ -344,6 +431,8 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				return contRefs != null && !contRefs.isEmpty();
 			case MapPackage.UC_MMAP__CONNECTIONS:
 				return connections != null && !connections.isEmpty();
+			case MapPackage.UC_MMAP__CONCERN:
+				return concern != null;
 			case MapPackage.UC_MMAP__PARENT_STUB:
 				return parentStub != null && !parentStub.isEmpty();
 		}
@@ -362,6 +451,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				case MapPackage.UC_MMAP__NODES: return UrncorePackage.IURN_DIAGRAM__NODES;
 				case MapPackage.UC_MMAP__CONT_REFS: return UrncorePackage.IURN_DIAGRAM__CONT_REFS;
 				case MapPackage.UC_MMAP__CONNECTIONS: return UrncorePackage.IURN_DIAGRAM__CONNECTIONS;
+				case MapPackage.UC_MMAP__CONCERN: return UrncorePackage.IURN_DIAGRAM__CONCERN;
 				default: return -1;
 			}
 		}
@@ -380,6 +470,7 @@ public class UCMmapImpl extends UCMmodelElementImpl implements UCMmap {
 				case UrncorePackage.IURN_DIAGRAM__NODES: return MapPackage.UC_MMAP__NODES;
 				case UrncorePackage.IURN_DIAGRAM__CONT_REFS: return MapPackage.UC_MMAP__CONT_REFS;
 				case UrncorePackage.IURN_DIAGRAM__CONNECTIONS: return MapPackage.UC_MMAP__CONNECTIONS;
+				case UrncorePackage.IURN_DIAGRAM__CONCERN: return MapPackage.UC_MMAP__CONCERN;
 				default: return -1;
 			}
 		}

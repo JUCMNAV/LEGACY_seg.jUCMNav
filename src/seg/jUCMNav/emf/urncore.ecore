@@ -12,6 +12,8 @@
         eType="#//ComponentElement" containment="true" eOpposite="#//ComponentElement/urndefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagrams" upperBound="-1"
         eType="#//IURNDiagram" containment="true" eOpposite="#//IURNDiagram/urndefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concerns" upperBound="-1"
+        eType="#//Concern" containment="true" eOpposite="#//Concern/urndefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Responsibility" eSuperTypes="#//UCMmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="empty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -148,6 +150,8 @@
         eType="#//IURNContainerRef" containment="true" eOpposite="#//IURNContainerRef/diagram"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
         eType="#//IURNConnection" containment="true" eOpposite="#//IURNConnection/diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="concern" eType="#//Concern"
+        eOpposite="#//Concern/specDiagrams"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNmodelElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromLinks" upperBound="-1"
@@ -213,5 +217,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="Metadata">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Concern" eSuperTypes="#//URNmodelElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="urndefinition" lowerBound="1"
+        eType="#//URNdefinition" transient="true" eOpposite="#//URNdefinition/concerns"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="specDiagrams" upperBound="-1"
+        eType="#//IURNDiagram" eOpposite="#//IURNDiagram/concern"/>
   </eClassifiers>
 </ecore:EPackage>

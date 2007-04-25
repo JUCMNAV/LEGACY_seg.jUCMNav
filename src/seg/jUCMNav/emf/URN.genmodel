@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\Documents and Settings\damyot.damyotlap\My Documents\work\jucmnav\URN_16.mdl</foreignModel>
+  <foreignModel>C:\URN_17.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -48,6 +48,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/responsibilities"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/components"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/specDiagrams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//URNdefinition/concerns"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//Responsibility">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Responsibility/empty"/>
@@ -117,6 +118,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/nodes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/contRefs"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/connections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//IURNDiagram/concern"/>
     </genClasses>
     <genClasses ecoreClass="urncore.ecore#//URNmodelElement">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//URNmodelElement/fromLinks"/>
@@ -162,6 +164,10 @@
     <genClasses ecoreClass="urncore.ecore#//Metadata">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Metadata/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urncore.ecore#//Metadata/value"/>
+    </genClasses>
+    <genClasses ecoreClass="urncore.ecore#//Concern">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urncore.ecore#//Concern/urndefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference urncore.ecore#//Concern/specDiagrams"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Grl" ecorePackage="grl.ecore#/">
@@ -428,6 +434,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/dynamic"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/shared"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/repetitionCount"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucm.ecore#//map/Stub/pointcut"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucm.ecore#//map/Stub/bindings"/>
       </genClasses>
       <genClasses ecoreClass="ucm.ecore#//map/PathNode">

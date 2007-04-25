@@ -107,13 +107,22 @@ public interface UrncorePackage extends EPackage {
     int UR_NDEFINITION__SPEC_DIAGRAMS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Concerns</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UR_NDEFINITION__CONCERNS = 4;
+
+	/**
 	 * The number of structural features of the '<em>UR Ndefinition</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int UR_NDEFINITION_FEATURE_COUNT = 4;
+    int UR_NDEFINITION_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link urncore.impl.URNmodelElementImpl <em>UR Nmodel Element</em>}' class.
@@ -1796,13 +1805,22 @@ public interface UrncorePackage extends EPackage {
     int IURN_DIAGRAM__CONNECTIONS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Concern</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IURN_DIAGRAM__CONCERN = 4;
+
+	/**
 	 * The number of structural features of the '<em>IURN Diagram</em>' class.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    int IURN_DIAGRAM_FEATURE_COUNT = 4;
+    int IURN_DIAGRAM_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link urncore.IURNNode <em>IURN Node</em>}' class.
@@ -2143,6 +2161,97 @@ public interface UrncorePackage extends EPackage {
 	int METADATA_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link urncore.impl.ConcernImpl <em>Concern</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see urncore.impl.ConcernImpl
+	 * @see urncore.impl.UrncorePackageImpl#getConcern()
+	 * @generated
+	 */
+	int CONCERN = 21;
+
+	/**
+	 * The feature id for the '<em><b>From Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__FROM_LINKS = UR_NMODEL_ELEMENT__FROM_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>To Links</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__TO_LINKS = UR_NMODEL_ELEMENT__TO_LINKS;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__ID = UR_NMODEL_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__NAME = UR_NMODEL_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__DESCRIPTION = UR_NMODEL_ELEMENT__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Metadata</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__METADATA = UR_NMODEL_ELEMENT__METADATA;
+
+	/**
+	 * The feature id for the '<em><b>Urndefinition</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__URNDEFINITION = UR_NMODEL_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Spec Diagrams</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN__SPEC_DIAGRAMS = UR_NMODEL_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Concern</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONCERN_FEATURE_COUNT = UR_NMODEL_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link urncore.ComponentKind <em>Component Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2150,7 +2259,7 @@ public interface UrncorePackage extends EPackage {
 	 * @see urncore.impl.UrncorePackageImpl#getComponentKind()
 	 * @generated
 	 */
-    int COMPONENT_KIND = 21;
+    int COMPONENT_KIND = 22;
 
 	/**
 	 * The meta object id for the '{@link urncore.DynamicRespKind <em>Dynamic Resp Kind</em>}' enum.
@@ -2160,7 +2269,7 @@ public interface UrncorePackage extends EPackage {
 	 * @see urncore.impl.UrncorePackageImpl#getDynamicRespKind()
 	 * @generated
 	 */
-    int DYNAMIC_RESP_KIND = 22;
+    int DYNAMIC_RESP_KIND = 23;
 
 
 	/**
@@ -2216,6 +2325,17 @@ public interface UrncorePackage extends EPackage {
 	 * @generated
 	 */
     EReference getURNdefinition_SpecDiagrams();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link urncore.URNdefinition#getConcerns <em>Concerns</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Concerns</em>'.
+	 * @see urncore.URNdefinition#getConcerns()
+	 * @see #getURNdefinition()
+	 * @generated
+	 */
+	EReference getURNdefinition_Concerns();
 
 	/**
 	 * Returns the meta object for class '{@link urncore.Responsibility <em>Responsibility</em>}'.
@@ -2831,6 +2951,17 @@ public interface UrncorePackage extends EPackage {
     EReference getIURNDiagram_Connections();
 
 	/**
+	 * Returns the meta object for the reference '{@link urncore.IURNDiagram#getConcern <em>Concern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Concern</em>'.
+	 * @see urncore.IURNDiagram#getConcern()
+	 * @see #getIURNDiagram()
+	 * @generated
+	 */
+	EReference getIURNDiagram_Concern();
+
+	/**
 	 * Returns the meta object for class '{@link urncore.URNmodelElement <em>UR Nmodel Element</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3254,6 +3385,38 @@ public interface UrncorePackage extends EPackage {
 	EAttribute getMetadata_Value();
 
 	/**
+	 * Returns the meta object for class '{@link urncore.Concern <em>Concern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Concern</em>'.
+	 * @see urncore.Concern
+	 * @generated
+	 */
+	EClass getConcern();
+
+	/**
+	 * Returns the meta object for the container reference '{@link urncore.Concern#getUrndefinition <em>Urndefinition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Urndefinition</em>'.
+	 * @see urncore.Concern#getUrndefinition()
+	 * @see #getConcern()
+	 * @generated
+	 */
+	EReference getConcern_Urndefinition();
+
+	/**
+	 * Returns the meta object for the reference list '{@link urncore.Concern#getSpecDiagrams <em>Spec Diagrams</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Spec Diagrams</em>'.
+	 * @see urncore.Concern#getSpecDiagrams()
+	 * @see #getConcern()
+	 * @generated
+	 */
+	EReference getConcern_SpecDiagrams();
+
+	/**
 	 * Returns the meta object for enum '{@link urncore.ComponentKind <em>Component Kind</em>}'.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3336,6 +3499,14 @@ public interface UrncorePackage extends EPackage {
 		 * @generated
 		 */
 		EReference UR_NDEFINITION__SPEC_DIAGRAMS = eINSTANCE.getURNdefinition_SpecDiagrams();
+
+		/**
+		 * The meta object literal for the '<em><b>Concerns</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UR_NDEFINITION__CONCERNS = eINSTANCE.getURNdefinition_Concerns();
 
 		/**
 		 * The meta object literal for the '{@link urncore.impl.ResponsibilityImpl <em>Responsibility</em>}' class.
@@ -3822,6 +3993,14 @@ public interface UrncorePackage extends EPackage {
 		EReference IURN_DIAGRAM__CONNECTIONS = eINSTANCE.getIURNDiagram_Connections();
 
 		/**
+		 * The meta object literal for the '<em><b>Concern</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IURN_DIAGRAM__CONCERN = eINSTANCE.getIURNDiagram_Concern();
+
+		/**
 		 * The meta object literal for the '{@link urncore.impl.URNmodelElementImpl <em>UR Nmodel Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4144,6 +4323,32 @@ public interface UrncorePackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute METADATA__VALUE = eINSTANCE.getMetadata_Value();
+
+		/**
+		 * The meta object literal for the '{@link urncore.impl.ConcernImpl <em>Concern</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see urncore.impl.ConcernImpl
+		 * @see urncore.impl.UrncorePackageImpl#getConcern()
+		 * @generated
+		 */
+		EClass CONCERN = eINSTANCE.getConcern();
+
+		/**
+		 * The meta object literal for the '<em><b>Urndefinition</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONCERN__URNDEFINITION = eINSTANCE.getConcern_Urndefinition();
+
+		/**
+		 * The meta object literal for the '<em><b>Spec Diagrams</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONCERN__SPEC_DIAGRAMS = eINSTANCE.getConcern_SpecDiagrams();
 
 		/**
 		 * The meta object literal for the '{@link urncore.ComponentKind <em>Component Kind</em>}' enum.

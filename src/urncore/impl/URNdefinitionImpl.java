@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import urn.URNspec;
 import urn.UrnPackage;
 import urncore.ComponentElement;
+import urncore.Concern;
 import urncore.IURNDiagram;
 import urncore.Responsibility;
 import urncore.URNdefinition;
@@ -38,6 +39,7 @@ import urncore.UrncorePackage;
  *   <li>{@link urncore.impl.URNdefinitionImpl#getResponsibilities <em>Responsibilities</em>}</li>
  *   <li>{@link urncore.impl.URNdefinitionImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link urncore.impl.URNdefinitionImpl#getSpecDiagrams <em>Spec Diagrams</em>}</li>
+ *   <li>{@link urncore.impl.URNdefinitionImpl#getConcerns <em>Concerns</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,6 +75,16 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 	 * @ordered
 	 */
     protected EList specDiagrams = null;
+
+	/**
+	 * The cached value of the '{@link #getConcerns() <em>Concerns</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConcerns()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList concerns = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -174,6 +186,18 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getConcerns() {
+		if (concerns == null) {
+			concerns = new EObjectContainmentWithInverseEList(Concern.class, this, UrncorePackage.UR_NDEFINITION__CONCERNS, UrncorePackage.CONCERN__URNDEFINITION);
+		}
+		return concerns;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UrncorePackage.UR_NDEFINITION__URNSPEC:
@@ -186,6 +210,8 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 				return ((InternalEList)getComponents()).basicAdd(otherEnd, msgs);
 			case UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS:
 				return ((InternalEList)getSpecDiagrams()).basicAdd(otherEnd, msgs);
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				return ((InternalEList)getConcerns()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -205,6 +231,8 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 				return ((InternalEList)getComponents()).basicRemove(otherEnd, msgs);
 			case UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS:
 				return ((InternalEList)getSpecDiagrams()).basicRemove(otherEnd, msgs);
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				return ((InternalEList)getConcerns()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -237,6 +265,8 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 				return getComponents();
 			case UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS:
 				return getSpecDiagrams();
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				return getConcerns();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -263,6 +293,10 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 				getSpecDiagrams().clear();
 				getSpecDiagrams().addAll((Collection)newValue);
 				return;
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				getConcerns().clear();
+				getConcerns().addAll((Collection)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -286,6 +320,9 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 			case UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS:
 				getSpecDiagrams().clear();
 				return;
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				getConcerns().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -305,6 +342,8 @@ public class URNdefinitionImpl extends EObjectImpl implements URNdefinition {
 				return components != null && !components.isEmpty();
 			case UrncorePackage.UR_NDEFINITION__SPEC_DIAGRAMS:
 				return specDiagrams != null && !specDiagrams.isEmpty();
+			case UrncorePackage.UR_NDEFINITION__CONCERNS:
+				return concerns != null && !concerns.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

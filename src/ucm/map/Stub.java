@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ucm.map.Stub#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link ucm.map.Stub#isShared <em>Shared</em>}</li>
  *   <li>{@link ucm.map.Stub#getRepetitionCount <em>Repetition Count</em>}</li>
+ *   <li>{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}</li>
  *   <li>{@link ucm.map.Stub#getBindings <em>Bindings</em>}</li>
  * </ul>
  * </p>
@@ -126,5 +127,32 @@ public interface Stub extends PathNode {
 	 * @generated
 	 */
     EList getBindings();
+
+	/**
+	 * Returns the value of the '<em><b>Pointcut</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pointcut</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pointcut</em>' attribute.
+	 * @see #setPointcut(boolean)
+	 * @see ucm.map.MapPackage#getStub_Pointcut()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isPointcut();
+
+	/**
+	 * Sets the value of the '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Pointcut</em>' attribute.
+	 * @see #isPointcut()
+	 * @generated
+	 */
+	void setPointcut(boolean value);
 
 } // Stub

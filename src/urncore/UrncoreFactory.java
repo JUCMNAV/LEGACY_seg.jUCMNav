@@ -116,6 +116,15 @@ public interface UrncoreFactory extends EFactory {
 	Metadata createMetadata();
 
 	/**
+	 * Returns a new object of class '<em>Concern</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Concern</em>'.
+	 * @generated
+	 */
+	Concern createConcern();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

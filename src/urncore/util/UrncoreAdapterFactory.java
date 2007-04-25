@@ -154,6 +154,9 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 			public Object caseMetadata(Metadata object) {
 				return createMetadataAdapter();
 			}
+			public Object caseConcern(Concern object) {
+				return createConcernAdapter();
+			}
 			public Object defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -463,6 +466,20 @@ public class UrncoreAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetadataAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link urncore.Concern <em>Concern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see urncore.Concern
+	 * @generated
+	 */
+	public Adapter createConcernAdapter() {
 		return null;
 	}
 
