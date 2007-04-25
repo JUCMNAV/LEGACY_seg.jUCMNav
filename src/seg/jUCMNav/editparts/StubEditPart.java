@@ -29,11 +29,11 @@ import ucm.map.Stub;
 import ucm.map.UCMmap;
 
 /**
- * Editpart for Stubs. Adds double-click behaviour and different figures for static/dynamic stubs.
+ * Editpart for Stubs. Adds double-click behaviour and different figures for static/dynamic/pointcut stubs.
  * 
  * Stub in/out labels are refreshed here. I must admit that the refreshing code is cryptic; was not documented during creation and is alot of trial&error.
  * 
- * @author Etienne Tremblay, jkealey
+ * @author Etienne Tremblay, jkealey, gunterm
  */
 public class StubEditPart extends PathNodeEditPart {
     private PluginListDialog dlg;
@@ -196,7 +196,7 @@ public class StubEditPart extends PathNodeEditPart {
      */
     public void refreshVisuals() {
         Stub stub = (Stub) getNode();
-        figure.setDynamic(stub.isDynamic());
+        figure.setStubType(stub.isDynamic(), stub.isPointcut());
 
         super.refreshVisuals();
     }

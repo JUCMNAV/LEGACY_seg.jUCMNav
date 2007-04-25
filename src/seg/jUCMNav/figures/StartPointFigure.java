@@ -9,7 +9,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * This figure represent a StartPoint and Waiting Place!
  * 
- * @author Etienne Tremblay, jkealey
+ * @author Etienne Tremblay, jkealey, gunterm
  */
 public class StartPointFigure extends PathNodeFigure {
     private Ellipse ellipse;
@@ -54,6 +54,10 @@ public class StartPointFigure extends PathNodeFigure {
         }
     }
     
+	/**
+	 * the color of a start point depends on whether it is selected, traversed, or the border of a pointcut expression
+	 * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
+	 */
 	protected void setColors() {
 		if (selected) {
     		setForegroundColor(ColorManager.LINE);
@@ -62,6 +66,10 @@ public class StartPointFigure extends PathNodeFigure {
     	else if (traversed) {
     		setForegroundColor(ColorManager.TRAVERSAL);
             setColor(ColorManager.TRAVERSAL);
+    	}
+        else if (isPointcutBorder) {
+    		setForegroundColor(ColorManager.POINTCUTBORDER);
+            setColor(ColorManager.POINTCUTBORDER);
     	}
         else {
     		setForegroundColor(ColorManager.LINE);

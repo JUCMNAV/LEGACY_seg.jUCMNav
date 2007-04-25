@@ -10,7 +10,7 @@ import seg.jUCMNav.figures.ColorManager;
 /**
  * Class used to initialize default preference values.
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
@@ -27,7 +27,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_SELECTEDCOLOR, ColorManager.BLUE.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
-        
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
         
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);

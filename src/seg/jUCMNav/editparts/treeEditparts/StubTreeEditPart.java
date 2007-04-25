@@ -7,14 +7,15 @@ import seg.jUCMNav.JUCMNavPlugin;
 import ucm.map.Stub;
 
 /**
- * TreeEditPart for Stubs. Implement static/dynamic icon changing behaviour.
+ * TreeEditPart for Stubs. Implement static/dynamic/pointcut icon changing behaviour.
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  */
 public class StubTreeEditPart extends PathNodeTreeEditPart {
 
     protected Image imStaticStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage(); //$NON-NLS-1$ 
     protected Image imDynamicStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage(); //$NON-NLS-1$
+    protected Image imPointcutStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/PointcutStub16.gif")).createImage(); //$NON-NLS-1$
 
     /**
      * 
@@ -28,18 +29,23 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
     /**
      * @return the stub being edited
      */
-    public Stub getStub() {
+    protected Stub getStub() {
         return (Stub) getModel();
     }
 
     /**
-     * returns the icon associated with the stub (dynamic/static)
+     * returns the icon associated with the stub (dynamic/static/pointcut)
      * 
      * @see seg.jUCMNav.editparts.treeEditparts.PathNodeTreeEditPart#getImage()
      */
     protected Image getImage() {
 
-        if (getStub().isDynamic()) {
+    	if (getStub().isPointcut()) {
+            if (imPointcutStub == null)
+                imPointcutStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/PointcutStub16.gif")).createImage(); //$NON-NLS-1$
+            return imPointcutStub;
+    	}
+    	else if (getStub().isDynamic()) {
             if (imDynamicStub == null)
                 imDynamicStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage(); //$NON-NLS-1$
             return imDynamicStub;
@@ -63,6 +69,10 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
         if (imDynamicStub != null) {
             imDynamicStub.dispose();
             imDynamicStub = null;
+        }
+        if (imPointcutStub != null) {
+        	imPointcutStub.dispose();
+        	imPointcutStub = null;
         }
         super.deactivate();
     }

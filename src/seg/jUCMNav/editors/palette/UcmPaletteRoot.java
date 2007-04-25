@@ -31,7 +31,7 @@ import urncore.ComponentKind;
 /**
  * This is the main palette of UCMEditor. Elements are added to the palette in buildPalette()
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public class UcmPaletteRoot extends PaletteRoot {
 
@@ -144,6 +144,12 @@ public class UcmPaletteRoot extends PaletteRoot {
                         "icons/DynStub24.gif")); //$NON-NLS-1$
         componentsDrawer.add(entry);
 
+        entry = new URNElementCreationEntry(
+                Messages.getString("UcmPaletteRoot.pointcutStub"), Messages.getString("UcmPaletteRoot.createPointcutStub"), Stub.class, new ModelCreationFactory(getURNspec(), Stub.class, 2), //$NON-NLS-1$ //$NON-NLS-2$
+                ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/PointcutStub16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, //$NON-NLS-1$
+                        "icons/PointcutStub24.gif")); //$NON-NLS-1$
+        componentsDrawer.add(entry);
+        
         entry = new URNElementCreationEntry(Messages.getString("UcmPaletteRoot.timer"), Messages.getString("UcmPaletteRoot.createTimer"), Timer.class, new ModelCreationFactory(getURNspec(), Timer.class), ImageDescriptor //$NON-NLS-1$ //$NON-NLS-2$
                 .createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif"), ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer24.gif")); //$NON-NLS-1$ //$NON-NLS-2$
         componentsDrawer.add(entry);

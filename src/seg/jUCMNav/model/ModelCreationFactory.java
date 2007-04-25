@@ -48,12 +48,12 @@ import ucm.map.Stub;
 import ucm.map.Timer;
 import ucm.map.UCMmap;
 import ucm.map.WaitingPlace;
-import ucm.performance.Demand; //_js_
+import ucm.performance.Demand;
+import ucm.performance.ExternalOperation;
+import ucm.performance.PassiveResource;
 import ucm.performance.PerformanceFactory;
+import ucm.performance.ProcessingResource;
 import ucm.performance.Workload;
-import ucm.performance.PassiveResource;	// _js_
-import ucm.performance.ProcessingResource;	// _js_
-import ucm.performance.ExternalOperation;	// _js_
 import ucm.scenario.EnumerationType;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -90,7 +90,7 @@ import urncore.UrncoreFactory;
  * 
  * See DevDocModelCreationFactory
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  * 
  */
 
@@ -358,12 +358,18 @@ public class ModelCreationFactory implements CreationFactory {
                     result = urncorefactory.createComponent();
                     ((Component) result).setKind(ComponentKind.get(type));
                 } else if (targetClass.equals(Stub.class)) {
-                    if (type == 0)
-                        result = mapfactory.createStub();
-                    else {
-                        result = mapfactory.createStub();
-                        Stub dyn = (Stub) result;
-                        dyn.setDynamic(true);
+                	// static stub by default
+                	result = mapfactory.createStub();
+                    if (type == 1) {
+                    	// dynamic stub
+                        Stub stub = (Stub) result;
+                    	stub.setDynamic(true);
+                    }
+                    else if (type == 2) {
+                    	// pointcut stub
+                    	Stub stub = (Stub) result;
+                    	stub.setDynamic(true);
+                    	stub.setPointcut(true);
                     }
                 } else if (targetClass.equals(RespRef.class)) {
                     // should create responsibility definition
@@ -377,7 +383,7 @@ public class ModelCreationFactory implements CreationFactory {
                         respdef = urncorefactory.createResponsibility();
 
                     ((RespRef) result).setRespDef(respdef);
-                    ((RespRef) result).setRepetitionCount("1");
+                    ((RespRef) result).setRepetitionCount("1"); //$NON-NLS-1$
 
                     if (definition==null) {
                         URNNamingHelper.setElementNameAndID(urn, respdef);

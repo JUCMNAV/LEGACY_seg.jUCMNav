@@ -47,6 +47,7 @@ import seg.jUCMNav.figures.SplineConnection;
 import seg.jUCMNav.figures.StartPointFigure;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 import seg.jUCMNav.figures.TimerFigure;
+import seg.jUCMNav.model.util.PointcutBorderDetector;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.views.stub.PluginListDialog;
 import seg.jUCMNav.views.wizards.scenarios.CodeEditor;
@@ -73,7 +74,7 @@ import ucm.map.WaitingPlace;
 /**
  * EditPart associated with PathNodes. All model elements that extend PathNode should be associated with this EditPart.
  * 
- * @author Etienne Tremblay, jkealey
+ * @author Etienne Tremblay, jkealey, gunterm
  *  
  */
 public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPart {
@@ -513,20 +514,23 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
      */
     public void refreshVisuals() {
         PathNodeFigure nodeFigure = getNodeFigure();
+        PathNode node = getNode();
         
-        
-        // inform and forks/joins how many branches they must display.
-        if (getNode() instanceof AndFork) {
+		// inform and forks/joins how many branches they must display.
+        if (node instanceof AndFork) {
             ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getSucc().size());
-        } else if (getNode() instanceof AndJoin) {
+        } else if (node instanceof AndJoin) {
             ((AndForkJoinFigure) nodeFigure).setBranchCount(((PathNode) getModel()).getPred().size());
         }
-        boolean scenariosActive = ScenarioUtils.getActiveScenario(getNode())!=null && ScenarioUtils.getTraversalHitCount(getNode())>0;
+        boolean scenariosActive = ScenarioUtils.getActiveScenario(node)!=null && ScenarioUtils.getTraversalHitCount(node)>0;
         nodeFigure.setTraversed(scenariosActive);
-        if (ScenarioUtils.getActiveScenario(getNode())!=null) 
-        	nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + ScenarioUtils.getTraversalHitCount(getNode()))); //$NON-NLS-1$
+        if (ScenarioUtils.getActiveScenario(node)!=null) 
+        	nodeFigure.setToolTip(new Label(Messages.getString("PathNodeEditPart.Hits") + ScenarioUtils.getTraversalHitCount(node))); //$NON-NLS-1$
         else
         	nodeFigure.setToolTip(null);
+
+        // check if path node is used as a border for a pointcut expression
+        nodeFigure.setIsPointcutBorder(PointcutBorderDetector.detectPointcutBorder(node));
         
         // refresh node connection decorations
         // must not continue or will cause infinite loops
@@ -535,15 +539,15 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 
         // position the figure
         Dimension dim = nodeFigure.getPreferredSize().getCopy();
-        Point location = new Point(getNode().getX() - (dim.width / 2), getNode().getY() - (dim.height / 2)); // The
+        Point location = new Point(node.getX() - (dim.width / 2), node.getY() - (dim.height / 2)); // The
         // position of the current figure
         Rectangle bounds = new Rectangle(location, dim);
         figure.setBounds(bounds);
 
         // rotate it if necessary.
-        if (!(getNode() instanceof AndJoin) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getPred().size() > 0) {
+        if (!(node instanceof AndJoin) && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getPred().size() > 0) {
             rotateFromPrevious(nodeFigure);
-        } else if (getNode() instanceof AndJoin && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
+        } else if (node instanceof AndJoin && nodeFigure instanceof IRotateable && ((PathNode) getModel()).getSucc().size() > 0) {
             rotateFromNext(nodeFigure);
         }
 
@@ -580,7 +584,7 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
 //        }
     }
 
-    /**
+	/**
      * Refresh the associated node connection decorations.
      * 
      * @return true if there was something to be refreshed. .

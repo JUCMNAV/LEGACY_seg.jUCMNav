@@ -9,7 +9,7 @@ import org.eclipse.draw2d.geometry.Transform;
 /**
  * This figure represent and EndPoint
  * 
- * @author Etienne Tremblay, Jordan McManus
+ * @author Etienne Tremblay, Jordan McManus, gunterm
  */
 public class EndPointFigure extends PathNodeFigure implements IRotateable {
 
@@ -98,6 +98,32 @@ public class EndPointFigure extends PathNodeFigure implements IRotateable {
         else
             mainFigure.setLineWidth(5);
     }
+    
+	/**
+	 * the color of an end point depends on whether it is selected, traversed, part of a pointcut, or the cursor is hovering over it
+	 * @see seg.jUCMNav.figures.PathNodeFigure#setColors()
+	 */
+	protected void setColors() {
+		if (selected) {
+    		setForegroundColor(ColorManager.LINE);
+    		setColor(ColorManager.SELECTED);
+    	}
+    	else if (traversed) {
+    		setForegroundColor(ColorManager.TRAVERSAL);
+            setColor(ColorManager.TRAVERSAL);
+    	}
+        else if (isPointcutBorder) {
+    		setForegroundColor(ColorManager.POINTCUTBORDER);
+            setColor(ColorManager.POINTCUTBORDER);
+    	}
+        else {
+    		setForegroundColor(ColorManager.LINE);
+            if (hover)
+                setColor(ColorManager.HOVER);
+            else
+                setColor(ColorManager.FILL);    		
+        }
+	}
 
     /**
      * if offset, returns a scaled (RESIZEFACTOR) copy of the regular size.

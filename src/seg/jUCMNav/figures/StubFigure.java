@@ -4,12 +4,19 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.text.FlowPage;
+import org.eclipse.draw2d.text.SimpleTextLayout;
+import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+
+import seg.jUCMNav.Messages;
 
 /**
  * Figure for stubs.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public class StubFigure extends PathNodeFigure {
     // is of a larger size.
@@ -25,7 +32,10 @@ public class StubFigure extends PathNodeFigure {
 
     // the lozenge.
     private Polygon mainFigure;
-
+   // the letter(s) indicating the stub type, displayed inside the stub
+    private TextFlow stubTypeText;
+    private FlowPage flowPage;
+    
     /**
     * Creates the stub's figure. 
      */
@@ -34,8 +44,7 @@ public class StubFigure extends PathNodeFigure {
     }
 
     /**
-     * Is a lozenge, dotted if dynamic, straight line otherwise.
-     * 
+     * Is a lozenge, dotted if dynamic, straight line otherwise. There may be text inside of the figure. 
      * @see seg.jUCMNav.figures.PathNodeFigure#createFigure()
      */
     protected void createFigure() {
@@ -52,6 +61,17 @@ public class StubFigure extends PathNodeFigure {
         mainFigure.setBackgroundColor(ColorManager.FILL);
         mainFigure.setFill(true);
         add(mainFigure);
+        // create the text inside the main figure
+        flowPage = new FlowPage();
+        stubTypeText = new TextFlow();
+        stubTypeText.setLayoutManager(new SimpleTextLayout(stubTypeText));
+        // TODO CONCERNS: should use default font?
+        stubTypeText.setFont(new Font(null, "Verdana", 15, 0)); //$NON-NLS-1$
+        stubTypeText.setText(""); //$NON-NLS-1$
+        flowPage.add(stubTypeText);
+        // TODO CONCERNS: depends on font size!
+        flowPage.setBounds(new Rectangle(DEFAULT_WIDTH/2-5, DEFAULT_HEIGHT/2-12, 20,20));
+        add(flowPage);
     }
 
     /**
@@ -72,17 +92,18 @@ public class StubFigure extends PathNodeFigure {
     }
 
     /**
-     * Set if is dynamic; we the state changes, we must update its line style.
-     * 
-     * @param dynamic
+     * Updates the appearance of a stub depending on its type (dynamic/static, pointcut)
+     * @param dynamic indicates whether the stub is dynamic (true) or static (false)
+     * @param pointcut indicates whether the stub is a pointcut stub (true) or not (false)
      */
-    public void setDynamic(boolean dynamic) {
+    public void setStubType(boolean dynamic, boolean pointcut) {
+        if (pointcut)
+        	stubTypeText.setText(Messages.getString("StubFigure.pointcutStubText")); //$NON-NLS-1$
+        else
+        	stubTypeText.setText(""); //$NON-NLS-1$
         if (dynamic == true) {
-            /*
-             * Line width to 2 only works under platform 3.0.2 or above: https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
-             * 
-             * Previously set to 1.
-             */
+            // Line width to 2 only works under platform 3.0.2 or above: https://bugs.eclipse.org/bugs/show_bug.cgi?id=4853
+            // Previously set to 1.
             mainFigure.setLineWidth(2);
             mainFigure.setLineStyle(SWT.LINE_DASH);
         } else {
@@ -90,7 +111,7 @@ public class StubFigure extends PathNodeFigure {
             mainFigure.setLineStyle(SWT.LINE_SOLID);
         }
     }
-
+    
     /**
      * We need to use local coordinates for our edge manipulation.
      */

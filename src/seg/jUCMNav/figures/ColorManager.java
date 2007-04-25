@@ -11,7 +11,7 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
  * This is a helper class that manages instances of the {@link Color} class. We're only creating one instance of each color, to prevent using up useless
  * handles.
  * 
- * @author jkealey
+ * @author jkealey, gunterm
  * 
  */
 public class ColorManager {
@@ -31,6 +31,7 @@ public class ColorManager {
     public static Color SELECTED;
     public static Color HOVER;
     public static Color TRAVERSAL;
+    public static Color POINTCUTBORDER;
     public static Color FILL = WHITE;
     public static Color STUBLABEL;
     public static Color LINKREFLABEL;
@@ -74,6 +75,9 @@ public class ColorManager {
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_TRAVERSALCOLOR);
         TRAVERSAL = new Color(null, rgb.red, rgb.green, rgb.blue);
 
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_POINTCUTBORDERCOLOR);
+        POINTCUTBORDER = new Color(null, rgb.red, rgb.green, rgb.blue);
+        
         // if (FILL!=null)
         // {
         // FILL.dispose();

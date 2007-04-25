@@ -15,7 +15,7 @@ import seg.jUCMNav.figures.ColorManager;
 /**
  * The root preference page for jUCMNav. Has preferences for label colors.
  * 
- * @author jkealey, jfroy
+ * @author jkealey, jfroy, gunterm
  * 
  */
 public class GeneralPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
@@ -28,6 +28,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_SELECTEDCOLOR = "PREF_SELECTEDCOLOR"; //$NON-NLS-1$
     public static final String PREF_FILLCOLOR = "PREF_FILLCOLOR"; //$NON-NLS-1$
     public static final String PREF_TRAVERSALCOLOR = "PREF_TRAVERSALCOLOR"; //$NON-NLS-1$
+    public static final String PREF_POINTCUTBORDERCOLOR = "PREF_POINTCUTBORDERCOLOR";  //$NON-NLS-1$
 
     public static final String PREF_AUTHOR = "PREF_AUTHOR"; //$NON-NLS-1$
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
@@ -63,7 +64,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         addField(editor);
         editor = new ColorFieldEditor(PREF_TRAVERSALCOLOR, Messages.getString("GeneralPreferencePage.TraversalColor"), getFieldEditorParent());  //$NON-NLS-1$
         addField(editor);
-
+        editor = new ColorFieldEditor(PREF_POINTCUTBORDERCOLOR, Messages.getString("GeneralPreferencePage.PointcutBorderColor"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(editor);
         
         StringFieldEditor author = new StringFieldEditor(PREF_AUTHOR, Messages.getString("GeneralPreferencePage.author"), getFieldEditorParent()); //$NON-NLS-1$
         addField(author);

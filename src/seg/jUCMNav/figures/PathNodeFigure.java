@@ -9,7 +9,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * This is the figure representing a PathNode. Extend this class for the figures representing the subclass of PathNode.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, gunterm
  */
 public abstract class PathNodeFigure extends Figure {
 
@@ -39,6 +39,9 @@ public abstract class PathNodeFigure extends Figure {
     
     // is the point traversed by a scenario.
     protected boolean traversed;
+    
+    // is the path node the border of a pointcut expression
+    protected boolean isPointcutBorder;
     
    
     protected XYLayout xylayout;
@@ -156,6 +159,18 @@ public abstract class PathNodeFigure extends Figure {
     	setColors();
     		
     
+    }
+    
+    /**
+     * sets the color scheme to use depending on whether the path node is used as a border 
+     * on a pointcut map or not (only selected subclasses of {@link PathNodeFigure} will 
+     * override setColors() so that isPointcutBorder is taken into account)
+     * @param isPointcutBorder is set to true if the path node is and false if the path node is not the border for a pointcut expression
+     */
+    public void setIsPointcutBorder(boolean isPointcutBorder)
+    {
+    	this.isPointcutBorder = isPointcutBorder;
+    	setColors();
     }
 
 	protected void setColors() {
