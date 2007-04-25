@@ -30,15 +30,14 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	private Demand demand;
     private boolean aborted;
     
-
 	/**
 	 * @param urn
 	 *            containing URN specification
-	 * @param externalOpn
+	 * @param extOp
 	 *            to be associated with the demand
+	 * @param demand
 	 * @param responsibility
 	 *            requesting the externalOpn
-	 * 
 	 */
 	public DeleteDemandCommand(URNspec urn, ExternalOperation extOp, Demand demand, Responsibility responsibility) {
 		this.urn = urn;

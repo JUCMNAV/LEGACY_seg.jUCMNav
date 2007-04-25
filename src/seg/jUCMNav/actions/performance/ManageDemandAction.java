@@ -51,10 +51,8 @@ public class ManageDemandAction extends URNSelectionAction {
 	}
 
 	/**
-	 * Opens the resource editor.
+	 * Opens the demand editor.
 	 * 
-	 * @see seg.jUCMNav.views.wizards.performance.CreateResource
-	 * @see org.eclipse.jface.action.IAction#run()
 	 */
 	public void run() {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
