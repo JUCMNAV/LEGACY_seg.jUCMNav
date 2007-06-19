@@ -40,6 +40,7 @@ import ucm.performance.PassiveResource;
 import ucm.performance.ProcessingResource;
 import urn.URNspec;
 import urncore.Component;
+import urncore.ComponentKind;
 
 /**
  * The page actually containing the metadata editor for urn model elements.
@@ -531,9 +532,14 @@ public class ManageResourcesPage extends WizardPage {
 	int i = 0;
 	componentsInSpec = new Component[urn.getUrndef().getComponents().size()];
 	for (Iterator comps = urn.getUrndef().getComponents().iterator(); comps.hasNext();) {
-	    componentsInSpec[i] = (Component) comps.next();
-	    availableComponents.add(componentsInSpec[i].getName());
-	    i++;
+	    Component nextComponent = (Component) comps.next();
+	    ComponentKind kind = nextComponent.getKind();
+	    // only components of kind Agent, Object, Process and Team are convertable to CSM resources
+	    if ((kind == ComponentKind.AGENT_LITERAL) || (kind == ComponentKind.OBJECT_LITERAL) || (kind == ComponentKind.PROCESS_LITERAL) || (kind == ComponentKind.TEAM_LITERAL)) {
+		    componentsInSpec[i] = nextComponent;
+		    availableComponents.add(componentsInSpec[i].getName());
+		    i++;
+	    }
 	}
 	i = 0;
 	availableResources.removeAll();
