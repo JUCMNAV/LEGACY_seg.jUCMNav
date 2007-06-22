@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.importexport;
 
 import grl.GRLGraph;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +11,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -29,6 +41,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
@@ -329,6 +343,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
             if (fos != null) {
                 try {
                     fos.close();
+                    if (id.compareTo("seg.jUCMNav.UCM2CSM") == 0) {
+                	validateXml(genericPath.toOSString());
+                    }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -562,6 +579,113 @@ public class ExportWizard extends Wizard implements IExportWizard {
      */
     public void addSelectedDiagram(IURNDiagram d) {
         getSelectedDiagrams().add(d);
+    }
+
+    /**
+     * validateXml verifies if the generated XML document conforms to the CSM schema.
+     * Note that tools that use those XML document do not accept a strictly correct
+     * syntax, hence the generate XML document is first "corrected" (as a temporary
+     * file) before being validated.
+     * The CSM schama need to reside in the same directory as the CSM file has been
+     * generated.
+     * 
+     * @author jack
+     * 
+     * @param fiss
+     * 		the CSM XML generated filename (String, including full path)
+     */
+    private void validateXml(String fiss) {
+
+	// NB: the schema MUST reside along with the document
+	String workingDirectory = fiss.substring(0, fiss.lastIndexOf("/"));
+	File csmSchemaFile = new File (workingDirectory + "/CSM.xsd");
+	if (! csmSchemaFile.exists()) {
+	    System.err.println("NOTE:  XML correctness of the document was not validated since file CSM.xsd was not found in " + workingDirectory);
+	    return;
+	}
+
+	// Generate a parser that will load an XML document into a DOM tree
+	DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	documentBuilderFactory.setNamespaceAware(true);
+	DocumentBuilder documentParser = null;
+	try {
+	    documentParser = documentBuilderFactory.newDocumentBuilder();
+	} catch (ParserConfigurationException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+
+	// Command to "fix" the CSM XML
+	// NB:  this cannot be "fixed" permanently for now because tools processing the XML
+	// file require this "incorrectness".
+	String sh = "/bin/sh";
+	String cOption = "-c";
+	String argument = "sed -e 's/CSM:CSMType/CSM/g' " + fiss + " > " + fiss + ".xml";
+	String[] shCommand = new String[] {sh, cOption, argument};
+	 
+	try {
+	    // Process p = rt.exec(fixCsmHeather);
+	    Process fixCSMxmlFile = Runtime.getRuntime().exec(shCommand);
+	    try {
+		fixCSMxmlFile.waitFor();
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    // OutputStream out = p.getOutputStream();
+	} catch (IOException e2) {
+	    // TODO Auto-generated catch block
+	    e2.printStackTrace();
+	}
+
+	// Load the XML file
+	Document document = null;
+	try {
+	    document = documentParser.parse(new File(fiss + ".xml"));
+	} catch (SAXException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	} catch (IOException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	
+	// Remove the temporary file
+	try {
+	    Process removeTemporaryFile = Runtime.getRuntime().exec("rm -f " + fiss + ".xml");
+	} catch (IOException e2) {
+	    // TODO Auto-generated catch block
+	    e2.printStackTrace();
+	}
+
+	// Create a SchemaFactory for WXS schemas
+	SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+	// load a WXS schema, represented by a Schema instance
+	Source csmSchemaSource = new StreamSource(new File(workingDirectory + "/CSM.xsd"));
+	Schema csmSchema = null;
+	try {
+	    csmSchema = factory.newSchema(csmSchemaSource);
+	} catch (SAXException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+
+	// Create a Validator instance, which can be used to validate an instance document
+	Validator csmValidator = csmSchema.newValidator();
+
+	// Validate the DOM tree
+	try {
+	    try {
+		csmValidator.validate(new DOMSource(document));
+	    } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	} catch (SAXException e) {
+	    // instance document is invalid!
+	    e.printStackTrace();
+	}
     }
 
 }
