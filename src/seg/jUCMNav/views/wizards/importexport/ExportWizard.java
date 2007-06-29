@@ -2,6 +2,7 @@ package seg.jUCMNav.views.wizards.importexport;
 
 import grl.GRLGraph;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -617,7 +618,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		}
 
 		// Command to "fix" the CSM XML by replacing CSM:CSMType with CSM
-		// then parse in document 
+		// Then parses into "document" for validation 
 		Document document = null;
 		try {
 			// Transform file into a String
@@ -627,8 +628,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			CSMfile.close ();
 			String CSMdocInMemory = new String (filebytes);
 			
-			// Remove vialoting :CSMType required by CSM Viewer
-			String FixedCSMdoc = CSMdocInMemory.replaceAll("CSM:CSMType", "CSM");
+			// Remove violating :CSMType required by CSM Viewer
+			// parse requires an InputStream (or a URI String)
+			ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes());
 
 			// Parse the XML file into document
 			document = documentParser.parse(FixedCSMdoc);
