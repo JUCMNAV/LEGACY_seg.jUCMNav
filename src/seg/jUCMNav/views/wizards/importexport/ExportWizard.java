@@ -27,8 +27,11 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -46,6 +49,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.editors.UrnEditor;
@@ -236,15 +240,15 @@ public class ExportWizard extends Wizard implements IExportWizard {
 				}
 			}
 
-//			} catch (InvocationTargetException e) {
-//			Throwable realException = e.getTargetException();
-//			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-//			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-//			return;
-//			} catch (Exception e) {
-//			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-//			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-//			return;
+		} catch (InvocationTargetException e) {
+			Throwable realException = e.getTargetException();
+			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+			return;
+		} catch (Exception e) {
+			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+			return;
 		} finally {
 			// close the stream
 			if (fos != null) {
@@ -357,13 +361,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 				postHooks.add(exporter);
 			}
 
-//			} catch (InvocationTargetException e) {
-//			Throwable realException = e.getTargetException();
-//			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
-//			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
-//			} catch (Exception e) {
-//			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
-//			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+		} catch (InvocationTargetException e) {
+			Throwable realException = e.getTargetException();
+			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, realException.toString(), realException);
+			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
+		} catch (Exception e) {
+			IStatus error = new Status(IStatus.ERROR, JUCMNavPlugin.PLUGIN_ID, 1, e.toString(), e);
+			ErrorDialog.openError(getShell(), Messages.getString("ExportWizard.ErrorOccurred"), e.getMessage(), error); //$NON-NLS-1$
 		} finally {
 			// close the stream
 			if (fos != null) {
@@ -374,9 +378,6 @@ public class ExportWizard extends Wizard implements IExportWizard {
 				}
 			}
 		}
-
-
-
 
 	}
 
@@ -627,7 +628,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			CSMfile.read(filebytes);
 			CSMfile.close ();
 			String CSMdocInMemory = new String (filebytes);
-			
+
 			// Remove violating :CSMType required by CSM Viewer
 			// parse requires an InputStream (or a URI String)
 			ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes());
@@ -663,6 +664,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		try {
 			try {
 				csmValidator.validate(new DOMSource(document));
+				System.out.println("CSM Export: .csm document generated is valid w.r.t. CSM schema.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
