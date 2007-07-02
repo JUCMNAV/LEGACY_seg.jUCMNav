@@ -34,6 +34,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_STRICTCODEEDITOR = "PREF_STRICTCODEEDITOR"; //$NON-NLS-1$
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
+    public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -74,7 +75,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
         addField(grl_iconvisible);
         BooleanFieldEditor grl_textvisible = new BooleanFieldEditor(PREF_GRLTEXTVISIBLE, Messages.getString("GeneralPreferencePage.ShowGrlContribText"), getFieldEditorParent()); //$NON-NLS-1$
         addField(grl_textvisible);
-
+        BooleanFieldEditor grl_autoaddlinks = new BooleanFieldEditor(PREF_GRLAUTOADDLINKS, Messages.getString("GeneralPreferencePage.AutoAddLinks"), getFieldEditorParent()); //$NON-NLS-1$
+        addField(grl_autoaddlinks);
         BooleanFieldEditor strict_codeeditor = new BooleanFieldEditor(PREF_STRICTCODEEDITOR, Messages.getString("GeneralPreferencePage.StrictPseudoCodeEditor"), getFieldEditorParent()); //$NON-NLS-1$
         addField(strict_codeeditor);
 
@@ -114,6 +116,14 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      */
     public static boolean getGrlTextVisible(){
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLTEXTVISIBLE); 
+    }    
+
+    /**
+     * @return boolean TRUE if GRL links should be added automatically when an
+     * intentional element is dragged from the Outline and dropped on a model. 
+     */
+    public static boolean getGrlAutoAddLinks(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLAUTOADDLINKS); 
     }    
 
     public boolean performOk() {

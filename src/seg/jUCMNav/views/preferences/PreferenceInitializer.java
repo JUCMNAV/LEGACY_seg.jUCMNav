@@ -33,6 +33,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLICONVISIBLE, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLTEXTVISIBLE, true);
+        JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLAUTOADDLINKS, true);
 
         // done elsewhere
         AutoLayoutPreferences.createPreferences();
