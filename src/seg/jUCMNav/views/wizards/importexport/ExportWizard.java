@@ -586,21 +586,21 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
 	/**
 	 * validateXml verifies if the generated XML document conforms to the CSM schema.
-	 * Note that tools that use those XML document do not accept a strictly correct
-	 * syntax, hence the generate XML document is first "corrected" (as a temporary
+	 * Note that tools that use those XML documents do not accept a strictly correct
+	 * syntax, hence the generated XML document is first "corrected" (as a temporary
 	 * file) before being validated.
-	 * The CSM schama need to reside in the same directory as the CSM file has been
-	 * generated.
+	 * The CSM schama needs to reside in the same directory as where the CSM file has
+	 * been generated.
 	 * 
-	 * @author jack
+	 * author: jack
 	 * 
-	 * @param fiss
+	 * @param xmlInputFilePathName
 	 * 		the CSM XML generated filename (String, including full path)
 	 */
-	private void validateXml(String fiss) {
+	private void validateXml(String xmlInputFilePathName) {
 
 		// NB: the schema MUST reside along with the document
-		String workingDirectory = fiss.substring(0, fiss.lastIndexOf(File.separator));
+		String workingDirectory = xmlInputFilePathName.substring(0, xmlInputFilePathName.lastIndexOf(File.separator));
 		File csmSchemaFile = new File (workingDirectory + File.separator + "CSM.xsd");
 		if (! csmSchemaFile.exists()) {
 			System.err.println("NOTE:  XML correctness of the document was not validated since file CSM.xsd was not found in " + workingDirectory);
@@ -623,7 +623,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		Document document = null;
 		try {
 			// Transform file into a String
-			FileInputStream CSMfile = new FileInputStream (fiss);
+			FileInputStream CSMfile = new FileInputStream (xmlInputFilePathName);
 			byte[] filebytes = new byte[CSMfile.available ()];
 			CSMfile.read(filebytes);
 			CSMfile.close ();
