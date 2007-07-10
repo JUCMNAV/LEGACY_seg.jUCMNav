@@ -664,7 +664,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		try {
 			try {
 				csmValidator.validate(new DOMSource(document));
-				System.out.println("CSM Export: .csm document generated is valid w.r.t. CSM schema.");
+				System.out.println("CSM Export: .csm document generated was validated against the CSM schema.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

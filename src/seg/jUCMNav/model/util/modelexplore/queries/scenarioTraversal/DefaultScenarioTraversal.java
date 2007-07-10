@@ -452,7 +452,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 			try {
 				repCount=Integer.parseInt(resp.getRepetitionCount());
 			} catch (NumberFormatException e) {
-				_warnings.add(new TraversalWarning(Messages.getString("Repetition count value not an int. Assumed a value of 1."), resp, IMarker.SEVERITY_INFO));
+				_warnings.add(new TraversalWarning(Messages.getString("DefaultScenarioTraversal.RepetitionCountNotInt"), resp, IMarker.SEVERITY_INFO));
 				repCount = 1;
 			}
 			if (repCount>0)
