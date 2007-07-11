@@ -352,6 +352,8 @@ public class UCMNavMultiPageEditor extends MultiPageEditorPart implements Adapte
      * Changed visibility to simplify coding.
      */
     public IEditorPart getEditor(int pageIndex) {
+    	if (getPageCount() == 0)
+    		return null;
         return super.getEditor(pageIndex);
     }
 

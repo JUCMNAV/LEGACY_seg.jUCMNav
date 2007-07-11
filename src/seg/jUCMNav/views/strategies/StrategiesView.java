@@ -255,7 +255,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             if (multieditor==null)return;
             //getActionRegistryManager().createActions(this, multieditor, getSite().getKeyBindingService());
             
-            multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
+            if (multieditor.getCurrentPage() != null)
+            	multieditor.getCurrentPage().getGraphicalViewer().addSelectionChangedListener(this);
             
             viewer.setEditDomain(new DefaultEditDomain(multieditor));
             viewer.setEditPartFactory(new StrategyTreeEditPartFactory(multieditor.getModel()));
