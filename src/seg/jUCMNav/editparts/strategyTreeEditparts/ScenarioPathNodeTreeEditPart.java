@@ -2,7 +2,6 @@ package seg.jUCMNav.editparts.strategyTreeEditparts;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -88,9 +87,9 @@ public class ScenarioPathNodeTreeEditPart extends StrategyUrnModelElementTreeEdi
 
 		if (super.getImage() == null) {
 			if (node instanceof StartPoint || node instanceof WaitingPlace)
-				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage()); //$NON-NLS-1$
+				setImage((JUCMNavPlugin.getImage( "icons/Start16.gif"))); //$NON-NLS-1$
 			else if (node instanceof EndPoint)
-				setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage()); //$NON-NLS-1$
+				setImage((JUCMNavPlugin.getImage( "icons/End16.gif"))); //$NON-NLS-1$
 		}
 
 		return super.getImage();

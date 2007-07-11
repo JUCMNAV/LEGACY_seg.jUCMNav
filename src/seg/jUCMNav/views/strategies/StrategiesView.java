@@ -12,7 +12,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -92,7 +91,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 showPage(ID_DESIGN);
             }
         };
-        showDesignView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DesignView16.gif")); //$NON-NLS-1$
+        showDesignView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/DesignView16.gif")); //$NON-NLS-1$
         showDesignView.setToolTipText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
         showDesignView.setText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
 
@@ -102,7 +101,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 showPage(ID_STRATEGY);
             }
         };
-        showStrategiesView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/StrategyView16.gif")); //$NON-NLS-1$
+        showStrategiesView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif")); //$NON-NLS-1$
         showStrategiesView.setToolTipText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
         showStrategiesView.setText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
 
@@ -118,7 +117,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
             	showPage(currentView);
             }
         };
-        refreshTreeView.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/refresh.gif")); //$NON-NLS-1$
+        refreshTreeView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/refresh.gif")); //$NON-NLS-1$
         refreshTreeView.setToolTipText(Messages.getString("StrategiesView.Refresh")); //$NON-NLS-1$
         refreshTreeView.setText(Messages.getString("StrategiesView.Refresh"));  //$NON-NLS-1$
 

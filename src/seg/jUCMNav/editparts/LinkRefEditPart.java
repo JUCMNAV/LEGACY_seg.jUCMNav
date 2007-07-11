@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -186,10 +185,10 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
     public void deactivate() {
         if (isActive()){
             
-            if (img != null) {
-                img.dispose();
-                img = null;
-            }
+//            if (img != null) {
+//                img.dispose();
+//                img = null;
+//            }
             ((EObject) getModel()).eAdapters().remove(adapter);
             if(getModel() instanceof LinkRef && ((LinkRef) getModel()).getLink() != null){
                 ((LinkRef)getModel()).getLink().eAdapters().remove(adapter);
@@ -301,23 +300,23 @@ public class LinkRefEditPart extends AbstractConnectionEditPart{
                 	contributionLabel.setText(""); //$NON-NLS-1$
                 }
                 
-                if (img != null) {
-                    img.dispose();
-                    img = null;
-                }
+//                if (img != null) {
+//                    img.dispose();
+//                    img = null;
+//                }
                 //Set the icon
                 if (type.equals("Make")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Make.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/Make.gif")); //$NON-NLS-1$
                 } else if (type.equals("Help")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Help.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/Help.gif")); //$NON-NLS-1$
                 } else if (type.equals("SomePositive")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomePositive.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/SomePositive.gif")); //$NON-NLS-1$
                 } else if (type.equals("SomeNegative")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/SomeNegative.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/SomeNegative.gif")); //$NON-NLS-1$
                 } else if (type.equals("Hurt")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Hurt.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/Hurt.gif")); //$NON-NLS-1$
                 } else if (type.equals("Break")){ //$NON-NLS-1$
-                    img = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Break.gif")).createImage(); //$NON-NLS-1$
+                    img = (JUCMNavPlugin.getImage( "icons/Break.gif")); //$NON-NLS-1$
                 }
                 if (img != null && GeneralPreferencePage.getGrlIconVisible()){
                     contributionLabel.setIcon(img);

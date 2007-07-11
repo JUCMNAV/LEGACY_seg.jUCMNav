@@ -16,7 +16,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DirectEditManager;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ICellEditorValidator;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -191,10 +190,10 @@ public class LabelEditPart extends ModelElementEditPart {
                 resp = null;
             }
         }
-        if (iconImg != null) {
-            iconImg.dispose();
-            iconImg = null;
-        }
+//        if (iconImg != null) {
+//            iconImg.dispose();
+//            iconImg = null;
+//        }
         super.deactivate();
     }
 
@@ -354,7 +353,7 @@ public class LabelEditPart extends ModelElementEditPart {
                 if (ucmElem!=null && ucmElem.getToLinks().size() > 0){
                     //If there is a link, add the icon if not already added
                     if (iconImg == null) {
-                        iconImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")).createImage(); //$NON-NLS-1$
+                        iconImg = (JUCMNavPlugin.getImage( "icons/urnlink.gif")); //$NON-NLS-1$
                         labelFigure.setIcon(iconImg);
                     }
                     //Verify if there is an evaluation level if it is an IntentionalElement
@@ -375,8 +374,8 @@ public class LabelEditPart extends ModelElementEditPart {
                 } else {
                     //Remove the icon and remove the additional text
                     if (iconImg != null) {
-                        iconImg.dispose();
-                        iconImg = null; 
+//                        iconImg.dispose();
+//                        iconImg = null; 
                         labelFigure.setAdditionalText(""); //$NON-NLS-1$
                         labelFigure.setIcon(null);
                     }

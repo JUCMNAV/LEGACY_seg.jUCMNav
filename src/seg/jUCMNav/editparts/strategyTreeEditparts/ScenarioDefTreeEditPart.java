@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -65,7 +64,7 @@ public class ScenarioDefTreeEditPart extends StrategyUrnModelElementTreeEditPart
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
+			setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
 		}
 		return super.getImage();
 	}

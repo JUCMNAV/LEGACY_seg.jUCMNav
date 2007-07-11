@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import seg.jUCMNav.Messages;
 import ucm.map.PathNode;
+import ucm.map.RespRef;
 import ucm.map.UCMmap;
 import ucm.performance.PerfMeasure;
 import ucm.performance.ResponseTimeReq;
@@ -22,7 +23,6 @@ import ucm.scenario.ScenarioGroup;
 import ucm.scenario.Variable;
 import urncore.ComponentElement;
 import urncore.Responsibility;
-import ucm.map.RespRef;
 import urncore.URNmodelElement;
 
 public class URNmodelElementType {

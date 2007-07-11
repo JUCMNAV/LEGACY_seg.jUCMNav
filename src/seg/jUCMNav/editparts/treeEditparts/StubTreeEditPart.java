@@ -1,6 +1,5 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -13,9 +12,9 @@ import ucm.map.Stub;
  */
 public class StubTreeEditPart extends PathNodeTreeEditPart {
 
-    protected Image imStaticStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage(); //$NON-NLS-1$ 
-    protected Image imDynamicStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage(); //$NON-NLS-1$
-    protected Image imPointcutStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/PointcutStub16.gif")).createImage(); //$NON-NLS-1$
+    protected Image imStaticStub = (JUCMNavPlugin.getImage( "icons/Stub16.gif")); //$NON-NLS-1$ 
+    protected Image imDynamicStub = (JUCMNavPlugin.getImage( "icons/DynStub16.gif")); //$NON-NLS-1$
+    protected Image imPointcutStub = (JUCMNavPlugin.getImage( "icons/PointcutStub16.gif")); //$NON-NLS-1$
 
     /**
      * 
@@ -42,16 +41,16 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
 
     	if (getStub().isPointcut()) {
             if (imPointcutStub == null)
-                imPointcutStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/PointcutStub16.gif")).createImage(); //$NON-NLS-1$
+                imPointcutStub = (JUCMNavPlugin.getImage( "icons/PointcutStub16.gif")); //$NON-NLS-1$
             return imPointcutStub;
     	}
     	else if (getStub().isDynamic()) {
             if (imDynamicStub == null)
-                imDynamicStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DynStub16.gif")).createImage(); //$NON-NLS-1$
+                imDynamicStub = (JUCMNavPlugin.getImage( "icons/DynStub16.gif")); //$NON-NLS-1$
             return imDynamicStub;
         } else {
             if (imStaticStub == null)
-                imStaticStub = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stub16.gif")).createImage(); //$NON-NLS-1$
+                imStaticStub = (JUCMNavPlugin.getImage( "icons/Stub16.gif")); //$NON-NLS-1$
             return imStaticStub;
         }
     }
@@ -62,18 +61,18 @@ public class StubTreeEditPart extends PathNodeTreeEditPart {
      * @see seg.jUCMNav.editparts.treeEditparts.UrnModelElementTreeEditPart#deactivate()
      */
     public void deactivate() {
-        if (imStaticStub != null) {
-            imStaticStub.dispose();
-            imStaticStub = null;
-        }
-        if (imDynamicStub != null) {
-            imDynamicStub.dispose();
-            imDynamicStub = null;
-        }
-        if (imPointcutStub != null) {
-        	imPointcutStub.dispose();
-        	imPointcutStub = null;
-        }
+//        if (imStaticStub != null) {
+//            imStaticStub.dispose();
+//            imStaticStub = null;
+//        }
+//        if (imDynamicStub != null) {
+//            imDynamicStub.dispose();
+//            imDynamicStub = null;
+//        }
+//        if (imPointcutStub != null) {
+//        	imPointcutStub.dispose();
+//        	imPointcutStub = null;
+//        }
         super.deactivate();
     }
 }

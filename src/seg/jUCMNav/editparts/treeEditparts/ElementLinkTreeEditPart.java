@@ -6,7 +6,6 @@ import grl.Dependency;
 import grl.ElementLink;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -52,29 +51,29 @@ public class ElementLinkTreeEditPart extends UrnModelElementTreeEditPart {
             if (getElementLink() instanceof Contribution){
                 Contribution contrib = (Contribution)getElementLink();
                 if (getParent().getModel() == contrib.getSrc()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ContributionSrc16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/ContributionSrc16.gif"))); //$NON-NLS-1$
                 } else if (getParent().getModel() == contrib.getDest()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ContributionDest16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/ContributionDest16.gif"))); //$NON-NLS-1$
                 } else {
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Contribution16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/Contribution16.gif"))); //$NON-NLS-1$
                 }
             } else if (getElementLink() instanceof Decomposition){
                 Decomposition decomp = (Decomposition)getElementLink();
                 if (getParent().getModel() == decomp.getSrc()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DecompositionSrc16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/DecompositionSrc16.gif"))); //$NON-NLS-1$
                 } else if (getParent().getModel() == decomp.getDest()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DecompositionDest16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/DecompositionDest16.gif"))); //$NON-NLS-1$
                 } else{
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Decomposition16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/Decomposition16.gif"))); //$NON-NLS-1$
                 }
             } else if (getElementLink() instanceof Dependency){
                 Dependency depend = (Dependency)getElementLink();
                 if (getParent().getModel() == depend.getSrc()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DependencySrc16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/DependencySrc16.gif"))); //$NON-NLS-1$
                 } else if (getParent().getModel() == depend.getDest()){
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DependencyDest16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/DependencyDest16.gif"))); //$NON-NLS-1$
                 } else{
-                    setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Dependency16.gif")).createImage()); //$NON-NLS-1$
+                    setImage((JUCMNavPlugin.getImage( "icons/Dependency16.gif"))); //$NON-NLS-1$
                 }
             }
         }

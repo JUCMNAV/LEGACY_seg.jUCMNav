@@ -22,7 +22,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -100,7 +99,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_OUTLINE);
             }
         };
-        showOutlineAction.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outline16.gif")); //$NON-NLS-1$
+        showOutlineAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/outline16.gif")); //$NON-NLS-1$
         showOutlineAction.setToolTipText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
         showOutlineAction.setText(Messages.getString("UrnOutlinePage.HierarchicalOutline")); //$NON-NLS-1$
         tbm.add(showOutlineAction);
@@ -110,7 +109,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_CONCERNS);
             }
         };
-        showConcernsAction.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/concernsOutline16.gif")); //$NON-NLS-1$
+        showConcernsAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/concernsOutline16.gif")); //$NON-NLS-1$
         showConcernsAction.setToolTipText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         showConcernsAction.setText(Messages.getString("UrnOutlinePage.ConcernOutline")); //$NON-NLS-1$
         tbm.add(showConcernsAction);
@@ -120,7 +119,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_OVERVIEW);
             }
         };
-        showOverviewAction.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")); //$NON-NLS-1$
+        showOverviewAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/icon16.gif")); //$NON-NLS-1$
         showOverviewAction.setToolTipText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         showOverviewAction.setText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         tbm.add(showOverviewAction);

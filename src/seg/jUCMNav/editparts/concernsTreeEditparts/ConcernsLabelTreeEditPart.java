@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -155,7 +154,7 @@ public class ConcernsLabelTreeEditPart extends LabelTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/icon16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

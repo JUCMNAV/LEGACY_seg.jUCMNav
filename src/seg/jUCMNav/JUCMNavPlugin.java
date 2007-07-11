@@ -1,8 +1,11 @@
 package seg.jUCMNav;
 
+import java.util.HashMap;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -16,6 +19,9 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     //Resource bundle.
     private ResourceBundle resourceBundle;
 
+    private static HashMap imgDescriptorFactory;
+    private static HashMap imgFactory;
+    
     public static final String PLUGIN_ID = "seg.jUCMNav"; //$NON-NLS-1$
 
     /**
@@ -70,4 +76,29 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     public ResourceBundle getResourceBundle() {
         return resourceBundle;
     }
+    
+    
+    public static ImageDescriptor getImageDescriptor(String path) {
+    	if (imgDescriptorFactory==null) imgDescriptorFactory= new HashMap();
+    	
+    	if (!imgDescriptorFactory.containsKey(path)) {
+    		imgDescriptorFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path));
+    	}
+    	
+    	return (ImageDescriptor) imgDescriptorFactory.get(path);
+    }
+    public static Image getImage(String path) {
+    	if (imgFactory==null) imgFactory= new HashMap();
+    	
+    	if (!imgFactory.containsKey(path)) {
+    		imgFactory.put(path, ImageDescriptor.createFromFile(JUCMNavPlugin.class, path).createImage());
+    		
+    		
+    	}
+    	
+    	return ((Image) imgFactory.get(path));
+    }
+    
+    
+    
 }

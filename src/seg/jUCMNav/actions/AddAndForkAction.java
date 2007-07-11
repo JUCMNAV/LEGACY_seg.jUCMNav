@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -26,7 +25,7 @@ public class AddAndForkAction extends AddOrForkAction {
     public AddAndForkAction(IWorkbenchPart part) {
         super(part);
         setId(ADDANDFORK);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/AndFork16.gif")); //$NON-NLS-1$
     }
 
     /**

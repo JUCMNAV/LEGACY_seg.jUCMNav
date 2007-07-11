@@ -30,7 +30,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -128,10 +127,10 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
      */
     public void deactivate() {
         if (isActive()){
-            if (evaluationImg != null) {
-                evaluationImg.dispose();
-                evaluationImg = null;
-            }
+//            if (evaluationImg != null) {
+//                evaluationImg.dispose();
+//                evaluationImg = null;
+//            }
             // bug 435: ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure)((FreeformLayeredPane)((FreeformViewport)((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0)).getChildren().get(0)).remove(evaluationLabel);
             if (getNode() instanceof IntentionalElementRef && (getNode()).getDef() != null)
@@ -332,21 +331,21 @@ public class IntentionalElementEditPart extends GrlNodeEditPart implements NodeE
 	                evaluationLabel.setLocation(position);
 	                evaluationLabel.setVisible(true);
 	                
-	                if (evaluationImg != null) {
-	                    evaluationImg.dispose();
-	                    evaluationImg = null;
-	                }
+//	                if (evaluationImg != null) {
+//	                    evaluationImg.dispose();
+//	                    evaluationImg = null;
+//	                }
 	                //Set the label icon
 	                if (evaluation.getEvaluation() == -100){
-	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/denied.gif")).createImage();     //$NON-NLS-1$
+	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/denied.gif"));     //$NON-NLS-1$
 	                } else if (evaluation.getEvaluation() > -100 && evaluation.getEvaluation()<0){
-	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wdenied.gif")).createImage(); //$NON-NLS-1$
+	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wdenied.gif")); //$NON-NLS-1$
 	                } else if (evaluation.getEvaluation() == 0){
-	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/undecided.gif")).createImage(); //$NON-NLS-1$
+	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/undecided.gif")); //$NON-NLS-1$
 	                } else if (evaluation.getEvaluation() > 0 && evaluation.getEvaluation()< 100){
-	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/wsatisficed.gif")).createImage(); //$NON-NLS-1$
+	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/wsatisficed.gif")); //$NON-NLS-1$
 	                } else if (evaluation.getEvaluation() == 100){
-	                    evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/satisficed.gif")).createImage(); //$NON-NLS-1$
+	                    evaluationImg = (JUCMNavPlugin.getImage( "icons/satisficed.gif")); //$NON-NLS-1$
 	                } 
                     evaluationLabel.setIcon(evaluationImg);
                 }

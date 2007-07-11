@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -23,7 +22,7 @@ public class DuplicateMapAction extends URNSelectionAction {
     public DuplicateMapAction(IWorkbenchPart part) {
         super(part);
         setId(DUPLICATEMAP);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/duplicate.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/duplicate.gif")); //$NON-NLS-1$
     }
 
     /**

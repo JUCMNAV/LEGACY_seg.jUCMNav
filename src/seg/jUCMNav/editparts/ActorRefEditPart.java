@@ -18,7 +18,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -84,7 +83,7 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
         evaluationLabel.setVisible(false);
 
         evaluationLabel.setSize(50, 16);
-        evaluationImg = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage(); //$NON-NLS-1$
+        evaluationImg = (JUCMNavPlugin.getImage( "icons/Actor16.gif")); //$NON-NLS-1$
         evaluationLabel.setIcon(evaluationImg);
         try {
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))
@@ -105,10 +104,10 @@ public class ActorRefEditPart extends ModelElementEditPart implements Adapter {
      */
     public void deactivate() {
         if (isActive()) {
-            if (evaluationImg != null) {
-                evaluationImg.dispose();
-                evaluationImg = null;
-            }
+//            if (evaluationImg != null) {
+//                evaluationImg.dispose();
+//                evaluationImg = null;
+//            }
             evaluationLabel.setVisible(false);
             // ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure().remove(evaluationLabel);
             ((ScalableFigure) ((FreeformLayeredPane) ((FreeformViewport) ((GrlConnectionOnBottomRootEditPart) getRoot()).getFigure()).getChildren().get(0))

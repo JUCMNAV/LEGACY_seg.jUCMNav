@@ -5,7 +5,6 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -89,7 +88,7 @@ public class ManageResourcesPage extends WizardPage {
          */
     public ManageResourcesPage(IWorkbenchPage workbenchPage, URNspec urn, ISelection selection, EObject defaultSelected) {
 	super("wizardPage"); //$NON-NLS-1$
-	this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+	this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 	this.selection = selection;
 	this.defaultSelected = defaultSelected;
 	this.urn = urn;

@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -65,11 +64,11 @@ public class GeneralResourceTreeEditPart extends UrnModelElementTreeEditPart {
     protected static Image getResourceImage(GeneralResource resx) {
         
         if (resx instanceof PassiveResource) {
-            return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent16.gif")).createImage(); //$NON-NLS-1$
+            return (JUCMNavPlugin.getImage( "icons/Agent16.gif")); //$NON-NLS-1$
         } else if (resx instanceof ProcessingResource) {
-            return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage(); //$NON-NLS-1$
+            return (JUCMNavPlugin.getImage( "icons/Process16.gif")); //$NON-NLS-1$
         } else { //else if (resx instanceof ExternalOperation) {
-            return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Node16.gif")).createImage(); //$NON-NLS-1$
+            return (JUCMNavPlugin.getImage( "icons/Node16.gif")); //$NON-NLS-1$
         }
 
     }

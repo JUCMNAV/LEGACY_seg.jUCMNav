@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -60,9 +59,9 @@ public class ConcernsMapTreeEditPart extends MapTreeEditPart {
 		if (getParent() != null)
     		isAncestorOfItself = ((UrnModelElementTreeEditPart) getParent()).isAncestor(this);
     	if (isAncestorOfItself)
-    		setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Stop16.gif")).createImage()); //$NON-NLS-1$
+    		setImage((JUCMNavPlugin.getImage( "icons/Stop16.gif"))); //$NON-NLS-1$
     	else if (super.getImage() == null)
-    		setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
+    		setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 }

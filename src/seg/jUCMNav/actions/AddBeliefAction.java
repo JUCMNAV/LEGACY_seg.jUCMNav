@@ -6,7 +6,6 @@ package seg.jUCMNav.actions;
 import grl.IntentionalElementRef;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -30,7 +29,7 @@ public class AddBeliefAction extends URNSelectionAction {
     public AddBeliefAction(IWorkbenchPart part) {
         super(part);
         setId(ADDBELIEF);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Belief16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Belief16.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -3,7 +3,6 @@ package seg.jUCMNav.editparts.strategyTreeEditparts;
 import grl.EvaluationStrategy;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -47,7 +46,7 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
-			setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")).createImage()); //$NON-NLS-1$
+			setImage((JUCMNavPlugin.getImage( "icons/grl16.gif"))); //$NON-NLS-1$
 		}
 		return super.getImage();
 	}

@@ -6,7 +6,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -49,7 +48,7 @@ public class NewUcmFileWizardPage extends WizardPage {
         super("wizardPage"); //$NON-NLS-1$
         setTitle(Messages.getString("NewUcmFileWizardPage.jUCMFile")); //$NON-NLS-1$
         setDescription(Messages.getString("NewUcmFileWizardPage.createsNewJUCM")); //$NON-NLS-1$
-        this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+        this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
         this.selection = selection;
     }
 

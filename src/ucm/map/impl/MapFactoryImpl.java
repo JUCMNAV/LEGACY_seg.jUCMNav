@@ -12,8 +12,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import ucm.map.*;
-
 import ucm.map.Abort;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;

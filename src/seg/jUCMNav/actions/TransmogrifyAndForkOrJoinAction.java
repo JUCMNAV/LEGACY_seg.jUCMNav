@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -31,10 +30,10 @@ public class TransmogrifyAndForkOrJoinAction extends TransmogrifyForkOrJoinActio
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDJOIN:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrJoin16.gif")); //$NON-NLS-1$
             return true;
         case SelectionHelper.ANDFORK:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
             return true;
         default:
             return false;

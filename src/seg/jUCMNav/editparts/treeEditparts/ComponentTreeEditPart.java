@@ -1,7 +1,6 @@
 package seg.jUCMNav.editparts.treeEditparts;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -72,15 +71,15 @@ public class ComponentTreeEditPart extends UrnModelElementTreeEditPart {
     protected static Image getComponentImage(ComponentKind kind) {
         switch (kind.getValue()) {
         case ComponentKind.AGENT:
-            return (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Agent16.gif")).createImage(); //$NON-NLS-1$
+            return (JUCMNavPlugin.getImage( "icons/Agent16.gif")); //$NON-NLS-1$
         case ComponentKind.ACTOR:
-            return ((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Actor16.gif")).createImage()); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage( "icons/Actor16.gif"))); //$NON-NLS-1$
         case ComponentKind.OBJECT:
-            return ((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Object16.gif")).createImage()); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage( "icons/Object16.gif"))); //$NON-NLS-1$
         case ComponentKind.PROCESS:
-            return ((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage( "icons/Process16.gif"))); //$NON-NLS-1$
         default:
-            return ((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+            return ((JUCMNavPlugin.getImage( "icons/Component16.gif"))); //$NON-NLS-1$
         }
     }
 

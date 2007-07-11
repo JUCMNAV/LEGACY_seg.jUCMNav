@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -51,13 +50,13 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
     protected Image getImage() {
         if (super.getImage() == null) {       
             if (getElement().getType().getValue() == IntentionalElementType.GOAL)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Goal16.gif")).createImage()); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage( "icons/Goal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.SOFTGOAL)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage( "icons/Softgoal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.TASK)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Task16.gif")).createImage()); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage( "icons/Task16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.RESSOURCE)
-                setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resource16.gif")).createImage()); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage( "icons/Resource16.gif"))); //$NON-NLS-1$
         }
 
         return super.getImage();

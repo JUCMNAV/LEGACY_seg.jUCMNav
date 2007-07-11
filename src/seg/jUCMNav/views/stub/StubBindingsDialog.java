@@ -12,7 +12,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -288,13 +287,13 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		td.grabHorizontal = true;
 		td.grabVertical = true;
 		sectionClient.setLayoutData(td);
-
+		
 		grid = new GridLayout();
 		grid.numColumns = 2;
 		grid.makeColumnsEqualWidth = false;
 		sectionClient.setLayout(grid);
 
-		Image image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
+		Image image = (JUCMNavPlugin.getImage( "icons/Binding16.gif")); //$NON-NLS-1$
 		images.add(image);
 
 		Composite lb1 = toolkit.createComposite(sectionClient);
@@ -353,7 +352,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 		btRedo = new ToolItem(toolBar, SWT.PUSH);
 		btRedo.setToolTipText(Messages.getString("StubBindingsDialog.redoPreviousAction")); //$NON-NLS-1$
-		image = WorkbenchImages.getImageDescriptor(ISharedImages.IMG_TOOL_REDO).createImage();
+		image = WorkbenchImages.getImage(ISharedImages.IMG_TOOL_REDO);
 		images.add(image);
 		btRedo.setImage(image);
 		btRedo.addSelectionListener(new SelectionAdapter() {
@@ -364,7 +363,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 
 		btRedo.setEnabled(false);
 
-		image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
+		image = (JUCMNavPlugin.getImage( "icons/Binding16.gif")); //$NON-NLS-1$
 		images.add(image);
 
 		Composite lb2 = toolkit.createComposite(sectionClient);
@@ -1388,7 +1387,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		create();
 		getShell().setActive();
 		getShell().setText(Messages.getString("StubBindingsDialog.stubBindings")); //$NON-NLS-1$
-		Image image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
+		Image image = (JUCMNavPlugin.getImage( "icons/Binding16.gif")); //$NON-NLS-1$
 		images.add(image);
 		getShell().setImage(image);
 		getShell().addShellListener(new ShellAdapter() {
@@ -1406,10 +1405,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 	 * dialog as a listener of the stub.
 	 */
 	protected void dispose() {
-		for (Iterator i = images.iterator(); i.hasNext();) {
-			Image image = (Image) i.next();
-			image.dispose();
-		}
+//		for (Iterator i = images.iterator(); i.hasNext();) {
+//			Image image = (Image) i.next();
+//			image.dispose();
+//		}
 		stub.eAdapters().remove(this);
 	}
 
@@ -1496,7 +1495,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			item = new TreeItem(item, SWT.NULL);
 			item.setText(binding.getStub().getName()
 					+ " <-> " + binding.getPlugin().getName() + Messages.getString("StubBindingsDialog.CommaIDColon") + binding.getPlugin().getId()); //$NON-NLS-1$ //$NON-NLS-2$
-			image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")).createImage(); //$NON-NLS-1$
+			image = (JUCMNavPlugin.getImage( "icons/Binding16.gif")); //$NON-NLS-1$
 			images.add(image);
 			item.setImage(image);
 			item.setData(binding);
@@ -1512,7 +1511,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				InBinding inBind = (InBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
 				subItem.setText("IN" + (stub.getPred().indexOf(inBind.getStubEntry()) + 1) + " <-> " + inBind.getStartPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
-				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")).createImage(); //$NON-NLS-1$
+				image = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
 				subItem.setData(inBind);
@@ -1531,7 +1530,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 				OutBinding outBind = (OutBinding) j.next();
 				subItem = new TreeItem(subLabelItem, SWT.NULL);
 				subItem.setText("OUT" + (stub.getSucc().indexOf(outBind.getStubExit()) + 1) + " <-> " + outBind.getEndPoint().getName()); //$NON-NLS-1$ //$NON-NLS-2$
-				image = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")).createImage(); //$NON-NLS-1$
+				image = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
 				images.add(image);
 				subItem.setImage(image);
 				subItem.setData(outBind);
@@ -1583,10 +1582,10 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			addPluginClient.setVisible(true);
 
 			// Initialize those images to add to the table items.
-			Image start = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Start16.gif")).createImage(); //$NON-NLS-1$
-			Image end = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/End16.gif")).createImage(); //$NON-NLS-1$
-			Image in = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")).createImage(); //$NON-NLS-1$
-			Image out = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")).createImage(); //$NON-NLS-1$
+			Image start = (JUCMNavPlugin.getImage( "icons/Start16.gif")); //$NON-NLS-1$
+			Image end = (JUCMNavPlugin.getImage( "icons/End16.gif")); //$NON-NLS-1$
+			Image in = (JUCMNavPlugin.getImage( "icons/inBinding16.gif")); //$NON-NLS-1$
+			Image out = (JUCMNavPlugin.getImage( "icons/outBinding16.gif")); //$NON-NLS-1$
 			images.add(in);
 			images.add(out);
 			images.add(start);

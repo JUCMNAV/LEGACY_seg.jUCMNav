@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -19,7 +18,7 @@ public class AddGrlGraphAction extends URNSelectionAction {
     public AddGrlGraphAction(IWorkbenchPart part){
         super(part);
         setId(ADDGRLGRAPH);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/grl16.gif")); //$NON-NLS-1$
     }
     
     /**

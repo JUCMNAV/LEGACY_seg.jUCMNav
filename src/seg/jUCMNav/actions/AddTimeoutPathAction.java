@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -30,7 +29,7 @@ public class AddTimeoutPathAction extends AddBranchAction {
 
         SelectionHelper sel = new SelectionHelper(getSelectedObjects());
         if (sel.getTimer() != null) {
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Timer16.gif")); //$NON-NLS-1$
             return sel.getTimer().getSucc().size() == 1;
         } else
             return false;

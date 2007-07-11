@@ -5,7 +5,6 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -78,7 +77,7 @@ public class ManageDemandPage extends WizardPage {
 	 */
 	public ManageDemandPage(IWorkbenchPage workbenchPage, EObject defaultSelected) {
 		super("wizardPage"); //$NON-NLS-1$
-		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+		this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 		this.workbenchPage = workbenchPage;
 		this.defaultSelected = defaultSelected;
 

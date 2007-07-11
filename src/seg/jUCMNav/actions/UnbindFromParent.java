@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -29,7 +28,7 @@ public class UnbindFromParent extends URNSelectionAction {
     public UnbindFromParent(IWorkbenchPart part) {
         super(part);
         setId(UNBINDFROMPARENT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Component16.gif")); //$NON-NLS-1$
     }
 
     /**

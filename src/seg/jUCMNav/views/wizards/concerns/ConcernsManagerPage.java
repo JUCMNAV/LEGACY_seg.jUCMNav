@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -223,7 +222,7 @@ public class ConcernsManagerPage extends WizardPage {
 	 */
 	public ConcernsManagerPage(java.util.List selectionConcerns, java.util.List selectionDiagrams, URNmodelElement defaultSelected) {
 		super("wizardPage"); //$NON-NLS-1$
-		this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+		this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 		// create the model to be used by this page by wrapping the concerns in 
 		// UpdatedConcern objects; sorting ensures that the items are also sorted in the widgets;
 		// also sets the selected concern if defaultSelected can be matched to a concern

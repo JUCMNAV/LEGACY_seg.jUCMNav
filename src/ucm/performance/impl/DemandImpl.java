@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
-import ucm.performance.GeneralResource;
 import ucm.performance.PerformancePackage;
 import urncore.Responsibility;
 import urncore.UrncorePackage;

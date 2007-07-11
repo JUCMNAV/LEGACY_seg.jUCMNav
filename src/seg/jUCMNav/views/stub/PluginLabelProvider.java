@@ -1,6 +1,5 @@
 package seg.jUCMNav.views.stub;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
@@ -18,7 +17,7 @@ import ucm.map.UCMmap;
  */
 public class PluginLabelProvider implements ILabelProvider {
 
-    Image icon = (ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/icon16.gif")).createImage(); //$NON-NLS-1$
+    Image icon = (JUCMNavPlugin.getImage( "icons/icon16.gif")); //$NON-NLS-1$
 
     /**
      *  
@@ -57,7 +56,7 @@ public class PluginLabelProvider implements ILabelProvider {
      * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
      */
     public void dispose() {
-        icon.dispose();
+        //icon.dispose();
     }
 
     public boolean isLabelProperty(Object element, String property) {

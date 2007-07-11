@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -74,7 +73,7 @@ public class MapTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null)
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
         return super.getImage();
     }
 

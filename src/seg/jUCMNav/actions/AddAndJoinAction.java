@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -25,7 +24,7 @@ public class AddAndJoinAction extends AddOrJoinAction {
     public AddAndJoinAction(IWorkbenchPart part) {
         super(part);
         setId(ADDANDJOIN);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndJoin16.gif")); //$NON-NLS-1$
     }
 
     /**

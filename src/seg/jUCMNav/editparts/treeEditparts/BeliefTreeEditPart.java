@@ -4,7 +4,6 @@ package seg.jUCMNav.editparts.treeEditparts;
 import grl.Belief;
 
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -38,7 +37,7 @@ public class BeliefTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null) {
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Belief16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Belief16.gif"))); //$NON-NLS-1$
         }
         return super.getImage();
     }

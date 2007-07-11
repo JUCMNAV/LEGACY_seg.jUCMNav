@@ -6,7 +6,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -35,7 +34,7 @@ public class CutPathAction extends URNSelectionAction {
         super(part);
         setId(CUTPATH);
         request = new Request(CUTPATH_REQUEST);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/cut_edit.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/cut_edit.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchPart;
@@ -25,7 +24,7 @@ public class ImportAction extends URNSelectionAction {
     public ImportAction(IWorkbenchPart part) {
         super(part);
         setId(IMPORT);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/import.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/import.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -7,7 +7,6 @@ import java.util.Vector;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -130,7 +129,7 @@ public class MetadataEditorPage extends WizardPage {
     public MetadataEditorPage(ISelection selection, EObject defaultSelected) {
         super("wizardPage"); //$NON-NLS-1$
 
-        this.setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/perspectiveIcon.gif")); //$NON-NLS-1$
+        this.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/perspectiveIcon.gif")); //$NON-NLS-1$
 
         this.selection = selection;
         this.defaultSelected = defaultSelected;

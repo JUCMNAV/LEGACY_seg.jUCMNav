@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions.performance;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -32,7 +31,7 @@ public class ManageDemandAction extends URNSelectionAction {
 	public ManageDemandAction(IWorkbenchPart part) {
 		super(part);
 		setId(MANAGEDEMANDACTION);
-		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resource.gif")); //$NON-NLS-1$
+		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Resource.gif")); //$NON-NLS-1$
 	}
 
 	/**

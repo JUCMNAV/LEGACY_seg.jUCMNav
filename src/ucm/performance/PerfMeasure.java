@@ -10,7 +10,6 @@ import org.eclipse.emf.common.util.EList;
 
 import ucm.UCMspec;
 import ucm.map.PathNode;
-
 import urncore.UCMmodelElement;
 
 /**

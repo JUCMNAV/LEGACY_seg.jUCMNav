@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -26,7 +25,7 @@ public class EditStubPluginsAction extends URNSelectionAction {
     public EditStubPluginsAction(IWorkbenchPart part) {
         super(part);
         setId(EDITSTUBPLUGINS);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Binding16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Binding16.gif")); //$NON-NLS-1$
     }
 
     /**

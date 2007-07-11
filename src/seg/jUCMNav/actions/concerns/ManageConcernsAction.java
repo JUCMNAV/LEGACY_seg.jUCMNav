@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions.concerns;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -30,7 +29,7 @@ public class ManageConcernsAction extends URNSelectionAction {
     public ManageConcernsAction(IWorkbenchPart part) {
         super(part);
         setId(MANAGECONCERNS);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Concern16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Concern16.gif")); //$NON-NLS-1$
     }
 
     /**

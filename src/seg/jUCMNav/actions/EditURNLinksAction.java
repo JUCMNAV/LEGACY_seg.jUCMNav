@@ -2,7 +2,6 @@ package seg.jUCMNav.actions;
 
 import grl.Actor;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -30,7 +29,7 @@ public class EditURNLinksAction extends URNSelectionAction {
     public EditURNLinksAction(IWorkbenchPart part) {
         super(part);
         setId(EDITURNLINKS);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/urnlink.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/urnlink.gif")); //$NON-NLS-1$
     }
     
     /**

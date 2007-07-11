@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -26,7 +25,7 @@ public class AddDirectionArrow extends URNSelectionAction {
     public AddDirectionArrow(IWorkbenchPart part) {
         super(part);
         setId(ADDDIRECTIONARROW);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/DirectionArrow16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/DirectionArrow16.gif")); //$NON-NLS-1$
     }
 
     /**

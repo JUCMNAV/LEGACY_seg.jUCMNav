@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -27,7 +26,7 @@ public class AddOrForkAction extends URNSelectionAction {
     public AddOrForkAction(IWorkbenchPart part) {
         super(part);
         setId(ADDORFORK);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
     }
 
     /**

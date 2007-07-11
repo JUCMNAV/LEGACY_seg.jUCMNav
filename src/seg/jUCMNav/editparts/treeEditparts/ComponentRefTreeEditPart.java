@@ -85,10 +85,10 @@ public class ComponentRefTreeEditPart extends UrnModelElementTreeEditPart {
             EStructuralFeature structuralFeature = (EStructuralFeature) notification.getFeature();
             if (structuralFeature.getEType().getInstanceClass() == ComponentKind.class) {
                 // next getImage() will refresh it. (refreshVisuals() in parent will do it)
-                if (getImage() != null) {
-                    getImage().dispose();
-                    setImage(null);
-                }
+//                if (getImage() != null) {
+//                    getImage().dispose();
+//                    setImage(null);
+//                }
             }
         }
         super.notifyChanged(notification);

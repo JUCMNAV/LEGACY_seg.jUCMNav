@@ -1,6 +1,5 @@
 package seg.jUCMNav.actions;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -26,7 +25,7 @@ public class AddResponsibility extends URNSelectionAction {
     public AddResponsibility(IWorkbenchPart part) {
         super(part);
         setId(ADDRESPONSIBILITY);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Resp16.gif")); //$NON-NLS-1$
     }
 
     /**

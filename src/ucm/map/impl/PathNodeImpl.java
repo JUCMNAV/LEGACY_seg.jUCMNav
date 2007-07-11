@@ -22,7 +22,6 @@ import ucm.map.MapPackage;
 import ucm.map.PathNode;
 import ucm.performance.PerfMeasure;
 import ucm.performance.PerformancePackage;
-
 import urncore.IURNConnection;
 import urncore.IURNContainerRef;
 import urncore.IURNDiagram;

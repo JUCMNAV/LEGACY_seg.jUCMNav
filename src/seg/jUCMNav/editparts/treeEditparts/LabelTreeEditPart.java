@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -161,21 +160,21 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Component16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Component16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Resp16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/grl16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/GRLActor16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/GRLActor16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Softgoal16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Softgoal16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.resources")))  //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Process16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Process16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.concerns")))  //$NON-NLS-1$
-            setImage((ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Concern16.gif")).createImage()); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/Concern16.gif"))); //$NON-NLS-1$
 
         return super.getImage();
     }

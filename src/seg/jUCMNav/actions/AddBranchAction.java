@@ -2,7 +2,6 @@ package seg.jUCMNav.actions;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -35,16 +34,16 @@ public class AddBranchAction extends URNSelectionAction {
 
         switch (sel.getSelectionType()) {
         case SelectionHelper.ANDFORK:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndFork16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ORFORK:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrFork16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrFork16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ANDJOIN:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/AndJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/AndJoin16.gif")); //$NON-NLS-1$
             break;
         case SelectionHelper.ORJOIN:
-            setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/OrJoin16.gif")); //$NON-NLS-1$
+            setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/OrJoin16.gif")); //$NON-NLS-1$
             break;
         default:
             return false;

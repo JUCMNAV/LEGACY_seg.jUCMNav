@@ -62,10 +62,10 @@ public class UrnModelElementTreeEditPart extends AbstractTreeEditPart implements
     public void deactivate() {
         if (isActive()) {
             ((EObject) getModel()).eAdapters().remove(this);
-            if (image != null) {
-                image.dispose();
-                image = null;
-            }
+//            if (image != null) {
+//                image.dispose();
+//                image = null;
+//            }
         }
         super.deactivate();
     }

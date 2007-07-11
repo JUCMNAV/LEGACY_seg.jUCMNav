@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -41,9 +40,9 @@ public class AddBranchOnStubAction extends URNSelectionAction {
         switch (sel.getSelectionType()) {
         case SelectionHelper.STUB:
         	if (isInBranch)
-        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/inBinding16.gif")); //$NON-NLS-1$
+        		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/inBinding16.gif")); //$NON-NLS-1$
         	else 
-        		setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/outBinding16.gif")); //$NON-NLS-1$
+        		setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/outBinding16.gif")); //$NON-NLS-1$
             break;
         default:
             return false;

@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -27,7 +26,7 @@ public class DisconnectTimeoutPathAction extends URNSelectionAction {
     public DisconnectTimeoutPathAction(IWorkbenchPart part) {
         super(part);
         setId(DISCONNECTTIMEOUTPATH);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Timer16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/Timer16.gif")); //$NON-NLS-1$
     }
 
     /**

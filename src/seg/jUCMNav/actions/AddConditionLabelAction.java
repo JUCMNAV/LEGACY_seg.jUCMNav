@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -33,7 +32,7 @@ public class AddConditionLabelAction extends URNSelectionAction {
     public AddConditionLabelAction(IWorkbenchPart part) {
         super(part);
         setId(ADDLABEL);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/label.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/label.gif")); //$NON-NLS-1$
     }
 
     /**

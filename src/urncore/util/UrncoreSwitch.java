@@ -11,13 +11,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import urncore.*;
-
 import urncore.Component;
 import urncore.ComponentElement;
 import urncore.ComponentLabel;
 import urncore.ComponentRegular;
 import urncore.ComponentType;
+import urncore.Concern;
 import urncore.Condition;
 import urncore.DynamicResponsibility;
 import urncore.GRLmodelElement;

@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
@@ -21,7 +20,7 @@ public class AddMapAction extends URNSelectionAction {
     public AddMapAction(IWorkbenchPart part) {
         super(part);
         setId(ADDMAP);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/ucm16.gif")); //$NON-NLS-1$
     }
 
     /**

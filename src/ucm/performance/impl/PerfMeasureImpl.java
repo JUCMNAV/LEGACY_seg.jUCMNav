@@ -22,7 +22,6 @@ import ucm.UCMspec;
 import ucm.UcmPackage;
 import ucm.map.MapPackage;
 import ucm.map.PathNode;
-
 import ucm.performance.GeneralResource;
 import ucm.performance.PerfAttribute;
 import ucm.performance.PerfMeasure;
