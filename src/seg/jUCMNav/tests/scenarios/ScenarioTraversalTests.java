@@ -702,7 +702,7 @@ public class ScenarioTraversalTests extends TestCase {
         cs.execute(cmd);
 
         // add bogus data to new map; set variables to help other commands access this new map
-        tester.map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(1);
+        tester.map = (UCMmap) urnspec.getUrndef().getSpecDiagrams().get(2);
         tester.start = (StartPoint) ModelCreationFactory.getNewObject(urnspec, StartPoint.class);
 
         // Then create a new path in this map to test adding an In/Out Binding.
