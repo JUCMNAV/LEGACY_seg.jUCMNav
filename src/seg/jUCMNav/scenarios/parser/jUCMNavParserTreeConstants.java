@@ -36,34 +36,34 @@ public interface jUCMNavParserTreeConstants
 
 
   public String[] jjtNodeName = {
-    "Start",
-    "StartResponsibility",
-    "void",
-    "Assignment",
-    "CompoundStatement",
-    "IfStatement",
-    "Implication",
-    "Disjunction",
-    "InclusiveDisjunction",
-    "ExclusiveDisjunction",
-    "Conjunction",
-    "Comparison",
-    "Equality",
-    "Inequality",
-    "Negation",
-    "RelationalExpression",
-    "RelationalOperation",
-    "AdditiveExpression",
-    "MultiplicativeExpression",
-    "GreaterThan",
-    "GreaterOrEqualTo",
-    "LowerThan",
-    "LowerOrEqualTo",
-    "Addition",
-    "Substraction",
-    "Multiplication",
-    "BooleanConstant",
-    "IntegerConstant",
-    "Identifier",
+    "Start", //$NON-NLS-1$
+    "StartResponsibility", //$NON-NLS-1$
+    "void", //$NON-NLS-1$
+    "Assignment", //$NON-NLS-1$
+    "CompoundStatement", //$NON-NLS-1$
+    "IfStatement", //$NON-NLS-1$
+    "Implication", //$NON-NLS-1$
+    "Disjunction", //$NON-NLS-1$
+    "InclusiveDisjunction", //$NON-NLS-1$
+    "ExclusiveDisjunction", //$NON-NLS-1$
+    "Conjunction", //$NON-NLS-1$
+    "Comparison", //$NON-NLS-1$
+    "Equality", //$NON-NLS-1$
+    "Inequality", //$NON-NLS-1$
+    "Negation", //$NON-NLS-1$
+    "RelationalExpression", //$NON-NLS-1$
+    "RelationalOperation", //$NON-NLS-1$
+    "AdditiveExpression", //$NON-NLS-1$
+    "MultiplicativeExpression", //$NON-NLS-1$
+    "GreaterThan", //$NON-NLS-1$
+    "GreaterOrEqualTo", //$NON-NLS-1$
+    "LowerThan", //$NON-NLS-1$
+    "LowerOrEqualTo", //$NON-NLS-1$
+    "Addition", //$NON-NLS-1$
+    "Substraction", //$NON-NLS-1$
+    "Multiplication", //$NON-NLS-1$
+    "BooleanConstant", //$NON-NLS-1$
+    "IntegerConstant", //$NON-NLS-1$
+    "Identifier", //$NON-NLS-1$
   };
 }

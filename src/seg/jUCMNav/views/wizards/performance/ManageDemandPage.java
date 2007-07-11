@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.create.CreateDemandCommand;
 import seg.jUCMNav.model.commands.delete.DeleteDemandCommand;
@@ -81,8 +82,8 @@ public class ManageDemandPage extends WizardPage {
 		this.workbenchPage = workbenchPage;
 		this.defaultSelected = defaultSelected;
 
-		setTitle("Manage Demand");
-		setDescription("Specify external operations required by a responsibility");
+		setTitle(Messages.getString("ManageDemandPage.ManageDemand")); //$NON-NLS-1$
+		setDescription(Messages.getString("ManageDemandPage.SpecifyExtOp")); //$NON-NLS-1$
 
 	}
 
@@ -97,13 +98,13 @@ public class ManageDemandPage extends WizardPage {
 		container.setLayout(containerLayout);
 
 		Label lin = new Label(container, SWT.NULL);
-		lin.setText("Required External Operations");
+		lin.setText(Messages.getString("ManageDemandPage.RequiredExtOp")); //$NON-NLS-1$
 
 		Label blank1 = new Label(container, SWT.NULL);
-		blank1.setText("");
+		blank1.setText(""); //$NON-NLS-1$
 
 		Label lavail = new Label(container, SWT.NULL);
-		lavail.setText("Available External Operations");
+		lavail.setText(Messages.getString("ManageDemandPage.AvailableExtOp")); //$NON-NLS-1$
 
 		inList = new List(container, SWT.READ_ONLY | SWT.V_SCROLL);
 		inList.setSize(150, 150);
@@ -121,12 +122,12 @@ public class ManageDemandPage extends WizardPage {
 		cv.setLayout(new FillLayout(SWT.VERTICAL));
 
 		left = new Button(cv, SWT.Activate);
-		left.setText("< add <");
+		left.setText(Messages.getString("ManageDemandPage.Add")); //$NON-NLS-1$
 		left.setEnabled(false);
 		left.addSelectionListener(leftBtnListener);
 
 		right = new Button(cv, SWT.Activate);
-		right.setText("> remove >");
+		right.setText(Messages.getString("ManageDemandPage.Remove")); //$NON-NLS-1$
 		right.setEnabled(false);
 		right.addSelectionListener(rightBtnListener);
 
@@ -144,7 +145,7 @@ public class ManageDemandPage extends WizardPage {
 		GridData gd3 = new GridData(GridData.FILL_HORIZONTAL);
 		gd3.horizontalSpan = 3;
 		demandLabel.setLayoutData(gd3);
-		demandLabel.setText("demand: ");
+		demandLabel.setText(Messages.getString("ManageDemandPage.Demand")); //$NON-NLS-1$
 		demand = new Text(container, SWT.BORDER);
 		GridData gd4 = new GridData(GridData.FILL_HORIZONTAL);
 		gd4.horizontalSpan = 1;
@@ -158,7 +159,7 @@ public class ManageDemandPage extends WizardPage {
 					changed = true;
 				}
 				if (isValid(qtyUser) != null) {
-					setErrorMessage("quantity value must be real");
+					setErrorMessage(Messages.getString("ManageDemandPage.QuantityMustBeReal")); //$NON-NLS-1$
 				} else {
 					setErrorMessage(null);
 					updateButton.setEnabled(changed);
@@ -167,7 +168,7 @@ public class ManageDemandPage extends WizardPage {
 		});
 
 		updateButton = new Button(container, SWT.PUSH);
-		updateButton.setText("Update");
+		updateButton.setText(Messages.getString("ManageDemandPage.Uodate")); //$NON-NLS-1$
 		updateButton.setEnabled(false);
 		updateButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -188,7 +189,7 @@ public class ManageDemandPage extends WizardPage {
 			doubleValue = Double.parseDouble(value.toString());
 			return null;
 		} catch (NumberFormatException exc) {
-			return "Messages.getString(\"EObjectPropertySource.notValidNumber\"); //$NON-NLS-1$"; // Ouch. _js_
+			return Messages.getString("EObjectPropertySource.notValidNumber"); //$NON-NLS-1$
 		}
 	}
 
@@ -277,7 +278,7 @@ public class ManageDemandPage extends WizardPage {
 	public void createResCmd() {
 		CommandStack cs = ((UCMNavMultiPageEditor) workbenchPage.getActiveEditor()).getDelegatingCommandStack();
 		CompoundCommand command = new CompoundCommand();
-		quantity = "0";
+		quantity = "0"; //$NON-NLS-1$
 		CreateDemandCommand createCmd = new CreateDemandCommand(spec, extOp, quantity, responsibility);
 		command.add(createCmd);
 
@@ -343,11 +344,11 @@ public class ManageDemandPage extends WizardPage {
 					found = found || agen.equals(externOpn);
 				}
 				if (!found) {
-					availList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+					availList.add(((ExternalOperation) externOpn).getName() + Messages.getString("ManageDemandPage.ExternalOperation")); //$NON-NLS-1$
 					availExternOpns[indexRes] = externOpn;
 					indexRes++;
 				} else {
-					inList.add(((ExternalOperation) externOpn).getName() + " (External Operation)");
+					inList.add(((ExternalOperation) externOpn).getName() + Messages.getString("ManageDemandPage.ExternalOperation")); //$NON-NLS-1$
 					boundExternOpns[indexDem] = externOpn;
 					indexDem++;
 				}

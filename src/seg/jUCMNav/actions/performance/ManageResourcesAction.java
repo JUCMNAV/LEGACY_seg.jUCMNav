@@ -23,7 +23,7 @@ import urncore.Responsibility;
  */
 public class ManageResourcesAction extends URNSelectionAction {
 
-	public static final String MANAGERESOURCESACTION = "seg.jUCMNav.actions.performance.ManageResourcesAction";
+	public static final String MANAGERESOURCESACTION = "seg.jUCMNav.actions.performance.ManageResourcesAction"; //$NON-NLS-1$
 
 	private EObject obj;
 	private URNspec urn;

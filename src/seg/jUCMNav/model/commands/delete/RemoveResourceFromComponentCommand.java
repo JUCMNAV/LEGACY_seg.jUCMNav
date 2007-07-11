@@ -59,25 +59,25 @@ public class RemoveResourceFromComponentCommand extends Command implements JUCMN
         testPreConditions();
     }
     public void testPostConditions() {
-        assert comp != null && resx!= null && (resx instanceof PassiveResource || resx instanceof ProcessingResource) : "post invalid comp/resx";
+        assert comp != null && resx!= null && (resx instanceof PassiveResource || resx instanceof ProcessingResource) : "post invalid comp/resx"; //$NON-NLS-1$
         if (comp instanceof ComponentRegular && resx instanceof ProcessingResource) {
             ComponentRegular regular = (ComponentRegular) comp;
-            assert regular.getHost() == null : "post resx still bound";
+            assert regular.getHost() == null : "post resx still bound"; //$NON-NLS-1$
         }
         else {
-            assert comp.getResource() == null : "post resx still bound";
+            assert comp.getResource() == null : "post resx still bound"; //$NON-NLS-1$
         }        
     }
 
     public void testPreConditions() {
-        assert comp != null && resx!= null && (resx instanceof PassiveResource || resx instanceof ProcessingResource) : "post invalid comp/resx";
+        assert comp != null && resx!= null && (resx instanceof PassiveResource || resx instanceof ProcessingResource) : "post invalid comp/resx"; //$NON-NLS-1$
         
         if (comp instanceof ComponentRegular && resx instanceof ProcessingResource) {
             ComponentRegular regular = (ComponentRegular) comp;
-            assert regular.getHost() == resx : "pre invalid resx link";
+            assert regular.getHost() == resx : "pre invalid resx link"; //$NON-NLS-1$
         }
         else {
-            assert comp.getResource() == resx : "pre invalid resx link";
+            assert comp.getResource() == resx : "pre invalid resx link"; //$NON-NLS-1$
         }
                 
     }

@@ -216,7 +216,7 @@ public class ScenarioGenerator {
         
         
         // add preconditions before start point. 
-        if (MetadataHelper.getMetaData(wp, "isPreCondition")!=null && "true".equalsIgnoreCase(MetadataHelper.getMetaData(wp, "isPreCondition")))
+        if (MetadataHelper.getMetaData(wp, "isPreCondition")!=null && "true".equalsIgnoreCase(MetadataHelper.getMetaData(wp, "isPreCondition"))) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         {
             if (seq.getChildren().size()>0 && seq.getChildren().get(seq.getChildren().size()-1) instanceof Event) {
                 Event event = (Event) seq.getChildren().get(seq.getChildren().size()-1);

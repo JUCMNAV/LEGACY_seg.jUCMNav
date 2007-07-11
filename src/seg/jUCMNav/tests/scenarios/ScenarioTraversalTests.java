@@ -97,7 +97,7 @@ public class ScenarioTraversalTests extends TestCase {
 
     private void runscenario() {
         ScenarioUtils.setActiveScenario(scenario);
-        assertEquals("Unexpected warning count", expectedWarningCount, getWarningCount());
+        assertEquals("Unexpected warning count", expectedWarningCount, getWarningCount()); //$NON-NLS-1$
     }
 
     /**
@@ -107,8 +107,8 @@ public class ScenarioTraversalTests extends TestCase {
     public void testSimple1() {
         tester.testCreatePathCommand();
 
-        tester.start.setPrecondition(getCondition("true"));
-        tester.end.setPostcondition(getCondition("true"));
+        tester.start.setPrecondition(getCondition("true")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("true")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -120,8 +120,8 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testSimple2() {
         tester.testExtendPathCommand();
-        tester.start.setPrecondition(getCondition("true"));
-        tester.end.setPostcondition(getCondition("true"));
+        tester.start.setPrecondition(getCondition("true")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("true")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -134,18 +134,18 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testSimple3() {
 
-        initialize(addBoolean("b"), "true");
+        initialize(addBoolean("b"), "true"); //$NON-NLS-1$ //$NON-NLS-2$
 
         tester.testSplitLinkCommand();
-        tester.resp.getRespDef().setExpression("b=false;");
+        tester.resp.getRespDef().setExpression("b=false;"); //$NON-NLS-1$
 
-        tester.start.setPrecondition(getCondition("b"));
-        tester.end.setPostcondition(getCondition("!b"));
+        tester.start.setPrecondition(getCondition("b")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("!b")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
-        addScenarioPreCondition("b==true");
-        addScenarioPostCondition("b!=true");
+        addScenarioPreCondition("b==true"); //$NON-NLS-1$
+        addScenarioPostCondition("b!=true"); //$NON-NLS-1$
     }
 
     /**
@@ -154,18 +154,18 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testSimple4() {
 
-        initialize(addInteger("i"), "15");
+        initialize(addInteger("i"), "15"); //$NON-NLS-1$ //$NON-NLS-2$
 
         tester.testSplitLinkCommand();
-        tester.resp.getRespDef().setExpression("i=50;");
+        tester.resp.getRespDef().setExpression("i=50;"); //$NON-NLS-1$
 
-        tester.start.setPrecondition(getCondition("i<25"));
-        tester.end.setPostcondition(getCondition("!i<25"));
+        tester.start.setPrecondition(getCondition("i<25")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("!i<25")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
-        addScenarioPreCondition("i==15");
-        addScenarioPostCondition("i==50");
+        addScenarioPreCondition("i==15"); //$NON-NLS-1$
+        addScenarioPostCondition("i==50"); //$NON-NLS-1$
     }
 
     /**
@@ -174,18 +174,18 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testSimple5() {
 
-        initialize(addInteger("i"), "15");
+        initialize(addInteger("i"), "15"); //$NON-NLS-1$ //$NON-NLS-2$
 
         tester.testSplitLinkCommand();
-        tester.resp.getRespDef().setExpression("i=i+1;");
-        tester.resp.setRepetitionCount("10");
-        tester.start.setPrecondition(getCondition("i<25"));
-        tester.end.setPostcondition(getCondition("i>=25"));
+        tester.resp.getRespDef().setExpression("i=i+1;"); //$NON-NLS-1$
+        tester.resp.setRepetitionCount("10"); //$NON-NLS-1$
+        tester.start.setPrecondition(getCondition("i<25")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("i>=25")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
-        addScenarioPreCondition("i==15");
-        addScenarioPostCondition("i==25");
+        addScenarioPreCondition("i==15"); //$NON-NLS-1$
+        addScenarioPostCondition("i==25"); //$NON-NLS-1$
     }
 
     /**
@@ -195,22 +195,22 @@ public class ScenarioTraversalTests extends TestCase {
     public void testSimple6() {
 
         Vector v = new Vector();
-        v.add("INITIAL");
-        v.add("MIDPOINT");
-        v.add("FINAL");
+        v.add("INITIAL"); //$NON-NLS-1$
+        v.add("MIDPOINT"); //$NON-NLS-1$
+        v.add("FINAL"); //$NON-NLS-1$
 
-        initialize(addEnumeration(addEnumerationType("POSSIBLESTATES", v), "state"), "INITIAL");
+        initialize(addEnumeration(addEnumerationType("POSSIBLESTATES", v), "state"), "INITIAL"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         tester.testSplitLinkCommand();
-        tester.resp.getRespDef().setExpression("state=MIDPOINT;");
+        tester.resp.getRespDef().setExpression("state=MIDPOINT;"); //$NON-NLS-1$
 
-        tester.start.setPrecondition(getCondition("state!=FINAL"));
-        tester.end.setPostcondition(getCondition("state!=FINAL"));
+        tester.start.setPrecondition(getCondition("state!=FINAL")); //$NON-NLS-1$
+        tester.end.setPostcondition(getCondition("state!=FINAL")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
-        addScenarioPreCondition("state==INITIAL");
-        addScenarioPostCondition("state==MIDPOINT");
+        addScenarioPreCondition("state==INITIAL"); //$NON-NLS-1$
+        addScenarioPostCondition("state==MIDPOINT"); //$NON-NLS-1$
     }
 
     /**
@@ -219,19 +219,19 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testFork1() {
         tester.testForkPathsCommand();
-        initialize(addBoolean("b"), "true");
+        initialize(addBoolean("b"), "true"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("b"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("!b"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("b")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("!b")); //$NON-NLS-1$
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
 
         DeleteScenarioPathNodeCommand cmd = new DeleteScenarioPathNodeCommand((ScenarioEndPoint) scenario.getEndPoints().get(0));
-        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("!b"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("b"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("!b")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("b")); //$NON-NLS-1$
 
         HashSet set = new HashSet();
         set.add(((NodeConnection) tester.fork.getSucc().get(0)));
@@ -239,7 +239,7 @@ public class ScenarioTraversalTests extends TestCase {
         QFindReachableEndPoints qry = new EndPointFinder.QFindReachableEndPoints(tester.fork, set, QFindReachableNodes.DIRECTION_FORWARD);
         EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.run(qry);
         Vector vEndPoints = resp.getNodes();
-        assertTrue("Should have found one end point", vEndPoints.size() == 1);
+        assertTrue("Should have found one end point", vEndPoints.size() == 1); //$NON-NLS-1$
 
         addScenarioNode((EndPoint) vEndPoints.get(0));
 
@@ -251,19 +251,19 @@ public class ScenarioTraversalTests extends TestCase {
      */
     public void testFork2() {
         tester.testForkPathsCommand();
-        initialize(addInteger("i"), "15");
+        initialize(addInteger("i"), "15"); //$NON-NLS-1$ //$NON-NLS-2$
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("i<25"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("i>=25"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("i<25")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("i>=25")); //$NON-NLS-1$
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
 
         DeleteScenarioPathNodeCommand cmd = new DeleteScenarioPathNodeCommand((ScenarioEndPoint) scenario.getEndPoints().get(0));
-        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("i>=25"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("i<25"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("i>=25")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("i<25")); //$NON-NLS-1$
 
         HashSet set = new HashSet();
         set.add(((NodeConnection) tester.fork.getSucc().get(0)));
@@ -271,7 +271,7 @@ public class ScenarioTraversalTests extends TestCase {
         QFindReachableEndPoints qry = new EndPointFinder.QFindReachableEndPoints(tester.fork, set, QFindReachableNodes.DIRECTION_FORWARD);
         EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.run(qry);
         Vector vEndPoints = resp.getNodes();
-        assertTrue("Should have found one end point", vEndPoints.size() == 1);
+        assertTrue("Should have found one end point", vEndPoints.size() == 1); //$NON-NLS-1$
 
         addScenarioNode((EndPoint) vEndPoints.get(0));
 
@@ -284,23 +284,23 @@ public class ScenarioTraversalTests extends TestCase {
     public void testFork3() {
         tester.testForkPathsCommand();
         Vector v = new Vector();
-        v.add("INITIAL");
-        v.add("MIDPOINT");
-        v.add("FINAL");
+        v.add("INITIAL"); //$NON-NLS-1$
+        v.add("MIDPOINT"); //$NON-NLS-1$
+        v.add("FINAL"); //$NON-NLS-1$
 
-        initialize(addEnumeration(addEnumerationType("POSSIBLESTATES", v), "state"), "INITIAL");
+        initialize(addEnumeration(addEnumerationType("POSSIBLESTATES", v), "state"), "INITIAL"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("state==INITIAL"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("state==FINAL"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("state==INITIAL")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("state==FINAL")); //$NON-NLS-1$
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
 
         DeleteScenarioPathNodeCommand cmd = new DeleteScenarioPathNodeCommand((ScenarioEndPoint) scenario.getEndPoints().get(0));
-        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute());
+        assertTrue("Can't execute DeleteScenarioPathNodeCommand", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
 
-        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("state==FINAL"));
-        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("state!=FINAL"));
+        ((NodeConnection) tester.fork.getSucc().get(0)).setCondition(getCondition("state==FINAL")); //$NON-NLS-1$
+        ((NodeConnection) tester.fork.getSucc().get(1)).setCondition(getCondition("state!=FINAL")); //$NON-NLS-1$
 
         HashSet set = new HashSet();
         set.add(((NodeConnection) tester.fork.getSucc().get(0)));
@@ -308,7 +308,7 @@ public class ScenarioTraversalTests extends TestCase {
         QFindReachableEndPoints qry = new EndPointFinder.QFindReachableEndPoints(tester.fork, set, QFindReachableNodes.DIRECTION_FORWARD);
         EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.run(qry);
         Vector vEndPoints = resp.getNodes();
-        assertTrue("Should have found one end point", vEndPoints.size() == 1);
+        assertTrue("Should have found one end point", vEndPoints.size() == 1); //$NON-NLS-1$
 
         addScenarioNode((EndPoint) vEndPoints.get(0));
 
@@ -395,7 +395,7 @@ public class ScenarioTraversalTests extends TestCase {
 
         tester.testReplaceEmptyPointCommand();
         // wait will be blocked.
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -416,7 +416,7 @@ public class ScenarioTraversalTests extends TestCase {
     public void testSynchConnect3() {
         tester.testReplaceEmptyPointCommand2();
         // will be blocked
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -453,7 +453,7 @@ public class ScenarioTraversalTests extends TestCase {
     public void testWp1() {
         tester.testReplaceEmptyPointCommand();
 
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("true"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("true")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -468,8 +468,8 @@ public class ScenarioTraversalTests extends TestCase {
         tester.testReplaceEmptyPointCommand2();
 
         // timer
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("true"));
-        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("false"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("true")); //$NON-NLS-1$
+        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("false")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
         addScenarioNode(tester.end);
@@ -484,8 +484,8 @@ public class ScenarioTraversalTests extends TestCase {
         tester.testReplaceEmptyPointCommand2();
 
         // timer
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false"));
-        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("true"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false")); //$NON-NLS-1$
+        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("true")); //$NON-NLS-1$
 
         addScenarioNode(tester.start);
 
@@ -507,7 +507,7 @@ public class ScenarioTraversalTests extends TestCase {
 
         tester.testReplaceEmptyPointCommand();
         // wait will not be blocked.
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("!b"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("!b")); //$NON-NLS-1$
 
         // 2nd path
         addScenarioNode(tester.start);
@@ -533,8 +533,8 @@ public class ScenarioTraversalTests extends TestCase {
 
         tester.testReplaceEmptyPointCommand2();
         // wait will not be blocked.
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("!b"));
-        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("false"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("!b")); //$NON-NLS-1$
+        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("false")); //$NON-NLS-1$
 
         // 2nd path
         addScenarioNode(tester.start);
@@ -560,8 +560,8 @@ public class ScenarioTraversalTests extends TestCase {
 
         tester.testReplaceEmptyPointCommand2();
         // wait will not be blocked.
-        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false"));
-        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("!b"));
+        ((NodeConnection) tester.wait.getSucc().get(0)).setCondition(getCondition("false")); //$NON-NLS-1$
+        ((NodeConnection) tester.wait.getSucc().get(1)).setCondition(getCondition("!b")); //$NON-NLS-1$
 
         // 2nd path
         addScenarioNode(tester.start);
@@ -570,7 +570,7 @@ public class ScenarioTraversalTests extends TestCase {
         QFindReachableEndPoints qry = new EndPointFinder.QFindReachableEndPoints(tester.wait, set, QFindReachableNodes.DIRECTION_FORWARD);
         EndPointFinder.RReachableEndPoints resp = (EndPointFinder.RReachableEndPoints) GraphExplorer.run(qry);
         Vector vEndPoints = resp.getNodes();
-        assertTrue("Should have found one end point", vEndPoints.size() == 1);
+        assertTrue("Should have found one end point", vEndPoints.size() == 1); //$NON-NLS-1$
 
         addScenarioNode((EndPoint) vEndPoints.get(0));
 
@@ -643,7 +643,7 @@ public class ScenarioTraversalTests extends TestCase {
             PathNode pn = (PathNode) iterator.next();
 
             if (pn instanceof StartPoint || pn instanceof EndPoint) {
-                assertEquals("pn was hit but wasn't supposed to!", 0, ScenarioUtils.getTraversalHitCount(pn));
+                assertEquals("pn was hit but wasn't supposed to!", 0, ScenarioUtils.getTraversalHitCount(pn)); //$NON-NLS-1$
             }
         }
     }
@@ -676,7 +676,7 @@ public class ScenarioTraversalTests extends TestCase {
         QFindReachableStartPoints qry = new StartPointFinder.QFindReachableStartPoints(join, set, QFindReachableNodes.DIRECTION_REVERSE);
         StartPointFinder.RReachableStartPoints resp = (StartPointFinder.RReachableStartPoints) GraphExplorer.run(qry);
         Vector vStartPoints = resp.getNodes();
-        assertTrue("Should have found one start point", vStartPoints.size() == 1);
+        assertTrue("Should have found one start point", vStartPoints.size() == 1); //$NON-NLS-1$
 
         StartPoint sp = (StartPoint) vStartPoints.get(0);
         NodeConnection entry = (NodeConnection) tester.stub.getPred().get(1);
@@ -722,8 +722,8 @@ public class ScenarioTraversalTests extends TestCase {
         assertTrue("Can't execute AddOutBindingCommand with Plugin, EndPoint and exit NodeConnection.", cmd.canExecute()); //$NON-NLS-1$
         cs.execute(cmd);
         
-        oldpb.setPrecondition(getCondition("true"));
-        tester.plugin.setPrecondition(getCondition("false"));
+        oldpb.setPrecondition(getCondition("true")); //$NON-NLS-1$
+        tester.plugin.setPrecondition(getCondition("false")); //$NON-NLS-1$
         
         
         // should have same behaviour as testStub1

@@ -506,12 +506,12 @@ static final int[] jjnextStates = {
    31, 36, 13, 32, 33, 35, 39, 41, 
 };
 public static final String[] jjstrLiteralImages = {
-"", null, null, null, null, null, null, "\173", "\175", "\75\76", "\50", 
-"\51", "\76", "\76\75", "\74", "\74\75", "\53", "\55", "\52", null, null, null, 
-"\75", "\75\75", null, null, "\72\75", "\151\146", "\145\154\163\145", "\73", null, 
+"", null, null, null, null, null, null, "\173", "\175", "\75\76", "\50",  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+"\51", "\76", "\76\75", "\74", "\74\75", "\53", "\55", "\52", null, null, null,  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+"\75", "\75\75", null, null, "\72\75", "\151\146", "\145\154\163\145", "\73", null,  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 null, null, null, null, };
 public static final String[] lexStateNames = {
-   "DEFAULT", 
+   "DEFAULT",  //$NON-NLS-1$
 };
 static final long[] jjtoToken = {
    0x1ffffff81L, 
@@ -526,7 +526,7 @@ static protected char curChar;
 public jUCMNavParserTokenManager(SimpleCharStream stream)
 {
    if (input_stream != null)
-      throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
+      throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR); //$NON-NLS-1$
    input_stream = stream;
 }
 public jUCMNavParserTokenManager(SimpleCharStream stream, int lexState)
@@ -556,7 +556,7 @@ static public void ReInit(SimpleCharStream stream, int lexState)
 static public void SwitchTo(int lexState)
 {
    if (lexState >= 1 || lexState < 0)
-      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE); //$NON-NLS-1$ //$NON-NLS-2$
    else
       curLexState = lexState;
 }
@@ -631,7 +631,7 @@ public static Token getNextToken()
    try { SimpleCharStream.readChar(); SimpleCharStream.backup(1); }
    catch (java.io.IOException e1) {
       EOFSeen = true;
-      error_after = curPos <= 1 ? "" : SimpleCharStream.GetImage();
+      error_after = curPos <= 1 ? "" : SimpleCharStream.GetImage(); //$NON-NLS-1$
       if (curChar == '\n' || curChar == '\r') {
          error_line++;
          error_column = 0;
@@ -641,7 +641,7 @@ public static Token getNextToken()
    }
    if (!EOFSeen) {
       SimpleCharStream.backup(1);
-      error_after = curPos <= 1 ? "" : SimpleCharStream.GetImage();
+      error_after = curPos <= 1 ? "" : SimpleCharStream.GetImage(); //$NON-NLS-1$
    }
    throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
   }

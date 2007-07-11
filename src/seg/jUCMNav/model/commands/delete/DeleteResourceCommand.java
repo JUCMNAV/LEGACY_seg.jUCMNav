@@ -12,6 +12,7 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.ui.IWorkbenchPage;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.editors.UCMNavMultiPageEditor;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
@@ -68,7 +69,7 @@ public class DeleteResourceCommand extends Command implements JUCMNavCommand {
 	    externalOperation = (ExternalOperation) genRes;
 	}
 	this.perfMeasures = genRes.getPerfMeasures();
-	setLabel("Delete Resource");
+	setLabel(Messages.getString("DeleteResourceCommand.DeleteResource")); //$NON-NLS-1$
     }
 
     public boolean canExecute() {

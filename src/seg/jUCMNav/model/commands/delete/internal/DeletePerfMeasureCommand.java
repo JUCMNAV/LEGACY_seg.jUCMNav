@@ -122,17 +122,17 @@ public class DeletePerfMeasureCommand extends Command implements JUCMNavCommand 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
-        assert perfMeasure != null : "Pre perfMeasure is null";
-        assert perfMeasure.getId().compareTo(id) == 0 : "Pre id changed";
-        assert perfMeasure.getName().compareTo(name) == 0 : "Pre name changed";
-        assert perfMeasure.getDescription().compareTo(description) == 0 : "Pre description changed";
-        assert perfMeasure.getMeasure() == perfAttrib : "Pre measure changed";
-        assert perfMeasure.getResource() == genRes : "Pre resource changed";
-        assert perfMeasure.getUcmspec() == spec : "Pre specification changed";
-        assert perfMeasure.getEnd() == end : "Pre end (pathnode) changed";
-        assert perfMeasure.getTrigger() == trigger : "Pre trigger (pathnode) changed";
-        assert perfMeasure.getPerfValues() == perfValues : "Pre perfValues changed";
-        assert perfMeasure.getDuration() == workload : "Pre workload changed";
+        assert perfMeasure != null : "Pre perfMeasure is null"; //$NON-NLS-1$
+        assert perfMeasure.getId().compareTo(id) == 0 : "Pre id changed"; //$NON-NLS-1$
+        assert perfMeasure.getName().compareTo(name) == 0 : "Pre name changed"; //$NON-NLS-1$
+        assert perfMeasure.getDescription().compareTo(description) == 0 : "Pre description changed"; //$NON-NLS-1$
+        assert perfMeasure.getMeasure() == perfAttrib : "Pre measure changed"; //$NON-NLS-1$
+        assert perfMeasure.getResource() == genRes : "Pre resource changed"; //$NON-NLS-1$
+        assert perfMeasure.getUcmspec() == spec : "Pre specification changed"; //$NON-NLS-1$
+        assert perfMeasure.getEnd() == end : "Pre end (pathnode) changed"; //$NON-NLS-1$
+        assert perfMeasure.getTrigger() == trigger : "Pre trigger (pathnode) changed"; //$NON-NLS-1$
+        assert perfMeasure.getPerfValues() == perfValues : "Pre perfValues changed"; //$NON-NLS-1$
+        assert perfMeasure.getDuration() == workload : "Pre workload changed"; //$NON-NLS-1$
     }
 
     /**
@@ -140,15 +140,15 @@ public class DeletePerfMeasureCommand extends Command implements JUCMNavCommand 
      */
     public void testPostConditions() {
 //        assert perfMeasure == null : "Pre perfMeasure is null";
-        assert perfMeasure.getId().compareTo(null) == 0 : "Pre id changed";
-        assert perfMeasure.getName().compareTo(null) == 0 : "Pre name changed";
-        assert perfMeasure.getDescription().compareTo(null) == 0 : "Pre description changed";
-        assert perfMeasure.getMeasure() == null : "Pre measure changed";
-        assert perfMeasure.getResource() == null : "Pre resource changed";
-        assert perfMeasure.getUcmspec() == null : "Pre specification changed";
-        assert perfMeasure.getEnd() == null : "Pre end (pathnode) changed";
-        assert perfMeasure.getTrigger() == null : "Pre trigger (pathnode) changed";
-        assert perfMeasure.getPerfValues() == null : "Pre perfValues changed";
-        assert perfMeasure.getDuration() == null : "Pre workload changed";
+        assert perfMeasure.getId().compareTo(null) == 0 : "Pre id changed"; //$NON-NLS-1$
+        assert perfMeasure.getName().compareTo(null) == 0 : "Pre name changed"; //$NON-NLS-1$
+        assert perfMeasure.getDescription().compareTo(null) == 0 : "Pre description changed"; //$NON-NLS-1$
+        assert perfMeasure.getMeasure() == null : "Pre measure changed"; //$NON-NLS-1$
+        assert perfMeasure.getResource() == null : "Pre resource changed"; //$NON-NLS-1$
+        assert perfMeasure.getUcmspec() == null : "Pre specification changed"; //$NON-NLS-1$
+        assert perfMeasure.getEnd() == null : "Pre end (pathnode) changed"; //$NON-NLS-1$
+        assert perfMeasure.getTrigger() == null : "Pre trigger (pathnode) changed"; //$NON-NLS-1$
+        assert perfMeasure.getPerfValues() == null : "Pre perfValues changed"; //$NON-NLS-1$
+        assert perfMeasure.getDuration() == null : "Pre workload changed"; //$NON-NLS-1$
     }
 }

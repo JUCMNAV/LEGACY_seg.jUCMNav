@@ -238,9 +238,9 @@ public class SimpleCharStream
   int startcolumn, int buffersize)
   {
     if (inputStream != null)
-       throw new Error("\n   ERROR: Second call to the constructor of a static SimpleCharStream.  You must\n" +
-       "       either use ReInit() or set the JavaCC option STATIC to false\n" +
-       "       during the generation of this class.");
+       throw new Error("\n   ERROR: Second call to the constructor of a static SimpleCharStream.  You must\n" + //$NON-NLS-1$
+       "       either use ReInit() or set the JavaCC option STATIC to false\n" + //$NON-NLS-1$
+       "       during the generation of this class."); //$NON-NLS-1$
     inputStream = dstream;
     line = startline;
     column = startcolumn - 1;

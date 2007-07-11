@@ -112,7 +112,7 @@ public class CreateActiveProcessingCommand extends Command implements JUCMNavCom
             processingResource.getComponents().remove(comp);
 	}
         processingResource.setKind(null);
-    	processingResource.setOpTime("0.0");
+    	processingResource.setOpTime("0.0"); //$NON-NLS-1$
     	processingResource.setName(null);
     	processingResource.setMultiplicity(null);
     	processingResource.setSchedPolicy(null);    	

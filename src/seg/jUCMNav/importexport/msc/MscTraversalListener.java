@@ -345,7 +345,7 @@ public class MscTraversalListener implements ITraversalListener {
 			if (!ScenarioUtils.isEmptyCondition(condition) && result) {
 				WaitingPlace wait = createWaitingPlace(visit);
                 if(isPreCondition)
-                    MetadataHelper.addMetaData(urnspec, wait, "isPreCondition", "true");
+                    MetadataHelper.addMetaData(urnspec, wait, "isPreCondition", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
 					wait.setName(original_condition.getLabel());
 				else
@@ -503,10 +503,10 @@ public class MscTraversalListener implements ITraversalListener {
 		{
 			EndPoint end = (EndPoint) htThreadEnd.get(new Integer(visit.getThreadID()));
 			PathNode pn = (PathNode) ((NodeConnection)end.getPred().get(0)).getSource();
-            String data = MetadataHelper.getMetaData(pn, "type");
+            String data = MetadataHelper.getMetaData(pn, "type"); //$NON-NLS-1$
 
 			// avoid duplicates when re-queued. 
-			if (data==null || !(data.equals("Timer_Set") || data.equals("WP_Enter")))
+			if (data==null || !(data.equals("Timer_Set") || data.equals("WP_Enter"))) //$NON-NLS-1$ //$NON-NLS-2$
 			{
 				DirectionArrow arrow = createDirectionArrow(visit);
 				arrow.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));

@@ -752,7 +752,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			}
 		});
 
-		lblProbabilityValid = toolkit.createLabel(compCondition, "");
+		lblProbabilityValid = toolkit.createLabel(compCondition, ""); //$NON-NLS-1$
 		g = new GridData(GridData.FILL_BOTH);
 		g.grabExcessHorizontalSpace = false;
 		g.grabExcessVerticalSpace = true;
@@ -854,11 +854,11 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 					execute(changeProb, false);
 				}
 				okButton.setEnabled(true);
-				lblProbabilityValid.setText("");
+				lblProbabilityValid.setText(""); //$NON-NLS-1$
 				lblProbabilityValid.setBackground(ColorManager.WHITE);
 			} catch (Exception e) {
 				okButton.setEnabled(false);
-				lblProbabilityValid.setText("INVALID");
+				lblProbabilityValid.setText("INVALID"); //$NON-NLS-1$
 				lblProbabilityValid.setBackground(ColorManager.RED);
 			}
 		}
@@ -886,7 +886,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		PluginBinding pluginBinding = selectedPluginBinding();
 		if (pluginBinding != null) {
 			this.preventUpdate = true;
-			txtTransaction.setText("" + pluginBinding.isTransaction());
+			txtTransaction.setText("" + pluginBinding.isTransaction()); //$NON-NLS-1$
 			this.preventUpdate = false;			
 		}
 	}
@@ -899,8 +899,8 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		PluginBinding pluginBinding = selectedPluginBinding();
 		if (pluginBinding != null) {
 			this.preventUpdate = true;
-			txtProbability.setText("" + pluginBinding.getProbability());
-			lblProbabilityValid.setText("");
+			txtProbability.setText("" + pluginBinding.getProbability()); //$NON-NLS-1$
+			lblProbabilityValid.setText(""); //$NON-NLS-1$
 			lblProbabilityValid.setBackground(ColorManager.WHITE);
 			okButton.setEnabled(true);
 			this.preventUpdate = false;			
@@ -922,7 +922,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 		} else if (selectedItem instanceof OutBinding) {
 			plug = ((OutBinding)selectedItem).getBinding();
 		} else {
-			System.err.println("Unexpected Context:  What's the selected item?");
+			System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
 			plug = null;
 		}
 		return plug;
@@ -963,7 +963,7 @@ public class StubBindingsDialog extends Dialog implements Adapter {
 			// deleted.
 			setSelectedPluginView(out.getBinding());
 		} else {
-			System.err.println("Unexpected Context:  What's the selected item?");
+			System.err.println("Unexpected Context:  What's the selected item?"); //$NON-NLS-1$
 		}
 	}
 

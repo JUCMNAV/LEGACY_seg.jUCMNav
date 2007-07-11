@@ -102,7 +102,7 @@ public class CreateExternalOperationCommand extends Command implements JUCMNavCo
      */
     public void undo() {
         testPostConditions();
-    	externalOperation.setOpTime("0.0");
+    	externalOperation.setOpTime("0.0"); //$NON-NLS-1$
     	externalOperation.setDescription(null);
     	externalOperation.setName(null);
         externalOperation.setMultiplicity(null);

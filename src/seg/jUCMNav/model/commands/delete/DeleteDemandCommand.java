@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
 import ucm.performance.ExternalOperation;
@@ -44,7 +45,7 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 		this.externalOpn = extOp;
 		this.demand = demand;
 		this.responsibility = responsibility;
-		setLabel("Delete Demand");
+		setLabel(Messages.getString("DeleteDemandCommand.DeleteDemand")); //$NON-NLS-1$
 	}
     
     public DeleteDemandCommand(Demand demand) {
@@ -92,10 +93,10 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
 	 */
 	public void testPostConditions() {
-		assert (urn != null) && (externalOpn != null) && (responsibility != null) : "post null";
-		assert urn.getUcmspec().getResources().contains(externalOpn) : "post ExternalOperation not in model";
-		assert !responsibility.getDemands().contains(demand) : "post Demand still in Responsibility";
-		assert !isResourceInDemands(responsibility, externalOpn) : "pre Resource still in Demand";
+		assert (urn != null) && (externalOpn != null) && (responsibility != null) : "post null"; //$NON-NLS-1$
+		assert urn.getUcmspec().getResources().contains(externalOpn) : "post ExternalOperation not in model"; //$NON-NLS-1$
+		assert !responsibility.getDemands().contains(demand) : "post Demand still in Responsibility"; //$NON-NLS-1$
+		assert !isResourceInDemands(responsibility, externalOpn) : "pre Resource still in Demand"; //$NON-NLS-1$
 	}
 
 	public boolean isResourceInDemands(Responsibility responsibility, ExternalOperation extOp) {
@@ -117,10 +118,10 @@ public class DeleteDemandCommand extends Command implements JUCMNavCommand {
 	 * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
 	 */
 	public void testPreConditions() {
-		assert (urn != null) && (externalOpn != null) && (responsibility != null) && (demand != null) : "pre null";
-		assert urn.getUcmspec().getResources().contains(externalOpn) : "pre ExternalOperation not in model";
-		assert responsibility.getDemands().contains(demand) : "pre Demand not in Responsibility";
-		assert isResourceInDemands(responsibility, externalOpn) : "pre Resource not in Demand";
+		assert (urn != null) && (externalOpn != null) && (responsibility != null) && (demand != null) : "pre null"; //$NON-NLS-1$
+		assert urn.getUcmspec().getResources().contains(externalOpn) : "pre ExternalOperation not in model"; //$NON-NLS-1$
+		assert responsibility.getDemands().contains(demand) : "pre Demand not in Responsibility"; //$NON-NLS-1$
+		assert isResourceInDemands(responsibility, externalOpn) : "pre Resource not in Demand"; //$NON-NLS-1$
 	}
 
 	/**

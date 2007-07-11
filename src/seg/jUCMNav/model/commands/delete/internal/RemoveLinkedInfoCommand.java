@@ -243,7 +243,7 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
      */
     public void testPreConditions() {
         assert element != null : "pre something is null"; //$NON-NLS-1$
-        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
+        assert (element instanceof NodeConnection || element instanceof ComponentRef || element instanceof PathNode || element instanceof UCMmap || element instanceof GRLGraph || element instanceof ScenarioStartPoint || element instanceof ScenarioEndPoint || element instanceof Initialization || element instanceof Variable || element instanceof GeneralResource) : "pre invalid class"; //$NON-NLS-1$
         
 
     }
@@ -258,22 +258,22 @@ public class RemoveLinkedInfoCommand extends Command implements JUCMNavCommand {
         
         if (element instanceof PassiveResource) {
             PassiveResource passiveResource = (PassiveResource) element;
-            assert passiveResource.getComponent() == null : "passive resource still linked";
+            assert passiveResource.getComponent() == null : "passive resource still linked"; //$NON-NLS-1$
         } else if (element instanceof ProcessingResource) {
             ProcessingResource processingResource = (ProcessingResource) element;
-            assert processingResource.getComponents().size()==0 : "processing resource still linked";
+            assert processingResource.getComponents().size()==0 : "processing resource still linked"; //$NON-NLS-1$
         }
         
         if (element instanceof ucm.performance.ExternalOperation)
         {
         	ucm.performance.ExternalOperation exOp = (ucm.performance.ExternalOperation) element;
-            assert exOp.getDemands().size()==0 : "external operation still linked";
+            assert exOp.getDemands().size()==0 : "external operation still linked"; //$NON-NLS-1$
         }
 
         if (element instanceof GeneralResource)
         {
         	GeneralResource resource = (GeneralResource) element;
-            assert resource.getPerfMeasures().size()==0 : "performance measures still linked";
+            assert resource.getPerfMeasures().size()==0 : "performance measures still linked"; //$NON-NLS-1$
         }
 
     }

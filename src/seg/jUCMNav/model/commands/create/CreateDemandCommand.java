@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.performance.Demand;
@@ -50,7 +51,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 		this.responsibility = responsibility;
 		// setLabel(Messages.getString("CreateDemandCommand.CreateDemand"));
 		// //$NON-NLS-1$
-		setLabel("Create Demand command");
+		setLabel(Messages.getString("CreateDemandCommand.CreateDemandCommand")); //$NON-NLS-1$
 	}
 
 	/**
@@ -126,7 +127,7 @@ public class CreateDemandCommand extends Command implements JUCMNavCommand {
 		testPostConditions();
 		responsibility.getDemands().remove(demand);
 		demand.setResponsibility(null);
-		demand.setQuantity("0.0");
+		demand.setQuantity("0.0"); //$NON-NLS-1$
 		demand.setResource(null);
 		testPreConditions();
 	}

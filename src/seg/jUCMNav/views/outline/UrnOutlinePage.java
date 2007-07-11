@@ -240,7 +240,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
     protected void initializeOutlineViewer() {
         setContents(multieditor);
         // show outline viewer
-        expandOutline((Tree) ((PageBook) getControl()).getChildren()[0], true);
+        expandOutline((Tree) ((PageBook) getControl()).getChildren()[0], false);
         // show the concern outline viewer
         expandOutline((Tree) ((PageBook) getControl()).getChildren()[1], false);
     }

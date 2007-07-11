@@ -2,6 +2,7 @@ package seg.jUCMNav.model.commands.change;
 
 import org.eclipse.gef.commands.Command;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import ucm.map.PluginBinding;
 
@@ -16,7 +17,7 @@ public class ChangePluginBindingProbCommand extends Command implements JUCMNavCo
 	this.pluginBinding = pb;
 	this.newProbability = prob;
 	this.oldProbability = pluginBinding.getProbability();
-	setLabel("Change PluginBinding Probability");
+	setLabel(Messages.getString("ChangePluginBindingProbCommand.ChangePluginBindingProbability")); //$NON-NLS-1$
     }
 
     public void execute() {
@@ -40,13 +41,13 @@ public class ChangePluginBindingProbCommand extends Command implements JUCMNavCo
     }
 
     public void testPostConditions() {
-	assert pluginBinding != null : "Post Plugin Binding is null";
-	assert pluginBinding.getProbability() == newProbability : "Post newProbability changed";
+	assert pluginBinding != null : "Post Plugin Binding is null"; //$NON-NLS-1$
+	assert pluginBinding.getProbability() == newProbability : "Post newProbability changed"; //$NON-NLS-1$
     }
 
     public void testPreConditions() {
-	assert pluginBinding != null : "Pre Plugin Binding is null";
-	assert pluginBinding.getProbability() == oldProbability : "Pre newProbability changed";
+	assert pluginBinding != null : "Pre Plugin Binding is null"; //$NON-NLS-1$
+	assert pluginBinding.getProbability() == oldProbability : "Pre newProbability changed"; //$NON-NLS-1$
     }
     
     public double getProbability() {

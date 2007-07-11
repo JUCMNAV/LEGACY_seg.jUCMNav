@@ -349,7 +349,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			if (fos != null) {
 				try {
 					fos.close();
-					if (id.compareTo("seg.jUCMNav.UCM2CSM") == 0) {
+					if (id.compareTo("seg.jUCMNav.UCM2CSM") == 0) { //$NON-NLS-1$
 						validateXml(genericPath.toOSString());
 					}
 				} catch (IOException e1) {
@@ -601,9 +601,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
 		// NB: the schema MUST reside along with the document
 		String workingDirectory = xmlInputFilePathName.substring(0, xmlInputFilePathName.lastIndexOf(File.separator));
-		File csmSchemaFile = new File (workingDirectory + File.separator + "CSM.xsd");
+		File csmSchemaFile = new File (workingDirectory + File.separator + "CSM.xsd"); //$NON-NLS-1$
 		if (! csmSchemaFile.exists()) {
-			System.err.println("NOTE:  XML correctness of the document was not validated since file CSM.xsd was not found in " + workingDirectory);
+			System.err.println(Messages.getString("ExportWizard.XmlNotValidated") + workingDirectory); //$NON-NLS-1$
 			return;
 		}
 
@@ -631,7 +631,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
 			// Remove violating :CSMType required by CSM Viewer
 			// parse requires an InputStream (or a URI String)
-			ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes());
+			ByteArrayInputStream FixedCSMdoc = new ByteArrayInputStream(CSMdocInMemory.replaceAll("CSM:CSMType", "CSM").getBytes()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Parse the XML file into document
 			document = documentParser.parse(FixedCSMdoc);
@@ -648,7 +648,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 		// load a WXS schema, represented by a Schema instance
-		Source csmSchemaSource = new StreamSource(new File(workingDirectory + File.separator + "CSM.xsd"));
+		Source csmSchemaSource = new StreamSource(new File(workingDirectory + File.separator + "CSM.xsd")); //$NON-NLS-1$
 		Schema csmSchema = null;
 		try {
 			csmSchema = factory.newSchema(csmSchemaSource);
@@ -664,7 +664,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		try {
 			try {
 				csmValidator.validate(new DOMSource(document));
-				System.out.println("CSM Export: .csm document generated was validated against the CSM schema.");
+				System.out.println(Messages.getString("ExportWizard.XmlValidated")); //$NON-NLS-1$
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

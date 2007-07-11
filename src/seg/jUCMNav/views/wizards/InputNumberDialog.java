@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import seg.jUCMNav.Messages;
+
 public class InputNumberDialog extends Dialog {
 
     Shell parent;
@@ -34,11 +36,11 @@ public class InputNumberDialog extends Dialog {
 
     public Double getValue() {
 	shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-	shell.setText("Input Number");
+	shell.setText(Messages.getString("InputNumberDialog.InputNumber")); //$NON-NLS-1$
 	shell.setLayout(new GridLayout(2, false));
 
 	Label label = new Label(shell, SWT.NULL);
-	label.setText(promptedFor + ":");
+	label.setText(promptedFor + ":"); //$NON-NLS-1$
 	label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
 	inputNumber = new Text(shell, SWT.SINGLE | SWT.BORDER);
@@ -48,7 +50,7 @@ public class InputNumberDialog extends Dialog {
 	inputNumber.setLayoutData(gd1);
 
 	btOK = new Button(shell, SWT.PUSH);
-	btOK.setText("Ok");
+	btOK.setText("Ok"); //$NON-NLS-1$
 	btOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 	btOK.addListener(SWT.Selection, new Listener() {
 	    public void handleEvent(Event event) {
@@ -57,7 +59,7 @@ public class InputNumberDialog extends Dialog {
 	});
 
 	btCancel = new Button(shell, SWT.PUSH);
-	btCancel.setText("Cancel");
+	btCancel.setText(Messages.getString("InputNumberDialog.Cancel")); //$NON-NLS-1$
 	btCancel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 	btCancel.addListener(SWT.Selection, new Listener() {
 	    public void handleEvent(Event event) {

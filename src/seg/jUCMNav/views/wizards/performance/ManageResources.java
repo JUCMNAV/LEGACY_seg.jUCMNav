@@ -11,6 +11,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWizard;
 
+import seg.jUCMNav.Messages;
 import urn.URNspec;
 import urncore.Component;
 import urncore.Responsibility;
@@ -51,7 +52,7 @@ public class ManageResources extends Wizard {
 	public ManageResources(URNspec urn) {
 		super();
 		setNeedsProgressMonitor(true);
-		this.setWindowTitle("Manage Resources");
+		this.setWindowTitle(Messages.getString("ManageResources.ManageResources")); //$NON-NLS-1$
 		this.urn = urn;
 	}
 
