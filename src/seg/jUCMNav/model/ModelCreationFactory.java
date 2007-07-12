@@ -21,6 +21,7 @@ import grl.StrategiesGroup;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.eclipse.gef.requests.CreationFactory;
 
@@ -517,12 +518,12 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setNextGlobalID("1"); //$NON-NLS-1$
 
         String sDate;
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
         sDate = df.format(new Date());
         urnspec.setCreated(sDate);
         urnspec.setModified(sDate);
 
-        urnspec.setUrnVersion("0.13"); //$NON-NLS-1$
+        urnspec.setUrnVersion("0.17"); //$NON-NLS-1$
         urnspec.setSpecVersion(URNSPEC_VERSION);
 
         // Set the author to the current user

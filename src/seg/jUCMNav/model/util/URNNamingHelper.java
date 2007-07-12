@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
@@ -227,7 +228,7 @@ public class URNNamingHelper {
 		if (urn.getSpecVersion() == null || urn.getSpecVersion().length() == 0)
 			urn.setSpecVersion("1"); //$NON-NLS-1$
 
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
 		String sDate = df.format(new Date());
 		try {
 			if (urn.getModified() == null || urn.getModified().length() == 0)

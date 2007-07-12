@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -122,7 +123,7 @@ public class MultiPageFileManager {
                             Messages.getString("MultiPageFileManager.createFile"), Messages.getString("MultiPageFileManager.theFile") + file.getName() //$NON-NLS-1$ //$NON-NLS-2$
                                     + Messages.getString("MultiPageFileManager.doesntExistClickOk"))) { //$NON-NLS-1$
                 String sDate;
-                DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+                DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
                 sDate = df.format(new Date());
                 editor.getModel().setModified(sDate);
                 setVersions();
@@ -173,7 +174,7 @@ public class MultiPageFileManager {
 
             // set its data.
             String sDate;
-            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
+            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.US);
             sDate = df.format(new Date());
             editor.getModel().setCreated(sDate);
             editor.getModel().setModified(sDate);

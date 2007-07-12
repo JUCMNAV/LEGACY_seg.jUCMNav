@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.xml.XMLConstants;
@@ -166,7 +167,7 @@ public class ExportCSM implements IURNExport {
      */
     private String convertUcmDateToCsmDate(String dateString) {
 	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz"); //$NON-NLS-1$
-	Date date = Calendar.getInstance().getTime(); // as fallback in case things go wrong
+	Date date = Calendar.getInstance(Locale.US).getTime(); // as fallback in case things go wrong
 	try {
 	    date = sdf.parse(dateString);
 	} catch (ParseException p) {
