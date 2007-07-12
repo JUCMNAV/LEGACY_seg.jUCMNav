@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-     <extension-point id="UseCaseMapExport" name="%UseCaseMapExport" schema="schema/UseCaseMapExport.exsd"/>
+   <extension-point id="UseCaseMapExport" name="%UseCaseMapExport" schema="schema/UseCaseMapExport.exsd"/>
    <extension-point id="URNExport" name="%UrnExport" schema="schema/URNExport.exsd"/>
    <extension-point id="URNImport" name="%UrnImport" schema="schema/URNImport.exsd"/>
    <extension-point id="GRLStrategyAlgorithm" name="%GrlStrategyAlgorithm" schema="schema/GRLStrategyAlgorithm.exsd"/>
@@ -220,11 +220,29 @@
          name="%exportToImage"
          point="seg.jUCMNav.URNExport">
       <exporter
+            class="seg.jUCMNav.importexport.msc.ExportMSC"
+            extension="jucmscenarios"
+            id="seg.jUCMNav.ExportScenarios"
+            name="%ExportScenarios"
+            useStream="false"/>
+      <exporter
             class="seg.jUCMNav.importexport.ExportDXL"
             extension="dxl"
             id="seg.jUCMNav.ExportDXL"
             name="%ExportDXL"
             postExporter="seg.jUCMNav.ExportBMP"
+            useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.csm.ExportCSM"
+            extension="csm"
+            id="seg.jUCMNav.ExportCSM"
+            name="%ExportCSM"
+            useStream="false"/>
+      <exporter
+            class="seg.jUCMNav.importexport.html.ExportURNHTML"
+            extension="html"
+            id="seg.jUCMNav.ExportURN_HTML"
+            name="%ExportHTML"
             useStream="false"/>
       <exporter
             class="seg.jUCMNav.importexport.ExportGRLCatalog"
@@ -237,18 +255,6 @@
             extension="csv"
             id="seg.jUCMNav.ExportCSV"
             name="%ExportCSV"
-            useStream="false"/>
-      <exporter
-            class="seg.jUCMNav.importexport.html.ExportURNHTML"
-            extension="html"
-            id="seg.jUCMNav.ExportURN_HTML"
-            name="%ExportHTML"
-            useStream="false"/>
-      <exporter
-            class="seg.jUCMNav.importexport.msc.ExportMSC"
-            extension="jucmscenarios"
-            id="seg.jUCMNav.ExportScenarios"
-            name="%ExportScenarios"
             useStream="false"/>
    </extension>
    <extension

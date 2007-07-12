@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Core Scenario Model (CSM)
+  schema version 1.03
+  2006-Apr-11
+
+  Dorin Petriu (dorin@sce.carleton.ca)
+  Department of Systems & Computer Engineering
+  Carleton University
+  Ottawa, Ontario, CANADA
+
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--
+
+  ============================================================================ 
+    CSM  (root element)
+  ============================================================================
+    contained elements: CSMElement
+
+    optional attributes: name
+                         description
+                         author
+                         created
+                         version
+                         traceabilityLink
+  ============================================================================
+  -->
+  <xsd:element name="CSM" type="CSMType"/>
+  <xsd:complexType name="CSMType">
+    <xsd:sequence>
+      <xsd:element ref="CSMElement" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="description" type="xsd:string"/>
+    <xsd:attribute name="author" type="xsd:string"/>
+    <xsd:attribute name="created" type="xsd:dateTime"/>
+    <xsd:attribute name="version" type="xsd:string"/>
+    <xsd:attribute name="traceabilityLink" type="xsd:string"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    CSMElement
+  ============================================================================
+    subclasses: Scenario
+                GeneralResource
+                PerfMeasure
+
+    required attributes: id
+                         name
+
+    optional attributes: description
+                         traceabilityLink
+ ============================================================================
+  -->
+  <xsd:element name="CSMElement" type="CSMElementType" abstract="true"/>
+  <xsd:complexType name="CSMElementType">
+    <xsd:attribute name="id" type="xsd:ID" use="required"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="description" type="xsd:string"/>
+    <xsd:attribute name="traceabilityLink" type="xsd:string"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Scenario
+  ============================================================================
+    parent class: CSMElement
+
+    contained elements: ScenarioElement
+
+    optional attributes: probability
+                         transaction
+
+    optional associations: refinement (Refinement IDs)
+  ============================================================================
+  -->
+  <xsd:element name="Scenario" type="ScenarioType" substitutionGroup="CSMElement"/>
+  <xsd:complexType name="ScenarioType">
+    <xsd:complexContent>
+      <xsd:extension base="CSMElementType">
+        <xsd:sequence>
+          <xsd:element ref="ScenarioElement" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="probability" type="xsd:string"/>
+        <xsd:attribute name="transaction" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="refinement" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ScenarioElement
+  ============================================================================
+    subclasses: Step
+                PathConnection
+                Classifier
+
+    required attributes: id
+
+    optional attributes: description
+                         traceabilityLink
+  ============================================================================
+  -->
+  <xsd:element name="ScenarioElement" type="ScenarioElementType" abstract="true"/>
+  <xsd:complexType name="ScenarioElementType">
+    <xsd:attribute name="id" type="xsd:ID" use="required"/>
+    <xsd:attribute name="description" type="xsd:string"/>
+    <xsd:attribute name="traceabilityLink" type="xsd:string"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Step
+  ============================================================================
+    parent class: ScenarioElement
+
+    subclasses: ResourceAcquire
+                ResourceRelease
+                ResourcePass
+
+    contained elements: PreCondition
+                        PostCondition
+                        InputSet
+                        OutputSet
+                        ResourceAcquire
+                        ResourceRelease
+                        Refinement
+                        ExternalDemand
+
+    required attributes: name
+
+    optional attributes: hostDemand
+                         probability
+                         repCount
+
+    required associations: predecessor (PathConnection IDs)
+                           successor (PathConnection IDs)
+
+    optional associations: component (Component ID)
+                           parent (Scenario ID)
+                           perfMeasureTrigger (PerfMeasure IDs)
+                           perfMeasureEnd (PerfMeasure IDs)
+  ===========================================================================
+  -->
+  <xsd:element name="Step" type="StepType" substitutionGroup="ScenarioElement"/>
+  <xsd:complexType name="StepType">
+    <xsd:complexContent>
+      <xsd:extension base="ScenarioElementType">
+        <xsd:sequence>
+          <xsd:element ref="PreCondition" minOccurs="0"/>
+          <xsd:element ref="PostCondition" minOccurs="0"/>
+          <xsd:element ref="InputSet" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="OutputSet" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="ResourceAcquire" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="ResourceRelease" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="ResourcePass" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="Refinement" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element ref="ExternalDemand" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="hostDemand" type="xsd:string"/>
+        <xsd:attribute name="probability" type="xsd:string"/>
+        <xsd:attribute name="repCount" type="xsd:string"/>
+        <xsd:attribute name="predecessor" type="xsd:IDREFS" use="required"/>
+        <xsd:attribute name="successor" type="xsd:IDREFS" use="required"/>
+        <xsd:attribute name="component" type="xsd:IDREF"/>
+        <xsd:attribute name="perfMeasureTrigger" type="xsd:IDREFS"/>
+        <xsd:attribute name="perfMeasureEnd" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ResourceAcquire
+  ============================================================================
+    parent class: Step
+
+    optional attributes: rUnits
+                         priority
+
+    required associations: acquire (GeneralResource ID)
+  ============================================================================
+  -->
+  <xsd:element name="ResourceAcquire" type="ResourceAcquireType" substitutionGroup="Step"/>
+  <xsd:complexType name="ResourceAcquireType">
+    <xsd:complexContent>
+      <xsd:extension base="StepType">
+        <xsd:attribute name="rUnits" type="xsd:string"/>
+        <xsd:attribute name="priority" type="xsd:string"/>
+        <xsd:attribute name="acquire" type="xsd:IDREF" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ResourcePass
+  ============================================================================
+    parent class: Step
+
+    optional attributes: rUnits
+
+    required associations: pass (GeneralResource ID)
+  ============================================================================
+  -->
+  <xsd:element name="ResourcePass" type="ResourcePassType" substitutionGroup="Step"/>
+  <xsd:complexType name="ResourcePassType">
+    <xsd:complexContent>
+      <xsd:extension base="StepType">
+        <xsd:attribute name="rUnits" type="xsd:string"/>
+        <xsd:attribute name="pass" type="xsd:IDREF" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ResourceRelease
+  ============================================================================
+    parent class: Step
+
+    optional attributes: rUnits
+
+    required associations: release (GeneralResource ID)
+  ============================================================================
+  -->
+  <xsd:element name="ResourceRelease" type="ResourceReleaseType" substitutionGroup="Step"/>
+  <xsd:complexType name="ResourceReleaseType">
+    <xsd:complexContent>
+      <xsd:extension base="StepType">
+        <xsd:attribute name="rUnits" type="xsd:string"/>
+        <xsd:attribute name="release" type="xsd:IDREF" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    PathConnection
+  ============================================================================
+    parent class: ScenarioElement
+
+    subclasses: Sequence
+                Branch
+                Merge
+                Fork
+                Join
+                Start
+                End
+
+
+    optional associations: source (Step IDs)
+                           target (Step IDs)
+                           classifier (Classifier IDs)
+                           subIn (InBinding IDs)
+                           subOut (OutBinding IDs)
+  ============================================================================
+  -->
+  <xsd:element name="PathConnection" type="PathConnectionType" abstract="true" substitutionGroup="ScenarioElement"/>
+  <xsd:complexType name="PathConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="ScenarioElementType">
+        <xsd:attribute name="source" type="xsd:IDREFS"/>
+        <xsd:attribute name="target" type="xsd:IDREFS"/>
+        <xsd:attribute name="classifier" type="xsd:IDREFS"/>
+        <xsd:attribute name="subIn" type="xsd:IDREFS"/>
+        <xsd:attribute name="subOut" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Start
+  ============================================================================
+    parent class: PathConnection
+
+    contained elements: Workload
+
+    optional associations: inBinding (InBinding IDs)
+  ============================================================================
+  -->
+  <xsd:element name="Start" type="StartType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="StartType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType">
+        <xsd:sequence>
+          <xsd:element ref="Workload" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="inBinding" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    End
+  ============================================================================
+    parent class: PathConnection
+
+    optional associations: outBinding (OutBinding IDs)
+  ============================================================================
+  -->
+  <xsd:element name="End" type="EndType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="EndType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType">
+        <xsd:attribute name="noSync" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="outBinding" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Sequence
+  ============================================================================
+    parent class: PathConnection
+  ============================================================================
+  -->
+  <xsd:element name="Sequence" type="SequenceType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="SequenceType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Branch
+  ============================================================================
+    parent class: PathConnection
+  ============================================================================
+  -->
+  <xsd:element name="Branch" type="BranchType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="BranchType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Merge
+  ============================================================================
+    parent class: PathConnection
+  ============================================================================
+  -->
+  <xsd:element name="Merge" type="MergeType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="MergeType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Fork
+  ============================================================================
+    parent class: PathConnection
+  ============================================================================
+  -->
+  <xsd:element name="Fork" type="ForkType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="ForkType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Join
+  ============================================================================
+    parent class: PathConnection
+  ============================================================================
+  -->
+  <xsd:element name="Join" type="JoinType" substitutionGroup="PathConnection"/>
+  <xsd:complexType name="JoinType">
+    <xsd:complexContent>
+      <xsd:extension base="PathConnectionType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    InputSet
+  ============================================================================
+    contained elements: PreCondition
+
+    required associations: predecessorSubset (PathConnection IDs)
+
+    constraint: the predecessors are a subset of the parent step's predecessors
+  ============================================================================
+  -->
+  <xsd:element name="InputSet" type="InputSetType"/>
+  <xsd:complexType name="InputSetType">
+    <xsd:sequence>
+      <xsd:element ref="PreCondition" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="predecessorSubset" type="xsd:IDREFS" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    OutputSet
+  ============================================================================
+    contained elements: PostCondition
+
+    required associations: successorSubset (PathConnection IDs)
+
+    constraint: the successors are a subset of the parent step's successors
+  ============================================================================
+  -->
+  <xsd:element name="OutputSet" type="OutputSetType"/>
+  <xsd:complexType name="OutputSetType">
+    <xsd:sequence>
+      <xsd:element ref="PostCondition" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="successorSubset" type="xsd:IDREFS" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Constraint
+  ============================================================================
+    subclasses: PreCondition
+                PostCondition
+
+    required attributes: expression
+  ============================================================================
+  -->
+  <xsd:element name="Constraint" type="ConstraintType" abstract="true"/>
+  <xsd:complexType name="ConstraintType">
+    <xsd:attribute name="expression" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    PreCondition
+  ============================================================================
+    parent class: Constraint
+  ============================================================================
+  -->
+  <xsd:element name="PreCondition" type="PreConditionType" substitutionGroup="Constraint"/>
+  <xsd:complexType name="PreConditionType">
+    <xsd:complexContent>
+      <xsd:extension base="ConstraintType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    PostCondition
+  ============================================================================
+    parent class: Constraint
+  ============================================================================
+  -->
+  <xsd:element name="PostCondition" type="PostConditionType" substitutionGroup="Constraint"/>
+  <xsd:complexType name="PostConditionType">
+    <xsd:complexContent>
+      <xsd:extension base="ConstraintType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Classifier
+  ============================================================================
+    parent class: ScenarioElement
+
+    subclasses: Message
+
+    optional attributes: name
+  ============================================================================
+  -->
+  <xsd:element name="Classifier" type="ClassifierType" substitutionGroup="ScenarioElement"/>
+  <xsd:complexType name="ClassifierType">
+    <xsd:complexContent>
+      <xsd:extension base="ScenarioElementType">
+        <xsd:attribute name="name" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Message
+  ============================================================================
+    parent class: Classifier
+
+    required attributes: kind
+
+    optional attributes: size
+                         multi
+  ============================================================================
+  -->
+  <xsd:element name="Message" type="MessageType" substitutionGroup="Classifier"/>
+  <xsd:complexType name="MessageType">
+    <xsd:complexContent>
+      <xsd:extension base="ClassifierType">
+        <xsd:attribute name="kind" type="MsgKind" default="async"/>
+        <xsd:attribute name="size" type="xsd:string"/>
+        <xsd:attribute name="multi" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    <<enumeration>> MsgKind
+  ============================================================================
+    values: async | sync | reply
+  ============================================================================
+  -->
+  <xsd:simpleType name="MsgKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="async"/>
+      <xsd:enumeration value="sync"/>
+      <xsd:enumeration value="reply"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--
+
+  ============================================================================
+    Refinement
+  ============================================================================
+    contained elements: InBinding
+                        OutBinding
+
+    optional attributes: selectCondition
+
+    required associations: parent (Step ID)
+                           sub (Scenario ID)
+  ============================================================================
+  -->
+  <xsd:element name="Refinement" type="RefinementType"/>
+  <xsd:complexType name="RefinementType">
+    <xsd:sequence>
+      <xsd:element ref="InBinding" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="OutBinding" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="selectCondition" type="xsd:string"/>
+    <xsd:attribute name="parent" type="xsd:IDREF" use="required"/>
+    <xsd:attribute name="sub" type="xsd:IDREF" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    InBinding
+  ============================================================================
+    required associations: in (PathConnection ID)
+                           start (Start ID)
+  ============================================================================
+  -->
+  <xsd:element name="InBinding" type="InBindingType"/>
+  <xsd:complexType name="InBindingType">
+    <xsd:attribute name="in" type="xsd:IDREF" use="required"/>
+    <xsd:attribute name="start" type="xsd:IDREF" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    OutBinding
+  ============================================================================
+    required associations: end (End ID)
+                           out (PathConnection ID)
+  ============================================================================
+  -->
+  <xsd:element name="OutBinding" type="OutBindingType"/>
+  <xsd:complexType name="OutBindingType">
+    <xsd:attribute name="end" type="xsd:IDREF" use="required"/>
+    <xsd:attribute name="out" type="xsd:IDREF" use="required"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ExternalDemand
+  ============================================================================
+    required attributes: demand
+
+    required associations: extOp (ExternalOperation ID)
+  ============================================================================
+  -->
+  <xsd:element name="ExternalDemand" type="ExternalDemandType"/>
+  <xsd:complexType name="ExternalDemandType">
+    <xsd:attribute name="demand" type="xsd:string"/>
+    <xsd:attribute name="extOp" type="xsd:IDREF"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    GeneralResource
+  ============================================================================
+    parent class: CSMElement
+
+    subclasses: PassiveResource
+                ActiveResource
+
+    optional attributes: multiplicity
+                         schedPolicy
+
+    optional associations: perfMeasure (PerfMeasure IDs)
+  ============================================================================
+  -->
+  <xsd:element name="GeneralResource" type="GeneralResourceType" abstract="true" substitutionGroup="CSMElement"/>
+  <xsd:complexType name="GeneralResourceType">
+    <xsd:complexContent>
+      <xsd:extension base="CSMElementType">
+        <xsd:attribute name="multiplicity" type="xsd:string"/>
+        <xsd:attribute name="schedPolicy" type="xsd:string"/>
+        <xsd:attribute name="perfMeasure" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    PassiveResource
+  ============================================================================
+    parent class: GeneralResource
+
+    subclasses: Component
+  ============================================================================
+  -->
+  <xsd:element name="PassiveResource" type="PassiveResourceType" substitutionGroup="GeneralResource"/>
+  <xsd:complexType name="PassiveResourceType">
+    <xsd:complexContent>
+      <xsd:extension base="GeneralResourceType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Component
+  ============================================================================
+    parent class: PassiveResource
+
+    optional attributes: isActiveProcess
+
+    optional associations: host (ProcessingResource ID)
+                           parent (Component ID)
+                           sub (Component IDs)
+  ============================================================================
+  -->
+  <xsd:element name="Component" type="ComponentType" substitutionGroup="PassiveResource"/>
+  <xsd:complexType name="ComponentType">
+    <xsd:complexContent>
+      <xsd:extension base="PassiveResourceType">
+        <xsd:attribute name="isActiveProcess" type="xsd:boolean" default="true"/>
+        <xsd:attribute name="host" type="xsd:IDREF"/>
+        <xsd:attribute name="parent" type="xsd:IDREF"/>
+        <xsd:attribute name="sub" type="xsd:IDREFS"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ActiveResource
+  ============================================================================
+    parent class: GeneralResource
+
+    subclasses: ProcessingResource
+                ExternalOperation
+
+    optional attributes: opTime
+  ============================================================================
+  -->
+  <xsd:element name="ActiveResource" type="ActiveResourceType" substitutionGroup="GeneralResource"/>
+  <xsd:complexType name="ActiveResourceType">
+    <xsd:complexContent>
+      <xsd:extension base="GeneralResourceType">
+        <xsd:attribute name="opTime" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ProcessingResource
+  ============================================================================
+    parent class: ActiveResource
+  ============================================================================
+  -->
+  <xsd:element name="ProcessingResource" type="ProcessingResourceType" substitutionGroup="ActiveResource"/>
+  <xsd:complexType name="ProcessingResourceType">
+    <xsd:complexContent>
+      <xsd:extension base="ActiveResourceType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ExternalOperation
+  ============================================================================
+    parent class: ActiveResource
+  ============================================================================
+  -->
+  <xsd:element name="ExternalOperation" type="ExternalOperationType" substitutionGroup="ActiveResource"/>
+  <xsd:complexType name="ExternalOperationType">
+    <xsd:complexContent>
+      <xsd:extension base="ActiveResourceType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    Workload
+  ============================================================================
+    subclasses: ClosedWorkload
+                OpenWorkload
+
+    optional attributes: arrivalPattern
+                         arrivalParam1
+                         arrivalParam2
+                         externalDelay
+                         value
+                         coeffVarSq
+                         description
+                         traceabilityLink
+
+    optional associations: responseTime (PerfMeasure IDs)
+  ============================================================================
+  -->
+  <xsd:element name="Workload" type="WorkloadType" abstract="true"/>
+  <xsd:complexType name="WorkloadType">
+    <xsd:attribute name="id" type="xsd:ID"/>
+    <xsd:attribute name="arrivalPattern" type="ArrivalProcess" default="poissonPDF"/>
+    <xsd:attribute name="arrivalParam1" type="xsd:string"/>
+    <xsd:attribute name="arrivalParam2" type="xsd:string"/>
+    <xsd:attribute name="externalDelay" type="xsd:string"/>
+    <xsd:attribute name="value" type="xsd:string"/>
+    <xsd:attribute name="coeffVarSq" type="xsd:string"/>
+    <xsd:attribute name="description" type="xsd:string"/>
+    <xsd:attribute name="traceabilityLink" type="xsd:string"/>
+    <xsd:attribute name="responseTime" type="xsd:IDREFS"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    ClosedWorkload
+  ============================================================================
+    parent class: Workload
+
+    required attributes: population
+  ============================================================================
+  -->
+  <xsd:element name="ClosedWorkload" type="ClosedWorkloadType" substitutionGroup="Workload"/>
+  <xsd:complexType name="ClosedWorkloadType">
+    <xsd:complexContent>
+      <xsd:extension base="WorkloadType">
+        <xsd:attribute name="population" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    OpenWorkload
+  ============================================================================
+    parent class: Workload
+  ============================================================================
+  -->
+  <xsd:element name="OpenWorkload" type="OpenWorkloadType" substitutionGroup="Workload"/>
+  <xsd:complexType name="OpenWorkloadType">
+    <xsd:complexContent>
+      <xsd:extension base="WorkloadType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    <<enumeration>> ArrivalProcess
+  ============================================================================
+    values: poissonPDF | periodic | uniform | phaseType
+
+    (not included: bounded, bursty, bernoulli, binomial)
+  ============================================================================
+  -->
+  <xsd:simpleType name="ArrivalProcess">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="poissonPDF"/>
+      <xsd:enumeration value="periodic"/>
+      <xsd:enumeration value="uniform"/>
+      <xsd:enumeration value="phaseType"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--
+
+  ============================================================================
+    PerfMeasure
+  ============================================================================
+    contained elements: PerfValue
+
+    required attributes: measure_type
+
+    optional associations: trigger (Step ID)
+                           end (Step ID)
+                           duration (Workload ID)
+                           resource (GeneralResource ID)
+
+    constraints: one of trigger, duration, or resource association is required
+                 end association can only appear if trigger association is present
+  ============================================================================
+  -->
+  <xsd:element name="PerfMeasure" type="PerfMeasureType" substitutionGroup="CSMElement"/>
+  <xsd:complexType name="PerfMeasureType">
+    <xsd:complexContent>
+      <xsd:extension base="CSMElementType">
+        <xsd:sequence>
+          <xsd:element ref="PerfValue" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="measure" type="PerfAttribute" default="delay"/>
+        <xsd:attribute name="trigger" type="xsd:IDREF"/>
+        <xsd:attribute name="end" type="xsd:IDREF"/>
+        <xsd:attribute name="duration" type="xsd:IDREF"/>
+        <xsd:attribute name="resource" type="xsd:IDREF"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    PerfValue
+  ============================================================================
+    required attributes: value
+
+    optional attributes: source
+                         kind
+                         percentile
+                         kthMoment
+  ============================================================================
+  -->
+  <xsd:element name="PerfValue" type="PerfValueType"/>
+  <xsd:complexType name="PerfValueType">
+    <xsd:attribute name="value" type="xsd:string" use="required"/>
+    <xsd:attribute name="kind" type="PerfValueKind" default="mean"/>
+    <xsd:attribute name="source" type="PerfValueSource" default="required"/>
+    <xsd:attribute name="percentile" type="xsd:string"/>
+    <xsd:attribute name="kthMoment" type="xsd:string"/>
+  </xsd:complexType>
+  <!--
+
+  ============================================================================
+    <<enumeration>> PerfValueKind
+  ============================================================================
+    values: mean | variance | percentile | moment | min | max | distribution
+  ============================================================================
+  -->
+  <xsd:simpleType name="PerfValueKind">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="mean"/>
+      <xsd:enumeration value="variance"/>
+      <xsd:enumeration value="percentile"/>
+      <xsd:enumeration value="moment"/>
+      <xsd:enumeration value="min"/>
+      <xsd:enumeration value="max"/>
+      <xsd:enumeration value="distribution"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--
+
+  ============================================================================
+    <<enumeration>> PerfValueSource
+  ============================================================================
+    values: required | assumed | predicted | measured
+  ============================================================================
+  -->
+  <xsd:simpleType name="PerfValueSource">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="required"/>
+      <xsd:enumeration value="assumed"/>
+      <xsd:enumeration value="predicted"/>
+      <xsd:enumeration value="measured"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--
+
+  ============================================================================
+    <<enumeration>> PerfAttribute
+  ============================================================================
+    values: delay | throughput | utilization | interval | wait
+  ============================================================================
+  -->
+  <xsd:simpleType name="PerfAttribute">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="delay"/>
+      <xsd:enumeration value="throughput"/>
+      <xsd:enumeration value="utilization"/>
+      <xsd:enumeration value="interval"/>
+      <xsd:enumeration value="wait"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
