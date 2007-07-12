@@ -9,7 +9,6 @@ import ucm.map.UCMmap;
 /**
  * Creates a list of CSMDupNodes, that is meant to replicate the UCM map.
  * 
- * @see seg.ucm2csm.implicit
  */
 public class CSMDupNodeList {
     // will contain CSMDupNodes (which in turn may point to a PathNode or an RA

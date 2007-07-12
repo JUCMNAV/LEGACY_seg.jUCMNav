@@ -7,7 +7,6 @@ import java.util.Vector;
 /**
  * Interface AbstractConverter provides a uniform conversion method for all explicit mappings from UCM to CSM.
  * 
- * @see seg.ucm2csm.one2one
  */
 public interface AbstractConverter {
     public void Convert(PrintStream ps, ArrayList source, ArrayList target, Vector warnings);

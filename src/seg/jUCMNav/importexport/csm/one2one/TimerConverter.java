@@ -9,7 +9,6 @@ import ucm.map.Timer;
 /**
  * Creates the CSM representation(Sequence) of the Timer object.
  * 
- * @see seg.ucm2csm.one2one
  */
 
 public class TimerConverter implements AbstractConverter {

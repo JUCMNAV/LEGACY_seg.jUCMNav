@@ -26,7 +26,7 @@ public class ConcernsRootTreeEditPart extends OutlineRootEditPart implements Ada
     private Notifier target;
     
     /**
-     * @param model represents the editor
+     * @param editor represents the editor
      */
     public ConcernsRootTreeEditPart(UCMNavMultiPageEditor editor) {
         super(editor);

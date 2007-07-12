@@ -15,7 +15,6 @@ import ucm.map.StartPoint;
 /**
  * Inserts Resource Acquisition objects in duplicate map.
  * 
- * @see seg.ucm2csm.implicit
  */
 
 public class ResourceAcquisition {

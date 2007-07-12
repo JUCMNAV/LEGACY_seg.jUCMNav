@@ -13,7 +13,6 @@ import ucm.map.PathNode;
 /**
  * Inserts Resource Release objects in duplicate map.
  * 
- * @see seg.ucm2csm.implicit
  */
 public class ResourceRelease {
 

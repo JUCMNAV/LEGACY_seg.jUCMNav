@@ -17,7 +17,6 @@ import ucm.map.Stub;
 /**
  * Creates the CSM representation(Step) of the Stub object Component-Ref object.
  * 
- * @see seg.ucm2csm.one2one
  */
 public class StubConverter implements AbstractConverter {
 

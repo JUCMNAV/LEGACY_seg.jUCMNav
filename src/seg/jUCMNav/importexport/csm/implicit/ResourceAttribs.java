@@ -3,9 +3,9 @@ package seg.jUCMNav.importexport.csm.implicit;
 import ucm.performance.GeneralResource;
 
 /**
+ * Manage General Resource attributes
  * 
  * @author jack
- *
  */
 public class ResourceAttribs {
     private GeneralResource resource;

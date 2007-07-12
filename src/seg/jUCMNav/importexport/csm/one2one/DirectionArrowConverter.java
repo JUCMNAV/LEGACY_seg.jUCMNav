@@ -12,7 +12,6 @@ import ucm.map.DirectionArrow;
  * Direction Arrows are replaced by a CSM Dummy Sequence
  * 
  * @author jack
- * @see seg.ucm2csm.one2one
  */
 
 public class DirectionArrowConverter implements AbstractConverter {

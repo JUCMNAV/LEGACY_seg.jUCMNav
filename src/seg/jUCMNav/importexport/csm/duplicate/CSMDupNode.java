@@ -47,7 +47,6 @@ import ucm.performance.Timestamp;
 /**
  * A CSMDupNode is a reference to a node in the original UCMmap.
  * 
- * @see seg.ucm2csm.implicit
  */
 public class CSMDupNode {
 

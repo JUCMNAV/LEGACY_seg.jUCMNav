@@ -9,7 +9,6 @@ import ucm.map.EmptyPoint;
 /**
  * Creates the CSM representation(Sequence) of the EmptyPoint object.
  * 
- * @see seg.ucm2csm.one2one
  */
 
 public class EmptyPointConverter implements AbstractConverter {

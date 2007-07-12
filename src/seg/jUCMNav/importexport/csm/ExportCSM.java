@@ -75,9 +75,9 @@ import urncore.URNmodelElement;
 /**
  * Performs the sequence of operations to convert a URN specification into a CSM.
  *
- * @see seg.ucm2csm.duplicate
- * @see seg.ucm2csm.implicit
- * @see seg.ucm2csm.one2one
+ * @see seg.jUCMNav.importexport.csm.duplicate
+ * @see seg.jUCMNav.importexport.csm.implicit
+ * @see seg.jUCMNav.importexport.csm.one2one
  *
  */
 public class ExportCSM implements IURNExport {

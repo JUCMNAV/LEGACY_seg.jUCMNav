@@ -685,7 +685,7 @@ public class ScenarioGenerator {
      * 
      * @param s
      *            the string to convert
-     * @return
+     * @return a non-null String
      */
     private String fix(String s) {
         if (s == null)

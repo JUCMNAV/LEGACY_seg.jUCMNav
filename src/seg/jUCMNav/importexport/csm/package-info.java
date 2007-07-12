@@ -4,6 +4,6 @@
  * 
  * @author Jacques Sincennes, Daniel Amyot, Jason Kealey, Ion V. Andritoiu, Abdelkarim Kashkoush, Yuliya Khomich, and Dragana Zonjic
  * @since 2.4
- * @see see seg.jUCMNav.extensionpoints.IURNExport
+ * @see seg.jUCMNav.extensionpoints.IURNExport
  */
 package seg.jUCMNav.importexport.csm;

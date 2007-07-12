@@ -136,7 +136,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
      * @param andjoin the last element
      * @param flowPoints the set of all forks/joins in between
      * @param mostRecentForkCommonToAllBranches the first element
-     * @return
+     * @return a Vector of and-forks
 	 */
 	private Vector findUpstreamIntermediateFlowPoints(AndJoin andjoin, Vector[] flowPoints, PathNode mostRecentForkCommonToAllBranches) {
 		Vector toBeFixed = new Vector();
@@ -162,7 +162,7 @@ public class MakeWellFormedCommand extends CompoundCommand {
      * Identifies the and-fork closest to the specified and-join for which it is possible to reach all of the and-join's incoming branches.  
      * @param andjoin the andjoin
      * @param flowPoints all forks/joins that can be found by going upstream on all andjoin's incoming branches
-     * @return
+     * @return the closest and-fork PathNode
 	 */
 	private PathNode findMostRecentCommonSource(AndJoin andjoin, Vector[] flowPoints) {
 		Vector commonForks = new Vector(flowPoints[0]);

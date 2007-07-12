@@ -9,7 +9,6 @@ import ucm.map.Connect;
 /**
  * Creates the CSM representation(Sequence) of the Connect object.
  * 
- * @see seg.ucm2csm.one2one
  */
 
 public class ConnectConverter implements AbstractConverter {

@@ -10,7 +10,6 @@ import ucm.map.StartPoint;
 /**
  * Prints PathConnection optional attributes to CSM file.
  * 
- * @see seg.ucm2csm.one2one
  */
 
 public class PathConnAttributes {

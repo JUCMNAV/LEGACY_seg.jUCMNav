@@ -9,7 +9,6 @@ import ucm.map.EndPoint;
 /**
  * Creates the CSM representation(End) of the End-Point object.
  * 
- * @see seg.ucm2csm.one2one
  */
 public class EndPointConverter implements AbstractConverter {
     private EndPoint endPointNode;
