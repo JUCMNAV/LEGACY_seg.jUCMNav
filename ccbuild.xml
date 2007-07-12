@@ -109,14 +109,14 @@ this file is kept here with the information necessary for a good build by cruise
 		
 
 
-		<condition property="jucmnav.version" value="2.3.${buildtime}">
+		<condition property="jucmnav.version" value="2.4.${buildtime}">
 			<not>
 				<isset property="jucmnav.version"/>
 			</not>
 		</condition>
 
 
-<!--		 <property name="jucmnav.version" value="2.3.0" /> -->
+<!--		 <property name="jucmnav.version" value="2.4.0" /> -->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -133,15 +133,15 @@ this file is kept here with the information necessary for a good build by cruise
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="2.3.0"/>
+			<param name="jucmnav.version" value="2.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="2.3.0"/>
+			<param name="jucmnav.version" value="2.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="2.3.0"/>
+			<param name="jucmnav.version" value="2.4.0"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
