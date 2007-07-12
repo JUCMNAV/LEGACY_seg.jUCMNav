@@ -142,7 +142,7 @@
 			<fileset dir="${build.result.folder}" includes="jUCMNav.jar"			/>
 		</copy>
 		<copy todir="${destination.temp.folder}/seg.jUCMNav_2.3.0" failonerror="true" overwrite="false">
-			<fileset dir="${basedir}" includes="plugin.xml,jUCMNav.jar,META-INF/,about.html,CSM.xsd,helpcontent/,help.xml,grlcatalogue.xsd,icons/,plugin_fr.properties,plugin.properties,lib/,test.xml"			/>
+			<fileset dir="${basedir}" includes="plugin.xml,jUCMNav.jar,META-INF/,about.html,helpcontent/,help.xml,grlcatalogue.xsd,icons/,plugin_fr.properties,plugin.properties,lib/,test.xml"			/>
 		</copy>
 		
 			<copy todir="${destination.temp.folder}/seg.jUCMNav_2.3.0" >

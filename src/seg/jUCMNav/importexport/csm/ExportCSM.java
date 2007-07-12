@@ -111,7 +111,7 @@ public class ExportCSM implements IURNExport {
             if (fos != null) {
                 try {
                     fos.close();
-                    validateXml(filename);
+                    validateXml(filename);              
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -134,7 +134,7 @@ public class ExportCSM implements IURNExport {
             + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " //$NON-NLS-1$
             + "xmlns:CSM=\"platform:/resource/edu.carleton.sce.puma/CSM.xsd\" " //$NON-NLS-1$
             + "name=\"" + urn.getName() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
-            + "description=\"" + urn.getDescription() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
+            + "description=\"" + ( (urn.getDescription() == null) ? "" : urn.getDescription()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             + "author=\"" + urn.getAuthor() + "\" " //$NON-NLS-1$ //$NON-NLS-2$
             + "created=\"" + convertUcmDateToCsmDate(urn.getCreated()) + "\" " //$NON-NLS-1$ //$NON-NLS-2$
             + "version=\"" + urn.getSpecVersion() + "\">"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -156,11 +156,6 @@ public class ExportCSM implements IURNExport {
         // output footer
         ps.println(CSM_footer);
         ps.flush();
-
-        // Reports to Problems view
-        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
-        refreshProblemsView(problems);
-
     }
 
     /**
@@ -175,12 +170,12 @@ public class ExportCSM implements IURNExport {
 	try {
 	    date = sdf.parse(dateString);
 	} catch (ParseException p) {
-	    System.out.println(p.toString());
+		problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + p.getMessage(), IMarker.SEVERITY_ERROR));
 	}
 	Calendar cal = Calendar.getInstance();
 	cal.setTime(date);
 	String csmYear = String.valueOf(cal.get(Calendar.YEAR));
-	String month = String.valueOf(cal.get(Calendar.MONTH));
+	String month = String.valueOf(cal.get(Calendar.MONTH)+1); // Months start at 0 in the Calendar class...
 	String csmMonth = ("0" + month).substring(month.length() - 1); //$NON-NLS-1$
 	String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
 	String csmDay = ("0" + day).substring(day.length() - 1); //$NON-NLS-1$
@@ -974,7 +969,7 @@ public class ExportCSM implements IURNExport {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-                System.out.println(ex); // or ex.getMessage()?
+            	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));
             }
         
             if (warnings.size() > 0) {
@@ -996,7 +991,7 @@ public class ExportCSM implements IURNExport {
 
                         resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
                     } catch (CoreException ex) {
-                        System.out.println(ex); // or ex.getMessage()?
+                    	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));
                     }
 
                 }
@@ -1024,8 +1019,7 @@ public class ExportCSM implements IURNExport {
 		try {
 			documentParser = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
 		}
 
 		// Command to "fix" the CSM XML by replacing CSM:CSMType with CSM
@@ -1047,26 +1041,23 @@ public class ExportCSM implements IURNExport {
 			document = documentParser.parse(FixedCSMdoc);
 
 		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e2.toString(), IMarker.SEVERITY_ERROR));
 		}
 
 		// Create a SchemaFactory for WXS schemas
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 		// Schema is packaged with jUCMNav's ExportCSM plugin
-		InputStream csmSchemaIS = getClass().getResourceAsStream("CSM.xsd"); 
+		InputStream csmSchemaIS = getClass().getResourceAsStream("CSM.xsd"); //$NON-NLS-1$
 		// Load a WXS schema, represented by a Schema instance
 		Source csmSchemaSource = new StreamSource(csmSchemaIS);
 		Schema csmSchema = null;
 		try {
 			csmSchema = factory.newSchema(csmSchemaSource);
 		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
 		}
 
 		// Create a Validator instance, which can be used to validate an instance document
@@ -1076,14 +1067,15 @@ public class ExportCSM implements IURNExport {
 		try {
 			try {
 				csmValidator.validate(new DOMSource(document));
-				System.out.println(Messages.getString("ExportCSM.XmlValidated")); //$NON-NLS-1$
+		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR));
 			}
 		} catch (SAXException e) {
 			// instance document is invalid!
-			e.printStackTrace();
+	        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR));
 		}
+        // Reports to Problems view
+        refreshProblemsView(problems);
 	}
 }
