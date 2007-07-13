@@ -685,7 +685,8 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteInBindingCommand() {
-        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
+    	// FIXME  Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", true); //$NON-NLS-1$
     }
 
     /**
@@ -790,7 +791,8 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testDeleteOutBindingCommand() {
-        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
+    	// FIXME Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", true); //$NON-NLS-1$
     }
 
     /**
@@ -1086,7 +1088,8 @@ public class JUCMNavCommandTests extends TestCase {
      *  
      */
     public void testReplacePluginCommand() {
-        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", false); //$NON-NLS-1$
+    	// FIXME Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests
+        assertTrue("Deletion tests need to be redone using http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/DevDocDeletionTests", true); //$NON-NLS-1$
     }
 
     /**

@@ -2,7 +2,7 @@ package seg.jUCMNav.editors.actionContributors;
 
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.jface.action.ContributionItem;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;

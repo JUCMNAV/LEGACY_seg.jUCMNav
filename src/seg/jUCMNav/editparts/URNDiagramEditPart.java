@@ -14,7 +14,8 @@ import org.eclipse.draw2d.LineBorder;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
+
 
 import seg.jUCMNav.model.util.SpecificationComponentRefAreaComparator;
 import urncore.IURNContainerRef;

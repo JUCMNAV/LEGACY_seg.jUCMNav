@@ -57,6 +57,6 @@ public class SplineConnection extends PolylineConnection {
         }
 
         repaint();
-        fireMoved();
+        fireFigureMoved(); // Used to be fireMoved(), now deprecated
     }
 }
