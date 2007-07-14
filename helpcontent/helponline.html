@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us"> 
 <head>
 	<title> HelpOnLine &lt; ProjetSEG &lt; UCM</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" /> <meta name="robots" content="noindex" /> <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/WebRss" />
-	<link rel="icon" href="http://cserg0.site.uottawa.ca/twiki/pub/ProjetSEG/WebPreferences/favicon.ico" type="image/x-icon" /> <link rel="shortcut icon" href="http://cserg0.site.uottawa.ca/twiki/pub/ProjetSEG/WebPreferences/favicon.ico" type="image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
 	<script type="text/javascript" src="twiki.js"></script>
 <script type="text/javascript">
 //<![CDATA[
@@ -31,21 +30,24 @@
 	.twistyHidden { display:none; }
 	.twistyMakeVisible { display:none; }
 </style>
-
+<link rel="STYLESHEET" href="book.css" type="text/css"/>
 </head>
 <body bgcolor="#ffffff">
-<a name="PageTop"></a><LINK REL="STYLESHEET" HREF="book.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<a name="PageTop"></a>
 <h1><a name="jUCMNav_Online_Help"></a> jUCMNav Online Help </h1>
-<em>01 Nov 2006 - 11:45</em>
+<em>13 Jul 2007 - 17:32</em>
 <p />
 <div class="twikiToc"> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#jUCMNav_Online_Help"> jUCMNav Online Help</a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_I_Introduction"> Part I - Introduction</a> <ul>
-<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Use_Case_Maps_UCM_Notation"> The Use Case Maps (UCM) Notation</a> <ul>
-<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#UCMs_in_a_Nutshell"> UCMs in a Nutshell</a>
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Why_Use_Case_Maps"> Why Use Case Maps?</a>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Goal_oriented_Requirements_L"> The Goal-oriented Requirements Language  (GRL) </a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#GRL_in_a_Nutshell"> GRL in a Nutshell</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Why_use_the_Goal_oriented_Requir"> Why use the Goal-oriented Requirement Language?</a>
 </li></ul> 
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Goal_Oriented_Requirements_L"> The Goal-Oriented Requirements Language  (GRL) </a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#The_Use_Case_Maps_UCM_Notation"> The Use Case Maps (UCM) Notation</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#UCMs_in_a_Nutshell"> UCMs in a Nutshell</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Why_use_Use_Case_Maps"> Why use Use Case Maps?</a>
+</li></ul> 
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Reference"> Reference</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Quick_Tour_of_Eclipse_and_jUCMNa"> Quick Tour of Eclipse and jUCMNav</a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Creating_Files"> Creating Files</a>
@@ -55,27 +57,37 @@
 </li></ul> 
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_II_Basic_Editing"> Part II - Basic Editing</a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Keyboard_shortcuts"> Keyboard shortcuts</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Diagrams"> Diagrams</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Adding_a_GRL_or_UCM_diagram"> Adding a GRL or UCM diagram</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#References_versus_Definitions"> References versus Definitions</a>
+</li></ul> 
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Components_UCM_Actors_GRL"> Components  (UCM) / Actors (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Intentional_Elements_GRL"> Intentional Elements (GRL)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Beliefs_GRL"> Beliefs (GRL)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Creating_Paths_UCM"> Creating Paths (UCM)</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Decomposition_Dependencies_and_C"> Decomposition, Dependencies, and Contributions (GRL)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Elements_bound_to_components_UCM"> Elements bound to components (UCM) / actors (GRL)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_labels_UCM_GRL"> Working with labels (UCM/GRL)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Forks_Joins_UCM"> Forks/Joins (UCM)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Conditions_UCM"> Conditions (UCM)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Deletion_UCM_GRL"> Deletion (UCM/GRL)</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Waiting_places_timers_and_connec"> Waiting places, timers and connects (UCM)</a>
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Intentional_Elements_GRL"> Intentional Elements (GRL)</a>
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Decomposition_Dependencies_and_C"> Decomposition, Dependencies, and Contributions (GRL)</a>
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Beliefs_GRL"> Beliefs (GRL)</a>
 </li></ul> 
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_III_Advanced_Editing"> Part III - Advanced Editing</a> <ul>
-<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Working_with_multiple_diagrams"> Working with multiple diagrams</a>
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Zooming_and_view_modes"> Zooming and view modes</a>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Zooming_and_view_modes"> Zooming and view modes</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Auto_layout"> Auto-layout</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Using_Stubs"> Using Stubs</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Exporting_Images"> Exporting Images</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Import_Export"> Import/Export </a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#GRL_Catalogues"> GRL Catalogues</a>
 </li></ul> 
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_IV_GRL_Strategies"> Part IV GRL Strategies</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_IV_GRL_Strategies"> Part IV GRL Strategies</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Quantitative_Evaluation">Quantitative Evaluation</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Managing_Strategies"> Managing Strategies</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Analyzing_GRL_models"> Analyzing GRL models</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Exporting_Strategies_in_CSV"> Exporting Strategies in CSV</a>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#URN_Links"> URN Links</a>
+</li></ul> 
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_V_UCM_Scenarios"> Part V UCM Scenarios</a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Code_and_Condition_Editor"> Code and Condition Editor </a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Variables"> Variables</a>
@@ -88,35 +100,62 @@
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Variable_initializations_precond"> Variable initializations, preconditions and postconditions</a>
 </li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Included_Scenarios"> Included Scenarios</a>
 </li></ul> 
-</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Executing_a_scenario"> Executing a scenario</a> <ul>
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Executing_a_Scenario"> Executing a Scenario</a> <ul>
 <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Detecting_Problems"> Detecting Problems </a>
 </li></ul> 
+</li></ul> 
+</li> <li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Part_VI_MSC_Viewer"> Part VI MSC Viewer</a> <ul>
+<li> <a href="http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine#Exporting_MSC_images"> Exporting MSC images</a>
 </li></ul> 
 </li></ul> 
 </li></ul> 
 </div>
 <p />
-<h2><a name="Part_I_Introduction"></a> Part I - Introduction </h2> <ul>
-<li> jUCMNav is a graphical editor for the User Requirements Notation (URN)  which contains the Use Case Maps (UCM) notation and the Goal-Oriented Requirements Language (GRL). 
+<h2><a name="Part_I_Introduction"></a> Part I - Introduction </h2>
+jUCMNav is a graphical editor for the User Requirements Notation (URN). URN enables the visual modelling, communication, and analysis of business objectives, processes, and requirements using <em>goals</em> (Goal-oriented Requirement Language - GRL) and <em>scenarios</em> (Use Case Map notation - UCM). 
+<p />
+<p />
+<h3><a name="The_Goal_oriented_Requirements_L"></a> The Goal-oriented Requirements Language  (GRL) </h3>
+<h4><a name="GRL_in_a_Nutshell"></a> GRL in a Nutshell </h4> <ul>
+<li> Graphical goal modelling notation
+</li> <li> Connects requirements to business objectives
+</li> <li> Allows reasoning about (non-functional) requirements
+</li> <li> GRL models the "*why*" aspects <ul>
+<li> objectives, alternatives, as well as decision rationales 
+</li> <li> no operational details
+</li></ul> 
+</li> <li> Goal and trade-off analysis
+</li></ul> 
+<p />
+<h4><a name="Why_use_the_Goal_oriented_Requir"></a> Why use the Goal-oriented Requirement Language? </h4> <ul>
+<li> Goals become an important driver for requirements elaboration. Yet, stakeholders goals and objectives are complex and will conflict&#8230;
+</li> <li> GRL expresses and clarifies tentative, ill-defined and ambiguous requirements <ul>
+<li> Models goals and their importance to stakeholders
+</li> <li> Supports argumentation, negotiation, conflict detection &amp; resolution, and in general decisions
+</li> <li> Captures decision rationale and criteria (documentation!)
+</li></ul> 
+</li> <li> GRL identifies alternative requirements and alternative system boundaries
+</li> <li> GRL provides clear traceability from strategic objectives to technical requirements
+</li> <li> GRL allows reuse of stable higher-level goals when the system evolves
+</li> <li> GRL strategies help visualize satisfaction levels related to high-level decisions
+</li> <li> Nothing like this in UML&#8230;
 </li></ul> 
 <p />
 <p />
 <h3><a name="The_Use_Case_Maps_UCM_Notation"></a> The Use Case Maps (UCM) Notation </h3>
 <h4><a name="UCMs_in_a_Nutshell"></a> UCMs in a Nutshell </h4> <ul>
-<li> Use Case Maps <ul>
-<li> graphical scenario notation 
-</li> <li> causal relationships between responsibilities
-</li> <li> scenario elements may (optionally) be allocated to components
-</li></ul> 
-</li> <li> UCMs model the "what" aspects <ul>
-<li> functional requirements as scenarios
+<li> Graphical scenario notation 
+</li> <li> Causal relationships between responsibilities
+</li> <li> Scenario elements may (optionally) be allocated to components
+</li> <li> UCMs model the "*what*" aspects <ul>
+<li> functional/operational requirements as scenarios
 </li> <li> integration and reusability of scenarios
 </li> <li> guidance for architecture and detailed behaviour
 </li></ul> 
-</li> <li> Performance analysis, conflict detection
+</li> <li> Performance analysis and conflict detection
 </li></ul> 
 <p />
-<h4><a name="Why_Use_Case_Maps"></a><a name="Why_Use_Case_Maps_"></a> Why Use Case Maps? </h4> <ul>
+<h4><a name="Why_use_Use_Case_Maps"></a><a name="Why_use_Use_Case_Maps_"></a> Why use Use Case Maps? </h4> <ul>
 <li> Bridge the modeling gap between use cases, requirements, and design <ul>
 <li> Link behavior and structure in an explicit and visual way
 </li> <li> Provide a behavioral framework for making (evaluating) architectural decisions at a high level of design
@@ -127,19 +166,16 @@
 <li> Enables reasoning about potential undesirable interactions of scenarios 
 </li></ul> 
 </li> <li> Provide ability to model dynamic systems where scenarios and structures may change at run-time <ul>
-<li> E-commerce applications, Web services
+<li> Business processes
+</li> <li> E-commerce applications, Web services
 </li> <li> Distributed systems based on agents
 </li></ul> 
-</li> <li> Fairly simple, intuitive, low learning curve 
+</li> <li> Low learning curve 
 </li> <li> Document while you design
 </li> <li> Effective learning tool for people unfamiliar with the domain
-</li> <li> May be transformed (e.g., into MSC/sequence diagrams, performance models, test cases)
+</li> <li> UCM scenarios may be transformed (e.g., into MSC/sequence diagrams, performance models, test goals)
 </li></ul> 
 <p />
-<p />
-<h3><a name="The_Goal_Oriented_Requirements_L"></a> The Goal-Oriented Requirements Language  (GRL) </h3> <ul>
-<li> TODO
-</li></ul> 
 <p />
 <h3><a name="Reference"></a> Reference </h3> <ul>
 <li> For an in-depth explanation of both notations, which are portions of the User Requirements Notation (URN), please visit <a href="http://www.usecasemaps.org/" target="_top">UseCaseMaps.org</a>
@@ -147,6 +183,7 @@
 <p />
 <h3><a name="Quick_Tour_of_Eclipse_and_jUCMNa"></a> Quick Tour of Eclipse and jUCMNav </h3>
 <img alt="jucmnav_screenshot1.png" src="jucmnav_screenshot1.png" />
+<p />
 <img alt="jucmnav-screenshot2.png" src="jucmnav-screenshot2.png" />
 <p />
 <h4><a name="Creating_Files"></a> Creating Files </h4>
@@ -156,7 +193,7 @@
 </li></ul> 
 </li> <li> Once a project is created, select it and create a new jUCMNav file (*.jucm) <ul>
 <li> File -&gt; New -&gt; Other
-</li> <li> jUCMNav -&gt; Use Case Map, Click next.
+</li> <li> jUCMNav -&gt; Use Case Map / GRL Graph, Click next.
 </li> <li> Choose the containing project and name your .jucm file.
 </li> <li> Click finish.
 </li></ul> 
@@ -165,9 +202,10 @@
 <p />
 <h4><a name="Perspectives"></a> Perspectives </h4> <ul>
 <li> Now that you have an open file, you might be wondering why your interface does not look exactly like the above screenshot. This is because Eclipse uses perspectives to layout all the windows in the interface. Perspectives can be saved, reset and changed.  <ul>
-<li> jUCMNav has its own perspective. 
-</li> <li> Window -&gt; Open Perspective -&gt; Other
-</li> <li> Choose jUCMNav. 
+<li> jUCMNav has its own perspectives (one for regular editing, the other for scenario execution).  <ul>
+<li> Window -&gt; Open Perspective -&gt; Other
+</li> <li> Choose jUCMNav (or jUCMNav Execution). 
+</li></ul> 
 </li></ul> 
 </li> <li> Later, you may return to another perspective by using the alternatives presented in the Windows menu bar or by clicking on the &gt;&gt; button at the top right of your screen.
 </li></ul> 
@@ -181,14 +219,15 @@
 <li> Center of the page.
 </li> <li> The main location for manipulating URN models. 
 </li> <li> When one opens a file, an editor is opened. 
-</li> <li> Because one file can contain multiple UCMs, this editor has multiple tabs at the bottom. 
-</li> <li> Will be studied in greater depth in further sections.
+</li> <li> Because one file can contain multiple GRL/UCM diagrams, this editor has multiple tabs at the bottom. 
+</li> <li> Will be described in greater depth in further sections.
 </li> <li> Double click on the title to use the whole screen to edit your model. 
 </li></ul> 
 </li> <li> Palette <ul>
 <li> There is a collapsible palette inside of the editor, on its right side. 
-</li> <li> It can be moved to the left side or collapsed if screen real estate is scarce.
-</li> <li> The palette contains elements that can be inserted into a diagram. 
+</li> <li> It can be moved to the left or side, or collapsed if screen real estate is scarce.
+</li> <li> The described contains elements that can be inserted into a diagram. 
+</li> <li> Different layouts and icon sizes are available by righ-clicking on the palette.
 </li> <li> Will be studied in greater depth in further sections.
 </li> <li> Press ESC to replace the currently selected tool with the selection tool.
 </li></ul> 
@@ -230,7 +269,6 @@
 </li></ul> 
 </li></ul> 
 <p />
-<p />
 <h2><a name="Part_II_Basic_Editing"></a> Part II - Basic Editing </h2>
 <p />
 <h3><a name="Keyboard_shortcuts"></a> Keyboard shortcuts </h3> <ul>
@@ -241,27 +279,72 @@
 </li> <li> Using the . (period) key, you can cycle between move and resize different bounds. For example, select a component, hit period twice and you can resize its right bound using the arrow keys and confirm the new size using enter. 
 </li></ul> 
 <p />
+<h3><a name="Diagrams"></a> Diagrams </h3>
+<h4><a name="Adding_a_GRL_or_UCM_diagram"></a> Adding a GRL or UCM diagram </h4> <ul>
+<li> This can be done in many ways: <ul>
+<li> jUCMNav menu --> Add GRL Diagram (or Add Use Case Map)
+</li> <li> Right-click any element in the Outline View --> Add GRL graph (or Add UCM)
+</li> <li> Right-click any element in the Editor --> Add GRL graph (or Add UCM)
+</li></ul> 
+</li> <li> Notice a new diagram has been added in the outline and a new tab exists at the bottom of the page. 
+</li> <li> The new diagram has been opened in the editor. 
+</li> <li> To return to your previous diagram, click on its tab or its entry in the outline and it will be reopened. 
+</li> <li> Furthermore, the toolbar contains a back and next arrow to browse through your navigation history. 
+</li></ul> 
+<p />
+<h4><a name="References_versus_Definitions"></a> References versus Definitions </h4> <ul>
+ <li>
+ <ul>
+<li> Some UCM and GRL constructs use references and definitions (UCM components, GRL actors and GRL Intentional Elements). 
+</li> <li> When creating a reference, you also create a new definition. See the outline view for a list of all definitions in a file. 
+</li> <li> All references must be associated to a definition, but not all definitions must have references. 
+</li> <li> You can change the associated definition of a reference in the properties.
+</li> <li> Properties such as name and descriptions are stored in the definitions. Modification of these properties update all references.
+</li> <li> Note that definitions must have unique names. 
+</li> <li> You can drag and drop a definition from the outline to the editor.
+</li></ul> 
+</li></ul> 
+<p />
 <h3><a name="Components_UCM_Actors_GRL"></a><a name="Components_UCM_Actors_GRL_"></a> Components  (UCM) / Actors (GRL) </h3> <ul>
 <li> Insertion / Moving <ul>
-<li> To insert a component reference, click on its kind in the palette and click in the editor to insert it.
+<li> To insert a component or actor reference, select it in the palette and click in the editor to insert it.
 </li> <li> You may also click and drag when inserting to resize it on creation. 
-</li> <li> If you click anywhere on the component reference, it is selected.
-</li> <li> Once selected, you can move the component the screen. 
-</li> <li> If you click on the bounds of the component, you may resize it. 
-</li></ul> 
-</li> <li> References versus definitions <ul>
-<li> When creating a component reference, you also create a new component definition. See the outline view for a list of all components in a file. 
-</li> <li> All component references must reference a definition, but not all definitions must have references. 
-</li> <li> You can change the definition of a component reference in the properties.
-</li> <li> When creating a component, a label will be created automatically.
-</li> <li> The label represents the name of the component definition. If you change the name field in the properties, you will change the component definitions name. All component references in the editor will be updated.
-</li> <li> Note that components definitions must have unique names. 
+</li> <li> If you click anywhere on the component/actor reference, it is selected.
+</li> <li> Once selected, you can move the component/actor in the editor. 
+</li> <li> If you click on the bounds of the component/actor, you may resize it. 
+</li> <li> When creating a component or actor, a label will be created automatically.
+</li> <li> The label represents the name of the component/actor definition. If you change the name field in the properties, you will change the definition&#65533;s name. All references in the editor will be updated.
 </li> <li> You can also double click on a label to change it directly in the editor. 
 </li></ul> 
 </li> <li> Other properties <ul>
-<li> You can change the fill and line color of components in the properties. All references will be updated. Note that if filled is false, the fill color will be ignored; the component will appear transparent. 
+<li> You can change the fill and line color of references in the properties. All references will be updated. Note that if filled is false, the fill color will be ignored; the component/actor will appear transparent. 
 </li> <li> Components can have different kinds. You can change the component kind in the properties. Changing the kind will have a visual impact on the figure. 
-</li> <li> One cannot move or resize fixed components. 
+</li> <li> One cannot move or resize fixed components/actors. 
+</li></ul> 
+</li></ul> 
+<p />
+<h3><a name="Intentional_Elements_GRL"></a><a name="Intentional_Elements_GRL_"></a> Intentional Elements (GRL) </h3> <ul>
+<li> Insertion / Editing <ul>
+<li> To create a new intentional element, select it type (Softgoal, Goal, Task, or Resource) in the palette and click in the editor to insert it (or drag and drop the element from the palette to the editor). 
+</li> <li> Intentional elements are resized automatically in editor. The element size is calculated using the element name length. 
+</li> <li> You can double click on an intentional element to edit it name.
+</li> <li> You can change an intentional element type using the properties view. 
+</li></ul> 
+</li> <li> Other properties <ul>
+<li> Fill and line colors can be changed in the properties. Note that fill and line colors are ignored if a GRL strategy is applied. 
+</li> <li> Criticality, priority and decomposition type are properties associated with the references. Modifying the value for a reference does not affect other references in the model.  
+</li></ul> 
+</li></ul> 
+<p />
+<h3><a name="Beliefs_GRL"></a><a name="Beliefs_GRL_"></a> Beliefs (GRL) </h3> <ul>
+<li> Creation / Editing <ul>
+<li> Create a belief using the belief element in the palette
+</li> <li> Beliefs are local to diagrams
+</li> <li> The size of the element is set based on the length of the description
+</li> <li> The description can be modified by double-clicking on the belief
+</li></ul> 
+</li> <li> Belief links <ul>
+<li> Links can be create between beliefs and intentional element references using the Belief Link tool. To create a link, select the tool, click on the starting element (belief) and on the destination element (intentional element reference). 
 </li></ul> 
 </li></ul> 
 <p />
@@ -285,18 +368,26 @@
 </li></ul> 
 </li></ul> 
 <p />
+<h3><a name="Decomposition_Dependencies_and_C"></a> Decomposition, Dependencies, and Contributions (GRL) </h3> <ul>
+<li> Creation <ul>
+<li> Links can be created between intentional element. To create a link, select the type (Decomposition, Contribution, or Dependency). Then, click on start element and on the destination element. 
+</li> <li> Only one link can be create between two elements
+</li> <li> Links are created using references and definitions. 
+</li></ul> 
+</li></ul> 
+<p />
 <h3><a name="Elements_bound_to_components_UCM"></a> Elements bound to components (UCM) / actors (GRL) </h3> <ul>
-<li> By default, any element moved onto a component is bound to it. 
-</li> <li> When bound, elements (components or path nodes) are moved and resized automatically if one moves or resizes the parent. 
-</li> <li> If you move a component behind other elements, these will not be bound. Automatic binding occurs when moving elements onto components.
-</li> <li> If you wish to bind these other elements to a component, you may use the contextual menu option to do so.
+<li> By default, any element moved onto a component/actor is bound to it. 
+</li> <li> When bound, elements are moved and resized automatically if one moves or resizes the parent. 
+</li> <li> If you move a component/actor behind other elements, these will not be bound. Automatic binding occurs when moving elements onto components/actors.
+</li> <li> If you wish to bind these other elements to a component/actors, you may use the contextual menu option to do so.
 </li> <li> One can bind/unbind an element from its parent using either the contextual menu or property page. 
-</li> <li> One can bind/unbind all enclosed elements from a component using the contextual menu. 
-</li> <li> Note the special behavior concerning fixed components.
+</li> <li> One can bind/unbind all enclosed elements from a component/actor using the contextual menu. 
+</li> <li> Note the special behavior concerning fixed components/actors.
 </li></ul> 
 <p />
 <h3><a name="Working_with_labels_UCM_GRL"></a><a name="Working_with_labels_UCM_GRL_"></a> Working with labels (UCM/GRL) </h3> <ul>
-<li> Some labels are created automatically when an element is created: start points, end points, responsibilities, stubs and components.
+<li> Some labels are created automatically when an element is created: start points, end points, responsibilities, stubs, components, actors.
 </li> <li> These labels contain the name of the element. 
 </li> <li> They can be moved around freely. When the labelled element is moved, the labels will move as well.
 </li> <li> You can hide these labels by deleting them (contextual menu or delete key).
@@ -321,13 +412,11 @@
 </li></ul> 
 <p />
 <h3><a name="Deletion_UCM_GRL"></a><a name="Deletion_UCM_GRL_"></a> Deletion (UCM/GRL) </h3> <ul>
-<li> You can select a path node and use the contextual menu or press the delete key to remove it from the map. If a reference is deleted, its definition is not affected.
-</li> <li> If a stub, join or fork is deleted, the existing branches will be truncated. 
-</li> <li> You can delete a portion of a path by deleting its start point or end point. 
-</li> <li> If only one entry/exist path subsists for a join/fork, it will be replaced with an empty point.
-</li> <li> If no entry paths and no exist paths subsist for a stub, it will be deleted as well. 
+<li> You can select an element and use the contextual menu or press the delete key to remove it from the URN diagram. If a reference is deleted, its definition is not affected.
 </li> <li> You can select multiple elements using your mouse or the select all option and delete them all.
 </li> <li> You can delete elements via the outline, but can only delete definitions that have no references. 
+</li> <li> UCM     * If a stub, join or fork is deleted, the existing branches will be truncated.      * You can delete a portion of a path by deleting its start point or end point.      * If only one entry/exist path subsists for a join/fork, it will be replaced with an empty point.     * If no entry paths and no exist paths subsist for a stub, it will be deleted as well. 
+</li> <li> GRL     * Deleting an intentional element reference delete all the link references associate to the element. The link definition is deleted if the model does not contain other references to the link. 
 </li></ul> 
 <p />
 <h3><a name="Waiting_places_timers_and_connec"></a> Waiting places, timers and connects (UCM) </h3> <ul>
@@ -340,28 +429,8 @@
 </li> <li> Drag and drop also works to create connections, for waiting places and timers only.
 </li></ul> 
 <p />
-<h3><a name="Intentional_Elements_GRL"></a><a name="Intentional_Elements_GRL_"></a> Intentional Elements (GRL) </h3> <ul>
-<li> TODO
-</li></ul> 
-<p />
-<h3><a name="Decomposition_Dependencies_and_C"></a> Decomposition, Dependencies, and Contributions (GRL) </h3> <ul>
-<li> TODO
-</li></ul> 
-<p />
-<h3><a name="Beliefs_GRL"></a><a name="Beliefs_GRL_"></a> Beliefs (GRL) </h3> <ul>
-<li> TODO
-</li></ul> 
 <p />
 <h2><a name="Part_III_Advanced_Editing"></a> Part III - Advanced Editing </h2>
-<h3><a name="Working_with_multiple_diagrams"></a> Working with multiple diagrams </h3> <ul>
-<li> To create a new diagram, right click on the URNSpec in the outline view and choose the "Add Use Case Map" or "Add GRL Graph" option.  <ul>
-<li> The contextual menu of a diagram also brings up these options. 
-</li></ul> 
-</li> <li> Notice a new diagram has been added in the outline and a new tab exists at the bottom of the page. 
-</li> <li> The new diagram has been opened in the editor. 
-</li> <li> To return to your previous diagram, click on its tab or its entry in the outline and it will be reopened. 
-</li> <li> Furthermore, the toolbar contains a back and next arrow to browse through your navigation history. 
-</li></ul> 
 <p />
 <h3><a name="Zooming_and_view_modes"></a> Zooming and view modes </h3> <ul>
 <li> There are controls in the toolbar located above the editor. Next to the obvious undo/redo buttons is located the zoom level drop down box. 
@@ -418,10 +487,103 @@
 </li></ul> 
 </li></ul> 
 <p />
+<h3><a name="GRL_Catalogues"></a> GRL Catalogues </h3> <ul>
+<li> GRL catalogues are reusable high-level GRL models, often used to describe common model elements and relationships related to non-functional aspects. 
+</li> <li> Catalogues are used to start new models or add concerns to existing ones. They consist of a XML file describing intentional elements and links (only contributions and decompositions are part of catalogues). 
+</li> <li> To create a catalogue, in a URN model, use the export mechanism and choose to export the whole URN file. The file type is *.grl for catalogues.
+</li> <li> To import a catalogue in a model, select import file in the contextual menu and select the .grl file to import.  <ul>
+<li> The import mechanism creates all the intentional element and link definitions and create a new GRL diagram in model with all the imported elements and links. The autolayout is used to display the diagram. 
+</li></ul> 
+</li></ul> 
 <p />
 <p />
 <h2><a name="Part_IV_GRL_Strategies"></a> Part IV GRL Strategies </h2> <ul>
-<li> TODO
+<li> The concept of GRL strategies is a mechanism developed in jUCMNav to analyze GRL models using a set of user-defined evaluations. 
+</li> <li> There are two evaluation labels use in strategies. One to evaluate the satisfaction level of intentional elements (goals, softgoals, resources and tasks) and one to calculate a global satisfaction value for actors.
+</li> <li> GRL strategies are visualized using the execution view (selected in Scenarios and Strategies view). 
+</li></ul> 
+<p />
+<h3><a name="Quantitative_Evaluation"></a> Quantitative Evaluation </h3> <ul>
+<li> jUCMNav uses a quantitative interpretation of the satisfaction levels. The values are between -100 (denied) and +100 (satisficed). The correspondence between quantitative and the qualitative is: <ul>
+<li> Satisficed: 100
+</li> <li> Weakly Satisficed: 1 to 99
+</li> <li> Unknown: 0
+</li> <li> Weakly Denied: -1 to -99
+</li> <li> Denied: -100
+</li></ul> 
+</li> <li> In Execution mode, qualitative evaluations are displayed next to numerical evaluations. 
+</li> <li> Default evaluation value is 0 (Unknown).
+</li></ul> 
+<p />
+<h3><a name="Managing_Strategies"></a> Managing Strategies </h3> <ul>
+<li> Creation/Deletion <ul>
+<li> In the Scenarios and Strategies view, under GRL Evaluation Strategies, the contextual menu allows creating, deleting and duplicating evaluation groups and strategies.  
+</li> <li> Evaluation groups are constructs to store one or more strategies. Strategies must be created in an evaluation group. 
+</li></ul> 
+</li></ul> 
+<p />
+<h3><a name="Analyzing_GRL_models"></a> Analyzing GRL models </h3> <ul>
+<li> Intentional elements and GRL strategies: <ul>
+<li> Once a strategy is created, select it and switch to execution view. For strategies without user evaluations, evaluations are 0 for all intentional elements and actors.
+</li> <li> In the properties view, set the strategy properties (name, description and author). 
+</li> <li> To set an evaluation for an intentional element, select the element in the editor. In the properties view, under Strategy, set the evaluationLevel property (between 100 and -100). The new evaluation is propagated to other elements using the links (contributions, dependencies, decompositions) associate to the intentional element definition. Note that user evaluations overwrite calculated evaluations. Elements with user-defined evaluations are identified with a star (*). 
+</li> <li> To delete a user evaluation, select the intentional element. In the contextual menu, choose delete user evaluation. The calculated evaluation is restored and propagated. 
+</li> <li> The default algorithm in jUCMNav calculates the evaluations using the following method:  <dl>
+<dt> Decompositions</dt><dd> Decompositions are calculated as a standard AND/OR graph (as shown in the following figure). 
+</dd></dl> 
+</li></ul> 
+</li></ul> 
+<p />
+<img alt="AndOrDecomposition.JPG" src="AndOrDecomposition.JPG" />
+<p /> <dl>
+ <dd>
+ <dl>
+ <dd>
+ <dl>
+<dt> Contributions</dt><dd> Contributions must have a label other than "Unknown" to be used in the algorithm. The following diagram shows example of typical contributions for elements.
+</dd></dl> 
+</dd></dl> 
+</dd></dl> 
+<p />
+<img alt="Contributions.JPG" src="Contributions.JPG" />
+<p /> <dl>
+ <dd>
+ <dl>
+ <dd>
+ <dl>
+<dt> Dependencies</dt><dd> An element that depends on others elements as an evaluation less or equal (&lt;=) to the minimal value of the elements it depends on. The following figure shows how dependencies are propagated. 
+</dd></dl> 
+</dd></dl> 
+</dd></dl> 
+<p />
+<img alt="Dependencies.JPG" src="Dependencies.JPG" />
+<p /> <ul>
+<li> Actors and GRL strategies <ul>
+<li> The actor evaluation label is calculated based on the bound intentional element references. It is displayed in a label at the top of actors in execution mode.
+</li> <li> A priority and criticality is required for intentional element references to be considered in the actor evaluation. By default, all elements have a criticality and priority of "None", resulting to a value of 0 for actor evaluations. 
+</li> <li> Elements with highest priority and criticality have the most influence on evaluations. 
+</li> <li> Priority and criticality must be set for each reference.
+</li></ul> 
+</li></ul> 
+<p />
+<h3><a name="Exporting_Strategies_in_CSV"></a> Exporting Strategies in CSV </h3> <ul>
+<li> Suppose you have 10 strategies defined for your model. Having screenshots is not very helpful in comparing all of them at the same time (especially when you have many diagrams). jUCMNav hence allows you to export the evaluations of all the strategies in a .csv file that you can then import in Excel to get a nice, tabular view of everything that happens. <ol>
+<li> Right-click on URNspec in the Outline view and select Export
+</li> <li> In the export wizard, select <em>Export the whole URN file</em> and click Next.
+</li> <li> In the next page, select the <em>Comma-separated Values - GRL Strategies (.csv)</em> option in the File type selection box.
+</li> <li> Also choose the target directory and file name and click Finish
+</li> <li> (optional) In Excel (or similar tool), open the .csv file just generated. You now have a tabular representation of the satisfaction levels for all elements, per strategy!
+</li></ol> 
+</li></ul> 
+<p />
+<p />
+<h3><a name="URN_Links"></a> URN Links </h3> <ul>
+<li> URN links are a new construct in URN introduced in jUCMNav to create traceability links between UCM and GRL views. jUCMNav supports links from GRL actors and intentional elements to UCM maps, components and responsibilities. 
+</li> <li> Links are managed from the GRL diagram. To manage the link, select an actor or an intentional element. In the contextual menu, select Edit URN Links.
+</li> <li> Current links for the selected element are displayed at the left. A link can be deleted by selecting it in the list and clicking on the Delete Link button. 
+</li> <li> To create a new link, select the element type, the element name, and click on Add link. Note that only 1 link by UCM element is supported. 
+</li> <li> Once links are created, a yellow triangle is displayed in the element labels on both GRL and UCM views. 
+</li> <li> Links can be used to evaluate the impact of GRL strategy on UCM model. In execution mode, GRL intentional element evaluations are associated to their link destination elements. Associated evaluations are displayed in UCM element labels. 
 </li></ul> 
 <p />
 <h2><a name="Part_V_UCM_Scenarios"></a> Part V UCM Scenarios </h2> <ul>
@@ -458,17 +620,17 @@ AdditiveExpression      := MultiplicativeExpression ((Addition | Substraction) M
 MultiplicativeExpression:= UnaryExpression (Multiplication UnaryExpression)*
 UnaryExpression         := (Addition | Substraction)? ("(" Expression ")" | IntegerConstant | Identifier )
 
-And                     := "and" | "&&"
+And                     := "and" | "&amp;&amp;"
 Or                      := "or" | "||"
 Xor                     := "xor" | "^"
-Implies                 := "=>"
+Implies                 := "=*gt;"
 Equals                  := "=" | "=="
 NotEquals               := "not" | "!"
 Not	                := "/=" | "!="
-GreaterThan             := ">"
-GreaterOrEqualTo        := ">="
-LowerThan               := "<"
-LowerOrEqualTo          := "<="
+GreaterThan             := "&gt;"
+GreaterOrEqualTo        := "&gt;="
+LowerThan               := "&lt;"
+LowerOrEqualTo          := "&lt;="
 Addition                := "+"
 Substraction            := "-"
 Multiplication          := "*"
@@ -508,11 +670,11 @@ StatementTerminator    := ";"
 <pre>
 VariableX
 
-VariableX && VariableY
+VariableX &amp;&amp; VariableY
 
-(VariableX && !(VariableX || VariableY)) => true
+(VariableX &amp;&amp; !(VariableX || VariableY)) =&gt; true
 
-(IntegerVariableA+IntegerVariableB)*2 <= -10
+(IntegerVariableA+IntegerVariableB)*2 &lt;= -10
 
 _x - 3 == 0
 </pre>
@@ -561,14 +723,28 @@ IntegerVariableB=IntegerVariableB+15;
 <li> Included scenarios prevent from having to redefine the same elements in multiple scenarios. Scenarios will respect the start points, end points, variable initializations, preconditions and postconditions of the included scenarios. A scenario can override initializations but can only append to the other scenario children.
 </li></ul> 
 <p />
-<h3><a name="Executing_a_scenario"></a> Executing a scenario </h3> <ul>
+<h3><a name="Executing_a_Scenario"></a> Executing a Scenario </h3> <ul>
 <li> To execute a scenario, activate the execution view by clicking on its icon in the scenarios / strategies view. Then, click on a scenario and it will be automatically executed. If you change anything in the map, you may need to use the refresh toolbar button. Select another scenario to execute it.
 </li></ul> 
 <p />
 <h4><a name="Detecting_Problems"></a> Detecting Problems </h4> <ul>
 <li> The traversal algorithm notes problems during the execution of the scenario in the Problems view. Double click on the problem to focus the editor at the appropriate location. Some items have quick fixes (right click on the problem and choose the quick fix operation).
 </li></ul> 
-<p /><a name="TopicEnd"></a>
+<p />
+<p />
+<h2><a name="Part_VI_MSC_Viewer"></a> Part VI MSC Viewer </h2> <ul>
+<li> jUCMNav now integrates a Message Sequence Chart (MSC) Viewer
+</li> <li> TODO
+</li></ul> 
+<p />
+<img alt="jucmnav_MSC_screenshot.png" src="jucmnav_MSC_screenshot.png" />
+<p />
+<h3><a name="Exporting_MSC_images"></a> Exporting MSC images </h3> <ul>
+<li> Right-click on the .jucmnavscenarios file and select Export
+</li> <li> Select Other --> UCM Scenario Image and click Next
+</li> <li> Select the scenario to export (currently limited to 1 scenario) and click Next
+</li> <li> Select the target directory and filename, as well as the appropriate format (.bmp or .jpg) and click Finish
+</li></ul> <a name="TopicEnd"></a>
 <p />
 <p />
 <p />

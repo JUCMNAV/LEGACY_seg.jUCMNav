@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #clean up existing
-rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css
+rm *.html *.png *.PNG *.jpg *.JPG *.gif *.GIF *.htm *.css *.js
 
 #get page, prereqs, etc and convert links
 wget -p -k -nd -E -e "robots=off" http://cserg0.site.uottawa.ca/twiki/bin/view/ProjetSEG/HelpOnLine?skin=plain
@@ -14,3 +14,5 @@ grep -iv "<base" ./helponline_TMP.html > ./helponline.html
 
 #cleanup
 rm *_TMP*
+
+#don't forget that the file must not contain base and it must be valid xhtml
