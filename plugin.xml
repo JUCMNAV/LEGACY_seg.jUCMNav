@@ -183,6 +183,13 @@
             mode="image"
             name="%ExportGIF"
             useStream="true"/>
+      <exporter
+            class="seg.jUCMNav.importexport.ExportImagePNG"
+            extension="png"
+            id="seg.jUCMNav.ExportPNG"
+            mode="image"
+            name="%ExportPNG"
+            useStream="true"/>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
