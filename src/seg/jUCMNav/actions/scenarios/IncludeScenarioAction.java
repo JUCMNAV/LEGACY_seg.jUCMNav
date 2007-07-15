@@ -36,7 +36,7 @@ public class IncludeScenarioAction extends URNSelectionAction {
     public IncludeScenarioAction(IWorkbenchPart part) {
         super(part);
         setId(INCLUDESCENARIO);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucmscen16.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -13,7 +13,7 @@
             contributorClass="seg.jUCMNav.editors.actionContributors.UCMActionBarContributor"
             default="true"
             extensions="jucm"
-            icon="icons/icon16.gif"
+            icon="icons/ucm16.gif"
             id="seg.jUCMNav.MainEditor"
             name="seg.jUCMNav.MainEditor"/>
    </extension>
@@ -41,7 +41,7 @@
          <action
                actionID="seg.jUCMNav.actions.AddMapAction"
                class="seg.jUCMNav.actions.UCMActionDelegate"
-               icon="icons/icon16.gif"
+               icon="icons/ucm16.gif"
                id="seg.jUCMNav.AddMap"
                label="%AddUseCaseMap"
                menubarPath="seg.jUCMnav/ext"
@@ -50,7 +50,7 @@
          <action
                actionID="seg.jUCMNav.actions.AddGrlGraphAction"
                class="seg.jUCMNav.actions.UCMActionDelegate"
-               icon="icons/icon16.gif"
+               icon="icons/grl16.gif"
                id="seg.jUCMNav.AddGrlGraph"
                label="%AddGrlDiagram"
                menubarPath="seg.jUCMnav/ext"
@@ -76,7 +76,7 @@
             name="jUCMNav"/>
       <perspective
             class="seg.jUCMNav.views.UCMPerspectiveFactoryExecution"
-            icon="icons/icon16.gif"
+            icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.UCMEditorExecution"
             name="%jUCMNavExecution"/>
    </extension>
@@ -131,7 +131,7 @@
       <view
             category="seg.jUCMNav"
             class="seg.jUCMNav.views.strategies.StrategiesView"
-            icon="icons/StategyView16.gif"
+            icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.views.StrategiesView"
             name="%Strategies"/>
    </extension>

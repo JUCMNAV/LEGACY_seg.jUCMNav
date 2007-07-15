@@ -119,7 +119,7 @@ public class UrnOutlinePage extends ContentOutlinePage implements IAdaptable, IP
                 showPage(ID_OVERVIEW);
             }
         };
-        showOverviewAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/icon16.gif")); //$NON-NLS-1$
+        showOverviewAction.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/urnstratscenoff16.gif")); //$NON-NLS-1$
         showOverviewAction.setToolTipText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         showOverviewAction.setText(Messages.getString("UrnOutlinePage.GraphicalOverview")); //$NON-NLS-1$
         tbm.add(showOverviewAction);

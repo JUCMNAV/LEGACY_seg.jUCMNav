@@ -6,6 +6,7 @@ import org.eclipse.gef.requests.GroupRequest;
 
 import seg.jUCMNav.model.commands.delete.DeleteMapCommand;
 import ucm.map.UCMmap;
+import urn.URNspec;
 
 /**
  * ComponentEditPolicy for UCM Maps. Returns delete commands.
@@ -21,8 +22,18 @@ public class MapComponentEditPolicy extends ComponentEditPolicy {
      */
     protected Command getDeleteCommand(GroupRequest request) {
         Object elem = getHost().getModel();
-        if (elem instanceof UCMmap)
-            return new DeleteMapCommand((UCMmap) elem);
+        if (elem instanceof UCMmap) {
+            UCMmap diagram = (UCMmap) elem;
+			URNspec urn = (URNspec) diagram.eContainer().eContainer();
+			int nbDiagrams = urn.getUrndef().getSpecDiagrams().size();
+			if (nbDiagrams > 1) {
+				// we can delete it, not the last GRL/UCM diagram
+				return new DeleteMapCommand(diagram);        		
+			} else {
+				// last diagram, cannot delete!
+				return null;
+			}
+       }
         else
             return null;
     }

@@ -91,7 +91,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 showPage(ID_DESIGN);
             }
         };
-        showDesignView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/DesignView16.gif")); //$NON-NLS-1$
+        showDesignView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/urnstratscenoff16.gif")); //$NON-NLS-1$
         showDesignView.setToolTipText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
         showDesignView.setText(Messages.getString("StrategiesView.switchDesign"));  //$NON-NLS-1$
 
@@ -101,7 +101,7 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                 showPage(ID_STRATEGY);
             }
         };
-        showStrategiesView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/StrategyView16.gif")); //$NON-NLS-1$
+        showStrategiesView.setImageDescriptor(JUCMNavPlugin.getImageDescriptor( "icons/urnstratscenon16.gif")); //$NON-NLS-1$
         showStrategiesView.setToolTipText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
         showStrategiesView.setText(Messages.getString("StrategiesView.switchStrategies"));  //$NON-NLS-1$
 

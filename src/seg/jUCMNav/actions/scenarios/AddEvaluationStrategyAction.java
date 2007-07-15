@@ -28,7 +28,7 @@ public class AddEvaluationStrategyAction extends URNSelectionAction {
         super(part);
 
         setId(ADDEVALUATIONSTRATEGY);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grl16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/grlstrat16.gif")); //$NON-NLS-1$
     }
 
     /**

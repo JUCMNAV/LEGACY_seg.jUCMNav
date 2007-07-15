@@ -17,7 +17,7 @@ import ucm.map.UCMmap;
  */
 public class PluginLabelProvider implements ILabelProvider {
 
-    Image icon = (JUCMNavPlugin.getImage( "icons/icon16.gif")); //$NON-NLS-1$
+    Image icon = (JUCMNavPlugin.getImage( "icons/ucm16.gif")); //$NON-NLS-1$
 
     /**
      *  

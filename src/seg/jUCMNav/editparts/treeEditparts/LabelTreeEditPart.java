@@ -164,9 +164,9 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/grl16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/grldef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/ucm16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage( "icons/ucmdef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage( "icons/GRLActor16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$

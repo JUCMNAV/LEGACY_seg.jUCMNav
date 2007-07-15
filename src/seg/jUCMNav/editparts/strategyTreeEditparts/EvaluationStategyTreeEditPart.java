@@ -46,7 +46,7 @@ public class EvaluationStategyTreeEditPart extends StrategyUrnModelElementTreeEd
 	 */
 	protected Image getImage() {
 		if (super.getImage() == null) {
-			setImage((JUCMNavPlugin.getImage( "icons/grl16.gif"))); //$NON-NLS-1$
+			setImage((JUCMNavPlugin.getImage( "icons/grlstrat16.gif"))); //$NON-NLS-1$
 		}
 		return super.getImage();
 	}

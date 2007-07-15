@@ -35,6 +35,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
     public static final String PREF_GRLTEXTVISIBLE = "PREF_GRLTEXTVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLICONVISIBLE = "PREF_GRLICONVISIBLE"; //$NON-NLS-1$
     public static final String PREF_GRLAUTOADDLINKS = "PREF_GRLAUTOADDLINKS"; //$NON-NLS-1$
+    // Preferences for new .jurn files
+    public static final String PREF_NEWGRL = "PREF_NEWGRL"; //$NON-NLS-1$
+    public static final String PREF_NEWUCM = "PREF_NEWUCM"; //$NON-NLS-1$
     
     public GeneralPreferencePage() {
         super(FieldEditorPreferencePage.GRID);
@@ -124,6 +127,34 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
      */
     public static boolean getGrlAutoAddLinks(){
         return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_GRLAUTOADDLINKS); 
+    }    
+
+    /**
+     * @return whether a new GRL diagram should be created in a new .jucm file
+     */
+    public static boolean getNewGRL(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWGRL); 
+    }    
+
+    /**
+     * @return whether a new UCM diagram should be created in a new .jucm file
+     */
+    public static boolean getNewUCM(){
+        return JUCMNavPlugin.getDefault().getPreferenceStore().getBoolean(PREF_NEWUCM); 
+    }    
+
+    /**
+     * Set whether a new GRL diagram should be created in a new .jucm file
+     */
+    public static void setNewGRL(boolean value){
+        JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWGRL, value); 
+    }    
+
+    /**
+     * Set whether a new UCM diagram should be created in a new .jucm file
+     */
+    public static void setNewUCM(boolean value){
+        JUCMNavPlugin.getDefault().getPreferenceStore().setValue(PREF_NEWUCM, value); 
     }    
 
     public boolean performOk() {

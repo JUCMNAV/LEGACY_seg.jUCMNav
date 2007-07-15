@@ -32,7 +32,7 @@ public class AddScenarioAction extends URNSelectionAction {
         super(part);
 
         setId(ADDSCENARIO);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucm16.gif")); //$NON-NLS-1$
+        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/ucmscenon16.gif")); //$NON-NLS-1$
     }
 
     /**

@@ -538,8 +538,16 @@ public class ModelCreationFactory implements CreationFactory {
         // add its GRLspec
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
 
-        // add the new map to the UCMspec
-        urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));
+        // add a new GRL diagram to the GRLspec, if desired
+        if (GeneralPreferencePage.getNewGRL()){
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, GRLGraph.class));        	
+        }
+        
+        // add a new UCM map to the UCMspec, if desired. 
+        // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
+        if (GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL()){
+            urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));        	
+        }
 
         // Create a Strategy and Strategy Group
         StrategiesGroup group = (StrategiesGroup) ModelCreationFactory.getNewObject(urnspec, StrategiesGroup.class);
