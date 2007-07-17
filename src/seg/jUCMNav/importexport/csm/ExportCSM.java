@@ -166,12 +166,12 @@ public class ExportCSM implements IURNExport {
      * @return the xsd:dateTime equivalent to dateString
      */
     private String convertUcmDateToCsmDate(String dateString) {
-	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz"); //$NON-NLS-1$
+	SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy hh:mm:ss aa zzz", Locale.US); //$NON-NLS-1$
 	Date date = Calendar.getInstance(Locale.US).getTime(); // as fallback in case things go wrong
 	try {
 	    date = sdf.parse(dateString);
 	} catch (ParseException p) {
-		problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + p.getMessage(), IMarker.SEVERITY_ERROR));
+		problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + p.getMessage(), IMarker.SEVERITY_WARNING)); //$NON-NLS-1$
 	}
 	Calendar cal = Calendar.getInstance();
 	cal.setTime(date);
@@ -970,7 +970,7 @@ public class ExportCSM implements IURNExport {
                     marker.delete();
                 }
             } catch (CoreException ex) {
-            	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));
+            	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
             }
         
             if (warnings.size() > 0) {
@@ -992,7 +992,7 @@ public class ExportCSM implements IURNExport {
 
                         resource.findMarkers("seg.jUCMNav.WarningMarker", true, 1); //$NON-NLS-1$
                     } catch (CoreException ex) {
-                    	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));
+                    	warnings.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + ex.getMessage(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
                     }
 
                 }
@@ -1020,7 +1020,7 @@ public class ExportCSM implements IURNExport {
 		try {
 			documentParser = documentBuilderFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
 		}
 
 		// Command to "fix" the CSM XML by replacing CSM:CSMType with CSM
@@ -1042,9 +1042,9 @@ public class ExportCSM implements IURNExport {
 			document = documentParser.parse(FixedCSMdoc);
 
 		} catch (SAXException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		} catch (IOException e2) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e2.toString(), IMarker.SEVERITY_ERROR));
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e2.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		}
 
 		// Create a SchemaFactory for WXS schemas
@@ -1058,7 +1058,7 @@ public class ExportCSM implements IURNExport {
 		try {
 			csmSchema = factory.newSchema(csmSchemaSource);
 		} catch (SAXException e1) {
-			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));
+			problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e1.toString(), IMarker.SEVERITY_ERROR));  //$NON-NLS-1$
 		}
 
 		// Create a Validator instance, which can be used to validate an instance document
@@ -1070,11 +1070,11 @@ public class ExportCSM implements IURNExport {
 				csmValidator.validate(new DOMSource(document));
 		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.CSMexportCompleted"), IMarker.SEVERITY_INFO)); //$NON-NLS-1$
 			} catch (IOException e) {
-		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR));
+		        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 			}
 		} catch (SAXException e) {
 			// instance document is invalid!
-	        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR));
+	        problems.add(new CsmExportWarning(Messages.getString("ExportCSM.Error") + e.toString(), IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
 		}
         // Reports to Problems view
         refreshProblemsView(problems);
