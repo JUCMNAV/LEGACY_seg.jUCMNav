@@ -104,7 +104,7 @@ this file is kept here with the information necessary for a good build by cruise
 			The date formatter also cannot truncate a year to a single character so we're hardcoding
 			'5' for 2005, TODO: change to '6', '7', etc. We can't use full year because of number overflow restrictions.
 			-->
-			<format property="buildtime" pattern="'6'MMdd.'v'HHmm"/>
+			<format property="buildtime" pattern="'7'MMdd.'v'HHmm"/>
 		</tstamp>
 		
 
@@ -116,7 +116,7 @@ this file is kept here with the information necessary for a good build by cruise
 		</condition>
 
 
-<!--		 <property name="jucmnav.version" value="2.4.0" /> -->
+<!--		 <property name="jucmnav.version" value="2.4.1" /> -->
 		<echo>Building version: ${jucmnav.version}</echo>
 		
 	</target>
@@ -133,15 +133,15 @@ this file is kept here with the information necessary for a good build by cruise
 	
 	<target name="build.fullzip.exactversion">
 		<antcall target="init">
-			<param name="jucmnav.version" value="2.4.0"/>
+			<param name="jucmnav.version" value="2.4.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="clean">
-			<param name="jucmnav.version" value="2.4.0"/>
+			<param name="jucmnav.version" value="2.4.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 		<antcall target="zip.plugin">
-			<param name="jucmnav.version" value="2.4.0"/>
+			<param name="jucmnav.version" value="2.4.1"/>
 			<param name="env.ECLIPSE_HOME" value="c:/work/cruisecontrol/testing/test-eclipse/eclipse/" />
 		</antcall>
 	</target>
