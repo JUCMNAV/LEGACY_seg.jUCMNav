@@ -20,7 +20,7 @@ import seg.jUCMNav.model.util.EObjectClassNameComparator;
 /**
  * Tree edit part for the GrlGraph
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, pchen
  *
  */
 public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
@@ -41,7 +41,7 @@ public class GrlGraphTreeEditPart extends UrnModelElementTreeEditPart {
     }
 
     /**
-     * Returns list of actorref, beliefs and intentionalElementRef, sorted by type and name using EObjectClassNameComparator
+     * Returns list of actorref, beliefs and intentionalElementRef, kpiInformationElementRef sorted by type and name using EObjectClassNameComparator
      * 
      * @see org.eclipse.gef.EditPart#getChildren()
      */

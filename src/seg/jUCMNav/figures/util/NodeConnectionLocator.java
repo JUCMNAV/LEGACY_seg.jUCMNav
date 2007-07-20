@@ -9,6 +9,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 
+import seg.jUCMNav.figures.KPIModelLinkRefConnection;
 import seg.jUCMNav.figures.LinkRefConnection;
 import seg.jUCMNav.figures.TimeoutPathFigure;
 
@@ -16,7 +17,7 @@ import seg.jUCMNav.figures.TimeoutPathFigure;
  * This is a simple addition to ConnectionLocator (which we use to find the middle of a SplineConnection) to force the refresh of the TimeoutPathFigure when the
  * locator is moved.
  * 
- * @author jkealey
+ * @author jkealey, pchen
  *  
  */
 public class NodeConnectionLocator extends ConnectionLocator {
@@ -50,6 +51,19 @@ public class NodeConnectionLocator extends ConnectionLocator {
             child.setPoints(child.getPoints());
             target.setBounds(getNewBounds(prefSize, center));
         } else if (target instanceof PolygonDecoration && getConnection() instanceof LinkRefConnection){ 
+            PointList points = getConnection().getPoints();
+            
+            PolygonDecoration depend = (PolygonDecoration)target;
+            int index = points.size()/2;
+            
+            PointList center = new PointList();
+            center.addPoint(points.getPoint(index-1));
+            center.addPoint(points.getPoint(index));
+            //Set the decoration to the middle point
+            depend.setLocation(center.getMidpoint());
+            depend.setReferencePoint(points.getPoint(index));
+            
+        } else if (target instanceof PolygonDecoration && getConnection() instanceof KPIModelLinkRefConnection){ 
             PointList points = getConnection().getPoints();
             
             PolygonDecoration depend = (PolygonDecoration)target;

@@ -7,6 +7,9 @@ import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIEvalValueSet;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -27,12 +30,15 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.TextPropertyDescriptor;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.commands.create.CreateAllKPIModelLinkRefCommand;
 import seg.jUCMNav.model.commands.create.CreateAllLinkRefCommand;
+import seg.jUCMNav.model.commands.delete.DeleteAllKPIModelLinkRefCommand;
 import seg.jUCMNav.model.commands.delete.DeleteAllLinkRefCommand;
 import seg.jUCMNav.model.util.EObjectClassNameComparator;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
 import seg.jUCMNav.views.property.descriptors.CustomTextPropertyDescriptor;
+import seg.jUCMNav.views.property.descriptors.IndicatorGroupPropertyDescriptor;
 import urn.URNspec;
 import urncore.IURNNode;
 import urncore.URNmodelElement;
@@ -42,31 +48,34 @@ import urncore.URNmodelElement;
  * 
  * It should include the IntentionalElement property associate with this reference
  * 
- * @author Jean-François Roy
- *
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class IntentionalElementPropertySource extends URNElementPropertySource {
 
     private IntentionalElement def = null;
     private boolean strategyView;
-    
+
     private int i;
+
     /**
      * Constructor that initalize the intentionalElement definition
+     * 
      * @param obj
      */
     public IntentionalElementPropertySource(EObject obj) {
         super(obj);
-        if ((obj instanceof IntentionalElementRef) && ((IntentionalElementRef)obj).getDef() != null){
-            def = ((IntentionalElementRef)obj).getDef();
+        if ((obj instanceof IntentionalElementRef) && ((IntentionalElementRef) obj).getDef() != null) {
+            def = ((IntentionalElementRef) obj).getDef();
         }
-        strategyView =false;
+
+        strategyView = false;
     }
-    
-    public void setEvaluationStrategyView(boolean view){
+
+    public void setEvaluationStrategyView(boolean view) {
         strategyView = view;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -79,7 +88,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         } else
             return true;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -97,11 +106,17 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
             // add the new properties
             while (it.hasNext()) {
-                EAttribute attr = (EAttribute) it.next();
+                EStructuralFeature attr = (EStructuralFeature) it.next();
+                addPropertyToDescriptor(descriptors, attr, def.eClass());
+            }
+
+            // add the groups properties for Indicator
+            if (def instanceof Indicator) {
+                EStructuralFeature attr = ((Indicator) def).eClass().getEStructuralFeature("groups");
                 addPropertyToDescriptor(descriptors, attr, def.eClass());
             }
         }
-        if (strategyView){
+        if (strategyView) {
             // get the strategy attribute
             EvaluationStrategy strategy = EvaluationStrategyManager.getInstance().getEvaluationStrategy();
             it = strategy.eClass().getEAllAttributes().iterator();
@@ -110,20 +125,31 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
                 addPropertyToDescriptor(descriptors, attr, strategy.eClass());
-            }       
-            
-            //Add the evaluation
+            }
+
+            // Add the evaluation
             Evaluation temp = EvaluationStrategyManager.getInstance().getEvaluationObject(def);
             it = temp.eClass().getEAllAttributes().iterator();
             // add the new properties
             while (it.hasNext()) {
                 EAttribute attr = (EAttribute) it.next();
                 addPropertyToDescriptor(descriptors, attr, temp.eClass());
-            }     
+            }
+
+            // Add KPIEvalValueSet to Indicator
+            if (def instanceof Indicator) {
+                KPIEvalValueSet kpiEval = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet();
+                it = kpiEval.eClass().getEAllAttributes().iterator();
+                // Add the new properties
+                while (it.hasNext()) {
+                    EAttribute attr = (EAttribute) it.next();
+                    addPropertyToDescriptor(descriptors, attr, kpiEval.eClass());
+                }
+            }
         }
         return (Vector) descriptors;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -132,20 +158,42 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      */
     public void addPropertyToDescriptor(Collection descriptors, EStructuralFeature attr, EClass c) {
         EClassifier type = getFeatureType(attr);
-
         PropertyID propertyid = new PropertyID(c, attr);
 
-        if (type.getInstanceClass() == IntentionalElement.class) {
+        if (type.getInstanceClass() == IntentionalElement.class || type.getInstanceClass() == Indicator.class) {
             intentionalElementDescriptor(descriptors, attr, propertyid);
-        } else if (c.getInstanceClass() == EvaluationStrategy.class){
+        } else if (c.getInstanceClass() == EvaluationStrategy.class) {
             strategyDescriptor(descriptors, attr, propertyid);
-        } else if (c.getInstanceClass() == Evaluation.class){
+        } else if (c.getInstanceClass() == Evaluation.class) {
             evaluationDescriptor(descriptors, attr, propertyid);
+        } else if (c.getInstanceClass() == KPIEvalValueSet.class) {
+            kpiEvalValueSetDescriptor(descriptors, attr, propertyid);
+        } else if (type.getInstanceClass() == IndicatorGroup.class) {
+            indicatorGroupDescriptor(descriptors, attr, propertyid);
         } else {
             super.addPropertyToDescriptor(descriptors, attr, c);
         }
     }
-    
+
+    /**
+     * @param descriptors
+     * @param propertyid
+     */
+    private void indicatorGroupDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        PropertyDescriptor pd = null;
+        String name = attr.getName().toLowerCase();
+
+        if (name.equals("groups") && getEditableValue() instanceof IntentionalElementRef
+                && ((IntentionalElementRef) getEditableValue()).getDef() instanceof Indicator) {
+            pd = new IndicatorGroupPropertyDescriptor(propertyid, (IntentionalElementRef) getEditableValue());
+            pd.setCategory(Messages.getString("EObjectPropertySource.Indicator"));
+        } else {
+            pd = new TextPropertyDescriptor(propertyid, attr.getName());
+        }
+
+        descriptors.add(pd);
+    }
+
     /**
      * @param descriptors
      * @param attr
@@ -163,7 +211,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
             values[i] = EObjectClassNameComparator.getSortableElementName((IntentionalElement) list.get(i));
             if (values[i] == null)
-                values[i] = Messages.getString("IntentionalElementPropertySource.Unnamed");  //$NON-NLS-1$
+                values[i] = Messages.getString("IntentionalElementPropertySource.Unnamed"); //$NON-NLS-1$
         }
 
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, "definition", values); //$NON-NLS-1$
@@ -178,22 +226,22 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
      * @param propertyid
      */
     private void strategyDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        //We add only the strategy name
-        if (attr.getName() == "name"){ //$NON-NLS-1$
+        // We add only the strategy name
+        if (attr.getName() == "name") { //$NON-NLS-1$
             CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "strategyName"); //$NON-NLS-1$
             pd.setReadOnly(true);
             pd.setCategory("Strategy"); //$NON-NLS-1$
-            descriptors.add(pd);            
+            descriptors.add(pd);
         }
     }
-    
+
     /**
      * @param descriptors
      * @param attr
      * @param propertyid
      */
     private void evaluationDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
-        if (attr.getName() == "evaluation"){ //$NON-NLS-1$
+        if (attr.getName() == "evaluation") { //$NON-NLS-1$
             TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "evaluationLevel (100 to -100)"); //$NON-NLS-1$
 
             ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
@@ -203,15 +251,109 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
                         intValue = Integer.parseInt((String) value);
                         return null;
                     } catch (NumberFormatException exc) {
-                        return "Not Number";  //$NON-NLS-1$
+                        return "Not Number"; //$NON-NLS-1$
                     }
                 }
             });
             pd.setCategory("Strategy"); //$NON-NLS-1$
-            descriptors.add(pd);   
+            descriptors.add(pd);
         }
     }
-    
+
+    /**
+     * @param descriptors
+     * @param attr
+     * @param propertyid
+     */
+    private void kpiEvalValueSetDescriptor(Collection descriptors, EStructuralFeature attr, PropertyID propertyid) {
+        if (attr.getName() == "targetValue") { //$NON-NLS-1$
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "Target value"); //$NON-NLS-1$
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    double doubleValue = -1.1;
+                    try {
+                        doubleValue = Double.parseDouble((String) value);
+                        return null;
+                    } catch (NumberFormatException exc) {
+                        return "Not Number"; //$NON-NLS-1$
+                    }
+                }
+            });
+
+            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            descriptors.add(pd);
+        } else if (attr.getName() == "thresholdValue") { //$NON-NLS-1$
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "Threshold value"); //$NON-NLS-1$
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    double doubleValue = -1.1;
+                    try {
+                        doubleValue = Double.parseDouble((String) value);
+                        return null;
+                    } catch (NumberFormatException exc) {
+                        return "Not Number"; //$NON-NLS-1$
+                    }
+                }
+            });
+
+            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            descriptors.add(pd);
+        } else if (attr.getName() == "worstValue") { //$NON-NLS-1$
+            TextPropertyDescriptor pd = new TextPropertyDescriptor(propertyid, "Worst value"); //$NON-NLS-1$
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    double doubleValue = -1.1;
+                    try {
+                        doubleValue = Double.parseDouble((String) value);
+                        return null;
+                    } catch (NumberFormatException exc) {
+                        return "Not Number"; //$NON-NLS-1$
+                    }
+                }
+            });
+
+            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            descriptors.add(pd);
+        } else if (attr.getName() == "evaluationValue") { //$NON-NLS-1$
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Evaluation value");
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    double doubleValue = -1.1;
+                    try {
+                        doubleValue = Double.parseDouble((String) value);
+                        return null;
+                    } catch (NumberFormatException exc) {
+                        return "Not Number"; //$NON-NLS-1$
+                    }
+                }
+            });
+
+            // Open for editing in the simulation test, will be readonly when a formal way exists.
+            // pd.setReadOnly(true);
+
+            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            descriptors.add(pd);
+        } else if (attr.getName() == "unit") { //$NON-NLS-1$
+            CustomTextPropertyDescriptor pd = new CustomTextPropertyDescriptor(propertyid, "Unit");
+
+            ((PropertyDescriptor) pd).setValidator(new ICellEditorValidator() {
+                public String isValid(Object value) {
+                    return null;
+                }
+            });
+
+            // Open for editing in the simulation test, will be readonly when a formal way exists.
+            // pd.setReadOnly(true);
+
+            pd.setCategory("KPI Model Strategy"); //$NON-NLS-1$
+            descriptors.add(pd);
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -242,18 +384,19 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
         Object result = null;
 
         // if this attribute comes from the referenced object
-        if (propertyid.getEClass().getName() == "IntentionalElement") //$NON-NLS-1$
+        if (propertyid.getEClass().getName() == "IntentionalElement" || propertyid.getEClass().getName() == "Indicator") //$NON-NLS-1$
             result = def.eGet(feature);
-        else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
-            result = EvaluationStrategyManager.getInstance().getEvaluationStrategy()
-                            .eGet(feature);
-        } else if (propertyid.getEClass().getName() == "Evaluation"){ //$NON-NLS-1$
+        else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
+            result = EvaluationStrategyManager.getInstance().getEvaluationStrategy().eGet(feature);
+        } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
             result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).eGet(feature);
-        }else
+        } else if (propertyid.getEClass().getName() == "KPIEvalValueSet") {
+            result = EvaluationStrategyManager.getInstance().getEvaluationObject(def).getKpiEvalValueSet().eGet(feature);
+        } else
             result = object.eGet(feature);
         return result;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -265,16 +408,17 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
         if (feature.getName().toLowerCase().indexOf("color") >= 0 //$NON-NLS-1$
                 || (feature instanceof EReference && ((EReference) feature).getEReferenceType().getInstanceClass() == IntentionalElementRef.class && (getEditableValue() instanceof IURNNode || getEditableValue() instanceof IntentionalElementRef))) {
-            if (propertyid.getEClass().getName() == "IntentionalElement") //$NON-NLS-1$
+            if (propertyid.getEClass().getName() == "IntentionalElement" || propertyid.getEClass().getName() == "Indicator") //$NON-NLS-1$
                 def.eSet(feature, null);
-            else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
-                EvaluationStrategyManager.getInstance().getEvaluationStrategy()
-                        .eSet(feature,null);
-            } else if (propertyid.getEClass().getName() == "Evaluation"){ //$NON-NLS-1$
-                //The default value for an Evaluation is 0
-                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def,0);
-            }
-            else
+            else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
+                EvaluationStrategyManager.getInstance().getEvaluationStrategy().eSet(feature, null);
+            } else if (propertyid.getEClass().getName() == "Evaluation") { //$NON-NLS-1$
+                // The default value for an Evaluation is 0
+                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, 0);
+            } else if (feature.getContainerClass() == KPIEvalValueSet.class) {
+                // The default value for an attribute of KPIEvalValueSet is 0
+                EvaluationStrategyManager.getInstance().resetKPIEvalValueSet(def);
+            } else
                 object.eSet(feature, null);
         } else
             super.resetPropertyValue(id);
@@ -291,7 +435,7 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
 
         Object result = getPropertyValue(id);
         URNspec urn = ((IntentionalElementRef) getEditableValue()).getDiagram().getUrndefinition().getUrnspec();
-        if (feature.getEType().getInstanceClass() == IntentionalElement.class) {
+        if (feature.getEType().getInstanceClass() == IntentionalElement.class || feature.getEType().getInstanceClass() == Indicator.class) {
 
             Vector list = new Vector(urn.getGrlspec().getIntElements());
             Collections.sort(list, new EObjectClassNameComparator());
@@ -302,15 +446,30 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             setReferencedObject(propertyid, feature, result);
             CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand((IntentionalElementRef) getEditableValue());
             createCmd.execute();
+
+            if (feature.getEType().getInstanceClass() == Indicator.class) {
+                DeleteAllKPIModelLinkRefCommand deleteKpiModelLinkCmd = new DeleteAllKPIModelLinkRefCommand((IntentionalElementRef) getEditableValue());
+                deleteKpiModelLinkCmd.execute();
+                setReferencedObject(propertyid, feature, result);
+                CreateAllKPIModelLinkRefCommand createKpiModelLinkCmd = new CreateAllKPIModelLinkRefCommand((IntentionalElementRef) getEditableValue());
+                createKpiModelLinkCmd.execute();
+            }
+
             def = ((IntentionalElementRef) object).getDef();
         } else if (feature.getContainerClass() == Evaluation.class) {
-            //The feature should be a int
+            // The feature should be a int
             if (feature.getEType().getInstanceClass() == int.class) {
                 Integer temp = new Integer(Integer.parseInt((String) value));
-                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def,temp.intValue());
-            } 
-            
-            
+                EvaluationStrategyManager.getInstance().setIntentionalElementEvaluation(def, temp.intValue());
+            }
+        } else if (feature.getContainerClass() == KPIEvalValueSet.class) {
+            // The feature should be a number, except the unit which is String
+            if (feature.getEType().getInstanceClass() == double.class) {
+                Double temp = new Double(Double.parseDouble((String) value));
+                EvaluationStrategyManager.getInstance().setKPIEvalValueSet(def, feature, temp.doubleValue());
+            } else if (feature.getEType().getInstanceClass() == String.class) {
+                EvaluationStrategyManager.getInstance().setKPIEvalValueSetUnit(def, feature, (String) value);
+            }
         } else if (feature.getName() == "name") { //$NON-NLS-1$
             String message = URNNamingHelper.isNameValid(urn, (URNmodelElement) object, value.toString());
 
@@ -328,13 +487,12 @@ public class IntentionalElementPropertySource extends URNElementPropertySource {
             super.setPropertyValue(id, value);
         }
     }
-    
+
     protected void setReferencedObject(PropertyID propertyid, EStructuralFeature feature, Object result) {
-        if (propertyid.getEClass().getName() == "IntentionalElement"){ //$NON-NLS-1$
+        if (propertyid.getEClass().getName() == "IntentionalElement" || propertyid.getEClass().getName() == "Indicator") { //$NON-NLS-1$
             def.eSet(feature, result);
-        } else if (propertyid.getEClass().getName() == "EvaluationStrategy"){ //$NON-NLS-1$
-            EvaluationStrategyManager.getInstance().getEvaluationStrategy()
-                    .eSet(feature,result);
+        } else if (propertyid.getEClass().getName() == "EvaluationStrategy") { //$NON-NLS-1$
+            EvaluationStrategyManager.getInstance().getEvaluationStrategy().eSet(feature, result);
         } else {
             object.eSet(feature, result);
         }

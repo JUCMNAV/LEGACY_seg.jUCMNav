@@ -49,7 +49,7 @@ import urncore.URNmodelElement;
  * URNElementPropertySource adds code to replace the parent attribute in ucm model elements to represent the ComponentRef to which this ucm element is bound to.
  * Both ComponentRefs and PathNodes are bound to the parent.
  * 
- * @author jkealey, etremblay
+ * @author jkealey, etremblay, pchen
  * 
  */
 public class URNElementPropertySource extends EObjectPropertySource {
@@ -152,8 +152,8 @@ public class URNElementPropertySource extends EObjectPropertySource {
      * @param propertyid
      */
     private void enumerationDescriptor(Collection descriptors, PropertyID propertyid, String[] values) {
-        //EClassifier type = getFeatureType(propertyid.getFeature());
-        //Class enumer = type.getInstanceClass();
+        // EClassifier type = getFeatureType(propertyid.getFeature());
+        // Class enumer = type.getInstanceClass();
         String name = propertyid.getFeature().getName();
         ComboBoxPropertyDescriptor pd = new ComboBoxPropertyDescriptor(propertyid, name, values);
         pd.setCategory(Messages.getString("EObjectPropertySource.misc")); //$NON-NLS-1$

@@ -4,6 +4,7 @@ import grl.IntentionalElementType;
 
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -18,7 +19,7 @@ import seg.jUCMNav.figures.anchors.DecompositionAnchor;
  * - Resource = Rectangle
  * - Task = Triangular Rectangle
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, pchen
  *
  */
 public class IntentionalElementFigure extends GrlNodeFigure {
@@ -44,7 +45,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
     
     protected void outlineShape(Graphics graphics) {
         Rectangle r = getBounds().getCopy();
-        PointList points = new PointList();
+        PointList points = null;
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
             setupBounds(r);
@@ -68,6 +69,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             graphics.drawRoundRectangle(r, 50, 50);
             break;
         case IntentionalElementType.TASK:
+            points = new PointList();
             fillTaskPoints(r, points);
             
             graphics.drawPolygon(points);
@@ -75,6 +77,23 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         case IntentionalElementType.RESSOURCE:
             setupBounds(r);
             graphics.drawRectangle(r);
+            break;
+        case IntentionalElementType.INDICATOR:
+            points = new PointList();
+            fillIndicatorPoints(r, points);
+            
+            graphics.drawPolygon(points);
+            
+            int w1 = r.width/10;
+            int h1 = r.height / 2;
+            int h2 = h1 * 4 / 5;
+            int w2 = (h2 * w1) / h1;
+            Point p1 = new Point(r.getTopLeft().x + w2, r.getTopLeft().y + h1 - h2);
+            Point p2 = new Point(r.getTopRight().x - w2, r.getTopRight().y + h1 - h2);
+            Point p3 = new Point(r.getBottomLeft().x + w2, r.getBottomLeft().y - h1 + h2);
+            Point p4 = new Point(r.getBottomRight().x - w2, r.getBottomRight().y - h1 + h2);
+            graphics.drawLine(p1, p2);
+            graphics.drawLine(p3, p4);
             break;
         default:
             break;
@@ -92,6 +111,17 @@ public class IntentionalElementFigure extends GrlNodeFigure {
     }
 
     private void fillTaskPoints(Rectangle r, PointList points) {
+        setupBounds(r);
+
+        points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
+        points.addPoint(r.getTopRight().x, r.getCenter().y);
+        points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
+        points.addPoint(r.getBottomLeft().x + r.width/10, r.getBottomLeft().y);
+        points.addPoint(r.getTopLeft().x, r.getCenter().y);
+        points.addPoint(r.getTopLeft().x + r.width/10, r.getTopLeft().y);
+    }
+    
+    private void fillIndicatorPoints(Rectangle r, PointList points) {
         setupBounds(r);
 
         points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
@@ -132,6 +162,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             graphics.fillRoundRectangle(r, 50, 50);
             break;
         case IntentionalElementType.TASK:
+            points = new PointList();
             fillTaskPoints(r, points);
             
             graphics.fillPolygon(points);
@@ -139,6 +170,11 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         case IntentionalElementType.RESSOURCE:
             setupBounds(r);
             graphics.fillRectangle(r);
+            break;
+        case IntentionalElementType.INDICATOR:
+            fillIndicatorPoints(r, points);
+            
+            graphics.fillPolygon(points);
             break;
         default:
             break;

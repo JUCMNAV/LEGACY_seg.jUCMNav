@@ -4,6 +4,8 @@
 package seg.jUCMNav.model.commands.delete.internal;
 
 import grl.IntentionalElement;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.IndicatorGroup;
 
 import org.eclipse.gef.commands.Command;
 
@@ -15,13 +17,16 @@ import urn.URNspec;
  * Delete an IntentionalElement definition. The definition should have no references
  * 
  * This command should be used in a compound command that also delete all the ElementLink associate to the element.
- * @author Jean-François Roy
+ * @author Jean-François Roy, pchen
  *
  */
 public class RemoveIntentionalElementCommand extends Command implements JUCMNavCommand {
 
-    //the intentionalElement to delete
+    // the intentionalElement to delete
     private IntentionalElement element;
+    
+    // the linked Indicator Groups
+    private IndicatorGroup[] indGroups = null;
     
     // the URNspec in which it is contained
     private URNspec urn;
@@ -59,6 +64,12 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
     public void redo() {
         testPreConditions();
 
+        // remove from Indicator Groups, if it is Indicator
+        if ((element instanceof Indicator) && ((Indicator) element).getGroups().size() > 0) {
+            indGroups = (IndicatorGroup[]) ((Indicator) element).getGroups().toArray(new IndicatorGroup[0]);
+            ((Indicator) element).getGroups().clear();
+        }
+        
         // remove the IntentionalElement from the urnspec
         urn.getGrlspec().getIntElements().remove(element);
 
@@ -93,6 +104,10 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
 
         // re-add intentionalelement
         urn.getGrlspec().getIntElements().add(element);
+        
+        for (int i = 0; i < indGroups.length; i++) {
+            indGroups[i].getIndicators().add(element);
+        }
 
         testPreConditions();
     }

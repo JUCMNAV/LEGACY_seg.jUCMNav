@@ -18,6 +18,15 @@ import grl.IntentionalElementType;
 import grl.LinkRef;
 import grl.LinkRefBendpoint;
 import grl.StrategiesGroup;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIEvalValueSet;
+import grl.kpimodel.KPIInformationConfig;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
+import grl.kpimodel.KPIModelLink;
+import grl.kpimodel.KPIModelLinkRef;
+import grl.kpimodel.KpimodelFactory;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -25,6 +34,7 @@ import java.util.Locale;
 
 import org.eclipse.gef.requests.CreationFactory;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
 import ucm.UCMspec;
@@ -92,7 +102,7 @@ import urncore.UrncoreFactory;
  * 
  * See DevDocModelCreationFactory
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  * 
  */
 
@@ -104,9 +114,8 @@ public class ModelCreationFactory implements CreationFactory {
     public static final int DEFAULT_UCM_COMPONENT_WIDTH = 100;
     public static final int DEFAULT_GRL_COMPONENT_HEIGHT = 200;
     public static final int DEFAULT_GRL_COMPONENT_WIDTH = 200;
-    public static final String URNSPEC_VERSION="0.916"; //$NON-NLS-1$
-    
-    
+    public static final String URNSPEC_VERSION = "0.916"; //$NON-NLS-1$
+
     private Object preDefinedDefinition;
 
     /**
@@ -137,14 +146,13 @@ public class ModelCreationFactory implements CreationFactory {
         this.preDefinedDefinition = definition;
     }
 
-
     /**
      * @param urn
      *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
      * @param targetClass
      *            The class we need to create from this factory.
      * @param type
-     *            If this is a ComponentRef or an IntentionalElementRef, we can pass the type.
+     *            If this is a ComponentRef or an IntentionalElementRef or a KPIInformationElement, we can pass the type.
      */
     public ModelCreationFactory(URNspec urn, Class targetClass, int type) {
         this.urn = urn;
@@ -152,14 +160,13 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
     }
 
-    
     /**
      * @param urn
      *            The URNspec which contains information about the last ID created (for unique IDs). Use null if the class does not have an id/name.
      * @param targetClass
      *            The class we need to create from this factory.
      * @param type
-     *            If this is a ComponentRef or an IntentionalElementRef, we can pass the type.
+     *            If this is a ComponentRef or an IntentionalElementRef or a KPIInformationElement, we can pass the type.
      * @param definition
      *            An instance of IURNContainer if targetClass is IURNContainerRef, or Responsibility if is a RespRef. Instead of creating a new definition for
      *            the reference, it will use the one that is passed in.
@@ -170,7 +177,7 @@ public class ModelCreationFactory implements CreationFactory {
         this.type = type;
         this.preDefinedDefinition = definition;
     }
-    
+
     /**
      * @return the target class.
      * 
@@ -228,6 +235,7 @@ public class ModelCreationFactory implements CreationFactory {
         PerformanceFactory performancefactory = PerformanceFactory.eINSTANCE;
         GrlFactory grlfactory = GrlFactory.eINSTANCE;
         UrnFactory urnmainfactory = UrnFactory.eINSTANCE;
+        KpimodelFactory kpiFactory = KpimodelFactory.eINSTANCE;
 
         Object result = null;
 
@@ -253,7 +261,19 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(Responsibility.class)) {
                 result = urncorefactory.createResponsibility();
             } else if (targetClass.equals(IntentionalElement.class)) {
+                if (type == IntentionalElementType.INDICATOR) {
+                    result = kpiFactory.createIndicator();
+                } else {
+                    result = grlfactory.createIntentionalElement();
+                }
+            } else if (targetClass.equals(Indicator.class)) {
                 result = grlfactory.createIntentionalElement();
+            } else if (targetClass.equals(IndicatorGroup.class)) {
+                result = kpiFactory.createIndicatorGroup();
+            } else if (targetClass.equals(KPIInformationElement.class)) {
+                result = kpiFactory.createKPIInformationElement();
+            } else if (targetClass.equals(KPIModelLink.class)) {
+                result = kpiFactory.createKPIModelLink();
             } else if (targetClass.equals(NodeLabel.class)) {
                 result = urncorefactory.createNodeLabel();
             } else if (targetClass.equals(ComponentLabel.class)) {
@@ -276,13 +296,13 @@ public class ModelCreationFactory implements CreationFactory {
                 result = mapfactory.createOutBinding();
             } else if (targetClass.equals(Workload.class)) {
                 result = performancefactory.createWorkload();
-            } else if (targetClass.equals(PassiveResource.class)) {	// _js_
+            } else if (targetClass.equals(PassiveResource.class)) { // _js_
                 result = performancefactory.createPassiveResource();
-            } else if (targetClass.equals(ProcessingResource.class)) {	// _js_
+            } else if (targetClass.equals(ProcessingResource.class)) { // _js_
                 result = performancefactory.createProcessingResource();
-            } else if (targetClass.equals(ExternalOperation.class)) {	// _js_
+            } else if (targetClass.equals(ExternalOperation.class)) { // _js_
                 result = performancefactory.createExternalOperation();
-            } else if (targetClass.equals(Demand.class)) {	// _js_
+            } else if (targetClass.equals(Demand.class)) { // _js_
                 result = performancefactory.createDemand();
             } else if (targetClass.equals(Connect.class)) {
                 result = mapfactory.createConnect();
@@ -294,6 +314,8 @@ public class ModelCreationFactory implements CreationFactory {
                 result = grlfactory.createDependency();
             } else if (targetClass.equals(LinkRef.class)) {
                 result = grlfactory.createLinkRef();
+            } else if (targetClass.equals(KPIModelLinkRef.class)) {
+                result = kpiFactory.createKPIModelLinkRef();
             } else if (targetClass.equals(BeliefLink.class)) {
                 result = grlfactory.createBeliefLink();
             } else if (targetClass.equals(LinkRefBendpoint.class)) {
@@ -308,18 +330,23 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(ScenarioDef.class)) {
                 result = ucmscenariofactory.createScenarioDef();
             } else if (targetClass.equals(ScenarioStartPoint.class)) {
-            	result = ucmscenariofactory.createScenarioStartPoint();
-            	((ScenarioStartPoint)result).setEnabled(true);
+                result = ucmscenariofactory.createScenarioStartPoint();
+                ((ScenarioStartPoint) result).setEnabled(true);
             } else if (targetClass.equals(ScenarioEndPoint.class)) {
-            	result = ucmscenariofactory.createScenarioEndPoint();
-            	((ScenarioEndPoint)result).setEnabled(true);
+                result = ucmscenariofactory.createScenarioEndPoint();
+                ((ScenarioEndPoint) result).setEnabled(true);
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
+                ((Evaluation) result).setKpiEvalValueSet(kpiFactory.createKPIEvalValueSet());
+            } else if (targetClass.equals(KPIEvalValueSet.class)) {
+                result = kpiFactory.createKPIEvalValueSet();
+            } else if (targetClass.equals(KPIInformationConfig.class)) {
+                result = kpiFactory.createKPIInformationConfig();
             } else if (targetClass.equals(EnumerationType.class)) {
                 result = ucmscenariofactory.createEnumerationType();
             } else if (targetClass.equals(Variable.class)) {
                 result = ucmscenariofactory.createVariable();
-                ((Variable)result).setType(definition.toString());
+                ((Variable) result).setType(definition.toString());
             } else if (targetClass.equals(Initialization.class)) {
                 result = ucmscenariofactory.createInitialization();
             } else if (targetClass.equals(Metadata.class)) {
@@ -347,7 +374,7 @@ public class ModelCreationFactory implements CreationFactory {
                     // define the ComponentKind according to what was set in the construction
                     compdef.setKind(ComponentKind.get(type));
 
-                    if (definition==null) {
+                    if (definition == null) {
                         URNNamingHelper.setElementNameAndID(urn, compdef);
                         URNNamingHelper.resolveNamingConflict(urn, compdef);
                     }
@@ -360,18 +387,17 @@ public class ModelCreationFactory implements CreationFactory {
                     result = urncorefactory.createComponent();
                     ((Component) result).setKind(ComponentKind.get(type));
                 } else if (targetClass.equals(Stub.class)) {
-                	// static stub by default
-                	result = mapfactory.createStub();
+                    // static stub by default
+                    result = mapfactory.createStub();
                     if (type == 1) {
-                    	// dynamic stub
+                        // dynamic stub
                         Stub stub = (Stub) result;
-                    	stub.setDynamic(true);
-                    }
-                    else if (type == 2) {
-                    	// pointcut stub
-                    	Stub stub = (Stub) result;
-                    	stub.setDynamic(true);
-                    	stub.setPointcut(true);
+                        stub.setDynamic(true);
+                    } else if (type == 2) {
+                        // pointcut stub
+                        Stub stub = (Stub) result;
+                        stub.setDynamic(true);
+                        stub.setPointcut(true);
                     }
                 } else if (targetClass.equals(RespRef.class)) {
                     // should create responsibility definition
@@ -387,7 +413,7 @@ public class ModelCreationFactory implements CreationFactory {
                     ((RespRef) result).setRespDef(respdef);
                     ((RespRef) result).setRepetitionCount("1"); //$NON-NLS-1$
 
-                    if (definition==null) {
+                    if (definition == null) {
                         URNNamingHelper.setElementNameAndID(urn, respdef);
                         URNNamingHelper.resolveNamingConflict(urn, respdef);
                     }
@@ -425,16 +451,39 @@ public class ModelCreationFactory implements CreationFactory {
 
                     IntentionalElement elementdef = null;
 
-                    if (definition instanceof IntentionalElement)
+                    if (definition instanceof IntentionalElement) {
                         elementdef = (IntentionalElement) definition;
-                    else
-                        elementdef = grlfactory.createIntentionalElement();
+                    } else {
+                        if (type == IntentionalElementType.INDICATOR) {
+                            elementdef = kpiFactory.createIndicator();
+                        } else {
+                            elementdef = grlfactory.createIntentionalElement();
+                        }
+                    }
 
                     ((IntentionalElementRef) result).setDef(elementdef);
 
                     elementdef.setType(IntentionalElementType.get(type));
 
-                    if (definition==null) {
+                    if (definition == null) {
+                        URNNamingHelper.setElementNameAndID(urn, elementdef);
+                        URNNamingHelper.resolveNamingConflict(urn, elementdef);
+                    }
+                } else if (targetClass.equals(KPIInformationElementRef.class)) {
+                    // create the KPIModel Element ref
+                    result = kpiFactory.createKPIInformationElementRef();
+
+                    KPIInformationElement elementdef = null;
+
+                    if (definition instanceof KPIInformationElement) {
+                        elementdef = (KPIInformationElement) definition;
+                    } else {
+                        elementdef = kpiFactory.createKPIInformationElement();
+                    }
+
+                    ((KPIInformationElementRef) result).setDef(elementdef);
+
+                    if (definition == null) {
                         URNNamingHelper.setElementNameAndID(urn, elementdef);
                         URNNamingHelper.resolveNamingConflict(urn, elementdef);
                     }
@@ -451,7 +500,7 @@ public class ModelCreationFactory implements CreationFactory {
 
                     ((ActorRef) result).setContDef(actor);
 
-                    if (definition==null) {
+                    if (definition == null) {
                         URNNamingHelper.setElementNameAndID(urn, actor);
                         URNNamingHelper.resolveNamingConflict(urn, actor);
                     }
@@ -472,7 +521,7 @@ public class ModelCreationFactory implements CreationFactory {
                     // New belief description should be set to "" by default (because we use it in the description
                     ((Belief) result).setDescription(""); //$NON-NLS-1$
                 } else if (targetClass.equals(Concern.class)) {
-                	// create a concern
+                    // create a concern
                     result = urncorefactory.createConcern();
                     URNNamingHelper.setElementNameAndID(urn, result);
                 } else {
@@ -555,15 +604,34 @@ public class ModelCreationFactory implements CreationFactory {
         EvaluationStrategy strategy = (EvaluationStrategy) ModelCreationFactory.getNewObject(urnspec, EvaluationStrategy.class);
         group.getStrategies().add(strategy);
         urnspec.getGrlspec().getStrategies().add(strategy);
-        
-        
+
         // Create a Scenario and ScenarioGroup
         ScenarioGroup scenariogroup = (ScenarioGroup) ModelCreationFactory.getNewObject(urnspec, ScenarioGroup.class);
         urnspec.getUcmspec().getScenarioGroups().add(scenariogroup);
         ScenarioDef scenario = (ScenarioDef) ModelCreationFactory.getNewObject(urnspec, ScenarioDef.class);
         scenariogroup.getScenarios().add(scenario);
-       
-        
+
+        // Create the default IndicatorGroups
+        IndicatorGroup indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.time"));
+        indicatorGroup.setIsRedesignCategory(true);
+        urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+
+        indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.cost"));
+        indicatorGroup.setIsRedesignCategory(true);
+        urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+
+        indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.quality"));
+        indicatorGroup.setIsRedesignCategory(true);
+        urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+
+        indicatorGroup = (IndicatorGroup) ModelCreationFactory.getNewObject(urnspec, IndicatorGroup.class);
+        indicatorGroup.setName(Messages.getString("InitialIndicatorGroup.flexibility"));
+        indicatorGroup.setIsRedesignCategory(true);
+        urnspec.getGrlspec().getIndicatorGroup().add(indicatorGroup);
+
         result = urnspec;
         return result;
     }

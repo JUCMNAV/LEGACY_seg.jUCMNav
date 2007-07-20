@@ -25,6 +25,7 @@
         eType="#//URNlink" containment="true" eOpposite="#//URNlink/urnspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="URNlink">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="urnspec" lowerBound="1"
         eType="#//URNspec" transient="true" eOpposite="#//URNspec/urnLinks"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fromElem" lowerBound="1"

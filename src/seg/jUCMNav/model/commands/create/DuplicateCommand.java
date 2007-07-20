@@ -6,6 +6,7 @@ package seg.jUCMNav.model.commands.create;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
+import grl.kpimodel.KPIInformationConfig;
 
 import java.util.Iterator;
 
@@ -27,7 +28,7 @@ import urncore.Metadata;
 /**
  * Adds a scenario to a scenario group.
  * 
- * @author jkealey
+ * @author jkealey, pchen
  * 
  */
 public class DuplicateCommand extends CompoundCommand {
@@ -113,11 +114,11 @@ public class DuplicateCommand extends CompoundCommand {
             ScenarioDef newScenario = cmd.getScenario();
             newScenario.setName(this.scenario.getName());
             newScenario.setDescription(this.scenario.getDescription());
-            
+
             EList newMetadata = newScenario.getMetadata();
             newMetadata.clear();
             copyMetadata(newMetadata, this.scenario.getMetadata());
-            
+
             add(cmd);
 
             for (Iterator iter = this.scenario.getIncludedScenarios().iterator(); iter.hasNext();) {
@@ -149,7 +150,7 @@ public class DuplicateCommand extends CompoundCommand {
             ScenarioGroup newGroup = (ScenarioGroup) ModelCreationFactory.getNewObject(urn, ScenarioGroup.class);
             newGroup.setName(this.group.getName());
             newGroup.setDescription(this.group.getDescription());
-            
+
             EList newMetadata = newGroup.getMetadata();
             newMetadata.clear();
             copyMetadata(newMetadata, this.group.getMetadata());
@@ -181,16 +182,23 @@ public class DuplicateCommand extends CompoundCommand {
                 newEval.setEvaluation(eval.getEvaluation());
                 add(new AddEvaluationCommand(newEval, eval.getIntElement(), newStrategy));
             }
+            for (Iterator iter = strategy.getKpiInfoConfig().iterator(); iter.hasNext();) {
+                KPIInformationConfig kpiInfoConfig = (KPIInformationConfig) iter.next();
+                KPIInformationConfig newKPIInfoConfig = (KPIInformationConfig) ModelCreationFactory.getNewObject(urn, KPIInformationConfig.class);
+                newKPIInfoConfig.setLevelOfDimension(kpiInfoConfig.getLevelOfDimension());
+                newKPIInfoConfig.setValueOfDimension(kpiInfoConfig.getValueOfDimension());
+                add(new AddKPIInformationConfigCommand(newKPIInfoConfig, kpiInfoConfig.getKpiInfoElement(), newStrategy));
+            }
 
         } else if (this.group2 != null) {
             StrategiesGroup newGroup = (StrategiesGroup) ModelCreationFactory.getNewObject(urn, StrategiesGroup.class);
             newGroup.setName(group2.getName());
             newGroup.setDescription(group2.getDescription());
-            
+
             EList newMetadata = newGroup.getMetadata();
             newMetadata.clear();
             copyMetadata(newMetadata, group2.getMetadata());
-            
+
             CreateStrategiesGroupCommand cmd = new CreateStrategiesGroupCommand(urn, newGroup);
             add(cmd);
 
@@ -206,7 +214,7 @@ public class DuplicateCommand extends CompoundCommand {
             Metadata tempMetadataElem = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
             tempMetadataElem.setName(((Metadata) srcMetadata.get(i)).getName());
             tempMetadataElem.setValue(((Metadata) srcMetadata.get(i)).getValue());
-            
+
             newMetadata.add(tempMetadataElem);
         }
     }

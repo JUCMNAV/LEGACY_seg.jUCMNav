@@ -32,7 +32,7 @@ public class ChangeMetadataCommand extends Command implements JUCMNavCommand {
      */
     public void execute() {
         EList metadata = urnelem.getMetadata();
-        oldMetadataArray = (Metadata[]) metadata.toArray();
+        oldMetadataArray = (Metadata[]) metadata.toArray(new Metadata[0]);
         redo();
     }
 

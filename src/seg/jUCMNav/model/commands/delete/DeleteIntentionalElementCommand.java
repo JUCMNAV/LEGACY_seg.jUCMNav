@@ -7,6 +7,8 @@ import grl.ElementLink;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.IntentionalElement;
+import grl.kpimodel.Indicator;
+import grl.kpimodel.KPIModelLink;
 
 import java.util.Iterator;
 
@@ -18,15 +20,17 @@ import urn.URNlink;
 
 /**
  * Delete an IntentionalElement (including all the ElementLink associate to it)
- * @author Jean-François Roy
- *
+ * 
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class DeleteIntentionalElementCommand extends CompoundCommand {
 
     IntentionalElement element;
+
     /**
      * @param element
-     *          The intentionalElement to delete
+     *            The intentionalElement to delete
      */
     public DeleteIntentionalElementCommand(IntentionalElement element) {
         setLabel(Messages.getString("DeleteIntentionalElementCommand.deleteIntentionalElement")); //$NON-NLS-1$
@@ -39,41 +43,53 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
      * @see org.eclipse.gef.commands.Command#canExecute()
      */
     public boolean canExecute() {
-        if (getCommands().size() == 0){
+        if (getCommands().size() == 0) {
             return true;
         }
-        return super.canExecute();        
+        return super.canExecute();
     }
 
-    private void deleteElementLink(){
-        if (element.getLinksDest().size()>0 || 
-                element.getLinksSrc().size()>0){
-            for (int i=0; i<element.getLinksDest().size(); i++){
-                ElementLink link = (ElementLink)element.getLinksDest().get(i);
+    private void deleteElementLink() {
+        if (element.getLinksDest().size() > 0 || element.getLinksSrc().size() > 0) {
+            for (int i = 0; i < element.getLinksDest().size(); i++) {
+                ElementLink link = (ElementLink) element.getLinksDest().get(i);
                 add(new DeleteElementLinkCommand(link));
             }
-            for (int i=0; i<element.getLinksSrc().size(); i++){
-                ElementLink link = (ElementLink)element.getLinksSrc().get(i);
+            for (int i = 0; i < element.getLinksSrc().size(); i++) {
+                ElementLink link = (ElementLink) element.getLinksSrc().get(i);
                 add(new DeleteElementLinkCommand(link));
             }
         }
     }
-    
-    //TODO Fix delete Evaluations. 
-    // A modification is required in the metamodel to implement a bidirectional links between Intentional Elements and Evaluations (instead of unidirectional). 
-    //Should access the evaluation to delete using this association.
-    private void deleteEvaluations() {
-    	for(Iterator it = element.getGrlspec().getStrategies().iterator(); it.hasNext();){
-    		EvaluationStrategy strategy = (EvaluationStrategy)it.next();
-    		for(Iterator itEval = strategy.getEvaluations().iterator(); itEval.hasNext(); ){
-    			Evaluation eval = (Evaluation)itEval.next();
-    			if (eval.getIntElement().equals(element))
-    			{
-    				add(new DeleteEvaluationCommand(eval));
-    			}
-    		}
-    	}
+
+    private void deleteKPIModelLink() {
+        if (element instanceof Indicator) {
+            Indicator ind = (Indicator) element;
+
+            if (ind.getKpiModelLinksDest().size() > 0) {
+                for (int i = 0; i < ind.getKpiModelLinksDest().size(); i++) {
+                    KPIModelLink link = (KPIModelLink) ind.getKpiModelLinksDest().get(i);
+                    add(new DeleteKPIModelLinkCommand(link));
+                }
+            }
+        }
     }
+
+    // TODO Fix delete Evaluations.
+    // A modification is required in the metamodel to implement a bidirectional links between Intentional Elements and Evaluations (instead of unidirectional).
+    // Should access the evaluation to delete using this association.
+    private void deleteEvaluations() {
+        for (Iterator it = element.getGrlspec().getStrategies().iterator(); it.hasNext();) {
+            EvaluationStrategy strategy = (EvaluationStrategy) it.next();
+            for (Iterator itEval = strategy.getEvaluations().iterator(); itEval.hasNext();) {
+                Evaluation eval = (Evaluation) itEval.next();
+                if (eval.getIntElement().equals(element)) {
+                    add(new DeleteEvaluationCommand(eval));
+                }
+            }
+        }
+    }
+
     /**
      * Late building
      */
@@ -81,24 +97,29 @@ public class DeleteIntentionalElementCommand extends CompoundCommand {
         build();
         super.execute();
     }
-    
+
     /**
      * Builds a sequence of DeleteGRLNodeCommands
      * 
      */
     private void build() {
-        //Delete all the URNlink
-        for (Iterator it = element.getFromLinks().iterator(); it.hasNext();){
-            URNlink link = (URNlink)it.next();
+        // Delete all the URNlink
+        for (Iterator it = element.getFromLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
             add(new DeleteURNlinkCommand(link));
         }
-        for (Iterator it = element.getToLinks().iterator(); it.hasNext();){
-            URNlink link = (URNlink)it.next();
+        for (Iterator it = element.getToLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
             add(new DeleteURNlinkCommand(link));
         }
         deleteEvaluations();
-        //Delete all the ElementLink associate with the IntentionalElement
+
+        // Delete all the ElementLink associate with the IntentionalElement
         deleteElementLink();
+
+        // Delete all the KPIModelLink associate with the IntentionalElement
+        deleteKPIModelLink();
+
         add(new RemoveIntentionalElementCommand(element));
     }
 }

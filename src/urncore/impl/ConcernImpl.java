@@ -38,195 +38,195 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class ConcernImpl extends URNmodelElementImpl implements Concern {
-	/**
-	 * The cached value of the '{@link #getSpecDiagrams() <em>Spec Diagrams</em>}' reference list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getSpecDiagrams() <em>Spec Diagrams</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSpecDiagrams()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSpecDiagrams()
+     * @generated
+     * @ordered
+     */
 	protected EList specDiagrams = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected ConcernImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EClass eStaticClass() {
-		return UrncorePackage.Literals.CONCERN;
-	}
+        return UrncorePackage.Literals.CONCERN;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public URNdefinition getUrndefinition() {
-		if (eContainerFeatureID != UrncorePackage.CONCERN__URNDEFINITION) return null;
-		return (URNdefinition)eContainer();
-	}
+        if (eContainerFeatureID != UrncorePackage.CONCERN__URNDEFINITION) return null;
+        return (URNdefinition)eContainer();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetUrndefinition(URNdefinition newUrndefinition, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newUrndefinition, UrncorePackage.CONCERN__URNDEFINITION, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newUrndefinition, UrncorePackage.CONCERN__URNDEFINITION, msgs);
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setUrndefinition(URNdefinition newUrndefinition) {
-		if (newUrndefinition != eInternalContainer() || (eContainerFeatureID != UrncorePackage.CONCERN__URNDEFINITION && newUrndefinition != null)) {
-			if (EcoreUtil.isAncestor(this, newUrndefinition))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newUrndefinition != null)
-				msgs = ((InternalEObject)newUrndefinition).eInverseAdd(this, UrncorePackage.UR_NDEFINITION__CONCERNS, URNdefinition.class, msgs);
-			msgs = basicSetUrndefinition(newUrndefinition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONCERN__URNDEFINITION, newUrndefinition, newUrndefinition));
-	}
+        if (newUrndefinition != eInternalContainer() || (eContainerFeatureID != UrncorePackage.CONCERN__URNDEFINITION && newUrndefinition != null)) {
+            if (EcoreUtil.isAncestor(this, newUrndefinition))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newUrndefinition != null)
+                msgs = ((InternalEObject)newUrndefinition).eInverseAdd(this, UrncorePackage.UR_NDEFINITION__CONCERNS, URNdefinition.class, msgs);
+            msgs = basicSetUrndefinition(newUrndefinition, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.CONCERN__URNDEFINITION, newUrndefinition, newUrndefinition));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getSpecDiagrams() {
-		if (specDiagrams == null) {
-			specDiagrams = new EObjectWithInverseResolvingEList(IURNDiagram.class, this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, UrncorePackage.IURN_DIAGRAM__CONCERN);
-		}
-		return specDiagrams;
-	}
+        if (specDiagrams == null) {
+            specDiagrams = new EObjectWithInverseResolvingEList(IURNDiagram.class, this, UrncorePackage.CONCERN__SPEC_DIAGRAMS, UrncorePackage.IURN_DIAGRAM__CONCERN);
+        }
+        return specDiagrams;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetUrndefinition((URNdefinition)otherEnd, msgs);
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				return ((InternalEList)getSpecDiagrams()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetUrndefinition((URNdefinition)otherEnd, msgs);
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                return ((InternalEList)getSpecDiagrams()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				return basicSetUrndefinition(null, msgs);
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				return ((InternalEList)getSpecDiagrams()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                return basicSetUrndefinition(null, msgs);
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                return ((InternalEList)getSpecDiagrams()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				return eInternalContainer().eInverseRemove(this, UrncorePackage.UR_NDEFINITION__CONCERNS, URNdefinition.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                return eInternalContainer().eInverseRemove(this, UrncorePackage.UR_NDEFINITION__CONCERNS, URNdefinition.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				return getUrndefinition();
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				return getSpecDiagrams();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                return getUrndefinition();
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                return getSpecDiagrams();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				setUrndefinition((URNdefinition)newValue);
-				return;
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				getSpecDiagrams().clear();
-				getSpecDiagrams().addAll((Collection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                setUrndefinition((URNdefinition)newValue);
+                return;
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                getSpecDiagrams().clear();
+                getSpecDiagrams().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				setUrndefinition((URNdefinition)null);
-				return;
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				getSpecDiagrams().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                setUrndefinition((URNdefinition)null);
+                return;
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                getSpecDiagrams().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.CONCERN__URNDEFINITION:
-				return getUrndefinition() != null;
-			case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
-				return specDiagrams != null && !specDiagrams.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.CONCERN__URNDEFINITION:
+                return getUrndefinition() != null;
+            case UrncorePackage.CONCERN__SPEC_DIAGRAMS:
+                return specDiagrams != null && !specDiagrams.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //ConcernImpl

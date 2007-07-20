@@ -2,6 +2,8 @@ package seg.jUCMNav.views.dnd;
 
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +25,7 @@ import urncore.Responsibility;
 /**
  * Drag source setup on the UrnOutlinePage
  * 
- * @author jkealey
+ * @author jkealey, pchen
  */
 public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragSourceListener {
 
@@ -48,7 +50,8 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
         if (selection.size() == 1) {
             EditPart editpart = (EditPart) getViewer().getSelectedEditParts().get(0);
             Object model = editpart.getModel();
-            if (model instanceof IURNContainer || model instanceof Responsibility || model instanceof IntentionalElement)
+            if (model instanceof IURNContainer || model instanceof Responsibility || model instanceof IntentionalElement
+                    || model instanceof KPIInformationElement)
                 return model;
             else if (model instanceof IURNContainerRef)
                 return ((IURNContainerRef) model).getContDef();
@@ -56,17 +59,19 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
                 return ((RespRef) model).getRespDef();
             else if (model instanceof IntentionalElementRef)
                 return ((IntentionalElementRef) model).getDef();
+            else if (model instanceof KPIInformationElementRef)
+                return ((KPIInformationElementRef) model).getDef();
         }
         return null;
     }
 
     public void dragFinished(DragSourceEvent event) {
-        // ModelCreationFactory creates useless refs that are not added when dragged here. 
-        URNspec urn = ((UCMNavMultiPageEditor)((OutlineRootEditPart)getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
+        // ModelCreationFactory creates useless refs that are not added when dragged here.
+        URNspec urn = ((UCMNavMultiPageEditor) ((OutlineRootEditPart) getViewer().getRootEditPart().getChildren().get(0)).getModel()).getModel();
         cleanUnusedRespRefs(urn);
         cleanUnusedContRefs(urn);
         cleanUnusedIntElemntRef(urn);
-
+        cleanUnusedKPIInformationElemntRef(urn);
     }
 
     private void cleanUnusedRespRefs(URNspec urn) {
@@ -75,57 +80,74 @@ public class UrnTemplateTransferDragSourceListener extends TemplateTransferDragS
             Responsibility resp = (Responsibility) iter.next();
             for (Iterator iterator = resp.getRespRefs().iterator(); iterator.hasNext();) {
                 RespRef ref = (RespRef) iterator.next();
-                if (ref.getDiagram()==null)
+                if (ref.getDiagram() == null)
                     toRemove.add(ref);
             }
         }
-        
+
         for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
             RespRef ref = (RespRef) iter.next();
             ref.setRespDef(null);
         }
     }
-    
+
     private void cleanUnusedContRefs(URNspec urn) {
         ArrayList toRemove = new ArrayList();
         for (Iterator iter = urn.getUrndef().getComponents().iterator(); iter.hasNext();) {
             IURNContainer cont = (IURNContainer) iter.next();
             for (Iterator iterator = cont.getContRefs().iterator(); iterator.hasNext();) {
                 IURNContainerRef ref = (IURNContainerRef) iterator.next();
-                if (ref.getDiagram()==null)
+                if (ref.getDiagram() == null)
                     toRemove.add(ref);
             }
         }
-        
+
         for (Iterator iter = urn.getGrlspec().getActors().iterator(); iter.hasNext();) {
             IURNContainer cont = (IURNContainer) iter.next();
             for (Iterator iterator = cont.getContRefs().iterator(); iterator.hasNext();) {
                 IURNContainerRef ref = (IURNContainerRef) iterator.next();
-                if (ref.getDiagram()==null)
+                if (ref.getDiagram() == null)
                     toRemove.add(ref);
             }
         }
-                
+
         for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
             IURNContainerRef ref = (IURNContainerRef) iter.next();
             ref.setContDef(null);
         }
     }
-    
+
     private void cleanUnusedIntElemntRef(URNspec urn) {
         ArrayList toRemove = new ArrayList();
         for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
             IntentionalElement elem = (IntentionalElement) iter.next();
             for (Iterator iterator = elem.getRefs().iterator(); iterator.hasNext();) {
                 IntentionalElementRef ref = (IntentionalElementRef) iterator.next();
-                if (ref.getDiagram()==null)
+                if (ref.getDiagram() == null)
                     toRemove.add(ref);
             }
         }
-        
+
         for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
             IntentionalElementRef ref = (IntentionalElementRef) iter.next();
             ref.setDef(null);
         }
-    }       
+    }
+
+    private void cleanUnusedKPIInformationElemntRef(URNspec urn) {
+        ArrayList toRemove = new ArrayList();
+        for (Iterator iter = urn.getGrlspec().getKpiInformationElements().iterator(); iter.hasNext();) {
+            KPIInformationElement elem = (KPIInformationElement) iter.next();
+            for (Iterator iterator = elem.getRefs().iterator(); iterator.hasNext();) {
+                KPIInformationElementRef ref = (KPIInformationElementRef) iterator.next();
+                if (ref.getDiagram() == null)
+                    toRemove.add(ref);
+            }
+        }
+
+        for (Iterator iter = toRemove.iterator(); iter.hasNext();) {
+            KPIInformationElementRef ref = (KPIInformationElementRef) iter.next();
+            ref.setDef(null);
+        }
+    }
 }

@@ -7,6 +7,9 @@ import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElement;
 import grl.StrategiesGroup;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIModelLink;
 
 import java.util.HashMap;
 
@@ -25,29 +28,36 @@ import urncore.ComponentElement;
 import urncore.Responsibility;
 import urncore.URNmodelElement;
 
+/**
+ * URNmodelElementType.
+ * 
+ * @author pchen
+ */
 public class URNmodelElementType {
     public static final HashMap urnElementTypes = new HashMap();
-    public static final String[] urnElementTypeNames = new String[] {
-        Messages.getString("URNmodelElementType.All"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Actor"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.ElementLink"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.EvaluationStrategy"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.GrlGraph"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.GrlNode"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.IntentionalElement"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.StrategiesGroup"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Component"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Enumeration"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.PathNode"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.PerfMeasure"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.ResponseTimeReq"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Responsibility"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.RespRef"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.ScenarioGroup"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.UcmMap"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Variable"), //$NON-NLS-1$
-        Messages.getString("URNmodelElementType.Workload") //$NON-NLS-1$
+    public static final String[] urnElementTypeNames = new String[] { Messages.getString("URNmodelElementType.All"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Actor"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.ElementLink"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.EvaluationStrategy"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.GrlGraph"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.GrlNode"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.IntentionalElement"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.StrategiesGroup"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Component"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Enumeration"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.PathNode"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.PerfMeasure"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.ResponseTimeReq"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Responsibility"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.RespRef"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Scenario"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.ScenarioGroup"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.UcmMap"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Variable"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.Workload"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.KPIInformationElement"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.KPIModelLink"), //$NON-NLS-1$
+            Messages.getString("URNmodelElementType.IndicatorGroup") //$NON-NLS-1$
     };
 
     static {
@@ -71,5 +81,8 @@ public class URNmodelElementType {
         urnElementTypes.put(urnElementTypeNames[17], UCMmap.class);
         urnElementTypes.put(urnElementTypeNames[18], Variable.class);
         urnElementTypes.put(urnElementTypeNames[19], Workload.class);
+        urnElementTypes.put(urnElementTypeNames[20], KPIInformationElement.class);
+        urnElementTypes.put(urnElementTypeNames[21], KPIModelLink.class);
+        urnElementTypes.put(urnElementTypeNames[22], IndicatorGroup.class);
     }
 }

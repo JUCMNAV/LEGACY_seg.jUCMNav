@@ -56,6 +56,8 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
+import seg.jUCMNav.actions.kpi.AddIndicatorGroupAction;
+import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
@@ -78,7 +80,7 @@ import seg.jUCMNav.scenarios.ScenarioUtils;
 /**
  * Adds actions to the action registry. Originally included in the UCMNavMultiPageEditor, this code was factored out.
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  *  
  */
 public class ActionRegistryManager {
@@ -325,6 +327,10 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addEvaluationGroup"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
         
+        action = new AddIndicatorGroupAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.addIndicatorGroup"));  //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
+        
         action = new AddEvaluationStrategyAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.addEvaluationStrategy"));  //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -403,7 +409,11 @@ public class ActionRegistryManager {
         
         action = new EditMetadataAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.editMetadata")); //$NON-NLS-1$
-        addEditPartAction((SelectionAction) action);   
+        addEditPartAction((SelectionAction) action);
+        
+        action = new EditIndicatorGroupsAction(editor);
+        action.setText(Messages.getString("ActionRegistryManager.editIndicatorGroup")); //$NON-NLS-1$
+        addEditPartAction((SelectionAction) action);
 
         action = new RunAllScenariosAction(editor);
         action.setText(Messages.getString("ActionRegistryManager.RunAllScenariosInGroup")); //$NON-NLS-1$

@@ -12,6 +12,11 @@ import grl.IntentionalElement;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
 import grl.StrategiesGroup;
+import grl.kpimodel.IndicatorGroup;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
+import grl.kpimodel.KPIModelLink;
+import grl.kpimodel.KPIModelLinkRef;
 
 import java.util.Iterator;
 import java.util.List;
@@ -61,10 +66,10 @@ import urncore.URNmodelElement;
  * allows for easy access to the concerned model elements by encapsulating the casts and other management overhead.
  * 
  * The general concept is to set the type to the exact selection and infer some variables (such as the URNspec) from the given selection.
- *  
+ * 
  * Not the most elegant of classes, but helps simplify everything outside of it :)
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  * 
  */
 public class SelectionHelper {
@@ -112,8 +117,8 @@ public class SelectionHelper {
     public static final int RESPONSIBILITY = 121;
     public static final int CONDITION = 122;
     public static final int INITIALIZATION = 123;
-    
-    //GRL constant
+
+    // GRL constant
     public static final int GRLGRAPH = 200;
     public static final int ACTORREF = 201;
     public static final int BELIEF = 202;
@@ -123,10 +128,16 @@ public class SelectionHelper {
     public static final int EVALUATIONSTRATEGY = 206;
     public static final int ACTOR = 207;
     public static final int INTENTIONALELEMENT = 208;
-    
-    //Concerns
+    public static final int KPIINFORMATIONELEMENT = 209;
+    public static final int KPIINFORMATIONELEMENTREF = 210;
+    public static final int KPIMODELLINK = 211;
+    public static final int KPIMODELLINKREF = 212;
+    public static final int KPIINFORMATIONCONFIG = 213;
+    public static final int INDICATORGROUP = 214;
+
+    // Concerns
     public static final int CONCERN = 300;
-    
+
     // internal variables; for quick reference.
     private AndFork andfork;
     private AndJoin andjoin;
@@ -156,25 +167,30 @@ public class SelectionHelper {
     private Responsibility respdef;
     private Condition condition;
     private Initialization initialization;
-    
-    //internal variable for GRL
+
+    // internal variable for GRL
     private ActorRef actorref;
     private Actor actor;
     private Belief belief;
     private GRLGraph grlgraph;
     private IntentionalElementRef intentionalelementref;
     private IntentionalElement intentionalelement;
+    private KPIInformationElementRef kpiInformationElementRef;
+    private KPIInformationElement kpiInformationElement;
+    private KPIModelLink kpiModelLink;
+    private KPIModelLinkRef kpiModelLinkRef;
     private LinkRef linkref;
     private StrategiesGroup group;
     private EvaluationStrategy strategy;
-    
-    //internal variable for Concern
+    private IndicatorGroup indicatorGroup;
+
+    // internal variable for Concern
     private Concern concern;
-    
+
     private UCMspec ucmspec;
     private GRLspec grlspec;
     private URNmodelElement urnelem;
-    
+
     public SelectionHelper(List selection) {
         setSelection(selection);
     }
@@ -238,7 +254,7 @@ public class SelectionHelper {
     public Responsibility getRespDef() {
         return respdef;
     }
-    
+
     public List getSelection() {
         return selection;
     }
@@ -266,9 +282,9 @@ public class SelectionHelper {
     public WaitingPlace getWaitingPlace() {
         return waitingplace;
     }
-    
+
     public Initialization getInitialization() {
-    	return initialization;
+        return initialization;
     }
 
     /**
@@ -305,10 +321,16 @@ public class SelectionHelper {
             intentionalelement = (IntentionalElement) model;
         } else if (model instanceof IntentionalElementRef) {
             intentionalelementref = (IntentionalElementRef) model;
+        } else if (model instanceof KPIInformationElement) {
+            kpiInformationElement = (KPIInformationElement) model;
+        } else if (model instanceof KPIInformationElementRef) {
+            kpiInformationElementRef = (KPIInformationElementRef) model;
         } else if (model instanceof Belief) {
             belief = (Belief) model;
         } else if (model instanceof LinkRef) {
             linkref = (LinkRef) model;
+        } else if (model instanceof KPIModelLinkRef) {
+            kpiModelLinkRef = (KPIModelLinkRef) model;
         } else if (model instanceof StartPoint) {
             startpoint = (StartPoint) model;
             if (startpoint.getPred().size() == 1) {
@@ -362,91 +384,96 @@ public class SelectionHelper {
             grlgraph = (GRLGraph) model;
             urnspec = grlgraph.getUrndefinition().getUrnspec();
         } else if (model instanceof StrategiesGroup) {
-            group = (StrategiesGroup)model;
+            group = (StrategiesGroup) model;
             grlspec = group.getGrlspec();
             urnspec = group.getGrlspec().getUrnspec();
+        } else if (model instanceof IndicatorGroup) {
+            indicatorGroup = (IndicatorGroup) model;
+            grlspec = indicatorGroup.getGrlspec();
+            urnspec = indicatorGroup.getGrlspec().getUrnspec();
         } else if (model instanceof ScenarioGroup) {
-            scenariogroup = (ScenarioGroup)model;
+            scenariogroup = (ScenarioGroup) model;
             ucmspec = scenariogroup.getUcmspec();
-            urnspec = scenariogroup.getUcmspec().getUrnspec();            
+            urnspec = scenariogroup.getUcmspec().getUrnspec();
         } else if (model instanceof EvaluationStrategy) {
-        	strategy =(EvaluationStrategy)model; 
+            strategy = (EvaluationStrategy) model;
             group = strategy.getGroup();
             grlspec = group.getGrlspec();
             urnspec = group.getGrlspec().getUrnspec();
         } else if (model instanceof ScenarioDef) {
-        	scenario= (ScenarioDef)model;
-        	scenariogroup = scenario.getGroup();
-        	if (scenariogroup!=null) {
-	        	ucmspec = scenariogroup.getUcmspec();
-	            urnspec = scenariogroup.getUcmspec().getUrnspec();
-        	}
+            scenario = (ScenarioDef) model;
+            scenariogroup = scenario.getGroup();
+            if (scenariogroup != null) {
+                ucmspec = scenariogroup.getUcmspec();
+                urnspec = scenariogroup.getUcmspec().getUrnspec();
+            }
         } else if (model instanceof Initialization) {
-        	initialization = (Initialization)model;
-        	scenario = initialization.getScenarioDef();
-        	scenariogroup = scenario.getGroup(); 
-        	if (scenariogroup!=null) {
-	        	ucmspec = scenariogroup.getUcmspec();
-	            urnspec = scenariogroup.getUcmspec().getUrnspec();
-        	}
+            initialization = (Initialization) model;
+            scenario = initialization.getScenarioDef();
+            scenariogroup = scenario.getGroup();
+            if (scenariogroup != null) {
+                ucmspec = scenariogroup.getUcmspec();
+                urnspec = scenariogroup.getUcmspec().getUrnspec();
+            }
         } else if (model instanceof EnumerationType) {
-        	EnumerationType et = (EnumerationType)model;
-        	ucmspec = et.getUcmspec();
+            EnumerationType et = (EnumerationType) model;
+            ucmspec = et.getUcmspec();
             urnspec = et.getUcmspec().getUrnspec();
         } else if (model instanceof GRLspec) {
-        	grlspec = ((GRLspec)model);
-            urnspec = ((GRLspec)model).getUrnspec();
+            grlspec = ((GRLspec) model);
+            urnspec = ((GRLspec) model).getUrnspec();
         } else if (model instanceof UCMspec) {
-        	ucmspec = (UCMspec)model;
-            urnspec = ((UCMspec)model).getUrnspec();
+            ucmspec = (UCMspec) model;
+            urnspec = ((UCMspec) model).getUrnspec();
         } else if (model instanceof URNspec) {
             urnspec = (URNspec) model;
         }
 
         if (model instanceof NodeConnection || model instanceof PathNode || model instanceof ComponentRef) {
             if (model instanceof NodeConnection)
-                map = (UCMmap)nodeconnection.getDiagram();
+                map = (UCMmap) nodeconnection.getDiagram();
             else if (model instanceof PathNode)
-                map = (UCMmap)((PathNode) model).getDiagram();
+                map = (UCMmap) ((PathNode) model).getDiagram();
             else if (model instanceof ComponentRef)
-            	map = (UCMmap) ((ComponentRef)model).getDiagram();
-            
-            if (map != null && map.getUrndefinition()!=null)
+                map = (UCMmap) ((ComponentRef) model).getDiagram();
+
+            if (map != null && map.getUrndefinition() != null)
                 urnspec = map.getUrndefinition().getUrnspec();
         } else if (model instanceof LinkRef || model instanceof GRLNode || model instanceof ActorRef) {
-            if (model instanceof LinkRef){
-                grlgraph = (GRLGraph) ((LinkRef)model).getDiagram();
-            } else if (model instanceof GRLNode){
-                grlgraph = (GRLGraph) ((GRLNode)model).getDiagram();
-            } else if (model instanceof ActorRef){
-                grlgraph = (GRLGraph) ((ActorRef)model).getDiagram();
+            if (model instanceof LinkRef) {
+                grlgraph = (GRLGraph) ((LinkRef) model).getDiagram();
+            } else if (model instanceof GRLNode) {
+                grlgraph = (GRLGraph) ((GRLNode) model).getDiagram();
+            } else if (model instanceof ActorRef) {
+                grlgraph = (GRLGraph) ((ActorRef) model).getDiagram();
             }
-            
-            if (grlgraph != null && grlgraph.getUrndefinition()!=null)
+
+            if (grlgraph != null && grlgraph.getUrndefinition() != null)
                 urnspec = grlgraph.getUrndefinition().getUrnspec();
         }
-        
-        if (urnspec==null)
-        {
-        	if (model instanceof ComponentElement)
-        	{
-				ComponentElement element = (ComponentElement) model;
-				urnspec = element.getUrndefinition().getUrnspec();
-        	} else if (model instanceof Actor)
-        	{
-				Actor actor = (Actor) model;
-        		urnspec = actor.getGrlspec().getUrnspec();
-        	} else if (model instanceof IntentionalElement)
-        	{
-				IntentionalElement element = (IntentionalElement) model;
-				urnspec = element.getGrlspec().getUrnspec();
-        	} else if (model instanceof ElementLink)
-        	{
-        		ElementLink element = (ElementLink) model;
-        		urnspec = element.getGrlspec().getUrnspec();
-        	}
+
+        if (urnspec == null) {
+            if (model instanceof ComponentElement) {
+                ComponentElement element = (ComponentElement) model;
+                urnspec = element.getUrndefinition().getUrnspec();
+            } else if (model instanceof Actor) {
+                Actor actor = (Actor) model;
+                urnspec = actor.getGrlspec().getUrnspec();
+            } else if (model instanceof IntentionalElement) {
+                IntentionalElement element = (IntentionalElement) model;
+                urnspec = element.getGrlspec().getUrnspec();
+            } else if (model instanceof KPIInformationElement) {
+                KPIInformationElement element = (KPIInformationElement) model;
+                urnspec = element.getGrlspec().getUrnspec();
+            } else if (model instanceof ElementLink) {
+                ElementLink element = (ElementLink) model;
+                urnspec = element.getGrlspec().getUrnspec();
+            } else if (model instanceof KPIModelLink) {
+                KPIModelLink element = (KPIModelLink) model;
+                urnspec = element.getGrlspec().getUrnspec();
+            }
         }
-        
+
         if (model instanceof URNmodelElement) {
             urnelem = (URNmodelElement) model;
         }
@@ -460,9 +487,9 @@ public class SelectionHelper {
     private void setSelection(List selection) {
         this.selection = selection;
         if ((selection.size() == 1) && selection.get(0) instanceof URNspec) {
-        	urnspec = (URNspec)selection.get(0);
+            urnspec = (URNspec) selection.get(0);
         }
-        
+
         if ((selection.size() == 1 || selection.size() == 2) && selection.get(0) instanceof EditPart) {
             EditPart ep = (EditPart) selection.get(0);
             if (ep.getModel() instanceof EObject) {
@@ -488,11 +515,13 @@ public class SelectionHelper {
                         urnspec = (URNspec) model;
                     else if (model instanceof IURNDiagram && ((IURNDiagram) model).getUrndefinition() != null)
                         urnspec = ((IURNDiagram) model).getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNNode && ((IURNNode) model).getDiagram()!=null && ((IURNNode) model).getDiagram().getUrndefinition()!=null)
+                    else if (model instanceof IURNNode && ((IURNNode) model).getDiagram() != null && ((IURNNode) model).getDiagram().getUrndefinition() != null)
                         urnspec = ((IURNNode) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNConnection && ((IURNConnection) model).getDiagram() != null && ((IURNConnection) model).getDiagram().getUrndefinition()!=null)
+                    else if (model instanceof IURNConnection && ((IURNConnection) model).getDiagram() != null
+                            && ((IURNConnection) model).getDiagram().getUrndefinition() != null)
                         urnspec = ((IURNConnection) model).getDiagram().getUrndefinition().getUrnspec();
-                    else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null && ((IURNContainerRef) model).getDiagram().getUrndefinition()!=null)
+                    else if (model instanceof IURNContainerRef && ((IURNContainerRef) model).getDiagram() != null
+                            && ((IURNContainerRef) model).getDiagram().getUrndefinition() != null)
                         urnspec = ((IURNContainerRef) model).getDiagram().getUrndefinition().getUrnspec();
 
                 }
@@ -501,7 +530,6 @@ public class SelectionHelper {
             }
         }
 
-        
         setType();
     }
 
@@ -590,6 +618,10 @@ public class SelectionHelper {
             selectionType = INTENTIONALELEMENT;
         else if (intentionalelementref != null)
             selectionType = INTENTIONALELEMENTREF;
+        else if (kpiInformationElement != null)
+            selectionType = KPIINFORMATIONELEMENT;
+        else if (kpiInformationElementRef != null)
+            selectionType = KPIINFORMATIONELEMENTREF;
         else if (belief != null)
             selectionType = BELIEF;
         else if (actor != null)
@@ -598,16 +630,18 @@ public class SelectionHelper {
             selectionType = ACTORREF;
         else if (linkref != null)
             selectionType = LINKREF;
+        else if (kpiModelLinkRef != null)
+            selectionType = KPIMODELLINKREF;
         else if (group != null)
             selectionType = EVALUATIONGROUP;
         else if (strategy != null)
             selectionType = EVALUATIONSTRATEGY;
         else if (scenario != null)
-            selectionType = SCENARIO;           
+            selectionType = SCENARIO;
         else if (scenariogroup != null)
             selectionType = SCENARIOGROUP;
-        else if (initialization!=null)
-        	selectionType = INITIALIZATION;
+        else if (initialization != null)
+            selectionType = INITIALIZATION;
         else if (grlgraph != null)
             selectionType = GRLGRAPH;
         else if (concern != null)
@@ -626,7 +660,7 @@ public class SelectionHelper {
     public Actor getActor() {
         return actor;
     }
-    
+
     public ActorRef getActorref() {
         return actorref;
     }
@@ -642,47 +676,63 @@ public class SelectionHelper {
     public IntentionalElement getIntentionalElement() {
         return intentionalelement;
     }
-    
+
     public IntentionalElementRef getIntentionalelementref() {
         return intentionalelementref;
+    }
+
+    public KPIInformationElement getKPIInformationElement() {
+        return kpiInformationElement;
+    }
+
+    public KPIInformationElementRef getKPIInformationElementref() {
+        return kpiInformationElementRef;
     }
 
     public LinkRef getLinkref() {
         return linkref;
     }
-    
-    public StrategiesGroup getStrategiesGroup(){
+
+    public KPIModelLinkRef getKPIModelLinkRef() {
+        return kpiModelLinkRef;
+    }
+
+    public StrategiesGroup getStrategiesGroup() {
         return group;
     }
-    
-    public EvaluationStrategy getEvaluationStrategy(){
+
+    public IndicatorGroup getIndicatorGroup() {
+        return indicatorGroup;
+    }
+
+    public EvaluationStrategy getEvaluationStrategy() {
         return strategy;
     }
 
-    public Concern getConcern(){
+    public Concern getConcern() {
         return concern;
     }
-    
-    public ScenarioGroup getScenarioGroup(){
+
+    public ScenarioGroup getScenarioGroup() {
         return scenariogroup;
     }
-    
-    public ScenarioDef getScenario(){
+
+    public ScenarioDef getScenario() {
         return scenario;
-    }    
-    
-    public GRLspec getGRLspec(){
+    }
+
+    public GRLspec getGRLspec() {
         return grlspec;
     }
-    
-    public UCMspec getUCMspec(){
+
+    public UCMspec getUCMspec() {
         return ucmspec;
     }
 
-	public Condition getCondition() {
-		return condition;
-	}
-    
+    public Condition getCondition() {
+        return condition;
+    }
+
     public URNmodelElement getURNmodelElement() {
         return urnelem;
     }

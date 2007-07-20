@@ -22,211 +22,211 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @generated
  */
 public final class PerfAttribute extends AbstractEnumerator {
-	/**
-	 * The '<em><b>Delay</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Delay</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #DELAY_LITERAL
-	 * @model name="Delay"
-	 * @generated
-	 * @ordered
-	 */
+     * @see #DELAY_LITERAL
+     * @model name="Delay"
+     * @generated
+     * @ordered
+     */
     public static final int DELAY = 0;
 
-	/**
-	 * The '<em><b>Throughput</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Throughput</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #THROUGHPUT_LITERAL
-	 * @model name="Throughput"
-	 * @generated
-	 * @ordered
-	 */
+     * @see #THROUGHPUT_LITERAL
+     * @model name="Throughput"
+     * @generated
+     * @ordered
+     */
     public static final int THROUGHPUT = 1;
 
-	/**
-	 * The '<em><b>Utilization</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Utilization</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #UTILIZATION_LITERAL
-	 * @model name="Utilization"
-	 * @generated
-	 * @ordered
-	 */
+     * @see #UTILIZATION_LITERAL
+     * @model name="Utilization"
+     * @generated
+     * @ordered
+     */
     public static final int UTILIZATION = 2;
 
-	/**
-	 * The '<em><b>Interval</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Interval</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #INTERVAL_LITERAL
-	 * @model name="Interval"
-	 * @generated
-	 * @ordered
-	 */
+     * @see #INTERVAL_LITERAL
+     * @model name="Interval"
+     * @generated
+     * @ordered
+     */
     public static final int INTERVAL = 3;
 
-	/**
-	 * The '<em><b>Wait</b></em>' literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Wait</b></em>' literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #WAIT_LITERAL
-	 * @model name="Wait"
-	 * @generated
-	 * @ordered
-	 */
+     * @see #WAIT_LITERAL
+     * @model name="Wait"
+     * @generated
+     * @ordered
+     */
     public static final int WAIT = 4;
 
-	/**
-	 * The '<em><b>Delay</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Delay</b></em>' literal object.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Delay</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @see #DELAY
-	 * @generated
-	 * @ordered
-	 */
+     * @see #DELAY
+     * @generated
+     * @ordered
+     */
     public static final PerfAttribute DELAY_LITERAL = new PerfAttribute(DELAY, "Delay", "Delay");
 
-	/**
-	 * The '<em><b>Throughput</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Throughput</b></em>' literal object.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Throughput</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @see #THROUGHPUT
-	 * @generated
-	 * @ordered
-	 */
+     * @see #THROUGHPUT
+     * @generated
+     * @ordered
+     */
     public static final PerfAttribute THROUGHPUT_LITERAL = new PerfAttribute(THROUGHPUT, "Throughput", "Throughput");
 
-	/**
-	 * The '<em><b>Utilization</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Utilization</b></em>' literal object.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Utilization</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @see #UTILIZATION
-	 * @generated
-	 * @ordered
-	 */
+     * @see #UTILIZATION
+     * @generated
+     * @ordered
+     */
     public static final PerfAttribute UTILIZATION_LITERAL = new PerfAttribute(UTILIZATION, "Utilization", "Utilization");
 
-	/**
-	 * The '<em><b>Interval</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Interval</b></em>' literal object.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Interval</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @see #INTERVAL
-	 * @generated
-	 * @ordered
-	 */
+     * @see #INTERVAL
+     * @generated
+     * @ordered
+     */
     public static final PerfAttribute INTERVAL_LITERAL = new PerfAttribute(INTERVAL, "Interval", "Interval");
 
-	/**
-	 * The '<em><b>Wait</b></em>' literal object.
-	 * <!-- begin-user-doc -->
+    /**
+     * The '<em><b>Wait</b></em>' literal object.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of '<em><b>Wait</b></em>' literal object isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @see #WAIT
-	 * @generated
-	 * @ordered
-	 */
+     * @see #WAIT
+     * @generated
+     * @ordered
+     */
     public static final PerfAttribute WAIT_LITERAL = new PerfAttribute(WAIT, "Wait", "Wait");
 
-	/**
-	 * An array of all the '<em><b>Perf Attribute</b></em>' enumerators.
-	 * <!-- begin-user-doc -->
+    /**
+     * An array of all the '<em><b>Perf Attribute</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     private static final PerfAttribute[] VALUES_ARRAY =
-		new PerfAttribute[] {
-			DELAY_LITERAL,
-			THROUGHPUT_LITERAL,
-			UTILIZATION_LITERAL,
-			INTERVAL_LITERAL,
-			WAIT_LITERAL,
-		};
+        new PerfAttribute[] {
+            DELAY_LITERAL,
+            THROUGHPUT_LITERAL,
+            UTILIZATION_LITERAL,
+            INTERVAL_LITERAL,
+            WAIT_LITERAL,
+        };
 
-	/**
-	 * A public read-only list of all the '<em><b>Perf Attribute</b></em>' enumerators.
-	 * <!-- begin-user-doc -->
+    /**
+     * A public read-only list of all the '<em><b>Perf Attribute</b></em>' enumerators.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
-	/**
-	 * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified literal value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static PerfAttribute get(String literal) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			PerfAttribute result = VALUES_ARRAY[i];
-			if (result.toString().equals(literal)) {
-				return result;
-			}
-		}
-		return null;
-	}
+        for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+            PerfAttribute result = VALUES_ARRAY[i];
+            if (result.toString().equals(literal)) {
+                return result;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified name.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static PerfAttribute getByName(String name) {
-		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			PerfAttribute result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
-				return result;
-			}
-		}
-		return null;
-	}
+        for (int i = 0; i < VALUES_ARRAY.length; ++i) {
+            PerfAttribute result = VALUES_ARRAY[i];
+            if (result.getName().equals(name)) {
+                return result;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the '<em><b>Perf Attribute</b></em>' literal with the specified integer value.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public static PerfAttribute get(int value) {
-		switch (value) {
-			case DELAY: return DELAY_LITERAL;
-			case THROUGHPUT: return THROUGHPUT_LITERAL;
-			case UTILIZATION: return UTILIZATION_LITERAL;
-			case INTERVAL: return INTERVAL_LITERAL;
-			case WAIT: return WAIT_LITERAL;
-		}
-		return null;	
-	}
+        switch (value) {
+            case DELAY: return DELAY_LITERAL;
+            case THROUGHPUT: return THROUGHPUT_LITERAL;
+            case UTILIZATION: return UTILIZATION_LITERAL;
+            case INTERVAL: return INTERVAL_LITERAL;
+            case WAIT: return WAIT_LITERAL;
+        }
+        return null;	
+    }
 
-	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
+    /**
+     * Only this class can construct instances.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	private PerfAttribute(int value, String name, String literal) {
-		super(value, name, literal);
-	}
+        super(value, name, literal);
+    }
 
 } //PerfAttribute

@@ -6,6 +6,7 @@ package seg.jUCMNav.model.commands.transformations;
 import grl.Belief;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
 
 import org.eclipse.gef.commands.Command;
 
@@ -13,16 +14,16 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.JUCMNavCommand;
 import seg.jUCMNav.model.util.URNNamingHelper;
 
-
 /**
  * Rename the reference of the grl node. If it is a belief, modify the description instead
- * @author Jean-François Roy
- *
+ * 
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand {
 
     private GRLNode elem;
-    
+
     private String name, oldName;
 
     /**
@@ -40,22 +41,25 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     public void execute() {
         if (elem instanceof IntentionalElementRef) {
             oldName = (((IntentionalElementRef) elem).getDef()).getName();
+        } else if (elem instanceof KPIInformationElementRef) {
+            oldName = (((KPIInformationElementRef) elem).getDef()).getName();
         } else if (elem instanceof Belief) {
             oldName = ((Belief) elem).getDescription();
-        } 
+        }
         redo();
     }
-    
+
     /**
      * @return whether we can apply changes
      */
     public boolean canExecute() {
         if (elem instanceof IntentionalElementRef) {
             return verifyUniqueness(name);
-        } else if (elem instanceof Belief){
+        } else if (elem instanceof KPIInformationElementRef) {
+            return verifyUniqueness(name);
+        } else if (elem instanceof Belief) {
             return true;
-        }
-            else
+        } else
             return false;
     }
 
@@ -65,7 +69,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     private boolean verifyUniqueness(String name) {
         return URNNamingHelper.isNameValid(elem, name).length() == 0;
     }
-    
+
     /**
      * Sets the new Column name
      * 
@@ -85,7 +89,7 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
     public void setOldName(String string) {
         oldName = string;
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -96,12 +100,14 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
 
         if (elem instanceof IntentionalElementRef) {
             (((IntentionalElementRef) elem).getDef()).setName(name);
+        } else if (elem instanceof KPIInformationElementRef) {
+            (((KPIInformationElementRef) elem).getDef()).setName(name);
         } else if (elem instanceof Belief) {
             ((Belief) elem).setDescription(name);
-        } 
+        }
         testPostConditions();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#undo()
      */
@@ -110,12 +116,14 @@ public class ChangeGrlNodeNameCommand extends Command implements JUCMNavCommand 
 
         if (elem instanceof IntentionalElementRef) {
             (((IntentionalElementRef) elem).getDef()).setName(oldName);
+        } else if (elem instanceof KPIInformationElementRef) {
+            (((KPIInformationElementRef) elem).getDef()).setName(oldName);
         } else if (elem instanceof Belief) {
             ((Belief) elem).setDescription(oldName);
-        } 
+        }
         testPreConditions();
     }
-    
+
     /*
      * (non-Javadoc)
      * 

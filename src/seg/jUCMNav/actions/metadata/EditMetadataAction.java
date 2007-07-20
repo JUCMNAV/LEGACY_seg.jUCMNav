@@ -1,7 +1,6 @@
 package seg.jUCMNav.actions.metadata;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPart;
@@ -32,7 +31,7 @@ public class EditMetadataAction extends URNSelectionAction {
     public EditMetadataAction(IWorkbenchPart part) {
         super(part);
         setId(EDITMETADATAACTION);
-        setImageDescriptor(ImageDescriptor.createFromFile(JUCMNavPlugin.class, "icons/Metadata.gif")); //$NON-NLS-1$
+        setImageDescriptor(JUCMNavPlugin.getImageDescriptor("icons/Metadata.gif")); //$NON-NLS-1$
     }
 
     /**

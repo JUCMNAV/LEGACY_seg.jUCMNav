@@ -8,9 +8,9 @@ import seg.jUCMNav.editparts.ModelElementEditPart;
 import seg.jUCMNav.figures.BeliefFigure;
 
 /**
- * On mouse hover on GRLNode (IntentionalElement and Beliefs), the nodes become thicker.
+ * On mouse hover on GRLNode (IntentionalElement and Beliefs and KPIInformationElement), the nodes become thicker.
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, pchen
  *
  */
 public class GrlNodeFeedbackEditPolicy extends GraphicalEditPolicy {

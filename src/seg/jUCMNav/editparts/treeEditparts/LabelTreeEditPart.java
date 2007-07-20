@@ -17,7 +17,7 @@ import urn.URNspec;
 /**
  * Editpart for textual strings used in the outline such as "Components", "Responsibilities", and "Concerns"
  * 
- * @author Etienne Tremblay, gunterm
+ * @author Etienne Tremblay, gunterm, pchen
  */
 public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -92,30 +92,33 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             list.addAll(root.getUrndef().getResponsibilities());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
             list.addAll(root.getGrlspec().getIntElements());
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"))) //$NON-NLS-1$
+            list.addAll(root.getGrlspec().getKpiInformationElements());
         else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
             list.addAll(root.getGrlspec().getActors());
-        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
+        else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) { //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.components")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.responsibilities")); //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.resources")); //$NON-NLS-1$
-        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) { //$NON-NLS-1$
             list.add(Messages.getString("LabelTreeEditPart.actorDefs")); //$NON-NLS-1$
-            list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs"));  //$NON-NLS-1$
+            list.add(Messages.getString("LabelTreeEditPart.intentionalElementDefs")); //$NON-NLS-1$
+            list.add(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs")); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.IncludedScenarios"))) { //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.StartPoints"))) { //$NON-NLS-1$
 
-		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Preconditions"))) { //$NON-NLS-1$
 
-		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.EndPoints"))) { //$NON-NLS-1$
 
-		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.Postconditions"))) { //$NON-NLS-1$
 
-		} else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
         {
-		    list.addAll(root.getUrndef().getUrnspec().getUcmspec().getResources());
+            list.addAll(root.getUrndef().getUrnspec().getUcmspec().getResources());
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
-		    list.addAll(root.getUrndef().getConcerns());
-        
+            list.addAll(root.getUrndef().getConcerns());
+
         Collections.sort(list, new EObjectClassNameComparator());
         return list;
     }
@@ -137,20 +140,21 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
             return Messages.getString("LabelTreeEditPart.componentDef"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.responsibilityDef"); //$NON-NLS-1$
-        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))){ //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.intentionalElementDefs"); //$NON-NLS-1$
-        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))){ //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"))) { //$NON-NLS-1$
+            return Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"); //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.actorDefs"); //$NON-NLS-1$
-        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))){ //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.ucmDefs"); //$NON-NLS-1$
-        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))){ //$NON-NLS-1$
+        } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) { //$NON-NLS-1$
             return Messages.getString("LabelTreeEditPart.grlDefs"); //$NON-NLS-1$
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) { //$NON-NLS-1$
             return getLabel();
         } else if (getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) { //$NON-NLS-1$
             return getLabel();
-        }
-        else
+        } else
             return null;
 
     }
@@ -160,21 +164,23 @@ public class LabelTreeEditPart extends UrnModelElementTreeEditPart {
      */
     protected Image getImage() {
         if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.components"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/Component16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Component16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.responsibilities"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/Resp16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Resp16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.grlDefs"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage( "icons/grldef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.ucmDefs"))) //$NON-NLS-1$
             setImage((JUCMNavPlugin.getImage( "icons/ucmdef16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.actorDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/GRLActor16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/GRLActor16.gif"))); //$NON-NLS-1$
         else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.intentionalElementDefs"))) //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/Softgoal16.gif"))); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.resources")))  //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/Process16.gif"))); //$NON-NLS-1$
-        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.concerns")))  //$NON-NLS-1$
-            setImage((JUCMNavPlugin.getImage( "icons/Concern16.gif"))); //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.kpiInformationElementDefs"))) //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Dimension16.gif"))); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.resources"))) //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Process16.gif"))); //$NON-NLS-1$
+        else if (super.getImage() == null && getLabel().equals(Messages.getString("LabelTreeEditPart.concerns"))) //$NON-NLS-1$
+            setImage((JUCMNavPlugin.getImage("icons/Concern16.gif"))); //$NON-NLS-1$
 
         return super.getImage();
     }

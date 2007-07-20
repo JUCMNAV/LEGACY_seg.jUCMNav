@@ -42,384 +42,384 @@ import urncore.UrncorePackage;
  * @generated
  */
 public abstract class ComponentRegularImpl extends ComponentElementImpl implements ComponentRegular {
-	/**
-	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getKind()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getKind()
+     * @generated
+     * @ordered
+     */
     protected static final ComponentKind KIND_EDEFAULT = ComponentKind.TEAM_LITERAL;
 
-	/**
-	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getKind()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getKind()
+     * @generated
+     * @ordered
+     */
     protected ComponentKind kind = KIND_EDEFAULT;
 
-	/**
-	 * The default value of the '{@link #isProtected() <em>Protected</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #isProtected() <em>Protected</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isProtected()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isProtected()
+     * @generated
+     * @ordered
+     */
     protected static final boolean PROTECTED_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isProtected() <em>Protected</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #isProtected() <em>Protected</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isProtected()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isProtected()
+     * @generated
+     * @ordered
+     */
     protected boolean protected_ = PROTECTED_EDEFAULT;
 
-	/**
-	 * The default value of the '{@link #isSlot() <em>Slot</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #isSlot() <em>Slot</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isSlot()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isSlot()
+     * @generated
+     * @ordered
+     */
     protected static final boolean SLOT_EDEFAULT = false;
 
-	/**
-	 * The cached value of the '{@link #isSlot() <em>Slot</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #isSlot() <em>Slot</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #isSlot()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #isSlot()
+     * @generated
+     * @ordered
+     */
     protected boolean slot = SLOT_EDEFAULT;
 
-	/**
-	 * The cached value of the '{@link #getIncludedComponent() <em>Included Component</em>}' reference list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getIncludedComponent() <em>Included Component</em>}' reference list.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getIncludedComponent()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getIncludedComponent()
+     * @generated
+     * @ordered
+     */
     protected EList includedComponent = null;
 
-	/**
-	 * The cached value of the '{@link #getHost() <em>Host</em>}' reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getHost() <em>Host</em>}' reference.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @see #getHost()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getHost()
+     * @generated
+     * @ordered
+     */
     protected ProcessingResource host = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected ComponentRegularImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return UrncorePackage.Literals.COMPONENT_REGULAR;
-	}
+        return UrncorePackage.Literals.COMPONENT_REGULAR;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public ComponentKind getKind() {
-		return kind;
-	}
+        return kind;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setKind(ComponentKind newKind) {
-		ComponentKind oldKind = kind;
-		kind = newKind == null ? KIND_EDEFAULT : newKind;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__KIND, oldKind, kind));
-	}
+        ComponentKind oldKind = kind;
+        kind = newKind == null ? KIND_EDEFAULT : newKind;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__KIND, oldKind, kind));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean isProtected() {
-		return protected_;
-	}
+        return protected_;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setProtected(boolean newProtected) {
-		boolean oldProtected = protected_;
-		protected_ = newProtected;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__PROTECTED, oldProtected, protected_));
-	}
+        boolean oldProtected = protected_;
+        protected_ = newProtected;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__PROTECTED, oldProtected, protected_));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public boolean isSlot() {
-		return slot;
-	}
+        return slot;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setSlot(boolean newSlot) {
-		boolean oldSlot = slot;
-		slot = newSlot;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__SLOT, oldSlot, slot));
-	}
+        boolean oldSlot = slot;
+        slot = newSlot;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__SLOT, oldSlot, slot));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EList getIncludedComponent() {
-		if (includedComponent == null) {
-			includedComponent = new EObjectWithInverseResolvingEList(ComponentElement.class, this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT);
-		}
-		return includedComponent;
-	}
+        if (includedComponent == null) {
+            includedComponent = new EObjectWithInverseResolvingEList(ComponentElement.class, this, UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT, UrncorePackage.COMPONENT_ELEMENT__INCLUDING_COMPONENT);
+        }
+        return includedComponent;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public ProcessingResource getHost() {
-		if (host != null && host.eIsProxy()) {
-			InternalEObject oldHost = (InternalEObject)host;
-			host = (ProcessingResource)eResolveProxy(oldHost);
-			if (host != oldHost) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, host));
-			}
-		}
-		return host;
-	}
+        if (host != null && host.eIsProxy()) {
+            InternalEObject oldHost = (InternalEObject)host;
+            host = (ProcessingResource)eResolveProxy(oldHost);
+            if (host != oldHost) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, host));
+            }
+        }
+        return host;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public ProcessingResource basicGetHost() {
-		return host;
-	}
+        return host;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NotificationChain basicSetHost(ProcessingResource newHost, NotificationChain msgs) {
-		ProcessingResource oldHost = host;
-		host = newHost;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, newHost);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+        ProcessingResource oldHost = host;
+        host = newHost;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, oldHost, newHost);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setHost(ProcessingResource newHost) {
-		if (newHost != host) {
-			NotificationChain msgs = null;
-			if (host != null)
-				msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
-			if (newHost != null)
-				msgs = ((InternalEObject)newHost).eInverseAdd(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
-			msgs = basicSetHost(newHost, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, newHost, newHost));
-	}
+        if (newHost != host) {
+            NotificationChain msgs = null;
+            if (host != null)
+                msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+            if (newHost != null)
+                msgs = ((InternalEObject)newHost).eInverseAdd(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+            msgs = basicSetHost(newHost, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, UrncorePackage.COMPONENT_REGULAR__HOST, newHost, newHost));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				return ((InternalEList)getIncludedComponent()).basicAdd(otherEnd, msgs);
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				if (host != null)
-					msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
-				return basicSetHost((ProcessingResource)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                return ((InternalEList)getIncludedComponent()).basicAdd(otherEnd, msgs);
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                if (host != null)
+                    msgs = ((InternalEObject)host).eInverseRemove(this, PerformancePackage.PROCESSING_RESOURCE__COMPONENTS, ProcessingResource.class, msgs);
+                return basicSetHost((ProcessingResource)otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				return ((InternalEList)getIncludedComponent()).basicRemove(otherEnd, msgs);
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				return basicSetHost(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                return ((InternalEList)getIncludedComponent()).basicRemove(otherEnd, msgs);
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                return basicSetHost(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__KIND:
-				return getKind();
-			case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
-				return isProtected() ? Boolean.TRUE : Boolean.FALSE;
-			case UrncorePackage.COMPONENT_REGULAR__SLOT:
-				return isSlot() ? Boolean.TRUE : Boolean.FALSE;
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				return getIncludedComponent();
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				if (resolve) return getHost();
-				return basicGetHost();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__KIND:
+                return getKind();
+            case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
+                return isProtected() ? Boolean.TRUE : Boolean.FALSE;
+            case UrncorePackage.COMPONENT_REGULAR__SLOT:
+                return isSlot() ? Boolean.TRUE : Boolean.FALSE;
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                return getIncludedComponent();
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                if (resolve) return getHost();
+                return basicGetHost();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__KIND:
-				setKind((ComponentKind)newValue);
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
-				setProtected(((Boolean)newValue).booleanValue());
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__SLOT:
-				setSlot(((Boolean)newValue).booleanValue());
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				getIncludedComponent().clear();
-				getIncludedComponent().addAll((Collection)newValue);
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				setHost((ProcessingResource)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__KIND:
+                setKind((ComponentKind)newValue);
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
+                setProtected(((Boolean)newValue).booleanValue());
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__SLOT:
+                setSlot(((Boolean)newValue).booleanValue());
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                getIncludedComponent().clear();
+                getIncludedComponent().addAll((Collection)newValue);
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                setHost((ProcessingResource)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__KIND:
-				setKind(KIND_EDEFAULT);
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
-				setProtected(PROTECTED_EDEFAULT);
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__SLOT:
-				setSlot(SLOT_EDEFAULT);
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				getIncludedComponent().clear();
-				return;
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				setHost((ProcessingResource)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__KIND:
+                setKind(KIND_EDEFAULT);
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
+                setProtected(PROTECTED_EDEFAULT);
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__SLOT:
+                setSlot(SLOT_EDEFAULT);
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                getIncludedComponent().clear();
+                return;
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                setHost((ProcessingResource)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case UrncorePackage.COMPONENT_REGULAR__KIND:
-				return kind != KIND_EDEFAULT;
-			case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
-				return protected_ != PROTECTED_EDEFAULT;
-			case UrncorePackage.COMPONENT_REGULAR__SLOT:
-				return slot != SLOT_EDEFAULT;
-			case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
-				return includedComponent != null && !includedComponent.isEmpty();
-			case UrncorePackage.COMPONENT_REGULAR__HOST:
-				return host != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case UrncorePackage.COMPONENT_REGULAR__KIND:
+                return kind != KIND_EDEFAULT;
+            case UrncorePackage.COMPONENT_REGULAR__PROTECTED:
+                return protected_ != PROTECTED_EDEFAULT;
+            case UrncorePackage.COMPONENT_REGULAR__SLOT:
+                return slot != SLOT_EDEFAULT;
+            case UrncorePackage.COMPONENT_REGULAR__INCLUDED_COMPONENT:
+                return includedComponent != null && !includedComponent.isEmpty();
+            case UrncorePackage.COMPONENT_REGULAR__HOST:
+                return host != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (kind: ");
-		result.append(kind);
-		result.append(", protected: ");
-		result.append(protected_);
-		result.append(", slot: ");
-		result.append(slot);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (kind: ");
+        result.append(kind);
+        result.append(", protected: ");
+        result.append(protected_);
+        result.append(", slot: ");
+        result.append(slot);
+        result.append(')');
+        return result.toString();
+    }
 
 } //ComponentRegularImpl

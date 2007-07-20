@@ -16,8 +16,8 @@ import seg.jUCMNav.views.property.IntentionalElementPropertySource;
 /**
  * TreeEditPart for IntentionalElementRef
  * 
- * @author Jean-François Roy
- *
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPart {
 
@@ -46,7 +46,7 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
         if (getIntentionalElementRef().getDef() != null)
             getIntentionalElementRef().getDef().eAdapters().remove(this);
     }
-    
+
     /**
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
@@ -70,14 +70,16 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
 
         if (super.getImage() == null && element.getDef() != null) {
             if (element.getDef().getType().getValue() == IntentionalElementType.GOAL)
-                setImage((JUCMNavPlugin.getImage( "icons/Goal16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Goal16.gif"))); //$NON-NLS-1$
             else if (element.getDef().getType().getValue() == IntentionalElementType.SOFTGOAL)
-                setImage((JUCMNavPlugin.getImage( "icons/Softgoal16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Softgoal16.gif"))); //$NON-NLS-1$
             else if (element.getDef().getType().getValue() == IntentionalElementType.TASK)
-                setImage((JUCMNavPlugin.getImage( "icons/Task16.gif"))); //$NON-NLS-1$
+                setImage((JUCMNavPlugin.getImage("icons/Task16.gif"))); //$NON-NLS-1$
             else if (element.getDef().getType().getValue() == IntentionalElementType.RESSOURCE)
-                setImage((JUCMNavPlugin.getImage( "icons/Resource16.gif"))); //$NON-NLS-1$
-        } 
+                setImage((JUCMNavPlugin.getImage("icons/Resource16.gif"))); //$NON-NLS-1$
+            else if (element.getDef().getType().getValue() == IntentionalElementType.INDICATOR)
+                setImage((JUCMNavPlugin.getImage("icons/Indicator16.gif"))); //$NON-NLS-1$
+        }
 
         return super.getImage();
     }
@@ -92,15 +94,15 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
             EStructuralFeature structuralFeature = (EStructuralFeature) notification.getFeature();
             if (structuralFeature.getEType().getInstanceClass() == IntentionalElementType.class) {
                 // next getImage() will refresh it. (refreshVisuals() in parent will do it)
-//                if (getImage() != null) {
-//                    getImage().dispose();
-//                    setImage(null);
-//                }
+                // if (getImage() != null) {
+                // getImage().dispose();
+                // setImage(null);
+                // }
             }
         }
         super.notifyChanged(notification);
     }
-    
+
     /**
      * Returns a IntentionalElementPropertySource
      * 
@@ -108,7 +110,7 @@ public class IntentionalElementRefTreeEditPart extends UrnModelElementTreeEditPa
      */
     protected IPropertySource getPropertySource() {
         if (propertySource == null)
-            propertySource = new IntentionalElementPropertySource((IntentionalElementRef)getModel());
+            propertySource = new IntentionalElementPropertySource((IntentionalElementRef) getModel());
 
         return propertySource;
     }

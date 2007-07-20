@@ -2,6 +2,7 @@ package seg.jUCMNav.editparts.treeEditparts;
 
 import grl.IntentionalElement;
 import grl.IntentionalElementType;
+import grl.kpimodel.Indicator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,15 @@ import seg.jUCMNav.figures.ColorManager;
 
 /**
  * TreeEditPart for the intentional elements
- *
- * @author Jean-François Roy
- *
+ * 
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart {
 
     /**
      * @param model
-     *          the intentionalElement definition
+     *            the intentionalElement definition
      */
     public IntentionalElementTreeEditPart(Object model) {
         super(model);
@@ -43,12 +44,12 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
     protected IntentionalElement getElement() {
         return (IntentionalElement) getModel();
     }
-    
+
     /**
      * Returns the icon appropriate for this element type
      */
     protected Image getImage() {
-        if (super.getImage() == null) {       
+        if (super.getImage() == null) {
             if (getElement().getType().getValue() == IntentionalElementType.GOAL)
                 setImage((JUCMNavPlugin.getImage( "icons/Goal16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.SOFTGOAL)
@@ -57,6 +58,8 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
                 setImage((JUCMNavPlugin.getImage( "icons/Task16.gif"))); //$NON-NLS-1$
             else if (getElement().getType().getValue() == IntentionalElementType.RESSOURCE)
                 setImage((JUCMNavPlugin.getImage( "icons/Resource16.gif"))); //$NON-NLS-1$
+            else if (getElement().getType().getValue() == IntentionalElementType.INDICATOR)
+                setImage((JUCMNavPlugin.getImage( "icons/Indicator16.gif"))); //$NON-NLS-1$
         }
 
         return super.getImage();
@@ -69,11 +72,15 @@ public class IntentionalElementTreeEditPart extends UrnModelElementTreeEditPart 
         ArrayList list = new ArrayList();
         list.addAll(getElement().getLinksSrc());
         list.addAll(getElement().getLinksDest());
-        
+
+        if (getElement() instanceof Indicator) {
+            list.addAll(((Indicator) getElement()).getKpiModelLinksDest());
+        }
+
         return list;
 
     }
-    
+
     /**
      * Sets unused definitions to a lighter color.
      * 

@@ -42,314 +42,314 @@ import urncore.impl.UCMmodelElementImpl;
  * @generated
  */
 public abstract class GeneralResourceImpl extends UCMmodelElementImpl implements GeneralResource {
-	/**
-	 * The default value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMultiplicity()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getMultiplicity()
+     * @generated
+     * @ordered
+     */
 	protected static final String MULTIPLICITY_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getMultiplicity() <em>Multiplicity</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getMultiplicity()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getMultiplicity()
+     * @generated
+     * @ordered
+     */
 	protected String multiplicity = MULTIPLICITY_EDEFAULT;
 
-	/**
-	 * The default value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The default value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSchedPolicy()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSchedPolicy()
+     * @generated
+     * @ordered
+     */
 	protected static final String SCHED_POLICY_EDEFAULT = null;
 
-	/**
-	 * The cached value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getSchedPolicy() <em>Sched Policy</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSchedPolicy()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getSchedPolicy()
+     * @generated
+     * @ordered
+     */
 	protected String schedPolicy = SCHED_POLICY_EDEFAULT;
 
-	/**
-	 * The cached value of the '{@link #getPerfMeasures() <em>Perf Measures</em>}' reference list.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getPerfMeasures() <em>Perf Measures</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPerfMeasures()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getPerfMeasures()
+     * @generated
+     * @ordered
+     */
 	protected EList perfMeasures = null;
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected GeneralResourceImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return PerformancePackage.Literals.GENERAL_RESOURCE;
-	}
+        return PerformancePackage.Literals.GENERAL_RESOURCE;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String getMultiplicity() {
-		return multiplicity;
-	}
+        return multiplicity;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setMultiplicity(String newMultiplicity) {
-		String oldMultiplicity = multiplicity;
-		multiplicity = newMultiplicity;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY, oldMultiplicity, multiplicity));
-	}
+        String oldMultiplicity = multiplicity;
+        multiplicity = newMultiplicity;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY, oldMultiplicity, multiplicity));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String getSchedPolicy() {
-		return schedPolicy;
-	}
+        return schedPolicy;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setSchedPolicy(String newSchedPolicy) {
-		String oldSchedPolicy = schedPolicy;
-		schedPolicy = newSchedPolicy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY, oldSchedPolicy, schedPolicy));
-	}
+        String oldSchedPolicy = schedPolicy;
+        schedPolicy = newSchedPolicy;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY, oldSchedPolicy, schedPolicy));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public UCMspec getUcmspec() {
-		if (eContainerFeatureID != PerformancePackage.GENERAL_RESOURCE__UCMSPEC) return null;
-		return (UCMspec)eContainer();
-	}
+        if (eContainerFeatureID != PerformancePackage.GENERAL_RESOURCE__UCMSPEC) return null;
+        return (UCMspec)eContainer();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetUcmspec(UCMspec newUcmspec, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newUcmspec, PerformancePackage.GENERAL_RESOURCE__UCMSPEC, msgs);
-		return msgs;
-	}
+        msgs = eBasicSetContainer((InternalEObject)newUcmspec, PerformancePackage.GENERAL_RESOURCE__UCMSPEC, msgs);
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public void setUcmspec(UCMspec newUcmspec) {
-		if (newUcmspec != eInternalContainer() || (eContainerFeatureID != PerformancePackage.GENERAL_RESOURCE__UCMSPEC && newUcmspec != null)) {
-			if (EcoreUtil.isAncestor(this, newUcmspec))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newUcmspec != null)
-				msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
-			msgs = basicSetUcmspec(newUcmspec, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__UCMSPEC, newUcmspec, newUcmspec));
-	}
+        if (newUcmspec != eInternalContainer() || (eContainerFeatureID != PerformancePackage.GENERAL_RESOURCE__UCMSPEC && newUcmspec != null)) {
+            if (EcoreUtil.isAncestor(this, newUcmspec))
+                throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+            NotificationChain msgs = null;
+            if (eInternalContainer() != null)
+                msgs = eBasicRemoveFromContainer(msgs);
+            if (newUcmspec != null)
+                msgs = ((InternalEObject)newUcmspec).eInverseAdd(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
+            msgs = basicSetUcmspec(newUcmspec, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, PerformancePackage.GENERAL_RESOURCE__UCMSPEC, newUcmspec, newUcmspec));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList getPerfMeasures() {
-		if (perfMeasures == null) {
-			perfMeasures = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, PerformancePackage.PERF_MEASURE__RESOURCE);
-		}
-		return perfMeasures;
-	}
+        if (perfMeasures == null) {
+            perfMeasures = new EObjectWithInverseResolvingEList(PerfMeasure.class, this, PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES, PerformancePackage.PERF_MEASURE__RESOURCE);
+        }
+        return perfMeasures;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetUcmspec((UCMspec)otherEnd, msgs);
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				return ((InternalEList)getPerfMeasures()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                if (eInternalContainer() != null)
+                    msgs = eBasicRemoveFromContainer(msgs);
+                return basicSetUcmspec((UCMspec)otherEnd, msgs);
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                return ((InternalEList)getPerfMeasures()).basicAdd(otherEnd, msgs);
+        }
+        return super.eInverseAdd(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				return basicSetUcmspec(null, msgs);
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				return ((InternalEList)getPerfMeasures()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                return basicSetUcmspec(null, msgs);
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                return ((InternalEList)getPerfMeasures()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID) {
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				return eInternalContainer().eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
+        switch (eContainerFeatureID) {
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                return eInternalContainer().eInverseRemove(this, UcmPackage.UC_MSPEC__RESOURCES, UCMspec.class, msgs);
+        }
+        return super.eBasicRemoveFromContainerFeature(msgs);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
-				return getMultiplicity();
-			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
-				return getSchedPolicy();
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				return getUcmspec();
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				return getPerfMeasures();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+                return getMultiplicity();
+            case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+                return getSchedPolicy();
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                return getUcmspec();
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                return getPerfMeasures();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
-				setMultiplicity((String)newValue);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
-				setSchedPolicy((String)newValue);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				setUcmspec((UCMspec)newValue);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				getPerfMeasures().clear();
-				getPerfMeasures().addAll((Collection)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+                setMultiplicity((String)newValue);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+                setSchedPolicy((String)newValue);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                setUcmspec((UCMspec)newValue);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                getPerfMeasures().clear();
+                getPerfMeasures().addAll((Collection)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
-				setMultiplicity(MULTIPLICITY_EDEFAULT);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
-				setSchedPolicy(SCHED_POLICY_EDEFAULT);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				setUcmspec((UCMspec)null);
-				return;
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				getPerfMeasures().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+                setMultiplicity(MULTIPLICITY_EDEFAULT);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+                setSchedPolicy(SCHED_POLICY_EDEFAULT);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                setUcmspec((UCMspec)null);
+                return;
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                getPerfMeasures().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
-				return MULTIPLICITY_EDEFAULT == null ? multiplicity != null : !MULTIPLICITY_EDEFAULT.equals(multiplicity);
-			case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
-				return SCHED_POLICY_EDEFAULT == null ? schedPolicy != null : !SCHED_POLICY_EDEFAULT.equals(schedPolicy);
-			case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
-				return getUcmspec() != null;
-			case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
-				return perfMeasures != null && !perfMeasures.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case PerformancePackage.GENERAL_RESOURCE__MULTIPLICITY:
+                return MULTIPLICITY_EDEFAULT == null ? multiplicity != null : !MULTIPLICITY_EDEFAULT.equals(multiplicity);
+            case PerformancePackage.GENERAL_RESOURCE__SCHED_POLICY:
+                return SCHED_POLICY_EDEFAULT == null ? schedPolicy != null : !SCHED_POLICY_EDEFAULT.equals(schedPolicy);
+            case PerformancePackage.GENERAL_RESOURCE__UCMSPEC:
+                return getUcmspec() != null;
+            case PerformancePackage.GENERAL_RESOURCE__PERF_MEASURES:
+                return perfMeasures != null && !perfMeasures.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String toString() {
-		if (eIsProxy()) return super.toString();
+        if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (multiplicity: ");
-		result.append(multiplicity);
-		result.append(", schedPolicy: ");
-		result.append(schedPolicy);
-		result.append(')');
-		return result.toString();
-	}
+        StringBuffer result = new StringBuffer(super.toString());
+        result.append(" (multiplicity: ");
+        result.append(multiplicity);
+        result.append(", schedPolicy: ");
+        result.append(schedPolicy);
+        result.append(')');
+        return result.toString();
+    }
 
 } //GeneralResourceImpl

@@ -9,9 +9,10 @@ import org.eclipse.gef.requests.GroupRequest;
 import seg.jUCMNav.model.commands.delete.DeleteGRLNodeCommand;
 
 /**
- * ComponentEditPolicy for GRLNode (Belief and IntentionalElementRef). Return the delete command
- * @author Jean-François Roy
- *
+ * ComponentEditPolicy for GRLNode (Belief and IntentionalElementRef and KPIModelElementRef). Return the delete command
+ * 
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class GRLNodeComponentEditPolicy extends ComponentEditPolicy {
 

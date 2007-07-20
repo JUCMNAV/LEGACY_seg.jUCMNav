@@ -11,7 +11,7 @@ import seg.jUCMNav.views.preferences.GeneralPreferencePage;
  * This is a helper class that manages instances of the {@link Color} class. We're only creating one instance of each color, to prevent using up useless
  * handles.
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  * 
  */
 public class ColorManager {
@@ -35,6 +35,7 @@ public class ColorManager {
     public static Color FILL = WHITE;
     public static Color STUBLABEL;
     public static Color LINKREFLABEL;
+    public static Color KPIMODELLINKREFLABEL;
     public static Color CONDITIONLABEL;
 
     static {
@@ -93,7 +94,15 @@ public class ColorManager {
         // }
         rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_LINKREFLABELCOLOR);
         LINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
-
+        
+        // if (KPIMODELLINKREFLABEL!=null)
+        // {
+        // KPIMODELLINKREFLABEL.dispose();
+        // KPIMODELLINKREFLABEL=null;
+        // }
+        rgb = PreferenceConverter.getColor(JUCMNavPlugin.getDefault().getPreferenceStore(), GeneralPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR);
+        KPIMODELLINKREFLABEL = new Color(null, rgb.red, rgb.green, rgb.blue);
+        
         // if (STUBLABEL!=null)
         // {
         // STUBLABEL.dispose();

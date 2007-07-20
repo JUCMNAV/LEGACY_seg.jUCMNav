@@ -2,6 +2,8 @@ package seg.jUCMNav.views.wizards.metadata;
 
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -76,7 +78,7 @@ public class MetadataEditor extends Wizard {
         CompoundCommand cmd = new CompoundCommand();
         for (Iterator iter = metadataMap.entrySet().iterator(); iter.hasNext();) {
             Map.Entry entry = (Map.Entry) iter.next();
-            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[])entry.getValue()));
+            cmd.add(new ChangeMetadataCommand((EObject) entry.getKey(), (Metadata[]) entry.getValue()));
         }
 
         if (cmd.canExecute()) {
@@ -110,11 +112,14 @@ public class MetadataEditor extends Wizard {
 
         // This code prevents the addition of metadata on *references* to intentional elements
         // and components. This was also prevented for responsibility references in the past
-        // but this had to be allowed for CSM export. 
+        // but this had to be allowed for CSM export.
         // Daniel is actually not sure why this should be prevented...
         if (defaultSelected instanceof IntentionalElementRef) {
             IntentionalElement intentionalElem = ((IntentionalElementRef) defaultSelected).getDef();
             this.defaultSelected = intentionalElem;
+        } else if (defaultSelected instanceof KPIInformationElementRef) {
+            KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) defaultSelected).getDef();
+            this.defaultSelected = kpiInformationElem;
         } else if (defaultSelected instanceof ComponentRef) {
             ComponentElement compElem = (ComponentElement) ((ComponentRef) defaultSelected).getContDef();
             this.defaultSelected = compElem;
@@ -149,13 +154,19 @@ public class MetadataEditor extends Wizard {
 
                             // This code prevents the addition of metadata on *references* to intentional elements
                             // and components. This was also prevented for responsibility references in the past
-                            // but this had to be allowed for CSM export. 
+                            // but this had to be allowed for CSM export.
                             // Daniel is actually not sure why this should be prevented...
                             if (urnelem instanceof IntentionalElementRef) {
                                 IntentionalElement intentionalElem = ((IntentionalElementRef) urnelem).getDef();
 
                                 if (intentionalElem != null && !v.contains(intentionalElem)) {
                                     v.add(intentionalElem);
+                                }
+                            } else if (urnelem instanceof KPIInformationElementRef) {
+                                KPIInformationElement kpiInformationElem = ((KPIInformationElementRef) urnelem).getDef();
+
+                                if (kpiInformationElem != null && !v.contains(kpiInformationElem)) {
+                                    v.add(kpiInformationElem);
                                 }
                             } else if (urnelem instanceof ComponentRef) {
                                 ComponentElement compElem = (ComponentElement) ((ComponentRef) urnelem).getContDef();

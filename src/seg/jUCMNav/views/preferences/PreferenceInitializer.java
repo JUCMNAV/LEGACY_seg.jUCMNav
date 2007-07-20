@@ -10,7 +10,7 @@ import seg.jUCMNav.figures.ColorManager;
 /**
  * Class used to initialize default preference values.
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
@@ -22,13 +22,14 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_STUBLABELCOLOR, ColorManager.PURPLE.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_CONDITIONLABELCOLOR, ColorManager.VERYDARKGRAY.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
+        PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_KPIMODELLINKREFLABELCOLOR, ColorManager.DARKGRAY.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_FILLCOLOR, ColorManager.WHITE.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_LINECOLOR, ColorManager.BLACK.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_SELECTEDCOLOR, ColorManager.BLUE.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_HOVERCOLOR, ColorManager.LIGHTGRAY.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_TRAVERSALCOLOR, ColorManager.RED.getRGB());
         PreferenceConverter.setDefault(store, GeneralPreferencePage.PREF_POINTCUTBORDERCOLOR, ColorManager.DARKGRAY.getRGB());
-        
+
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_AUTHOR, System.getProperty("user.name")); //$NON-NLS-1$
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_STRICTCODEEDITOR, true);
         JUCMNavPlugin.getDefault().getPreferenceStore().setDefault(GeneralPreferencePage.PREF_GRLICONVISIBLE, true);
@@ -42,7 +43,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
         ScenarioTraversalPreferences.createPreferences();
         StrategyEvaluationPreferences.createPreferences();
         ScenarioExportPreferences.createPreferences();
-
+        KPIMonitoringPreferences.createPreferences();
     }
 
 }

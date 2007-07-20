@@ -21,22 +21,22 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public class DependencyImpl extends ElementLinkImpl implements Dependency {
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected DependencyImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     protected EClass eStaticClass() {
-		return GrlPackage.Literals.DEPENDENCY;
-	}
+        return GrlPackage.Literals.DEPENDENCY;
+    }
 
 } //DependencyImpl

@@ -119,6 +119,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.views,
  org.eclipse.emf.ecore.xmi,
  org.junit,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ org.apache.axis;resolution:=optional
 Eclipse-LazyStart: true
 

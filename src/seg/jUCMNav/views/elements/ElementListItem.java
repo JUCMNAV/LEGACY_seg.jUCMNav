@@ -16,11 +16,10 @@ import seg.jUCMNav.views.compositeList.CompositeListControl;
 import seg.jUCMNav.views.compositeList.CompositeListItem;
 
 /**
- * A CompositeListItem representing a responsibility reference, or and IntentionalElementRef 
- * used in the Elements view.
+ * A CompositeListItem representing a responsibility reference, or and IntentionalElementRef, or and KPIInformationElementRef used in the Elements view.
  * 
- * @author Etienne Tremblay
- *  
+ * @author Etienne Tremblay, pchen
+ * 
  */
 public class ElementListItem extends CompositeListItem {
 
@@ -67,7 +66,7 @@ public class ElementListItem extends CompositeListItem {
                 fireSelected(e);
             }
         });
-        
+
     }
 
     public void select() {
@@ -120,22 +119,22 @@ public class ElementListItem extends CompositeListItem {
 
     /**
      * @param path
-     *          The image to set. Default image is the responsibility image
+     *            The image to set. Default image is the responsibility image
      */
-    public void setElementImg(String path){
-    	InputStream stream = ElementListItem.class.getResourceAsStream(path);
+    public void setElementImg(String path) {
+        InputStream stream = ElementListItem.class.getResourceAsStream(path);
         lblIcon.setImage(new Image(Display.getCurrent(), stream));
         lblIcon.setBackground(ColorManager.WHITE);
         try {
-			stream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /**
      * This method initializes composite
-     *  
+     * 
      */
     private void createComposite() {
         GridData gridData3 = new GridData();
@@ -146,14 +145,14 @@ public class ElementListItem extends CompositeListItem {
         lblName = new Label(composite, SWT.NONE);
         lblName.setBackground(org.eclipse.swt.widgets.Display.getDefault().getSystemColor(org.eclipse.swt.SWT.COLOR_WHITE));
         lblIcon.setText(""); //$NON-NLS-1$
-    	InputStream stream = getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif");//$NON-NLS-1$
-    	lblIcon.setImage(new Image(Display.getCurrent(), stream)); 
+        InputStream stream = getClass().getResourceAsStream("/seg/jUCMNav/icons/Resp16.gif");//$NON-NLS-1$
+        lblIcon.setImage(new Image(Display.getCurrent(), stream));
         try {
-			stream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}        
-        
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         lblName.setText(""); //$NON-NLS-1$
         lblName.setLayoutData(gridData3);
         lblName.setFont(new org.eclipse.swt.graphics.Font(org.eclipse.swt.widgets.Display.getDefault(), "Tahoma", 8, org.eclipse.swt.SWT.BOLD)); //$NON-NLS-1$
@@ -185,4 +184,4 @@ public class ElementListItem extends CompositeListItem {
             }
         });
     }
-} //  @jve:decl-index=0:visual-constraint="10,10"
+} // @jve:decl-index=0:visual-constraint="10,10"

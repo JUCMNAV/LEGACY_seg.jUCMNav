@@ -7,7 +7,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 /**
  * Defines what our perspective should look like.
  * 
- * @author Etienne Tremblay
+ * @author Etienne Tremblay, pchen
  */
 public class UCMPerspectiveFactory implements IPerspectiveFactory {
 
@@ -34,10 +34,12 @@ public class UCMPerspectiveFactory implements IPerspectiveFactory {
 
 		IFolderLayout bottomMiddle = layout.createFolder("bottomMiddle", IPageLayout.BOTTOM, 0.75f, editorArea); //$NON-NLS-1$
 		bottomMiddle.addView("seg.jUCMNav.views.StrategiesView"); //$NON-NLS-1$
+        bottomMiddle.addView("seg.jUCMNav.views.KPIListView"); //$NON-NLS-1$
 
 		IFolderLayout bottomRight = layout.createFolder("bottomRight", IPageLayout.RIGHT, 0.34f, "bottomMiddle"); //$NON-NLS-1$ //$NON-NLS-2$
 		bottomRight.addView(IPageLayout.ID_PROP_SHEET);
 		bottomRight.addView(IPageLayout.ID_PROBLEM_VIEW);
+        bottomRight.addView("seg.jUCMNav.views.KPIView"); //$NON-NLS-1$
 
 		layout.addPerspectiveShortcut(UCMPerspectiveFactoryExecution.JUCMNAV_PERSPECTIVE_ID);
 	}

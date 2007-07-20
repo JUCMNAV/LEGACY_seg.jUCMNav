@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
+import urncore.*;
+
 import urncore.Component;
 import urncore.ComponentKind;
 import urncore.ComponentLabel;
@@ -36,257 +38,257 @@ import urncore.UrncorePackage;
  * @generated
  */
 public class UrncoreFactoryImpl extends EFactoryImpl implements UrncoreFactory {
-	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static UrncoreFactory init() {
-		try {
-			UrncoreFactory theUrncoreFactory = (UrncoreFactory)EPackage.Registry.INSTANCE.getEFactory("http:///urncore.ecore"); 
-			if (theUrncoreFactory != null) {
-				return theUrncoreFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new UrncoreFactoryImpl();
-	}
+        try {
+            UrncoreFactory theUrncoreFactory = (UrncoreFactory)EPackage.Registry.INSTANCE.getEFactory("http:///urncore.ecore"); 
+            if (theUrncoreFactory != null) {
+                return theUrncoreFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new UrncoreFactoryImpl();
+    }
 
-	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+    /**
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public UrncoreFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case UrncorePackage.UR_NDEFINITION: return createURNdefinition();
-			case UrncorePackage.RESPONSIBILITY: return createResponsibility();
-			case UrncorePackage.POOL: return createPool();
-			case UrncorePackage.COMPONENT: return createComponent();
-			case UrncorePackage.COMPONENT_TYPE: return createComponentType();
-			case UrncorePackage.DYNAMIC_RESPONSIBILITY: return createDynamicResponsibility();
-			case UrncorePackage.NODE_LABEL: return createNodeLabel();
-			case UrncorePackage.COMPONENT_LABEL: return createComponentLabel();
-			case UrncorePackage.CONDITION: return createCondition();
-			case UrncorePackage.METADATA: return createMetadata();
-			case UrncorePackage.CONCERN: return createConcern();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case UrncorePackage.UR_NDEFINITION: return createURNdefinition();
+            case UrncorePackage.RESPONSIBILITY: return createResponsibility();
+            case UrncorePackage.POOL: return createPool();
+            case UrncorePackage.COMPONENT: return createComponent();
+            case UrncorePackage.COMPONENT_TYPE: return createComponentType();
+            case UrncorePackage.DYNAMIC_RESPONSIBILITY: return createDynamicResponsibility();
+            case UrncorePackage.NODE_LABEL: return createNodeLabel();
+            case UrncorePackage.COMPONENT_LABEL: return createComponentLabel();
+            case UrncorePackage.CONDITION: return createCondition();
+            case UrncorePackage.METADATA: return createMetadata();
+            case UrncorePackage.CONCERN: return createConcern();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case UrncorePackage.COMPONENT_KIND:
-				return createComponentKindFromString(eDataType, initialValue);
-			case UrncorePackage.DYNAMIC_RESP_KIND:
-				return createDynamicRespKindFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case UrncorePackage.COMPONENT_KIND:
+                return createComponentKindFromString(eDataType, initialValue);
+            case UrncorePackage.DYNAMIC_RESP_KIND:
+                return createDynamicRespKindFromString(eDataType, initialValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case UrncorePackage.COMPONENT_KIND:
-				return convertComponentKindToString(eDataType, instanceValue);
-			case UrncorePackage.DYNAMIC_RESP_KIND:
-				return convertDynamicRespKindToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eDataType.getClassifierID()) {
+            case UrncorePackage.COMPONENT_KIND:
+                return convertComponentKindToString(eDataType, instanceValue);
+            case UrncorePackage.DYNAMIC_RESP_KIND:
+                return convertDynamicRespKindToString(eDataType, instanceValue);
+            default:
+                throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        }
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public URNdefinition createURNdefinition() {
-		URNdefinitionImpl urNdefinition = new URNdefinitionImpl();
-		return urNdefinition;
-	}
+        URNdefinitionImpl urNdefinition = new URNdefinitionImpl();
+        return urNdefinition;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Responsibility createResponsibility() {
-		ResponsibilityImpl responsibility = new ResponsibilityImpl();
-		return responsibility;
-	}
+        ResponsibilityImpl responsibility = new ResponsibilityImpl();
+        return responsibility;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Pool createPool() {
-		PoolImpl pool = new PoolImpl();
-		return pool;
-	}
+        PoolImpl pool = new PoolImpl();
+        return pool;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Component createComponent() {
-		ComponentImpl component = new ComponentImpl();
-		return component;
-	}
+        ComponentImpl component = new ComponentImpl();
+        return component;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public ComponentType createComponentType() {
-		ComponentTypeImpl componentType = new ComponentTypeImpl();
-		return componentType;
-	}
+        ComponentTypeImpl componentType = new ComponentTypeImpl();
+        return componentType;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public DynamicResponsibility createDynamicResponsibility() {
-		DynamicResponsibilityImpl dynamicResponsibility = new DynamicResponsibilityImpl();
-		return dynamicResponsibility;
-	}
+        DynamicResponsibilityImpl dynamicResponsibility = new DynamicResponsibilityImpl();
+        return dynamicResponsibility;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public NodeLabel createNodeLabel() {
-		NodeLabelImpl nodeLabel = new NodeLabelImpl();
-		return nodeLabel;
-	}
+        NodeLabelImpl nodeLabel = new NodeLabelImpl();
+        return nodeLabel;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public ComponentLabel createComponentLabel() {
-		ComponentLabelImpl componentLabel = new ComponentLabelImpl();
-		return componentLabel;
-	}
+        ComponentLabelImpl componentLabel = new ComponentLabelImpl();
+        return componentLabel;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public Condition createCondition() {
-		ConditionImpl condition = new ConditionImpl();
-		return condition;
-	}
+        ConditionImpl condition = new ConditionImpl();
+        return condition;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Metadata createMetadata() {
-		MetadataImpl metadata = new MetadataImpl();
-		return metadata;
-	}
+        MetadataImpl metadata = new MetadataImpl();
+        return metadata;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Concern createConcern() {
-		ConcernImpl concern = new ConcernImpl();
-		return concern;
-	}
+        ConcernImpl concern = new ConcernImpl();
+        return concern;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ComponentKind createComponentKindFromString(EDataType eDataType, String initialValue) {
-		ComponentKind result = ComponentKind.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
+        ComponentKind result = ComponentKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String convertComponentKindToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
+        return instanceValue == null ? null : instanceValue.toString();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public DynamicRespKind createDynamicRespKindFromString(EDataType eDataType, String initialValue) {
-		DynamicRespKind result = DynamicRespKind.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
+        DynamicRespKind result = DynamicRespKind.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public String convertDynamicRespKindToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
+        return instanceValue == null ? null : instanceValue.toString();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
     public UrncorePackage getUrncorePackage() {
-		return (UrncorePackage)getEPackage();
-	}
+        return (UrncorePackage)getEPackage();
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
     public static UrncorePackage getPackage() {
-		return UrncorePackage.eINSTANCE;
-	}
+        return UrncorePackage.eINSTANCE;
+    }
 
 } //UrncoreFactoryImpl

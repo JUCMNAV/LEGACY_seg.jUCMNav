@@ -13,12 +13,13 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 import seg.jUCMNav.model.commands.create.AddBeliefLinkCommand;
 import seg.jUCMNav.model.commands.create.CreateElementLinkCommand;
+import seg.jUCMNav.model.commands.create.CreateKPIModelLinkCommand;
 
 /**
  * Edit policy to create connection between Intentional Element references
  * 
- * @author Jean-François Roy
- *
+ * @author Jean-François Roy, pchen
+ * 
  */
 public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
 
@@ -36,10 +37,12 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
      */
     protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
         Command cmd = request.getStartCommand();
-        if (cmd instanceof AddBeliefLinkCommand){            
-            ((AddBeliefLinkCommand)cmd).setTarget((IntentionalElementRef) getHost().getModel());
-        } else{
-            ((CreateElementLinkCommand)cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
+        if (cmd instanceof AddBeliefLinkCommand) {
+            ((AddBeliefLinkCommand) cmd).setTarget((IntentionalElementRef) getHost().getModel());
+        } else if (cmd instanceof CreateKPIModelLinkCommand) {
+            ((CreateKPIModelLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
+        } else {
+            ((CreateElementLinkCommand) cmd).setTarget(((IntentionalElementRef) getHost().getModel()).getDef());
         }
         return cmd;
     }
@@ -50,33 +53,40 @@ public class IntentionalElementNodeEditPolicy extends GraphicalNodeEditPolicy {
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getConnectionCreateCommand(org.eclipse.gef.requests.CreateConnectionRequest)
      */
     protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-        if (request.getNewObject() instanceof ElementLink){
+        if (request.getNewObject() instanceof ElementLink) {
             IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
-            CreateElementLinkCommand  cmd = new CreateElementLinkCommand (source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), (ElementLink)request.getNewObject());
+            CreateElementLinkCommand cmd = new CreateElementLinkCommand(source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
+                    (ElementLink) request.getNewObject());
             request.setStartCommand(cmd);
             return cmd;
-        } 
+        }
         return null;
     }
 
-    /* not implemented
+    /*
+     * not implemented
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectTargetCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectTargetCommand(ReconnectRequest request) {
-        //IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
-        //CreateElementLinkCommand  cmd = new CreateElementLinkCommand (source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), (ElementLink)request.getTarget());
-        //request.setStartCommand(cmd);
+        // IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
+        // CreateElementLinkCommand cmd = new CreateElementLinkCommand (source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
+        // (ElementLink)request.getTarget());
+        // request.setStartCommand(cmd);
         return null;
 
     }
 
-    /* not implemented
+    /*
+     * not implemented
+     * 
      * @see org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy#getReconnectSourceCommand(org.eclipse.gef.requests.ReconnectRequest)
      */
     protected Command getReconnectSourceCommand(ReconnectRequest request) {
-        //IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
-        //CreateElementLinkCommand  cmd = new CreateElementLinkCommand (source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(), (ElementLink)request.getTarget());
-        //request.setStartCommand(cmd);
+        // IntentionalElementRef source = (IntentionalElementRef) getHost().getModel();
+        // CreateElementLinkCommand cmd = new CreateElementLinkCommand (source.getDiagram().getUrndefinition().getUrnspec(), source.getDef(),
+        // (ElementLink)request.getTarget());
+        // request.setStartCommand(cmd);
         return null;
 
     }

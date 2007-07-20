@@ -1,6 +1,7 @@
 package seg.jUCMNav.views.property;
 
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.Vector;
 
@@ -18,13 +19,13 @@ import urncore.NodeLabel;
  * Property source for labels. Extends URNElementPropertySource to obtain all necessary behaviour to list a label's properties. Includes an EPropertySource to
  * include all the properties of the labeled element.
  * 
- * @author jkealey
- *  
+ * @author jkealey, pchen
+ * 
  */
 public class LabelPropertySource extends URNElementPropertySource {
 
     URNElementPropertySource referencePS;
-    
+
     /**
      * @param obj
      *            Must be a ComponentLabel or a NodeLabel.
@@ -43,6 +44,8 @@ public class LabelPropertySource extends URNElementPropertySource {
                     referencePS = new ResponsibilityPropertySource(pn);
                 else if (pn instanceof IntentionalElementRef)
                     referencePS = new IntentionalElementPropertySource(pn);
+                else if (pn instanceof KPIInformationElementRef)
+                    referencePS = new KPIInformationElementPropertySource(pn);
                 else
                     referencePS = new URNElementPropertySource(pn);
             }

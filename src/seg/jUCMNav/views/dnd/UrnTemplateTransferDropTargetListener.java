@@ -4,6 +4,8 @@ import grl.Actor;
 import grl.ActorRef;
 import grl.IntentionalElement;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElement;
+import grl.kpimodel.KPIInformationElementRef;
 
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.requests.CreationFactory;
@@ -18,7 +20,7 @@ import urncore.Responsibility;
 /**
  * Drag target setup on the UcmEditor and GrlEditor.
  * 
- * @author jkealey
+ * @author jkealey, pchen
  */
 public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropTargetListener {
 
@@ -46,21 +48,21 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
      */
     protected CreationFactory getFactory(Object template) {
         // return new SimpleFactory((Class) template);
-        if (lastTemplate==template)
+        if (lastTemplate == template)
             return lastFactory;
         else {
             lastTemplate = template;
             lastFactory = null;
         }
-            
+
         if (template instanceof ComponentRef || template instanceof Component) {
             Object definition = template;
 
             if (definition instanceof ComponentRef)
                 definition = ((ComponentRef) definition).getContDef();
 
-            
-            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, ((Component)definition).getKind().getValue(), definition);
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), ComponentRef.class, ((Component) definition).getKind()
+                    .getValue(), definition);
         }
 
         if (template instanceof Responsibility || template instanceof RespRef) {
@@ -87,8 +89,18 @@ public class UrnTemplateTransferDropTargetListener extends TemplateTransferDropT
             if (definition instanceof IntentionalElementRef)
                 definition = ((IntentionalElementRef) definition).getDef();
 
-            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class, ((IntentionalElement) definition)
-                    .getType().getValue(), definition);
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), IntentionalElementRef.class,
+                    ((IntentionalElement) definition).getType().getValue(), definition);
+
+        }
+
+        if (template instanceof KPIInformationElement || template instanceof KPIInformationElementRef) {
+            Object definition = template;
+
+            if (definition instanceof KPIInformationElementRef)
+                definition = ((KPIInformationElementRef) definition).getDef();
+
+            lastFactory = new ModelCreationFactory(editor.getModel().getUrndefinition().getUrnspec(), KPIInformationElementRef.class, definition);
 
         }
 

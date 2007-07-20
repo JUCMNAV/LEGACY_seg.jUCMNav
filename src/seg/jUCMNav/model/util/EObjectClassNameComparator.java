@@ -3,6 +3,7 @@ package seg.jUCMNav.model.util;
 import grl.Actor;
 import grl.ActorRef;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -19,7 +20,7 @@ import urncore.ComponentElement;
 /**
  * Orders EObjects by class name then by element name.
  * 
- * @author jkealey
+ * @author jkealey, pchen
  * 
  */
 public class EObjectClassNameComparator implements Comparator, Serializable {
@@ -79,11 +80,13 @@ public class EObjectClassNameComparator implements Comparator, Serializable {
             s = ((RespRef) o).getRespDef().getName();
         } else if (o instanceof IntentionalElementRef && ((IntentionalElementRef) o).getDef() != null) {
             s = ((IntentionalElementRef) o).getDef().getName();
+        } else if (o instanceof KPIInformationElementRef && ((KPIInformationElementRef) o).getDef() != null) {
+            s = ((KPIInformationElementRef) o).getDef().getName();
         } else if (o instanceof Demand) {
-            if (((Demand)o).getResponsibility()!=null)
-                s = getSortableElementName(((Demand)o).getResponsibility());
+            if (((Demand) o).getResponsibility() != null)
+                s = getSortableElementName(((Demand) o).getResponsibility());
             else
-                s =  o.eClass().getName();
+                s = o.eClass().getName();
         } else {
             try {
                 Object name = o.eGet(o.eClass().getEStructuralFeature("name")); //$NON-NLS-1$

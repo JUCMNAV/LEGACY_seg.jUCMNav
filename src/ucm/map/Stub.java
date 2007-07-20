@@ -29,130 +29,130 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Stub extends PathNode {
-	/**
-	 * Returns the value of the '<em><b>Dynamic</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Dynamic</b></em>' attribute.
+     * The default value is <code>"false"</code>.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Dynamic</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Dynamic</em>' attribute.
-	 * @see #setDynamic(boolean)
-	 * @see ucm.map.MapPackage#getStub_Dynamic()
-	 * @model default="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Dynamic</em>' attribute.
+     * @see #setDynamic(boolean)
+     * @see ucm.map.MapPackage#getStub_Dynamic()
+     * @model default="false"
+     * @generated
+     */
     boolean isDynamic();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Stub#isDynamic <em>Dynamic</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.map.Stub#isDynamic <em>Dynamic</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Dynamic</em>' attribute.
-	 * @see #isDynamic()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Dynamic</em>' attribute.
+     * @see #isDynamic()
+     * @generated
+     */
     void setDynamic(boolean value);
 
-	/**
-	 * Returns the value of the '<em><b>Shared</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Shared</b></em>' attribute.
+     * The default value is <code>"false"</code>.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Shared</em>' attribute isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Shared</em>' attribute.
-	 * @see #setShared(boolean)
-	 * @see ucm.map.MapPackage#getStub_Shared()
-	 * @model default="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Shared</em>' attribute.
+     * @see #setShared(boolean)
+     * @see ucm.map.MapPackage#getStub_Shared()
+     * @model default="false"
+     * @generated
+     */
     boolean isShared();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Stub#isShared <em>Shared</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.map.Stub#isShared <em>Shared</em>}' attribute.
+     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Shared</em>' attribute.
-	 * @see #isShared()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Shared</em>' attribute.
+     * @see #isShared()
+     * @generated
+     */
     void setShared(boolean value);
 
-	/**
-	 * Returns the value of the '<em><b>Repetition Count</b></em>' attribute.
-	 * The default value is <code>"1"</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Repetition Count</b></em>' attribute.
+     * The default value is <code>"1"</code>.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Repetition Count</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Repetition Count</em>' attribute.
-	 * @see #setRepetitionCount(String)
-	 * @see ucm.map.MapPackage#getStub_RepetitionCount()
-	 * @model default="1"
-	 * @generated
-	 */
+     * @return the value of the '<em>Repetition Count</em>' attribute.
+     * @see #setRepetitionCount(String)
+     * @see ucm.map.MapPackage#getStub_RepetitionCount()
+     * @model default="1"
+     * @generated
+     */
 	String getRepetitionCount();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Stub#getRepetitionCount <em>Repetition Count</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.map.Stub#getRepetitionCount <em>Repetition Count</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Repetition Count</em>' attribute.
-	 * @see #getRepetitionCount()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Repetition Count</em>' attribute.
+     * @see #getRepetitionCount()
+     * @generated
+     */
 	void setRepetitionCount(String value);
 
-	/**
-	 * Returns the value of the '<em><b>Bindings</b></em>' containment reference list.
-	 * The list contents are of type {@link ucm.map.PluginBinding}.
-	 * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getStub <em>Stub</em>}'.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Bindings</b></em>' containment reference list.
+     * The list contents are of type {@link ucm.map.PluginBinding}.
+     * It is bidirectional and its opposite is '{@link ucm.map.PluginBinding#getStub <em>Stub</em>}'.
+     * <!-- begin-user-doc -->
      * <p>
      * If the meaning of the '<em>Bindings</em>' containment reference list isn't clear,
      * there really should be more of a description here...
      * </p>
      * <!-- end-user-doc -->
-	 * @return the value of the '<em>Bindings</em>' containment reference list.
-	 * @see ucm.map.MapPackage#getStub_Bindings()
-	 * @see ucm.map.PluginBinding#getStub
-	 * @model type="ucm.map.PluginBinding" opposite="stub" containment="true"
-	 * @generated
-	 */
+     * @return the value of the '<em>Bindings</em>' containment reference list.
+     * @see ucm.map.MapPackage#getStub_Bindings()
+     * @see ucm.map.PluginBinding#getStub
+     * @model type="ucm.map.PluginBinding" opposite="stub" containment="true"
+     * @generated
+     */
     EList getBindings();
 
-	/**
-	 * Returns the value of the '<em><b>Pointcut</b></em>' attribute.
-	 * The default value is <code>"false"</code>.
-	 * <!-- begin-user-doc -->
+    /**
+     * Returns the value of the '<em><b>Pointcut</b></em>' attribute.
+     * The default value is <code>"false"</code>.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Pointcut</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Pointcut</em>' attribute.
-	 * @see #setPointcut(boolean)
-	 * @see ucm.map.MapPackage#getStub_Pointcut()
-	 * @model default="false"
-	 * @generated
-	 */
+     * @return the value of the '<em>Pointcut</em>' attribute.
+     * @see #setPointcut(boolean)
+     * @see ucm.map.MapPackage#getStub_Pointcut()
+     * @model default="false"
+     * @generated
+     */
 	boolean isPointcut();
 
-	/**
-	 * Sets the value of the '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}' attribute.
-	 * <!-- begin-user-doc -->
+    /**
+     * Sets the value of the '{@link ucm.map.Stub#isPointcut <em>Pointcut</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Pointcut</em>' attribute.
-	 * @see #isPointcut()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Pointcut</em>' attribute.
+     * @see #isPointcut()
+     * @generated
+     */
 	void setPointcut(boolean value);
 
 } // Stub

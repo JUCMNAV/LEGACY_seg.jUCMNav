@@ -4,6 +4,7 @@ import grl.ActorRef;
 import grl.GRLGraph;
 import grl.GRLNode;
 import grl.IntentionalElementRef;
+import grl.kpimodel.KPIInformationElementRef;
 
 import java.util.Iterator;
 
@@ -38,121 +39,118 @@ import urncore.Concern;
 import urncore.IURNDiagram;
 
 /**
- * Removes all invisible relationships related to a Connection, Node or
- * ContainerRef, ..., Concern
+ * Removes all invisible relationships related to a Connection, Node or ContainerRef, ..., Concern
  * 
- * Performance information, Strategy information, Plugin-Binding information,
- * ContainerRef Binding information.
+ * Performance information, Strategy information, Plugin-Binding information, ContainerRef Binding information.
  * 
- * @author jkealey, gunterm
+ * @author jkealey, gunterm, pchen
  * 
  */
 public class CleanRelationshipsCommand extends CompoundCommand {
 
-	private EObject element;
+    private EObject element;
 
-	/**
-	 * 
-	 * @param map
-	 *            the Map to be cleaned.
-	 */
-	public CleanRelationshipsCommand(UCMmap map) {
-		this.element = map;
-	}
+    /**
+     * 
+     * @param map
+     *            the Map to be cleaned.
+     */
+    public CleanRelationshipsCommand(UCMmap map) {
+        this.element = map;
+    }
 
-	/**
-	 * 
-	 * @param map
-	 *            the Map to be cleaned
-	 */
-	private void build(UCMmap map) {
-		add(new RemoveLinkedInfoCommand(map));
-		add(new DeleteBindingsCommand(map));
-		// Delete URNLinks
-		for (Iterator it = map.getToLinks().iterator(); it.hasNext();) {
-			URNlink link = (URNlink) it.next();
-			add(new DeleteURNlinkCommand(link));
-		}
-		for (Iterator it = map.getFromLinks().iterator(); it.hasNext();) {
-			URNlink link = (URNlink) it.next();
-			add(new DeleteURNlinkCommand(link));
-		}
-	}
+    /**
+     * 
+     * @param map
+     *            the Map to be cleaned
+     */
+    private void build(UCMmap map) {
+        add(new RemoveLinkedInfoCommand(map));
+        add(new DeleteBindingsCommand(map));
+        // Delete URNLinks
+        for (Iterator it = map.getToLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = map.getFromLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+    }
 
-	/**
-	 * 
-	 * @param nc
-	 *            the NodeConnection to be cleaned.
-	 */
-	public CleanRelationshipsCommand(NodeConnection nc) {
-		this.element = nc;
-	}
+    /**
+     * 
+     * @param nc
+     *            the NodeConnection to be cleaned.
+     */
+    public CleanRelationshipsCommand(NodeConnection nc) {
+        this.element = nc;
+    }
 
-	/**
-	 * 
-	 * @param var
-	 *            the Variable to be cleaned.
-	 */
-	public CleanRelationshipsCommand(Variable var) {
-		this.element = var;
-	}
+    /**
+     * 
+     * @param var
+     *            the Variable to be cleaned.
+     */
+    public CleanRelationshipsCommand(Variable var) {
+        this.element = var;
+    }
 
-	/**
-	 * 
-	 * @param et
-	 *            the EnumerationType to be cleaned.
-	 */
-	public CleanRelationshipsCommand(EnumerationType et) {
-		this.element = et;
-	}
+    /**
+     * 
+     * @param et
+     *            the EnumerationType to be cleaned.
+     */
+    public CleanRelationshipsCommand(EnumerationType et) {
+        this.element = et;
+    }
 
-	
-	/**
-	 * 
-	 * @param init
-	 *            the Initialization to be cleaned.
-	 */
-	public CleanRelationshipsCommand(Initialization init) {
-		this.element = init;
-	}
-	/**
-	 * 
-	 * @param pt
-	 *            the ScenarioStartPoint to be cleaned.
-	 */
-	public CleanRelationshipsCommand(ScenarioStartPoint pt) {
-		this.element = pt;
-	}
+    /**
+     * 
+     * @param init
+     *            the Initialization to be cleaned.
+     */
+    public CleanRelationshipsCommand(Initialization init) {
+        this.element = init;
+    }
 
-	/**
-	 * 
-	 * @param pt
-	 *            the ScenarioEndPoint to be cleaned.
-	 */
-	public CleanRelationshipsCommand(ScenarioEndPoint pt) {
-		this.element = pt;
-	}
+    /**
+     * 
+     * @param pt
+     *            the ScenarioStartPoint to be cleaned.
+     */
+    public CleanRelationshipsCommand(ScenarioStartPoint pt) {
+        this.element = pt;
+    }
 
-	/**
-	 * 
-	 * @param nc
-	 *            the NodeConnection to be cleaned.
-	 */
-	private void build(NodeConnection nc) {
-		add(new RemoveLinkedInfoCommand(nc));
-		add(new DeleteBindingsCommand(nc));
-	}
+    /**
+     * 
+     * @param pt
+     *            the ScenarioEndPoint to be cleaned.
+     */
+    public CleanRelationshipsCommand(ScenarioEndPoint pt) {
+        this.element = pt;
+    }
 
-	/**
-	 * 
-	 * @param pn
-	 *            the PathNode to be cleaned.
-	 */
-	public CleanRelationshipsCommand(PathNode pn) {
-		this.element = pn;
-	}
+    /**
+     * 
+     * @param nc
+     *            the NodeConnection to be cleaned.
+     */
+    private void build(NodeConnection nc) {
+        add(new RemoveLinkedInfoCommand(nc));
+        add(new DeleteBindingsCommand(nc));
+    }
 
-    
+    /**
+     * 
+     * @param pn
+     *            the PathNode to be cleaned.
+     */
+    public CleanRelationshipsCommand(PathNode pn) {
+        this.element = pn;
+    }
+
     /**
      * 
      * @param resx
@@ -161,313 +159,314 @@ public class CleanRelationshipsCommand extends CompoundCommand {
     public CleanRelationshipsCommand(GeneralResource resx) {
         this.element = resx;
     }
-    
+
     /**
-     * @param concern to be cleaned
+     * @param concern
+     *            to be cleaned
      */
     public CleanRelationshipsCommand(Concern concern) {
         this.element = concern;
     }
-    
-	/**
-	 * @param concern to be cleaned
-	 */
-	private void build(Concern concern) {
-		// remove diagrams assigned to concern
-		for (Iterator it = concern.getSpecDiagrams().iterator(); it.hasNext();) {
-			IURNDiagram diagram = (IURNDiagram) it.next();
-			add(new AssignConcernDiagramCommand(diagram, null));
-		}
-		// Delete URNLinks
-		for (Iterator it = concern.getToLinks().iterator(); it.hasNext();) {
-			URNlink link = (URNlink) it.next();
-			add(new DeleteURNlinkCommand(link));
-		}
-		for (Iterator it = concern.getFromLinks().iterator(); it.hasNext();) {
-			URNlink link = (URNlink) it.next();
-			add(new DeleteURNlinkCommand(link));
-		}
-	}
-    
-	/**
-	 * 
-	 * @param pn
-	 *            the PathNode to be cleaned.
-	 */
-	private void build(PathNode pn) {
-		add(new RemoveLinkedInfoCommand(pn));
 
-		// get rid of conditions on outgoing connections
-		for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
-			NodeConnection element = (NodeConnection) iter.next();
-			add(new RemoveLinkedInfoCommand(element));
-		}
-		if (pn.getContRef() != null)
-			add(new ContainerRefUnbindChildCommand(pn.getContRef(), pn));
+    /**
+     * @param concern
+     *            to be cleaned
+     */
+    private void build(Concern concern) {
+        // remove diagrams assigned to concern
+        for (Iterator it = concern.getSpecDiagrams().iterator(); it.hasNext();) {
+            IURNDiagram diagram = (IURNDiagram) it.next();
+            add(new AssignConcernDiagramCommand(diagram, null));
+        }
+        // Delete URNLinks
+        for (Iterator it = concern.getToLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+        for (Iterator it = concern.getFromLinks().iterator(); it.hasNext();) {
+            URNlink link = (URNlink) it.next();
+            add(new DeleteURNlinkCommand(link));
+        }
+    }
 
-		if (pn instanceof StartPoint) {
-			for (Iterator iter = ((StartPoint) pn).getScenarioStartPoints().iterator(); iter.hasNext();) {
-				ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
-				add(new DeleteScenarioPathNodeCommand(pt));
-			}
-		}
-		if (pn instanceof EndPoint) {
-			for (Iterator iter = ((EndPoint) pn).getScenarioEndPoints().iterator(); iter.hasNext();) {
-				ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
-				add(new DeleteScenarioPathNodeCommand(pt));
-			}
-		}
+    /**
+     * 
+     * @param pn
+     *            the PathNode to be cleaned.
+     */
+    private void build(PathNode pn) {
+        add(new RemoveLinkedInfoCommand(pn));
 
-		add(new DeleteBindingsCommand(pn));
-	}
+        // get rid of conditions on outgoing connections
+        for (Iterator iter = pn.getSucc().iterator(); iter.hasNext();) {
+            NodeConnection element = (NodeConnection) iter.next();
+            add(new RemoveLinkedInfoCommand(element));
+        }
+        if (pn.getContRef() != null)
+            add(new ContainerRefUnbindChildCommand(pn.getContRef(), pn));
 
-	/**
-	 * 
-	 * @param cr
-	 *            the ComponentRef to be cleaned.
-	 */
-	public CleanRelationshipsCommand(ComponentRef cr) {
-		this.element = cr;
+        if (pn instanceof StartPoint) {
+            for (Iterator iter = ((StartPoint) pn).getScenarioStartPoints().iterator(); iter.hasNext();) {
+                ScenarioStartPoint pt = (ScenarioStartPoint) iter.next();
+                add(new DeleteScenarioPathNodeCommand(pt));
+            }
+        }
+        if (pn instanceof EndPoint) {
+            for (Iterator iter = ((EndPoint) pn).getScenarioEndPoints().iterator(); iter.hasNext();) {
+                ScenarioEndPoint pt = (ScenarioEndPoint) iter.next();
+                add(new DeleteScenarioPathNodeCommand(pt));
+            }
+        }
 
-	}
+        add(new DeleteBindingsCommand(pn));
+    }
 
-	/**
-	 * 
-	 * @param cr
-	 *            the ComponentRef to be cleaned.
-	 */
-	private void build(ComponentRef cr) {
-		add(new RemoveLinkedInfoCommand(cr));
-		if (cr.getChildren().size() > 0)
-			add(new ContainerRefUnbindChildCommand(cr, cr.getChildren()));
+    /**
+     * 
+     * @param cr
+     *            the ComponentRef to be cleaned.
+     */
+    public CleanRelationshipsCommand(ComponentRef cr) {
+        this.element = cr;
 
-		if (cr.getNodes().size() > 0)
-			add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
+    }
 
-		if (cr.getParent() != null)
-			add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
-	}
+    /**
+     * 
+     * @param cr
+     *            the ComponentRef to be cleaned.
+     */
+    private void build(ComponentRef cr) {
+        add(new RemoveLinkedInfoCommand(cr));
+        if (cr.getChildren().size() > 0)
+            add(new ContainerRefUnbindChildCommand(cr, cr.getChildren()));
 
-	/**
-	 * 
-	 * @param graph
-	 *            the graph to be cleaned.
-	 */
-	public CleanRelationshipsCommand(GRLGraph graph) {
-		this.element = graph;
-	}
+        if (cr.getNodes().size() > 0)
+            add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
 
-	/**
-	 * 
-	 * @param graph
-	 *            the diagram to be cleaned
-	 */
-	private void build(GRLGraph graph) {
-		add(new RemoveLinkedInfoCommand(graph));
-	}
+        if (cr.getParent() != null)
+            add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
+    }
 
-	/**
-	 * 
-	 * @param cr
-	 *            the actor to be cleaned.
-	 */
-	public CleanRelationshipsCommand(ActorRef cr) {
-		this.element = cr;
+    /**
+     * 
+     * @param graph
+     *            the graph to be cleaned.
+     */
+    public CleanRelationshipsCommand(GRLGraph graph) {
+        this.element = graph;
+    }
 
-	}
+    /**
+     * 
+     * @param graph
+     *            the diagram to be cleaned
+     */
+    private void build(GRLGraph graph) {
+        add(new RemoveLinkedInfoCommand(graph));
+    }
 
-	/**
-	 * 
-	 * @param cr
-	 *            the actor to be cleaned.
-	 */
-	private void build(ActorRef cr) {
-		if (cr.getChildren().size() > 0)
-			add(new ContainerRefUnbindChildCommand(cr, cr.getChildren()));
+    /**
+     * 
+     * @param cr
+     *            the actor to be cleaned.
+     */
+    public CleanRelationshipsCommand(ActorRef cr) {
+        this.element = cr;
 
-		if (cr.getNodes().size() > 0)
-			add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
+    }
 
-		if (cr.getParent() != null)
-			add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
-	}
+    /**
+     * 
+     * @param cr
+     *            the actor to be cleaned.
+     */
+    private void build(ActorRef cr) {
+        if (cr.getChildren().size() > 0)
+            add(new ContainerRefUnbindChildCommand(cr, cr.getChildren()));
 
-	/**
-	 * 
-	 * @param ref
-	 *            the GRLNode to be cleaned.
-	 */
-	public CleanRelationshipsCommand(GRLNode ref) {
-		this.element = ref;
+        if (cr.getNodes().size() > 0)
+            add(new ContainerRefUnbindChildCommand(cr, cr.getNodes()));
 
-	}
+        if (cr.getParent() != null)
+            add(new ContainerRefUnbindChildCommand(cr.getParent(), cr));
+    }
 
-	/**
-	 * 
-	 * @param ref
-	 *            the GRLNode to be cleaned.
-	 */
-	private void build(GRLNode ref) {
-		if (ref.getContRef() != null) {
-			add(new ContainerRefUnbindChildCommand(ref.getContRef(), ref));
-		}
-	}
+    /**
+     * 
+     * @param ref
+     *            the GRLNode to be cleaned.
+     */
+    public CleanRelationshipsCommand(GRLNode ref) {
+        this.element = ref;
 
-	/**
-	 * 
-	 * @param var
-	 *            the Variable to be cleaned.
-	 */
-	private void build(Variable var) {
-		// Sadly, metamodel sets Variable - Initialization link as unidirectional. 
-		// Delete Variable initializations
-		for (Iterator iter = var.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
-			ScenarioGroup group = (ScenarioGroup) iter.next();
-			for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
-				ScenarioDef scenario = (ScenarioDef) iterator.next();
-				for (Iterator iterator2 = scenario.getInitializations().iterator(); iterator2.hasNext();) {
-					Initialization init = (Initialization) iterator2.next();
-					if (init.getVariable()==var)
-						build(init);
-				}
-			}
-		}
+    }
 
-	}
-	
-	/**
-	 * 
-	 * @param et
-	 *            the EnumerationType to be cleaned.
-	 */
-	private void build(EnumerationType et) {
+    /**
+     * 
+     * @param ref
+     *            the GRLNode to be cleaned.
+     */
+    private void build(GRLNode ref) {
+        if (ref.getContRef() != null) {
+            add(new ContainerRefUnbindChildCommand(ref.getContRef(), ref));
+        }
+    }
 
-		for (Iterator iter = et.getInstances().iterator(); iter.hasNext();) {
-			Variable var = (Variable) iter.next();
-			add(new DeleteVariableCommand(var));
-		}
-	}	
+    /**
+     * 
+     * @param var
+     *            the Variable to be cleaned.
+     */
+    private void build(Variable var) {
+        // Sadly, metamodel sets Variable - Initialization link as unidirectional.
+        // Delete Variable initializations
+        for (Iterator iter = var.getUcmspec().getScenarioGroups().iterator(); iter.hasNext();) {
+            ScenarioGroup group = (ScenarioGroup) iter.next();
+            for (Iterator iterator = group.getScenarios().iterator(); iterator.hasNext();) {
+                ScenarioDef scenario = (ScenarioDef) iterator.next();
+                for (Iterator iterator2 = scenario.getInitializations().iterator(); iterator2.hasNext();) {
+                    Initialization init = (Initialization) iterator2.next();
+                    if (init.getVariable() == var)
+                        build(init);
+                }
+            }
+        }
 
-	/**
-	 * 
-	 * @param init
-	 *            the Variable Initialization to be cleaned.
-	 */
-	private void build(Initialization init) {
-		add(new RemoveLinkedInfoCommand(init));
-	}
+    }
 
-	
-	/**
-	 * 
-	 * @param pt
-	 *            the ScenarioStartPoint to be cleaned.
-	 */
-	private void build(ScenarioStartPoint pt) {
-		add(new RemoveLinkedInfoCommand(pt));
-	}
+    /**
+     * 
+     * @param et
+     *            the EnumerationType to be cleaned.
+     */
+    private void build(EnumerationType et) {
 
-	/**
-	 * 
-	 * @param pt
-	 *            the ScenarioEndPoint to be cleaned.
-	 */
-	private void build(ScenarioEndPoint pt) {
-		add(new RemoveLinkedInfoCommand(pt));
-	}
-    
+        for (Iterator iter = et.getInstances().iterator(); iter.hasNext();) {
+            Variable var = (Variable) iter.next();
+            add(new DeleteVariableCommand(var));
+        }
+    }
+
+    /**
+     * 
+     * @param init
+     *            the Variable Initialization to be cleaned.
+     */
+    private void build(Initialization init) {
+        add(new RemoveLinkedInfoCommand(init));
+    }
+
+    /**
+     * 
+     * @param pt
+     *            the ScenarioStartPoint to be cleaned.
+     */
+    private void build(ScenarioStartPoint pt) {
+        add(new RemoveLinkedInfoCommand(pt));
+    }
+
+    /**
+     * 
+     * @param pt
+     *            the ScenarioEndPoint to be cleaned.
+     */
+    private void build(ScenarioEndPoint pt) {
+        add(new RemoveLinkedInfoCommand(pt));
+    }
+
     /**
      * 
      * @param resx
      *            the GeneralResource to be cleaned.
      */
     private void build(GeneralResource resx) {
-    	// TODO: Needs to be revised, especially for PerfMeasures(Daniel)
-    	if (resx instanceof ucm.performance.ExternalOperation) {
-    		ucm.performance.ExternalOperation extOp = (ucm.performance.ExternalOperation) resx; 
+        // TODO: Needs to be revised, especially for PerfMeasures(Daniel)
+        if (resx instanceof ucm.performance.ExternalOperation) {
+            ucm.performance.ExternalOperation extOp = (ucm.performance.ExternalOperation) resx;
 
-    		for (Iterator iter = extOp.getDemands().iterator(); iter.hasNext();) {
-    			Demand demand = (Demand) iter.next();
-    			DeleteDemandCommand cmd = new DeleteDemandCommand(demand);
-    			if (cmd.canExecute())
-    				add (cmd);
-    		}
-    	}
-    	for (Iterator iter = resx.getPerfMeasures().iterator(); iter.hasNext();) {
-	    PerfMeasure perfMeasure = (PerfMeasure) iter.next();
-	    // assuming a PerfMeasure can exist without a GeneralResource:
-	    if (perfMeasure.getResource() != null) {
-		perfMeasure.setResource(null);
-	    }
-	    // else:
-	    /*
-	    DeletePerfMeasureCommand delPerfMeasureCmd = new DeletePerfMeasureCommand(perfMeasure);
-	    if (delPerfMeasureCmd.canExecute()) {
-		add(delPerfMeasureCmd);
-	    }
-	    */
-	}
+            for (Iterator iter = extOp.getDemands().iterator(); iter.hasNext();) {
+                Demand demand = (Demand) iter.next();
+                DeleteDemandCommand cmd = new DeleteDemandCommand(demand);
+                if (cmd.canExecute())
+                    add(cmd);
+            }
+        }
+        for (Iterator iter = resx.getPerfMeasures().iterator(); iter.hasNext();) {
+            PerfMeasure perfMeasure = (PerfMeasure) iter.next();
+            // assuming a PerfMeasure can exist without a GeneralResource:
+            if (perfMeasure.getResource() != null) {
+                perfMeasure.setResource(null);
+            }
+            // else:
+            /*
+             * DeletePerfMeasureCommand delPerfMeasureCmd = new DeletePerfMeasureCommand(perfMeasure); if (delPerfMeasureCmd.canExecute()) {
+             * add(delPerfMeasureCmd); }
+             */
+        }
         add(new RemoveLinkedInfoCommand(resx));
     }
 
-	/**
-	 * Returns true even if no commands exist.
-	 */
-	public boolean canExecute() {
-		if (getCommands().size() == 0)
-			return true;
-		else
-			return super.canExecute();
-	}
+    /**
+     * Returns true even if no commands exist.
+     */
+    public boolean canExecute() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canExecute();
+    }
 
-	/**
-	 * Returns true even if no commands exist.
-	 */
-	public boolean canUndo() {
-		if (getCommands().size() == 0)
-			return true;
-		else
-			return super.canUndo();
-	}
+    /**
+     * Returns true even if no commands exist.
+     */
+    public boolean canUndo() {
+        if (getCommands().size() == 0)
+            return true;
+        else
+            return super.canUndo();
+    }
 
-	/**
-	 * Builds command as late as possible.
-	 */
-	public void execute() {
-		build();
-		super.execute();
-	}
+    /**
+     * Builds command as late as possible.
+     */
+    public void execute() {
+        build();
+        super.execute();
+    }
 
-	/**
-	 * redirects to the appropriate build method.
-	 */
-	private void build() {
-	    if (element instanceof UCMmap)
-		build((UCMmap) element);
-	    else if (element instanceof GRLGraph)
-		build((GRLGraph) element);
-	    else if (element instanceof ComponentRef)
-		build((ComponentRef) element);
-	    else if (element instanceof ActorRef)
-		build((ActorRef) element);
-	    else if (element instanceof NodeConnection)
-		build((NodeConnection) element);
-	    else if (element instanceof PathNode)
-		build((PathNode) element);
-	    else if (element instanceof IntentionalElementRef)
-		build((IntentionalElementRef) element);
-	    else if (element instanceof Variable)
-		build((Variable) element);
-	    else if (element instanceof ScenarioStartPoint)
-		build((ScenarioStartPoint) element);
-	    else if (element instanceof ScenarioEndPoint)
-		build((ScenarioEndPoint) element);
-	    else if (element instanceof Initialization)
-		build((Initialization) element);
-	    else if (element instanceof EnumerationType)
-		build((EnumerationType) element);
-	    else if (element instanceof Concern)
-	    	build((Concern) element);
-	}
+    /**
+     * redirects to the appropriate build method.
+     */
+    private void build() {
+        if (element instanceof UCMmap)
+            build((UCMmap) element);
+        else if (element instanceof GRLGraph)
+            build((GRLGraph) element);
+        else if (element instanceof ComponentRef)
+            build((ComponentRef) element);
+        else if (element instanceof ActorRef)
+            build((ActorRef) element);
+        else if (element instanceof NodeConnection)
+            build((NodeConnection) element);
+        else if (element instanceof PathNode)
+            build((PathNode) element);
+        else if (element instanceof IntentionalElementRef)
+            build((IntentionalElementRef) element);
+        else if (element instanceof KPIInformationElementRef)
+            build((KPIInformationElementRef) element);
+        else if (element instanceof Variable)
+            build((Variable) element);
+        else if (element instanceof ScenarioStartPoint)
+            build((ScenarioStartPoint) element);
+        else if (element instanceof ScenarioEndPoint)
+            build((ScenarioEndPoint) element);
+        else if (element instanceof Initialization)
+            build((Initialization) element);
+        else if (element instanceof EnumerationType)
+            build((EnumerationType) element);
+        else if (element instanceof Concern)
+            build((Concern) element);
+    }
 
 }

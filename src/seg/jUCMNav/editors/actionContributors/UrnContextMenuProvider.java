@@ -40,6 +40,7 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
+import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
 import seg.jUCMNav.actions.performance.ManageResourcesAction;
@@ -49,7 +50,7 @@ import seg.jUCMNav.actions.scenarios.EditCodeAction;
 /**
  * This class builds the context menu used in our editor and views.
  * 
- * @author Etienne Tremblay, gunterm
+ * @author Etienne Tremblay, gunterm, pchen
  */
 public class UrnContextMenuProvider extends ContextMenuProvider {
 
@@ -97,11 +98,11 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(AddDirectionArrow.ADDDIRECTIONARROW);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(AddEmptyPoint.ADDEMPTYPOINT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(AddResponsibility.ADDRESPONSIBILITY);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -197,7 +198,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ManageConcernsAction.MANAGECONCERNS);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(ImportAction.IMPORT);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -217,7 +218,7 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(EditCodeAction.EDITCODEACTION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
+
         action = getActionRegistry().getAction(DuplicateMapAction.DUPLICATEMAP);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
@@ -226,12 +227,16 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
 
-        //_js_
+        action = getActionRegistry().getAction(EditIndicatorGroupsAction.EDITINDICATORGROUPSACTION);
+        if (action.isEnabled())
+            manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        // _js_
         action = getActionRegistry().getAction(ManageDemandAction.MANAGEDEMANDACTION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
-        
-        //_js_
+
+        // _js_
         action = getActionRegistry().getAction(ManageResourcesAction.MANAGERESOURCESACTION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);

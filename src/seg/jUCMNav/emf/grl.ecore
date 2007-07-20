@@ -16,6 +16,13 @@
         eType="#//StrategiesGroup" containment="true" eOpposite="#//StrategiesGroup/grlspec"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" upperBound="-1"
         eType="#//EvaluationStrategy" containment="true" eOpposite="#//EvaluationStrategy/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInformationElements"
+        upperBound="-1" eType="#//kpimodel/KPIInformationElement" containment="true"
+        eOpposite="#//kpimodel/KPIInformationElement/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kpiModelLinks" upperBound="-1"
+        eType="#//kpimodel/KPIModelLink" containment="true" eOpposite="#//kpimodel/KPIModelLink/grlspec"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indicatorGroup" upperBound="-1"
+        eType="#//kpimodel/IndicatorGroup" containment="true" eOpposite="#//kpimodel/IndicatorGroup/grlspec"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Belief" eSuperTypes="#//GRLNode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -52,6 +59,7 @@
     <eLiterals name="Goal" value="1"/>
     <eLiterals name="Task" value="2"/>
     <eLiterals name="Ressource" value="3"/>
+    <eLiterals name="Indicator" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Priority">
     <eLiterals name="High"/>
@@ -113,6 +121,8 @@
         eType="#//IntentionalElement"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" lowerBound="1"
         eType="#//EvaluationStrategy" transient="true" eOpposite="#//EvaluationStrategy/evaluations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kpiEvalValueSet" eType="#//kpimodel/KPIEvalValueSet"
+        containment="true" eOpposite="#//kpimodel/KPIEvalValueSet/eval"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EvaluationStrategy" eSuperTypes="urncore.ecore#//GRLmodelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -122,6 +132,8 @@
         eOpposite="#//StrategiesGroup/strategies"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/strategies"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoConfig" upperBound="-1"
+        eType="#//kpimodel/KPIInformationConfig" containment="true" eOpposite="#//kpimodel/KPIInformationConfig/strategies"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GRLNode" eSuperTypes="urncore.ecore#//GRLmodelElement urncore.ecore#//IURNNode"/>
   <eClassifiers xsi:type="ecore:EClass" name="LinkRefBendpoint">
@@ -137,4 +149,70 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
         eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/groups"/>
   </eClassifiers>
+  <eSubpackages name="kpimodel" nsURI="http:///grl/kpimodel.ecore" nsPrefix="grl.kpimodel">
+    <eClassifiers xsi:type="ecore:EClass" name="IndicatorGroup" eSuperTypes="urncore.ecore#//GRLmodelElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="The default four groups are:&#xD;&#xA;TimeMeasure&#xD;&#xA;CostMeasure&#xD;&#xA;QualityMeasure&#xD;&#xA;FlexibilityMeasure"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isRedesignCategory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+          eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/indicatorGroup"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="indicators" upperBound="-1"
+          eType="#//kpimodel/Indicator" eOpposite="#//kpimodel/Indicator/groups"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Indicator" eSuperTypes="#//IntentionalElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiModelLinksDest" upperBound="-1"
+          eType="#//kpimodel/KPIModelLink" eOpposite="#//kpimodel/KPIModelLink/indDest"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="groups" upperBound="-1"
+          eType="#//kpimodel/IndicatorGroup" eOpposite="#//kpimodel/IndicatorGroup/indicators"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIInformationElement" eSuperTypes="urncore.ecore#//GRLmodelElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1"
+          eType="#//kpimodel/KPIInformationElementRef" eOpposite="#//kpimodel/KPIInformationElementRef/def"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+          eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/kpiInformationElements"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiModelLinksSrc" upperBound="-1"
+          eType="#//kpimodel/KPIModelLink" eOpposite="#//kpimodel/KPIModelLink/kpiInformationElementSrc"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIInformationElementRef" eSuperTypes="#//GRLNode">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="def" lowerBound="1" eType="#//kpimodel/KPIInformationElement"
+          eOpposite="#//kpimodel/KPIInformationElement/refs"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIModelLink" eSuperTypes="urncore.ecore#//GRLmodelElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInformationElementSrc"
+          lowerBound="1" eType="#//kpimodel/KPIInformationElement" eOpposite="#//kpimodel/KPIInformationElement/kpiModelLinksSrc"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="refs" upperBound="-1"
+          eType="#//kpimodel/KPIModelLinkRef" eOpposite="#//kpimodel/KPIModelLinkRef/link"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="grlspec" lowerBound="1"
+          eType="#//GRLspec" transient="true" eOpposite="#//GRLspec/kpiModelLinks"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="indDest" lowerBound="1"
+          eType="#//kpimodel/Indicator" eOpposite="#//kpimodel/Indicator/kpiModelLinksDest"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIModelLinkRef" eSuperTypes="urncore.ecore#//IURNConnection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="link" lowerBound="1"
+          eType="#//kpimodel/KPIModelLink" eOpposite="#//kpimodel/KPIModelLink/refs"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIEvalValueSet">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="thresholdValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="worstValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluationValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"
+          defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eval" lowerBound="1"
+          eType="#//Evaluation" transient="true" eOpposite="#//Evaluation/kpiEvalValueSet"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="KPIInformationConfig">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="levelOfDimension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueOfDimension" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="strategies" lowerBound="1"
+          eType="#//EvaluationStrategy" transient="true" eOpposite="#//EvaluationStrategy/kpiInfoConfig"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="kpiInfoElement" lowerBound="1"
+          eType="#//kpimodel/KPIInformationElement"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

@@ -5,7 +5,7 @@
     editDirectory="/seg.jUCMNav.edit/src" editorDirectory="/seg.jUCMNav.editor/src"
     modelPluginID="seg.jUCMNav" runtimeJar="true" modelName="URN" editPluginClass="grl.provider.URNEditPlugin"
     editorPluginClass="grl.presentation.URNEditorPlugin" importerID="org.eclipse.emf.importer.rose">
-  <foreignModel>C:\URN_17.mdl</foreignModel>
+  <foreignModel>G:\Traveller\Workshop\Eclipse\ThesisWorkspace\jUCMNavMetaModel\URN_17.5.mdl</foreignModel>
   <genPackages prefix="Urn" ecorePackage="urn.ecore#/">
     <genClasses ecoreClass="urn.ecore#//URNspec">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNspec/name"/>
@@ -22,6 +22,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference urn.ecore#//URNspec/urnLinks"/>
     </genClasses>
     <genClasses ecoreClass="urn.ecore#//URNlink">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute urn.ecore#//URNlink/type"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/urnspec"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/fromElem"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference urn.ecore#//URNlink/toElem"/>
@@ -182,6 +183,7 @@
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//IntentionalElementType/Goal"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//IntentionalElementType/Task"/>
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//IntentionalElementType/Ressource"/>
+      <genEnumLiterals ecoreEnumLiteral="grl.ecore#//IntentionalElementType/Indicator"/>
     </genEnums>
     <genEnums ecoreEnum="grl.ecore#//Priority">
       <genEnumLiterals ecoreEnumLiteral="grl.ecore#//Priority/High"/>
@@ -209,6 +211,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/links"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/groups"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/strategies"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiInformationElements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/kpiModelLinks"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//GRLspec/indicatorGroup"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//Belief">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Belief/author"/>
@@ -254,12 +259,14 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//Evaluation/evaluation"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/intElement"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/strategies"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference grl.ecore#//Evaluation/kpiEvalValueSet"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//EvaluationStrategy">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//EvaluationStrategy/author"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/evaluations"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/group"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/grlspec"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference grl.ecore#//EvaluationStrategy/kpiInfoConfig"/>
     </genClasses>
     <genClasses ecoreClass="grl.ecore#//GRLNode"/>
     <genClasses ecoreClass="grl.ecore#//LinkRefBendpoint">
@@ -272,6 +279,60 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//StrategiesGroup/strategies"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//StrategiesGroup/grlspec"/>
     </genClasses>
+    <nestedGenPackages prefix="Kpimodel" basePackage="grl" disposableProviderFactory="true"
+        ecorePackage="grl.ecore#//kpimodel">
+      <genClasses ecoreClass="grl.ecore#//kpimodel/IndicatorGroup">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/IndicatorGroup/isRedesignCategory"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/IndicatorGroup/grlspec"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/IndicatorGroup/indicators"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/Indicator">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/Indicator/kpiModelLinksDest"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/Indicator/groups"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIInformationElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationElement/refs"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationElement/grlspec"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationElement/kpiModelLinksSrc"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIInformationElementRef">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationElementRef/def"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIModelLink">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIModelLink/kpiInformationElementSrc"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIModelLink/refs"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIModelLink/grlspec"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIModelLink/indDest"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIModelLinkRef">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIModelLinkRef/link"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIEvalValueSet">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/targetValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/thresholdValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/worstValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/evaluationValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIEvalValueSet/unit"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIEvalValueSet/eval"/>
+      </genClasses>
+      <genClasses ecoreClass="grl.ecore#//kpimodel/KPIInformationConfig">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIInformationConfig/levelOfDimension"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute grl.ecore#//kpimodel/KPIInformationConfig/valueOfDimension"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationConfig/strategies"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference grl.ecore#//kpimodel/KPIInformationConfig/kpiInfoElement"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Ucm" ecorePackage="ucm.ecore#/">
     <genClasses ecoreClass="ucm.ecore#//UCMspec">

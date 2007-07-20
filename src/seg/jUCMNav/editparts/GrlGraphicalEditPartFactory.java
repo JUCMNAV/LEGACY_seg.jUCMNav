@@ -6,6 +6,8 @@ import grl.BeliefLink;
 import grl.GRLGraph;
 import grl.IntentionalElementRef;
 import grl.LinkRef;
+import grl.kpimodel.KPIInformationElementRef;
+import grl.kpimodel.KPIModelLinkRef;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
@@ -15,7 +17,7 @@ import urncore.Label;
 /**
  * Edit Part factory for the GRL model elements. 
  * 
- * @author Jean-François Roy
+ * @author Jean-François Roy, pchen
  *
  */
 public class GrlGraphicalEditPartFactory implements EditPartFactory {
@@ -42,6 +44,9 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
         else if(model instanceof IntentionalElementRef){
             return new IntentionalElementEditPart((IntentionalElementRef)model);
         }
+        else if(model instanceof KPIInformationElementRef){
+            return new KPIInformationElementEditPart((KPIInformationElementRef)model);
+        }
         else if (model instanceof Belief){
             return new BeliefEditPart((Belief)model);
         }
@@ -53,6 +58,9 @@ public class GrlGraphicalEditPartFactory implements EditPartFactory {
         } 
         else if (model instanceof LinkRef) {
             return new LinkRefEditPart((LinkRef)model, graph);
+        }
+        else if (model instanceof KPIModelLinkRef) {
+            return new KPIModelLinkRefEditPart((KPIModelLinkRef)model, graph);
         }
         else if (model instanceof BeliefLink) {
             return new BeliefLinkEditPart((BeliefLink)model, graph);

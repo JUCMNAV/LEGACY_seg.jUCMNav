@@ -106,6 +106,8 @@
          <viewShortcut id="org.eclipse.ui.views.ContentOutline"/>
          <viewShortcut id="org.eclipse.ui.views.PropertySheet"/>
          <viewShortcut id="org.eclipse.ui.views.ProblemView"/>
+         <viewShortcut id="seg.jUCMNav.views.KPIListView"/>
+         <viewShortcut id="seg.jUCMNav.views.KPIView"/>
       </perspectiveExtension>
       <perspectiveExtension targetID="seg.jUCMNav.UCMEditorExecution">
          <viewShortcut id="seg.jUCMNav.views.ElementView"/>
@@ -134,6 +136,18 @@
             icon="icons/urnstratscenon16.gif"
             id="seg.jUCMNav.views.StrategiesView"
             name="%Strategies"/>
+      <view
+            category="seg.jUCMNav"
+            class="seg.jUCMNav.views.kpi.KPIListView"
+            icon="icons/KPIView.gif"
+            id="seg.jUCMNav.views.KPIListView"
+            name="%KPIList"/>
+      <view
+            category="seg.jUCMNav"
+            class="seg.jUCMNav.views.kpi.KPIView"
+            icon="icons/KPIView.gif"
+            id="seg.jUCMNav.views.KPIView"
+            name="%KPI"/>
    </extension>
    <extension
          point="org.eclipse.help.toc">
@@ -219,6 +233,11 @@
             class="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
             id="seg.jUCMNav.views.preferences.ScenarioExportPreferencePage"
             name="%ScenarioExportPreferences"/>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.KPIMonitoringPreferencePage"
+            id="seg.jUCMNav.views.preferences.KPIMonitoringPreferencePage"
+            name="%KPIMonitoringPreferences"/>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
