@@ -50,6 +50,12 @@ this file is kept here with the information necessary for a good build by cruise
 		<include name="org.eclipse.swt*.jar" />
 		<include name="org.eclipse.ui*.jar" />
 		<include name="org.eclipse.update*.jar" />
+		<include name="axis*.jar"/>
+		<include name="commons*.jar"/>
+		<include name="jaxrpc.jar"/>
+		<include name="log4j*.jar"/>			
+		<include name="saaj.jar"/>			
+		<include name="wsdl4j*.jar"/>			
 	</patternset>
 	<patternset id="jucmnav.lib.classpath">
 		<include name="lib/*.jar" />
