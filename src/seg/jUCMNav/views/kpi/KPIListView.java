@@ -116,7 +116,7 @@ public class KPIListView extends ViewPart implements IPartListener2, ISelectionC
                         try {
                             kpiValueRes.requestKPIValues(evalObjects);
                         } catch (Throwable th) {
-                            System.out.println("The required plug-in maybe not installed, or the monitoring services are not running");
+                            System.out.println("The required plug-in maybe not installed.");
                         }
                     }
 

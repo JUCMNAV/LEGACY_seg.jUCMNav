@@ -43,7 +43,12 @@ public class KPIValueWSResources implements KPIValueResources {
                     kpiEntities.add(kpiEntity);
                 }
 
-                KpiEntity[] result = port.retrieveKPIValues((KpiEntity[]) kpiEntities.toArray(new KpiEntity[0]));
+                KpiEntity[] result = new KpiEntity[0];
+                try {
+                    result = port.retrieveKPIValues((KpiEntity[]) kpiEntities.toArray(new KpiEntity[0]));
+                } catch (RuntimeException e) {
+                    System.out.println("The connection is not available or the monitoring services are not running.");
+                }
 
                 EvaluationStrategyManager strategyManager = EvaluationStrategyManager.getInstance();
                 for (int i = 0; i < result.length; i++) {
