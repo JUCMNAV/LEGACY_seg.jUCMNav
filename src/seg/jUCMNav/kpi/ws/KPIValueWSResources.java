@@ -46,7 +46,7 @@ public class KPIValueWSResources implements KPIValueResources {
                 KpiEntity[] result = new KpiEntity[0];
                 try {
                     result = port.retrieveKPIValues((KpiEntity[]) kpiEntities.toArray(new KpiEntity[0]));
-                } catch (RuntimeException e) {
+                } catch (Throwable th) {
                     System.out.println("The connection is not available or the monitoring services are not running.");
                 }
 
