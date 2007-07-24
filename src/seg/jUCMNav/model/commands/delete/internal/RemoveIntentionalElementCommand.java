@@ -17,17 +17,18 @@ import urn.URNspec;
  * Delete an IntentionalElement definition. The definition should have no references
  * 
  * This command should be used in a compound command that also delete all the ElementLink associate to the element.
+ * 
  * @author Jean-François Roy, pchen
- *
+ * 
  */
 public class RemoveIntentionalElementCommand extends Command implements JUCMNavCommand {
 
     // the intentionalElement to delete
     private IntentionalElement element;
-    
+
     // the linked Indicator Groups
     private IndicatorGroup[] indGroups = null;
-    
+
     // the URNspec in which it is contained
     private URNspec urn;
 
@@ -36,7 +37,7 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
      */
     public RemoveIntentionalElementCommand(IntentionalElement intentionalelement) {
         this.element = intentionalelement;
-        setLabel(Messages.getString("RemoveIntentionalElementCommand.removeIntentionalElement"));  //$NON-NLS-1$
+        setLabel(Messages.getString("RemoveIntentionalElementCommand.removeIntentionalElement")); //$NON-NLS-1$
     }
 
     /**
@@ -57,7 +58,7 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
 
         redo();
     }
-    
+
     /**
      * @see org.eclipse.gef.commands.Command#redo()
      */
@@ -69,14 +70,16 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
             indGroups = (IndicatorGroup[]) ((Indicator) element).getGroups().toArray(new IndicatorGroup[0]);
             ((Indicator) element).getGroups().clear();
         }
-        
+
         // remove the IntentionalElement from the urnspec
         urn.getGrlspec().getIntElements().remove(element);
 
         testPostConditions();
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPreConditions()
      */
     public void testPreConditions() {
@@ -86,7 +89,9 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see seg.jUCMNav.model.commands.JUCMNavCommand#testPostConditions()
      */
     public void testPostConditions() {
@@ -104,9 +109,11 @@ public class RemoveIntentionalElementCommand extends Command implements JUCMNavC
 
         // re-add intentionalelement
         urn.getGrlspec().getIntElements().add(element);
-        
-        for (int i = 0; i < indGroups.length; i++) {
-            indGroups[i].getIndicators().add(element);
+
+        if (indGroups != null) {
+            for (int i = 0; i < indGroups.length; i++) {
+                indGroups[i].getIndicators().add(element);
+            }
         }
 
         testPreConditions();
