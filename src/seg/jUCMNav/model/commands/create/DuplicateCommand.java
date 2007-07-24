@@ -6,6 +6,7 @@ package seg.jUCMNav.model.commands.create;
 import grl.Evaluation;
 import grl.EvaluationStrategy;
 import grl.StrategiesGroup;
+import grl.kpimodel.KPIEvalValueSet;
 import grl.kpimodel.KPIInformationConfig;
 
 import java.util.Iterator;
@@ -180,6 +181,16 @@ public class DuplicateCommand extends CompoundCommand {
                 Evaluation eval = (Evaluation) iter.next();
                 Evaluation newEval = (Evaluation) ModelCreationFactory.getNewObject(urn, Evaluation.class);
                 newEval.setEvaluation(eval.getEvaluation());
+
+                KPIEvalValueSet kpiEvalValueSet = eval.getKpiEvalValueSet();
+                KPIEvalValueSet newKPIEvalValueSet = (KPIEvalValueSet) ModelCreationFactory.getNewObject(urn, KPIEvalValueSet.class);
+                newKPIEvalValueSet.setEvaluationValue(kpiEvalValueSet.getEvaluationValue());
+                newKPIEvalValueSet.setTargetValue(kpiEvalValueSet.getTargetValue());
+                newKPIEvalValueSet.setThresholdValue(kpiEvalValueSet.getThresholdValue());
+                newKPIEvalValueSet.setWorstValue(kpiEvalValueSet.getWorstValue());
+                newKPIEvalValueSet.setUnit(kpiEvalValueSet.getUnit());
+
+                newEval.setKpiEvalValueSet(newKPIEvalValueSet);
                 add(new AddEvaluationCommand(newEval, eval.getIntElement(), newStrategy));
             }
             for (Iterator iter = strategy.getKpiInfoConfig().iterator(); iter.hasNext();) {
