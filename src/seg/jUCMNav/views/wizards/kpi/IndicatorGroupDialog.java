@@ -73,7 +73,7 @@ public class IndicatorGroupDialog {
     }
 
     /**
-     * This method initialize the Window
+     * This method initializes the Window
      * 
      */
     private void init(Indicator indicator) {
@@ -84,9 +84,9 @@ public class IndicatorGroupDialog {
     }
 
     /**
-     * Set the URNmodelElement associate with the instance
+     * Set the Indicator associate with the instance
      * 
-     * @param element
+     * @param indicator
      */
     private void setElement(Indicator indicator) {
         this.indicator = indicator;

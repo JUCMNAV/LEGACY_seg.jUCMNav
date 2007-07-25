@@ -120,6 +120,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi,
  org.junit,
  org.eclipse.ui.forms,
- org.apache.axis;resolution:=optional
+ org.apache.axis;resolution:=optional,
+ javax.xml.rpc;resolution:=optional,
+ org.apache.commons.discovery;resolution:=optional,
+ javax.wsdl15;resolution:=optional,
+ javax.xml.soap;resolution:=optional
 Eclipse-LazyStart: true
 

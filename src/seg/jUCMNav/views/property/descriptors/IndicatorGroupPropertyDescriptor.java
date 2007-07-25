@@ -19,10 +19,10 @@ public class IndicatorGroupPropertyDescriptor extends PropertyDescriptor {
     private Indicator indicator;
 
     /**
-     * Property descriptor for a urnmodelelement.
+     * Property descriptor for a indicator group.
      * 
      * @param id
-     * @param IntentionalElementRef
+     * @param intElementRef
      */
     public IndicatorGroupPropertyDescriptor(Object id, IntentionalElementRef intElementRef) {
         super(id, Messages.getString("IndicatorGroupPropertyDescriptor.indicatorGroups")); //$NON-NLS-1$
@@ -35,7 +35,7 @@ public class IndicatorGroupPropertyDescriptor extends PropertyDescriptor {
     }
     
     /**
-     * Property descriptor for a urnmodelelement.
+     * Property descriptor for a indicator group.
      * 
      * @param id
      * @param indicator

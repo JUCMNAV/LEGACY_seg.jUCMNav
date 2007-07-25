@@ -23,10 +23,6 @@ import urncore.Responsibility;
  */
 public class KPIViewEditPartFactory implements EditPartFactory {
 
-    /**
-     * @param urn
-     *            the urnspec to display
-     */
     public KPIViewEditPartFactory() {
     }
 
