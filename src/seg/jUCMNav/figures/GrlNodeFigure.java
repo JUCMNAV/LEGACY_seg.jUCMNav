@@ -4,6 +4,7 @@ import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -12,7 +13,10 @@ import org.eclipse.draw2d.text.FlowPage;
 import org.eclipse.draw2d.text.ParagraphTextLayout;
 import org.eclipse.draw2d.text.TextFlow;
 import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -23,12 +27,12 @@ import org.eclipse.swt.widgets.Display;
 public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
 
     //for grl multiline label, space between start of the figure and start of the label
-    protected static final int LABEL_PADDING_X = 20;
-    protected static final int LABEL_PADDING_Y = 10;
+    protected static final int LABEL_PADDING_X = 15;
+    protected static final int LABEL_PADDING_Y = 8;
 
     // default sizes
-    protected static final int DEFAULT_HEIGHT = 50;
-    protected static final int DEFAULT_WIDTH = 100;
+    protected static final int DEFAULT_HEIGHT = 45;
+    protected static final int DEFAULT_WIDTH = 90;
 
     /** The inner TextFlow **/
     protected TextFlow textFlow;
@@ -66,8 +70,13 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
         initAnchor();
         
         flowPage = new FlowPage();
+        // Center text in GRL nodes. Vertical centering not available...
+        flowPage.setHorizontalAligment(PositionConstants.CENTER); 
+
 
         textFlow = new TextFlow();
+        // Slightly larger font here used for GRL node labels.
+        textFlow.setFont(new Font(Display.getDefault(), new FontData("Tahoma", 9, SWT.NONE)));
         
         textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
                 ParagraphTextLayout.WORD_WRAP_HARD));
@@ -89,7 +98,7 @@ public abstract class GrlNodeFigure extends Shape implements LabelElementFigure{
     /**
      * This return the connection anchor.
      * 
-     * @return The connecction anchor
+     * @return The connection anchor
      */
     public ConnectionAnchor getConnectionAnchor() {
         return anchor;
