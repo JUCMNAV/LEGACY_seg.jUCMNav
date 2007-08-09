@@ -180,7 +180,7 @@ public class TraversalVisit {
      */
     public boolean isValidParentComponent() {
 
-        if (context == null)
+        if (context == null || visitedElement.getContRef()!=null)
             return true;
         else {
             boolean b = false;
