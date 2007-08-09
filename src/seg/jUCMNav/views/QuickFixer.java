@@ -61,16 +61,19 @@ public class QuickFixer implements IMarkerResolutionGenerator {
 					} else if (mk.getAttribute("Scenario")!=null) //$NON-NLS-1$
 					{
 						ScenarioDef scenario = (ScenarioDef)element;
+                        
 						if (mk.getAttribute("ScenarioPreConditionIndex")!=null && mk.getAttribute("ScenarioPreConditionIndex") instanceof Integer) //$NON-NLS-1$ //$NON-NLS-2$
 						{
 							Integer i = (Integer) mk.getAttribute("ScenarioPreConditionIndex"); //$NON-NLS-1$
-							if (i.intValue()<scenario.getPreconditions().size())
+							if (i.intValue()>=0 && i.intValue()<scenario.getPreconditions().size())
 								cond = (Condition) scenario.getPreconditions().get(i.intValue());
 						
-						} else if (mk.getAttribute("ScenarioPostConditionIndex")!=null && mk.getAttribute("ScenarioPostConditionIndex") instanceof Integer) //$NON-NLS-1$ //$NON-NLS-2$
+						} 
+                        
+                        if (cond==null && mk.getAttribute("ScenarioPostConditionIndex")!=null && mk.getAttribute("ScenarioPostConditionIndex") instanceof Integer) //$NON-NLS-1$ //$NON-NLS-2$
 						{
 							Integer i = (Integer) mk.getAttribute("ScenarioPostConditionIndex"); //$NON-NLS-1$
-							if (i.intValue()<scenario.getPostconditions().size())
+							if (i.intValue()>=0 && i.intValue()<scenario.getPostconditions().size())
 								cond = (Condition) scenario.getPostconditions().get(i.intValue());
 						
 						}
