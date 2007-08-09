@@ -434,7 +434,7 @@ public class ExportURNHTML implements IURNExport {
 			// Describe table for responsibility references     
 			if (hasNodeType(diagram.getNodes(), RespRefImpl.class)) {
 				sb.append("</div>\n<div>\n<h2>Responsibilities</h2>\n<table style=\"text-align: left; width: 100%;\" border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n<tbody>\n");
-				sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td></tr>\n");
+				sb.append("<tr><td><b>Name</b></td><td><b>Description</b></td><td><b>Pseudo-code</tr>\n");
 				for (Iterator iter1 = diagram.getNodes().iterator(); iter1.hasNext();) {
 					IURNNode specNode = (IURNNode) iter1.next();
 					if (specNode instanceof RespRef) {
@@ -442,7 +442,9 @@ public class ExportURNHTML implements IURNExport {
 						sb.append("<tr><td>" + respRef.getRespDef().getName()
 								+ "</td><td><i>"
 								+ notNull(respRef.getRespDef().getDescription())
-								+ "</i></td></tr>\n");
+								+ "</i>&nbsp;</td><td>"
+                                + notNull(respRef.getRespDef().getExpression()).replace("\r\n", "<br/>")
+                                + "&nbsp;</td></tr>\n");
 					}
 				}
 				sb.append("</tbody></table></br>\n");
@@ -490,8 +492,10 @@ public class ExportURNHTML implements IURNExport {
 					}
 
 				}
+
 				sb.append("<area shape=\"default\" nohref>\n</map></br>\n");
 			}
+            
 
 			sb.append("</div>\n"); //$NON-NLS-1$
 			sb.append("</body>\n"); //$NON-NLS-1$
