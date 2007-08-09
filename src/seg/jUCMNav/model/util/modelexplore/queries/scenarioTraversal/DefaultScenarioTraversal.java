@@ -294,7 +294,7 @@ public class DefaultScenarioTraversal extends AbstractScenarioTraversal implemen
 			// remove them from the context
 			for (Iterator iter = outbindings.iterator(); iter.hasNext();) {
 				OutBinding outbinding = (OutBinding) iter.next();
-				if (_traversalData.getCurrentContext().contains(outbinding.getBinding()))
+				while (_traversalData.getCurrentContext().contains(outbinding.getBinding())) // can be in there multiple times. 
 					_traversalData.getCurrentContext().remove(outbinding.getBinding());
 			}
 			
