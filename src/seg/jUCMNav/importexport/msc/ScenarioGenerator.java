@@ -435,6 +435,9 @@ public class ScenarioGenerator {
                 else
                     compRef = addDoSimple(seq, pn);
 
+                if (!processedPathNodes.containsKey(pn))
+                    processedPathNodes.put(pn, "ignored");
+
             } else if (pn instanceof StartPoint || pn instanceof EndPoint || pn instanceof Timer) {
                 compRef = addDoSimple(seq, pn);
             } else if (pn instanceof WaitingPlace) {
@@ -449,6 +452,7 @@ public class ScenarioGenerator {
                 //System.out.println("unexpected pathnode"); //$NON-NLS-1$
                 continue;
             }
+
 
             // skip flow points
             if (pn instanceof AndFork || pn instanceof AndJoin)
@@ -488,10 +492,10 @@ public class ScenarioGenerator {
                     PathNode next = (PathNode) vResponsibilities.get(j);
                     ComponentRef nextCompRef = (ComponentRef) next.getContRef();
                     if (nextCompRef != compRef) {
-// this solves some issues but may cause others; to explore.  
-//                        if (type==EventType.WP_LEAVE_LITERAL || type == EventType.TIMER_RESET_LITERAL)
-//                            enqueueMessage(compRef, pn, next, nextCompRef);
-//                        else
+                        // this solves some issues but may cause others; to explore.  
+                        if (type==EventType.WP_LEAVE_LITERAL || type == EventType.TIMER_RESET_LITERAL)
+                            enqueueMessage(compRef, pn, next, nextCompRef);
+                        else 
                             addMessage(seq, compRef, nextCompRef, pn, next);
 
                     }
