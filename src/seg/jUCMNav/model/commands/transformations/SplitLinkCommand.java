@@ -46,6 +46,8 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
     // the location
     private int x, y;
 
+    private int oldIndex;
+    
     // does the responsibility definition already exist? (don't remove it on undo)
     private boolean bDefAlreadyExists;
 
@@ -95,6 +97,10 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
             existingDef = ((RespRef) node).getRespDef();
             bDefAlreadyExists = diagram.getUrndefinition().getResponsibilities().contains(existingDef);
         }
+        
+        
+        oldIndex = nextNode.getPred().indexOf(oldLink);
+        
         redo();
     }
 
@@ -122,7 +128,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
 
         // relink
         oldLink.setTarget(node);
-        newLink.setTarget(nextNode);
+        //  may break connection order, which impacts Connects        
+        //newLink.setTarget(nextNode);
+        nextNode.getPred().add(oldIndex, newLink); 
+        
+        
 
         // add to model
         diagram.getNodes().add(node);
@@ -161,8 +171,11 @@ public class SplitLinkCommand extends Command implements JUCMNavCommand {
         diagram.getNodes().remove(node);
 
         // unlink
-        oldLink.setTarget(nextNode);
         newLink.setTarget(null);
+        //  may break connection order, which impacts Connects
+        //oldLink.setTarget(nextNode);
+        nextNode.getPred().add(oldIndex, oldLink);
+        
 
         if (node instanceof RespRef && !bDefAlreadyExists) {
             URNspec urn = diagram.getUrndefinition().getUrnspec();
