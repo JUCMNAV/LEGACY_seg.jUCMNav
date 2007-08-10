@@ -530,7 +530,8 @@ public class ExportURNHTML implements IURNExport {
 
 	/**
 	 * Determines if the list of URN nodes for a diagram contains a node of type 
-	 * @param URNnodes list of IURNNode (non-casted)
+	 * Note: often, these are the implementation types (e.g., RespRefImpl instead of RespRef).
+	 * @param urnNodes list of IURNNode (non-casted)
 	 * @param nodeType type of URN node we look for
 	 * @return true if the node list contains a node of type nodeType
 	 */
