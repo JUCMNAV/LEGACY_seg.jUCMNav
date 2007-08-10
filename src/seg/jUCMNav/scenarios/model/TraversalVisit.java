@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import ucm.map.ComponentRef;
+import ucm.map.Connect;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
 import ucm.map.PluginBinding;
@@ -67,6 +68,8 @@ public class TraversalVisit {
      */
     protected void addComponentRefs(PathNode pn, Vector list, Vector ignored) {
         ComponentRef ref = (ComponentRef) pn.getContRef();
+        // Connects aren't always connected. 
+        if (pn instanceof Connect) ref =  (ComponentRef)((NodeConnection)pn.getSucc().get(0)).getTarget().getContRef();
         
         // all : all the definitions used in this map. 
         Vector all = new Vector();
