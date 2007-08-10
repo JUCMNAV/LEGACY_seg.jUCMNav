@@ -582,6 +582,7 @@ public class ScenarioGenerator {
                     Vector curr = (Vector) reachable[i].clone();
                     curr.retainAll(reachable[j]);
 
+                    // basically, we're try to figure out if seq2 was merged into an and-join. if so, we need to add seq2 as a child before and-join
                     if (curr.size() > 0) {
                         PathNode join = (PathNode) curr.firstElement();
                         assert join instanceof AndJoin;
@@ -592,10 +593,44 @@ public class ScenarioGenerator {
                         Integer location_pos = (Integer) location[1];
 
                         //location_seq.getChildren().add(location_pos.intValue() == 0 ? 0 : location_pos.intValue() - 1, seq2);
-                        location_seq.getChildren().add(location_pos.intValue(), seq2);
+                        
+                        int where=-1;
+                        
+                        // the following if checks to see if we're inserting a path right after a timer reset or waiting place leave (which are consecutive). if so, lets insert ourselves in between the two   
+                        if (location_pos.intValue()>0 && location_seq.getChildren().get(location_pos.intValue()-1) instanceof Event ){
+                            Event previous = (Event) location_seq.getChildren().get(location_pos.intValue()-1);
+                            if (previous.getType().getValue() == EventType.TIMER_RESET || previous.getType().getValue() == EventType.WP_LEAVE)
+                            {
+                                location_seq.getChildren().add(location_pos.intValue()-1, seq2);
+                                where = location_pos.intValue();
+                            }
+                                    
+                        }
+                        
+                        if (where==-1) {
+                            location_seq.getChildren().add(location_pos.intValue(), seq2);
+                            where = location_pos.intValue();
+                        }
 
-                        // update for next
-                        location[1] = new Integer(location_pos.intValue() + 1);
+                        
+                        // update ALL pointers for next, not just this one. 
+                        //location[1] = new Integer(location_pos.intValue() +1);
+                        for (Iterator iter = processedPathNodes.values().iterator(); iter.hasNext();) {
+                            Object o  = (Object) iter.next();
+                            if (o instanceof Object[]) {
+                                Integer location_pos2 = (Integer) ((Object[])o)[1];
+                                if (location_pos2.intValue()>=where) {
+                                    ((Object[])o)[1]=new Integer(location_pos2.intValue()+1);
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        
+                        
+                        
+                        
                         break;
                     }
 

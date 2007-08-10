@@ -118,7 +118,7 @@ public class DuplicateCommand extends CompoundCommand {
 
             EList newMetadata = newScenario.getMetadata();
             newMetadata.clear();
-            copyMetadata(newMetadata, this.scenario.getMetadata());
+            copyMetadata(urn, newMetadata, this.scenario.getMetadata());
 
             add(cmd);
 
@@ -154,7 +154,7 @@ public class DuplicateCommand extends CompoundCommand {
 
             EList newMetadata = newGroup.getMetadata();
             newMetadata.clear();
-            copyMetadata(newMetadata, this.group.getMetadata());
+            copyMetadata(urn, newMetadata, this.group.getMetadata());
 
             CreateScenarioGroupCommand cmd = new CreateScenarioGroupCommand(this.urn, newGroup);
             add(cmd);
@@ -174,7 +174,7 @@ public class DuplicateCommand extends CompoundCommand {
 
             EList newMetadata = newStrategy.getMetadata();
             newMetadata.clear();
-            copyMetadata(newMetadata, this.strategy.getMetadata());
+            copyMetadata(urn, newMetadata, this.strategy.getMetadata());
 
             add(cmd);
             for (Iterator iter = strategy.getEvaluations().iterator(); iter.hasNext();) {
@@ -208,7 +208,7 @@ public class DuplicateCommand extends CompoundCommand {
 
             EList newMetadata = newGroup.getMetadata();
             newMetadata.clear();
-            copyMetadata(newMetadata, group2.getMetadata());
+            copyMetadata(urn, newMetadata, group2.getMetadata());
 
             CreateStrategiesGroupCommand cmd = new CreateStrategiesGroupCommand(urn, newGroup);
             add(cmd);
@@ -220,7 +220,7 @@ public class DuplicateCommand extends CompoundCommand {
         }
     }
 
-    private void copyMetadata(EList newMetadata, EList srcMetadata) {
+    public static void copyMetadata(URNspec urn, EList newMetadata, EList srcMetadata) {
         for (int i = 0; i < srcMetadata.size(); i++) {
             Metadata tempMetadataElem = (Metadata) ModelCreationFactory.getNewObject(urn, Metadata.class);
             tempMetadataElem.setName(((Metadata) srcMetadata.get(i)).getName());

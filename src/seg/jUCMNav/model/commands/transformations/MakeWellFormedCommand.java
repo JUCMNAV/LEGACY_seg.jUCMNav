@@ -8,12 +8,16 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
+import seg.jUCMNav.model.commands.create.DuplicateCommand;
 import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.util.MetadataHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
 import ucm.map.AndFork;
 import ucm.map.AndJoin;
+import ucm.map.DirectionArrow;
 import ucm.map.EndPoint;
 import ucm.map.NodeConnection;
 import ucm.map.PathNode;
@@ -39,6 +43,8 @@ public class MakeWellFormedCommand extends CompoundCommand {
 
 	private Vector maps;
 	private CommandStack cs;
+    
+    public static boolean MOVE_TRIGGER_AFTER_JOIN = false;
 
     /**
      * Will ensure that all maps in the URNspec are well-formed. 
@@ -126,6 +132,43 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		
         // will restructure forks and joins so that they become well nested
 		cs.execute(new SimplifyForksAndJoinsCommand(map));
+        
+        if (MOVE_TRIGGER_AFTER_JOIN) {
+        
+            // find all and-joins (refresh)
+            andjoins = SimplifyForksAndJoinsCommand.findAndJoins(map, false);
+    
+            
+            // moves the trigger_end after the 
+            for (Iterator iter = andjoins.iterator(); iter.hasNext();) {
+                AndJoin andjoin = (AndJoin) iter.next();
+    
+                for (Iterator iterator = andjoin.getPred().iterator(); iterator.hasNext();) {
+                    NodeConnection nc = (NodeConnection) iterator.next();
+                    PathNode pn = (PathNode) nc.getSource();
+                    if (pn instanceof DirectionArrow) {
+                        if (MetadataHelper.getMetaData(pn, "type") != null && MetadataHelper.getMetaData(pn, "type").equalsIgnoreCase("TRIGGER_END")) {
+    
+                            URNspec urn = pn.getDiagram().getUrndefinition().getUrnspec();
+                            DirectionArrow da = (DirectionArrow) ModelCreationFactory.getNewObject(urn, DirectionArrow.class);
+                            da.setName(pn.getName());
+                            da.setDescription(pn.getDescription());
+                            IURNContainerRef ref = pn.getContRef();
+                            DuplicateCommand.copyMetadata(urn, da.getMetadata(), pn.getMetadata());
+                            
+                            cs.execute(new SplitLinkCommand((UCMmap)andjoin.getDiagram(), da, (NodeConnection) andjoin.getSucc().get(0), andjoin.getX()+10, andjoin.getY()));
+                            cs.execute(new DeletePathNodeCommand(pn, null));
+                            
+                            da.setContRef(ref);
+    
+                            break;
+                        
+                        }
+                    }
+                }
+            }
+            }
+        
 	}
 
 	

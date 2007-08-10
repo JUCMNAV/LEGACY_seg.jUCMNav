@@ -52,6 +52,7 @@ import ucm.map.OrFork;
 import ucm.map.OrJoin;
 import ucm.map.OutBinding;
 import ucm.map.PathNode;
+import ucm.map.PluginBinding;
 import ucm.map.RespRef;
 import ucm.map.StartPoint;
 import ucm.map.Stub;
@@ -146,7 +147,7 @@ public class MscTraversalListener implements ITraversalListener {
 			comp = (IURNContainerRef) ModelCreationFactory.getNewObject(urnspec, ComponentRef.class, ((Component) def).getKind().getValue(), htComponents
 					.get(def));
 			// outside for autolayout
-			comp.setX(-1000);
+			comp.setX(-1000 + currentMap.getContRefs().size()*101);
 			comp.setY(-1000);
 			AddContainerRefCommand cmd = new AddContainerRefCommand(currentMap, comp);
 			cs.execute(cmd);
@@ -348,7 +349,18 @@ public class MscTraversalListener implements ITraversalListener {
                     MetadataHelper.addMetaData(urnspec, wait, "isPreCondition", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 				if (original_condition != null && original_condition.getLabel() != null && original_condition.getLabel().length() > 0)
 					wait.setName(original_condition.getLabel());
-				else
+				else if (visit.getVisitedElement() instanceof Stub) {
+                    wait.setName((visit.getVisitedElement()).getName()); // just in case we can't find the plugin name
+                    for (Iterator iter = ((Stub)visit.getVisitedElement()).getBindings().iterator(); iter.hasNext();) {
+                        PluginBinding binding = (PluginBinding) iter.next();
+                        if (binding.getPrecondition() == original_condition && binding.getPlugin()!=null)
+                        {
+                            wait.setName(binding.getPlugin().getName());
+                        }
+                    }
+
+                }
+                else
 					wait.setName((visit.getVisitedElement()).getName());
 
 				wait.setContRef(addCompRefIfAbsent(visit.getParentComponentDef()));
