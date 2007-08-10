@@ -418,11 +418,11 @@ public class ScenarioGenerator {
             }
 
 
-
+            EventType type = null;
             if (pn instanceof RespRef) {
                 compRef = addDo(seq, (RespRef) pn);
             } else if (pn instanceof DirectionArrow) {
-                EventType type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
+                type = EventType.get(MetadataHelper.getMetaData(pn, "type")); //$NON-NLS-1$
                 // these types are ignored.
                 if (type == EventType.CONNECT_END_LITERAL || type == EventType.CONNECT_START_LITERAL) { // || type == EventType.TRIGGER_END_LITERAL) {
                     //continue;
@@ -478,11 +478,7 @@ public class ScenarioGenerator {
                     PathNode next = (PathNode) vResponsibilities.get(j);
                     ComponentRef nextCompRef = (ComponentRef) next.getContRef();
                     if (nextCompRef != compRef) {
-                        Message msg = addMessage(null, compRef, nextCompRef, pn, next);
-                        if (!queuedMessages.containsKey(next))
-                            queuedMessages.put(next, new ArrayList());
-
-                        ((ArrayList) queuedMessages.get(next)).add(msg);
+                        enqueueMessage(compRef, pn, next, nextCompRef);
                     }
                 }
             } else if (count > 0) {
@@ -492,8 +488,11 @@ public class ScenarioGenerator {
                     PathNode next = (PathNode) vResponsibilities.get(j);
                     ComponentRef nextCompRef = (ComponentRef) next.getContRef();
                     if (nextCompRef != compRef) {
-                        Sequence seq2 = seq;
-                        addMessage(seq2, compRef, nextCompRef, pn, next);
+// this solves some issues but may cause others; to explore.  
+//                        if (type==EventType.WP_LEAVE_LITERAL || type == EventType.TIMER_RESET_LITERAL)
+//                            enqueueMessage(compRef, pn, next, nextCompRef);
+//                        else
+                            addMessage(seq, compRef, nextCompRef, pn, next);
 
                     }
                 }
@@ -502,6 +501,14 @@ public class ScenarioGenerator {
         }
 
         return initialCompRef;
+    }
+
+    private void enqueueMessage(ComponentRef compRef, PathNode pn, PathNode next, ComponentRef nextCompRef) {
+        Message msg = addMessage(null, compRef, nextCompRef, pn, next);
+        if (!queuedMessages.containsKey(next))
+            queuedMessages.put(next, new ArrayList());
+
+        ((ArrayList) queuedMessages.get(next)).add(msg);
     }
 
     /**
