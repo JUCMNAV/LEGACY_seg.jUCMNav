@@ -563,7 +563,8 @@ public class PathNodeEditPart extends ModelElementEditPart implements NodeEditPa
         // if this line is removed, the XYLayoutManager used by the parent container
         // (the Figure of the ShapesDiagramEditPart), will not know the bounds of this figure
         // and will not draw it correctly.
-        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
+        if (getParent()!=null)
+            ((GraphicalEditPart) getParent()).setLayoutConstraint(this, figure, bounds);
 
 //        if (((UCMConnectionOnBottomRootEditPart) getRoot()).isStrategyView()){
 //            
