@@ -335,6 +335,7 @@ public class ModelCreationFactory implements CreationFactory {
             } else if (targetClass.equals(ScenarioEndPoint.class)) {
                 result = ucmscenariofactory.createScenarioEndPoint();
                 ((ScenarioEndPoint) result).setEnabled(true);
+                ((ScenarioEndPoint) result).setMandatory(true);
             } else if (targetClass.equals(Evaluation.class)) {
                 result = grlfactory.createEvaluation();
                 ((Evaluation) result).setKpiEvalValueSet(kpiFactory.createKPIEvalValueSet());

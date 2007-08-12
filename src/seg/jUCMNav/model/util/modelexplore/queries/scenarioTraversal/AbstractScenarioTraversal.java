@@ -1,5 +1,6 @@
 package seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -181,19 +182,44 @@ public abstract class AbstractScenarioTraversal extends AbstractQueryProcessor {
      *            Vector of EndPoints
      */
     protected void verifyEndPoints(Vector expectedEndPoints, Vector reachedEndPoints) {
+        Collections.sort(expectedEndPoints, new java.util.Comparator(){
+            public int compare(Object obj1, Object obj2) {
+            if (obj1 instanceof ScenarioEndPoint && obj2 instanceof ScenarioEndPoint) {
+                ScenarioEndPoint end1 = (ScenarioEndPoint ) obj1;
+                ScenarioEndPoint end2 = (ScenarioEndPoint ) obj2;
+                if (end1.isMandatory() && !end2.isMandatory())
+                    return -1;
+                else if (!end1.isMandatory() && end2.isMandatory())
+                    return 1;
+                else
+                    return 0;
+            } else if (obj1 instanceof EndPoint)
+                return -1;
+            else if (obj2 instanceof EndPoint)
+                return 1;
+            else 
+                return 0;
+            }
+        });
+        
         for (Iterator iter = expectedEndPoints.iterator(); iter.hasNext();) {
             EObject obj = (EObject) iter.next();
             EndPoint pt = null;
-            if (obj instanceof EndPoint)
+            int severity = IMarker.SEVERITY_ERROR;;
+            
+            if (obj instanceof EndPoint) {
                 pt = (EndPoint) obj;
+            }
             else if (obj instanceof ScenarioEndPoint) {
-                if (((ScenarioEndPoint) obj).isEnabled())
+                if (((ScenarioEndPoint) obj).isEnabled()) {
                     pt = ((ScenarioEndPoint) obj).getEndPoint();
+                    if (!((ScenarioEndPoint) obj).isMandatory()) severity = IMarker.SEVERITY_INFO; 
+                }
             }
 
             if (pt != null && !reachedEndPoints.contains(pt)) {
                 _warnings.add(new TraversalWarning(
-                        Messages.getString("DefaultScenarioTraversal.ScenariosShouldHaveReachedEndPoint") + pt.toString(), pt, IMarker.SEVERITY_ERROR)); //$NON-NLS-1$
+                        Messages.getString("DefaultScenarioTraversal.ScenariosShouldHaveReachedEndPoint") + pt.toString(), pt, severity)); //$NON-NLS-1$
             } else {
                 // so that we can find multiple instances
                 reachedEndPoints.remove(pt);
