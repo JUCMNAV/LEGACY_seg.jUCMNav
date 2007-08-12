@@ -551,10 +551,29 @@ public class ModelCreationFactory implements CreationFactory {
 
     }
 
+
     /**
+     * 
+     * Creates a new URNspec. A new GRL or UCM will be created, depending on the preferences last set in the new file wizard. 
      * @return a new URN spec
      */
     public static URNspec getNewURNspec() {
+        // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
+
+        return getNewURNspec(GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL(),GeneralPreferencePage.getNewGRL());   
+    }
+    
+    /**
+     * 
+     * Creates a new URNspec. 
+     * 
+     * @param createUcm should a blank UCM be created?
+     * @param createGrl should a blank GRL graph be created?
+     * @return a new URN spec
+     */    
+    public static URNspec getNewURNspec(boolean createUcm, boolean createGrl)
+    {
+
         URNspec result = null;
 
         // create the URN spec
@@ -588,13 +607,12 @@ public class ModelCreationFactory implements CreationFactory {
         urnspec.setGrlspec((GRLspec) ModelCreationFactory.getNewObject(null, GRLspec.class));
 
         // add a new GRL diagram to the GRLspec, if desired
-        if (GeneralPreferencePage.getNewGRL()){
+        if (createGrl){
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, GRLGraph.class));        	
         }
         
         // add a new UCM map to the UCMspec, if desired. 
-        // Will also create one if no GRL or UCM diagrams were selected (so at least one diagram is present)
-        if (GeneralPreferencePage.getNewUCM() || !GeneralPreferencePage.getNewGRL()){
+        if (createUcm){
             urnspec.getUrndef().getSpecDiagrams().add(getNewObject(urnspec, UCMmap.class));        	
         }
 
