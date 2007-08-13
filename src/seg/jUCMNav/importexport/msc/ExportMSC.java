@@ -81,10 +81,10 @@ public class ExportMSC implements IURNExport, IURNExportPrePostHooks {
 			URI newFile = (new File(this.newFilename)).toURI().normalize();
 			URI workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getLocationURI().normalize();
 						
-			
 			if (newFile.toString().startsWith(workspaceFile.toString()))
 			{
 				String path = newFile.toString().substring(workspaceFile.toString().length());
+                path = path.replaceAll("%20", " ");
 
 				IFile file = (IFile) ((Workspace) ResourcesPlugin.getWorkspace()).newResource(new Path(path), IResource.FILE);
 				file.getParent().refreshLocal(1, null);
