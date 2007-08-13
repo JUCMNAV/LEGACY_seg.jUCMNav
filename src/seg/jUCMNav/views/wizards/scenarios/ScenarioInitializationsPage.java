@@ -1,7 +1,9 @@
 package seg.jUCMNav.views.wizards.scenarios;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
@@ -35,6 +37,7 @@ import seg.jUCMNav.Messages;
 import seg.jUCMNav.model.commands.create.CreateVariableInitializationCommand;
 import seg.jUCMNav.model.commands.delete.DeleteVariableInitializationCommand;
 import seg.jUCMNav.model.commands.transformations.ChangeCodeCommand;
+import seg.jUCMNav.model.util.URNmodelElementNameComparator;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -281,13 +284,18 @@ public class ScenarioInitializationsPage extends WizardPage {
 		attachLabelProvider(viewer);
 		attachCellEditors(viewer, variables);
 
-		for (int i = 0; i < getParentScenario().getGroup().getUcmspec().getVariables().size(); i++) {
-			Variable var = (Variable) getParentScenario().getGroup().getUcmspec().getVariables().get(i);
-			TableItem item = new TableItem(variables, SWT.NONE);
+        Vector v = new Vector(getParentScenario().getGroup().getUcmspec().getVariables());
+        Collections.sort(v, new URNmodelElementNameComparator());
+        
+ 
+		for (int i = 0; i < v.size(); i++) {
+			Variable var = (Variable) v.get(i);
+			TableItem item = new TableItem(variables, SWT.NONE, i);
 			item.setData(var);
 			initTableItem(var, item);
 		}
 
+        
 		variables.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				Variable var = ((Variable) event.item.getData());
