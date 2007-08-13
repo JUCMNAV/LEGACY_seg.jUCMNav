@@ -302,7 +302,7 @@ public class ScenarioGenerator {
     }
 
     /**
-     * Creates a message between two isntances.
+     * Creates a message between two instances.
      * 
      * @param element
      *            where to add it
