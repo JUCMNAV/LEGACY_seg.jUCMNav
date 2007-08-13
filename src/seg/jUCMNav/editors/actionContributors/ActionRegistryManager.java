@@ -22,6 +22,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IWorkbenchPart;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
@@ -56,6 +57,9 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
+import seg.jUCMNav.actions.debug.MakeWellFormedAction;
+import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
+import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.kpi.AddIndicatorGroupAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
@@ -298,10 +302,6 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.addMap")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
 
-//        action = new MakeWellFormedAction(editor);
-//        action.setText("Transform URN so that concurrency is linearizable (well-formed).");
-//        addEditPartAction((SelectionAction) action);
-        
         action = new DirectEditAction((IWorkbenchPart) editor);
         action.setText(Messages.getString("ActionRegistryManager.edit")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);
@@ -435,6 +435,26 @@ public class ActionRegistryManager {
         action.setText(Messages.getString("ActionRegistryManager.editStubPlugins")); //$NON-NLS-1$
         addEditPartAction((SelectionAction) action);  
 
+        
+        // only available when debugging jucmnav
+        
+        if (JUCMNavPlugin.isInDebug()) {
+            action = new MakeWellFormedAction(editor);
+            action.setText("Transform URN so that concurrency is linearizable (well-formed).");
+            addEditPartAction((SelectionAction) action);
+            
+            action = new SimplifyForksAndJoinsAction(editor);
+            action.setText("Simplify Forks and Joins.");
+            addEditPartAction((SelectionAction) action);
+            
+            action = new TrimEmptyPointsAction(editor);
+            action.setText("Delete all empty points.");
+            addEditPartAction((SelectionAction) action);
+        }
+        
+        
+        
+        
 
     }
 

@@ -25,6 +25,7 @@ import ucm.map.StartPoint;
 import ucm.map.UCMmap;
 import urn.URNspec;
 import urncore.IURNContainerRef;
+import urncore.IURNDiagram;
 
 /**
  * 
@@ -54,8 +55,9 @@ public class MakeWellFormedCommand extends CompoundCommand {
 		setLabel(Messages.getString("MakeWellFormedCommand.MakeUCMWellFormed")); //$NON-NLS-1$
 		maps = new Vector();
 		for (Iterator iter = urn.getUrndef().getSpecDiagrams().iterator(); iter.hasNext();) {
-			UCMmap map = (UCMmap) iter.next();
-			maps.add(map);
+            IURNDiagram map = (IURNDiagram) iter.next();
+            if (map instanceof UCMmap)
+                maps.add(map);
 		}
 	}
 

@@ -8,6 +8,8 @@ import java.util.Vector;
 import org.eclipse.gef.commands.CompoundCommand;
 
 import seg.jUCMNav.model.commands.delete.DeleteNodeConnectionCommand;
+import seg.jUCMNav.model.commands.delete.DeletePathNodeCommand;
+import seg.jUCMNav.model.commands.transformations.internal.SimplifyForkJoinCommand;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder;
 import seg.jUCMNav.model.util.modelexplore.queries.ReachableNodeFinder.QFindReachableNodes;
@@ -285,16 +287,19 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 
 			// we know there is more than one
 			assert hmForkToNodeConnection.values().size() >= 2;
-			for (Iterator iterator = hmForkToNodeConnection.values().iterator(); iterator.hasNext();) {
-				Vector v = (Vector) iterator.next();
-
-				// if only one, skip. otherwise merge others into one
-				if (v.size() > 1) {
-
-					mergeInPathsIntoFork(andfork, v);
-				}
-
-			}
+//			for (Iterator iterator = hmForkToNodeConnection.values().iterator(); iterator.hasNext();) {
+//				Vector v = (Vector) iterator.next();
+//
+//				// if only one, skip. otherwise merge others into one
+//				if (v.size() > 1) {
+//
+//					mergeInPathsIntoFork(andfork, v);
+//				}
+//
+//			}
+            
+            this.add(new DeletePathNodeCommand(andfork, null));
+            add(new SimplifyForkJoinCommand(andfork, hmForkToNodeConnection));
 
 		}
 	}
@@ -333,16 +338,18 @@ public class SimplifyForksAndJoinsCommand extends CompoundCommand {
 
 			// we know there is more than one
 			assert hmForkToNodeConnection.values().size() >= 2;
-			for (Iterator iterator = hmForkToNodeConnection.values().iterator(); iterator.hasNext();) {
-				Vector v = (Vector) iterator.next();
-
-				// if only one, skip. otherwise merge others into one
-				if (v.size() > 1) {
-
-					mergeInPathsIntoJoin(andjoin, v);
-				}
-
-			}
+//			for (Iterator iterator = hmForkToNodeConnection.values().iterator(); iterator.hasNext();) {
+//				Vector v = (Vector) iterator.next();
+//
+//				// if only one, skip. otherwise merge others into one
+//				if (v.size() > 1) {
+//
+//					mergeInPathsIntoJoin(andjoin, v);
+//				}
+//
+//			}
+            this.add(new DeletePathNodeCommand(andjoin, null));
+            add(new SimplifyForkJoinCommand(andjoin, hmForkToNodeConnection));
 
 		}
 	}

@@ -8,6 +8,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
 
+import seg.jUCMNav.JUCMNavPlugin;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBeliefAction;
@@ -40,6 +41,9 @@ import seg.jUCMNav.actions.TransmogrifyOrForkOrJoinAction;
 import seg.jUCMNav.actions.UnbindChildren;
 import seg.jUCMNav.actions.UnbindFromParent;
 import seg.jUCMNav.actions.concerns.ManageConcernsAction;
+import seg.jUCMNav.actions.debug.MakeWellFormedAction;
+import seg.jUCMNav.actions.debug.SimplifyForksAndJoinsAction;
+import seg.jUCMNav.actions.debug.TrimEmptyPointsAction;
 import seg.jUCMNav.actions.kpi.EditIndicatorGroupsAction;
 import seg.jUCMNav.actions.metadata.EditMetadataAction;
 import seg.jUCMNav.actions.performance.ManageDemandAction;
@@ -240,6 +244,24 @@ public class UrnContextMenuProvider extends ContextMenuProvider {
         action = getActionRegistry().getAction(ManageResourcesAction.MANAGERESOURCESACTION);
         if (action.isEnabled())
             manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        // only available when debugging jucmnav
+        
+        if (JUCMNavPlugin.isInDebug()) {
+            action = getActionRegistry().getAction(MakeWellFormedAction.MAKEWELLFORMED);
+            if (action!=null && action.isEnabled())
+                manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+            action = getActionRegistry().getAction(SimplifyForksAndJoinsAction.SIMPLIFYFORKSANDJOINS);
+            if (action!=null && action.isEnabled())
+                manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+            action = getActionRegistry().getAction(TrimEmptyPointsAction.TRIMEMPTYPOINTS);
+            if (action!=null && action.isEnabled())
+                manager.appendToGroup(GEFActionConstants.GROUP_REST, action);
+
+        }
+
     }
 
     /**

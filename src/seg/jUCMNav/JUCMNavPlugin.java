@@ -9,6 +9,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+
 /**
  * The main plugin class to be used in the desktop.
  */
@@ -100,5 +102,8 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     }
     
     
+    public static boolean isInDebug() {
+        return (GeneralPreferencePage.getAuthor()!=null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor()));
+    }
     
 }

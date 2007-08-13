@@ -1,9 +1,11 @@
-package seg.jUCMNav.actions;
+package seg.jUCMNav.actions.debug;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.ui.IWorkbenchPart;
 
 import seg.jUCMNav.JUCMNavPlugin;
+import seg.jUCMNav.actions.SelectionHelper;
+import seg.jUCMNav.actions.URNSelectionAction;
 import seg.jUCMNav.model.commands.transformations.MakeWellFormedCommand;
 
 /**
