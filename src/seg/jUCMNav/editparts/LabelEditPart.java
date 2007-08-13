@@ -267,6 +267,9 @@ public class LabelEditPart extends ModelElementEditPart {
         int featureIdUcm = notification.getFeatureID(MapPackage.class);
         int featureIdGrl = notification.getFeatureID(GrlPackage.class);
 
+        // bug 523: feedback remains even when element is deleted. 
+        eraseTargetFeedback(new SelectionRequest());
+        
         if (type == Notification.SET) {
             // if changing component definitions
             if (featureIdUrn == UrncorePackage.IURN_CONTAINER_REF__CONT_DEF) {
