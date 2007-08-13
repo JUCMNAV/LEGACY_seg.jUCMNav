@@ -597,7 +597,7 @@ public class ScenarioGenerator {
                         int where=-1;
                         
                         // the following if checks to see if we're inserting a path right after a timer reset or waiting place leave (which are consecutive). if so, lets insert ourselves in between the two   
-                        if (location_pos.intValue()>0 && location_seq.getChildren().get(location_pos.intValue()-1) instanceof Event ){
+                        if (location_pos.intValue()>0 && location_pos.intValue()-1<location_seq.getChildren().size() && location_seq.getChildren().get(location_pos.intValue()-1) instanceof Event ){
                             Event previous = (Event) location_seq.getChildren().get(location_pos.intValue()-1);
                             if (previous.getType().getValue() == EventType.TIMER_RESET || previous.getType().getValue() == EventType.WP_LEAVE)
                             {
@@ -608,6 +608,7 @@ public class ScenarioGenerator {
                         }
                         
                         if (where==-1) {
+                            if (location_pos.intValue()>=location_seq.getChildren().size()) location_pos = new Integer(location_seq.getChildren().size()); // last
                             location_seq.getChildren().add(location_pos.intValue(), seq2);
                             where = location_pos.intValue();
                         }
