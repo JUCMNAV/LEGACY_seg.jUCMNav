@@ -39,6 +39,8 @@ public class ScenarioTraversalPreferencePage extends FieldEditorPreferencePage i
         IntegerFieldEditor hitcount = new IntegerFieldEditor(ScenarioTraversalPreferences.PREF_MAXHITCOUNT, Messages.getString("ScenarioTraversalPreferencePage.MaximumHitCount"),  getFieldEditorParent()); //$NON-NLS-1$
         addField(hitcount);
 
+        BooleanFieldEditor strategyVariables = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_INTEGRATESTRATEGYVARIABLES, Messages.getString("ScenarioTraversalPreferencePage.IntegrateStrategyVariables"), getFieldEditorParent());  //$NON-NLS-1$
+        addField(strategyVariables);
 
         BooleanFieldEditor patient = new BooleanFieldEditor(ScenarioTraversalPreferences.PREF_ISPATIENTONPRECONDITIONS, Messages.getString("ScenarioTraversalPreferencePage.IsPatient"), getFieldEditorParent());  //$NON-NLS-1$
         addField(patient);

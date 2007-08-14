@@ -135,10 +135,10 @@ public class URNNamingHelper {
     private static String getSimpleName(Class targetClass) {
         String simpleName = targetClass.getName();
         return simpleName.substring(simpleName.lastIndexOf(".") + 1); // strip //$NON-NLS-1$
-																		// the
-																		// package
-																		// name
-																		// //$NON-NLS-1$
+        // the
+        // package
+        // name
+        // //$NON-NLS-1$
     }
 
     /**
@@ -999,6 +999,34 @@ public class URNNamingHelper {
             parent = parent.eContainer();
         }
         return isNameValid((URNspec) parent, elem, name);
+    }
+
+    /**
+     * Returns a sorted list of GRL variable names (intentional elements)
+     * 
+     * @param urn
+     *            the source URN model
+     * @return the sorted list of GRL variables.
+     */
+    public static Vector getGrlVariableNames(URNspec urn) {
+        Vector v2 = new Vector();
+        for (int i = 0; i < urn.getGrlspec().getIntElements().size(); i++) {
+            v2.add(getGrlVariableName((IntentionalElement) urn.getGrlspec().getIntElements().get(i)));
+        }
+
+        Collections.sort(v2);
+        return v2;
+    }
+
+    /**
+     * Returns an intentional element's variable for use in UCM scenarios.
+     * 
+     * @param element
+     *            the intentional element
+     * @return the variable name
+     */
+    public static String getGrlVariableName(IntentionalElement element) {
+        return URNNamingHelper.cleanVariableName("_GRL_" + element.getName()); //$NON-NLS-1$
     }
 
 }

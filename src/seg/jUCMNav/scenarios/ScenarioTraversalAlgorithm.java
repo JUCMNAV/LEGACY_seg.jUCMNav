@@ -1,5 +1,8 @@
 package seg.jUCMNav.scenarios;
 
+import grl.Evaluation;
+import grl.IntentionalElement;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,6 +12,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.ModelCreationFactory;
 import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.model.util.modelexplore.GraphExplorer;
 import seg.jUCMNav.model.util.modelexplore.queries.scenarioTraversal.ScenarioTraversalQuery;
@@ -18,6 +22,8 @@ import seg.jUCMNav.scenarios.model.TraversalException;
 import seg.jUCMNav.scenarios.model.TraversalResult;
 import seg.jUCMNav.scenarios.model.TraversalWarning;
 import seg.jUCMNav.scenarios.model.UcmEnvironment;
+import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.scenario.Initialization;
 import ucm.scenario.ScenarioDef;
@@ -274,6 +280,27 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 		if (root == scenario) {
 			env.clearValuations();
 		}
+        
+        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+                Vector v2 = URNNamingHelper.getGrlVariableNames(env.getUrn());
+                for (Iterator iter = v2.iterator(); iter.hasNext();) {
+                    String element = (String) iter.next();
+                    try {
+                        env.registerInteger(element);
+                    } catch(IllegalArgumentException ex) {
+                        // ignore naming conflicts. the UCM elements have precedence.  
+                    }
+                }
+            }            
+            for (Iterator iter = env.getUrn().getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+                IntentionalElement element = (IntentionalElement) iter.next();
+                Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
+                if (ev!=null) {
+                    env.setValue(URNNamingHelper.getGrlVariableName(element), new Integer(ev.getEvaluation()) );
+                }
+            }        
+        }
 
 		for (Iterator iter = ScenarioUtils.getDefinedInitializations(root).iterator(); iter.hasNext();) {
 			Initialization init = (Initialization) iter.next();
@@ -331,7 +358,36 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 			}
 
 		}
+        
+        // change the evaluations  
+        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+            for (Iterator iter = env.getUrn().getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+                IntentionalElement element = (IntentionalElement) iter.next();
+                try {
+                    
+                    Integer i = (Integer) env.getValue(URNNamingHelper.getGrlVariableName(element));
+                    
+                    if (i.intValue()<-100)
+                        i = new Integer(-100);
+                    else if (i.intValue()>100)
+                        i = new Integer(100);
+                    
+                    // changes source model on existing variables only.  
+                    //Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
+                    
 
+                    Evaluation original = EvaluationStrategyManager.getInstance().getEvaluationObject(element);
+                    if (original.getEvaluation() != i.intValue()) {
+                        // never changes source model - just UI changes. 
+                        Evaluation ev = (Evaluation) ModelCreationFactory.getNewObject(env.getUrn(), Evaluation.class);
+                        ev.setEvaluation(i.intValue());
+                        EvaluationStrategyManager.getInstance().setEvaluationForElement(element, ev);
+                    }
+                } catch (Exception ex){
+                    // we don't care about undefined variables or incorrect types here. 
+                }
+            }
+        }
 	}
 
 	/**

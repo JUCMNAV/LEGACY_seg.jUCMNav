@@ -37,7 +37,10 @@ import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyRootEditPart;
 import seg.jUCMNav.editparts.strategyTreeEditparts.StrategyTreeEditPartFactory;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.strategies.EvaluationStrategyManager;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
+import ucm.UCMspec;
 import ucm.scenario.ScenarioDef;
+import ucm.scenario.ScenarioGroup;
 
 /**
  * 
@@ -328,6 +331,17 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                         for (int i=0; i< multieditor.getPageCount(); i++){
                             UrnEditor u = (UrnEditor) multieditor.getEditor(i);
                             ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
+                        }
+                        
+                        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+                            // refresh scenario too. 
+                            if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioDef)
+                                ScenarioUtils.setActiveScenario((ScenarioDef) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+                            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioGroup)
+                                ScenarioUtils.setActiveScenario((ScenarioGroup) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+                            else if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof UCMspec)
+                                ScenarioUtils.setActiveScenario((UCMspec) ScenarioUtils.getActiveScenario(multieditor.getModel()));
+                            
                         }
                     }
                 } else if (obj instanceof ScenarioDefTreeEditPart && ((ScenarioDefTreeEditPart)obj).getParent() instanceof ScenarioGroupTreeEditPart ){

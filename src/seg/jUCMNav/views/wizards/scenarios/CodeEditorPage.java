@@ -35,6 +35,7 @@ import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
 import seg.jUCMNav.views.preferences.GeneralPreferencePage;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.scenario.Variable;
 import urn.URNspec;
 import urncore.Condition;
@@ -440,11 +441,21 @@ public class CodeEditorPage extends WizardPage {
 		}
 		
 		Collections.sort(v);
-		String[] vars = new String[v.size()];
 
-		for (int i=0;i<v.size();i++) {
-			vars[i]=v.get(i).toString();
-		}
+        
+		Vector v2 = URNNamingHelper.getGrlVariableNames(urn);
+        
+        if (!ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) v2.clear(); // don't add GRL variables. 
+        
+        String[] vars = new String[v.size()+v2.size()];
+
+        int i=0;
+        for (;i<v.size();i++) {
+            vars[i]=v.get(i).toString();
+        }
+        for (;i-v.size()<v2.size();i++) {
+            vars[i]=v2.get(i-v.size()).toString();
+        }
 		variables.setItems(vars);
 		
 

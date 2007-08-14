@@ -466,9 +466,26 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 }
 
             }
+            
+            // we could do it here, but we'd have to bother with listening to model changes. putting all related code in ScenarioTraversalAlgorithm
+//            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+//                Vector v2 = URNNamingHelper.getGrlVariableNames(urn);
+//                for (Iterator iter = v2.iterator(); iter.hasNext();) {
+//                    String element = (String) iter.next();
+//                    try {
+//                        this.registerInteger(element);
+//                    } catch(IllegalArgumentException ex) {
+//                        // ignore naming conflicts. the UCM elements have precedence.  
+//                    }
+//                }
+//            }
 
         }
 
+    }
+
+    public URNspec getUrn() {
+        return urn;
     }
 
 }
