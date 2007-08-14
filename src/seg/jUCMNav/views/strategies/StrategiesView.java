@@ -328,12 +328,8 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                     currentStrategy = scen;
                     if (currentView == ID_STRATEGY){
                         (EvaluationStrategyManager.getInstance()).setStrategy(scen);
-                        for (int i=0; i< multieditor.getPageCount(); i++){
-                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
-                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);         
-                        }
                         
-                        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+                        if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables() && ScenarioUtils.getActiveScenario(multieditor.getModel())!=null) {
                             // refresh scenario too. 
                             if (ScenarioUtils.getActiveScenario(multieditor.getModel()) instanceof ScenarioDef)
                                 ScenarioUtils.setActiveScenario((ScenarioDef) ScenarioUtils.getActiveScenario(multieditor.getModel()));
@@ -343,6 +339,17 @@ public class StrategiesView extends ViewPart implements IPartListener2, ISelecti
                                 ScenarioUtils.setActiveScenario((UCMspec) ScenarioUtils.getActiveScenario(multieditor.getModel()));
                             
                         }
+                        
+                        for (int i=0; i< multieditor.getPageCount(); i++){
+                            UrnEditor u = (UrnEditor) multieditor.getEditor(i);
+                            ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setStrategyView(true);
+                            
+                            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables() && ScenarioUtils.getActiveScenario(multieditor.getModel())!=null) { 
+                                ((URNRootEditPart) u.getGraphicalViewer().getRootEditPart()).setScenarioView(true);
+                            }
+                        }
+                        
+ 
                     }
                 } else if (obj instanceof ScenarioDefTreeEditPart && ((ScenarioDefTreeEditPart)obj).getParent() instanceof ScenarioGroupTreeEditPart ){
                     if (currentScenarioSelection != null){
