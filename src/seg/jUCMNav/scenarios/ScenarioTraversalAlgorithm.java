@@ -282,17 +282,6 @@ public class ScenarioTraversalAlgorithm implements IScenarioTraversalAlgorithm {
 		}
         
         if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
-            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
-                Vector v2 = URNNamingHelper.getGrlVariableNames(env.getUrn());
-                for (Iterator iter = v2.iterator(); iter.hasNext();) {
-                    String element = (String) iter.next();
-                    try {
-                        env.registerInteger(element);
-                    } catch(IllegalArgumentException ex) {
-                        // ignore naming conflicts. the UCM elements have precedence.  
-                    }
-                }
-            }            
             for (Iterator iter = env.getUrn().getGrlspec().getIntElements().iterator(); iter.hasNext();) {
                 IntentionalElement element = (IntentionalElement) iter.next();
                 Evaluation ev = EvaluationStrategyManager.getInstance().getEvaluationObject(element);

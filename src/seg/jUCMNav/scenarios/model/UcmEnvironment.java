@@ -1,15 +1,22 @@
 package seg.jUCMNav.scenarios.model;
 
+import grl.GRLspec;
+import grl.GrlPackage;
+import grl.IntentionalElement;
+
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 
 import seg.jUCMNav.Messages;
+import seg.jUCMNav.model.util.URNNamingHelper;
 import seg.jUCMNav.scenarios.ScenarioUtils;
 import seg.jUCMNav.scenarios.parser.SimpleNode;
+import seg.jUCMNav.views.preferences.ScenarioTraversalPreferences;
 import ucm.UCMspec;
 import ucm.UcmPackage;
 import ucm.scenario.ScenarioPackage;
@@ -360,7 +367,16 @@ public class UcmEnvironment implements Adapter, Cloneable {
             if (featureId == UcmPackage.UC_MSPEC__VARIABLES || featureId == UcmPackage.UC_MSPEC__ENUMERATION_TYPES) {
                 registerUCMspec((UCMspec) notification.getNotifier());
             }
-        } else if (notification.getNotifier() instanceof Variable) {
+        } else if (notification.getNotifier() instanceof GRLspec) {
+            int featureId = notification.getFeatureID(GRLspec.class);
+
+            if (featureId == GrlPackage.GR_LSPEC__INT_ELEMENTS) {
+                registerUCMspec(((GRLspec) notification.getNotifier()).getUrnspec().getUcmspec());
+            }
+            
+        }
+        else if (notification.getNotifier() instanceof Variable) {
+        
             int featureId = notification.getFeatureID(Variable.class);
 
             if (featureId == ScenarioPackage.VARIABLE__NAME) {
@@ -380,6 +396,16 @@ public class UcmEnvironment implements Adapter, Cloneable {
             }
             // refresh();
         }
+        else if (notification.getNotifier() instanceof IntentionalElement) {
+            int featureId = notification.getFeatureID(IntentionalElement.class);
+            if (featureId == GrlPackage.INTENTIONAL_ELEMENT__NAME) {
+                if (declarations.containsKey(notification.getOldValue().toString().toLowerCase())) {
+                    Object o = declarations.get(notification.getOldValue().toString().toLowerCase());
+                    declarations.remove(notification.getOldValue().toString().toLowerCase());
+                    declarations.put(notification.getNewValue().toString().toLowerCase(), o);
+                }
+            }
+        }
 
     }
     /*
@@ -397,11 +423,17 @@ public class UcmEnvironment implements Adapter, Cloneable {
     private void registerUCMspec(UCMspec ucmspec) {
         if (this.urn != null && ucmspec.getUrnspec() != this.urn) {
             this.urn.getUcmspec().eAdapters().remove(this);
+            this.urn.getGrlspec().eAdapters().remove(this);
 
             for (Iterator iter = urn.getUcmspec().getVariables().iterator(); iter.hasNext();) {
                 Variable var = (Variable) iter.next();
                 var.eAdapters().remove(this);
             }
+            
+            for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+                IntentionalElement var = (IntentionalElement) iter.next();
+                var.eAdapters().remove(this);
+            }            
 
         }
 
@@ -410,6 +442,7 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
         if (this.urn != null && !urn.getUcmspec().eAdapters().contains(this)) {
             urn.getUcmspec().eAdapters().add(this);
+            urn.getGrlspec().eAdapters().add(this);
         }
 
         if (this.urn != null) {
@@ -419,8 +452,13 @@ public class UcmEnvironment implements Adapter, Cloneable {
                 if (!var.eAdapters().contains(this))
                     var.eAdapters().add(this);
             }
+            
+            for (Iterator iter = urn.getGrlspec().getIntElements().iterator(); iter.hasNext();) {
+                IntentionalElement var = (IntentionalElement) iter.next();
+                if (!var.eAdapters().contains(this))
+                    var.eAdapters().add(this);
+            }              
         }
-        // TODO: remove unused ones.
     }
 
     /**
@@ -467,18 +505,17 @@ public class UcmEnvironment implements Adapter, Cloneable {
 
             }
             
-            // we could do it here, but we'd have to bother with listening to model changes. putting all related code in ScenarioTraversalAlgorithm
-//            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
-//                Vector v2 = URNNamingHelper.getGrlVariableNames(urn);
-//                for (Iterator iter = v2.iterator(); iter.hasNext();) {
-//                    String element = (String) iter.next();
-//                    try {
-//                        this.registerInteger(element);
-//                    } catch(IllegalArgumentException ex) {
-//                        // ignore naming conflicts. the UCM elements have precedence.  
-//                    }
-//                }
-//            }
+            if (ScenarioTraversalPreferences.getShouldIntegrateStrategyVariables()) {
+                Vector v2 = URNNamingHelper.getGrlVariableNames(urn);
+                for (Iterator iter = v2.iterator(); iter.hasNext();) {
+                    String element = (String) iter.next();
+                    try {
+                        this.registerInteger(element);
+                    } catch(IllegalArgumentException ex) {
+                        // ignore naming conflicts. the UCM elements have precedence.  
+                    }
+                }
+            }
 
         }
 
