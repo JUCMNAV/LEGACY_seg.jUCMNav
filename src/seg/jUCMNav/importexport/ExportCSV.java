@@ -151,9 +151,9 @@ public class ExportCSV implements IURNExport {
             Evaluation evaluation = EvaluationStrategyManager.getInstance(false).getEvaluationObject(element);
             
             if(evaluation.getStrategies() != null) {
-               	write(COMMA + evaluation.getEvaluation());
+               	write(COMMA + evaluation.getEvaluation() + "*");
             } else {
-            	write(COMMA + evaluation.getEvaluation() + "*"); //$NON-NLS-1$
+            	write(COMMA + evaluation.getEvaluation()); //$NON-NLS-1$
             }
         }
     }
