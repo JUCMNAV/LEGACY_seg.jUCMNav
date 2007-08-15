@@ -403,6 +403,8 @@ public class UcmEnvironment implements Adapter, Cloneable {
                     Object o = declarations.get(notification.getOldValue().toString().toLowerCase());
                     declarations.remove(notification.getOldValue().toString().toLowerCase());
                     declarations.put(notification.getNewValue().toString().toLowerCase(), o);
+                } else {
+                    registerInteger(URNNamingHelper.getGrlVariableName((IntentionalElement)notification.getNotifier()));
                 }
             }
         }
