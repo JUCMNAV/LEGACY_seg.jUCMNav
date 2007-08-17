@@ -575,12 +575,11 @@ public class URNNamingHelper {
      */
     public static void setElementNameAndID(URNspec urn, Object o) {
 
-        // ComponentElement, Actors and Responsibilty are two special cases;
+        // ComponentElement, Actors and Responsibility are two special cases;
         // they must have unique names.
         // Generics would help minimize the code for the rest; we could use EMF
         // to determine of the name and id attributes exist but decided to go
-        // for
-        // legibility
+        // for legibility
         if (o instanceof ComponentElement || o instanceof Responsibility || o instanceof Actor || o instanceof IntentionalElement || o instanceof Belief
                 || o instanceof ElementLink || o instanceof StrategiesGroup || o instanceof ScenarioGroup || o instanceof KPIInformationElement
                 || o instanceof KPIModelLink || o instanceof IndicatorGroup) {
@@ -591,6 +590,16 @@ public class URNNamingHelper {
 
             if (ce.getName() == null || ce.getName().trim().length() == 0) {
                 ce.setName(getPrefix(o.getClass()) + ce.getId());
+            }
+            
+            // Set the name properly for intentional elements. "IntentionalElementXXX" is too long...
+            if (o instanceof IntentionalElement) {
+            	ce.setName( ( (IntentionalElement) o).getType().toString() + ce.getId()); //$NON-NLS-1$
+            }
+
+            // Dummy description for beliefs
+            if (o instanceof Belief) {
+            	( (Belief) o).setDescription("Description..."); //$NON-NLS-1$
             }
 
         } else if (o instanceof EvaluationStrategy) {

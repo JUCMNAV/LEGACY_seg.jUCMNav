@@ -134,7 +134,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
 
             if (GeneralPreferencePage.getGrlAutoAddLinks()) {
                 if (((IntentionalElementRef) node).getDef().getLinksSrc().size() + ((IntentionalElementRef) node).getDef().getLinksDest().size() > 0) {
-                    // dragged existinng element from outline.
+                    // dragged existing element from outline.
 
                     CreateAllLinkRefCommand createCmd = new CreateAllLinkRefCommand(getGraph(), (IntentionalElementRef) node);
                     if (createCmd.canExecute())
@@ -143,7 +143,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
                 }
 
                 if (node instanceof Indicator && ((Indicator) ((IntentionalElementRef) node).getDef()).getKpiModelLinksDest().size() > 0) {
-                    // dragged existinng element from outline.
+                    // dragged existing element from outline.
 
                     CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(getGraph(), (IntentionalElementRef) node);
                     if (createCmd.canExecute())
@@ -157,7 +157,7 @@ public class GrlGraphXYLayoutEditPolicy extends AbstractDiagramXYLayoutEditPolic
 
             if (GeneralPreferencePage.getGrlAutoAddLinks()) {
                 if (((KPIInformationElementRef) node).getDef().getKpiModelLinksSrc().size() > 0) {
-                    // dragged existinng element from outline.
+                    // dragged existing element from outline.
 
                     CreateAllKPIModelLinkRefCommand createCmd = new CreateAllKPIModelLinkRefCommand(getGraph(), (KPIInformationElementRef) node);
                     if (createCmd.canExecute())
