@@ -36,7 +36,7 @@ public class SplineConnection extends PolylineConnection {
     }
 
     /**
-     * Overridden to add a check to avoid crashing when spline has not ye been routed and thus has no points.
+     * Overridden to add a check to avoid crashing when spline has not yet been routed and thus has no points.
      * 
      * Lays out this Figure using its {@link LayoutManager}.
      * 

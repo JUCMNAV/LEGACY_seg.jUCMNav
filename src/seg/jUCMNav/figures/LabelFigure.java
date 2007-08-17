@@ -16,20 +16,7 @@ public class LabelFigure extends Label implements LabelElementFigure {
     
     private boolean selected;
     
-    /** The inner TextFlow **/
-   // protected TextFlow textFlow;
-    
     public LabelFigure() {
-//        FlowPage flowPage = new FlowPage();
-//
-//        textFlow = new TextFlow();
-//        textFlow.setLayoutManager(new ParagraphTextLayout(textFlow,
-//                ParagraphTextLayout.WORD_WRAP_SOFT));
-//
-//        flowPage.add(textFlow);
-//
-//        setLayoutManager(new StackLayout());
-//        add(flowPage);
     }
     
     private Rectangle getSelectionRectangle() {

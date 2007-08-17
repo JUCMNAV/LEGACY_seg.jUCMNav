@@ -44,20 +44,7 @@ public class LinkRefConnection extends PolylineConnection {
     
     static {
         //The dependency figure is the inverse of the other type of link
-//        DEPENDENCY_FIG.addPoint(10,0);
-//        DEPENDENCY_FIG.addPoint(9,-2);
-//        DEPENDENCY_FIG.addPoint(5,-4);
-//        DEPENDENCY_FIG.addPoint(0,-5);
-//
-//          DEPENDENCY_FIG.addPoint(1, -3);
-//          DEPENDENCY_FIG.addPoint(2, 0);
-//          DEPENDENCY_FIG.addPoint(1, 3);
-//
-//        DEPENDENCY_FIG.addPoint(0, 5);
-//        DEPENDENCY_FIG.addPoint(5, 4);
-//        DEPENDENCY_FIG.addPoint(9, 2);
-//        DEPENDENCY_FIG.addPoint(10,0);
-        
+    
         DEPENDENCY_FIG.addPoint(0, 0);
         DEPENDENCY_FIG.addPoint(1, -2);
         DEPENDENCY_FIG.addPoint(5, -4);
@@ -77,7 +64,7 @@ public class LinkRefConnection extends PolylineConnection {
     }
     
     /**
-     * Contructor. Set the default type to Contribution 
+     * Constructor. Set the default type to Contribution 
      */
     public LinkRefConnection() {
         super();

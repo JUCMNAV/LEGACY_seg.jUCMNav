@@ -18,6 +18,7 @@ import seg.jUCMNav.figures.anchors.DecompositionAnchor;
  * - Goal = Ellipse
  * - Resource = Rectangle
  * - Task = Triangular Rectangle
+ * - Indicator = Triangular Rectangle with two lines
  * 
  * @author Jean-François Roy, pchen
  *
@@ -49,12 +50,6 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
             setupBounds(r);
-            
-//            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-//            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
-//            points.addPoint(r.getTopRight().x, r.getCenter().y);
-//            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-            
             //Draw the half circle at the left
             graphics.drawArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
             //Draw the half circle at the right
@@ -70,8 +65,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             break;
         case IntentionalElementType.TASK:
             points = new PointList();
-            fillTaskPoints(r, points);
-            
+            fillTaskPoints(r, points);         
             graphics.drawPolygon(points);
             break;
         case IntentionalElementType.RESSOURCE:
@@ -81,9 +75,7 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         case IntentionalElementType.INDICATOR:
             points = new PointList();
             fillIndicatorPoints(r, points);
-            
             graphics.drawPolygon(points);
-            
             int w1 = r.width/10;
             int h1 = r.height / 2;
             int h2 = h1 * 4 / 5;
@@ -99,8 +91,6 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             break;
 
         }
- 
-
     }
 
     private void setupBounds(Rectangle r) {
@@ -138,20 +128,12 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         switch (type) {
         case IntentionalElementType.SOFTGOAL:
             setupBounds(r);
-
-//            points.addPoint(r.getTopRight().x - r.width/10, r.getTopRight().y);
-//            points.addPoint(r.getTopRight().x - r.width/15, r.getCenter().y + r.height/10);
-//            points.addPoint(r.getTopRight().x, r.getCenter().y);
-//            points.addPoint(r.getBottomRight().x - r.width/10, r.getBottomRight().y);
-            
             //Fill the half circle at the left
             graphics.fillArc(r.getTopRight().x - r.width*2/5, r.getTop().y, r.width*2/5, r.height,266, 185);
             //Fill the half circle at the right
             graphics.fillArc(r.getTopLeft().x, r.getTop().y, r.width*2/5, r.height,90, 180);
-           
             //Fill the rectangle in the middle of the figure
             graphics.fillRectangle(r.getTopLeft().x + r.width*1/6, r.getTop().y, r.width * 7/10, r.height);
-            
             //Fill the two half circle in the middle of the figure
             graphics.fillArc(r.getTopLeft().x + r.width*1/5, r.getTop().y - r.height*1/16, r.width*3/5, r.height*2/16, 180, 185);
             //Fill the two half circle in the middle of the figure
@@ -164,7 +146,6 @@ public class IntentionalElementFigure extends GrlNodeFigure {
         case IntentionalElementType.TASK:
             points = new PointList();
             fillTaskPoints(r, points);
-            
             graphics.fillPolygon(points);
             break;
         case IntentionalElementType.RESSOURCE:
@@ -173,14 +154,12 @@ public class IntentionalElementFigure extends GrlNodeFigure {
             break;
         case IntentionalElementType.INDICATOR:
             fillIndicatorPoints(r, points);
-            
             graphics.fillPolygon(points);
             break;
         default:
             break;
 
         }
-
     }
     
     public int getType(){

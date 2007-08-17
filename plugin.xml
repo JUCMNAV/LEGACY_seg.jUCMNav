@@ -197,7 +197,6 @@
             mode="image"
             name="%ExportGIF"
             useStream="true"/>
-<!--  FIXME: For 3.3 only...            
       <exporter
             class="seg.jUCMNav.importexport.ExportImagePNG"
             extension="png"
@@ -205,7 +204,6 @@
             mode="image"
             name="%ExportPNG"
             useStream="true"/>
--->
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

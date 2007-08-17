@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: jUCMNav
 Bundle-SymbolicName: seg.jUCMNav; singleton:=true
-Bundle-Version: 2.4.1
+Bundle-Version: 3.0.0
 Bundle-ClassPath: jUCMNav.jar, lib/jdom.jar
 Bundle-Activator: seg.jUCMNav.JUCMNavPlugin
 Bundle-Vendor: UseCaseMaps.org

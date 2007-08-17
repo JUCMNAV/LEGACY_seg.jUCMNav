@@ -141,12 +141,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     - (labelDimension.height + JUCMNavFigure.getDimension(modelElement).height / 2) - label.getDeltaY());
         } else if (modelElement instanceof IURNContainerRef) {
             IURNContainerRef component = (IURNContainerRef) modelElement;
-            //if (modelElement instanceof ActorRef) {
-            //    location = new Point(component.getX() + component.getWidth() / 2 - label.getDeltaX() - labelDimension.width / 2, component.getY()
-            //            - label.getDeltaY() - labelDimension.height);
-            //} else {
                 location = new Point(component.getX() - label.getDeltaX(), component.getY() - label.getDeltaY() - labelDimension.height);
-            //}
         } else {
             // if we don't know how to place this label, use top left corner of screen.
             // not used in practice, simply for debugging.
@@ -160,13 +155,9 @@ public class LabelEditPart extends ModelElementEditPart {
      * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
      */
     protected void createEditPolicies() {
-        installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
-        installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
-        //if ((getModelObj() instanceof NodeLabel && ((NodeLabel) getModelObj()).getNode() instanceof UCMmodelElement)
-       //         || (getModelObj() instanceof ComponentLabel && ((ComponentLabel) getModelObj()).getContRef() instanceof UCMmodelElement)
-        //        || (getModelObj() instanceof Condition)) {
-            installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
-        //}
+    	installEditPolicy(EditPolicy.COMPONENT_ROLE, new LabelComponentEditPolicy());
+    	installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
+    	installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new LabelFeedbackEditPolicy());
     }
 
     /**
@@ -190,10 +181,6 @@ public class LabelEditPart extends ModelElementEditPart {
                 resp = null;
             }
         }
-//        if (iconImg != null) {
-//            iconImg.dispose();
-//            iconImg = null;
-//        }
         super.deactivate();
     }
 
@@ -342,7 +329,7 @@ public class LabelEditPart extends ModelElementEditPart {
             // set the label's text
             setLabelText();
 
-            //If the element is a Responsability or a Component and has a URNlink associate, set the background gray
+            //If the element is a Responsibility or a Component and has a URNlink associated, set the background gray
             if (modelElement instanceof UCMmodelElement){
                 UCMmodelElement ucmElem;
                 if (modelElement instanceof RespRef){
@@ -364,7 +351,7 @@ public class LabelEditPart extends ModelElementEditPart {
                     
                     URNmodelElement grlElem = ((URNlink)ucmElem.getToLinks().get(0)).getFromElem();
                     
-                    if ( grlElem instanceof IntentionalElement){
+                    if (grlElem instanceof IntentionalElement){
                         if (EvaluationStrategyManager.getInstance().getEvaluationStrategy() != null){
                             int eval = EvaluationStrategyManager.getInstance().getEvaluation((IntentionalElement)grlElem);
                             labelFigure.setAdditionalText(String.valueOf(eval));
@@ -377,8 +364,6 @@ public class LabelEditPart extends ModelElementEditPart {
                 } else {
                     //Remove the icon and remove the additional text
                     if (iconImg != null) {
-//                        iconImg.dispose();
-//                        iconImg = null; 
                         labelFigure.setAdditionalText(""); //$NON-NLS-1$
                         labelFigure.setIcon(null);
                     }

@@ -80,7 +80,7 @@ public class ComponentRefFigure extends RectangleFigure {
     /**
      * Defines the outline of the shape.
      * 
-     * Object: Rounded Rectangle, Process: Parallellogram, Team/Other: Rectangle, Actor: Rectangle with stickman
+     * Object: Rounded Rectangle, Process: Parallelogram, Team/Other: Rectangle, Actor: Rectangle with stickman
      * 
      * 
      * @see Shape#outlineShape(Graphics)
