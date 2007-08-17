@@ -103,7 +103,7 @@ public class JUCMNavPlugin extends AbstractUIPlugin {
     
     
     public static boolean isInDebug() {
-        return (GeneralPreferencePage.getAuthor()!=null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor()));
+        return (GeneralPreferencePage.getAuthor()!=null && "debug".equalsIgnoreCase(GeneralPreferencePage.getAuthor())); //$NON-NLS-1$
     }
     
 }
