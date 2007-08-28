@@ -45,6 +45,7 @@ import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
 
+import seg.jUCMNav.Messages;
 import seg.jUCMNav.actions.AddAndForkAction;
 import seg.jUCMNav.actions.AddAndJoinAction;
 import seg.jUCMNav.actions.AddBranchAction;
@@ -584,7 +585,7 @@ public class ProgressTests extends TestCase {
         // create a property source on the large component ref
         Vector v = getAttributeDescriptor(parent, "parent"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("No unbind option in list", Messages.getString("URNElementPropertySource.unbound").equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -672,7 +673,7 @@ public class ProgressTests extends TestCase {
 
         Vector v = getAttributeDescriptor(node, "contRef"); //$NON-NLS-1$
         String[] values = ((ComboBoxLabelProvider) ((ComboBoxPropertyDescriptor) v.get(0)).getLabelProvider()).getValues();
-        assertTrue("No unbind option in list", "[unbound]".equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("No unbind option in list", Messages.getString("URNElementPropertySource.unbound").equals(values[0])); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -1722,7 +1723,7 @@ public class ProgressTests extends TestCase {
         boolean wl = false;
         for (int i = 0; i < desc.length; i++) {
             String str = desc[i].getDisplayName();
-            if (str.equalsIgnoreCase("workload")) //$NON-NLS-1$
+            if (str.equalsIgnoreCase(Messages.getString("URNElementPropertySource.workload"))) //$NON-NLS-1$
                 wl = true;
         }
 
