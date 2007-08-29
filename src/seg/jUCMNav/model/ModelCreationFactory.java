@@ -215,7 +215,7 @@ public class ModelCreationFactory implements CreationFactory {
      * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
      */
     public static Object getNewObject(URNspec urn, Class targetClass, int type) {
-        return getNewObject(urn, targetClass, 0, null);
+        return getNewObject(urn, targetClass, type, null);
     }
 
     /**

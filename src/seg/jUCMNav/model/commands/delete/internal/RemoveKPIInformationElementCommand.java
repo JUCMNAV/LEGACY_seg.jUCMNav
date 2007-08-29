@@ -60,7 +60,7 @@ public class RemoveKPIInformationElementCommand extends Command implements JUCMN
     public void redo() {
         testPreConditions();
 
-        // remove the IntentionalElement from the urnspec
+        // remove the KPIInformationElement from the urnspec
         urn.getGrlspec().getKpiInformationElements().remove(element);
 
         testPostConditions();
