@@ -399,10 +399,12 @@ public class UcmEnvironment implements Adapter, Cloneable {
         else if (notification.getNotifier() instanceof IntentionalElement) {
             int featureId = notification.getFeatureID(IntentionalElement.class);
             if (featureId == GrlPackage.INTENTIONAL_ELEMENT__NAME) {
-                if (declarations.containsKey(notification.getOldValue().toString().toLowerCase())) {
-                    Object o = declarations.get(notification.getOldValue().toString().toLowerCase());
-                    declarations.remove(notification.getOldValue().toString().toLowerCase());
-                    declarations.put(notification.getNewValue().toString().toLowerCase(), o);
+                String name = URNNamingHelper.getGrlVariableName(notification.getOldValue().toString().toLowerCase()).toLowerCase();
+                String newName = URNNamingHelper.getGrlVariableName(notification.getNewValue().toString().toLowerCase()).toLowerCase();
+                if (declarations.containsKey(name)) {
+                    Object o = declarations.get(name);
+                    declarations.remove(name);
+                    declarations.put(newName, o);
                 } else {
                     registerInteger(URNNamingHelper.getGrlVariableName((IntentionalElement)notification.getNotifier()));
                 }

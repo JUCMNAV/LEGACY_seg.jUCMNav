@@ -1035,7 +1035,18 @@ public class URNNamingHelper {
      * @return the variable name
      */
     public static String getGrlVariableName(IntentionalElement element) {
-        return URNNamingHelper.cleanVariableName("_GRL_" + element.getName()); //$NON-NLS-1$
+        return getGrlVariableName(element.getName());
     }
-
+    
+    
+    /**
+     * Returns an intentional element's variable for use in UCM scenarios.
+     * 
+     * @param elementName
+     *            the intentional element
+     * @return the variable name
+     */
+    public static String getGrlVariableName(String elementName) {
+        return URNNamingHelper.cleanVariableName("_GRL_" + elementName); //$NON-NLS-1$
+    }
 }
