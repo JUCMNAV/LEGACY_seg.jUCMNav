@@ -220,7 +220,7 @@ this file is kept here with the information necessary for a good build by cruise
 		           version="true"
 				   use="true"
 				   breakiterator="yes"
-			       additionalparam="-quiet -source 1.4"
+			       additionalparam="-quiet -source 1.5"
 		           windowtitle="jUCMNav"
 			access="private">
 			   <tag name="todo" scope="all" description="To do:" />
