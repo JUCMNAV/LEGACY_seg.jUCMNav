@@ -1,5 +1,7 @@
 package seg.jUCMNav.importexport;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,10 +43,13 @@ public abstract class ExportImage implements IUseCaseMapExport {
         loader.data = new ImageData[] { image.getImageData() };
         loader.save(fos, getType());
         
+        
         gc.dispose();
         image.dispose();
     }
 
+   
+    
     public void export(IFigure pane, String path) {
 
     	FileOutputStream fos = null;
