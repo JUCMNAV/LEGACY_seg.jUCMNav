@@ -14,6 +14,9 @@ import org.eclipse.draw2d.LineBorder;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.core.runtime.Assert;
 
 
@@ -93,9 +96,8 @@ public abstract class URNDiagramEditPart extends ModelElementEditPart {
      */
     protected IFigure createFigure() {
         FreeformLayer layer = new FreeformLayer();
-
         layer.setLayoutManager(new FreeformLayout());
-        layer.setBorder(new LineBorder(1));
+      //layer.setBorder(new LineBorder(1));
         return layer;
     }
 
