@@ -6,6 +6,7 @@
    <extension-point id="URNExport" name="%UrnExport" schema="schema/URNExport.exsd"/>
    <extension-point id="URNImport" name="%UrnImport" schema="schema/URNImport.exsd"/>
    <extension-point id="GRLStrategyAlgorithm" name="%GrlStrategyAlgorithm" schema="schema/GRLStrategyAlgorithm.exsd"/>
+   <extension-point id="URNReport" name="%UrnReport" schema="schema/URNReport.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -166,6 +167,18 @@
       </wizard>
    </extension>
    <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            icon="icons/perspectiveIcon.gif"
+            class="seg.jUCMNav.views.wizards.importexport.ReportWizard"
+            name="%UrnReport"
+            id="seg.jUCMNav.views.wizards.importexport.ReportWizard">
+         <selection
+               class="org.eclipse.core.resources.IFile"
+               name="*.jucm"/>
+      </wizard>
+   </extension>
+   <extension
          id="seg.jUCMNav.importexport.ExportImage"
          name="%exportToImage"
          point="seg.jUCMNav.UseCaseMapExport">
@@ -236,7 +249,17 @@
             class="seg.jUCMNav.views.preferences.KPIMonitoringPreferencePage"
             id="seg.jUCMNav.views.preferences.KPIMonitoringPreferencePage"
             name="%KPIMonitoringPreferences"/>
-   </extension>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.ReportGeneratorPreferencePage"
+            id="seg.jUCMNav.views.preferences.ReportGeneratorPreferencePage"
+            name="%ReportGeneratorPreferences"/>
+      <page
+            category="seg.jUCMNav.views.preferences.GeneralPreferencePage"
+            class="seg.jUCMNav.views.preferences.UCMReportPreferencePage"
+            id="seg.jUCMNav.views.preferences.UCMReportPreferencePage"
+            name="%UCMReportPreferences"/>
+      </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer class="seg.jUCMNav.views.preferences.PreferenceInitializer"/>
@@ -283,6 +306,23 @@
             name="%ExportCSV"
             useStream="false"/>
    </extension>
+   <extension
+         id="seg.jUCMNav.importexport.URNReport"
+         name="%UrnReport"
+         point="seg.jUCMNav.URNReport">
+       <exporter
+            class="seg.jUCMNav.importexport.reports.PDFReport"
+            extension="pdf"
+            id="seg.jUCMNav.PDFReport"
+            name="%PDFReport"
+            useStream="false"/>
+       <exporter
+            class="seg.jUCMNav.importexport.reports.RTFReport"
+            extension="rtf"
+            id="seg.jUCMNav.RTFReport"
+            name="%RTFReport"
+            useStream="false"/>
+    </extension>
    <extension
          point="org.eclipse.ui.importWizards">
       <wizard
