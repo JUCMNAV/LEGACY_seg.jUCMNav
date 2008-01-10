@@ -18,7 +18,7 @@ public interface IURNReport {
      * 
      * @param urn
      *            the urn specification to conver
-     * @param diagrams
+     * @param mapDiagrams
      *            the list of diagrams to include in the report
      * @param filename 
      *            the filename of the report
