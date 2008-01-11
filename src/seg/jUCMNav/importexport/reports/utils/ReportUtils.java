@@ -5,7 +5,6 @@ import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
-import java.io.FileOutputStream;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.ImageData;
@@ -13,18 +12,14 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 
 import seg.jUCMNav.importexport.ExportImageGIF;
-import seg.jUCMNav.importexport.ExportImageJPG;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
-import com.lowagie.text.Jpeg;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
-import com.lowagie.text.rtf.document.RtfDocument;
-import com.lowagie.text.rtf.graphic.RtfImage;
 
 /*
  * Utilities used throughout the report generator classes:
@@ -107,8 +102,8 @@ public class ReportUtils {
      * 
      * @param document
      *            the actual document in which we insert the image
-     * @param awtImage
-     *              the image in AWT format, needed for iText getInstance
+     * @param pane
+     *              the IFigure for the image
      * @param pagesize
      *            the actual size of a report page
      * @param imageWidth

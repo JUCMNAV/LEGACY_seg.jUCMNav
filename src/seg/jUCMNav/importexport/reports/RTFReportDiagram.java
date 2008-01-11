@@ -51,8 +51,6 @@ public class RTFReportDiagram extends PDFReport {
      *            the urn definition of the elements
      * @param mapDiagrams
      *            list of diagrams to be documented
-     * @param diagram
-     *            the current diagram
      * @param pagesize
      *            the rectangle with dimensions for the size of page
      */
