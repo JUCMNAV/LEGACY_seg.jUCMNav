@@ -61,8 +61,7 @@ public class ReportGeneratorPreferences {
 
     /**
      * 
-     * @param color
-     *            the color of the report background in the PDF
+     * @return  the color of the report background in the PDF
      */
     public static String getReportColor() {
         return getPreferenceStore().getString(PREF_REPORTCOLOR);
